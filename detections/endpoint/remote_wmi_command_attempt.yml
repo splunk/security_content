@@ -37,7 +37,8 @@ tags:
   confidence: 60
   context:
   - source:endpoint
-  - stage: Execution
+  - stage:Execution
+  - stage:Execution
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1047/atomic_red_team/windows-sysmon.log
   impact: 60

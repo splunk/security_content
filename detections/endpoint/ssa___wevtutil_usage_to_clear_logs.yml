@@ -44,7 +44,8 @@ tags:
   confidence: 90
   context:
   - source:endpoint
-  - stage: Defense Evasion
+  - stage:Defense Evasion
+  - stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/ssa_wevtutil/clear_evt.log
   impact: 70

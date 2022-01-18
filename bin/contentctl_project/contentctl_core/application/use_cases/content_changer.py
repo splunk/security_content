@@ -128,10 +128,13 @@ class ContentChanger:
             if 'context' in obj['tags']:
                 new_context = []
                 for context in obj['tags']['context']:
-                    if not isinstance(context, str):
-                        for key in context.keys():
-                            new_context.append(key + ':' + context[key])
-                    # if ':' not in context:
-                    #     continue
-                    new_context.append(context)
+                    if ':' not in context:
+                        continue
+
+                    # make all capitalize
+                    context_splitted = context.split(':')
+                    context_first = context_splitted[0].capitalize()
+                    context_second = context_splitted[1].title()
+                    new_context.append(context_first + ':' + context_second)
+
                 obj['tags']['context'] = new_context

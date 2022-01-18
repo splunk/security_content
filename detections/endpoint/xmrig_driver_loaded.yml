@@ -26,8 +26,8 @@ tags:
   confidence: 100
   context:
   - source:endpoint
-  - stage: Privilege Escalation
-  - Persistence
+  - stage:Privilege Escalation
+  - stage:Privilege Escalation
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
   impact: 80

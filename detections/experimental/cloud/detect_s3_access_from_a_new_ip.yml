@@ -54,8 +54,7 @@ tags:
   security_domain: network
   confidence: 50
   impact: 50
-  context:
-  - Unknown
+  context: []
   observable:
   - name: dest
     type: Other

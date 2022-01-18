@@ -32,7 +32,8 @@ tags:
   confidence: 90
   context:
   - source:endpoint
-  - stage: Execution
+  - stage:Execution
+  - stage:Execution
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/revil/inf1/windows-sysmon.log
   impact: 60

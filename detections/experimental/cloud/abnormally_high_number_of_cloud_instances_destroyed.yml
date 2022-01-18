@@ -61,8 +61,7 @@ tags:
   security_domain: Cloud
   confidence: 50
   impact: 50
-  context:
-  - Unknown
+  context: []
   observable:
   - name: user
     type: User

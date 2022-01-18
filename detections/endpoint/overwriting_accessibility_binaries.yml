@@ -35,7 +35,8 @@ tags:
   confidence: 90
   context:
   - source:endpoint
-  - stage: privilege escalation
+  - stage:privilege escalation
+  - stage:privilege escalation
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.008/atomic_red_team/windows-sysmon.log
   impact: 80

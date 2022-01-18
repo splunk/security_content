@@ -45,7 +45,8 @@ tags:
   confidence: 100
   context:
   - source:endpoint
-  - stage: Defense Evasion
+  - stage:Defense Evasion
+  - stage:Defense Evasion
   cve:
   - CVE-2021-34527
   dataset:

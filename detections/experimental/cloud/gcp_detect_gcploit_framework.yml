@@ -46,8 +46,7 @@ tags:
   confidence: 50
   impact: 50
   risk_score: 25
-  context:
-  - Unknown
+  context: []
   observable:
   - name: user
     type: User

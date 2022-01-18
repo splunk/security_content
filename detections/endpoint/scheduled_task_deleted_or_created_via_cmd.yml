@@ -33,9 +33,8 @@ tags:
   confidence: 80
   context:
   - source:endpoint
-  - stage: Execution
-  - Persistence
-  - Privilege Escalation
+  - stage:Execution
+  - stage:Execution
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/atomic_red_team/windows-sysmon.log
   impact: 70

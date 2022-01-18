@@ -36,8 +36,8 @@ tags:
   confidence: 100
   context:
   - source:endpoint
-  - stage: Defense Evasion
-  - Privilege Escalation
+  - stage:Defense Evasion
+  - stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon_searchprotocolhost.log
   impact: 70

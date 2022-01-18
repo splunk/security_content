@@ -48,7 +48,8 @@ tags:
   confidence: 60
   context:
   - source:endpoint
-  - stage: Defense Evasion
+  - stage:Defense Evasion
+  - stage:Defense Evasion
   impact: 50
   kill_chain_phases:
   - Command and Control

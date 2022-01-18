@@ -38,9 +38,8 @@ tags:
   confidence: 60
   context:
   - source:endpoint
-  - stage: Persistence
-  - Privilege Escalation
-  - Defense Evasion
+  - stage:Persistence
+  - stage:Persistence
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.011/change_registry_path_service/windows-sysmon.log
   impact: 75

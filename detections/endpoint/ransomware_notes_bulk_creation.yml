@@ -33,7 +33,8 @@ tags:
   confidence: 90
   context:
   - source:endpoint
-  - stage: Impact
+  - stage:Impact
+  - stage:Impact
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-sysmon.log
   impact: 90

@@ -33,7 +33,8 @@ tags:
   confidence: 80
   context:
   - source:endpoint
-  - stage: executions
+  - stage:executions
+  - stage:executions
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/spear_phish/windows-sysmon.log
   impact: 70

@@ -55,8 +55,7 @@ tags:
   confidence: 50
   impact: 50
   risk_score: 25
-  context:
-  - Unknown
+  context: []
   message: tbd
   observable:
   - name: user

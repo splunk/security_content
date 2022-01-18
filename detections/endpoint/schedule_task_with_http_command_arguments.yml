@@ -37,9 +37,8 @@ tags:
   confidence: 90
   context:
   - source:endpoint
-  - stage: Execution
-  - Persistence
-  - Privilege Escalation
+  - stage:Execution
+  - stage:Execution
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/tasksched/windows-security.log
   impact: 70
