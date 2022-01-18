@@ -1,4 +1,5 @@
 import re
+import uuid
 
 from dataclasses import dataclass
 
@@ -75,3 +76,9 @@ class ContentChanger:
             if not 'nist' in obj['tags']:
                 obj['tags']['nist'] = ['DE.CM']
 
+    def fix_broken_uuids(self, objects : list) -> None:
+        for obj in objects:
+            try:
+                uuid.UUID(str(obj['id']))
+            except:
+                obj['id'] = str(uuid.uuid4())
