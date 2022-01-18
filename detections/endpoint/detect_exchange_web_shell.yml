@@ -55,7 +55,7 @@ tags:
   confidence: 90
   context:
   - Source:Endpoint
-  - Stage:Exploitation
+  - Stage:Execution
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.003/windows-sysmon_proxylogon.log
   impact: 90

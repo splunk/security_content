@@ -43,7 +43,7 @@ tags:
     role:
     - Victim
   - name: SourceImage
-    type: process name
+    type: Process
     role:
     - Attacker
   product:

@@ -31,8 +31,8 @@ tags:
   - CIS 2
   confidence: 90
   context:
-  - source:endpoint
-  - stage: Execution
+  - Source:Endpoint
+  - Stage:Execution
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204.002/single_letter_exe/windows-sysmon.log
   impact: 70

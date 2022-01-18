@@ -51,7 +51,7 @@ tags:
     role:
     - Victim
   - name: process_name
-    type: process name
+    type: Process
     role:
     - Attacker
   product:

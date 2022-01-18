@@ -29,10 +29,9 @@ tags:
   confidence: 90
   context:
   - Source:Endpoint
-  - Stage:Persistence,
+  - Stage:Persistence
   - Stage:Privilege Escalation
   - Stage:Defense Evasion
-  - Scope:Incoming
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/uac_bypass/windows-sysmon.log
   impact: 70

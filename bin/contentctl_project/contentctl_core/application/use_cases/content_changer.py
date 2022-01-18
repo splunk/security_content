@@ -120,3 +120,15 @@ class ContentChanger:
                         observable['type'] = 'Process'
                     if observable['type'] == 'user':
                         observable['type'] = 'User'
+                    if observable['type'] == 'process name':
+                        observable['type'] = 'Process'
+
+    def fix_context(self, objects : list) -> None:
+        for obj in objects:
+            if 'context' in obj['tags']:
+                new_context = []
+                for context in obj['tags']['context']:
+                    if ':' not in context:
+                        continue
+                    new_context.append(context)
+                obj['tags']['context'] = new_context
