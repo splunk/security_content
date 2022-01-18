@@ -4,8 +4,7 @@ version: 1
 date: '2021-11-18'
 author: Mauricio Velazco, Splunk
 type: TTP
-datamodel:
-- Endpoint
+datamodel: []
 description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
   to identify the usage of the `Enter-PSSession`. This commandlet can be used to open
   an interactive session on a remote endpoint leveraging the WinRM protocol. Red Teams
