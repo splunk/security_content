@@ -128,7 +128,10 @@ class ContentChanger:
             if 'context' in obj['tags']:
                 new_context = []
                 for context in obj['tags']['context']:
-                    if ':' not in context:
-                        continue
+                    if not isinstance(context, str):
+                        for key in context.keys():
+                            new_context.append(key + ':' + context[key])
+                    # if ':' not in context:
+                    #     continue
                     new_context.append(context)
                 obj['tags']['context'] = new_context
