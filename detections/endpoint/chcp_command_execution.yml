@@ -47,7 +47,7 @@ tags:
     role:
     - Victim
   - name: user
-    type: user
+    type: User
     role:
     - Victim
   product:
@@ -66,3 +66,4 @@ tags:
   - user
   risk_score: 9
   security_domain: endpoint
+  asset_type: Endpoint

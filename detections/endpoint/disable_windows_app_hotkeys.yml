@@ -61,3 +61,4 @@ tags:
   - Registry.dest Registry.user
   risk_score: 40
   security_domain: endpoint
+  asset_type: Endpoint

@@ -58,7 +58,7 @@ tags:
     role:
     - Victim
   - name: dest_user_id
-    type: user
+    type: User
     role:
     - Victim
   product:
@@ -75,3 +75,4 @@ tags:
   risk_score: 35
   risk_severity: medium
   security_domain: endpoint
+  asset_type: Endpoint

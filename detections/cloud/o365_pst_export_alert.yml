@@ -34,7 +34,7 @@ tags:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114/o365_export_pst_file/o365_export_pst_file.json
   impact: 80
   kill_chain_phases:
-  - Actions on Objective
+  - Exploitation
   message: User $Source$ has exported a PST file from the search using this operation-
     $Operation$ with a severity of $Severity$
   mitre_attack_id:

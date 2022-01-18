@@ -6,16 +6,14 @@ author: Teoderick Contreras, Splunk
 type: Hunting
 datamodel:
 - Endpoint
-description: This analytic is to detect a suspicious dxdiag.exe process 
-  command-line execution. Dxdiag is used to collect the system info of 
-  the target host. This technique has been used by Remcos RATS, various 
-  actors, and other malware to collect information as part of the recon 
-  or collection phase of an attack. This behavior should rarely be seen 
-  in a corporate network, but this command line can be used by a network 
-  administrator to audit host machine specifications. Thus in some rare 
-  cases, this detection will contain false positives in its results. To 
-  triage further, analyze what commands were passed after it pipes out 
-  the result to a file for further processing.
+description: This analytic is to detect a suspicious dxdiag.exe process command-line
+  execution. Dxdiag is used to collect the system info of the target host. This technique
+  has been used by Remcos RATS, various actors, and other malware to collect information
+  as part of the recon or collection phase of an attack. This behavior should rarely
+  be seen in a corporate network, but this command line can be used by a network administrator
+  to audit host machine specifications. Thus in some rare cases, this detection will
+  contain false positives in its results. To triage further, analyze what commands
+  were passed after it pipes out the result to a file for further processing.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_dxdiag` AND Processes.process
   = "* /t *" by Processes.dest Processes.user Processes.parent_process_name Processes.parent_process
@@ -27,8 +25,8 @@ how_to_implement: To successfully implement this search you need to be ingesting
   your endpoints into the `Endpoint` datamodel in the `Processes` and `Filesystem`
   node. In addition, confirm the latest CIM App 4.20 or higher is installed and the
   latest TA for the endpoint product.
-known_false_positives: This commandline can be used by a network administrator to audit
-  host machine specifications. Thus, a filter is needed.
+known_false_positives: This commandline can be used by a network administrator to
+  audit host machine specifications. Thus, a filter is needed.
 references:
 - https://app.any.run/tasks/df0baf9f-8baf-4c32-a452-16562ecb19be/
 tags:
@@ -75,3 +73,4 @@ tags:
   - Processes.parent_process_id
   risk_score: 25
   security_domain: endpoint
+  asset_type: Endpoint

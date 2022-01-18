@@ -36,3 +36,8 @@ tags:
   - eventName
   - sourceIPAddress
   security_domain: network
+  kill_chain_phases:
+  - Exploitation
+  confidence: 50
+  impact: 50
+  risk_score: 25

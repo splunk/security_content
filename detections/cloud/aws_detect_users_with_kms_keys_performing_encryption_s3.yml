@@ -63,3 +63,5 @@ tags:
   - region
   risk_score: 15
   security_domain: threat
+  kill_chain_phases:
+  - Exploitation

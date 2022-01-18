@@ -49,7 +49,7 @@ tags:
     role:
     - Victim
   - name: user
-    type: user
+    type: User
     role:
     - Victim
   product:
@@ -63,3 +63,5 @@ tags:
   - All_Changes.dest
   risk_score: 63
   security_domain: access
+  kill_chain_phases:
+  - Exploitation

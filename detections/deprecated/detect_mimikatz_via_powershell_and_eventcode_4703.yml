@@ -53,3 +53,6 @@ tags:
   - dest
   - Process_ID
   security_domain: access
+  confidence: 50
+  impact: 50
+  risk_score: 25

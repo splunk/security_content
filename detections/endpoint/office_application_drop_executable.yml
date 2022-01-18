@@ -72,3 +72,4 @@ tags:
   - user_id
   risk_score: 64
   security_domain: endpoint
+  asset_type: Endpoint

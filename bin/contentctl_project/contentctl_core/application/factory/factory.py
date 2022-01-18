@@ -68,6 +68,10 @@ class Factory():
                files = Utils.get_all_yml_files_from_directory(os.path.join(self.input_dto.input_path, str(type.name)))
           
           for file in files:
+               if self.input_dto.product == SecurityContentProduct.ESCU:
+                    if 'ssa__' in file:
+                         continue
+
                if type == SecurityContentType.lookups:
                     self.input_dto.director.constructLookup(self.input_dto.basic_builder, file)
                     self.output_dto.lookups.append(self.input_dto.basic_builder.getObject())

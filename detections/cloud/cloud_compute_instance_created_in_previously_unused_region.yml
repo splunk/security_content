@@ -54,7 +54,7 @@ tags:
   - DE.AE
   observable:
   - name: user
-    type: user
+    type: User
     role:
     - Attacker
   - name: dest

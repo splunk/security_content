@@ -79,3 +79,4 @@ tags:
   - Source_Workstation
   risk_score: 49
   security_domain: endpoint
+  asset_type: Endpoint

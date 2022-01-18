@@ -39,7 +39,7 @@ tags:
   - Send to Phantom
   impact: 80
   kill_chain_phases:
-  - Exfiltration
+  - Exploitation
   message: suspicious share gdrive from $parameters.owner$ to $email$ namely as $parameters.doc_title$
   mitre_attack_id:
   - T1567.002

@@ -77,3 +77,4 @@ tags:
   - file_create_time
   risk_score: 63
   security_domain: endpoint
+  asset_type: Endpoint

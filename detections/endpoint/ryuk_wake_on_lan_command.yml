@@ -42,7 +42,6 @@ tags:
   impact: 70
   kill_chain_phases:
   - Exploitation
-  - Lateral Movement
   message: A process $process_name$ with wake on LAN commandline $process$ in host
     $dest$
   mitre_attack_id:
@@ -54,7 +53,7 @@ tags:
     role:
     - Victim
   - name: user
-    type: user
+    type: User
     role:
     - Victim
   product:
@@ -73,3 +72,4 @@ tags:
   - Processes.parent_process_id
   risk_score: 63
   security_domain: endpoint
+  asset_type: Endpoint

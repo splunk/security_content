@@ -52,3 +52,6 @@ tags:
   - http_content_type
   - cookie
   security_domain: threat
+  confidence: 50
+  impact: 50
+  risk_score: 25

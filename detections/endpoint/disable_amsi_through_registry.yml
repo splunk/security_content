@@ -47,3 +47,7 @@ tags:
   - Registry.dest
   - Registry.registry_value_name
   security_domain: endpoint
+  confidence: 50
+  impact: 50
+  risk_score: 25
+  asset_type: Endpoint

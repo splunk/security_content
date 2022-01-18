@@ -25,7 +25,7 @@ tags:
   - GCP Cross Account Activity
   asset_type: GCP Account
   kill_chain_phases:
-  - Lateral Movement
+  - Exploitation
   mitre_attack_id:
   - T1078
   product:

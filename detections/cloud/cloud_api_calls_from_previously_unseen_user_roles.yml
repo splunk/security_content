@@ -68,3 +68,5 @@ tags:
   - All_Changes.object
   risk_score: 36
   security_domain: threat
+  kill_chain_phases:
+  - Exploitation

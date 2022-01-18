@@ -1,5 +1,5 @@
 name: Previously seen API call per user roles in CloudTrail
-id: fc0edc95-fq2c-48b0-9f6f-63da3289fd03
+id: 02add098-efa3-428d-b2e2-4ed0831c92f4
 version: 1
 date: '2018-04-16'
 author: Bhavin Patel, Splunk
@@ -38,3 +38,8 @@ tags:
   - userName
   - eventName
   security_domain: network
+  kill_chain_phases:
+  - Exploitation
+  confidence: 50
+  impact: 50
+  risk_score: 25

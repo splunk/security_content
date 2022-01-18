@@ -24,7 +24,8 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | `security_content_ctime(lastTime)` | `linux_service_started_or_enabled_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from Splunkbase. 
+  endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from
+  Splunkbase.
 known_false_positives: Administrator or network operator can use this commandline
   for automation purposes. Please update the filter macros to remove false positives.
 references:
@@ -36,7 +37,7 @@ tags:
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.006/service_systemd/sysmon_linux.log
   kill_chain_phases:
-  - Privilege Escalation
+  - Exploitation
   mitre_attack_id:
   - T1053.006
   - T1053
@@ -74,3 +75,4 @@ tags:
   - CIS 5
   - CIS 16
   automated_detection_testing: passed
+  asset_type: Endpoint

@@ -76,3 +76,4 @@ tags:
   risk_score: 14
   risk_severity: low
   security_domain: endpoint
+  asset_type: Endpoint

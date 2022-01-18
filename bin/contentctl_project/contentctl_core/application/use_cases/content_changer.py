@@ -82,3 +82,41 @@ class ContentChanger:
                 uuid.UUID(str(obj['id']))
             except:
                 obj['id'] = str(uuid.uuid4())
+
+    def fix_wrong_kill_chain_phases(self, objects : list) -> None:
+        valid_kill_chain_phases = [
+            'Reconnaissance', 'Weaponization', 'Delivery', 
+            'Exploitation', 'Installation', 'Command and Control', 
+            'Actions on Objectives']
+        for obj in objects:
+            if 'kill_chain_phases' in obj['tags']:
+                for value in obj['tags']['kill_chain_phases']:
+                    if value not in valid_kill_chain_phases:
+                        obj['tags']['kill_chain_phases'] = ['Exploitation']
+                        break
+
+    def add_default_kill_chain_phases(self, objects : list) -> None:
+        for obj in objects:
+            if 'kill_chain_phases' not in obj['tags']:
+                obj['tags']['kill_chain_phases'] = ['Exploitation']
+
+    def fix_wrong_calculated_risk_score(self, objects : list) -> None:
+        for obj in objects:
+            calculated_risk_score = (int(obj['tags']['impact']))*(int(obj['tags']['confidence']))/100
+            if calculated_risk_score != int(obj['tags']['risk_score']):
+                obj['tags']['risk_score'] = calculated_risk_score
+
+    def add_asset_type_to_endpoint_detections(self, objects : list) -> None:
+        for obj in objects:
+            if 'asset_type' not in obj['tags']:
+                if '/endpoint/' in obj['file_path']:
+                    obj['tags']['asset_type'] = 'Endpoint'
+
+    def fix_observables(self, objects : list) -> None:
+        for obj in objects:
+            if 'observable' in obj['tags']:
+                for observable in obj['tags']['observable']:
+                    if observable['type'] == 'Parent Process':
+                        observable['type'] = 'Process'
+                    if observable['type'] == 'user':
+                        observable['type'] = 'User'

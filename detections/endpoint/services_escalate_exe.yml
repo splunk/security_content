@@ -46,7 +46,6 @@ tags:
   impact: 80
   kill_chain_phases:
   - Exploitation
-  - Privilege Escalation
   message: A service process $parent_process_name$ with process path $process_path$
     in host $dest$
   mitre_attack_id:
@@ -57,7 +56,7 @@ tags:
     role:
     - Victim
   - name: Processes.user
-    type: user
+    type: User
     role:
     - Victim
   product:
@@ -75,3 +74,4 @@ tags:
   - Processes.parent_process_id
   risk_score: 76
   security_domain: endpoint
+  asset_type: Endpoint

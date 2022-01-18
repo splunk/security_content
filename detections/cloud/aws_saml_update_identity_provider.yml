@@ -66,3 +66,5 @@ tags:
   - userIdentity.principalId
   risk_score: 64
   security_domain: threat
+  kill_chain_phases:
+  - Exploitation

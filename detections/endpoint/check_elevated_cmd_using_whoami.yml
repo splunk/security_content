@@ -65,3 +65,4 @@ tags:
   - Processes.user
   risk_score: 56
   security_domain: endpoint
+  asset_type: Endpoint

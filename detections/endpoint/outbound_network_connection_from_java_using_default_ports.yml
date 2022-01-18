@@ -71,3 +71,4 @@ tags:
   - Ports.dest_port
   risk_score: 54
   security_domain: endpoint
+  asset_type: Endpoint

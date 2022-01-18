@@ -62,3 +62,4 @@ tags:
   - User
   risk_score: 21
   security_domain: endpoint
+  asset_type: Endpoint

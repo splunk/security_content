@@ -35,7 +35,7 @@ tags:
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.006/loading_linux_kernel_module/sysmon_linux.log
   kill_chain_phases:
-  - Privilege Escalation
+  - Exploitation
   mitre_attack_id:
   - T1547.006
   - T1547
@@ -71,3 +71,4 @@ tags:
   - CIS 5
   - CIS 16
   automated_detection_testing: passed
+  asset_type: Endpoint

@@ -66,3 +66,4 @@ tags:
   - Registry.registry_value_data
   risk_score: 64
   security_domain: endpoint
+  asset_type: Endpoint

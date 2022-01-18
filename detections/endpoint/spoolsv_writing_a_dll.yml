@@ -81,3 +81,4 @@ tags:
   - Processes.dest
   risk_score: 72
   security_domain: endpoint
+  asset_type: Endpoint

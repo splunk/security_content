@@ -74,3 +74,5 @@ tags:
   - All_Changes.dest
   risk_score: 36
   security_domain: access
+  kill_chain_phases:
+  - Exploitation

@@ -74,3 +74,4 @@ tags:
   - Arguments
   risk_score: 70
   security_domain: endpoint
+  asset_type: Endpoint

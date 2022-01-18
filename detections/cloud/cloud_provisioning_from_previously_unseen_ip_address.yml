@@ -89,3 +89,5 @@ tags:
   - All_Changes.command
   risk_score: 42
   security_domain: threat
+  kill_chain_phases:
+  - Exploitation

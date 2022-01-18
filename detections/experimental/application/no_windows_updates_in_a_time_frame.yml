@@ -56,3 +56,5 @@ tags:
     type: Hostname
     role:
     - Victim
+  kill_chain_phases:
+  - Exploitation

@@ -43,3 +43,6 @@ tags:
   - errorCode
   - src_user
   security_domain: network
+  confidence: 50
+  impact: 50
+  risk_score: 25

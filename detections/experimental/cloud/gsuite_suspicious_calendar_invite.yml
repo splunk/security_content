@@ -28,6 +28,7 @@ references:
 tags:
   analytic_story:
   - Spearphishing Attachments
+  asset_type: GSuite
   dataset:
   - []
   kill_chain_phases:

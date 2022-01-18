@@ -44,3 +44,5 @@ tags:
     role:
     - Victim
   message: tbd
+  kill_chain_phases:
+  - Exploitation

@@ -64,3 +64,4 @@ tags:
   - Company
   risk_score: 63
   security_domain: endpoint
+  asset_type: Endpoint

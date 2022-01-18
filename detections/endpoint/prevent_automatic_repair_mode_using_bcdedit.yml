@@ -47,7 +47,7 @@ tags:
     role:
     - Victim
   - name: user
-    type: user
+    type: User
     role:
     - Victim
   product:
@@ -66,3 +66,4 @@ tags:
   - Processes.process_guid
   risk_score: 56
   security_domain: endpoint
+  asset_type: Endpoint

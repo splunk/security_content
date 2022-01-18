@@ -3,7 +3,6 @@ from typing import Dict
 import yaml
 import sys
 
-
 class YmlReader():
 
     @staticmethod

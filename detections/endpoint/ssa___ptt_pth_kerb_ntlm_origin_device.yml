@@ -63,7 +63,7 @@ tags:
   - Stage:Lateral Movement
   impact: 80
   kill_chain_phases:
-  - Lateral Movement
+  - Exploitation
   message: Potential lateral movement and credential stealing via Pass the Token or
     Pass the Hash techniques. Operation is performed via credentials of the account
     $dest_user_id$ and observed by the logging device $origin_device_id$

@@ -67,3 +67,4 @@ tags:
   - ProcessId
   risk_score: 48
   security_domain: endpoint
+  asset_type: Endpoint

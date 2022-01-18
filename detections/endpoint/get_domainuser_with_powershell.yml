@@ -32,7 +32,7 @@ tags:
   confidence: 50
   context:
   - Source:Endpoint
-  - Stage:Reconnaissance
+  - Stage:Discovery
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/AD_discovery/windows-sysmon.log
   impact: 50
@@ -52,7 +52,7 @@ tags:
     role:
     - Victim
   - name: parent_process_name
-    type: Parent Process
+    type: Process
     role:
     - Parent Process
   product:
@@ -71,3 +71,4 @@ tags:
   - Processes.parent_process_name
   risk_score: 25
   security_domain: endpoint
+  asset_type: Endpoint

@@ -62,7 +62,7 @@ tags:
     role:
     - Victim
   - name: ImageLoaded
-    type: Parent Process
+    type: Process
     role:
     - Other
   - name: Image

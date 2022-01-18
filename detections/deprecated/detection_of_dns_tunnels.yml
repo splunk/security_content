@@ -66,3 +66,6 @@ tags:
   - DNS.src_category
   - DNS.src
   security_domain: network
+  confidence: 50
+  impact: 50
+  risk_score: 25

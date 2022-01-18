@@ -6,22 +6,23 @@ author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: This analytic detects a suspicious process making a DNS query via known, abused 
-  text-paste web services, VoIP, instant messaging, and digital distribution platforms used 
-  to download external files. This technique is abused by adversaries, malware actors, and 
-  red teams to download a malicious file on the target host. This is a good TTP indicator 
-  for possible initial access techniques. A user will experience false positives if the 
-  following instant messaging is allowed or common applications like telegram or discord 
-  are allowed in the corporate network.
+description: This analytic detects a suspicious process making a DNS query via known,
+  abused text-paste web services, VoIP, instant messaging, and digital distribution
+  platforms used to download external files. This technique is abused by adversaries,
+  malware actors, and red teams to download a malicious file on the target host. This
+  is a good TTP indicator for possible initial access techniques. A user will experience
+  false positives if the following instant messaging is allowed or common applications
+  like telegram or discord are allowed in the corporate network.
 search: '`sysmon` EventCode=22 QueryName IN ("*pastebin*", "*discord*", "*telegram*",
   "*t.me*") process_name IN ("cmd.exe", "*powershell*", "pwsh.exe", "wscript.exe",
   "cscript.exe") | stats count min(_time) as firstTime max(_time) as lastTime by Image
   QueryName QueryStatus process_name QueryResults Computer | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `suspicious_process_dns_query_known_abuse_web_services_filter`'
-how_to_implement: This detection relies on sysmon logs with the Event ID 22, 
-  DNS Query. We suggest you run this detection at least once a day over the last 14 days.
+how_to_implement: This detection relies on sysmon logs with the Event ID 22, DNS Query.
+  We suggest you run this detection at least once a day over the last 14 days.
 known_false_positives: Noise and false positive can be seen if the following instant
-  messaging is allowed to use within corporate network. In this case, a filter is needed.
+  messaging is allowed to use within corporate network. In this case, a filter is
+  needed.
 references:
 - https://urlhaus.abuse.ch/url/1798923/
 tags:
@@ -64,3 +65,4 @@ tags:
   - Computer
   risk_score: 64
   security_domain: endpoint
+  asset_type: Endpoint

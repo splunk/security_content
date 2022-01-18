@@ -56,3 +56,4 @@ tags:
   - file_path
   risk_score: 100
   security_domain: endpoint
+  asset_type: Endpoint

@@ -69,3 +69,5 @@ tags:
   - All_Changes.user
   risk_score: 36
   security_domain: threat
+  kill_chain_phases:
+  - Exploitation

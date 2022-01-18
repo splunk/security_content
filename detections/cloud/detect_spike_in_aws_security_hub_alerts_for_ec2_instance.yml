@@ -58,3 +58,5 @@ tags:
   - dest
   risk_score: 15
   security_domain: endpoint
+  kill_chain_phases:
+  - Exploitation

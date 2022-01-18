@@ -82,3 +82,4 @@ tags:
   - Source_Network_Address
   risk_score: 49
   security_domain: endpoint
+  asset_type: Endpoint

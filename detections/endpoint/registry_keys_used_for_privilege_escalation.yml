@@ -57,7 +57,7 @@ tags:
     role:
     - Victim
   - name: user
-    type: user
+    type: User
     role:
     - Victim
   product:
@@ -72,3 +72,4 @@ tags:
   - Registry.user
   risk_score: 76
   security_domain: endpoint
+  asset_type: Endpoint

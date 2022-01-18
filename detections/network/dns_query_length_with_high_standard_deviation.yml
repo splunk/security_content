@@ -53,10 +53,6 @@ tags:
     type: Hostname
     role:
     - Victim
-  - name: query
-    type: dnsquery
-    role:
-    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

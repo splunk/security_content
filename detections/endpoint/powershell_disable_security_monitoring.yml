@@ -30,6 +30,9 @@ tags:
   - Ransomware
   - Revil Ransomware
   automated_detection_testing: passed
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/pwh_defender_disabling/windows-sysmon.log
   kill_chain_phases:
@@ -55,3 +58,7 @@ tags:
   - Processes.process_path
   - Processes.parent_process_id
   security_domain: endpoint
+  confidence: 50
+  impact: 50
+  risk_score: 25
+  asset_type: Endpoint

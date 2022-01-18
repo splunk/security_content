@@ -34,3 +34,8 @@ tags:
   required_fields:
   - _time
   security_domain: threat
+  kill_chain_phases:
+  - Exploitation
+  confidence: 50
+  impact: 50
+  risk_score: 25

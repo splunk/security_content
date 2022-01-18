@@ -66,3 +66,6 @@ tags:
   - DNS.query
   - host
   security_domain: network
+  confidence: 50
+  impact: 50
+  risk_score: 25

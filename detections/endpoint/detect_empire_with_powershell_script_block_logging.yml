@@ -75,3 +75,4 @@ tags:
   - EventCode
   risk_score: 81
   security_domain: endpoint
+  asset_type: Endpoint

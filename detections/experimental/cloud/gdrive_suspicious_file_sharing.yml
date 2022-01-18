@@ -27,6 +27,7 @@ tags:
   analytic_story:
   - Spearphishing Attachments
   - Data Exfiltration
+  asset_type: GDrive
   dataset:
   - []
   kill_chain_phases:

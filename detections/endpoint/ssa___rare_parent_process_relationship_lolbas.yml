@@ -84,3 +84,7 @@ tags:
   - cmd_line
   risk_severity: low
   security_domain: endpoint
+  confidence: 50
+  impact: 50
+  risk_score: 25
+  asset_type: Endpoint
