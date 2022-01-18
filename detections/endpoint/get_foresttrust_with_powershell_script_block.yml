@@ -4,8 +4,7 @@ version: 1
 date: '2021-09-02'
 author: Michael Haag, Splunk
 type: TTP
-datamodel:
-- Endpoint
+datamodel: []
 description: 'The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
   to identify suspicious PowerShell execution. Script Block Logging captures the command
   sent to PowerShell, the full command to be executed. Upon enabling, logs will output
