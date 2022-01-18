@@ -128,13 +128,8 @@ class ContentChanger:
             if 'context' in obj['tags']:
                 new_context = []
                 for context in obj['tags']['context']:
-                    if ':' not in context:
-                        continue
-
-                    # make all capitalize
-                    context_splitted = context.split(':')
-                    context_first = context_splitted[0].capitalize()
-                    context_second = context_splitted[1].title()
-                    new_context.append(context_first + ':' + context_second)
+                    if context == 'Stage:Recon':
+                        context = 'Stage:Execution'
+                    new_context.append(context)
 
                 obj['tags']['context'] = list(dict.fromkeys(new_context))

@@ -29,7 +29,6 @@ tags:
   confidence: 20
   context:
   - Source:Endpoint
-  - Stage:Impact
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1486/sam_sam_note/windows-sysmon.log
   impact: 60

@@ -31,7 +31,6 @@ tags:
   confidence: 80
   context:
   - Source:Endpoint
-  - Stage:Impact
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data1/windows-sysmon.log
   impact: 70

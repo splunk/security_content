@@ -53,9 +53,8 @@ tags:
     role:
     - Victim
   - name: process_name
-    type: Process Name
+    type: Process
     role:
-    - Process
     - Attacker
   product:
   - Splunk Enterprise

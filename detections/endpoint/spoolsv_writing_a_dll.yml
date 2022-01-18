@@ -60,7 +60,7 @@ tags:
   - name: process_id
     type: Process
     role:
-    - Process
+    - Child Process
   - name: file_path
     type: File
     role:

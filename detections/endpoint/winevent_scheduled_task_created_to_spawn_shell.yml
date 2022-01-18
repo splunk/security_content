@@ -69,7 +69,7 @@ tags:
     role:
     - Victim
   - name: Command
-    type: Command
+    type: Unknown
     role:
     - Target
   product:

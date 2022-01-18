@@ -37,7 +37,7 @@ tags:
   confidence: 80
   context:
   - Source:Endpoint
-  - Stage:Privilege Escalation Persistence
+  - Stage:Privilege Escalation
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/t1547.014/active_setup_stubpath/sysmon.log
   impact: 80

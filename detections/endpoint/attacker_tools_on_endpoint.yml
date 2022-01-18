@@ -37,9 +37,8 @@ tags:
   confidence: 80
   context:
   - Source:Endpoint
-  - Stage:Exploitation
-  - Stage:Recon
   - Stage:Execution
+  - Stage:Recon
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1595/attacker_scan_tools/windows-sysmon.log
   impact: 80

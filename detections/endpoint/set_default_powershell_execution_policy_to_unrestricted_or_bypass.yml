@@ -56,9 +56,9 @@ tags:
     role:
     - Victim
   - name: registry_path
-    type: RegistryPath
+    type: Unknown
     role:
-    - Others
+    - Other
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -38,7 +38,7 @@ tags:
   confidence: 70
   context:
   - Source:Endpoint
-  - Stage:Exploitation
+  - Stage:Execution
   cve:
   - CVE-2021-44228
   dataset:
