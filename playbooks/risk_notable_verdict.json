@@ -173,7 +173,7 @@
                     "targetPort": "16_in"
                 }
             ],
-            "hash": "6ceb47ff45032bc4f3980b739767185d4e94ad90",
+            "hash": "2ac0c00e1352f71bbe99663651766152891e8399",
             "nodes": {
                 "0": {
                     "data": {
@@ -188,7 +188,7 @@
                     "id": "0",
                     "type": "start",
                     "x": 280,
-                    "y": -2.2382096176443156e-13
+                    "y": -2.913225216616411e-13
                 },
                 "1": {
                     "data": {
@@ -204,11 +204,11 @@
                     "id": "1",
                     "type": "end",
                     "userCode": "\n    # This function is called after all actions are completed.\n    # summary of all the action and/or all details of actions\n    # can be collected here.\n\n    # summary_json = phantom.get_summary()\n    # if 'result' in summary_json:\n        # for action_result in summary_json['result']:\n            # if 'action_run_id' in action_result:\n                # action_results = phantom.get_action_results(action_run_id=action_result['action_run_id'], result_data=False, flatten=False)\n                # phantom.debug(action_results)\n\n",
-                    "x": 19.999999999999986,
+                    "x": 19.99999999999997,
                     "y": 2240
                 },
                 "10": {
-                    "customCode": "def select_response_plan(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):\n    phantom.debug(\"select_response_plan() called\")\n\n    # set user and message variables for phantom.prompt call\n    user = json.loads(phantom.get_run_data(key='get_effective_user:username'))\n    message = \"\"\"Phantom has loaded all available response plans\\n - Only Playbooks with tags \"response\" are shown.\"\"\"\n    \n    # Playbooks list\n    playbook_list = phantom.collect2(container=container, datapath=[\"list_response_playbooks:custom_function_result.data.*.full_name\"], action_results=results)\n    playbook_list = [item[0] for item in playbook_list]\n    playbook_list.append(\"Do Nothing\")\n    \n    #responses:\n    response_types = [\n        {\n            \"prompt\": \"Response Plan\",\n            \"options\": {\n                \"type\": \"list\",\n                \"choices\": playbook_list\n            },\n        }\n    ]\n\n    phantom.prompt2(container=container, user=user, message=message, respond_in_mins=30, name=\"select_response_plan\", response_types=response_types, callback=user_response_decision)\n\n    return",
+                    "customCode": "def select_response_plan(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):\n    phantom.debug(\"select_response_plan() called\")\n\n    # set user and message variables for phantom.prompt call\n    user = json.loads(phantom.get_run_data(key='get_effective_user:username'))\n    message = \"\"\"Splunk SOAR has loaded all available response plans\\n - Only Playbooks with tags \"response_option\" are shown.\"\"\"\n    \n    # Playbooks list\n    playbook_list = phantom.collect2(container=container, datapath=[\"list_response_playbooks:custom_function_result.data.*.full_name\"], action_results=results)\n    playbook_list = [item[0] for item in playbook_list]\n    playbook_list.append(\"Do Nothing\")\n    \n    #responses:\n    response_types = [\n        {\n            \"prompt\": \"Response Plan\",\n            \"options\": {\n                \"type\": \"list\",\n                \"choices\": playbook_list\n            },\n        }\n    ]\n\n    phantom.prompt2(container=container, user=user, message=message, respond_in_mins=30, name=\"select_response_plan\", response_types=response_types, callback=user_response_decision)\n\n    return",
                     "data": {
                         "advanced": {
                             "customName": "select response plan",
@@ -480,7 +480,7 @@
                     "id": "13",
                     "type": "code",
                     "userCode": "\n    # Lunch the playbook that the analyst chose.\n    playbook_run_id = phantom.playbook(playbook=select_response_plan_summary_responses_0[0], container=container)\n\n",
-                    "x": 0,
+                    "x": -1.4210854715202004e-14,
                     "y": 1720
                 },
                 "15": {
@@ -629,7 +629,7 @@
                     "errors": {},
                     "id": "16",
                     "type": "utility",
-                    "x": 0,
+                    "x": -1.4210854715202004e-14,
                     "y": 2140
                 },
                 "18": {
@@ -690,7 +690,7 @@
                     "errors": {},
                     "id": "19",
                     "type": "format",
-                    "x": 0,
+                    "x": -1.4210854715202004e-14,
                     "y": 2000
                 },
                 "2": {
@@ -1227,10 +1227,10 @@
         "output_spec": null,
         "playbook_type": "automation",
         "python_version": "3",
-        "schema": "5.0.3",
-        "version": "5.0.1.66250"
+        "schema": "5.0.4",
+        "version": "5.1.0.70187"
     },
-    "create_time": "2021-10-19T20:25:11.621588+00:00",
+    "create_time": "2021-12-07T15:44:11.968072+00:00",
     "draft_mode": false,
     "labels": [
         "risk_notable"
