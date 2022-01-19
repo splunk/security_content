@@ -79,7 +79,7 @@ tags:
   - Processes.parent_process_name
   - Processes.parent_process
   risk_score: 42
-  risk_severity: medium
+  risk_severity: low
   security_domain: endpoint
 test:
   name: Anomalous usage of Archive Tools Unit Test

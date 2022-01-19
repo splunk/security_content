@@ -36,7 +36,7 @@ packaging==21.3
 pathlib2==2.3.6
 pendulum==2.1.2
 pep517==0.12.0
-Pillow==8.4.0
+Pillow==9.0.0
 platformdirs==2.4.1
 pre-commit==2.16.0
 progress==1.6

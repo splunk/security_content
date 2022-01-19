@@ -4,8 +4,7 @@ version: 1
 date: '2021-11-29'
 author: Mauricio Velazco, Splunk
 type: Hunting
-datamodel:
-- Endpoint
+datamodel: []
 description: The following hunting analytic leverages Event ID 7045, `A new service
   was installed in the system`, to identify the installation of a Windows Service
   with a suspicious, high entropy, Service Name. To achieve this, this analytic also
