@@ -31,6 +31,7 @@ known_false_positives: Administrators may allow execution of specific binaries i
   non-standard paths. Filter as needed.
 references:
 - https://www.trendmicro.com/vinfo/hk/threat-encyclopedia/malware/trojan.ps1.powtran.a/
+- https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
 tags:
   analytic_story:
   - XMRig
