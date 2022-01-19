@@ -28,6 +28,7 @@ tags:
   analytic_story:
   - Remcos
   - Windows Defense Evasion Tactics
+  - WhisperGate
   automated_detection_testing: passed
   confidence: 80
   context:
