@@ -128,7 +128,7 @@ class ContentChanger:
             if 'context' in obj['tags']:
                 new_context = []
                 for context in obj['tags']['context']:
-                    if context == 'Stage:Recon':
+                    if context == 'Stage:Exploitation':
                         context = 'Stage:Execution'
                     new_context.append(context)
 
