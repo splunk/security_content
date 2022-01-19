@@ -27,6 +27,7 @@ known_false_positives: False positives may be high based on legitimate scripted 
   in any environment. Filter as needed.
 references:
 - https://thedfirreport.com/2021/10/18/icedid-to-xinglocker-ransomware-in-24-hours/
+- https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
 tags:
   analytic_story:
   - IcedID
