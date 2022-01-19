@@ -80,7 +80,7 @@ tags:
   - process
   - cmd_line
   risk_score: 54
-  risk_severity: low
+  risk_severity: medium
   security_domain: endpoint
 test:
   name: FSUtil Zeroing File - SSA Unit Test

@@ -80,7 +80,7 @@ tags:
   - dest_user_id
   - process
   risk_score: 63
-  risk_severity: low
+  risk_severity: medium
   security_domain: endpoint
 test:
   name: WevtUtil Usage To Clear Logs Unit Test

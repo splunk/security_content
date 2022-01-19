@@ -4,7 +4,7 @@ on:
   pull_request:
     types: [opened, reopened]
   schedule:
-    - cron: "44 * * * *"
+    - cron: "44 4 * * *"
 jobs:
 
   validate-tag-if-present:

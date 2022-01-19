@@ -76,7 +76,7 @@ tags:
   - dest_user_id
   - process
   risk_score: 63
-  risk_severity: low
+  risk_severity: medium
   security_domain: endpoint
 test:
   name: Wevtutil Usage To Disable Logs Unit Test

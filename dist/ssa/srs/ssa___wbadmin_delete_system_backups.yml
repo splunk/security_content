@@ -85,7 +85,7 @@ tags:
   - process
   - cmd_line
   risk_score: 15
-  risk_severity: medium
+  risk_severity: low
   security_domain: endpoint
 test:
   name: WBAdmin Delete System Backups - SSA Unit Test
