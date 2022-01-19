@@ -4,8 +4,7 @@ version: 2
 date: '2021-11-18'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 type: TTP
-datamodel:
-- Endpoint
+datamodel: []
 description: The following analytic identifies executable files (.exe or .dll) being
   written to Windows administrative SMB shares (Admin$, IPC$, C$). This represents
   suspicious behavior as its commonly used by tools like like PsExec/PaExec and others

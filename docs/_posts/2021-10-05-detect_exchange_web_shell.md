@@ -1,6 +1,6 @@
 ---
 title: "Detect Exchange Web Shell"
-excerpt: "Server Software Component, Web Shell"
+excerpt: "Server Software Component, Web Shell, Exploit Public-Facing Application"
 categories:
   - Endpoint
 last_modified_at: 2021-10-05
@@ -11,6 +11,8 @@ tags:
   - Persistence
   - Web Shell
   - Persistence
+  - Exploit Public-Facing Application
+  - Initial Access
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -40,6 +42,8 @@ The following query identifies suspicious .aspx created in 3 paths identified by
 | [T1505](https://attack.mitre.org/techniques/T1505/) | Server Software Component | Persistence |
 
 | [T1505.003](https://attack.mitre.org/techniques/T1505/003/) | Web Shell | Persistence |
+
+| [T1190](https://attack.mitre.org/techniques/T1190/) | Exploit Public-Facing Application | Initial Access |
 
 #### Search
 

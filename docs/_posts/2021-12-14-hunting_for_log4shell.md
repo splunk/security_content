@@ -156,7 +156,16 @@ Finally, a simple table is created to show the scoring and the _raw field. Sort 
 |%3a)[^ /]*(:
 |%3a)[^ /]*(/
 |%2f)"),5,0) 
-| eval lookups = if(match(_raw, "date:") OR match(_raw, "upper:") OR match(_raw, "lower:"),4,0) 
+| eval lookups = if(match(_raw, "(?i)({
+|%7b)(main
+|sys
+|k8s
+|spring
+|lower
+|upper
+|env
+|date
+|sd)"),4,0)  
 | addtotals fieldname=Score, jndi, jndi_proto, env_var, uridetect, all_match, jndi_fastmatch, keywords, obf, lookups 
 | where Score > 2 
 | stats values(Score) by  jndi, jndi_proto, env_var, uridetect, all_match, jndi_fastmatch, keywords, lookups, obf, _raw 
@@ -201,7 +210,7 @@ It is highly possible you will find false positives, however, the base score is 
 
 | ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
 | ----------- | ----------- | -------------- |
-| [CVE-2021-44228](https://nvd.nist.gov/vuln/detail/CVE-2021-44228) | Apache Log4j2 2.0-beta9 through 2.12.1 and 2.13.0 through 2.15.0 JNDI features used in configuration, log messages, and parameters do not protect against attacker controlled LDAP and other JNDI related endpoints. An attacker who can control log messages or log message parameters can execute arbitrary code loaded from LDAP servers when message lookup substitution is enabled. From log4j 2.15.0, this behavior has been disabled by default. From version 2.16.0, this functionality has been completely removed. Note that this vulnerability is specific to log4j-core and does not affect log4net, log4cxx, or other Apache Logging Services projects. | 9.3 |
+| [CVE-2021-44228](https://nvd.nist.gov/vuln/detail/CVE-2021-44228) | Apache Log4j2 2.0-beta9 through 2.15.0 (excluding security releases 2.12.2, 2.12.3, and 2.3.1) JNDI features used in configuration, log messages, and parameters do not protect against attacker controlled LDAP and other JNDI related endpoints. An attacker who can control log messages or log message parameters can execute arbitrary code loaded from LDAP servers when message lookup substitution is enabled. From log4j 2.15.0, this behavior has been disabled by default. From version 2.16.0 (along with 2.12.2, 2.12.3, and 2.3.1), this functionality has been completely removed. Note that this vulnerability is specific to log4j-core and does not affect log4net, log4cxx, or other Apache Logging Services projects. | 9.3 |
 
 
 

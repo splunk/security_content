@@ -70,7 +70,7 @@ tags:
   - dest_device_id
   - process
   risk_score: 70
-  risk_severity: low
+  risk_severity: medium
   security_domain: endpoint
 test:
   name: Detect Dump LSASS Memory using comsvcs - SSA Unit Test
