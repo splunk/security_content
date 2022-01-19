@@ -1,7 +1,7 @@
 name: CMD Carry Out String Command Parameter
 id: 54a6ed00-3256-11ec-b031-acde48001122
-version: 2
-date: '2021-12-13'
+version: 3
+date: '2022-01-18'
 author: Teoderick Contreras, Bhavin Patel, Splunk
 type: Hunting
 datamodel:
