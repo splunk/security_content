@@ -15,6 +15,8 @@ from typing import Union
 from os.path import relpath
 from tempfile import mkdtemp
 import datetime
+import http.client
+
 
 def test_detection_wrapper(container_name:str, splunk_ip:str, splunk_password:str, splunk_port:int, 
                            test_file:str, attack_data_root_folder, wait_on_failure:bool=False, wait_on_completion:bool=False)->dict:
@@ -37,7 +39,7 @@ def test_detection_wrapper(container_name:str, splunk_ip:str, splunk_password:st
 
     #search failed if there was an error or the detection failed to produce the expected result
     #print("Elapsed search time: %s"%(elapsed_search_time_string))
-    if wait_on_failure and (result_test['detection_result']['error'] or not result_test['detection_result']['success']):
+    if (wait_on_failure or wait_on_completion) and (result_test['detection_result']['error'] or not result_test['detection_result']['success']):
         wait_on_delete = {'message':"\n\n\n****SEARCH FAILURE : Allowing time to debug search/data****"}
     elif wait_on_completion:
         wait_on_delete = {'message':"\n\n\n****SEARCH SUCCESS : Allowing time to examine search/data****"}
@@ -103,7 +105,7 @@ def test_detection(splunk_ip:str, splunk_port:int, container_name:str, splunk_pa
                 data_manipulation = DataManipulation()
                 data_manipulation.manipulate_timestamp(target_file, attack_data['sourcetype'], attack_data['source'])
         #replay_attack_dataset(container_name, splunk_password, folder_name, "test0", attack_data['sourcetype'], attack_data['source'], attack_data['file_name'])
-        import http.client
+        
         try:
             service = get_service(splunk_ip, splunk_port, splunk_password)
             test_index = service.indexes["main"]
@@ -112,11 +114,12 @@ def test_detection(splunk_ip:str, splunk_port:int, container_name:str, splunk_pa
                 test_index.submit(target.read(), sourcetype=attack_data['sourcetype'], source=attack_data['source'])
         
         except http.client.HTTPException as e:
-            print("caught the offending exception!")
-            sys.exit(1)
+            raise(Exception(f"Failed to submit detection file {target_file} to Splunk Server: {str(e)}"))
+            
         except Exception as e:
-            print("did not catch the offending exception")
-            sys.exit(1)
+            raise(Exception(f"Failed to submit detection file {target_file} to Splunk Server: {str(e)}"))
+            
+            
 
 
         if not splunk_sdk.wait_for_indexing_to_complete(splunk_ip, splunk_port, splunk_password, attack_data['sourcetype'], "main"):

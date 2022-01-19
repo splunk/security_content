@@ -258,7 +258,7 @@ def select_response_plan(action=None, success=None, container=None, results=None
 
     # set user and message variables for phantom.prompt call
     user = json.loads(phantom.get_run_data(key='get_effective_user:username'))
-    message = """Phantom has loaded all available response plans\n - Only Playbooks with tags "response" are shown."""
+    message = """Splunk SOAR has loaded all available response plans\n - Only Playbooks with tags "response_option" are shown."""
     
     # Playbooks list
     playbook_list = phantom.collect2(container=container, datapath=["list_response_playbooks:custom_function_result.data.*.full_name"], action_results=results)

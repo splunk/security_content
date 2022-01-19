@@ -70,7 +70,10 @@ def decide_and_launch_playbooks(action=None, success=None, container=None, resul
     playbook_spec = list_investigate_playbooks_data___input_spec
     indicator_cef_value_list = indicator_collect_data_all_indicators___cef_value
     indicator_cef_type_list = indicator_collect_data_all_indicators___data_types
-
+	
+    # Check if indicator cef_value_list and indicator_cef_type_list are empty
+    if all(v is None for v in indicator_cef_value_list) and all(v is None for v in indicator_cef_type_list):
+        raise RuntimeError("No indicator records found from indicator_collect utility")
     playbook_launch_list = {}
     decide_and_launch_playbooks__names = []
     
@@ -100,7 +103,9 @@ def decide_and_launch_playbooks(action=None, success=None, container=None, resul
             phantom.playbook(playbook=k, container=container, inputs=v, name=name, callback=playbook_wait)
             
     else:
-        raise RuntimeError("Unable to find match between indicator types and playbook input types")
+        raise RuntimeError(f"""Unable to find any match between indicator types and playbook input types.
+Ensure you have an investigate type playbook to handle at least one of the following data types from the event:
+'{[item[0] for item in indicator_cef_type_list if item]}'""")
         
     ################################################################################
     ## Custom Code End

@@ -4,8 +4,7 @@ version: 1
 date: '2021-08-24'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 type: TTP
-datamodel:
-- Endpoint
+datamodel: []
 description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
   to identify the execution of the `Get-DomainUser` commandlet. `GetDomainUser` is
   part of PowerView, a PowerShell tool used to perform enumeration on Windows domains.

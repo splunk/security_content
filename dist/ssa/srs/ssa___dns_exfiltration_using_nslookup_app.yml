@@ -88,7 +88,7 @@ tags:
   - process
   - cmd_line
   risk_score: 72
-  risk_severity: low
+  risk_severity: medium
   security_domain: endpoint
 test:
   name: DNS Exfiltration Using Nslookup App Unit Test
