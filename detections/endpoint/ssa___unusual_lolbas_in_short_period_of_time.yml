@@ -1,4 +1,4 @@
-name: More than usual number of LOLBAS applications in short time period
+name: Unusual LOLBAS in short period of time
 id: 59c0dd70-169c-4900-9a1f-bfcf13302f93
 version: 2
 date: '2020-08-25'
@@ -58,8 +58,8 @@ tags:
   - CIS 8
   confidence: 50
   context:
-  - source:endpoint
-  - stage: Defense Evasion
+  - Source:Endpoint
+  - Stage:Defense Evasion
   impact: 50
   kill_chain_phases:
   - Exploitation
