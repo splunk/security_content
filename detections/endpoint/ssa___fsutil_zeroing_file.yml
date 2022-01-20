@@ -18,9 +18,24 @@ search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map
   cmd_line IS NOT NULL AND process_name IS NOT NULL AND process_name="fsutil.exe"
   AND (like (cmd_line, "%setzerodata%")) | eval start_time=timestamp, end_time=timestamp,
   entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event,
-  "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line",
-  cmd_line, "process_name", process_name, "parent_process_name", parent_process_name,
-  "process_path", process_path]) | into write_ssa_detected_events();'
+  "dest_device_id"), "string", null)), 
+  body=create_map("category_id", 101, "class_id", 10100, "data", ["event_id", event_id, "process", cmd_line, "process_name",
+  process_name, "parent_process_name", parent_process_name, "process_path", process_path], "detection_start_time", start_time, 
+  "detection_end_time", end_time, "disposition_id", 1, "end_time", end_time, "event_id", 
+  10100001, "event_time", timestamp, "finding", create_map("confidence", 90, "confidence_id", 3,
+  "context_ids", ["Source:Endpoint", "Stage:Defense Evasion"], "impact", 60, "impact_id", 3,
+  "kill_chain_phase", "Exploitation", "kill_chain_phase_id", 4, "risk_score", 54,
+  "risk_score_id", 3, "type_id", 1), "message", "user attempting to perform file deletion.", 
+  "metadata", create_map("log_name", "Endpoint_Processes", "version",
+  "1.0.0"), "observables", [create_map("name", "user", "role_ids", [4], "type_id", 6, "value", 
+  ucast(map_get(input_event, "dest_user_id"), "string", null)), create_map("name", "dest", 
+  "role_ids", [4], "type_id", 4, "value", ucast(map_get(input_event, "dest_device_id"), "string", null)),
+  create_map("name", "parent_process_name", "role_ids", [5], "type_id", 15, "value", 
+  parent_process_name), create_map("name", "process_name", "role_ids", [6], "type_id", 15, 
+  "value", process_name)], "origin", create_map("device", ucast(map_get(input_event, "dest_device_id"), 
+  "string", null)), "priority_id", 0, "rule", create_map("name", "Fsutil Zeroing File", 
+  "uid", "f792cdc9-43ee-4429-a3c0-ffce4fed1a85"), "start_time", start_time, "time", timestamp)
+  | into write_ssa_detected_events();'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
@@ -42,7 +57,7 @@ tags:
   kill_chain_phases:
   - Exploitation
   message: An instance of $parent_process_name$ spawning $process_name$ was identified
-    on endpoint $dest_device_id$ by user $dest_user_id$ atempting to perform file
+    on endpoint $dest_device_id$ by user $dest_user_id$ attempting to perform file
     deletion.
   mitre_attack_id:
   - T1070

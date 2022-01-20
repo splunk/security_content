@@ -34,11 +34,21 @@ search: '| from read_ssa_enriched_events() | where "Authentication" IN(_datamode
   (endTime - startTime) > 3 * (endNTLMTime - startNTLMTime)
 
   | eval start_time=ucast(startNTLMTime, "long", null), end_time=ucast(endNTLMTime,
-  "long", null), entities=mvappend(dest_user_id, dest_device_id), body=create_map(["event_id",
-  event_id, "total_kerberos", totalKerberos, "total_ntlm", totalNtlm, "analysis_start_time",
+  "long", null), entities=mvappend(dest_user_id, dest_device_id), 
+  body=create_map("category_id", 101, "class_id", 10100, "data", ["total_kerberos", totalKerberos, "total_ntlm", totalNtlm, "analysis_start_time",
   startTime, "analysis_end_time", endTime, "pth_start_time", startNTLMTime, "pth_end_time",
-  endNTLMTime])
-
+  endNTLMTime], "detection_start_time", start_time, 
+  "detection_end_time", end_time, "disposition_id", 1, "end_time", end_time, "event_id", 
+  10100001, "event_time", start_time, "finding", create_map("confidence", 90, "confidence_id", 3,
+  "context_ids", ["Source:Endpoint", "Stage:Credential Access"], "impact", 80, "impact_id", 4,
+  "kill_chain_phase", "Exploitation", "kill_chain_phase_id", 4, "risk_score", 72,
+  "risk_score_id", 3, "type_id", 1), "message", "Potential lateral movement and credential stealing via Pass the Token or Pass the Hash techniques.", 
+  "metadata", create_map("log_name", "Endpoint_Processes", "version",
+  "1.0.0"), "observables", [create_map("name", "user", "role_ids", [4], "type_id", 6, "value", 
+  dest_user), create_map("name", "dest", 
+  "role_ids", [4], "type_id", 4, "value", dest_device_id)], 
+  "origin", create_map("device", dest_device_id), "priority_id", 0, "rule", create_map("name", "Potential Pass the Token or Hash Observed at the Destination Device", 
+  "uid", "82e76b80-5cdb-4899-9b43-85dbe777b36d"), "start_time", start_time, "time", start_time)
   | into write_ssa_detected_events();'
 how_to_implement: You must be ingesting Windows Security logs from endpoint devices,
   i.e., destinations of interest. Please make sure that event ID 4624 is being logged.
@@ -56,13 +66,11 @@ tags:
   - CIS 20
   confidence: 90
   context:
-  - Source:AD
   - Source:Endpoint
   - Stage:Credential Access
-  - Stage:Lateral Movement
   impact: 80
   kill_chain_phases:
-  - Lateral Movement
+  - Exploitation
   message: Potential lateral movement and credential stealing via Pass the Token or
     Pass the Hash techniques. Operation is performed via credentials of the account
     $dest_user_id$ and observed by the destination device $dest_device_id$

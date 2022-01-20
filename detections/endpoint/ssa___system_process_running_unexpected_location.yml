@@ -227,8 +227,22 @@ search: ' $ssa_input = | from read_ssa_enriched_events() | eval device=ucast(map
   | from $cond_1 | union $cond_2 | union $cond_3 | union $cond_4 | union $cond_5 |
   union $cond_6 | where match_regex(process_path, /(?i)\\windows\\system32/)=false
   AND match_regex(process_path, /(?i)\\windows\\syswow64/)=false | eval start_time=timestamp,
-  end_time=timestamp, entities=mvappend(device, user), body=create_map(["event_id",
-  event_id, "process_path", process_path, "process_name", process_name]) | into write_ssa_detected_events();'
+  end_time=timestamp, entities=mvappend(device, user), 
+  body=create_map("category_id", 101, "class_id", 10100, "data", ["event_id",
+  event_id, "process_path", process_path, "process_name", process_name], "detection_start_time", start_time, 
+  "detection_end_time", end_time, "disposition_id", 1, "end_time", end_time, "event_id", 
+  10100001, "event_time", timestamp, "finding", create_map("confidence", 80, "confidence_id", 3,
+  "context_ids", ["Source:Endpoint", "Stage:Defense Evasion"], "impact", 70, "impact_id", 4,
+  "kill_chain_phase", "Exploitation", "kill_chain_phase_id", 4, "risk_score", 56,
+  "risk_score_id", 3, "type_id", 1), "message", "process spawn in non-default folder path.", 
+  "metadata", create_map("log_name", "Endpoint_Processes", "version",
+  "1.0.0"), "observables", [create_map("name", "user", "role_ids", [4], "type_id", 6, "value", 
+  ucast(map_get(input_event, "dest_user_id"), "string", null)), create_map("name", "dest", 
+  "role_ids", [4], "type_id", 4, "value", ucast(map_get(input_event, "dest_device_id"), "string", null))], 
+  "origin", create_map("device", ucast(map_get(input_event, "dest_device_id"), 
+  "string", null)), "priority_id", 0, "rule", create_map("name", "System Process Running from Unexpected Location", 
+  "uid", "28179107-099a-464a-94d3-08301e6c055f"), "start_time", start_time, "time", timestamp)
+  | into write_ssa_detected_events();'
 how_to_implement: Collect endpoint data such as sysmon or 4688 events.
 known_false_positives: None
 references: []
