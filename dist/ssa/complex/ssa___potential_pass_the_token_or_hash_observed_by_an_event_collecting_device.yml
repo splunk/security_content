@@ -97,7 +97,7 @@ tags:
   - origin_device_id
   - authentication_method
   risk_score: 64
-  risk_severity: low
+  risk_severity: medium
   security_domain: endpoint
 type: TTP
 version: 2

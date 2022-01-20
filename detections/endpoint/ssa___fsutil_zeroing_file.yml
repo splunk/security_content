@@ -80,3 +80,5 @@ tags:
   risk_score: 54
   risk_severity: medium
   security_domain: endpoint
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070/fsutil_file_zero/windows-security.log

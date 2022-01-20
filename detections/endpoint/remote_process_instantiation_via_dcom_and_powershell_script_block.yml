@@ -4,8 +4,7 @@ version: 1
 date: '2021-11-15'
 author: Mauricio Velazco, Splunk
 type: TTP
-datamodel:
-- Endpoint
+datamodel: []
 description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
   to identify the execution of PowerShell with arguments utilized to start a process
   on a remote endpoint by abusing the DCOM protocol. Specifically, this search looks

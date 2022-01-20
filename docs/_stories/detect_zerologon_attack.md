@@ -33,6 +33,7 @@ This attack is a privilege escalation technique, where attacker targets a Netlog
 | [Detect Credential Dumping through LSASS access](/endpoint/detect_credential_dumping_through_lsass_access/) | [LSASS Memory](/tags/#lsass-memory), [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
 | [Detect Mimikatz Using Loaded Images](/endpoint/detect_mimikatz_using_loaded_images/) | [LSASS Memory](/tags/#lsass-memory), [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
 | [Detect Zerologon via Zeek](/network/detect_zerologon_via_zeek/) | [Exploit Public-Facing Application](/tags/#exploit-public-facing-application) | TTP |
+| [Windows Possible Credential Dumping](/endpoint/windows_possible_credential_dumping/) | [LSASS Memory](/tags/#lsass-memory), [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
 
 #### Reference
 

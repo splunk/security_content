@@ -4,8 +4,7 @@ version: 1
 date: '2021-08-24'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 type: Hunting
-datamodel:
-- Endpoint
+datamodel: []
 description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
   to identify the execution of the `Get-AdGUser` commandlet. The `Get-AdUser` commandlet
   is used to return a list of all domain users. Red Teams and adversaries may leverage
