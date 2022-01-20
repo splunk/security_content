@@ -84,3 +84,5 @@ tags:
   risk_score: 15
   risk_severity: high
   security_domain: endpoint
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1490/atomic_red_team/windows-security_bcdedit_wbadmin.log
