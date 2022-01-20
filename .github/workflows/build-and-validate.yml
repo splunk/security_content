@@ -159,7 +159,12 @@ jobs:
 
       - name: Copy lookups mlmodel files
         run: |
-          cp -rv *.mlmodel ../dist/escu/lookups
+          cd lookups
+          count=`ls -1 *.mlmodel 2>/dev/null | wc -l`
+          if [ $count != 0 ]
+          then cp -rv *.mlmodel ../dist/escu/lookups
+          else echo "No mlmodel files to copy"
+          fi
 
       #Tag is '' for non-tagged push and the tag name for a tagged release
       - name: Set tag
