@@ -6,7 +6,7 @@ tests:
   earliest_time: '-24h'
   latest_time: 'now'
   attack_data:
-  - file_name: UPDATE_FILE_NAME
-    data: UPDATE_DATASET_URL
-    source: UPDATE_SPLUNK_SOURCE
-    sourcetype: UPDATE_SPLUNK_SOURCETYPE
+  - file_name: windows-sysmon.log
+    data: https://github.com/splunk/attack_data/blob/master/datasets/attack_techniques/T1059.001/malicious_cmd_line_samples/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
