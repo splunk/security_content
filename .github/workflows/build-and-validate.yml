@@ -157,7 +157,7 @@ jobs:
           cd lookups
           cp -rv *.csv ../dist/escu/lookups
 
-      - name: Copy lookups mlmodel files
+      - name: Copy lookups .mlmodel files
         run: |
           cd lookups
           count=`ls -1 *.mlmodel 2>/dev/null | wc -l`
