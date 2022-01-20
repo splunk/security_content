@@ -28,7 +28,7 @@ tags:
   automated_detection_testing: passed
   confidence: 50
   context:
-  - Source:Network
+  - Scope:Network
   cve:
   - CVE-2021-44228
   dataset:
@@ -48,7 +48,7 @@ tags:
   - name: http_user_agent
     type: Other
     role:
-    - other
+    - Other
   - name: http_method
     type: Other
     role:

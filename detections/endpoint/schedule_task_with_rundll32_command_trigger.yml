@@ -55,10 +55,6 @@ tags:
     type: Hostname
     role:
     - Victim
-  - name: Arguments
-    type: Arguments
-    role:
-    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

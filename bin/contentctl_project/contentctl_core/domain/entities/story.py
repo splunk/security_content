@@ -56,14 +56,14 @@ class Story(BaseModel, SecurityContentObject):
             raise ValueError('encoding error in ' + field.name + ': ' + values["name"])
         return v
 
-    @validator('references')
-    def references_check(cls, v, values):
-        for reference in v:
-            try:
-                get = requests.get(reference)
-                if not get.status_code == 200:
-                    raise ValueError('Reference ' + reference + ' is not reachable: ' + values["name"])
-            except requests.exceptions.RequestException as e:
-                raise ValueError('Reference ' + reference + ' is not reachable: ' + values["name"])
+    # @validator('references')
+    # def references_check(cls, v, values):
+    #     for reference in v:
+    #         try:
+    #             get = requests.get(reference)
+    #             if not get.status_code == 200:
+    #                 raise ValueError('Reference ' + reference + ' is not reachable: ' + values["name"])
+    #         except requests.exceptions.RequestException as e:
+    #             raise ValueError('Reference ' + reference + ' is not reachable: ' + values["name"])
 
-        return v
+    #     return v

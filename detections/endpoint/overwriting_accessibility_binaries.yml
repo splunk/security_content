@@ -54,7 +54,7 @@ tags:
     role:
     - Victim
   - name: file_path
-    type: file_path
+    type: File
     role:
     - Attacker
   product:

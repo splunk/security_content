@@ -14,6 +14,7 @@ class SecurityContentStoryBuilder(StoryBuilder):
 
     def setObject(self, path: str) -> None:
         yml_dict = YmlReader.load_file(path)
+        yml_dict["tags"]["name"] = yml_dict["name"]
         try:
             self.story = Story.parse_obj(yml_dict)
         except ValidationError as e:

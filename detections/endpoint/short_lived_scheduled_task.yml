@@ -47,10 +47,6 @@ tags:
     type: Endpoint
     role:
     - Victim
-  - name: Command
-    type: Command
-    role:
-    - Target
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

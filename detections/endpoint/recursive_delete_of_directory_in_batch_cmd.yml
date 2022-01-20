@@ -29,13 +29,21 @@ tags:
   analytic_story:
   - Ransomware
   automated_detection_testing: passed
+  context:
+  - Source:Endpoint
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data2/windows-sysmon.log
   kill_chain_phases:
   - Exploitation
+  message: Recursive Delete of Directory In Batch CMD
   mitre_attack_id:
   - T1070.004
   - T1070
+  observable:
+  - name: User
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

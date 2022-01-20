@@ -32,9 +32,15 @@ tags:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data2/windows-powershell.log
   kill_chain_phases:
   - Exploitation
+  message: Powershell Enable SMB1Protocol Feature
   mitre_attack_id:
   - T1027
   - T1027.005
+  observable:
+  - name: User
+    type: User
+    role:
+    - Victim 
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

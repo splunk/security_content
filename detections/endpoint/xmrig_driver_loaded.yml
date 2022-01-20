@@ -41,10 +41,6 @@ tags:
     type: Hostname
     role:
     - Victim
-  - name: ImageLoaded
-    type: ImageLoaded
-    role:
-    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

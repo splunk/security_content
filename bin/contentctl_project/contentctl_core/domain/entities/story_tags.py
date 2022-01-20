@@ -4,6 +4,7 @@ from pydantic import BaseModel, validator, ValidationError
 
 
 class StoryTags(BaseModel):
+    name: str
     analytic_story: str
     category: list
     product: list

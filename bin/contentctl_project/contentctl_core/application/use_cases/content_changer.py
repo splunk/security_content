@@ -142,3 +142,10 @@ class ContentChanger:
                 obj['tags']['message'] = 'tbd'
             if 'observable' not in obj['tags']:
                 obj['tags']['observable'] = [{'name': 'field', 'type': 'Unknown', 'role': ['Unknown']}]
+
+    def fix_story(self, objects : list) -> None:
+        for obj in objects:
+            if 'type' not in obj:
+                print(obj['name'])
+                if isinstance(obj['tags']['analytic_story'], list):
+                    obj['tags']['analytic_story'] = obj['tags']['analytic_story'][0]
