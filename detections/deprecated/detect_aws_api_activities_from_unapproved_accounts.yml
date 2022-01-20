@@ -77,3 +77,11 @@ tags:
   security_domain: access
   confidence: 50
   impact: 50
+  context:
+  - Unknown
+  message: tbd
+  observable:
+  - name: field
+    type: Unknown
+    role:
+    - Unknown

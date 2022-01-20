@@ -25,6 +25,7 @@ tags:
   analytic_story:
   - Suspicious Cloud User Activities
   automated_detection_testing: passed
+  asset_type: AWS Account
   confidence: 50
   context:
   - Source:Cloud Data

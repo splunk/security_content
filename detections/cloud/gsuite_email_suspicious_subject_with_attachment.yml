@@ -36,6 +36,7 @@ references:
 tags:
   analytic_story:
   - Dev Sec Ops
+  asset_type: GSuite
   automated_detection_testing: passed
   confidence: 50
   context:
@@ -50,11 +51,15 @@ tags:
   mitre_attack_id:
   - T1566.001
   - T1566
+  observable:
+  - name: source.address
+    type: User
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Dev Sec Ops Analytics
   required_fields:
   - _time
   risk_score: 25

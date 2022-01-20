@@ -10,4 +10,4 @@ class Utils:
                 if file.endswith(".yml"):
                     listOfFiles.append(os.path.join(dirpath, file))
     
-        return listOfFiles
+        return sorted(listOfFiles)

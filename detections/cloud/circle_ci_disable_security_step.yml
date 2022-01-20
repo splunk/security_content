@@ -25,6 +25,8 @@ tags:
   cis20:
   - CIS 13
   confidence: 90
+  context:
+  - Source:Application Log
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1554/circle_ci_disable_security_step/circle_ci_disable_security_step.json
   impact: 80
@@ -46,7 +48,6 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Dev Sec Ops Analytics
   required_fields:
   - _times
   risk_score: 72

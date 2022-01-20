@@ -133,3 +133,12 @@ class ContentChanger:
                     new_context.append(context)
 
                 obj['tags']['context'] = list(dict.fromkeys(new_context))
+
+    def add_default_values_deprecated(self, objects : list) -> None:
+        for obj in objects:
+            if 'context' not in obj['tags']:
+                obj['tags']['context'] = ['Unknown']
+            if 'message' not in obj['tags']:
+                obj['tags']['message'] = 'tbd'
+            if 'observable' not in obj['tags']:
+                obj['tags']['observable'] = [{'name': 'field', 'type': 'Unknown', 'role': ['Unknown']}]
