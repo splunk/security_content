@@ -140,14 +140,16 @@ def generate_ssa_yaml(detections, TEMPLATE_PATH, OUTPUT_PATH):
             del d['savedsearch_annotations']
 
             # add detection test
-            test_file = 'ssa___' + d['name'].lower().replace(" ", "_") + '.test.yml'
+            test_file = 'ssa___' + d['name'].lower().replace(" ", "_").replace("-", "_") + '.test.yml'
             for file in glob.glob('tests/*/*'):
+                
                 if test_file == file.split("/")[-1]:
                     with open(file, 'r') as file:
                         test_yaml = yaml.safe_load(file)
                         d['test'] = test_yaml
 
             with open(manifest_file, 'w') as file:
+
                 documents = yaml.dump(d, file, sort_keys=True)
 
     return OUTPUT_PATH
