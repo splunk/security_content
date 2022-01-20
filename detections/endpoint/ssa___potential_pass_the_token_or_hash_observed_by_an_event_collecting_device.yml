@@ -94,5 +94,5 @@ tags:
   - origin_device_id
   - authentication_method
   risk_score: 64
-  risk_severity: high
+  risk_severity: medium
   security_domain: endpoint
