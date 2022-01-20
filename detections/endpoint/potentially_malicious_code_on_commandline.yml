@@ -8,10 +8,9 @@ datamodel:
 - Endpoint
 description: Uses machine learning to detect potentially malicious command lines
 search: '| tstats count from datamodel="Endpoint.Processes" by Processes.process | `drop_dm_object_name(Processes)`  | `potentially_malicious_code_on_cmdline_tokenize_score` | `potentially_malicious_code_on_commandline_filter`'
-how_to_implement: UPDATE_HOW_TO_IMPLEMENT
-known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
-references:
--  
+how_to_implement: Need endpoint model
+known_false_positives: This model can output false positives
+references: []
 tags:
   analytic_story:
   - Suspicious Command-Line Executions
