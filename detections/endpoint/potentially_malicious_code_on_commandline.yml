@@ -1,0 +1,47 @@
+name: Potentially malicious code on commandline
+id: 9c53c446-757e-11ec-871d-acde48001122
+version: 1
+date: '2022-01-14'
+author: Michael Hart, Splunk
+type: Anomaly
+datamodel:
+- Endpoint
+description: Uses machine learning to detect potentially malicious command lines
+search: '| tstats count from datamodel="Endpoint.Processes" by Processes.process | `drop_dm_object_name(Processes)`  | `unusual_commandline_detection_tokenizer`'
+how_to_implement: UPDATE_HOW_TO_IMPLEMENT
+known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
+references:
+-  
+tags:
+  analytic_story:
+  - Suspicious Command-Line Executions
+  dataset:
+  - https://github.com/splunk/attack_data/blob/master/datasets/attack_techniques/T1059.001/malicious_cmd_line_samples/windows-sysmon.log
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1059.001
+  - T1059.003
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  security_domain: endpoint
+  impact: 60
+  confidence: 20
+  risk_score: 12
+  context:
+    - source:endpoint
+    - stage:Execution
+  message: Unusual commandline execution with hallmarks of malicious activity found $Message$
+  observable:
+    - name: ComputerName
+      type: Hostname
+      role:
+        - Victim
+    - name: User
+      type: User
+      role:
+        - Victim
