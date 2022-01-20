@@ -286,5 +286,5 @@ tags:
   - dest_user_id
   - process_path
   risk_score: 56
-  risk_severity: low
+  risk_severity: medium
   security_domain: endpoint

@@ -81,4 +81,5 @@ tags:
   - file_name
   - file_path
   risk_score: 72
+  risk_severity: medium
   security_domain: endpoint

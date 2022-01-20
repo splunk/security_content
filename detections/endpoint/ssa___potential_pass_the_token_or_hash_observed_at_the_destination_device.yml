@@ -101,5 +101,5 @@ tags:
   - dest_device_id
   - authentication_method
   risk_score: 72
-  risk_severity: high
+  risk_severity: medium
   security_domain: endpoint
