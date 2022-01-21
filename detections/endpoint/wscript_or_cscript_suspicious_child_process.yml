@@ -8,7 +8,7 @@ datamodel:
 - Endpoint
 description: This analytic is to detect a suspicious spawned process by wscript or
   cscript process. This technique was a common technique used by adversaries and malware
-  to execute different LOLBIN, other script like powershell or create a suspended
+  to execute different LOLBIN, other scripts like powershell or spawn a suspended
   process to inject its code as a defense evasion. This TTP may detect some normal
   script that using several application tool that are in the list of the child process
   it detects but a good pivot and indicator that a script is may execute suspicious
