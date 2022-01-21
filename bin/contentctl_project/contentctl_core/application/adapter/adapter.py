@@ -3,6 +3,10 @@ import abc
 class Adapter(abc.ABC):
 
     @abc.abstractmethod
+    def writeHeaders(self, output_folder: str) -> None:
+        pass
+
+    @abc.abstractmethod
     def writeDetections(self, detections: list, output_folder: str) -> None:
         pass
 

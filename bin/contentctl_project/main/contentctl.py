@@ -4,16 +4,25 @@ import os
 
 from contentctl_core.application.use_cases.content_changer import ContentChanger, ContentChangerInputDto
 from contentctl_core.application.use_cases.content_organizer import ContentOrganizer, ContentOrganizerInputDto
+from contentctl_core.application.use_cases.generate import GenerateInputDto, Generate
+from contentctl_core.application.factory.factory import Factory, FactoryInputDto, FactoryOutputDto
 from contentctl_core.application.factory.object_factory import ObjectFactoryInputDto
 from contentctl_infrastructure.builder.security_content_object_builder import SecurityContentObjectBuilder
 from contentctl_infrastructure.builder.security_content_director import SecurityContentDirector
 from contentctl_infrastructure.adapter.obj_to_yml_adapter import ObjToYmlAdapter
+from contentctl_infrastructure.builder.security_content_story_builder import SecurityContentStoryBuilder
+from contentctl_infrastructure.builder.security_content_detection_builder import SecurityContentDetectionBuilder
+from contentctl_infrastructure.builder.security_content_basic_builder import SecurityContentBasicBuilder
+from contentctl_infrastructure.builder.security_content_investigation_builder import SecurityContentInvestigationBuilder
+from contentctl_infrastructure.builder.security_content_baseline_builder import SecurityContentBaselineBuilder
+from contentctl_core.domain.entities.enums.enums import SecurityContentProduct
+from contentctl_infrastructure.adapter.obj_to_conf_adapter import ObjToConfAdapter
 
 
 def init(args):
 
     print("""
-Running Splunk Security Content Control Tool (contentctl) v{0}
+Running Splunk Security Content Control Tool (contentctl) 
 starting program loaded for TIE Fighter...
       _                                            _
      T T                                          T T
@@ -87,6 +96,29 @@ def content_organizer(args) -> None:
     content_organizer.execute(input_dto)
 
 
+def generate(args) -> None:
+    factory_input_dto = FactoryInputDto(
+        os.path.abspath(args.path),
+        SecurityContentBasicBuilder(),
+        SecurityContentDetectionBuilder(),
+        SecurityContentStoryBuilder(),
+        SecurityContentBaselineBuilder(),
+        SecurityContentInvestigationBuilder(),
+        SecurityContentDirector(),
+        SecurityContentProduct[args.product]
+    )
+
+    generate_input_dto = GenerateInputDto(
+        os.path.abspath(args.output),
+        factory_input_dto,
+        ObjToConfAdapter()
+    )
+
+    generate = Generate()
+    generate.execute(generate_input_dto)
+
+
+
 def main(args):
     # grab arguments
     parser = argparse.ArgumentParser(
@@ -96,7 +128,7 @@ def main(args):
     actions_parser = parser.add_subparsers(title="Splunk Security Content actions", dest="action")
     #new_parser = actions_parser.add_parser("new", help="Create new content (detection, story, baseline)")
     #validate_parser = actions_parser.add_parser("validate", help="Validates written content")
-    #generate_parser = actions_parser.add_parser("generate", help="Generates a deployment package for different platforms (splunk_app)")
+    generate_parser = actions_parser.add_parser("generate", help="Generates a deployment package for different platforms (splunk_app)")
     content_changer_parser = actions_parser.add_parser("content_changer", help="Change Security Content based on defined rules")
     content_organizer_parser = actions_parser.add_parser("content_organizer", help="Organize Security Content")
 
@@ -111,17 +143,18 @@ def main(args):
     # validate_parser.set_defaults(func=validate, epilog="""
     #     Validates security manifest for correctness, adhering to spec and other common items.""")
 
-    # # generate arguments
-    # generate_parser.add_argument("-o", "--output", required=False, type=str, default="dist/escu",
-    #                                  help="Path where to store the deployment package, defaults to `dist/escu`")
-    # generate_parser.add_argument("-p", "--product", required=False, type=str, default="ESCU",
-    #                              help="Type of package to create, choose between `ESCU`, `DevSecOps`, `SAAWS`, or `SSA`. Defaults to `ESCU`")
-    # generate_parser.set_defaults(func=generate)
+    generate_parser.add_argument("-p", "--path", required=True, 
+                                        help="path to the Splunk Security Content folder")
+    generate_parser.add_argument("-o", "--output", required=True, type=str,
+                                        help="Path where to store the deployment package")
+    generate_parser.add_argument("-p", "--product", required=True, type=str,
+                                        help="Type of package to create, choose between `ESCU`, `DevSecOps`, `SAAWS`, or `SSA`.")
+    generate_parser.set_defaults(func=generate)
     
     content_changer_parser.add_argument("-p", "--path", required=True, 
                                         help="path to the Splunk Security Content folder")
     content_changer_parser.add_argument("-cf", "--change_function", required=True, type=str,
-                                      help="Define a change funtion defined in bin/contentctl_core/contentctl/application/use_cases/content_changer.py")
+                                        help="Define a change funtion defined in bin/contentctl_core/contentctl/application/use_cases/content_changer.py")
     content_changer_parser.set_defaults(func=content_changer)
 
     content_organizer_parser.add_argument("-p", "--path", required=True, 
