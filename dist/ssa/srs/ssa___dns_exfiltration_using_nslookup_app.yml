@@ -50,7 +50,7 @@ tags:
   - Source:Endpoint
   - Stage:Exfiltration
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/nslookup_exfil/windows-sysmon.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/nslookup_exfil/windows-security.log
   impact: 90
   kill_chain_phases:
   - Exploitation
@@ -94,9 +94,9 @@ test:
   name: DNS Exfiltration Using Nslookup App Unit Test
   tests:
   - attack_data:
-    - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/nslookup_exfil/windows-sysmon.log
-      file_name: windows-sysmon.log
-      source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/nslookup_exfil/windows-security.log
+      file_name: windows-security.log
+      source: WinEventLog:Security
     file: endpoint/ssa_dns_exfiltration_using_nslookup_app.yml
     name: DNS Exfiltration Using Nslookup App
     pass_condition: '@count_gt(0)'

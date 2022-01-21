@@ -1,5 +1,5 @@
 ---
-title: "More than usual number of LOLBAS applications in short time period"
+title: "Unusual LOLBAS in short period of time"
 excerpt: "Command and Scripting Interpreter, Scheduled Task/Job"
 categories:
   - Endpoint
@@ -101,4 +101,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/more_than_usual_number_of_lolbas_applications_in_short_time_period.yml) \| *version*: **2**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/unusual_lolbas_in_short_period_of_time.yml) \| *version*: **2**
