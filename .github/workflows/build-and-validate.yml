@@ -157,6 +157,15 @@ jobs:
           cd lookups
           cp -rv *.csv ../dist/escu/lookups
 
+      - name: Copy lookups .mlmodel files
+        run: |
+          cd lookups
+          count=`ls -1 *.mlmodel 2>/dev/null | wc -l`
+          if [ $count != 0 ]
+          then cp -rv *.mlmodel ../dist/escu/lookups
+          else echo "No mlmodel files to copy"
+          fi
+
       #Tag is '' for non-tagged push and the tag name for a tagged release
       - name: Set tag
         id: vars
@@ -604,6 +613,7 @@ jobs:
           aws s3 cp playbooks s3://security-content/playbooks --recursive --exclude "*" --include "*.yml"
           aws s3 cp lookups s3://security-content/lookups --recursive --exclude "*" --include "*.yml"
           aws s3 cp lookups s3://security-content/lookups --recursive --exclude "*" --include "*.csv"
+          aws s3 cp lookups s3://security-content/lookups --recursive --exclude "*" --include "*.mlmodel"
           aws s3 cp macros s3://security-content/macros --recursive --exclude "*" --include "*.yml"
           aws s3 cp deployments s3://security-content/deployments --recursive --exclude "*" --include "*.yml"
           aws s3 cp dist/api s3://security-content/json --recursive --exclude "*" --include "*.json"
