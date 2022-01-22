@@ -18,6 +18,9 @@ Extensions,Name
 .locked,ApocalypseVM
 .locky,AutoLocky
 .adr,BaksoCrypt
+.avos,AvosLocker
+.avos2,AvosLocker
+.avoslinux,AvosLocker
 .bart.zip,Bart
 .bart,Bart
 .perl,Bart

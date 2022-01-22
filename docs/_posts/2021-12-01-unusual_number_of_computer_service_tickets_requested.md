@@ -15,7 +15,6 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Endpoint
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -31,7 +30,7 @@ The detection calculates the standard deviation for each host and leverages the 
 
 - **Type**: Hunting
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: 
 - **Last Updated**: 2021-12-01
 - **Author**: Mauricio Velazco, Splunk
 - **ID**: ac3b81c0-52f4-11ec-ac44-acde48001122

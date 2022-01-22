@@ -12,7 +12,6 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Endpoint
 ---
 
 
@@ -27,7 +26,7 @@ During triage, review parallel processes using an EDR product or 4688 events. It
 
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: 
 - **Last Updated**: 2021-09-02
 - **Author**: Michael Haag, Splunk
 - **ID**: 70fac80e-0bf1-11ec-9ba0-acde48001122
