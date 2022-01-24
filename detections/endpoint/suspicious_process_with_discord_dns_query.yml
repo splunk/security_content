@@ -7,15 +7,17 @@ type: Anomaly
 datamodel:
 - Endpoint
 description: This analytic detects a suspicious process making a DNS query via known,
-  abused  VoIP, instant messaging, and digital distribution platforms used to download external files. 
-  This technique is abused by adversaries, malware actors, and red teams to download a malicious file on the target host. 
-  This is a good TTP indicator for possible initial access techniques for possible suspicious process aside from discord applications and application
-  like browser accessing discord link or create dns query. 
-search: '`sysmon` EventCode=22 QueryName IN ("*discord*") process_path != "*\\AppData\\Local\\Discord\\*" AND process_path != "*\\Program Files*" AND process_name != "discord.exe" 
-  | stats count min(_time) as firstTime max(_time) as lastTime by Image QueryName QueryStatus process_name QueryResults Computer process_path
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` 
-  | `suspicious_process_with_discord_dns_query_filter`'
+  abused  VoIP, instant messaging, and digital distribution platforms used to download
+  external files. This technique is abused by adversaries, malware actors, and red
+  teams to download a malicious file on the target host. This is a good TTP indicator
+  for possible initial access techniques for possible suspicious process aside from
+  discord applications and application like browser accessing discord link or create
+  dns query.
+search: '`sysmon` EventCode=22 QueryName IN ("*discord*") process_path != "*\\AppData\\Local\\Discord\\*"
+  AND process_path != "*\\Program Files*" AND process_name != "discord.exe" | stats
+  count min(_time) as firstTime max(_time) as lastTime by Image QueryName QueryStatus
+  process_name QueryResults Computer process_path | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `suspicious_process_with_discord_dns_query_filter`'
 how_to_implement: his detection relies on sysmon logs with the Event ID 22, DNS Query.
 known_false_positives: Noise and false positive can be seen if the following instant
   messaging is allowed to use within corporate network. In this case, a filter is
@@ -49,8 +51,7 @@ tags:
   - process_path
   security_domain: endpoint
   impact: 80
-  confidence: 80  
-  # (impact * confidence)/100
+  confidence: 80
   risk_score: 64
   context:
   - Source:Endpoint
@@ -71,3 +72,4 @@ tags:
   - CIS 3
   - CIS 5
   - CIS 16
+  automated_detection_testing: passed
