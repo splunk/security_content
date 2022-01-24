@@ -16,7 +16,6 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Endpoint
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -31,7 +30,7 @@ The following hunting analytic leverages Event ID 7045, `A new service was insta
 
 - **Type**: Hunting
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: 
 - **Last Updated**: 2021-11-29
 - **Author**: Mauricio Velazco, Splunk
 - **ID**: 2032a95a-5165-11ec-a2c3-3e22fbd008af

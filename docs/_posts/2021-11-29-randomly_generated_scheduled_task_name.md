@@ -18,7 +18,6 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Endpoint
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -33,7 +32,7 @@ The following hunting analytic leverages Event ID 4698, `A scheduled task was cr
 
 - **Type**: Hunting
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: 
 - **Last Updated**: 2021-11-29
 - **Author**: Mauricio Velazco, Splunk
 - **ID**: 9d22a780-5165-11ec-ad4f-3e22fbd008af
