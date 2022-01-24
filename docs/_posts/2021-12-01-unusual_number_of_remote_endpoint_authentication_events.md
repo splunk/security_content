@@ -15,7 +15,6 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Endpoint
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -31,7 +30,7 @@ The detection calculates the standard deviation for each host and leverages the 
 
 - **Type**: Hunting
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: 
 - **Last Updated**: 2021-12-01
 - **Author**: Mauricio Velazco, Splunk
 - **ID**: acb5dc74-5324-11ec-a36d-acde48001122
@@ -52,7 +51,8 @@ The detection calculates the standard deviation for each host and leverages the 
 | stats dc(ComputerName) AS unique_targets values(ComputerName) as target_hosts by _time, Source_Network_Address, Source_Account 
 | eventstats avg(unique_targets) as comp_avg , stdev(unique_targets) as comp_std by Source_Network_Address, Source_Account 
 | eval upperBound=(comp_avg+comp_std*3) 
-| eval isOutlier=if(unique_targets >10 and unique_targets >= upperBound, 1, 0) `unusual_number_of_remote_endpoint_authentication_events_filter`
+| eval isOutlier=if(unique_targets >10 and unique_targets >= upperBound, 1, 0) 
+| `unusual_number_of_remote_endpoint_authentication_events_filter`
 ```
 
 #### Associated Analytic Story
