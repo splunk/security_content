@@ -7,10 +7,10 @@ type: TTP
 datamodel:
 - Endpoint
 description: This analytic will identify excessive file deletion events
-  in Windows Defender folder. This technique was seen in WhisperGate operation where
-  it uses advancedrun.exe Nirsoft to gain administrative privilege to execute the PowerShell
-  command to delete or evade Windows Defender application. This is a good indicator
-  that some suspicious behavior is happening on the system.
+  in the Windows Defender folder. This technique was seen in the WhisperGate malware campaign in which
+  adversaries abused Nirsofts advancedrun.exe to gain administrative privilege to then execute PowerShell
+  commands to delete files within the Windows Defender application folder. This behavior is a good indicator
+  the offending process is trying to corrupt a Windows Defender installation.
 search: '`sysmon` EventCode=23 TargetFilename = "*\\ProgramData\\Microsoft\\Windows
   Defender*" | stats values(TargetFilename) as deleted_files min(_time) as firstTime
   max(_time) as lastTime count by user EventCode Image ProcessID Computer |where count

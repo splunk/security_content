@@ -6,13 +6,11 @@ author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
 - Endpoint
-description: This analytic identifies a suspicious process making a DNS query via known,
-  abused  VoIP, instant messaging, and digital distribution platforms used to download
-  external files. This technique is abused by adversaries, malware actors, and red
-  teams to download a malicious file on the target host. This is a good TTP indicator
-  for possible initial access techniques for possible suspicious process aside from
-  discord applications and application like browser accessing discord link or create
-  dns query.
+description: This analytic identifies a process making a DNS query to Discord, 
+  a well known instant messaging and digital distribution platform. Discord can be 
+  abused by adversaries, as seen in the WhisperGate campaign, to host and download malicious. 
+  external files. A process resolving a Discord DNS name could be an indicator
+  of malware trying to download files from Discord for further execution.
 search: '`sysmon` EventCode=22 QueryName IN ("*discord*") process_path != "*\\AppData\\Local\\Discord\\*"
   AND process_path != "*\\Program Files*" AND process_name != "discord.exe" | stats
   count min(_time) as firstTime max(_time) as lastTime by Image QueryName QueryStatus

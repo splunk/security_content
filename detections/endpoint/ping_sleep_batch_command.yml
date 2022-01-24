@@ -6,12 +6,11 @@ author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
 - Endpoint
-description: This analytic will identify possible ping sleep batch command. This
-  technique was seen in several malware and adversaries to trigger sleep without calling
-  sleep function or commandlets to delay its execution to bypass detection and sandbox
-  analysis. This anomaly detection can be a good indicator to a process which may delete
-  itself or delaying its execution. Better to check the parent process and the process
-  name that execute this command and the event before and after this technique.
+description: This analytic will identify the possible execution of ping sleep batch commands. This
+  technique was seen in several malware samples and is used to trigger sleep times without explicitly calling
+  sleep functions or commandlets. The goal is to delay the execution of malicious code
+  and bypass detection or sandbox analysis. This  detection can be a good indicator of a process 
+  delaying its execution for malicious purposes.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_ping` (Processes.parent_process
   = "*ping*" Processes.parent_process = *-n* Processes.parent_process="* Nul*"Processes.parent_process="*&gt;*")
