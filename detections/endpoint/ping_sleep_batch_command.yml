@@ -6,25 +6,28 @@ author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
 - Endpoint
-description: This analytic is to detect a possible ping sleep batch command. This technique was seen in several malware and adversaries 
-  to trigger sleep without calling sleep function or commandlets to delay its execution to bypass detection and sandbox analysis. 
-  This anomaly detection can be a good indicator to a process might delete itself or delaying its execution. Better to check the parent process and the process name 
-  that execute this command and the event before and after this technique.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes 
-  where `process_ping` (Processes.parent_process = "*ping*" Processes.parent_process = *-n* Processes.parent_process="* Nul*"Processes.parent_process="*&gt;*") OR 
-  (Processes.process = "*ping*" Processes.process = *-n* Processes.process="* Nul*"Processes.process="*&gt;*")
-  by Processes.parent_process_name Processes.parent_process Processes.process_name Processes.original_file_name Processes.process Processes.process_id Processes.process_guid Processes.user Processes.dest 
-  | `drop_dm_object_name("Processes")` 
-  | `security_content_ctime(firstTime)`
-  |`security_content_ctime(lastTime)` 
-  | `ping_sleep_batch_command_filter`'
+description: This analytic is to detect a possible ping sleep batch command. This
+  technique was seen in several malware and adversaries to trigger sleep without calling
+  sleep function or commandlets to delay its execution to bypass detection and sandbox
+  analysis. This anomaly detection can be a good indicator to a process might delete
+  itself or delaying its execution. Better to check the parent process and the process
+  name that execute this command and the event before and after this technique.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where `process_ping` (Processes.parent_process
+  = "*ping*" Processes.parent_process = *-n* Processes.parent_process="* Nul*"Processes.parent_process="*&gt;*")
+  OR (Processes.process = "*ping*" Processes.process = *-n* Processes.process="* Nul*"Processes.process="*&gt;*")
+  by Processes.parent_process_name Processes.parent_process Processes.process_name
+  Processes.original_file_name Processes.process Processes.process_id Processes.process_guid
+  Processes.user Processes.dest | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`
+  |`security_content_ctime(lastTime)` | `ping_sleep_batch_command_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA. 
-known_false_positives: administrator or network operator may execute this command. Please update the filter macros to remove false positives.
+  Sysmon TA.
+known_false_positives: administrator or network operator may execute this command.
+  Please update the filter macros to remove false positives.
 references:
--  https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
+- https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
 tags:
   analytic_story:
   - WhisperGate
@@ -54,8 +57,7 @@ tags:
   - Processes.parent_process_id
   security_domain: endpoint
   impact: 60
-  confidence: 60 
-  # (impact * confidence)/100
+  confidence: 60
   risk_score: 36
   context:
   - Source:Endpoint
@@ -76,3 +78,4 @@ tags:
   - CIS 3
   - CIS 5
   - CIS 16
+  automated_detection_testing: passed
