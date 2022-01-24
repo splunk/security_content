@@ -6,10 +6,10 @@ author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: This analytic is to detect a suspicious powershell command to delete
-  Windows Defender folder. This technique was seen in whispergate operation where
-  it uses advancedrun.exe nirsoft too gain admin privilege to execute this powershell
-  command to delete or evade windows defender application. This is a good indicator
+description: This analytic will identify a suspicious PowerShell command to delete
+  Windows Defender folder. This technique was seen in WhisperGate operation where
+  it uses advancedrun.exe Nirsoft to gain administrative privileges to execute the PowerShell
+  command to delete or evade Windows Defender application. This is a good indicator
   that some suspicious behavior is happening on the system.
 search: '`powershell` EventCode=4104 Message = "* rmdir *" OR Message = "*\\Microsoft\\Windows
   Defender*" | stats count min(_time) as firstTime max(_time) as lastTime by EventCode

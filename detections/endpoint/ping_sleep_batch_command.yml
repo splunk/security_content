@@ -6,10 +6,10 @@ author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
 - Endpoint
-description: This analytic is to detect a possible ping sleep batch command. This
+description: This analytic will identify possible ping sleep batch command. This
   technique was seen in several malware and adversaries to trigger sleep without calling
   sleep function or commandlets to delay its execution to bypass detection and sandbox
-  analysis. This anomaly detection can be a good indicator to a process might delete
+  analysis. This anomaly detection can be a good indicator to a process which may delete
   itself or delaying its execution. Better to check the parent process and the process
   name that execute this command and the event before and after this technique.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -24,7 +24,7 @@ how_to_implement: To successfully implement this search, you need to be ingestin
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
   Sysmon TA.
-known_false_positives: administrator or network operator may execute this command.
+known_false_positives: Administrator or network operator may execute this command.
   Please update the filter macros to remove false positives.
 references:
 - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
