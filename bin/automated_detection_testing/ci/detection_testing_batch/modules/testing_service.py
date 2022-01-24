@@ -89,7 +89,7 @@ def test_detection(splunk_ip:str, splunk_port:int, container_name:str, splunk_pa
 
     
 
-
+    
     for attack_data in test_file_obj['tests'][0]['attack_data']:
         url = attack_data['data']
         r = requests.get(url, allow_redirects=True)
@@ -121,7 +121,7 @@ def test_detection(splunk_ip:str, splunk_port:int, container_name:str, splunk_pa
             
             
 
-
+        
         if not splunk_sdk.wait_for_indexing_to_complete(splunk_ip, splunk_port, splunk_password, attack_data['sourcetype'], "main"):
             raise Exception("There was an error waiting for indexing to complete.")
         
@@ -145,8 +145,10 @@ def test_detection(splunk_ip:str, splunk_port:int, container_name:str, splunk_pa
             result_obj['baseline'] = baseline_obj['name']
             result_obj['baseline_file'] = baseline_obj['file']
             print("Making test_baseline_search request to: [%s:%d]"%(splunk_ip, splunk_port))
+
+            #What should we do if a baseline fails?
             result = splunk_sdk.test_baseline_search(splunk_ip, splunk_port, splunk_password, baseline['search'], baseline_obj['pass_condition'], baseline['name'], baseline_obj['file'], baseline_obj['earliest_time'], baseline_obj['latest_time'])
-            #we don't seem to be doing anything with this loop... are we supposed to have the following line belwo?
+            
             results_baselines.append(result)
 
         result_test['baselines_result'] = results_baselines  
@@ -156,8 +158,24 @@ def test_detection(splunk_ip:str, splunk_port:int, container_name:str, splunk_pa
     #print("Making test_detection_search request to: [%s:%d]"%(splunk_ip, splunk_port))
     
     result_detection = splunk_sdk.test_detection_search(splunk_ip, splunk_port, splunk_password, detection['search'], test['pass_condition'], detection['name'], test['file'], test['earliest_time'], test['latest_time'])
+    
+    #Check to see if the search was not successful (and there was not an error).
+    #Many of the failed searches are because we didn't wait long enough. So wait much longer and try again!
+    if result_detection['error'] is False and result_detection['success'] is False:
+        #Run the search again, wating EXTRA time to ensure that indexing has completed.
+
+
+        #Don't run this search for each individual sourcetype, just run it on the index that we have ingested the data into
+        if not splunk_sdk.wait_for_indexing_to_complete(splunk_ip, splunk_port, splunk_password, None, "main", previous_attempt_failed=True):
+            raise Exception("There was an error waiting for indexing to complete.")
+
+        #Try one more time, if it fails again here then assume it REALLY failed
+        result_detection = splunk_sdk.test_detection_search(splunk_ip, splunk_port, splunk_password, detection['search'], test['pass_condition'], detection['name'], test['file'], test['earliest_time'], test['latest_time'])
+    
+    
     if result_detection['error']:
         print("There was an error running the search: %s"%(result_detection['search_string']))
+    
         
 
 
