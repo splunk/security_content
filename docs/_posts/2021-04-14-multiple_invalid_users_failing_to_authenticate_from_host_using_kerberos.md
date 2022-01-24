@@ -14,7 +14,6 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Endpoint
 ---
 
 
@@ -30,7 +29,7 @@ The analytics returned fields allow analysts to investigate the event further by
 
 - **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: 
 - **Last Updated**: 2021-04-14
 - **Author**: Mauricio Velazco, Splunk
 - **ID**: 001266a6-9d5b-11eb-829b-acde48001122

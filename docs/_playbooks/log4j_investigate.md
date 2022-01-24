@@ -4193,8 +4193,8 @@ Published in response to CVE-2021-44228, this playbook and its sub-playbooks can
 
 
 
-
 * [Outbound Network Connection from Java Using Default Ports](/endpoint/outbound_network_connection_from_java_using_default_ports/)
+
 
 
 
