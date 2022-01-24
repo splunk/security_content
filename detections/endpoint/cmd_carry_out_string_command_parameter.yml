@@ -32,6 +32,7 @@ tags:
   analytic_story:
   - IcedID
   - Log4Shell CVE-2021-44228
+  - WhisperGate
   automated_detection_testing: passed
   confidence: 50
   context:

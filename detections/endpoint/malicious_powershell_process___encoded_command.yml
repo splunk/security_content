@@ -42,6 +42,7 @@ tags:
   analytic_story:
   - Malicious PowerShell
   - NOBELIUM Group
+  - WhisperGate
   asset_type: Endpoint
   automated_detection_testing: passed
   cis20:

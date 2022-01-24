@@ -29,6 +29,7 @@ references:
 tags:
   analytic_story:
   - Remcos
+  - WhisperGate
   automated_detection_testing: passed
   confidence: 80
   context:

@@ -28,6 +28,7 @@ tags:
   - Unusual Processes
   - Ransomware
   - Signed Binary Proxy Execution InstallUtil
+  - WhisperGate
   dataset: []
   kill_chain_phases:
   - Exploitation
