@@ -6,23 +6,23 @@ author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: This analytic is to detect suspicious excessive file deletion events in Windows Defender folder. 
-  This technique was seen in whispergate operation where it uses advancedrun.exe nirsoft too gain admin privilege to execute 
-  this powershell command to delete or evade windows defender application. This is a good indicator that some suspicious behavior 
-  is happening on the system.
-search: '`sysmon` EventCode=23 TargetFilename = "*\\ProgramData\\Microsoft\\Windows Defender*" 
-  | stats values(TargetFilename) as deleted_files min(_time) as firstTime max(_time) as lastTime count by user EventCode Image ProcessID Computer
-  |where count >=50
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` 
+description: This analytic is to detect suspicious excessive file deletion events
+  in Windows Defender folder. This technique was seen in whispergate operation where
+  it uses advancedrun.exe nirsoft too gain admin privilege to execute this powershell
+  command to delete or evade windows defender application. This is a good indicator
+  that some suspicious behavior is happening on the system.
+search: '`sysmon` EventCode=23 TargetFilename = "*\\ProgramData\\Microsoft\\Windows
+  Defender*" | stats values(TargetFilename) as deleted_files min(_time) as firstTime
+  max(_time) as lastTime count by user EventCode Image ProcessID Computer |where count
+  >=50 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `excessive_file_deletion_in_windefender_folder_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, TargetFilename, and ProcessID executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA. 
-known_false_positives: Windefender AV updates may cause this alert. Please update the filter macros to remove false positives.
+  logs with the process name, TargetFilename, and ProcessID executions from your endpoints.
+  If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+known_false_positives: Windefender AV updates may cause this alert. Please update
+  the filter macros to remove false positives.
 references:
--  https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
+- https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
 tags:
   analytic_story:
   - WhisperGate
@@ -46,8 +46,7 @@ tags:
   - ProcessID
   security_domain: endpoint
   impact: 50
-  confidence: 50 
-  # (impact * confidence)/100
+  confidence: 50
   risk_score: 25
   context:
   - Source:Endpoint
@@ -72,3 +71,4 @@ tags:
   - CIS 3
   - CIS 5
   - CIS 16
+  automated_detection_testing: passed
