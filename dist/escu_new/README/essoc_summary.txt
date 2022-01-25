@@ -1,0 +1,24 @@
+The ES_SOC Summary Dashboard provides you a summarized view of the analytic story contents of the ES-SOC app.
+The dashboard has the following panels gives you following details
+
+1) Analytic story Summary
+ 	- Total Analytic Stories : The total number of Analytic stories in the ES-SOC application
+ 	- Total Searches: The total number of searches in ES-SOC
+ 	- Searches added last week: Number of searches added to ES-SOC in the last week.
+
+ 2) Analytic story Category: This dashboard panel summarizes the categories of the searches that the ES-SOC app contains. The categories of the analytic stories are as follow
+  	-Malware: These searches detect specific malware behavior for a particular phase of the attack kill chain. E.g. a malware’s delivery method via email or a malware’s installation behavior via registry key changes
+  	-Vulnerability: These searches detect behavior or a signature of a vulnerable software in use. These searches are not designed to replace vulnerability management or scanning systems. The purpose of these searches is to discover a vulnerability through side effects or behaviors.
+  	-Abuse: Some actions can be deemed malicious because they are unexpected, violate corporate policy or are significantly different than the actions of other users. E.g. A USB disk that is seen on multiple systems or a user that uploads excessive files to a cloud service or a database query that dumps an entire table
+  	-Best Practices:  Searches that correspond to specific guidelines from organizations like SANS or OWASP
+
+ 3) Kill Chain phases: Every analytic story has one or more searches which look for a certain kind of attack pattern/behavior. These searches have an attribute which essentially tells you what Kill chain phase does the search correspond to.
+    The numbers on the dashboard represents the number of searches correponding to each kill chain phase
+
+ 4) Analytic story table: This table gives the user a comprehensive view of some of the details of the analytic story. Some of the listed attributes are:
+  	- Analytic Story : The name of the analytic story
+  	- Description: The description of the analyttic story
+  	- Search names: The name of the searches in each analytic story
+  	- Datamodels: The name of the datamodel that the search is querying against.
+  	- Technology Examples: This field represent some examples related to the technologies required to populate the datamodels(Nessues, Cisco Firewall,etc)
+  	- Kill chain phase: The name of the kill chain phase that the search belongs to
