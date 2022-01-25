@@ -2,6 +2,8 @@ import sys
 import argparse
 import os
 
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 from contentctl_core.application.use_cases.content_changer import ContentChanger, ContentChangerInputDto
 from contentctl_core.application.use_cases.content_organizer import ContentOrganizer, ContentOrganizerInputDto
 from contentctl_core.application.use_cases.generate import GenerateInputDto, Generate
@@ -149,10 +151,6 @@ def validate(args) -> None:
 
 
 def main(args):
-    # add python path
-    python_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-    if python_path not in sys.path:
-        sys.path.insert(0, python_path)
 
     # grab arguments
     parser = argparse.ArgumentParser(
