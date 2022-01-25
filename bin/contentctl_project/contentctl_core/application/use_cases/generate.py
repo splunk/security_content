@@ -1,5 +1,3 @@
-import abc
-import os 
 
 from dataclasses import dataclass
 
@@ -15,10 +13,8 @@ class GenerateInputDto:
 
 
 class Generate:
-    input_dto: GenerateInputDto
 
     def execute(self, input_dto: GenerateInputDto) -> None:
-        self.input_dto = input_dto
 
         factory_output_dto = FactoryOutputDto([],[],[],[],[],[],[],[])
         factory = Factory(factory_output_dto)
