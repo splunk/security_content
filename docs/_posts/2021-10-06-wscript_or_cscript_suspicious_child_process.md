@@ -31,7 +31,7 @@ tags:
 
 #### Description
 
-This analytic is to detect a suspicious spawned process by wscript or cscript process. This technique was a common technique used by adversaries and malware to execute different LOLBIN, other script like powershell or create a suspended process to inject its code as a defense evasion. This TTP may detect some normal script that using several application tool that are in the list of the child process it detects but a good pivot and indicator that a script is may execute suspicious code.
+This analytic identifies a suspicious spawned process by WScript or CScript process. This technique was a common technique used by adversaries and malware to execute different LOLBIN, other scripts like PowerShell or spawn a suspended process to inject its code as a defense evasion. This TTP may detect some normal script that using several application tool that are in the list of the child process it detects but a good pivot and indicator that a script is may execute suspicious code.
 
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
@@ -68,6 +68,7 @@ This analytic is to detect a suspicious spawned process by wscript or cscript pr
 * [FIN7](/stories/fin7)
 * [Remcos](/stories/remcos)
 * [Unusual Processes](/stories/unusual_processes)
+* [WhisperGate](/stories/whispergate)
 
 
 #### How To Implement
@@ -93,7 +94,7 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 
 #### Known False Positives
-user may create vbs or js script that use several tool as part of its execution.
+Administrators may create vbs or js script that use several tool as part of its execution. Filter as needed.
 
 
 #### RBA
@@ -108,6 +109,7 @@ user may create vbs or js script that use several tool as part of its execution.
 #### Reference
 
 * [https://www.hybrid-analysis.com/sample/8da5b75b6380a41eee3a399c43dfe0d99eeefaa1fd21027a07b1ecaa4cd96fdd?environmentId=120](https://www.hybrid-analysis.com/sample/8da5b75b6380a41eee3a399c43dfe0d99eeefaa1fd21027a07b1ecaa4cd96fdd?environmentId=120)
+* [https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/](https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/)
 
 
 

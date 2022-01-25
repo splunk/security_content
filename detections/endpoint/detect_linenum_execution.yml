@@ -24,6 +24,7 @@ references:
 tags:
   analytic_story:
   - Linux Post-Exploitation
+  automated_detection_testing: passed
   confidence: 90
   context:
   - Source: endpoint
@@ -60,4 +61,3 @@ tags:
   - process_current_directory
   risk_score: 45
   security_domain: endpoint
-  automated_detection_testing: passed

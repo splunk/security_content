@@ -40,7 +40,7 @@ This detection is to identify a suspicious process that tries to delete the proc
 #### Search
 
 ```
-`sysmon` EventCode=1 cmdline = "*/c del*" Image = "*\\cmd.exe" 
+`sysmon` EventCode=1 cmdline = "* /c *" cmdline = "* del*" Image = "*\\cmd.exe" 
 |eval result = if(like(process,"%".parent_process."%"), "Found", "Not Found") 
 | stats min(_time) as firstTime max(_time) as lastTime count by Computer user ParentImage ParentCommandLine Image cmdline EventCode ProcessID result 
 | where result = "Found" 
@@ -52,6 +52,7 @@ This detection is to identify a suspicious process that tries to delete the proc
 #### Associated Analytic Story
 * [Clop Ransomware](/stories/clop_ransomware)
 * [Remcos](/stories/remcos)
+* [WhisperGate](/stories/whispergate)
 
 
 #### How To Implement
@@ -91,6 +92,7 @@ unknown
 
 * [https://www.fireeye.com/blog/threat-research/2020/10/fin11-email-campaigns-precursor-for-ransomware-data-theft.html](https://www.fireeye.com/blog/threat-research/2020/10/fin11-email-campaigns-precursor-for-ransomware-data-theft.html)
 * [https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html](https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html)
+* [https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/](https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/)
 
 
 

@@ -50,6 +50,7 @@ This search looks for high frequency of file deletion relative to process name a
 
 #### Associated Analytic Story
 * [Clop Ransomware](/stories/clop_ransomware)
+* [WhisperGate](/stories/whispergate)
 
 
 #### How To Implement
@@ -86,6 +87,7 @@ user may delete bunch of pictures or files in a folder.
 
 * [https://www.fireeye.com/blog/threat-research/2020/10/fin11-email-campaigns-precursor-for-ransomware-data-theft.html](https://www.fireeye.com/blog/threat-research/2020/10/fin11-email-campaigns-precursor-for-ransomware-data-theft.html)
 * [https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html](https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html)
+* [https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/](https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/)
 
 
 
