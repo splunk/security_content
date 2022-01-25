@@ -87,7 +87,7 @@ jobs:
       - name: run validate
         run: |
           source venv/bin/activate
-          python3 bin/contentctl_project/main/contentctl.py --path . validate
+          python3 bin/contentctl_project/main/contentctl.py --path . validate --product ESCU
 
       # - name: Get CTI Repo for Mitre context
       #   uses:  actions/checkout@v2
