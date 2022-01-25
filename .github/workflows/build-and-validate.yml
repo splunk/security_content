@@ -144,7 +144,7 @@ jobs:
       - name: Run Generate
         run: |
           source venv/bin/activate
-          python3 contentctl.py --path . generate --product ESCU --output dist/escu_new
+          python3 bin/contentctl_project/main/contentctl.py --path . generate --product ESCU --output dist/escu_new
           # python3 contentctl.py --path . --verbose generate --product SAAWS --output dist/saaws
           # python3 contentctl.py --path . --verbose generate --product SSA --output dist/ssa
 
