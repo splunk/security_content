@@ -35,7 +35,7 @@ def load_file(file_path):
 
 def map_required_fields(cim_summary, datamodel, required_fields):
     datasets_fields = {}
-    add_addon = True
+    add_addon = False
     flag = 0
     for item in required_fields:
         # Only required field with valid format will be mapped
@@ -65,6 +65,9 @@ def map_required_fields(cim_summary, datamodel, required_fields):
                         cim_fields = e_type.get("fields", [])
                         if set(datasets_fields[dataset]).issubset(set(cim_fields)):
                             add_addon = True
+                        else:
+                            add_addon = False
+                            return add_addon
 
     return add_addon
 
