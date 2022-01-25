@@ -23,7 +23,7 @@ tags:
 
 #### Description
 
-This analytic will detect a suspicious process commandline related to windows defender exclusion feature. This command is abused by adversaries, malware author and red teams to bypassed Windows Defender Anti-Virus product by excluding  folder path, file path, process, extensions and etc. from its real time or schedule scan to execute their malicious code. This is a good indicator for defense evasion and to look further for events after this behavior.
+This analytic will identify a suspicious process command-line related to Windows Defender exclusion feature. This command is abused by adversaries, malware authors and red teams to bypass Windows Defender Antivirus products by excluding folder path, file path, process and extensions. From its real time or schedule scan to execute their malicious code. This is a good indicator for defense evasion and to look further for events after this behavior.
 
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
@@ -55,6 +55,7 @@ This analytic will detect a suspicious process commandline related to windows de
 #### Associated Analytic Story
 * [Remcos](/stories/remcos)
 * [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
+* [WhisperGate](/stories/whispergate)
 
 
 #### How To Implement
@@ -80,7 +81,7 @@ To successfully implement this search you need to be ingesting information on pr
 
 
 #### Known False Positives
-admin or user may choose to use this windows features.
+Admin or user may choose to use this windows features. Filter as needed.
 
 
 #### RBA
@@ -96,6 +97,7 @@ admin or user may choose to use this windows features.
 
 * [https://tccontre.blogspot.com/2020/01/remcos-rat-evading-windows-defender-av.html](https://tccontre.blogspot.com/2020/01/remcos-rat-evading-windows-defender-av.html)
 * [https://app.any.run/tasks/cf1245de-06a7-4366-8209-8e3006f2bfe5/](https://app.any.run/tasks/cf1245de-06a7-4366-8209-8e3006f2bfe5/)
+* [https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/](https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/)
 
 
 

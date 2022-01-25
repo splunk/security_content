@@ -45,10 +45,15 @@ This analytic will detect a suspicious process that modify a registry related to
 
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_path = "*\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Exclusions\\*" by Registry.dest Registry.user Registry.registry_path Registry.registry_value_name Registry.registry_value_data 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_path = "*\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Exclusions\\*" by _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_value_name Registry.registry_value_data Registry.process_guid 
 | `drop_dm_object_name(Registry)` 
-| `security_content_ctime(lastTime)` 
-| `security_content_ctime(firstTime)` 
+|rename process_guid as proc_guid 
+|join proc_guid, _time [
+| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes by _time span=1h Processes.process_id Processes.process_name Processes.process Processes.dest Processes.parent_process_name Processes.parent_process Processes.process_guid 
+| `drop_dm_object_name(Processes)` 
+|rename process_guid as proc_guid 
+| fields _time dest user parent_process_name parent_process process_name process_path process proc_guid registry_path registry_value_name registry_value_data] 
+| table _time dest user parent_process_name parent_process process_name process_path process proc_guid registry_path registry_value_name registry_value_data 
 | `windows_defender_exclusion_registry_entry_filter`
 ```
 
@@ -91,6 +96,7 @@ admin or user may choose to use this windows features.
 
 * [https://tccontre.blogspot.com/2020/01/remcos-rat-evading-windows-defender-av.html](https://tccontre.blogspot.com/2020/01/remcos-rat-evading-windows-defender-av.html)
 * [https://app.any.run/tasks/cf1245de-06a7-4366-8209-8e3006f2bfe5/](https://app.any.run/tasks/cf1245de-06a7-4366-8209-8e3006f2bfe5/)
+* [https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/](https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/)
 
 
 

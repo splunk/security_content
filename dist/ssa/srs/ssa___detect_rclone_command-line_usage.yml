@@ -93,5 +93,15 @@ tags:
   risk_score: 35
   risk_severity: low
   security_domain: endpoint
+test:
+  name: Detect RClone Command-Line Usage Unit Test
+  tests:
+  - attack_data:
+    - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1020/windows-security.log
+      file_name: windows-security.log
+      source: WinEventLog:Security
+    file: endpoint/ssa___detect_rclone_command_line_usage.yml
+    name: Detect RClone Command-Line Usage
+    pass_condition: '@count_gt(0)'
 type: TTP
 version: 1

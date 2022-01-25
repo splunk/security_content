@@ -54,6 +54,7 @@ This analytic will detect a suspicious process commandline related to windows de
 #### Associated Analytic Story
 * [Remcos](/stories/remcos)
 * [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
+* [WhisperGate](/stories/whispergate)
 
 
 #### How To Implement
@@ -88,6 +89,7 @@ admin or user may choose to use this windows features.
 
 * [https://tccontre.blogspot.com/2020/01/remcos-rat-evading-windows-defender-av.html](https://tccontre.blogspot.com/2020/01/remcos-rat-evading-windows-defender-av.html)
 * [https://app.any.run/tasks/cf1245de-06a7-4366-8209-8e3006f2bfe5/](https://app.any.run/tasks/cf1245de-06a7-4366-8209-8e3006f2bfe5/)
+* [https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/](https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/)
 
 
 

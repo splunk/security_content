@@ -29,6 +29,7 @@ sidebar:
 | [HAFNIUM Group](/stories/hafnium_group/) | [Server Software Component](/tags/#server-software-component), [Web Shell](/tags/#web-shell) | [Persistence](/tags/#persistence) |
 | [Ingress Tool Transfer](/stories/ingress_tool_transfer/) | [Ingress Tool Transfer](/tags/#ingress-tool-transfer) | [Command And Control](/tags/#command-and-control) |
 | [Linux Persistence Techniques](/stories/linux_persistence_techniques/) | [Sudo and Sudo Caching](/tags/#sudo-and-sudo-caching), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism) | [Privilege Escalation](/tags/#privilege-escalation) |
+| [Linux Post-Exploitation](/stories/linux_post-exploitation/) | [Unsecured Credentials](/tags/#unsecured-credentials) | [Credential Access](/tags/#credential-access) |
 | [Linux Privilege Escalation](/stories/linux_privilege_escalation/) | [Sudo and Sudo Caching](/tags/#sudo-and-sudo-caching), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism) | [Privilege Escalation](/tags/#privilege-escalation) |
 | [Log4Shell CVE-2021-44228](/stories/log4shell_cve-2021-44228/) | [Exploit Public-Facing Application](/tags/#exploit-public-facing-application) | [Initial Access](/tags/#initial-access) |
 | [Malicious PowerShell](/stories/malicious_powershell/) | [Gather Victim Host Information](/tags/#gather-victim-host-information) | [Reconnaissance](/tags/#reconnaissance) |
