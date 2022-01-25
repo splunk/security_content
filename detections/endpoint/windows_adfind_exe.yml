@@ -58,3 +58,6 @@ tags:
   - Processes.process_id
   - Processes.parent_process_id
   security_domain: endpoint
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack

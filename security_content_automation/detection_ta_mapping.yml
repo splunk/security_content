@@ -1,0 +1,906 @@
+abnormally_high_number_of_cloud_infrastructure_api_calls:
+  cim_version: 5.0.0
+  supported_tas:
+  - Splunk_TA_aws-kinesis-firehose
+  tas_with_cim_mapping:
+  - Splunk_TA_citrix-netscaler
+  - Splunk_TA_nix
+  - Splunk_TA_rsa-securid
+  - Splunk_TA_aws-kinesis-firehose
+  - Splunk_TA_rsa_securid_cas
+  - Splunk_TA_ossec
+  - Splunk_TA_juniper
+  - splunk_ta_o365
+  - Splunk_TA_cyberark
+  - Splunk_TA_box
+  - Splunk_TA_cisco-asa
+  - Splunk_TA_infoblox
+  - Splunk_TA_salesforce
+abnormally_high_number_of_cloud_security_group_api_calls:
+  cim_version: 5.0.0
+  supported_tas:
+  - Splunk_TA_aws-kinesis-firehose
+  tas_with_cim_mapping:
+  - Splunk_TA_citrix-netscaler
+  - Splunk_TA_nix
+  - Splunk_TA_rsa-securid
+  - Splunk_TA_aws-kinesis-firehose
+  - Splunk_TA_rsa_securid_cas
+  - Splunk_TA_ossec
+  - Splunk_TA_juniper
+  - splunk_ta_o365
+  - Splunk_TA_cyberark
+  - Splunk_TA_box
+  - Splunk_TA_cisco-asa
+  - Splunk_TA_infoblox
+  - Splunk_TA_salesforce
+active_setup_registry_autostart:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+add_defaultuser_and_password_in_registr:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+allow_inbound_traffic_by_firewall_rule_registr:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+allow_operation_with_consent_admin:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+anomalous_usage_of_7zip:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+attacker_tools_on_endpoint:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_windows
+attempt_to_add_certificate_to_untrusted_store:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+auto_admin_logon_registry_entr:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+batch_file_write_to_system32:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_nix
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_windows
+  - Splunk_TA_CrowdStrike_FDR
+bcdedit_command_back_to_normal_mode_boot:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+bcdedit_failure_recovery_modification:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_CrowdStrike_FDR
+change_default_file_association:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+change_to_safe_mode_with_network_config:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+check_elevated_cmd_using_whoami:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+cloud_api_calls_from_previously_unseen_user_roles:
+  cim_version: 5.0.0
+  supported_tas:
+  - Splunk_TA_aws-kinesis-firehose
+  tas_with_cim_mapping:
+  - Splunk_TA_aws-kinesis-firehose
+  - Splunk_TA_rsa_securid_cas
+  - splunk_ta_o365
+  - Splunk_TA_box
+  - Splunk_TA_infoblox
+  - Splunk_TA_salesforce
+cloud_compute_instance_created_by_previously_unseen_user:
+  cim_version: 5.0.0
+  supported_tas:
+  - Splunk_TA_aws-kinesis-firehose
+  tas_with_cim_mapping:
+  - Splunk_TA_aws-kinesis-firehose
+cloud_compute_instance_created_in_previously_unused_region:
+  cim_version: 5.0.0
+  supported_tas:
+  - Splunk_TA_aws-kinesis-firehose
+  tas_with_cim_mapping:
+  - Splunk_TA_aws-kinesis-firehose
+cloud_compute_instance_created_with_previously_unseen_image:
+  cim_version: 5.0.0
+  supported_tas:
+  - Splunk_TA_aws-kinesis-firehose
+  tas_with_cim_mapping:
+  - Splunk_TA_aws-kinesis-firehose
+cloud_compute_instance_created_with_previously_unseen_instance_type:
+  cim_version: 5.0.0
+  supported_tas:
+  - Splunk_TA_aws-kinesis-firehose
+  tas_with_cim_mapping:
+  - Splunk_TA_aws-kinesis-firehose
+cloud_instance_modified_with_previously_unseen_user:
+  cim_version: 5.0.0
+  supported_tas:
+  - Splunk_TA_aws-kinesis-firehose
+  tas_with_cim_mapping:
+  - Splunk_TA_citrix-netscaler
+  - Splunk_TA_nix
+  - Splunk_TA_rsa-securid
+  - Splunk_TA_aws-kinesis-firehose
+  - Splunk_TA_rsa_securid_cas
+  - Splunk_TA_ossec
+  - Splunk_TA_juniper
+  - splunk_ta_o365
+  - Splunk_TA_cyberark
+  - Splunk_TA_box
+  - Splunk_TA_salesforce
+cloud_provisioning_from_previously_unseen_cit:
+  cim_version: 5.0.0
+  supported_tas:
+  - Splunk_TA_aws-kinesis-firehose
+  tas_with_cim_mapping:
+  - Splunk_TA_citrix-netscaler
+  - Splunk_TA_rsa-securid
+  - Splunk_TA_aws-kinesis-firehose
+  - Splunk_TA_rsa_securid_cas
+  - Splunk_TA_juniper
+  - splunk_ta_o365
+  - Splunk_TA_cyberark
+  - Splunk_TA_box
+  - Splunk_TA_cisco-asa
+  - Splunk_TA_infoblox
+  - Splunk_TA_salesforce
+cloud_provisioning_from_previously_unseen_countr:
+  cim_version: 5.0.0
+  supported_tas:
+  - Splunk_TA_aws-kinesis-firehose
+  tas_with_cim_mapping:
+  - Splunk_TA_citrix-netscaler
+  - Splunk_TA_rsa-securid
+  - Splunk_TA_aws-kinesis-firehose
+  - Splunk_TA_rsa_securid_cas
+  - Splunk_TA_juniper
+  - splunk_ta_o365
+  - Splunk_TA_cyberark
+  - Splunk_TA_box
+  - Splunk_TA_cisco-asa
+  - Splunk_TA_infoblox
+  - Splunk_TA_salesforce
+cloud_provisioning_from_previously_unseen_ip_address:
+  cim_version: 5.0.0
+  supported_tas:
+  - Splunk_TA_aws-kinesis-firehose
+  tas_with_cim_mapping:
+  - Splunk_TA_citrix-netscaler
+  - Splunk_TA_rsa-securid
+  - Splunk_TA_aws-kinesis-firehose
+  - Splunk_TA_rsa_securid_cas
+  - Splunk_TA_juniper
+  - splunk_ta_o365
+  - Splunk_TA_cyberark
+  - Splunk_TA_box
+  - Splunk_TA_salesforce
+cloud_provisioning_from_previously_unseen_region:
+  cim_version: 5.0.0
+  supported_tas:
+  - Splunk_TA_aws-kinesis-firehose
+  tas_with_cim_mapping:
+  - Splunk_TA_citrix-netscaler
+  - Splunk_TA_rsa-securid
+  - Splunk_TA_aws-kinesis-firehose
+  - Splunk_TA_rsa_securid_cas
+  - Splunk_TA_juniper
+  - splunk_ta_o365
+  - Splunk_TA_cyberark
+  - Splunk_TA_box
+  - Splunk_TA_cisco-asa
+  - Splunk_TA_infoblox
+  - Splunk_TA_salesforce
+curl_download_and_bash_execution:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+detect_exchange_web_she:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_CrowdStrike_FDR
+detect_regasm_spawning_a_process:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+detect_regsvcs_spawning_a_process:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+detect_sharphound_command_line_arguments:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+detect_use_of_cmd_exe_to_launch_script_interpreters:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+disable_amsi_through_registr:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+disable_etw_through_registr:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+disable_logs_using_wevtuti:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+disable_registry_too:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+disable_schedule_task:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_CrowdStrike_FDR
+disable_windows_app_hotkeys:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+disable_windows_behavior_monitoring:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+disabling_cmd_application:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+disabling_controlpane:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+disabling_folderoptions_windows_feature:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+disabling_norun_windows_app:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+disabling_systemrestore_in_registr:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+disabling_task_manager:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+dns_query_length_with_high_standard_deviation:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_isc-bind
+  - Splunk_TA_CrowdStrike_FDR
+  - Splunk_TA_infoblox
+domain_account_discovery_with_net_app:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+domain_account_discovery_with_wmic:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+dsquery_domain_discover:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_CrowdStrike_FDR
+dump_lsass_via_procdump:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_CrowdStrike_FDR
+enable_rdp_in_other_port_number:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+eventvwr_uac_bypass:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+excessive_attempt_to_disable_services:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_CrowdStrike_FDR
+excessive_number_of_distinct_processes_created_in_windows_temp_folder:
+  cim_version: 5.0.0
+  supported_tas:
+  - Splunk_TA_windows
+  tas_with_cim_mapping:
+  - Splunk_TA_nix
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_windows
+  - Splunk_TA_CrowdStrike_FDR
+  - Splunk_TA_cyberark_epm
+excessive_number_of_service_control_start_as_disabled:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+excessive_number_of_taskhost_processes:
+  cim_version: 5.0.0
+  supported_tas:
+  - Splunk_TA_windows
+  tas_with_cim_mapping:
+  - Splunk_TA_nix
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_windows
+  - Splunk_TA_CrowdStrike_FDR
+excessive_usage_of_cacls_app:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_CrowdStrike_FDR
+excessive_usage_of_taskki:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_CrowdStrike_FDR
+executables_or_script_creation_in_suspicious_path:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_CrowdStrike_FDR
+execute_javascript_with_jscript_com_clsid:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+execution_of_file_with_multiple_extensions:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_windows
+file_with_samsam_extension:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_nix
+  - Splunk_TA_bit9-carbonblack
+  - splunk_ta_o365
+  - Splunk_TA_sophos
+  - Splunk_TA_cyberark
+  - Splunk_TA_windows
+  - Splunk_TA_CrowdStrike_FDR
+firewall_allowed_program_enable:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+fodhelper_uac_bypass:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+fsutil_zeroing_file:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+get_aduserresultantpasswordpolicy_with_powershe:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+get_domainpolicy_with_powershe:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+get_domainuser_with_powershe:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+getwmiobject_ds_user_with_powershe:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+hide_user_account_from_sign_in_screen:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+hiding_files_and_directories_with_attrib_exe:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_windows
+icacls_deny_command:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_CrowdStrike_FDR
+icacls_grant_command:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_CrowdStrike_FDR
+inux_add_files_in_known_crontab_directories:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+inux_at_allow_config_file_creation:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+inux_at_application_execution:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_CrowdStrike_FDR
+inux_change_file_owner_to_root:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_CrowdStrike_FDR
+inux_doas_conf_file_creation:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+inux_doas_tool_execution:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_CrowdStrike_FDR
+inux_file_created_in_kernel_driver_director:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+inux_file_creation_in_init_boot_director:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+inux_file_creation_in_profile_director:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+inux_insert_kernel_module_using_insmod_utilit:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_CrowdStrike_FDR
+inux_install_kernel_module_using_modprobe_utilit:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_CrowdStrike_FDR
+inux_nopasswd_entry_in_sudoers_file:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_CrowdStrike_FDR
+inux_possible_access_or_modification_of_sshd_config_file:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_CrowdStrike_FDR
+inux_possible_access_to_credential_files:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_CrowdStrike_FDR
+inux_possible_access_to_sudoers_file:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_CrowdStrike_FDR
+inux_possible_append_command_to_at_allow_config_file:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_CrowdStrike_FDR
+inux_possible_append_command_to_profile_config_file:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_CrowdStrike_FDR
+inux_possible_ssh_key_file_creation:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+inux_preload_hijack_library_calls:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_CrowdStrike_FDR
+inux_service_file_created_in_systemd_director:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+inux_service_restarted:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_CrowdStrike_FDR
+inux_service_started_or_enabled:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_CrowdStrike_FDR
+inux_setuid_using_chmod_utilit:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_CrowdStrike_FDR
+inux_setuid_using_setcap_utilit:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_CrowdStrike_FDR
+inux_sudoers_tmp_file_creation:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+inux_visudo_utility_execution:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_CrowdStrike_FDR
+java_class_file_download_by_java_user_agent:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_citrix-netscaler
+  - Splunk_TA_nginx
+  - Splunk_TA_microsoft-iis
+  - Splunk_TA_websense-cg
+  - Splunk_TA_squid
+  - Splunk_TA_haproxy
+  - Splunk_TA_mcafee-wg
+  - Splunk_TA_cisco-wsa
+jscript_execution_using_cscript_app:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+net_profiler_uac_bypass:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+nltest_domain_trust_discover:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+ntdsutil_export_ntds:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+odify_acl_permission_to_files_or_folder:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_CrowdStrike_FDR
+ogon_script_event_trigger_execution:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+overwriting_accessibility_binaries:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_nix
+  - Splunk_TA_ossec
+  - Splunk_TA_bit9-carbonblack
+  - splunk_ta_o365
+  - Splunk_TA_sophos
+  - Splunk_TA_cyberark
+  - Splunk_TA_windows
+  - Splunk_TA_CrowdStrike_FDR
+permission_modification_using_takeown_app:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+powershell_execute_com_object:
+  cim_version: 5.0.0
+  supported_tas:
+  - Splunk_TA_windows
+  tas_with_cim_mapping:
+  - Splunk_TA_microsoft-cloudservices
+  - Splunk_TA_cisco-ucs
+  - Splunk_TA_citrix-netscaler
+  - Splunk_TA_nix
+  - Splunk_TA_nginx
+  - Splunk_TA_microsoft-iis
+  - Splunk_TA_microsoft-sqlserver
+  - Splunk_TA_rsa-securid
+  - Splunk_TA_remedy
+  - Splunk_TA_bluecoat-proxysg
+  - Splunk_TA_aws-kinesis-firehose
+  - Splunk_TA_rsa_securid_cas
+  - Splunk_TA_jboss
+  - Splunk_TA_websense-cg
+  - Splunk_TA_ossec
+  - Splunk_TA_bromium
+  - Splunk_TA_nagios-core
+  - Splunk_TA_isc-bind
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_snow
+  - Splunk_TA_squid
+  - Splunk_TA_apache
+  - Splunk_TA_imperva-waf
+  - Splunk_TA_juniper
+  - Splunk_TA_cisco-esa
+  - Splunk_TA_microsoft_sysmon
+  - Splunk_TA_cisco-ise
+  - splunk_ta_o365
+  - Splunk_TA_f5-bigip
+  - Splunk_TA_symantec-ep
+  - Splunk_TA_google-cloudplatform
+  - Splunk_TA_sophos
+  - Splunk_TA_mcafee_epo_syslog
+  - Splunk_TA_haproxy
+  - Splunk_TA_tomcat
+  - Splunk_TA_jmx
+  - Splunk_TA_cyberark
+  - Splunk_TA_symantec-dlp
+  - Splunk_TA_ibm-was
+  - Splunk_TA_microsoft-hyperv
+  - Splunk_TA_windows
+  - Splunk_TA_stream_wire_data
+  - Splunk_TA_mcafee-wg
+  - Splunk_TA_isc-dhcp
+  - Splunk_TA_websense-dlp
+  - Splunk_TA_box
+  - Splunk_TA_microsoft-scom
+  - Splunk_TA_CrowdStrike_FDR
+  - Splunk_TA_rsa-dlp
+  - Splunk_TA_cisco-wsa
+  - Splunk_TA_mysql
+  - Splunk_TA_cisco-asa
+  - Splunk_TA_infoblox
+  - Splunk_TA_salesforce
+  - Splunk_TA_cyberark_epm
+  - Splunk_TA_linux
+  - Splunk_TA_oracle
+prevent_automatic_repair_mode_using_bcdedit:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+print_processor_registry_autostart:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+process_creating_lnk_file_in_suspicious_location:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_CrowdStrike_FDR
+process_execution_via_wmi:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_CrowdStrike_FDR
+processes_launching_netsh:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+reg_exe_manipulating_windows_services_registry_keys:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_CrowdStrike_FDR
+registry_keys_used_for_persistence:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+remote_wmi_command_attempt:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+resize_shadowstorage_volume:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_CrowdStrike_FDR
+revil_common_exec_parameter:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+revil_registry_entr:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+ryuk_wake_on_lan_command:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+samsam_test_file_write:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_nix
+  - Splunk_TA_bit9-carbonblack
+  - splunk_ta_o365
+  - Splunk_TA_sophos
+  - Splunk_TA_cyberark
+  - Splunk_TA_windows
+  - Splunk_TA_CrowdStrike_FDR
+sc_exe_manipulating_windows_services:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_CrowdStrike_FDR
+scheduled_task_deleted_or_created_via_cmd:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+schtasks_run_task_on_demand:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_CrowdStrike_FDR
+schtasks_scheduling_job_on_remote_syste:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_CrowdStrike_FDR
+schtasks_used_for_forcing_a_reboot:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_CrowdStrike_FDR
+screensaver_event_trigger_execution:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+script_execution_via_wmi:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_nix
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_windows
+  - Splunk_TA_CrowdStrike_FDR
+  - Splunk_TA_cyberark_epm
+sdclt_uac_bypass:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+secretdumps_offline_ntds_dumping_too:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+services_escalate_exe:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+set_default_powershell_execution_policy_to_unrestricted_or_bypass:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+shim_database_installation_with_suspicious_parameters:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_CrowdStrike_FDR
+short_lived_windows_accounts:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_microsoft-cloudservices
+  - Splunk_TA_rsa-securid
+  - Splunk_TA_aws-kinesis-firehose
+  - Splunk_TA_cyberark
+silentcleanup_uac_bypass:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+single_letter_process_on_endpoint:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_nix
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_windows
+  - Splunk_TA_CrowdStrike_FDR
+  - Splunk_TA_cyberark_epm
+slui_runas_elevated:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+slui_spawning_a_process:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+smpeng_application_dll_side_loading:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_CrowdStrike_FDR
+spoolsv_writing_a_d:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_nix
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_windows
+  - Splunk_TA_CrowdStrike_FDR
+start_up_during_safe_mode_boot:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+suspicious_mshta_child_process:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+suspicious_process_file_path:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+suspicious_reg_exe_process:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_CrowdStrike_FDR
+suspicious_scheduled_task_from_public_director:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+suspicious_wevtutil_usage:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_CrowdStrike_FDR
+system_information_discovery_detection:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_nix
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_windows
+  - Splunk_TA_CrowdStrike_FDR
+  - Splunk_TA_cyberark_epm
+system_processes_run_from_unexpected_locations:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_CrowdStrike_FDR
+time_provider_persistence_registr:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+unified_messaging_service_spawning_a_process:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+uninstall_app_using_msiexec:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+unload_sysmon_filter_driver:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_CrowdStrike_FDR
+usn_journal_deletion:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+wbadmin_delete_system_backups:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_CrowdStrike_FDR
+wget_download_and_bash_execution:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+windows_adfind_exe:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+windows_disableantispyware_reg:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+wsreset_uac_bypass:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+xsl_script_execution_with_wmic:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack

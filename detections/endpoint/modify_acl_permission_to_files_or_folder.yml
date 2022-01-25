@@ -62,3 +62,7 @@ tags:
   - Processes.process_id
   risk_score: 32
   security_domain: endpoint
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_CrowdStrike_FDR

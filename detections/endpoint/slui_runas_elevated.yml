@@ -72,3 +72,6 @@ tags:
   - Processes.parent_process_id
   risk_score: 63
   security_domain: endpoint
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack

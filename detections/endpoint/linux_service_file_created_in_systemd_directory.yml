@@ -75,3 +75,6 @@ tags:
   - Filesystem.file_path
   risk_score: 64
   security_domain: endpoint
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
