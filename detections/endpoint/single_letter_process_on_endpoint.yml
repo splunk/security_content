@@ -66,3 +66,6 @@ tags:
   - Processes.process_name
   risk_score: 63
   security_domain: endpoint
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_cyberark_epm

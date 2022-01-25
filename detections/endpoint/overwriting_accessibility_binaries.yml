@@ -69,3 +69,8 @@ tags:
   - Filesystem.dest
   risk_score: 72
   security_domain: endpoint
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_nix
+  - Splunk_TA_ossec
+  - splunk_ta_o365

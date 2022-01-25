@@ -1,0 +1,90 @@
+abnormally_high_number_of_cloud_infrastructure_api_calls:
+  cim_version: 5.0.0
+  supported_tas:
+  - Splunk_TA_aws-kinesis-firehose
+  tas_with_cim_mapping:
+  - Splunk_TA_aws-kinesis-firehose
+  - Splunk_TA_rsa_securid_cas
+  - Splunk_TA_cyberark
+  - Splunk_TA_box
+  - Splunk_TA_infoblox
+  - Splunk_TA_salesforce
+abnormally_high_number_of_cloud_security_group_api_calls:
+  cim_version: 5.0.0
+  supported_tas:
+  - Splunk_TA_aws-kinesis-firehose
+  tas_with_cim_mapping:
+  - Splunk_TA_aws-kinesis-firehose
+  - Splunk_TA_infoblox
+  - Splunk_TA_salesforce
+cloud_api_calls_from_previously_unseen_user_roles:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_infoblox
+  - Splunk_TA_salesforce
+cloud_instance_modified_with_previously_unseen_user:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_salesforce
+cloud_provisioning_from_previously_unseen_cit:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_box
+  - Splunk_TA_salesforce
+cloud_provisioning_from_previously_unseen_countr:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_box
+  - Splunk_TA_salesforce
+cloud_provisioning_from_previously_unseen_ip_address:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_salesforce
+cloud_provisioning_from_previously_unseen_region:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_box
+  - Splunk_TA_salesforce
+dns_query_length_with_high_standard_deviation:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_isc-bind
+  - Splunk_TA_CrowdStrike_FDR
+  - Splunk_TA_infoblox
+excessive_number_of_distinct_processes_created_in_windows_temp_folder:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_cyberark_epm
+file_with_samsam_extension:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - splunk_ta_o365
+java_class_file_download_by_java_user_agent:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_nginx
+  - Splunk_TA_microsoft-iis
+  - Splunk_TA_haproxy
+  - Splunk_TA_mcafee-wg
+overwriting_accessibility_binaries:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_nix
+  - Splunk_TA_ossec
+  - splunk_ta_o365
+samsam_test_file_write:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - splunk_ta_o365
+script_execution_via_wmi:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_cyberark_epm
+single_letter_process_on_endpoint:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_cyberark_epm
+system_information_discovery_detection:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_cyberark_epm

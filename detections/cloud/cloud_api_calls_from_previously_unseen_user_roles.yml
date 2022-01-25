@@ -68,3 +68,7 @@ tags:
   - All_Changes.object
   risk_score: 36
   security_domain: threat
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_infoblox
+  - Splunk_TA_salesforce

@@ -69,3 +69,6 @@ tags:
   - Filesystem.file_name
   risk_score: 90
   security_domain: endpoint
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - splunk_ta_o365
