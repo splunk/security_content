@@ -33,7 +33,7 @@ tags:
   kill_chain_phases:
   - Exploitation
   - Privilege Escalation
-  message: LinPEAS post exploitation tool detected
+  message: LinPEAS post exploitation tool detected on $dest$
   mitre_attack_id:
   - T1082
   - T1083
@@ -44,7 +44,7 @@ tags:
   - T1518
   - T1033
   observable:
-  - name: Computer
+  - name: dest
     type: Endpoint
     role:
     - Victim
@@ -54,10 +54,14 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Computer
-  - CommandLine
+  - dest
   - user
-  - parent_process_exec
-  - process_path
+  - process
+  - parent_process_name
+  - user 
+  - process_name
+  - process_id 
+  - parent_process_id 
+  - process_guid
   risk_score: 90
   security_domain: endpoint

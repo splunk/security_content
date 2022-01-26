@@ -36,7 +36,7 @@ tags:
   impact: 50
   kill_chain_phases:
   - Privilege Escalation
-  message: LinEnum post exploitation tool detected
+  message: LinEnum post exploitation tool detectedonn $dest$
   mitre_attack_id:
   - T1087
   - T1069
@@ -47,7 +47,7 @@ tags:
   - T1016
   - T1033
   observable:
-  - name: Computer
+  - name: dest
     type: Endpoint
     role:
     - Victim
@@ -57,9 +57,14 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - CommandLine
+  - dest
   - user
-  - process_exec
-  - process_current_directory
+  - process
+  - parent_process_name
+  - user 
+  - process_name
+  - process_id 
+  - parent_process_id 
+  - process_guid
   risk_score: 45
   security_domain: endpoint
