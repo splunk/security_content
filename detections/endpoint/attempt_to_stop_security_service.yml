@@ -25,10 +25,12 @@ known_false_positives: None identified. Attempts to disable security-related ser
   should be identified and understood.
 references:
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md#atomic-test-14---disable-arbitrary-security-windows-service
+- https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
 tags:
   analytic_story:
   - Disabling Security Tools
   - Trickbot
+  - WhisperGate
   asset_type: Endpoint
   automated_detection_testing: passed
   cis20:
