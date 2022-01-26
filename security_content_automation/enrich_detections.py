@@ -65,9 +65,6 @@ def map_required_fields(cim_summary, datamodel, required_fields):
                         cim_fields = e_type.get("fields", [])
                         if set(datasets_fields[dataset]).issubset(set(cim_fields)):
                             add_addon = True
-                        else:
-                            add_addon = False
-                            return add_addon
 
     return add_addon
 

@@ -1,0 +1,63 @@
+name: Detect LinEnum execution
+id: 570e5278-5479-11ec-89c8-acde48001122
+version: 1
+date: '2021-12-03'
+author: Rod Soto
+type: TTP
+datamodel:
+- Endpoint
+description: LinEnum is a bash script that performs discovery commands for accounts,
+  processes, kernel version, applications, services, and uses the information from
+  these commands to present operator with ways of escalating privileges or further
+  exploitation of targeted host.
+search: ' `sysmon_linux` CommandLine="grep -w aria2c\\|arp\\|ash\\|awk\\|base64\\|bash\\|busybox\\|cat\\|chmod\\|chown\\|cp\\|csh\\|curl\\|cut\\|dash\\|date\\|dd\\|diff\\|dmsetup\\|docker\\|ed\\|emacs\\|env\\|expand\\|expect\\|file\\|find\\|flock\\|fmt\\|fold\\|ftp\\|gawk\\|gdb\\|gimp\\|git\\|grep\\|head\\|ht\\|iftop\\|ionice\\|ip$\\|irb\\|jjs\\|jq\\|jrunscript\\|ksh\\|ld.so\\|ldconfig\\|less\\|logsave\\|lua\\|make\\|man\\|mawk\\|more\\|mv\\|mysql\\|nano\\|nawk\\|nc\\|netcat\\|nice\\|nl\\|nmap\\|node\\|od\\|openssl\\|perl\\|pg\\|php\\|pic\\|pico\\|python\\|readelf\\|rlwrap\\|rpm\\|rpmquery\\|rsync\\|ruby\\|run-parts\\|rvim\\|scp\\|script\\|sed\\|setarch\\|sftp\\|sh\\|shuf\\|socat\\|sort\\|sqlite3\\|ssh$\\|start-stop-daemon\\|stdbuf\\|strace\\|systemctl\\|tail\\|tar\\|taskset\\|tclsh\\|tee\\|telnet\\|tftp\\|time\\|timeout\\|ul\\|unexpand\\|uniq\\|unshare\\|vi\\|vim\\|watch\\|wget\\|wish\\|xargs\\|xxd\\|zip\\|zsh"
+  | stats count by Computer CommandLine user process_exec process_current_directory
+  | `detect_linenum_execution_filter` '
+how_to_implement: This detection search is based on Splunk add-on for Microsoft Sysmon-Linux.
+  Need to install this add-on to parse fields correctly and execute detection search.
+known_false_positives: Very rare to perform such an extensive grep on a system, however
+  certain monitoring tools can produce similar results. It is important if monitoring
+  tools are in place to verify what is the actual process directory of execution.
+references:
+- https://github.com/rebootuser/LinEnum
+- https://book.hacktricks.xyz/linux-unix/linux-privilege-escalation-checklist
+tags:
+  analytic_story:
+  - Linux Post-Exploitation
+  automated_detection_testing: passed
+  confidence: 90
+  context:
+  - Source: endpoint
+  - Stage: discovery
+  dataset:
+  - https://github.com/splunk/attack_data/raw/master/datasets/suspicious_behaviour/linux_post_exploitation/LinuxEnumd.txt
+  impact: 50
+  kill_chain_phases:
+  - Privilege Escalation
+  message: LinEnum post exploitation tool detected
+  mitre_attack_id:
+  - T1087
+  - T1069
+  - T1083
+  - T1057
+  - T1518
+  - T1082
+  - T1016
+  - T1033
+  observable:
+  - name: Computer
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - CommandLine
+  - user
+  - process_exec
+  - process_current_directory
+  risk_score: 45
+  security_domain: endpoint
