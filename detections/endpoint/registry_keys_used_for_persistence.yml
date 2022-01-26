@@ -1,6 +1,6 @@
 name: Registry Keys Used For Persistence
 id: f5f6af30-7aa7-4295-bfe9-07fe87c01a4b
-version: 6
+version: 7
 date: '2021-09-07'
 author: Jose Hernandez, David Dorsey, Teoderick Contreras, Splunk
 type: TTP
