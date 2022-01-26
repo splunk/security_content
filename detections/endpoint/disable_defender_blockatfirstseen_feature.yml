@@ -1,7 +1,7 @@
 name: Disable Defender BlockAtFirstSeen Feature
 id: 2dd719ac-3021-11ec-97b4-acde48001122
 version: 2
-date: '2022-01-26'
+date: '2021-10-18'
 author: Teoderick Contreras
 type: TTP
 datamodel:
