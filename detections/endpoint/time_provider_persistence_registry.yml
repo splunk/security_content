@@ -1,6 +1,6 @@
 name: Time Provider Persistence Registry
 id: 5ba382c4-2105-11ec-8d8f-acde48001122
-version: 1
+version: 2
 date: '2021-09-29'
 author: Teoderick Contreras, Splunk
 type: TTP
