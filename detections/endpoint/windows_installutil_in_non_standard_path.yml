@@ -26,7 +26,6 @@ tags:
   - Ransomware
   - Signed Binary Proxy Execution InstallUtil
   - WhisperGate
-  dataset: []
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:

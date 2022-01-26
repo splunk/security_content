@@ -25,7 +25,6 @@ tags:
   - Unusual Processes
   - Ransomware
   - WhisperGate
-  dataset: []
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
