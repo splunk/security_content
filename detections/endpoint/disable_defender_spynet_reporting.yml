@@ -1,7 +1,7 @@
 name: Disable Defender Spynet Reporting
 id: 898debf4-3021-11ec-ba7c-acde48001122
 version: 2
-date: '2021-10-18'
+date: '2021-01-26'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
