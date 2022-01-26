@@ -70,3 +70,6 @@ tags:
     type: Process
     role:
     - Child Process
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1588.002/atomic_red_team/windows-sysmon.log
+  automated_detection_testing: passed
