@@ -1,0 +1,9 @@
+<panel>
+  <table>
+    <search>
+      <query>| search sourcetype=stream:http | search src_ip=$src_ip$ | search dest_ip=$dest_ip$ | eval cs_content_type_length = len(cs_content_type) | search cs_content_type_length &gt; 100 | rex field="cs_content_type" (?&lt;suspicious_strings&gt;cmd.exe) | eval suspicious_strings_found=if(match(cs_content_type, "application"), "True", "False")  | rename suspicious_strings_found AS "Suspicious Content-Type Found" | fields "Suspicious Content-Type Found", dest_ip, src_ip, suspicious_strings, cs_content_type, cs_content_type_length, url</query>
+    </search>
+    <option name="drilldown">cell</option>
+    <option name="wrap">false</option>
+  </table>
+</panel>

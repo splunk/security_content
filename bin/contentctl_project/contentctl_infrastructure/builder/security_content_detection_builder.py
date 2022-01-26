@@ -100,8 +100,8 @@ class SecurityContentDetectionBuilder(DetectionBuilder):
         mappings = {}
         for key in keys:
             if key == 'mitre_attack':
-                key = 'mitre_attack_id'
-            if getattr(self.security_content_obj.tags, key):
+                mappings[key] = getattr(self.security_content_obj.tags, 'mitre_attack_id')
+            elif getattr(self.security_content_obj.tags, key):
                 mappings[key] = getattr(self.security_content_obj.tags, key)
         self.security_content_obj.mappings = mappings
 
@@ -112,7 +112,7 @@ class SecurityContentDetectionBuilder(DetectionBuilder):
             'analytic_story', 'observable', 'context', 'impact', 'confidence', 'cve']
         for key in annotation_keys:
             if key == 'mitre_attack':
-                key = 'mitre_attack_id'
+                annotations[key] = getattr(self.security_content_obj.tags, 'mitre_attack_id')
             try:
                 if getattr(self.security_content_obj.tags, key):
                     annotations[key] = getattr(self.security_content_obj.tags, key)

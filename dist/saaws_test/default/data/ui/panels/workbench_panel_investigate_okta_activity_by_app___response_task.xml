@@ -1,0 +1,9 @@
+<panel>
+  <table>
+    <search>
+      <query>eventtype=okta_log app=$app$ | rename client.geographicalContext.country as country, client.geographicalContext.state as state, client.geographicalContext.city as city | table _time, user, displayMessage, app, src_ip, state, city, result, outcome.reason</query>
+    </search>
+    <option name="drilldown">cell</option>
+    <option name="wrap">false</option>
+  </table>
+</panel>

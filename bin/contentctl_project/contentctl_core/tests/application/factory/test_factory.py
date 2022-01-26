@@ -33,4 +33,3 @@ def test_factory_ESCU():
     factory = Factory(output_dto)
     factory.execute(input_dto)
 
-    print(len(output_dto.detections))
