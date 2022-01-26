@@ -175,14 +175,14 @@ def main(args):
 
     # # validate arguments
     validate_parser.add_argument("-pr", "--product", required=True, type=str,
-                                        help="Type of package to create, choose between `ESCU`, `SAAWS`, or `SSA`.")
+                                        help="Type of package to create, choose between `ESCU`, `SAAWS`, or `BA`.")
     validate_parser.set_defaults(func=validate, epilog="""
                 Validates security manifest for correctness, adhering to spec and other common items.""")
 
     generate_parser.add_argument("-o", "--output", required=True, type=str,
                                         help="Path where to store the deployment package")
     generate_parser.add_argument("-pr", "--product", required=True, type=str,
-                                        help="Type of package to create, choose between `ESCU`, `SAAWS`, or `SSA`.")
+                                        help="Type of package to create, choose between `ESCU`, `SAAWS`, or `BA`.")
     generate_parser.set_defaults(func=generate)
     
     content_changer_parser.add_argument("-cf", "--change_function", required=True, type=str,
