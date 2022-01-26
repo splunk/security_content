@@ -6,10 +6,27 @@ author: Michael Hart, Splunk
 type: Anomaly
 datamodel:
 - Endpoint
-description: The following analytic uses a pretrained machine learning text classifier to detect potentially malicious commandlines.  The model identifies unusual combinations of keywords found in samples of commandlines where adversaries executed code, primarily for C2 communication.  These combinations of keywords are not typically found in normal usage of the commandline.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel="Endpoint.Processes" by Processes.parent_process_name Processes.process_name Processes.process Processes.user Processes.dest  | `drop_dm_object_name(Processes)`  | where len(process) > 200 | `potentially_malicious_code_on_cmdline_tokenize_score` | where score > 1.0 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `potentially_malicious_code_on_commandline_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.  You will also need to install the Machine Learning Toolkit to apply the pretrained model.
-known_false_positives: This model is an anomaly detector that identifies usage of APIs and scripting constructs that are correllated with malicious activity.  These APIs and scripting constructs are part of the programming langauge and advanced scripts may generate false positives.
+description: The following analytic uses a pretrained machine learning text classifier
+  to detect potentially malicious commandlines.  The model identifies unusual
+  combinations of keywords found in samples of commandlines where adversaries executed
+  code, primarily for C2 communication.  These combinations of keywords are not
+  typically found in normal usage of the commandline.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
+  max(_time) as lastTime from datamodel="Endpoint.Processes" by
+  Processes.parent_process_name Processes.process_name Processes.process
+  Processes.user Processes.dest  | `drop_dm_object_name(Processes)`  | where
+  len(process) > 200 | `potentially_malicious_code_on_cmdline_tokenize_score` |
+  where score > 1.0 | `security_content_ctime(firstTime)` |
+  `security_content_ctime(lastTime)` | `potentially_malicious_code_on_commandline_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting logs
+  with the process name, parent process, and command-line executions from your endpoints.
+  If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.  You
+  will also need to install the Machine Learning Toolkit version 5.3 or above to apply
+  the pretrained model.
+known_false_positives: This model is an anomaly detector that identifies usage of APIs
+  and scripting constructs that are correllated with malicious activity.  These APIs and
+  scripting constructs are part of the programming langauge and advanced scripts may
+  generate false positives.
 references: []
 tags:
   analytic_story:
