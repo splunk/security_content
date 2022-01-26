@@ -2,15 +2,15 @@ name: Detect LinPeas Execution
 id: 4ea6fa10-547c-11ec-a4f9-acde48001122
 version: 1
 date: '2021-12-03'
-author: Rod Soto
+author: Rod Soto, Eric McGinnis
 type: TTP
 datamodel:
 - Endpoint
 description: Linux local Privilege Escalation Awesome Script (linPEAS) is a script
   that searches for possible paths to escalate privileges.
-search: ' `sysmon_linux` CommandLine!=null parent_process_exec=sudo OR parent_process_exec=bash
-  OR CommandLine="cve-list" | stats count by Computer CommandLine user parent_process_exec
-  process_path | `detect_linpeas_execution_filter`'
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.process= "grep -Ev ._history.|.bashrc|.bluemix|.cer|.cloudflared|.crt|.csr|.db|.der|.env|.erlang.cookie|.ftpconfig|.git|.git-credentials|.gitconfig|.github|.gnupg|.google_authenticator|.gpg|.htpasswd|.irssi|.jks|.k5login|.kdbx|.key|.keyring|.keystore|.ldaprc|.lesshst|.mozilla|.msmtprc|.ovpn|.p12|.pem|.pfx|.pgp|.plan|.profile|.pypirc|.rdg|.recently-used.xbel|.rhosts|.secrets.mkey|.service|.socket|.sqlite|.sqlite3|.sudo_as_admin_successful|.svn|.swp|.timer|.vault-token|.viminfo|.vnc|.wgetrc" OR Processes.process="find /var/log/ /private/var/log -type f -exec grep -R -a -E -o (25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?) {} ;" by Processes.dest Processes.user Processes.parent_process_name Processes.process_name
+  Processes.process Processes.process_id Processes.parent_process_id Processes.process_guid| `drop_dm_object_name(Processes)`| `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| `detect_linpeas_execution_filter`'
 how_to_implement: This detection search is based on Splunk add-on for Microsoft Sysmon-Linux.
   Need to install this add-on to parse fields correctly and execute detection search.
 known_false_positives: This search may produce false positives as it will display

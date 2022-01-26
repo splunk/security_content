@@ -8,9 +8,10 @@ datamodel:
 - Endpoint
 description: MimiPenguin is a tool that dumps login passwords from current linux destop
   users. This search detects execution of this tool.
-search: ' `sysmon_linux` CommandLine="strings -e /etc/apache2/apache2.conf" OR CommandLine="strings
-  -e /etc/ssh/sshd_config" OR CommandLine="strings -e /etc/shadow"  | stats count
-  by Computer parent_process process_current_directory user CommandLine | `detect_mimipenguin_filter`'
+search: ' | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.process="strings -e /etc/apache2/apache2.conf" OR Processes.process="strings -e /etc/ssh/sshd_config" OR Processes.process="strings -e /etc/shadow" by Processes.dest 
+  Processes.user Processes.parent_process_name Processes.process_name Processes.process Processes.process_id Processes.parent_process_id Processes.process_guid | `drop_dm_object_name(Processes)` 
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `detect_mimipenguin_filter`'
 how_to_implement: This detection search is based on Splunk add-on for Microsoft Sysmon-Linux.
   Need to install this add-on to parse fields correctly and execute detection search.
 known_false_positives: Some of these commands may be executed by sysadmin however
