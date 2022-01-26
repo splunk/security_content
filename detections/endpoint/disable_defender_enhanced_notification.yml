@@ -1,7 +1,7 @@
 name: Disable Defender Enhanced Notification
 id: dc65678c-301f-11ec-8e30-acde48001122
 version: 2
-date: '2021-01-26'
+date: '2022-01-26'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
