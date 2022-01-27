@@ -29,7 +29,6 @@ references:
 tags:
   analytic_story:
   - Cobalt Strike
-  automated_detection_testing: passed
   confidence: 80
   context:
   - Source:Endpoint

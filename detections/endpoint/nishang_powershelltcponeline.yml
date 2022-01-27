@@ -33,7 +33,6 @@ references:
 tags:
   analytic_story:
   - HAFNIUM Group
-  automated_detection_testing: passed
   confidence: 60
   context:
   - Source:Endpoint

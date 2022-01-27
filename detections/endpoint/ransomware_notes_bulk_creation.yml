@@ -29,7 +29,6 @@ tags:
   - Clop Ransomware
   - DarkSide Ransomware
   - BlackMatter Ransomware
-  automated_detection_testing: passed
   confidence: 90
   context:
   - Source:Endpoint

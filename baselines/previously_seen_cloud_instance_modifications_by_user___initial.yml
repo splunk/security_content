@@ -25,7 +25,6 @@ tags:
   detections:
   - Cloud Instance Modified By Previously Unseen User
   product:
-  - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud

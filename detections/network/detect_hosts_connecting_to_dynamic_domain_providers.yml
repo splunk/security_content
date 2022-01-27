@@ -53,7 +53,6 @@ tags:
   - Dynamic DNS
   - Command and Control
   asset_type: Endpoint
-  automated_detection_testing: passed
   cis20:
   - CIS 8
   - CIS 12

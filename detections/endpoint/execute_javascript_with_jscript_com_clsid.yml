@@ -25,7 +25,6 @@ references:
 tags:
   analytic_story:
   - Ransomware
-  automated_detection_testing: passed
   confidence: 70
   context:
   - Source:Endpoint

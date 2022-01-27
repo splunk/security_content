@@ -35,7 +35,6 @@ tags:
   analytic_story:
   - XMRig
   - Remcos
-  automated_detection_testing: passed
   confidence: 70
   context:
   - Source:Endpoint

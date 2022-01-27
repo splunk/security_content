@@ -34,7 +34,6 @@ tags:
   - Windows Defense Evasion Tactics
   - Ransomware
   - Revil Ransomware
-  automated_detection_testing: passed
   confidence: 100
   context:
   - Source:Endpoint

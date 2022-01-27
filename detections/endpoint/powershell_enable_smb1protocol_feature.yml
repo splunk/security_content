@@ -24,7 +24,6 @@ tags:
   analytic_story:
   - Malicious PowerShell
   - Ransomware
-  automated_detection_testing: passed
   context:
   - Source:Endpoint
   - Stage:Defense Evasion
@@ -40,7 +39,7 @@ tags:
   - name: User
     type: User
     role:
-    - Victim 
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

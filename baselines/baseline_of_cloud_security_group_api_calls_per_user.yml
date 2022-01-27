@@ -38,7 +38,6 @@ tags:
   detections:
   - Abnormally High Number Of Cloud Security Group API Calls
   product:
-  - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud

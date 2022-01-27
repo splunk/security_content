@@ -74,7 +74,6 @@ tags:
   analytic_story:
   - Log4Shell CVE-2021-44228
   asset_type: Web Server
-  automated_detection_testing: passed
   confidence: 50
   context:
   - Scope:Network

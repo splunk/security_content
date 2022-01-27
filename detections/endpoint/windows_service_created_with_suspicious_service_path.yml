@@ -29,7 +29,6 @@ tags:
   analytic_story:
   - Clop Ransomware
   - Active Directory Lateral Movement
-  automated_detection_testing: passed
   confidence: 80
   context:
   - Source:Endpoint

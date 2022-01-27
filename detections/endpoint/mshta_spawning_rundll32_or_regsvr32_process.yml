@@ -29,7 +29,6 @@ tags:
   analytic_story:
   - Trickbot
   - IcedID
-  automated_detection_testing: passed
   confidence: 80
   context:
   - Source:Endpoint

@@ -32,7 +32,6 @@ references:
 tags:
   analytic_story:
   - Information Sabotage
-  automated_detection_testing: passed
   confidence: 30
   context:
   - Source:Endpoint

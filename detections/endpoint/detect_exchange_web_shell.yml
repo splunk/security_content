@@ -51,7 +51,6 @@ tags:
   analytic_story:
   - HAFNIUM Group
   - ProxyShell
-  automated_detection_testing: passed
   confidence: 90
   context:
   - Source:Endpoint

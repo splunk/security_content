@@ -23,7 +23,6 @@ tags:
   - Office 365 Detections
   - Data Exfiltration
   asset_type: Office 365
-  automated_detection_testing: passed
   confidence: 60
   context:
   - Source:Cloud Data
@@ -45,7 +44,6 @@ tags:
     role:
     - Attacker
   product:
-  - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud

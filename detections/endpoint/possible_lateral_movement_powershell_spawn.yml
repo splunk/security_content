@@ -39,7 +39,6 @@ tags:
   analytic_story:
   - Active Directory Lateral Movement
   - Malicious PowerShell
-  automated_detection_testing: passed
   confidence: 50
   context:
   - Source:Endpoint

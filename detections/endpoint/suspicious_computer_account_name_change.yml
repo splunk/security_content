@@ -63,5 +63,4 @@ tags:
     type: Endpoint
     role:
     - Victim
-  automated_detection_testing: passed
   asset_type: Endpoint

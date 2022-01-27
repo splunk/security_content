@@ -28,7 +28,6 @@ tags:
   - Office 365 Detections
   - Cloud Federated Credential Abuse
   asset_type: Office 365
-  automated_detection_testing: passed
   confidence: 60
   context:
   - Source:Cloud Data
@@ -55,7 +54,6 @@ tags:
     role:
     - Victim
   product:
-  - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud

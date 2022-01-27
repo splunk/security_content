@@ -36,7 +36,6 @@ tags:
   - Windows Persistence Techniques
   - Trickbot
   - IcedID
-  automated_detection_testing: passed
   confidence: 100
   context:
   - Source:Endpoint

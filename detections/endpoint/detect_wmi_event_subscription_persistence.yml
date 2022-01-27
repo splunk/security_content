@@ -43,7 +43,6 @@ references:
 tags:
   analytic_story:
   - Suspicious WMI Use
-  automated_detection_testing: passed
   confidence: 90
   context:
   - Source:Endpoint

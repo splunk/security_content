@@ -44,7 +44,6 @@ references:
 tags:
   analytic_story:
   - Ingress Tool Transfer
-  automated_detection_testing: passed
   confidence: 100
   context:
   - Source:Endpoint

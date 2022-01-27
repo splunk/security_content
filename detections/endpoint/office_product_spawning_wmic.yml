@@ -37,7 +37,6 @@ tags:
   analytic_story:
   - Spearphishing Attachments
   - FIN7
-  automated_detection_testing: passed
   confidence: 90
   context:
   - Source:Endpoint

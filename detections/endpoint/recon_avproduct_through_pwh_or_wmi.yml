@@ -30,7 +30,6 @@ tags:
   analytic_story:
   - Ransomware
   - Malicious PowerShell
-  automated_detection_testing: passed
   confidence: 80
   context:
   - Source:Endpoint

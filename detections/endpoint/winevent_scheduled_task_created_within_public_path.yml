@@ -48,7 +48,6 @@ tags:
   - Ryuk Ransomware
   - IcedID
   - Active Directory Lateral Movement
-  automated_detection_testing: passed
   confidence: 100
   context:
   - Source:Endpoint

@@ -31,7 +31,6 @@ tags:
   - Ransomware
   - Ryuk Ransomware
   - Windows Persistence Techniques
-  automated_detection_testing: passed
   confidence: 50
   context:
   - Source:Endpoint

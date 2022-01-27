@@ -21,7 +21,6 @@ tags:
   analytic_story:
   - Dev Sec Ops
   asset_type: Kubernetes
-  automated_detection_testing: passed
   cis20:
   - CIS 13
   confidence: 90

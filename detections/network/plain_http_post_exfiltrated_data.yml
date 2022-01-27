@@ -26,7 +26,6 @@ tags:
   - Command and Control
   - Data Exfiltration
   asset_type: Endpoint
-  automated_detection_testing: passed
   confidence: 90
   context:
   - Source:Endpoint

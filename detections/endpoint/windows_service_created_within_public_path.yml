@@ -27,7 +27,6 @@ references:
 tags:
   analytic_story:
   - Active Directory Lateral Movement
-  automated_detection_testing: passed
   confidence: 60
   context:
   - Source:Endpoint

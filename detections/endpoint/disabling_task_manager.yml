@@ -26,7 +26,6 @@ references:
 tags:
   analytic_story:
   - Windows Defense Evasion Tactics
-  automated_detection_testing: passed
   confidence: 60
   context:
   - Source:Endpoint

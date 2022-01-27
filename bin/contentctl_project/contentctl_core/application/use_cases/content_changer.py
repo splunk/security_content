@@ -154,3 +154,8 @@ class ContentChanger:
         for obj in objects:
             if 'Splunk Security Analytics for AWS' in obj['tags']['product']:
                 obj['tags']['product'].remove('Splunk Security Analytics for AWS')
+
+    def remove_testing_passed(self, objects : list) -> None:
+        for obj in objects:
+            if 'automated_detection_testing' in obj['tags']:
+                obj['tags'].pop('automated_detection_testing')

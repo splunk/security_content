@@ -35,7 +35,6 @@ references:
 tags:
   analytic_story:
   - Remcos
-  automated_detection_testing: passed
   confidence: 40
   context:
   - Source:Endpoint

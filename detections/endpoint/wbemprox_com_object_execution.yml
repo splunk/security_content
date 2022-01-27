@@ -26,7 +26,6 @@ tags:
   analytic_story:
   - Ransomware
   - Revil Ransomware
-  automated_detection_testing: passed
   confidence: 50
   context:
   - Source:Endpoint

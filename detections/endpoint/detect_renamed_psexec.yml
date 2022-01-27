@@ -34,7 +34,6 @@ tags:
   - HAFNIUM Group
   - DarkSide Ransomware
   - Active Directory Lateral Movement
-  automated_detection_testing: passed
   confidence: 90
   context:
   - Source:Endpoint

@@ -41,7 +41,6 @@ tags:
   - Suspicious Rundll32 Activity
   - Cobalt Strike
   - PrintNightmare CVE-2021-34527
-  automated_detection_testing: passed
   confidence: 100
   context:
   - Source:Endpoint

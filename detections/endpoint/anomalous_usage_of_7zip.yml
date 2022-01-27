@@ -32,7 +32,6 @@ tags:
   analytic_story:
   - Cobalt Strike
   - NOBELIUM Group
-  automated_detection_testing: passed
   confidence: 80
   context:
   - Source:Endpoint

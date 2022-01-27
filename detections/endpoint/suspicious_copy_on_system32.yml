@@ -30,7 +30,6 @@ references:
 tags:
   analytic_story:
   - Unusual Processes
-  automated_detection_testing: passed
   confidence: 90
   context:
   - Stage:Execution

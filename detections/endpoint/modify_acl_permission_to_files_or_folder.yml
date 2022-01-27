@@ -30,7 +30,6 @@ references:
 tags:
   analytic_story:
   - XMRig
-  automated_detection_testing: passed
   confidence: 80
   context:
   - Source:Endpoint

@@ -42,7 +42,6 @@ tags:
   - Malicious PowerShell
   - NOBELIUM Group
   asset_type: Endpoint
-  automated_detection_testing: passed
   cis20:
   - CIS 3
   - CIS 7

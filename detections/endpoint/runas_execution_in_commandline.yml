@@ -31,7 +31,6 @@ references:
 tags:
   analytic_story:
   - Windows Privilege Escalation
-  automated_detection_testing: passed
   confidence: 50
   context:
   - Source:Endpoint

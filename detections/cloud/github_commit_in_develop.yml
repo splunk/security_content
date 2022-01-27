@@ -23,7 +23,6 @@ references:
 tags:
   analytic_story:
   - Dev Sec Ops
-  automated_detection_testing: passed
   asset_type: GitHub
   confidence: 30
   context:

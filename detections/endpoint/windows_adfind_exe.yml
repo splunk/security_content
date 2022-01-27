@@ -32,7 +32,6 @@ tags:
   - NOBELIUM Group
   - Domain Trust Discovery
   asset_type: Endpoint
-  automated_detection_testing: passed
   cis20:
   - CIS 8
   context:

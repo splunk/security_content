@@ -30,7 +30,6 @@ references:
 tags:
   analytic_story:
   - Collection and Staging
-  automated_detection_testing: passed
   confidence: 90
   context:
   - Source:Endpoint

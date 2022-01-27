@@ -30,7 +30,6 @@ tags:
   - Active Directory Lateral Movement
   - NOBELIUM Group
   asset_type: Endpoint
-  automated_detection_testing: passed
   cis20:
   - CIS 3
   confidence: 90

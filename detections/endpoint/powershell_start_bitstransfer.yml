@@ -33,7 +33,6 @@ references:
 tags:
   analytic_story:
   - BITS Jobs
-  automated_detection_testing: passed
   confidence: 80
   context:
   - Source:Endpoint

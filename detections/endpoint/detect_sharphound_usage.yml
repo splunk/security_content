@@ -37,7 +37,6 @@ tags:
   analytic_story:
   - Discovery Techniques
   - Ransomware
-  automated_detection_testing: passed
   confidence: 80
   context:
   - Source:Endpoint

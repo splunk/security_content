@@ -38,7 +38,6 @@ references:
 tags:
   analytic_story:
   - Malicious PowerShell
-  automated_detection_testing: passed
   confidence: 90
   context:
   - Source:Endpoint

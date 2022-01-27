@@ -27,7 +27,6 @@ references:
 tags:
   analytic_story:
   - Ransomware
-  automated_detection_testing: passed
   context:
   - Source:Endpoint
   - Stage:Defense Evasion
@@ -35,7 +34,7 @@ tags:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data2/windows-sysmon.log
   kill_chain_phases:
   - Exploitation
-  message: 'Disable AMSI Through Registry'
+  message: Disable AMSI Through Registry
   mitre_attack_id:
   - T1562.001
   - T1562

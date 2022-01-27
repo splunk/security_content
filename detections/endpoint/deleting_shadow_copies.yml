@@ -31,7 +31,6 @@ tags:
   - Ransomware
   - Clop Ransomware
   asset_type: Endpoint
-  automated_detection_testing: passed
   cis20:
   - CIS 8
   - CIS 10

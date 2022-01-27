@@ -31,7 +31,6 @@ tags:
   analytic_story:
   - Windows Persistence Techniques
   - Windows Privilege Escalation
-  automated_detection_testing: passed
   confidence: 90
   context:
   - Source:Endpoint

@@ -29,7 +29,6 @@ tags:
   analytic_story:
   - Ransomware
   - Revil Ransomware
-  automated_detection_testing: passed
   context:
   - Source:Endpoint
   - Stage:Defense Evasion
