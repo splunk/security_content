@@ -29,7 +29,9 @@ known_false_positives: This model is an anomaly detector that identifies usage o
   and scripting constructs that are correllated with malicious activity.  These APIs and
   scripting constructs are part of the programming langauge and advanced scripts may
   generate false positives.
-references: []
+references:
+  - https://attack.mitre.org/techniques/T1059/003/
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.001/T1059.001.md
 tags:
   analytic_story:
   - Suspicious Command-Line Executions
