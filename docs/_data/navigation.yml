@@ -38,6 +38,8 @@ detections:
         url: /detections/privilege_escalation/
       - title: Reconnaissance
         url: /detections/reconnaissance/
+      - title: Resource Development
+        url: /detections/resource_development/
   - title: "Datamodel"
     children:
       - title: Authentication
