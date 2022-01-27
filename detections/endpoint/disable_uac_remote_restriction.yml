@@ -1,7 +1,7 @@
 name: Disable UAC Remote Restriction
 id: 9928b732-210e-11ec-b65e-acde48001122
-version: 1
-date: '2021-09-29'
+version: 2
+date: '2022-01-27'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
