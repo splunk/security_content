@@ -61,7 +61,7 @@ sidebar:
 | [Linux Privilege Escalation](linux_privilege_escalation) | [Sudo and Sudo Caching](/tags/#sudo-and-sudo-caching), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism) | [Privilege Escalation](/tags/#privilege-escalation) |
 | [Log4Shell CVE-2021-44228](log4shell_cve-2021-44228) | [Exploit Public-Facing Application](/tags/#exploit-public-facing-application) | [Initial Access](/tags/#initial-access) |
 | [Malicious PowerShell](malicious_powershell) | [Gather Victim Host Information](/tags/#gather-victim-host-information) | [Reconnaissance](/tags/#reconnaissance) |
-| [Masquerading - Rename System Utilities](masquerading_-_rename_system_utilities) | [Masquerading](/tags/#masquerading), [Rename System Utilities](/tags/#rename-system-utilities) | [Defense Evasion](/tags/#defense-evasion) |
+| [Masquerading - Rename System Utilities](masquerading_-_rename_system_utilities) | [Masquerading](/tags/#masquerading), [Rename System Utilities](/tags/#rename-system-utilities), [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [InstallUtil](/tags/#installutil) | [Defense Evasion](/tags/#defense-evasion) |
 | [Meterpreter](meterpreter) | [System Owner/User Discovery](/tags/#system-owner/user-discovery) | [Discovery](/tags/#discovery) |
 | [Microsoft MSHTML Remote Code Execution CVE-2021-40444](microsoft_mshtml_remote_code_execution_cve-2021-40444) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Rundll32](/tags/#rundll32) | [Defense Evasion](/tags/#defense-evasion) |
 | [Monitor for Updates]() | None | None |
@@ -82,7 +82,7 @@ sidebar:
 | [Ryuk Ransomware](ryuk_ransomware) | [Service Stop](/tags/#service-stop) | [Impact](/tags/#impact) |
 | [SQL Injection](sql_injection) | [Exploit Public-Facing Application](/tags/#exploit-public-facing-application) | [Initial Access](/tags/#initial-access) |
 | [SamSam Ransomware](samsam_ransomware) | [Data Encrypted for Impact](/tags/#data-encrypted-for-impact) | [Impact](/tags/#impact) |
-| [Signed Binary Proxy Execution InstallUtil](signed_binary_proxy_execution_installutil) | [InstallUtil](/tags/#installutil), [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution) | [Defense Evasion](/tags/#defense-evasion) |
+| [Signed Binary Proxy Execution InstallUtil](signed_binary_proxy_execution_installutil) | [Masquerading](/tags/#masquerading), [Rename System Utilities](/tags/#rename-system-utilities), [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [InstallUtil](/tags/#installutil) | [Defense Evasion](/tags/#defense-evasion) |
 | [Silver Sparrow](silver_sparrow) | [Data Staged](/tags/#data-staged) | [Collection](/tags/#collection) |
 | [Spearphishing Attachments](spearphishing_attachments) | [Phishing](/tags/#phishing), [Spearphishing Attachment](/tags/#spearphishing-attachment) | [Initial Access](/tags/#initial-access) |
 | [Suspicious AWS Login Activities](suspicious_aws_login_activities) | [Unused/Unsupported Cloud Regions](/tags/#unused/unsupported-cloud-regions) | [Defense Evasion](/tags/#defense-evasion) |
@@ -110,6 +110,7 @@ sidebar:
 | [Trusted Developer Utilities Proxy Execution MSBuild](trusted_developer_utilities_proxy_execution_msbuild) | [Masquerading](/tags/#masquerading), [Trusted Developer Utilities Proxy Execution](/tags/#trusted-developer-utilities-proxy-execution), [Rename System Utilities](/tags/#rename-system-utilities), [MSBuild](/tags/#msbuild) | [Defense Evasion](/tags/#defense-evasion) |
 | [Unusual Processes](unusual_processes) | [Process Injection](/tags/#process-injection), [Create or Modify System Process](/tags/#create-or-modify-system-process), [Parent PID Spoofing](/tags/#parent-pid-spoofing), [Access Token Manipulation](/tags/#access-token-manipulation) | [Defense Evasion](/tags/#defense-evasion) |
 | [Use of Cleartext Protocols]() | None | None |
+| [WhisperGate](whispergate) | [Process Injection](/tags/#process-injection), [Create or Modify System Process](/tags/#create-or-modify-system-process), [Parent PID Spoofing](/tags/#parent-pid-spoofing), [Access Token Manipulation](/tags/#access-token-manipulation) | [Defense Evasion](/tags/#defense-evasion) |
 | [Windows DNS SIGRed CVE-2020-1350](windows_dns_sigred_cve-2020-1350) | [Exploitation for Client Execution](/tags/#exploitation-for-client-execution) | [Execution](/tags/#execution) |
 | [Windows Defense Evasion Tactics](windows_defense_evasion_tactics) | [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Impair Defenses](/tags/#impair-defenses) | [Defense Evasion](/tags/#defense-evasion) |
 | [Windows Discovery Techniques](windows_discovery_techniques) | [Permission Groups Discovery](/tags/#permission-groups-discovery), [Local Groups](/tags/#local-groups) | [Discovery](/tags/#discovery) |

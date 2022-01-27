@@ -16,7 +16,6 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Endpoint
 ---
 
 
@@ -29,7 +28,7 @@ The following analytc uses Windows Event Id 7045, `New Service Was Installed`, t
 
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: 
 - **Last Updated**: 2021-11-22
 - **Author**: Mauricio Velazco, Splunk
 - **ID**: 3abb2eda-4bb8-11ec-9ae4-3e22fbd008af

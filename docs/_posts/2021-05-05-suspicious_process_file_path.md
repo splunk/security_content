@@ -22,7 +22,7 @@ tags:
 
 #### Description
 
-The following analytic will detect a suspicious process running in a file path where a process is not commonly seen and is most commonly used by malicious softtware. This behavior has been used by adversaries where they drop and run an exe in a path that is accessible without admin privileges.
+The following analytic will detect a suspicious process running in a file path where a process is not commonly seen and is most commonly used by malicious software. This behavior has been used by adversaries where they drop and run an exe in a path that is accessible without admin privileges.
 
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
@@ -42,7 +42,7 @@ The following analytic will detect a suspicious process running in a file path w
 
 ```
 
-| tstats `security_content_summariesonly` count values(Processes.process_name) as process_name values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_path = "*\\windows\\fonts\\*" OR Processes.process_path = "*\\windows\\temp\\*" OR Processes.process_path = "*\\users\\public\\*" OR Processes.process_path = "*\\windows\\debug\\*" OR Processes.process_path.file_path = "*\\Users\\Administrator\\Music\\*" OR Processes.process_path.file_path = "*\\Windows\\servicing\\*" OR Processes.process_path.file_path = "*\\Users\\Default\\*" OR Processes.process_path.file_path = "*Recycle.bin*" OR Processes.process_path = "*\\Windows\\Media\\*" OR Processes.process_path = "\\Windows\\repair\\*" OR Processes.process_path = "*\\temp\\*" by Processes.parent_process_name Processes.parent_process Processes.process_path Processes.dest Processes.user 
+| tstats `security_content_summariesonly` count values(Processes.process_name) as process_name values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_path = "*\\windows\\fonts\\*" OR Processes.process_path = "*\\windows\\temp\\*" OR Processes.process_path = "*\\users\\public\\*" OR Processes.process_path = "*\\windows\\debug\\*" OR Processes.process_path.file_path = "*\\Users\\Administrator\\Music\\*" OR Processes.process_path.file_path = "*\\Windows\\servicing\\*" OR Processes.process_path.file_path = "*\\Users\\Default\\*" OR Processes.process_path.file_path = "*Recycle.bin*" OR Processes.process_path = "*\\Windows\\Media\\*" OR Processes.process_path = "\\Windows\\repair\\*" OR Processes.process_path = "*\\temp\\*" OR Processes.process_path = "*\\PerfLogs\\*" by Processes.parent_process_name Processes.parent_process Processes.process_path Processes.dest Processes.user 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -52,6 +52,7 @@ The following analytic will detect a suspicious process running in a file path w
 #### Associated Analytic Story
 * [XMRig](/stories/xmrig)
 * [Remcos](/stories/remcos)
+* [WhisperGate](/stories/whispergate)
 
 
 #### How To Implement
@@ -88,6 +89,7 @@ Administrators may allow execution of specific binaries in non-standard paths. F
 #### Reference
 
 * [https://www.trendmicro.com/vinfo/hk/threat-encyclopedia/malware/trojan.ps1.powtran.a/](https://www.trendmicro.com/vinfo/hk/threat-encyclopedia/malware/trojan.ps1.powtran.a/)
+* [https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/](https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/)
 
 
 

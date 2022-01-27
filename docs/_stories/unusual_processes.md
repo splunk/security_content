@@ -37,16 +37,19 @@ In the event an unusual process is identified, it is imperative to better unders
 | [Detect Rare Executables](/endpoint/detect_rare_executables/) |  | Anomaly |
 | [Detect processes used for System Network Configuration Discovery](/endpoint/detect_processes_used_for_system_network_configuration_discovery/) | [System Network Configuration Discovery](/tags/#system-network-configuration-discovery) | TTP |
 | [First time seen command line argument](/endpoint/first_time_seen_command_line_argument/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [Indirect Command Execution](/tags/#indirect-command-execution) | Anomaly |
-| [More than usual number of LOLBAS applications in short time period](/endpoint/more_than_usual_number_of_lolbas_applications_in_short_time_period/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [Scheduled Task/Job](/tags/#scheduled-task/job) | Anomaly |
 | [Rare Parent-Child Process Relationship](/endpoint/rare_parent-child_process_relationship/) | [Exploitation for Client Execution](/tags/#exploitation-for-client-execution), [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [Scheduled Task/Job](/tags/#scheduled-task/job), [Software Deployment Tools](/tags/#software-deployment-tools) | Anomaly |
 | [RunDLL Loading DLL By Ordinal](/endpoint/rundll_loading_dll_by_ordinal/) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Rundll32](/tags/#rundll32) | TTP |
 | [Rundll32 Shimcache Flush](/endpoint/rundll32_shimcache_flush/) | [Modify Registry](/tags/#modify-registry) | TTP |
 | [Suspicious Copy on System32](/endpoint/suspicious_copy_on_system32/) | [Rename System Utilities](/tags/#rename-system-utilities), [Masquerading](/tags/#masquerading) | TTP |
 | [System Processes Run From Unexpected Locations](/endpoint/system_processes_run_from_unexpected_locations/) | [Masquerading](/tags/#masquerading), [Rename System Utilities](/tags/#rename-system-utilities) | TTP |
+| [Unusual LOLBAS in short period of time](/endpoint/unusual_lolbas_in_short_period_of_time/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [Scheduled Task/Job](/tags/#scheduled-task/job) | Anomaly |
 | [Unusually Long Command Line](/endpoint/unusually_long_command_line/) |  | Anomaly |
 | [Unusually Long Command Line - MLTK](/endpoint/unusually_long_command_line_-_mltk/) |  | Anomaly |
 | [Verclsid CLSID Execution](/endpoint/verclsid_clsid_execution/) | [Verclsid](/tags/#verclsid), [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution) | Hunting |
 | [WinRM Spawning a Process](/endpoint/winrm_spawning_a_process/) | [Exploit Public-Facing Application](/tags/#exploit-public-facing-application) | TTP |
+| [Windows DotNet Binary in Non Standard Path](/endpoint/windows_dotnet_binary_in_non_standard_path/) | [Masquerading](/tags/#masquerading), [Rename System Utilities](/tags/#rename-system-utilities), [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [InstallUtil](/tags/#installutil) | TTP |
+| [Windows InstallUtil in Non Standard Path](/endpoint/windows_installutil_in_non_standard_path/) | [Masquerading](/tags/#masquerading), [Rename System Utilities](/tags/#rename-system-utilities), [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [InstallUtil](/tags/#installutil) | TTP |
+| [Windows NirSoft AdvancedRun](/endpoint/windows_nirsoft_advancedrun/) | [Tool](/tags/#tool) | TTP |
 | [Wscript Or Cscript Suspicious Child Process](/endpoint/wscript_or_cscript_suspicious_child_process/) | [Process Injection](/tags/#process-injection), [Create or Modify System Process](/tags/#create-or-modify-system-process), [Parent PID Spoofing](/tags/#parent-pid-spoofing), [Access Token Manipulation](/tags/#access-token-manipulation) | TTP |
 
 #### Reference

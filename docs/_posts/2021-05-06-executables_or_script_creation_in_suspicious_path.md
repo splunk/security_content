@@ -41,7 +41,7 @@ This analytic will identify suspicious executable or scripts (known file extensi
 
 ```
 
-|tstats `security_content_summariesonly` values(Filesystem.file_path) as file_path count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem where (Filesystem.file_name = *.exe OR Filesystem.file_name = *.dll OR Filesystem.file_name = *.sys OR Filesystem.file_name = *.com OR Filesystem.file_name = *.vbs OR Filesystem.file_name = *.vbe OR Filesystem.file_name = *.js OR Filesystem.file_name = *.ps1 OR Filesystem.file_name = *.bat OR Filesystem.file_name = *.cmd OR Filesystem.file_name = *.pif) AND ( Filesystem.file_path = *\\windows\\fonts\\* OR Filesystem.file_path = *\\windows\\temp\\* OR Filesystem.file_path = *\\users\\public\\* OR Filesystem.file_path = *\\windows\\debug\\* OR Filesystem.file_path = *\\Users\\Administrator\\Music\\* OR Filesystem.file_path = *\\Windows\\servicing\\* OR Filesystem.file_path = *\\Users\\Default\\* OR Filesystem.file_path = *Recycle.bin* OR Filesystem.file_path = *\\Windows\\Media\\* OR Filesystem.file_path = *\\Windows\\repair\\* OR Filesystem.file_path = *\\AppData\\Local\\Temp*) by Filesystem.file_create_time Filesystem.process_id  Filesystem.file_name Filesystem.user 
+|tstats `security_content_summariesonly` values(Filesystem.file_path) as file_path count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem where (Filesystem.file_name = *.exe OR Filesystem.file_name = *.dll OR Filesystem.file_name = *.sys OR Filesystem.file_name = *.com OR Filesystem.file_name = *.vbs OR Filesystem.file_name = *.vbe OR Filesystem.file_name = *.js OR Filesystem.file_name = *.ps1 OR Filesystem.file_name = *.bat OR Filesystem.file_name = *.cmd OR Filesystem.file_name = *.pif) AND ( Filesystem.file_path = *\\windows\\fonts\\* OR Filesystem.file_path = *\\windows\\temp\\* OR Filesystem.file_path = *\\users\\public\\* OR Filesystem.file_path = *\\windows\\debug\\* OR Filesystem.file_path = *\\Users\\Administrator\\Music\\* OR Filesystem.file_path = *\\Windows\\servicing\\* OR Filesystem.file_path = *\\Users\\Default\\* OR Filesystem.file_path = *Recycle.bin* OR Filesystem.file_path = *\\Windows\\Media\\* OR Filesystem.file_path = *\\Windows\\repair\\* OR Filesystem.file_path = *\\AppData\\Local\\Temp* OR Filesystem.file_path = *\\PerfLogs\\*) by Filesystem.file_create_time Filesystem.process_id  Filesystem.file_name Filesystem.user 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -51,6 +51,7 @@ This analytic will identify suspicious executable or scripts (known file extensi
 #### Associated Analytic Story
 * [XMRig](/stories/xmrig)
 * [Remcos](/stories/remcos)
+* [WhisperGate](/stories/whispergate)
 
 
 #### How To Implement
@@ -85,6 +86,7 @@ Administrators may allow creation of script or exe in the paths specified. Filte
 #### Reference
 
 * [https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/](https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/)
+* [https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/](https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/)
 
 
 

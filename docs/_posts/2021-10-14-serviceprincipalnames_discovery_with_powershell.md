@@ -12,7 +12,6 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Endpoint
 ---
 
 
@@ -29,7 +28,7 @@ During triage, review parallel processes for further suspicious activity.
 
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: 
 - **Last Updated**: 2021-10-14
 - **Author**: Michael Haag, Splunk
 - **ID**: 13243068-2d38-11ec-8908-acde48001122

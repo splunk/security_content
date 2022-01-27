@@ -12,7 +12,6 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Endpoint
 ---
 
 
@@ -25,7 +24,7 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 
 - **Type**: Hunting
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: 
 - **Last Updated**: 2021-08-26
 - **Author**: Teoderick Contreras, Mauricio Velazco, Splunk
 - **ID**: 1ff7ccc8-065a-11ec-91e4-acde48001122

@@ -1,9 +1,0 @@
-<panel>
-  <table>
-    <search>
-      <query>| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Certificates.All_Certificates where All_Certificates.SSL.ssl_subject_common_name=*$domain$  by All_Certificates.dest All_Certificates.src All_Certificates.SSL.ssl_issuer_common_name All_Certificates.SSL.ssl_subject_common_name All_Certificates.SSL.ssl_hash | `drop_dm_object_name(All_Certificates)` | `drop_dm_object_name(SSL)` | rename ssl_subject_common_name as domain | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`</query>
-    </search>
-    <option name="drilldown">cell</option>
-    <option name="wrap">false</option>
-  </table>
-</panel>

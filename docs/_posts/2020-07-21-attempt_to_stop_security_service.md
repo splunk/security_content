@@ -57,6 +57,7 @@ This search looks for attempts to stop security-related services on the endpoint
 #### Associated Analytic Story
 * [Disabling Security Tools](/stories/disabling_security_tools)
 * [Trickbot](/stories/trickbot)
+* [WhisperGate](/stories/whispergate)
 
 
 #### How To Implement
@@ -98,6 +99,7 @@ None identified. Attempts to disable security-related services should be identif
 #### Reference
 
 * [https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md#atomic-test-14---disable-arbitrary-security-windows-service](https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md#atomic-test-14---disable-arbitrary-security-windows-service)
+* [https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/](https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/)
 
 
 
