@@ -35,22 +35,11 @@ class ObjToYmlAdapter(Adapter):
             YmlWriter.writeYmlFile(file_path, object)
 
     def writeObjects(self, objects: list, security_content_folder: str) -> None:
-        for object in objects:
-            if object['type'] == 'Investigation':
-                file_name = self.convertNameToFileName(object)
-                file_path = object['file_path']
-                object.pop('file_path')
-                object.pop('deprecated')
-                YmlWriter.writeYmlFile(os.path.join(security_content_folder, 'investigations', file_name), object)
-                os.remove(file_path)
-            elif object['type'] == 'Baseline':
-                file_name = self.convertNameToFileName(object)
-                file_path = object['file_path']
-                object.pop('file_path')
-                object.pop('deprecated')
-                YmlWriter.writeYmlFile(os.path.join(security_content_folder, 'baselines', file_name), object)
-                os.remove(file_path) 
-
+        for obj in objects:
+            file_name = "ssa___" + self.convertNameToFileName(obj)
+            file_path = os.path.join(security_content_folder, file_name)
+            # remove unncessary fields
+            YmlWriter.writeYmlFile(file_path, object)
 
     def convertNameToFileName(self, obj: dict):
         file_name = obj['name'] \

@@ -159,3 +159,7 @@ class ContentChanger:
         for obj in objects:
             if 'automated_detection_testing' in obj['tags']:
                 obj['tags'].pop('automated_detection_testing')
+
+    def change_test_file_format(self, objects : list) -> None:
+        for obj in objects:
+            obj = obj['tests'][0]

@@ -164,7 +164,6 @@ def main(args):
     validate_parser = actions_parser.add_parser("validate", help="Validates written content")
     generate_parser = actions_parser.add_parser("generate", help="Generates a deployment package for different platforms (splunk_app)")
     content_changer_parser = actions_parser.add_parser("content_changer", help="Change Security Content based on defined rules")
-    content_organizer_parser = actions_parser.add_parser("content_organizer", help="Organize Security Content")
 
     # # new arguments
     # new_parser.add_argument("-t", "--type", required=False, type=str, default="detection",
@@ -188,10 +187,6 @@ def main(args):
     content_changer_parser.add_argument("-cf", "--change_function", required=True, type=str,
                                         help="Define a change funtion defined in bin/contentctl_core/contentctl/application/use_cases/content_changer.py")
     content_changer_parser.set_defaults(func=content_changer)
-
-    content_organizer_parser.add_argument("-scp", "--security_content_path", required=True, 
-                                        help="path to the Splunk Security Content")
-    content_organizer_parser.set_defaults(func=content_organizer)
 
 
     # # parse them

@@ -69,58 +69,43 @@ class Factory():
                files = Utils.get_all_yml_files_from_directory(os.path.join(self.input_dto.input_path, str(type.name)))
           
           for file in files:
-               if self.input_dto.product == SecurityContentProduct.ESCU:
-                    if 'ssa__' in file:
-                         continue
-
-               if type == SecurityContentType.lookups:
-                    self.input_dto.director.constructLookup(self.input_dto.basic_builder, file)
-                    self.output_dto.lookups.append(self.input_dto.basic_builder.getObject())
-               
-               elif type == SecurityContentType.macros:
-                    self.input_dto.director.constructMacro(self.input_dto.basic_builder, file)
-                    self.output_dto.macros.append(self.input_dto.basic_builder.getObject())
-               
-               elif type == SecurityContentType.deployments:
-                    self.input_dto.director.constructDeployment(self.input_dto.basic_builder, file)
-                    self.output_dto.deployments.append(self.input_dto.basic_builder.getObject())
-               
-               elif type == SecurityContentType.playbooks:
-                    self.input_dto.director.constructPlaybook(self.input_dto.basic_builder, file)
-                    self.output_dto.playbooks.append(self.input_dto.basic_builder.getObject())                    
-               
-               elif type == SecurityContentType.baselines:
-                    self.input_dto.director.constructBaseline(self.input_dto.baseline_builder, file, self.output_dto.deployments)
-                    baseline = self.input_dto.baseline_builder.getObject()
-                    if self.checkProduct(baseline, self.input_dto.product):
+               if self.input_dto.product == SecurityContentProduct.ESCU:      
+                    if type == SecurityContentType.lookups:
+                         self.input_dto.director.constructLookup(self.input_dto.basic_builder, file)
+                         self.output_dto.lookups.append(self.input_dto.basic_builder.getObject())
+                    
+                    elif type == SecurityContentType.macros:
+                         self.input_dto.director.constructMacro(self.input_dto.basic_builder, file)
+                         self.output_dto.macros.append(self.input_dto.basic_builder.getObject())
+                    
+                    elif type == SecurityContentType.deployments:
+                         self.input_dto.director.constructDeployment(self.input_dto.basic_builder, file)
+                         self.output_dto.deployments.append(self.input_dto.basic_builder.getObject())
+                    
+                    elif type == SecurityContentType.playbooks:
+                         self.input_dto.director.constructPlaybook(self.input_dto.basic_builder, file)
+                         self.output_dto.playbooks.append(self.input_dto.basic_builder.getObject())                    
+                    
+                    elif type == SecurityContentType.baselines:
+                         self.input_dto.director.constructBaseline(self.input_dto.baseline_builder, file, self.output_dto.deployments)
+                         baseline = self.input_dto.baseline_builder.getObject()
                          self.output_dto.baselines.append(baseline)
-               
-               elif type == SecurityContentType.investigations:
-                    self.input_dto.director.constructInvestigation(self.input_dto.investigation_builder, file)
-                    investigation = self.input_dto.investigation_builder.getObject()
-                    if self.checkProduct(investigation, self.input_dto.product):
+                    
+                    elif type == SecurityContentType.investigations:
+                         self.input_dto.director.constructInvestigation(self.input_dto.investigation_builder, file)
+                         investigation = self.input_dto.investigation_builder.getObject()
                          self.output_dto.investigations.append(investigation)
+
+                    elif type == SecurityContentType.stories:
+                         self.input_dto.director.constructStory(self.input_dto.story_builder, file, 
+                              self.output_dto.detections, self.output_dto.baselines, self.output_dto.investigations)
+                         story = self.input_dto.story_builder.getObject()
+                         self.output_dto.stories.append(story)
                
-               elif type == SecurityContentType.detections:
-                    self.input_dto.director.constructDetection(self.input_dto.detection_builder, file, 
-                         self.output_dto.deployments, self.output_dto.playbooks, self.output_dto.baselines)
-                    detection = self.input_dto.detection_builder.getObject()
-                    if self.checkProduct(detection, self.input_dto.product):
+               if type == SecurityContentType.detections:
+                    if (self.input_dto.product == SecurityContentProduct.ESCU and not 'ssa__' in file) or (self.input_dto.product == SecurityContentProduct.BA and 'ssa__' in file):
+                         self.input_dto.director.constructDetection(self.input_dto.detection_builder, file, 
+                              self.output_dto.deployments, self.output_dto.playbooks, self.output_dto.baselines)
+                         detection = self.input_dto.detection_builder.getObject()
                          self.output_dto.detections.append(detection)
                
-               elif type == SecurityContentType.stories:
-                    self.input_dto.director.constructStory(self.input_dto.story_builder, file, 
-                         self.output_dto.detections, self.output_dto.baselines, self.output_dto.investigations)
-                    story = self.input_dto.story_builder.getObject()
-                    if self.checkProduct(story, self.input_dto.product):
-                         self.output_dto.stories.append(story)
-
-
-     def checkProduct(self, obj, product: SecurityContentProduct) -> Boolean:
-          if product == SecurityContentProduct.BA:
-               if 'Splunk Behavioral Analytics' in obj.tags.product:
-                    return True
-          elif product == SecurityContentProduct.ESCU:
-               return True
-          
-          return False
