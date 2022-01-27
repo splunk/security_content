@@ -5,7 +5,6 @@ import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from contentctl_core.application.use_cases.content_changer import ContentChanger, ContentChangerInputDto
-from contentctl_core.application.use_cases.content_organizer import ContentOrganizer, ContentOrganizerInputDto
 from contentctl_core.application.use_cases.generate import GenerateInputDto, Generate
 from contentctl_core.application.use_cases.validate import ValidateInputDto, Validate
 from contentctl_core.application.factory.factory import Factory, FactoryInputDto, FactoryOutputDto
@@ -80,23 +79,6 @@ def content_changer(args) -> None:
 
     content_changer = ContentChanger()
     content_changer.execute(input_dto)
-
-
-def content_organizer(args) -> None:
-    factory_input_dto = ObjectFactoryInputDto(
-        os.path.abspath(args.path),
-        SecurityContentObjectBuilder(),
-        SecurityContentDirector()
-    )
-
-    input_dto = ContentOrganizerInputDto(
-        ObjToYmlAdapter(),
-        factory_input_dto,
-        os.path.abspath(args.security_content_path)
-    )
-
-    content_organizer = ContentOrganizer()
-    content_organizer.execute(input_dto)
 
 
 def generate(args) -> None:

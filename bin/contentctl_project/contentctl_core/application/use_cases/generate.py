@@ -1,9 +1,10 @@
 
 from dataclasses import dataclass
-from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import SecurityContentProduct
 
+from contentctl_core.domain.entities.enums.enums import SecurityContentProduct
 from contentctl_core.application.adapter.adapter import Adapter
 from contentctl_core.application.factory.factory import FactoryInputDto, Factory, FactoryOutputDto
+
 
 
 @dataclass(frozen=True)
