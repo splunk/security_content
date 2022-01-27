@@ -34,4 +34,3 @@ class SecurityContentType(enum.Enum):
 class SecurityContentProduct(enum.Enum):
     ESCU = 1
     BA = 2
-    SAAWS = 3

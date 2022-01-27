@@ -117,10 +117,7 @@ class Factory():
 
 
      def checkProduct(self, obj, product: SecurityContentProduct) -> Boolean:
-          if product == SecurityContentProduct.SAAWS:
-               if 'Splunk Security Analytics for AWS' in obj.tags.product:
-                    return True
-          elif product == SecurityContentProduct.BA:
+          if product == SecurityContentProduct.BA:
                if 'Splunk Behavioral Analytics' in obj.tags.product:
                     return True
           elif product == SecurityContentProduct.ESCU:

@@ -149,3 +149,8 @@ class ContentChanger:
                 print(obj['name'])
                 if isinstance(obj['tags']['analytic_story'], list):
                     obj['tags']['analytic_story'] = obj['tags']['analytic_story'][0]
+
+    def remove_SAAWS(self, objects : list) -> None:
+        for obj in objects:
+            if 'Splunk Security Analytics for AWS' in obj['tags']['product']:
+                obj['tags']['product'].remove('Splunk Security Analytics for AWS')
