@@ -12,10 +12,10 @@ description: This analytic detects a potential suspicious modification of firewa
   by allowing the traffic in a firewall rule.
 search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Registry 
   where Registry.registry_path= "*\\System\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\FirewallRules\\*" 
-  Registry.registry_value_name = "*|Action=Allow|*" 
-  Registry.registry_value_name = "*|Dir=In|*" 
-  Registry.registry_value_name = "*|Profile=Public|*" 
-  Registry.registry_value_name = "*|LPort=*" 
+  Registry.registry_value_data = "*|Action=Allow|*" 
+  Registry.registry_value_data = "*|Dir=In|*" 
+  Registry.registry_value_data = "*|Profile=Public|*" 
+  Registry.registry_value_data = "*|LPort=*" 
   by _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_value_name Registry.process_guid Registry.registry_key_name Registry.registry_value_data
   | `drop_dm_object_name(Registry)` 
   |rename process_guid as proc_guid |join proc_guid, _time [| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
