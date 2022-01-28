@@ -12,7 +12,7 @@ description: The following search identifies a modification of registry to disab
   distribution. This modification are seen in RAT malware to cover their tracks upon
   downloading other of its component or other payload.
 search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Registry 
-  where Registry.registry_path= "*HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\SmartScreenEnabled"  Registry.registry_value_name= "Off" 
+  where Registry.registry_path= "*HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\SmartScreenEnabled"  Registry.registry_value_data= "Off" 
   by _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_value_name Registry.registry_value_data Registry.process_guid
   | `drop_dm_object_name(Registry)` 
   |rename process_guid as proc_guid |join proc_guid, _time [| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
