@@ -1,0 +1,6 @@
+description: An MLTK model for detecting malicious commandlines
+filename: __mlspl_unusual_commandline_detection.mlmodel
+name: __mlspl_unusual_commandline_detection
+case_sensitive_match: 'false'
+min_matches: 1
+default_match: 'false'
