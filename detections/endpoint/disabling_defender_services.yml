@@ -1,7 +1,7 @@
 name: Disabling Defender Services
 id: 911eacdc-317f-11ec-ad30-acde48001122
-version: 1
-date: '2021-10-20'
+version: 2
+date: '2022-01-28'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
