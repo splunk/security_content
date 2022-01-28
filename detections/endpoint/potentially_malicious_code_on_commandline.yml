@@ -60,13 +60,13 @@ tags:
   context:
     - source:endpoint
     - stage:Execution
-  message: Unusual commandline execution with hallmarks of malicious activity run by $user$ found on $dest$ with commandline $process$
+  message: Unusual command-line execution with hallmarks of malicious activity run by $user$ found on $dest$ with commandline $process$
   observable:
-    - name: ComputerName
+    - name: dest
       type: Hostname
       role:
         - Victim
-    - name: User
+    - name: user
       type: User
       role:
         - Victim
