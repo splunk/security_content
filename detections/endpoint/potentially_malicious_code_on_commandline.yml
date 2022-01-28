@@ -9,8 +9,13 @@ datamodel:
 description: The following analytic uses a pretrained machine learning text classifier
   to detect potentially malicious commandlines.  The model identifies unusual
   combinations of keywords found in samples of commandlines where adversaries executed
-  code, primarily for C2 communication.  These combinations of keywords are not
-  typically found in normal usage of the commandline.
+  powershell code, primarily for C2 communication.  For example, adversaries will leverage
+  IO capabilities such as "streamreader" and "webclient", threading capabilties such as
+  "mutex" locks, programmatic constructs like "function" and "catch", and cryptographic
+  operations like "computehash".  Although observing one of these keywords in a commandline
+  script is possible, combinations of keywords observed in attack data are not typically
+  found in normal usage of the commandline.  The model will output a score where all values
+  above zero are suspicious, anything greater than one particularly so.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   max(_time) as lastTime from datamodel="Endpoint.Processes" by
   Processes.parent_process_name Processes.process_name Processes.process
