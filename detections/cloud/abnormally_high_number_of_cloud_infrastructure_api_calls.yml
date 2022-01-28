@@ -66,3 +66,20 @@ tags:
   - All_Changes.status
   risk_score: 15
   security_domain: network
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_citrix-netscaler
+  - Splunk_TA_nix
+  - Splunk_TA_rsa-securid
+  - Splunk_TA_aws-kinesis-firehose
+  - Splunk_TA_rsa_securid_cas
+  - Splunk_TA_ossec
+  - Splunk_TA_juniper
+  - splunk_ta_o365
+  - Splunk_TA_cyberark
+  - Splunk_TA_box
+  - Splunk_TA_cisco-asa
+  - Splunk_TA_infoblox
+  - Splunk_TA_salesforce
+  supported_tas:
+  - Splunk_TA_aws-kinesis-firehose
