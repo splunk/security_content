@@ -45,6 +45,7 @@ tags:
   - Command and Control
   - Data Exfiltration
   automated_detection_testing: passed
+  cis20: []
   confidence: 80
   context:
   - Source:Endpoint
@@ -59,6 +60,7 @@ tags:
     to DNS exfiltration.
   mitre_attack_id:
   - T1048
+  nist: []
   observable:
   - name: dest_user_id
     role:
