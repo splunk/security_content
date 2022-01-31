@@ -7,6 +7,7 @@ import re
 import shutil
 import sys
 import time
+import csv
 
 import git
 import yaml
@@ -214,6 +215,27 @@ def main():
                     security_content_repo_obj.index.add(
                         [filepath.strip("security_content/")]
                     )
+    # Generating detection_ta_mapping CSV report
+    try:
+        with open(r"./security_content/security_content_automation/detection_ta_mapping.csv", 'w+', newline='') as csv_file:
+            fieldnames = ['detection_name', 'cim_version', 'supported_tas', 'tas_with_cim_mapping']
+            writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+            writer.writeheader()
+            for detection_name, detection_content in detection_ta_mapping.items():
+                detection_content.update({
+                    'tas_with_cim_mapping': ', '.join(detection_content["tas_with_cim_mapping"]) if detection_content.get(
+                        'tas_with_cim_mapping') else '',
+                    'supported_tas': ', '.join(detection_content["supported_tas"]) if detection_content.get(
+                        'supported_tas') else '',
+                    'detection_name': detection_name
+                })
+                writer.writerow(detection_content)
+    except Exception as error:
+        error_message = f"Unexpected error occurred while generating detection_ta_mapping CSV report, {error}"
+        logging.error(error_message)
+    security_content_repo_obj.index.add(
+        ["security_content_automation/detection_ta_mapping.csv"]
+    )
 
     with io.open(
         r"./security_content/security_content_automation/detection_ta_mapping.yml",
