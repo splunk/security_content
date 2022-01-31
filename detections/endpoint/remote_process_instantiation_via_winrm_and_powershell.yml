@@ -68,3 +68,6 @@ tags:
   - Processes.parent_process_id
   risk_score: 45
   security_domain: endpoint
+  cim_version: 5.0.0
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon

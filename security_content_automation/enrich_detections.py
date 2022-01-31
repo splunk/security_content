@@ -7,6 +7,7 @@ import re
 import shutil
 import sys
 import time
+from pathlib import Path
 
 import git
 import yaml
@@ -65,11 +66,13 @@ def map_required_fields(cim_summary, datamodel, required_fields):
                         cim_fields = e_type.get("fields", [])
                         if set(datasets_fields[dataset]).issubset(set(cim_fields)):
                             add_addon = True
+        if add_addon == False:
+            return add_addon
 
     return add_addon
 
 
-def is_valid_detection_file(filepath) -> bool:
+def is_valid_detection_file(filepath):
 
     detection_analytic_type = ["ttp", "anomaly"]
     detection_with_valid_analytic_type = False
@@ -147,12 +150,12 @@ def main():
                 for data in detection_obj.get("tests")[0].get("attack_data"):
                     source_types.append(data.get("sourcetype"))
 
-                detection_file_name = (
+                detection_file_name_path = (
                     detection_obj.get("tests")[0]
                     .get("file")
                     .rsplit("/", 1)[1]
-                    .strip(".yml")
                 )
+                detection_file_name = Path(detection_file_name_path).stem
                 filepath = "security_content/detections/" + detection_obj.get("tests")[
                     0
                 ].get("file")
@@ -195,8 +198,6 @@ def main():
 
                     if recommended_ta_list:
                         keyname = "tas_with_cim_mapping"
-                        enrich_detection_file(filepath, cim_version, "cim_version")
-                        enrich_detection_file(filepath, recommended_ta_list, keyname)
                         detection_ta_mapping[detection_file_name][
                             "cim_version"
                         ] = cim_version
@@ -206,6 +207,7 @@ def main():
 
                     if tas_with_data_list:
                         keyname = "supported_tas"
+                        enrich_detection_file(filepath, cim_version, "cim_version")
                         enrich_detection_file(filepath, tas_with_data_list, keyname)
                         detection_ta_mapping[detection_file_name][
                             keyname
@@ -236,19 +238,19 @@ def main():
     security_content_repo_obj.git.push("--set-upstream", "origin", branch_name)
     repo = g.get_repo("splunk/security_content")
 
-    pr = repo.create_pull(
-        title="Enrich Detection PR " + branch_name,
-        body="Enriched the detections with recommended TAs",
-        head=branch_name,
-        base="develop",
-    )
+    # pr = repo.create_pull(
+    #     title="Enrich Detection PR " + branch_name,
+    #     body="Enriched the detections with recommended TAs",
+    #     head=branch_name,
+    #     base="develop",
+    # )
 
-    try:
-        shutil.rmtree("./security_content")
-        shutil.rmtree("./ta_cim_mapping_reports")
-    except OSError as e:
-        error_message = "Unexpected error occurred while deleting files."
-        logging.error(error_message)
+    # try:
+    #     shutil.rmtree("./security_content")
+    #     shutil.rmtree("./ta_cim_mapping_reports")
+    # except OSError as e:
+    #     error_message = "Unexpected error occurred while deleting files."
+    #     logging.error(error_message)
 
 
 if __name__ == "__main__":
