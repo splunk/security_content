@@ -51,9 +51,9 @@ This search looks at GCP Storage bucket-access logs and detects new or previousl
 | search status="\"200\"" 
 | stats earliest(_time) as firstTime latest(_time) as lastTime by bucket_name remote_ip operation request_uri 
 | table firstTime, lastTime, bucket_name, remote_ip, operation, request_uri 
-| inputlookup append=t previously_seen_gcp_storage_access_from_remote_ip.csv 
+| inputlookup append=t previously_seen_gcp_storage_access_from_remote_ip 
 | stats min(firstTime) as firstTime, max(lastTime) as lastTime by bucket_name remote_ip operation request_uri 
-| outputlookup previously_seen_gcp_storage_access_from_remote_ip.csv 
+| outputlookup previously_seen_gcp_storage_access_from_remote_ip 
 | eval newIP=if(firstTime >= relative_time(now(),"-70m@m"), 1, 0) 
 | where newIP=1 
 | eval first_time=strftime(firstTime,"%m/%d/%y %H:%M:%S") 
