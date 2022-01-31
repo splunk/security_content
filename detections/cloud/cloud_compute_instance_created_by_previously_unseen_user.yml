@@ -69,3 +69,8 @@ tags:
   - All_Changes.vendor_region
   risk_score: 18
   security_domain: threat
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_aws-kinesis-firehose
+  supported_tas:
+  - Splunk_TA_aws-kinesis-firehose

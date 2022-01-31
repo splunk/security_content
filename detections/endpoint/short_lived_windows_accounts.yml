@@ -63,3 +63,9 @@ tags:
   - All_Changes.dest
   risk_score: 63
   security_domain: access
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_microsoft-cloudservices
+  - Splunk_TA_rsa-securid
+  - Splunk_TA_aws-kinesis-firehose
+  - Splunk_TA_cyberark

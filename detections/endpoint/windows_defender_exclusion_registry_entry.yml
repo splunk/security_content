@@ -75,3 +75,8 @@ tags:
   - Registry.registry_value_data
   risk_score: 64
   security_domain: endpoint
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_microsoft_sysmon
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon
