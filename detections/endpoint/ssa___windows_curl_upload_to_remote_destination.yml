@@ -67,6 +67,7 @@ tags:
   analytic_story:
   - Ingress Tool Transfer
   automated_detection_testing: passed
+  cis20: []
   confidence: 100
   context:
   - Source:Endpoint
@@ -81,6 +82,7 @@ tags:
     destination.
   mitre_attack_id:
   - T1105
+  nist: []
   observable:
   - name: dest_user_id
     type: User

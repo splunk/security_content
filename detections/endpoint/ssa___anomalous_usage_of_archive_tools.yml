@@ -47,6 +47,7 @@ tags:
   analytic_story:
   - Cobalt Strike
   - NOBELIUM Group
+  cis20: []
   confidence: 60
   context:
   - Source:Endpoint
@@ -62,6 +63,7 @@ tags:
   mitre_attack_id:
   - T1560.001
   - T1560
+  nist: []
   observable:
   - name: user
     type: User
