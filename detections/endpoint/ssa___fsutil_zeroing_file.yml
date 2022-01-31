@@ -33,6 +33,7 @@ references:
 tags:
   analytic_story:
   - Ransomware
+  cis20: []
   confidence: 90
   context:
   - Source:Endpoint
@@ -50,6 +51,7 @@ tags:
   nist:
   - PR.AC
   - PR.IP
+  nist: []
   observable:
   - name: dest_user_id
     type: User
