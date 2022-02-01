@@ -48,6 +48,18 @@ This analytic will identify suspicious executable or scripts (known file extensi
 | `executables_or_script_creation_in_suspicious_path_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `executables_or_script_creation_in_suspicious_path_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [XMRig](/stories/xmrig)
 * [Remcos](/stories/remcos)

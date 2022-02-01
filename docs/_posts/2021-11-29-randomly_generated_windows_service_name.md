@@ -54,6 +54,18 @@ The following hunting analytic leverages Event ID 7045, `A new service was insta
 | `randomly_generated_windows_service_name_filter` 
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `randomly_generated_windows_service_name_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
 

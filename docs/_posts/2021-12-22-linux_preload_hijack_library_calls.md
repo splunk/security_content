@@ -56,6 +56,18 @@ This analytic is to detect a suspicious command that may hijack a library functi
 | `linux_preload_hijack_library_calls_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `linux_preload_hijack_library_calls_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Linux Privilege Escalation](/stories/linux_privilege_escalation)
 * [Linux Persistence Techniques](/stories/linux_persistence_techniques)

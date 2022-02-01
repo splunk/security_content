@@ -39,6 +39,18 @@ This search looks for unusually long strings in the Content-Type http header tha
 | `unusually_long_content_type_length_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `unusually_long_content-type_length_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Apache Struts Vulnerability](/stories/apache_struts_vulnerability)
 

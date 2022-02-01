@@ -56,6 +56,18 @@ The search looks for a batch file (.bat) written to the Windows system directory
 | `batch_file_write_to_system32_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `batch_file_write_to_system32_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [SamSam Ransomware](/stories/samsam_ransomware)
 

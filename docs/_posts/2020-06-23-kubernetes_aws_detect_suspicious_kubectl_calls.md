@@ -38,6 +38,18 @@ This search provides information on anonymous Kubectl calls with IP, verb namesp
 |`kubernetes_aws_detect_suspicious_kubectl_calls_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `kubernetes_aws_detect_suspicious_kubectl_calls_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Kubernetes Sensitive Object Access Activity](/stories/kubernetes_sensitive_object_access_activity)
 

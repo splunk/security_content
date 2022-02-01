@@ -56,6 +56,18 @@ This analytic looks for the execution of `schtasks.exe` with command-line argume
 | `schtasks_scheduling_job_on_remote_system_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `schtasks_scheduling_job_on_remote_system_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
 * [NOBELIUM Group](/stories/nobelium_group)

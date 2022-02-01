@@ -54,6 +54,18 @@ This search looks for the remote desktop process mstsc.exe running on systems up
 | `remote_desktop_process_running_on_system_filter` 
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `remote_desktop_process_running_on_system_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Hidden Cobra Malware](/stories/hidden_cobra_malware)
 * [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)

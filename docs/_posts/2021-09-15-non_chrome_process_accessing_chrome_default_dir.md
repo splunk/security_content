@@ -51,6 +51,18 @@ This search is to detect an anomaly event of non-chrome process accessing the fi
 | `non_chrome_process_accessing_chrome_default_dir_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `non_chrome_process_accessing_chrome_default_dir_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [FIN7](/stories/fin7)
 * [Remcos](/stories/remcos)

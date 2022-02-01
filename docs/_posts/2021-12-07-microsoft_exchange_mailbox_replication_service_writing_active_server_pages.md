@@ -62,6 +62,18 @@ The following query identifies suspicious .aspx created in 3 paths identified by
 | `microsoft_exchange_mailbox_replication_service_writing_active_server_pages_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `microsoft_exchange_mailbox_replication_service_writing_active_server_pages_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [ProxyShell](/stories/proxyshell)
 * [Ransomware](/stories/ransomware)

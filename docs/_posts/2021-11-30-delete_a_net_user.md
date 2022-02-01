@@ -46,6 +46,18 @@ This analytic will detect a suspicious net.exe/net1.exe command-line to delete a
 | into write_ssa_detected_events();
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `delete_a_net_user_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [XMRig](/stories/xmrig)
 * [Ransomware](/stories/ransomware)

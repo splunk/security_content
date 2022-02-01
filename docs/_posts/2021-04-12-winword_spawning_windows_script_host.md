@@ -52,6 +52,18 @@ The following detection identifies Microsoft Winword.exe spawning Windows Script
 | `winword_spawning_windows_script_host_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `winword_spawning_windows_script_host_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Spearphishing Attachment](/stories/spearphishing_attachment)
 

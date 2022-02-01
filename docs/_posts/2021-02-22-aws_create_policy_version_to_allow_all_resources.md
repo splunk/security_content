@@ -61,6 +61,18 @@ This search looks for AWS CloudTrail events where a user created a policy versio
 |`aws_create_policy_version_to_allow_all_resources_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `aws_create_policy_version_to_allow_all_resources_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [AWS IAM Privilege Escalation](/stories/aws_iam_privilege_escalation)
 

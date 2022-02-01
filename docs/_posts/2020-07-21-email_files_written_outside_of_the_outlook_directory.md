@@ -54,6 +54,18 @@ The search looks at the change-analysis data model and detects email files creat
 | `email_files_written_outside_of_the_outlook_directory_filter` 
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `email_files_written_outside_of_the_outlook_directory_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Collection and Staging](/stories/collection_and_staging)
 

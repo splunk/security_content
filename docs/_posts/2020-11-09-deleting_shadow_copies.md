@@ -48,6 +48,18 @@ The vssadmin.exe utility is used to interact with the Volume Shadow Copy Service
 | `deleting_shadow_copies_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `deleting_shadow_copies_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Windows Log Manipulation](/stories/windows_log_manipulation)
 * [SamSam Ransomware](/stories/samsam_ransomware)

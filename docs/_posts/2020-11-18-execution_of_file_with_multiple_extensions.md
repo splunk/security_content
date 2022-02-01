@@ -52,6 +52,18 @@ This search looks for processes launched from files that have double extensions 
 | `execution_of_file_with_multiple_extensions_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `execution_of_file_with_multiple_extensions_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Windows File Extension and Association Abuse](/stories/windows_file_extension_and_association_abuse)
 * [Masquerading - Rename System Utilities](/stories/masquerading_-_rename_system_utilities)

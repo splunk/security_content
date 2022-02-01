@@ -52,6 +52,18 @@ The following hunting analytic will identify the use of localgroup discovery usi
 | `net_localgroup_discovery_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `net_localgroup_discovery_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Active Directory Discovery](/stories/active_directory_discovery)
 * [Windows Discovery Techniques](/stories/windows_discovery_techniques)

@@ -52,6 +52,18 @@ This analytic is to detect a possible abuse of verclsid to execute malicious fil
 | `verclsid_clsid_execution_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `verclsid_clsid_execution_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Unusual Processes](/stories/unusual_processes)
 

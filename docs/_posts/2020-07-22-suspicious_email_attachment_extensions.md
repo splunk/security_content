@@ -55,6 +55,18 @@ This search looks for emails that have attachments with suspicious file extensio
 | `suspicious_email_attachment_extensions_filter` 
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `suspicious_email_attachment_extensions_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Emotet Malware  DHS Report TA18-201A ](/stories/emotet_malware__dhs_report_ta18-201a_)
 * [Suspicious Emails](/stories/suspicious_emails)

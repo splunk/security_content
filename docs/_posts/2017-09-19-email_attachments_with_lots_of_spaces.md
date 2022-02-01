@@ -44,6 +44,18 @@ Attackers often use spaces as a means to obfuscate an attachment&#39;s file exte
 | `email_attachments_with_lots_of_spaces_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `email_attachments_with_lots_of_spaces_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Emotet Malware  DHS Report TA18-201A ](/stories/emotet_malware__dhs_report_ta18-201a_)
 * [Suspicious Emails](/stories/suspicious_emails)

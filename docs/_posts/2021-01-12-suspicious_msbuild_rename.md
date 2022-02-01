@@ -60,6 +60,18 @@ The following analytic identifies renamed instances of msbuild.exe executing. Ms
 | `suspicious_msbuild_rename_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `suspicious_msbuild_rename_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Trusted Developer Utilities Proxy Execution MSBuild](/stories/trusted_developer_utilities_proxy_execution_msbuild)
 * [Cobalt Strike](/stories/cobalt_strike)

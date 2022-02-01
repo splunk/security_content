@@ -55,6 +55,18 @@ The idea behind using ntdll.dll is to blend in by using native api of ntdll.dll.
 | `windows_possible_credential_dumping_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `windows_possible_credential_dumping_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Credential Dumping](/stories/credential_dumping)
 * [Detect Zerologon Attack](/stories/detect_zerologon_attack)

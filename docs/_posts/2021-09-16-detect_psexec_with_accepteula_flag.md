@@ -52,6 +52,18 @@ This search looks for events where `PsExec.exe` is run with the `accepteula` fla
 | `detect_psexec_with_accepteula_flag_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `detect_psexec_with_accepteula_flag_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [SamSam Ransomware](/stories/samsam_ransomware)
 * [DHS Report TA18-074A](/stories/dhs_report_ta18-074a)

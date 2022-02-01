@@ -48,6 +48,18 @@ This search is to detect a suspicious wmic.exe process or renamed wmic process t
 | `xsl_script_execution_with_wmic_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `xsl_script_execution_with_wmic_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [FIN7](/stories/fin7)
 * [Suspicious WMI Use](/stories/suspicious_wmi_use)

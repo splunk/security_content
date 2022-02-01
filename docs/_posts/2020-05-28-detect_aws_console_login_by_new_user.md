@@ -44,6 +44,18 @@ This search looks for AWS CloudTrail events wherein a console login event by a u
 | `detect_aws_console_login_by_new_user_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `detect_aws_console_login_by_new_user_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Suspicious Cloud Authentication Activities](/stories/suspicious_cloud_authentication_activities)
 

@@ -60,6 +60,18 @@ This search detects Okta login failures due to bad credentials for multiple user
 | `multiple_okta_users_with_invalid_credentials_from_the_same_ip_filter` 
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `multiple_okta_users_with_invalid_credentials_from_the_same_ip_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Suspicious Okta Activity](/stories/suspicious_okta_activity)
 

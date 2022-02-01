@@ -52,6 +52,18 @@ Monitor for changes of the ExecutionPolicy in the registry to the values &#34;un
 | `set_default_powershell_execution_policy_to_unrestricted_or_bypass_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `set_default_powershell_execution_policy_to_unrestricted_or_bypass_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Malicious PowerShell](/stories/malicious_powershell)
 * [Credential Dumping](/stories/credential_dumping)

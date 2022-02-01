@@ -52,6 +52,18 @@ This analytic will identify a suspicious process command-line related to Windows
 | `add_or_set_windows_defender_exclusion_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `add_or_set_windows_defender_exclusion_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Remcos](/stories/remcos)
 * [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)

@@ -59,6 +59,18 @@ This search detects logins from the same user from different cities in a 24 hour
 | search locations > 1
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `okta_user_logins_from_multiple_cities_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Suspicious Okta Activity](/stories/suspicious_okta_activity)
 

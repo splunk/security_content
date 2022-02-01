@@ -51,6 +51,18 @@ This search looks for outbound ICMP packets with a packet size larger than 1,000
 | `detect_large_outbound_icmp_packets_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `detect_large_outbound_icmp_packets_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Command and Control](/stories/command_and_control)
 

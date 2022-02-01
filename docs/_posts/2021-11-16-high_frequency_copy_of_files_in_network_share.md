@@ -50,6 +50,18 @@ This analytic is to detect a suspicious high frequency copying/moving of files i
 | `high_frequency_copy_of_files_in_network_share_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `high_frequency_copy_of_files_in_network_share_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Information Sabotage](/stories/information_sabotage)
 

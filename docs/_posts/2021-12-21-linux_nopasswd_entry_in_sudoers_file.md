@@ -54,6 +54,18 @@ This analytic is to look for suspicious command lines that may add entry to /etc
 | `linux_nopasswd_entry_in_sudoers_file_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `linux_nopasswd_entry_in_sudoers_file_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Linux Privilege Escalation](/stories/linux_privilege_escalation)
 * [Linux Persistence Techniques](/stories/linux_persistence_techniques)

@@ -48,6 +48,18 @@ The following analytic identifies usage of `wmic.exe` spawning a local or remote
 | `remote_wmi_command_attempt_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `remote_wmi_command_attempt_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Suspicious WMI Use](/stories/suspicious_wmi_use)
 

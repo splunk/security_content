@@ -64,6 +64,18 @@ This search looks for cloud compute instances created by users who have not crea
 | `cloud_compute_instance_created_by_previously_unseen_user_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `cloud_compute_instance_created_by_previously_unseen_user_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Cloud Cryptomining](/stories/cloud_cryptomining)
 

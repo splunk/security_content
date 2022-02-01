@@ -50,6 +50,18 @@ The following analytc uses Windows Event Id 7045, `New Service Was Installed`, t
 | `windows_service_created_with_suspicious_service_path_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `windows_service_created_with_suspicious_service_path_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Clop Ransomware](/stories/clop_ransomware)
 * [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)

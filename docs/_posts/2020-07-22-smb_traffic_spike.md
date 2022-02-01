@@ -57,6 +57,18 @@ This search looks for spikes in the number of Server Message Block (SMB) traffic
 | `smb_traffic_spike_filter` 
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `smb_traffic_spike_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Emotet Malware  DHS Report TA18-201A ](/stories/emotet_malware__dhs_report_ta18-201a_)
 * [Hidden Cobra Malware](/stories/hidden_cobra_malware)

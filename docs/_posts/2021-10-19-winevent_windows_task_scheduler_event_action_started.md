@@ -50,6 +50,18 @@ The following hunting analytic assists with identifying suspicious tasks that ha
 | `winevent_windows_task_scheduler_event_action_started_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `winevent_windows_task_scheduler_event_action_started_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [IcedID](/stories/icedid)
 * [Windows Persistence Techniques](/stories/windows_persistence_techniques)

@@ -41,6 +41,18 @@ This search looks for Web requests to faux domains similar to the one that you w
 | `monitor_web_traffic_for_brand_abuse_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `monitor_web_traffic_for_brand_abuse_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Brand Monitoring](/stories/brand_monitoring)
 

@@ -51,6 +51,18 @@ This search will detect spike in blocked outbound network connections originatin
 | `detect_spike_in_blocked_outbound_traffic_from_your_aws_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `detect_spike_in_blocked_outbound_traffic_from_your_aws_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [AWS Network ACL Activity](/stories/aws_network_acl_activity)
 * [Suspicious AWS Traffic](/stories/suspicious_aws_traffic)

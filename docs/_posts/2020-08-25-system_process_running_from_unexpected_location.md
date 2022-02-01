@@ -71,6 +71,18 @@ $cond_6 =
 | into write_ssa_detected_events();
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `system_process_running_from_unexpected_location_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
 * [Masquerading - Rename System Utilities](/stories/masquerading_-_rename_system_utilities)

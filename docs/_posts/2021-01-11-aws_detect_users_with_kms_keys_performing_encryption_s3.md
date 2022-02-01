@@ -48,6 +48,18 @@ This search provides detection of users with KMS keys performing encryption spec
 |`aws_detect_users_with_kms_keys_performing_encryption_s3_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `aws_detect_users_with_kms_keys_performing_encryption_s3_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Ransomware Cloud](/stories/ransomware_cloud)
 

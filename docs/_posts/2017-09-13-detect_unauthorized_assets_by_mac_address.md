@@ -45,6 +45,18 @@ By populating the organization&#39;s assets within the assets_by_str.csv, we wil
 | `detect_unauthorized_assets_by_mac_address_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `detect_unauthorized_assets_by_mac_address_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Asset Tracking](/stories/asset_tracking)
 

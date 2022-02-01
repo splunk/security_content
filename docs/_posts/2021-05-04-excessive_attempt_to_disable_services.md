@@ -49,6 +49,18 @@ This analytic will identify suspicious series of command-line to disable several
 | `excessive_attempt_to_disable_services_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `excessive_attempt_to_disable_services_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [XMRig](/stories/xmrig)
 

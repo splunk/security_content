@@ -59,6 +59,18 @@ The analytics returned fields allow analysts to investigate the event further by
 | `multiple_users_attempting_to_authenticate_using_explicit_credentials_filter` 
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `multiple_users_attempting_to_authenticate_using_explicit_credentials_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Active Directory Password Spraying](/stories/active_directory_password_spraying)
 

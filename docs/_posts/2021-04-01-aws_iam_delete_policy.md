@@ -47,6 +47,18 @@ The following detection identifes when a policy is deleted on AWS. This does not
 | `aws_iam_delete_policy_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `aws_iam_delete_policy_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [AWS IAM Privilege Escalation](/stories/aws_iam_privilege_escalation)
 

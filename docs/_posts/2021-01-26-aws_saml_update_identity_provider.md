@@ -50,6 +50,18 @@ This search provides detection of updates to SAML provider in AWS. Updates to SA
 |`aws_saml_update_identity_provider_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `aws_saml_update_identity_provider_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Cloud Federated Credential Abuse](/stories/cloud_federated_credential_abuse)
 

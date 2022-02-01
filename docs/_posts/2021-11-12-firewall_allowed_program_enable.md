@@ -52,6 +52,18 @@ This analytic detects a potential suspicious modification of firewall rule allow
 | `firewall_allowed_program_enable_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `firewall_allowed_program_enable_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
 

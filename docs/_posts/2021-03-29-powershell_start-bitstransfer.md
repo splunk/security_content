@@ -49,6 +49,18 @@ Start-BitsTransfer is the PowerShell &#34;version&#34; of BitsAdmin.exe. Similar
 | `powershell_start_bitstransfer_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `powershell_start-bitstransfer_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [BITS Jobs](/stories/bits_jobs)
 

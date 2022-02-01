@@ -50,6 +50,18 @@ The following analytic identifies parent processes, browsers, Windows terminal a
 | into write_ssa_detected_events();
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `detect_prohibited_applications_spawning_cmd_exe_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Suspicious Command-Line Executions](/stories/suspicious_command-line_executions)
 

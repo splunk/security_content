@@ -49,6 +49,18 @@ This search detects writes to the recycle bin by a process other than explorer.e
 | `suspicious_writes_to_windows_recycle_bin_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `suspicious_writes_to_windows_recycle_bin_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Collection and Staging](/stories/collection_and_staging)
 

@@ -49,6 +49,18 @@ This search provides detection information on unauthenticated requests against K
 | `amazon_eks_kubernetes_pod_scan_detection_filter` 
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `amazon_eks_kubernetes_pod_scan_detection_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Kubernetes Scanning Activity](/stories/kubernetes_scanning_activity)
 

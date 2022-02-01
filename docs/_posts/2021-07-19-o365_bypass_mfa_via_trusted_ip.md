@@ -56,6 +56,18 @@ This search detects newly added IP addresses/CIDR blocks to the list of MFA Trus
 | `o365_bypass_mfa_via_trusted_ip_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `o365_bypass_mfa_via_trusted_ip_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Office 365 Detections](/stories/office_365_detections)
 

@@ -51,6 +51,18 @@ This search will detect more than 5 login failures in Office365 Azure Active Dir
 | `high_number_of_login_failures_from_a_single_source_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `high_number_of_login_failures_from_a_single_source_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Office 365 Detections](/stories/office_365_detections)
 

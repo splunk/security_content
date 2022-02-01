@@ -49,6 +49,18 @@ This search looks for AWS CloudTrail events where a user has created an open/pub
 | `detect_new_open_s3_buckets_over_aws_cli_filter` 
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `detect_new_open_s3_buckets_over_aws_cli_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Suspicious AWS S3 Activities](/stories/suspicious_aws_s3_activities)
 

@@ -53,6 +53,18 @@ Malicious mails can conduct phishing that induces readers to open attachment, cl
 | into write_ssa_detected_events();
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `phishing_email_detection_by_machine_learning_method_-_ssa_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 
 

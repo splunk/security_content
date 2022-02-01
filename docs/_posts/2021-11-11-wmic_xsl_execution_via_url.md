@@ -48,6 +48,18 @@ The following analytic identifies `wmic.exe` loading a remote XSL (eXtensible St
 | `wmic_xsl_execution_via_url_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `wmic_xsl_execution_via_url_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Suspicious WMI Use](/stories/suspicious_wmi_use)
 

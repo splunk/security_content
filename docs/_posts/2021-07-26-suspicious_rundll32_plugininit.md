@@ -52,6 +52,18 @@ This search is to detect a suspicious rundll32.exe process with plugininit param
 | `suspicious_rundll32_plugininit_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `suspicious_rundll32_plugininit_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [IcedID](/stories/icedid)
 

@@ -52,6 +52,18 @@ Adversaries may abuse Regsvr32.exe to proxy execution of malicious code by using
 | `suspicious_regsvr32_register_suspicious_path_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `suspicious_regsvr32_register_suspicious_path_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Suspicious Regsvr32 Activity](/stories/suspicious_regsvr32_activity)
 * [Iceid](/stories/iceid)

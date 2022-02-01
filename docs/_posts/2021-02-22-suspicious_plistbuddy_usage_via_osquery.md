@@ -58,6 +58,18 @@ Upon triage, capture the property list file being written to disk and review for
 |  `suspicious_plistbuddy_usage_via_osquery_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `suspicious_plistbuddy_usage_via_osquery_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Silver Sparrow](/stories/silver_sparrow)
 

@@ -75,6 +75,18 @@ The following analytic assists with identifying a PowerShell process spawned as 
 | `possible_lateral_movement_powershell_spawn_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `possible_lateral_movement_powershell_spawn_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
 * [Malicious PowerShell](/stories/malicious_powershell)

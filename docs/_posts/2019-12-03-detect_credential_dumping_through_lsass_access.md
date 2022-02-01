@@ -51,6 +51,18 @@ This search looks for reading lsass memory consistent with credential dumping.
 | `detect_credential_dumping_through_lsass_access_filter` 
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `detect_credential_dumping_through_lsass_access_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Credential Dumping](/stories/credential_dumping)
 * [Detect Zerologon Attack](/stories/detect_zerologon_attack)

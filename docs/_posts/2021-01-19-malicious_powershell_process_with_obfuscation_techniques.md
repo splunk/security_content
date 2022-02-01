@@ -54,6 +54,18 @@ This search looks for PowerShell processes launched with arguments that have cha
 | search num_obfuscation > 10 
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `malicious_powershell_process_with_obfuscation_techniques_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Malicious PowerShell](/stories/malicious_powershell)
 

@@ -52,6 +52,18 @@ This analytic looks for the execution of `powershell.exe` with arguments utilize
 | `remote_process_instantiation_via_dcom_and_powershell_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `remote_process_instantiation_via_dcom_and_powershell_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
 

@@ -57,6 +57,18 @@ This search looks for cloud provisioning activities from previously unseen IP ad
 | `security_content_ctime(firstTime)`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `cloud_provisioning_activity_from_previously_unseen_ip_address_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Suspicious Cloud Provisioning Activities](/stories/suspicious_cloud_provisioning_activities)
 

@@ -49,6 +49,18 @@ The following analytics identifies a big number of instance of ransomware notes 
 | `ransomware_notes_bulk_creation_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `ransomware_notes_bulk_creation_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Clop Ransomware](/stories/clop_ransomware)
 * [DarkSide Ransomware](/stories/darkside_ransomware)

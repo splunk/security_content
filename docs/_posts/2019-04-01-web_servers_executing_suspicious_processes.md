@@ -50,6 +50,18 @@ This search looks for suspicious processes on all systems labeled as web servers
 | `web_servers_executing_suspicious_processes_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `web_servers_executing_suspicious_processes_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Apache Struts Vulnerability](/stories/apache_struts_vulnerability)
 

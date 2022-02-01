@@ -48,6 +48,18 @@ This search looks for high frequency of file deletion relative to process name a
 | `high_file_deletion_frequency_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `high_file_deletion_frequency_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Clop Ransomware](/stories/clop_ransomware)
 * [WhisperGate](/stories/whispergate)

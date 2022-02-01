@@ -56,6 +56,18 @@ This search is to detect a suspicious excessive usage of sc.exe in a host machin
 | `excessive_usage_of_sc_service_utility_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `excessive_usage_of_sc_service_utility_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Ransomware](/stories/ransomware)
 

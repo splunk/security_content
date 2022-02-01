@@ -52,6 +52,18 @@ The following analytic identifies a non-standard parent process (not matching CM
 | `cmdline_tool_not_executed_in_cmd_shell_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `cmdline_tool_not_executed_in_cmd_shell_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [FIN7](/stories/fin7)
 

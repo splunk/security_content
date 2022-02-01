@@ -70,6 +70,18 @@ This search will detect a spike in the number of API calls made to your cloud in
 | `abnormally_high_number_of_cloud_infrastructure_api_calls_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `abnormally_high_number_of_cloud_infrastructure_api_calls_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Suspicious Cloud User Activities](/stories/suspicious_cloud_user_activities)
 

@@ -52,6 +52,18 @@ This search is to detect execution of wevtutil.exe to disable logs. This techniq
 | into write_ssa_detected_events();
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `wevtutil_usage_to_disable_logs_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Windows Log Manipulation](/stories/windows_log_manipulation)
 * [Ransomware](/stories/ransomware)

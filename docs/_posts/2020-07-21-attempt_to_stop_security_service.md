@@ -54,6 +54,18 @@ This search looks for attempts to stop security-related services on the endpoint
 | `attempt_to_stop_security_service_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `attempt_to_stop_security_service_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Disabling Security Tools](/stories/disabling_security_tools)
 * [Trickbot](/stories/trickbot)

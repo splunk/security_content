@@ -71,6 +71,18 @@ This search finds for the number successfully destroyed cloud instances for ever
 | `abnormally_high_number_of_cloud_instances_destroyed_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `abnormally_high_number_of_cloud_instances_destroyed_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Suspicious Cloud Instance Activities](/stories/suspicious_cloud_instance_activities)
 

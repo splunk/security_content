@@ -53,6 +53,18 @@ The following analytic identifies the use of PowerShell downloading a file using
 | `any_powershell_downloadfile_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `any_powershell_downloadfile_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Malicious PowerShell](/stories/malicious_powershell)
 * [Ingress Tool Transfer](/stories/ingress_tool_transfer)

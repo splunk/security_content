@@ -59,6 +59,18 @@ The search looks for modifications to registry keys that can be used to launch a
 | `registry_keys_used_for_persistence_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `registry_keys_used_for_persistence_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Suspicious Windows Registry Activities](/stories/suspicious_windows_registry_activities)
 * [Suspicious MSHTA Activity](/stories/suspicious_mshta_activity)

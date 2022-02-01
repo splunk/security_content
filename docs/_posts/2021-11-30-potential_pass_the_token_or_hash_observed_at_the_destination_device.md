@@ -62,6 +62,18 @@ This detection identifies potential Pass the Token or Pass the Hash credential s
 | into write_ssa_detected_events();
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `potential_pass_the_token_or_hash_observed_at_the_destination_device_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
 

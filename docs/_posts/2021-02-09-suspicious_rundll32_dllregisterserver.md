@@ -52,6 +52,18 @@ The following analytic identifies rundll32.exe using dllregisterserver on the co
 | `suspicious_rundll32_dllregisterserver_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `suspicious_rundll32_dllregisterserver_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Suspicious Rundll32 Activity](/stories/suspicious_rundll32_activity)
 

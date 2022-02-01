@@ -54,6 +54,18 @@ This search looks for arguments to sc.exe indicating the creation or modificatio
 | `sc_exe_manipulating_windows_services_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `sc_exe_manipulating_windows_services_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Windows Service Abuse](/stories/windows_service_abuse)
 * [DHS Report TA18-074A](/stories/dhs_report_ta18-074a)

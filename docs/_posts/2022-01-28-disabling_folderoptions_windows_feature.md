@@ -57,6 +57,18 @@ This search is to identify registry modification to disable folder options featu
 | `disabling_folderoptions_windows_feature_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `disabling_folderoptions_windows_feature_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
 

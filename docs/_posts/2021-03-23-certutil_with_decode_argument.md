@@ -48,6 +48,18 @@ CertUtil.exe may be used to `encode` and `decode` a file, including PE and scrip
 | `certutil_with_decode_argument_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `certutil_with_decode_argument_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Deobfuscate-Decode Files or Information](/stories/deobfuscate-decode_files_or_information)
 

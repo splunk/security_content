@@ -52,6 +52,18 @@ During triage, review parallel processes using an EDR product or 4688 events. It
 | `powershell_loading_dotnet_into_memory_via_system_reflection_assembly_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `powershell_loading_dotnet_into_memory_via_system_reflection_assembly_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Malicious PowerShell](/stories/malicious_powershell)
 

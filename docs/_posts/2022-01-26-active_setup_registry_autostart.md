@@ -59,6 +59,18 @@ This analytic is to detect a suspicious modification of the active setup registr
 | `active_setup_registry_autostart_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `active_setup_registry_autostart_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Windows Persistence Techniques](/stories/windows_persistence_techniques)
 * [Windows Privilege Escalation](/stories/windows_privilege_escalation)

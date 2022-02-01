@@ -51,6 +51,18 @@ this search detects a potential malicious office document that create schedule t
 | `office_document_creating_schedule_task_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `office_document_creating_schedule_task_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Spearphishing Attachments](/stories/spearphishing_attachments)
 

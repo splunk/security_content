@@ -49,6 +49,18 @@ This search detects attempts to run exploits for the Zerologon CVE-2020-1472 vul
 | search `detect_zerologon_via_zeek_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `detect_zerologon_via_zeek_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Detect Zerologon Attack](/stories/detect_zerologon_attack)
 

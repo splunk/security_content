@@ -51,6 +51,18 @@ This search is to detect potential plain HTTP POST method data exfiltration. Thi
 | `plain_http_post_exfiltrated_data_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `plain_http_post_exfiltrated_data_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Command and Control](/stories/command_and_control)
 * [Data Exfiltration](/stories/data_exfiltration)

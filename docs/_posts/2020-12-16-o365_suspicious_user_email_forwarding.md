@@ -55,6 +55,18 @@ This search detects when multiple user configured a forwarding rule to the same 
 |`o365_suspicious_user_email_forwarding_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `o365_suspicious_user_email_forwarding_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Office 365 Detections](/stories/office_365_detections)
 * [Data Exfiltration](/stories/data_exfiltration)

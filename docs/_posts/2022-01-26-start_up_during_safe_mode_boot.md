@@ -59,6 +59,18 @@ This search is to detect a modification or registry add to the safeboot registry
 | `start_up_during_safe_mode_boot_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `start_up_during_safe_mode_boot_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Ransomware](/stories/ransomware)
 

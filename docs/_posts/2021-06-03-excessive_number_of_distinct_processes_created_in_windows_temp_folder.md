@@ -49,6 +49,18 @@ This analytic will identify suspicious series of process executions.  We have ob
 | `excessive_number_of_distinct_processes_created_in_windows_temp_folder_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `excessive_number_of_distinct_processes_created_in_windows_temp_folder_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Meterpreter](/stories/meterpreter)
 

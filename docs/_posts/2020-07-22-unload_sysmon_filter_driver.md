@@ -53,6 +53,18 @@ Attackers often disable security tools to avoid detection. This search looks for
 | table firstTime lastTime dest user count process_name process_id parent_process_name process
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `unload_sysmon_filter_driver_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Disabling Security Tools](/stories/disabling_security_tools)
 

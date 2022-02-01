@@ -50,6 +50,18 @@ The following analytic utilizes Windows Security Event ID 1102 or System log eve
 | `windows_event_log_cleared_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `windows_event_log_cleared_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Windows Log Manipulation](/stories/windows_log_manipulation)
 * [Ransomware](/stories/ransomware)

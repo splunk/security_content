@@ -52,6 +52,18 @@ The following analytic identifies hh.exe (HTML Help) execution of a Compiled HTM
 | `detect_html_help_spawn_child_process_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `detect_html_help_spawn_child_process_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Suspicious Compiled HTML Activity](/stories/suspicious_compiled_html_activity)
 

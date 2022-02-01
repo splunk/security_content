@@ -51,6 +51,18 @@ This analytic will detect a suspicious process commandline related to windows de
 | `powershell_windows_defender_exclusion_commands_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `powershell_windows_defender_exclusion_commands_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Remcos](/stories/remcos)
 * [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)

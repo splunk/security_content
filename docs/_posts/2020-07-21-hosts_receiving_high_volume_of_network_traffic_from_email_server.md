@@ -58,6 +58,18 @@ This search looks for an increase of data transfers from your email server to yo
 | `hosts_receiving_high_volume_of_network_traffic_from_email_server_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `hosts_receiving_high_volume_of_network_traffic_from_email_server_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Collection and Staging](/stories/collection_and_staging)
 

@@ -41,6 +41,18 @@ The following analytic identifies cleartext protocols at risk of leaking sensiti
 | `protocols_passing_authentication_in_cleartext_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `protocols_passing_authentication_in_cleartext_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Use of Cleartext Protocols](/stories/use_of_cleartext_protocols)
 

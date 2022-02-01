@@ -53,6 +53,18 @@ Upon investigating, look for network connections to remote destinations (interna
 | `detect_regsvr32_application_control_bypass_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `detect_regsvr32_application_control_bypass_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Suspicious Regsvr32 Activity](/stories/suspicious_regsvr32_activity)
 * [Cobalt Strike](/stories/cobalt_strike)

@@ -58,6 +58,18 @@ This search looks for modifications to registry keys that can be used to elevate
 | `registry_keys_used_for_privilege_escalation_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `registry_keys_used_for_privilege_escalation_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Windows Privilege Escalation](/stories/windows_privilege_escalation)
 * [Suspicious Windows Registry Activities](/stories/suspicious_windows_registry_activities)

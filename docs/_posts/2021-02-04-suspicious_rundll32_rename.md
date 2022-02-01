@@ -60,6 +60,18 @@ The following analytic identifies renamed instances of rundll32.exe executing. r
 | `suspicious_rundll32_rename_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `suspicious_rundll32_rename_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Suspicious Rundll32 Activity](/stories/suspicious_rundll32_activity)
 * [Masquerading - Rename System Utilities](/stories/masquerading_-_rename_system_utilities)

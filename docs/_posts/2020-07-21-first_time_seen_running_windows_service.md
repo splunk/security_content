@@ -54,6 +54,18 @@ This search looks for the first and last time a Windows service is seen running 
 | `first_time_seen_running_windows_service_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `first_time_seen_running_windows_service_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Windows Service Abuse](/stories/windows_service_abuse)
 * [Orangeworm Attack Group](/stories/orangeworm_attack_group)

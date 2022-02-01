@@ -47,6 +47,18 @@ The following analytic identifies the usage of `rclone.exe`, renamed, being used
 | `detect_renamed_rclone_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `detect_renamed_rclone_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [DarkSide Ransomware](/stories/darkside_ransomware)
 * [Ransomware](/stories/ransomware)

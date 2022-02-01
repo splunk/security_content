@@ -54,6 +54,18 @@ This search detects the process execution and arguments required to silently cre
 | `shim_database_installation_with_suspicious_parameters_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `shim_database_installation_with_suspicious_parameters_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Windows Persistence Techniques](/stories/windows_persistence_techniques)
 

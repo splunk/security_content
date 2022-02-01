@@ -56,6 +56,18 @@ This search looks for flags passed to schtasks.exe on the command-line that indi
 | `schtasks_used_for_forcing_a_reboot_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `schtasks_used_for_forcing_a_reboot_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Windows Persistence Techniques](/stories/windows_persistence_techniques)
 * [Ransomware](/stories/ransomware)

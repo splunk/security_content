@@ -51,6 +51,18 @@ This search looks for registry activity associated with modifications to the reg
 | `monitor_registry_keys_for_print_monitors_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `monitor_registry_keys_for_print_monitors_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Suspicious Windows Registry Activities](/stories/suspicious_windows_registry_activities)
 * [Windows Persistence Techniques](/stories/windows_persistence_techniques)

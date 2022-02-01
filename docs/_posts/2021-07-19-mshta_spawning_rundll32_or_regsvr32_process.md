@@ -52,6 +52,18 @@ This search is to detect a suspicious mshta.exe process that spawn rundll32 or r
 | `mshta_spawning_rundll32_or_regsvr32_process_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `mshta_spawning_rundll32_or_regsvr32_process_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Trickbot](/stories/trickbot)
 * [IcedID](/stories/icedid)

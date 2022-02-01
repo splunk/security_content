@@ -55,6 +55,18 @@ The search looks for AWS CloudTrail events to detect if any network ACLs were cr
 | `aws_network_access_control_list_created_with_all_open_ports_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `aws_network_access_control_list_created_with_all_open_ports_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [AWS Network ACL Activity](/stories/aws_network_acl_activity)
 

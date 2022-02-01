@@ -58,6 +58,18 @@ The following hunting analytic identifies PowerShell commands utilizing the Wind
 | `powershell___connect_to_internet_with_hidden_window_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `powershell_-_connect_to_internet_with_hidden_window_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Malicious PowerShell](/stories/malicious_powershell)
 * [Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns](/stories/possible_backdoor_activity_associated_with_mudcarp_espionage_campaigns)

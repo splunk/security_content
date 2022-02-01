@@ -47,6 +47,18 @@ This search aims to detect the Supernova webshell used in the SUNBURST attack.
 | `supernova_webshell_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `supernova_webshell_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [NOBELIUM Group](/stories/nobelium_group)
 

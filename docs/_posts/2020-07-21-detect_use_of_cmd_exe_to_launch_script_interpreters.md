@@ -52,6 +52,18 @@ This search looks for the execution of the cscript.exe or wscript.exe processes,
 | `detect_use_of_cmd_exe_to_launch_script_interpreters_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `detect_use_of_cmd_exe_to_launch_script_interpreters_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [Emotet Malware  DHS Report TA18-201A ](/stories/emotet_malware__dhs_report_ta18-201a_)
 * [Suspicious Command-Line Executions](/stories/suspicious_command-line_executions)

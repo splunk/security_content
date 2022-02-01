@@ -49,6 +49,18 @@ This analytic identifies excessive usage of `net.exe` or `net1.exe` within a buc
 | `excessive_usage_of_net_app_filter`
 ```
 
+## Macros
+The SPL above uses the following Macros:
+* [Macro_Name](https://)
+* [Macro2_Name](https://)
+
+** Note that `excessive_usage_of_net_app_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+
+## Lookups
+The SPL above uses the following Lookups:
+
+* [Lookup_Name]() with [data]()
+
 #### Associated Analytic Story
 * [XMRig](/stories/xmrig)
 * [Ransomware](/stories/ransomware)
