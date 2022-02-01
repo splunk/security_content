@@ -45,7 +45,7 @@ pycvesearch==1.0.1
 pyfiglet==0.8.post1
 Pygments==2.10.0
 PyInquirer==1.0.3
-pyparsing==2.4.7
+pyparsing==3.0.7
 pyrsistent==0.18.0
 python-dateutil==2.8.2
 pytoml==0.1.21
