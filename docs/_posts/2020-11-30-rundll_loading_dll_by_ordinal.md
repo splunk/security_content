@@ -25,7 +25,7 @@ tags:
 
 This search looks for executing scripts with rundll32. Adversaries may abuse rundll32.exe to proxy execution of malicious code. Using rundll32.exe, vice executing directly, may avoid triggering security tools that may not monitor execution of the rundll32.exe process because of allowlists or false positives from normal operations.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-11-30
@@ -35,8 +35,8 @@ This search looks for executing scripts with rundll32. Adversaries may abuse run
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
 
 | [T1218.011](https://attack.mitre.org/techniques/T1218/011/) | Rundll32 | Defense Evasion |
@@ -52,24 +52,17 @@ This search looks for executing scripts with rundll32. Adversaries may abuse run
 | `rundll_loading_dll_by_ordinal_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `rundll_loading_dll_by_ordinal_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `rundll_loading_dll_by_ordinal_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Unusual Processes](/stories/unusual_processes)
-
-
-#### How To Implement
-To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 
 #### Required field
 * _time
@@ -86,12 +79,15 @@ To successfully implement this search you need to be ingesting information on pr
 * Processes.parent_process_id
 
 
-#### Kill Chain Phase
-* Installation
-
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 
 #### Known False Positives
 While not common, loading a DLL under %AppData% and calling a function by ordinal is possible by a legitimate process
+
+#### Kill Chain Phase
+* Installation
+
 
 
 #### RBA

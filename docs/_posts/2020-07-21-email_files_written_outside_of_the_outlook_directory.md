@@ -27,7 +27,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 The search looks at the change-analysis data model and detects email files created outside the normal Outlook directory.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-07-21
@@ -37,8 +37,8 @@ The search looks at the change-analysis data model and detects email files creat
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1114](https://attack.mitre.org/techniques/T1114/) | Email Collection | Collection |
 
 | [T1114.001](https://attack.mitre.org/techniques/T1114/001/) | Local Email Collection | Collection |
@@ -54,24 +54,17 @@ The search looks at the change-analysis data model and detects email files creat
 | `email_files_written_outside_of_the_outlook_directory_filter` 
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `email_files_written_outside_of_the_outlook_directory_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `email_files_written_outside_of_the_outlook_directory_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Collection and Staging](/stories/collection_and_staging)
-
-
-#### How To Implement
-To successfully implement this search, you must be ingesting data that records the file-system activity from your hosts to populate the Endpoint.Filesystem data model node. This is typically populated via endpoint detection-and-response product, such as Carbon Black, or by other endpoint data sources, such as Sysmon. The data used for this search is typically generated via logs that report file-system reads and writes.
 
 #### Required field
 * _time
@@ -82,12 +75,15 @@ To successfully implement this search, you must be ingesting data that records t
 * Filesystem.dest
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+To successfully implement this search, you must be ingesting data that records the file-system activity from your hosts to populate the Endpoint.Filesystem data model node. This is typically populated via endpoint detection-and-response product, such as Carbon Black, or by other endpoint data sources, such as Sysmon. The data used for this search is typically generated via logs that report file-system reads and writes.
 
 #### Known False Positives
 Administrators and users sometimes prefer backing up their email data by moving the email files into a different folder. These attempts will be detected by the search.
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 

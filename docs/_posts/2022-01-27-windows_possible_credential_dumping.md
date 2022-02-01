@@ -28,7 +28,7 @@ CallTrace Stack trace of where open process is called. Included is the DLL and t
 dbgcore.dll or dbghelp.dll  are two core Windows debug DLLs that have minidump functions which provide a way for applications to produce crashdump files that contain a useful subset of the entire process context. \
 The idea behind using ntdll.dll is to blend in by using native api of ntdll.dll. For example in sekurlsa module there are many ntdll exported api, like RtlCopyMemory, used to execute this module which is related to lsass dumping.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2022-01-27
@@ -38,8 +38,8 @@ The idea behind using ntdll.dll is to blend in by using native api of ntdll.dll.
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1003.001](https://attack.mitre.org/techniques/T1003/001/) | LSASS Memory | Credential Access |
 
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
@@ -55,26 +55,17 @@ The idea behind using ntdll.dll is to blend in by using native api of ntdll.dll.
 | `windows_possible_credential_dumping_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `windows_possible_credential_dumping_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `windows_possible_credential_dumping_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Credential Dumping](/stories/credential_dumping)
-* [Detect Zerologon Attack](/stories/detect_zerologon_attack)
-* [DarkSide Ransomware](/stories/darkside_ransomware)
-
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Enabling EventCode 10 TargetProcess lsass.exe is required.
 
 #### Required field
 * _time
@@ -87,12 +78,15 @@ To successfully implement this search, you need to be ingesting logs with the pr
 * TargetUser
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Enabling EventCode 10 TargetProcess lsass.exe is required.
 
 #### Known False Positives
 False positives will occur based on GrantedAccess 0x1010 and 0x1400, filter based on source image as needed or remove them. Concern is Cobalt Strike usage of Mimikatz will generate 0x1010 initially, but later be caught.
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 #### RBA

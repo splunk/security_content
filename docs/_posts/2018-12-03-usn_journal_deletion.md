@@ -23,7 +23,7 @@ tags:
 
 The fsutil.exe application is a legitimate Windows utility used to perform tasks related to the file allocation table (FAT) and NTFS file systems. The update sequence number (USN) change journal provides a log of all changes made to the files on the disk. This search looks for fsutil.exe deleting the USN journal.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2018-12-03
@@ -33,8 +33,8 @@ The fsutil.exe application is a legitimate Windows utility used to perform tasks
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
 
 #### Search
@@ -49,25 +49,17 @@ The fsutil.exe application is a legitimate Windows utility used to perform tasks
 | `usn_journal_deletion_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `usn_journal_deletion_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `usn_journal_deletion_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Windows Log Manipulation](/stories/windows_log_manipulation)
-* [Ransomware](/stories/ransomware)
-
-
-#### How To Implement
-You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the &#34;process&#34; field in the Endpoint data model.
 
 #### Required field
 * _time
@@ -79,12 +71,15 @@ You must be ingesting data that records process activity from your hosts to popu
 * Processes.dest
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the &#34;process&#34; field in the Endpoint data model.
 
 #### Known False Positives
 None identified
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 #### RBA

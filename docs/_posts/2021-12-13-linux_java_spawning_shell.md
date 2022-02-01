@@ -24,7 +24,7 @@ tags:
 
 The following analytic identifies the process name of Java, Apache, or Tomcat spawning a Linux shell. This is potentially indicative of exploitation of the Java application and may be related to current event CVE-2021-44228 (Log4Shell). The shells included in the macro are &#34;sh&#34;, &#34;ksh&#34;, &#34;zsh&#34;, &#34;bash&#34;, &#34;dash&#34;, &#34;rbash&#34;, &#34;fish&#34;, &#34;csh&#39;, &#34;tcsh&#39;, &#34;ion&#34;, &#34;eshell&#34;. Upon triage, review parallel processes and command-line arguments to determine legitimacy.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-12-13
@@ -34,8 +34,8 @@ The following analytic identifies the process name of Java, Apache, or Tomcat sp
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1190](https://attack.mitre.org/techniques/T1190/) | Exploit Public-Facing Application | Initial Access |
 
 #### Search
@@ -49,24 +49,17 @@ The following analytic identifies the process name of Java, Apache, or Tomcat sp
 | `linux_java_spawning_shell_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `linux_java_spawning_shell_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `linux_java_spawning_shell_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Log4Shell CVE-2021-44228](/stories/log4shell_cve-2021-44228)
-
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon for Linux, you will need to ensure mapping is occurring correctly. Ensure EDR product is mapping OS Linux to the datamodel properly. Add any additional java process names for your environment to the analytic as needed.
 
 #### Required field
 * _time
@@ -83,12 +76,15 @@ To successfully implement this search, you need to be ingesting logs with the pr
 * Processes.parent_process_id
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon for Linux, you will need to ensure mapping is occurring correctly. Ensure EDR product is mapping OS Linux to the datamodel properly. Add any additional java process names for your environment to the analytic as needed.
 
 #### Known False Positives
 Filtering may be required on internal developer build systems or classify assets as web facing and restrict the analytic based on asset type.
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA

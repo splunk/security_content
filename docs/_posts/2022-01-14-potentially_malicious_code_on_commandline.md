@@ -23,7 +23,7 @@ tags:
 
 The following analytic uses a pretrained machine learning text classifier to detect potentially malicious commandlines.  The model identifies unusual combinations of keywords found in samples of commandlines where adversaries executed powershell code, primarily for C2 communication.  For example, adversaries will leverage IO capabilities such as &#34;streamreader&#34; and &#34;webclient&#34;, threading capabilties such as &#34;mutex&#34; locks, programmatic constructs like &#34;function&#34; and &#34;catch&#34;, and cryptographic operations like &#34;computehash&#34;.  Although observing one of these keywords in a commandline script is possible, combinations of keywords observed in attack data are not typically found in normal usage of the commandline.  The model will output a score where all values above zero are suspicious, anything greater than one particularly so.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2022-01-14
@@ -33,8 +33,8 @@ The following analytic uses a pretrained machine learning text classifier to det
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1059.003](https://attack.mitre.org/techniques/T1059/003/) | Windows Command Shell | Execution |
 
 #### Search
@@ -54,24 +54,17 @@ The following analytic uses a pretrained machine learning text classifier to det
 | `potentially_malicious_code_on_commandline_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `potentially_malicious_code_on_commandline_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `potentially_malicious_code_on_commandline_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Suspicious Command-Line Executions](/stories/suspicious_command-line_executions)
-
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.  You will also need to install the Machine Learning Toolkit version 5.3 or above to apply the pretrained model.
 
 #### Required field
 * _time
@@ -83,12 +76,15 @@ To successfully implement this search, you need to be ingesting logs with the pr
 * Processes.dest
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.  You will also need to install the Machine Learning Toolkit version 5.3 or above to apply the pretrained model.
 
 #### Known False Positives
 This model is an anomaly detector that identifies usage of APIs and scripting constructs that are correllated with malicious activity.  These APIs and scripting constructs are part of the programming langauge and advanced scripts may generate false positives.
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA

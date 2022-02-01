@@ -23,7 +23,7 @@ tags:
 
 This analytic is to detect a suspicious registry modification to disable security audit logs. This technique was shared by a researcher to disable Security logs of windows by adding this registry. The Windows will think it is WinPE and will not log any event to the Security Log
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2022-01-27
@@ -33,8 +33,8 @@ This analytic is to detect a suspicious registry modification to disable securit
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1112](https://attack.mitre.org/techniques/T1112/) | Modify Registry | Defense Evasion |
 
 #### Search
@@ -53,24 +53,17 @@ This analytic is to detect a suspicious registry modification to disable securit
 | `disable_security_logs_using_minint_registry_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `disable_security_logs_using_minint_registry_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `disable_security_logs_using_minint_registry_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
-
-
-#### How To Implement
-To successfully implement this search, you must be ingesting data that records registry activity from your hosts to populate the endpoint data model in the registry node. This is typically populated via endpoint detection-and-response product, such as Carbon Black or endpoint data sources, such as Sysmon. The data used for this search is typically generated via logs that report reads and writes to the registry.
 
 #### Required field
 * _time
@@ -82,12 +75,15 @@ To successfully implement this search, you must be ingesting data that records r
 * Registry.registry_value_data
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search, you must be ingesting data that records registry activity from your hosts to populate the endpoint data model in the registry node. This is typically populated via endpoint detection-and-response product, such as Carbon Black or endpoint data sources, such as Sysmon. The data used for this search is typically generated via logs that report reads and writes to the registry.
 
 #### Known False Positives
 Unknown.
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA

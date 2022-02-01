@@ -27,7 +27,7 @@ tags:
 
 This search looks for cloud provisioning activities from previously unseen cities. Provisioning activities are defined broadly as any event that runs or creates something.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
 - **Last Updated**: 2020-10-09
@@ -37,8 +37,8 @@ This search looks for cloud provisioning activities from previously unseen citie
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 #### Search
@@ -59,24 +59,17 @@ This search looks for cloud provisioning activities from previously unseen citie
 | `security_content_ctime(firstTime)`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `cloud_provisioning_activity_from_previously_unseen_city_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `cloud_provisioning_activity_from_previously_unseen_city_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Suspicious Cloud Provisioning Activities](/stories/suspicious_cloud_provisioning_activities)
-
-
-#### How To Implement
-You must be ingesting your cloud infrastructure logs from your cloud provider.  You should run the baseline search `Previously Seen Cloud Provisioning Activity Sources - Initial` to build the initial table of source IP address, geographic locations, and times. You must also enable the second baseline search `Previously Seen Cloud Provisioning Activity Sources - Update` to keep this table up to date and to age out old data. You can adjust the time window for this search by updating the `previously_unseen_cloud_provisioning_activity_window` macro. You can also provide additional filtering for this search by customizing the `cloud_provisioning_activity_from_previously_unseen_city_filter` macro.
 
 #### Required field
 * _time
@@ -88,12 +81,15 @@ You must be ingesting your cloud infrastructure logs from your cloud provider.  
 * All_Changes.command
 
 
-#### Kill Chain Phase
-
+#### How To Implement
+You must be ingesting your cloud infrastructure logs from your cloud provider.  You should run the baseline search `Previously Seen Cloud Provisioning Activity Sources - Initial` to build the initial table of source IP address, geographic locations, and times. You must also enable the second baseline search `Previously Seen Cloud Provisioning Activity Sources - Update` to keep this table up to date and to age out old data. You can adjust the time window for this search by updating the `previously_unseen_cloud_provisioning_activity_window` macro. You can also provide additional filtering for this search by customizing the `cloud_provisioning_activity_from_previously_unseen_city_filter` macro.
 
 #### Known False Positives
 This is a strictly behavioral search, so we define &#34;false positive&#34; slightly differently. Every time this fires, it will accurately reflect the first occurrence in the time period you&#39;re searching within, plus what is stored in the cache feature. But while there are really no &#34;false positives&#34; in a traditional sense, there is definitely lots of noise.\
  This search will fire any time a new IP address is seen in the **GeoIP** database for any kind of provisioning activity. If you typically do all provisioning from tools inside of your country, there should be few false positives. If you are located in countries where the free version of **MaxMind GeoIP** that ships by default with Splunk has weak resolution (particularly small countries in less economically powerful regions), this may be much less valuable to you.
+
+#### Kill Chain Phase
+
 
 
 #### RBA

@@ -23,7 +23,7 @@ tags:
 
 This search detects a suspicioous termination of known services killed by ransomware before encrypting files in a compromised machine. This technique is commonly seen in most of ransomware now a days to avoid exception error while accessing the targetted files it wants to encrypts because of the open handle of those services to the targetted file.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-04
@@ -33,8 +33,8 @@ This search detects a suspicioous termination of known services killed by ransom
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1490](https://attack.mitre.org/techniques/T1490/) | Inhibit System Recovery | Impact |
 
 #### Search
@@ -47,25 +47,17 @@ This search detects a suspicioous termination of known services killed by ransom
 | `known_services_killed_by_ransomware_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `known_services_killed_by_ransomware_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `known_services_killed_by_ransomware_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Ransomware](/stories/ransomware)
-* [BlackMatter Ransomware](/stories/blackmatter_ransomware)
-
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the 7036 EventCode ScManager in System audit Logs from your endpoints.
 
 #### Required field
 * _time
@@ -75,12 +67,15 @@ To successfully implement this search, you need to be ingesting logs with the 70
 * Type
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the 7036 EventCode ScManager in System audit Logs from your endpoints.
 
 #### Known False Positives
 Admin activities or installing related updates may do a sudden stop to list of services we monitor.
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA

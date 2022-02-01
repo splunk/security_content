@@ -22,7 +22,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 This search looks for suspicious Java classes that are often used to exploit remote command execution in common Java frameworks, such as Apache Struts.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2018-12-06
@@ -42,24 +42,17 @@ This search looks for suspicious Java classes that are often used to exploit rem
 | `suspicious_java_classes_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `suspicious_java_classes_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `suspicious_java_classes_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Apache Struts Vulnerability](/stories/apache_struts_vulnerability)
-
-
-#### How To Implement
-In order to properly run this search, Splunk needs to ingest data from your web-traffic appliances that serve or sit in the path of your Struts application servers. This can be accomplished by indexing data from a web proxy, or by using network traffic-analysis tools, such as Splunk Stream or Bro.
 
 #### Required field
 * _time
@@ -73,12 +66,15 @@ In order to properly run this search, Splunk needs to ingest data from your web-
 * dest
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+In order to properly run this search, Splunk needs to ingest data from your web-traffic appliances that serve or sit in the path of your Struts application servers. This can be accomplished by indexing data from a web proxy, or by using network traffic-analysis tools, such as Splunk Stream or Bro.
 
 #### Known False Positives
 There are no known false positives.
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 

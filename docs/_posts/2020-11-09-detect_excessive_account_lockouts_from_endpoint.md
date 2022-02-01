@@ -31,7 +31,7 @@ tags:
 
 This search identifies endpoints that have caused a relatively high number of account lockouts in a short period.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
 - **Last Updated**: 2020-11-09
@@ -41,8 +41,8 @@ This search identifies endpoints that have caused a relatively high number of ac
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 | [T1078.002](https://attack.mitre.org/techniques/T1078/002/) | Domain Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
@@ -60,28 +60,17 @@ This search identifies endpoints that have caused a relatively high number of ac
 | `detect_excessive_account_lockouts_from_endpoint_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `detect_excessive_account_lockouts_from_endpoint_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `detect_excessive_account_lockouts_from_endpoint_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Account Monitoring and Controls](/stories/account_monitoring_and_controls)
-
-
-#### How To Implement
-You must ingest your Windows security event logs in the `Change` datamodel under the nodename is `Account_Management`, for this search to execute successfully. Please consider updating the cron schedule and the count of lockouts you want to monitor, according to your environment. \
- **Splunk&gt;Phantom Playbook Integration**\
-If Splunk&gt;Phantom is also configured in your environment, a Playbook called &#34;Excessive Account Lockouts Enrichment and Response&#34; can be configured to run when any results are found by this detection search. The Playbook executes the Contextual and Investigative searches in this Story, conducts additional information gathering on Windows endpoints, and takes a response action to shut down the affected endpoint. To use this integration, install the Phantom App for Splunk `https://splunkbase.splunk.com/app/3411/`, add the correct hostname to the &#34;Phantom Instance&#34; field in the Adaptive Response Actions when configuring this detection search, and set the corresponding Playbook to active. \
-(Playbook Link:`https://my.phantom.us/4.1/playbook/excessive-account-lockouts-enrichment-and-response/`).\
-
 
 #### Required field
 * _time
@@ -91,11 +80,18 @@ If Splunk&gt;Phantom is also configured in your environment, a Playbook called &
 * All_Changes.dest
 
 
-#### Kill Chain Phase
+#### How To Implement
+You must ingest your Windows security event logs in the `Change` datamodel under the nodename is `Account_Management`, for this search to execute successfully. Please consider updating the cron schedule and the count of lockouts you want to monitor, according to your environment. \
+ **Splunk&gt;Phantom Playbook Integration**\
+If Splunk&gt;Phantom is also configured in your environment, a Playbook called &#34;Excessive Account Lockouts Enrichment and Response&#34; can be configured to run when any results are found by this detection search. The Playbook executes the Contextual and Investigative searches in this Story, conducts additional information gathering on Windows endpoints, and takes a response action to shut down the affected endpoint. To use this integration, install the Phantom App for Splunk `https://splunkbase.splunk.com/app/3411/`, add the correct hostname to the &#34;Phantom Instance&#34; field in the Adaptive Response Actions when configuring this detection search, and set the corresponding Playbook to active. \
+(Playbook Link:`https://my.phantom.us/4.1/playbook/excessive-account-lockouts-enrichment-and-response/`).\
 
 
 #### Known False Positives
 It&#39;s possible that a widely used system, such as a kiosk, could cause a large number of account lockouts.
+
+#### Kill Chain Phase
+
 
 
 #### RBA

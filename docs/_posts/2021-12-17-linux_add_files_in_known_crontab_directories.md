@@ -29,7 +29,7 @@ tags:
 
 The following analytic identifies a suspicious file creation in known cron table directories. This event is commonly abuse by malware, adversaries and red teamers to persist on the target or compromised host. crontab or cronjob is like a schedule task in windows environment where you can create an executable or script on the known crontab directories to run it base on its schedule. This Anomaly query is a good indicator to look further what file is added and who added the file if to consider it legitimate file.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-12-17
@@ -39,8 +39,8 @@ The following analytic identifies a suspicious file creation in known cron table
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1053.003](https://attack.mitre.org/techniques/T1053/003/) | Cron | Execution, Persistence, Privilege Escalation |
 
 | [T1053](https://attack.mitre.org/techniques/T1053/) | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
@@ -56,25 +56,17 @@ The following analytic identifies a suspicious file creation in known cron table
 | `linux_add_files_in_known_crontab_directories_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `linux_add_files_in_known_crontab_directories_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `linux_add_files_in_known_crontab_directories_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Linux Privilege Escalation](/stories/linux_privilege_escalation)
-* [Linux Persistence Techniques](/stories/linux_persistence_techniques)
-
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the file name, file path, and process_guid executions from your endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from Splunkbase.
 
 #### Required field
 * _time
@@ -85,12 +77,15 @@ To successfully implement this search, you need to be ingesting logs with the fi
 * Filesystem.file_path
 
 
-#### Kill Chain Phase
-* Privilege Escalation
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the file name, file path, and process_guid executions from your endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from Splunkbase.
 
 #### Known False Positives
 Administrator or network operator can create file in crontab folders for automation purposes. Please update the filter macros to remove false positives.
+
+#### Kill Chain Phase
+* Privilege Escalation
+
 
 
 #### RBA

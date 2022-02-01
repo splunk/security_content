@@ -31,7 +31,7 @@ tags:
 
 This search detects user accounts that have been locked out a relatively high number of times in a short period.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
 - **Last Updated**: 2020-07-21
@@ -41,8 +41,8 @@ This search detects user accounts that have been locked out a relatively high nu
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 | [T1078.003](https://attack.mitre.org/techniques/T1078/003/) | Local Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
@@ -60,24 +60,17 @@ This search detects user accounts that have been locked out a relatively high nu
 | `detect_excessive_user_account_lockouts_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `detect_excessive_user_account_lockouts_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `detect_excessive_user_account_lockouts_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Account Monitoring and Controls](/stories/account_monitoring_and_controls)
-
-
-#### How To Implement
-ou must ingest your Windows security event logs in the `Change` datamodel under the nodename is `Account_Management`, for this search to execute successfully. Please consider updating the cron schedule and the count of lockouts you want to monitor, according to your environment.
 
 #### Required field
 * _time
@@ -86,11 +79,14 @@ ou must ingest your Windows security event logs in the `Change` datamodel under 
 * All_Changes.user
 
 
-#### Kill Chain Phase
-
+#### How To Implement
+ou must ingest your Windows security event logs in the `Change` datamodel under the nodename is `Account_Management`, for this search to execute successfully. Please consider updating the cron schedule and the count of lockouts you want to monitor, according to your environment.
 
 #### Known False Positives
 It is possible that a legitimate user is experiencing an issue causing multiple account login failures leading to lockouts.
+
+#### Kill Chain Phase
+
 
 
 #### RBA

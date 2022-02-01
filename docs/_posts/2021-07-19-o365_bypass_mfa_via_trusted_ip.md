@@ -25,7 +25,7 @@ tags:
 
 This search detects newly added IP addresses/CIDR blocks to the list of MFA Trusted IPs to bypass multi factor authentication. Attackers are often known to use this technique so that they can bypass the MFA system.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-07-19
@@ -35,8 +35,8 @@ This search detects newly added IP addresses/CIDR blocks to the list of MFA Trus
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1562.007](https://attack.mitre.org/techniques/T1562/007/) | Disable or Modify Cloud Firewall | Defense Evasion |
 
 | [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
@@ -56,24 +56,17 @@ This search detects newly added IP addresses/CIDR blocks to the list of MFA Trus
 | `o365_bypass_mfa_via_trusted_ip_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `o365_bypass_mfa_via_trusted_ip_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `o365_bypass_mfa_via_trusted_ip_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Office 365 Detections](/stories/office_365_detections)
-
-
-#### How To Implement
-You must install Splunk Microsoft Office 365 add-on. This search works with o365:management:activity
 
 #### Required field
 * _time
@@ -88,12 +81,15 @@ You must install Splunk Microsoft Office 365 add-on. This search works with o365
 * action
 
 
-#### Kill Chain Phase
-* Actions on Objective
-
+#### How To Implement
+You must install Splunk Microsoft Office 365 add-on. This search works with o365:management:activity
 
 #### Known False Positives
 Unless it is a special case, it is uncommon to continually update Trusted IPs to MFA configuration.
+
+#### Kill Chain Phase
+* Actions on Objective
+
 
 
 #### RBA

@@ -23,7 +23,7 @@ tags:
 
 The following analytic identifies usage of `wmic.exe` spawning a local or remote process, identified by the `node` switch. During triage, review parallel processes for additional commands executed. Look for any file modifications before and after `wmic.exe` execution. In addition, identify the remote endpoint and confirm execution or file modifications. Contain and isolate the endpoint as needed.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2018-12-03
@@ -33,8 +33,8 @@ The following analytic identifies usage of `wmic.exe` spawning a local or remote
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1047](https://attack.mitre.org/techniques/T1047/) | Windows Management Instrumentation | Execution |
 
 #### Search
@@ -48,24 +48,17 @@ The following analytic identifies usage of `wmic.exe` spawning a local or remote
 | `remote_wmi_command_attempt_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `remote_wmi_command_attempt_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `remote_wmi_command_attempt_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Suspicious WMI Use](/stories/suspicious_wmi_use)
-
-
-#### How To Implement
-To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product. Deprecated because duplicate of Remote Process Instantiation via WMI.
 
 #### Required field
 * _time
@@ -78,12 +71,15 @@ To successfully implement this search you need to be ingesting information on pr
 * Processes.process_id
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product. Deprecated because duplicate of Remote Process Instantiation via WMI.
 
 #### Known False Positives
 Administrators may use this legitimately to gather info from remote systems. Filter as needed.
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 #### RBA

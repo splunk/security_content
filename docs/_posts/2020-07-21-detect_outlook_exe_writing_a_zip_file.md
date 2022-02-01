@@ -26,7 +26,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 This search looks for execution of process `outlook.exe` where the process is writing a `.zip` file to the disk.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-07-21
@@ -36,8 +36,8 @@ This search looks for execution of process `outlook.exe` where the process is wr
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1566](https://attack.mitre.org/techniques/T1566/) | Phishing | Initial Access |
 
 | [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
@@ -64,24 +64,17 @@ This search looks for execution of process `outlook.exe` where the process is wr
 | `detect_outlook_exe_writing_a_zip_file_filter` 
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `detect_outlook_exe_writing_a_zip_file_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `detect_outlook_exe_writing_a_zip_file_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Spearphishing Attachments](/stories/spearphishing_attachments)
-
-
-#### How To Implement
-You must be ingesting data that records filesystem and process activity from your hosts to populate the Endpoint data model. This is typically populated via endpoint detection-and-response product, such as Carbon Black, or endpoint data sources, such as Sysmon.
 
 #### Required field
 * _time
@@ -93,13 +86,16 @@ You must be ingesting data that records filesystem and process activity from you
 * Processes.user
 
 
+#### How To Implement
+You must be ingesting data that records filesystem and process activity from your hosts to populate the Endpoint data model. This is typically populated via endpoint detection-and-response product, such as Carbon Black, or endpoint data sources, such as Sysmon.
+
+#### Known False Positives
+It is not uncommon for outlook to write legitimate zip files to the disk.
+
 #### Kill Chain Phase
 * Installation
 * Actions on Objectives
 
-
-#### Known False Positives
-It is not uncommon for outlook to write legitimate zip files to the disk.
 
 
 

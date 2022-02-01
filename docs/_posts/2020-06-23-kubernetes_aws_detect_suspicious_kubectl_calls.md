@@ -22,7 +22,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 This search provides information on anonymous Kubectl calls with IP, verb namespace and object access context
 
-- **Type**: Hunting
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-06-23
@@ -38,24 +38,17 @@ This search provides information on anonymous Kubectl calls with IP, verb namesp
 |`kubernetes_aws_detect_suspicious_kubectl_calls_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `kubernetes_aws_detect_suspicious_kubectl_calls_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `kubernetes_aws_detect_suspicious_kubectl_calls_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Kubernetes Sensitive Object Access Activity](/stories/kubernetes_sensitive_object_access_activity)
-
-
-#### How To Implement
-You must install splunk AWS add on and Splunk App for AWS. This search works with cloudwatch logs.
 
 #### Required field
 * _time
@@ -67,12 +60,15 @@ You must install splunk AWS add on and Splunk App for AWS. This search works wit
 * requestURI
 
 
-#### Kill Chain Phase
-* Lateral Movement
-
+#### How To Implement
+You must install splunk AWS add on and Splunk App for AWS. This search works with cloudwatch logs.
 
 #### Known False Positives
 Kubectl calls are not malicious by nature. However source IP, verb and Object can reveal potential malicious activity, specially anonymous suspicious IPs and sensitive objects such as configmaps or secrets
+
+#### Kill Chain Phase
+* Lateral Movement
+
 
 
 

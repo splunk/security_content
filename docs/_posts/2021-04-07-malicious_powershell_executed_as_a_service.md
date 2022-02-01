@@ -25,7 +25,7 @@ tags:
 
 This detection is to identify the abuse the Windows SC.exe to execute malicious commands or payloads via PowerShell.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-04-07
@@ -35,8 +35,8 @@ This detection is to identify the abuse the Windows SC.exe to execute malicious 
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1569](https://attack.mitre.org/techniques/T1569/) | System Services | Execution |
 
 | [T1569.002](https://attack.mitre.org/techniques/T1569/002/) | Service Execution | Execution |
@@ -60,24 +60,17 @@ This detection is to identify the abuse the Windows SC.exe to execute malicious 
 | `malicious_powershell_executed_as_a_service_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `malicious_powershell_executed_as_a_service_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `malicious_powershell_executed_as_a_service_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Malicious Powershell](/stories/malicious_powershell)
-
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting Windows System logs with the Service name, Service File Name Service Start type, and Service Type from your endpoints.
 
 #### Required field
 * EventCode
@@ -90,12 +83,15 @@ To successfully implement this search, you need to be ingesting Windows System l
 * user
 
 
-#### Kill Chain Phase
-* Privilege Escalation
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting Windows System logs with the Service name, Service File Name Service Start type, and Service Type from your endpoints.
 
 #### Known False Positives
 Creating a hidden powershell service is rare and could key off of those instances.
+
+#### Kill Chain Phase
+* Privilege Escalation
+
 
 
 #### RBA

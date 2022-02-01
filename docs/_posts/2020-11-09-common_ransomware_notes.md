@@ -23,7 +23,7 @@ tags:
 
 The search looks for files created with names matching those typically used in ransomware notes that tell the victim how to get their data back.
 
-- **Type**: Hunting
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-11-09
@@ -33,8 +33,8 @@ The search looks for files created with names matching those typically used in r
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1485](https://attack.mitre.org/techniques/T1485/) | Data Destruction | Impact |
 
 #### Search
@@ -49,27 +49,17 @@ The search looks for files created with names matching those typically used in r
 | `common_ransomware_notes_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `common_ransomware_notes_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `common_ransomware_notes_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [SamSam Ransomware](/stories/samsam_ransomware)
-* [Ransomware](/stories/ransomware)
-* [Ryuk Ransomware](/stories/ryuk_ransomware)
-* [Clop Ransomware](/stories/clop_ransomware)
-
-
-#### How To Implement
-You must be ingesting data that records file-system activity from your hosts to populate the Endpoint Filesystem data-model node. This is typically populated via endpoint detection-and-response product, such as Carbon Black, or via other endpoint data sources, such as Sysmon. The data used for this search is typically generated via logs that report file-system reads and writes.
 
 #### Required field
 * _time
@@ -79,12 +69,15 @@ You must be ingesting data that records file-system activity from your hosts to 
 * Filesystem.file_name
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+You must be ingesting data that records file-system activity from your hosts to populate the Endpoint Filesystem data-model node. This is typically populated via endpoint detection-and-response product, such as Carbon Black, or via other endpoint data sources, such as Sysmon. The data used for this search is typically generated via logs that report file-system reads and writes.
 
 #### Known False Positives
 It&#39;s possible that a legitimate file could be created with the same name used by ransomware note files.
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 #### RBA

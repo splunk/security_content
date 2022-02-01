@@ -26,7 +26,7 @@ To enable 5145 events via Group Policy - Computer Configuration-&gt;Polices-&gt;
 It is possible this is not enabled by default and may need to be reviewed and enabled. \
 During triage, review parallel security events to identify further suspicious activity.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-08-31
@@ -36,8 +36,8 @@ During triage, review parallel security events to identify further suspicious ac
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1187](https://attack.mitre.org/techniques/T1187/) | Forced Authentication | Credential Access |
 
 #### Search
@@ -50,24 +50,17 @@ During triage, review parallel security events to identify further suspicious ac
 | `petitpotam_network_share_access_request_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `petitpotam_network_share_access_request_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `petitpotam_network_share_access_request_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [PetitPotam NTLM Relay on Active Directory Certificate Services](/stories/petitpotam_ntlm_relay_on_active_directory_certificate_services)
-
-
-#### How To Implement
-Windows Event Code 5145 is required to utilize this analytic and it may not be enabled in most environments.
 
 #### Required field
 * _time
@@ -79,13 +72,16 @@ Windows Event Code 5145 is required to utilize this analytic and it may not be e
 * Message
 
 
+#### How To Implement
+Windows Event Code 5145 is required to utilize this analytic and it may not be enabled in most environments.
+
+#### Known False Positives
+False positives have been limited when the Anonymous Logon is used for Account Name.
+
 #### Kill Chain Phase
 * Exploitation
 * Lateral Movement
 
-
-#### Known False Positives
-False positives have been limited when the Anonymous Logon is used for Account Name.
 
 
 #### RBA

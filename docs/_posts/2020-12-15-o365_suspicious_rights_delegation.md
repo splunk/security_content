@@ -25,7 +25,7 @@ tags:
 
 This search detects the assignment of rights to accesss content from another mailbox. This is usually only assigned to a service account.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-12-15
@@ -35,8 +35,8 @@ This search detects the assignment of rights to accesss content from another mai
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1114.002](https://attack.mitre.org/techniques/T1114/002/) | Remote Email Collection | Collection |
 
 | [T1114](https://attack.mitre.org/techniques/T1114/) | Email Collection | Collection |
@@ -54,24 +54,17 @@ This search detects the assignment of rights to accesss content from another mai
 |`o365_suspicious_rights_delegation_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `o365_suspicious_rights_delegation_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `o365_suspicious_rights_delegation_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Office 365 Detections](/stories/office_365_detections)
-
-
-#### How To Implement
-You must install splunk Microsoft Office 365 add-on. This search works with o365:management:activity
 
 #### Required field
 * _time
@@ -79,12 +72,15 @@ You must install splunk Microsoft Office 365 add-on. This search works with o365
 * Parameters
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+You must install splunk Microsoft Office 365 add-on. This search works with o365:management:activity
 
 #### Known False Positives
 Service Accounts
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 #### RBA

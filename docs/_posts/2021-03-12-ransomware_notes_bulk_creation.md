@@ -23,7 +23,7 @@ tags:
 
 The following analytics identifies a big number of instance of ransomware notes (filetype e.g .txt, .html, .hta) file creation to the infected machine. This behavior is a good sensor if the ransomware note filename is quite new for security industry or the ransomware note filename is not in your ransomware lookup table list for monitoring.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-03-12
@@ -33,8 +33,8 @@ The following analytics identifies a big number of instance of ransomware notes 
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1486](https://attack.mitre.org/techniques/T1486/) | Data Encrypted for Impact | Impact |
 
 #### Search
@@ -49,26 +49,17 @@ The following analytics identifies a big number of instance of ransomware notes 
 | `ransomware_notes_bulk_creation_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `ransomware_notes_bulk_creation_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `ransomware_notes_bulk_creation_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Clop Ransomware](/stories/clop_ransomware)
-* [DarkSide Ransomware](/stories/darkside_ransomware)
-* [BlackMatter Ransomware](/stories/blackmatter_ransomware)
-
-
-#### How To Implement
-You must be ingesting data that records the filesystem activity from your hosts to populate the Endpoint file-system data model node. If you are using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which you want to collect data.
 
 #### Required field
 * EventCode
@@ -80,12 +71,15 @@ You must be ingesting data that records the filesystem activity from your hosts 
 * user
 
 
-#### Kill Chain Phase
-* Obfuscation
-
+#### How To Implement
+You must be ingesting data that records the filesystem activity from your hosts to populate the Endpoint file-system data model node. If you are using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which you want to collect data.
 
 #### Known False Positives
 unknown
+
+#### Kill Chain Phase
+* Obfuscation
+
 
 
 #### RBA

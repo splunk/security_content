@@ -21,7 +21,7 @@ tags:
 
 An attacker tries might try to use different version of a system command without overriding original, or they might try to avoid some detection running the process from a different folder. This detection checks that a list of system processes run inside C:\\Windows\System32 or C:\\Windows\SysWOW64 The list of system processes has been extracted from https://github.com/splunk/security_content/blob/develop/lookups/is_windows_system_file.csv and the original detection https://github.com/splunk/security_content/blob/develop/detections/system_processes_run_from_unexpected_locations.yml
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2020-08-25
@@ -31,8 +31,8 @@ An attacker tries might try to use different version of a system command without
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1036](https://attack.mitre.org/techniques/T1036/) | Masquerading | Defense Evasion |
 
 #### Search
@@ -71,25 +71,17 @@ $cond_6 =
 | into write_ssa_detected_events();
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `system_process_running_from_unexpected_location_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `system_process_running_from_unexpected_location_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
-* [Masquerading - Rename System Utilities](/stories/masquerading_-_rename_system_utilities)
-
-
-#### How To Implement
-Collect endpoint data such as sysmon or 4688 events.
 
 #### Required field
 * dest_device_id
@@ -99,12 +91,15 @@ Collect endpoint data such as sysmon or 4688 events.
 * process_path
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+Collect endpoint data such as sysmon or 4688 events.
 
 #### Known False Positives
 None
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 #### RBA

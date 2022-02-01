@@ -23,7 +23,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 This search looks for Web requests to faux domains similar to the one that you want to have monitored for abuse.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Web](https://docs.splunk.com/Documentation/CIM/latest/User/Web)
 - **Last Updated**: 2017-09-23
@@ -41,24 +41,17 @@ This search looks for Web requests to faux domains similar to the one that you w
 | `monitor_web_traffic_for_brand_abuse_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `monitor_web_traffic_for_brand_abuse_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `monitor_web_traffic_for_brand_abuse_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Brand Monitoring](/stories/brand_monitoring)
-
-
-#### How To Implement
-You need to ingest data from your web traffic. This can be accomplished by indexing data from a web proxy, or using a network traffic analysis tool, such as Bro or Splunk Stream. You also need to have run the search &#34;ESCU - DNSTwist Domain Names&#34;, which creates the permutations of the domain that will be checked for.
 
 #### Required field
 * _time
@@ -66,12 +59,15 @@ You need to ingest data from your web traffic. This can be accomplished by index
 * Web.src
 
 
-#### Kill Chain Phase
-* Delivery
-
+#### How To Implement
+You need to ingest data from your web traffic. This can be accomplished by indexing data from a web proxy, or using a network traffic analysis tool, such as Bro or Splunk Stream. You also need to have run the search &#34;ESCU - DNSTwist Domain Names&#34;, which creates the permutations of the domain that will be checked for.
 
 #### Known False Positives
 None at this time
+
+#### Kill Chain Phase
+* Delivery
+
 
 
 

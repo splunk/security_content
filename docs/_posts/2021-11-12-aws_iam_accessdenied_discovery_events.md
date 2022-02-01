@@ -23,7 +23,7 @@ tags:
 
 The following detection identifies excessive AccessDenied events within an hour timeframe. It is possible that an access key to AWS may have been stolen and is being misused to perform discovery events. In these instances, the access is not available with the key stolen therefore these events will be generated.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Splunk Security Analytics for AWS
 - **Datamodel**: 
 - **Last Updated**: 2021-11-12
@@ -33,8 +33,8 @@ The following detection identifies excessive AccessDenied events within an hour 
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1580](https://attack.mitre.org/techniques/T1580/) | Cloud Infrastructure Discovery | Discovery |
 
 #### Search
@@ -49,24 +49,17 @@ The following detection identifies excessive AccessDenied events within an hour 
 | `aws_iam_accessdenied_discovery_events_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `aws_iam_accessdenied_discovery_events_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `aws_iam_accessdenied_discovery_events_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Suspicious Cloud User Activities](/stories/suspicious_cloud_user_activities)
-
-
-#### How To Implement
-The Splunk AWS Add-on and Splunk App for AWS is required to utilize this data. The search requires AWS Cloudtrail logs.
 
 #### Required field
 * _time
@@ -77,12 +70,15 @@ The Splunk AWS Add-on and Splunk App for AWS is required to utilize this data. T
 * userIdentity.type
 
 
-#### Kill Chain Phase
-* Reconnaissance
-
+#### How To Implement
+The Splunk AWS Add-on and Splunk App for AWS is required to utilize this data. The search requires AWS Cloudtrail logs.
 
 #### Known False Positives
 It is possible to start this detection will need to be tuned by source IP or user. In addition, change the count values to an upper threshold to restrict false positives.
+
+#### Kill Chain Phase
+* Reconnaissance
+
 
 
 #### RBA

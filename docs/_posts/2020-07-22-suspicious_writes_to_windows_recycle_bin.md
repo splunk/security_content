@@ -22,7 +22,7 @@ tags:
 
 This search detects writes to the recycle bin by a process other than explorer.exe.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-07-22
@@ -32,8 +32,8 @@ This search detects writes to the recycle bin by a process other than explorer.e
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1036](https://attack.mitre.org/techniques/T1036/) | Masquerading | Defense Evasion |
 
 #### Search
@@ -49,24 +49,17 @@ This search detects writes to the recycle bin by a process other than explorer.e
 | `suspicious_writes_to_windows_recycle_bin_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `suspicious_writes_to_windows_recycle_bin_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `suspicious_writes_to_windows_recycle_bin_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Collection and Staging](/stories/collection_and_staging)
-
-
-#### How To Implement
-To successfully implement this search you need to be ingesting information on filesystem and process logs responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` and `Filesystem` nodes.
 
 #### Required field
 * _time
@@ -81,11 +74,14 @@ To successfully implement this search you need to be ingesting information on fi
 * Processes.dest
 
 
-#### Kill Chain Phase
-
+#### How To Implement
+To successfully implement this search you need to be ingesting information on filesystem and process logs responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` and `Filesystem` nodes.
 
 #### Known False Positives
 Because the Recycle Bin is a hidden folder in modern versions of Windows, it would be unusual for a process other than explorer.exe to write to it. Incidents should be investigated as appropriate.
+
+#### Kill Chain Phase
+
 
 
 #### RBA

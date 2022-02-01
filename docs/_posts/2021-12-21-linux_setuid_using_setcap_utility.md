@@ -27,7 +27,7 @@ tags:
 
 This analytic looks for suspicious setcap utility execution to enable SUID bit. This allows a user to temporarily gain root access, usually in order to run a program. For example, only the root account is allowed to change the password information contained in the password database; If the SUID bit appears as an s, the file&#39;s owner also has execute permission to the file; if it appears as an S, the file&#39;s owner does not have execute permission. The second specialty permission is the SGID, or set group id bit. It is similar to the SUID bit, except it can temporarily change group membership, usually to execute a program. The SGID bit is set if an s or an S appears in the group section of permissions.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-12-21
@@ -37,8 +37,8 @@ This analytic looks for suspicious setcap utility execution to enable SUID bit. 
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1548.001](https://attack.mitre.org/techniques/T1548/001/) | Setuid and Setgid | Privilege Escalation, Defense Evasion |
 
 | [T1548](https://attack.mitre.org/techniques/T1548/) | Abuse Elevation Control Mechanism | Privilege Escalation, Defense Evasion |
@@ -54,25 +54,17 @@ This analytic looks for suspicious setcap utility execution to enable SUID bit. 
 | `linux_setuid_using_setcap_utility_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `linux_setuid_using_setcap_utility_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `linux_setuid_using_setcap_utility_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Linux Privilege Escalation](/stories/linux_privilege_escalation)
-* [Linux Persistence Techniques](/stories/linux_persistence_techniques)
-
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from Splunkbase.
 
 #### Required field
 * _time
@@ -85,12 +77,15 @@ To successfully implement this search, you need to be ingesting logs with the pr
 * Processes.parent_process_id
 
 
-#### Kill Chain Phase
-* Privilege Escalation
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from Splunkbase.
 
 #### Known False Positives
 Administrator or network operator can execute this command. Please update the filter macros to remove false positives.
+
+#### Kill Chain Phase
+* Privilege Escalation
+
 
 
 #### RBA

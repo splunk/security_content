@@ -32,7 +32,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 An attacker may use LOLBAS tools spawned from vulnerable applications not typically used by system administrators. This analytic leverages the Splunk Streaming ML DSP plugin to find rare parent/child relationships. The list of application has been extracted from https://github.com/LOLBAS-Project/LOLBAS/tree/master/yml/OSBinaries
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2021-11-30
@@ -42,8 +42,8 @@ An attacker may use LOLBAS tools spawned from vulnerable applications not typica
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1203](https://attack.mitre.org/techniques/T1203/) | Exploitation for Client Execution | Execution |
 
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
@@ -70,24 +70,17 @@ An attacker may use LOLBAS tools spawned from vulnerable applications not typica
 | into write_ssa_detected_events();
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `rare_parent-child_process_relationship_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `rare_parent-child_process_relationship_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Unusual Processes](/stories/unusual_processes)
-
-
-#### How To Implement
-Collect endpoint data such as sysmon or 4688 events.
 
 #### Required field
 * process
@@ -99,12 +92,15 @@ Collect endpoint data such as sysmon or 4688 events.
 * cmd_line
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+Collect endpoint data such as sysmon or 4688 events.
 
 #### Known False Positives
 Some custom tools used by administrators could be used rarely to launch remotely applications. This might trigger false positives at the beginning when it has not collected yet enough data to construct the baseline.
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 

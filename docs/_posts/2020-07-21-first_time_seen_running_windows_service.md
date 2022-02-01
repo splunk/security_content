@@ -26,7 +26,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 This search looks for the first and last time a Windows service is seen running in your environment. This table is then cached.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-07-21
@@ -36,8 +36,8 @@ This search looks for the first and last time a Windows service is seen running 
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1569](https://attack.mitre.org/techniques/T1569/) | System Services | Execution |
 
 | [T1569.002](https://attack.mitre.org/techniques/T1569/002/) | Service Execution | Execution |
@@ -54,26 +54,17 @@ This search looks for the first and last time a Windows service is seen running 
 | `first_time_seen_running_windows_service_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `first_time_seen_running_windows_service_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `first_time_seen_running_windows_service_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Windows Service Abuse](/stories/windows_service_abuse)
-* [Orangeworm Attack Group](/stories/orangeworm_attack_group)
-* [NOBELIUM Group](/stories/nobelium_group)
-
-
-#### How To Implement
-While this search does not require you to adhere to Splunk CIM, you must be ingesting your Windows system event logs in order for this search to execute successfully. You should run the baseline search `Previously Seen Running Windows Services - Initial` to build the initial table of child processes and hostnames for this search to work. You should also schedule at the same interval as this search the second baseline search `Previously Seen Running Windows Services - Update` to keep this table up to date and to age out old Windows Services. Please update the `previously_seen_windows_services_window` macro to adjust the time window. Please ensure that the Splunk Add-on for Microsoft Windows is version 8.0.0 or above.
 
 #### Required field
 * _time
@@ -82,13 +73,16 @@ While this search does not require you to adhere to Splunk CIM, you must be inge
 * dest
 
 
+#### How To Implement
+While this search does not require you to adhere to Splunk CIM, you must be ingesting your Windows system event logs in order for this search to execute successfully. You should run the baseline search `Previously Seen Running Windows Services - Initial` to build the initial table of child processes and hostnames for this search to work. You should also schedule at the same interval as this search the second baseline search `Previously Seen Running Windows Services - Update` to keep this table up to date and to age out old Windows Services. Please update the `previously_seen_windows_services_window` macro to adjust the time window. Please ensure that the Splunk Add-on for Microsoft Windows is version 8.0.0 or above.
+
+#### Known False Positives
+A previously unseen service is not necessarily malicious. Verify that the service is legitimate and that was installed by a legitimate process.
+
 #### Kill Chain Phase
 * Installation
 * Actions on Objectives
 
-
-#### Known False Positives
-A previously unseen service is not necessarily malicious. Verify that the service is legitimate and that was installed by a legitimate process.
 
 
 

@@ -23,7 +23,7 @@ tags:
 
 The following detection identifies the usage of archive tools from the command line.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2021-11-22
@@ -33,8 +33,8 @@ The following detection identifies the usage of archive tools from the command l
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1560.001](https://attack.mitre.org/techniques/T1560/001/) | Archive via Utility | Collection |
 
 | [T1560](https://attack.mitre.org/techniques/T1560/) | Archive Collected Data | Collection |
@@ -52,25 +52,17 @@ The following detection identifies the usage of archive tools from the command l
 | into write_ssa_detected_events();
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `anomalous_usage_of_archive_tools_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `anomalous_usage_of_archive_tools_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Cobalt Strike](/stories/cobalt_strike)
-* [NOBELIUM Group](/stories/nobelium_group)
-
-
-#### How To Implement
-To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
 
 #### Required field
 * _time
@@ -82,12 +74,15 @@ To successfully implement this search you need to be ingesting information on pr
 * Processes.parent_process
 
 
-#### Kill Chain Phase
-* Actions on Objective
-
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
 
 #### Known False Positives
 False positives can be ligitmate usage of archive tools from the command line.
+
+#### Kill Chain Phase
+* Actions on Objective
+
 
 
 #### RBA

@@ -22,7 +22,7 @@ tags:
 
 The following analytic utilizes PowerShell Script Block Logging (EventCode=4104) to identify the execution of the `Get-ADUserResultantPasswordPolicy` commandlet used to obtain the password policy in a Windows domain. Red Teams and adversaries alike may use PowerShell to enumerate domain policies for situational awareness and Active Directory Discovery.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-08-26
@@ -32,8 +32,8 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1201](https://attack.mitre.org/techniques/T1201/) | Password Policy Discovery | Discovery |
 
 #### Search
@@ -46,24 +46,17 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 | `get_aduserresultantpasswordpolicy_with_powershell_script_block_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `get_aduserresultantpasswordpolicy_with_powershell_script_block_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `get_aduserresultantpasswordpolicy_with_powershell_script_block_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Active Directory Discovery](/stories/active_directory_discovery)
-
-
-#### How To Implement
-The following Hunting analytic requires PowerShell operational logs to be imported. Modify the powershell macro as needed to match the sourcetype or add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
 
 #### Required field
 * _time
@@ -73,12 +66,15 @@ The following Hunting analytic requires PowerShell operational logs to be import
 * User
 
 
-#### Kill Chain Phase
-* Reconnaissance
-
+#### How To Implement
+The following Hunting analytic requires PowerShell operational logs to be imported. Modify the powershell macro as needed to match the sourcetype or add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
 
 #### Known False Positives
 Administrators or power users may use this command for troubleshooting.
+
+#### Kill Chain Phase
+* Reconnaissance
+
 
 
 #### RBA

@@ -24,7 +24,7 @@ tags:
 
 This search looks for newly created accounts that have been elevated to local administrators.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-07-08
@@ -34,8 +34,8 @@ This search looks for newly created accounts that have been elevated to local ad
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1136.001](https://attack.mitre.org/techniques/T1136/001/) | Local Account | Persistence |
 
 | [T1136](https://attack.mitre.org/techniques/T1136/) | Create Account | Persistence |
@@ -52,25 +52,17 @@ This search looks for newly created accounts that have been elevated to local ad
 | `detect_new_local_admin_account_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `detect_new_local_admin_account_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `detect_new_local_admin_account_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [DHS Report TA18-074A](/stories/dhs_report_ta18-074a)
-* [HAFNIUM Group](/stories/hafnium_group)
-
-
-#### How To Implement
-You must be ingesting Windows event logs using the Splunk Windows TA and collecting event code 4720 and 4732
 
 #### Required field
 * _time
@@ -81,13 +73,16 @@ You must be ingesting Windows event logs using the Splunk Windows TA and collect
 * user
 
 
+#### How To Implement
+You must be ingesting Windows event logs using the Splunk Windows TA and collecting event code 4720 and 4732
+
+#### Known False Positives
+The activity may be legitimate. For this reason, it&#39;s best to verify the account with an administrator and ask whether there was a valid service request for the account creation. If your local administrator group name is not &#34;Administrators&#34;, this search may generate an excessive number of false positives
+
 #### Kill Chain Phase
 * Actions on Objectives
 * Command and Control
 
-
-#### Known False Positives
-The activity may be legitimate. For this reason, it&#39;s best to verify the account with an administrator and ask whether there was a valid service request for the account creation. If your local administrator group name is not &#34;Administrators&#34;, this search may generate an excessive number of false positives
 
 
 #### RBA

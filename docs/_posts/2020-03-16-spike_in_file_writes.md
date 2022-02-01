@@ -22,7 +22,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 The search looks for a sharp increase in the number of files written to a particular host
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-03-16
@@ -42,26 +42,17 @@ The search looks for a sharp increase in the number of files written to a partic
 | `spike_in_file_writes_filter` 
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `spike_in_file_writes_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `spike_in_file_writes_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [SamSam Ransomware](/stories/samsam_ransomware)
-* [Ryuk Ransomware](/stories/ryuk_ransomware)
-* [Ransomware](/stories/ransomware)
-
-
-#### How To Implement
-In order to implement this search, you must populate the Endpoint file-system data model node. This is typically populated via endpoint detection and response product, such as Carbon Black or endpoint data sources such as Sysmon. The data used for this search is typically generated via logs that report reads and writes to the file system.
 
 #### Required field
 * _time
@@ -69,12 +60,15 @@ In order to implement this search, you must populate the Endpoint file-system da
 * Filesystem.dest
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+In order to implement this search, you must populate the Endpoint file-system data model node. This is typically populated via endpoint detection and response product, such as Carbon Black or endpoint data sources such as Sysmon. The data used for this search is typically generated via logs that report reads and writes to the file system.
 
 #### Known False Positives
 It is important to understand that if you happen to install any new applications on your hosts or are copying a large number of files, you can expect to see a large increase of file modifications.
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 

@@ -26,7 +26,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 This search will detect more than 5 login failures in Office365 Azure Active Directory from a single source IP address. Please adjust the threshold value of 5 as suited for your environment.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-12-16
@@ -36,8 +36,8 @@ This search will detect more than 5 login failures in Office365 Azure Active Dir
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1110.001](https://attack.mitre.org/techniques/T1110/001/) | Password Guessing | Credential Access |
 
 | [T1110](https://attack.mitre.org/techniques/T1110/) | Brute Force | Credential Access |
@@ -51,24 +51,17 @@ This search will detect more than 5 login failures in Office365 Azure Active Dir
 | `high_number_of_login_failures_from_a_single_source_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `high_number_of_login_failures_from_a_single_source_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `high_number_of_login_failures_from_a_single_source_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Office 365 Detections](/stories/office_365_detections)
-
-
-#### How To Implement
-
 
 #### Required field
 * _time
@@ -84,12 +77,15 @@ The SPL above uses the following Lookups:
 * record_type
 
 
-#### Kill Chain Phase
-* Actions on Objectives
+#### How To Implement
 
 
 #### Known False Positives
 unknown
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 

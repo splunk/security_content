@@ -24,7 +24,7 @@ tags:
 
 The following analytc uses Windows Event Id 7045, `New Service Was Installed`, to identify the creation of a Windows Service where the service binary path path is located in a non-common Service folder in Windows. Red Teams and adversaries alike may create malicious Services for lateral movement or remote code execution as well as persistence and execution. The Clop ransomware has also been seen in the wild abusing Windows services.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-11-22
@@ -34,8 +34,8 @@ The following analytc uses Windows Event Id 7045, `New Service Was Installed`, t
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1569](https://attack.mitre.org/techniques/T1569/) | System Services | Execution |
 
 | [T1569.002](https://attack.mitre.org/techniques/T1569/002/) | Service Execution | Execution |
@@ -50,25 +50,17 @@ The following analytc uses Windows Event Id 7045, `New Service Was Installed`, t
 | `windows_service_created_with_suspicious_service_path_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `windows_service_created_with_suspicious_service_path_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `windows_service_created_with_suspicious_service_path_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Clop Ransomware](/stories/clop_ransomware)
-* [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
-
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the Service name, Service File Name Service Start type, and Service Type from your endpoints.
 
 #### Required field
 * EventCode
@@ -79,13 +71,16 @@ To successfully implement this search, you need to be ingesting logs with the Se
 * Service_Start_Type
 
 
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the Service name, Service File Name Service Start type, and Service Type from your endpoints.
+
+#### Known False Positives
+Legitimate applications may install services with uncommon services paths.
+
 #### Kill Chain Phase
 * Privilege Escalation
 * Lateral Movement
 
-
-#### Known False Positives
-Legitimate applications may install services with uncommon services paths.
 
 
 #### RBA

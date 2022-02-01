@@ -24,7 +24,7 @@ tags:
 
 This search detects a potential kerberoasting attack via service principal name requests
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-10-16
@@ -34,8 +34,8 @@ This search detects a potential kerberoasting attack via service principal name 
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1558.003](https://attack.mitre.org/techniques/T1558/003/) | Kerberoasting | Credential Access |
 
 | [T1558](https://attack.mitre.org/techniques/T1558/) | Steal or Forge Kerberos Tickets | Credential Access |
@@ -50,24 +50,17 @@ This search detects a potential kerberoasting attack via service principal name 
 | `kerberoasting_spn_request_with_rc4_encryption_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `kerberoasting_spn_request_with_rc4_encryption_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `kerberoasting_spn_request_with_rc4_encryption_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Windows Privilege Escalation](/stories/windows_privilege_escalation)
-
-
-#### How To Implement
-You must be ingesting endpoint data that tracks process activity, and include the windows security event logs that contain kerberos
 
 #### Required field
 * _time
@@ -79,12 +72,15 @@ You must be ingesting endpoint data that tracks process activity, and include th
 * service_id
 
 
-#### Kill Chain Phase
-* Privilege Escalation
-
+#### How To Implement
+You must be ingesting endpoint data that tracks process activity, and include the windows security event logs that contain kerberos
 
 #### Known False Positives
 Older systems that support kerberos RC4 by default NetApp may generate false positives
+
+#### Kill Chain Phase
+* Privilege Escalation
+
 
 
 #### RBA

@@ -25,7 +25,7 @@ tags:
 
 This analytic is to detect a suspicious modification of registry to disable windows defender feature. This technique is to bypassed or evade detection from Windows Defender AV product specially the BlockAtFirstSeen feature where it block suspicious file first seen in the host.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2022-01-26
@@ -35,8 +35,8 @@ This analytic is to detect a suspicious modification of registry to disable wind
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1562.001](https://attack.mitre.org/techniques/T1562/001/) | Disable or Modify Tools | Defense Evasion |
 
 | [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
@@ -57,24 +57,17 @@ This analytic is to detect a suspicious modification of registry to disable wind
 | `disable_defender_blockatfirstseen_feature_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `disable_defender_blockatfirstseen_feature_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `disable_defender_blockatfirstseen_feature_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [IceID](/stories/iceid)
-
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the registry value name, registry path, and registry value data from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 
 #### Required field
 * _time
@@ -86,12 +79,15 @@ To successfully implement this search, you need to be ingesting logs with the re
 * Registry.registry_value_data
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the registry value name, registry path, and registry value data from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 
 #### Known False Positives
 admin or user may choose to disable windows defender product
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA

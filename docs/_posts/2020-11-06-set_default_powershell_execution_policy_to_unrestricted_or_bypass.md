@@ -25,7 +25,7 @@ tags:
 
 Monitor for changes of the ExecutionPolicy in the registry to the values &#34;unrestricted&#34; or &#34;bypass,&#34; which allows the execution of malicious scripts.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-11-06
@@ -35,8 +35,8 @@ Monitor for changes of the ExecutionPolicy in the registry to the values &#34;un
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 
 | [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
@@ -52,26 +52,17 @@ Monitor for changes of the ExecutionPolicy in the registry to the values &#34;un
 | `set_default_powershell_execution_policy_to_unrestricted_or_bypass_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `set_default_powershell_execution_policy_to_unrestricted_or_bypass_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `set_default_powershell_execution_policy_to_unrestricted_or_bypass_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Malicious PowerShell](/stories/malicious_powershell)
-* [Credential Dumping](/stories/credential_dumping)
-* [HAFNIUM Group](/stories/hafnium_group)
-
-
-#### How To Implement
-You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Registry node. You must also be ingesting logs with the fields registry_path, registry_key_name, and registry_value_name from your endpoints.
 
 #### Required field
 * _time
@@ -81,13 +72,16 @@ You must be ingesting data that records process activity from your hosts to popu
 * Registry.dest
 
 
+#### How To Implement
+You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Registry node. You must also be ingesting logs with the fields registry_path, registry_key_name, and registry_value_name from your endpoints.
+
+#### Known False Positives
+Administrators may attempt to change the default execution policy on a system for a variety of reasons. However, setting the policy to &#34;unrestricted&#34; or &#34;bypass&#34; as this search is designed to identify, would be unusual. Hits should be reviewed and investigated as appropriate.
+
 #### Kill Chain Phase
 * Installation
 * Actions on Objectives
 
-
-#### Known False Positives
-Administrators may attempt to change the default execution policy on a system for a variety of reasons. However, setting the policy to &#34;unrestricted&#34; or &#34;bypass&#34; as this search is designed to identify, would be unusual. Hits should be reviewed and investigated as appropriate.
 
 
 #### RBA

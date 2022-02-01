@@ -25,7 +25,7 @@ tags:
 
 This analytic detects a suspicious process making a DNS query via known, abused text-paste web services, VoIP, instant messaging, and digital distribution platforms used to download external files. This technique is abused by adversaries, malware actors, and red teams to download a malicious file on the target host. This is a good TTP indicator for possible initial access techniques. A user will experience false positives if the following instant messaging is allowed or common applications like telegram or discord are allowed in the corporate network.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2022-01-18
@@ -35,8 +35,8 @@ This analytic detects a suspicious process making a DNS query via known, abused 
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1059.005](https://attack.mitre.org/techniques/T1059/005/) | Visual Basic | Execution |
 
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
@@ -51,25 +51,17 @@ This analytic detects a suspicious process making a DNS query via known, abused 
 | `suspicious_process_dns_query_known_abuse_web_services_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `suspicious_process_dns_query_known_abuse_web_services_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `suspicious_process_dns_query_known_abuse_web_services_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Remcos](/stories/remcos)
-* [WhisperGate](/stories/whispergate)
-
-
-#### How To Implement
-This detection relies on sysmon logs with the Event ID 22, DNS Query. We suggest you run this detection at least once a day over the last 14 days.
 
 #### Required field
 * _time
@@ -81,12 +73,15 @@ This detection relies on sysmon logs with the Event ID 22, DNS Query. We suggest
 * Computer
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+This detection relies on sysmon logs with the Event ID 22, DNS Query. We suggest you run this detection at least once a day over the last 14 days.
 
 #### Known False Positives
 Noise and false positive can be seen if the following instant messaging is allowed to use within corporate network. In this case, a filter is needed.
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA

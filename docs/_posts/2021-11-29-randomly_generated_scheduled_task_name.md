@@ -30,7 +30,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 The following hunting analytic leverages Event ID 4698, `A scheduled task was created`, to identify the creation of a Scheduled Task with a suspicious, high entropy, Task Name. To achieve this, this analytic also leverages the `ut_shannon` function from the URL ToolBox Splunk application. Red teams and adversaries alike may abuse the Task Scheduler to create and start a remote Scheduled Task and obtain remote code execution. To achieve this goal, tools like Impacket or Crapmapexec, typically create a Scheduled Task with a random task name on the victim host. This hunting analytic may help defenders identify Scheduled Tasks created as part of a lateral movement attack. The entropy threshold `ut_shannon &gt; 3` should be customized by users. The Command field can be used to determine if the task has malicious intent or not.
 
-- **Type**: Hunting
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-11-29
@@ -40,8 +40,8 @@ The following hunting analytic leverages Event ID 4698, `A scheduled task was cr
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1053](https://attack.mitre.org/techniques/T1053/) | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
 
 | [T1053.005](https://attack.mitre.org/techniques/T1053/005/) | Scheduled Task | Execution, Persistence, Privilege Escalation |
@@ -57,24 +57,17 @@ The following hunting analytic leverages Event ID 4698, `A scheduled task was cr
 | `randomly_generated_scheduled_task_name_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `randomly_generated_scheduled_task_name_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `randomly_generated_scheduled_task_name_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
-
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting Windows Security Event Logs with 4698 EventCode enabled. The Windows TA as well as the URL ToolBox application are also required.
 
 #### Required field
 * _time
@@ -84,14 +77,17 @@ To successfully implement this search, you need to be ingesting Windows Security
 * Command
 
 
+#### How To Implement
+To successfully implement this search, you need to be ingesting Windows Security Event Logs with 4698 EventCode enabled. The Windows TA as well as the URL ToolBox application are also required.
+
+#### Known False Positives
+Legitimate applications may use random Scheduled Task names.
+
 #### Kill Chain Phase
 * Privilege Escalation
 * Lateral Movement
 * Persistence
 
-
-#### Known False Positives
-Legitimate applications may use random Scheduled Task names.
 
 
 #### RBA

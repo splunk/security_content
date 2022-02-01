@@ -22,7 +22,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 This search will detect spike in blocked outbound network connections originating from within your AWS environment.  It will also update the cache file that factors in the latest data.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2018-05-07
@@ -51,26 +51,17 @@ This search will detect spike in blocked outbound network connections originatin
 | `detect_spike_in_blocked_outbound_traffic_from_your_aws_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `detect_spike_in_blocked_outbound_traffic_from_your_aws_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `detect_spike_in_blocked_outbound_traffic_from_your_aws_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [AWS Network ACL Activity](/stories/aws_network_acl_activity)
-* [Suspicious AWS Traffic](/stories/suspicious_aws_traffic)
-* [Command and Control](/stories/command_and_control)
-
-
-#### How To Implement
-You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your VPC Flow logs. You can modify `dataPointThreshold` and `deviationThreshold` to better fit your environment. The `dataPointThreshold` variable is the number of data points required to meet the definition of &#34;spike.&#34; The `deviationThreshold` variable is the number of standard deviations away from the mean that the value must be to be considered a spike. This search works best when you run the &#34;Baseline of Blocked Outbound Connection&#34; support search once to create a history of previously seen blocked outbound connections.
 
 #### Required field
 * _time
@@ -79,13 +70,16 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 * dest_ip
 
 
+#### How To Implement
+You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your VPC Flow logs. You can modify `dataPointThreshold` and `deviationThreshold` to better fit your environment. The `dataPointThreshold` variable is the number of data points required to meet the definition of &#34;spike.&#34; The `deviationThreshold` variable is the number of standard deviations away from the mean that the value must be to be considered a spike. This search works best when you run the &#34;Baseline of Blocked Outbound Connection&#34; support search once to create a history of previously seen blocked outbound connections.
+
+#### Known False Positives
+The false-positive rate may vary based on the values of`dataPointThreshold` and `deviationThreshold`. Additionally, false positives may result when AWS administrators roll out policies enforcing network blocks, causing sudden increases in the number of blocked outbound connections.
+
 #### Kill Chain Phase
 * Actions on Objectives
 * Command and Control
 
-
-#### Known False Positives
-The false-positive rate may vary based on the values of`dataPointThreshold` and `deviationThreshold`. Additionally, false positives may result when AWS administrators roll out policies enforcing network blocks, causing sudden increases in the number of blocked outbound connections.
 
 
 

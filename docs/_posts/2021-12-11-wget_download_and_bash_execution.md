@@ -24,7 +24,7 @@ tags:
 
 The following analytic identifies the use of wget on Linux or MacOS attempting to download a file from a remote source and pipe it to bash. This is typically found with coinminers and most recently with CVE-2021-44228, a vulnerability in Log4j.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-12-11
@@ -34,8 +34,8 @@ The following analytic identifies the use of wget on Linux or MacOS attempting t
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1105](https://attack.mitre.org/techniques/T1105/) | Ingress Tool Transfer | Command And Control |
 
 #### Search
@@ -50,25 +50,17 @@ The following analytic identifies the use of wget on Linux or MacOS attempting t
 | `wget_download_and_bash_execution_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `wget_download_and_bash_execution_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `wget_download_and_bash_execution_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Ingress Tool Transfer](/stories/ingress_tool_transfer)
-* [Log4Shell CVE-2021-44228](/stories/log4shell_cve-2021-44228)
-
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon for Linux, you will need to ensure mapping is occurring correctly. If the EDR is not parsing the pipe bash in the command-line, modifying the analytic will be required. Add parent process name (Processes.parent_process_name) as needed to filter.
 
 #### Required field
 * _time
@@ -84,12 +76,15 @@ To successfully implement this search, you need to be ingesting logs with the pr
 * Processes.parent_process_id
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon for Linux, you will need to ensure mapping is occurring correctly. If the EDR is not parsing the pipe bash in the command-line, modifying the analytic will be required. Add parent process name (Processes.parent_process_name) as needed to filter.
 
 #### Known False Positives
 False positives should be limited, however filtering may be required.
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA

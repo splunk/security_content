@@ -23,7 +23,7 @@ tags:
 
 The following analytic utilizes AWS CloudTrail events to identify when an EC2 snapshot permissions are modified to be shared with a different AWS account. This method is used by adversaries to exfiltrate the EC2 snapshot.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-07-20
@@ -33,8 +33,8 @@ The following analytic utilizes AWS CloudTrail events to identify when an EC2 sn
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1537](https://attack.mitre.org/techniques/T1537/) | Transfer Data to Cloud Account | Exfiltration |
 
 #### Search
@@ -49,25 +49,17 @@ The following analytic utilizes AWS CloudTrail events to identify when an EC2 sn
 | `detect_shared_ec2_snapshot_filter` 
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `detect_shared_ec2_snapshot_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `detect_shared_ec2_snapshot_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Suspicious Cloud Instance Activities](/stories/suspicious_cloud_instance_activities)
-* [Data Exfiltration](/stories/data_exfiltration)
-
-
-#### How To Implement
-You must install splunk AWS add on and Splunk App for AWS. This search works with AWS CloudTrail logs.
 
 #### Required field
 * _time
@@ -80,12 +72,15 @@ You must install splunk AWS add on and Splunk App for AWS. This search works wit
 * user_agent
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+You must install splunk AWS add on and Splunk App for AWS. This search works with AWS CloudTrail logs.
 
 #### Known False Positives
 It is possible that an AWS admin has legitimately shared a snapshot with others for  a specific purpose.
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 #### RBA

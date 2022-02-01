@@ -27,7 +27,7 @@ tags:
 
 The search looks for modifications to registry keys that can be used to launch an application or service at system startup.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2022-01-26
@@ -37,8 +37,8 @@ The search looks for modifications to registry keys that can be used to launch a
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1547.001](https://attack.mitre.org/techniques/T1547/001/) | Registry Run Keys / Startup Folder | Persistence, Privilege Escalation |
 
 | [T1547](https://attack.mitre.org/techniques/T1547/) | Boot or Logon Autostart Execution | Persistence, Privilege Escalation |
@@ -59,32 +59,17 @@ The search looks for modifications to registry keys that can be used to launch a
 | `registry_keys_used_for_persistence_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `registry_keys_used_for_persistence_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `registry_keys_used_for_persistence_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Suspicious Windows Registry Activities](/stories/suspicious_windows_registry_activities)
-* [Suspicious MSHTA Activity](/stories/suspicious_mshta_activity)
-* [DHS Report TA18-074A](/stories/dhs_report_ta18-074a)
-* [Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns](/stories/possible_backdoor_activity_associated_with_mudcarp_espionage_campaigns)
-* [Ransomware](/stories/ransomware)
-* [Windows Persistence Techniques](/stories/windows_persistence_techniques)
-* [Emotet Malware  DHS Report TA18-201A ](/stories/emotet_malware__dhs_report_ta18-201a_)
-* [IcedID](/stories/icedid)
-* [Remcos](/stories/remcos)
-
-
-#### How To Implement
-To successfully implement this search, you must be ingesting data that records registry activity from your hosts to populate the endpoint data model in the registry node. This is typically populated via endpoint detection-and-response product, such as Carbon Black or endpoint data sources, such as Sysmon. The data used for this search is typically generated via logs that report reads and writes to the registry.
 
 #### Required field
 * _time
@@ -94,12 +79,15 @@ To successfully implement this search, you must be ingesting data that records r
 * Registry.user
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+To successfully implement this search, you must be ingesting data that records registry activity from your hosts to populate the endpoint data model in the registry node. This is typically populated via endpoint detection-and-response product, such as Carbon Black or endpoint data sources, such as Sysmon. The data used for this search is typically generated via logs that report reads and writes to the registry.
 
 #### Known False Positives
 There are many legitimate applications that must execute on system startup and will use these registry keys to accomplish that task.
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 #### RBA

@@ -23,7 +23,7 @@ tags:
 
 This search uses the Kubernetes logs from a nginx ingress controller to detect remote file inclusion attacks.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Dev Sec Ops Analytics
 - **Datamodel**: 
 - **Last Updated**: 2021-08-23
@@ -33,8 +33,8 @@ This search uses the Kubernetes logs from a nginx ingress controller to detect r
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1212](https://attack.mitre.org/techniques/T1212/) | Exploitation for Credential Access | Credential Access |
 
 #### Search
@@ -54,35 +54,31 @@ This search uses the Kubernetes logs from a nginx ingress controller to detect r
 | `kubernetes_nginx_ingress_rfi_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `kubernetes_nginx_ingress_rfi_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `kubernetes_nginx_ingress_rfi_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Dev Sec Ops](/stories/dev_sec_ops)
-
-
-#### How To Implement
-You must ingest Kubernetes logs through Splunk Connect for Kubernetes.
 
 #### Required field
 * raw
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+You must ingest Kubernetes logs through Splunk Connect for Kubernetes.
 
 #### Known False Positives
 unknown
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 #### RBA

@@ -24,7 +24,7 @@ tags:
 
 The following analytic identifies DLLHost.exe with no command line arguments with a network connection. It is unusual for DLLHost.exe to execute with no command line arguments present. This particular behavior is common with malicious software, including Cobalt Strike. During investigation, triage any network connections and parallel processes. Identify any suspicious module loads related to credential dumping or file writes. DLLHost.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-10-13
@@ -34,8 +34,8 @@ The following analytic identifies DLLHost.exe with no command line arguments wit
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation |
 
 #### Search
@@ -55,24 +55,17 @@ The following analytic identifies DLLHost.exe with no command line arguments wit
 | `dllhost_with_no_command_line_arguments_with_network_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `dllhost_with_no_command_line_arguments_with_network_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `dllhost_with_no_command_line_arguments_with_network_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Cobalt Strike](/stories/cobalt_strike)
-
-
-#### How To Implement
-To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` and `port` node.
 
 #### Required field
 * _time
@@ -84,12 +77,15 @@ To successfully implement this search you need to be ingesting information on pr
 * process_path
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` and `port` node.
 
 #### Known False Positives
 Although unlikely, some legitimate third party applications may use a moved copy of dllhost, triggering a false positive.
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA

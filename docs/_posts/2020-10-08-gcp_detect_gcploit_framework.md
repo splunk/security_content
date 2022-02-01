@@ -27,7 +27,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 This search provides detection of GCPloit exploitation framework. This framework can be used to escalate privileges and move laterally from compromised high privilege accounts.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-10-08
@@ -37,8 +37,8 @@ This search provides detection of GCPloit exploitation framework. This framework
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 #### Search
@@ -49,24 +49,17 @@ This search provides detection of GCPloit exploitation framework. This framework
 | `gcp_detect_gcploit_framework_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `gcp_detect_gcploit_framework_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `gcp_detect_gcploit_framework_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [GCP Cross Account Activity](/stories/gcp_cross_account_activity)
-
-
-#### How To Implement
-You must install splunk GCP add-on. This search works with gcp:pubsub:message logs
 
 #### Required field
 * _time
@@ -80,12 +73,15 @@ You must install splunk GCP add-on. This search works with gcp:pubsub:message lo
 * http_user_agent
 
 
-#### Kill Chain Phase
-* Lateral Movement
-
+#### How To Implement
+You must install splunk GCP add-on. This search works with gcp:pubsub:message logs
 
 #### Known False Positives
 Payload.request.function.timeout value can possibly be match with other functions or requests however the source user and target request account may indicate an attempt to move laterally accross acounts or projects
+
+#### Kill Chain Phase
+* Lateral Movement
+
 
 
 

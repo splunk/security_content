@@ -24,7 +24,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 This search provides detection information on unauthenticated requests against Kubernetes&#39; Pods API
 
-- **Type**: Hunting
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-04-15
@@ -34,8 +34,8 @@ This search provides detection information on unauthenticated requests against K
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1526](https://attack.mitre.org/techniques/T1526/) | Cloud Service Discovery | Discovery |
 
 #### Search
@@ -49,24 +49,17 @@ This search provides detection information on unauthenticated requests against K
 | `amazon_eks_kubernetes_pod_scan_detection_filter` 
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `amazon_eks_kubernetes_pod_scan_detection_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `amazon_eks_kubernetes_pod_scan_detection_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Kubernetes Scanning Activity](/stories/kubernetes_scanning_activity)
-
-
-#### How To Implement
-You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on forAWS (version 4.4.0 or later), then configure your AWS CloudWatch EKS Logs.Please also customize the `kubernetes_pods_aws_scan_fingerprint_detection` macro to filter out the false positives.
 
 #### Required field
 * _time
@@ -83,12 +76,15 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 * user.groups{}
 
 
-#### Kill Chain Phase
-* Reconnaissance
-
+#### How To Implement
+You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on forAWS (version 4.4.0 or later), then configure your AWS CloudWatch EKS Logs.Please also customize the `kubernetes_pods_aws_scan_fingerprint_detection` macro to filter out the false positives.
 
 #### Known False Positives
 Not all unauthenticated requests are malicious, but frequency, UA and source IPs and direct request to API provide context.
+
+#### Kill Chain Phase
+* Reconnaissance
+
 
 
 

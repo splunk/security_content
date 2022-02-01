@@ -24,7 +24,7 @@ tags:
 
 Detect the hands on keyboard behavior of Windows Task Manager creating a process dump of lsass.exe. Upon this behavior occurring, a file write/modification will occur in the users profile under \AppData\Local\Temp. The dump file, lsass.dmp, cannot be renamed, however if the dump occurs more than once, it will be named lsass (2).dmp.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-02-03
@@ -34,8 +34,8 @@ Detect the hands on keyboard behavior of Windows Task Manager creating a process
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1003.001](https://attack.mitre.org/techniques/T1003/001/) | LSASS Memory | Credential Access |
 
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
@@ -51,24 +51,17 @@ Detect the hands on keyboard behavior of Windows Task Manager creating a process
 | `creation_of_lsass_dump_with_taskmgr_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `creation_of_lsass_dump_with_taskmgr_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `creation_of_lsass_dump_with_taskmgr_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Credential Dumping](/stories/credential_dumping)
-
-
-#### How To Implement
-This search requires Sysmon Logs and a Sysmon configuration, which includes EventCode 11 for detecting file create of lsass.dmp. This search uses an input macro named `sysmon`. We strongly recommend that you specify your environment-specific configurations (index, source, sourcetype, etc.) for Windows Sysmon logs. Replace the macro definition with configurations for your Splunk environment. The search also uses a post-filter macro designed to filter out known false positives.
 
 #### Required field
 * _time
@@ -79,12 +72,15 @@ This search requires Sysmon Logs and a Sysmon configuration, which includes Even
 * object_category
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+This search requires Sysmon Logs and a Sysmon configuration, which includes EventCode 11 for detecting file create of lsass.dmp. This search uses an input macro named `sysmon`. We strongly recommend that you specify your environment-specific configurations (index, source, sourcetype, etc.) for Windows Sysmon logs. Replace the macro definition with configurations for your Splunk environment. The search also uses a post-filter macro designed to filter out known false positives.
 
 #### Known False Positives
 Administrators can create memory dumps for debugging purposes, but memory dumps of the LSASS process would be unusual.
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 #### RBA

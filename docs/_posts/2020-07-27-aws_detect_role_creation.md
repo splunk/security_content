@@ -27,7 +27,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 This search provides detection of role creation by IAM users. Role creation is an event by itself if user is creating a new role with trust policies different than the available in AWS and it can be used for lateral movement and escalation of privileges.
 
-- **Type**: Hunting
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-07-27
@@ -37,8 +37,8 @@ This search provides detection of role creation by IAM users. Role creation is a
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 #### Search
@@ -49,24 +49,17 @@ This search provides detection of role creation by IAM users. Role creation is a
 | `aws_detect_role_creation_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `aws_detect_role_creation_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `aws_detect_role_creation_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [AWS Cross Account Activity](/stories/aws_cross_account_activity)
-
-
-#### How To Implement
-You must install splunk AWS add-on and Splunk App for AWS. This search works with cloudwatch logs
 
 #### Required field
 * _time
@@ -89,12 +82,15 @@ You must install splunk AWS add-on and Splunk App for AWS. This search works wit
 * responseElements.role.createDate
 
 
-#### Kill Chain Phase
-* Lateral Movement
-
+#### How To Implement
+You must install splunk AWS add-on and Splunk App for AWS. This search works with cloudwatch logs
 
 #### Known False Positives
 CreateRole is not very common in common users. This search can be adjusted to provide specific values to identify cases of abuse. In general AWS provides plenty of trust policies that fit most use cases.
+
+#### Kill Chain Phase
+* Lateral Movement
+
 
 
 

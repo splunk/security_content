@@ -33,7 +33,7 @@ Fodhelper.exe has a known UAC bypass as it attempts to look for specific registr
 1. `HKCU:\Software\Classes\ms-settings\shell\open\command\(default)`\
 Upon triage, fodhelper.exe will have a child process and read access will occur on the registry keys. Isolate the endpoint and review parallel processes for additional behavior.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-03-01
@@ -43,8 +43,8 @@ Upon triage, fodhelper.exe will have a child process and read access will occur 
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1112](https://attack.mitre.org/techniques/T1112/) | Modify Registry | Defense Evasion |
 
 | [T1548.002](https://attack.mitre.org/techniques/T1548/002/) | Bypass User Account Control | Privilege Escalation, Defense Evasion |
@@ -62,25 +62,17 @@ Upon triage, fodhelper.exe will have a child process and read access will occur 
 | `fodhelper_uac_bypass_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `fodhelper_uac_bypass_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `fodhelper_uac_bypass_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
-* [IcedID](/stories/icedid)
-
-
-#### How To Implement
-To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
 
 #### Required field
 * _time
@@ -94,13 +86,16 @@ To successfully implement this search you need to be ingesting information on pr
 * Processes.parent_process_id
 
 
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
+
+#### Known False Positives
+Limited to no false positives are expected.
+
 #### Kill Chain Phase
 * Exploitation
 * Privilege Escalation
 
-
-#### Known False Positives
-Limited to no false positives are expected.
 
 
 #### RBA

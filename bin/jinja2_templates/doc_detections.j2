@@ -69,38 +69,33 @@ We have not been able to test, simulate, or build datasets for this detection. U
 {{ detection.search|replace("|", "\n|")|safe }}
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-**Note that `{{detection.name | lower | replace(" ", "_") }}_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
+*Note that `{{detection.name | lower | replace(" ", "_") }}_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.*
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-{% for story in detection.tags.analytic_story -%}
-* [{{ story }}](/stories/{{story|lower|replace(" ", "_")}})
-{% endfor %}
-
-#### How To Implement
-{{ detection.how_to_implement}}
 
 #### Required field
 {% for field in detection.tags.required_fields -%}
 * {{ field }}
 {% endfor %}
 
+#### How To Implement
+{{ detection.how_to_implement}}
+
+#### Known False Positives
+{{ detection.known_false_positives}}
+
 #### Kill Chain Phase
 {% for phase in detection.tags.kill_chain_phases -%}
 * {{ phase }}
 {% endfor %}
-
-#### Known False Positives
-{{ detection.known_false_positives}}
 
 {% if detection.tags.observable %}
 #### RBA

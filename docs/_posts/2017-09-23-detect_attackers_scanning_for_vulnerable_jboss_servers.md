@@ -25,7 +25,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 This search looks for specific GET or HEAD requests to web servers that are indicative of reconnaissance attempts to identify vulnerable JBoss servers. JexBoss is described as the exploit tool of choice for this malicious activity.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Web](https://docs.splunk.com/Documentation/CIM/latest/User/Web)
 - **Last Updated**: 2017-09-23
@@ -35,8 +35,8 @@ This search looks for specific GET or HEAD requests to web servers that are indi
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1082](https://attack.mitre.org/techniques/T1082/) | System Information Discovery | Discovery |
 
 #### Search
@@ -50,25 +50,17 @@ This search looks for specific GET or HEAD requests to web servers that are indi
 | `detect_attackers_scanning_for_vulnerable_jboss_servers_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `detect_attackers_scanning_for_vulnerable_jboss_servers_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `detect_attackers_scanning_for_vulnerable_jboss_servers_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [JBoss Vulnerability](/stories/jboss_vulnerability)
-* [SamSam Ransomware](/stories/samsam_ransomware)
-
-
-#### How To Implement
-You must be ingesting data from the web server or network traffic that contains web specific information, and populating the Web data model.
 
 #### Required field
 * _time
@@ -78,12 +70,15 @@ You must be ingesting data from the web server or network traffic that contains 
 * Web.dest
 
 
-#### Kill Chain Phase
-* Reconnaissance
-
+#### How To Implement
+You must be ingesting data from the web server or network traffic that contains web specific information, and populating the Web data model.
 
 #### Known False Positives
 It&#39;s possible for legitimate HTTP requests to be made to URLs containing the suspicious paths.
+
+#### Kill Chain Phase
+* Reconnaissance
+
 
 
 

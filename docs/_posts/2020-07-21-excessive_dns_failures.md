@@ -27,7 +27,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 This search identifies DNS query failures by counting the number of DNS responses that do not indicate success, and trigger on more than 50 occurrences.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Resolution](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution)
 - **Last Updated**: 2020-07-21
@@ -37,8 +37,8 @@ This search identifies DNS query failures by counting the number of DNS response
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1071.004](https://attack.mitre.org/techniques/T1071/004/) | DNS | Command And Control |
 
 | [T1071](https://attack.mitre.org/techniques/T1071/) | Application Layer Protocol | Command And Control |
@@ -59,25 +59,17 @@ This search identifies DNS query failures by counting the number of DNS response
 | `excessive_dns_failures_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `excessive_dns_failures_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `excessive_dns_failures_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Suspicious DNS Traffic](/stories/suspicious_dns_traffic)
-* [Command and Control](/stories/command_and_control)
-
-
-#### How To Implement
-To successfully implement this search you must ensure that DNS data is populating the Network_Resolution data model.
 
 #### Required field
 * _time
@@ -86,12 +78,15 @@ To successfully implement this search you must ensure that DNS data is populatin
 * DNS.src
 
 
-#### Kill Chain Phase
-* Command and Control
-
+#### How To Implement
+To successfully implement this search you must ensure that DNS data is populating the Network_Resolution data model.
 
 #### Known False Positives
 It is possible legitimate traffic can trigger this rule. Please investigate as appropriate. The threshold for generating an event can also be customized to better suit your environment.
+
+#### Kill Chain Phase
+* Command and Control
+
 
 
 

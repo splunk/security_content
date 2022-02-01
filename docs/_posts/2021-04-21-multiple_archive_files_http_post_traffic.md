@@ -25,7 +25,7 @@ tags:
 
 This search is designed to detect high frequency of archive files data exfiltration through HTTP POST method protocol. This are one of the common techniques used by APT or trojan spy after doing the data collection like screenshot, recording, sensitive data to the infected machines. The attacker may execute archiving command to the collected data, save it a temp folder with a hidden attribute then send it to its C2 through HTTP POST. Sometimes adversaries will rename the archive files or encode/encrypt to cover their tracks. This detection can detect a renamed archive files transfer to HTTP POST since it checks the request body header. Unfortunately this detection cannot support archive that was encrypted or encoded before doing the exfiltration.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
 - **Last Updated**: 2021-04-21
@@ -35,8 +35,8 @@ This search is designed to detect high frequency of archive files data exfiltrat
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1048.003](https://attack.mitre.org/techniques/T1048/003/) | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
 
 | [T1048](https://attack.mitre.org/techniques/T1048/) | Exfiltration Over Alternative Protocol | Exfiltration |
@@ -54,25 +54,17 @@ This search is designed to detect high frequency of archive files data exfiltrat
 | `multiple_archive_files_http_post_traffic_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `multiple_archive_files_http_post_traffic_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `multiple_archive_files_http_post_traffic_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Command and Control](/stories/command_and_control)
-* [Data Exfiltration](/stories/data_exfiltration)
-
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the stream HTTP logs or network logs that catch network traffic. Make sure that the http-request-body, payload, or request field is enabled in stream http configuration.
 
 #### Required field
 * _time
@@ -87,12 +79,15 @@ To successfully implement this search, you need to be ingesting logs with the st
 * form_data
 
 
-#### Kill Chain Phase
-* Exfiltration
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the stream HTTP logs or network logs that catch network traffic. Make sure that the http-request-body, payload, or request field is enabled in stream http configuration.
 
 #### Known False Positives
 Normal archive transfer via HTTP protocol may trip this detection.
+
+#### Kill Chain Phase
+* Exfiltration
+
 
 
 #### RBA

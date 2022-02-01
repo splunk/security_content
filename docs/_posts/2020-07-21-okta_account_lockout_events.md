@@ -32,7 +32,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 Detect Okta user lockout events
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-07-21
@@ -42,8 +42,8 @@ Detect Okta user lockout events
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 | [T1078.001](https://attack.mitre.org/techniques/T1078/001/) | Default Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
@@ -57,24 +57,17 @@ Detect Okta user lockout events
 | `okta_account_lockout_events_filter` 
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `okta_account_lockout_events_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `okta_account_lockout_events_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Suspicious Okta Activity](/stories/suspicious_okta_activity)
-
-
-#### How To Implement
-This search is specific to Okta and requires Okta logs are being ingested in your Splunk deployment.
 
 #### Required field
 * _time
@@ -84,11 +77,14 @@ This search is specific to Okta and requires Okta logs are being ingested in you
 * client.geographicalContext.city
 
 
-#### Kill Chain Phase
-
+#### How To Implement
+This search is specific to Okta and requires Okta logs are being ingested in your Splunk deployment.
 
 #### Known False Positives
 None. Account lockouts should be followed up on to determine if the actual user was the one who caused the lockout, or if it was an unauthorized actor.
+
+#### Kill Chain Phase
+
 
 
 

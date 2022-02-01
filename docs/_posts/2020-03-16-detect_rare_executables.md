@@ -23,7 +23,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 This search will return a table of rare processes, the names of the systems running them, and the users who initiated each process.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-03-16
@@ -48,26 +48,17 @@ This search will return a table of rare processes, the names of the systems runn
 | `detect_rare_executables_filter` 
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `detect_rare_executables_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `detect_rare_executables_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Emotet Malware  DHS Report TA18-201A ](/stories/emotet_malware__dhs_report_ta18-201a_)
-* [Unusual Processes](/stories/unusual_processes)
-* [Cloud Federated Credential Abuse](/stories/cloud_federated_credential_abuse)
-
-
-#### How To Implement
-To successfully implement this search, you must be ingesting data that records process activity from your hosts and populating the endpoint data model with the resultant dataset. The macro `filter_rare_process_allow_list` searches two lookup files for allowed processes.  These consist of `rare_process_allow_list_default.csv` and `rare_process_allow_list_local.csv`. To add your own processes to the allow list, add them to `rare_process_allow_list_local.csv`. If you wish to remove an entry from the default lookup file, you will have to modify the macro itself to set the allow_list value for that process to false. You can modify the limit parameter and search scheduling to better suit your environment.
 
 #### Required field
 * _time
@@ -76,14 +67,17 @@ To successfully implement this search, you must be ingesting data that records p
 * Processes.process_name
 
 
+#### How To Implement
+To successfully implement this search, you must be ingesting data that records process activity from your hosts and populating the endpoint data model with the resultant dataset. The macro `filter_rare_process_allow_list` searches two lookup files for allowed processes.  These consist of `rare_process_allow_list_default.csv` and `rare_process_allow_list_local.csv`. To add your own processes to the allow list, add them to `rare_process_allow_list_local.csv`. If you wish to remove an entry from the default lookup file, you will have to modify the macro itself to set the allow_list value for that process to false. You can modify the limit parameter and search scheduling to better suit your environment.
+
+#### Known False Positives
+Some legitimate processes may be only rarely executed in your environment. As these are identified, update `rare_process_allow_list_local.csv` to filter them out of your search results.
+
 #### Kill Chain Phase
 * Installation
 * Command and Control
 * Actions on Objectives
 
-
-#### Known False Positives
-Some legitimate processes may be only rarely executed in your environment. As these are identified, update `rare_process_allow_list_local.csv` to filter them out of your search results.
 
 
 

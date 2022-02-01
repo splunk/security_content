@@ -21,7 +21,7 @@ tags:
 
 The following analytic identifies parent processes, browsers, Windows terminal applications, Office Products and Java spawning cmd.exe. By its very nature, many applications spawn cmd.exe natively or built into macros. Much of this will need to be tuned to further enhance the risk.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2020-11-10
@@ -31,8 +31,8 @@ The following analytic identifies parent processes, browsers, Windows terminal a
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 
 #### Search
@@ -50,24 +50,17 @@ The following analytic identifies parent processes, browsers, Windows terminal a
 | into write_ssa_detected_events();
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `detect_prohibited_applications_spawning_cmd_exe_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `detect_prohibited_applications_spawning_cmd_exe_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Suspicious Command-Line Executions](/stories/suspicious_command-line_executions)
-
-
-#### How To Implement
-In order to successfully implement this analytic, you will need endpoint process data from a EDR product or Sysmon. This search has been modified to process raw sysmon data from attack_range&#39;s nxlogs on DSP.
 
 #### Required field
 * process_name
@@ -78,12 +71,15 @@ In order to successfully implement this analytic, you will need endpoint process
 * cmd_line
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+In order to successfully implement this analytic, you will need endpoint process data from a EDR product or Sysmon. This search has been modified to process raw sysmon data from attack_range&#39;s nxlogs on DSP.
 
 #### Known False Positives
 There are circumstances where an application may legitimately execute and interact with the Windows command-line interface.
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA

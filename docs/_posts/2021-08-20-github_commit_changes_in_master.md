@@ -23,7 +23,7 @@ tags:
 
 This search is to detect a pushed or commit to master or main branch. This is to avoid unwanted modification to master without a review to the changes. Ideally in terms of devsecops the changes made in a branch and do a PR for review. of course in some cases admin of the project may did a changes directly to master branch
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Dev Sec Ops Analytics
 - **Datamodel**: 
 - **Last Updated**: 2021-08-20
@@ -33,8 +33,8 @@ This search is to detect a pushed or commit to master or main branch. This is to
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1199](https://attack.mitre.org/techniques/T1199/) | Trusted Relationship | Initial Access |
 
 #### Search
@@ -50,35 +50,31 @@ This search is to detect a pushed or commit to master or main branch. This is to
 | `github_commit_changes_in_master_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `github_commit_changes_in_master_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `github_commit_changes_in_master_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Dev Sec Ops](/stories/dev_sec_ops)
-
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs related to github logs having the fork, commit, push metadata that can be use to monitor the changes in a github project.
 
 #### Required field
 * _time
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs related to github logs having the fork, commit, push metadata that can be use to monitor the changes in a github project.
 
 #### Known False Positives
 admin can do changes directly to master branch
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA

@@ -24,7 +24,7 @@ tags:
 
 Detect remote thread creation into LSASS consistent with credential dumping.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2019-12-06
@@ -34,8 +34,8 @@ Detect remote thread creation into LSASS consistent with credential dumping.
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1003.001](https://attack.mitre.org/techniques/T1003/001/) | LSASS Memory | Credential Access |
 
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
@@ -51,24 +51,17 @@ Detect remote thread creation into LSASS consistent with credential dumping.
 | `create_remote_thread_into_lsass_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `create_remote_thread_into_lsass_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `create_remote_thread_into_lsass_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Credential Dumping](/stories/credential_dumping)
-
-
-#### How To Implement
-This search needs Sysmon Logs with a Sysmon configuration, which includes EventCode 8 with lsass.exe. This search uses an input macro named `sysmon`. We strongly recommend that you specify your environment-specific configurations (index, source, sourcetype, etc.) for Windows Sysmon logs. Replace the macro definition with configurations for your Splunk environment. The search also uses a post-filter macro designed to filter out known false positives.
 
 #### Required field
 * _time
@@ -81,12 +74,15 @@ This search needs Sysmon Logs with a Sysmon configuration, which includes EventC
 * dest
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+This search needs Sysmon Logs with a Sysmon configuration, which includes EventCode 8 with lsass.exe. This search uses an input macro named `sysmon`. We strongly recommend that you specify your environment-specific configurations (index, source, sourcetype, etc.) for Windows Sysmon logs. Replace the macro definition with configurations for your Splunk environment. The search also uses a post-filter macro designed to filter out known false positives.
 
 #### Known False Positives
 Other tools can access LSASS for legitimate reasons and generate an event. In these cases, tweaking the search may help eliminate noise.
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 #### RBA

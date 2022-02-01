@@ -23,7 +23,7 @@ tags:
 
 This search provides detection of users with KMS keys performing encryption specifically against S3 buckets.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-01-11
@@ -33,8 +33,8 @@ This search provides detection of users with KMS keys performing encryption spec
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1486](https://attack.mitre.org/techniques/T1486/) | Data Encrypted for Impact | Impact |
 
 #### Search
@@ -48,24 +48,17 @@ This search provides detection of users with KMS keys performing encryption spec
 |`aws_detect_users_with_kms_keys_performing_encryption_s3_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `aws_detect_users_with_kms_keys_performing_encryption_s3_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `aws_detect_users_with_kms_keys_performing_encryption_s3_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Ransomware Cloud](/stories/ransomware_cloud)
-
-
-#### How To Implement
-You must install splunk AWS add on and Splunk App for AWS. This search works with AWS CloudTrail logs
 
 #### Required field
 * _time
@@ -78,11 +71,14 @@ You must install splunk AWS add on and Splunk App for AWS. This search works wit
 * region
 
 
-#### Kill Chain Phase
-
+#### How To Implement
+You must install splunk AWS add on and Splunk App for AWS. This search works with AWS CloudTrail logs
 
 #### Known False Positives
 bucket with S3 encryption
+
+#### Kill Chain Phase
+
 
 
 #### RBA

@@ -22,7 +22,7 @@ tags:
 
 The search looks for a Windows Security Account Manager (SAM) was stopped via command-line. This is consistent with Ryuk infections across a fleet of endpoints.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-11-06
@@ -32,8 +32,8 @@ The search looks for a Windows Security Account Manager (SAM) was stopped via co
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1489](https://attack.mitre.org/techniques/T1489/) | Service Stop | Impact |
 
 #### Search
@@ -47,24 +47,17 @@ The search looks for a Windows Security Account Manager (SAM) was stopped via co
 | `windows_security_account_manager_stopped_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `windows_security_account_manager_stopped_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `windows_security_account_manager_stopped_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Ryuk Ransomware](/stories/ryuk_ransomware)
-
-
-#### How To Implement
-You must be ingesting data that records the process-system activity from your hosts to populate the Endpoint Processes data-model object. If you are using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which you want to collect data.
 
 #### Required field
 * _time
@@ -74,12 +67,15 @@ You must be ingesting data that records the process-system activity from your ho
 * Processes.user
 
 
-#### Kill Chain Phase
-* Delivery
-
+#### How To Implement
+You must be ingesting data that records the process-system activity from your hosts to populate the Endpoint Processes data-model object. If you are using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which you want to collect data.
 
 #### Known False Positives
 SAM is a critical windows service, stopping it would cause major issues on an endpoint this makes false positive rare. AlthoughNo false positives have been identified.
+
+#### Kill Chain Phase
+* Delivery
+
 
 
 #### RBA

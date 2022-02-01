@@ -27,7 +27,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 This search looks for spikes in the number of Server Message Block (SMB) traffic connections.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
 - **Last Updated**: 2020-07-22
@@ -37,8 +37,8 @@ This search looks for spikes in the number of Server Message Block (SMB) traffic
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1021.002](https://attack.mitre.org/techniques/T1021/002/) | SMB/Windows Admin Shares | Lateral Movement |
 
 | [T1021](https://attack.mitre.org/techniques/T1021/) | Remote Services | Lateral Movement |
@@ -57,27 +57,17 @@ This search looks for spikes in the number of Server Message Block (SMB) traffic
 | `smb_traffic_spike_filter` 
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `smb_traffic_spike_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `smb_traffic_spike_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Emotet Malware  DHS Report TA18-201A ](/stories/emotet_malware__dhs_report_ta18-201a_)
-* [Hidden Cobra Malware](/stories/hidden_cobra_malware)
-* [Ransomware](/stories/ransomware)
-* [DHS Report TA18-074A](/stories/dhs_report_ta18-074a)
-
-
-#### How To Implement
-This search requires you to be ingesting your network traffic logs and populating the `Network_Traffic` data model.
 
 #### Required field
 * _time
@@ -86,12 +76,15 @@ This search requires you to be ingesting your network traffic logs and populatin
 * All_Traffic.src
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+This search requires you to be ingesting your network traffic logs and populating the `Network_Traffic` data model.
 
 #### Known False Positives
 A file server may experience high-demand loads that could cause this analytic to trigger.
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 

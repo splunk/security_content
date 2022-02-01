@@ -23,7 +23,7 @@ tags:
 
 This search looks for AWS CloudTrail events where a user has created an open/public S3 bucket.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-07-19
@@ -33,8 +33,8 @@ This search looks for AWS CloudTrail events where a user has created an open/pub
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1530](https://attack.mitre.org/techniques/T1530/) | Data from Cloud Storage Object | Collection |
 
 #### Search
@@ -56,24 +56,17 @@ This search looks for AWS CloudTrail events where a user has created an open/pub
 | `detect_new_open_s3_buckets_filter` 
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `detect_new_open_s3_buckets_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `detect_new_open_s3_buckets_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Suspicious AWS S3 Activities](/stories/suspicious_aws_s3_activities)
-
-
-#### How To Implement
-You must install the AWS App for Splunk.
 
 #### Required field
 * _time
@@ -87,12 +80,15 @@ You must install the AWS App for Splunk.
 * permission
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+You must install the AWS App for Splunk.
 
 #### Known False Positives
 While this search has no known false positives, it is possible that an AWS admin has legitimately created a public bucket for a specific purpose. That said, AWS strongly advises against granting full control to the &#34;All Users&#34; group.
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 #### RBA

@@ -33,7 +33,7 @@ The following hunting analytic identifies `msi.dll` being loaded by a binary not
 1. Racing to introduce a junction and a symlink to trick msiexec.exe to modify the attacker specified file. \
 In addition, `msi.dll` has been abused in DLL side-loading attacks by being loaded by non-system binaries.
 
-- **Type**: Hunting
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-12-08
@@ -43,8 +43,8 @@ In addition, `msi.dll` has been abused in DLL side-loading attacks by being load
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1574.002](https://attack.mitre.org/techniques/T1574/002/) | DLL Side-Loading | Persistence, Privilege Escalation, Defense Evasion |
 
 | [T1574](https://attack.mitre.org/techniques/T1574/) | Hijack Execution Flow | Persistence, Privilege Escalation, Defense Evasion |
@@ -59,24 +59,17 @@ In addition, `msi.dll` has been abused in DLL side-loading attacks by being load
 | `msi_module_loaded_by_non_system_binary_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `msi_module_loaded_by_non-system_binary_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `msi_module_loaded_by_non-system_binary_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Windows Privilege Escalation](/stories/windows_privilege_escalation)
-
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name and imageloaded executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 
 #### Required field
 * _time
@@ -88,12 +81,15 @@ To successfully implement this search, you need to be ingesting logs with the pr
 * ProcessId
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name and imageloaded executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 
 #### Known False Positives
 It is possible some Administrative utilities will load msi.dll outside of normal system paths, filter as needed.
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA

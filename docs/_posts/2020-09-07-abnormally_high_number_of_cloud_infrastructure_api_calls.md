@@ -32,7 +32,7 @@ tags:
 
 This search will detect a spike in the number of API calls made to your cloud infrastructure environment by a user.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
 - **Last Updated**: 2020-09-07
@@ -42,8 +42,8 @@ This search will detect a spike in the number of API calls made to your cloud in
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1078.004](https://attack.mitre.org/techniques/T1078/004/) | Cloud Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
@@ -70,24 +70,17 @@ This search will detect a spike in the number of API calls made to your cloud in
 | `abnormally_high_number_of_cloud_infrastructure_api_calls_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `abnormally_high_number_of_cloud_infrastructure_api_calls_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `abnormally_high_number_of_cloud_infrastructure_api_calls_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Suspicious Cloud User Activities](/stories/suspicious_cloud_user_activities)
-
-
-#### How To Implement
-You must be ingesting your cloud infrastructure logs. You also must run the baseline search `Baseline Of Cloud Infrastructure API Calls Per User` to create the probability density function.
 
 #### Required field
 * _time
@@ -96,11 +89,14 @@ You must be ingesting your cloud infrastructure logs. You also must run the base
 * All_Changes.status
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+You must be ingesting your cloud infrastructure logs. You also must run the baseline search `Baseline Of Cloud Infrastructure API Calls Per User` to create the probability density function.
 
 #### Known False Positives
+
+
+#### Kill Chain Phase
+* Actions on Objectives
 
 
 

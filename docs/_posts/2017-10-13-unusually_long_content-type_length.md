@@ -22,7 +22,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 This search looks for unusually long strings in the Content-Type http header that the client sends the server.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2017-10-13
@@ -39,24 +39,17 @@ This search looks for unusually long strings in the Content-Type http header tha
 | `unusually_long_content_type_length_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `unusually_long_content-type_length_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `unusually_long_content-type_length_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Apache Struts Vulnerability](/stories/apache_struts_vulnerability)
-
-
-#### How To Implement
-This particular search leverages data extracted from Stream:HTTP. You must configure the http stream using the Splunk Stream App on your Splunk Stream deployment server to extract the cs_content_type field.
 
 #### Required field
 * _time
@@ -67,12 +60,15 @@ This particular search leverages data extracted from Stream:HTTP. You must confi
 * url
 
 
-#### Kill Chain Phase
-* Delivery
-
+#### How To Implement
+This particular search leverages data extracted from Stream:HTTP. You must configure the http stream using the Splunk Stream App on your Splunk Stream deployment server to extract the cs_content_type field.
 
 #### Known False Positives
 Very few legitimate Content-Type fields will have a length greater than 100 characters.
+
+#### Kill Chain Phase
+* Delivery
+
 
 
 

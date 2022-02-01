@@ -33,7 +33,7 @@ tags:
 
 As part of the sAMAccountName Spoofing (CVE-2021-42278) and Domain Controller Impersonation (CVE-2021-42287) exploitation chain, adversaries will request and obtain a Kerberos Service Ticket (TGS) with a domain controller computer account as the Service Name. This Service Ticket can be then used to take control of the domain controller on the final part of the attack. This analytic leverages Event Id 4769, `A Kerberos service ticket was requested`, to identify an unusual TGS request where the Account_Name requesting the ticket matches the Service_Name field. This behavior could represent an exploitation attempt of CVE-2021-42278 and CVE-2021-42287 for privilege escalation.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-12-20
@@ -43,8 +43,8 @@ As part of the sAMAccountName Spoofing (CVE-2021-42278) and Domain Controller Im
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 | [T1078.002](https://attack.mitre.org/techniques/T1078/002/) | Domain Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
@@ -59,24 +59,17 @@ As part of the sAMAccountName Spoofing (CVE-2021-42278) and Domain Controller Im
 | `suspicious_kerberos_service_ticket_request_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `suspicious_kerberos_service_ticket_request_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `suspicious_kerberos_service_ticket_request_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [sAMAccountName Spoofing and Domain Controller Impersonation](/stories/samaccountname_spoofing_and_domain_controller_impersonation)
-
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting Domain Controller and Kerberos events. The Advanced Security Audit policy setting `Audit Kerberos Authentication Service` within `Account Logon` needs to be enabled.
 
 #### Required field
 * _time
@@ -87,12 +80,15 @@ To successfully implement this search, you need to be ingesting Domain Controlle
 * Failure_Code
 
 
-#### Kill Chain Phase
-* Privilege Escalation
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting Domain Controller and Kerberos events. The Advanced Security Audit policy setting `Audit Kerberos Authentication Service` within `Account Logon` needs to be enabled.
 
 #### Known False Positives
 We have tested this detection logic with ~2 million 4769 events and did not identify false positives. However, they may be possible in certain environments. Filter as needed.
+
+#### Kill Chain Phase
+* Privilege Escalation
+
 
 
 #### RBA

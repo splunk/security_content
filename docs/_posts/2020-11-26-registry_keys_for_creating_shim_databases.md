@@ -26,7 +26,7 @@ tags:
 
 This search looks for registry activity associated with application compatibility shims, which can be leveraged by attackers for various nefarious purposes.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-11-26
@@ -36,8 +36,8 @@ This search looks for registry activity associated with application compatibilit
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1546.011](https://attack.mitre.org/techniques/T1546/011/) | Application Shimming | Privilege Escalation, Persistence |
 
 | [T1546](https://attack.mitre.org/techniques/T1546/) | Event Triggered Execution | Privilege Escalation, Persistence |
@@ -53,25 +53,17 @@ This search looks for registry activity associated with application compatibilit
 | `registry_keys_for_creating_shim_databases_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `registry_keys_for_creating_shim_databases_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `registry_keys_for_creating_shim_databases_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Suspicious Windows Registry Activities](/stories/suspicious_windows_registry_activities)
-* [Windows Persistence Techniques](/stories/windows_persistence_techniques)
-
-
-#### How To Implement
-To successfully implement this search, you must populate the Change_Analysis data model. This is typically populated via endpoint detection and response product, such as Carbon Black or other endpoint data sources such as Sysmon. The data used for this search is typically generated via logs that report reads and writes to the registry.
 
 #### Required field
 * _time
@@ -81,12 +73,15 @@ To successfully implement this search, you must populate the Change_Analysis dat
 * Registry.user
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+To successfully implement this search, you must populate the Change_Analysis data model. This is typically populated via endpoint detection and response product, such as Carbon Black or other endpoint data sources such as Sysmon. The data used for this search is typically generated via logs that report reads and writes to the registry.
 
 #### Known False Positives
 There are many legitimate applications that leverage shim databases for compatibility purposes for legacy applications
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 #### RBA

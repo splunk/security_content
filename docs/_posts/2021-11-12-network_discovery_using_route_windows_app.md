@@ -25,7 +25,7 @@ tags:
 
 This analytic look for a spawned process of route.exe windows application. Adversaries and red teams alike abuse this application the recon or do a network discovery on a target host. but one possible false positive might be an automated tool used by a system administator or a powershell script in amazon ec2 config services.
 
-- **Type**: Hunting
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-11-12
@@ -35,8 +35,8 @@ This analytic look for a spawned process of route.exe windows application. Adver
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1016](https://attack.mitre.org/techniques/T1016/) | System Network Configuration Discovery | Discovery |
 
 | [T1016.001](https://attack.mitre.org/techniques/T1016/001/) | Internet Connection Discovery | Discovery |
@@ -52,24 +52,17 @@ This analytic look for a spawned process of route.exe windows application. Adver
 | `network_discovery_using_route_windows_app_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `network_discovery_using_route_windows_app_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `network_discovery_using_route_windows_app_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Active Directory Discovery](/stories/active_directory_discovery)
-
-
-#### How To Implement
-To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 
 #### Required field
 * _time
@@ -83,12 +76,15 @@ To successfully implement this search you need to be ingesting information on pr
 * Processes.parent_process_id
 
 
-#### Kill Chain Phase
-* Reconnaissance
-
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 
 #### Known False Positives
 A network operator or systems administrator may utilize an automated host discovery application that may generate false positives or an amazon ec2 script that uses this application. Filter as needed.
+
+#### Kill Chain Phase
+* Reconnaissance
+
 
 
 #### RBA

@@ -24,7 +24,7 @@ tags:
 
 The following analytic identifies executable files (.exe or .dll) being written to Windows administrative SMB shares (Admin$, IPC$, C$). This represents suspicious behavior as its commonly used by tools like like PsExec/PaExec and others to stage service binaries before creating and starting a Windows service on remote endpoints. Red Teams and adversaries alike may abuse administrative shares for lateral movement and remote code execution. The Trickbot malware family also implements this behavior to try to infect other machines in the infected network.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-11-18
@@ -34,8 +34,8 @@ The following analytic identifies executable files (.exe or .dll) being written 
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1021](https://attack.mitre.org/techniques/T1021/) | Remote Services | Lateral Movement |
 
 | [T1021.002](https://attack.mitre.org/techniques/T1021/002/) | SMB/Windows Admin Shares | Lateral Movement |
@@ -50,25 +50,17 @@ The following analytic identifies executable files (.exe or .dll) being written 
 | `executable_file_written_in_administrative_smb_share_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `executable_file_written_in_administrative_smb_share_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `executable_file_written_in_administrative_smb_share_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
-* [Trickbot](/stories/trickbot)
-
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting Windows Security Event Logs with 5145 EventCode enabled. The Windows TA is also required. Also enable the object Audit access success/failure in your group policy.
 
 #### Required field
 * _time
@@ -82,12 +74,15 @@ To successfully implement this search, you need to be ingesting Windows Security
 * Source_Address
 
 
-#### Kill Chain Phase
-* Lateral Movement
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting Windows Security Event Logs with 5145 EventCode enabled. The Windows TA is also required. Also enable the object Audit access success/failure in your group policy.
 
 #### Known False Positives
 System Administrators may use looks like PsExec for troubleshooting or administrations tasks. However, this will typically come only from certain users and certain systems that can be added to an allow list.
+
+#### Kill Chain Phase
+* Lateral Movement
+
 
 
 #### RBA

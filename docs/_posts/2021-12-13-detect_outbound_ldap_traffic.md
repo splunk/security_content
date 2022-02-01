@@ -26,7 +26,7 @@ tags:
 
 Malicious actors often abuse misconfigured LDAP servers or applications that use the LDAP servers in organizations. Outbound LDAP traffic should not be allowed outbound through your perimeter firewall.  This search will help determine if you have any LDAP connections to IP addresses outside of private (RFC1918) address space.
 
-- **Type**: Hunting
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
 - **Last Updated**: 2021-12-13
@@ -36,8 +36,8 @@ Malicious actors often abuse misconfigured LDAP servers or applications that use
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1190](https://attack.mitre.org/techniques/T1190/) | Exploit Public-Facing Application | Initial Access |
 
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
@@ -54,24 +54,17 @@ Malicious actors often abuse misconfigured LDAP servers or applications that use
 |`detect_outbound_ldap_traffic_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `detect_outbound_ldap_traffic_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `detect_outbound_ldap_traffic_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Log4Shell CVE-2021-44228](/stories/log4shell_cve-2021-44228)
-
-
-#### How To Implement
-You must be ingesting Zeek DNS and Zeek Conn data into Splunk. Zeek data should also be getting ingested in JSON format and should be mapped to the Network Traffic datamodels that are in use for this search.
 
 #### Required field
 * _time
@@ -80,13 +73,16 @@ You must be ingesting Zeek DNS and Zeek Conn data into Splunk. Zeek data should 
 * All_Traffic.src_ip
 
 
+#### How To Implement
+You must be ingesting Zeek DNS and Zeek Conn data into Splunk. Zeek data should also be getting ingested in JSON format and should be mapped to the Network Traffic datamodels that are in use for this search.
+
+#### Known False Positives
+Unknown at this moment. Outbound LDAP traffic should not be allowed outbound through your perimeter firewall. Please check those servers to verify if the activity is legitimate.
+
 #### Kill Chain Phase
 * Command and Control
 * Actions on Objectives
 
-
-#### Known False Positives
-Unknown at this moment. Outbound LDAP traffic should not be allowed outbound through your perimeter firewall. Please check those servers to verify if the activity is legitimate.
 
 
 #### RBA

@@ -25,7 +25,7 @@ tags:
 
 This analytic is to detect a possible abuse of verclsid to execute malicious file through generate CLSID. This process is a normal application of windows to verify the CLSID COM object before it is instantiated by Windows Explorer. This hunting query can be a good pivot point to analyze what is he CLSID or COM object pointing too to check if it is a valid application or not.
 
-- **Type**: Hunting
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-09-29
@@ -35,8 +35,8 @@ This analytic is to detect a possible abuse of verclsid to execute malicious fil
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1218.012](https://attack.mitre.org/techniques/T1218/012/) | Verclsid | Defense Evasion |
 
 | [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
@@ -52,24 +52,17 @@ This analytic is to detect a possible abuse of verclsid to execute malicious fil
 | `verclsid_clsid_execution_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `verclsid_clsid_execution_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `verclsid_clsid_execution_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Unusual Processes](/stories/unusual_processes)
-
-
-#### How To Implement
-To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 
 #### Required field
 * _time
@@ -86,12 +79,15 @@ To successfully implement this search you need to be ingesting information on pr
 * Processes.parent_process_id
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 
 #### Known False Positives
 windows can used this application for its normal COM object validation.
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA

@@ -25,7 +25,7 @@ tags:
 
 The following hunting analytic assists with identifying suspicious tasks that have been registered and ran in Windows using EventID 200 (action run) and 201 (action completed). It is recommended to filter based on ActionName by specifying specific paths not used in your environment. After some basic tuning, this may be effective in capturing evasive ways to register tasks on Windows. Review parallel events related to tasks being scheduled. EventID 106 will generate when a new task is generated, however, that does not mean it ran. Capture any files on disk and analyze.
 
-- **Type**: Hunting
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-10-19
@@ -35,8 +35,8 @@ The following hunting analytic assists with identifying suspicious tasks that ha
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1053.005](https://attack.mitre.org/techniques/T1053/005/) | Scheduled Task | Execution, Persistence, Privilege Escalation |
 
 #### Search
@@ -50,25 +50,17 @@ The following hunting analytic assists with identifying suspicious tasks that ha
 | `winevent_windows_task_scheduler_event_action_started_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `winevent_windows_task_scheduler_event_action_started_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `winevent_windows_task_scheduler_event_action_started_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [IcedID](/stories/icedid)
-* [Windows Persistence Techniques](/stories/windows_persistence_techniques)
-
-
-#### How To Implement
-Task Scheduler logs are required to be collected. Enable logging with inputs.conf by adding a stanza for [WinEventLog://Microsoft-Windows-TaskScheduler/Operational] and renderXml=false. Note, not translating it in XML may require a proper extraction of specific items in the Message.
 
 #### Required field
 * _time
@@ -79,12 +71,15 @@ Task Scheduler logs are required to be collected. Enable logging with inputs.con
 * ProcessID
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+Task Scheduler logs are required to be collected. Enable logging with inputs.conf by adding a stanza for [WinEventLog://Microsoft-Windows-TaskScheduler/Operational] and renderXml=false. Note, not translating it in XML may require a proper extraction of specific items in the Message.
 
 #### Known False Positives
 False positives will be present. Filter based on ActionName paths or specify keywords of interest.
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA

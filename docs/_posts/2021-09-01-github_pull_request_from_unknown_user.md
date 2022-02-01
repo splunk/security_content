@@ -25,7 +25,7 @@ tags:
 
 This search looks for Pull Request from unknown user.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Dev Sec Ops Analytics
 - **Datamodel**: 
 - **Last Updated**: 2021-09-01
@@ -35,8 +35,8 @@ This search looks for Pull Request from unknown user.
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1195.001](https://attack.mitre.org/techniques/T1195/001/) | Compromise Software Dependencies and Development Tools | Initial Access |
 
 | [T1195](https://attack.mitre.org/techniques/T1195/) | Supply Chain Compromise | Initial Access |
@@ -54,24 +54,17 @@ This search looks for Pull Request from unknown user.
 | `github_pull_request_from_unknown_user_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `github_pull_request_from_unknown_user_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `github_pull_request_from_unknown_user_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Dev Sec Ops](/stories/dev_sec_ops)
-
-
-#### How To Implement
-You must index GitHub logs. You can follow the url in reference to onboard GitHub logs.
 
 #### Required field
 * _time
@@ -88,12 +81,15 @@ You must index GitHub logs. You can follow the url in reference to onboard GitHu
 * alert.severity
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+You must index GitHub logs. You can follow the url in reference to onboard GitHub logs.
 
 #### Known False Positives
 unknown
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 #### RBA

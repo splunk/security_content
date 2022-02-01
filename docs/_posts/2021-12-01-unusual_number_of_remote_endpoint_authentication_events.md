@@ -28,7 +28,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 The following hunting analytic leverages Event ID 4624, `An account was successfully logged on`, to identify an unusual number of remote authentication attempts coming from one source. An endpoint authenticating to a large number of remote endpoints could represent malicious behavior like lateral movement, malware staging, reconnaissance, etc.\
 The detection calculates the standard deviation for each host and leverages the 3-sigma statistical rule to identify an unusual high number of authentication events. To customize this analytic, users can try different combinations of the `bucket` span time,  the calculation of the `upperBound` field as well as the Outlier calculation. This logic can be used for real time security monitoring as well as threat hunting exercises.\
 
-- **Type**: Hunting
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-12-01
@@ -38,8 +38,8 @@ The detection calculates the standard deviation for each host and leverages the 
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 #### Search
@@ -55,24 +55,17 @@ The detection calculates the standard deviation for each host and leverages the 
 | `unusual_number_of_remote_endpoint_authentication_events_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `unusual_number_of_remote_endpoint_authentication_events_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `unusual_number_of_remote_endpoint_authentication_events_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
-
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting Windows Event Logs from domain controllers aas well as member servers and workstations. The Advanced Security Audit policy setting `Audit Logon` within `Logon/Logoff` needs to be enabled.
 
 #### Required field
 * _time
@@ -84,13 +77,16 @@ To successfully implement this search, you need to be ingesting Windows Event Lo
 * ComputerName
 
 
+#### How To Implement
+To successfully implement this search, you need to be ingesting Windows Event Logs from domain controllers aas well as member servers and workstations. The Advanced Security Audit policy setting `Audit Logon` within `Logon/Logoff` needs to be enabled.
+
+#### Known False Positives
+An single endpoint authenticating to a large number of hosts is not common behavior. Possible false positive scenarios include but are not limited to vulnerability scanners, jump servers and missconfigured systems.
+
 #### Kill Chain Phase
 * Reconnaissance
 * Lateral Movement
 
-
-#### Known False Positives
-An single endpoint authenticating to a large number of hosts is not common behavior. Possible false positive scenarios include but are not limited to vulnerability scanners, jump servers and missconfigured systems.
 
 
 #### RBA

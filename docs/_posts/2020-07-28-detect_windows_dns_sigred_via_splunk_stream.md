@@ -25,7 +25,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 This search detects SIGRed via Splunk Stream.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-07-28
@@ -35,8 +35,8 @@ This search detects SIGRed via Splunk Stream.
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1203](https://attack.mitre.org/techniques/T1203/) | Exploitation for Client Execution | Execution |
 
 #### Search
@@ -54,35 +54,31 @@ This search detects SIGRed via Splunk Stream.
 | fields - count
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `detect_windows_dns_sigred_via_splunk_stream_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `detect_windows_dns_sigred_via_splunk_stream_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Windows DNS SIGRed CVE-2020-1350](/stories/windows_dns_sigred_cve-2020-1350)
-
-
-#### How To Implement
-You must be ingesting Splunk Stream DNS and Splunk Stream TCP. We are detecting SIG and KEY records via stream:dns and TCP payload over 65KB in size via stream:tcp.  Replace the macro definitions (&#39;stream:dns&#39; and &#39;stream:tcp&#39;) with configurations for your Splunk environment.
 
 #### Required field
 * _time
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+You must be ingesting Splunk Stream DNS and Splunk Stream TCP. We are detecting SIG and KEY records via stream:dns and TCP payload over 65KB in size via stream:tcp.  Replace the macro definitions (&#39;stream:dns&#39; and &#39;stream:tcp&#39;) with configurations for your Splunk environment.
 
 #### Known False Positives
 unknown
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 

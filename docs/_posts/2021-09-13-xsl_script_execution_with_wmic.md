@@ -23,7 +23,7 @@ tags:
 
 This search is to detect a suspicious wmic.exe process or renamed wmic process to execute malicious xsl file. This technique was seen in FIN7 to execute its malicous jscript using the .xsl as the loader with the help of wmic.exe process. This TTP is really a good indicator for you to hunt further for FIN7 or other attacker that known to used this technique.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-09-13
@@ -33,8 +33,8 @@ This search is to detect a suspicious wmic.exe process or renamed wmic process t
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1220](https://attack.mitre.org/techniques/T1220/) | XSL Script Processing | Defense Evasion |
 
 #### Search
@@ -48,25 +48,17 @@ This search is to detect a suspicious wmic.exe process or renamed wmic process t
 | `xsl_script_execution_with_wmic_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `xsl_script_execution_with_wmic_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `xsl_script_execution_with_wmic_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [FIN7](/stories/fin7)
-* [Suspicious WMI Use](/stories/suspicious_wmi_use)
-
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 
 #### Required field
 * _time
@@ -79,12 +71,15 @@ To successfully implement this search, you need to be ingesting logs with the pr
 * Processes.user
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 
 #### Known False Positives
 unknown
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA

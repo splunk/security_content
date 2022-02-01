@@ -32,7 +32,7 @@ schtasks.exe is natively found in `C:\Windows\system32` and `C:\Windows\syswow64
 The following DLL(s) are loaded when schtasks.exe or TaskService is launched -`taskschd.dll`. If found loaded by another process, it is possible a scheduled task is being registered within that process context in memory.\
 Upon triage, identify the task scheduled source. Was it schtasks.exe or via TaskService? Review the job created and the Command to be executed. Capture any artifacts on disk and review. Identify any parallel processes within the same timeframe to identify source.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-04-12
@@ -42,8 +42,8 @@ Upon triage, identify the task scheduled source. Was it schtasks.exe or via Task
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1053.005](https://attack.mitre.org/techniques/T1053/005/) | Scheduled Task | Execution, Persistence, Privilege Escalation |
 
 | [T1053](https://attack.mitre.org/techniques/T1053/) | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
@@ -60,26 +60,17 @@ Upon triage, identify the task scheduled source. Was it schtasks.exe or via Task
 | `winevent_scheduled_task_created_to_spawn_shell_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `winevent_scheduled_task_created_to_spawn_shell_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `winevent_scheduled_task_created_to_spawn_shell_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Windows Persistence Techniques](/stories/windows_persistence_techniques)
-* [Ransomware](/stories/ransomware)
-* [Ryuk Ransomware](/stories/ryuk_ransomware)
-
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting Windows Security Event Logs with 4698 EventCode enabled. The Windows TA is also required.
 
 #### Required field
 * _time
@@ -89,12 +80,15 @@ To successfully implement this search, you need to be ingesting Windows Security
 * Command
 
 
-#### Kill Chain Phase
-* Privilege Escalation
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting Windows Security Event Logs with 4698 EventCode enabled. The Windows TA is also required.
 
 #### Known False Positives
 False positives are possible if legitimate applications are allowed to register tasks that call a shell to be spawned. Filter as needed based on command-line or processes that are used legitimately.
+
+#### Kill Chain Phase
+* Privilege Escalation
+
 
 
 #### RBA

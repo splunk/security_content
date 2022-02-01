@@ -22,7 +22,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 Command lines that are extremely long may be indicative of malicious activity on your hosts.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-12-08
@@ -45,27 +45,17 @@ Command lines that are extremely long may be indicative of malicious activity on
 | where maxlen > ((threshold*stdevperhost) + avgperhost)
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `unusually_long_command_line_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `unusually_long_command_line_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Suspicious Command-Line Executions](/stories/suspicious_command-line_executions)
-* [Unusual Processes](/stories/unusual_processes)
-* [Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns](/stories/possible_backdoor_activity_associated_with_mudcarp_espionage_campaigns)
-* [Ransomware](/stories/ransomware)
-
-
-#### How To Implement
-You must be ingesting endpoint data that tracks process activity, including parent-child relationships, from your endpoints to populate the Endpoint data model in the Processes node. The command-line arguments are mapped to the process field in the Endpoint data model.
 
 #### Required field
 * _time
@@ -75,12 +65,15 @@ You must be ingesting endpoint data that tracks process activity, including pare
 * Processes.process
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+You must be ingesting endpoint data that tracks process activity, including parent-child relationships, from your endpoints to populate the Endpoint data model in the Processes node. The command-line arguments are mapped to the process field in the Endpoint data model.
 
 #### Known False Positives
 Some legitimate applications start with long command lines.
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 #### RBA

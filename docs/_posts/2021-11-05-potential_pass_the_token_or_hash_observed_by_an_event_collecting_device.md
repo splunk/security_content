@@ -25,7 +25,7 @@ tags:
 
 This detection identifies potential Pass the Token or Pass the Hash credential stealing. We detect the main side effect of these attacks, which is a transition from the dominant Kerberos logins to rare NTLM logins for a given user, as reported by an event-collecting device (i.e., a specific domain controller or an endpoint destination).
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: [Authentication](https://docs.splunk.com/Documentation/CIM/latest/User/Authentication)
 - **Last Updated**: 2021-11-05
@@ -35,8 +35,8 @@ This detection identifies potential Pass the Token or Pass the Hash credential s
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1550](https://attack.mitre.org/techniques/T1550/) | Use Alternate Authentication Material | Defense Evasion, Lateral Movement |
 
 | [T1550.002](https://attack.mitre.org/techniques/T1550/002/) | Pass the Hash | Defense Evasion, Lateral Movement |
@@ -62,24 +62,17 @@ This detection identifies potential Pass the Token or Pass the Hash credential s
 | into write_ssa_detected_events();
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `potential_pass_the_token_or_hash_observed_by_an_event_collecting_device_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `potential_pass_the_token_or_hash_observed_by_an_event_collecting_device_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
-
-
-#### How To Implement
-You must be ingesting Windows Security logs from devices of interest - at least from domain controllers. Please make sure that event ID 4624 is being logged.
 
 #### Required field
 * _time
@@ -90,12 +83,15 @@ You must be ingesting Windows Security logs from devices of interest - at least 
 * authentication_method
 
 
-#### Kill Chain Phase
-* Lateral Movement
-
+#### How To Implement
+You must be ingesting Windows Security logs from devices of interest - at least from domain controllers. Please make sure that event ID 4624 is being logged.
 
 #### Known False Positives
 Environments in which NTLM is used extremely rarely and for benign purposes (such as a rare use of SMB shares).
+
+#### Kill Chain Phase
+* Lateral Movement
+
 
 
 #### RBA

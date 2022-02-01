@@ -26,7 +26,7 @@ tags:
 
 This search looks for specific authentication events from the Windows Security Event logs to detect potential attempts at using the Pass-the-Hash technique.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-10-15
@@ -36,8 +36,8 @@ This search looks for specific authentication events from the Windows Security E
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1550](https://attack.mitre.org/techniques/T1550/) | Use Alternate Authentication Material | Defense Evasion, Lateral Movement |
 
 | [T1550.002](https://attack.mitre.org/techniques/T1550/002/) | Pass the Hash | Defense Evasion, Lateral Movement |
@@ -53,24 +53,17 @@ This search looks for specific authentication events from the Windows Security E
 | `detect_activity_related_to_pass_the_hash_attacks_filter` 
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `detect_activity_related_to_pass_the_hash_attacks_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `detect_activity_related_to_pass_the_hash_attacks_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
-
-
-#### How To Implement
-To successfully implement this search, you must ingest your Windows Security Event logs and leverage the latest TA for Windows.
 
 #### Required field
 * _time
@@ -82,12 +75,15 @@ To successfully implement this search, you must ingest your Windows Security Eve
 * dest
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+To successfully implement this search, you must ingest your Windows Security Event logs and leverage the latest TA for Windows.
 
 #### Known False Positives
 Legitimate logon activity by authorized NTLM systems may be detected by this search. Please investigate as appropriate.
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 #### RBA

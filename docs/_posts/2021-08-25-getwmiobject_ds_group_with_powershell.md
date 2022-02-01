@@ -25,7 +25,7 @@ tags:
 
 This analytic looks for the execution of `powershell.exe` with command-line arguments utilized to query for domain groups. The `Get-WmiObject` commandlet combined with the `-class ds_group` parameter can be used to return the full list of groups in a Windows domain. Red Teams and adversaries alike may leverage WMI in this case, using PowerShell, to enumerate domain groups for situational awareness and Active Directory Discovery.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-08-25
@@ -35,8 +35,8 @@ This analytic looks for the execution of `powershell.exe` with command-line argu
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1069](https://attack.mitre.org/techniques/T1069/) | Permission Groups Discovery | Discovery |
 
 | [T1069.002](https://attack.mitre.org/techniques/T1069/002/) | Domain Groups | Discovery |
@@ -52,24 +52,17 @@ This analytic looks for the execution of `powershell.exe` with command-line argu
 | `getwmiobject_ds_group_with_powershell_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `getwmiobject_ds_group_with_powershell_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `getwmiobject_ds_group_with_powershell_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Active Directory Discovery](/stories/active_directory_discovery)
-
-
-#### How To Implement
-To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
 
 #### Required field
 * Processes.dest
@@ -85,12 +78,15 @@ To successfully implement this search you need to be ingesting information on pr
 * Processes.parent_process_id
 
 
-#### Kill Chain Phase
-* Reconnaissance
-
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
 
 #### Known False Positives
 Administrators or power users may use this command for troubleshooting.
+
+#### Kill Chain Phase
+* Reconnaissance
+
 
 
 #### RBA

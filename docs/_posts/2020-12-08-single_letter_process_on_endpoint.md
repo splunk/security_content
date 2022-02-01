@@ -25,7 +25,7 @@ tags:
 
 This search looks for process names that consist only of a single letter.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-12-08
@@ -35,8 +35,8 @@ This search looks for process names that consist only of a single letter.
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1204](https://attack.mitre.org/techniques/T1204/) | User Execution | Execution |
 
 | [T1204.002](https://attack.mitre.org/techniques/T1204/002/) | Malicious File | Execution |
@@ -55,24 +55,17 @@ This search looks for process names that consist only of a single letter.
 | `single_letter_process_on_endpoint_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `single_letter_process_on_endpoint_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `single_letter_process_on_endpoint_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [DHS Report TA18-074A](/stories/dhs_report_ta18-074a)
-
-
-#### How To Implement
-You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the &#34;process&#34; field in the Endpoint data model.
 
 #### Required field
 * _time
@@ -82,12 +75,15 @@ You must be ingesting data that records process activity from your hosts to popu
 * Processes.process_name
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the &#34;process&#34; field in the Endpoint data model.
 
 #### Known False Positives
 Single-letter executables are not always malicious. Investigate this activity with your normal incident-response process.
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 #### RBA

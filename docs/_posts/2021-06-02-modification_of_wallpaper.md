@@ -23,7 +23,7 @@ tags:
 
 This analytic identifies suspicious modification of registry to deface or change the wallpaper of a compromised machines as part of its payload. This technique was commonly seen in ransomware like REVIL where it create a bitmap file contain a note that the machine was compromised and make it as a wallpaper.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-02
@@ -33,8 +33,8 @@ This analytic identifies suspicious modification of registry to deface or change
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1491](https://attack.mitre.org/techniques/T1491/) | Defacement | Impact |
 
 #### Search
@@ -47,26 +47,17 @@ This analytic identifies suspicious modification of registry to deface or change
 | `modification_of_wallpaper_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `modification_of_wallpaper_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `modification_of_wallpaper_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Ransomware](/stories/ransomware)
-* [Revil Ransomware](/stories/revil_ransomware)
-* [BlackMatter Ransomware](/stories/blackmatter_ransomware)
-
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the Image, TargetObject registry key, registry Details from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 
 #### Required field
 * _time
@@ -80,12 +71,15 @@ To successfully implement this search, you need to be ingesting logs with the Im
 * user_id
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the Image, TargetObject registry key, registry Details from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 
 #### Known False Positives
 3rd party tool may used to changed the wallpaper of the machine
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA

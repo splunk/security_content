@@ -25,7 +25,7 @@ tags:
 
 This search looks for a process launching an `*.lnk` file under `C:\User*` or `*\Local\Temp\*`. This is common behavior used by various spear phishing tools.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-08-26
@@ -35,8 +35,8 @@ This search looks for a process launching an `*.lnk` file under `C:\User*` or `*
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique      |  Tactic           |
+| -------------- | -------------- |------------------ |
 | [T1566](https://attack.mitre.org/techniques/T1566/) | Phishing | Initial Access |
 
 | [T1566.002](https://attack.mitre.org/techniques/T1566/002/) | Spearphishing Link | Initial Access |
@@ -59,24 +59,17 @@ This search looks for a process launching an `*.lnk` file under `C:\User*` or `*
 | `process_creating_lnk_file_in_suspicious_location_filter`
 ```
 
-## Macros
+#### Macros
 The SPL above uses the following Macros:
 * [Macro_Name](https://)
 * [Macro2_Name](https://)
 
-** Note that `process_creating_lnk_file_in_suspicious_location_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.
+**Note that `process_creating_lnk_file_in_suspicious_location_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
 
-## Lookups
+#### Lookups
 The SPL above uses the following Lookups:
 
 * [Lookup_Name]() with [data]()
-
-#### Associated Analytic Story
-* [Spearphishing Attachments](/stories/spearphishing_attachments)
-
-
-#### How To Implement
-You must be ingesting data that records filesystem and process activity from your hosts to populate the Endpoint data model. This is typically populated via endpoint detection-and-response product, such as Carbon Black, or endpoint data sources, such as Sysmon.
 
 #### Required field
 * _time
@@ -89,13 +82,16 @@ You must be ingesting data that records filesystem and process activity from you
 * Filesystem.user
 
 
+#### How To Implement
+You must be ingesting data that records filesystem and process activity from your hosts to populate the Endpoint data model. This is typically populated via endpoint detection-and-response product, such as Carbon Black, or endpoint data sources, such as Sysmon.
+
+#### Known False Positives
+This detection should yield little or no false positive results. It is uncommon for LNK files to be executed from temporary or user directories.
+
 #### Kill Chain Phase
 * Installation
 * Actions on Objectives
 
-
-#### Known False Positives
-This detection should yield little or no false positive results. It is uncommon for LNK files to be executed from temporary or user directories.
 
 
 #### RBA
