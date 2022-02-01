@@ -39,12 +39,28 @@ references:
 tags:
   analytic_story:
   - Suspicious Command-Line Executions
+  confidence: 20
+  context:
+  - source:endpoint
+  - stage:Execution
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/malicious_cmd_line_samples/windows-sysmon.log
+  impact: 60
   kill_chain_phases:
   - Exploitation
+  message: Unusual command-line execution with hallmarks of malicious activity run
+    by $user$ found on $dest$ with commandline $process$
   mitre_attack_id:
   - T1059.003
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -57,24 +73,5 @@ tags:
   - Processes.parent_process
   - Processes.user
   - Processes.dest
-  security_domain: endpoint
-  impact: 60
-  confidence: 20
   risk_score: 12
-  context:
-  - source:endpoint
-  - stage:Execution
-  message: Unusual command-line execution with hallmarks of malicious activity run
-    by $user$ found on $dest$ with commandline $process$
-  observable:
-  - name: dest
-    type: Hostname
-    role:
-    - Victim
-  - name: user
-    type: User
-    role:
-    - Victim
-  cim_version: 5.0.0
-  supported_tas:
-  - Splunk_TA_microsoft_sysmon
+  security_domain: endpoint

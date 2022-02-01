@@ -35,6 +35,7 @@ search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map
 tags:
   analytic_story:
   - Ransomware
+  cis20: []
   confidence: 90
   context:
   - Source:Endpoint
@@ -49,9 +50,7 @@ tags:
     deletion.
   mitre_attack_id:
   - T1070
-  nist:
-  - PR.AC
-  - PR.IP
+  nist: []
   observable:
   - name: dest_user_id
     role:

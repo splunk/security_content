@@ -47,6 +47,7 @@ search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map
 tags:
   analytic_story:
   - Information Sabotage
+  cis20: []
   confidence: 70
   context:
   - Source:Endpoint
@@ -62,6 +63,7 @@ tags:
   - T1485
   - T1070.004
   - T1070
+  nist: []
   observable:
   - name: dest_user_id
     role:
