@@ -49,6 +49,7 @@ action.escu.analytic_story = {{ detection.tags.analytic_story | tojson }}
 action.risk = 1
 action.risk.param._risk_message = {{ detection.risk_message }}
 action.risk.param._risk = {{ detection.risk | tojson }}
+action.risk.param._risk_score = 0
 action.risk.param.verbose = 0
 {% endif %}
 {% else %}
