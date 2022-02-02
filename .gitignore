@@ -5,7 +5,6 @@ stories/*.yml.example
 tests/*/*.yml.example
 
 # IDE
-.vscode/
 
 # usual mac files
 .DS_Store
@@ -113,5 +112,4 @@ venv.bak/
 .mypy_cache/
 package/bin/sftp-config.json
 package/default/sftp-config.json
-*.code-snippets
 notes
