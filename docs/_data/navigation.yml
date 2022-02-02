@@ -56,6 +56,8 @@ detections:
         url: /detections/endpoint_filesystem/
       - title: Endpoint_Processes
         url: /detections/endpoint_processes/
+      - title: Endpoint_Registry
+        url: /detections/endpoint_registry/
       - title: Network_Resolution
         url: /detections/network_resolution/
       - title: Network_Sessions
