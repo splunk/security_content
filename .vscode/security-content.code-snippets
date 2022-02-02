@@ -306,7 +306,7 @@
 		"description": "gpupdate macro"
 	  },
 	  "msbuild macro": {
-		"prefix": "msbuild macro",
+		"prefix": "msbuild macro", 
 		"body": [
 		  "`process_msbuild`"
 		],
