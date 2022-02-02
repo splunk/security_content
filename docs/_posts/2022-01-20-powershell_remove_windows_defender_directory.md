@@ -44,7 +44,7 @@ This analytic will identify a suspicious PowerShell command used to delete the W
 #### Search
 
 ```
-`powershell` EventCode=4104 Message = "* rmdir *" OR Message = "*\\Microsoft\\Windows Defender*" 
+`powershell` EventCode=4104 Message = "* rmdir *" AND Message = "*\\Microsoft\\Windows Defender*" 
 | stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message ComputerName User 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 

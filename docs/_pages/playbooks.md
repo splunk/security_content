@@ -10,6 +10,8 @@ sidebar:
 
 | Name    | Detections | Type        |
 | --------| ---------- | ----------- |
+| [AWS Disable User Accounts](/playbooks/aws_disable_user_accounts/)| None | Input |
+| [AWS Find Inactive Users](/playbooks/aws_find_inactive_users/)| None | Investigation |
 | [Active Directory Reset password](/playbooks/active_directory_reset_password/)| None | Response |
 | [Block Indicators](/playbooks/block_indicators/)| None | Response |
 | [Crowdstrike Malware Triage](/playbooks/crowdstrike_malware_triage/)| None | Response |
@@ -36,3 +38,6 @@ sidebar:
 | [Risk Notable Protect Assets and Users](/playbooks/risk_notable_protect_assets_and_users/)| None | Response |
 | [Risk Notable Review Indicators](/playbooks/risk_notable_review_indicators/)| None | Response |
 | [Risk Notable Verdict](/playbooks/risk_notable_verdict/)| None | Response |
+| [Start Investigation](/playbooks/start_investigation/)| None | Investigation |
+| [Threat Intel Investigate](/playbooks/threat_intel_investigate/)| None | Investigation |
+| [TruSTAR Enrich Indicators](/playbooks/trustar_enrich_indicators/)| None | Input |
