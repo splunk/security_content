@@ -428,17 +428,13 @@ def add_rba(detection):
 
                         risk_object['risk_object_type'] = 'system'
                         risk_object['risk_object_field'] = entity['name']
-                        if (detection['tags']['risk_score']):
-                            risk_object['risk_score'] = detection['tags']['risk_score']
-                        else:
-                            risk_object['risk_score'] = 0
+                        risk_object['risk_score'] = detection['tags']['risk_score']
                         risk_objects.append(risk_object)
 
             # if is not a system or user, it is a threat object
             else:
                 risk_object['threat_object_field'] = entity['name']
                 risk_object['threat_object_type'] = entity['type'].lower()
-                risk_object['risk_score'] = 0
                 risk_objects.append(risk_object)
                 continue
 
