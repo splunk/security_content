@@ -15,12 +15,12 @@ search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map
   "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"),
   "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string",
   null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string",
-  null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
-  | where cmd_line IS NOT NULL AND like(cmd_line, "%+h%") AND process_name="attrib.exe" 
-  | eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"),
-  "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)),
-  body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name,
-  "parent_process_name", parent_process_name, "process_path", process_path]) 
+  null), event_id=ucast(map_get(input_event, "event_id"), "string", null) | where
+  cmd_line IS NOT NULL AND match_regex(cmd_line, /\+h/)=true AND process_name="attrib.exe" |
+  eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event,
+  "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
+  "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name",
+  process_name, "parent_process_name", parent_process_name, "process_path", process_path])
   | into write_ssa_detected_events();'
 how_to_implement: You must be ingesting data that records process activity from your
   hosts to populate the Endpoint data model in the Processes node. You must also be
@@ -30,33 +30,32 @@ how_to_implement: You must be ingesting data that records process activity from 
 known_false_positives: 'Some applications and users may legitimately use attrib.exe
   to interact with the files. '
 references:
--  https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/attrib
+- https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/attrib
 tags:
   analytic_story:
   - Windows Defense Evasion Tactics
   - Windows Persistence Techniques
   - Information Sabotage
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/attrib_hidden/security.log
-  kill_chain_phases:
-  - Exploitation
-  mitre_attack_id:
-  - T1222.001
-  - T1222
-  product:
-  - Splunk Behavioral Analytics
-  required_fields:
-  - _time
-  security_domain: endpoint
-  impact: 80
-  confidence: 90 
-  # (impact * confidence)/100
-  risk_score: 72
+  cis20:
+  - CIS 14
+  - CIS 16
+  confidence: 90
   context:
   - Source:Endpoint
   - Stage:Defense Evasion
   - Stage:Persistence
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/attrib_hidden/security.log
+  impact: 80
+  kill_chain_phases:
+  - Exploitation
   message: Attrib.exe with +h flag to hide files on $dest$ executed by $user$ is detected.
+  mitre_attack_id:
+  - T1222.001
+  - T1222
+  nist:
+  - PR.AC
+  - PR.IP
   observable:
   - name: user
     type: User
@@ -71,10 +70,10 @@ tags:
     role:
     - Attacker
     - Parent Process
-  nist:
-  - PR.AC
-  - PR.IP
-  cis20:
-  - CIS 14
-  - CIS 16
-  
+  product:
+  - Splunk Behavioral Analytics
+  required_fields:
+  - _time
+  risk_score: 72
+  security_domain: endpoint
+
