@@ -63,9 +63,6 @@ tags:
     deletion.
   mitre_attack_id:
   - T1070
-  nist:
-  - PR.AC
-  - PR.IP
   nist: []
   observable:
   - name: dest_user_id
