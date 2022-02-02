@@ -15,6 +15,7 @@ app_list:
 tags:
   platform_tags:
   - Investigation
+  - Cloud
   playbook_fields: []
   product:
   - Splunk SOAR
