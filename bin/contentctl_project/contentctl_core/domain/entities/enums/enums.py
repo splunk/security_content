@@ -20,6 +20,8 @@ class DataModel(enum.Enum):
     Updates = 10
     Vulnerabilities = 11
     Web = 12
+    Endpoint_Processes = 13
+    Endpoint_Filesystem = 14
 
 class SecurityContentType(enum.Enum):
     detections = 1
@@ -30,6 +32,7 @@ class SecurityContentType(enum.Enum):
     lookups = 6
     deployments = 7
     investigations = 8
+    unit_tests = 9
 
 class SecurityContentProduct(enum.Enum):
     ESCU = 1

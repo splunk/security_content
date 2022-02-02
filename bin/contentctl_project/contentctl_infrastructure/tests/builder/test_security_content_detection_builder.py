@@ -137,3 +137,19 @@ def test_detection_enrich_baseline():
     detection = security_content_builder.getObject()
 
     assert detection.baselines[0].name == "Previously Seen Users In CloudTrail - Update"
+
+
+def test_detection_enrich_unit_test():
+    security_content_builder = SecurityContentBasicBuilder()
+    security_content_builder.setObject(os.path.join(os.path.dirname(__file__), 
+        'test_data/test/attempted_credential_dump_from_registry_via_reg_exe.test.yml'), SecurityContentType.unit_tests)
+    test = security_content_builder.getObject()
+
+    security_content_builder = SecurityContentDetectionBuilder()
+    security_content_builder.setObject(os.path.join(os.path.dirname(__file__), 
+        'test_data/detection/valid.yml'))
+    security_content_builder
+    security_content_builder.addUnitTest([test])
+    detection = security_content_builder.getObject()
+
+    assert detection.test.file == "endpoint/attempted_credential_dump_from_registry_via_reg_exe.yml"

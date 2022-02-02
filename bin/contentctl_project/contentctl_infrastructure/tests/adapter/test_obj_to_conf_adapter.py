@@ -58,13 +58,18 @@ def test_write_conf_files(patch_datetime_now):
         '../builder/test_data/baseline/baseline.yml'), [deployment_baseline])
     baseline = baseline_builder.getObject()
 
+    unit_test_builder = SecurityContentBasicBuilder()
+    director.constructTest(unit_test_builder, os.path.join(os.path.dirname(__file__), 
+        '../builder/test_data/test/attempted_credential_dump_from_registry_via_reg_exe.test.yml'))
+    test = unit_test_builder.getObject()
+
     detection_builder = SecurityContentDetectionBuilder()
     director.constructDetection(detection_builder, os.path.join(os.path.dirname(__file__), 
-        '../builder/test_data/detection/valid.yml'), [deployment], [playbook], [baseline])
+        '../builder/test_data/detection/valid.yml'), [deployment], [playbook], [baseline], [test])
     detection = detection_builder.getObject()
 
     director.constructDetection(detection_builder, os.path.join(os.path.dirname(__file__), 
-        '../builder/test_data/detection/deprecated/detect_new_user_aws_console_login.yml'), [deployment], [playbook], [baseline])
+        '../builder/test_data/detection/deprecated/detect_new_user_aws_console_login.yml'), [deployment], [playbook], [baseline], [test])
     detection_deprecated = detection_builder.getObject()
 
     investigation_builder = SecurityContentInvestigationBuilder()

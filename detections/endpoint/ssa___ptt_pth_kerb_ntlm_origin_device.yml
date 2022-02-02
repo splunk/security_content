@@ -57,7 +57,7 @@ tags:
   - CIS 20
   confidence: 80
   context:
-  - Source:Ad
+  - Source:AD
   - Source:Endpoint
   - Stage:Credential Access
   - Stage:Lateral Movement

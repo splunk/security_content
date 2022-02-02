@@ -10,7 +10,7 @@ from contentctl_core.domain.entities.enums.enums import SecurityContentProduct
 class Director(abc.ABC):
 
     @abc.abstractmethod
-    def constructDetection(self, builder: DetectionBuilder, path: str, deployments: list, playbooks: list, baselines: list) -> None:
+    def constructDetection(self, builder: DetectionBuilder, path: str, deployments: list, playbooks: list, baselines: list, tests: list) -> None:
         pass
 
     @abc.abstractmethod
@@ -31,6 +31,10 @@ class Director(abc.ABC):
 
     @abc.abstractmethod
     def constructPlaybook(self, builder: BasicBuilder, path: str) -> None:
+        pass
+
+    @abc.abstractmethod
+    def constructTest(self, builder: BasicBuilder, path: str) -> None:
         pass
 
     @abc.abstractmethod

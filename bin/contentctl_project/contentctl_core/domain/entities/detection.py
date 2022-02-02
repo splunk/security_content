@@ -13,7 +13,7 @@ from contentctl_core.domain.entities.enums.enums import AnalyticsType
 from contentctl_core.domain.entities.enums.enums import DataModel
 from contentctl_core.domain.entities.detection_tags import DetectionTags
 from contentctl_core.domain.entities.deployment import Deployment
-
+from contentctl_core.domain.entities.unit_test import UnitTest
 class Detection(BaseModel, SecurityContentObject):
     name: str
     id: str
@@ -29,12 +29,14 @@ class Detection(BaseModel, SecurityContentObject):
     references: list
     tags: DetectionTags
     deprecated: bool
+    experimental: bool
     deployment: Deployment = None
     annotations: dict = None
     risk: list = None
     playbooks: list = None
     baselines: list = None
     mappings: dict = None
+    test: UnitTest = None
 
 
     @validator('name')

@@ -1,5 +1,4 @@
 import os
-import pytest
 
 from contentctl_core.application.factory.factory import FactoryInputDto
 from contentctl_core.application.factory.factory import FactoryOutputDto
@@ -13,7 +12,6 @@ from contentctl_infrastructure.builder.security_content_investigation_builder im
 from contentctl_infrastructure.builder.security_content_baseline_builder import SecurityContentBaselineBuilder
 
 
-#@pytest.mark.skip(reason="need to fix the security objects first")
 def test_factory_ESCU():
     input_path = os.path.join(os.path.dirname(__file__), '../../../../../..')
 
@@ -24,11 +22,10 @@ def test_factory_ESCU():
         SecurityContentStoryBuilder(),
         SecurityContentBaselineBuilder(),
         SecurityContentInvestigationBuilder(),
-        SecurityContentDirector(),
-        SecurityContentProduct.ESCU
+        SecurityContentDirector()
     )
 
-    output_dto = FactoryOutputDto([],[],[],[],[],[],[],[])
+    output_dto = FactoryOutputDto([],[],[],[],[],[],[],[],[])
 
     factory = Factory(output_dto)
     factory.execute(input_dto)

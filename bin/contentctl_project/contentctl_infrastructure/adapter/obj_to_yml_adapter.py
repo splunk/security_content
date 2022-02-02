@@ -32,6 +32,7 @@ class ObjToYmlAdapter(Adapter):
             file_path = object['file_path']
             object.pop('file_path')
             object.pop('deprecated')
+            object.pop('experimental') 
             YmlWriter.writeYmlFile(file_path, object)
 
     def writeObjects(self, objects: list, security_content_folder: str) -> None:

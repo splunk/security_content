@@ -47,9 +47,9 @@ class SecurityContentDetectionBuilder(DetectionBuilder):
                                     matched_deployments.append(d)
 
         if len(matched_deployments) == 0:
-            raise ValueError('No deployment found for detection: ' + self.security_content_obj.name)
-
-        self.security_content_obj.deployment = matched_deployments[-1]
+             self.security_content_obj.deployment = None
+        else:
+            self.security_content_obj.deployment = matched_deployments[-1]
 
 
     def addRBA(self) -> None:
@@ -82,17 +82,25 @@ class SecurityContentDetectionBuilder(DetectionBuilder):
                     risk_objects.append(risk_object)
                     continue
 
+        if self.security_content_obj.tags.risk_score >= 80:
+            self.security_content_obj.tags.risk_severity = 'high'
+        elif (self.security_content_obj.tags.risk_score >= 50 and self.security_content_obj.tags.risk_score <= 79):
+            self.security_content_obj.tags.risk_severity = 'medium'
+        else:
+            self.security_content_obj.tags.risk_severity = 'low'
+
         self.security_content_obj.risk = risk_objects
 
 
     def addNesFields(self) -> None:
         nes_fields_matches = []
-        if self.security_content_obj.deployment.notable:
-            for nes_field in self.security_content_obj.deployment.notable.nes_fields:
-                if (self.security_content_obj.search.find(nes_field + ' ') != -1):
-                    nes_fields_matches.append(nes_field)
-        
-            self.security_content_obj.deployment.notable.nes_fields = nes_fields_matches
+        if self.security_content_obj.deployment:
+            if self.security_content_obj.deployment.notable:
+                for nes_field in self.security_content_obj.deployment.notable.nes_fields:
+                    if (self.security_content_obj.search.find(nes_field + ' ') != -1):
+                        nes_fields_matches.append(nes_field)
+            
+                self.security_content_obj.deployment.notable.nes_fields = nes_fields_matches
 
 
     def addMappings(self) -> None:
@@ -142,6 +150,13 @@ class SecurityContentDetectionBuilder(DetectionBuilder):
                     matched_baselines.append(baseline)
 
         self.security_content_obj.baselines = matched_baselines
+
+
+    def addUnitTest(self, tests: list) -> None:
+        for test in tests:
+            if test.name == self.security_content_obj.name:
+                self.security_content_obj.test = test
+                return
 
 
     def reset(self) -> None:

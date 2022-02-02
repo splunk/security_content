@@ -77,9 +77,9 @@ tags:
     role:
     - Victim
   - name: process_name
-    type: processname
+    type: Process
     role:
-    - Others
+    - Other
   product:
   - Splunk Behavioral Analytics
   required_fields:

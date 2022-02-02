@@ -1,0 +1,25 @@
+import os
+
+
+from contentctl_core.application.factory.ba_factory import BAFactory, BAFactoryInputDto, BAFactoryOutputDto
+from contentctl_infrastructure.builder.security_content_director import SecurityContentDirector
+from contentctl_infrastructure.builder.security_content_basic_builder import SecurityContentBasicBuilder
+from contentctl_infrastructure.builder.security_content_detection_builder import SecurityContentDetectionBuilder
+
+
+
+
+def test_factory_BA():
+    input_path = os.path.join(os.path.dirname(__file__), '../../../../../..')
+
+    input_dto = BAFactoryInputDto(
+        input_path,
+        SecurityContentBasicBuilder(),
+        SecurityContentDetectionBuilder(),
+        SecurityContentDirector()
+    )
+
+    output_dto = BAFactoryOutputDto([],[])
+
+    factory = BAFactory(output_dto)
+    factory.execute(input_dto)

@@ -26,4 +26,9 @@ class YmlReader():
         else:
             yml_obj['deprecated'] = False
 
+        if 'experimental' in file_path:
+            yml_obj['experimental'] = True
+        else:
+            yml_obj['experimental'] = False
+
         return yml_obj

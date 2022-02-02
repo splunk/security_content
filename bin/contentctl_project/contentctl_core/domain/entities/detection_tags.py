@@ -25,6 +25,7 @@ class DetectionTags(BaseModel):
     security_domain: str
     detections: list = None
     deployments: list = None
+    risk_severity: str = None
 
 
     @validator('cis20')

@@ -1,7 +1,6 @@
 import os
 
 from dataclasses import dataclass
-from xmlrpc.client import Boolean
 
 from contentctl_core.domain.entities.enums.enums import SecurityContentProduct
 from contentctl_core.domain.entities.enums.enums import SecurityContentType
@@ -23,8 +22,7 @@ class FactoryInputDto:
     baseline_builder: BaselineBuilder
     investigation_builder: InvestigationBuilder
     director: Director
-    product: SecurityContentProduct
-
+    
 
 @dataclass(frozen=True)
 class FactoryOutputDto:
@@ -36,6 +34,7 @@ class FactoryOutputDto:
      deployments: list
      macros: list
      lookups: list
+     tests: list
 
 
 class Factory():
@@ -51,6 +50,7 @@ class Factory():
           self.input_dto = input_dto
 
           # order matters to load and enrich security content types
+          self.createSecurityContent(SecurityContentType.unit_tests)
           self.createSecurityContent(SecurityContentType.lookups)
           self.createSecurityContent(SecurityContentType.macros)
           self.createSecurityContent(SecurityContentType.deployments)
@@ -64,12 +64,14 @@ class Factory():
      def createSecurityContent(self, type: SecurityContentType) -> list:
           objects = []
           if type == SecurityContentType.deployments:
-               files = Utils.get_all_yml_files_from_directory(os.path.join(self.input_dto.input_path, str(type.name), str(self.input_dto.product.name)))
+               files = Utils.get_all_yml_files_from_directory(os.path.join(self.input_dto.input_path, str(type.name), 'ESCU'))
+          elif type == SecurityContentType.unit_tests:
+               files = Utils.get_all_yml_files_from_directory(os.path.join(self.input_dto.input_path, 'tests'))
           else:
                files = Utils.get_all_yml_files_from_directory(os.path.join(self.input_dto.input_path, str(type.name)))
           
           for file in files:
-               if self.input_dto.product == SecurityContentProduct.ESCU:      
+               if not 'ssa__' in file:
                     if type == SecurityContentType.lookups:
                          self.input_dto.director.constructLookup(self.input_dto.basic_builder, file)
                          self.output_dto.lookups.append(self.input_dto.basic_builder.getObject())
@@ -102,10 +104,15 @@ class Factory():
                          story = self.input_dto.story_builder.getObject()
                          self.output_dto.stories.append(story)
                
-               if type == SecurityContentType.detections:
-                    if (self.input_dto.product == SecurityContentProduct.ESCU and not 'ssa__' in file) or (self.input_dto.product == SecurityContentProduct.BA and 'ssa__' in file):
+                    elif type == SecurityContentType.detections:
                          self.input_dto.director.constructDetection(self.input_dto.detection_builder, file, 
-                              self.output_dto.deployments, self.output_dto.playbooks, self.output_dto.baselines)
+                              self.output_dto.deployments, self.output_dto.playbooks, self.output_dto.baselines,
+                              self.output_dto.tests)
                          detection = self.input_dto.detection_builder.getObject()
                          self.output_dto.detections.append(detection)
+               
+                    elif type == SecurityContentType.unit_tests:
+                         self.input_dto.director.constructTest(self.input_dto.basic_builder, file)
+                         test = self.input_dto.basic_builder.getObject()
+                         self.output_dto.tests.append(test)
                

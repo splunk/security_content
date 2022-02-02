@@ -37,6 +37,10 @@ class DetectionBuilder(abc.ABC):
         pass
 
     @abc.abstractmethod
+    def addUnitTest(self, tests: list) -> None:
+        pass
+
+    @abc.abstractmethod
     def setObject(self, path: str) -> None:
         pass
 

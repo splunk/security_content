@@ -10,8 +10,7 @@ from contentctl_core.domain.entities.deployment import Deployment
 from contentctl_core.domain.entities.macro import Macro
 from contentctl_core.domain.entities.lookup import Lookup
 from contentctl_core.domain.entities.playbook import Playbook
-from contentctl_core.domain.entities.baseline import Baseline
-from contentctl_core.domain.entities.investigation import Investigation
+from contentctl_core.domain.entities.unit_test import UnitTest
 
 
 class SecurityContentBasicBuilder(BasicBuilder):
@@ -48,6 +47,13 @@ class SecurityContentBasicBuilder(BasicBuilder):
         elif type == SecurityContentType.lookups:
             try:
                 self.security_content_obj = Lookup.parse_obj(yml_dict)
+            except ValidationError as e:
+                print('Validation Error for file ' + path)
+                print(e)
+                sys.exit(1)
+        elif type == SecurityContentType.unit_tests:
+            try:
+                self.security_content_obj = UnitTest.parse_obj(yml_dict)
             except ValidationError as e:
                 print('Validation Error for file ' + path)
                 print(e)

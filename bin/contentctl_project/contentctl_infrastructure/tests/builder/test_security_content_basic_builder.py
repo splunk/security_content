@@ -46,3 +46,14 @@ def test_read_playbook():
 
     assert playbook.name == "Ransomware Investigate and Contain"
     assert playbook.tags.detections[0] == "Conti Common Exec parameter"
+
+
+def test_read_test():
+    security_content_builder = SecurityContentBasicBuilder()
+    security_content_builder.setObject(os.path.join(os.path.dirname(__file__), 
+        'test_data/test/example.test.yml'), SecurityContentType.unit_tests)
+    test = security_content_builder.getObject()
+
+    assert test.name == "Cloud Compute Instance Created By Previously Unseen User"
+    assert test.baselines[0].name == "Previously Seen Cloud Compute Creations By User - Initial"
+    assert test.attack_data[0].source == "aws_cloudtrail"

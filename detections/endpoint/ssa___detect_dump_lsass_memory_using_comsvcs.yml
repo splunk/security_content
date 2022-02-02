@@ -35,7 +35,7 @@ tags:
   - CIS 16
   confidence: 100
   context:
-  - Source:Ad
+  - Source:AD
   - Source:Endpoint
   - Stage:Credential Access
   dataset:

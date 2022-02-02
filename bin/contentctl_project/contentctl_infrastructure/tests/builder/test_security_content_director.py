@@ -55,6 +55,18 @@ def test_construct_playbooks():
     assert playbook.tags.detections[0] == "Conti Common Exec parameter"
 
 
+def test_construct_unit_tests():
+    director = SecurityContentDirector()
+    unit_test_builder = SecurityContentBasicBuilder()
+    director.constructTest(unit_test_builder, os.path.join(os.path.dirname(__file__), 
+        'test_data/test/example.test.yml'))
+    test = unit_test_builder.getObject()
+
+    assert test.name == "Cloud Compute Instance Created By Previously Unseen User"
+    assert test.baselines[0].name == "Previously Seen Cloud Compute Creations By User - Initial"
+    assert test.attack_data[0].source == "aws_cloudtrail"
+
+
 def test_construct_baselines():
     director = SecurityContentDirector()
 
@@ -109,9 +121,14 @@ def test_construct_detections():
         'test_data/baseline/baseline.yml'), [deployment_baseline])
     baseline = baseline_builder.getObject()
 
+    unit_test_builder = SecurityContentBasicBuilder()
+    director.constructTest(unit_test_builder, os.path.join(os.path.dirname(__file__), 
+        'test_data/test/attempted_credential_dump_from_registry_via_reg_exe.test.yml'))
+    test = unit_test_builder.getObject()
+
     detection_builder = SecurityContentDetectionBuilder()
     director.constructDetection(detection_builder, os.path.join(os.path.dirname(__file__), 
-        'test_data/detection/valid.yml'), [deployment], [playbook], [baseline])
+        'test_data/detection/valid.yml'), [deployment], [playbook], [baseline], [test])
     detection = detection_builder.getObject()
 
     valid_annotations = {'mitre_attack': ['T1003.002', 'T1003'], 
@@ -139,6 +156,7 @@ def test_construct_detections():
     assert detection.risk == valid_risk
     assert detection.playbooks[0].name == "Ransomware Investigate and Contain"
     assert detection.baselines[0].name == "Previously Seen Users In CloudTrail - Update"
+    assert detection.test.name == "Attempted Credential Dump From Registry via Reg exe"
 
 
 def test_construct_stories():
@@ -163,9 +181,14 @@ def test_construct_stories():
         'test_data/baseline/baseline2.yml'), [deployment_baseline])
     baseline = baseline_builder.getObject()
 
+    unit_test_builder = SecurityContentBasicBuilder()
+    director.constructTest(unit_test_builder, os.path.join(os.path.dirname(__file__), 
+        'test_data/test/attempted_credential_dump_from_registry_via_reg_exe.test.yml'))
+    test = unit_test_builder.getObject()
+
     detection_builder = SecurityContentDetectionBuilder()
     director.constructDetection(detection_builder, os.path.join(os.path.dirname(__file__), 
-        'test_data/detection/valid.yml'), [deployment], [playbook], [baseline])
+        'test_data/detection/valid.yml'), [deployment], [playbook], [baseline], [test])
     detection = detection_builder.getObject()
 
     investigation_builder = SecurityContentInvestigationBuilder()
