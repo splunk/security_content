@@ -18,7 +18,7 @@ description: This analytic looks for suspicious chmod utility execution to enabl
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes WHERE (Processes.process_name = chmod
   OR Processes.process = "*chmod *") AND Processes.process IN("* g+s *", "* u+s *",
-  "* 4777 *", "* 4577 *", "* 777 *") by Processes.dest Processes.user Processes.parent_process_name
+  "* 4777 *", "* 4577 *") by Processes.dest Processes.user Processes.parent_process_name
   Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
   Processes.process_guid | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `linux_setuid_using_chmod_utility_filter`'
