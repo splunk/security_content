@@ -13,7 +13,6 @@ app_list:
 - "TruSTAR"
 tags:
   platform_tags:
-  - investigate
   - threat_intel
   - risk_notable
   playbook_fields: 

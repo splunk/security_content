@@ -12,7 +12,6 @@ references:
 app_list: []
 tags:
   platform_tags:
-  - investigate
   - threat_intel
   playbook_fields: []
   product:

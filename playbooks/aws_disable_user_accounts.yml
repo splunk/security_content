@@ -13,7 +13,6 @@ app_list:
 - "AWS IAM"
 tags:
   platform_tags:
-  - Response
   - Cloud
   playbook_fields:
   - aws_username
