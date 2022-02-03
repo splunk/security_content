@@ -4,8 +4,9 @@ last_modified_at: 2021-12-14
 toc: true
 toc_label: ""
 tags:
-  - Investigate
+  - Investigation
   - Splunk SOAR
+  - Log4J
 ---
 
 [Try in Splunk SOAR](https://www.splunk.com/en_us/software/splunk-security-orchestration-and-automation.html){: .btn .btn--success}
@@ -14,7 +15,7 @@ tags:
 
 Published in response to CVE-2021-44228, this playbook and its sub-playbooks can be used to investigate and respond to attacks against hosts running vulnerable Java applications which use log4j. Between the parent playbook and seven sub-playbooks, each potentially compromised host found in Splunk Enteprise can be investigated and the risk can be mitigated using SSH for unix systems and WinRM for Windows systems.
 
-- **Type**: Investigate
+- **Type**: Investigation
 - **Product**: Splunk SOAR
 - **Apps**: 
 - **Last Updated**: 2021-12-14

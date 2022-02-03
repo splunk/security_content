@@ -6,6 +6,7 @@ toc_label: ""
 tags:
   - Investigation
   - Splunk SOAR
+  - threat_intel
 ---
 
 [Try in Splunk SOAR](https://www.splunk.com/en_us/software/splunk-security-orchestration-and-automation.html){: .btn .btn--success}

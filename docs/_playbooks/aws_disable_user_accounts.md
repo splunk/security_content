@@ -4,9 +4,10 @@ last_modified_at: 2021-11-01
 toc: true
 toc_label: ""
 tags:
-  - Input
+  - Response
   - Splunk SOAR
   - AWS IAM
+  - Cloud
 ---
 
 [Try in Splunk SOAR](https://www.splunk.com/en_us/software/splunk-security-orchestration-and-automation.html){: .btn .btn--success}
@@ -15,7 +16,7 @@ tags:
 
 Disable a list of AWS IAM user accounts. After checking the list of accounts against an allowlist and confirming with an analyst, each account is disabled. The change can be reversed with the `enable user` action.
 
-- **Type**: Input
+- **Type**: Response
 - **Product**: Splunk SOAR
 - **Apps**: [AWS IAM](https://splunkbase.splunk.com/apps/#/search/AWS IAM/product/soar)
 - **Last Updated**: 2021-11-01

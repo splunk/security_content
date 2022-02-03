@@ -3,7 +3,7 @@ id: e609d729-0076-421a-b8f7-9e545d000381
 version: 2
 date: '2021-12-14'
 author: Philip Royer, Splunk
-type: Investigate
+type: Investigation
 description: Published in response to CVE-2021-44228, this playbook and its sub-playbooks can be used to investigate and respond to attacks against hosts running vulnerable Java applications which use log4j. Between the parent playbook and seven sub-playbooks, each potentially compromised host found in Splunk Enteprise can be investigated and the risk can be mitigated using SSH for unix systems and WinRM for Windows systems.
 playbook: log4j_investigate
 how_to_implement: > 

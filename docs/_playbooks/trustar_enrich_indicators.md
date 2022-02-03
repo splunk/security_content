@@ -4,9 +4,11 @@ last_modified_at: 2021-11-24
 toc: true
 toc_label: ""
 tags:
-  - Input
+  - Investigation
   - Splunk SOAR
   - TruSTAR
+  - threat_intel
+  - risk_notable
 ---
 
 [Try in Splunk SOAR](https://www.splunk.com/en_us/software/splunk-security-orchestration-and-automation.html){: .btn .btn--success}
@@ -15,7 +17,7 @@ tags:
 
 Use TruSTAR to gather threat information about indicators in a SOAR event. Tag the indicators with the normalized priority score from TruSTAR and summarize the findings in an analyst note. This playbook is meant to be used as a child playbook executed by a parent playbook such as &#34;threat_intel_investigate&#34;.
 
-- **Type**: Input
+- **Type**: Investigation
 - **Product**: Splunk SOAR
 - **Apps**: [TruSTAR](https://splunkbase.splunk.com/apps/#/search/TruSTAR/product/soar)
 - **Last Updated**: 2021-11-24
