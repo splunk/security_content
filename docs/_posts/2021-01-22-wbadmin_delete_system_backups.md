@@ -23,7 +23,7 @@ tags:
 
 This search looks for flags passed to wbadmin.exe (Windows Backup Administrator Tool) that delete backup files. This is typically used by ransomware to prevent recovery.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-01-22
@@ -33,8 +33,8 @@ This search looks for flags passed to wbadmin.exe (Windows Backup Administrator 
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1490](https://attack.mitre.org/techniques/T1490/) | Inhibit System Recovery | Impact |
 
 #### Search
@@ -48,13 +48,12 @@ This search looks for flags passed to wbadmin.exe (Windows Backup Administrator 
 | `wbadmin_delete_system_backups_filter`
 ```
 
-#### Associated Analytic Story
-* [Ryuk Ransomware](/stories/ryuk_ransomware)
-* [Ransomware](/stories/ransomware)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-You must be ingesting endpoint data that tracks process activity, including parent-child relationships from your endpoints to populate the Endpoint data model in the Processes node. Tune based on parent process names.
+Note that `wbadmin_delete_system_backups_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -65,12 +64,15 @@ You must be ingesting endpoint data that tracks process activity, including pare
 * Processes.user
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+You must be ingesting endpoint data that tracks process activity, including parent-child relationships from your endpoints to populate the Endpoint data model in the Processes node. Tune based on parent process names.
 
 #### Known False Positives
 Administrators may modify the boot configuration.
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 #### RBA

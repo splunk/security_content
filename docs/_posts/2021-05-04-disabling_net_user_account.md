@@ -23,7 +23,7 @@ tags:
 
 This analytic will identify a suspicious command-line that disables a user account using the `net.exe` utility native to Windows. This technique may used by the adversaries to interrupt availability of such users to do their malicious act.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-05-04
@@ -33,8 +33,8 @@ This analytic will identify a suspicious command-line that disables a user accou
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1531](https://attack.mitre.org/techniques/T1531/) | Account Access Removal | Impact |
 
 #### Search
@@ -48,12 +48,13 @@ This analytic will identify a suspicious command-line that disables a user accou
 | `disabling_net_user_account_filter`
 ```
 
-#### Associated Analytic Story
-* [XMRig](/stories/xmrig)
+#### Macros
+The SPL above uses the following Macros:
+* [process_net](https://github.com/splunk/security_content/blob/develop/macros/process_net.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
+Note that `disabling_net_user_account_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -70,12 +71,15 @@ To successfully implement this search you need to be ingesting information on pr
 * Processes.parent_process_id
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 
 #### Known False Positives
 unknown
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA

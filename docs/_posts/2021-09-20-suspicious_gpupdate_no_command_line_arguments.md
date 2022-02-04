@@ -24,7 +24,7 @@ tags:
 
 The following analytic identifies gpupdate.exe with no command line arguments. It is unusual for gpupdate.exe to execute with no command line arguments present. This particular behavior is common with malicious software, including Cobalt Strike. During investigation, identify any network connections and parallel processes. Identify any suspicious module loads related to credential dumping or file writes. gpupdate.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-09-20
@@ -34,8 +34,8 @@ The following analytic identifies gpupdate.exe with no command line arguments. I
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation |
 
 #### Search
@@ -50,12 +50,13 @@ The following analytic identifies gpupdate.exe with no command line arguments. I
 | `suspicious_gpupdate_no_command_line_arguments_filter`
 ```
 
-#### Associated Analytic Story
-* [Cobalt Strike](/stories/cobalt_strike)
+#### Macros
+The SPL above uses the following Macros:
+* [process_gpupdate](https://github.com/splunk/security_content/blob/develop/macros/process_gpupdate.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+Note that `suspicious_gpupdate_no_command_line_arguments_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -72,12 +73,15 @@ To successfully implement this search, you need to be ingesting logs with the pr
 * Processes.parent_process_id
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 
 #### Known False Positives
 Limited false positives may be present in small environments. Tuning may be required based on parent process.
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA

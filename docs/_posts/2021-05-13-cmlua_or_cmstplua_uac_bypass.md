@@ -25,7 +25,7 @@ tags:
 
 This analytic detects a potential process using COM Object like CMLUA or CMSTPLUA to bypass UAC. This technique has been used by ransomware adversaries to gain administrative privileges to its running process.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-05-13
@@ -35,8 +35,8 @@ This analytic detects a potential process using COM Object like CMLUA or CMSTPLU
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
 
 | [T1218.003](https://attack.mitre.org/techniques/T1218/003/) | CMSTP | Defense Evasion |
@@ -51,13 +51,12 @@ This analytic detects a potential process using COM Object like CMLUA or CMSTPLU
 | `cmlua_or_cmstplua_uac_bypass_filter`
 ```
 
-#### Associated Analytic Story
-* [DarkSide Ransomware](/stories/darkside_ransomware)
-* [Ransomware](/stories/ransomware)
+#### Macros
+The SPL above uses the following Macros:
+* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name and imageloaded executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+Note that `cmlua_or_cmstplua_uac_bypass_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -70,12 +69,15 @@ To successfully implement this search, you need to be ingesting logs with the pr
 * ProcessId
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name and imageloaded executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 
 #### Known False Positives
 Legitimate windows application that are not on the list loading this dll. Filter as needed.
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA

@@ -13,6 +13,87 @@ from pycvesearch import CVESearch
 
 CVESSEARCH_API_URL = 'https://cve.circl.lu'
 
+
+def load_objects(REPO_PATH, TYPE):
+    manifest_files = []
+    for root, dirs, files in walk(REPO_PATH + '/' + TYPE):
+        for file in files:
+            if file.endswith(".yml") and root == './' + TYPE:
+                manifest_files.append((path.join(root, file)))
+
+    objects = []
+    for manifest_file in manifest_files:
+        object_yaml = dict()
+        if VERBOSE:
+            print("processing manifest {0}".format(manifest_file))
+
+        with open(manifest_file, 'r') as stream:
+            try:
+                object = list(yaml.safe_load_all(stream))[0]
+            except yaml.YAMLError as exc:
+                print(exc)
+                print("Error reading {0}".format(manifest_file))
+                sys.exit(1)
+        object_yaml = object
+        objects.append(object_yaml)
+    return objects
+    
+def generate_lookup_dict(lookups):
+    lookup_dict = {}
+    for lookup in lookups:
+        lookup_dict[lookup['name']] = lookup
+
+    return lookup_dict
+
+def generate_macro_dict(macros):
+    macro_dict = {}
+    for macro in macros:
+        macro_dict[macro['name']] = macro
+
+    return macro_dict
+    
+def parse_and_add_macros(object, macros, lookups):
+    macros_found = re.findall('\`([^\s]+)`', object['search'])
+    macros_filtered = set()
+    for macro in macros_found:
+        if not 'cim_' in macro and not 'get_' in macro and not '_filter' in macro and not 'drop_dm_object_name' in macro:
+            start = macro.find('(')
+            if start != -1:
+                macros_filtered.add(macro[:start])
+            else:
+                macros_filtered.add(macro)
+
+    macro_objects = []
+    for macro in list(macros_filtered):
+        macro_lookups = parse_and_add_lookups(macros[macro]['definition'], lookups)
+        if len(macro_lookups) > 0:
+            macros[macro]['lookups'] = macro_lookups
+        macro_objects.append(macros[macro])
+
+    new_dict = {}
+    new_dict['definition'] = 'search *'
+    new_dict['description'] = 'Update this macro to limit the output results to filter out false positives. '
+    new_dict['name'] = object['name'].replace(' ', '_').replace('-', '_').replace('.', '_').replace('/', '_').lower() + '_filter'
+    macro_objects.append(new_dict)
+
+    return macro_objects
+
+def parse_and_add_lookups(search_string, lookups):
+    lookups_found = re.findall('lookup (?:update=true)?(?:append=t)?\s*([^\s]*)', search_string)
+    lookup_objects = []
+    for lookup in lookups_found:
+        if lookup in lookups:
+            lookup_obj = lookups[lookup]
+            if not ('fields_list' in lookup_obj):
+                csv_file_name = lookup_obj['filename']
+                lookup_obj['csv_file_url'] = 'https://github.com/splunk/security_content/blob/develop/lookups/' + csv_file_name
+
+            lookup_objects.append(lookup_obj)
+
+
+    return lookup_objects
+
+
 def get_cve_enrichment_new(cve_id):
     cve = CVESearch(CVESSEARCH_API_URL)
     result = cve.id(cve_id)
@@ -56,30 +137,8 @@ def get_mitre_enrichment_new(attack, mitre_attack_id):
     return []
 
 def generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_detections, messages, VERBOSE):
-    manifest_files = []
-    for root, dirs, files in walk(REPO_PATH + '/stories'):
-        for file in files:
-            if file.endswith(".yml") and root == './stories':
-                manifest_files.append((path.join(root, file)))
 
-    stories = []
-    for manifest_file in manifest_files:
-        story_yaml = dict()
-        if VERBOSE:
-            print("processing manifest {0}".format(manifest_file))
-
-        with open(manifest_file, 'r') as stream:
-            try:
-                object = list(yaml.safe_load_all(stream))[0]
-            except yaml.YAMLError as exc:
-                print(exc)
-                print("Error reading {0}".format(manifest_file))
-                sys.exit(1)
-        story_yaml = object
-
-
-        stories.append(story_yaml)
-
+    stories = load_objects(REPO_PATH, 'stories')
     sorted_stories = sorted(stories, key=lambda i: i['name'])
 
     # enrich stories with information from detections: data_models, mitre_ids, kill_chain_phases
@@ -235,6 +294,12 @@ def generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, messag
                 if file.endswith(".yml"):
                     manifest_files.append((path.join(root, file)))
 
+    # load lookups and detection objects
+    lookup_objects = load_objects(REPO_PATH, 'lookups')
+    lookups = generate_lookup_dict(lookup_objects)
+    macro_objects = load_objects(REPO_PATH, 'macros')
+    macros = generate_macro_dict(macro_objects)
+
     detections = []
     for manifest_file in manifest_files:
         detection_yaml = dict()
@@ -266,6 +331,25 @@ def generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, messag
                 cves.append(cve)
             detection_yaml['cve'] = cves
 
+        # enrich with macros
+        detection_yaml['macros'] = parse_and_add_macros(detection_yaml, macros, lookups)
+
+        # enrich with lookups
+        detection_lookups = []
+        #process lookups in macros first
+        for macro in detection_yaml['macros']:
+            if 'lookups' in macro:
+                for macro_lookup in macro['lookups']:
+                    print(macro_lookup)
+                    detection_lookups.append(macro_lookup)
+        # now any other search lookups
+        additional_detection_lookups = parse_and_add_lookups(detection_yaml['search'], lookups)
+        if len(additional_detection_lookups) > 0:
+            for lookup in additional_detection_lookups:
+                detection_lookups.append(lookup)
+            detection_yaml['lookups'] = detection_lookups
+        detection_yaml['lookups'] = detection_lookups
+
         # grab the kind
         detection_yaml['kind'] = manifest_file.split('/')[-2]
 
@@ -279,9 +363,10 @@ def generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, messag
         else:
             detections.append(detection_yaml)
 
+    # sort our detections
     sorted_detections = sorted(detections, key=lambda i: i['name'])
 
-    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), # nosemgrep
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
                              trim_blocks=False, autoescape=True)
 
     # write markdown
@@ -378,7 +463,7 @@ if __name__ == "__main__":
     parser.add_argument("-v", "--verbose", required=False, default=False, action='store_true', help="prints verbose output")
 
 
-    # parse them
+    # parse themgit stat
     args = parser.parse_args()
     REPO_PATH = args.path
     OUTPUT_DIR = args.output
