@@ -25,7 +25,7 @@ tags:
 
 Attackers leverage an existing Windows binary, attrib.exe, to mark specific as hidden by using specific flags so that the victim does not see the file.  The search looks for specific command-line arguments to detect the use of attrib.exe to hide files.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-07-21
@@ -35,8 +35,8 @@ Attackers leverage an existing Windows binary, attrib.exe, to mark specific as h
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1222](https://attack.mitre.org/techniques/T1222/) | File and Directory Permissions Modification | Defense Evasion |
 
 | [T1222.001](https://attack.mitre.org/techniques/T1222/001/) | Windows File and Directory Permissions Modification | Defense Evasion |
@@ -52,13 +52,12 @@ Attackers leverage an existing Windows binary, attrib.exe, to mark specific as h
 | `hiding_files_and_directories_with_attrib_exe_filter` 
 ```
 
-#### Associated Analytic Story
-* [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
-* [Windows Persistence Techniques](/stories/windows_persistence_techniques)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the &#34;process&#34; field in the Endpoint data model.
+Note that `hiding_files_and_directories_with_attrib_exe_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -69,12 +68,15 @@ You must be ingesting data that records process activity from your hosts to popu
 * Processes.dest
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the &#34;process&#34; field in the Endpoint data model.
 
 #### Known False Positives
 Some applications and users may legitimately use attrib.exe to interact with the files. 
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 #### RBA

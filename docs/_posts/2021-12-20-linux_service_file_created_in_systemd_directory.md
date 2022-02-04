@@ -29,7 +29,7 @@ tags:
 
 This analytic looks for suspicious file creation in systemd timer directory in linux platform. systemd is a system and service manager for Linux distributions. From the Windows perspective, this process fulfills the duties of wininit.exe and services.exe combined. At the risk of simplifying the functionality of systemd, it initializes a Linux system and starts relevant services that are defined in service unit files. Adversaries, malware and red teamers may abuse this this feature by stashing systemd service file to persist on the targetted or compromised host.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-12-20
@@ -39,8 +39,8 @@ This analytic looks for suspicious file creation in systemd timer directory in l
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1053.006](https://attack.mitre.org/techniques/T1053/006/) | Systemd Timers | Execution, Persistence, Privilege Escalation |
 
 | [T1053](https://attack.mitre.org/techniques/T1053/) | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
@@ -56,13 +56,12 @@ This analytic looks for suspicious file creation in systemd timer directory in l
 | `linux_service_file_created_in_systemd_directory_filter`
 ```
 
-#### Associated Analytic Story
-* [Linux Privilege Escalation](/stories/linux_privilege_escalation)
-* [Linux Persistence Techniques](/stories/linux_persistence_techniques)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the file name, file path, and process_guid executions from your endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from Splunkbase.
+Note that `linux_service_file_created_in_systemd_directory_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -73,12 +72,15 @@ To successfully implement this search, you need to be ingesting logs with the fi
 * Filesystem.file_path
 
 
-#### Kill Chain Phase
-* Privilege Escalation
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the file name, file path, and process_guid executions from your endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from Splunkbase.
 
 #### Known False Positives
 Administrator or network operator can create file in systemd folders for automation purposes. Please update the filter macros to remove false positives.
+
+#### Kill Chain Phase
+* Privilege Escalation
+
 
 
 #### RBA

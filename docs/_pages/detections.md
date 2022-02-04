@@ -8,8 +8,8 @@ sidebar:
   nav: "detections"
 ---
 
-| Name    | Technique | Type       |
-| --------| --------- |------------|
+| Name           | Technique       | Type            |
+| -------------- | --------------- | --------------- |
 | [7zip CommandLine To SMB Share Path](/endpoint/7zip_commandline_to_smb_share_path/) | [Archive via Utility](/tags/#archive-via-utility), [Archive Collected Data](/tags/#archive-collected-data) | Hunting |
 | [AWS Create Policy Version to allow all resources](/cloud/aws_create_policy_version_to_allow_all_resources/) | [Cloud Accounts](/tags/#cloud-accounts), [Valid Accounts](/tags/#valid-accounts) | TTP |
 | [AWS CreateAccessKey](/cloud/aws_createaccesskey/) | [Cloud Account](/tags/#cloud-account), [Create Account](/tags/#create-account) | Hunting |
@@ -357,8 +357,8 @@ sidebar:
 | [Gsuite Suspicious Shared File Name](/cloud/gsuite_suspicious_shared_file_name/) | [Spearphishing Attachment](/tags/#spearphishing-attachment), [Phishing](/tags/#phishing) | Anomaly |
 | [Gsuite suspicious calendar invite](/cloud/gsuite_suspicious_calendar_invite/) | [Phishing](/tags/#phishing) | Hunting |
 | [Hide User Account From Sign-In Screen](/endpoint/hide_user_account_from_sign-in_screen/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Impair Defenses](/tags/#impair-defenses) | TTP |
-| [Hiding Files And Directories With Attrib exe](/endpoint/hiding_files_and_directories_with_attrib_exe/) | [File and Directory Permissions Modification](/tags/#file-and-directory-permissions-modification), [Windows File and Directory Permissions Modification](/tags/#windows-file-and-directory-permissions-modification) | TTP |
 | [Hiding Files And Directories With Attrib exe](/endpoint/hiding_files_and_directories_with_attrib_exe/) | [Windows File and Directory Permissions Modification](/tags/#windows-file-and-directory-permissions-modification), [File and Directory Permissions Modification](/tags/#file-and-directory-permissions-modification) | TTP |
+| [Hiding Files And Directories With Attrib exe](/endpoint/hiding_files_and_directories_with_attrib_exe/) | [File and Directory Permissions Modification](/tags/#file-and-directory-permissions-modification), [Windows File and Directory Permissions Modification](/tags/#windows-file-and-directory-permissions-modification) | TTP |
 | [High File Deletion Frequency](/endpoint/high_file_deletion_frequency/) | [Data Destruction](/tags/#data-destruction) | Anomaly |
 | [High File Deletion Frequency](/endpoint/high_file_deletion_frequency/) | [Data Destruction](/tags/#data-destruction) | Anomaly |
 | [High Frequency Copy Of Files In Network Share](/endpoint/high_frequency_copy_of_files_in_network_share/) | [Transfer Data to Cloud Account](/tags/#transfer-data-to-cloud-account) | Anomaly |
