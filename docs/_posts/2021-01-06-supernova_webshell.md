@@ -25,7 +25,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 This search aims to detect the Supernova webshell used in the SUNBURST attack.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Web](https://docs.splunk.com/Documentation/CIM/latest/User/Web)
 - **Last Updated**: 2021-01-06
@@ -35,8 +35,8 @@ This search aims to detect the Supernova webshell used in the SUNBURST attack.
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1505.003](https://attack.mitre.org/techniques/T1505/003/) | Web Shell | Persistence |
 
 #### Search
@@ -47,12 +47,11 @@ This search aims to detect the Supernova webshell used in the SUNBURST attack.
 | `supernova_webshell_filter`
 ```
 
-#### Associated Analytic Story
-* [NOBELIUM Group](/stories/nobelium_group)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search, you need to be monitoring web traffic to your Solarwinds Orion. The logs should be ingested into splunk and populating/mapped to the Web data model.
+Note that `supernova_webshell_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -64,12 +63,15 @@ To successfully implement this search, you need to be monitoring web traffic to 
 * Web.http_user_agent
 
 
-#### Kill Chain Phase
-* Exfiltration
-
+#### How To Implement
+To successfully implement this search, you need to be monitoring web traffic to your Solarwinds Orion. The logs should be ingested into splunk and populating/mapped to the Web data model.
 
 #### Known False Positives
 There might be false positives associted with this detection since items like args as a web argument is pretty generic.
+
+#### Kill Chain Phase
+* Exfiltration
+
 
 
 

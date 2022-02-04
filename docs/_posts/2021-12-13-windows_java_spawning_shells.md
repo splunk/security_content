@@ -26,7 +26,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 The following analytic identifies the process name of java.exe and w3wp.exe spawning a Windows shell. This is potentially indicative of exploitation of the Java application and may be related to current event CVE-2021-44228 (Log4Shell). The shells included in the macro are &#34;cmd.exe&#34;, &#34;powershell.exe&#34;. Upon triage, review parallel processes and command-line arguments to determine legitimacy.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-12-13
@@ -36,8 +36,8 @@ The following analytic identifies the process name of java.exe and w3wp.exe spaw
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1190](https://attack.mitre.org/techniques/T1190/) | Exploit Public-Facing Application | Initial Access |
 
 #### Search
@@ -51,12 +51,13 @@ The following analytic identifies the process name of java.exe and w3wp.exe spaw
 | `windows_java_spawning_shells_filter`
 ```
 
-#### Associated Analytic Story
-* [Log4Shell CVE-2021-44228](/stories/log4shell_cve-2021-44228)
+#### Macros
+The SPL above uses the following Macros:
+* [windows_shells](https://github.com/splunk/security_content/blob/develop/macros/windows_shells.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. Restrict the analytic to publicly facing endpoints to reduce false positives. Add any additional identified web application process name to the query. Add any further Windows process names to the macro (ex. LOLBins) to further expand this query.
+Note that `windows_java_spawning_shells_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -73,12 +74,15 @@ To successfully implement this search, you need to be ingesting logs with the pr
 * Processes.parent_process_id
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. Restrict the analytic to publicly facing endpoints to reduce false positives. Add any additional identified web application process name to the query. Add any further Windows process names to the macro (ex. LOLBins) to further expand this query.
 
 #### Known False Positives
 Filtering may be required on internal developer build systems or classify assets as web facing and restrict the analytic based on that.
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA

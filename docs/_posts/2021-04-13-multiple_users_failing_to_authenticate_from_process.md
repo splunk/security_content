@@ -27,7 +27,7 @@ The detection calculates the standard deviation for each host and leverages the 
 This detection will trigger on the potenfially malicious host, perhaps controlled via a trojan or operated by an insider threat, from where a password spraying attack is being executed. This could be a domain controller as well as a member server or workstation.\
 The analytics returned fields allow analysts to investigate the event further by providing fields like source process name, source account and attempted user accounts.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-04-13
@@ -37,8 +37,8 @@ The analytics returned fields allow analysts to investigate the event further by
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1110.003](https://attack.mitre.org/techniques/T1110/003/) | Password Spraying | Credential Access |
 
 | [T1110](https://attack.mitre.org/techniques/T1110/) | Brute Force | Credential Access |
@@ -58,12 +58,11 @@ The analytics returned fields allow analysts to investigate the event further by
 | `multiple_users_failing_to_authenticate_from_process_filter` 
 ```
 
-#### Associated Analytic Story
-* [Active Directory Password Spraying](/stories/active_directory_password_spraying)
+#### Macros
+The SPL above uses the following Macros:
+* [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting Windows Event Logs from domain controllers aas well as member servers and workstations. The Advanced Security Audit policy setting `Audit Logon` within `Logon/Logoff` needs to be enabled.
+Note that `multiple_users_failing_to_authenticate_from_process_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -75,12 +74,15 @@ To successfully implement this search, you need to be ingesting Windows Event Lo
 * ComputerName
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting Windows Event Logs from domain controllers aas well as member servers and workstations. The Advanced Security Audit policy setting `Audit Logon` within `Logon/Logoff` needs to be enabled.
 
 #### Known False Positives
 A process failing to authenticate with multiple users is not a common behavior for legitimate user sessions. Possible false positive scenarios include but are not limited to vulnerability scanners and missconfigured systems.
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA

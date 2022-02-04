@@ -27,7 +27,7 @@ tags:
 
 This analytic is developed to detect suspicious registry modification to change the default file association of windows to malicious payload. This techninique was seen in some APT where it modify the default process to run file association, like .txt to notepad.exe. Instead notepad.exe it will point to a Script or other payload that will load malicious command to the compromised host.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-09-27
@@ -37,8 +37,8 @@ This analytic is developed to detect suspicious registry modification to change 
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1546.001](https://attack.mitre.org/techniques/T1546/001/) | Change Default File Association | Privilege Escalation, Persistence |
 
 | [T1546](https://attack.mitre.org/techniques/T1546/) | Event Triggered Execution | Privilege Escalation, Persistence |
@@ -54,13 +54,12 @@ This analytic is developed to detect suspicious registry modification to change 
 | `change_default_file_association_filter`
 ```
 
-#### Associated Analytic Story
-* [Windows Persistence Techniques](/stories/windows_persistence_techniques)
-* [Windows Privilege Escalation](/stories/windows_privilege_escalation)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search, you must be ingesting data that records registry activity from your hosts to populate the endpoint data model in the registry node. This is typically populated via endpoint detection-and-response product, such as Carbon Black or endpoint data sources, such as Sysmon. The data used for this search is typically generated via logs that report reads and writes to the registry.
+Note that `change_default_file_association_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -71,12 +70,15 @@ To successfully implement this search, you must be ingesting data that records r
 * Registry.registry_value_name
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search, you must be ingesting data that records registry activity from your hosts to populate the endpoint data model in the registry node. This is typically populated via endpoint detection-and-response product, such as Carbon Black or endpoint data sources, such as Sysmon. The data used for this search is typically generated via logs that report reads and writes to the registry.
 
 #### Known False Positives
 unknown
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA

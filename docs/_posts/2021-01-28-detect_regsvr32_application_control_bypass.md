@@ -26,7 +26,7 @@ tags:
 Adversaries may abuse Regsvr32.exe to proxy execution of malicious code. Regsvr32.exe is a command-line program used to register and unregister object linking and embedding controls, including dynamic link libraries (DLLs), on Windows systems. Regsvr32.exe is also a Microsoft signed binary.This variation of the technique is often referred to as a &#34;Squiblydoo&#34; attack. \
 Upon investigating, look for network connections to remote destinations (internal or external). Be cautious to modify the query to look for &#34;scrobj.dll&#34;, the &#34;.dll&#34; is not required to load scrobj. &#34;scrobj.dll&#34; will be loaded by &#34;regsvr32.exe&#34; upon execution. 
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-01-28
@@ -36,8 +36,8 @@ Upon investigating, look for network connections to remote destinations (interna
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
 
 | [T1218.010](https://attack.mitre.org/techniques/T1218/010/) | Regsvr32 | Defense Evasion |
@@ -53,13 +53,13 @@ Upon investigating, look for network connections to remote destinations (interna
 | `detect_regsvr32_application_control_bypass_filter`
 ```
 
-#### Associated Analytic Story
-* [Suspicious Regsvr32 Activity](/stories/suspicious_regsvr32_activity)
-* [Cobalt Strike](/stories/cobalt_strike)
+#### Macros
+The SPL above uses the following Macros:
+* [process_regsvr32](https://github.com/splunk/security_content/blob/develop/macros/process_regsvr32.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
+Note that `detect_regsvr32_application_control_bypass_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -76,12 +76,15 @@ To successfully implement this search you need to be ingesting information on pr
 * Processes.parent_process_id
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 
 #### Known False Positives
 Limited false positives related to third party software registering .DLL&#39;s.
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 #### RBA
