@@ -27,7 +27,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 The search is used to identify attempts to use your DNS Infrastructure for DDoS purposes via a DNS amplification attack leveraging ANY queries.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Resolution](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution)
 - **Last Updated**: 2017-09-20
@@ -37,8 +37,8 @@ The search is used to identify attempts to use your DNS Infrastructure for DDoS 
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1498](https://attack.mitre.org/techniques/T1498/) | Network Denial of Service | Impact |
 
 | [T1498.002](https://attack.mitre.org/techniques/T1498/002/) | Reflection Amplification | Impact |
@@ -53,12 +53,11 @@ The search is used to identify attempts to use your DNS Infrastructure for DDoS 
 | `large_volume_of_dns_any_queries_filter`
 ```
 
-#### Associated Analytic Story
-* [DNS Amplification Attacks](/stories/dns_amplification_attacks)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search you must ensure that DNS data is populating the Network_Resolution data model.
+Note that `large_volume_of_dns_any_queries_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -67,12 +66,15 @@ To successfully implement this search you must ensure that DNS data is populatin
 * DNS.dest
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+To successfully implement this search you must ensure that DNS data is populating the Network_Resolution data model.
 
 #### Known False Positives
 Legitimate ANY requests may trigger this search, however it is unusual to see a large volume of them under typical circumstances. You may modify the threshold in the search to better suit your environment.
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 
