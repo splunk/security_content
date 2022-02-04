@@ -32,7 +32,7 @@ tags:
 
 This search looks for cloud compute instances created by users who have not created them before.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
 - **Last Updated**: 2021-07-13
@@ -42,8 +42,8 @@ This search looks for cloud compute instances created by users who have not crea
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1078.004](https://attack.mitre.org/techniques/T1078/004/) | Cloud Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
@@ -64,12 +64,17 @@ This search looks for cloud compute instances created by users who have not crea
 | `cloud_compute_instance_created_by_previously_unseen_user_filter`
 ```
 
-#### Associated Analytic Story
-* [Cloud Cryptomining](/stories/cloud_cryptomining)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
+Note that `cloud_compute_instance_created_by_previously_unseen_user_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
-#### How To Implement
-You must be ingesting the appropriate cloud-infrastructure logs Run the &#34;Previously Seen Cloud Compute Creations By User&#34; support search to create of baseline of previously seen users.
+#### Lookups
+The SPL above uses the following Lookups:
+
+* [previously_seen_cloud_compute_creations_by_user](https://github.com/splunk/security_content/blob/develop/lookups/previously_seen_cloud_compute_creations_by_user.yml) with [data]()
 
 #### Required field
 * _time
@@ -79,11 +84,14 @@ You must be ingesting the appropriate cloud-infrastructure logs Run the &#34;Pre
 * All_Changes.vendor_region
 
 
-#### Kill Chain Phase
-
+#### How To Implement
+You must be ingesting the appropriate cloud-infrastructure logs Run the &#34;Previously Seen Cloud Compute Creations By User&#34; support search to create of baseline of previously seen users.
 
 #### Known False Positives
 It&#39;s possible that a user will start to create compute instances for the first time, for any number of reasons. Verify with the user launching instances that this is the intended behavior.
+
+#### Kill Chain Phase
+
 
 
 #### RBA

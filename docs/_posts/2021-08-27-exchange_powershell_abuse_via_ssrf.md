@@ -28,7 +28,7 @@ A suspicious event will have `PowerShell`, the method `POST` and `autodiscover.j
 An event will look similar to `POST /autodiscover/autodiscover.json a=dsxvu@fnsso.flq/powershell/?X-Rps-CAT=VgEAVAdXaW5kb3d...` (abbreviated) \
 Review the source attempting to perform this activity against your environment. In addition, review PowerShell logs and access recently granted to Exchange roles.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-08-27
@@ -38,8 +38,8 @@ Review the source attempting to perform this activity against your environment. 
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1190](https://attack.mitre.org/techniques/T1190/) | Exploit Public-Facing Application | Initial Access |
 
 #### Search
@@ -53,12 +53,12 @@ Review the source attempting to perform this activity against your environment. 
 | `exchange_powershell_abuse_via_ssrf_filter`
 ```
 
-#### Associated Analytic Story
-* [ProxyShell](/stories/proxyshell)
+#### Macros
+The SPL above uses the following Macros:
+* [exchange](https://github.com/splunk/security_content/blob/develop/macros/exchange.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-
-#### How To Implement
-The following analytic requires on-premise Exchange to be logging to Splunk using the TA - https://splunkbase.splunk.com/app/3225. Ensure logs are parsed correctly, or tune the analytic for your environment.
+Note that `exchange_powershell_abuse_via_ssrf_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -68,12 +68,15 @@ The following analytic requires on-premise Exchange to be logging to Splunk usin
 * c_uri
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+The following analytic requires on-premise Exchange to be logging to Splunk using the TA - https://splunkbase.splunk.com/app/3225. Ensure logs are parsed correctly, or tune the analytic for your environment.
 
 #### Known False Positives
 Limited false positives, however, tune as needed.
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA

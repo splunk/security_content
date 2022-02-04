@@ -23,7 +23,7 @@ tags:
 
 The following analytic identifies credential dumping using comsvcs.dll with `regsvr32.exe`. This technique is common with adversaries who would like to dump the memory of lsass.exe and perform offline password cracking.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2021-11-29
@@ -33,8 +33,8 @@ The following analytic identifies credential dumping using comsvcs.dll with `reg
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1003.003](https://attack.mitre.org/techniques/T1003/003/) | NTDS | Credential Access |
 
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
@@ -50,12 +50,10 @@ The following analytic identifies credential dumping using comsvcs.dll with `reg
 | into write_ssa_detected_events();
 ```
 
-#### Associated Analytic Story
-* [Credential Dumping](/stories/credential_dumping)
+#### Macros
+The SPL above uses the following Macros:
 
-
-#### How To Implement
-You must be ingesting endpoint data that tracks process activity, including Windows command line logging. You can see how we test this with [Event Code 4688](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4688a) on the [attack_range](https://github.com/splunk/attack_range/blob/develop/ansible/roles/windows_common/tasks/windows-enable-4688-cmd-line-audit.yml).
+Note that `detect_dump_lsass_memory_using_comsvcs_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * process_name
@@ -65,12 +63,15 @@ You must be ingesting endpoint data that tracks process activity, including Wind
 * process
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+You must be ingesting endpoint data that tracks process activity, including Windows command line logging. You can see how we test this with [Event Code 4688](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4688a) on the [attack_range](https://github.com/splunk/attack_range/blob/develop/ansible/roles/windows_common/tasks/windows-enable-4688-cmd-line-audit.yml).
 
 #### Known False Positives
 False positives should be limited, filter as needed.
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 #### RBA

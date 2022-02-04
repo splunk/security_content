@@ -25,7 +25,7 @@ tags:
 
 This search looks for the creation of local administrator accounts using net.exe .
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-09-08
@@ -35,8 +35,8 @@ This search looks for the creation of local administrator accounts using net.exe
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1136.001](https://attack.mitre.org/techniques/T1136/001/) | Local Account | Persistence |
 
 | [T1136](https://attack.mitre.org/techniques/T1136/) | Create Account | Persistence |
@@ -52,12 +52,12 @@ This search looks for the creation of local administrator accounts using net.exe
 | `create_local_admin_accounts_using_net_exe_filter`
 ```
 
-#### Associated Analytic Story
-* [DHS Report TA18-074A](/stories/dhs_report_ta18-074a)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the &#34;process&#34; field in the Endpoint data model.
+Note that `create_local_admin_accounts_using_net_exe_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -74,12 +74,15 @@ You must be ingesting data that records process activity from your hosts to popu
 * Processes.parent_process_id
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the &#34;process&#34; field in the Endpoint data model.
 
 #### Known False Positives
 Administrators often leverage net.exe to create admin accounts.
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 #### RBA
