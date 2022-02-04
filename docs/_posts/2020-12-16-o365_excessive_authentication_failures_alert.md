@@ -23,7 +23,7 @@ tags:
 
 This search detects when an excessive number of authentication failures occur this search also includes attempts against MFA prompt codes
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-12-16
@@ -33,8 +33,8 @@ This search detects when an excessive number of authentication failures occur th
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1110](https://attack.mitre.org/techniques/T1110/) | Brute Force | Credential Access |
 
 #### Search
@@ -48,12 +48,12 @@ This search detects when an excessive number of authentication failures occur th
 | `o365_excessive_authentication_failures_alert_filter`
 ```
 
-#### Associated Analytic Story
-* [Office 365 Detections](/stories/office_365_detections)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [o365_management_activity](https://github.com/splunk/security_content/blob/develop/macros/o365_management_activity.yml)
 
-
-#### How To Implement
-You must install splunk Microsoft Office 365 add-on. This search works with o365:management:activity
+Note that `o365_excessive_authentication_failures_alert_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -65,12 +65,15 @@ You must install splunk Microsoft Office 365 add-on. This search works with o365
 * user
 
 
-#### Kill Chain Phase
-* Not Applicable
-
+#### How To Implement
+You must install splunk Microsoft Office 365 add-on. This search works with o365:management:activity
 
 #### Known False Positives
 The threshold for alert is above 10 attempts and this should reduce the number of false positives.
+
+#### Kill Chain Phase
+* Not Applicable
+
 
 
 #### RBA

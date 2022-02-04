@@ -22,7 +22,7 @@ tags:
 
 This search looks for cloud compute instances being created with previously unseen image IDs.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
 - **Last Updated**: 2018-10-12
@@ -47,12 +47,16 @@ This search looks for cloud compute instances being created with previously unse
 | `cloud_compute_instance_created_with_previously_unseen_image_filter`
 ```
 
-#### Associated Analytic Story
-* [Cloud Cryptomining](/stories/cloud_cryptomining)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
+Note that `cloud_compute_instance_created_with_previously_unseen_image_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
-#### How To Implement
-You must be ingesting your cloud infrastructure logs from your cloud provider. You should run the baseline search `Previously Seen Cloud Compute Images - Initial` to build the initial table of images observed and times. You must also enable the second baseline search `Previously Seen Cloud Compute Images - Update` to keep this table up to date and to age out old data. You can also provide additional filtering for this search by customizing the `cloud_compute_instance_created_with_previously_unseen_image_filter` macro.
+#### Lookups
+The SPL above uses the following Lookups:
+
+* [previously_seen_cloud_compute_images](https://github.com/splunk/security_content/blob/develop/lookups/previously_seen_cloud_compute_images.yml) with [data]()
 
 #### Required field
 * _time
@@ -62,11 +66,14 @@ You must be ingesting your cloud infrastructure logs from your cloud provider. Y
 * All_Changes.user
 
 
-#### Kill Chain Phase
-
+#### How To Implement
+You must be ingesting your cloud infrastructure logs from your cloud provider. You should run the baseline search `Previously Seen Cloud Compute Images - Initial` to build the initial table of images observed and times. You must also enable the second baseline search `Previously Seen Cloud Compute Images - Update` to keep this table up to date and to age out old data. You can also provide additional filtering for this search by customizing the `cloud_compute_instance_created_with_previously_unseen_image_filter` macro.
 
 #### Known False Positives
 After a new image is created, the first systems created with that image will cause this alert to fire.  Verify that the image being used was created by a legitimate user.
+
+#### Kill Chain Phase
+
 
 
 #### RBA
