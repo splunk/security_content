@@ -25,7 +25,7 @@ tags:
 
 Attacker activity may compromise executing several LOLBAS applications in conjunction to accomplish their objectives. We are looking for more than usual LOLBAS applications over a window of time, by building profiles per machine.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2020-08-25
@@ -35,8 +35,8 @@ Attacker activity may compromise executing several LOLBAS applications in conjun
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 
 | [T1053](https://attack.mitre.org/techniques/T1053/) | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
@@ -57,12 +57,10 @@ Attacker activity may compromise executing several LOLBAS applications in conjun
 | into write_ssa_detected_events();
 ```
 
-#### Associated Analytic Story
-* [Unusual Processes](/stories/unusual_processes)
+#### Macros
+The SPL above uses the following Macros:
 
-
-#### How To Implement
-Collect endpoint data such as sysmon or 4688 events.
+Note that `unusual_lolbas_in_short_period_of_time_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * dest_device_id
@@ -70,12 +68,15 @@ Collect endpoint data such as sysmon or 4688 events.
 * process_name
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+Collect endpoint data such as sysmon or 4688 events.
 
 #### Known False Positives
 Some administrative tasks may involve multiple use of LOLBAS applications in a short period of time. This might trigger false positives at the beginning when it hasn&#39;t collected yet enough data to construct the baseline.
+
+
+#### Kill Chain Phase
+* Exploitation
 
 
 

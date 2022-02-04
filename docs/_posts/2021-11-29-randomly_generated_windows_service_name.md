@@ -28,7 +28,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 The following hunting analytic leverages Event ID 7045, `A new service was installed in the system`, to identify the installation of a Windows Service with a suspicious, high entropy, Service Name. To achieve this, this analytic also leverages the `ut_shannon` function from the URL ToolBox Splunk application. Red teams and adversaries alike may abuse the Service Control Manager to create and start a remote Windows Service and obtain remote code execution. To achieve this goal, some tools like Metasploit, Cobalt Strike and Impacket, typically create a Windows Service with a random service name on the victim host. This hunting analytic may help defenders identify Windows Services installed as part of a lateral movement attack. The entropy threshold `ut_shannon &gt; 3` should be customized by users. The Service_File_Name field can be used to determine if the Windows Service has malicious intent or not.
 
-- **Type**: Hunting
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-11-29
@@ -38,8 +38,8 @@ The following hunting analytic leverages Event ID 7045, `A new service was insta
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1543](https://attack.mitre.org/techniques/T1543/) | Create or Modify System Process | Persistence, Privilege Escalation |
 
 | [T1543.003](https://attack.mitre.org/techniques/T1543/003/) | Windows Service | Persistence, Privilege Escalation |
@@ -54,12 +54,11 @@ The following hunting analytic leverages Event ID 7045, `A new service was insta
 | `randomly_generated_windows_service_name_filter` 
 ```
 
-#### Associated Analytic Story
-* [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
+#### Macros
+The SPL above uses the following Macros:
+* [wineventlog_system](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_system.yml)
 
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the Service name, Service File Name Service Start type, and Service Type from your endpoints. The Windows TA as well as the URL ToolBox application are also required.
+Note that `randomly_generated_windows_service_name_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -71,13 +70,16 @@ To successfully implement this search, you need to be ingesting logs with the Se
 * Service_Start_Type
 
 
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the Service name, Service File Name Service Start type, and Service Type from your endpoints. The Windows TA as well as the URL ToolBox application are also required.
+
+#### Known False Positives
+Legitimate applications may use random Windows Service names.
+
 #### Kill Chain Phase
 * Privilege Escalation
 * Lateral Movement
 
-
-#### Known False Positives
-Legitimate applications may use random Windows Service names.
 
 
 #### RBA

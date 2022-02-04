@@ -24,7 +24,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 This search provides information of unauthenticated requests via user agent, and authentication data against Kubernetes cluster&#39;s pods
 
-- **Type**: Hunting
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-07-17
@@ -34,8 +34,8 @@ This search provides information of unauthenticated requests via user agent, and
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1526](https://attack.mitre.org/techniques/T1526/) | Cloud Service Discovery | Discovery |
 
 #### Search
@@ -48,12 +48,11 @@ This search provides information of unauthenticated requests via user agent, and
 | `gcp_kubernetes_cluster_pod_scan_detection_filter`
 ```
 
-#### Associated Analytic Story
-* [Kubernetes Scanning Activity](/stories/kubernetes_scanning_activity)
+#### Macros
+The SPL above uses the following Macros:
+* [google_gcp_pubsub_message](https://github.com/splunk/security_content/blob/develop/macros/google_gcp_pubsub_message.yml)
 
-
-#### How To Implement
-You must install the GCP App for Splunk (version 2.0.0 or later), then configure stackdriver and set a Pub/Sub subscription to be imported to Splunk.
+Note that `gcp_kubernetes_cluster_pod_scan_detection_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -67,12 +66,15 @@ You must install the GCP App for Splunk (version 2.0.0 or later), then configure
 * properties.pod
 
 
-#### Kill Chain Phase
-* Reconnaissance
-
+#### How To Implement
+You must install the GCP App for Splunk (version 2.0.0 or later), then configure stackdriver and set a Pub/Sub subscription to be imported to Splunk.
 
 #### Known False Positives
 Not all unauthenticated requests are malicious, but frequency, User Agent, source IPs and pods  will provide context.
+
+#### Kill Chain Phase
+* Reconnaissance
+
 
 
 
