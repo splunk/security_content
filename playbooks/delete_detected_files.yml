@@ -15,8 +15,7 @@ tags:
   - Active Directory Lateral Movement
   detections:
   - Executable File Written in Administrative SMB Share
-  platform_tags:
-  - Response
+  platform_tags: []
   playbook_fields:
   - filePath
   - destinationAddress

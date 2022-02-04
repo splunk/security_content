@@ -4,8 +4,9 @@ last_modified_at: 2021-12-14
 toc: true
 toc_label: ""
 tags:
-  - Investigate
+  - Investigation
   - Splunk SOAR
+  - Log4J
 ---
 
 [Try in Splunk SOAR](https://www.splunk.com/en_us/software/splunk-security-orchestration-and-automation.html){: .btn .btn--success}
@@ -14,7 +15,7 @@ tags:
 
 Published in response to CVE-2021-44228, this playbook and its sub-playbooks can be used to investigate and respond to attacks against hosts running vulnerable Java applications which use log4j. Between the parent playbook and seven sub-playbooks, each potentially compromised host found in Splunk Enteprise can be investigated and the risk can be mitigated using SSH for unix systems and WinRM for Windows systems.
 
-- **Type**: Investigate
+- **Type**: Investigation
 - **Product**: Splunk SOAR
 - **Apps**: 
 - **Last Updated**: 2021-12-14
@@ -129,8 +130,6 @@ Published in response to CVE-2021-44228, this playbook and its sub-playbooks can
 
 
 * [Curl Download and Bash Execution](/endpoint/curl_download_and_bash_execution/)
-
-
 
 
 
@@ -3388,8 +3387,6 @@ Published in response to CVE-2021-44228, this playbook and its sub-playbooks can
 
 
 
-
-
 * [Java Class File download by Java User Agent](/endpoint/java_class_file_download_by_java_user_agent/)
 
 
@@ -4938,9 +4935,7 @@ Published in response to CVE-2021-44228, this playbook and its sub-playbooks can
 
 
 
-
 * [Log4Shell JNDI Payload Injection Attempt](/web/log4shell_jndi_payload_injection_attempt/)
-
 
 
 
@@ -6189,10 +6184,7 @@ Published in response to CVE-2021-44228, this playbook and its sub-playbooks can
 
 
 
-
-
 * [Detect Outbound LDAP Traffic](/network/detect_outbound_ldap_traffic/)
-
 
 
 
