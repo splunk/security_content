@@ -9,12 +9,12 @@ header:
   actions:
     - label: "Download"
       url: "https://splunkbase.splunk.com/app/3449/"
-excerpt: "Get the latest **FREE** Enterprise Security Content Update (ESCU) App with **750** detections for Splunk."
+excerpt: "Get the latest **FREE** Enterprise Security Content Update (ESCU) App with **749** detections for Splunk."
 feature_row:
   - image_path: /static/feature_detection.png
     alt: "customizable"
     title: "Detections"
-    excerpt: "See all **750** Splunk Analytics built to find evil 😈."
+    excerpt: "See all **749** Splunk Analytics built to find evil 😈."
     url: "/detections"
     btn_class: "btn--primary"
     btn_label: "Explore"
@@ -28,7 +28,7 @@ feature_row:
   - image_path: /static/feature_playbooks.png
     alt: "100% free"
     title: "Playbooks"
-    excerpt: "See all **26** sets of steps 🐾 to automatically response to a threat."
+    excerpt: "See all **31** automated investigation 🔭 and response 🛠 playbooks "
     url: "/playbooks"
     btn_class: "btn--primary"
     btn_label: "Explore"
@@ -39,7 +39,7 @@ feature_row:
 
 # Welcome to Splunk Security Content
 
-This project gives you access to our repository of Analytic Stories that are security guides which provide background on TTPs, mapped to the MITRE framework, the Lockheed Martin Kill Chain, and CIS controls. They include Splunk searches, machine-learning algorithms, and Splunk Phantom playbooks (where available)—all designed to work together to detect, investigate, and respond to threats.
+This project gives you access to our repository of Analytic Stories that are security guides which provide background on TTPs, mapped to the MITRE framework, the Lockheed Martin Kill Chain, and CIS controls. They include Splunk searches, machine-learning algorithms, and Splunk SOAR playbooks (where available)—all designed to work together to detect, investigate, and respond to threats.
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
