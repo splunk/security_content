@@ -1,4 +1,6 @@
+from cgi import test
 import csv
+from curses import pair_number
 import glob
 import logging
 import os
@@ -13,35 +15,195 @@ import yaml
 from git.objects import base
 from modules import testing_service
 import pathlib
-
+import shutil
+import re
 # Logger
 logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
 LOGGER = logging.getLogger(__name__)
 
 SECURITY_CONTENT_URL = "https://github.com/splunk/security_content"
+LOCAL_PR_BRANCH = "LOCAL_PR_%d_TESTING_BRANCH"
+SECURITY_CONTENT_MAIN_BRANCH = "develop"
+SECURITY_CONTENT_DIRECTORY_NAME = "security_content/"
+
 
 
 class GithubService:
 
 
-    def __init__(self, security_content_branch: str, commit_hash: Union[str,None], PR_number: int = None, persist_security_content: bool = False):
+    def __init__(self, security_content_branch: Union[str,None], commit_hash: Union[str,None], PR_number: Union[int,None], persist_security_content:bool = False):
+        
+        if PR_number is not None and security_content_branch is not None:
+            raise(Exception(f"Error - branch {security_content_branch} and PR_number {PR_number} were provided.  You may only provide branch OR PR_number, not both"))
+        if PR_number is None and security_content_branch is None and commit_hash is None:
+            raise(Exception("PR number, branch, and commit hash were all none.  There is nothing we can check out."))
 
-        self.security_content_branch = security_content_branch
-        if persist_security_content:
-            print("Getting handle on existing security_content repo!")
-            self.security_content_repo_obj = git.Repo("security_content")
+
+        if PR_number is not None :
+            if commit_hash is not None:
+                print(f"PR number {PR_number} and commit hash {commit_hash} provided.  We will ignore the commit hash and check out latest most updated version of the PR.")
+                commit_hash = None
+            if security_content_branch is not None:
+                print(f"PR number {PR_number} and branch {security_content_branch} provided.  We will ignore the branch and check out latest most updated version of the PR.")
+                commit_hash = None
+        
+                
+
+        self.PR_number = PR_number
+        persist_security_content=False
+        if persist_security_content is False and os.path.exists(SECURITY_CONTENT_DIRECTORY_NAME):
+            print("Deleting the security_content directory...",end='')
+            sys.stdout.flush()
+            try:
+                shutil.rmtree("security_content/", ignore_errors=True)
+            except Exception as e:
+                print(
+                    "Error - could not remove the security_content directory: [%s].\n\tQuitting..." % (str(e)))
+                sys.exit(1)
+            print("done")
+        
+        if persist_security_content is True and os.path.exists(SECURITY_CONTENT_DIRECTORY_NAME):
+            print(f"************************ \n"
+                  "Warning: the {SECURITY_CONTENT_DIRECTORY_NAME} directory exists and you have set "
+                  "persist_security_content to true.  We will intentionally not overwrite/update/check "
+                  "out the repo - doing so can clobber local changes.  Only use this option if you are "
+                  "using a very low bandwidth connection or have made local changes you wish to test "
+                  "without pushing them to the repo.\n************************")
+
+        #Now get the security_content repo if it doesn't exist:
+        #It didn't exist in the first place
+        #It was removed bycause persist_security_content was false
+        if not os.path.exists(SECURITY_CONTENT_DIRECTORY_NAME):
+            print(f"Checking out the repo [{SECURITY_CONTENT_URL}]...",end='')
+            sys.stdout.flush()
+            self.security_content_repo_obj = self.clone_project(SECURITY_CONTENT_URL, SECURITY_CONTENT_DIRECTORY_NAME, SECURITY_CONTENT_MAIN_BRANCH)
+            print("done")
+
+
+        #For a Fork PR, that branch may not exist in security_content.  Or, worse, it may
+        #exist but have different content. Make sure to account for this.
+        if self.PR_number is not None:
+            self.security_content_remote_branch = security_content_branch
+            self.security_content_local_branch = LOCAL_PR_BRANCH%self.PR_number
+
+            self.security_content_repo_obj.git.fetch("origin", f"pull/{self.PR_number}/head:{self.security_content_local_branch}")
+            self.security_content_repo_obj.git.checkout(self.security_content_local_branch)
+
+        elif commit_hash is not None:
+                if security_content_branch is None:
+                    security_content_branch = f"UNKNOWN_BRANCH_{commit_hash}"
+                self.security_content_remote_branch = security_content_branch
+                self.security_content_local_branch =  security_content_branch
+
+                print(f"Checking out by commit hash {commit_hash}...",end='')
+                self.security_content_repo_obj.git.checkout(commit_hash)
+                sys.stdout.flush()
+                print("done")
+                #Not checking to see that the hash is in the branch it claims to be in. This is tricky because the
+                #commit could be in several branches...
+
+                #Ensure that the commit hash we just checked out is in the branch we think it is
+                #output = self.security_content_repo_obj.git.branch("-a", "--contains", commit_hash)
+                #matches = re.search(f"\*.*{self.security_content_local_branch}" ,str(output))
+                #if matches == 1:
+                #    raise(Exception(f"The commit hash {commit_hash} was found, but not found in the "
+                #                     "specified branch {self.security_content_local_branch}"))
+        
+        elif security_content_branch is not None:
+            self.security_content_remote_branch = security_content_branch
+            self.security_content_local_branch  = security_content_branch
+            branch_names = [branch.name for branch in self.security_content_repo_obj.remote().refs]
+            #Ensure that the branch name is valid (it is a real branch in our repo)
+            if "origin/%s"%(self.security_content_remote_branch) not in branch_names:
+                raise(Exception("Branch name [%s] not found in valid branches.  Try running \n"\
+                           "'git branch -a' to examine [%d] branches"%(self.security_content_remote_branch, len(branch_names))))
+            print(f"Checking out branch: [{security_content_branch}]...", end='')
+            sys.stdout.flush()
+            self.security_content_repo_obj.git.checkout(security_content_branch)
+            print("done")
+            
+
         else:
-            print("Checking out security_content repo!")            
-            self.security_content_repo_obj = self.clone_project(
-                SECURITY_CONTENT_URL, f"security_content", f"develop")
+            raise(Exception("Could not check out by PR number, commit hash, or branch"))
+
+
+
+            #Branch should not be none here
+            self.security_content_remote_branch = security_content_branch
+            self.security_content_local_branch = security_content_branch
+            #Ensure that the branch name is valid   
+            #Get all the branch names, prefixed with "origin/"
+            branch_names = [branch.name for branch in self.security_content_repo_obj.remote().refs]
+
+            #Ensure that the branch name is valid (it is a real branch in our repo)
+            if "origin/%s"%(self.security_content_remote_branch) not in branch_names:
+                raise(Exception("Branch name [%s] not found in valid branches.  Try running \n"\
+                           "'git branch -a' to examine [%d] branches"%(self.security_content_remote_branch, len(branch_names))))
+            
+                
+
+            else:
+                print(f"Checking out branch: [{security_content_branch}]...", end='')
+                sys.stdout.flush()
+                self.security_content_repo_obj.git.checkout(security_content_branch)
+                print("done")
+
+        if (commit_hash !=  None) and (commit_hash != self.security_content_repo_obj.head.object.hexsha):
+            print("Warning: commit hash in configuration file [{commit_hash}] did NOT match the commit "
+                  "hash of the PR [{self.security_content_repo_obj.head.object.hexsha}].  We just warn "
+                  "about this and update the commit hash in the new test file.") 
+        
+        self.commit_hash = self.security_content_repo_obj.head.object.hexsha
+
+
+
+
+
+        '''
+        #If the directory exists, we do a checkout on develop and pull to make sure we have the latest content for develop
+        try:
+            if os.path.exists(SECURITY_CONTENT_DIRECTORY_NAME):
+                print(f"SECURITY_CONTENT_DIRECTORY_NAME exists.  Getting the most updated version of the main branch ({SECURITY_CONTENT_MAIN_BRANCH})...",end='')
+                sys.stdout.flush()
+                
+                self.security_content_repo_obj = git.Repo(SECURITY_CONTENT_DIRECTORY_NAME)
+                
+                #Make sure we're on the right branch (develop)
+                self.security_content_repo_obj.git.checkout(SECURITY_CONTENT_MAIN_BRANCH)
+                
+                #Make sure that branch is up to date
+                self.security_content_repo_obj.git.pull()
+                
+  
+        
+  
+            else:
+                #the folder did not exist, so clone the repo
+                print(f"{SECURITY_CONTENT_DIRECTORY_NAME} does not exist.  Downloading it and switching to the main branch ({SECURITY_CONTENT_MAIN_BRANCH})...",end='')
+                sys.stdout.flush()
+
+                self.security_content_repo_obj = self.clone_project(SECURITY_CONTENT_URL, f"security_content", f"develop")
+        except Exception as e:
+            raise(Exception(f"Failure updating {SECURITY_CONTENT_DIRECTORY_NAME} folder - is it a valid repo? - [{str(e)}]"))
+
+        print("done")
+        
+        if self.PR_number is not None:
+            self.security_content_remote_branch = security_content_branch
+            self.security_content_local_branch = LOCAL_PR_BRANCH%self.PR_number
+        else:
+            self.security_content_remote_branch = security_content_branch
+            self.security_content_local_branch = security_content_branch
+
 
         #Ensure that the branch name is valid   
         #Get all the branch names, prefixed with "origin/"
         branch_names = [branch.name for branch in self.security_content_repo_obj.remote().refs]
 
-        if "origin/%s"%(security_content_branch) not in branch_names:
+        #Validate that the branch name is valid.  For a PR, this should be the branch that the PR resides in
+        if "origin/%s"%(self.security_content_remote_branch) not in branch_names:
             raise(Exception("Branch name [%s] not found in valid branches.  Try running \n"\
-                           "'git branch -a' to examine [%d] branches"%(security_content_branch, len(branch_names))))
+                           "'git branch -a' to examine [%d] branches"%(self.security_content_remote_branch, len(branch_names))))
 
 
         if commit_hash is not None and PR_number is not None: 
@@ -53,33 +215,51 @@ class GithubService:
             
 
         if PR_number:
-            ret = subprocess.run(["git", "-C", "security_content/", "fetch", "origin",
-                            "refs/pull/%d/head:%s" % (PR_number, security_content_branch)], capture_output=True)
-            #ret = subprocess.call(["git", "-C", "security_content/", "fetch", "origin",
-            #                "refs/pull/%d/head:%s" % (PR_number, security_content_branch)])
+            print(f"Fetching PR {self.PR_number} into local branch {self.security_content_local_branch}...",end='')
+            self.security_content_repo_obj.git.fetch("origin", f"pull/{self.PR_number}/head:{self.security_content_local_branch}")
+            self.security_content_repo_obj.git.checkout(self.security_content_local_branch)
             
-            
-            if ret.returncode != 0:
-                raise(Exception("Error checking out repository: [%s]"%(ret.stdout.decode("utf-8") + "\n" + ret.stderr.decode("utf-8"))))
-            
-
-        # No checking to see if the hash is to a commit inside of the branch - the user
-        # has to do that by hand.
-        if commit_hash is not None:
-            print("Checking out commit hash: [%s]" % (commit_hash))
+        elif commit_hash is not None:
+            # No checking to see if the hash is to a commit inside of the branch - the user
+            # has to do that by hand.
+            print("Checking out commit hash: [%s]..." % (commit_hash),end='')
             self.security_content_repo_obj.git.checkout(commit_hash)
+            
         else:
-            #Even if we have fetched a PR, we still MUST check out the branch to
-            # be able to do anything with it. Otherwise we won't have the files
+            #Just checking out and testing a branch
             print("Checking out branch: [%s]..." %
                   (security_content_branch), end='')
             sys.stdout.flush()
-            self.security_content_repo_obj.git.checkout(
-                security_content_branch)
-            commit_hash = self.security_content_repo_obj.head.object.hexsha
-            print("commit_hash %s" % (commit_hash))
-
+            self.security_content_repo_obj.git.checkout(security_content_branch)
+        #Pull to make sure we are up to date
+        
+        
+        #Print completion and store the commit hash
+        
+        print(f"done")
+        if (commit_hash !=  None) and (commit_hash != self.security_content_repo_obj.head.object.hexsha):
+            print("Warning: commit hash in configuration file [{commit_hash}] did NOT match the commit "
+                  "hash of the PR [{self.security_content_repo_obj.head.object.hexsha}].  We just warn "
+                  "about this and update the commit hash in the new test file.") 
+        
+        commit_hash = self.security_content_repo_obj.head.object.hexsha
         self.commit_hash = commit_hash
+        
+        if self.PR_number is not None:
+            #Verify that, if this was a PR, that the PR exists in the branch we believe it does
+            output = self.security_content_repo_obj.git.branch("-a", "--contains", commit_hash)
+            print(output)
+            print("***")
+            print(f"remotes/origin/{self.security_content_remote_branch}")
+            if f"remotes/origin/{self.security_content_remote_branch}" not in output:
+                #raise(Exception(f"PR number {self.PR_number} not found in branch {self.security_content_remote_branch}"))
+                print(f"PR number {self.PR_number} not found in branch {self.security_content_remote_branch}")
+                print("maybe this is a remote pr? or maybe you gave the wrong branch?")
+
+        '''
+
+
+        
 
 
     def update_and_commit_passed_tests(self, results:list[dict])->bool:
@@ -281,13 +461,13 @@ class GithubService:
 
     def get_changed_test_files(self, folders=['endpoint', 'cloud', 'network'],   types_to_test=["Anomaly", "Hunting", "TTP"], previously_successful_tests=[]) -> list[str]:
 
-        branch1 = self.security_content_branch
-        branch2 = 'develop'
+        branch1 = self.security_content_local_branch
+        branch2 = SECURITY_CONTENT_MAIN_BRANCH
         g = git.Git('security_content')
         all_changed_test_files = []
 
         all_changed_detection_files = []
-        if branch1 != 'develop':
+        if branch1 != SECURITY_CONTENT_MAIN_BRANCH:
             if self.commit_hash is None:
                 differ = g.diff('--name-status', branch2 + '...' + branch1)
             else:

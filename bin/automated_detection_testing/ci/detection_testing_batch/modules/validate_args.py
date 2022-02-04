@@ -13,7 +13,7 @@ setup_schema = {
     "type": "object",
     "properties": {
         "branch": {
-            "type": "string",
+            "type": ["string", "null"],
             "default": "develop"
         },
         "commit_hash": {
@@ -359,9 +359,9 @@ setup_schema = {
             "type": "array",
             "items": {
                 "type": "string",
-                "enum": ["Anomaly", "Hunting", "TTP"]
+                "enum": ["Anomaly", "Hunting", "TTP", "Correlation"]
             },
-            "default": ["Anomaly", "Hunting", "TTP"]
+            "default": ["Anomaly", "Hunting", "TTP", "Correlation"]
         },
     }
 }

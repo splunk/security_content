@@ -41,6 +41,10 @@ datamodel_file_local_path = "datamodels.conf.tar"
 datamodel_file_container_path = os.path.join(
     SPLUNK_CONTAINER_APPS_DIR, "Splunk_SA_CIM")
 
+#es_datamodels_local_path = "es_datamodels.conf.tar"
+#es_datamodels_container_path =  os.path.join(
+#    SPLUNK_CONTAINER_APPS_DIR, "Splunk_SA_CIM","default","data","models")
+
 
 authorizations_file_local_path = "authorize.conf.tar"
 authorizations_file_container_path = "/opt/splunk/etc/system/local"
@@ -98,62 +102,42 @@ def copy_local_apps_to_directory(apps: dict[str, dict], target_directory) -> Non
 
 
 
-def ensure_security_content(branch: str, commit_hash: Union[str,None], pr_number: Union[int, None], persist_security_content: bool) -> tuple[GithubService, bool]:
-    if persist_security_content is True and os.path.exists("security_content"):
-        print("****** You chose --persist_security_content and the security_content directory exists. "
-              "We will not check out the repo again. Please be aware, this could cause issues if your "
-              "repo is out of date or if a previous build failed to download all required tools and "\
-              "libraries.  If this occurs, it is suggested to change the "\
-              "persist_security_content setting to false. ******")
-              
-        github_service = GithubService(
-            branch, commit_hash, persist_security_content=persist_security_content)
-
-    else:
-        if persist_security_content is True and not os.path.exists("security_content"):
-            print("Error - you chose --persist_security_content but the security_content directory does not exist!"
-                  "  We will check it out for you.")
-            persist_security_content = False
-
-        elif os.path.exists("security_content/"):
-            print("Deleting the security_content directory")
-            try:
-                shutil.rmtree("security_content/", ignore_errors=True)
-                print("Successfully removed security_content directory")
-            except Exception as e:
-                print(
-                    "Error - could not remove the security_content directory: [%s].\n\tQuitting..." % (str(e)))
-                sys.exit(1)
-
-        if pr_number:
-            github_service = GithubService(branch, commit_hash, pr_number)
-        else:
-            github_service = GithubService(branch, commit_hash)
-
-    return github_service, persist_security_content
 
 
-def generate_escu_app(persist_security_content: bool = False) -> str:
+def generate_escu_app() -> str:
     # Go into the security content directory
     print("****GENERATING ESCU APP****")
-    os.chdir("security_content")
-    if persist_security_content is False:
-        commands = ["python3 -m venv .venv",
-                    ". ./.venv/bin/activate",
-                    "python -m pip install wheel",
-                    "python -m pip install -r requirements.txt",
-                    "python contentctl.py --path . --verbose generate --product ESCU --output dist/escu",
-                    "tar -czf DA-ESS-ContentUpdate.spl -C dist/escu ."]
+
+    #Check if pre-reqs were already installed
+    if os.path.exists("security_content/slim_packaging/slim_latest") is True:
+        pre_reqs_installed = True
+        print("\tESCU Generation Prereqs found!")
+        escu_prereq_commands = [". ./.venv/bin/activate"]
     else:
-        commands = [". ./.venv/bin/activate",
-                    "python contentctl.py --path . --verbose generate --product ESCU --output dist/escu",
-                    "tar -czf DA-ESS-ContentUpdate.spl -C dist/escu ."]
+        pre_reqs_installed = False
+        print("\tESCU Generation Prereqs not found - we will install them")
+        escu_prereq_commands = ["python3 -m venv .venv",
+                                ". ./.venv/bin/activate",
+                                "python -m pip install wheel"]
+        
+    os.chdir("security_content")
+    print("\tRunning contentcl...",end='')
+    sys.stdout.flush()
+
+
+    
+    commands =  escu_prereq_commands + ["python -m pip install -r requirements.txt",
+                "python contentctl.py --path . --verbose generate --product ESCU --output dist/escu",
+                "tar -czf DA-ESS-ContentUpdate.spl -C dist/escu ."]
+
     ret = subprocess.run("; ".join(commands),
                          shell=True, capture_output=True)
     if ret.returncode != 0:
-        print("Error generating new content.\n\tQuitting and dumping error...\n[%s]" % (
+        print("Error generating new content.\n\tQuitting and dumping error...Try removing the security_content directory and running again\n[%s]" % (
             ret.stderr))
         sys.exit(1)
+    print("done")
+    
 
     output_file_name = "DA-ESS-ContentUpdate-latest.tar.gz"
     output_file_path_from_slim_latest = os.path.join(
@@ -163,7 +147,7 @@ def generate_escu_app(persist_security_content: bool = False) -> str:
     output_file_path_from_root = os.path.join(
         "security_content", output_file_path_from_security_content)
 
-    if persist_security_content is True:
+    if os.path.exists("security_content/slim_packaging/slim_latest") is True:
         try:
             os.remove(output_file_path_from_security_content)
         except FileNotFoundError:
@@ -174,7 +158,7 @@ def generate_escu_app(persist_security_content: bool = False) -> str:
                 str(e)), file=sys.stderr)
             sys.exit(1)
 
-        # There remove the latest file if it exists
+        
         commands = ["cd slim_packaging/slim_latest",
                     ". ./.venv/bin/activate",
                     "cp -R ../../dist/escu DA-ESS-ContentUpdate",
@@ -185,15 +169,17 @@ def generate_escu_app(persist_security_content: bool = False) -> str:
         os.mkdir("slim_packaging")
         os.mkdir("apps")
         try:
-            SPLUNK_PACKAGING_TOOLKIT_URL = "https://download.splunk.com/misc/packaging-toolkit/splunk-packaging-toolkit-0.9.0.tar.gz"
+            SPLUNK_PACKAGING_TOOLKIT_URL = "https://download.splunk.com/misc/packaging-toolkit/splunk-packaging-toolkit-1.0.1.tar.gz"
+            
             SPLUNK_PACKAGING_TOOLKIT_FILENAME = 'splunk-packaging-toolkit-latest.tar.gz'
-            print("Downloading the Splunk Packaging Toolkit from %s..." %
+            print("\tDownloading the Splunk Packaging Toolkit from %s..." %
                   (SPLUNK_PACKAGING_TOOLKIT_URL), end='')
+            sys.stdout.flush()
             response = get(SPLUNK_PACKAGING_TOOLKIT_URL)
             response.raise_for_status()
             with open(SPLUNK_PACKAGING_TOOLKIT_FILENAME, 'wb') as slim_file:
                 slim_file.write(response.content)
-            print("Done")
+            print("done")
         except Exception as e:
             print("Error downloading the Splunk Packaging Toolkit: [%s].\n\tQuitting..." %
                   (str(e)), file=sys.stderr)
@@ -223,6 +209,7 @@ def generate_escu_app(persist_security_content: bool = False) -> str:
         sys.exit(1)
     os.chdir("../")
 
+    print(f"ESCU App Generated at: {output_file_path_from_root}")
     return output_file_path_from_root
 
 
@@ -360,8 +347,7 @@ def main(args: list[str]):
     # Check out security content if required
     try:
         #Make sure we fix up the persist_securiy_content argument if it is passed in error (we say it exists but it doesn't)
-        github_service, settings['persist_security_content'] = ensure_security_content(
-            settings['branch'], settings['commit_hash'], settings['pr_number'], settings['persist_security_content'])
+        github_service = GithubService(settings['branch'], settings['commit_hash'], settings['pr_number'], settings['persist_security_content'])
         settings['commit_hash'] = github_service.commit_hash
     except Exception as e:
         print("\nFailure checking out git repository: [%s]"\
@@ -403,7 +389,7 @@ def main(args: list[str]):
         sys.exit(1)
 
     print("***This run will test [%d] detections!***"%(len(all_test_files)))
-    
+       
 
     #Set up the directory that will be used to store the local apps/apps we build
     local_volume_absolute_path = os.path.abspath(
@@ -434,7 +420,8 @@ def main(args: list[str]):
         sys.exit(1)
     else:
         # Generate the ESCU package from this branch.
-        source_path = generate_escu_app(settings['persist_security_content'])
+        source_path = generate_escu_app()
+        
         settings['local_apps']['SPLUNK_ES_CONTENT_UPDATE']['local_path'] = source_path
         
 
@@ -464,7 +451,10 @@ def main(args: list[str]):
         "local_file_path": datamodel_file_local_path, "container_file_path": datamodel_file_container_path}
     files_to_copy_to_container["AUTHORIZATIONS"] = {
         "local_file_path": authorizations_file_local_path, "container_file_path": authorizations_file_container_path}
-    
+
+    #files_to_copy_to_container["ES_DATAMODELS"] = {
+    #    "local_file_path": es_datamodels_local_path, "container_file_path": es_datamodels_container_path}
+        
 
     
     try:
