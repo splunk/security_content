@@ -199,7 +199,8 @@ def generate_escu_app() -> str:
                     "cp -R ../../dist/escu DA-ESS-ContentUpdate",
                     "slim package -o upload DA-ESS-ContentUpdate",
                     "cp upload/DA-ESS-ContentUpdate*.tar.gz %s" % (output_file_path_from_slim_latest)]
-
+    print("\tGenerating the ESCU App...",end='')
+    sys.stdout.flush()
     ret = subprocess.run("; ".join(commands),
                          shell=True, capture_output=True)
     if ret.returncode != 0:
@@ -209,7 +210,7 @@ def generate_escu_app() -> str:
         sys.exit(1)
     os.chdir("../")
 
-    print(f"ESCU App Generated at: {output_file_path_from_root}")
+    print(f"done at : {output_file_path_from_root}\n")
     return output_file_path_from_root
 
 
