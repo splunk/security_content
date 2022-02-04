@@ -36,8 +36,8 @@ During triage, review parallel processes using an EDR product or 4688 events. It
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID             | Technique      |  Tactic           |
-| -------------- | -------------- |------------------ |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1069](https://attack.mitre.org/techniques/T1069/) | Permission Groups Discovery | Discovery |
 
 | [T1069.001](https://attack.mitre.org/techniques/T1069/001/) | Local Groups | Discovery |
@@ -54,15 +54,10 @@ During triage, review parallel processes using an EDR product or 4688 events. It
 
 #### Macros
 The SPL above uses the following Macros:
-* [Macro_Name](https://)
-* [Macro2_Name](https://)
+* [powershell](https://github.com/splunk/security_content/blob/develop/macros/powershell.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-**Note that `powershell_get_localgroup_discovery_with_script_block_logging_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
-
-#### Lookups
-The SPL above uses the following Lookups:
-
-* [Lookup_Name]() with [data]()
+Note that `powershell_get_localgroup_discovery_with_script_block_logging_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time

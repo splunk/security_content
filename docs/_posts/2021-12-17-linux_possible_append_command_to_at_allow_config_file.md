@@ -39,8 +39,8 @@ This analytic looks for suspicious commandline that may use to append user entry
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID             | Technique      |  Tactic           |
-| -------------- | -------------- |------------------ |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1053.001](https://attack.mitre.org/techniques/T1053/001/) | At (Linux) | Execution, Persistence, Privilege Escalation |
 
 | [T1053](https://attack.mitre.org/techniques/T1053/) | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
@@ -58,15 +58,10 @@ This analytic looks for suspicious commandline that may use to append user entry
 
 #### Macros
 The SPL above uses the following Macros:
-* [Macro_Name](https://)
-* [Macro2_Name](https://)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-**Note that `linux_possible_append_command_to_at_allow_config_file_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
-
-#### Lookups
-The SPL above uses the following Lookups:
-
-* [Lookup_Name]() with [data]()
+Note that `linux_possible_append_command_to_at_allow_config_file_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time

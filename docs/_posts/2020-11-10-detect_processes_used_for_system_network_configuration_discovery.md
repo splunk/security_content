@@ -33,8 +33,8 @@ This search looks for fast execution of processes used for system network config
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID             | Technique      |  Tactic           |
-| -------------- | -------------- |------------------ |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1016](https://attack.mitre.org/techniques/T1016/) | System Network Configuration Discovery | Discovery |
 
 #### Search
@@ -54,15 +54,11 @@ This search looks for fast execution of processes used for system network config
 
 #### Macros
 The SPL above uses the following Macros:
-* [Macro_Name](https://)
-* [Macro2_Name](https://)
+* [system_network_configuration_discovery_tools](https://github.com/splunk/security_content/blob/develop/macros/system_network_configuration_discovery_tools.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-**Note that `detect_processes_used_for_system_network_configuration_discovery_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
-
-#### Lookups
-The SPL above uses the following Lookups:
-
-* [Lookup_Name]() with [data]()
+Note that `detect_processes_used_for_system_network_configuration_discovery_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time

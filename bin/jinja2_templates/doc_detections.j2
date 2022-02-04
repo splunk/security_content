@@ -50,8 +50,8 @@ We have not been able to test, simulate, or build datasets for this detection. U
 {% if detection.mitre_attacks %}
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID             | Technique      |  Tactic           |
-| -------------- | -------------- |------------------ |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 {%- for attack in detection.mitre_attacks %}
 {% if attack.technique_id -%}
 {% set sub_technique = attack.technique_id.split('.') %}{% if sub_technique | length > 1 -%}
@@ -69,17 +69,26 @@ We have not been able to test, simulate, or build datasets for this detection. U
 {{ detection.search|replace("|", "\n|")|safe }}
 ```
 
+{% if detection.macros -%}
 #### Macros
 The SPL above uses the following Macros:
-* [Macro_Name](https://)
-* [Macro2_Name](https://)
+{% for macro in detection.macros -%}
+{% if not '_filter' in macro.name -%}
+* [{{ macro.name }}](https://github.com/splunk/security_content/blob/develop/macros/{{macro.name}}.yml)
+{% endif -%}
+{% endfor %}
+{% endif -%}
 
-*Note that `{{detection.name | lower | replace(" ", "_") }}_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.*
+Note that `{{detection.name | lower | replace(" ", "_") }}_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
+{% if detection.lookups -%}
 #### Lookups
 The SPL above uses the following Lookups:
 
-* [Lookup_Name]() with [data]()
+{% for lookup in detection.lookups -%}
+* [{{lookup.name}}](https://github.com/splunk/security_content/blob/develop/lookups/{{lookup.name}}.yml) with [data]({{lookup.csv_file_url}})
+{% endfor %}
+{% endif -%}
 
 #### Required field
 {% for field in detection.tags.required_fields -%}

@@ -33,8 +33,8 @@ This search looks for disable security step in CircleCI pipeline.
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID             | Technique      |  Tactic           |
-| -------------- | -------------- |------------------ |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1554](https://attack.mitre.org/techniques/T1554/) | Compromise Client Software Binary | Persistence |
 
 #### Search
@@ -60,15 +60,15 @@ This search looks for disable security step in CircleCI pipeline.
 
 #### Macros
 The SPL above uses the following Macros:
-* [Macro_Name](https://)
-* [Macro2_Name](https://)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [circleci](https://github.com/splunk/security_content/blob/develop/macros/circleci.yml)
 
-**Note that `circle_ci_disable_security_step_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
+Note that `circle_ci_disable_security_step_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Lookups
 The SPL above uses the following Lookups:
 
-* [Lookup_Name]() with [data]()
+* [mandatory_step_for_job](https://github.com/splunk/security_content/blob/develop/lookups/mandatory_step_for_job.yml) with [data](https://github.com/splunk/security_content/blob/develop/lookups/mandatory_step_for_job.csv)
 
 #### Required field
 * _times

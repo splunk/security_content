@@ -31,8 +31,8 @@ The following analytic identifies the use of `cacls.exe`, `icacls.exe` or `xcacl
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID             | Technique      |  Tactic           |
-| -------------- | -------------- |------------------ |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1222](https://attack.mitre.org/techniques/T1222/) | File and Directory Permissions Modification | Defense Evasion |
 
 #### Search
@@ -48,15 +48,8 @@ The following analytic identifies the use of `cacls.exe`, `icacls.exe` or `xcacl
 
 #### Macros
 The SPL above uses the following Macros:
-* [Macro_Name](https://)
-* [Macro2_Name](https://)
 
-**Note that `grant_permission_using_cacls_utility_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
-
-#### Lookups
-The SPL above uses the following Lookups:
-
-* [Lookup_Name]() with [data]()
+Note that `grant_permission_using_cacls_utility_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time

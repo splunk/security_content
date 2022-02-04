@@ -34,8 +34,8 @@ Detect remote thread creation into LSASS consistent with credential dumping.
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID             | Technique      |  Tactic           |
-| -------------- | -------------- |------------------ |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1003.001](https://attack.mitre.org/techniques/T1003/001/) | LSASS Memory | Credential Access |
 
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
@@ -53,15 +53,10 @@ Detect remote thread creation into LSASS consistent with credential dumping.
 
 #### Macros
 The SPL above uses the following Macros:
-* [Macro_Name](https://)
-* [Macro2_Name](https://)
+* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-**Note that `create_remote_thread_into_lsass_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
-
-#### Lookups
-The SPL above uses the following Lookups:
-
-* [Lookup_Name]() with [data]()
+Note that `create_remote_thread_into_lsass_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time

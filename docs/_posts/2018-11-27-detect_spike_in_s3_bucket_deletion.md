@@ -34,8 +34,8 @@ This search detects users creating spikes in API activity related to deletion of
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID             | Technique      |  Tactic           |
-| -------------- | -------------- |------------------ |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1530](https://attack.mitre.org/techniques/T1530/) | Data from Cloud Storage Object | Collection |
 
 #### Search
@@ -66,15 +66,15 @@ This search detects users creating spikes in API activity related to deletion of
 
 #### Macros
 The SPL above uses the following Macros:
-* [Macro_Name](https://)
-* [Macro2_Name](https://)
+* [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
 
-**Note that `detect_spike_in_s3_bucket_deletion_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
+Note that `detect_spike_in_s3_bucket_deletion_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Lookups
 The SPL above uses the following Lookups:
 
-* [Lookup_Name]() with [data]()
+* [s3_deletion_baseline](https://github.com/splunk/security_content/blob/develop/lookups/s3_deletion_baseline.yml) with [data](https://github.com/splunk/security_content/blob/develop/lookups/s3_deletion_baseline.csv)
+* [s3_deletion_baseline](https://github.com/splunk/security_content/blob/develop/lookups/s3_deletion_baseline.yml) with [data](https://github.com/splunk/security_content/blob/develop/lookups/s3_deletion_baseline.csv)
 
 #### Required field
 * _time

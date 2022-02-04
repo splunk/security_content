@@ -37,8 +37,8 @@ This search looks for emails that have attachments with suspicious file extensio
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID             | Technique      |  Tactic           |
-| -------------- | -------------- |------------------ |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
 
 | [T1566](https://attack.mitre.org/techniques/T1566/) | Phishing | Initial Access |
@@ -57,15 +57,16 @@ This search looks for emails that have attachments with suspicious file extensio
 
 #### Macros
 The SPL above uses the following Macros:
-* [Macro_Name](https://)
-* [Macro2_Name](https://)
+* [suspicious_email_attachments](https://github.com/splunk/security_content/blob/develop/macros/suspicious_email_attachments.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-**Note that `suspicious_email_attachment_extensions_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
+Note that `suspicious_email_attachment_extensions_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Lookups
 The SPL above uses the following Lookups:
 
-* [Lookup_Name]() with [data]()
+* [is_suspicious_file_extension_lookup](https://github.com/splunk/security_content/blob/develop/lookups/is_suspicious_file_extension_lookup.yml) with [data](https://github.com/splunk/security_content/blob/develop/lookups/is_suspicious_file_extension_lookup.csv)
 
 #### Required field
 * _time

@@ -33,8 +33,8 @@ The search looks for files created with names matching those typically used in r
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID             | Technique      |  Tactic           |
-| -------------- | -------------- |------------------ |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1485](https://attack.mitre.org/techniques/T1485/) | Data Destruction | Impact |
 
 #### Search
@@ -51,15 +51,16 @@ The search looks for files created with names matching those typically used in r
 
 #### Macros
 The SPL above uses the following Macros:
-* [Macro_Name](https://)
-* [Macro2_Name](https://)
+* [ransomware_notes](https://github.com/splunk/security_content/blob/develop/macros/ransomware_notes.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-**Note that `common_ransomware_notes_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
+Note that `common_ransomware_notes_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Lookups
 The SPL above uses the following Lookups:
 
-* [Lookup_Name]() with [data]()
+* [ransomware_notes_lookup](https://github.com/splunk/security_content/blob/develop/lookups/ransomware_notes_lookup.yml) with [data](https://github.com/splunk/security_content/blob/develop/lookups/ransomware_notes.csv)
 
 #### Required field
 * _time

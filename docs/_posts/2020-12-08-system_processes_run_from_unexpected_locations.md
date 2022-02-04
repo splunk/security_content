@@ -37,8 +37,8 @@ During triage, review the parallel processes - what process moved the native Win
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID             | Technique      |  Tactic           |
-| -------------- | -------------- |------------------ |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1036](https://attack.mitre.org/techniques/T1036/) | Masquerading | Defense Evasion |
 
 | [T1036.003](https://attack.mitre.org/techniques/T1036/003/) | Rename System Utilities | Defense Evasion |
@@ -57,15 +57,16 @@ During triage, review the parallel processes - what process moved the native Win
 
 #### Macros
 The SPL above uses the following Macros:
-* [Macro_Name](https://)
-* [Macro2_Name](https://)
+* [is_windows_system_file](https://github.com/splunk/security_content/blob/develop/macros/is_windows_system_file.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-**Note that `system_processes_run_from_unexpected_locations_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
+Note that `system_processes_run_from_unexpected_locations_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Lookups
 The SPL above uses the following Lookups:
 
-* [Lookup_Name]() with [data]()
+* [is_windows_system_file](https://github.com/splunk/security_content/blob/develop/lookups/is_windows_system_file.yml) with [data](https://github.com/splunk/security_content/blob/develop/lookups/is_windows_system_file.csv)
 
 #### Required field
 * _time

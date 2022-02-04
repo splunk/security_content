@@ -34,8 +34,8 @@ This search looks for AWS CloudTrail events wherein a console login event by a u
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID             | Technique      |  Tactic           |
-| -------------- | -------------- |------------------ |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1535](https://attack.mitre.org/techniques/T1535/) | Unused/Unsupported Cloud Regions | Defense Evasion |
 
 #### Search
@@ -61,15 +61,14 @@ This search looks for AWS CloudTrail events wherein a console login event by a u
 
 #### Macros
 The SPL above uses the following Macros:
-* [Macro_Name](https://)
-* [Macro2_Name](https://)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-**Note that `detect_aws_console_login_by_user_from_new_city_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
+Note that `detect_aws_console_login_by_user_from_new_city_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Lookups
 The SPL above uses the following Lookups:
 
-* [Lookup_Name]() with [data]()
+* [previously_seen_users_console_logins](https://github.com/splunk/security_content/blob/develop/lookups/previously_seen_users_console_logins.yml) with [data]()
 
 #### Required field
 * _time

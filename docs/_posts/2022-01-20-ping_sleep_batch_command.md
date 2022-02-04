@@ -37,8 +37,8 @@ This analytic will identify the possible execution of ping sleep batch commands.
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID             | Technique      |  Tactic           |
-| -------------- | -------------- |------------------ |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1497](https://attack.mitre.org/techniques/T1497/) | Virtualization/Sandbox Evasion | Defense Evasion, Discovery |
 
 | [T1497.003](https://attack.mitre.org/techniques/T1497/003/) | Time Based Evasion | Defense Evasion, Discovery |
@@ -56,15 +56,11 @@ This analytic will identify the possible execution of ping sleep batch commands.
 
 #### Macros
 The SPL above uses the following Macros:
-* [Macro_Name](https://)
-* [Macro2_Name](https://)
+* [process_ping](https://github.com/splunk/security_content/blob/develop/macros/process_ping.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-**Note that `ping_sleep_batch_command_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
-
-#### Lookups
-The SPL above uses the following Lookups:
-
-* [Lookup_Name]() with [data]()
+Note that `ping_sleep_batch_command_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time

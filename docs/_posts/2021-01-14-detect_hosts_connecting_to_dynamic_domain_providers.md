@@ -33,8 +33,8 @@ Malicious actors often abuse legitimate Dynamic DNS services to host malicious p
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID             | Technique      |  Tactic           |
-| -------------- | -------------- |------------------ |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1189](https://attack.mitre.org/techniques/T1189/) | Drive-by Compromise | Initial Access |
 
 #### Search
@@ -50,15 +50,17 @@ Malicious actors often abuse legitimate Dynamic DNS services to host malicious p
 
 #### Macros
 The SPL above uses the following Macros:
-* [Macro_Name](https://)
-* [Macro2_Name](https://)
+* [dynamic_dns_providers](https://github.com/splunk/security_content/blob/develop/macros/dynamic_dns_providers.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-**Note that `detect_hosts_connecting_to_dynamic_domain_providers_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
+Note that `detect_hosts_connecting_to_dynamic_domain_providers_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Lookups
 The SPL above uses the following Lookups:
 
-* [Lookup_Name]() with [data]()
+* [dynamic_dns_providers_default](https://github.com/splunk/security_content/blob/develop/lookups/dynamic_dns_providers_default.yml) with [data](https://github.com/splunk/security_content/blob/develop/lookups/dynamic_dns_providers_default.csv)
+* [dynamic_dns_providers_local](https://github.com/splunk/security_content/blob/develop/lookups/dynamic_dns_providers_local.yml) with [data](https://github.com/splunk/security_content/blob/develop/lookups/dynamic_dns_providers_local.csv)
 
 #### Required field
 * _time

@@ -36,8 +36,8 @@ This search looks for the first and last time a Windows service is seen running 
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID             | Technique      |  Tactic           |
-| -------------- | -------------- |------------------ |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1569](https://attack.mitre.org/techniques/T1569/) | System Services | Execution |
 
 | [T1569.002](https://attack.mitre.org/techniques/T1569/002/) | Service Execution | Execution |
@@ -56,15 +56,15 @@ This search looks for the first and last time a Windows service is seen running 
 
 #### Macros
 The SPL above uses the following Macros:
-* [Macro_Name](https://)
-* [Macro2_Name](https://)
+* [previously_seen_windows_services_window](https://github.com/splunk/security_content/blob/develop/macros/previously_seen_windows_services_window.yml)
+* [wineventlog_system](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_system.yml)
 
-**Note that `first_time_seen_running_windows_service_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
+Note that `first_time_seen_running_windows_service_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Lookups
 The SPL above uses the following Lookups:
 
-* [Lookup_Name]() with [data]()
+* [previously_seen_running_windows_services](https://github.com/splunk/security_content/blob/develop/lookups/previously_seen_running_windows_services.yml) with [data]()
 
 #### Required field
 * _time

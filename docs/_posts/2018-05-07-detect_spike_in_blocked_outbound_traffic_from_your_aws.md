@@ -53,15 +53,15 @@ This search will detect spike in blocked outbound network connections originatin
 
 #### Macros
 The SPL above uses the following Macros:
-* [Macro_Name](https://)
-* [Macro2_Name](https://)
+* [cloudwatchlogs_vpcflow](https://github.com/splunk/security_content/blob/develop/macros/cloudwatchlogs_vpcflow.yml)
 
-**Note that `detect_spike_in_blocked_outbound_traffic_from_your_aws_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
+Note that `detect_spike_in_blocked_outbound_traffic_from_your_aws_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Lookups
 The SPL above uses the following Lookups:
 
-* [Lookup_Name]() with [data]()
+* [baseline_blocked_outbound_connections](https://github.com/splunk/security_content/blob/develop/lookups/baseline_blocked_outbound_connections.yml) with [data](https://github.com/splunk/security_content/blob/develop/lookups/baseline_blocked_outbound_connections.csv)
+* [baseline_blocked_outbound_connections](https://github.com/splunk/security_content/blob/develop/lookups/baseline_blocked_outbound_connections.yml) with [data](https://github.com/splunk/security_content/blob/develop/lookups/baseline_blocked_outbound_connections.csv)
 
 #### Required field
 * _time

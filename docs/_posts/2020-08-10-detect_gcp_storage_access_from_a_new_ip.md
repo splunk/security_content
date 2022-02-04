@@ -34,8 +34,8 @@ This search looks at GCP Storage bucket-access logs and detects new or previousl
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID             | Technique      |  Tactic           |
-| -------------- | -------------- |------------------ |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1530](https://attack.mitre.org/techniques/T1530/) | Data from Cloud Storage Object | Collection |
 
 #### Search
@@ -64,15 +64,15 @@ This search looks at GCP Storage bucket-access logs and detects new or previousl
 
 #### Macros
 The SPL above uses the following Macros:
-* [Macro_Name](https://)
-* [Macro2_Name](https://)
+* [google_gcp_pubsub_message](https://github.com/splunk/security_content/blob/develop/macros/google_gcp_pubsub_message.yml)
 
-**Note that `detect_gcp_storage_access_from_a_new_ip_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
+Note that `detect_gcp_storage_access_from_a_new_ip_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Lookups
 The SPL above uses the following Lookups:
 
-* [Lookup_Name]() with [data]()
+* [previously_seen_gcp_storage_access_from_remote_ip](https://github.com/splunk/security_content/blob/develop/lookups/previously_seen_gcp_storage_access_from_remote_ip.yml) with [data](https://github.com/splunk/security_content/blob/develop/lookups/previously_seen_gcp_storage_access_from_remote_ip.csv)
+* [previously_seen_gcp_storage_access_from_remote_ip](https://github.com/splunk/security_content/blob/develop/lookups/previously_seen_gcp_storage_access_from_remote_ip.yml) with [data](https://github.com/splunk/security_content/blob/develop/lookups/previously_seen_gcp_storage_access_from_remote_ip.csv)
 
 #### Required field
 * _time

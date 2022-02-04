@@ -37,8 +37,8 @@ This search looks for cloud provisioning activities from previously unseen citie
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID             | Technique      |  Tactic           |
-| -------------- | -------------- |------------------ |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 #### Search
@@ -61,15 +61,15 @@ This search looks for cloud provisioning activities from previously unseen citie
 
 #### Macros
 The SPL above uses the following Macros:
-* [Macro_Name](https://)
-* [Macro2_Name](https://)
+* [previously_unseen_cloud_provisioning_activity_window](https://github.com/splunk/security_content/blob/develop/macros/previously_unseen_cloud_provisioning_activity_window.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-**Note that `cloud_provisioning_activity_from_previously_unseen_city_filter` is a empty macro by default. It allows any user to filter out any results (false positives) without editing the SPL.**
+Note that `cloud_provisioning_activity_from_previously_unseen_city_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Lookups
 The SPL above uses the following Lookups:
 
-* [Lookup_Name]() with [data]()
+* [previously_seen_cloud_provisioning_activity_sources](https://github.com/splunk/security_content/blob/develop/lookups/previously_seen_cloud_provisioning_activity_sources.yml) with [data]()
 
 #### Required field
 * _time
