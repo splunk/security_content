@@ -25,7 +25,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 This search detects attempts to run exploits for the Zerologon CVE-2020-1472 vulnerability via Zeek RPC
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-09-15
@@ -35,8 +35,8 @@ This search detects attempts to run exploits for the Zerologon CVE-2020-1472 vul
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1190](https://attack.mitre.org/techniques/T1190/) | Exploit Public-Facing Application | Initial Access |
 
 #### Search
@@ -49,24 +49,26 @@ This search detects attempts to run exploits for the Zerologon CVE-2020-1472 vul
 | search `detect_zerologon_via_zeek_filter`
 ```
 
-#### Associated Analytic Story
-* [Detect Zerologon Attack](/stories/detect_zerologon_attack)
+#### Macros
+The SPL above uses the following Macros:
+* [zeek_rpc](https://github.com/splunk/security_content/blob/develop/macros/zeek_rpc.yml)
 
-
-#### How To Implement
-You must be ingesting Zeek DCE-RPC data into Splunk. Zeek data should also be getting ingested in JSON format.  We are detecting when all three RPC operations (NetrServerReqChallenge, NetrServerAuthenticate3, NetrServerPasswordSet2) are splunk_security_essentials_app via bro:rpc:json.  These three operations are then correlated on the Zeek UID field.
+Note that `detect_zerologon_via_zeek_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
 * operation
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+You must be ingesting Zeek DCE-RPC data into Splunk. Zeek data should also be getting ingested in JSON format.  We are detecting when all three RPC operations (NetrServerReqChallenge, NetrServerAuthenticate3, NetrServerPasswordSet2) are splunk_security_essentials_app via bro:rpc:json.  These three operations are then correlated on the Zeek UID field.
 
 #### Known False Positives
 unknown
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 

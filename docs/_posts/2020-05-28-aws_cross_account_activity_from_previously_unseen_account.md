@@ -22,7 +22,7 @@ tags:
 
 This search looks for AssumeRole events where an IAM role in a different account is requested for the first time.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Authentication](https://docs.splunk.com/Documentation/CIM/latest/User/Authentication)
 - **Last Updated**: 2020-05-28
@@ -46,12 +46,16 @@ This search looks for AssumeRole events where an IAM role in a different account
 | `aws_cross_account_activity_from_previously_unseen_account_filter`
 ```
 
-#### Associated Analytic Story
-* [Suspicious Cloud Authentication Activities](/stories/suspicious_cloud_authentication_activities)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
+Note that `aws_cross_account_activity_from_previously_unseen_account_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
-#### How To Implement
-You must be ingesting your cloud infrastructure logs from your cloud provider. You should run the baseline search `Previously Seen AWS Cross Account Activity - Initial` to build the initial table of source IP address, geographic locations, and times. You must also enable the second baseline search `Previously Seen AWS Cross Account Activity - Update` to keep this table up to date and to age out old data. You can also provide additional filtering for this search by customizing the `aws_cross_account_activity_from_previously_unseen_account_filter` macro.
+#### Lookups
+The SPL above uses the following Lookups:
+
+* [previously_seen_aws_cross_account_activity](https://github.com/splunk/security_content/blob/develop/lookups/previously_seen_aws_cross_account_activity.yml) with [data](https://github.com/splunk/security_content/blob/develop/lookups/previously_seen_aws_cross_account_activity.csv)
 
 #### Required field
 * _time
@@ -62,12 +66,15 @@ You must be ingesting your cloud infrastructure logs from your cloud provider. Y
 * Authentication.src
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+You must be ingesting your cloud infrastructure logs from your cloud provider. You should run the baseline search `Previously Seen AWS Cross Account Activity - Initial` to build the initial table of source IP address, geographic locations, and times. You must also enable the second baseline search `Previously Seen AWS Cross Account Activity - Update` to keep this table up to date and to age out old data. You can also provide additional filtering for this search by customizing the `aws_cross_account_activity_from_previously_unseen_account_filter` macro.
 
 #### Known False Positives
 Using multiple AWS accounts and roles is perfectly valid behavior. It&#39;s suspicious when an account requests privileges of an account it hasn&#39;t before. You should validate with the account owner that this is a legitimate request.
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 #### RBA
