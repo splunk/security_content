@@ -1,0 +1,328 @@
+{
+    "blockly": false,
+    "blockly_xml": "<xml></xml>",
+    "category": "Use Cases",
+    "coa": {
+        "data": {
+            "description": "Use TruSTAR to gather threat information about indicators in a SOAR event. Tag the indicators with the normalized priority score from TruSTAR and summarize the findings in an analyst note. This playbook is meant to be used as a child playbook executed by a parent playbook such as \"threat_intel_investigate\".",
+            "edges": [
+                {
+                    "id": "port_0_to_port_2",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "2",
+                    "targetPort": "2_in"
+                },
+                {
+                    "id": "port_2_to_port_5",
+                    "sourceNode": "2",
+                    "sourcePort": "2_out",
+                    "targetNode": "5",
+                    "targetPort": "5_in"
+                },
+                {
+                    "id": "port_3_to_port_1",
+                    "sourceNode": "3",
+                    "sourcePort": "3_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "id": "port_5_to_port_1",
+                    "sourceNode": "5",
+                    "sourcePort": "5_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "id": "port_2_to_port_6",
+                    "sourceNode": "2",
+                    "sourcePort": "2_out",
+                    "targetNode": "6",
+                    "targetPort": "6_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_6_to_port_3",
+                    "sourceNode": "6",
+                    "sourcePort": "6_out",
+                    "targetNode": "3",
+                    "targetPort": "3_in"
+                }
+            ],
+            "hash": "429eb175623d7202cbfce355d56512786b3bc52f",
+            "nodes": {
+                "0": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_start",
+                        "id": "0",
+                        "type": "start"
+                    },
+                    "errors": {},
+                    "id": "0",
+                    "type": "start",
+                    "x": 190,
+                    "y": 0
+                },
+                "1": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionId": 1,
+                        "functionName": "on_finish",
+                        "id": "1",
+                        "type": "end"
+                    },
+                    "errors": {},
+                    "id": "1",
+                    "type": "end",
+                    "userCode": "\n    # This function is called after all actions are completed.\n    # summary of all the action and/or all details of actions\n    # can be collected here.\n\n    # summary_json = phantom.get_summary()\n    # if 'result' in summary_json:\n        # for action_result in summary_json['result']:\n            # if 'action_run_id' in action_result:\n                # action_results = phantom.get_action_results(action_run_id=action_result['action_run_id'], result_data=False, flatten=False)\n                # phantom.debug(action_results)\n\n",
+                    "x": 190,
+                    "y": 684
+                },
+                "2": {
+                    "data": {
+                        "action": "indicator reputation",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "indicator reputation",
+                            "customNameId": 0,
+                            "description": "Query the Indicator API in TruSTAR to find threat intelligence scores and attributes about each of the indicators passed into the playbook.",
+                            "join": [],
+                            "note": "Query the Indicator API in TruSTAR to find threat intelligence scores and attributes about each of the indicators passed into the playbook."
+                        },
+                        "connector": "TruSTAR",
+                        "connectorConfigs": [
+                            "trustar"
+                        ],
+                        "connectorId": "536ae6e0-72b2-4ae1-9520-810acaddd2d1",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "indicator_reputation",
+                        "id": "2",
+                        "parameters": {
+                            "indicator_value": "playbook_input:indicators"
+                        },
+                        "requiredParameters": [
+                            "indicator_value"
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "2",
+                    "type": "action",
+                    "x": 170,
+                    "y": 148
+                },
+                "3": {
+                    "data": {
+                        "advanced": {
+                            "customName": "tag indicator with priority score",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "indicator_tag",
+                            "repoName": "community"
+                        },
+                        "functionId": 1,
+                        "functionName": "tag_indicator_with_priority_score",
+                        "id": "3",
+                        "selectMore": false,
+                        "type": "utility",
+                        "utilities": {
+                            "indicator_tag": {
+                                "description": "Tag an existing indicator record. Tags can be overwritten or appended.",
+                                "fields": [
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "Specifies the indicator which the tag will be added to. Supports a string indicator value or an indicator id.",
+                                        "inputType": "item",
+                                        "label": "indicator",
+                                        "name": "indicator",
+                                        "placeholder": "my_indicator",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "Comma separated list of tags. Tags should only contain characters Aa-Zz, 0-9, '-', and '_'.",
+                                        "inputType": "item",
+                                        "label": "tags",
+                                        "name": "tags",
+                                        "placeholder": "tag1,tag2,...,tagk",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Optional input. Either \"true\" or \"false\" with default as \"false\". If set to \"true\", existing tags on the indicator record will be replaced by the provided input. If set to \"false\", the new tags will be appended to the existing indicator tags.",
+                                        "inputType": "item",
+                                        "label": "overwrite",
+                                        "name": "overwrite",
+                                        "placeholder": "false",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "indicator_tag",
+                                "name": "indicator_tag"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "indicator_tag": {
+                                "indicator": "filtered-data:indicator_found:condition_1:indicator_reputation:action_result.parameter.indicator_value",
+                                "overwrite": null,
+                                "tags": "filtered-data:indicator_found:condition_1:indicator_reputation:action_result.data.*.priorityScore"
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "3",
+                    "type": "utility",
+                    "x": 0,
+                    "y": 513
+                },
+                "5": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format note",
+                            "customNameId": 0,
+                            "description": "Combine the TruSTAR results into a note to pass up to the parent playbook. Build a markdown table of results with links to TruSTAR queries and select fields from the reputation information for each indicator.",
+                            "join": [],
+                            "note": "Combine the TruSTAR results into a note to pass up to the parent playbook. Build a markdown table of results with links to TruSTAR queries and select fields from the reputation information for each indicator."
+                        },
+                        "functionId": 1,
+                        "functionName": "format_note",
+                        "id": "5",
+                        "inputParameters": [
+                            "indicator_reputation:action_result.parameter.indicator_value",
+                            "indicator_reputation:action_result.data.*.observable.type",
+                            "indicator_reputation:action_result.data.*.priorityScore",
+                            "indicator_reputation:action_result.data.*.submissionTags",
+                            "indicator_reputation:action_result.data.*.attributes",
+                            "indicator_reputation:action_result.data.*.safelisted",
+                            "indicator_reputation:action_result.data.*.scoreContexts.*.sourceName",
+                            "",
+                            ""
+                        ],
+                        "outputVariables": [
+                            "note_content"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "5",
+                    "type": "code",
+                    "userCode": "\n    import urllib.parse\n    \n    note = \"\"\"\n| Indicator | Type | Priority Score | Submission Tags | Attributes | Safe Listed? | Sources |\n| :--- | :--- | :--- | :--- | :--- | :--- | :--- |\n    \"\"\"\n    \n    for item in indicator_reputation_result_data:\n        if item[1]:            \n            # for the first column, use the indicator as the text and the trustar query as the href\n            trustar_link = 'https://station.trustar.co/browse/search?q={}'.format(urllib.parse.quote(item[0]))\n            indicator_markdown = '[{}]({})'.format(item[0], trustar_link)\n            indicator_type = item[1]\n            priority = item[2]\n            submission_tags = json.dumps(item[3]).replace('[', '').replace(']', '')\n            attributes = json.dumps(item[4]).replace('{', '').replace('}', '').replace('[', '').replace(']', '')\n            safe_listed = item[5]\n            sources = item[6]\n            note += \"|{}|{}|{}|{}|{}|{}|{}|\\n\".format(indicator_markdown, indicator_type, priority, submission_tags, attributes, safe_listed, sources)\n        else:\n            note += \"|{}|Not found in TruSTAR||||||\\n\".format(item[0])\n\n    format_note__note_content = note\n    \n",
+                    "x": 340,
+                    "y": 506
+                },
+                "6": {
+                    "data": {
+                        "advanced": {
+                            "customName": "indicator_found",
+                            "customNameId": 0,
+                            "description": "Filter for indicators that were found in TruSTAR.",
+                            "join": [],
+                            "note": "Filter for indicators that were found in TruSTAR."
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": ">",
+                                        "param": "indicator_reputation:action_result.summary.indicators_found",
+                                        "value": "0"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "indicator found",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 1,
+                        "functionName": "indicator_found",
+                        "id": "6",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "6",
+                    "type": "filter",
+                    "x": 60,
+                    "y": 326
+                }
+            },
+            "notes": "This playbook uses the following Apps:\n - TruSTAR (indicator reputation) [asset name = trustar] - query TruSTAR for threat intelligence\n\nDeployment Notes:\n - To use this playbook as a sub-playbook of \"threat_intel_investigate\", copy it to the local git repository and make sure it has the tags \"investigate\" and \"threat_intel\"\n- To use this playbook as a sub-playbook of \"risk_notable_enrich\", copy it to local and make sure it has the tags \"investigate\" and \"risk_notable\"\n - To control the types of indicators processed by this playbook, change the data types of the \"indicators\" input\n"
+        },
+        "input_spec": [
+            {
+                "contains": [
+                    "user name",
+                    "ip",
+                    "domain",
+                    "url",
+                    "host name",
+                    "vault id",
+                    "hash",
+                    "md5",
+                    "sha1",
+                    "sha256",
+                    "file path"
+                ],
+                "description": "Indicators to enrich with TruSTAR",
+                "name": "indicators"
+            }
+        ],
+        "output_spec": [
+            {
+                "contains": [],
+                "datapaths": [
+                    "TruSTAR Indicator Enrichment"
+                ],
+                "deduplicate": false,
+                "description": "The title of the note summarizing reputation data gathered in this playbook",
+                "metadata": {},
+                "name": "note_title"
+            },
+            {
+                "contains": [],
+                "datapaths": [
+                    "format_note:custom_function:note_content"
+                ],
+                "deduplicate": false,
+                "description": "The content of the note summarizing reputation data gathered in this playbook",
+                "metadata": {},
+                "name": "note_content"
+            }
+        ],
+        "playbook_type": "data",
+        "python_version": "3",
+        "schema": "5.0.4",
+        "version": "5.1.0.70187"
+    },
+    "create_time": "2021-11-24T21:10:50.604011+00:00",
+    "draft_mode": false,
+    "labels": [
+        "*"
+    ],
+    "tags": [
+        "investigate",
+        "threat_intel"
+    ]
+}
