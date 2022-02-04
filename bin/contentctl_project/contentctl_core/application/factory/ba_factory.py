@@ -45,12 +45,13 @@ class BAFactory():
             files = Utils.get_all_yml_files_from_directory(os.path.join(self.input_dto.input_path, str(type.name)))
 
         for file in files:
-            if type == SecurityContentType.detections:
-                self.input_dto.director.constructDetection(self.input_dto.detection_builder, file, [], [], [], )
-                detection = self.input_dto.detection_builder.getObject()
-                if not detection.deprecated and not detection.experimental:
-                    self.output_dto.detections.append(detection)
-            elif type == SecurityContentType.unit_tests:
-                self.input_dto.director.constructTest(self.input_dto.basic_builder, file)
-                test = self.input_dto.basic_builder.getObject()
-                self.output_dto.tests.append(test)
+            if 'ssa__' in file:
+                if type == SecurityContentType.detections:
+                    self.input_dto.director.constructDetection(self.input_dto.detection_builder, file, [], [], [], [])
+                    detection = self.input_dto.detection_builder.getObject()
+                    if not detection.deprecated and not detection.experimental:
+                        self.output_dto.detections.append(detection)
+                elif type == SecurityContentType.unit_tests:
+                    self.input_dto.director.constructTest(self.input_dto.basic_builder, file)
+                    test = self.input_dto.basic_builder.getObject()
+                    self.output_dto.tests.append(test)

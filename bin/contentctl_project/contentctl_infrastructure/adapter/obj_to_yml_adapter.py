@@ -1,4 +1,5 @@
 import os
+import re
 
 from contentctl_infrastructure.adapter.yml_writer import YmlWriter
 from contentctl_core.application.adapter.adapter import Adapter
@@ -38,7 +39,11 @@ class ObjToYmlAdapter(Adapter):
     def writeObjects(self, objects: list, security_content_folder: str) -> None:
         for obj in objects:
             file_name = "ssa___" + self.convertNameToFileName(obj)
-            file_path = os.path.join(security_content_folder, file_name)
+            if self.isComplexBARule(obj.search):
+                file_path = os.path.join(security_content_folder, 'complex', file_name)
+            else:
+                file_path = os.path.join(security_content_folder, 'srs', file_name)
+
             # remove unncessary fields
             YmlWriter.writeYmlFile(file_path, object)
 
@@ -51,3 +56,6 @@ class ObjToYmlAdapter(Adapter):
             .lower()
         file_name = file_name + '.yml'
         return file_name
+
+    def isComplexBARule(self, search):
+        return re.findall("stats|first_time_event|adaptive_threshold", search)

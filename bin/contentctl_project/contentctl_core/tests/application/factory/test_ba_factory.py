@@ -23,3 +23,4 @@ def test_factory_BA():
 
     factory = BAFactory(output_dto)
     factory.execute(input_dto)
+    print(output_dto.detections[0])
