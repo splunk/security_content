@@ -23,7 +23,7 @@ tags:
 
 This search looks for disable security job in CircleCI pipeline.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Dev Sec Ops Analytics
 - **Datamodel**: 
 - **Last Updated**: 2021-09-02
@@ -33,8 +33,8 @@ This search looks for disable security job in CircleCI pipeline.
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1554](https://attack.mitre.org/techniques/T1554/) | Compromise Client Software Binary | Persistence |
 
 #### Search
@@ -54,23 +54,31 @@ This search looks for disable security job in CircleCI pipeline.
 | `circle_ci_disable_security_job_filter`
 ```
 
-#### Associated Analytic Story
-* [Dev Sec Ops](/stories/dev_sec_ops)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [circleci](https://github.com/splunk/security_content/blob/develop/macros/circleci.yml)
 
+Note that `circle_ci_disable_security_job_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
-#### How To Implement
-You must index CircleCI logs.
+#### Lookups
+The SPL above uses the following Lookups:
+
+* [mandatory_job_for_workflow](https://github.com/splunk/security_content/blob/develop/lookups/mandatory_job_for_workflow.yml) with [data](https://github.com/splunk/security_content/blob/develop/lookups/mandatory_job_for_workflow.csv)
 
 #### Required field
 * _times
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+You must index CircleCI logs.
 
 #### Known False Positives
 unknown
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 #### RBA

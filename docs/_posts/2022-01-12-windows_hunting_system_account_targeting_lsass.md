@@ -24,7 +24,7 @@ tags:
 
 The following hunting analytic identifies all processes requesting access into Lsass.exe. his behavior may be related to credential dumping or applications requiring access to credentials. Triaging this event will require understanding the GrantedAccess from the SourceImage. In addition, whether the account is privileged or not. Review the process requesting permissions and review parallel processes.
 
-- **Type**: Hunting
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2022-01-12
@@ -34,8 +34,8 @@ The following hunting analytic identifies all processes requesting access into L
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1003.001](https://attack.mitre.org/techniques/T1003/001/) | LSASS Memory | Credential Access |
 
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
@@ -51,12 +51,12 @@ The following hunting analytic identifies all processes requesting access into L
 | `windows_hunting_system_account_targeting_lsass_filter`
 ```
 
-#### Associated Analytic Story
-* [Credential Dumping](/stories/credential_dumping)
+#### Macros
+The SPL above uses the following Macros:
+* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Enabling EventCode 10 TargetProcess lsass.exe is required.
+Note that `windows_hunting_system_account_targeting_lsass_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -69,12 +69,15 @@ To successfully implement this search, you need to be ingesting logs with the pr
 * TargetUser
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Enabling EventCode 10 TargetProcess lsass.exe is required.
 
 #### Known False Positives
 False positives will occur based on GrantedAccess and SourceUser, filter based on source image as needed.
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 #### RBA

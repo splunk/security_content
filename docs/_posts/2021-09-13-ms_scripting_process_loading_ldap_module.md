@@ -25,7 +25,7 @@ tags:
 
 This search is to detect a suspicious MS scripting process such as wscript.exe or cscript.exe that loading ldap module to process ldap query. This behavior was seen in FIN7 implant where it uses javascript to execute ldap query to parse host information that will send to its C2 server. this anomaly detections is a good initial step to hunt further a suspicious ldap query or ldap related events to the host that may give you good information regarding ldap or AD information processing or might be a attacker.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-09-13
@@ -35,8 +35,8 @@ This search is to detect a suspicious MS scripting process such as wscript.exe o
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 
 | [T1059.007](https://attack.mitre.org/techniques/T1059/007/) | JavaScript | Execution |
@@ -51,12 +51,12 @@ This search is to detect a suspicious MS scripting process such as wscript.exe o
 | `ms_scripting_process_loading_ldap_module_filter`
 ```
 
-#### Associated Analytic Story
-* [FIN7](/stories/fin7)
+#### Macros
+The SPL above uses the following Macros:
+* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
+Note that `ms_scripting_process_loading_ldap_module_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -69,12 +69,15 @@ To successfully implement this search, you need to be ingesting logs with the pr
 * ImageLoaded
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
 
 #### Known False Positives
 automation scripting language may used by network operator to do ldap query.
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA
