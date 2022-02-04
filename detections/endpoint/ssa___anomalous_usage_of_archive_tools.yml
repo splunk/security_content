@@ -21,11 +21,11 @@ search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map
   end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"),
   "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)),
   body=create_map("category_id", 101, "class_id", 10100, "detection_start_time", start_time, 
-  "detection_end_time", end_time, "disposition_id", 1, "end_time", end_time, "event_id", 
+  "detection_end_time", end_time, "device_entities", [create_map("uid", ucast(map_get(input_event, "dest_device_id"), "string", null))], "disposition_id", 1, "end_time", end_time, "event_id", 
   10100001, "event_time", timestamp, "finding", create_map("confidence", 60, "confidence_id", 2,
   "context_ids", [10, 49], "impact", 70, "impact_id", 4,
   "kill_chain_phase", "Actions on Objective", "kill_chain_phase_id", 7, "risk_level", 42,
-  "risk_level_id", 2, "type_id", 1), "message", "This behavior is indicative of suspicious loading of 7zip.", 
+  "risk_level_id", 2, "type_id", 1, "ref_event_uid", event_id), "message", "This behavior is indicative of suspicious loading of 7zip.", 
   "metadata", create_map("log_name", "Endpoint_Processes", "version",
   "1.0.0"), "observables", [create_map("name", "user", "role_ids", [4], "type_id", 6, "value", 
   ucast(map_get(input_event, "dest_user_id"), "string", null)), create_map("name", "dest", 
@@ -33,8 +33,9 @@ search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map
   create_map("name", "parent_process_name", "role_ids", [5], "type_id", 15, "value", 
   parent_process_name), create_map("name", "process_name", "role_ids", [6], "type_id", 15, 
   "value", process_name)], "origin", create_map("device", ucast(map_get(input_event, "dest_device_id"), 
-  "string", null)), "priority_id", 0, "rule", create_map("name", "Anomalous usage of Archive Tools", 
-  "uid", "63614a58-10e2-4c6c-ae81-ea1113681439"), "start_time", start_time, "time", timestamp)
+  "string", null), "product", "Splunk Behavioral Analytics"), "priority_id", 0, "rule", create_map("name", "Anomalous usage of Archive Tools", 
+  "uid", "63614a58-10e2-4c6c-ae81-ea1113681439", "version", 1), "start_time", start_time, "time", timestamp,
+  "user_entities", [create_map("uid", ucast(map_get(input_event, "dest_user_id"),"string", null))])
   | into write_ssa_finding_events();'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
