@@ -23,7 +23,7 @@ tags:
 
 A required step while exploiting the CVE-2021-44228-Log4j vulnerability is that the victim server will perform outbound connections to attacker-controlled infrastructure. This is required as part of the JNDI lookup as well as for retrieving the second stage .class payload. The following analytic identifies the Java process reaching out to default ports used by the LDAP and RMI protocols. This behavior could represent successfull exploitation. Note that adversaries can easily decide to use arbitrary ports for these protocols and potentially bypass this detection.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-12-13
@@ -33,8 +33,8 @@ A required step while exploiting the CVE-2021-44228-Log4j vulnerability is that 
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1190](https://attack.mitre.org/techniques/T1190/) | Exploit Public-Facing Application | Initial Access |
 
 #### Search
@@ -53,12 +53,12 @@ A required step while exploiting the CVE-2021-44228-Log4j vulnerability is that 
 | `outbound_network_connection_from_java_using_default_ports_filter`
 ```
 
-#### Associated Analytic Story
-* [Log4Shell CVE-2021-44228](/stories/log4shell_cve-2021-44228)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
+Note that `outbound_network_connection_from_java_using_default_ports_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -73,12 +73,15 @@ To successfully implement this search you need to be ingesting information on pr
 * Ports.dest_port
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
 
 #### Known False Positives
 Legitimate Java applications may use perform outbound connections to these ports. Filter as needed
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA

@@ -25,7 +25,7 @@ tags:
 
 This search looks for attempts to stop security-related services on the endpoint.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-07-21
@@ -35,8 +35,8 @@ This search looks for attempts to stop security-related services on the endpoint
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1562.001](https://attack.mitre.org/techniques/T1562/001/) | Disable or Modify Tools | Defense Evasion |
 
 | [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
@@ -54,14 +54,18 @@ This search looks for attempts to stop security-related services on the endpoint
 | `attempt_to_stop_security_service_filter`
 ```
 
-#### Associated Analytic Story
-* [Disabling Security Tools](/stories/disabling_security_tools)
-* [Trickbot](/stories/trickbot)
-* [WhisperGate](/stories/whispergate)
+#### Macros
+The SPL above uses the following Macros:
+* [process_net](https://github.com/splunk/security_content/blob/develop/macros/process_net.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
+Note that `attempt_to_stop_security_service_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
-#### How To Implement
-To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
+#### Lookups
+The SPL above uses the following Lookups:
+
+* [security_services_lookup](https://github.com/splunk/security_content/blob/develop/lookups/security_services_lookup.yml) with [data](https://github.com/splunk/security_content/blob/develop/lookups/security_services.csv)
 
 #### Required field
 * _time
@@ -78,13 +82,16 @@ To successfully implement this search you need to be ingesting information on pr
 * Processes.parent_process_id
 
 
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
+
+#### Known False Positives
+None identified. Attempts to disable security-related services should be identified and understood.
+
 #### Kill Chain Phase
 * Installation
 * Actions on Objectives
 
-
-#### Known False Positives
-None identified. Attempts to disable security-related services should be identified and understood.
 
 
 #### RBA

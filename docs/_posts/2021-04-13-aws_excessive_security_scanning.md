@@ -23,7 +23,7 @@ tags:
 
 This search looks for AWS CloudTrail events and analyse the amount of eventNames which starts with Describe by a single user. This indicates that this user scans the configuration of your AWS cloud environment.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-04-13
@@ -33,8 +33,8 @@ This search looks for AWS CloudTrail events and analyse the amount of eventNames
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1526](https://attack.mitre.org/techniques/T1526/) | Cloud Service Discovery | Discovery |
 
 #### Search
@@ -48,12 +48,12 @@ This search looks for AWS CloudTrail events and analyse the amount of eventNames
 |`aws_excessive_security_scanning_filter`
 ```
 
-#### Associated Analytic Story
-* [AWS User Monitoring](/stories/aws_user_monitoring)
+#### Macros
+The SPL above uses the following Macros:
+* [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-
-#### How To Implement
-You must install splunk AWS add on and Splunk App for AWS. This search works with AWS CloudTrail logs.
+Note that `aws_excessive_security_scanning_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -64,12 +64,15 @@ You must install splunk AWS add on and Splunk App for AWS. This search works wit
 * userIdentity.arn
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+You must install splunk AWS add on and Splunk App for AWS. This search works with AWS CloudTrail logs.
 
 #### Known False Positives
 While this search has no known false positives.
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 #### RBA

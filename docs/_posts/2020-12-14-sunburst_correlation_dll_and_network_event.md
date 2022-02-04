@@ -24,7 +24,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 The malware sunburst will load the malicious dll by SolarWinds.BusinessLayerHost.exe. After a period of 12-14 days, the malware will attempt to resolve a subdomain of avsvmcloud.com. This detections will correlate both events.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-12-14
@@ -34,8 +34,8 @@ The malware sunburst will load the malicious dll by SolarWinds.BusinessLayerHost
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1203](https://attack.mitre.org/techniques/T1203/) | Exploitation for Client Execution | Execution |
 
 #### Search
@@ -51,12 +51,12 @@ The malware sunburst will load the malicious dll by SolarWinds.BusinessLayerHost
 | `sunburst_correlation_dll_and_network_event_filter` 
 ```
 
-#### Associated Analytic Story
-* [NOBELIUM Group](/stories/nobelium_group)
+#### Macros
+The SPL above uses the following Macros:
+* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-
-#### How To Implement
-This detection relies on sysmon logs with the Event ID 7, Driver loaded. Please tune your sysmon config that you DriverLoad event for SolarWinds.Orion.Core.BusinessLayer.dll is captured by Sysmon. Additionally, you need sysmon logs for Event ID 22, DNS Query. We suggest to run this detection at least once a day over the last 14 days.
+Note that `sunburst_correlation_dll_and_network_event_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -65,12 +65,15 @@ This detection relies on sysmon logs with the Event ID 7, Driver loaded. Please 
 * QueryName
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+This detection relies on sysmon logs with the Event ID 7, Driver loaded. Please tune your sysmon config that you DriverLoad event for SolarWinds.Orion.Core.BusinessLayer.dll is captured by Sysmon. Additionally, you need sysmon logs for Event ID 22, DNS Query. We suggest to run this detection at least once a day over the last 14 days.
 
 #### Known False Positives
 unknown
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 
