@@ -62,6 +62,7 @@ Privilege escalation is a "land-and-expand" technique, wherein an adversary gain
 | [Linux Sudo OR Su Execution](/endpoint/linux_sudo_or_su_execution/) | [Sudo and Sudo Caching](/tags/#sudo-and-sudo-caching), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism) | Hunting |
 | [Linux Sudoers Tmp File Creation](/endpoint/linux_sudoers_tmp_file_creation/) | [Sudo and Sudo Caching](/tags/#sudo-and-sudo-caching), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism) | Anomaly |
 | [Linux Visudo Utility Execution](/endpoint/linux_visudo_utility_execution/) | [Sudo and Sudo Caching](/tags/#sudo-and-sudo-caching), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism) | Anomaly |
+| [Linux pkexec Privilege Escalation](/endpoint/linux_pkexec_privilege_escalation/) | [Exploitation for Privilege Escalation](/tags/#exploitation-for-privilege-escalation) | TTP |
 
 #### Reference
 
