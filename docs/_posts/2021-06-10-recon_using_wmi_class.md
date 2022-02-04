@@ -48,8 +48,8 @@ The following analytic identifies suspicious PowerShell via EventCode 4104, wher
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [powershell](https://github.com/splunk/security_content/blob/develop/macros/powershell.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `recon_using_wmi_class_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 

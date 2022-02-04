@@ -340,7 +340,6 @@ def generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, messag
         for macro in detection_yaml['macros']:
             if 'lookups' in macro:
                 for macro_lookup in macro['lookups']:
-                    print(macro_lookup)
                     detection_lookups.append(macro_lookup)
         # now any other search lookups
         additional_detection_lookups = parse_and_add_lookups(detection_yaml['search'], lookups)
@@ -349,6 +348,12 @@ def generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, messag
                 detection_lookups.append(lookup)
             detection_yaml['lookups'] = detection_lookups
         detection_yaml['lookups'] = detection_lookups
+        
+          # sort macros and lookups
+        sorted_macros = sorted(detection_yaml['macros'], key=lambda i: i['name'])
+        detection_yaml['macros'] = sorted_macros
+        sorted_lookups = sorted(detection_yaml['lookups'], key=lambda i: i['name'])
+        detection_yaml['lookups'] = sorted_lookups
 
         # grab the kind
         detection_yaml['kind'] = manifest_file.split('/')[-2]
