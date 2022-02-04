@@ -29,7 +29,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 By enabling DHCP Snooping as a Layer 2 Security measure on the organization&#39;s network devices, we will be able to detect unauthorized DHCP servers handing out DHCP leases to devices on the network (Man in the Middle attack).
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-08-11
@@ -39,8 +39,8 @@ By enabling DHCP Snooping as a Layer 2 Security measure on the organization&#39;
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1200](https://attack.mitre.org/techniques/T1200/) | Hardware Additions | Initial Access |
 
 | [T1498](https://attack.mitre.org/techniques/T1498/) | Network Denial of Service | Impact |
@@ -57,12 +57,12 @@ By enabling DHCP Snooping as a Layer 2 Security measure on the organization&#39;
 | `detect_rogue_dhcp_server_filter`
 ```
 
-#### Associated Analytic Story
-* [Router and Infrastructure Security](/stories/router_and_infrastructure_security)
+#### Macros
+The SPL above uses the following Macros:
+* [cisco_networks](https://github.com/splunk/security_content/blob/develop/macros/cisco_networks.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-
-#### How To Implement
-This search uses a standard SPL query on logs from Cisco Network devices. The network devices must be configured with DHCP Snooping enabled (see https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst2960x/software/15-0_2_EX/security/configuration_guide/b_sec_152ex_2960-x_cg/b_sec_152ex_2960-x_cg_chapter_01101.html) and log with a severity level of minimum &#34;5 - notification&#34;. The search also requires that the Cisco Networks Add-on for Splunk (https://splunkbase.splunk.com/app/1467) is used to parse the logs from the Cisco network devices.
+Note that `detect_rogue_dhcp_server_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -73,14 +73,17 @@ This search uses a standard SPL query on logs from Cisco Network devices. The ne
 * host
 
 
+#### How To Implement
+This search uses a standard SPL query on logs from Cisco Network devices. The network devices must be configured with DHCP Snooping enabled (see https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst2960x/software/15-0_2_EX/security/configuration_guide/b_sec_152ex_2960-x_cg/b_sec_152ex_2960-x_cg_chapter_01101.html) and log with a severity level of minimum &#34;5 - notification&#34;. The search also requires that the Cisco Networks Add-on for Splunk (https://splunkbase.splunk.com/app/1467) is used to parse the logs from the Cisco network devices.
+
+#### Known False Positives
+This search might be prone to high false positives if DHCP Snooping has been incorrectly configured or in the unlikely event that the DHCP server has been moved to another network interface.
+
 #### Kill Chain Phase
 * Reconnaissance
 * Delivery
 * Actions on Objectives
 
-
-#### Known False Positives
-This search might be prone to high false positives if DHCP Snooping has been incorrectly configured or in the unlikely event that the DHCP server has been moved to another network interface.
 
 
 

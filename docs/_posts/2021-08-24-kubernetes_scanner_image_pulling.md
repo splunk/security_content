@@ -23,7 +23,7 @@ tags:
 
 This search uses the Kubernetes logs from Splunk Connect from Kubernetes to detect Kubernetes Security Scanner.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Dev Sec Ops Analytics
 - **Datamodel**: 
 - **Last Updated**: 2021-08-24
@@ -33,8 +33,8 @@ This search uses the Kubernetes logs from Splunk Connect from Kubernetes to dete
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1526](https://attack.mitre.org/techniques/T1526/) | Cloud Service Discovery | Discovery |
 
 #### Search
@@ -52,12 +52,12 @@ This search uses the Kubernetes logs from Splunk Connect from Kubernetes to dete
 | `kubernetes_scanner_image_pulling_filter`
 ```
 
-#### Associated Analytic Story
-* [Dev Sec Ops](/stories/dev_sec_ops)
+#### Macros
+The SPL above uses the following Macros:
+* [kube_objects_events](https://github.com/splunk/security_content/blob/develop/macros/kube_objects_events.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-
-#### How To Implement
-You must ingest Kubernetes logs through Splunk Connect for Kubernetes.
+Note that `kubernetes_scanner_image_pulling_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * object.message
@@ -69,12 +69,15 @@ You must ingest Kubernetes logs through Splunk Connect for Kubernetes.
 * object.reason
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+You must ingest Kubernetes logs through Splunk Connect for Kubernetes.
 
 #### Known False Positives
 unknown
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 #### RBA

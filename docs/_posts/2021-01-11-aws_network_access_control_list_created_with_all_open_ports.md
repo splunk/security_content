@@ -25,7 +25,7 @@ tags:
 
 The search looks for AWS CloudTrail events to detect if any network ACLs were created with all the ports open to a specified CIDR.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-01-11
@@ -35,8 +35,8 @@ The search looks for AWS CloudTrail events to detect if any network ACLs were cr
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1562.007](https://attack.mitre.org/techniques/T1562/007/) | Disable or Modify Cloud Firewall | Defense Evasion |
 
 | [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
@@ -55,12 +55,12 @@ The search looks for AWS CloudTrail events to detect if any network ACLs were cr
 | `aws_network_access_control_list_created_with_all_open_ports_filter`
 ```
 
-#### Associated Analytic Story
-* [AWS Network ACL Activity](/stories/aws_network_acl_activity)
+#### Macros
+The SPL above uses the following Macros:
+* [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-
-#### How To Implement
-You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS, version 4.4.0 or later, and configure your AWS CloudTrail inputs.
+Note that `aws_network_access_control_list_created_with_all_open_ports_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -76,12 +76,15 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 * userAgent
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS, version 4.4.0 or later, and configure your AWS CloudTrail inputs.
 
 #### Known False Positives
 It&#39;s possible that an admin has created this ACL with all ports open for some legitimate purpose however, this should be scoped and not allowed in production environment.
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 #### RBA

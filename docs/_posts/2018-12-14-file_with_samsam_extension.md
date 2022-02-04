@@ -21,7 +21,7 @@ tags:
 
 The search looks for file writes with extensions consistent with a SamSam ransomware attack.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2018-12-14
@@ -41,12 +41,12 @@ The search looks for file writes with extensions consistent with a SamSam ransom
 | `file_with_samsam_extension_filter`
 ```
 
-#### Associated Analytic Story
-* [SamSam Ransomware](/stories/samsam_ransomware)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-You must be ingesting data that records file-system activity from your hosts to populate the Endpoint file-system data-model node. If you are using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which you want to collect data.
+Note that `file_with_samsam_extension_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -56,12 +56,15 @@ You must be ingesting data that records file-system activity from your hosts to 
 * Filesystem.file_name
 
 
-#### Kill Chain Phase
-* Installation
-
+#### How To Implement
+You must be ingesting data that records file-system activity from your hosts to populate the Endpoint file-system data-model node. If you are using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which you want to collect data.
 
 #### Known False Positives
 Because these extensions are not typically used in normal operations, you should investigate all results.
+
+#### Kill Chain Phase
+* Installation
+
 
 
 #### RBA

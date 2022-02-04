@@ -8,8 +8,8 @@ sidebar:
   nav: "detections"
 ---
 
-| Name    | Technique | Type       |
-| --------| --------- |------------|
+| Name           | Technique       | Type            |
+| -------------- | --------------- | --------------- |
 | [7zip CommandLine To SMB Share Path](/endpoint/7zip_commandline_to_smb_share_path/) | [Archive via Utility](/tags/#archive-via-utility), [Archive Collected Data](/tags/#archive-collected-data) | Hunting |
 | [AWS Create Policy Version to allow all resources](/cloud/aws_create_policy_version_to_allow_all_resources/) | [Cloud Accounts](/tags/#cloud-accounts), [Valid Accounts](/tags/#valid-accounts) | TTP |
 | [AWS CreateAccessKey](/cloud/aws_createaccesskey/) | [Cloud Account](/tags/#cloud-account), [Create Account](/tags/#create-account) | Hunting |
