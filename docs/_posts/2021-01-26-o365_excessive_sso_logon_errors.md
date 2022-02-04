@@ -25,7 +25,7 @@ tags:
 
 This search detects accounts with high number of Single Sign ON (SSO) logon errors. Excessive logon errors may indicate attempts to bruteforce of password or single sign on token hijack or reuse.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-01-26
@@ -35,8 +35,8 @@ This search detects accounts with high number of Single Sign ON (SSO) logon erro
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1556](https://attack.mitre.org/techniques/T1556/) | Modify Authentication Process | Credential Access, Defense Evasion, Persistence |
 
 #### Search
@@ -50,13 +50,12 @@ This search detects accounts with high number of Single Sign ON (SSO) logon erro
 | `o365_excessive_sso_logon_errors_filter`
 ```
 
-#### Associated Analytic Story
-* [Office 365 Detections](/stories/office_365_detections)
-* [Cloud Federated Credential Abuse](/stories/cloud_federated_credential_abuse)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [o365_management_activity](https://github.com/splunk/security_content/blob/develop/macros/o365_management_activity.yml)
 
-
-#### How To Implement
-You must install splunk Microsoft Office 365 add-on. This search works with o365:management:activity
+Note that `o365_excessive_sso_logon_errors_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -67,12 +66,15 @@ You must install splunk Microsoft Office 365 add-on. This search works with o365
 * UserId
 
 
-#### Kill Chain Phase
-* Actions on Objective
-
+#### How To Implement
+You must install splunk Microsoft Office 365 add-on. This search works with o365:management:activity
 
 #### Known False Positives
 Logon errors may not be malicious in nature however it may indicate attempts to reuse a token or password obtained via credential access attack.
+
+#### Kill Chain Phase
+* Actions on Objective
+
 
 
 #### RBA
