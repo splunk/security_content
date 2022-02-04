@@ -34,7 +34,7 @@ lookup matching is meant to catch some basic obfuscation that has been identifie
 Scoring will then occur based on any findings. The base score is meant to be 2 , created by jndi_fastmatch. Everything else is meant to increase that score. \
 Finally, a simple table is created to show the scoring and the _raw field. Sort based on score or columns of interest.
 
-- **Type**: Hunting
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Web](https://docs.splunk.com/Documentation/CIM/latest/User/Web)
 - **Last Updated**: 2021-12-14
@@ -44,8 +44,8 @@ Finally, a simple table is created to show the scoring and the _raw field. Sort 
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1190](https://attack.mitre.org/techniques/T1190/) | Exploit Public-Facing Application | Initial Access |
 
 #### Search
@@ -172,12 +172,10 @@ Finally, a simple table is created to show the scoring and the _raw field. Sort 
 | `hunting_for_log4shell_filter`
 ```
 
-#### Associated Analytic Story
-* [Log4Shell CVE-2021-44228](/stories/log4shell_cve-2021-44228)
+#### Macros
+The SPL above uses the following Macros:
 
-
-#### How To Implement
-Out of the box, the Web datamodel is required to be pre-filled. However, tested was performed against raw httpd access logs. Change the first line to any dataset to pass the regex&#39;s against.
+Note that `hunting_for_log4shell_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -190,12 +188,15 @@ Out of the box, the Web datamodel is required to be pre-filled. However, tested 
 * _raw
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+Out of the box, the Web datamodel is required to be pre-filled. However, tested was performed against raw httpd access logs. Change the first line to any dataset to pass the regex&#39;s against.
 
 #### Known False Positives
 It is highly possible you will find false positives, however, the base score is set to 2 for _any_ jndi found in raw logs. tune and change as needed, include any filtering.
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA
