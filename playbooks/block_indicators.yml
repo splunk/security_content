@@ -13,8 +13,7 @@ app_list:
 - "CarbonBlack Response"
 - "OpenDNS Umbrella"
 tags:
-  platform_tags:
-  - Response
+  platform_tags: []
   playbook_fields:
   - destinationDnsDomain
   - destinationAddress
