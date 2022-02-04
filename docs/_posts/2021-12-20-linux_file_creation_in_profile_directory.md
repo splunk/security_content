@@ -27,7 +27,7 @@ tags:
 
 This analytic looks for suspicious file creation in /etc/profile.d directory to automatically execute scripts by shell upon boot up of a linux machine. This technique is commonly abused by adversaries, malware and red teamers as a persistence mechanism to the targeted or compromised host. This Anomaly detection is a good indicator that someone wants to run a code after boot up which can be done also by the administrator or network operator for automation purposes.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-12-20
@@ -37,8 +37,8 @@ This analytic looks for suspicious file creation in /etc/profile.d directory to 
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1546.004](https://attack.mitre.org/techniques/T1546/004/) | Unix Shell Configuration Modification | Privilege Escalation, Persistence |
 
 | [T1546](https://attack.mitre.org/techniques/T1546/) | Event Triggered Execution | Privilege Escalation, Persistence |
@@ -54,13 +54,12 @@ This analytic looks for suspicious file creation in /etc/profile.d directory to 
 | `linux_file_creation_in_profile_directory_filter`
 ```
 
-#### Associated Analytic Story
-* [Linux Privilege Escalation](/stories/linux_privilege_escalation)
-* [Linux Persistence Techniques](/stories/linux_persistence_techniques)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the file name, file path, and process_guid executions from your endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from Splunkbase.
+Note that `linux_file_creation_in_profile_directory_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -71,12 +70,15 @@ To successfully implement this search, you need to be ingesting logs with the fi
 * Filesystem.file_path
 
 
-#### Kill Chain Phase
-* Privilege Escalation
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the file name, file path, and process_guid executions from your endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from Splunkbase.
 
 #### Known False Positives
 Administrator or network operator can create file in profile.d folders for automation purposes. Please update the filter macros to remove false positives.
+
+#### Kill Chain Phase
+* Privilege Escalation
+
 
 
 #### RBA

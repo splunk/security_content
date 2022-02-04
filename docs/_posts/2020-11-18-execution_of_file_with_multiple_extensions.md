@@ -25,7 +25,7 @@ tags:
 
 This search looks for processes launched from files that have double extensions in the file name. This is typically done to obscure the &#34;real&#34; file extension and make it appear as though the file being accessed is a data file, as opposed to executable content.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-11-18
@@ -35,8 +35,8 @@ This search looks for processes launched from files that have double extensions 
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1036](https://attack.mitre.org/techniques/T1036/) | Masquerading | Defense Evasion |
 
 | [T1036.003](https://attack.mitre.org/techniques/T1036/003/) | Rename System Utilities | Defense Evasion |
@@ -52,13 +52,12 @@ This search looks for processes launched from files that have double extensions 
 | `execution_of_file_with_multiple_extensions_filter`
 ```
 
-#### Associated Analytic Story
-* [Windows File Extension and Association Abuse](/stories/windows_file_extension_and_association_abuse)
-* [Masquerading - Rename System Utilities](/stories/masquerading_-_rename_system_utilities)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search, you must be ingesting data that records process activity from your hosts to populate the endpoint data model in the processes node.
+Note that `execution_of_file_with_multiple_extensions_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -68,12 +67,15 @@ To successfully implement this search, you must be ingesting data that records p
 * Processes.parent_process
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+To successfully implement this search, you must be ingesting data that records process activity from your hosts to populate the endpoint data model in the processes node.
 
 #### Known False Positives
 None identified.
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 #### RBA

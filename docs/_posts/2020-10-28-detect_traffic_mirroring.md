@@ -30,7 +30,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 Adversaries may leverage traffic mirroring in order to automate data exfiltration over compromised network infrastructure. Traffic mirroring is a native feature for some network devices and used for network analysis and may be configured to duplicate traffic and forward to one or more destinations for analysis by a network analyzer or other monitoring device.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-10-28
@@ -40,8 +40,8 @@ Adversaries may leverage traffic mirroring in order to automate data exfiltratio
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1200](https://attack.mitre.org/techniques/T1200/) | Hardware Additions | Initial Access |
 
 | [T1020](https://attack.mitre.org/techniques/T1020/) | Automated Exfiltration | Exfiltration |
@@ -60,12 +60,12 @@ Adversaries may leverage traffic mirroring in order to automate data exfiltratio
 | `detect_traffic_mirroring_filter`
 ```
 
-#### Associated Analytic Story
-* [Router and Infrastructure Security](/stories/router_and_infrastructure_security)
+#### Macros
+The SPL above uses the following Macros:
+* [cisco_networks](https://github.com/splunk/security_content/blob/develop/macros/cisco_networks.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-
-#### How To Implement
-This search uses a standard SPL query on logs from Cisco Network devices. The network devices must log with a severity level of minimum &#34;5 - notification&#34;. The search also requires that the Cisco Networks Add-on for Splunk (https://splunkbase.splunk.com/app/1467) is used to parse the logs from the Cisco network devices and that the devices have been configured according to the documentation of the Cisco Networks Add-on. Also note that an attacker may disable logging from the device prior to enabling traffic mirroring.
+Note that `detect_traffic_mirroring_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -74,13 +74,16 @@ This search uses a standard SPL query on logs from Cisco Network devices. The ne
 * host
 
 
+#### How To Implement
+This search uses a standard SPL query on logs from Cisco Network devices. The network devices must log with a severity level of minimum &#34;5 - notification&#34;. The search also requires that the Cisco Networks Add-on for Splunk (https://splunkbase.splunk.com/app/1467) is used to parse the logs from the Cisco network devices and that the devices have been configured according to the documentation of the Cisco Networks Add-on. Also note that an attacker may disable logging from the device prior to enabling traffic mirroring.
+
+#### Known False Positives
+This search will return false positives for any legitimate traffic captures by network administrators.
+
 #### Kill Chain Phase
 * Delivery
 * Actions on Objectives
 
-
-#### Known False Positives
-This search will return false positives for any legitimate traffic captures by network administrators.
 
 
 

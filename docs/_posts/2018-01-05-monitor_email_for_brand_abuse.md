@@ -23,7 +23,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 This search looks for emails claiming to be sent from a domain similar to one that you want to have monitored for abuse.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Email](https://docs.splunk.com/Documentation/CIM/latest/User/Email)
 - **Last Updated**: 2018-01-05
@@ -46,13 +46,17 @@ This search looks for emails claiming to be sent from a domain similar to one th
 | `monitor_email_for_brand_abuse_filter`
 ```
 
-#### Associated Analytic Story
-* [Brand Monitoring](/stories/brand_monitoring)
-* [Suspicious Emails](/stories/suspicious_emails)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
+Note that `monitor_email_for_brand_abuse_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
-#### How To Implement
-You need to ingest email header data. Specifically the sender&#39;s address (src_user) must be populated.  You also need to have run the search &#34;ESCU - DNSTwist Domain Names&#34;, which creates the permutations of the domain that will be checked for.
+#### Lookups
+The SPL above uses the following Lookups:
+
+* [brandMonitoring_lookup](https://github.com/splunk/security_content/blob/develop/lookups/brandMonitoring_lookup.yml) with [data](https://github.com/splunk/security_content/blob/develop/lookups/brand_monitoring.csv)
 
 #### Required field
 * _time
@@ -61,12 +65,15 @@ You need to ingest email header data. Specifically the sender&#39;s address (src
 * All_Email.message_id
 
 
-#### Kill Chain Phase
-* Delivery
-
+#### How To Implement
+You need to ingest email header data. Specifically the sender&#39;s address (src_user) must be populated.  You also need to have run the search &#34;ESCU - DNSTwist Domain Names&#34;, which creates the permutations of the domain that will be checked for.
 
 #### Known False Positives
 None at this time
+
+#### Kill Chain Phase
+* Delivery
+
 
 
 
