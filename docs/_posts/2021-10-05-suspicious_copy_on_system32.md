@@ -81,6 +81,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 every user may do this event but very un-ussual.
 
+#### Associated Analytic story
+* [Unusual Processes](/stories/unusual_processes)
+
+
 #### Kill Chain Phase
 * Exploitation
 

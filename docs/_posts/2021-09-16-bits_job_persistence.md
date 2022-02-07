@@ -78,6 +78,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Limited false positives will be present. Typically, applications will use `BitsAdmin.exe`. Any filtering should be done based on command-line arguments (legitimate applications) or parent process.
 
+#### Associated Analytic story
+* [BITS Jobs](/stories/bits_jobs)
+
+
 #### Kill Chain Phase
 * Exploitation
 

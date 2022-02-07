@@ -73,6 +73,10 @@ To successfully implement this search, you need to be ingesting logs related to 
 #### Known False Positives
 normal email contains this link that are known application within the organization or network can be catched by this detection.
 
+#### Associated Analytic story
+* [Dev Sec Ops](/stories/dev_sec_ops)
+
+
 #### Kill Chain Phase
 * Exploitation
 

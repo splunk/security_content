@@ -74,6 +74,12 @@ You must be ingesting data that records process activity from your hosts to popu
 #### Known False Positives
 The wevtutil.exe application is a legitimate Windows event log utility. Administrators may use it to manage Windows event logs.
 
+#### Associated Analytic story
+* [Windows Log Manipulation](/stories/windows_log_manipulation)
+* [Ransomware](/stories/ransomware)
+* [Clop Ransomware](/stories/clop_ransomware)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

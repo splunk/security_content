@@ -78,6 +78,11 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Certain applications may spawn from `slui.exe` that are legitimate. Filtering will be needed to ensure proper monitoring.
 
+#### Associated Analytic story
+* [DarkSide Ransomware](/stories/darkside_ransomware)
+* [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
+
+
 #### Kill Chain Phase
 * Exploitation
 

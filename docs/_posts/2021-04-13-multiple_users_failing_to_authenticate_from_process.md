@@ -80,6 +80,10 @@ To successfully implement this search, you need to be ingesting Windows Event Lo
 #### Known False Positives
 A process failing to authenticate with multiple users is not a common behavior for legitimate user sessions. Possible false positive scenarios include but are not limited to vulnerability scanners and missconfigured systems.
 
+#### Associated Analytic story
+* [Active Directory Password Spraying](/stories/active_directory_password_spraying)
+
+
 #### Kill Chain Phase
 * Exploitation
 

@@ -75,6 +75,10 @@ You must be ingesting endpoint data that tracks process activity, including pare
 #### Known False Positives
 Some legitimate printer-related processes may show up as children of spoolsv.exe. You should confirm that any activity as legitimate and may be added as exclusions in the search.
 
+#### Associated Analytic story
+* [Windows Privilege Escalation](/stories/windows_privilege_escalation)
+
+
 #### Kill Chain Phase
 * Exploitation
 

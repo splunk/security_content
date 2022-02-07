@@ -75,6 +75,10 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Known False Positives
 False positives will occur based on legitimate application requests, filter based on source image as needed.
 
+#### Associated Analytic story
+* [Credential Dumping](/stories/credential_dumping)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

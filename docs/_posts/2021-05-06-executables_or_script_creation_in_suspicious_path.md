@@ -70,6 +70,12 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Administrators may allow creation of script or exe in the paths specified. Filter as needed.
 
+#### Associated Analytic story
+* [XMRig](/stories/xmrig)
+* [Remcos](/stories/remcos)
+* [WhisperGate](/stories/whispergate)
+
+
 #### Kill Chain Phase
 * Exploitation
 

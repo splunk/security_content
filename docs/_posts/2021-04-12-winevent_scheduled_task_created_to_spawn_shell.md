@@ -81,6 +81,12 @@ To successfully implement this search, you need to be ingesting Windows Security
 #### Known False Positives
 False positives are possible if legitimate applications are allowed to register tasks that call a shell to be spawned. Filter as needed based on command-line or processes that are used legitimately.
 
+#### Associated Analytic story
+* [Windows Persistence Techniques](/stories/windows_persistence_techniques)
+* [Ransomware](/stories/ransomware)
+* [Ryuk Ransomware](/stories/ryuk_ransomware)
+
+
 #### Kill Chain Phase
 * Privilege Escalation
 

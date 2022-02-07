@@ -77,6 +77,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Limited to no known false positives.
 
+#### Associated Analytic story
+* [Ryuk Ransomware](/stories/ryuk_ransomware)
+
+
 #### Kill Chain Phase
 * Exploitation
 * Lateral Movement

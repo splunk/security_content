@@ -78,6 +78,11 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Administrators may create jobs on systems forcing reboots to perform updates, maintenance, etc.
 
+#### Associated Analytic story
+* [Windows Persistence Techniques](/stories/windows_persistence_techniques)
+* [Ransomware](/stories/ransomware)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

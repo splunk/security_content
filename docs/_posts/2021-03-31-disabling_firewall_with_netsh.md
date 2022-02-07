@@ -81,6 +81,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 admin may disable firewall during testing or fixing network problem.
 
+#### Associated Analytic story
+* [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
+
+
 #### Kill Chain Phase
 * Exploitation
 

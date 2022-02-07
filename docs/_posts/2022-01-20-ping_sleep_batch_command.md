@@ -83,6 +83,10 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Known False Positives
 Administrator or network operator may execute this command. Please update the filter macros to remove false positives.
 
+#### Associated Analytic story
+* [WhisperGate](/stories/whispergate)
+
+
 #### Kill Chain Phase
 * Exploitation
 

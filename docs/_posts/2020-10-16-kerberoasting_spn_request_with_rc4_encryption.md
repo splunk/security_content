@@ -73,6 +73,10 @@ You must be ingesting endpoint data that tracks process activity, and include th
 #### Known False Positives
 Older systems that support kerberos RC4 by default NetApp may generate false positives
 
+#### Associated Analytic story
+* [Windows Privilege Escalation](/stories/windows_privilege_escalation)
+
+
 #### Kill Chain Phase
 * Privilege Escalation
 

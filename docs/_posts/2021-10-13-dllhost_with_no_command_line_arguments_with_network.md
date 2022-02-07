@@ -78,6 +78,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Although unlikely, some legitimate third party applications may use a moved copy of dllhost, triggering a false positive.
 
+#### Associated Analytic story
+* [Cobalt Strike](/stories/cobalt_strike)
+
+
 #### Kill Chain Phase
 * Exploitation
 

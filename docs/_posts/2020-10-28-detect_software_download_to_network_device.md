@@ -79,6 +79,10 @@ This search looks for Network Traffic events to TFTP, FTP or SSH/SCP ports from 
 #### Known False Positives
 This search will also report any legitimate attempts of software downloads to network devices as well as outbound SSH sessions from network devices.
 
+#### Associated Analytic story
+* [Router and Infrastructure Security](/stories/router_and_infrastructure_security)
+
+
 #### Kill Chain Phase
 * Delivery
 

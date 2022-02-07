@@ -75,6 +75,10 @@ To successfully implement this search, you need to be ingesting logs related to 
 #### Known False Positives
 network admin and normal user may send this file attachment as part of their day to day work. having a good protocol in attaching this file type to an e-mail may reduce the risk of having a spear phishing attack.
 
+#### Associated Analytic story
+* [Dev Sec Ops](/stories/dev_sec_ops)
+
+
 #### Kill Chain Phase
 * Exploitation
 

@@ -71,6 +71,10 @@ You must install splunk Microsoft Office 365 add-on. This search works with o365
 #### Known False Positives
 The threshold for alert is above 10 attempts and this should reduce the number of false positives.
 
+#### Associated Analytic story
+* [Office 365 Detections](/stories/office_365_detections)
+
+
 #### Kill Chain Phase
 * Not Applicable
 

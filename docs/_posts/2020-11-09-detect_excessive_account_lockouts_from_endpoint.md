@@ -85,6 +85,10 @@ If Splunk&gt;Phantom is also configured in your environment, a Playbook called &
 #### Known False Positives
 It&#39;s possible that a widely used system, such as a kiosk, could cause a large number of account lockouts.
 
+#### Associated Analytic story
+* [Account Monitoring and Controls](/stories/account_monitoring_and_controls)
+
+
 #### Kill Chain Phase
 
 

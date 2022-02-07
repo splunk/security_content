@@ -81,6 +81,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 unknown
 
+#### Associated Analytic story
+* [Credential Dumping](/stories/credential_dumping)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

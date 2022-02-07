@@ -73,6 +73,12 @@ To successfully implement this search, you must be ingesting data that records r
 #### Known False Positives
 This registry key may be modified via administrators to implement a change in system policy. This type of change should be a very rare occurrence.
 
+#### Associated Analytic story
+* [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
+* [Suspicious Windows Registry Activities](/stories/suspicious_windows_registry_activities)
+* [Remcos](/stories/remcos)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

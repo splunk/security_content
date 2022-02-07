@@ -101,6 +101,11 @@ The SPL above uses the following Lookups:
 #### Known False Positives
 {{ detection.known_false_positives}}
 
+#### Associated Analytic story
+{% for story in detection.tags.analytic_story -%}
+* [{{ story }}](/stories/{{story|lower|replace(" ", "_")}})
+{% endfor %}
+
 #### Kill Chain Phase
 {% for phase in detection.tags.kill_chain_phases -%}
 * {{ phase }}

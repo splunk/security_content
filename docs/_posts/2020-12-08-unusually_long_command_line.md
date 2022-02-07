@@ -66,6 +66,13 @@ You must be ingesting endpoint data that tracks process activity, including pare
 #### Known False Positives
 Some legitimate applications start with long command lines.
 
+#### Associated Analytic story
+* [Suspicious Command-Line Executions](/stories/suspicious_command-line_executions)
+* [Unusual Processes](/stories/unusual_processes)
+* [Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns](/stories/possible_backdoor_activity_associated_with_mudcarp_espionage_campaigns)
+* [Ransomware](/stories/ransomware)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

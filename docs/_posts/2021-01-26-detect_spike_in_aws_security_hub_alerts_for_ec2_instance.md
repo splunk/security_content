@@ -65,6 +65,10 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 #### Known False Positives
 None
 
+#### Associated Analytic story
+* [AWS Security Hub Alerts](/stories/aws_security_hub_alerts)
+
+
 #### Kill Chain Phase
 
 

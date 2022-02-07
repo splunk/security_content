@@ -72,6 +72,11 @@ You must be ingesting data that records process activity from your hosts to popu
 #### Known False Positives
 None identified
 
+#### Associated Analytic story
+* [Windows Log Manipulation](/stories/windows_log_manipulation)
+* [Ransomware](/stories/ransomware)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

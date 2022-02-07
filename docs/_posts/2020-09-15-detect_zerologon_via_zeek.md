@@ -66,6 +66,10 @@ You must be ingesting Zeek DCE-RPC data into Splunk. Zeek data should also be ge
 #### Known False Positives
 unknown
 
+#### Associated Analytic story
+* [Detect Zerologon Attack](/stories/detect_zerologon_attack)
+
+
 #### Kill Chain Phase
 * Exploitation
 

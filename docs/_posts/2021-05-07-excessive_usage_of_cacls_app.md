@@ -72,6 +72,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Administrators or administrative scripts may use this application. Filter as needed.
 
+#### Associated Analytic story
+* [XMRig](/stories/xmrig)
+
+
 #### Kill Chain Phase
 * Exploitation
 

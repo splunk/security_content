@@ -76,6 +76,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 False positives should be limited as developers do not spawn MSBuild via a WSH.
 
+#### Associated Analytic story
+* [Trusted Developer Utilities Proxy Execution MSBuild](/stories/trusted_developer_utilities_proxy_execution_msbuild)
+
+
 #### Kill Chain Phase
 * Exploitation
 

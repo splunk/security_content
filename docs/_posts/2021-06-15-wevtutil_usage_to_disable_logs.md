@@ -73,6 +73,11 @@ You must be ingesting data that records process activity from your hosts to popu
 #### Known False Positives
 network operator may disable audit event logs for debugging purposes.
 
+#### Associated Analytic story
+* [Windows Log Manipulation](/stories/windows_log_manipulation)
+* [Ransomware](/stories/ransomware)
+
+
 #### Kill Chain Phase
 * Exploitation
 
