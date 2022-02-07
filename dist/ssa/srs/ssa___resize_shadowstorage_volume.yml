@@ -91,12 +91,12 @@ tags:
   security_domain: endpoint
   risk_severity: medium
 test:
-  name: Resize Shadowstorage Volume
-  file: endpoint/ssa___resize_shadowstorage_volume.yml
-  pass_condition: '@count_gt(0)'
-  attack_data:
-  - file_name: windows-security.log
-    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/windows-security.log
-    source: WinEventLog:Security
-    sourcetype: null
-    update_timestamp: null
+  name: Resize Shadowstorage Volume Unit Test
+  tests:
+  - name: Resize Shadowstorage Volume
+    file: endpoint/ssa___resize_shadowstorage_volume.yml
+    pass_condition: '@count_gt(0)'
+    attack_data:
+    - file_name: windows-security.log
+      data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/windows-security.log
+      source: WinEventLog:Security

@@ -57,7 +57,11 @@ class ObjToYmlAdapter(Adapter):
                         "playbooks": True,
                         "baselines": True,
                         "mappings": True,
-                        "test": {"earliest_time": True , "latest_time": True, "baselines": True} 
+                        "test": { "tests": {"__all__": 
+                            { "earliest_time": True , "latest_time": True, "baselines": True, "attack_data": {"__all__":  
+                                {"sourcetype": True, "update_timestamp": True}}
+                            }
+                        }} 
                     }))
 
     def convertNameToFileName(self, obj: dict):

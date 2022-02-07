@@ -99,12 +99,12 @@ tags:
   security_domain: endpoint
   risk_severity: low
 test:
-  name: Sdelete Application Execution
-  file: endpoint/ssa___sdelete_application_execution.yml
-  pass_condition: '@count_gt(0)'
-  attack_data:
-  - file_name: security.log
-    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/sdelete/security.log
-    source: WinEventLog:Security
-    sourcetype: null
-    update_timestamp: null
+  name: Sdelete Application Execution Unit Test
+  tests:
+  - name: Sdelete Application Execution
+    file: endpoint/ssa___sdelete_application_execution.yml
+    pass_condition: '@count_gt(0)'
+    attack_data:
+    - file_name: security.log
+      data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/sdelete/security.log
+      source: WinEventLog:Security

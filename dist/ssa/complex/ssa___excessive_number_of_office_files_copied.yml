@@ -63,12 +63,12 @@ tags:
   security_domain: endpoint
   risk_severity: medium
 test:
-  name: Excessive Number of Office Files Copied
-  file: endpoint/ssa___excessive_number_of_office_files_copied.yml
-  pass_condition: '@count_gt(0)'
-  attack_data:
-  - file_name: sysmon.log
-    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/mass_file_creation/windows-sysmon.log
-    source: xmlwineventlog
-    sourcetype: null
-    update_timestamp: null
+  name: Excessive Number of Office Files Copied Unit Test
+  tests:
+  - name: Excessive Number of Office Files Copied
+    file: endpoint/ssa___excessive_number_of_office_files_copied.yml
+    pass_condition: '@count_gt(0)'
+    attack_data:
+    - file_name: sysmon.log
+      data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/mass_file_creation/windows-sysmon.log
+      source: xmlwineventlog

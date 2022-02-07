@@ -75,12 +75,12 @@ tags:
   security_domain: endpoint
   risk_severity: medium
 test:
-  name: High File Deletion Frequency
-  file: endpoint/ssa___high_file_deletion_frequency.yml
-  pass_condition: '@count_gt(0)'
-  attack_data:
-  - file_name: sysmon.log
-    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/excessive_file_deletions/windows-sysmon.log
-    source: xmlwineventlog
-    sourcetype: null
-    update_timestamp: null
+  name: High File Deletion Frequency Unit Test
+  tests:
+  - name: High File Deletion Frequency
+    file: endpoint/ssa___high_file_deletion_frequency.yml
+    pass_condition: '@count_gt(0)'
+    attack_data:
+    - file_name: sysmon.log
+      data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/excessive_file_deletions/windows-sysmon.log
+      source: xmlwineventlog

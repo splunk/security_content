@@ -94,12 +94,12 @@ tags:
   security_domain: endpoint
   risk_severity: low
 test:
-  name: More than usual number of LOLBAS applications in short time period
-  file: endpoint/ssa___unusual_lolbas_in_short_period_of_time.yml
-  pass_condition: '@count_gt(0)'
-  attack_data:
-  - file_name: T1059.all.labeled.lolbas-test.json
-    data: https://ssa-test-dataset.s3-us-west-2.amazonaws.com/T1059.all.labeled.lolbas-test.json
-    source: WinEventLog:Security
-    sourcetype: null
-    update_timestamp: null
+  name: More than usual number of LOLBAS applications in short time period Unit Test
+  tests:
+  - name: More than usual number of LOLBAS applications in short time period
+    file: endpoint/ssa___unusual_lolbas_in_short_period_of_time.yml
+    pass_condition: '@count_gt(0)'
+    attack_data:
+    - file_name: T1059.all.labeled.lolbas-test.json
+      data: https://ssa-test-dataset.s3-us-west-2.amazonaws.com/T1059.all.labeled.lolbas-test.json
+      source: WinEventLog:Security
