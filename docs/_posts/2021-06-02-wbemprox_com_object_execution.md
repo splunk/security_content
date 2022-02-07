@@ -77,6 +77,11 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Known False Positives
 legitimate process that are not in the exception list may trigger this event.
 
+#### Associated Analytic story
+* [Ransomware](/stories/ransomware)
+* [Revil Ransomware](/stories/revil_ransomware)
+
+
 #### Kill Chain Phase
 * Exploitation
 

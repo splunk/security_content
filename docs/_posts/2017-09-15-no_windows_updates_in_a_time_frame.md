@@ -66,6 +66,10 @@ To successfully implement this search, it requires that the &#39;Update&#39; dat
 #### Known False Positives
 None identified
 
+#### Associated Analytic story
+* [Monitor for Updates](/stories/monitor_for_updates)
+
+
 #### Kill Chain Phase
 
 

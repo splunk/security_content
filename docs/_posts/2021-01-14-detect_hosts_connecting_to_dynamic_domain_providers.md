@@ -81,6 +81,15 @@ Detailed documentation on how to create a new field within Incident Review may b
 #### Known False Positives
 Some users and applications may leverage Dynamic DNS to reach out to some domains on the Internet since dynamic DNS by itself is not malicious, however this activity must be verified.
 
+#### Associated Analytic story
+* [Data Protection](/stories/data_protection)
+* [Prohibited Traffic Allowed or Protocol Mismatch](/stories/prohibited_traffic_allowed_or_protocol_mismatch)
+* [DNS Hijacking](/stories/dns_hijacking)
+* [Suspicious DNS Traffic](/stories/suspicious_dns_traffic)
+* [Dynamic DNS](/stories/dynamic_dns)
+* [Command and Control](/stories/command_and_control)
+
+
 #### Kill Chain Phase
 * Command and Control
 * Actions on Objectives

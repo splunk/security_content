@@ -78,6 +78,10 @@ You must be ingesting Zeek SSL data into Splunk. Zeek data should also be gettin
 #### Known False Positives
 Unknown
 
+#### Associated Analytic story
+* [Data Exfiltration](/stories/data_exfiltration)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

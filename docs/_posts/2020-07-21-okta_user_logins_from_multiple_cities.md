@@ -80,6 +80,10 @@ This search is specific to Okta and requires Okta logs are being ingested in you
 #### Known False Positives
 Users in your enviornment may legitmately be travelling and loggin in from different locations. This search is useful for those users that should *not* be travelling for some reason, such as the COVID-19 pandemic. The search also relies on the geographical information being populated in the Okta logs. It is also possible that a connection from another region may be attributed to a login from a remote VPN endpoint.
 
+#### Associated Analytic story
+* [Suspicious Okta Activity](/stories/suspicious_okta_activity)
+
+
 #### Kill Chain Phase
 
 

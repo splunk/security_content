@@ -65,6 +65,10 @@ To successfully implement this search, you need to be ingesting logs related to 
 #### Known False Positives
 admin can do changes directly to develop branch
 
+#### Associated Analytic story
+* [Dev Sec Ops](/stories/dev_sec_ops)
+
+
 #### Kill Chain Phase
 * Exploitation
 

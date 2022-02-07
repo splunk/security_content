@@ -85,6 +85,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Limited false positives should be present. Filter as needed by parent process or application.
 
+#### Associated Analytic story
+* [Signed Binary Proxy Execution InstallUtil](/stories/signed_binary_proxy_execution_installutil)
+
+
 #### Kill Chain Phase
 * Exploitation
 * Privilege Escalation

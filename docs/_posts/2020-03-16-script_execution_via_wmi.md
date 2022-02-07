@@ -68,6 +68,10 @@ You must be ingesting endpoint data that tracks process activity, including pare
 #### Known False Positives
 Although unlikely, administrators may use wmi to launch scripts for legitimate purposes. Filter as needed.
 
+#### Associated Analytic story
+* [Suspicious WMI Use](/stories/suspicious_wmi_use)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

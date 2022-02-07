@@ -68,6 +68,10 @@ You must be ingesting data that records the process-system activity from your ho
 #### Known False Positives
 SAM is a critical windows service, stopping it would cause major issues on an endpoint this makes false positive rare. AlthoughNo false positives have been identified.
 
+#### Associated Analytic story
+* [Ryuk Ransomware](/stories/ryuk_ransomware)
+
+
 #### Kill Chain Phase
 * Delivery
 

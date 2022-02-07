@@ -76,6 +76,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Known False Positives
 Normal Office Document macro use for automation
 
+#### Associated Analytic story
+* [Spearphishing Attachments](/stories/spearphishing_attachments)
+* [Trickbot](/stories/trickbot)
+* [IcedID](/stories/icedid)
+
+
 #### Kill Chain Phase
 * Exploitation
 

@@ -75,6 +75,12 @@ To successfully implement this search, you must be ingesting data that records p
 #### Known False Positives
 Some legitimate processes may be only rarely executed in your environment. As these are identified, update `rare_process_allow_list_local.csv` to filter them out of your search results.
 
+#### Associated Analytic story
+* [Emotet Malware  DHS Report TA18-201A ](/stories/emotet_malware__dhs_report_ta18-201a_)
+* [Unusual Processes](/stories/unusual_processes)
+* [Cloud Federated Credential Abuse](/stories/cloud_federated_credential_abuse)
+
+
 #### Kill Chain Phase
 * Installation
 * Command and Control

@@ -77,6 +77,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 False positives are limited as legitimate applications typically do not download files or xsl using WMIC. Filter as needed.
 
+#### Associated Analytic story
+* [Suspicious WMI Use](/stories/suspicious_wmi_use)
+
+
 #### Kill Chain Phase
 * Exploitation
 

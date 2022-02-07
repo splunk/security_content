@@ -83,6 +83,11 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Other third part application may used this parameter but not so common in base windows environment.
 
+#### Associated Analytic story
+* [Suspicious Regsvr32 Activity](/stories/suspicious_regsvr32_activity)
+* [Remcos](/stories/remcos)
+
+
 #### Kill Chain Phase
 * Exploitation
 

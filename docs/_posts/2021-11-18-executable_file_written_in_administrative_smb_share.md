@@ -75,6 +75,11 @@ To successfully implement this search, you need to be ingesting Windows Security
 #### Known False Positives
 System Administrators may use looks like PsExec for troubleshooting or administrations tasks. However, this will typically come only from certain users and certain systems that can be added to an allow list.
 
+#### Associated Analytic story
+* [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
+* [Trickbot](/stories/trickbot)
+
+
 #### Kill Chain Phase
 * Lateral Movement
 

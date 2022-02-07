@@ -74,6 +74,10 @@ To successfully implement this search you need to be ingesting events related to
 #### Known False Positives
 Administrators, administrative actions or certain applications may run many instances of taskhost and taskhostex concurrently.  Filter as needed.
 
+#### Associated Analytic story
+* [Meterpreter](/stories/meterpreter)
+
+
 #### Kill Chain Phase
 * Exploitation
 

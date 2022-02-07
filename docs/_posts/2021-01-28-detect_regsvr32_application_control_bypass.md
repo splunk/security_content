@@ -82,6 +82,11 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Limited false positives related to third party software registering .DLL&#39;s.
 
+#### Associated Analytic story
+* [Suspicious Regsvr32 Activity](/stories/suspicious_regsvr32_activity)
+* [Cobalt Strike](/stories/cobalt_strike)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

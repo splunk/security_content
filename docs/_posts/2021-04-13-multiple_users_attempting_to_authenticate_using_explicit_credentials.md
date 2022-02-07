@@ -79,6 +79,10 @@ To successfully implement this search, you need to be ingesting Windows Event Lo
 #### Known False Positives
 A source user failing attempting to authenticate multiple users on a host is not a common behavior for regular systems. Some applications, however, may exhibit this behavior in which case sets of users hosts can be added to an allow list. Possible false positive scenarios include systems where several users connect to like Mail servers, identity providers, remote desktop services, Citrix, etc.
 
+#### Associated Analytic story
+* [Active Directory Password Spraying](/stories/active_directory_password_spraying)
+
+
 #### Kill Chain Phase
 * Exploitation
 

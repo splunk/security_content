@@ -87,6 +87,11 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Limited to no false positives are expected.
 
+#### Associated Analytic story
+* [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
+* [IcedID](/stories/icedid)
+
+
 #### Kill Chain Phase
 * Exploitation
 * Privilege Escalation

@@ -75,6 +75,11 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Known False Positives
 Legitimate windows application that are not on the list loading this dll. Filter as needed.
 
+#### Associated Analytic story
+* [DarkSide Ransomware](/stories/darkside_ransomware)
+* [Ransomware](/stories/ransomware)
+
+
 #### Kill Chain Phase
 * Exploitation
 

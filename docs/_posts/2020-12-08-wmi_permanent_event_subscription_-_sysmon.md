@@ -80,6 +80,10 @@ To successfully implement this search, you must be collecting Sysmon data using 
 #### Known False Positives
 Although unlikely, administrators may use event subscriptions for legitimate purposes.
 
+#### Associated Analytic story
+* [Suspicious WMI Use](/stories/suspicious_wmi_use)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

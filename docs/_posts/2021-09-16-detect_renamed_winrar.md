@@ -80,6 +80,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Unknown. It is possible third party applications use renamed instances of WinRAR.
 
+#### Associated Analytic story
+* [Collection and Staging](/stories/collection_and_staging)
+
+
 #### Kill Chain Phase
 * Exploitation
 * Exfiltration

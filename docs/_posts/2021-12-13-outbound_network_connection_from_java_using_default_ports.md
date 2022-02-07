@@ -79,6 +79,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Legitimate Java applications may use perform outbound connections to these ports. Filter as needed
 
+#### Associated Analytic story
+* [Log4Shell CVE-2021-44228](/stories/log4shell_cve-2021-44228)
+
+
 #### Kill Chain Phase
 * Exploitation
 

@@ -83,6 +83,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 False positives may be present. Filtering may be required before setting to alert.
 
+#### Associated Analytic story
+* [WhisperGate](/stories/whispergate)
+
+
 #### Kill Chain Phase
 * Exploitation
 

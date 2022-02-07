@@ -82,6 +82,10 @@ You must be ingesting Windows Security logs from endpoint devices, i.e., destina
 #### Known False Positives
 Environments in which NTLM is used extremely rarely and for benign purposes (such as a rare use of SMB shares).
 
+#### Associated Analytic story
+* [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
+
+
 #### Kill Chain Phase
 * Lateral Movement
 

@@ -73,6 +73,10 @@ To successfully implement this search, you will need to ensure that DNS data is 
 #### Known False Positives
 False positives should be limited as `services.exe` should never spawn a process from `ADMIN$`. Filter as needed.
 
+#### Associated Analytic story
+* [Cobalt Strike](/stories/cobalt_strike)
+
+
 #### Kill Chain Phase
 * Exploitation
 * Privilege Escalation

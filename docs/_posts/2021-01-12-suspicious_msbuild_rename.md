@@ -89,6 +89,12 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Although unlikely, some legitimate applications may use a moved copy of msbuild, triggering a false positive.
 
+#### Associated Analytic story
+* [Trusted Developer Utilities Proxy Execution MSBuild](/stories/trusted_developer_utilities_proxy_execution_msbuild)
+* [Cobalt Strike](/stories/cobalt_strike)
+* [Masquerading - Rename System Utilities](/stories/masquerading_-_rename_system_utilities)
+
+
 #### Kill Chain Phase
 * Exploitation
 
