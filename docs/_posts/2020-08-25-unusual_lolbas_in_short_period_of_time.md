@@ -75,6 +75,10 @@ Collect endpoint data such as sysmon or 4688 events.
 Some administrative tasks may involve multiple use of LOLBAS applications in a short period of time. This might trigger false positives at the beginning when it hasn&#39;t collected yet enough data to construct the baseline.
 
 
+#### Associated Analytic story
+* [Unusual Processes](/stories/unusual_processes)
+
+
 #### Kill Chain Phase
 * Exploitation
 

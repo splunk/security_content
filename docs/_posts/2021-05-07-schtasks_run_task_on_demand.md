@@ -73,6 +73,10 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Known False Positives
 Administrators may use to debug Schedule Task entries. Filter as needed.
 
+#### Associated Analytic story
+* [XMRig](/stories/xmrig)
+
+
 #### Kill Chain Phase
 * Exploitation
 

@@ -79,6 +79,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 False positives should be limited, however it is possible to filter by Processes.process_name and specific processes (ex. wscript.exe). Filter as needed. This may need modification based on EDR telemetry and how it brings in registry data. For example, removal of (Default).
 
+#### Associated Analytic story
+* [Remcos](/stories/remcos)
+
+
 #### Kill Chain Phase
 * Exploitation
 

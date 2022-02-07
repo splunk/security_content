@@ -79,6 +79,10 @@ To successfully implement this search, you need to be ingesting Windows Event Lo
 #### Known False Positives
 A host failing to authenticate with multiple valid users against a remote host is not a common behavior for legitimate systems. Possible false positive scenarios include but are not limited to vulnerability scanners, remote administration tools, missconfigyred systems, etc.
 
+#### Associated Analytic story
+* [Active Directory Password Spraying](/stories/active_directory_password_spraying)
+
+
 #### Kill Chain Phase
 * Exploitation
 

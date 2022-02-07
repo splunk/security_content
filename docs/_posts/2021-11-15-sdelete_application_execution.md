@@ -78,6 +78,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 False positives should be limited, filter as needed.
 
+#### Associated Analytic story
+* [Information Sabotage](/stories/information_sabotage)
+
+
 #### Kill Chain Phase
 * Exploitation
 

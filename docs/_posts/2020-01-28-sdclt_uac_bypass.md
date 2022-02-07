@@ -3,7 +3,7 @@ title: "Sdclt UAC Bypass"
 excerpt: "Bypass User Account Control, Abuse Elevation Control Mechanism"
 categories:
   - Endpoint
-last_modified_at: 2021-07-01
+last_modified_at: 2020-01-28
 toc: true
 toc_label: ""
 tags:
@@ -30,7 +30,7 @@ This search is to detect a suspicious sdclt.exe registry modification. This tech
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
-- **Last Updated**: 2021-07-01
+- **Last Updated**: 2020-01-28
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: d71efbf6-da63-11eb-8c6e-acde48001122
 
@@ -47,16 +47,20 @@ This search is to detect a suspicious sdclt.exe registry modification. This tech
 
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where (Registry.registry_path= "*\\Windows\\CurrentVersion\\App Paths\\control.exe*" OR Registry.registry_path= "*\\exefile\\shell\\runas\\command\\*") (Registry.registry_value_name = "(Default)" OR Registry.registry_value_name = "IsolatedCommand") by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.dest 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where (Registry.registry_path= "*\\Windows\\CurrentVersion\\App Paths\\control.exe*" OR Registry.registry_path= "*\\exefile\\shell\\runas\\command\\*") (Registry.registry_value_name = "(Default)" OR Registry.registry_value_name = "IsolatedCommand") by _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_value_name Registry.process_guid Registry.registry_key_name Registry.registry_value_data 
 | `drop_dm_object_name(Registry)` 
-| `security_content_ctime(firstTime)` 
-| `security_content_ctime(lastTime)` 
+|rename process_guid as proc_guid 
+|join proc_guid, _time [
+| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes by _time span=1h Processes.process_id Processes.process_name Processes.process Processes.dest Processes.parent_process_name Processes.parent_process Processes.process_guid 
+| `drop_dm_object_name(Processes)` 
+|rename process_guid as proc_guid 
+| fields _time dest user parent_process_name parent_process process_name process_path process proc_guid registry_path registry_value_name registry_value_data registry_key_name] 
+| table _time dest user parent_process_name parent_process process_name process_path process proc_guid registry_path registry_value_name registry_value_data registry_key_name 
 | `sdclt_uac_bypass_filter`
 ```
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `sdclt_uac_bypass_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -74,6 +78,10 @@ To successfully implement this search you need to be ingesting information on pr
 
 #### Known False Positives
 Limited to no false positives are expected.
+
+#### Associated Analytic story
+* [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
+
 
 #### Kill Chain Phase
 * Exploitation
@@ -105,4 +113,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/sdclt_uac_bypass.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/sdclt_uac_bypass.yml) \| *version*: **2**

@@ -79,6 +79,11 @@ To successfully implement this search, you must be ingesting data that records r
 #### Known False Positives
 It is unusual for a service to be created or modified by directly manipulating the registry. However, there may be legitimate instances of this behavior. It is important to validate and investigate, as appropriate.
 
+#### Associated Analytic story
+* [Windows Service Abuse](/stories/windows_service_abuse)
+* [Windows Persistence Techniques](/stories/windows_persistence_techniques)
+
+
 #### Kill Chain Phase
 * Installation
 

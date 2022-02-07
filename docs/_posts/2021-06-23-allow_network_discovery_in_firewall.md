@@ -81,6 +81,11 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 network admin may modify this firewall feature that may cause this rule to be triggered.
 
+#### Associated Analytic story
+* [Ransomware](/stories/ransomware)
+* [Revil Ransomware](/stories/revil_ransomware)
+
+
 #### Kill Chain Phase
 * Exploitation
 

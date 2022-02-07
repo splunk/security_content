@@ -81,6 +81,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Although unlikely, some legitimate applications may retrieve a CHM remotely, filter as needed.
 
+#### Associated Analytic story
+* [Suspicious Compiled HTML Activity](/stories/suspicious_compiled_html_activity)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

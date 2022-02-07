@@ -73,6 +73,11 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Known False Positives
 unknown
 
+#### Associated Analytic story
+* [FIN7](/stories/fin7)
+* [Suspicious WMI Use](/stories/suspicious_wmi_use)
+
+
 #### Kill Chain Phase
 * Exploitation
 

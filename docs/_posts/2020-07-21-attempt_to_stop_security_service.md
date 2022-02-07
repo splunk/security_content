@@ -88,6 +88,12 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 None identified. Attempts to disable security-related services should be identified and understood.
 
+#### Associated Analytic story
+* [Disabling Security Tools](/stories/disabling_security_tools)
+* [Trickbot](/stories/trickbot)
+* [WhisperGate](/stories/whispergate)
+
+
 #### Kill Chain Phase
 * Installation
 * Actions on Objectives

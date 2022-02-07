@@ -78,6 +78,11 @@ You must be ingesting endpoint data that tracks process activity, including pare
 #### Known False Positives
 Highly possible Server Administrators will troubleshoot with ntdsutil.exe, generating false positives.
 
+#### Associated Analytic story
+* [Credential Dumping](/stories/credential_dumping)
+* [HAFNIUM Group](/stories/hafnium_group)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

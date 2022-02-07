@@ -67,6 +67,10 @@ In order to properly run this search, Splunk needs to ingest data from your web-
 #### Known False Positives
 There are no known false positives.
 
+#### Associated Analytic story
+* [Apache Struts Vulnerability](/stories/apache_struts_vulnerability)
+
+
 #### Kill Chain Phase
 * Exploitation
 

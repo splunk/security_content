@@ -94,6 +94,11 @@ To successfully implement this search you need to be ingesting information on fi
 #### Known False Positives
 False positives should be limited as the analytic is specific to a filename with extension .zip. Filter as needed.
 
+#### Associated Analytic story
+* [Discovery Techniques](/stories/discovery_techniques)
+* [Ransomware](/stories/ransomware)
+
+
 #### Kill Chain Phase
 * Reconnaissance
 

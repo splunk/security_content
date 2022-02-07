@@ -83,6 +83,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Unknown.
 
+#### Associated Analytic story
+* [PrintNightmare CVE-2021-34527](/stories/printnightmare_cve-2021-34527)
+
+
 #### Kill Chain Phase
 * Exploitation
 

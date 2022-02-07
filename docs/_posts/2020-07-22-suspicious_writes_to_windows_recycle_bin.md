@@ -74,6 +74,10 @@ To successfully implement this search you need to be ingesting information on fi
 #### Known False Positives
 Because the Recycle Bin is a hidden folder in modern versions of Windows, it would be unusual for a process other than explorer.exe to write to it. Incidents should be investigated as appropriate.
 
+#### Associated Analytic story
+* [Collection and Staging](/stories/collection_and_staging)
+
+
 #### Kill Chain Phase
 
 

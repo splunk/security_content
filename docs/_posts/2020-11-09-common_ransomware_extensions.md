@@ -81,6 +81,13 @@ Detailed documentation on how to create a new field within Incident Review may b
 #### Known False Positives
 It is possible for a legitimate file with these extensions to be created. If this is a true ransomware attack, there will be a large number of files created with these extensions.
 
+#### Associated Analytic story
+* [SamSam Ransomware](/stories/samsam_ransomware)
+* [Ryuk Ransomware](/stories/ryuk_ransomware)
+* [Ransomware](/stories/ransomware)
+* [Clop Ransomware](/stories/clop_ransomware)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

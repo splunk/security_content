@@ -80,6 +80,10 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Known False Positives
 False positive is quite limited. Filter is needed
 
+#### Associated Analytic story
+* [Remcos](/stories/remcos)
+
+
 #### Kill Chain Phase
 * Exploitation
 

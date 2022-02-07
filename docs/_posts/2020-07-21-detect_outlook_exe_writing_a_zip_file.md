@@ -87,6 +87,10 @@ You must be ingesting data that records filesystem and process activity from you
 #### Known False Positives
 It is not uncommon for outlook to write legitimate zip files to the disk.
 
+#### Associated Analytic story
+* [Spearphishing Attachments](/stories/spearphishing_attachments)
+
+
 #### Kill Chain Phase
 * Installation
 * Actions on Objectives

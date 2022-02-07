@@ -76,6 +76,13 @@ In order to properly run this search, Splunk needs to ingest data from firewalls
 #### Known False Positives
 None at this time
 
+#### Associated Analytic story
+* [Prohibited Traffic Allowed or Protocol Mismatch](/stories/prohibited_traffic_allowed_or_protocol_mismatch)
+* [Ransomware](/stories/ransomware)
+* [Command and Control](/stories/command_and_control)
+* [NOBELIUM Group](/stories/nobelium_group)
+
+
 #### Kill Chain Phase
 * Command and Control
 

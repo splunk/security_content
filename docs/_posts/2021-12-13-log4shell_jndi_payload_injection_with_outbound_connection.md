@@ -89,6 +89,10 @@ This detection requires the Web datamodel to be populated from a supported Techn
 #### Known False Positives
 If there is a vulnerablility scannner looking for log4shells this will trigger, otherwise likely to have low false positives.
 
+#### Associated Analytic story
+* [Log4Shell CVE-2021-44228](/stories/log4shell_cve-2021-44228)
+
+
 #### Kill Chain Phase
 * Exploitation
 

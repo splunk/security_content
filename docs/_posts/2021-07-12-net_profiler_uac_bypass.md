@@ -75,6 +75,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 limited false positive. It may trigger by some windows update that will modify this registry.
 
+#### Associated Analytic story
+* [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
+
+
 #### Kill Chain Phase
 * Exploitation
 
