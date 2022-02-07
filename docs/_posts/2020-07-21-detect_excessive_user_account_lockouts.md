@@ -80,6 +80,10 @@ ou must ingest your Windows security event logs in the `Change` datamodel under 
 #### Known False Positives
 It is possible that a legitimate user is experiencing an issue causing multiple account login failures leading to lockouts.
 
+#### Associated Analytic story
+* [Account Monitoring and Controls](/stories/account_monitoring_and_controls)
+
+
 #### Kill Chain Phase
 
 

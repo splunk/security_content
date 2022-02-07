@@ -84,6 +84,10 @@ This search is specific to Okta and requires Okta logs are being ingested in you
 #### Known False Positives
 A single public IP address servicing multiple legitmate users may trigger this search. In addition, the threshold of 5 distinct users may be too low for your needs. You may modify the included filter macro `multiple_okta_users_with_invalid_credentials_from_the_same_ip_filter` to raise the threshold or except specific IP adresses from triggering this search.
 
+#### Associated Analytic story
+* [Suspicious Okta Activity](/stories/suspicious_okta_activity)
+
+
 #### Kill Chain Phase
 
 

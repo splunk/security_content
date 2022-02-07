@@ -66,6 +66,10 @@ You need to ingest data from your web traffic. This can be accomplished by index
 #### Known False Positives
 None at this time
 
+#### Associated Analytic story
+* [Brand Monitoring](/stories/brand_monitoring)
+
+
 #### Kill Chain Phase
 * Delivery
 

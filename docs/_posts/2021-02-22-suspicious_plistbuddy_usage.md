@@ -87,6 +87,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Some legitimate applications may use PlistBuddy to create or modify property lists and possibly generate false positives. Review the property list being modified or created to confirm.
 
+#### Associated Analytic story
+* [Silver Sparrow](/stories/silver_sparrow)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

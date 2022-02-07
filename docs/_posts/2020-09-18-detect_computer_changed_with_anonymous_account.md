@@ -68,6 +68,10 @@ This search requires audit computer account management to be enabled on the syst
 #### Known False Positives
 None thus far found
 
+#### Associated Analytic story
+* [Detect Zerologon Attack](/stories/detect_zerologon_attack)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

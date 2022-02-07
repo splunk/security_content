@@ -84,6 +84,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Limited false positives have been identified. There are limited instances where `rundll32.exe` may be spawned by a legitimate print driver.
 
+#### Associated Analytic story
+* [PrintNightmare CVE-2021-34527](/stories/printnightmare_cve-2021-34527)
+
+
 #### Kill Chain Phase
 * Exploitation
 

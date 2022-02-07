@@ -79,6 +79,10 @@ You will need to ensure PrintService Admin and Operational logs are being logged
 #### Known False Positives
 False positives are unknown and filtering may be required.
 
+#### Associated Analytic story
+* [PrintNightmare CVE-2021-34527](/stories/printnightmare_cve-2021-34527)
+
+
 #### Kill Chain Phase
 * Exploitation
 

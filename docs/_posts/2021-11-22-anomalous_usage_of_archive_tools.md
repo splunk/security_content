@@ -73,6 +73,11 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 False positives can be ligitmate usage of archive tools from the command line.
 
+#### Associated Analytic story
+* [Cobalt Strike](/stories/cobalt_strike)
+* [NOBELIUM Group](/stories/nobelium_group)
+
+
 #### Kill Chain Phase
 * Actions on Objective
 

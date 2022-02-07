@@ -72,6 +72,10 @@ To successfully implement this search you must ensure that DNS data is populatin
 #### Known False Positives
 Legitimate ANY requests may trigger this search, however it is unusual to see a large volume of them under typical circumstances. You may modify the threshold in the search to better suit your environment.
 
+#### Associated Analytic story
+* [DNS Amplification Attacks](/stories/dns_amplification_attacks)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

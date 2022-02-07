@@ -194,6 +194,10 @@ Out of the box, the Web datamodel is required to be pre-filled. However, tested 
 #### Known False Positives
 It is highly possible you will find false positives, however, the base score is set to 2 for _any_ jndi found in raw logs. tune and change as needed, include any filtering.
 
+#### Associated Analytic story
+* [Log4Shell CVE-2021-44228](/stories/log4shell_cve-2021-44228)
+
+
 #### Kill Chain Phase
 * Exploitation
 

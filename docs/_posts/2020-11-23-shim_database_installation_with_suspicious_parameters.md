@@ -75,6 +75,10 @@ You must be ingesting data that records process activity from your hosts to popu
 #### Known False Positives
 None identified
 
+#### Associated Analytic story
+* [Windows Persistence Techniques](/stories/windows_persistence_techniques)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

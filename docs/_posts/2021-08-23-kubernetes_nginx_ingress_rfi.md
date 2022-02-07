@@ -71,6 +71,10 @@ You must ingest Kubernetes logs through Splunk Connect for Kubernetes.
 #### Known False Positives
 unknown
 
+#### Associated Analytic story
+* [Dev Sec Ops](/stories/dev_sec_ops)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

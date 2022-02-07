@@ -78,6 +78,10 @@ To successfully implement this search, you need to be ingesting Windows event lo
 #### Known False Positives
 Renaming a computer account name to a name that not end with &#39;$&#39; is highly unsual and may not have any legitimate scenarios.
 
+#### Associated Analytic story
+* [sAMAccountName Spoofing and Domain Controller Impersonation](/stories/samaccountname_spoofing_and_domain_controller_impersonation)
+
+
 #### Kill Chain Phase
 * Privilege Escalation
 

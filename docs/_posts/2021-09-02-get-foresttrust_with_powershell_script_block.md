@@ -71,6 +71,10 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 #### Known False Positives
 UPDATE_KNOWN_FALSE_POSITIVES
 
+#### Associated Analytic story
+* [Active Directory Discovery](/stories/active_directory_discovery)
+
+
 #### Kill Chain Phase
 * Reconnaissance
 

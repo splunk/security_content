@@ -79,6 +79,10 @@ To successfully implement this search, you must be ingesting data that records r
 #### Known False Positives
 unknown
 
+#### Associated Analytic story
+* [Credential Dumping](/stories/credential_dumping)
+
+
 #### Kill Chain Phase
 * Exploitation
 

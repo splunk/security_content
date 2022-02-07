@@ -69,6 +69,10 @@ To successfully implement this search, you need to be monitoring web traffic to 
 #### Known False Positives
 There might be false positives associted with this detection since items like args as a web argument is pretty generic.
 
+#### Associated Analytic story
+* [NOBELIUM Group](/stories/nobelium_group)
+
+
 #### Kill Chain Phase
 * Exfiltration
 

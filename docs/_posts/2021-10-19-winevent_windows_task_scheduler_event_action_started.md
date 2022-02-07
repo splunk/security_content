@@ -72,6 +72,11 @@ Task Scheduler logs are required to be collected. Enable logging with inputs.con
 #### Known False Positives
 False positives will be present. Filter based on ActionName paths or specify keywords of interest.
 
+#### Associated Analytic story
+* [IcedID](/stories/icedid)
+* [Windows Persistence Techniques](/stories/windows_persistence_techniques)
+
+
 #### Kill Chain Phase
 * Exploitation
 

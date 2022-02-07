@@ -78,6 +78,10 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Known False Positives
 Legitimate programs use command-line arguments to execute. Verify the command-line arguments to check what command/program is being executed. Filtering will be needed.
 
+#### Associated Analytic story
+* [Unusual Processes](/stories/unusual_processes)
+
+
 #### Kill Chain Phase
 * Command and Control
 * Actions on Objectives

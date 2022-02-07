@@ -81,6 +81,12 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Limited false positives may be present. Filter as needed by parent process or command line argument.
 
+#### Associated Analytic story
+* [Ransomware](/stories/ransomware)
+* [Ryuk Ransomware](/stories/ryuk_ransomware)
+* [Windows Persistence Techniques](/stories/windows_persistence_techniques)
+
+
 #### Kill Chain Phase
 * Exploitation
 * Privilege Escalation

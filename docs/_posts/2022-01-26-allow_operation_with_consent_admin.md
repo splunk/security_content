@@ -74,6 +74,10 @@ To successfully implement this search, you must be ingesting data that records r
 #### Known False Positives
 unknown
 
+#### Associated Analytic story
+* [Ransomware](/stories/ransomware)
+
+
 #### Kill Chain Phase
 * Exploitation
 

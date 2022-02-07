@@ -77,6 +77,10 @@ You must install splunk AWS add on and Splunk App for AWS. This search works wit
 #### Known False Positives
 Not all permanent key creations are malicious. If there is a policy of rotating keys this search can be adjusted to provide better context.
 
+#### Associated Analytic story
+* [AWS Cross Account Activity](/stories/aws_cross_account_activity)
+
+
 #### Kill Chain Phase
 * Lateral Movement
 

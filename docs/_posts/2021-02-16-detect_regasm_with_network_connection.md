@@ -76,6 +76,10 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Known False Positives
 Although unlikely, limited instances of regasm.exe with a network connection may cause a false positive. Filter based endpoint usage, command line arguments, or process lineage.
 
+#### Associated Analytic story
+* [Suspicious Regsvcs Regasm Activity](/stories/suspicious_regsvcs_regasm_activity)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 
