@@ -76,6 +76,12 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 #### Known False Positives
 The false-positive rate may vary based on the values of`dataPointThreshold` and `deviationThreshold`. Additionally, false positives may result when AWS administrators roll out policies enforcing network blocks, causing sudden increases in the number of blocked outbound connections.
 
+#### Associated Analytic story
+* [AWS Network ACL Activity](/stories/aws_network_acl_activity)
+* [Suspicious AWS Traffic](/stories/suspicious_aws_traffic)
+* [Command and Control](/stories/command_and_control)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 * Command and Control

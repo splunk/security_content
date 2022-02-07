@@ -100,6 +100,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Unknown.
 
+#### Associated Analytic story
+* [Discovery Techniques](/stories/discovery_techniques)
+
+
 #### Kill Chain Phase
 * Reconnaissance
 

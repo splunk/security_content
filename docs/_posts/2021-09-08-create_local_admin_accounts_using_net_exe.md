@@ -80,6 +80,10 @@ You must be ingesting data that records process activity from your hosts to popu
 #### Known False Positives
 Administrators often leverage net.exe to create admin accounts.
 
+#### Associated Analytic story
+* [DHS Report TA18-074A](/stories/dhs_report_ta18-074a)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

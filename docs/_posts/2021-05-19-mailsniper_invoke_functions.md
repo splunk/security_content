@@ -72,6 +72,10 @@ To successfully implement this search, you need to be ingesting logs with the po
 #### Known False Positives
 unknown
 
+#### Associated Analytic story
+* [Data Exfiltration](/stories/data_exfiltration)
+
+
 #### Kill Chain Phase
 * Exploitation
 

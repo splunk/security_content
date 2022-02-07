@@ -68,6 +68,11 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Known False Positives
 It is possible administrative scripts may start/stop/delete services. Filter as needed.
 
+#### Associated Analytic story
+* [XMRig](/stories/xmrig)
+* [Ransomware](/stories/ransomware)
+
+
 #### Kill Chain Phase
 * Exploitation
 

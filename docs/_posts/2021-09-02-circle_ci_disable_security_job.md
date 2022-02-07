@@ -76,6 +76,10 @@ You must index CircleCI logs.
 #### Known False Positives
 unknown
 
+#### Associated Analytic story
+* [Dev Sec Ops](/stories/dev_sec_ops)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

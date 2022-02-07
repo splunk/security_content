@@ -67,6 +67,13 @@ You must be ingesting endpoint data that monitors command lines and populates th
 #### Known False Positives
 Some legitimate applications use long command lines for installs or updates. You should review identified command lines for legitimacy. You may modify the first part of the search to omit legitimate command lines from consideration. If you are seeing more results than desired, you may consider changing the value of threshold in the search to a smaller value. You should also periodically re-run the support search to re-build the ML model on the latest data. You may get unexpected results if the user identified in the results is not present in the data used to build the associated model.
 
+#### Associated Analytic story
+* [Suspicious Command-Line Executions](/stories/suspicious_command-line_executions)
+* [Unusual Processes](/stories/unusual_processes)
+* [Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns](/stories/possible_backdoor_activity_associated_with_mudcarp_espionage_campaigns)
+* [Ransomware](/stories/ransomware)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

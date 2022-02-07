@@ -69,6 +69,10 @@ You must be ingesting endpoint data that tracks process activity, including Wind
 #### Known False Positives
 False positives should be limited, filter as needed.
 
+#### Associated Analytic story
+* [Credential Dumping](/stories/credential_dumping)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

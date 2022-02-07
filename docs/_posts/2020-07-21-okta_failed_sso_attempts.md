@@ -80,6 +80,10 @@ This search is specific to Okta and requires Okta logs are being ingested in you
 #### Known False Positives
 There may be a faulty config preventing legitmate users from accessing apps they should have access to.
 
+#### Associated Analytic story
+* [Suspicious Okta Activity](/stories/suspicious_okta_activity)
+
+
 #### Kill Chain Phase
 
 

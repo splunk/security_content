@@ -76,6 +76,10 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Known False Positives
 Legitimate applications may trigger this behavior, filter as needed.
 
+#### Associated Analytic story
+* [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
+
+
 #### Kill Chain Phase
 * Lateral Movement
 

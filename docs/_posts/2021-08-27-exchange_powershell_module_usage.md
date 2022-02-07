@@ -78,6 +78,10 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 #### Known False Positives
 Administrators or power users may use this PowerShell commandlet for troubleshooting.
 
+#### Associated Analytic story
+* [ProxyShell](/stories/proxyshell)
+
+
 #### Kill Chain Phase
 * Reconnaissance
 * Exploitation

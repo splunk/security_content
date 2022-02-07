@@ -93,6 +93,11 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Known False Positives
 Although uncommon, Administrators may leverage Impackets tools to start a process on remote systems for system administration or automation use cases.
 
+#### Associated Analytic story
+* [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
+* [WhisperGate](/stories/whispergate)
+
+
 #### Kill Chain Phase
 * Lateral Movement
 

@@ -72,6 +72,13 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Administrators may use nltest for troubleshooting purposes, otherwise, rarely used.
 
+#### Associated Analytic story
+* [Ryuk Ransomware](/stories/ryuk_ransomware)
+* [Domain Trust Discovery](/stories/domain_trust_discovery)
+* [IcedID](/stories/icedid)
+* [Active Directory Discovery](/stories/active_directory_discovery)
+
+
 #### Kill Chain Phase
 * Exploitation
 

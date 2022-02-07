@@ -89,6 +89,10 @@ This search relies on the Splunk Add-on for Google Cloud Platform, setting up a 
 #### Known False Positives
 GCP Storage buckets can be accessed from any IP (if the ACLs are open to allow it), as long as it can make a successful connection. This will be a false postive, since the search is looking for a new IP within the past two hours.
 
+#### Associated Analytic story
+* [Suspicious GCP Storage Activities](/stories/suspicious_gcp_storage_activities)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

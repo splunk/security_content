@@ -74,6 +74,11 @@ To successfully implement this search, you need to be ingesting logs with the st
 #### Known False Positives
 unknown
 
+#### Associated Analytic story
+* [Command and Control](/stories/command_and_control)
+* [Data Exfiltration](/stories/data_exfiltration)
+
+
 #### Kill Chain Phase
 * Exfiltration
 

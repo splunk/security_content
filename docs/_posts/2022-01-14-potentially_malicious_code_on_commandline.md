@@ -78,6 +78,10 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Known False Positives
 This model is an anomaly detector that identifies usage of APIs and scripting constructs that are correllated with malicious activity.  These APIs and scripting constructs are part of the programming langauge and advanced scripts may generate false positives.
 
+#### Associated Analytic story
+* [Suspicious Command-Line Executions](/stories/suspicious_command-line_executions)
+
+
 #### Kill Chain Phase
 * Exploitation
 

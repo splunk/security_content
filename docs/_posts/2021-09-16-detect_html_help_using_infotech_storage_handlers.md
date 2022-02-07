@@ -81,6 +81,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 It is rare to see instances of InfoTech Storage Handlers being used, but it does happen in some legitimate instances. Filter as needed.
 
+#### Associated Analytic story
+* [Suspicious Compiled HTML Activity](/stories/suspicious_compiled_html_activity)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

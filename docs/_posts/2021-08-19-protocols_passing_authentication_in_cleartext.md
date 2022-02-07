@@ -64,6 +64,10 @@ This search requires you to be ingesting your network traffic, and populating th
 #### Known False Positives
 Some networks may use kerberized FTP or telnet servers, however, this is rare.
 
+#### Associated Analytic story
+* [Use of Cleartext Protocols](/stories/use_of_cleartext_protocols)
+
+
 #### Kill Chain Phase
 * Reconnaissance
 * Actions on Objectives

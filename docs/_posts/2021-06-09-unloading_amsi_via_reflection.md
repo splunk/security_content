@@ -70,6 +70,10 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 #### Known False Positives
 Potential for some third party applications to disable AMSI upon invocation. Filter as needed.
 
+#### Associated Analytic story
+* [Malicious PowerShell](/stories/malicious_powershell)
+
+
 #### Kill Chain Phase
 * Exploitation
 
