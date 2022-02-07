@@ -81,6 +81,11 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 There may be legitimate reasons to bypass the PowerShell execution policy. The PowerShell script being run with this parameter should be validated to ensure that it is legitimate.
 
+#### Associated Analytic story
+* [DHS Report TA18-074A](/stories/dhs_report_ta18-074a)
+* [HAFNIUM Group](/stories/hafnium_group)
+
+
 #### Kill Chain Phase
 * Command and Control
 * Actions on Objectives

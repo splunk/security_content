@@ -68,6 +68,11 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Administrators may modify the boot configuration.
 
+#### Associated Analytic story
+* [Ryuk Ransomware](/stories/ryuk_ransomware)
+* [Ransomware](/stories/ransomware)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

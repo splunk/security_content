@@ -78,6 +78,10 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Known False Positives
 unknown. all of the dll loaded by mmc.exe is microsoft signed dll.
 
+#### Associated Analytic story
+* [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
+
+
 #### Kill Chain Phase
 * Exploitation
 

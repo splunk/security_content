@@ -75,6 +75,10 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Known False Positives
 not so common. but 3rd part app may load this dll.
 
+#### Associated Analytic story
+* [Ransomware](/stories/ransomware)
+
+
 #### Kill Chain Phase
 * Exploitation
 

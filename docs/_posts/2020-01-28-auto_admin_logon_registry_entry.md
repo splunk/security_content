@@ -3,7 +3,7 @@ title: "Auto Admin Logon Registry Entry"
 excerpt: "Credentials in Registry, Unsecured Credentials"
 categories:
   - Endpoint
-last_modified_at: 2021-09-06
+last_modified_at: 2020-01-28
 toc: true
 toc_label: ""
 tags:
@@ -28,7 +28,7 @@ this search is to detect a suspicious registry modification to implement auto ad
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
-- **Last Updated**: 2021-09-06
+- **Last Updated**: 2020-01-28
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: 1379d2b8-0f18-11ec-8ca3-acde48001122
 
@@ -45,16 +45,20 @@ this search is to detect a suspicious registry modification to implement auto ad
 
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= "*SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon*" AND Registry.registry_key_name=AutoAdminLogon AND Registry.registry_value_name=1 by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.dest 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= "*SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon*" AND Registry.registry_value_name=AutoAdminLogon AND Registry.registry_value_data=1 by _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_value_name Registry.process_guid Registry.registry_key_name Registry.registry_value_data 
 | `drop_dm_object_name(Registry)` 
-| `security_content_ctime(firstTime)` 
-|`security_content_ctime(lastTime)` 
+|rename process_guid as proc_guid 
+|join proc_guid, _time [
+| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes by _time span=1h Processes.process_id Processes.process_name Processes.process Processes.dest Processes.parent_process_name Processes.parent_process Processes.process_guid 
+| `drop_dm_object_name(Processes)` 
+|rename process_guid as proc_guid 
+| fields _time dest user parent_process_name parent_process process_name process_path process proc_guid registry_path registry_value_name registry_value_data registry_key_name] 
+| table _time dest user parent_process_name parent_process process_name process_path process proc_guid registry_path registry_value_name registry_value_data registry_key_name 
 | `auto_admin_logon_registry_entry_filter`
 ```
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `auto_admin_logon_registry_entry_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -72,6 +76,10 @@ To successfully implement this search you need to be ingesting information on pr
 
 #### Known False Positives
 unknown
+
+#### Associated Analytic story
+* [BlackMatter Ransomware](/stories/blackmatter_ransomware)
+
 
 #### Kill Chain Phase
 * Exploitation
@@ -101,4 +109,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/auto_admin_logon_registry_entry.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/auto_admin_logon_registry_entry.yml) \| *version*: **2**

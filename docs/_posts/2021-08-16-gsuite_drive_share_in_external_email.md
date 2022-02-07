@@ -81,6 +81,10 @@ To successfully implement this search, you need to be ingesting logs related to 
 #### Known False Positives
 network admin or normal user may share files to customer and external team.
 
+#### Associated Analytic story
+* [Dev Sec Ops](/stories/dev_sec_ops)
+
+
 #### Kill Chain Phase
 * Exfiltration
 

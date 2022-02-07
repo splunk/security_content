@@ -60,6 +60,10 @@ You must install splunk AWS add on and Splunk App for AWS. This search works wit
 #### Known False Positives
 Kubectl calls are not malicious by nature. However source IP, verb and Object can reveal potential malicious activity, specially anonymous suspicious IPs and sensitive objects such as configmaps or secrets
 
+#### Associated Analytic story
+* [Kubernetes Sensitive Object Access Activity](/stories/kubernetes_sensitive_object_access_activity)
+
+
 #### Kill Chain Phase
 * Lateral Movement
 

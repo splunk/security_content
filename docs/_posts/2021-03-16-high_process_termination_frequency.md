@@ -70,6 +70,10 @@ To successfully implement this search, you need to be ingesting logs with the Im
 #### Known False Positives
 admin or user tool that can terminate multiple process.
 
+#### Associated Analytic story
+* [Clop Ransomware](/stories/clop_ransomware)
+
+
 #### Kill Chain Phase
 * Exploitation
 

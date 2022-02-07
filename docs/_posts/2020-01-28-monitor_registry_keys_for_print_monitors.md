@@ -3,7 +3,7 @@ title: "Monitor Registry Keys for Print Monitors"
 excerpt: "Port Monitors, Boot or Logon Autostart Execution"
 categories:
   - Endpoint
-last_modified_at: 2020-11-23
+last_modified_at: 2020-01-28
 toc: true
 toc_label: ""
 tags:
@@ -29,8 +29,8 @@ This search looks for registry activity associated with modifications to the reg
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **Last Updated**: 2020-11-23
-- **Author**: Bhavin Patel, Splunk
+- **Last Updated**: 2020-01-28
+- **Author**: Bhavin Patel, Teoderick Contreras, Splunk
 - **ID**: f5f6af30-7ba7-4295-bfe9-07de87c01bbc
 
 
@@ -46,8 +46,15 @@ This search looks for registry activity associated with modifications to the reg
 
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.action=modified AND Registry.registry_path="*CurrentControlSet\\Control\\Print\\Monitors*" by Registry.dest, Registry.registry_key_name Registry.user Registry.registry_path Registry.registry_value_name Registry.action 
+| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry where Registry.action=modified AND Registry.registry_path="*CurrentControlSet\\Control\\Print\\Monitors*" by _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_value_name Registry.process_guid Registry.registry_key_name Registry.registry_value_data 
 | `drop_dm_object_name(Registry)` 
+|rename process_guid as proc_guid 
+|join proc_guid, _time [
+| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes by _time span=1h Processes.process_id Processes.process_name Processes.process Processes.dest Processes.parent_process_name Processes.parent_process Processes.process_guid 
+| `drop_dm_object_name(Processes)` 
+|rename process_guid as proc_guid 
+| fields _time dest user parent_process_name parent_process process_name process_path process proc_guid registry_path registry_value_name registry_value_data registry_key_name] 
+| table _time dest user parent_process_name parent_process process_name process_path process proc_guid registry_path registry_value_name registry_value_data registry_key_name 
 | `monitor_registry_keys_for_print_monitors_filter`
 ```
 
@@ -73,6 +80,11 @@ To successfully implement this search, you must be ingesting data that records r
 #### Known False Positives
 You will encounter noise from legitimate print-monitor registry entries.
 
+#### Associated Analytic story
+* [Suspicious Windows Registry Activities](/stories/suspicious_windows_registry_activities)
+* [Windows Persistence Techniques](/stories/windows_persistence_techniques)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 
@@ -95,7 +107,8 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.010/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.010/atomic_red_team/windows-sysmon.log)
+* [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.010/atomic_red_team/sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.010/atomic_red_team/sysmon.log)
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/monitor_registry_keys_for_print_monitors.yml) \| *version*: **2**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/monitor_registry_keys_for_print_monitors.yml) \| *version*: **3**

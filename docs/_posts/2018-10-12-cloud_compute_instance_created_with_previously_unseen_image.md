@@ -72,6 +72,10 @@ You must be ingesting your cloud infrastructure logs from your cloud provider. Y
 #### Known False Positives
 After a new image is created, the first systems created with that image will cause this alert to fire.  Verify that the image being used was created by a legitimate user.
 
+#### Associated Analytic story
+* [Cloud Cryptomining](/stories/cloud_cryptomining)
+
+
 #### Kill Chain Phase
 
 

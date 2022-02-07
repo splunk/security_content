@@ -78,6 +78,11 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 False positives should be limited as this behavior is not normal for `rundll32.exe` or `dllhost.exe` to spawn and run 7zip.
 
+#### Associated Analytic story
+* [Cobalt Strike](/stories/cobalt_strike)
+* [NOBELIUM Group](/stories/nobelium_group)
+
+
 #### Kill Chain Phase
 * Actions on Objective
 

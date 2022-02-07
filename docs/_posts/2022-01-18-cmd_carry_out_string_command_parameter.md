@@ -80,6 +80,12 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 False positives may be high based on legitimate scripted code in any environment. Filter as needed.
 
+#### Associated Analytic story
+* [IcedID](/stories/icedid)
+* [Log4Shell CVE-2021-44228](/stories/log4shell_cve-2021-44228)
+* [WhisperGate](/stories/whispergate)
+
+
 #### Kill Chain Phase
 * Exploitation
 

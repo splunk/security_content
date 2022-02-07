@@ -90,6 +90,10 @@ You must be ingesting the appropriate cloud-infrastructure logs Run the &#34;Pre
 #### Known False Positives
 It&#39;s possible that a user will start to create compute instances for the first time, for any number of reasons. Verify with the user launching instances that this is the intended behavior.
 
+#### Associated Analytic story
+* [Cloud Cryptomining](/stories/cloud_cryptomining)
+
+
 #### Kill Chain Phase
 
 

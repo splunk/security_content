@@ -72,6 +72,10 @@ To successfully implement this search, you need to be ingesting logs with the po
 #### Known False Positives
 administrator may allow inbound traffic in certain network or machine.
 
+#### Associated Analytic story
+* [Prohibited Traffic Allowed or Protocol Mismatch](/stories/prohibited_traffic_allowed_or_protocol_mismatch)
+
+
 #### Kill Chain Phase
 * Exploitation
 

@@ -81,6 +81,12 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 None identified.
 
+#### Associated Analytic story
+* [Credential Dumping](/stories/credential_dumping)
+* [Suspicious Rundll32 Activity](/stories/suspicious_rundll32_activity)
+* [HAFNIUM Group](/stories/hafnium_group)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

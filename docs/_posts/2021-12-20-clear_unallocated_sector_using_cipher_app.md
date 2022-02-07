@@ -76,6 +76,11 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 administrator may execute this app to manage disk
 
+#### Associated Analytic story
+* [Ransomware](/stories/ransomware)
+* [Information Sabotage](/stories/information_sabotage)
+
+
 #### Kill Chain Phase
 * Exploitation
 
