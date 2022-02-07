@@ -74,6 +74,10 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Known False Positives
 normal application like mmc.exe and other ldap query tool may trigger this detections.
 
+#### Associated Analytic story
+* [blackMatter ransomware](/stories/blackmatter_ransomware)
+
+
 #### Kill Chain Phase
 * Exploitation
 

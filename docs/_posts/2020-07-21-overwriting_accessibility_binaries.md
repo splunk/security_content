@@ -75,6 +75,10 @@ You must be ingesting data that records the filesystem activity from your hosts 
 #### Known False Positives
 Microsoft may provide updates to these binaries. Verify that these changes do not correspond with your normal software update cycle.
 
+#### Associated Analytic story
+* [Windows Privilege Escalation](/stories/windows_privilege_escalation)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

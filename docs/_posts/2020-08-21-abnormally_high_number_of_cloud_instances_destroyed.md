@@ -91,6 +91,10 @@ You must be ingesting your cloud infrastructure logs. You also must run the base
 #### Known False Positives
 Many service accounts configured within a cloud infrastructure are known to exhibit this behavior. Please adjust the threshold values and filter out service accounts from the output. Always verify if this search alerted on a human user.
 
+#### Associated Analytic story
+* [Suspicious Cloud Instance Activities](/stories/suspicious_cloud_instance_activities)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

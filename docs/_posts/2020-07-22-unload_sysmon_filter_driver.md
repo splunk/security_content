@@ -76,6 +76,10 @@ You must be ingesting data that records process activity from your hosts to popu
 #### Known False Positives
 
 
+#### Associated Analytic story
+* [Disabling Security Tools](/stories/disabling_security_tools)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

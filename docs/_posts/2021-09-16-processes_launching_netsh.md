@@ -76,6 +76,12 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Some VPN applications are known to launch netsh.exe. Outside of these instances, it is unusual for an executable to launch netsh.exe and run commands.
 
+#### Associated Analytic story
+* [Netsh Abuse](/stories/netsh_abuse)
+* [Disabling Security Tools](/stories/disabling_security_tools)
+* [DHS Report TA18-074A](/stories/dhs_report_ta18-074a)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

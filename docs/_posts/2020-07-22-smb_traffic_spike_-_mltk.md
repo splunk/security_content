@@ -82,6 +82,13 @@ Detailed documentation on how to create a new field within Incident Review is fo
 #### Known False Positives
 If you are seeing more results than desired, you may consider reducing the value of the threshold in the search. You should also periodically re-run the support search to re-build the ML model on the latest data. Please update the `smb_traffic_spike_mltk_filter` macro to filter out false positive results
 
+#### Associated Analytic story
+* [Emotet Malware  DHS Report TA18-201A ](/stories/emotet_malware__dhs_report_ta18-201a_)
+* [Hidden Cobra Malware](/stories/hidden_cobra_malware)
+* [Ransomware](/stories/ransomware)
+* [DHS Report TA18-074A](/stories/dhs_report_ta18-074a)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

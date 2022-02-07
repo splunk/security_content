@@ -79,6 +79,11 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 It is possible Administrators or super users will use Curl for legitimate purposes. Filter as needed.
 
+#### Associated Analytic story
+* [IceID](/stories/iceid)
+* [Ingress Tool Transfer](/stories/ingress_tool_transfer)
+
+
 #### Kill Chain Phase
 * Exploitation
 

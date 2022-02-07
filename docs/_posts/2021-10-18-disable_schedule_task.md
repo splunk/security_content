@@ -73,6 +73,10 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Known False Positives
 admin may disable problematic schedule task
 
+#### Associated Analytic story
+* [IcedID](/stories/icedid)
+
+
 #### Kill Chain Phase
 * Exploitation
 

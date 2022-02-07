@@ -3,7 +3,7 @@ title: "Registry Keys for Creating SHIM Databases"
 excerpt: "Application Shimming, Event Triggered Execution"
 categories:
   - Endpoint
-last_modified_at: 2020-11-26
+last_modified_at: 2020-01-28
 toc: true
 toc_label: ""
 tags:
@@ -29,8 +29,8 @@ This search looks for registry activity associated with application compatibilit
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **Last Updated**: 2020-11-26
-- **Author**: Bhavin Patel, Patrick Bareiss, Splunk
+- **Last Updated**: 2020-01-28
+- **Author**: Bhavin Patel, Patrick Bareiss, Teoderick Contreras, Splunk
 - **ID**: f5f6af30-7aa7-4295-bfe9-07fe87c01bbb
 
 
@@ -46,16 +46,20 @@ This search looks for registry activity associated with application compatibilit
 
 ```
 
-| tstats `security_content_summariesonly` count values(Registry.registry_key_name) as registry_key_name min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path=*CurrentVersion\\AppCompatFlags\\Custom* OR Registry.registry_path=*CurrentVersion\\AppCompatFlags\\InstalledSDB* by Registry.dest Registry.user 
-| `security_content_ctime(lastTime)` 
-| `security_content_ctime(firstTime)` 
+| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry where Registry.registry_path=*CurrentVersion\\AppCompatFlags\\Custom* OR Registry.registry_path=*CurrentVersion\\AppCompatFlags\\InstalledSDB* by _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_value_name Registry.registry_value_data Registry.process_guid 
 | `drop_dm_object_name(Registry)` 
+|rename process_guid as proc_guid 
+|join proc_guid, _time [
+| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes by _time span=1h Processes.process_id Processes.process_name Processes.process Processes.dest Processes.parent_process_name Processes.parent_process Processes.process_guid 
+| `drop_dm_object_name(Processes)` 
+|rename process_guid as proc_guid 
+| fields _time dest user parent_process_name parent_process process_name process_path process proc_guid registry_path registry_value_name registry_value_data] 
+| table _time dest user parent_process_name parent_process process_name process_path process proc_guid registry_path registry_value_name registry_value_data 
 | `registry_keys_for_creating_shim_databases_filter`
 ```
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `registry_keys_for_creating_shim_databases_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -73,6 +77,11 @@ To successfully implement this search, you must populate the Change_Analysis dat
 
 #### Known False Positives
 There are many legitimate applications that leverage shim databases for compatibility purposes for legacy applications
+
+#### Associated Analytic story
+* [Suspicious Windows Registry Activities](/stories/suspicious_windows_registry_activities)
+* [Windows Persistence Techniques](/stories/windows_persistence_techniques)
+
 
 #### Kill Chain Phase
 * Actions on Objectives
@@ -99,4 +108,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/registry_keys_for_creating_shim_databases.yml) \| *version*: **3**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/registry_keys_for_creating_shim_databases.yml) \| *version*: **4**

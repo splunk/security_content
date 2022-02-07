@@ -73,6 +73,10 @@ To successfully implement this search, you must be ingesting the Windows WMI act
 #### Known False Positives
 Although unlikely, administrators may use event subscriptions for legitimate purposes.
 
+#### Associated Analytic story
+* [Suspicious WMI Use](/stories/suspicious_wmi_use)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

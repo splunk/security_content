@@ -73,6 +73,10 @@ To successfully implement this search, you need to be ingesting logs related to 
 #### Known False Positives
 normal user or normal transaction may contain the subject and file type attachment that this detection try to search.
 
+#### Associated Analytic story
+* [Dev Sec Ops](/stories/dev_sec_ops)
+
+
 #### Kill Chain Phase
 * Exploitation
 

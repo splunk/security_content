@@ -68,6 +68,10 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Known False Positives
 System administrators may use this windows utility. filter is needed.
 
+#### Associated Analytic story
+* [XMRig](/stories/xmrig)
+
+
 #### Kill Chain Phase
 * Exploitation
 

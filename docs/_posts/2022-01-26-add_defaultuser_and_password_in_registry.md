@@ -77,6 +77,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 unknown
 
+#### Associated Analytic story
+* [BlackMatter Ransomware](/stories/blackmatter_ransomware)
+
+
 #### Kill Chain Phase
 * Exploitation
 

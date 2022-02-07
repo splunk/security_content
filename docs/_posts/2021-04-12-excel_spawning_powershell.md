@@ -80,6 +80,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 False positives should be limited, but if any are present, filter as needed.
 
+#### Associated Analytic story
+* [Spearphishing Attachments](/stories/spearphishing_attachments)
+
+
 #### Kill Chain Phase
 * Exploitation
 

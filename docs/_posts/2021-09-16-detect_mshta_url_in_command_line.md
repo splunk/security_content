@@ -81,6 +81,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 It is possible legitimate applications may perform this behavior and will need to be filtered.
 
+#### Associated Analytic story
+* [Suspicious MSHTA Activity](/stories/suspicious_mshta_activity)
+
+
 #### Kill Chain Phase
 * Exploitation
 

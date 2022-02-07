@@ -78,6 +78,10 @@ You must be ingesting data that records process activity from your hosts to popu
 #### Known False Positives
 There may be legitimate reasons for administrators to add a certificate to the untrusted certificate store. In such cases, this will typically be done on a large number of systems.
 
+#### Associated Analytic story
+* [Disabling Security Tools](/stories/disabling_security_tools)
+
+
 #### Kill Chain Phase
 * Installation
 * Actions on Objectives

@@ -60,6 +60,12 @@ In order to implement this search, you must populate the Endpoint file-system da
 #### Known False Positives
 It is important to understand that if you happen to install any new applications on your hosts or are copying a large number of files, you can expect to see a large increase of file modifications.
 
+#### Associated Analytic story
+* [SamSam Ransomware](/stories/samsam_ransomware)
+* [Ryuk Ransomware](/stories/ryuk_ransomware)
+* [Ransomware](/stories/ransomware)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

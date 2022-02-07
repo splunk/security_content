@@ -74,6 +74,10 @@ You must install splunk AWS add on and Splunk App for AWS. This search works wit
 #### Known False Positives
 Updating a SAML provider or creating a new one may not necessarily be malicious however it needs to be closely monitored.
 
+#### Associated Analytic story
+* [Cloud Federated Credential Abuse](/stories/cloud_federated_credential_abuse)
+
+
 #### Kill Chain Phase
 
 

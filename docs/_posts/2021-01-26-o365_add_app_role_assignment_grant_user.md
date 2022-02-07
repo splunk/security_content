@@ -75,6 +75,11 @@ You must install splunk Microsoft Office 365 add-on. This search works with o365
 #### Known False Positives
 The creation of a new Federation is not necessarily malicious, however this events need to be followed closely, as it may indicate federated credential abuse or backdoor via federated identities at a different cloud provider.
 
+#### Associated Analytic story
+* [Office 365 Detections](/stories/office_365_detections)
+* [Cloud Federated Credential Abuse](/stories/cloud_federated_credential_abuse)
+
+
 #### Kill Chain Phase
 * Actions on Objective
 

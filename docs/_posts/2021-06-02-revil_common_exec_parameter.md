@@ -73,6 +73,11 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Known False Positives
 third party tool may have same command line parameters as revil ransomware.
 
+#### Associated Analytic story
+* [Ransomware](/stories/ransomware)
+* [Revil Ransomware](/stories/revil_ransomware)
+
+
 #### Kill Chain Phase
 * Exploitation
 

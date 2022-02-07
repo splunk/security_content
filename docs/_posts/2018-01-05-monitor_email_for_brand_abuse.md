@@ -71,6 +71,11 @@ You need to ingest email header data. Specifically the sender&#39;s address (src
 #### Known False Positives
 None at this time
 
+#### Associated Analytic story
+* [Brand Monitoring](/stories/brand_monitoring)
+* [Suspicious Emails](/stories/suspicious_emails)
+
+
 #### Kill Chain Phase
 * Delivery
 

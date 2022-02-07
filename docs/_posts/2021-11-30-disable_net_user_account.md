@@ -75,6 +75,11 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Known False Positives
 System administrators or automated scripts may disable an account but not a common practice. Filter as needed.
 
+#### Associated Analytic story
+* [XMRig](/stories/xmrig)
+* [Ransomware](/stories/ransomware)
+
+
 #### Kill Chain Phase
 * Exploitation
 
