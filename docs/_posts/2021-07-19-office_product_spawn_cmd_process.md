@@ -81,6 +81,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 IT or network admin may create an document automation that will run shell script.
 
+#### Associated Analytic story
+* [Trickbot](/stories/trickbot)
+
+
 #### Kill Chain Phase
 * Exploitation
 

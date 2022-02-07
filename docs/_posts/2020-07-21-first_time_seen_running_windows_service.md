@@ -79,6 +79,12 @@ While this search does not require you to adhere to Splunk CIM, you must be inge
 #### Known False Positives
 A previously unseen service is not necessarily malicious. Verify that the service is legitimate and that was installed by a legitimate process.
 
+#### Associated Analytic story
+* [Windows Service Abuse](/stories/windows_service_abuse)
+* [Orangeworm Attack Group](/stories/orangeworm_attack_group)
+* [NOBELIUM Group](/stories/nobelium_group)
+
+
 #### Kill Chain Phase
 * Installation
 * Actions on Objectives

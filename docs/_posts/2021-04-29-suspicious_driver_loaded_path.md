@@ -76,6 +76,10 @@ To successfully implement this search, you need to be ingesting logs with the dr
 #### Known False Positives
 Limited false positives will be present. Some applications do load drivers
 
+#### Associated Analytic story
+* [XMRig](/stories/xmrig)
+
+
 #### Kill Chain Phase
 * Exploitation
 

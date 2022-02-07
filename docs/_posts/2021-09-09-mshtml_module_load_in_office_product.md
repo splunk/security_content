@@ -75,6 +75,11 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Known False Positives
 Limited false positives will be present, however, tune as necessary.
 
+#### Associated Analytic story
+* [Spearphishing Attachments](/stories/spearphishing_attachments)
+* [Microsoft MSHTML Remote Code Execution CVE-2021-40444](/stories/microsoft_mshtml_remote_code_execution_cve-2021-40444)
+
+
 #### Kill Chain Phase
 * Exploitation
 

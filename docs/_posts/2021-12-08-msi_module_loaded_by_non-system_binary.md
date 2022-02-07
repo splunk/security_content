@@ -82,6 +82,10 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Known False Positives
 It is possible some Administrative utilities will load msi.dll outside of normal system paths, filter as needed.
 
+#### Associated Analytic story
+* [Windows Privilege Escalation](/stories/windows_privilege_escalation)
+
+
 #### Kill Chain Phase
 * Exploitation
 

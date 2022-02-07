@@ -69,6 +69,10 @@ You must be ingesting data that records the file-system activity from your hosts
 #### Known False Positives
 No false positives have been identified.
 
+#### Associated Analytic story
+* [SamSam Ransomware](/stories/samsam_ransomware)
+
+
 #### Kill Chain Phase
 * Delivery
 

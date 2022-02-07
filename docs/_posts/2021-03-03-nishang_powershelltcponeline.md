@@ -81,6 +81,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Limited false positives may be present. Filter as needed based on initial analysis.
 
+#### Associated Analytic story
+* [HAFNIUM Group](/stories/hafnium_group)
+
+
 #### Kill Chain Phase
 * Exploitation
 

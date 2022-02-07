@@ -81,6 +81,11 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 This may be tuned, or a new one related, by adding .cpl to command-line. However, it&#39;s important to look for both. Tune/filter as needed.
 
+#### Associated Analytic story
+* [Suspicious Rundll32 Activity](/stories/suspicious_rundll32_activity)
+* [Microsoft MSHTML Remote Code Execution CVE-2021-40444](/stories/microsoft_mshtml_remote_code_execution_cve-2021-40444)
+
+
 #### Kill Chain Phase
 * Exploitation
 

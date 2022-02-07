@@ -80,6 +80,12 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 System administrators may use this option, but it&#39;s not common.
 
+#### Associated Analytic story
+* [Malicious PowerShell](/stories/malicious_powershell)
+* [NOBELIUM Group](/stories/nobelium_group)
+* [WhisperGate](/stories/whispergate)
+
+
 #### Kill Chain Phase
 * Command and Control
 * Actions on Objectives

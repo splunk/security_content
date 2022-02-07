@@ -84,6 +84,10 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Known False Positives
 Administrators may start scheduled tasks on remote systems, but this activity is usually limited to a small set of hosts or users.
 
+#### Associated Analytic story
+* [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
+
+
 #### Kill Chain Phase
 * Lateral Movement
 

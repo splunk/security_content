@@ -77,6 +77,10 @@ To successfully implement this search, you need to be ingesting logs with that p
 #### Known False Positives
 It is possible some applications will create a consumer and may be required to be filtered. For tuning, add any additional LOLBin&#39;s for further depth of coverage.
 
+#### Associated Analytic story
+* [Suspicious WMI Use](/stories/suspicious_wmi_use)
+
+
 #### Kill Chain Phase
 * Exploitation
 

@@ -75,6 +75,10 @@ This search requires you to have enabled your Group Management Audit Logs in you
 #### Known False Positives
 It is possible that an administrator created and deleted an account in a short time period.  Verifying activity with an administrator is advised.
 
+#### Associated Analytic story
+* [Account Monitoring and Controls](/stories/account_monitoring_and_controls)
+
+
 #### Kill Chain Phase
 
 

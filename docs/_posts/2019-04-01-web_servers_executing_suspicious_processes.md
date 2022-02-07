@@ -72,6 +72,10 @@ You must be ingesting data that records process activity from your hosts to popu
 #### Known False Positives
 Some of these processes may be used legitimately on web servers during maintenance or other administrative tasks.
 
+#### Associated Analytic story
+* [Apache Struts Vulnerability](/stories/apache_struts_vulnerability)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

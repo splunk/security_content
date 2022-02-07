@@ -91,6 +91,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Unknown. It is possible filtering may be required to ensure fidelity.
 
+#### Associated Analytic story
+* [Cobalt Strike](/stories/cobalt_strike)
+
+
 #### Kill Chain Phase
 * Exploitation
 * Privilege Escalation

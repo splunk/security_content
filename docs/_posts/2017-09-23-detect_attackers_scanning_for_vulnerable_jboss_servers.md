@@ -71,6 +71,11 @@ You must be ingesting data from the web server or network traffic that contains 
 #### Known False Positives
 It&#39;s possible for legitimate HTTP requests to be made to URLs containing the suspicious paths.
 
+#### Associated Analytic story
+* [JBoss Vulnerability](/stories/jboss_vulnerability)
+* [SamSam Ransomware](/stories/samsam_ransomware)
+
+
 #### Kill Chain Phase
 * Reconnaissance
 

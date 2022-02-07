@@ -78,6 +78,11 @@ You must be ingesting data that records process activity from your hosts to popu
 #### Known False Positives
 Administrators may create scheduled tasks on remote systems, but this activity is usually limited to a small set of hosts or users. It is important to validate and investigate as appropriate.
 
+#### Associated Analytic story
+* [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
+* [NOBELIUM Group](/stories/nobelium_group)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

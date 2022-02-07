@@ -73,6 +73,10 @@ You must install splunk GCP add-on. This search works with gcp:pubsub:message lo
 #### Known False Positives
 Payload.request.function.timeout value can possibly be match with other functions or requests however the source user and target request account may indicate an attempt to move laterally accross acounts or projects
 
+#### Associated Analytic story
+* [GCP Cross Account Activity](/stories/gcp_cross_account_activity)
+
+
 #### Kill Chain Phase
 * Lateral Movement
 

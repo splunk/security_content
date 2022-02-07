@@ -83,6 +83,12 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 minimal. but network operator can use this application to load dll.
 
+#### Associated Analytic story
+* [IcedID](/stories/icedid)
+* [Suspicious Regsvr32 Activity](/stories/suspicious_regsvr32_activity)
+* [Remcos](/stories/remcos)
+
+
 #### Kill Chain Phase
 * Exploitation
 

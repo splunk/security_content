@@ -71,6 +71,10 @@ To successfully implement this search, you must be ingesting the Windows WMI act
 #### Known False Positives
 Some software may create WMI temporary event subscriptions for various purposes. The included search contains an exception for two of these that occur by default on Windows 10 systems. You may need to modify the search to create exceptions for other legitimate events.
 
+#### Associated Analytic story
+* [Suspicious WMI Use](/stories/suspicious_wmi_use)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

@@ -81,6 +81,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 This is likely to produce false positives and will require some filtering. Tune the query by adding command line paths to known good DLLs, or filtering based on parent process names.
 
+#### Associated Analytic story
+* [Suspicious Rundll32 Activity](/stories/suspicious_rundll32_activity)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 
