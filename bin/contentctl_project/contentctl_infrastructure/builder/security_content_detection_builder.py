@@ -154,7 +154,7 @@ class SecurityContentDetectionBuilder(DetectionBuilder):
 
     def addUnitTest(self, tests: list) -> None:
         for test in tests:
-            if test.name == self.security_content_obj.name:
+            if test.tests[0].name == self.security_content_obj.name:
                 self.security_content_obj.test = test
                 return
 

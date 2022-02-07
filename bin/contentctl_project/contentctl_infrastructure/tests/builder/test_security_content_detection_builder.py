@@ -152,4 +152,4 @@ def test_detection_enrich_unit_test():
     security_content_builder.addUnitTest([test])
     detection = security_content_builder.getObject()
 
-    assert detection.test.file == "endpoint/attempted_credential_dump_from_registry_via_reg_exe.yml"
+    assert detection.test.tests[0].file == "endpoint/attempted_credential_dump_from_registry_via_reg_exe.yml"

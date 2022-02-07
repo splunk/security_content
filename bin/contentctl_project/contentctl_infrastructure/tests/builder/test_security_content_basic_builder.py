@@ -54,6 +54,6 @@ def test_read_test():
         'test_data/test/example.test.yml'), SecurityContentType.unit_tests)
     test = security_content_builder.getObject()
 
-    assert test.name == "Cloud Compute Instance Created By Previously Unseen User"
-    assert test.baselines[0].name == "Previously Seen Cloud Compute Creations By User - Initial"
-    assert test.attack_data[0].source == "aws_cloudtrail"
+    assert test.name == "Cloud Compute Instance Created By Previously Unseen User Unit Test"
+    assert test.tests[0].baselines[0].name == "Previously Seen Cloud Compute Creations By User - Initial"
+    assert test.tests[0].attack_data[0].source == "aws_cloudtrail"

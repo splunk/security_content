@@ -62,9 +62,9 @@ def test_construct_unit_tests():
         'test_data/test/example.test.yml'))
     test = unit_test_builder.getObject()
 
-    assert test.name == "Cloud Compute Instance Created By Previously Unseen User"
-    assert test.baselines[0].name == "Previously Seen Cloud Compute Creations By User - Initial"
-    assert test.attack_data[0].source == "aws_cloudtrail"
+    assert test.name == "Cloud Compute Instance Created By Previously Unseen User Unit Test"
+    assert test.tests[0].baselines[0].name == "Previously Seen Cloud Compute Creations By User - Initial"
+    assert test.tests[0].attack_data[0].source == "aws_cloudtrail"
 
 
 def test_construct_baselines():
@@ -156,7 +156,7 @@ def test_construct_detections():
     assert detection.risk == valid_risk
     assert detection.playbooks[0].name == "Ransomware Investigate and Contain"
     assert detection.baselines[0].name == "Previously Seen Users In CloudTrail - Update"
-    assert detection.test.name == "Attempted Credential Dump From Registry via Reg exe"
+    assert detection.test.name == "Attempted Credential Dump From Registry via Reg exe Unit Test"
 
 
 def test_construct_stories():
