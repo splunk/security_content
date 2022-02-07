@@ -70,6 +70,10 @@ You must install splunk AWS add on and Splunk App for AWS. This search works wit
 #### Known False Positives
 While this search has no known false positives.
 
+#### Associated Analytic story
+* [AWS User Monitoring](/stories/aws_user_monitoring)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

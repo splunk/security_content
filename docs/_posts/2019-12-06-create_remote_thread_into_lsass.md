@@ -75,6 +75,10 @@ This search needs Sysmon Logs with a Sysmon configuration, which includes EventC
 #### Known False Positives
 Other tools can access LSASS for legitimate reasons and generate an event. In these cases, tweaking the search may help eliminate noise.
 
+#### Associated Analytic story
+* [Credential Dumping](/stories/credential_dumping)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

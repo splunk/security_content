@@ -77,6 +77,10 @@ Note that `high_number_of_login_failures_from_a_single_source_filter` is a empty
 #### Known False Positives
 unknown
 
+#### Associated Analytic story
+* [Office 365 Detections](/stories/office_365_detections)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

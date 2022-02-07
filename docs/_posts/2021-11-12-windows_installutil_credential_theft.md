@@ -83,6 +83,10 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Known False Positives
 Typically this will not trigger as by it&#39;s very nature InstallUtil does not need credentials. Filter as needed.
 
+#### Associated Analytic story
+* [Signed Binary Proxy Execution InstallUtil](/stories/signed_binary_proxy_execution_installutil)
+
+
 #### Kill Chain Phase
 * Exploitation
 * Privilege Escalation

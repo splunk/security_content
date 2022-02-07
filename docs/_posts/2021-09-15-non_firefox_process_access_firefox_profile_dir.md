@@ -77,6 +77,11 @@ To successfully implement this search, you must ingest Windows Security Event lo
 #### Known False Positives
 other browser not listed related to firefox may catch by this rule.
 
+#### Associated Analytic story
+* [FIN7](/stories/fin7)
+* [Remcos](/stories/remcos)
+
+
 #### Kill Chain Phase
 * Exploitation
 

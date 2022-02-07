@@ -77,6 +77,10 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 #### Known False Positives
 S3 buckets can be accessed from any IP, as long as it can make a successful connection. This will be a false postive, since the search is looking for a new IP within the past hour
 
+#### Associated Analytic story
+* [Suspicious AWS S3 Activities](/stories/suspicious_aws_s3_activities)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

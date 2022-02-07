@@ -76,6 +76,10 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 #### Known False Positives
 Not all unauthenticated requests are malicious, but frequency, UA and source IPs will provide context.
 
+#### Associated Analytic story
+* [Kubernetes Scanning Activity](/stories/kubernetes_scanning_activity)
+
+
 #### Kill Chain Phase
 * Reconnaissance
 

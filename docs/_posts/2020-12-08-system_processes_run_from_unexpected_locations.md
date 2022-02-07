@@ -85,6 +85,13 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 This detection may require tuning based on third party applications utilizing native Windows binaries in non-standard paths.
 
+#### Associated Analytic story
+* [Suspicious Command-Line Executions](/stories/suspicious_command-line_executions)
+* [Unusual Processes](/stories/unusual_processes)
+* [Ransomware](/stories/ransomware)
+* [Masquerading - Rename System Utilities](/stories/masquerading_-_rename_system_utilities)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

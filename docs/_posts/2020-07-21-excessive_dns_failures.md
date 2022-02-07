@@ -78,6 +78,11 @@ To successfully implement this search you must ensure that DNS data is populatin
 #### Known False Positives
 It is possible legitimate traffic can trigger this rule. Please investigate as appropriate. The threshold for generating an event can also be customized to better suit your environment.
 
+#### Associated Analytic story
+* [Suspicious DNS Traffic](/stories/suspicious_dns_traffic)
+* [Command and Control](/stories/command_and_control)
+
+
 #### Kill Chain Phase
 * Command and Control
 

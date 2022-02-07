@@ -83,6 +83,10 @@ You must index GitHub logs. You can follow the url in reference to onboard GitHu
 #### Known False Positives
 unknown
 
+#### Associated Analytic story
+* [Dev Sec Ops](/stories/dev_sec_ops)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

@@ -73,6 +73,10 @@ To successfully implement this search, you need to be ingesting logs with the Ta
 #### Known False Positives
 unknown
 
+#### Associated Analytic story
+* [XMRig](/stories/xmrig)
+
+
 #### Kill Chain Phase
 * Exploitation
 

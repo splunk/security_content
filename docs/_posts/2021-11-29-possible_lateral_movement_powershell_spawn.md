@@ -103,6 +103,11 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Known False Positives
 Legitimate applications may spawn PowerShell as a child process of the the identified processes. Filter as needed.
 
+#### Associated Analytic story
+* [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
+* [Malicious PowerShell](/stories/malicious_powershell)
+
+
 #### Kill Chain Phase
 * Lateral Movement
 * Malicious PowerShell

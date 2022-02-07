@@ -77,6 +77,10 @@ To successfully implement this search, you need to be ingesting Windows Security
 #### Known False Positives
 Legitimate applications may use random Scheduled Task names.
 
+#### Associated Analytic story
+* [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
+
+
 #### Kill Chain Phase
 * Privilege Escalation
 * Lateral Movement

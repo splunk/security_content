@@ -81,6 +81,11 @@ To successfully implement this search, you must be ingesting data that records r
 #### Known False Positives
 admin may set this policy for non-critical machine.
 
+#### Associated Analytic story
+* [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
+* [Suspicious Windows Registry Activities](/stories/suspicious_windows_registry_activities)
+
+
 #### Kill Chain Phase
 * Exploitation
 

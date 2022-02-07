@@ -72,6 +72,11 @@ You must install splunk Microsoft Office 365 add-on. This search works with o365
 #### Known False Positives
 Logon errors may not be malicious in nature however it may indicate attempts to reuse a token or password obtained via credential access attack.
 
+#### Associated Analytic story
+* [Office 365 Detections](/stories/office_365_detections)
+* [Cloud Federated Credential Abuse](/stories/cloud_federated_credential_abuse)
+
+
 #### Kill Chain Phase
 * Actions on Objective
 

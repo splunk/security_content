@@ -89,6 +89,10 @@ You must be ingesting your cloud infrastructure logs. You also must run the base
 #### Known False Positives
 
 
+#### Associated Analytic story
+* [Suspicious Cloud User Activities](/stories/suspicious_cloud_user_activities)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

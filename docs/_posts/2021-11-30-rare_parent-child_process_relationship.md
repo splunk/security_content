@@ -91,6 +91,10 @@ Collect endpoint data such as sysmon or 4688 events.
 #### Known False Positives
 Some custom tools used by administrators could be used rarely to launch remotely applications. This might trigger false positives at the beginning when it has not collected yet enough data to construct the baseline.
 
+#### Associated Analytic story
+* [Unusual Processes](/stories/unusual_processes)
+
+
 #### Kill Chain Phase
 * Exploitation
 

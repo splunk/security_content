@@ -80,6 +80,12 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Admin or user may choose to use this windows features. Filter as needed.
 
+#### Associated Analytic story
+* [Remcos](/stories/remcos)
+* [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
+* [WhisperGate](/stories/whispergate)
+
+
 #### Kill Chain Phase
 * Exploitation
 

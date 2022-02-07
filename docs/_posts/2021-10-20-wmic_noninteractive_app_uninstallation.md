@@ -80,6 +80,10 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Known False Positives
 third party application may use this approach to uninstall there application
 
+#### Associated Analytic story
+* [IceID](/stories/iceid)
+
+
 #### Kill Chain Phase
 * Exploitation
 

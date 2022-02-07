@@ -76,6 +76,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 It is possible false positives may be present based on the internal name dcinst.exe, filter as needed. It may be worthy to alert on the service name.
 
+#### Associated Analytic story
+* [Ransomware](/stories/ransomware)
+
+
 #### Kill Chain Phase
 * Exploitation
 

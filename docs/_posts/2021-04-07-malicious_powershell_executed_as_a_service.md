@@ -84,6 +84,10 @@ To successfully implement this search, you need to be ingesting Windows System l
 #### Known False Positives
 Creating a hidden powershell service is rare and could key off of those instances.
 
+#### Associated Analytic story
+* [Malicious Powershell](/stories/malicious_powershell)
+
+
 #### Kill Chain Phase
 * Privilege Escalation
 
