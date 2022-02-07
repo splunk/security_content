@@ -67,6 +67,9 @@ Events are fed to DSP contains at least email&#39;s sender, subject and its mess
 #### Known False Positives
 Because of imbalance of anomaly data in training, the model will less likely report false positive. Instead, the model is more prone to false negative. Current best recall score is ~85%
 
+#### Associated Analytic story
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

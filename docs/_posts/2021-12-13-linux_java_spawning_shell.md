@@ -78,6 +78,10 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Known False Positives
 Filtering may be required on internal developer build systems or classify assets as web facing and restrict the analytic based on asset type.
 
+#### Associated Analytic story
+* [Log4Shell CVE-2021-44228](/stories/log4shell_cve-2021-44228)
+
+
 #### Kill Chain Phase
 * Exploitation
 

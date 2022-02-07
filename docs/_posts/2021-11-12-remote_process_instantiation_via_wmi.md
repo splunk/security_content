@@ -77,6 +77,12 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 The wmic.exe utility is a benign Windows application. It may be used legitimately by Administrators with these parameters for remote system administration, but it&#39;s relatively uncommon.
 
+#### Associated Analytic story
+* [Ransomware](/stories/ransomware)
+* [Suspicious WMI Use](/stories/suspicious_wmi_use)
+* [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

@@ -70,6 +70,10 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 #### Known False Positives
 False positives should be limited as the commands being identifies are quite specific to EventCode 4104 and Mimikatz. Filter as needed.
 
+#### Associated Analytic story
+* [Malicious PowerShell](/stories/malicious_powershell)
+
+
 #### Kill Chain Phase
 * Exploitation
 

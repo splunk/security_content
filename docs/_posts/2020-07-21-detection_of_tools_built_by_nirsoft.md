@@ -72,6 +72,10 @@ You must be ingesting endpoint data that tracks process activity, including pare
 #### Known False Positives
 While legitimate, these NirSoft tools are prone to abuse. You should verfiy that the tool was used for a legitimate purpose.
 
+#### Associated Analytic story
+* [Emotet Malware  DHS Report TA18-201A ](/stories/emotet_malware__dhs_report_ta18-201a_)
+
+
 #### Kill Chain Phase
 * Installation
 * Actions on Objectives

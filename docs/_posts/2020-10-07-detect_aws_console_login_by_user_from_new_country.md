@@ -83,6 +83,11 @@ You must install and configure the Splunk Add-on for AWS (version 5.1.0 or later
 #### Known False Positives
 When a legitimate new user logins for the first time, this activity will be detected. Check how old the account is and verify that the user activity is legitimate.
 
+#### Associated Analytic story
+* [Suspicious AWS Login Activities](/stories/suspicious_aws_login_activities)
+* [Suspicious Cloud Authentication Activities](/stories/suspicious_cloud_authentication_activities)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

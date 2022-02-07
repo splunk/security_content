@@ -72,6 +72,11 @@ To successfully implement this search, you need to be ingesting logs with the po
 #### Known False Positives
 network operator may enable or disable this windows feature.
 
+#### Associated Analytic story
+* [Malicious PowerShell](/stories/malicious_powershell)
+* [Ransomware](/stories/ransomware)
+
+
 #### Kill Chain Phase
 * Exploitation
 

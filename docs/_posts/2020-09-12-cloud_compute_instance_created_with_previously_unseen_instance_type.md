@@ -72,6 +72,10 @@ You must be ingesting your cloud infrastructure logs from your cloud provider. Y
 #### Known False Positives
 It is possible that an admin will create a new system using a new instance type that has never been used before. Verify with the creator that they intended to create the system with the new instance type.
 
+#### Associated Analytic story
+* [Cloud Cryptomining](/stories/cloud_cryptomining)
+
+
 #### Kill Chain Phase
 
 

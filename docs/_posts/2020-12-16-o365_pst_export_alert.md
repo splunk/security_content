@@ -70,6 +70,11 @@ You must install splunk Microsoft Office 365 add-on. This search works with o365
 #### Known False Positives
 PST export can be done for legitimate purposes but due to the sensitive nature of its content it must be monitored.
 
+#### Associated Analytic story
+* [Office 365 Detections](/stories/office_365_detections)
+* [Data Exfiltration](/stories/data_exfiltration)
+
+
 #### Kill Chain Phase
 * Actions on Objective
 

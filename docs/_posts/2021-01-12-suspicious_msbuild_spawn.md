@@ -81,6 +81,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Although unlikely, some legitimate applications may exhibit this behavior, triggering a false positive.
 
+#### Associated Analytic story
+* [Trusted Developer Utilities Proxy Execution MSBuild](/stories/trusted_developer_utilities_proxy_execution_msbuild)
+
+
 #### Kill Chain Phase
 * Exploitation
 

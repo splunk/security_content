@@ -67,6 +67,10 @@ You must be ingesting data that records the filesystem activity from your hosts 
 #### Known False Positives
 If there are files with this keywoord as file names it might trigger false possitives, please make use of our filters to tune out potential FPs.
 
+#### Associated Analytic story
+* [Ryuk Ransomware](/stories/ryuk_ransomware)
+
+
 #### Kill Chain Phase
 * Delivery
 

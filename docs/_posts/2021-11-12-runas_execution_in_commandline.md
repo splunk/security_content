@@ -80,6 +80,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 A network operator or systems administrator may utilize an automated or manual execute this command that may generate false positives. filter is needed.
 
+#### Associated Analytic story
+* [Windows Privilege Escalation](/stories/windows_privilege_escalation)
+
+
 #### Kill Chain Phase
 * Privilege Escalation
 

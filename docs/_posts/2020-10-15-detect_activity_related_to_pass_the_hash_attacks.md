@@ -76,6 +76,10 @@ To successfully implement this search, you must ingest your Windows Security Eve
 #### Known False Positives
 Legitimate logon activity by authorized NTLM systems may be detected by this search. Please investigate as appropriate.
 
+#### Associated Analytic story
+* [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

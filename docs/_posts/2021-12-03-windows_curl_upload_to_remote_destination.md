@@ -76,6 +76,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 False positives may be limited to source control applications and may be required to be filtered out.
 
+#### Associated Analytic story
+* [Ingress Tool Transfer](/stories/ingress_tool_transfer)
+
+
 #### Kill Chain Phase
 * Exfiltration
 

@@ -82,6 +82,11 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 limitted. this anomaly behavior is not commonly seen in clean host.
 
+#### Associated Analytic story
+* [Trickbot](/stories/trickbot)
+* [IcedID](/stories/icedid)
+
+
 #### Kill Chain Phase
 * Exploitation
 

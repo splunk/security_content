@@ -74,6 +74,11 @@ This detection relies on sysmon logs with the Event ID 22, DNS Query. We suggest
 #### Known False Positives
 Noise and false positive can be seen if the following instant messaging is allowed to use within corporate network. In this case, a filter is needed.
 
+#### Associated Analytic story
+* [Remcos](/stories/remcos)
+* [WhisperGate](/stories/whispergate)
+
+
 #### Kill Chain Phase
 * Exploitation
 

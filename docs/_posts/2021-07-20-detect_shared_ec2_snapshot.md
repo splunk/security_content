@@ -72,6 +72,11 @@ You must install splunk AWS add on and Splunk App for AWS. This search works wit
 #### Known False Positives
 It is possible that an AWS admin has legitimately shared a snapshot with others for  a specific purpose.
 
+#### Associated Analytic story
+* [Suspicious Cloud Instance Activities](/stories/suspicious_cloud_instance_activities)
+* [Data Exfiltration](/stories/data_exfiltration)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

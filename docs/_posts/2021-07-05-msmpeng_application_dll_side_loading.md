@@ -78,6 +78,11 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 quite minimal false positive expected.
 
+#### Associated Analytic story
+* [Ransomware](/stories/ransomware)
+* [Revil Ransomware](/stories/revil_ransomware)
+
+
 #### Kill Chain Phase
 * Exploitation
 

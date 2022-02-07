@@ -66,6 +66,11 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Unless there are specific use cases, manipulating or exporting certificates using certutil is uncommon. Extraction of certificate has been observed during attacks such as Golden SAML and other campaigns targeting Federated services.
 
+#### Associated Analytic story
+* [Windows Persistence Techniques](/stories/windows_persistence_techniques)
+* [Cloud Federated Credential Abuse](/stories/cloud_federated_credential_abuse)
+
+
 #### Kill Chain Phase
 * Installation
 

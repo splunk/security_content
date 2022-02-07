@@ -68,6 +68,11 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Known False Positives
 System administrators may resize the shadowstorage for valid purposes. Filter as needed.
 
+#### Associated Analytic story
+* [Clop Ransomware](/stories/clop_ransomware)
+* [Ransomware](/stories/ransomware)
+
+
 #### Kill Chain Phase
 * Exploitation
 

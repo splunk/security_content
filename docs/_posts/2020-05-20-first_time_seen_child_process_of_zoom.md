@@ -82,6 +82,10 @@ You must be ingesting data that records process activity from your hosts to popu
 #### Known False Positives
 A new child process of zoom isn&#39;t malicious by that fact alone. Further investigation of the actions of the child process is needed to verify any malicious behavior is taken.
 
+#### Associated Analytic story
+* [Suspicious Zoom Child Processes](/stories/suspicious_zoom_child_processes)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

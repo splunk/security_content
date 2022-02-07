@@ -75,6 +75,10 @@ You must install splunk AWS add-on and Splunk App for AWS. This search works wit
 #### Known False Positives
 Sts:GetSessionToken can be very noisy as in certain environments numerous calls of this type can be executed. This search can be adjusted to provide specific values to identify cases of abuse. In specific environments the use of field requestParameters.serialNumber will need to be used.
 
+#### Associated Analytic story
+* [AWS Cross Account Activity](/stories/aws_cross_account_activity)
+
+
 #### Kill Chain Phase
 * Lateral Movement
 

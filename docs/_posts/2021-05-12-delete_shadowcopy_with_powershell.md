@@ -68,6 +68,12 @@ To successfully implement this search, you need to be ingesting logs with the po
 #### Known False Positives
 unknown
 
+#### Associated Analytic story
+* [DarkSide Ransomware](/stories/darkside_ransomware)
+* [Ransomware](/stories/ransomware)
+* [Revil Ransomware](/stories/revil_ransomware)
+
+
 #### Kill Chain Phase
 * Exploitation
 

@@ -73,6 +73,10 @@ Windows Event Code 5145 is required to utilize this analytic and it may not be e
 #### Known False Positives
 False positives have been limited when the Anonymous Logon is used for Account Name.
 
+#### Associated Analytic story
+* [PetitPotam NTLM Relay on Active Directory Certificate Services](/stories/petitpotam_ntlm_relay_on_active_directory_certificate_services)
+
+
 #### Kill Chain Phase
 * Exploitation
 * Lateral Movement

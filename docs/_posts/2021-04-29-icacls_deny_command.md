@@ -71,6 +71,10 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Known False Positives
 Unknown. It is possible some administrative scripts use ICacls. Filter as needed.
 
+#### Associated Analytic story
+* [XMRig](/stories/xmrig)
+
+
 #### Kill Chain Phase
 * Exploitation
 

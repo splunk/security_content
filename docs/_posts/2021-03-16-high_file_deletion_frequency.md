@@ -71,6 +71,11 @@ To successfully implement this search, you need to be ingesting logs with the de
 #### Known False Positives
 user may delete bunch of pictures or files in a folder.
 
+#### Associated Analytic story
+* [Clop Ransomware](/stories/clop_ransomware)
+* [WhisperGate](/stories/whispergate)
+
+
 #### Kill Chain Phase
 * Exploitation
 

@@ -82,6 +82,11 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 None identified.
 
+#### Associated Analytic story
+* [Credential Dumping](/stories/credential_dumping)
+* [DarkSide Ransomware](/stories/darkside_ransomware)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

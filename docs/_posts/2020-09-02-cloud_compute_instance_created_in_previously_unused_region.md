@@ -79,6 +79,10 @@ You must be ingesting your cloud infrastructure logs from your cloud provider. Y
 #### Known False Positives
 It&#39;s possible that a user has unknowingly started an instance in a new region. Please verify that this activity is legitimate.
 
+#### Associated Analytic story
+* [Cloud Cryptomining](/stories/cloud_cryptomining)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

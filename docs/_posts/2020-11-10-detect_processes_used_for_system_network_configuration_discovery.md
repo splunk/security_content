@@ -81,6 +81,10 @@ You must be ingesting data that records registry activity from your hosts to pop
 #### Known False Positives
 It is uncommon for normal users to execute a series of commands used for network discovery. System administrators often use scripts to execute these commands. These can generate false positives.
 
+#### Associated Analytic story
+* [Unusual Processes](/stories/unusual_processes)
+
+
 #### Kill Chain Phase
 * Installation
 * Command and Control

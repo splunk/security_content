@@ -78,6 +78,11 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Known False Positives
 Administrator or network operator can execute this command. Please update the filter macros to remove false positives.
 
+#### Associated Analytic story
+* [Linux Privilege Escalation](/stories/linux_privilege_escalation)
+* [Linux Persistence Techniques](/stories/linux_persistence_techniques)
+
+
 #### Kill Chain Phase
 * Privilege Escalation
 

@@ -70,6 +70,13 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 It is possible for some legitimate administrative utilities to use similar cmd_line parameters. Filter as needed.
 
+#### Associated Analytic story
+* [Suspicious DNS Traffic](/stories/suspicious_dns_traffic)
+* [Dynamic DNS](/stories/dynamic_dns)
+* [Command and Control](/stories/command_and_control)
+* [Data Exfiltration](/stories/data_exfiltration)
+
+
 #### Kill Chain Phase
 * Exploitation
 

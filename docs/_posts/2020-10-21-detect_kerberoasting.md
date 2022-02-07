@@ -76,6 +76,10 @@ The test data is converted from Windows Security Event logs generated from Attac
 #### Known False Positives
 Older systems that support kerberos RC4 by default NetApp may generate false positives
 
+#### Associated Analytic story
+* [Credential Dumping](/stories/credential_dumping)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

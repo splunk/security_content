@@ -70,6 +70,10 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 #### Known False Positives
 Administrators may leverage DCOM to start a process on remote systems, but this activity is usually limited to a small set of hosts or users.
 
+#### Associated Analytic story
+* [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
+
+
 #### Kill Chain Phase
 * Lateral Movement
 

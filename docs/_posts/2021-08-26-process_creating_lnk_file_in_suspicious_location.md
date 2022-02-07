@@ -83,6 +83,10 @@ You must be ingesting data that records filesystem and process activity from you
 #### Known False Positives
 This detection should yield little or no false positive results. It is uncommon for LNK files to be executed from temporary or user directories.
 
+#### Associated Analytic story
+* [Spearphishing Attachments](/stories/spearphishing_attachments)
+
+
 #### Kill Chain Phase
 * Installation
 * Actions on Objectives

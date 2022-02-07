@@ -74,6 +74,11 @@ to successfully implement this search, you need to be ingesting logs with the Im
 #### Known False Positives
 unknown
 
+#### Associated Analytic story
+* [Ransomware](/stories/ransomware)
+* [Revil Ransomware](/stories/revil_ransomware)
+
+
 #### Kill Chain Phase
 * Exploitation
 

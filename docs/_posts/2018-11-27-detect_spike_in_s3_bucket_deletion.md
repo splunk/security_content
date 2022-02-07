@@ -88,6 +88,10 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 #### Known False Positives
 Based on the values of`dataPointThreshold` and `deviationThreshold`, the false positive rate may vary. Please modify this according the your environment.
 
+#### Associated Analytic story
+* [Suspicious AWS S3 Activities](/stories/suspicious_aws_s3_activities)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 
