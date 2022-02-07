@@ -71,6 +71,10 @@ To successfully implement this search, you need to be ingesting logs with the Se
 #### Known False Positives
 unknown
 
+#### Associated Analytic story
+* [Clop Ransomware](/stories/clop_ransomware)
+
+
 #### Kill Chain Phase
 * Privilege Escalation
 

@@ -79,6 +79,10 @@ To successfully implement this search, you need to be ingesting logs with the re
 #### Known False Positives
 user may choose to disable windows defender AV
 
+#### Associated Analytic story
+* [IceID](/stories/iceid)
+
+
 #### Kill Chain Phase
 * Exploitation
 

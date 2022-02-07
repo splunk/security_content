@@ -74,6 +74,11 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 It is unusual to turn this feature off a Windows system since it is a default security control, although it is not rare for some policies to disable it. Although no false positives have been identified, use the provided filter macro to tune the search.
 
+#### Associated Analytic story
+* [Ryuk Ransomware](/stories/ryuk_ransomware)
+* [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
+
+
 #### Kill Chain Phase
 * Delivery
 

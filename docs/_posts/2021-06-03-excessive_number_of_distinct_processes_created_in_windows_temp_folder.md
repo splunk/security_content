@@ -69,6 +69,10 @@ To successfully implement this search, you need to be ingesting logs with the fu
 #### Known False Positives
 Many benign applications will create processes from executables in Windows\Temp, although unlikely to exceed the given threshold.  Filter as needed.
 
+#### Associated Analytic story
+* [Meterpreter](/stories/meterpreter)
+
+
 #### Kill Chain Phase
 * Exploitation
 

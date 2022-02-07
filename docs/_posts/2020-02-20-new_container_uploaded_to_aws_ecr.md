@@ -62,6 +62,10 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 #### Known False Positives
 Uploading container is a normal behavior from developers or users with access to container registry.
 
+#### Associated Analytic story
+* [Container Implantation Monitoring and Investigation](/stories/container_implantation_monitoring_and_investigation)
+
+
 #### Kill Chain Phase
 
 

@@ -70,6 +70,11 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Known False Positives
 network operrator may use this command.
 
+#### Associated Analytic story
+* [Malicious PowerShell](/stories/malicious_powershell)
+* [Ransomware](/stories/ransomware)
+
+
 #### Kill Chain Phase
 * Exploitation
 

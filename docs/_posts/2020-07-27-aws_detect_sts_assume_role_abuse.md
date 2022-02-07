@@ -76,6 +76,10 @@ You must install splunk AWS add on and Splunk App for AWS. This search works wit
 #### Known False Positives
 Sts:AssumeRole can be very noisy as it is a standard mechanism to provide cross account and cross resources access. This search can be adjusted to provide specific values to identify cases of abuse.
 
+#### Associated Analytic story
+* [AWS Cross Account Activity](/stories/aws_cross_account_activity)
+
+
 #### Kill Chain Phase
 * Lateral Movement
 

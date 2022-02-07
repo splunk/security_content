@@ -71,6 +71,10 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 #### Known False Positives
 It is possible certain system management frameworks utilize this command to gather trust information.
 
+#### Associated Analytic story
+* [Active Directory Discovery](/stories/active_directory_discovery)
+
+
 #### Kill Chain Phase
 * Reconnaissance
 

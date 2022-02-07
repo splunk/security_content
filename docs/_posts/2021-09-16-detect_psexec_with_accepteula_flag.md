@@ -81,6 +81,14 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Administrators can leverage PsExec for accessing remote systems and might pass `accepteula` as an argument if they are running this tool for the first time. However, it is not likely that you&#39;d see multiple occurrences of this event on a machine
 
+#### Associated Analytic story
+* [SamSam Ransomware](/stories/samsam_ransomware)
+* [DHS Report TA18-074A](/stories/dhs_report_ta18-074a)
+* [HAFNIUM Group](/stories/hafnium_group)
+* [DarkSide Ransomware](/stories/darkside_ransomware)
+* [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

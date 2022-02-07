@@ -75,6 +75,12 @@ To successfully implement this search, you need to be ingesting logs with the ta
 #### Known False Positives
 unknown
 
+#### Associated Analytic story
+* [Windows Persistence Techniques](/stories/windows_persistence_techniques)
+* [Trickbot](/stories/trickbot)
+* [IcedID](/stories/icedid)
+
+
 #### Kill Chain Phase
 * Exploitation
 

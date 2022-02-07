@@ -3,7 +3,7 @@ title: "O365 Bypass MFA via Trusted IP"
 excerpt: "Disable or Modify Cloud Firewall, Impair Defenses"
 categories:
   - Cloud
-last_modified_at: 2021-07-19
+last_modified_at: 2022-02-03
 toc: true
 toc_label: ""
 tags:
@@ -28,7 +28,7 @@ This search detects newly added IP addresses/CIDR blocks to the list of MFA Trus
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **Last Updated**: 2021-07-19
+- **Last Updated**: 2022-02-03
 - **Author**: Bhavin Patel, Splunk
 - **ID**: c783dd98-c703-4252-9e8a-f19d9f66949e
 
@@ -44,13 +44,13 @@ This search detects newly added IP addresses/CIDR blocks to the list of MFA Trus
 #### Search
 
 ```
-`o365_management_activity` signature="Set Company Information." ModifiedProperties{}.Name=StrongAuthenticationPolicy 
+`o365_management_activity` Operation="Set Company Information." ModifiedProperties{}.Name=StrongAuthenticationPolicy 
 | rex max_match=100 field=ModifiedProperties{}.NewValue "(?<ip_addresses_new_added>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\/\d{1,2})" 
 | rex max_match=100 field=ModifiedProperties{}.OldValue "(?<ip_addresses_old>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\/\d{1,2})" 
 | eval ip_addresses_old=if(isnotnull(ip_addresses_old),ip_addresses_old,"0") 
 | mvexpand ip_addresses_new_added 
 | where isnull(mvfind(ip_addresses_old,ip_addresses_new_added)) 
-|stats count min(_time) as firstTime max(_time) as lastTime values(ip_addresses_old) as ip_addresses_old by user ip_addresses_new_added signature Workload vendor_account status user_id action 
+|stats count min(_time) as firstTime max(_time) as lastTime values(ip_addresses_old) as ip_addresses_old by user ip_addresses_new_added Operation Workload vendor_account status user_id action 
 | `security_content_ctime(firstTime)`
 | `security_content_ctime(lastTime)`
 | `o365_bypass_mfa_via_trusted_ip_filter`
@@ -81,6 +81,10 @@ You must install Splunk Microsoft Office 365 add-on. This search works with o365
 
 #### Known False Positives
 Unless it is a special case, it is uncommon to continually update Trusted IPs to MFA configuration.
+
+#### Associated Analytic story
+* [Office 365 Detections](/stories/office_365_detections)
+
 
 #### Kill Chain Phase
 * Actions on Objective

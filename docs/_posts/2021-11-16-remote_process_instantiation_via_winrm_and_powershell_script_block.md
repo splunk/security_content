@@ -70,6 +70,10 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 #### Known False Positives
 Administrators may leverage WinRM and `Invoke-Command` to start a process on remote systems for system administration or automation use cases. This activity is usually limited to a small set of hosts or users. In certain environments, tuning may not be possible.
 
+#### Associated Analytic story
+* [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
+
+
 #### Kill Chain Phase
 * Lateral Movement
 

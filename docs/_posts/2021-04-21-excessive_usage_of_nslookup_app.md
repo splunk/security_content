@@ -72,6 +72,13 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Known False Positives
 unknown
 
+#### Associated Analytic story
+* [Suspicious DNS Traffic](/stories/suspicious_dns_traffic)
+* [Dynamic DNS](/stories/dynamic_dns)
+* [Command and Control](/stories/command_and_control)
+* [Data Exfiltration](/stories/data_exfiltration)
+
+
 #### Kill Chain Phase
 * Exploitation
 

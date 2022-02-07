@@ -92,6 +92,10 @@ This search has a dependency on other searches to create and update a baseline o
 #### Known False Positives
 It&#39;s possible that a new user will start to modify EC2 instances when they haven&#39;t before for any number of reasons. Verify with the user that is modifying instances that this is the intended behavior.
 
+#### Associated Analytic story
+* [Suspicious Cloud Instance Activities](/stories/suspicious_cloud_instance_activities)
+
+
 #### Kill Chain Phase
 
 

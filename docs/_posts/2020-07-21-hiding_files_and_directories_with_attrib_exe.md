@@ -74,6 +74,11 @@ You must be ingesting data that records process activity from your hosts to popu
 #### Known False Positives
 Some applications and users may legitimately use attrib.exe to interact with the files. 
 
+#### Associated Analytic story
+* [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
+* [Windows Persistence Techniques](/stories/windows_persistence_techniques)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

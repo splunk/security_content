@@ -78,6 +78,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Limited false positives may be present in small environments. Tuning may be required based on parent process.
 
+#### Associated Analytic story
+* [Cobalt Strike](/stories/cobalt_strike)
+
+
 #### Kill Chain Phase
 * Exploitation
 

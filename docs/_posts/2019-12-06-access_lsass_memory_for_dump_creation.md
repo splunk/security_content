@@ -75,6 +75,10 @@ This search requires Sysmon Logs and a Sysmon configuration, which includes Even
 #### Known False Positives
 Administrators can create memory dumps for debugging purposes, but memory dumps of the LSASS process would be unusual.
 
+#### Associated Analytic story
+* [Credential Dumping](/stories/credential_dumping)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

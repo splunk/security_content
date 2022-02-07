@@ -74,6 +74,10 @@ The following analytic requires on-premise Exchange to be logging to Splunk usin
 #### Known False Positives
 Limited false positives, however, tune as needed.
 
+#### Associated Analytic story
+* [ProxyShell](/stories/proxyshell)
+
+
 #### Kill Chain Phase
 * Exploitation
 

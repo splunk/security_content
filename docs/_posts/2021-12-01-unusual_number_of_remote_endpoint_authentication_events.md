@@ -77,6 +77,10 @@ To successfully implement this search, you need to be ingesting Windows Event Lo
 #### Known False Positives
 An single endpoint authenticating to a large number of hosts is not common behavior. Possible false positive scenarios include but are not limited to vulnerability scanners, jump servers and missconfigured systems.
 
+#### Associated Analytic story
+* [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
+
+
 #### Kill Chain Phase
 * Reconnaissance
 * Lateral Movement

@@ -80,6 +80,11 @@ To successfully implement this search, you must be ingesting data that records r
 #### Known False Positives
 unknown
 
+#### Associated Analytic story
+* [Windows Persistence Techniques](/stories/windows_persistence_techniques)
+* [Windows Privilege Escalation](/stories/windows_privilege_escalation)
+
+
 #### Kill Chain Phase
 * Exploitation
 

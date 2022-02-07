@@ -81,6 +81,13 @@ You must be ingesting data that records process activity from your hosts to popu
 #### Known False Positives
 Legitimate process can have this combination of command-line options, but it&#39;s not common.
 
+#### Associated Analytic story
+* [Malicious PowerShell](/stories/malicious_powershell)
+* [Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns](/stories/possible_backdoor_activity_associated_with_mudcarp_espionage_campaigns)
+* [HAFNIUM Group](/stories/hafnium_group)
+* [Log4Shell CVE-2021-44228](/stories/log4shell_cve-2021-44228)
+
+
 #### Kill Chain Phase
 * Command and Control
 * Actions on Objectives

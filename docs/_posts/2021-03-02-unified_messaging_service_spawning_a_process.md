@@ -73,6 +73,10 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Known False Positives
 Unknown. Tune out child processes as needed to limit volume of false positives.
 
+#### Associated Analytic story
+* [HAFNIUM Group](/stories/hafnium_group)
+
+
 #### Kill Chain Phase
 * Exploitation
 

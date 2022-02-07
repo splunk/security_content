@@ -73,6 +73,10 @@ To successfully implement this search, you need to be monitoring network communi
 #### Known False Positives
 It&#39;s possible that legitimate traffic will have long URLs or long user agent strings and that common SQL commands may be found within the URL. Please investigate as appropriate.
 
+#### Associated Analytic story
+* [SQL Injection](/stories/sql_injection)
+
+
 #### Kill Chain Phase
 * Delivery
 
