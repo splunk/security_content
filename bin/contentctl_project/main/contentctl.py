@@ -137,8 +137,7 @@ def validate(args) -> None:
         SecurityContentStoryBuilder(),
         SecurityContentBaselineBuilder(),
         SecurityContentInvestigationBuilder(),
-        SecurityContentDirector(),
-        SecurityContentProduct[args.product]
+        SecurityContentDirector()
     )
 
     validate_input_dto = ValidateInputDto(

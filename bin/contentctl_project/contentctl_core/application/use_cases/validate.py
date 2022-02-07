@@ -14,6 +14,6 @@ class Validate:
 
     def execute(self, input_dto: ValidateInputDto) -> None:
 
-        factory_output_dto = FactoryOutputDto([],[],[],[],[],[],[],[])
+        factory_output_dto = FactoryOutputDto([],[],[],[],[],[],[],[],[])
         factory = Factory(factory_output_dto)
         factory.execute(input_dto.factory_input_dto)

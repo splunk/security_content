@@ -68,3 +68,4 @@ tags:
   - Failure_Code
   risk_score: 60
   security_domain: endpoint
+  asset_type: Endpoint

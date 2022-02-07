@@ -73,3 +73,4 @@ tags:
   - Processes.parent_process_id
   risk_score: 9
   security_domain: endpoint
+  asset_type: Endpoint

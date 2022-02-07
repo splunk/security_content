@@ -33,11 +33,7 @@ tags:
   - FIN7
   - Remcos
   - Unusual Processes
-<<<<<<< HEAD
-=======
   - WhisperGate
-  automated_detection_testing: passed
->>>>>>> develop
   confidence: 70
   context:
   - Source:Endpoint

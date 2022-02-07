@@ -53,7 +53,7 @@ tags:
     role:
     - Victim
   - name: parent_process_name
-    type: Parent Process
+    type: Process
     role:
     - Parent Process
   - name: process_name
@@ -78,30 +78,5 @@ tags:
   - Processes.process_path
   - Processes.parent_process_id
   risk_score: 80
-<<<<<<< HEAD
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified
-    on endpoint $dest$ by user $user$ attempting to disable Windows Defender.
-  observable:
-  - name: user
-    type: User
-    role:
-    - Victim
-  - name: dest
-    type: Hostname
-    role:
-    - Victim
-  - name: parent_process_name
-    type: Process
-    role:
-    - Parent Process
-  - name: process_name
-    type: Process
-    role:
-    - Child Process
-  asset_type: Endpoint
-=======
   security_domain: access
->>>>>>> develop
+  asset_type: Endpoint

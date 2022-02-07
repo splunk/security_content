@@ -54,6 +54,11 @@ tags:
   mitre_attack_id:
   - T1574.002
   - T1574
+  observable:
+  - name: process_name
+    type: Process Name
+    role:
+    - Child Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -67,12 +72,5 @@ tags:
   - EventCode
   - ProcessId
   security_domain: endpoint
-  impact: 80
-  confidence: 70
   risk_score: 56
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  message: The following module $ImageLoaded$ was loaded by $Image$ outside of the
-    normal system paths on endpoint $Computer$, potentally related to DLL side-loading.
-
+  asset_type: Endpoint

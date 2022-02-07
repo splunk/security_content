@@ -164,3 +164,8 @@ class ContentChanger:
         for obj in objects:
             obj['name'] = obj['name'] + ' Unit Test'
             
+    def fix_kill_chain(self, objects : list) -> None:
+        for obj in objects:
+            if 'kill_chain_phases' in obj['tags']:
+                if obj['tags']['kill_chain_phases'] == 'Exploitation':
+                    obj['tags']['kill_chain_phases'] = ['Exploitation']
