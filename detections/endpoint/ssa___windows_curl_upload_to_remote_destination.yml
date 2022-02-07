@@ -52,6 +52,7 @@ references:
 tags:
   analytic_story:
   - Ingress Tool Transfer
+  cis20: []
   confidence: 100
   context:
   - Source:Endpoint
@@ -66,6 +67,7 @@ tags:
     destination.
   mitre_attack_id:
   - T1105
+  nist: []
   observable:
   - name: dest_user_id
     type: User
@@ -95,5 +97,6 @@ tags:
   - process
   - cmd_line
   risk_score: 80
+  risk_severity: high
   security_domain: endpoint
   asset_type: Endpoint

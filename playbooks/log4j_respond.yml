@@ -15,8 +15,7 @@ references:
 app_list: []
 tags:
   platform_tags:
-  - Response
-  - log4j
+  - Log4J
   analytic_story:
   - Log4Shell CVE-2021-44228
   detections:

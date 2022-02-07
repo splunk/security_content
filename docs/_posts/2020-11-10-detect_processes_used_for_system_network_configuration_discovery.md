@@ -23,7 +23,7 @@ tags:
 
 This search looks for fast execution of processes used for system network configuration discovery on the endpoint.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-11-10
@@ -33,8 +33,8 @@ This search looks for fast execution of processes used for system network config
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1016](https://attack.mitre.org/techniques/T1016/) | System Network Configuration Discovery | Discovery |
 
 #### Search
@@ -52,12 +52,13 @@ This search looks for fast execution of processes used for system network config
 | `detect_processes_used_for_system_network_configuration_discovery_filter`
 ```
 
-#### Associated Analytic Story
-* [Unusual Processes](/stories/unusual_processes)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [system_network_configuration_discovery_tools](https://github.com/splunk/security_content/blob/develop/macros/system_network_configuration_discovery_tools.yml)
 
-
-#### How To Implement
-You must be ingesting data that records registry activity from your hosts to populate the Endpoint data model in the processes node. This is typically populated via endpoint detection-and-response product, such as Carbon Black, or endpoint data sources, such as Sysmon. The data used for this search is usually generated via logs that report reads and writes to the registry or that are populated via Windows event logs, after enabling process tracking in your Windows audit settings.
+Note that `detect_processes_used_for_system_network_configuration_discovery_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -74,14 +75,17 @@ You must be ingesting data that records registry activity from your hosts to pop
 * Processes.parent_process_id
 
 
+#### How To Implement
+You must be ingesting data that records registry activity from your hosts to populate the Endpoint data model in the processes node. This is typically populated via endpoint detection-and-response product, such as Carbon Black, or endpoint data sources, such as Sysmon. The data used for this search is usually generated via logs that report reads and writes to the registry or that are populated via Windows event logs, after enabling process tracking in your Windows audit settings.
+
+#### Known False Positives
+It is uncommon for normal users to execute a series of commands used for network discovery. System administrators often use scripts to execute these commands. These can generate false positives.
+
 #### Kill Chain Phase
 * Installation
 * Command and Control
 * Actions on Objectives
 
-
-#### Known False Positives
-It is uncommon for normal users to execute a series of commands used for network discovery. System administrators often use scripts to execute these commands. These can generate false positives.
 
 
 #### RBA

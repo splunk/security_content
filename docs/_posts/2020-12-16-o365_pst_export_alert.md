@@ -23,7 +23,7 @@ tags:
 
 This search detects when a user has performed an Ediscovery search or exported a PST file from the search. This PST file usually has sensitive information including email body content
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-12-16
@@ -33,8 +33,8 @@ This search detects when a user has performed an Ediscovery search or exported a
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1114](https://attack.mitre.org/techniques/T1114/) | Email Collection | Collection |
 
 #### Search
@@ -47,13 +47,12 @@ This search detects when a user has performed an Ediscovery search or exported a
 | `o365_pst_export_alert_filter`
 ```
 
-#### Associated Analytic Story
-* [Office 365 Detections](/stories/office_365_detections)
-* [Data Exfiltration](/stories/data_exfiltration)
+#### Macros
+The SPL above uses the following Macros:
+* [o365_management_activity](https://github.com/splunk/security_content/blob/develop/macros/o365_management_activity.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-
-#### How To Implement
-You must install splunk Microsoft Office 365 add-on. This search works with o365:management:activity
+Note that `o365_pst_export_alert_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -65,12 +64,15 @@ You must install splunk Microsoft Office 365 add-on. This search works with o365
 * Operation
 
 
-#### Kill Chain Phase
-* Actions on Objective
-
+#### How To Implement
+You must install splunk Microsoft Office 365 add-on. This search works with o365:management:activity
 
 #### Known False Positives
 PST export can be done for legitimate purposes but due to the sensitive nature of its content it must be monitored.
+
+#### Kill Chain Phase
+* Actions on Objective
+
 
 
 #### RBA

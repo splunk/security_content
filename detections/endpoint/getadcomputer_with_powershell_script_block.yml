@@ -4,8 +4,7 @@ version: 1
 date: '2021-09-01'
 author: Mauricio Velazco, Splunk
 type: Hunting
-datamodel:
-- Endpoint
+datamodel: []
 description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
   to identify the execution of the `Get-AdGroup` commandlet. The `Get-AdGroup` commandlet
   is used to return a list of all domain computers. Red Teams and adversaries may

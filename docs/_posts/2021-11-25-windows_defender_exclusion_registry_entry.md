@@ -25,7 +25,7 @@ tags:
 
 This analytic will detect a suspicious process that modify a registry related to windows defender exclusion feature. This registry is abused by adversaries, malware author and red teams to bypassed Windows Defender Anti-Virus product by excluding folder path, file path, process, extensions and etc. from its real time or schedule scan to execute their malicious code. This is a good indicator for a defense evasion and to look further for events after this behavior.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-11-25
@@ -35,8 +35,8 @@ This analytic will detect a suspicious process that modify a registry related to
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1562.001](https://attack.mitre.org/techniques/T1562/001/) | Disable or Modify Tools | Defense Evasion |
 
 | [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
@@ -45,20 +45,23 @@ This analytic will detect a suspicious process that modify a registry related to
 
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_path = "*\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Exclusions\\*" by Registry.dest Registry.user Registry.registry_path Registry.registry_value_name Registry.registry_value_data 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_path = "*\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Exclusions\\*" by _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_value_name Registry.registry_value_data Registry.process_guid 
 | `drop_dm_object_name(Registry)` 
-| `security_content_ctime(lastTime)` 
-| `security_content_ctime(firstTime)` 
+|rename process_guid as proc_guid 
+|join proc_guid, _time [
+| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes by _time span=1h Processes.process_id Processes.process_name Processes.process Processes.dest Processes.parent_process_name Processes.parent_process Processes.process_guid 
+| `drop_dm_object_name(Processes)` 
+|rename process_guid as proc_guid 
+| fields _time dest user parent_process_name parent_process process_name process_path process proc_guid registry_path registry_value_name registry_value_data] 
+| table _time dest user parent_process_name parent_process process_name process_path process proc_guid registry_path registry_value_name registry_value_data 
 | `windows_defender_exclusion_registry_entry_filter`
 ```
 
-#### Associated Analytic Story
-* [Remcos](/stories/remcos)
-* [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure that this registry was included in your config files ex. sysmon config to be monitored.
+Note that `windows_defender_exclusion_registry_entry_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -70,12 +73,15 @@ To successfully implement this search you need to be ingesting information on pr
 * Registry.registry_value_data
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure that this registry was included in your config files ex. sysmon config to be monitored.
 
 #### Known False Positives
 admin or user may choose to use this windows features.
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA
@@ -91,6 +97,7 @@ admin or user may choose to use this windows features.
 
 * [https://tccontre.blogspot.com/2020/01/remcos-rat-evading-windows-defender-av.html](https://tccontre.blogspot.com/2020/01/remcos-rat-evading-windows-defender-av.html)
 * [https://app.any.run/tasks/cf1245de-06a7-4366-8209-8e3006f2bfe5/](https://app.any.run/tasks/cf1245de-06a7-4366-8209-8e3006f2bfe5/)
+* [https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/](https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/)
 
 
 

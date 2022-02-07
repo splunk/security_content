@@ -27,7 +27,7 @@ tags:
 
 DynamicWrapperX is an ActiveX component that can be used in a script to call Windows API functions, but it requires the dynwrapx.dll to be installed and registered. With that, registering or loading dynwrapx.dll to a host is highly suspicious. In most instances when it is used maliciously, the best way to triage is to review parallel processes and pivot on the process_guid. Review the registry for any suspicious modifications meant to load dynwrapx.dll. Identify any suspicious module loads of dynwrapx.dll. This detection will return and identify the processes that invoke vbs/wscript/cscript.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-11-18
@@ -37,8 +37,8 @@ DynamicWrapperX is an ActiveX component that can be used in a script to call Win
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation |
 
 | [T1055.001](https://attack.mitre.org/techniques/T1055/001/) | Dynamic-link Library Injection | Defense Evasion, Privilege Escalation |
@@ -53,12 +53,12 @@ DynamicWrapperX is an ActiveX component that can be used in a script to call Win
 | `loading_of_dynwrapx_module_filter`
 ```
 
-#### Associated Analytic Story
-* [Remcos](/stories/remcos)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 
-
-#### How To Implement
-To successfully implement this search you need to be ingesting information on processes that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` and `Filesystem` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
+Note that `loading_of_dynwrapx_module_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -73,12 +73,15 @@ To successfully implement this search you need to be ingesting information on pr
 * ProcessId
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search you need to be ingesting information on processes that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` and `Filesystem` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 
 #### Known False Positives
 False positives should be limited, however it is possible to filter by Processes.process_name and specific processes (ex. wscript.exe). Filter as needed. This may need modification based on EDR telemetry and how it brings in registry data. For example, removal of (Default).
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA

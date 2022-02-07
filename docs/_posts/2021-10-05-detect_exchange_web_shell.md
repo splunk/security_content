@@ -1,6 +1,6 @@
 ---
 title: "Detect Exchange Web Shell"
-excerpt: "Server Software Component, Web Shell"
+excerpt: "Server Software Component, Web Shell, Exploit Public-Facing Application"
 categories:
   - Endpoint
 last_modified_at: 2021-10-05
@@ -11,6 +11,8 @@ tags:
   - Persistence
   - Web Shell
   - Persistence
+  - Exploit Public-Facing Application
+  - Initial Access
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -25,7 +27,7 @@ tags:
 
 The following query identifies suspicious .aspx created in 3 paths identified by Microsoft as known drop locations for Exchange exploitation related to HAFNIUM group and recently disclosed vulnerablity named ProxyShell. Paths include: `\HttpProxy\owa\auth\`, `\inetpub\wwwroot\aspnet_client\`, and `\HttpProxy\OAB\`. Upon triage, the suspicious .aspx file will likely look obvious on the surface. inspect the contents for script code inside. Identify additional log sources, IIS included, to review source and other potential exploitation. It is often the case that a particular threat is only applicable to a specific subset of systems in your environment. Typically analytics to detect those threats are written without the benefit of being able to only target those systems as well. Writing analytics against all systems when those behaviors are limited to identifiable subsets of those systems is suboptimal. Consider the case ProxyShell vulnerability on Microsoft Exchange Servers. With asset information, a hunter can limit their analytics to systems that have been identified as Exchange servers. A hunter may start with the theory that the exchange server is communicating with new systems that it has not previously. If this theory is run against all publicly facing systems, the amount of noise it will generate will likely render this theory untenable. However, using the asset information to limit this analytic to just the Exchange servers will reduce the noise allowing the hunter to focus only on the systems where this behavioral change is relevant.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-10-05
@@ -35,11 +37,13 @@ The following query identifies suspicious .aspx created in 3 paths identified by
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1505](https://attack.mitre.org/techniques/T1505/) | Server Software Component | Persistence |
 
 | [T1505.003](https://attack.mitre.org/techniques/T1505/003/) | Web Shell | Persistence |
+
+| [T1190](https://attack.mitre.org/techniques/T1190/) | Exploit Public-Facing Application | Initial Access |
 
 #### Search
 
@@ -56,13 +60,11 @@ The following query identifies suspicious .aspx created in 3 paths identified by
 | `detect_exchange_web_shell_filter`
 ```
 
-#### Associated Analytic Story
-* [HAFNIUM Group](/stories/hafnium_group)
-* [ProxyShell](/stories/proxyshell)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node and `Filesystem` node.
+Note that `detect_exchange_web_shell_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -73,12 +75,15 @@ To successfully implement this search you need to be ingesting information on pr
 * Filesystem.user
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node and `Filesystem` node.
 
 #### Known False Positives
 The query is structured in a way that `action` (read, create) is not defined. Review the results of this query, filter, and tune as necessary. It may be necessary to generate this query specific to your endpoint product.
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA

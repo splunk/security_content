@@ -1,0 +1,6 @@
+default_match: 'false'
+description: A full baseline of executable files in \Windows\, including sub-directories from Server 2016 and Windows 11. Certain .net binaries may not have been captured due to different Windows SDK's or developer utilities not installed during baseline.
+filename: is_net_windows_file.csv
+min_matches: 1
+name: is_net_windows_file
+case_sensitive_match: 'false'

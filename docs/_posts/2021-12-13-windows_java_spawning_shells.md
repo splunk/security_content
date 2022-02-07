@@ -26,7 +26,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 The following analytic identifies the process name of java.exe and w3wp.exe spawning a Windows shell. This is potentially indicative of exploitation of the Java application and may be related to current event CVE-2021-44228 (Log4Shell). The shells included in the macro are &#34;cmd.exe&#34;, &#34;powershell.exe&#34;. Upon triage, review parallel processes and command-line arguments to determine legitimacy.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-12-13
@@ -36,8 +36,8 @@ The following analytic identifies the process name of java.exe and w3wp.exe spaw
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1190](https://attack.mitre.org/techniques/T1190/) | Exploit Public-Facing Application | Initial Access |
 
 #### Search
@@ -51,12 +51,13 @@ The following analytic identifies the process name of java.exe and w3wp.exe spaw
 | `windows_java_spawning_shells_filter`
 ```
 
-#### Associated Analytic Story
-* [Log4Shell CVE-2021-44228](/stories/log4shell_cve-2021-44228)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [windows_shells](https://github.com/splunk/security_content/blob/develop/macros/windows_shells.yml)
 
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. Restrict the analytic to publicly facing endpoints to reduce false positives. Add any additional identified web application process name to the query. Add any further Windows process names to the macro (ex. LOLBins) to further expand this query.
+Note that `windows_java_spawning_shells_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -73,12 +74,15 @@ To successfully implement this search, you need to be ingesting logs with the pr
 * Processes.parent_process_id
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. Restrict the analytic to publicly facing endpoints to reduce false positives. Add any additional identified web application process name to the query. Add any further Windows process names to the macro (ex. LOLBins) to further expand this query.
 
 #### Known False Positives
 Filtering may be required on internal developer build systems or classify assets as web facing and restrict the analytic based on that.
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA
@@ -93,7 +97,7 @@ Filtering may be required on internal developer build systems or classify assets
 
 | ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
 | ----------- | ----------- | -------------- |
-| [CVE-2021-44228](https://nvd.nist.gov/vuln/detail/CVE-2021-44228) | Apache Log4j2 2.0-beta9 through 2.12.1 and 2.13.0 through 2.15.0 JNDI features used in configuration, log messages, and parameters do not protect against attacker controlled LDAP and other JNDI related endpoints. An attacker who can control log messages or log message parameters can execute arbitrary code loaded from LDAP servers when message lookup substitution is enabled. From log4j 2.15.0, this behavior has been disabled by default. From version 2.16.0, this functionality has been completely removed. Note that this vulnerability is specific to log4j-core and does not affect log4net, log4cxx, or other Apache Logging Services projects. | 9.3 |
+| [CVE-2021-44228](https://nvd.nist.gov/vuln/detail/CVE-2021-44228) | Apache Log4j2 2.0-beta9 through 2.15.0 (excluding security releases 2.12.2, 2.12.3, and 2.3.1) JNDI features used in configuration, log messages, and parameters do not protect against attacker controlled LDAP and other JNDI related endpoints. An attacker who can control log messages or log message parameters can execute arbitrary code loaded from LDAP servers when message lookup substitution is enabled. From log4j 2.15.0, this behavior has been disabled by default. From version 2.16.0 (along with 2.12.2, 2.12.3, and 2.3.1), this functionality has been completely removed. Note that this vulnerability is specific to log4j-core and does not affect log4net, log4cxx, or other Apache Logging Services projects. | 9.3 |
 
 
 

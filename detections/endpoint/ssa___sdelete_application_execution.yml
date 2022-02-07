@@ -45,6 +45,7 @@ references:
 tags:
   analytic_story:
   - Information Sabotage
+  cis20: []
   confidence: 70
   context:
   - Source:Endpoint
@@ -60,6 +61,7 @@ tags:
   - T1485
   - T1070.004
   - T1070
+  nist: []
   observable:
   - name: dest_user_id
     type: User
@@ -91,5 +93,6 @@ tags:
   - process_path
   - cmd_line
   risk_score: 42
+  risk_severity: low
   security_domain: endpoint
   asset_type: Endpoint

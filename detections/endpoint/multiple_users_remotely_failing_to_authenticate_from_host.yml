@@ -4,8 +4,7 @@ version: 1
 date: '2021-04-13'
 author: Mauricio Velazco, Splunk
 type: Anomaly
-datamodel:
-- Endpoint
+datamodel: []
 description: 'The following analytic identifies a source host failing to authenticate
   against a remote host with multiple users. This behavior could represent an adversary
   performing a Password Spraying attack against an Active Directory environment to

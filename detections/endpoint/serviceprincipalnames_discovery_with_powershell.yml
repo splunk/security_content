@@ -4,8 +4,7 @@ version: 1
 date: '2021-10-14'
 author: Michael Haag, Splunk
 type: TTP
-datamodel:
-- Endpoint
+datamodel: []
 description: 'The following analytic identifies `powershell.exe` usage, using Script
   Block Logging EventCode 4104, related to querying the domain for Service Principle
   Names. typically, this is a precursor activity related to kerberoasting or the silver

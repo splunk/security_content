@@ -11,6 +11,7 @@ tags:
   - Palo Alto Networks Firewall
   - WildFire
   - Cylance
+  - Ransomware
 ---
 
 [Try in Splunk SOAR](https://www.splunk.com/en_us/software/splunk-security-orchestration-and-automation.html){: .btn .btn--success}
@@ -118,7 +119,57 @@ This playbook investigates and contains ransomware detected on endpoints.
 
 
 
+
+
 * [Conti Common Exec parameter](/endpoint/conti_common_exec_parameter/)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

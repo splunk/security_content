@@ -24,7 +24,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 This search looks at S3 bucket-access logs and detects new or previously unseen remote IP addresses that have successfully accessed an S3 bucket.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2018-06-28
@@ -34,8 +34,8 @@ This search looks at S3 bucket-access logs and detects new or previously unseen 
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1530](https://attack.mitre.org/techniques/T1530/) | Data from Cloud Storage Object | Collection |
 
 #### Search
@@ -57,12 +57,12 @@ This search looks at S3 bucket-access logs and detects new or previously unseen 
 | `detect_s3_access_from_a_new_ip_filter`
 ```
 
-#### Associated Analytic Story
-* [Suspicious AWS S3 Activities](/stories/suspicious_aws_s3_activities)
+#### Macros
+The SPL above uses the following Macros:
+* [aws_s3_accesslogs](https://github.com/splunk/security_content/blob/develop/macros/aws_s3_accesslogs.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-
-#### How To Implement
-You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your S3 access logs&#39; inputs. This search works best when you run the &#34;Previously Seen S3 Bucket Access by Remote IP&#34; support search once to create a history of previously seen remote IPs and bucket names.
+Note that `detect_s3_access_from_a_new_ip_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -71,12 +71,15 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 * remote_ip
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your S3 access logs&#39; inputs. This search works best when you run the &#34;Previously Seen S3 Bucket Access by Remote IP&#34; support search once to create a history of previously seen remote IPs and bucket names.
 
 #### Known False Positives
 S3 buckets can be accessed from any IP, as long as it can make a successful connection. This will be a false postive, since the search is looking for a new IP within the past hour
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 

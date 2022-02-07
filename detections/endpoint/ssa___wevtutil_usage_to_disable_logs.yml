@@ -74,6 +74,6 @@ tags:
   - dest_user_id
   - process
   risk_score: 63
-  risk_severity: high
+  risk_severity: medium
   security_domain: endpoint
   asset_type: Endpoint

@@ -10,6 +10,8 @@ sidebar:
 
 | Name    | Detections | Type        |
 | --------| ---------- | ----------- |
+| [AWS Disable User Accounts](/playbooks/aws_disable_user_accounts/)| None | Response |
+| [AWS Find Inactive Users](/playbooks/aws_find_inactive_users/)| None | Investigation |
 | [Active Directory Reset password](/playbooks/active_directory_reset_password/)| None | Response |
 | [Block Indicators](/playbooks/block_indicators/)| None | Response |
 | [Crowdstrike Malware Triage](/playbooks/crowdstrike_malware_triage/)| None | Response |
@@ -20,8 +22,8 @@ sidebar:
 | [Internal Host SSH Log4j Response](/playbooks/internal_host_ssh_log4j_response/)| None | Response |
 | [Internal Host WinRM Investigate](/playbooks/internal_host_winrm_investigate/)| None | Investigation |
 | [Internal Host WinRM Log4j Investigate](/playbooks/internal_host_winrm_log4j_investigate/)| None | Investigation |
-| [Internal Host WinRM Response](/playbooks/internal_host_winrm_response/)| None | Investigation |
-| [Log4j Investigate](/playbooks/log4j_investigate/)|[Curl Download and Bash Execution](/endpoint/curl_download_and_bash_execution/)[Wget Download and Bash Execution](/endpoint/wget_download_and_bash_execution/)[Linux Java Spawning Shell](/endpoint/linux_java_spawning_shell/)[Java Class File download by Java User Agent](/endpoint/java_class_file_download_by_java_user_agent/)[Outbound Network Connection from Java Using Default Ports](/endpoint/outbound_network_connection_from_java_using_default_ports/)[Log4Shell JNDI Payload Injection Attempt](/web/log4shell_jndi_payload_injection_attempt/)[Log4Shell JNDI Payload Injection with Outbound Connection](/web/log4shell_jndi_payload_injection_with_outbound_connection/)[Detect Outbound LDAP Traffic](/network/detect_outbound_ldap_traffic/)| Investigate |
+| [Internal Host WinRM Response](/playbooks/internal_host_winrm_response/)| None | Response |
+| [Log4j Investigate](/playbooks/log4j_investigate/)|[Curl Download and Bash Execution](/endpoint/curl_download_and_bash_execution/)[Wget Download and Bash Execution](/endpoint/wget_download_and_bash_execution/)[Linux Java Spawning Shell](/endpoint/linux_java_spawning_shell/)[Java Class File download by Java User Agent](/endpoint/java_class_file_download_by_java_user_agent/)[Outbound Network Connection from Java Using Default Ports](/endpoint/outbound_network_connection_from_java_using_default_ports/)[Log4Shell JNDI Payload Injection Attempt](/web/log4shell_jndi_payload_injection_attempt/)[Log4Shell JNDI Payload Injection with Outbound Connection](/web/log4shell_jndi_payload_injection_with_outbound_connection/)[Detect Outbound LDAP Traffic](/network/detect_outbound_ldap_traffic/)| Investigation |
 | [Log4j Respond](/playbooks/log4j_respond/)|[Curl Download and Bash Execution](/endpoint/curl_download_and_bash_execution/)[Wget Download and Bash Execution](/endpoint/wget_download_and_bash_execution/)[Linux Java Spawning Shell](/endpoint/linux_java_spawning_shell/)[Java Class File download by Java User Agent](/endpoint/java_class_file_download_by_java_user_agent/)[Outbound Network Connection from Java Using Default Ports](/endpoint/outbound_network_connection_from_java_using_default_ports/)[Log4Shell JNDI Payload Injection Attempt](/web/log4shell_jndi_payload_injection_attempt/)[Log4Shell JNDI Payload Injection with Outbound Connection](/web/log4shell_jndi_payload_injection_with_outbound_connection/)[Detect Outbound LDAP Traffic](/network/detect_outbound_ldap_traffic/)| Response |
 | [Log4j Splunk Investigation](/playbooks/log4j_splunk_investigation/)| None | Investigation |
 | [Malware Hunt and Contain](/playbooks/malware_hunt_and_contain/)| None | Response |
@@ -36,3 +38,6 @@ sidebar:
 | [Risk Notable Protect Assets and Users](/playbooks/risk_notable_protect_assets_and_users/)| None | Response |
 | [Risk Notable Review Indicators](/playbooks/risk_notable_review_indicators/)| None | Response |
 | [Risk Notable Verdict](/playbooks/risk_notable_verdict/)| None | Response |
+| [Start Investigation](/playbooks/start_investigation/)| None | Investigation |
+| [Threat Intel Investigate](/playbooks/threat_intel_investigate/)| None | Investigation |
+| [TruSTAR Enrich Indicators](/playbooks/trustar_enrich_indicators/)| None | Investigation |

@@ -4,8 +4,7 @@ version: 1
 date: '2021-09-01'
 author: Mauricio Velazco, Splunk
 type: TTP
-datamodel:
-- Endpoint
+datamodel: []
 description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
   to identify the execution of the `Get-WmiObject` commandlet. The `DS_Computer` class
   parameter leverages WMI to query for all domain computers. Red Teams and adversaries

@@ -25,7 +25,7 @@ tags:
 
 This analytic is to detect an application try to connect and create ADSI Object to do LDAP query. Every time an application connects to the directory and attempts to create an ADSI object, the Active Directory Schema is checked for changes. If it has changed since the last connection, the schema is downloaded and stored in a cache on the local computer either in %LOCALAPPDATA%\Microsoft\Windows\SchCache or %systemroot%\SchCache. We found this a good anomaly use case to detect suspicious application like blackmatter ransomware that use ADS object api to execute ldap query. having a good list of ldap or normal AD query tool used within the network is a good start to reduce the noise.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-09-07
@@ -35,8 +35,8 @@ This analytic is to detect an application try to connect and create ADSI Object 
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1087.002](https://attack.mitre.org/techniques/T1087/002/) | Domain Account | Discovery |
 
 | [T1087](https://attack.mitre.org/techniques/T1087/) | Account Discovery | Discovery |
@@ -51,12 +51,12 @@ This analytic is to detect an application try to connect and create ADSI Object 
 | `schcache_change_by_app_connect_and_create_adsi_object_filter`
 ```
 
-#### Associated Analytic Story
-* [blackMatter ransomware](/stories/blackmatter_ransomware)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+Note that `schcache_change_by_app_connect_and_create_adsi_object_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -68,12 +68,15 @@ To successfully implement this search, you need to be ingesting logs with the pr
 * Computer
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 
 #### Known False Positives
 normal application like mmc.exe and other ldap query tool may trigger this detections.
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA

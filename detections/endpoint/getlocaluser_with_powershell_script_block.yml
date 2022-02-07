@@ -4,8 +4,7 @@ version: 1
 date: '2021-08-23'
 author: Mauricio Velazco, Splunk
 type: Hunting
-datamodel:
-- Endpoint
+datamodel: []
 description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
   to identify the execution of the `Get-LocalUser` commandlet. The `Get-LocalUser`
   commandlet is used to return a list of all local users. Red Teams and adversaries

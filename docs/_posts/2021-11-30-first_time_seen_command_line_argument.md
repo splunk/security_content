@@ -15,6 +15,8 @@ tags:
   - Endpoint_Processes
 ---
 
+### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
+We have not been able to test, simulate, or build datasets for this detection. Use at your own risk. This analytic is **NOT** supported.
 
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -23,7 +25,7 @@ tags:
 
 This search looks for command-line arguments that use a `/c` parameter to execute a command that has not previously been seen. This is an implementation on SPL2 of the rule `First time seen command line argument` by @bpatel. &#39;The following analytic identifies first time seen command-line arguments on a single endpoint. The analytic looks for arguments instantiated by `cmd.exe /c` and the associated command-line. Adversaries automate or spawn multiple processes using this method, this analytic may assist with identifying the first time it&#39;s been found on this endpoint.&#39;
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2021-11-30
@@ -33,8 +35,8 @@ This search looks for command-line arguments that use a `/c` parameter to execut
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 
 | [T1202](https://attack.mitre.org/techniques/T1202/) | Indirect Command Execution | Defense Evasion |
@@ -56,12 +58,10 @@ This search looks for command-line arguments that use a `/c` parameter to execut
 | into write_ssa_detected_events();
 ```
 
-#### Associated Analytic Story
-* [Unusual Processes](/stories/unusual_processes)
+#### Macros
+The SPL above uses the following Macros:
 
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+Note that `first_time_seen_command_line_argument_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * process_name
@@ -72,13 +72,16 @@ To successfully implement this search, you need to be ingesting logs with the pr
 * cmd_line
 
 
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+
+#### Known False Positives
+Legitimate programs use command-line arguments to execute. Verify the command-line arguments to check what command/program is being executed. Filtering will be needed.
+
 #### Kill Chain Phase
 * Command and Control
 * Actions on Objectives
 
-
-#### Known False Positives
-Legitimate programs use command-line arguments to execute. Verify the command-line arguments to check what command/program is being executed. Filtering will be needed.
 
 
 #### RBA
@@ -100,4 +103,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/first_time_seen_command_line_argument.yml) \| *version*: **4**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/experimental/endpoint/first_time_seen_command_line_argument.yml) \| *version*: **4**

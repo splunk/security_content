@@ -23,7 +23,7 @@ tags:
 
 This analytic will identify suspicious executable or scripts (known file extensions) in list of suspicious file path in Windows. This technique is used by adversaries to evade detection. The suspicious file path are known paths used in the wild and are not common to have executable or scripts.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-05-06
@@ -33,28 +33,27 @@ This analytic will identify suspicious executable or scripts (known file extensi
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1036](https://attack.mitre.org/techniques/T1036/) | Masquerading | Defense Evasion |
 
 #### Search
 
 ```
 
-|tstats `security_content_summariesonly` values(Filesystem.file_path) as file_path count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem where (Filesystem.file_name = *.exe OR Filesystem.file_name = *.dll OR Filesystem.file_name = *.sys OR Filesystem.file_name = *.com OR Filesystem.file_name = *.vbs OR Filesystem.file_name = *.vbe OR Filesystem.file_name = *.js OR Filesystem.file_name = *.ps1 OR Filesystem.file_name = *.bat OR Filesystem.file_name = *.cmd OR Filesystem.file_name = *.pif) AND ( Filesystem.file_path = *\\windows\\fonts\\* OR Filesystem.file_path = *\\windows\\temp\\* OR Filesystem.file_path = *\\users\\public\\* OR Filesystem.file_path = *\\windows\\debug\\* OR Filesystem.file_path = *\\Users\\Administrator\\Music\\* OR Filesystem.file_path = *\\Windows\\servicing\\* OR Filesystem.file_path = *\\Users\\Default\\* OR Filesystem.file_path = *Recycle.bin* OR Filesystem.file_path = *\\Windows\\Media\\* OR Filesystem.file_path = *\\Windows\\repair\\* OR Filesystem.file_path = *\\AppData\\Local\\Temp*) by Filesystem.file_create_time Filesystem.process_id  Filesystem.file_name Filesystem.user 
+|tstats `security_content_summariesonly` values(Filesystem.file_path) as file_path count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem where (Filesystem.file_name = *.exe OR Filesystem.file_name = *.dll OR Filesystem.file_name = *.sys OR Filesystem.file_name = *.com OR Filesystem.file_name = *.vbs OR Filesystem.file_name = *.vbe OR Filesystem.file_name = *.js OR Filesystem.file_name = *.ps1 OR Filesystem.file_name = *.bat OR Filesystem.file_name = *.cmd OR Filesystem.file_name = *.pif) AND ( Filesystem.file_path = *\\windows\\fonts\\* OR Filesystem.file_path = *\\windows\\temp\\* OR Filesystem.file_path = *\\users\\public\\* OR Filesystem.file_path = *\\windows\\debug\\* OR Filesystem.file_path = *\\Users\\Administrator\\Music\\* OR Filesystem.file_path = *\\Windows\\servicing\\* OR Filesystem.file_path = *\\Users\\Default\\* OR Filesystem.file_path = *Recycle.bin* OR Filesystem.file_path = *\\Windows\\Media\\* OR Filesystem.file_path = *\\Windows\\repair\\* OR Filesystem.file_path = *\\AppData\\Local\\Temp* OR Filesystem.file_path = *\\PerfLogs\\*) by Filesystem.file_create_time Filesystem.process_id  Filesystem.file_name Filesystem.user 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
 | `executables_or_script_creation_in_suspicious_path_filter`
 ```
 
-#### Associated Analytic Story
-* [XMRig](/stories/xmrig)
-* [Remcos](/stories/remcos)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search you need to be ingesting information on process that include the name of the Filesystem responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Filesystem` node.
+Note that `executables_or_script_creation_in_suspicious_path_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -65,12 +64,15 @@ To successfully implement this search you need to be ingesting information on pr
 * Filesystem.user
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the Filesystem responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Filesystem` node.
 
 #### Known False Positives
 Administrators may allow creation of script or exe in the paths specified. Filter as needed.
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA
@@ -85,6 +87,7 @@ Administrators may allow creation of script or exe in the paths specified. Filte
 #### Reference
 
 * [https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/](https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/)
+* [https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/](https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/)
 
 
 

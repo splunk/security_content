@@ -31,9 +31,9 @@ tags:
 
 #### Description
 
-This analytic is to detect a suspicious spawned process by wscript or cscript process. This technique was a common technique used by adversaries and malware to execute different LOLBIN, other script like powershell or create a suspended process to inject its code as a defense evasion. This TTP may detect some normal script that using several application tool that are in the list of the child process it detects but a good pivot and indicator that a script is may execute suspicious code.
+This analytic identifies a suspicious spawned process by WScript or CScript process. This technique was a common technique used by adversaries and malware to execute different LOLBIN, other scripts like PowerShell or spawn a suspended process to inject its code as a defense evasion. This TTP may detect some normal script that using several application tool that are in the list of the child process it detects but a good pivot and indicator that a script is may execute suspicious code.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-10-06
@@ -43,8 +43,8 @@ This analytic is to detect a suspicious spawned process by wscript or cscript pr
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation |
 
 | [T1543](https://attack.mitre.org/techniques/T1543/) | Create or Modify System Process | Persistence, Privilege Escalation |
@@ -64,14 +64,12 @@ This analytic is to detect a suspicious spawned process by wscript or cscript pr
 | `wscript_or_cscript_suspicious_child_process_filter`
 ```
 
-#### Associated Analytic Story
-* [FIN7](/stories/fin7)
-* [Remcos](/stories/remcos)
-* [Unusual Processes](/stories/unusual_processes)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+Note that `wscript_or_cscript_suspicious_child_process_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -88,12 +86,15 @@ To successfully implement this search, you need to be ingesting logs with the pr
 * Processes.parent_process_id
 
 
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+
+#### Known False Positives
+Administrators may create vbs or js script that use several tool as part of its execution. Filter as needed.
+
 #### Kill Chain Phase
 * Exploitation
 
-
-#### Known False Positives
-user may create vbs or js script that use several tool as part of its execution.
 
 
 #### RBA
@@ -108,6 +109,7 @@ user may create vbs or js script that use several tool as part of its execution.
 #### Reference
 
 * [https://www.hybrid-analysis.com/sample/8da5b75b6380a41eee3a399c43dfe0d99eeefaa1fd21027a07b1ecaa4cd96fdd?environmentId=120](https://www.hybrid-analysis.com/sample/8da5b75b6380a41eee3a399c43dfe0d99eeefaa1fd21027a07b1ecaa4cd96fdd?environmentId=120)
+* [https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/](https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/)
 
 
 
