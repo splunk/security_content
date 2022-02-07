@@ -1,0 +1,22 @@
+name: Active Directory Kerberos Attacks
+id: 38b8cf16-8461-11ec-ade1-acde48001122
+version: 1
+date: '2022-02-02'
+author: Mauricio Velazco, Splunk
+description: UPDATE_DESCRIPTION
+narrative: UPDATE_NARRATIVE
+references:
+- https://www.destroyallsoftware.com/talks/wat
+tags:
+  analytic_story:
+  - Active Directory Kerberos Attacks
+  category:
+  - Adversary Tactics
+  - Account Compromise
+  - Lateral Movement
+  - Privilege Escalation
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

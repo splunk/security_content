@@ -21,6 +21,7 @@ references:
 tags:
   analytic_story:
   - Windows Privilege Escalation
+  - Active Directory Kerberos Attacks
   asset_type: Endpoint
   automated_detection_testing: passed
   cis20:
