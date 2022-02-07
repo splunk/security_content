@@ -78,6 +78,11 @@ To successfully implement this search, you must be ingesting data that records r
 #### Known False Positives
 possible new printer installation may add driver component on this registry.
 
+#### Associated Analytic story
+* [Windows Persistence Techniques](/stories/windows_persistence_techniques)
+* [Windows Privilege Escalation](/stories/windows_privilege_escalation)
+
+
 #### Kill Chain Phase
 * Exploitation
 

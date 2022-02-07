@@ -84,6 +84,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 False positives may be caused by Administrators resetting SPNs or querying for SPNs. Filter as needed.
 
+#### Associated Analytic story
+* [Active Directory Discovery](/stories/active_directory_discovery)
+
+
 #### Kill Chain Phase
 * Privilege Escalation
 

@@ -69,6 +69,10 @@ The following analytic requires Event Code 4768. Ensure that it is logging no Do
 #### Known False Positives
 False positives are possible if the environment is using certificates for authentication.
 
+#### Associated Analytic story
+* [PetitPotam NTLM Relay on Active Directory Certificate Services](/stories/petitpotam_ntlm_relay_on_active_directory_certificate_services)
+
+
 #### Kill Chain Phase
 * Exploitation
 * Lateral Movement

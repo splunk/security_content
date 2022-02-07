@@ -84,6 +84,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Limited false positives should be present as InstallUtil is not typically used to download remote files. Filter as needed based on Developers requirements.
 
+#### Associated Analytic story
+* [Signed Binary Proxy Execution InstallUtil](/stories/signed_binary_proxy_execution_installutil)
+
+
 #### Kill Chain Phase
 * Exploitation
 * Privilege Escalation

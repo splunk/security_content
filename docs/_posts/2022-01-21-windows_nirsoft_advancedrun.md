@@ -76,6 +76,12 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 False positives should be limited as it is specific to AdvancedRun. Filter as needed based on legitimate usage.
 
+#### Associated Analytic story
+* [Unusual Processes](/stories/unusual_processes)
+* [Ransomware](/stories/ransomware)
+* [WhisperGate](/stories/whispergate)
+
+
 #### Kill Chain Phase
 * Exploitation
 

@@ -72,6 +72,12 @@ You must be ingesting data that records the filesystem activity from your hosts 
 #### Known False Positives
 unknown
 
+#### Associated Analytic story
+* [Clop Ransomware](/stories/clop_ransomware)
+* [DarkSide Ransomware](/stories/darkside_ransomware)
+* [BlackMatter Ransomware](/stories/blackmatter_ransomware)
+
+
 #### Kill Chain Phase
 * Obfuscation
 

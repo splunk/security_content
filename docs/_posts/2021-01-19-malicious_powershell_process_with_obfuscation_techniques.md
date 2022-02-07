@@ -83,6 +83,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 These characters might be legitimately on the command-line, but it is not common.
 
+#### Associated Analytic story
+* [Malicious PowerShell](/stories/malicious_powershell)
+
+
 #### Kill Chain Phase
 * Command and Control
 * Actions on Objectives

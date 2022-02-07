@@ -77,6 +77,11 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Known False Positives
 False positives should be limited, however filtering may be required.
 
+#### Associated Analytic story
+* [Ingress Tool Transfer](/stories/ingress_tool_transfer)
+* [Log4Shell CVE-2021-44228](/stories/log4shell_cve-2021-44228)
+
+
 #### Kill Chain Phase
 * Exploitation
 

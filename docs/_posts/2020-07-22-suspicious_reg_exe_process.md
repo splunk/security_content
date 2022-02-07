@@ -80,6 +80,12 @@ You must be ingesting data that records process activity from your hosts to popu
 #### Known False Positives
 It&#39;s possible for system administrators to write scripts that exhibit this behavior. If this is the case, the search will need to be modified to filter them out.
 
+#### Associated Analytic story
+* [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
+* [Disabling Security Tools](/stories/disabling_security_tools)
+* [DHS Report TA18-074A](/stories/dhs_report_ta18-074a)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

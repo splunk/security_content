@@ -73,6 +73,10 @@ You must be ingesting Zeek DNS and Zeek Conn data into Splunk. Zeek data should 
 #### Known False Positives
 Unknown at this moment. Outbound LDAP traffic should not be allowed outbound through your perimeter firewall. Please check those servers to verify if the activity is legitimate.
 
+#### Associated Analytic story
+* [Log4Shell CVE-2021-44228](/stories/log4shell_cve-2021-44228)
+
+
 #### Kill Chain Phase
 * Command and Control
 * Actions on Objectives

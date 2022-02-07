@@ -76,6 +76,13 @@ You must be ingesting endpoint data that tracks process activity, including pare
 #### Known False Positives
 vssadmin.exe and wmic.exe are standard applications shipped with modern versions of windows. They may be used by administrators to legitimately delete old backup copies, although this is typically rare.
 
+#### Associated Analytic story
+* [Windows Log Manipulation](/stories/windows_log_manipulation)
+* [SamSam Ransomware](/stories/samsam_ransomware)
+* [Ransomware](/stories/ransomware)
+* [Clop Ransomware](/stories/clop_ransomware)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

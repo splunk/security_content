@@ -100,6 +100,11 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 False positives should be limited as this is specific to a file attribute not used by anything else. Filter as needed.
 
+#### Associated Analytic story
+* [Discovery Techniques](/stories/discovery_techniques)
+* [Ransomware](/stories/ransomware)
+
+
 #### Kill Chain Phase
 * Reconnaissance
 

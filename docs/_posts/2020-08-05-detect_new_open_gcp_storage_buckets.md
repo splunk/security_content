@@ -79,6 +79,10 @@ This search relies on the Splunk Add-on for Google Cloud Platform, setting up a 
 #### Known False Positives
 While this search has no known false positives, it is possible that a GCP admin has legitimately created a public bucket for a specific purpose. That said, GCP strongly advises against granting full control to the &#34;allUsers&#34; group.
 
+#### Associated Analytic story
+* [Suspicious GCP Storage Activities](/stories/suspicious_gcp_storage_activities)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

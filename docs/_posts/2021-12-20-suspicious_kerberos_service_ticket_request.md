@@ -80,6 +80,10 @@ To successfully implement this search, you need to be ingesting Domain Controlle
 #### Known False Positives
 We have tested this detection logic with ~2 million 4769 events and did not identify false positives. However, they may be possible in certain environments. Filter as needed.
 
+#### Associated Analytic story
+* [sAMAccountName Spoofing and Domain Controller Impersonation](/stories/samaccountname_spoofing_and_domain_controller_impersonation)
+
+
 #### Kill Chain Phase
 * Privilege Escalation
 

@@ -70,6 +70,11 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 False positives should be limited as this is restricted to the Rclone process name. Filter or tune the analytic as needed.
 
+#### Associated Analytic story
+* [DarkSide Ransomware](/stories/darkside_ransomware)
+* [Ransomware](/stories/ransomware)
+
+
 #### Kill Chain Phase
 * Exfiltration
 

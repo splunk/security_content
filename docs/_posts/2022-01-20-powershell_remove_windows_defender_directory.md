@@ -72,6 +72,10 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 #### Known False Positives
 unknown
 
+#### Associated Analytic story
+* [WhisperGate](/stories/whispergate)
+
+
 #### Kill Chain Phase
 * Exploitation
 

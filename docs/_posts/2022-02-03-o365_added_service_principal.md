@@ -3,7 +3,7 @@ title: "O365 Added Service Principal"
 excerpt: "Cloud Account, Create Account"
 categories:
   - Cloud
-last_modified_at: 2021-01-26
+last_modified_at: 2022-02-03
 toc: true
 toc_label: ""
 tags:
@@ -28,7 +28,7 @@ This search detects the creation of a new Federation setting by alerting about a
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **Last Updated**: 2021-01-26
+- **Last Updated**: 2022-02-03
 - **Author**: Rod Soto, Splunk
 - **ID**: 1668812a-6047-11eb-ae93-0242ac130002
 
@@ -44,8 +44,8 @@ This search detects the creation of a new Federation setting by alerting about a
 #### Search
 
 ```
-`o365_management_activity` Workload=AzureActiveDirectory signature="Add service principal credentials." 
-| stats min(_time) as firstTime max(_time) as lastTime values(Actor{}.ID) as Actor.ID values(ModifiedProperties{}.Name) as ModifiedProperties.Name values(ModifiedProperties{}.NewValue) as ModifiedProperties.NewValue values(Target{}.ID) as Target.ID by ActorIpAddress signature 
+`o365_management_activity` Workload=AzureActiveDirectory Operation="Add service principal credentials." 
+| stats min(_time) as firstTime max(_time) as lastTime values(Actor{}.ID) as Actor.ID values(ModifiedProperties{}.Name) as ModifiedProperties.Name values(ModifiedProperties{}.NewValue) as ModifiedProperties.NewValue values(Target{}.ID) as Target.ID by ActorIpAddress Operation 
 | `security_content_ctime(firstTime)`
 | `security_content_ctime(lastTime)` 
 | `o365_added_service_principal_filter`
@@ -74,6 +74,11 @@ You must install splunk Microsoft Office 365 add-on. This search works with o365
 
 #### Known False Positives
 The creation of a new Federation is not necessarily malicious, however these events need to be followed closely, as it may indicate federated credential abuse or backdoor via federated identities at a different cloud provider.
+
+#### Associated Analytic story
+* [Office 365 Detections](/stories/office_365_detections)
+* [Cloud Federated Credential Abuse](/stories/cloud_federated_credential_abuse)
+
 
 #### Kill Chain Phase
 * Actions on Objective

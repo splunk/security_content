@@ -78,6 +78,12 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 admin or user may choose to disable this windows features.
 
+#### Associated Analytic story
+* [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
+* [Ransomware](/stories/ransomware)
+* [Revil Ransomware](/stories/revil_ransomware)
+
+
 #### Kill Chain Phase
 * Exploitation
 

@@ -76,6 +76,13 @@ You must be ingesting data that records file-system activity from your hosts to 
 #### Known False Positives
 It&#39;s possible that a legitimate file could be created with the same name used by ransomware note files.
 
+#### Associated Analytic story
+* [SamSam Ransomware](/stories/samsam_ransomware)
+* [Ransomware](/stories/ransomware)
+* [Ryuk Ransomware](/stories/ryuk_ransomware)
+* [Clop Ransomware](/stories/clop_ransomware)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

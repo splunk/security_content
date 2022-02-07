@@ -70,6 +70,10 @@ In order to successfully implement this analytic, you will need endpoint process
 #### Known False Positives
 There are circumstances where an application may legitimately execute and interact with the Windows command-line interface.
 
+#### Associated Analytic story
+* [Suspicious Command-Line Executions](/stories/suspicious_command-line_executions)
+
+
 #### Kill Chain Phase
 * Exploitation
 

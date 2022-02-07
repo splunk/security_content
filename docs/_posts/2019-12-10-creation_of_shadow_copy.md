@@ -80,6 +80,10 @@ You must be ingesting endpoint data that tracks process activity, including pare
 #### Known False Positives
 Legitimate administrator usage of Vssadmin or Wmic will create false positives.
 
+#### Associated Analytic story
+* [Credential Dumping](/stories/credential_dumping)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

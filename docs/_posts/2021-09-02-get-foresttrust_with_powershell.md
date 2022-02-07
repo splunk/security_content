@@ -76,6 +76,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Limited false positives as this requires an active Administrator or adversary to bring in, import, and execute.
 
+#### Associated Analytic story
+* [Active Directory Discovery](/stories/active_directory_discovery)
+
+
 #### Kill Chain Phase
 * Reconnaissance
 

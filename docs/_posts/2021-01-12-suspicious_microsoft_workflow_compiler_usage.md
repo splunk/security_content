@@ -77,6 +77,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Although unlikely, limited instances have been identified coming from native Microsoft utilities similar to SCCM.
 
+#### Associated Analytic story
+* [Trusted Developer Utilities Proxy Execution](/stories/trusted_developer_utilities_proxy_execution)
+
+
 #### Kill Chain Phase
 * Exploitation
 

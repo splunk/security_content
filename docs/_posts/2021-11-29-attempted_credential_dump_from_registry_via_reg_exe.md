@@ -72,6 +72,10 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Known False Positives
 None identified.
 
+#### Associated Analytic story
+* [Credential Dumping](/stories/credential_dumping)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

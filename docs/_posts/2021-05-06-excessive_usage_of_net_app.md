@@ -78,6 +78,11 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 unknown. Filter as needed. Modify the time span as needed.
 
+#### Associated Analytic story
+* [XMRig](/stories/xmrig)
+* [Ransomware](/stories/ransomware)
+
+
 #### Kill Chain Phase
 * Exploitation
 

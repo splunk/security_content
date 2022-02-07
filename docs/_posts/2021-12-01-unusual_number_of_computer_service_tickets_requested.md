@@ -76,6 +76,10 @@ To successfully implement this search, you need to be ingesting Domain Controlle
 #### Known False Positives
 An single endpoint requesting a large number of computer service tickets is not common behavior. Possible false positive scenarios include but are not limited to vulnerability scanners, administration systeams and missconfigured systems.
 
+#### Associated Analytic story
+* [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
+
+
 #### Kill Chain Phase
 * Reconnaissance
 * Exploitation

@@ -68,6 +68,11 @@ To successfully implement this search, you need to be ingesting logs with the 70
 #### Known False Positives
 Admin activities or installing related updates may do a sudden stop to list of services we monitor.
 
+#### Associated Analytic story
+* [Ransomware](/stories/ransomware)
+* [BlackMatter Ransomware](/stories/blackmatter_ransomware)
+
+
 #### Kill Chain Phase
 * Exploitation
 

@@ -72,6 +72,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Known False Positives
 The idea of using named pipes with Cobalt Strike is to blend in. Therefore, some of the named pipes identified and added may cause false positives. Filter by process name or pipe name to reduce false positives.
 
+#### Associated Analytic story
+* [Cobalt Strike](/stories/cobalt_strike)
+* [Trickbot](/stories/trickbot)
+* [DarkSide Ransomware](/stories/darkside_ransomware)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

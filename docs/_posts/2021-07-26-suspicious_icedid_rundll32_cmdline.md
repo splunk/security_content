@@ -81,6 +81,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 limitted. this parameter is not commonly used by windows application but can be used by the network operator.
 
+#### Associated Analytic story
+* [IcedID](/stories/icedid)
+
+
 #### Kill Chain Phase
 * Exploitation
 
