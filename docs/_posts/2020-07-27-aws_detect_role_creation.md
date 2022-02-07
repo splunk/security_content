@@ -82,6 +82,10 @@ You must install splunk AWS add-on and Splunk App for AWS. This search works wit
 #### Known False Positives
 CreateRole is not very common in common users. This search can be adjusted to provide specific values to identify cases of abuse. In general AWS provides plenty of trust policies that fit most use cases.
 
+#### Associated Analytic story
+* [AWS Cross Account Activity](/stories/aws_cross_account_activity)
+
+
 #### Kill Chain Phase
 * Lateral Movement
 

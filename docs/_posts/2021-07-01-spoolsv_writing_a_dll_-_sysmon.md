@@ -77,6 +77,10 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Known False Positives
 Limited false positives. Filter as needed.
 
+#### Associated Analytic story
+* [PrintNightmare CVE-2021-34527](/stories/printnightmare_cve-2021-34527)
+
+
 #### Kill Chain Phase
 * Exploitation
 

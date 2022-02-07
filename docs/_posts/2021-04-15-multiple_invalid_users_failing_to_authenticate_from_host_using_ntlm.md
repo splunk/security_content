@@ -76,6 +76,10 @@ To successfully implement this search, you need to be ingesting Domain Controlle
 #### Known False Positives
 A host failing to authenticate with multiple invalid domain users is not a common behavior for legitimate systems. Possible false positive scenarios include but are not limited to vulnerability scanners and missconfigured systems. If this detection triggers on a host other than a Domain Controller, the behavior could represent a password spraying attack against the host&#39;s local accounts.
 
+#### Associated Analytic story
+* [Active Directory Password Spraying](/stories/active_directory_password_spraying)
+
+
 #### Kill Chain Phase
 * Exploitation
 

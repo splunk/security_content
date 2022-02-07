@@ -92,6 +92,13 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Known False Positives
 Administrators may create vbs or js script that use several tool as part of its execution. Filter as needed.
 
+#### Associated Analytic story
+* [FIN7](/stories/fin7)
+* [Remcos](/stories/remcos)
+* [Unusual Processes](/stories/unusual_processes)
+* [WhisperGate](/stories/whispergate)
+
+
 #### Kill Chain Phase
 * Exploitation
 

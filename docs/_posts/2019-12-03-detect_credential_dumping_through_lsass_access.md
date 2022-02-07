@@ -76,6 +76,11 @@ This search needs Sysmon Logs and a sysmon configuration, which includes EventCo
 #### Known False Positives
 The activity may be legitimate. Other tools can access lsass for legitimate reasons, and it&#39;s possible this event could be generated in those cases. In these cases, false positives should be fairly obvious and you may need to tweak the search to eliminate noise.
 
+#### Associated Analytic story
+* [Credential Dumping](/stories/credential_dumping)
+* [Detect Zerologon Attack](/stories/detect_zerologon_attack)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

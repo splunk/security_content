@@ -72,6 +72,10 @@ You must be ingesting your cloud infrastructure logs from your cloud provider. Y
 #### Known False Positives
 Using multiple AWS accounts and roles is perfectly valid behavior. It&#39;s suspicious when an account requests privileges of an account it hasn&#39;t before. You should validate with the account owner that this is a legitimate request.
 
+#### Associated Analytic story
+* [Suspicious Cloud Authentication Activities](/stories/suspicious_cloud_authentication_activities)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

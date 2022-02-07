@@ -78,6 +78,12 @@ To successfully implement this search, you must be ingesting data that records r
 #### Known False Positives
 There are many legitimate applications that must execute upon system startup and will use these registry keys to accomplish that task.
 
+#### Associated Analytic story
+* [Windows Privilege Escalation](/stories/windows_privilege_escalation)
+* [Suspicious Windows Registry Activities](/stories/suspicious_windows_registry_activities)
+* [Cloud Federated Credential Abuse](/stories/cloud_federated_credential_abuse)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

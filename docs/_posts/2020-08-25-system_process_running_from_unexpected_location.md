@@ -90,6 +90,11 @@ Collect endpoint data such as sysmon or 4688 events.
 #### Known False Positives
 None
 
+#### Associated Analytic story
+* [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
+* [Masquerading - Rename System Utilities](/stories/masquerading_-_rename_system_utilities)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

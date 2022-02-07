@@ -80,6 +80,10 @@ To successfully implement this search, you need to be ingesting Domain Controlle
 #### Known False Positives
 A computer account name change event inmediately followed by a kerberos TGT request with matching fields is unsual. However, legitimate behavior may trigger it. Filter as needed.
 
+#### Associated Analytic story
+* [sAMAccountName Spoofing and Domain Controller Impersonation](/stories/samaccountname_spoofing_and_domain_controller_impersonation)
+
+
 #### Kill Chain Phase
 * Privilege Escalation
 

@@ -71,6 +71,9 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 user may copy a lot of office fies from one folder to another
 
+#### Associated Analytic story
+
+
 #### Kill Chain Phase
 * Exploitation
 

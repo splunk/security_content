@@ -72,6 +72,10 @@ You must install the GCP App for Splunk (version 2.0.0 or later), then configure
 #### Known False Positives
 Not all unauthenticated requests are malicious, but frequency, User Agent, source IPs and pods  will provide context.
 
+#### Associated Analytic story
+* [Kubernetes Scanning Activity](/stories/kubernetes_scanning_activity)
+
+
 #### Kill Chain Phase
 * Reconnaissance
 

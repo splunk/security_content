@@ -96,6 +96,14 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 False positives may be present and filtering may be required. Certain utilities will run from non-standard paths based on the third-party application in use.
 
+#### Associated Analytic story
+* [Masquerading - Rename System Utilities](/stories/masquerading_-_rename_system_utilities)
+* [Unusual Processes](/stories/unusual_processes)
+* [Ransomware](/stories/ransomware)
+* [Signed Binary Proxy Execution InstallUtil](/stories/signed_binary_proxy_execution_installutil)
+* [WhisperGate](/stories/whispergate)
+
+
 #### Kill Chain Phase
 * Exploitation
 

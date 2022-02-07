@@ -73,6 +73,12 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Administrators may allow execution of specific binaries in non-standard paths. Filter as needed.
 
+#### Associated Analytic story
+* [XMRig](/stories/xmrig)
+* [Remcos](/stories/remcos)
+* [WhisperGate](/stories/whispergate)
+
+
 #### Kill Chain Phase
 * Exploitation
 

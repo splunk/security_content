@@ -84,6 +84,10 @@ You must be ingesting your cloud infrastructure logs from your cloud provider.  
 #### Known False Positives
 .
 
+#### Associated Analytic story
+* [Suspicious Cloud User Activities](/stories/suspicious_cloud_user_activities)
+
+
 #### Kill Chain Phase
 
 

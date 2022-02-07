@@ -64,6 +64,10 @@ This search uses the Network_Sessions data model shipped with Enterprise Securit
 #### Known False Positives
 This search might be prone to high false positives. Please consider this when conducting analysis or investigations. Authorized devices may be detected as unauthorized. If this is the case, verify the MAC address of the system responsible for the false positive and add it to the Assets and Identity framework with the proper information.
 
+#### Associated Analytic story
+* [Asset Tracking](/stories/asset_tracking)
+
+
 #### Kill Chain Phase
 * Reconnaissance
 * Delivery

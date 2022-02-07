@@ -75,6 +75,11 @@ Running this search properly requires a technology that can inspect network traf
 #### Known False Positives
 None identified
 
+#### Associated Analytic story
+* [Prohibited Traffic Allowed or Protocol Mismatch](/stories/prohibited_traffic_allowed_or_protocol_mismatch)
+* [Command and Control](/stories/command_and_control)
+
+
 #### Kill Chain Phase
 * Command and Control
 

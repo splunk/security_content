@@ -87,6 +87,10 @@ This search uses a standard SPL query on logs from Cisco Network devices. The ne
 #### Known False Positives
 This search might be prone to high false positives if DHCP Snooping or ARP inspection has been incorrectly configured, or if a device normally sends many ARP packets (unlikely).
 
+#### Associated Analytic story
+* [Router and Infrastructure Security](/stories/router_and_infrastructure_security)
+
+
 #### Kill Chain Phase
 * Reconnaissance
 * Delivery

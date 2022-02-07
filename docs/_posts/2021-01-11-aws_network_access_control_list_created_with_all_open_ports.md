@@ -82,6 +82,10 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 #### Known False Positives
 It&#39;s possible that an admin has created this ACL with all ports open for some legitimate purpose however, this should be scoped and not allowed in production environment.
 
+#### Associated Analytic story
+* [AWS Network ACL Activity](/stories/aws_network_acl_activity)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

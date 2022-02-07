@@ -81,6 +81,11 @@ You must be ingesting endpoint data that tracks process activity, including pare
 #### Known False Positives
 Limited false positives with the query restricted to specified paths. Add more world writeable paths as tuning continues.
 
+#### Associated Analytic story
+* [Suspicious Regsvr32 Activity](/stories/suspicious_regsvr32_activity)
+* [Iceid](/stories/iceid)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

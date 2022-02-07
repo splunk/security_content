@@ -81,6 +81,14 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Limited false positives should be present. It is possible some third party applications may use older versions of PsExec, filter as needed.
 
+#### Associated Analytic story
+* [SamSam Ransomware](/stories/samsam_ransomware)
+* [DHS Report TA18-074A](/stories/dhs_report_ta18-074a)
+* [HAFNIUM Group](/stories/hafnium_group)
+* [DarkSide Ransomware](/stories/darkside_ransomware)
+* [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
+
+
 #### Kill Chain Phase
 * Exploitation
 * Lateral Movement

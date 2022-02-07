@@ -72,6 +72,10 @@ To successfully implement this search, you need to be ingesting Windows Security
 #### Known False Positives
 Although uncommon, legitimate applications may create and delete a Scheduled Task within 30 seconds. Filter as needed.
 
+#### Associated Analytic story
+* [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
+
+
 #### Kill Chain Phase
 * Lateral Movement
 

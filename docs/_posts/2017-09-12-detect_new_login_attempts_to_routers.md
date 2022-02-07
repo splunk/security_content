@@ -63,6 +63,10 @@ To successfully implement this search, you must ensure the network router device
 #### Known False Positives
 Legitimate router connections may appear as new connections
 
+#### Associated Analytic story
+* [Router and Infrastructure Security](/stories/router_and_infrastructure_security)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 
