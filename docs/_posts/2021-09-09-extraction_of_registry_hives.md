@@ -81,6 +81,11 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 It is possible some agent based products will generate false positives. Filter as needed.
 
+#### Associated Analytic story
+* [DarkSide Ransomware](/stories/darkside_ransomware)
+* [Credential Dumping](/stories/credential_dumping)
+
+
 #### Kill Chain Phase
 * Exploitation
 

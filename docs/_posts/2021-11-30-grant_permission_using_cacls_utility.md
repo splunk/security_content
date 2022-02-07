@@ -68,6 +68,10 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Known False Positives
 System administrators may use cacls utilities but this is not a common practice. Filter as needed.
 
+#### Associated Analytic story
+* [XMRig](/stories/xmrig)
+
+
 #### Kill Chain Phase
 * Exploitation
 

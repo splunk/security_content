@@ -70,6 +70,10 @@ To successfully implement this search, you must ingest Windows Security Event lo
 #### Known False Positives
 Natively, `dllhost.exe` will access the files. Every environment will have additional native processes that do as well. Filter by process_name. As an aside, one can remove process_name entirely and add `Object_Name=*ShadowCopy*`.
 
+#### Associated Analytic story
+* [Credential Dumping](/stories/credential_dumping)
+
+
 #### Kill Chain Phase
 * Exploitation
 

@@ -74,6 +74,11 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Unknown. Filter as needed.
 
+#### Associated Analytic story
+* [Silver Sparrow](/stories/silver_sparrow)
+* [Ingress Tool Transfer](/stories/ingress_tool_transfer)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

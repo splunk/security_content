@@ -71,6 +71,11 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Known False Positives
 Unknown. Filter as needed.
 
+#### Associated Analytic story
+* [XMRig](/stories/xmrig)
+* [Ransomware](/stories/ransomware)
+
+
 #### Kill Chain Phase
 * Exploitation
 

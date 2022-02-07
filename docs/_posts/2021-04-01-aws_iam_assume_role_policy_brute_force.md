@@ -73,6 +73,10 @@ The Splunk AWS Add-on and Splunk App for AWS is required to utilize this data. T
 #### Known False Positives
 This detection will require tuning to provide high fidelity detection capabilties. Tune based on src addresses (corporate offices, VPN terminations) or by groups of users.
 
+#### Associated Analytic story
+* [AWS IAM Privilege Escalation](/stories/aws_iam_privilege_escalation)
+
+
 #### Kill Chain Phase
 * Reconnaissance
 

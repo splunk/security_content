@@ -71,6 +71,10 @@ This detection relies on sysmon logs with the Event ID 7, Driver loaded. Please 
 #### Known False Positives
 unknown
 
+#### Associated Analytic story
+* [NOBELIUM Group](/stories/nobelium_group)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

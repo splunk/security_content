@@ -67,6 +67,10 @@ The following Hunting analytic requires PowerShell operational logs to be import
 #### Known False Positives
 Administrators or power users may use this command for troubleshooting.
 
+#### Associated Analytic story
+* [Active Directory Discovery](/stories/active_directory_discovery)
+
+
 #### Kill Chain Phase
 * Reconnaissance
 

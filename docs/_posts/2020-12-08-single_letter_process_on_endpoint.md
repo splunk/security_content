@@ -76,6 +76,10 @@ You must be ingesting data that records process activity from your hosts to popu
 #### Known False Positives
 Single-letter executables are not always malicious. Investigate this activity with your normal incident-response process.
 
+#### Associated Analytic story
+* [DHS Report TA18-074A](/stories/dhs_report_ta18-074a)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

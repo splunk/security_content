@@ -68,6 +68,10 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Known False Positives
 unknown
 
+#### Associated Analytic story
+* [IcedID](/stories/icedid)
+
+
 #### Kill Chain Phase
 * Exploitation
 

@@ -74,6 +74,13 @@ This search needs Sysmon Logs and a sysmon configuration, which includes EventCo
 #### Known False Positives
 Other tools can import the same DLLs. These tools should be part of a whitelist. False positives may be present with any process that authenticates or uses credentials, PowerShell included. Filter based on parent process.
 
+#### Associated Analytic story
+* [Credential Dumping](/stories/credential_dumping)
+* [Detect Zerologon Attack](/stories/detect_zerologon_attack)
+* [Cloud Federated Credential Abuse](/stories/cloud_federated_credential_abuse)
+* [DarkSide Ransomware](/stories/darkside_ransomware)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

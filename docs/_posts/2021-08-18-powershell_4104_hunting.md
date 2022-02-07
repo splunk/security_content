@@ -241,6 +241,10 @@ The following Hunting analytic requires PowerShell operational logs to be import
 #### Known False Positives
 Limited false positives. May filter as needed.
 
+#### Associated Analytic story
+* [Malicious PowerShell](/stories/malicious_powershell)
+
+
 #### Kill Chain Phase
 * Exploitation
 

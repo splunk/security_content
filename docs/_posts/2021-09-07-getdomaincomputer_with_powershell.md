@@ -75,6 +75,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Administrators or power users may use PowerView for troubleshooting.
 
+#### Associated Analytic story
+* [Active Directory Discovery](/stories/active_directory_discovery)
+
+
 #### Kill Chain Phase
 * Reconnaissance
 

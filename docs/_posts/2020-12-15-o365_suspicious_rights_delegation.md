@@ -73,6 +73,10 @@ You must install splunk Microsoft Office 365 add-on. This search works with o365
 #### Known False Positives
 Service Accounts
 
+#### Associated Analytic story
+* [Office 365 Detections](/stories/office_365_detections)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

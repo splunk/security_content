@@ -81,6 +81,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Although unlikely, some legitimate applications may use advpack.dll or ieadvpack.dll, triggering a false positive.
 
+#### Associated Analytic story
+* [Suspicious Rundll32 Activity](/stories/suspicious_rundll32_activity)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

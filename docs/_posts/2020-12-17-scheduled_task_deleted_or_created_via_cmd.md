@@ -79,6 +79,11 @@ You must be ingesting endpoint data that tracks process activity, including pare
 #### Known False Positives
 Tasks should not be manually created via CLI, this is rarely done by admins as well
 
+#### Associated Analytic story
+* [DHS Report TA18-074A](/stories/dhs_report_ta18-074a)
+* [NOBELIUM Group](/stories/nobelium_group)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

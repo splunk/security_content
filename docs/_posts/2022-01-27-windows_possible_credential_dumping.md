@@ -79,6 +79,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Known False Positives
 False positives will occur based on GrantedAccess 0x1010 and 0x1400, filter based on source image as needed or remove them. Concern is Cobalt Strike usage of Mimikatz will generate 0x1010 initially, but later be caught.
 
+#### Associated Analytic story
+* [Credential Dumping](/stories/credential_dumping)
+* [Detect Zerologon Attack](/stories/detect_zerologon_attack)
+* [DarkSide Ransomware](/stories/darkside_ransomware)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

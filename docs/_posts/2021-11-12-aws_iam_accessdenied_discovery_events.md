@@ -71,6 +71,10 @@ The Splunk AWS Add-on and Splunk App for AWS is required to utilize this data. T
 #### Known False Positives
 It is possible to start this detection will need to be tuned by source IP or user. In addition, change the count values to an upper threshold to restrict false positives.
 
+#### Associated Analytic story
+* [Suspicious Cloud User Activities](/stories/suspicious_cloud_user_activities)
+
+
 #### Kill Chain Phase
 * Reconnaissance
 

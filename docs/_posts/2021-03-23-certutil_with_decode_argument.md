@@ -77,6 +77,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Typically seen used to `encode` files, but it is possible to see legitimate use of `decode`. Filter based on parent-child relationship, file paths, endpoint or user.
 
+#### Associated Analytic story
+* [Deobfuscate-Decode Files or Information](/stories/deobfuscate-decode_files_or_information)
+
+
 #### Kill Chain Phase
 * Exploitation
 
