@@ -75,6 +75,10 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 #### Known False Positives
 Limited false positives as the scope is limited to SAM, SYSTEM and SECURITY hives.
 
+#### Associated Analytic story
+* [Credential Dumping](/stories/credential_dumping)
+
+
 #### Kill Chain Phase
 * Exploitation
 

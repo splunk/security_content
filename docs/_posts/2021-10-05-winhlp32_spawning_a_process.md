@@ -77,6 +77,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 False positives should be limited as winhlp32.exe is typically not used with the latest flavors of Windows OS. However, filter as needed.
 
+#### Associated Analytic story
+* [Remcos](/stories/remcos)
+
+
 #### Kill Chain Phase
 * Exploitation
 

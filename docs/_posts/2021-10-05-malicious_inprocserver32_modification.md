@@ -80,6 +80,11 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 False positives should be limited, filter as needed. In our test case, Remcos used regsvr32.exe to modify the registry. It may be required, dependent upon the EDR tool producing registry events, to remove (Default) from the command-line.
 
+#### Associated Analytic story
+* [Suspicious Regsvr32 Activity](/stories/suspicious_regsvr32_activity)
+* [Remcos](/stories/remcos)
+
+
 #### Kill Chain Phase
 * Exploitation
 

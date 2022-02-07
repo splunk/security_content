@@ -70,6 +70,10 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Known False Positives
 normal download of file in telegram app. (if it was a common app in network)
 
+#### Associated Analytic story
+* [XMRig](/stories/xmrig)
+
+
 #### Kill Chain Phase
 * Exploitation
 

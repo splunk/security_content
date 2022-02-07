@@ -67,6 +67,10 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 #### Known False Positives
 powershell may used this function to store out object into memory.
 
+#### Associated Analytic story
+* [Malicious PowerShell](/stories/malicious_powershell)
+
+
 #### Kill Chain Phase
 * Exploitation
 

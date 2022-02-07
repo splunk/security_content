@@ -87,6 +87,13 @@ To successfully implement this search, you must be ingesting data that records p
 #### Known False Positives
 Some administrator activity can be potentially triggered, please add those users to the filter macro.
 
+#### Associated Analytic story
+* [Monitor for Unauthorized Software](/stories/monitor_for_unauthorized_software)
+* [XMRig](/stories/xmrig)
+* [SamSam Ransomware](/stories/samsam_ransomware)
+* [Unusual Processes](/stories/unusual_processes)
+
+
 #### Kill Chain Phase
 * Installation
 * Command and Control

@@ -88,6 +88,10 @@ You must be ingesting your cloud infrastructure logs from your cloud provider.  
 This is a strictly behavioral search, so we define &#34;false positive&#34; slightly differently. Every time this fires, it will accurately reflect the first occurrence in the time period you&#39;re searching within, plus what is stored in the cache feature. But while there are really no &#34;false positives&#34; in a traditional sense, there is definitely lots of noise.\
  This search will fire any time a new IP address is seen in the **GeoIP** database for any kind of provisioning activity. If you typically do all provisioning from tools inside of your country, there should be few false positives. If you are located in countries where the free version of **MaxMind GeoIP** that ships by default with Splunk has weak resolution (particularly small countries in less economically powerful regions), this may be much less valuable to you.
 
+#### Associated Analytic story
+* [Suspicious Cloud Provisioning Activities](/stories/suspicious_cloud_provisioning_activities)
+
+
 #### Kill Chain Phase
 
 

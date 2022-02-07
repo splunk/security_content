@@ -75,6 +75,11 @@ To successfully implement this search, you must be ingesting data that records p
 #### Known False Positives
 Remote Desktop may be used legitimately by users on the network.
 
+#### Associated Analytic story
+* [Hidden Cobra Malware](/stories/hidden_cobra_malware)
+* [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

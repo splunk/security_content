@@ -72,6 +72,10 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Known False Positives
 unknown
 
+#### Associated Analytic story
+* [FIN7](/stories/fin7)
+
+
 #### Kill Chain Phase
 * Exploitation
 

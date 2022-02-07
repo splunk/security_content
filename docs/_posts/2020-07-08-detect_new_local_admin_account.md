@@ -74,6 +74,11 @@ You must be ingesting Windows event logs using the Splunk Windows TA and collect
 #### Known False Positives
 The activity may be legitimate. For this reason, it&#39;s best to verify the account with an administrator and ask whether there was a valid service request for the account creation. If your local administrator group name is not &#34;Administrators&#34;, this search may generate an excessive number of false positives
 
+#### Associated Analytic story
+* [DHS Report TA18-074A](/stories/dhs_report_ta18-074a)
+* [HAFNIUM Group](/stories/hafnium_group)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 * Command and Control

@@ -70,6 +70,11 @@ You must be ingesting endpoint data that tracks process activity, including pare
 #### Known False Positives
 Administrators may modify the boot configuration.
 
+#### Associated Analytic story
+* [Ryuk Ransomware](/stories/ryuk_ransomware)
+* [Ransomware](/stories/ransomware)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

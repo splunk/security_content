@@ -77,6 +77,11 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Limited false positives in most environments, however tune as needed based on parent-child relationship or network connection.
 
+#### Associated Analytic story
+* [Ingress Tool Transfer](/stories/ingress_tool_transfer)
+* [DarkSide Ransomware](/stories/darkside_ransomware)
+
+
 #### Kill Chain Phase
 * Exploitation
 

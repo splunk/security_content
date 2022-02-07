@@ -77,6 +77,10 @@ You must install splunk AWS add on and Splunk App for AWS. This search works wit
 #### Known False Positives
 unknown
 
+#### Associated Analytic story
+* [Ransomware Cloud](/stories/ransomware_cloud)
+
+
 #### Kill Chain Phase
 
 

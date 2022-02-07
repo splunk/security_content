@@ -60,6 +60,10 @@ This particular search leverages data extracted from Stream:HTTP. You must confi
 #### Known False Positives
 Very few legitimate Content-Type fields will have a length greater than 100 characters.
 
+#### Associated Analytic story
+* [Apache Struts Vulnerability](/stories/apache_struts_vulnerability)
+
+
 #### Kill Chain Phase
 * Delivery
 

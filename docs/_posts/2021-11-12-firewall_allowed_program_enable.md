@@ -77,6 +77,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 A network operator or systems administrator may utilize an automated or manual execution of this firewall rule that may generate false positives. Filter as needed.
 
+#### Associated Analytic story
+* [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
+
+
 #### Kill Chain Phase
 * Reconnaissance
 

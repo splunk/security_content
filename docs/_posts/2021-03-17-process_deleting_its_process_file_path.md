@@ -75,6 +75,12 @@ You must be ingesting data that records process activity from your hosts to popu
 #### Known False Positives
 unknown
 
+#### Associated Analytic story
+* [Clop Ransomware](/stories/clop_ransomware)
+* [Remcos](/stories/remcos)
+* [WhisperGate](/stories/whispergate)
+
+
 #### Kill Chain Phase
 * Exploitation
 

@@ -67,6 +67,11 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 #### Known False Positives
 network administrator may used this command for checking purposes
 
+#### Associated Analytic story
+* [Ransomware](/stories/ransomware)
+* [Malicious PowerShell](/stories/malicious_powershell)
+
+
 #### Kill Chain Phase
 * Reconnaissance
 

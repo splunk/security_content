@@ -81,6 +81,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 windows can used this application for its normal COM object validation.
 
+#### Associated Analytic story
+* [Unusual Processes](/stories/unusual_processes)
+
+
 #### Kill Chain Phase
 * Exploitation
 

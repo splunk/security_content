@@ -75,6 +75,11 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 False positives should be limited as this analytic identifies renamed instances of `rclone.exe`. Filter as needed if there is a legitimate business use case.
 
+#### Associated Analytic story
+* [DarkSide Ransomware](/stories/darkside_ransomware)
+* [Ransomware](/stories/ransomware)
+
+
 #### Kill Chain Phase
 * Exfiltration
 

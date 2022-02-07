@@ -77,6 +77,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 This commandline can be used by a network administrator to audit host machine specifications. Thus, a filter is needed.
 
+#### Associated Analytic story
+* [Remcos](/stories/remcos)
+
+
 #### Kill Chain Phase
 * Reconnaissance
 
