@@ -1,4 +1,4 @@
-name: FSUtil Zeroing File
+name: Fsutil Zeroing File
 file: endpoint/ssa___fsutil_zeroing_file.yml
 pass_condition: '@count_gt(0)'
 description: Test detection of FSUtil Zeroing File

@@ -1,4 +1,4 @@
-name: Attempt To delete Services
+name: Attempt To Delete Services
 file: endpoint/ssa___attempt_to_delete_services.yml
 pass_condition: '@count_gt(0)'
 description: Test for usage of sc.exe to delete a service

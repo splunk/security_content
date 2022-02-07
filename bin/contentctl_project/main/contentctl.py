@@ -7,7 +7,8 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 from contentctl_core.application.use_cases.content_changer import ContentChanger, ContentChangerInputDto
 from contentctl_core.application.use_cases.generate import GenerateInputDto, Generate
 from contentctl_core.application.use_cases.validate import ValidateInputDto, Validate
-from contentctl_core.application.factory.factory import Factory, FactoryInputDto, FactoryOutputDto
+from contentctl_core.application.factory.factory import FactoryInputDto
+from contentctl_core.application.factory.ba_factory import BAFactoryInputDto
 from contentctl_core.application.factory.object_factory import ObjectFactoryInputDto
 from contentctl_infrastructure.builder.security_content_object_builder import SecurityContentObjectBuilder
 from contentctl_infrastructure.builder.security_content_director import SecurityContentDirector
@@ -93,15 +94,32 @@ def generate(args) -> None:
         SecurityContentStoryBuilder(),
         SecurityContentBaselineBuilder(),
         SecurityContentInvestigationBuilder(),
-        SecurityContentDirector(),
-        SecurityContentProduct[args.product]
+        SecurityContentDirector()
     )
 
-    generate_input_dto = GenerateInputDto(
-        os.path.abspath(args.output),
-        factory_input_dto,
-        ObjToConfAdapter()
+    ba_factory_input_dto = BAFactoryInputDto(
+        os.path.abspath(args.path),
+        SecurityContentBasicBuilder(),
+        SecurityContentDetectionBuilder(),
+        SecurityContentDirector()
     )
+
+    if args.product == "ESCU":
+        generate_input_dto = GenerateInputDto(
+            os.path.abspath(args.output),
+            factory_input_dto,
+            ba_factory_input_dto,
+            ObjToConfAdapter(),
+            SecurityContentProduct.ESCU
+        )
+    else:
+        generate_input_dto = GenerateInputDto(
+            os.path.abspath(args.output),
+            factory_input_dto,
+            ba_factory_input_dto,
+            ObjToYmlAdapter(),
+            SecurityContentProduct.BA
+        ) 
 
     generate = Generate()
     generate.execute(generate_input_dto)

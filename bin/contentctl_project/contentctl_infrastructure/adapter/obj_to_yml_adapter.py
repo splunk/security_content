@@ -36,19 +36,32 @@ class ObjToYmlAdapter(Adapter):
             object.pop('experimental') 
             YmlWriter.writeYmlFile(file_path, object)
 
-    def writeObjects(self, objects: list, security_content_folder: str) -> None:
+    def writeObjects(self, objects: list, output_path: str) -> None:
         for obj in objects:
             file_name = "ssa___" + self.convertNameToFileName(obj)
             if self.isComplexBARule(obj.search):
-                file_path = os.path.join(security_content_folder, 'complex', file_name)
+                file_path = os.path.join(output_path, 'complex', file_name)
             else:
-                file_path = os.path.join(security_content_folder, 'srs', file_name)
+                file_path = os.path.join(output_path, 'srs', file_name)
 
             # remove unncessary fields
-            YmlWriter.writeYmlFile(file_path, object)
+            YmlWriter.writeYmlFile(file_path, obj.dict(
+                exclude = 
+                    {
+                        "tags": {"detections": True , "deployments": True}, 
+                        "deprecated": True, 
+                        "experimental": True,
+                        "deployment": True,
+                        "annotations": True,
+                        "risk": True,
+                        "playbooks": True,
+                        "baselines": True,
+                        "mappings": True,
+                        "test": {"earliest_time": True , "latest_time": True, "baselines": True} 
+                    }))
 
     def convertNameToFileName(self, obj: dict):
-        file_name = obj['name'] \
+        file_name = obj.name \
             .replace(' ', '_') \
             .replace('-','_') \
             .replace('.','_') \

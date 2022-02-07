@@ -97,5 +97,5 @@ class ObjToConfAdapter(Adapter):
         pass
 
 
-    def writeObjects(self, objects: list, security_content_folder: str) -> None:
+    def writeObjects(self, objects: list, output_path: str) -> None:
         pass

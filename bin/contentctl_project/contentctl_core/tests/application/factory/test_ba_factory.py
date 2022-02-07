@@ -23,4 +23,7 @@ def test_factory_BA():
 
     factory = BAFactory(output_dto)
     factory.execute(input_dto)
-    print(output_dto.detections[0])
+    
+    for detection in output_dto.detections:
+        if not detection.test:
+            raise AssertionError("test file missing for ssa detection: " + detection.name)

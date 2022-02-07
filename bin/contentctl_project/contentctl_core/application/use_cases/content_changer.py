@@ -162,6 +162,8 @@ class ContentChanger:
 
     def change_test_file_format(self, objects : list) -> None:
         for obj in objects:
+            new_obj = dict()
+            new_obj['name'] = obj['name']
             obj['name'] = obj['tests'][0]['name']
             new_dict = obj['tests'][0]
             new_dict.pop('name')

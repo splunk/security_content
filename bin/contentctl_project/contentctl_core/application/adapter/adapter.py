@@ -35,5 +35,5 @@ class Adapter(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def writeObjects(self, objects: list, security_content_folder: str) -> None:
+    def writeObjects(self, objects: list, output_path: str) -> None:
         pass

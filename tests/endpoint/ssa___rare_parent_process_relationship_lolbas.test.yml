@@ -1,4 +1,4 @@
-name: Rare Parent/Child Process Relationship with LOLBAS
+name: Rare Parent-Child Process Relationship
 file: endpoint/ssa___rare_parent_process_relationship_lolbas.yml
 pass_condition: '@count_gt(0)'
 description: Test detection looking for LOLBAS processes spawned by other processes

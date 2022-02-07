@@ -1,4 +1,4 @@
-name: Detect kerberoasting
+name: Detect Kerberoasting
 file: endpoint/ssa___detect_kerberoasting.yml
 pass_condition: '@count_eq(0)'
 description: Test detection of kerberoasting
