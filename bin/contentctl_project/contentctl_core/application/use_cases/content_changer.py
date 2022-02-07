@@ -23,7 +23,7 @@ class ContentChanger:
 
         converter_func = getattr(self, input_dto.converter_func_name)
         converter_func(objects)
-
+    
         input_dto.adapter.writeObjectsInPlace(objects)
 
 
@@ -162,10 +162,5 @@ class ContentChanger:
 
     def change_test_file_format(self, objects : list) -> None:
         for obj in objects:
-            new_obj = dict()
-            new_obj['name'] = obj['name']
-            obj['name'] = obj['tests'][0]['name']
-            new_dict = obj['tests'][0]
-            new_dict.pop('name')
-            obj.update(new_dict)
-            obj.pop('tests')
+            obj['name'] = obj['name'] + ' Unit Test'
+            
