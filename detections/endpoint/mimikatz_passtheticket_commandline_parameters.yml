@@ -21,7 +21,8 @@ how_to_implement: To successfully implement this search, you need to be ingestin
   Sysmon TA.
 known_false_positives: Although highly unlikely, legitimate applications may use the same command line parameters as Mimikatz.
 references:
-- https://github.com/gentilkiwi/mimikatz  
+- https://github.com/gentilkiwi/mimikatz
+- https://attack.mitre.org/techniques/T1550/003/  
 tags:
   analytic_story:
   - Active Directory Kerberos Attacks
@@ -30,6 +31,7 @@ tags:
   kill_chain_phases:
   - Privilege Escalation
   mitre_attack_id:
+  - T1550
   - T1550.003
   product:
   - Splunk Enterprise
