@@ -225,7 +225,6 @@ def main():
 
                     if supported_tas_list:
                         keyname = "supported_tas"
-                        enrich_detection_file(filepath, cim_version, "cim_version")
                         enrich_detection_file(filepath, supported_tas_list, keyname)
                         detection_ta_mapping[detection_file_name][
                             keyname
@@ -236,6 +235,27 @@ def main():
                     security_content_repo_obj.index.add(
                         [filepath.strip("security_content/")]
                     )
+
+    # Generating detection_ta_mapping yml file
+    try:
+        with io.open(
+            r"./security_content/security_content_automation/detection_ta_mapping.yml",
+            "w",
+            encoding="utf8",
+        ) as outfile:
+            yaml.safe_dump(
+                detection_ta_mapping, outfile, default_flow_style=False, allow_unicode=True
+            )
+        
+        security_content_repo_obj.index.add(
+            ["security_content_automation/detection_ta_mapping.yml"]
+        )
+        message = "Created detection_ta_mapping.yml file"
+        logging.info(message)
+
+    except Exception as error:
+        error_message = f"Unexpected error occurred while generating detection_ta_mapping.yml file, {error}"
+        logging.error(error_message)
 
 
     # Generating detection_ta_mapping CSV report
@@ -264,26 +284,7 @@ def main():
         logging.error(error_message)
     
 
-    # Generating detection_ta_mapping yml file
-    try:
-        with io.open(
-            r"./security_content/security_content_automation/detection_ta_mapping.yml",
-            "w",
-            encoding="utf8",
-        ) as outfile:
-            yaml.safe_dump(
-                detection_ta_mapping, outfile, default_flow_style=False, allow_unicode=True
-            )
-        
-        security_content_repo_obj.index.add(
-            ["security_content_automation/detection_ta_mapping.yml"]
-        )
-        message = "Created detection_ta_mapping.yml file"
-        logging.info(message)
-
-    except Exception as error:
-        error_message = f"Unexpected error occurred while generating detection_ta_mapping.yml file, {error}"
-        logging.error(error_message)
+    
 
 
     try:

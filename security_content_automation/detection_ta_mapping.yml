@@ -1140,6 +1140,10 @@ linux_nopasswd_entry_in_sudoers_file:
   - Splunk_TA_bit9-carbonblack
   - Splunk_TA_microsoft_sysmon
   - Splunk_TA_CrowdStrike_FDR
+linux_pkexec_privilege_escalation:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_microsoft_sysmon
 linux_possible_access_or_modification_of_sshd_config_file:
   cim_version: 5.0.0
   tas_with_cim_mapping:
@@ -1570,12 +1574,6 @@ rundll32_shimcache_flush:
   tas_with_cim_mapping:
   - Splunk_TA_microsoft_sysmon
 rundll32_with_no_command_line_arguments_with_network:
-  cim_version: 5.0.0
-  supported_tas:
-  - Splunk_TA_microsoft_sysmon
-  tas_with_cim_mapping:
-  - Splunk_TA_microsoft_sysmon
-rundll_loading_dll_by_ordinal:
   cim_version: 5.0.0
   supported_tas:
   - Splunk_TA_microsoft_sysmon
