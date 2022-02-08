@@ -6,6 +6,7 @@ toc_label: ""
 tags:
   - Response
   - Splunk SOAR
+  - Log4J
 ---
 
 [Try in Splunk SOAR](https://www.splunk.com/en_us/software/splunk-security-orchestration-and-automation.html){: .btn .btn--success}
@@ -129,8 +130,6 @@ Published in response to CVE-2021-44228, this playbook is meant to be launched a
 
 
 * [Curl Download and Bash Execution](/endpoint/curl_download_and_bash_execution/)
-
-
 
 
 
@@ -3388,8 +3387,6 @@ Published in response to CVE-2021-44228, this playbook is meant to be launched a
 
 
 
-
-
 * [Java Class File download by Java User Agent](/endpoint/java_class_file_download_by_java_user_agent/)
 
 
@@ -4938,9 +4935,7 @@ Published in response to CVE-2021-44228, this playbook is meant to be launched a
 
 
 
-
 * [Log4Shell JNDI Payload Injection Attempt](/web/log4shell_jndi_payload_injection_attempt/)
-
 
 
 
@@ -6189,10 +6184,7 @@ Published in response to CVE-2021-44228, this playbook is meant to be launched a
 
 
 
-
-
 * [Detect Outbound LDAP Traffic](/network/detect_outbound_ldap_traffic/)
-
 
 
 

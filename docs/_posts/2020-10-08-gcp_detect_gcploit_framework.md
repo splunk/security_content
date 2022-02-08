@@ -27,7 +27,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 This search provides detection of GCPloit exploitation framework. This framework can be used to escalate privileges and move laterally from compromised high privilege accounts.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-10-08
@@ -37,8 +37,8 @@ This search provides detection of GCPloit exploitation framework. This framework
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 #### Search
@@ -49,12 +49,11 @@ This search provides detection of GCPloit exploitation framework. This framework
 | `gcp_detect_gcploit_framework_filter`
 ```
 
-#### Associated Analytic Story
-* [GCP Cross Account Activity](/stories/gcp_cross_account_activity)
+#### Macros
+The SPL above uses the following Macros:
+* [google_gcp_pubsub_message](https://github.com/splunk/security_content/blob/develop/macros/google_gcp_pubsub_message.yml)
 
-
-#### How To Implement
-You must install splunk GCP add-on. This search works with gcp:pubsub:message logs
+Note that `gcp_detect_gcploit_framework_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -68,12 +67,19 @@ You must install splunk GCP add-on. This search works with gcp:pubsub:message lo
 * http_user_agent
 
 
-#### Kill Chain Phase
-* Lateral Movement
-
+#### How To Implement
+You must install splunk GCP add-on. This search works with gcp:pubsub:message logs
 
 #### Known False Positives
 Payload.request.function.timeout value can possibly be match with other functions or requests however the source user and target request account may indicate an attempt to move laterally accross acounts or projects
+
+#### Associated Analytic story
+* [GCP Cross Account Activity](/stories/gcp_cross_account_activity)
+
+
+#### Kill Chain Phase
+* Lateral Movement
+
 
 
 
