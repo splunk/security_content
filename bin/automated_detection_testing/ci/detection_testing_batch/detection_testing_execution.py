@@ -335,17 +335,29 @@ def main(args: list[str]):
         
         
         if settings['splunkbase_username'] == None or settings['splunkbase_password'] == None:
+
             missing_credentials = []
             if settings['splunkbase_username'] == None:
                 missing_credentials.append("--splunkbase_username")
             if settings['splunkbase_password'] == None:
                 missing_credentials.append("--splunkbase_password")
             
-            missing_credentials_string = ' and '.join(missing_credentials)
+            missing_credentials_string = '\n\t'.join(missing_credentials)
             
+            splunkbase_only_apps = []
+            for app,content in settings['apps'].items():
+                if 'local_path' not in content and 'http_path' not in content:
+                    splunkbase_only_apps.append(app)
+            if len(splunkbase_only_apps) != 0:
+                print(f"Error - you have attempted to install the following apps: {splunkbase_only_apps}, "
+                     "but you have not provided a local_path or an http_path in the config file.  Normally, "
+                     "we would download these from Splunkbase, but the following credentials are "
+                     f"missing:\n\t{missing_credentials_string}\n  Please provide them on the command line "
+                     "or in the config file.\n\tQuitting...")
+                sys.exit(1)
 
             print(f"You have listed apps to install but have "\
-                  f"not provided {missing_credentials_string} via the command line or config file. "
+                  f"not provided\n\t{missing_credentials_string} \nvia the command line or config file. "
                   f"We will download these files from S3 rather than Splunkbase.")
         else:
 
