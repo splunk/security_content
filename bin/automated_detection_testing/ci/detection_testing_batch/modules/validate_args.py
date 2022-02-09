@@ -8,7 +8,7 @@ from typing import Union
 
 
 # If we want, we can easily add a description field to any of the objects here!
-
+ES_APP_NAME = "SPLUNK_ES_CONTENT_UPDATE"
 setup_schema = {
     "type": "object",
     "properties": {
@@ -50,7 +50,7 @@ setup_schema = {
         },
 
 
-        "local_apps": {
+        "apps": {
             "type": "object",
             "additionalProperties": False,
             "patternProperties": {
@@ -59,131 +59,113 @@ setup_schema = {
                     "additionalProperties": False,
                     "properties": {
                         "app_number": {
-                            "type": [
-                                "integer",
-                                "null"
-                            ]
+                            "type": ["integer","null"]
                         },
                         "app_version": {
-                            "type": [
-                                "string",
-                                "null"
-                            ]
+                            "type": ["string","null"]
                         },
                         "local_path": {
-                            "type": [
-                                "string",
-                                "null"
-                            ]
+                            "type": ["string","null"]
                         },
                         "http_path": {
-                            "type": [
-                                "string"
-                            ]
+                            "type": ["string", "null"]
                         }
                     },
-                    "oneOf": [
+                    "anyOf": [
                         {"required": ["local_path"]},
-                        {"required": ["http_path"]}
+                        {"required": ["http_path"] },
+                        {"required": ["app_number", "app_version"] },
                     ]
                 }
             },
             "default": {
-                "SPLUNK_ES_CONTENT_UPDATE": {
+                ES_APP_NAME : {
                     "app_number": 3449,
                     "app_version": None,
                     "local_path": None
                 },
                 #The default apps below were taken from the attack_range loadout: https://github.com/splunk/attack_range/blob/develop/attack_range.conf.template
-                "SPLUNK_WINDOWS_TA": {
-                    "app_number": 0,
-                    "app_version": None,
-                    "http_path": "https://attack-range-appbinaries.s3-us-west-2.amazonaws.com/splunk-add-on-for-microsoft-windows_812.tgz"
+                "SPLUNK_ADD_ON_FOR_MICROSOFT_WINDOWS": {
+                    "app_number": 742,
+                    "app_version": "8.4.0",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-microsoft-windows_840.tgz"
                 },
-                "SPLUNK_ADD_ON_FOR_SYSMON_OLD": {
-                    "app_number": 1,
-                    "app_version": None,
-                    "http_path": "https://attack-range-appbinaries.s3-us-west-2.amazonaws.com/splunk-add-on-for-microsoft-sysmon_1062.tgz"
+                "ADD_ON_FOR_LINUX_SYSMON": {
+                    "app_number": 6176,
+                    "app_version": "1.0.4",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/add-on-for-linux-sysmon_104.tgz"
                 },
-                "SPLUNK_SYSMON_LINUX_TA_PATCHED": {
-                    "app_number": 2,
-                    "app_version": None,
-                    "http_path": "https://attack-range-appbinaries.s3-us-west-2.amazonaws.com/add-on-for-linux-sysmon_103_PATCHED.tgz"
+                "SPLUNK_ADD_ON_FOR_SYSMON": {
+                    "app_number": 5709,
+                    "app_version": "1.0.1",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-sysmon_101.tgz"
                 },
-                "SPLUNK_CIM_APP": {
-                    "app_number": 3,
-                    "app_version": None,
-                    "http_path": "https://attack-range-appbinaries.s3-us-west-2.amazonaws.com/splunk-common-information-model-cim_4200.tgz"
+                "SPLUNK_COMMON_INFORMATION_MODEL": {
+                    "app_number": 1621,
+                    "app_version": "5.0.0",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-common-information-model-cim_500.tgz"
                 },
-                "SPLUNK_AWS_TA": {
-                    "app_number": 4,
-                    "app_version": None,
-                    "http_path": "https://attack-range-appbinaries.s3-us-west-2.amazonaws.com/splunk-add-on-for-amazon-web-services_510.tgz"
+                #Note - end of life on July 15, 2022 - https://splunkbase.splunk.com/app/1274/
+                "SPLUNK_APP_FOR_AWS": {
+                    "app_number": 1274,
+                    "app_version": "6.0.3",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-app-for-aws_603.tgz"
                 },
-                "SPLUNK_PYTHON_APP": {
-                    "app_number": 5,
-                    "app_version": None,
-                    "http_path": "https://attack-range-appbinaries.s3-us-west-2.amazonaws.com/python-for-scientific-computing-for-linux-64-bit_202.tgz"
+                "PYTHON_FOR_SCIENTIFIC_COMPUTING_FOR_LINUX_64_BIT": {
+                    "app_number": 2882,
+                    "app_version": "3.0.2",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/python-for-scientific-computing-for-linux-64-bit_302.tgz"
                 },
-                "SPLUNK_ASX_APP": {
-                    "app_number": 17,
-                    "app_version": None,
-                    "http_path": "https://attack-range-appbinaries.s3-us-west-2.amazonaws.com/Splunk_ASX-latest.tar.gz"
+                "SPLUNK_MACHINE_LEARNING_TOOLKIT": {
+                    "app_number": 2890,
+                    "app_version": "5.3.1",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-machine-learning-toolkit_531.tgz"
                 },
-                "SPLUNK_MLTK_APP": {
-                    "app_number": 6,
-                    "app_version": None,
-                    "http_path": "https://attack-range-appbinaries.s3-us-west-2.amazonaws.com/splunk-machine-learning-toolkit_521.tgz"
-                },
-                "SPLUNK_STREAM_APP": {
-                    "app_number": 7,
-                    "app_version": None,
-                    "http_path": "https://attack-range-appbinaries.s3-us-west-2.amazonaws.com/splunk-app-for-stream_730.tgz"
+                "SPLUNK_APP_FOR_STREAM": {
+                    "app_number": 1809,
+                    "app_version": "8.0.1",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-app-for-stream_801.tgz"
                 },
                 "SPLUNK_ADD_ON_FOR_STREAM_WIRE_DATA": {
-                    "app_number": 8,
-                    "app_version": None,
-                    "http_path": "https://attack-range-appbinaries.s3-us-west-2.amazonaws.com/splunk-add-on-for-stream-wire-data_730.tgz"
+                    "app_number": 5234,
+                    "app_version": "8.0.1",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-stream-wire-data_801.tgz"
                 },
                 "SPLUNK_ADD_ON_FOR_STREAM_FORWARDERS": {
-                    "app_number": 9,
-                    "app_version": None,
-                    "http_path": "https://attack-range-appbinaries.s3-us-west-2.amazonaws.com/splunk-add-on-for-stream-forwarders_730.tgz"
+                    "app_number": 5238,
+                    "app_version": "8.0.1",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-stream-forwarders_801.tgz"
                 },
                 "SPLUNK_SECURITY_ESSENTIALS": {
-                    "app_number": 10,
-                    "app_version": None,
-                    "http_path": "https://attack-range-appbinaries.s3-us-west-2.amazonaws.com/splunk-security-essentials_333.tgz"
+                    "app_number": 3435,
+                    "app_version": "3.4.0",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-security-essentials_340.tgz"
                 },
-                "SPLUNK_ADD_ON_FOR_ZEEK_AKA_BRO": {
-                    "app_number": 11,
-                    "app_version": None,
-                    "http_path": "https://attack-range-appbinaries.s3-us-west-2.amazonaws.com/splunk-add-on-for-zeek-aka-bro_400.tgz"
-                },
+
                 "SPLUNK_ADD_ON_FOR_AMAZON_KINESIS_FIREHOSE": {
-                    "app_number": 12,
-                    "app_version": None,
-                    "http_path": "https://attack-range-appbinaries.s3-us-west-2.amazonaws.com/splunk-add-on-for-amazon-kinesis-firehose_131r7d1d093.tgz"
+                    "app_number": 3719,
+                    "app_version": "1.3.2",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-amazon-kinesis-firehose_132.tgz"
                 },
                 "SPLUNK_ADD_ON_FOR_MICROSOFT_OFFICE_365": {
-                    "app_number": 13,
-                    "app_version": None,
-                    "http_path": "https://attack-range-appbinaries.s3-us-west-2.amazonaws.com/splunk-add-on-for-microsoft-office-365_202.tgz"
+                    "app_number": 4055,
+                    "app_version": "2.2.0",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-microsoft-office-365_220.tgz"
                 },
-                "SPLUNK_LINUX_TA": {
-                    "app_number": 14,
-                    "app_version": None,
-                    "http_path": "https://attack-range-appbinaries.s3-us-west-2.amazonaws.com/splunk-add-on-for-unix-and-linux_820.tgz"
+                "SPLUNK_ADD_ON_FOR_UNIX_AND_LINUX": {
+                    "app_number": 833,
+                    "app_version": "8.4.0",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-unix-and-linux_840.tgz"
                 },
-                "SPLUNK_NGINX_TA": {
-                    "app_number": 15,
-                    "app_version": None,
-                    "http_path": "https://attack-range-appbinaries.s3-us-west-2.amazonaws.com/splunk-add-on-for-nginx_310.tgz"
+                "SPLUNK_ADD_ON_FOR_NGINX": {
+                    "app_number": 3258,
+                    "app_version": "3.1.0",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-nginx_310.tgz"
                 },
                 "SPLUNK_TA_FOR_ZEEK": {
-                    "app_number": 16,
-                    "app_version": None,
-                    "http_path": "https://attack-range-appbinaries.s3-us-west-2.amazonaws.com/ta-for-zeek_105.tgz"
+                    "app_number": 5466,
+                    "app_version": "1.0.5",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/ta-for-zeek_105.tgz"
                 },
                 
             }
@@ -224,100 +206,6 @@ setup_schema = {
             "type": "boolean",
             "default": False
 
-        },
-
-
-
-        "splunkbase_apps": {
-            "type": "object",
-            "patternProperties": {
-                    "^.*$": {
-                        "type": "object",
-                        "additionalProperties": False,
-                        "properties": {
-                            "app_number": {
-                                "type": "integer"
-                            },
-                            "app_version": {
-                                "type": "string"
-                            }
-                        }
-                    }
-            },
-            
-             "default": {
-                     "SPLUNK_ADD_ON_FOR_SYSMON": {
-                     "app_number": 5709,
-                     "app_version": "1.0.1"
-                }
-             },
- 
-            # "default": {
-            #     "ADD-ON_FOR_LINUX_SYSMON": {
-            #         "app_number": 6176,
-            #         "app_version": "1.0.3"
-            #     },
-            #     "SPLUNK_ADD_ON_FOR_AMAZON_WEB_SERVICES": {
-            #         "app_number": 1876,
-            #         "app_version": "5.2.1"
-            #     },
-
-            #     "SPLUNK_ADD_ON_FOR_MICROSOFT_OFFICE_365":
-            #     {
-            #         "app_number": 4055,
-            #         "app_version": "2.2.0"
-            #     },
-
-            #     "SPLUNK_ADD_ON_FOR_AMAZON_KINESIS_FIREHOSE": {
-            #         "app_number": 3719,
-            #         "app_version": "1.3.2"
-            #     },
-
-            #     "SPLUNK_ANALYTIC_STORY_EXECUTION_APP": {
-            #         "app_number": 4971,
-            #         "app_version": "2.0.3"
-            #     },
-
-            #     "PYTHON_FOR_SCIENTIC_COMPUTING_LINUX_64_BIT": {
-            #         "app_number": 2882,
-            #         "app_version": "3.0.1"
-            #     },
-
-            #     "SPLUNK_MACHINE_LEARNING_TOOLKIT": {
-            #         "app_number": 2890,
-            #         "app_version": "5.3.0"
-            #     },
-
-            #     "SPLUNK_APP_FOR_STREAM": {
-            #         "app_number": 1809,
-            #         "app_version": "8.0.1"
-            #     },
-            #     "SPLUNK_ADD_ON_FOR_STREAM_WIRE_DATA": {
-            #         "app_number": 5234,
-            #         "app_version": "8.0.1"
-            #     },
-            #     "SPLUNK_ADD_ON_FOR_STREAM_FORWARDERS": {
-            #         "app_number": 5238,
-            #         "app_version": "8.0.1"
-            #     },
-            #     "SPLUNK_ADD_ON_FOR_ZEEK_AKA_BRO": {
-            #         "app_number": 1617,
-            #         "app_version": "4.0.0"
-            #     },
-            #     "SPLUNK_ADD_ON_FOR_UNIX_AND_LINUX": {
-            #         "app_number": 833,
-            #         "app_version": "8.4.0"
-            #     },
-            #     "SPLUNK_ADD_ON_FOR_SYSMON": {
-            #         "app_number": 5709,
-            #         "app_version": "1.0.1"
-            #     },
-            #     # According to https://docs.splunk.com/Documentation/ES/6.6.2/Install/Datamodels, these are included in ES. Don't install separately.
-            #     "SPLUNK_COMMON_INFORMATION_MODEL": {
-            #         "app_number": 1621,
-            #         "app_version": "5.0.0"
-            #     }
-            # }
         },
 
         "splunkbase_username": {

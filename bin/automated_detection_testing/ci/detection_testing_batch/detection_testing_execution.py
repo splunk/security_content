@@ -30,7 +30,7 @@ import modules.new_arguments2
 from modules import (container_manager, new_arguments2,
                      testing_service, validate_args)
 from modules.github_service import GithubService
-from modules.validate_args import validate, validate_and_write
+from modules.validate_args import validate, validate_and_write, ES_APP_NAME
 
 SPLUNK_CONTAINER_APPS_DIR = "/opt/splunk/etc/apps"
 index_file_local_path = "indexes.conf.tar"
@@ -244,8 +244,8 @@ def finish_mock(settings: dict, detections: list[str], output_file_template: str
         return False
 
     # Copy the apps to the appropriate local.  This will also update
-    # the app paths in settings['local_apps']
-    copy_local_apps_to_directory(settings['local_apps'], "prior_config/apps")
+    # the app paths in settings['apps']['local_path'] if it exists
+    copy_local_apps_to_directory(settings['apps'], "prior_config/apps")
 
     for output_file_index in range(0, num_containers):
         fname = output_file_template % (output_file_index)
@@ -331,23 +331,28 @@ def main(args: list[str]):
         
         credentials_needed = False
         credential_error = False
-        if len(settings['splunkbase_apps']) > 0:
-            credentials_needed = True
         
         
-        if settings['splunkbase_username'] == None and credentials_needed:
-            print("Error - you have listed apps to download from Splunkbase but have "\
-                  "not provided --splunkbase_username via the command line or config file.",file=sys.stderr)
-            credential_error = True
+        
+        if settings['splunkbase_username'] == None or settings['splunkbase_password'] == None:
+            missing_credentials = []
+            if settings['splunkbase_username'] == None:
+                missing_credentials.append("--splunkbase_username")
+            if settings['splunkbase_password'] == None:
+                missing_credentials.append("--splunkbase_password")
+            
+            missing_credentials_string = ' and '.join(missing_credentials)
+            
 
-        if settings['splunkbase_password'] == None and credentials_needed:
-            print("Error - you have listed apps to download from Splunkbase but have "\
-                    "not provided --splunkbase_password via the command line or config file.",file=sys.stderr)
-            credential_error = True
+            print(f"You have listed apps to install but have "\
+                  f"not provided {missing_credentials_string} via the command line or config file. "
+                  f"We will download these files from S3 rather than Splunkbase.")
+        else:
+
+            print(f"You have listed apps to install and provided Splunkbase credentials. "\
+                  f"These apps will be downloaded and installed from Splunkbase!")
+
         
-        if credential_error:
-            print("Please supply the required credentials to continue.\n\tQuitting...",file=sys.stderr)
-            sys.exit(1)
 
     
     FULL_DOCKER_HUB_CONTAINER_NAME = "splunk/splunk:%s" % settings['container_tag']
@@ -425,22 +430,22 @@ def main(args: list[str]):
 
 
     # Check to see if we want to install ESCU and whether it was preeviously generated and we should use that file
-    if 'SPLUNK_ES_CONTENT_UPDATE' in settings['local_apps'] and settings['local_apps']['SPLUNK_ES_CONTENT_UPDATE']['local_path'] is not None:
+    if ES_APP_NAME in settings['apps'] and settings['apps'][ES_APP_NAME]['local_path'] is not None:
         # Using a pregenerated ESCU, no need to build it
         pass
-    elif 'SPLUNK_ES_CONTENT_UPDATE' not in settings['local_apps']:
-        print("%s was not found in %s.  We assume this is an error and shut down.\n\t"
-              "Quitting..." % ('SPLUNK_ES_CONTENT_UPDATE', "settings['local_apps']"), file=sys.stderr)
+    elif ES_APP_NAME not in settings['apps']:
+        print(f"{ES_APP_NAME} was not found in {settings['apps'].keys()}.  We assume this is an error and shut down.\n\t"
+              "Quitting...", file=sys.stderr)
         sys.exit(1)
     else:
         # Generate the ESCU package from this branch.
         source_path = generate_escu_app(settings['persist_security_content'])
-        settings['local_apps']['SPLUNK_ES_CONTENT_UPDATE']['local_path'] = source_path
+        settings['apps']['SPLUNK_ES_CONTENT_UPDATE']['local_path'] = source_path
         
 
     # Copy all the apps, to include ESCU (whether pregenerated or just generated)
     copy_local_apps_to_directory(
-        settings['local_apps'], local_volume_absolute_path)
+        settings['apps'], local_volume_absolute_path)
 
 
     # If this is a mock run, finish it now
@@ -472,8 +477,7 @@ def main(args: list[str]):
                                                 FULL_DOCKER_HUB_CONTAINER_NAME,
                                                 settings['local_base_container_name'],
                                                 settings['num_containers'],
-                                                settings['local_apps'],
-                                                settings['splunkbase_apps'],
+                                                settings['apps'],
                                                 settings['branch'],
                                                 settings['commit_hash'],
                                                 reproduce_test_config,

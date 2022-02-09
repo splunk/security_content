@@ -30,8 +30,7 @@ class SplunkContainer:
         synchronization_object: test_driver.TestDriver,
         full_docker_hub_path,
         container_name: str,
-        local_apps: OrderedDict,
-        splunkbase_apps: OrderedDict,
+        apps: OrderedDict,
         web_port_tuple: tuple[str, int],
         management_port_tuple: tuple[str, int],
         container_password: str,
@@ -49,15 +48,15 @@ class SplunkContainer:
         self.client = docker.client.from_env()
         self.full_docker_hub_path = full_docker_hub_path
         self.container_password = container_password
-        self.local_apps = local_apps
-        self.splunkbase_apps = splunkbase_apps
+        
+        self.apps = apps
 
         self.files_to_copy_to_container = files_to_copy_to_container
         self.splunk_ip = splunk_ip
         self.container_name = container_name
         self.mounts = mounts
         self.environment = self.make_environment(
-            local_apps, splunkbase_apps, container_password, splunkbase_username, splunkbase_password
+            apps, container_password, splunkbase_username, splunkbase_password
         )
         self.ports = self.make_ports(web_port_tuple, management_port_tuple)
         self.web_port = web_port_tuple[1]
@@ -74,48 +73,51 @@ class SplunkContainer:
 
     def prepare_apps_path(
         self,
-        local_apps: OrderedDict,
-        splunkbase_apps: OrderedDict,
+        apps: OrderedDict,
         splunkbase_username: Union[str, None] = None,
         splunkbase_password: Union[str, None] = None,
     ) -> tuple[str, bool]:
         apps_to_install = []
+
+        #We don't require credentials unless we install at least one splunkbase app
         require_credentials = False
 
-        for app_name, app_info in self.local_apps.items():
-            
-            if 'local_path' in app_info:
+        #If the username and password are supplied, then we will use splunkbase...
+        #assuming that the app_name and app_number are supplied.  Note that if a 
+        #local_path is supplied, then it should override this option!
+        if splunkbase_username is not None and splunkbase_password is not None:
+            use_splunkbase = True
+        else:
+            use_splunkbase = False
+
+        for app_name, app_info in self.apps.items():
+            if use_splunkbase is True and 'local_path' not in app_info:
+                target = SPLUNKBASE_URL % (app_info["app_number"], app_info["app_version"])
+                apps_to_install.append(target)
+                #We will require credentials since we are installing at least one splunkbase app
+                require_credentials = True
+            elif 'local_path' in app_info:
                 app_file_name = os.path.basename(app_info['local_path'])
                 app_file_container_path = os.path.join("/tmp/apps", app_file_name)
-                apps_to_install.append(app_file_container_path)
+                apps_to_install.append(app_file_container_path)                
             elif 'http_path' in app_info:
                 apps_to_install.append(app_info['http_path'])
+                
             else:
-                print("Error, the app %s: %s has no http_path or local_path.\n\tQuitting..."%(app_name,app_info), file=sys.stderr)
+                if use_splunkbase is True:
+                    print("Error, the app %s: %s could not be installed from Splunkbase because "
+                          "--splunkbase_username and.or --splunkbase_password were not provided."
+                          "\n\tQuitting..."%(app_name,app_info), file=sys.stderr)
+                else:
+                    print("Error, the app %s: %s has no http_path or local_path.\n\tQuitting..."%(app_name,app_info), file=sys.stderr)
                 sys.exit(1)
 
-        for app_name, app_info in self.splunkbase_apps.items():
-
-            if splunkbase_username is None or splunkbase_password is None:
-                raise Exception(
-                    "Error: Requested app from Splunkbase but Splunkbase username and/or password were not supplied."
-                )
-            target = SPLUNKBASE_URL % (
-                app_info["app_number"], app_info["app_version"])
-            apps_to_install.append(target)
-            require_credentials = True
-            # elif app["location"] == "local":
-            #    apps_to_install.append(app["container_path"])
         
-        #for printing out all the app paths we will install
-        #for num, name in zip(range(len(apps_to_install)),apps_to_install):
-        #    print("%d: %s"%(num,name))
         return ",".join(apps_to_install), require_credentials
 
     def make_environment(
         self,
-        local_apps: OrderedDict,
-        splunkbase_apps: OrderedDict,
+        apps: OrderedDict,
         container_password: str,
         splunkbase_username: Union[str, None] = None,
         splunkbase_password: Union[str, None] = None,
@@ -124,7 +126,7 @@ class SplunkContainer:
         env["SPLUNK_START_ARGS"] = SPLUNK_START_ARGS
         env["SPLUNK_PASSWORD"] = container_password
         splunk_apps_url, require_credentials = self.prepare_apps_path(
-            local_apps, splunkbase_apps, splunkbase_username, splunkbase_password
+            apps, splunkbase_username, splunkbase_password
         )
         
         if require_credentials:

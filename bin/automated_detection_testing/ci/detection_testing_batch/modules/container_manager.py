@@ -25,8 +25,7 @@ class ContainerManager:
         full_docker_hub_name: str,
         container_name_template: str,
         num_containers: int,
-        local_apps: OrderedDict,
-        splunkbase_apps:OrderedDict,
+        apps: OrderedDict,
         branch:str,
         commit_hash:str,
         summarization_reproduce_failure_config:dict,
@@ -47,8 +46,8 @@ class ContainerManager:
             test_list, num_containers, summarization_reproduce_failure_config)
 
         self.mounts = self.create_mounts(mounts)
-        self.local_apps = local_apps
-        self.splunkbase_apps = splunkbase_apps
+        self.apps = apps
+        
 
         if container_password is None:
             self.container_password = self.get_random_password()
@@ -93,11 +92,10 @@ class ContainerManager:
         self.baseline['TEST_FINISH_TIME'] = "TO BE UPDATED"
         self.baseline['TEST_DURATION'] = "TO BE UPDATED"
 
-        for key in self.local_apps:
-            self.baseline[key] = self.local_apps[key]
+        for key in self.apps:
+            self.baseline[key] = self.apps[key]
 
-        for key in self.splunkbase_apps:
-            self.baseline[key] = self.splunkbase_apps[key]
+        
 
 
     def run_test(self)->bool:
@@ -170,8 +168,7 @@ class ContainerManager:
                     self.synchronization_object,
                     full_docker_hub_name,
                     container_name,
-                    self.local_apps,
-                    self.splunkbase_apps,
+                    self.apps,
                     web_port_tuple,
                     management_port_tuple,
                     self.container_password,
