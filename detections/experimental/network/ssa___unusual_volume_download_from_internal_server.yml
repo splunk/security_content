@@ -30,7 +30,7 @@ search: '| from read_ssa_enriched_events()
   | select start_time, end_time, dest_device, label, body
   | into write_ssa_detected_events();'
 how_to_implement: Ingest PAN traffic logs 
-known_false_positives: Benig large volume data download might be flagged as (false) positive.
+known_false_positives: Benign large volume data download might be flagged as (false) positive.
 references:
 - https://github.com/twitter/AnomalyDetection
 tags:
