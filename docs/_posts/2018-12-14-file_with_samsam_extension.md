@@ -62,6 +62,10 @@ You must be ingesting data that records file-system activity from your hosts to 
 #### Known False Positives
 Because these extensions are not typically used in normal operations, you should investigate all results.
 
+#### Associated Analytic story
+* [SamSam Ransomware](/stories/samsam_ransomware)
+
+
 #### Kill Chain Phase
 * Installation
 

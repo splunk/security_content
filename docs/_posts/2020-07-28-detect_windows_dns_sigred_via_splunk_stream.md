@@ -71,6 +71,10 @@ You must be ingesting Splunk Stream DNS and Splunk Stream TCP. We are detecting 
 #### Known False Positives
 unknown
 
+#### Associated Analytic story
+* [Windows DNS SIGRed CVE-2020-1350](/stories/windows_dns_sigred_cve-2020-1350)
+
+
 #### Kill Chain Phase
 * Exploitation
 

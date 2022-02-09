@@ -82,6 +82,12 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Limited false positives, however it may be required to filter based on parent process name or network connection.
 
+#### Associated Analytic story
+* [Ingress Tool Transfer](/stories/ingress_tool_transfer)
+* [BITS Jobs](/stories/bits_jobs)
+* [DarkSide Ransomware](/stories/darkside_ransomware)
+
+
 #### Kill Chain Phase
 * Exploitation
 

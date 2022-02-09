@@ -80,6 +80,11 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Limited false positives should be present.
 
+#### Associated Analytic story
+* [Spearphishing Attachments](/stories/spearphishing_attachments)
+* [Microsoft MSHTML Remote Code Execution CVE-2021-40444](/stories/microsoft_mshtml_remote_code_execution_cve-2021-40444)
+
+
 #### Kill Chain Phase
 * Exploitation
 

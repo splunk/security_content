@@ -81,6 +81,11 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 The query is structured in a way that `action` (read, create) is not defined. Review the results of this query, filter, and tune as necessary. It may be necessary to generate this query specific to your endpoint product.
 
+#### Associated Analytic story
+* [HAFNIUM Group](/stories/hafnium_group)
+* [ProxyShell](/stories/proxyshell)
+
+
 #### Kill Chain Phase
 * Exploitation
 

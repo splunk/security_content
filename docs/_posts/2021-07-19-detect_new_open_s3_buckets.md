@@ -81,6 +81,10 @@ You must install the AWS App for Splunk.
 #### Known False Positives
 While this search has no known false positives, it is possible that an AWS admin has legitimately created a public bucket for a specific purpose. That said, AWS strongly advises against granting full control to the &#34;All Users&#34; group.
 
+#### Associated Analytic story
+* [Suspicious AWS S3 Activities](/stories/suspicious_aws_s3_activities)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

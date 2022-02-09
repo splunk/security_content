@@ -81,6 +81,11 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 No false positives known. Filter as needed.
 
+#### Associated Analytic story
+* [Spearphishing Attachments](/stories/spearphishing_attachments)
+* [IcedID](/stories/icedid)
+
+
 #### Kill Chain Phase
 * Exploitation
 

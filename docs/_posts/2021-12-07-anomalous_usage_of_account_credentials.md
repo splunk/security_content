@@ -71,6 +71,10 @@ To successfully implement this detection, you need to be ingesting logon events 
 #### Known False Positives
 Shared workstations can cause false positives
 
+#### Associated Analytic story
+* [Insider Threat](/stories/insider_threat)
+
+
 #### Kill Chain Phase
 * Privilege Escalation
 * Lateral Movement

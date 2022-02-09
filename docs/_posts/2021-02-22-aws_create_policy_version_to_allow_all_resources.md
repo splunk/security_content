@@ -82,6 +82,10 @@ You must install splunk AWS add on and Splunk App for AWS. This search works wit
 #### Known False Positives
 While this search has no known false positives, it is possible that an AWS admin has legitimately created a policy to allow a user to access all resources. That said, AWS strongly advises against granting full control to all AWS resources
 
+#### Associated Analytic story
+* [AWS IAM Privilege Escalation](/stories/aws_iam_privilege_escalation)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

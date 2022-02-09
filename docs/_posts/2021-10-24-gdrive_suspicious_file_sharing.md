@@ -70,6 +70,11 @@ Need to implement Gsuite logging targeting Google suite drive activity. In order
 #### Known False Positives
 This is an anomaly search, you must specify your domain in the parameters so it either filters outside domains or focus on internal domains. This search may also help investigate compromise of accounts. By looking at for example source ip addresses, document titles and abnormal number of shares and shared target users.
 
+#### Associated Analytic story
+* [Spearphishing Attachments](/stories/spearphishing_attachments)
+* [Data Exfiltration](/stories/data_exfiltration)
+
+
 #### Kill Chain Phase
 * Exploitation
 

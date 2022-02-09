@@ -77,6 +77,10 @@ This search is specific to Okta and requires Okta logs are being ingested in you
 #### Known False Positives
 None. Account lockouts should be followed up on to determine if the actual user was the one who caused the lockout, or if it was an unauthorized actor.
 
+#### Associated Analytic story
+* [Suspicious Okta Activity](/stories/suspicious_okta_activity)
+
+
 #### Kill Chain Phase
 
 

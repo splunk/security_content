@@ -78,6 +78,10 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 #### Known False Positives
 False positives should be limited, however filter as needed.
 
+#### Associated Analytic story
+* [Active Directory Discovery](/stories/active_directory_discovery)
+
+
 #### Kill Chain Phase
 * Privilege Escalation
 

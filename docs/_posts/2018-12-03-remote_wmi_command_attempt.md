@@ -73,6 +73,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Administrators may use this legitimately to gather info from remote systems. Filter as needed.
 
+#### Associated Analytic story
+* [Suspicious WMI Use](/stories/suspicious_wmi_use)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

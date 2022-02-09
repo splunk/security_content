@@ -96,6 +96,11 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 False positives should be limited as the arguments used are specific to SharpHound. Filter as needed or add more command-line arguments as needed.
 
+#### Associated Analytic story
+* [Discovery Techniques](/stories/discovery_techniques)
+* [Ransomware](/stories/ransomware)
+
+
 #### Kill Chain Phase
 * Reconnaissance
 

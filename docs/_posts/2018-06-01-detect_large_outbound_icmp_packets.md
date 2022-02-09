@@ -75,6 +75,10 @@ In order to run this search effectively, we highly recommend that you leverage t
 #### Known False Positives
 ICMP packets are used in a variety of ways to help troubleshoot networking issues and ensure the proper flow of traffic. As such, it is possible that a large ICMP packet could be perfectly legitimate. If large ICMP packets are associated with command and control traffic, there will typically be a large number of these packets observed over time. If the search is providing a large number of false positives, you can modify the macro `detect_large_outbound_icmp_packets_filter` to adjust the byte threshold or add specific IP addresses to an allow list.
 
+#### Associated Analytic story
+* [Command and Control](/stories/command_and_control)
+
+
 #### Kill Chain Phase
 * Command and Control
 

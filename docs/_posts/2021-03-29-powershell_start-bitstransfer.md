@@ -78,6 +78,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Limited false positives. It is possible administrators will utilize Start-BitsTransfer for administrative tasks, otherwise filter based parent process or command-line arguments.
 
+#### Associated Analytic story
+* [BITS Jobs](/stories/bits_jobs)
+
+
 #### Kill Chain Phase
 * Exploitation
 

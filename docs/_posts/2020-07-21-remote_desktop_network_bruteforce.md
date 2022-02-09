@@ -75,6 +75,11 @@ You must ensure that your network traffic data is populating the Network_Traffic
 #### Known False Positives
 RDP gateways may have unusually high amounts of traffic from all other hosts&#39; RDP applications in the network.
 
+#### Associated Analytic story
+* [SamSam Ransomware](/stories/samsam_ransomware)
+* [Ryuk Ransomware](/stories/ryuk_ransomware)
+
+
 #### Kill Chain Phase
 * Reconnaissance
 * Delivery

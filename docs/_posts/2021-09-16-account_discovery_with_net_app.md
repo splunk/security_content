@@ -82,6 +82,11 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 admin or power user may used this series of command.
 
+#### Associated Analytic story
+* [Trickbot](/stories/trickbot)
+* [IcedID](/stories/icedid)
+
+
 #### Kill Chain Phase
 * Reconnaissance
 

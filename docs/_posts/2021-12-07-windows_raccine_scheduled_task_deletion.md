@@ -76,6 +76,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 False positives should be limited, however filter as needed.
 
+#### Associated Analytic story
+* [Ransomware](/stories/ransomware)
+
+
 #### Kill Chain Phase
 * Exploitation
 

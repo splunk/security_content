@@ -74,6 +74,10 @@ You must be ingesting data that records the filesystem activity from your hosts 
 #### Known False Positives
 Because legitimate shim files are created and used all the time, this event, in itself, is not suspicious. However, if there are other correlating events, it may warrant further investigation.
 
+#### Associated Analytic story
+* [Windows Persistence Techniques](/stories/windows_persistence_techniques)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

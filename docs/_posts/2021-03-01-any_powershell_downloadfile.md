@@ -82,6 +82,12 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 False positives may be present and filtering will need to occur by parent process or command line argument. It may be required to modify this query to an EDR product for more granular coverage.
 
+#### Associated Analytic story
+* [Malicious PowerShell](/stories/malicious_powershell)
+* [Ingress Tool Transfer](/stories/ingress_tool_transfer)
+* [Log4Shell CVE-2021-44228](/stories/log4shell_cve-2021-44228)
+
+
 #### Kill Chain Phase
 * Exploitation
 

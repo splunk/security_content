@@ -77,6 +77,11 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Limited false positives. If there is a true false positive, filter based on command-line or parent process.
 
+#### Associated Analytic story
+* [Domain Trust Discovery](/stories/domain_trust_discovery)
+* [Active Directory Discovery](/stories/active_directory_discovery)
+
+
 #### Kill Chain Phase
 * Exploitation
 

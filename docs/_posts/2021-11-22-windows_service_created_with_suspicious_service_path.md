@@ -72,6 +72,11 @@ To successfully implement this search, you need to be ingesting logs with the Se
 #### Known False Positives
 Legitimate applications may install services with uncommon services paths.
 
+#### Associated Analytic story
+* [Clop Ransomware](/stories/clop_ransomware)
+* [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
+
+
 #### Kill Chain Phase
 * Privilege Escalation
 * Lateral Movement
