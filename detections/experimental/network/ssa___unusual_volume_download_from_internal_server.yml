@@ -37,7 +37,7 @@ tags:
   analytic_story:
   - Insider Threat
   dataset:
-  - https://ssa-test-dataset.s3-us-west-2.amazonaws.com/unusual_volume_data_download.txt
+  - https://github.com/splunk/attack_data/blob/master/datasets/suspicious_behaviour/unusual_data_download/unusual_volume_data_download.txt
   kill_chain_phases:
   - Weaponization
   mitre_attack_id:
