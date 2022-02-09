@@ -31,7 +31,7 @@ tags:
 
 As part of the sAMAccountName Spoofing (CVE-2021-42278) and Domain Controller Impersonation (CVE-2021-42287) exploitation chain, adversaries will need to request a Kerberos Ticket Granting Ticket (TGT) on behalf of the newly created and renamed computer account. The TGT request will be preceded by a computer account name event. This analytic leverages Event Id 4781, `The name of an account was changed` and event Id 4768 `A Kerberos authentication ticket (TGT) was requested` to correlate a sequence of events where the new computer account on event id 4781 matches the request account on event id 4768. This behavior could represent an exploitation attempt of CVE-2021-42278 and CVE-2021-42287 for privilege escalation.
 
-- **Type**: Hunting
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-12-21
@@ -41,8 +41,8 @@ As part of the sAMAccountName Spoofing (CVE-2021-42278) and Domain Controller Im
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 | [T1078.002](https://attack.mitre.org/techniques/T1078/002/) | Domain Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
@@ -59,12 +59,11 @@ As part of the sAMAccountName Spoofing (CVE-2021-42278) and Domain Controller Im
 |`suspicious_ticket_granting_ticket_request_filter`
 ```
 
-#### Associated Analytic Story
-* [sAMAccountName Spoofing and Domain Controller Impersonation](/stories/samaccountname_spoofing_and_domain_controller_impersonation)
+#### Macros
+The SPL above uses the following Macros:
+* [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting Domain Controller and Kerberos events. The Advanced Security Audit policy setting `Audit Kerberos Authentication Service` within `Account Logon` needs to be enabled.
+Note that `suspicious_ticket_granting_ticket_request_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -75,12 +74,19 @@ To successfully implement this search, you need to be ingesting Domain Controlle
 * ComputerName
 
 
-#### Kill Chain Phase
-* Privilege Escalation
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting Domain Controller and Kerberos events. The Advanced Security Audit policy setting `Audit Kerberos Authentication Service` within `Account Logon` needs to be enabled.
 
 #### Known False Positives
 A computer account name change event inmediately followed by a kerberos TGT request with matching fields is unsual. However, legitimate behavior may trigger it. Filter as needed.
+
+#### Associated Analytic story
+* [sAMAccountName Spoofing and Domain Controller Impersonation](/stories/samaccountname_spoofing_and_domain_controller_impersonation)
+
+
+#### Kill Chain Phase
+* Privilege Escalation
+
 
 
 #### RBA
