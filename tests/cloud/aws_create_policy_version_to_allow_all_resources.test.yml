@@ -1,0 +1,13 @@
+name: AWS Create Policy Version to allow all resources Unit Test
+tests:
+- name: AWS Create Policy Version to allow all resources
+  file: cloud/aws_create_policy_version_to_allow_all_resources.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-7d'
+  latest_time: 'now'
+  attack_data:
+  - file_name: aws_cloudtrail_events.json
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/aws_create_policy_version/aws_cloudtrail_events.json
+    sourcetype: aws:cloudtrail
+    source: aws_cloudtrail
+    update_timestamp: True

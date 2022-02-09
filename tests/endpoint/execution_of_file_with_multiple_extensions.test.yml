@@ -1,0 +1,12 @@
+name: Execution of File with Multiple Extensions Unit Test
+tests:
+- name: Execution of File with Multiple Extensions
+  file: endpoint/execution_of_file_with_multiple_extensions.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: windows-sysmon.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.003/atomic_red_team/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

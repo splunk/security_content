@@ -1,0 +1,3 @@
+definition: userName IN (user)
+description: specify the user allowed to push Images to AWS ECR.
+name: aws_ecr_users

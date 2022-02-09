@@ -1,5 +1,4 @@
-default_match: 'false'
-description: A place holder for a list of used cloud compute images
-filename: previously_seen_cloud_compute_images.csv
-min_matches: 1
+description: A table of previously seen Cloud image IDs
+collection: previously_seen_cloud_compute_images
 name: previously_seen_cloud_compute_images
+fields_list: _key, firstTimeSeen, lastTimeSeen, image_id, enough_data

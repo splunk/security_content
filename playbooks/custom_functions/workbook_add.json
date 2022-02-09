@@ -1,0 +1,54 @@
+{
+    "create_time": "2021-08-24T14:42:23.906804+00:00",
+    "custom_function_id": "138036ba78ec7b362b5bcd909048b07f0dc0e6f4",
+    "description": "Add a workbook to a container. Provide a container id and a workbook name or id",
+    "draft_mode": false,
+    "inputs": [
+        {
+            "contains_type": [
+                "phantom container id"
+            ],
+            "description": "A phantom container id",
+            "input_type": "item",
+            "name": "container",
+            "placeholder": "container:id"
+        },
+        {
+            "contains_type": [
+                "*"
+            ],
+            "description": "A workbook name or id",
+            "input_type": "item",
+            "name": "workbook",
+            "placeholder": "my_workbook"
+        },
+        {
+            "contains_type": [],
+            "description": "Defaults to True. Check to see if workbook already exists in container before adding.",
+            "input_type": "item",
+            "name": "check_for_existing_workbook",
+            "placeholder": "True or False"
+        },
+        {
+            "contains_type": [],
+            "description": "Defaults to True. Sets the added workbook to the current phase.",
+            "input_type": "item",
+            "name": "start_workbook",
+            "placeholder": "True or False"
+        }
+    ],
+    "outputs": [
+        {
+            "contains_type": [],
+            "data_path": "workbook_id",
+            "description": "ID of the workbook that was added"
+        },
+        {
+            "contains_type": [],
+            "data_path": "current_phase_id",
+            "description": "ID of the current phase if start_workbook set to True."
+        }
+    ],
+    "platform_version": "4.10.6.61906",
+    "python_version": "3"
+}

@@ -1,23 +1,23 @@
 name: Detect Rogue DHCP Server deployment configuration
 id: 6e4e20ac-e719-4ebe-a52d-d672cd451dbb
 date: '2020-08-14'
-description: This configuration file applies to the Detect Rogue DHCP Server detection
 author: Mikael Bjerkeland
+description: This configuration file applies to the Detect Rogue DHCP Server detection
 scheduling:
-  cron_schedule: '59 * * * *'
+  cron_schedule: 59 * * * *
   earliest_time: -70m@m
   latest_time: -10m@m
   schedule_window: auto
 alert_action:
   notable:
-    rule_description: 'DHCP Snooping has detected a Rogue DHCP Server on $orig_host$ from $src_mac$.
-      This may be an indication of a MITM attack.'
-    rule_title: 'Rogue DHCP Server Detected on $orig_host$'
+    rule_description: DHCP Snooping has detected a Rogue DHCP Server on $orig_host$
+      from $src_mac$. This may be an indication of a MITM attack.
+    rule_title: Rogue DHCP Server Detected on $orig_host$
     nes_fields:
-      - src_mac
-      - firstTime
-      - lastTime
-      - count
-      - message_type
+    - src_mac
+    - firstTime
+    - lastTime
+    - count
+    - message_type
 tags:
   detection_name: Detect Rogue DHCP Server

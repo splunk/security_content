@@ -1,9 +1,0 @@
-<panel>
-  <table>
-    <search>
-      <query>| `identities` | search identity=$user$ | table _time, identity, first, last, email, category, watchlist</query>
-    </search>
-    <option name="drilldown">cell</option>
-    <option name="wrap">false</option>
-  </table>
-</panel>

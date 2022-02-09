@@ -1,0 +1,9 @@
+<panel>
+  <table>
+    <search>
+      <query>| tstats `security_content_summariesonly` values(Web.url) as url from datamodel=Web by Web.src,Web.http_user_agent,Web.http_method | `drop_dm_object_name(&#34;Web&#34;)`| search http_method, &#34;POST&#34; | search src=$src$</query>
+    </search>
+    <option name="drilldown">cell</option>
+    <option name="wrap">false</option>
+  </table>
+</panel>

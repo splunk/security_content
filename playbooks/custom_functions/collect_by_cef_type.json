@@ -1,0 +1,56 @@
+{
+    "create_time": "2021-08-24T16:17:12.241297+00:00",
+    "custom_function_id": "98612a9a22a18dff43b6644ed00c2c523d348d79",
+    "description": "Collect all artifact values that match the desired CEF data types, such as \"ip\", \"url\", \"sha1\", or \"all\". Optionally also filter for artifacts that have the specified tags.",
+    "draft_mode": false,
+    "inputs": [
+        {
+            "contains_type": [
+                "phantom container id"
+            ],
+            "description": "Container ID or container object.",
+            "input_type": "item",
+            "name": "container",
+            "placeholder": "container:id"
+        },
+        {
+            "contains_type": [],
+            "description": "The CEF data type to collect values for. This could be a single string or a comma separated list such as \"hash,filehash,file_hash\". The special value \"all\" can also be used to collect all field values from all artifacts.",
+            "input_type": "item",
+            "name": "data_types",
+            "placeholder": "data_type1, data_type2, data_type3"
+        },
+        {
+            "contains_type": [],
+            "description": "If tags are provided, only return fields from artifacts that have all of the provided tags. This could be an individual tag or a comma separated list.",
+            "input_type": "item",
+            "name": "tags",
+            "placeholder": "tag1,tag2,tag3"
+        },
+        {
+            "contains_type": [],
+            "description": "Defaults to 'new'. Define custom scope. Advanced Settings Scope is not passed to a custom function. Options are 'all' or 'new'.",
+            "input_type": "item",
+            "name": "scope",
+            "placeholder": "new"
+        }
+    ],
+    "outputs": [
+        {
+            "contains_type": [
+                "*"
+            ],
+            "data_path": "*.artifact_value",
+            "description": "The value of the field with the matching CEF data type."
+        },
+        {
+            "contains_type": [
+                "phantom artifact id"
+            ],
+            "data_path": "*.artifact_id",
+            "description": "ID of the artifact that contains the value."
+        }
+    ],
+    "platform_version": "4.10.6.61906",
+    "python_version": "3"
+}

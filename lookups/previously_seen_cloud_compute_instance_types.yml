@@ -1,5 +1,4 @@
-default_match: 'false'
 description: A place holder for a list of used cloud compute instance types
-filename: previously_seen_cloud_compute_instance_types.csv
-min_matches: 1
+collection: previously_seen_cloud_compute_instance_types
 name: previously_seen_cloud_compute_instance_types
+fields_list: _key, firstTimeSeen, lastTimeSeen, instance_type, enough_data

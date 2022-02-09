@@ -1,0 +1,12 @@
+name: Mshta spawning Rundll32 OR Regsvr32 Process Unit Test
+tests:
+- name: Mshta spawning Rundll32 OR Regsvr32 Process
+  file: endpoint/mshta_spawning_rundll32_or_regsvr32_process.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: windows-sysmon.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/spear_phish/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

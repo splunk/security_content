@@ -1,0 +1,3 @@
+definition: user IN (user_names_here)
+description: specify the user allowed to create PRs in Github projects.
+name: github_known_users

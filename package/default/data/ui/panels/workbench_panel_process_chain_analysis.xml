@@ -1,9 +1,0 @@
-<panel>
-  <table>
-    <search>
-      <query>`sysmon` EventCode=1 NOT process=*Splunk* | rename process_guid AS out_process_guid process_name AS out_process_name parent_process_guid AS out_parent_process_guid parent_process_name AS out_parent_process_name | stats count by out_process_guid out_process_name out_parent_process_guid out_parent_process_name | eval join_process_guid = out_process_guid | join join_process_guid [ search `sysmon` process_guid={process_guid} EventCode=1 | rename process_name AS sub_process_name process_guid AS sub_process_guid parent_process_name AS sub_parent_process_name parent_process_guid AS sub_parent_process_guid | stats count by sub_process_name sub_process_guid sub_parent_process_name sub_parent_process_guid | eval join_process_guid = sub_parent_process_guid] | rename sub_process_guid AS process_guid sub_process_name AS process_name out_process_guid AS parent_process_guid out_process_name AS parent_process_name out_parent_process_guid AS grandparent_process_guid out_parent_process_name AS grandparent_process_name | stats count by process_guid process_name parent_process_guid parent_process_name grandparent_process_guid grandparent_process_name | head 1 | fields - count</query>
-    </search>
-    <option name="drilldown">cell</option>
-    <option name="wrap">false</option>
-  </table>
-</panel>

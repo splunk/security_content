@@ -1,0 +1,12 @@
+name: Malicious Powershell Executed As A Service Unit Test
+tests:
+- name: Malicious Powershell Executed As A Service
+  file: endpoint/malicious_powershell_executed_as_a_service.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: windows-system.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1569.002/atomic_red_team/windows-system.log
+    source: WinEventLog:System
+    sourcetype: WinEventLog

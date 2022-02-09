@@ -1,0 +1,12 @@
+name: Office Product Spawning Rundll32 with no DLL Unit Test
+tests:
+- name: Office Product Spawning Rundll32 with no DLL
+  file: endpoint/office_product_spawning_rundll32_with_no_dll.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: windows-sysmon_icedid.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon_icedid.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

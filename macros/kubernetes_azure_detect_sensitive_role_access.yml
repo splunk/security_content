@@ -1,3 +1,0 @@
-definition: search *
-description: Use this macro to add additional filters
-name: kubernetes_azure_detect_sensitive_role_access_filter

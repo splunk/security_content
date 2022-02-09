@@ -1,0 +1,723 @@
+{
+    "blockly": false,
+    "blockly_xml": "<xml></xml>",
+    "category": "Risk Notable",
+    "coa": {
+        "data": {
+            "description": "This playbook was designed to be called by a user to process indicators that are marked as suspicious within the SOAR platform. Analysts will review indicators in a prompt and mark them as blocked or safe.",
+            "edges": [
+                {
+                    "id": "port_0_to_port_2",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "2",
+                    "targetPort": "2_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_4_to_port_12",
+                    "sourceNode": "4",
+                    "sourcePort": "4_out",
+                    "targetNode": "12",
+                    "targetPort": "12_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 1
+                        }
+                    ],
+                    "id": "port_4_to_port_13",
+                    "sourceNode": "4",
+                    "sourcePort": "4_out",
+                    "targetNode": "13",
+                    "targetPort": "13_in"
+                },
+                {
+                    "id": "port_2_to_port_16",
+                    "sourceNode": "2",
+                    "sourcePort": "2_out",
+                    "targetNode": "16",
+                    "targetPort": "16_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_16_to_port_20",
+                    "sourceNode": "16",
+                    "sourcePort": "16_out",
+                    "targetNode": "20",
+                    "targetPort": "20_in"
+                },
+                {
+                    "id": "port_20_to_port_5",
+                    "sourceNode": "20",
+                    "sourcePort": "20_out",
+                    "targetNode": "5",
+                    "targetPort": "5_in"
+                },
+                {
+                    "id": "port_12_to_port_1",
+                    "sourceNode": "12",
+                    "sourcePort": "12_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "id": "port_13_to_port_1",
+                    "sourceNode": "13",
+                    "sourcePort": "13_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "id": "port_5_to_port_21",
+                    "sourceNode": "5",
+                    "sourcePort": "5_out",
+                    "targetNode": "21",
+                    "targetPort": "21_in"
+                },
+                {
+                    "id": "port_21_to_port_4",
+                    "sourceNode": "21",
+                    "sourcePort": "21_out",
+                    "targetNode": "4",
+                    "targetPort": "4_in"
+                }
+            ],
+            "hash": "31cd5b38e5a1d24cd1e80cfcaed142187d53ceff",
+            "nodes": {
+                "0": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_start",
+                        "id": "0",
+                        "type": "start"
+                    },
+                    "errors": {},
+                    "id": "0",
+                    "type": "start",
+                    "x": 180,
+                    "y": -280.00000000000045
+                },
+                "1": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionId": 1,
+                        "functionName": "on_finish",
+                        "id": "1",
+                        "type": "end"
+                    },
+                    "errors": {},
+                    "id": "1",
+                    "type": "end",
+                    "userCode": "\n    # This function is called after all actions are completed.\n    # summary of all the action and/or all details of actions\n    # can be collected here.\n\n    # summary_json = phantom.get_summary()\n    # if 'result' in summary_json:\n        # for action_result in summary_json['result']:\n            # if 'action_run_id' in action_result:\n                # action_results = phantom.get_action_results(action_run_id=action_result['action_run_id'], result_data=False, flatten=False)\n                # phantom.debug(action_results)\n\n",
+                    "x": 180,
+                    "y": 740
+                },
+                "12": {
+                    "data": {
+                        "advanced": {
+                            "customName": "tag indicator block",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "indicator_tag",
+                            "repoName": "community"
+                        },
+                        "functionId": 4,
+                        "functionName": "tag_indicator_block",
+                        "id": "12",
+                        "selectMore": false,
+                        "tab": "customFunctions",
+                        "type": "utility",
+                        "utilities": {
+                            "indicator_tag": {
+                                "description": "Tag an existing indicator record. Tags can be overwritten or appended.",
+                                "fields": [
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "Specifies the indicator which the tag will be added to. Supports a string indicator value or an indicator id.",
+                                        "inputType": "item",
+                                        "label": "indicator",
+                                        "name": "indicator",
+                                        "placeholder": "my_indicator",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "Comma separated list of tags. Tags should only contain characters Aa-Zz, 0-9, '-', and '_'.",
+                                        "inputType": "item",
+                                        "label": "tags",
+                                        "name": "tags",
+                                        "placeholder": "tag1,tag2,...,tagk",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Optional input. Either \"true\" or \"false\" with default as \"false\". If set to \"true\", existing tags on the indicator record will be replaced by the provided input. If set to \"false\", the new tags will be appended to the existing indicator tags.",
+                                        "inputType": "item",
+                                        "label": "overwrite",
+                                        "name": "overwrite",
+                                        "placeholder": "false",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "indicator_tag",
+                                "name": "indicator_tag"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "indicator_tag": {
+                                "indicator": "filtered-data:response_filter:condition_1:process_responses:custom_function_result.data.*.item.indicator_id",
+                                "overwrite": "true",
+                                "tags": "marked_for_block"
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "12",
+                    "type": "utility",
+                    "x": 0,
+                    "y": 620
+                },
+                "13": {
+                    "data": {
+                        "advanced": {
+                            "customName": "tag indicator safe",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "indicator_tag",
+                            "repoName": "community"
+                        },
+                        "functionId": 5,
+                        "functionName": "tag_indicator_safe",
+                        "id": "13",
+                        "selectMore": false,
+                        "type": "utility",
+                        "utilities": {
+                            "indicator_tag": {
+                                "description": "Tag an existing indicator record. Tags can be overwritten or appended.",
+                                "fields": [
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "Specifies the indicator which the tag will be added to. Supports a string indicator value or an indicator id.",
+                                        "inputType": "item",
+                                        "label": "indicator",
+                                        "name": "indicator",
+                                        "placeholder": "my_indicator",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "Comma separated list of tags. Tags should only contain characters Aa-Zz, 0-9, '-', and '_'.",
+                                        "inputType": "item",
+                                        "label": "tags",
+                                        "name": "tags",
+                                        "placeholder": "tag1,tag2,...,tagk",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Optional input. Either \"true\" or \"false\" with default as \"false\". If set to \"true\", existing tags on the indicator record will be replaced by the provided input. If set to \"false\", the new tags will be appended to the existing indicator tags.",
+                                        "inputType": "item",
+                                        "label": "overwrite",
+                                        "name": "overwrite",
+                                        "placeholder": "false",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "indicator_tag",
+                                "name": "indicator_tag"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "indicator_tag": {
+                                "indicator": "filtered-data:response_filter:condition_2:process_responses:custom_function_result.data.*.item.indicator_id",
+                                "overwrite": "true",
+                                "tags": "safe"
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "13",
+                    "type": "utility",
+                    "x": 320,
+                    "y": 620
+                },
+                "16": {
+                    "data": {
+                        "advanced": {
+                            "customName": "indicators decision",
+                            "customNameId": 0,
+                            "description": "Determine if any suspect indicators were found.",
+                            "join": [],
+                            "note": "Determine if any suspect indicators were found."
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "get_suspect_indicators:custom_function_result.data.*.indicator_value",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "indicators exist",
+                                "display": "If",
+                                "logic": "and",
+                                "type": "if"
+                            }
+                        ],
+                        "functionId": 3,
+                        "functionName": "indicators_decision",
+                        "id": "16",
+                        "type": "decision"
+                    },
+                    "errors": {},
+                    "id": "16",
+                    "type": "decision",
+                    "x": 240,
+                    "y": -80
+                },
+                "2": {
+                    "data": {
+                        "advanced": {
+                            "customName": "get suspect indicators",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "indicator_get_by_tag",
+                            "repoName": "community"
+                        },
+                        "functionId": 1,
+                        "functionName": "get_suspect_indicators",
+                        "id": "2",
+                        "selectMore": false,
+                        "type": "utility",
+                        "utilities": {
+                            "indicator_get_by_tag": {
+                                "description": "Get indicator(s) by tags.",
+                                "fields": [
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Comma separated list of tags. Tags will be OR'd together: e.g. tag1 OR tag2 OR tag3. Tags do not support whitespace and whitespace will be automatically removed.",
+                                        "inputType": "item",
+                                        "label": "tags_or",
+                                        "name": "tags_or",
+                                        "placeholder": "tag1,tag2,...tagK",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Comma separated list of tags. Tags will be AND'd together: e.g. tag1 AND tag2 AND tag3. Tags do not support whitespace and whitespace will be automatically removed.",
+                                        "inputType": "item",
+                                        "label": "tags_and",
+                                        "name": "tags_and",
+                                        "placeholder": "tag1,tag2,...tagK",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Defaults to last_30_days\noptions:\ntoday\nyesterday\nthis_week\nthis_month\nlast_7_days\nlast_30_days\nlast_week\nlast_month",
+                                        "inputType": "item",
+                                        "label": "indicator_timerange",
+                                        "name": "indicator_timerange",
+                                        "placeholder": "last_30_days",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Optional parameter to ensure the fetched indicator exists in the supplied container.",
+                                        "inputType": "item",
+                                        "label": "container",
+                                        "name": "container",
+                                        "placeholder": "container:id",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Comma separated list of tags to filter out. If the indicator's tags contain any of the values in this list, they will be omitted from the output.",
+                                        "inputType": "item",
+                                        "label": "tags_exclude",
+                                        "name": "tags_exclude",
+                                        "placeholder": "tag1, tag2",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "indicator_get_by_tag",
+                                "name": "indicator_get_by_tag"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "indicator_get_by_tag": {
+                                "container": "container:id",
+                                "indicator_timerange": "",
+                                "tags_and": null,
+                                "tags_exclude": "blocked, safe, marked_for_block",
+                                "tags_or": "suspicious, malicious"
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "2",
+                    "type": "utility",
+                    "x": 160,
+                    "y": -180
+                },
+                "20": {
+                    "data": {
+                        "advanced": {
+                            "customName": "custom format",
+                            "customNameId": 0,
+                            "description": "Uses code to format an output that links the indicator values with the fields and artifacts where they occur.",
+                            "join": [],
+                            "note": "Uses code to format an output that links the indicator values with the fields and artifacts where they occur.",
+                            "scope": "all"
+                        },
+                        "functionId": 2,
+                        "functionName": "custom_format",
+                        "id": "20",
+                        "inputParameters": [
+                            "get_suspect_indicators:custom_function_result.data.*.indicator_value",
+                            "get_suspect_indicators:custom_function_result.data.*.indicator_tags",
+                            "artifact:*.cef",
+                            "artifact:*.name"
+                        ],
+                        "outputVariables": [
+                            "output"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "20",
+                    "type": "code",
+                    "userCode": "\t\n    custom_format__output = \"\"\n    for indicator, tags in zip(get_suspect_indicators_data___indicator_value, get_suspect_indicators_data___indicator_tags):\n        custom_format__output += f\"#### {indicator}\\n\\n\"\n        custom_format__output += f\" - Tags: `{', '.join(tags)}`\\n\"\n        artifact_list = []\n        field_list = []\n        for artifact_cef, artifact_name in zip(container_artifact_header_item_0, container_artifact_header_item_1):\n            indicator_found = False\n            for key, value in artifact_cef.items():\n                if value == indicator:\n                    field_list.append(key)\n                    artifact_list.append(artifact_name)\n                    \n        if field_list or artifact_list:\n            custom_format__output += f\" - Fields: `{', '.join(list(set(field_list)))}`\\n\"\n            custom_format__output += f\" - Artifacts: `{', '.join(list(set(artifact_list)))}`\"\n            \n        custom_format__output += \"\\n\\n---\\n\\n\"\n                   \t\n                    \n",
+                    "x": 160,
+                    "y": 80
+                },
+                "21": {
+                    "data": {
+                        "advanced": {
+                            "customName": "process responses",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "passthrough",
+                            "repoName": "community"
+                        },
+                        "functionId": 2,
+                        "functionName": "process_responses",
+                        "id": "21",
+                        "selectMore": false,
+                        "type": "utility",
+                        "utilities": {
+                            "passthrough": {
+                                "description": "Return the inputs as outputs. This is useful for publishing pieces of data for other blocks in the playbook to use.",
+                                "fields": [
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_1",
+                                        "name": "input_1",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_2",
+                                        "name": "input_2",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_3",
+                                        "name": "input_3",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_4",
+                                        "name": "input_4",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_5",
+                                        "name": "input_5",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_6",
+                                        "name": "input_6",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_7",
+                                        "name": "input_7",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_8",
+                                        "name": "input_8",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_9",
+                                        "name": "input_9",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_10",
+                                        "name": "input_10",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "passthrough",
+                                "name": "passthrough"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "passthrough": {
+                                "input_1": "select_indicators:action_result.summary.responses",
+                                "input_10": null,
+                                "input_2": "get_suspect_indicators:custom_function_result.data.*.indicator_id",
+                                "input_3": null,
+                                "input_4": null,
+                                "input_5": null,
+                                "input_6": null,
+                                "input_7": null,
+                                "input_8": null,
+                                "input_9": null
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "21",
+                    "type": "utility",
+                    "userCode": "\n    responses = select_indicators_summary_responses[0]\n    \n    # overwrite parameters\n    parameters = []\n    \n    # merge responses with data\n    for response, indicator_id in zip(responses, get_suspect_indicators_data___indicator_id):\n    \tparameters.append({'input_1': {'indicator_id': indicator_id, 'response': response}})\n    \n",
+                    "x": 160,
+                    "y": 360
+                },
+                "4": {
+                    "data": {
+                        "advanced": {
+                            "customName": "response filter",
+                            "customNameId": 0,
+                            "description": "Filter on any indicators that were selected for tagging as block or safe.",
+                            "join": [],
+                            "note": "Filter on any indicators that were selected for tagging as block or safe."
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "==",
+                                        "param": "process_responses:custom_function_result.data.*.item.response",
+                                        "value": "Block"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "block indicators",
+                                "logic": "and"
+                            },
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 1,
+                                        "op": "==",
+                                        "param": "process_responses:custom_function_result.data.*.item.response",
+                                        "value": "Tag as Safe"
+                                    }
+                                ],
+                                "conditionIndex": 1,
+                                "customName": "safe indicators",
+                                "logic": "and"
+                            }
+                        ],
+                        "customDatapaths": {
+                            "expand_response_sublist": {
+                                "outputs:output_list.response": {
+                                    "contains": [],
+                                    "isCustomDatapath": true,
+                                    "label": "outputs:output_list.response",
+                                    "value": "expand_response_sublist:playbook_output:output_list.response"
+                                }
+                            }
+                        },
+                        "functionId": 1,
+                        "functionName": "response_filter",
+                        "id": "4",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "4",
+                    "type": "filter",
+                    "x": 220,
+                    "y": 460
+                },
+                "5": {
+                    "customCode": "def select_indicators(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, **kwargs):\n    phantom.debug(\"select_indicators() called\")\n\n    # set user and message variables for phantom.prompt call\n    custom_format__output = json.loads(phantom.get_run_data(key=\"custom_format:output\"))\n    \n    user_id = phantom.get_effective_user()\n    url = phantom.build_phantom_rest_url('ph_user', user_id)\n    response = phantom.requests.get(url, verify=False).json()\n    user = response['username']\n    message = \"\"\"Please review the list of suspect indicators and select an action.\\n\\n{0}\"\"\".format(custom_format__output)\n\t\n    indicator_records = phantom.collect2(container=container, datapath=[\"get_suspect_indicators:custom_function_result.data.*.indicator_value\"], action_results=results)\n    \n    \n    indicator_value_list = [item[0] for item in indicator_records]\n    \n    # dynamic response generation\n    response_types = []\n    parameters = None\n    for ind_val in indicator_value_list:\n    \tresponse_types.append({\n                \"prompt\": \"{0}\".format(ind_val),\n                \"options\": {\n                    \"type\": \"list\",\n                    \"choices\": [\n                        \"Block\",\n                        \"Tag as Safe\",\n                        \"Do Nothing\"\n                    ]\n                }\n            }\n        )\n\n    phantom.prompt2(container=container, user=user, message=message, respond_in_mins=30, name=\"select_indicators\", parameters=parameters, response_types=response_types, callback=process_responses)\n\n    return",
+                    "data": {
+                        "advanced": {
+                            "customName": "select indicators",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "approver": "admin",
+                        "functionId": 1,
+                        "functionName": "select_indicators",
+                        "id": "5",
+                        "message": "Please review the list of suspect indicators and select an action.{0}\n{1}\n{2}\n{3}\n",
+                        "parameters": [
+                            "get_suspect_indicators:custom_function_result.data.*.indicator_id",
+                            "get_suspect_indicators:custom_function_result.data.*.indicator_value",
+                            "get_suspect_indicators:custom_function_result.data.*.indicator_tags",
+                            "get_suspect_indicators:custom_function_result.data.*.indicator_cef_type"
+                        ],
+                        "responseTime": 30,
+                        "responses": [
+                            {
+                                "responseOptions": [
+                                    "Block",
+                                    "Tag as Safe",
+                                    "Do Nothing"
+                                ],
+                                "responsePrompt": "1.1.1.1 - [\"suspicious\"]",
+                                "responseType": "customList"
+                            }
+                        ],
+                        "type": "prompt"
+                    },
+                    "errors": {},
+                    "id": "5",
+                    "type": "prompt",
+                    "x": 240,
+                    "y": 200
+                }
+            },
+            "notes": "For detailed implementation see https://docs.splunk.com/Documentation/ESSOC/latest/user/Useplaybookpack"
+        },
+        "input_spec": null,
+        "output_spec": null,
+        "playbook_type": "automation",
+        "python_version": "3",
+        "schema": "5.0.3",
+        "version": "5.0.1.66250"
+    },
+    "create_time": "2021-10-19T20:26:15.596691+00:00",
+    "draft_mode": false,
+    "labels": [
+        "risk_notable"
+    ],
+    "tags": []
+}

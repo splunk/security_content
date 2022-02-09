@@ -7,7 +7,8 @@ addAssignees: false
 # A list of reviewers to be added to pull requests (GitHub user name)
 reviewers:
   - d1vious
-  - rvaldez617
+  - mhaggis
+  - rosplk
   - patel-bhavin
   - P4T12ICK
 
@@ -17,11 +18,10 @@ numberOfReviewers: 1
 
 assignees:
   - d1vious
-  - rvaldez617
+  - mhaggis
   - patel-bhavin
-  - rsfl
-  - jcbrewer5D6400
-  - philroyer-phantom
+  - rosplk
+  - P4T12ICK
 
 # A number of assignees to add to the pull request
 # Set to 0 to add all of the assignees.
@@ -29,6 +29,8 @@ assignees:
 numberOfAssignees: 1
 
 # A list of keywords to be skipped the process that add reviewers if pull requests include it
-# skipKeywords:
-#   - wip
+skipKeywords:
+  - wip
+  - dependabot
+  - dependencies
 #

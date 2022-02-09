@@ -1,0 +1,6 @@
+default_match: 'false'
+description: A lookup to determine if you have a sufficient amount of time has passed to collect cloud instance data for behavioral searches
+collection: cloud_instances_enough_data
+name: cloud_instances_enough_data
+fields_list: _key, filter, enough_data
+match_type: WILDCARD(filter)

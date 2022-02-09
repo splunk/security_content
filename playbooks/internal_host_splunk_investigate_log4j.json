@@ -1,0 +1,390 @@
+{
+    "blockly": false,
+    "blockly_xml": "<xml></xml>",
+    "category": "Threat Response",
+    "coa": {
+        "data": {
+            "description": "Published in response to CVE-2021-44228, this playbook utilizes data already in your Splunk environment to help investigate and remediate impacts caused by this vulnerability in your environment.",
+            "edges": [
+                {
+                    "id": "port_6_to_port_11",
+                    "sourceNode": "6",
+                    "sourcePort": "6_out",
+                    "targetNode": "11",
+                    "targetPort": "11_in"
+                },
+                {
+                    "id": "port_7_to_port_12",
+                    "sourceNode": "7",
+                    "sourcePort": "7_out",
+                    "targetNode": "12",
+                    "targetPort": "12_in"
+                },
+                {
+                    "id": "port_8_to_port_13",
+                    "sourceNode": "8",
+                    "sourcePort": "8_out",
+                    "targetNode": "13",
+                    "targetPort": "13_in"
+                },
+                {
+                    "id": "port_10_to_port_14",
+                    "sourceNode": "10",
+                    "sourcePort": "10_out",
+                    "targetNode": "14",
+                    "targetPort": "14_in"
+                },
+                {
+                    "id": "port_0_to_port_6",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "6",
+                    "targetPort": "6_in"
+                },
+                {
+                    "id": "port_0_to_port_7",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "7",
+                    "targetPort": "7_in"
+                },
+                {
+                    "id": "port_0_to_port_8",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "8",
+                    "targetPort": "8_in"
+                },
+                {
+                    "id": "port_0_to_port_10",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "10",
+                    "targetPort": "10_in"
+                },
+                {
+                    "id": "port_11_to_port_1",
+                    "sourceNode": "11",
+                    "sourcePort": "11_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "id": "port_12_to_port_1",
+                    "sourceNode": "12",
+                    "sourcePort": "12_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "id": "port_13_to_port_1",
+                    "sourceNode": "13",
+                    "sourcePort": "13_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "id": "port_14_to_port_1",
+                    "sourceNode": "14",
+                    "sourcePort": "14_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                }
+            ],
+            "hash": "57ccd374d540a47cc227de541a38f31c0f455394",
+            "nodes": {
+                "0": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_start",
+                        "id": "0",
+                        "type": "start"
+                    },
+                    "errors": {},
+                    "id": "0",
+                    "type": "start",
+                    "x": 530,
+                    "y": -3.943512183468556e-13
+                },
+                "1": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionId": 1,
+                        "functionName": "on_finish",
+                        "id": "1",
+                        "type": "end"
+                    },
+                    "errors": {},
+                    "id": "1",
+                    "type": "end",
+                    "userCode": "\n    # This function is called after all actions are completed.\n    # summary of all the action and/or all details of actions\n    # can be collected here.\n\n    # summary_json = phantom.get_summary()\n    # if 'result' in summary_json:\n        # for action_result in summary_json['result']:\n            # if 'action_run_id' in action_result:\n                # action_results = phantom.get_action_results(action_run_id=action_result['action_run_id'], result_data=False, flatten=False)\n                # phantom.debug(action_results)\n\n",
+                    "x": 530,
+                    "y": 480.9999999999994
+                },
+                "10": {
+                    "data": {
+                        "advanced": {
+                            "customName": "ES Assets ",
+                            "customNameId": 0,
+                            "join": [],
+                            "note": "Formatting ES Assets & Identities Search"
+                        },
+                        "functionId": 1,
+                        "functionName": "es_assets",
+                        "id": "10",
+                        "parameters": [
+                            "playbook_input:ip_or_hostname"
+                        ],
+                        "template": "%%\nasset_lookup_by_str | search asset IN (\"{0}\") | eval category = mvjoin(category, \"; \")\n%%",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "10",
+                    "type": "format",
+                    "x": 1020,
+                    "y": 149.99999999999991
+                },
+                "11": {
+                    "data": {
+                        "action": "run query",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "run Get Notable History",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "connector": "Splunk",
+                        "connectorConfigs": [
+                            "splunk"
+                        ],
+                        "connectorId": "91883aa8-9c81-470b-97a1-5d8f7995f560",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "run_get_notable_history",
+                        "id": "11",
+                        "parameters": {
+                            "command": "search",
+                            "query": "get_notable_history:formatted_data.*"
+                        },
+                        "requiredParameters": [
+                            "query"
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "11",
+                    "type": "action",
+                    "userCode": "\n    parameters = []\n    phantom.debug(get_notable_history__as_list)\n    for formatted_item in get_notable_history__as_list:\n        parameters.append({\n            \"query\": formatted_item,\n            \"command\": \"search\",\n        })\n\n",
+                    "x": 0,
+                    "y": 331
+                },
+                "12": {
+                    "customCode": null,
+                    "data": {
+                        "action": "run query",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "run Get Process Info",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "connector": "Splunk",
+                        "connectorConfigs": [
+                            "splunk"
+                        ],
+                        "connectorId": "91883aa8-9c81-470b-97a1-5d8f7995f560",
+                        "connectorVersion": "v1",
+                        "functionId": 2,
+                        "functionName": "run_get_process_info",
+                        "id": "12",
+                        "parameters": {
+                            "command": "tstats",
+                            "query": "get_process_info:formatted_data.*"
+                        },
+                        "requiredParameters": [
+                            "query"
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "12",
+                    "type": "action",
+                    "userCode": "\n    parameters = []\n    phantom.debug(get_process_info__as_list)\n    for formatted_item in get_process_info__as_list:\n        parameters.append({\n            \"query\": formatted_item,\n            \"command\": \"| tstats\",\n        })\n    \n",
+                    "x": 340,
+                    "y": 340
+                },
+                "13": {
+                    "data": {
+                        "action": "run query",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "run Get Children of Java",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "connector": "Splunk",
+                        "connectorConfigs": [
+                            "splunk"
+                        ],
+                        "connectorId": "91883aa8-9c81-470b-97a1-5d8f7995f560",
+                        "connectorVersion": "v1",
+                        "functionId": 3,
+                        "functionName": "run_get_children_of_java",
+                        "id": "13",
+                        "parameters": {
+                            "command": "tstats",
+                            "query": "get_children_of_java:formatted_data.*"
+                        },
+                        "requiredParameters": [
+                            "query"
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "13",
+                    "type": "action",
+                    "userCode": "\n\n    parameters = []\n    phantom.debug(get_children_of_java__as_list)\n    for formatted_item in get_children_of_java__as_list:\n        parameters.append({\n            \"query\": formatted_item,\n            \"command\": \"| tstats\",\n        })\n    \n",
+                    "x": 680,
+                    "y": 330.9999999999998
+                },
+                "14": {
+                    "data": {
+                        "action": "run query",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "Fetch ES Assets",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "connector": "Splunk",
+                        "connectorConfigs": [
+                            "splunk"
+                        ],
+                        "connectorId": "91883aa8-9c81-470b-97a1-5d8f7995f560",
+                        "connectorVersion": "v1",
+                        "functionId": 4,
+                        "functionName": "fetch_es_assets",
+                        "id": "14",
+                        "parameters": {
+                            "command": "| inputlookup",
+                            "query": "es_assets:formatted_data.*"
+                        },
+                        "requiredParameters": [
+                            "query"
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "14",
+                    "type": "action",
+                    "userCode": "\n    parameters = []\n    phantom.debug(es_assets__as_list)\n    for formatted_item in es_assets__as_list:\n        parameters.append({\n            \"query\": formatted_item,\n            \"command\": \"| inputlookup\",\n        })\n        \n",
+                    "x": 1020,
+                    "y": 340
+                },
+                "6": {
+                    "data": {
+                        "advanced": {
+                            "customName": "Get Notable History",
+                            "customNameId": 0,
+                            "description": "",
+                            "join": [],
+                            "note": "Formatting Notable History search"
+                        },
+                        "functionId": 2,
+                        "functionName": "get_notable_history",
+                        "id": "6",
+                        "parameters": [
+                            "playbook_input:ip_or_hostname"
+                        ],
+                        "template": "%%\n`notable` | search dest={0} | table _time, dest, rule_name, owner, priority, severity, status_description\n%%",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "6",
+                    "type": "format",
+                    "userCode": "\n    # Write your custom code here...\n\n",
+                    "x": 0,
+                    "y": 149.99999999999991
+                },
+                "7": {
+                    "data": {
+                        "advanced": {
+                            "customName": "Get Process Info",
+                            "customNameId": 0,
+                            "description": "",
+                            "join": [],
+                            "note": "Formatting Process info search"
+                        },
+                        "functionId": 3,
+                        "functionName": "get_process_info",
+                        "id": "7",
+                        "parameters": [
+                            "playbook_input:ip_or_hostname"
+                        ],
+                        "template": "%%\n`security_content_summariesonly` count values(Processes.process)\n  as process min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes\n where earliest=-7d by Processes.user Processes.parent_process_name Processes.process_name Processes.dest\n  | `drop_dm_object_name(\"Processes\")` | search  process_name= \"*java*\" | search\n  dest = {0} | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`\n%%",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "7",
+                    "type": "format",
+                    "x": 340,
+                    "y": 140
+                },
+                "8": {
+                    "data": {
+                        "advanced": {
+                            "customName": "Get Children of Java",
+                            "customNameId": 0,
+                            "join": [],
+                            "note": "Formatting Children of Java search"
+                        },
+                        "functionId": 4,
+                        "functionName": "get_children_of_java",
+                        "id": "8",
+                        "parameters": [
+                            "playbook_input:ip_or_hostname"
+                        ],
+                        "template": "%%\n`security_content_summariesonly` count values(Processes.process)\n  as process min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes\n  where earliest=-7d by Processes.user Processes.parent_process_name Processes.process_name Processes.dest\n  | `drop_dm_object_name(\"Processes\")` | search  parent_process_name= \"*java*\" | search dest = {0} |`security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`\n%%",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "8",
+                    "type": "format",
+                    "x": 680,
+                    "y": 140
+                }
+            },
+            "notes": "This playbook uses the following Apps:\n - Splunk (run query) [asset name = splunk] - query for evidence of log4j exploitation\n\nDeployment Notes:\n - The first and fourth searches require Splunk ES to use the Notable and Asset frameworks, respectively\n - The second and third searches require ESCU to use the security_content macros, and the Endpoint.Processes datamodel to find process activity"
+        },
+        "input_spec": [
+            {
+                "contains": [
+                    "host name",
+                    "ip"
+                ],
+                "description": "IP address or hostname of the internal host to investigate",
+                "name": "ip_or_hostname"
+            }
+        ],
+        "output_spec": null,
+        "playbook_type": "data",
+        "python_version": "3",
+        "schema": "5.0.4",
+        "version": "5.1.0.70187"
+    },
+    "create_time": "2021-12-15T15:45:06.239972+00:00",
+    "draft_mode": false,
+    "labels": [
+        "*"
+    ],
+    "tags": [
+        "investigate",
+        "log4j",
+        "splunk",
+        "internal_host"
+    ]
+}

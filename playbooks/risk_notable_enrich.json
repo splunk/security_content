@@ -1,0 +1,401 @@
+{
+    "blockly": false,
+    "blockly_xml": "<xml></xml>",
+    "category": "Risk Notable",
+    "coa": {
+        "data": {
+            "description": "This playbook collects the available Indicator data types within the event as well as available investigative playbooks. It will launch any playbooks that meet the filtered criteria.",
+            "edges": [
+                {
+                    "id": "port_6_to_port_20",
+                    "sourceNode": "6",
+                    "sourcePort": "6_out",
+                    "targetNode": "20",
+                    "targetPort": "20_in"
+                },
+                {
+                    "id": "port_0_to_port_6",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "6",
+                    "targetPort": "6_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_20_to_port_22",
+                    "sourceNode": "20",
+                    "sourcePort": "20_out",
+                    "targetNode": "22",
+                    "targetPort": "22_in"
+                },
+                {
+                    "id": "port_22_to_port_14",
+                    "sourceNode": "22",
+                    "sourcePort": "22_out",
+                    "targetNode": "14",
+                    "targetPort": "14_in"
+                },
+                {
+                    "id": "port_14_to_port_28",
+                    "sourceNode": "14",
+                    "sourcePort": "14_out",
+                    "targetNode": "28",
+                    "targetPort": "28_in"
+                },
+                {
+                    "id": "port_28_to_port_23",
+                    "sourceNode": "28",
+                    "sourcePort": "28_out",
+                    "targetNode": "23",
+                    "targetPort": "23_in"
+                },
+                {
+                    "id": "port_23_to_port_1",
+                    "sourceNode": "23",
+                    "sourcePort": "23_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                }
+            ],
+            "hash": "27c06bbb8cc23c8b3ee42082edd2ecb3e6d19e03",
+            "nodes": {
+                "0": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_start",
+                        "id": "0",
+                        "type": "start"
+                    },
+                    "errors": {},
+                    "id": "0",
+                    "type": "start",
+                    "x": 720,
+                    "y": -7.354117315117037e-13
+                },
+                "1": {
+                    "customCode": "def on_finish(container, summary):\n    phantom.debug(\"on_finish() called\")\n\t\n    # Added custom code to overcome bug with on_finish trying to call outputs that may not exist\n    process_notes__note_title = phantom.get_run_data(key=\"process_notes:note_title\")\n    process_notes__note_content = phantom.get_run_data(key=\"process_notes:note_content\")\n    if process_notes__note_title:\n        process_notes__note_title = json.loads(process_notes__note_title)\n    if process_notes__note_content:\n        process_notes__note_content = json.loads(process_notes__note_content)\n    output = {\n        \"note_title\": process_notes__note_title,\n        \"note_content\": process_notes__note_content,\n    }\n\n    ################################################################################\n    ## Custom Code Start\n    ################################################################################\n    \n    # Error handling in case of playbook not being able to find investigative playbooks\n    list_investigate_playbooks_data = phantom.collect2(container=container, datapath=[\"list_investigate_playbooks:custom_function_result.data.*.full_name\"])\n    list_investigate_playbooks_data___full_name = [item[0] for item in list_investigate_playbooks_data if item[0]]\n    if not list_investigate_playbooks_data___full_name:\n        raise RuntimeError(\"Unable to find investigate type playbooks.\")\n        \n    # This function is called after all actions are completed.\n    # summary of all the action and/or all details of actions\n    # can be collected here.\n\n    # summary_json = phantom.get_summary()\n    # if 'result' in summary_json:\n        # for action_result in summary_json['result']:\n            # if 'action_run_id' in action_result:\n                # action_results = phantom.get_action_results(action_run_id=action_result['action_run_id'], result_data=False, flatten=False)\n                # phantom.debug(action_results)\n\n    ################################################################################\n    ## Custom Code End\n    ################################################################################\n\n    phantom.save_playbook_output_data(output=output)\n\n    return",
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionId": 1,
+                        "functionName": "on_finish",
+                        "id": "1",
+                        "type": "end"
+                    },
+                    "errors": {},
+                    "id": "1",
+                    "type": "end",
+                    "userCode": "\n    # This function is called after all actions are completed.\n    # summary of all the action and/or all details of actions\n    # can be collected here.\n\n    # summary_json = phantom.get_summary()\n    # if 'result' in summary_json:\n        # for action_result in summary_json['result']:\n            # if 'action_run_id' in action_result:\n                # action_results = phantom.get_action_results(action_run_id=action_result['action_run_id'], result_data=False, flatten=False)\n                # phantom.debug(action_results)\n\n",
+                    "x": 720,
+                    "y": 960
+                },
+                "14": {
+                    "data": {
+                        "advanced": {
+                            "customName": "decide and launch playbooks",
+                            "customNameId": 0,
+                            "description": "Matches indicators with the available playbooks designed to act upon them. It then passes the indicators to the matching inputs for the child playbooks. It launches all playbooks in synchronous mode.",
+                            "join": [],
+                            "note": "Matches indicators with the available playbooks designed to act upon them. It then passes the indicators to the matching inputs for the child playbooks. It launches all playbooks in synchronous mode."
+                        },
+                        "functionId": 2,
+                        "functionName": "decide_and_launch_playbooks",
+                        "id": "14",
+                        "inputParameters": [
+                            "list_investigate_playbooks:custom_function_result.data.*.full_name",
+                            "list_investigate_playbooks:custom_function_result.data.*.input_spec",
+                            "indicator_collect:custom_function_result.data.all_indicators.*.cef_value",
+                            "indicator_collect:custom_function_result.data.all_indicators.*.data_types"
+                        ],
+                        "outputVariables": [
+                            "names"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "14",
+                    "type": "code",
+                    "userCode": "    playbook_name = list_investigate_playbooks_data___full_name\n    playbook_spec = list_investigate_playbooks_data___input_spec\n    indicator_cef_value_list = indicator_collect_data_all_indicators___cef_value\n    indicator_cef_type_list = indicator_collect_data_all_indicators___data_types\n\t\n    # Check if indicator cef_value_list and indicator_cef_type_list are empty\n    if all(v is None for v in indicator_cef_value_list) and all(v is None for v in indicator_cef_type_list):\n        raise RuntimeError(\"No indicator records found from indicator_collect utility\")\n    playbook_launch_list = {}\n    decide_and_launch_playbooks__names = []\n    \n    for pb_name, spec_item in zip(playbook_name, playbook_spec):\n        pb_inputs = {}\n        for cef_value, cef_type in zip(indicator_cef_value_list, indicator_cef_type_list):\n            for type_item in cef_type:\n                # check if any of the investigate type playbooks have inputs that accept this data type\n                for spec in spec_item:\n                    for contains_type in spec['contains']:\n                        if type_item == contains_type:\n                            # build playbook inputs\n                            if not pb_inputs:\n                                pb_inputs[spec['name']] = [cef_value]\n                            else:\n                                if cef_value not in pb_inputs[spec['name']]:\n                                    pb_inputs[spec['name']].append(cef_value)\n        # only launch playbooks that have inputs\n        if pb_inputs:\n            playbook_launch_list[pb_name] = pb_inputs\n    \n    if playbook_launch_list:\n        for k,v in playbook_launch_list.items():\n            name = 'playbook_{}'.format(k.split('/')[1].replace(' ','_').lower())\n            decide_and_launch_playbooks__names.append(name)\n            phantom.debug(f\"Launching playbook '{k}' with inputs '{v}'\")\n            phantom.playbook(playbook=k, container=container, inputs=v, name=name, callback=playbook_wait)\n            \n    else:\n        raise RuntimeError(f\"\"\"Unable to find any match between indicator types and playbook input types.\nEnsure you have an investigate type playbook to handle at least one of the following data types from the event:\n'{[item[0] for item in indicator_cef_type_list if item]}'\"\"\")\n        \n",
+                    "x": 700,
+                    "y": 540
+                },
+                "20": {
+                    "data": {
+                        "advanced": {
+                            "customName": "playbooks decision",
+                            "customNameId": 0,
+                            "description": "Determines if any playbooks were found by the \"list investigate playbooks\" utility.",
+                            "join": [],
+                            "note": "Determines if any playbooks were found by the \"list investigate playbooks\" utility."
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "list_investigate_playbooks:custom_function_result.data.*.full_name",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "playbooks exist",
+                                "display": "If",
+                                "logic": "and",
+                                "type": "if"
+                            }
+                        ],
+                        "functionId": 1,
+                        "functionName": "playbooks_decision",
+                        "id": "20",
+                        "type": "decision"
+                    },
+                    "errors": {},
+                    "id": "20",
+                    "type": "decision",
+                    "x": 780,
+                    "y": 240
+                },
+                "22": {
+                    "data": {
+                        "advanced": {
+                            "customName": "indicator collect",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "indicator_collect",
+                            "repoName": "community"
+                        },
+                        "functionId": 1,
+                        "functionName": "indicator_collect",
+                        "id": "22",
+                        "selectMore": false,
+                        "type": "utility",
+                        "utilities": {
+                            "indicator_collect": {
+                                "description": "Collect all indicators in a container and separate them by data type. Additional output data paths are created for each data type. Artifact scope is ignored. Recently modified artifacts or artifacts older than 30 days may not have correct indicator types because of performance considerations when querying the indicator table.",
+                                "fields": [
+                                    {
+                                        "dataTypes": [
+                                            "phantom container id"
+                                        ],
+                                        "description": "The current container",
+                                        "inputType": "item",
+                                        "label": "container",
+                                        "name": "container",
+                                        "placeholder": "container:id",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "indicator_collect",
+                                "name": "indicator_collect"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "indicator_collect": {
+                                "container": "container:id"
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "22",
+                    "type": "utility",
+                    "userCode": "\n",
+                    "x": 700,
+                    "y": 420
+                },
+                "23": {
+                    "data": {
+                        "advanced": {
+                            "customName": "process notes",
+                            "customNameId": 0,
+                            "description": "Access note_title and note_content from dynamically launched playbooks.",
+                            "join": [],
+                            "note": "Access note_title and note_content from dynamically launched playbooks."
+                        },
+                        "functionId": 1,
+                        "functionName": "process_notes",
+                        "id": "23",
+                        "inputParameters": [
+                            "decide_and_launch_playbooks:custom_function:names"
+                        ],
+                        "outputVariables": [
+                            "note_title",
+                            "note_content"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "23",
+                    "type": "code",
+                    "userCode": "\n    process_notes__note_title = []\n    process_notes__note_content = []\n    \n    for name in decide_and_launch_playbooks__names:\n        note_title = phantom.collect2(container=container, datapath=[f\"{name}:playbook_output:note_title\"])\n        note_content = phantom.collect2(container=container, datapath=[f\"{name}:playbook_output:note_content\"])\n        phantom.debug(note_title)\n        phantom.debug(note_content)\n        note_title = [item[0] for item in note_title]\n        note_content = [item[0] for item in note_content]\n        for title, content in zip(note_title, note_content):\n            process_notes__note_title.append(title)\n            process_notes__note_content.append(content)\n\t\n\n",
+                    "x": 700,
+                    "y": 840
+                },
+                "28": {
+                    "data": {
+                        "advanced": {
+                            "customName": "playbook wait",
+                            "customNameId": 0,
+                            "description": "Custom code block operating as a join function for dynamic playbook calls.",
+                            "join": [],
+                            "note": "Custom code block operating as a join function for dynamic playbook calls."
+                        },
+                        "functionId": 5,
+                        "functionName": "playbook_wait",
+                        "id": "28",
+                        "inputParameters": [
+                            "decide_and_launch_playbooks:custom_function:names"
+                        ],
+                        "outputVariables": [],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "28",
+                    "type": "code",
+                    "userCode": "\n    \n    if phantom.completed(playbook_names=decide_and_launch_playbooks__names):\n        process_notes(container=container)\n    # return early to avoid moving to next block\n    return    \n\n",
+                    "x": 700,
+                    "y": 700
+                },
+                "6": {
+                    "data": {
+                        "advanced": {
+                            "customName": "list investigate playbooks",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "playbooks_list",
+                            "repoName": "community"
+                        },
+                        "functionId": 3,
+                        "functionName": "list_investigate_playbooks",
+                        "id": "6",
+                        "selectMore": false,
+                        "type": "utility",
+                        "utilities": {
+                            "playbooks_list": {
+                                "description": "List all playbooks matching the provided name, category, and tags. If no filters are provided, list all playbooks.",
+                                "fields": [
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Only return playbooks with the provided name.",
+                                        "inputType": "item",
+                                        "label": "name",
+                                        "name": "name",
+                                        "placeholder": "Playbook Name",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Only returns playbooks that match the provided category.",
+                                        "inputType": "item",
+                                        "label": "category",
+                                        "name": "category",
+                                        "placeholder": "Playbook Category",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Only return playbooks that contain ALL the provided tags. Multiple tags must be a comma-separated list.",
+                                        "inputType": "item",
+                                        "label": "tags",
+                                        "name": "tags",
+                                        "placeholder": "tag1,tag2,tag3",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Only return playbooks that exist in this repo.",
+                                        "inputType": "item",
+                                        "label": "repo",
+                                        "name": "repo",
+                                        "placeholder": "local",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Only return playbooks that match the provided type. Accepts 'automation', 'input' or 'data.'",
+                                        "inputType": "item",
+                                        "label": "playbook_type",
+                                        "name": "playbook_type",
+                                        "placeholder": "automation",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "playbooks_list",
+                                "name": "playbooks_list"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "playbooks_list": {
+                                "category": null,
+                                "name": null,
+                                "playbook_type": "input",
+                                "repo": "local",
+                                "tags": "investigate, risk_notable"
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "6",
+                    "type": "utility",
+                    "x": 700,
+                    "y": 119.99999999999727
+                }
+            },
+            "notes": "For detailed implementation see https://docs.splunk.com/Documentation/ESSOC/latest/user/Useplaybookpack"
+        },
+        "input_spec": null,
+        "output_spec": [
+            {
+                "contains": [],
+                "datapaths": [
+                    "process_notes:custom_function:note_title"
+                ],
+                "deduplicate": false,
+                "description": "",
+                "metadata": {},
+                "name": "note_title"
+            },
+            {
+                "contains": [],
+                "datapaths": [
+                    "process_notes:custom_function:note_content"
+                ],
+                "deduplicate": false,
+                "description": "",
+                "metadata": {},
+                "name": "note_content"
+            }
+        ],
+        "playbook_type": "automation",
+        "python_version": "3",
+        "schema": "5.0.3",
+        "version": "5.0.1.66250"
+    },
+    "create_time": "2021-10-29T21:22:16.623818+00:00",
+    "draft_mode": false,
+    "labels": [
+        "risk_notable"
+    ],
+    "tags": []
+}

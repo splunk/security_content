@@ -1,0 +1,193 @@
+<form theme="dark" version="1.1">
+  <label>Content Library</label>
+  <!-- Example uses stats transforming command -->
+  <!-- This limits evnts passed to post-process search -->
+  <title>Splunk Security Content</title>
+  <search id="baseSS">
+    <query>| rest /services/saved/searches splunk_server=local count=0 | search title="ESCU - *"</query>
+  </search>
+  <search id="baseAS">
+    <query>| rest /services/configs/conf-analyticstories splunk_server=local count=0 |search eai:acl.app = "DA-ESS-ContentUpdate"</query>
+  </search>
+  <init>
+    <set token="form.as_category">*</set>
+    <set token="form.detection">*</set>
+    <set token="form.as_story">*</set>
+    <set token="form.as_attack_id">*</set>
+  </init>
+  <!-- Rows for  Analytic Story Stats -->
+  <!-- Rows for  Analytic Story Table -->
+  <!-- Rows for  Search Stats -->
+  <fieldset submitButton="false"></fieldset>
+  <row>
+    <panel>
+      <html>
+        <h2 style="color:red">Explore the Analytic Stories included with Splunk Security via <a href="https://www.splunk.com/en_us/resources/videos/splunk-enterprise-security-use-case-library.html">ES Use Case Library</a> or <a href="https://splunkbase.splunk.com/app/3435/">Splunk Security Essentials</a>.</h2>
+      </html>
+    </panel>
+  </row>
+  <row id="analytic_stories_header_stats">
+    <panel>
+      <single>
+        <title>Total Analytic Stories</title>
+        <search base="baseAS">
+          <query> search title="analytic_story://*"  |stats count</query>
+        </search>
+        <!-- post-process search -->
+        <option name="colorBy">value</option>
+        <option name="colorMode">block</option>
+        <option name="drilldown">none</option>
+        <option name="numberPrecision">0</option>
+        <option name="showSparkline">1</option>
+        <option name="showTrendIndicator">1</option>
+        <option name="trendColorInterpretation">standard</option>
+        <option name="trendDisplayMode">absolute</option>
+        <option name="unitPosition">after</option>
+        <option name="useColors">1</option>
+        <option name="useThousandSeparators">1</option>
+        <option name="rangeColors">["0x555","0x65a637"]</option>
+        <option name="rangeValues">[0]</option>
+      </single>
+    </panel>
+    <panel>
+      <single>
+        <title>Total Detections</title>
+        <search base="baseSS">
+          <query>stats count by action.correlationsearch.label|  eventstats sum(count) as total_detection_count|  fields total_detection_count</query>
+        </search>
+        <!-- post-process search -->
+        <option name="colorBy">value</option>
+        <option name="colorMode">block</option>
+        <option name="drilldown">none</option>
+        <option name="numberPrecision">0</option>
+        <option name="showSparkline">1</option>
+        <option name="showTrendIndicator">1</option>
+        <option name="trendColorInterpretation">standard</option>
+        <option name="trendDisplayMode">absolute</option>
+        <option name="unitPosition">after</option>
+        <option name="useColors">1</option>
+        <option name="useThousandSeparators">1</option>
+        <option name="rangeColors">["0x555","0x65a637"]</option>
+        <option name="rangeValues">[0]</option>
+      </single>
+    </panel>
+    <panel>
+      <single>
+        <title>ESCU App Version</title>
+        <search id="version">
+          <query>| rest /services/configs/conf-content-version splunk_server=local count=0 | table version</query>
+        </search>
+        <option name="colorBy">value</option>
+        <option name="colorMode">block</option>
+        <option name="drilldown">none</option>
+        <option name="numberPrecision">0</option>
+        <option name="rangeColors">["0x555","0x65a637"]</option>
+        <option name="rangeValues">[0]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="showSparkline">1</option>
+        <option name="showTrendIndicator">1</option>
+        <option name="trendColorInterpretation">standard</option>
+        <option name="trendDisplayMode">absolute</option>
+        <option name="unitPosition">after</option>
+        <option name="useColors">1</option>
+        <option name="useThousandSeparators">1</option>
+      </single>
+    </panel>
+  </row>
+  <row id="analytic_stories_viz">
+    <panel>
+      <title>Story Categories</title>
+      <chart>
+        <search>
+          <query>| rest /services/configs/conf-analyticstories splunk_server=local count=0 |  search eai:acl.app = "DA-ESS-ContentUpdate"|  search title="analytic_story://*"|  stats count by category</query>
+        </search>
+        <drilldown>
+          <set token="form.as_category">$click.value$</set>
+          <set token="as_category" prefix="&quot;" suffix="&quot;">$click.value$</set>
+        </drilldown>
+        <option name="charting.chart">bar</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.legend.placement">none</option>
+        <option name="charting.axisLabelsX.integerUnits">true</option>
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">collapsed</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>Analytic Stories by MITRE Technique ID</title>
+      <chart>
+        <search>
+          <query>
+                   | rest /services/saved/searches splunk_server=local count=0 | search title="ESCU - *" 
+|  spath input=action.correlationsearch.annotations path=mitre_attack{} output="MITRE Technique ID" 
+|  spath input=action.correlationsearch.annotations path=analytic_story{} output=story_name 
+ | stats dc(story_name) as "Analytic Stories" by "MITRE Technique ID"
+          </query>
+        </search>
+        <drilldown>
+          <set token="form.as_attack_id">$click.value$</set>
+          <set token="as_attack_id">$click.value$</set>
+        </drilldown>
+        <option name="charting.legend.placement">none</option>
+      </chart>
+    </panel>
+  </row>
+  <row id="analytic_stories_details_table">
+    <panel>
+      <input type="dropdown" token="story">
+        <label>Analytic Story</label>
+        <choice value="*">All</choice>
+        <search>
+          <latest>now</latest>
+          <query>| rest /services/configs/conf-savedsearches splunk_server=local count=0 
+|  search action.escu.search_type = detection 
+| spath input=action.correlationsearch.annotations path=analytic_story{} output="story" 
+|  mvexpand story
+| dedup story | fields story</query>
+        </search>
+        <fieldForLabel>story</fieldForLabel>
+        <fieldForValue>story</fieldForValue>
+        <default>*</default>
+        <prefix>"</prefix>
+        <suffix>"</suffix>
+        <initialValue>*</initialValue>
+      </input>
+      <html>
+            <input id="analytic_filter_clear" class="btn btn-primary" type="button" value="Clear All"/>
+        </html>
+      <table>
+        <title>Analytic Story Details</title>
+        <search>
+          <query>| rest /services/configs/conf-savedsearches splunk_server=local count=0 
+| search action.escu.search_type = detection 
+| spath input=action.correlationsearch.annotations path=analytic_story{} output="analytic_story" 
+| spath input=action.correlationsearch.annotations path=mitre_attack{} output="mitre_attack" 
+| spath input=action.escu.data_models path={} output="Data Models" 
+| rename title as "Detections" 
+| join  analytic_story 
+    [| rest /services/configs/conf-analyticstories splunk_server=local count=0 
+    | search title="analytic_story://*" 
+    | eval "analytic_story"=replace(title,"analytic_story://","" ) 
+        ] 
+| search analytic_story=  $story$
+|stats values(Detections) as Detections values(mitre_attack) as "MITRE Technique ID" values(last_updated) as "Last Updated"  by analytic_story description| rename analytic_story as "Analytic Story"| rename description as Description| table "Analytic Story" Description Detections "MITRE Technique ID" "Last Updated"</query>
+          <earliest>$earliest$</earliest>
+          <latest>$latest$</latest>
+        </search>
+        <option name="count">5</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">row</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">true</option>
+        <option name="wrap">true</option>
+        <drilldown>
+          <link target="_blank">
+            <![CDATA[
+              /app/SplunkEnterpriseSecuritySuite/ess_analytic_story_details?analytic_story=$row.Analytic Story$
+            ]]>
+          </link>
+        </drilldown>
+      </table>
+    </panel>
+  </row>
+</form>

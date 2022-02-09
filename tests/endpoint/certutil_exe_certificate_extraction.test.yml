@@ -1,0 +1,12 @@
+name: Certutil exe certificate extraction Unit Test
+tests:
+- name: Certutil exe certificate extraction
+  file: endpoint/certutil_exe_certificate_extraction.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-7d'
+  latest_time: 'now'
+  attack_data:
+  - file_name: windows-sysmon.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/certutil_exe_certificate_extraction/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

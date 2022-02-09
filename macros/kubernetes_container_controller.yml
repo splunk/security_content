@@ -1,0 +1,3 @@
+definition: sourcetype=kube:container:controller
+description: customer specific splunk configurations(eg- index, source, sourcetype) for Kubernetes data. Replace the macro definition with configurations for your Splunk Environmnent.
+name: kubernetes_container_controller

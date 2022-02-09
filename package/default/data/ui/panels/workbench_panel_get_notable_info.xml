@@ -1,9 +1,0 @@
-<panel>
-  <table>
-    <search>
-      <query>| search `notable_by_id($event_id$)` | table time, rule_name, dest, dest_asset_id, dest_owner, priority, severity, owner, status_description</query>
-    </search>
-    <option name="drilldown">cell</option>
-    <option name="wrap">false</option>
-  </table>
-</panel>
