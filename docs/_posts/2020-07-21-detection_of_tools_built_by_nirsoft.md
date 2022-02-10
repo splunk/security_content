@@ -26,7 +26,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 This search looks for specific command-line arguments that may indicate the execution of tools made by Nirsoft, which are legitimate, but may be abused by attackers.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-07-21
@@ -36,8 +36,8 @@ This search looks for specific command-line arguments that may indicate the exec
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1072](https://attack.mitre.org/techniques/T1072/) | Software Deployment Tools | Execution, Lateral Movement |
 
 #### Search
@@ -51,12 +51,12 @@ This search looks for specific command-line arguments that may indicate the exec
 | `detection_of_tools_built_by_nirsoft_filter`
 ```
 
-#### Associated Analytic Story
-* [Emotet Malware  DHS Report TA18-201A ](/stories/emotet_malware__dhs_report_ta18-201a_)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-You must be ingesting endpoint data that tracks process activity, including parent-child relationships from your endpoints to populate the Endpoint data model in the Processes node. The command-line arguments are mapped to the &#34;process&#34; field in the Endpoint data model.
+Note that `detection_of_tools_built_by_nirsoft_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -66,13 +66,20 @@ You must be ingesting endpoint data that tracks process activity, including pare
 * Processes.user
 
 
+#### How To Implement
+You must be ingesting endpoint data that tracks process activity, including parent-child relationships from your endpoints to populate the Endpoint data model in the Processes node. The command-line arguments are mapped to the &#34;process&#34; field in the Endpoint data model.
+
+#### Known False Positives
+While legitimate, these NirSoft tools are prone to abuse. You should verfiy that the tool was used for a legitimate purpose.
+
+#### Associated Analytic story
+* [Emotet Malware  DHS Report TA18-201A ](/stories/emotet_malware__dhs_report_ta18-201a_)
+
+
 #### Kill Chain Phase
 * Installation
 * Actions on Objectives
 
-
-#### Known False Positives
-While legitimate, these NirSoft tools are prone to abuse. You should verfiy that the tool was used for a legitimate purpose.
 
 
 

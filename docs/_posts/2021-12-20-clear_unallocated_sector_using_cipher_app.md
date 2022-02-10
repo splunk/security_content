@@ -23,7 +23,7 @@ tags:
 
 this search is to detect execution of `cipher.exe` to clear the unallocated sectors of a specific disk. This technique was seen in some ransomware to make it impossible to forensically recover deleted files.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2021-12-20
@@ -33,8 +33,8 @@ this search is to detect execution of `cipher.exe` to clear the unallocated sect
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1070.004](https://attack.mitre.org/techniques/T1070/004/) | File Deletion | Defense Evasion |
 
 | [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
@@ -50,13 +50,10 @@ this search is to detect execution of `cipher.exe` to clear the unallocated sect
 | into write_ssa_detected_events();
 ```
 
-#### Associated Analytic Story
-* [Ransomware](/stories/ransomware)
-* [Information Sabotage](/stories/information_sabotage)
+#### Macros
+The SPL above uses the following Macros:
 
-
-#### How To Implement
-To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
+Note that `clear_unallocated_sector_using_cipher_app_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -73,12 +70,20 @@ To successfully implement this search you need to be ingesting information on pr
 * Processes.parent_process_id
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
 
 #### Known False Positives
 administrator may execute this app to manage disk
+
+#### Associated Analytic story
+* [Ransomware](/stories/ransomware)
+* [Information Sabotage](/stories/information_sabotage)
+
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA

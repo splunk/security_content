@@ -29,7 +29,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 Adversaries may abuse netbooting to load an unauthorized network device operating system from a Trivial File Transfer Protocol (TFTP) server. TFTP boot (netbooting) is commonly used by network administrators to load configuration-controlled network device images from a centralized management server. Netbooting is one option in the boot sequence and can be used to centralize, manage, and control device images.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
 - **Last Updated**: 2020-10-28
@@ -39,8 +39,8 @@ Adversaries may abuse netbooting to load an unauthorized network device operatin
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1542.005](https://attack.mitre.org/techniques/T1542/005/) | TFTP Boot | Defense Evasion, Persistence |
 
 | [T1542](https://attack.mitre.org/techniques/T1542/) | Pre-OS Boot | Defense Evasion, Persistence |
@@ -56,12 +56,12 @@ Adversaries may abuse netbooting to load an unauthorized network device operatin
 | `detect_software_download_to_network_device_filter`
 ```
 
-#### Associated Analytic Story
-* [Router and Infrastructure Security](/stories/router_and_infrastructure_security)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-This search looks for Network Traffic events to TFTP, FTP or SSH/SCP ports from network devices. Make sure to tag any network devices as network, router or switch in order for this detection to work. If the TFTP traffic doesn&#39;t traverse a firewall nor packet inspection, these events will not be logged. This is typically an issue if the TFTP server is on the same subnet as the network device. There is also a chance of the network device loading software using a DHCP assigned IP address (netboot) which is not in the Asset inventory.
+Note that `detect_software_download_to_network_device_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -73,12 +73,19 @@ This search looks for Network Traffic events to TFTP, FTP or SSH/SCP ports from 
 * All_Traffic.dest
 
 
-#### Kill Chain Phase
-* Delivery
-
+#### How To Implement
+This search looks for Network Traffic events to TFTP, FTP or SSH/SCP ports from network devices. Make sure to tag any network devices as network, router or switch in order for this detection to work. If the TFTP traffic doesn&#39;t traverse a firewall nor packet inspection, these events will not be logged. This is typically an issue if the TFTP server is on the same subnet as the network device. There is also a chance of the network device loading software using a DHCP assigned IP address (netboot) which is not in the Asset inventory.
 
 #### Known False Positives
 This search will also report any legitimate attempts of software downloads to network devices as well as outbound SSH sessions from network devices.
+
+#### Associated Analytic story
+* [Router and Infrastructure Security](/stories/router_and_infrastructure_security)
+
+
+#### Kill Chain Phase
+* Delivery
+
 
 
 

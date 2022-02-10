@@ -23,7 +23,7 @@ tags:
 
 This search is to detect a suspicious bcdedit commandline to configure the host to boot in safe mode with network config. This technique was seen in blackMatter ransomware where it force the compromised host to boot in safe mode to continue its encryption and bring back to normal boot using bcdedit deletevalue command. This TTP can be a good alert for host that booted from safe mode forcefully since it need to modify the boot configuration to bring it back to normal.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-09-06
@@ -33,8 +33,8 @@ This search is to detect a suspicious bcdedit commandline to configure the host 
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1490](https://attack.mitre.org/techniques/T1490/) | Inhibit System Recovery | Impact |
 
 #### Search
@@ -48,12 +48,12 @@ This search is to detect a suspicious bcdedit commandline to configure the host 
 | `change_to_safe_mode_with_network_config_filter`
 ```
 
-#### Associated Analytic Story
-* [BlackMatter Ransomware](/stories/blackmatter_ransomware)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
+Note that `change_to_safe_mode_with_network_config_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -65,12 +65,19 @@ To successfully implement this search, you need to be ingesting logs with the pr
 * Processes.user
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
 
 #### Known False Positives
 unknown
+
+#### Associated Analytic story
+* [BlackMatter Ransomware](/stories/blackmatter_ransomware)
+
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA

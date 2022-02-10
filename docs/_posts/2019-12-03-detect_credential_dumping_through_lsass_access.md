@@ -24,7 +24,7 @@ tags:
 
 This search looks for reading lsass memory consistent with credential dumping.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2019-12-03
@@ -34,8 +34,8 @@ This search looks for reading lsass memory consistent with credential dumping.
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1003.001](https://attack.mitre.org/techniques/T1003/001/) | LSASS Memory | Credential Access |
 
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
@@ -51,13 +51,12 @@ This search looks for reading lsass memory consistent with credential dumping.
 | `detect_credential_dumping_through_lsass_access_filter` 
 ```
 
-#### Associated Analytic Story
-* [Credential Dumping](/stories/credential_dumping)
-* [Detect Zerologon Attack](/stories/detect_zerologon_attack)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 
-
-#### How To Implement
-This search needs Sysmon Logs and a sysmon configuration, which includes EventCode 10 with lsass.exe. This search uses an input macro named `sysmon`. We strongly recommend that you specify your environment-specific configurations (index, source, sourcetype, etc.) for Windows Sysmon logs. Replace the macro definition with configurations for your Splunk environment. The search also uses a post-filter macro designed to filter out known false positives.
+Note that `detect_credential_dumping_through_lsass_access_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -71,12 +70,20 @@ This search needs Sysmon Logs and a sysmon configuration, which includes EventCo
 * TargetProcessId
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+This search needs Sysmon Logs and a sysmon configuration, which includes EventCode 10 with lsass.exe. This search uses an input macro named `sysmon`. We strongly recommend that you specify your environment-specific configurations (index, source, sourcetype, etc.) for Windows Sysmon logs. Replace the macro definition with configurations for your Splunk environment. The search also uses a post-filter macro designed to filter out known false positives.
 
 #### Known False Positives
 The activity may be legitimate. Other tools can access lsass for legitimate reasons, and it&#39;s possible this event could be generated in those cases. In these cases, false positives should be fairly obvious and you may need to tweak the search to eliminate noise.
+
+#### Associated Analytic story
+* [Credential Dumping](/stories/credential_dumping)
+* [Detect Zerologon Attack](/stories/detect_zerologon_attack)
+
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 #### RBA

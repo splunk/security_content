@@ -24,7 +24,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 This search provides information of unauthenticated requests via user agent, and authentication data against Kubernetes cluster in AWS
 
-- **Type**: Hunting
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-04-15
@@ -34,8 +34,8 @@ This search provides information of unauthenticated requests via user agent, and
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1526](https://attack.mitre.org/techniques/T1526/) | Cloud Service Discovery | Discovery |
 
 #### Search
@@ -49,12 +49,12 @@ This search provides information of unauthenticated requests via user agent, and
 |`amazon_eks_kubernetes_cluster_scan_detection_filter` 
 ```
 
-#### Associated Analytic Story
-* [Kubernetes Scanning Activity](/stories/kubernetes_scanning_activity)
+#### Macros
+The SPL above uses the following Macros:
+* [aws_cloudwatchlogs_eks](https://github.com/splunk/security_content/blob/develop/macros/aws_cloudwatchlogs_eks.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-
-#### How To Implement
-You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudWatch EKS Logs inputs.
+Note that `amazon_eks_kubernetes_cluster_scan_detection_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -70,12 +70,19 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 * user.groups{}
 
 
-#### Kill Chain Phase
-* Reconnaissance
-
+#### How To Implement
+You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudWatch EKS Logs inputs.
 
 #### Known False Positives
 Not all unauthenticated requests are malicious, but frequency, UA and source IPs will provide context.
+
+#### Associated Analytic story
+* [Kubernetes Scanning Activity](/stories/kubernetes_scanning_activity)
+
+
+#### Kill Chain Phase
+* Reconnaissance
+
 
 
 

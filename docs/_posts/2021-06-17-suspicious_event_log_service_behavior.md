@@ -24,7 +24,7 @@ tags:
 
 The following analytic utilizes Windows Event ID 1100 to identify when Windows event log service is shutdown. Note that this is a voluminous analytic that will require tuning or restricted to specific endpoints based on criticality. This event generates every time Windows Event Log service has shut down. It also generates during normal system shutdown. During triage, based on time of day and user, determine if this was planned. If not planned, follow through with reviewing parallel alerts and other data sources to determine what else may have occurred.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-06-17
@@ -34,8 +34,8 @@ The following analytic utilizes Windows Event ID 1100 to identify when Windows e
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
 
 | [T1070.001](https://attack.mitre.org/techniques/T1070/001/) | Clear Windows Event Logs | Defense Evasion |
@@ -50,14 +50,12 @@ The following analytic utilizes Windows Event ID 1100 to identify when Windows e
 | `suspicious_event_log_service_behavior_filter`
 ```
 
-#### Associated Analytic Story
-* [Windows Log Manipulation](/stories/windows_log_manipulation)
-* [Ransomware](/stories/ransomware)
-* [Clop Ransomware](/stories/clop_ransomware)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting Windows event logs from your hosts. In addition, the Splunk Windows TA is needed.
+Note that `suspicious_event_log_service_behavior_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -65,12 +63,21 @@ To successfully implement this search, you need to be ingesting Windows event lo
 * dest
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting Windows event logs from your hosts. In addition, the Splunk Windows TA is needed.
 
 #### Known False Positives
 It is possible the Event Logging service gets shut down due to system errors or legitimately administration tasks. Filter as needed.
+
+#### Associated Analytic story
+* [Windows Log Manipulation](/stories/windows_log_manipulation)
+* [Ransomware](/stories/ransomware)
+* [Clop Ransomware](/stories/clop_ransomware)
+
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 #### RBA

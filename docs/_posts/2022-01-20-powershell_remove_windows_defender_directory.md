@@ -25,7 +25,7 @@ tags:
 
 This analytic will identify a suspicious PowerShell command used to delete the Windows Defender folder. This technique was seen used by the WhisperGate malware campaign where it used Nirsofts advancedrun.exe to gain administrative privileges to then execute a PowerShell command to delete the Windows Defender folder. This is a good indicator the offending process is trying corrupt a Windows Defender installation.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2022-01-20
@@ -35,8 +35,8 @@ This analytic will identify a suspicious PowerShell command used to delete the W
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1562.001](https://attack.mitre.org/techniques/T1562/001/) | Disable or Modify Tools | Defense Evasion |
 
 | [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
@@ -44,19 +44,19 @@ This analytic will identify a suspicious PowerShell command used to delete the W
 #### Search
 
 ```
-`powershell` EventCode=4104 Message = "* rmdir *" OR Message = "*\\Microsoft\\Windows Defender*" 
+`powershell` EventCode=4104 Message = "* rmdir *" AND Message = "*\\Microsoft\\Windows Defender*" 
 | stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message ComputerName User 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
 | `powershell_remove_windows_defender_directory_filter`
 ```
 
-#### Associated Analytic Story
-* [WhisperGate](/stories/whispergate)
+#### Macros
+The SPL above uses the following Macros:
+* [powershell](https://github.com/splunk/security_content/blob/develop/macros/powershell.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-
-#### How To Implement
-To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+Note that `powershell_remove_windows_defender_directory_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -66,12 +66,19 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 * User
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
 
 #### Known False Positives
 unknown
+
+#### Associated Analytic story
+* [WhisperGate](/stories/whispergate)
+
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA

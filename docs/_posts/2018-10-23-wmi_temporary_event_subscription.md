@@ -24,7 +24,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 This search looks for the creation of WMI temporary event subscriptions.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2018-10-23
@@ -34,8 +34,8 @@ This search looks for the creation of WMI temporary event subscriptions.
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1047](https://attack.mitre.org/techniques/T1047/) | Windows Management Instrumentation | Execution |
 
 #### Search
@@ -51,12 +51,12 @@ This search looks for the creation of WMI temporary event subscriptions.
 | `wmi_temporary_event_subscription_filter`
 ```
 
-#### Associated Analytic Story
-* [Suspicious WMI Use](/stories/suspicious_wmi_use)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [wmi](https://github.com/splunk/security_content/blob/develop/macros/wmi.yml)
 
-
-#### How To Implement
-To successfully implement this search, you must be ingesting the Windows WMI activity logs. This can be done by adding a stanza to inputs.conf on the system generating logs with a title of [WinEventLog://Microsoft-Windows-WMI-Activity/Operational].
+Note that `wmi_temporary_event_subscription_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -65,12 +65,19 @@ To successfully implement this search, you must be ingesting the Windows WMI act
 * query
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+To successfully implement this search, you must be ingesting the Windows WMI activity logs. This can be done by adding a stanza to inputs.conf on the system generating logs with a title of [WinEventLog://Microsoft-Windows-WMI-Activity/Operational].
 
 #### Known False Positives
 Some software may create WMI temporary event subscriptions for various purposes. The included search contains an exception for two of these that occur by default on Windows 10 systems. You may need to modify the search to create exceptions for other legitimate events.
+
+#### Associated Analytic story
+* [Suspicious WMI Use](/stories/suspicious_wmi_use)
+
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 

@@ -25,7 +25,7 @@ tags:
 
 this search is to identify modification in registry to disable ETW windows feature to evade detections. This technique was seen in several ransomware, RAT and even APT to impaire defenses of the compromise machine and to be able to execute payload with minimal alert as much as possible.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2022-01-27
@@ -35,8 +35,8 @@ this search is to identify modification in registry to disable ETW windows featu
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1562.001](https://attack.mitre.org/techniques/T1562/001/) | Disable or Modify Tools | Defense Evasion |
 
 | [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
@@ -57,12 +57,11 @@ this search is to identify modification in registry to disable ETW windows featu
 | `disable_etw_through_registry_filter`
 ```
 
-#### Associated Analytic Story
-* [Ransomware](/stories/ransomware)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure that this registry was included in your config files ex. sysmon config to be monitored.
+Note that `disable_etw_through_registry_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -73,12 +72,19 @@ To successfully implement this search you need to be ingesting information on pr
 * Registry.registry_value_name
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure that this registry was included in your config files ex. sysmon config to be monitored.
 
 #### Known False Positives
 network operator may disable this feature of windows but not so common.
+
+#### Associated Analytic story
+* [Ransomware](/stories/ransomware)
+
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 

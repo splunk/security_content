@@ -25,7 +25,7 @@ tags:
 
 Monitor for execution of reg.exe with parameters specifying an export of keys that contain hashed credentials that attackers may try to crack offline.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-09-16
@@ -35,8 +35,8 @@ Monitor for execution of reg.exe with parameters specifying an export of keys th
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1003.002](https://attack.mitre.org/techniques/T1003/002/) | Security Account Manager | Credential Access |
 
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
@@ -52,13 +52,14 @@ Monitor for execution of reg.exe with parameters specifying an export of keys th
 | `attempted_credential_dump_from_registry_via_reg_exe_filter`
 ```
 
-#### Associated Analytic Story
-* [Credential Dumping](/stories/credential_dumping)
-* [DarkSide Ransomware](/stories/darkside_ransomware)
+#### Macros
+The SPL above uses the following Macros:
+* [process_cmd](https://github.com/splunk/security_content/blob/develop/macros/process_cmd.yml)
+* [process_reg](https://github.com/splunk/security_content/blob/develop/macros/process_reg.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
+Note that `attempted_credential_dump_from_registry_via_reg_exe_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -75,12 +76,20 @@ To successfully implement this search you need to be ingesting information on pr
 * Processes.parent_process_id
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 
 #### Known False Positives
 None identified.
+
+#### Associated Analytic story
+* [Credential Dumping](/stories/credential_dumping)
+* [DarkSide Ransomware](/stories/darkside_ransomware)
+
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 #### RBA

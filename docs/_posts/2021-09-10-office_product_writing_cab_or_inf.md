@@ -26,7 +26,7 @@ tags:
 
 The following analytic identifies behavior related to CVE-2021-40444. Whereas the malicious document will load ActiveX and download the remote payload (.inf, .cab). During triage, review parallel processes and further activity on endpoint to identify additional patterns. Retrieve the file modifications and analyze further.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-09-10
@@ -36,8 +36,8 @@ The following analytic identifies behavior related to CVE-2021-40444. Whereas th
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1566](https://attack.mitre.org/techniques/T1566/) | Phishing | Initial Access |
 
 | [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
@@ -57,13 +57,11 @@ The following analytic identifies behavior related to CVE-2021-40444. Whereas th
 | `office_product_writing_cab_or_inf_filter`
 ```
 
-#### Associated Analytic Story
-* [Spearphishing Attachments](/stories/spearphishing_attachments)
-* [Microsoft MSHTML Remote Code Execution CVE-2021-40444](/stories/microsoft_mshtml_remote_code_execution_cve-2021-40444)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node and `Filesystem` node.
+Note that `office_product_writing_cab_or_inf_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -75,12 +73,20 @@ To successfully implement this search you need to be ingesting information on pr
 * file_path
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node and `Filesystem` node.
 
 #### Known False Positives
 The query is structured in a way that `action` (read, create) is not defined. Review the results of this query, filter, and tune as necessary. It may be necessary to generate this query specific to your endpoint product.
+
+#### Associated Analytic story
+* [Spearphishing Attachments](/stories/spearphishing_attachments)
+* [Microsoft MSHTML Remote Code Execution CVE-2021-40444](/stories/microsoft_mshtml_remote_code_execution_cve-2021-40444)
+
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA

@@ -25,7 +25,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 This search looks for suspicious processes on all systems labeled as web servers.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2019-04-01
@@ -35,8 +35,8 @@ This search looks for suspicious processes on all systems labeled as web servers
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1082](https://attack.mitre.org/techniques/T1082/) | System Information Discovery | Discovery |
 
 #### Search
@@ -50,12 +50,12 @@ This search looks for suspicious processes on all systems labeled as web servers
 | `web_servers_executing_suspicious_processes_filter`
 ```
 
-#### Associated Analytic Story
-* [Apache Struts Vulnerability](/stories/apache_struts_vulnerability)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the &#34;process&#34; field in the Endpoint data model. In addition, web servers will need to be identified in the Assets and Identity Framework of Enterprise Security.
+Note that `web_servers_executing_suspicious_processes_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -66,12 +66,19 @@ You must be ingesting data that records process activity from your hosts to popu
 * Processes.user
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the &#34;process&#34; field in the Endpoint data model. In addition, web servers will need to be identified in the Assets and Identity Framework of Enterprise Security.
 
 #### Known False Positives
 Some of these processes may be used legitimately on web servers during maintenance or other administrative tasks.
+
+#### Associated Analytic story
+* [Apache Struts Vulnerability](/stories/apache_struts_vulnerability)
+
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 

@@ -23,7 +23,7 @@ tags:
 
 This search is to detect a suspicious bcdedit.exe execution to ignore all failures. This technique was used by ransomware to prevent the compromise machine automatically boot in repair mode.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-10
@@ -33,8 +33,8 @@ This search is to detect a suspicious bcdedit.exe execution to ignore all failur
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1490](https://attack.mitre.org/techniques/T1490/) | Inhibit System Recovery | Impact |
 
 #### Search
@@ -48,12 +48,12 @@ This search is to detect a suspicious bcdedit.exe execution to ignore all failur
 | `prevent_automatic_repair_mode_using_bcdedit_filter`
 ```
 
-#### Associated Analytic Story
-* [Ransomware](/stories/ransomware)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed bcdedit.exe may be used.
+Note that `prevent_automatic_repair_mode_using_bcdedit_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -67,12 +67,19 @@ To successfully implement this search, you need to be ingesting logs with the pr
 * Processes.process_guid
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed bcdedit.exe may be used.
 
 #### Known False Positives
 Administrators may modify the boot configuration ignore failure during testing and debugging.
+
+#### Associated Analytic story
+* [Ransomware](/stories/ransomware)
+
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA

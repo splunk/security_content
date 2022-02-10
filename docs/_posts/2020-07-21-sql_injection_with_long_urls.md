@@ -25,7 +25,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 This search looks for long URLs that have several SQL commands visible within them.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Web](https://docs.splunk.com/Documentation/CIM/latest/User/Web)
 - **Last Updated**: 2020-07-21
@@ -35,8 +35,8 @@ This search looks for long URLs that have several SQL commands visible within th
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1190](https://attack.mitre.org/techniques/T1190/) | Exploit Public-Facing Application | Initial Access |
 
 #### Search
@@ -50,12 +50,11 @@ This search looks for long URLs that have several SQL commands visible within th
 | `sql_injection_with_long_urls_filter`
 ```
 
-#### Associated Analytic Story
-* [SQL Injection](/stories/sql_injection)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search, you need to be monitoring network communications to your web servers or ingesting your HTTP logs and populating the Web data model. You must also identify your web servers in the Enterprise Security assets table.
+Note that `sql_injection_with_long_urls_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -68,12 +67,19 @@ To successfully implement this search, you need to be monitoring network communi
 * Web.http_user_agent
 
 
-#### Kill Chain Phase
-* Delivery
-
+#### How To Implement
+To successfully implement this search, you need to be monitoring network communications to your web servers or ingesting your HTTP logs and populating the Web data model. You must also identify your web servers in the Enterprise Security assets table.
 
 #### Known False Positives
 It&#39;s possible that legitimate traffic will have long URLs or long user agent strings and that common SQL commands may be found within the URL. Please investigate as appropriate.
+
+#### Associated Analytic story
+* [SQL Injection](/stories/sql_injection)
+
+
+#### Kill Chain Phase
+* Delivery
+
 
 
 
