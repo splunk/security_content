@@ -65,7 +65,7 @@ tags:
     - name: src_device_ip
       type: Host IP
       role:
-    - Others
+      - Others
   nist:
   - DE.AE
   cis20:
