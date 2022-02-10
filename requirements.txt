@@ -38,7 +38,7 @@ pendulum==2.1.2
 pep517==0.12.0
 Pillow==9.0.0
 platformdirs==2.4.1
-pre-commit==2.16.0
+pre-commit==2.17.0
 progress==1.6
 prompt-toolkit==1.0.14
 pycvesearch==1.0.1
