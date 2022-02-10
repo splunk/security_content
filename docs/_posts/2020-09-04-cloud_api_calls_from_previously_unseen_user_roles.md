@@ -27,7 +27,7 @@ tags:
 
 This search looks for new commands from each user role.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
 - **Last Updated**: 2020-09-04
@@ -37,8 +37,8 @@ This search looks for new commands from each user role.
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 #### Search
@@ -58,12 +58,16 @@ This search looks for new commands from each user role.
 | `cloud_api_calls_from_previously_unseen_user_roles_filter`
 ```
 
-#### Associated Analytic Story
-* [Suspicious Cloud User Activities](/stories/suspicious_cloud_user_activities)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
+Note that `cloud_api_calls_from_previously_unseen_user_roles_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
-#### How To Implement
-You must be ingesting your cloud infrastructure logs from your cloud provider.  You should run the baseline search `Previously Seen Cloud API Calls Per User Role - Initial` to build the initial table of user roles, commands, and times. You must also enable the second baseline search `Previously Seen Cloud API Calls Per User Role - Update` to keep this table up to date and to age out old data. You can adjust the time window for this search by updating the `cloud_api_calls_from_previously_unseen_user_roles_activity_window` macro. You can also provide additional filtering for this search by customizing the `cloud_api_calls_from_previously_unseen_user_roles_filter`
+#### Lookups
+The SPL above uses the following Lookups:
+
+* [previously_seen_cloud_api_calls_per_user_role](https://github.com/splunk/security_content/blob/develop/lookups/previously_seen_cloud_api_calls_per_user_role.yml) with [data]()
 
 #### Required field
 * _time
@@ -74,11 +78,18 @@ You must be ingesting your cloud infrastructure logs from your cloud provider.  
 * All_Changes.object
 
 
-#### Kill Chain Phase
-
+#### How To Implement
+You must be ingesting your cloud infrastructure logs from your cloud provider.  You should run the baseline search `Previously Seen Cloud API Calls Per User Role - Initial` to build the initial table of user roles, commands, and times. You must also enable the second baseline search `Previously Seen Cloud API Calls Per User Role - Update` to keep this table up to date and to age out old data. You can adjust the time window for this search by updating the `cloud_api_calls_from_previously_unseen_user_roles_activity_window` macro. You can also provide additional filtering for this search by customizing the `cloud_api_calls_from_previously_unseen_user_roles_filter`
 
 #### Known False Positives
 .
+
+#### Associated Analytic story
+* [Suspicious Cloud User Activities](/stories/suspicious_cloud_user_activities)
+
+
+#### Kill Chain Phase
+
 
 
 #### RBA

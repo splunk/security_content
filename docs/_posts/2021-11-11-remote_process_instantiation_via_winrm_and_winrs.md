@@ -25,7 +25,7 @@ tags:
 
 This analytic looks for the execution of `winrs.exe` with command-line arguments utilized to start a process on a remote endpoint. Red Teams and adversaries alike may abuse the WinRM protocol and this binary for lateral movement and remote code execution.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-11-11
@@ -35,8 +35,8 @@ This analytic looks for the execution of `winrs.exe` with command-line arguments
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1021](https://attack.mitre.org/techniques/T1021/) | Remote Services | Lateral Movement |
 
 | [T1021.006](https://attack.mitre.org/techniques/T1021/006/) | Windows Remote Management | Lateral Movement |
@@ -52,12 +52,12 @@ This analytic looks for the execution of `winrs.exe` with command-line arguments
 | `remote_process_instantiation_via_winrm_and_winrs_filter`
 ```
 
-#### Associated Analytic Story
-* [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints.
+Note that `remote_process_instantiation_via_winrm_and_winrs_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -74,12 +74,19 @@ To successfully implement this search, you need to be ingesting logs with the pr
 * Processes.parent_process_id
 
 
-#### Kill Chain Phase
-* Lateral Movement
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints.
 
 #### Known False Positives
 Administrators may leverage WinRM and WinRs to start a process on remote systems, but this activity is usually limited to a small set of hosts or users.
+
+#### Associated Analytic story
+* [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
+
+
+#### Kill Chain Phase
+* Lateral Movement
+
 
 
 #### RBA

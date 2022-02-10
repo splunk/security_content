@@ -23,7 +23,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 This search looks for Windows endpoints that have not generated an event indicating a successful Windows update in the last 60 days. Windows updates are typically released monthly and applied shortly thereafter. An endpoint that has not successfully applied an update in this time frame indicates the endpoint is not regularly being patched for some reason.
 
-- **Type**: Hunting
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Updates](https://docs.splunk.com/Documentation/CIM/latest/User/Updates)
 - **Last Updated**: 2017-09-15
@@ -46,12 +46,12 @@ This search looks for Windows endpoints that have not generated an event indicat
 | `no_windows_updates_in_a_time_frame_filter`
 ```
 
-#### Associated Analytic Story
-* [Monitor for Updates](/stories/monitor_for_updates)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search, it requires that the &#39;Update&#39; data model is being populated. This can be accomplished by ingesting Windows events or the Windows Update log via a universal forwarder on the Windows endpoints you wish to monitor. The Windows add-on should be also be installed and configured to properly parse Windows events in Splunk. There may be other data sources which can populate this data model, including vulnerability management systems.
+Note that `no_windows_updates_in_a_time_frame_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -60,11 +60,18 @@ To successfully implement this search, it requires that the &#39;Update&#39; dat
 * Updates.dest
 
 
-#### Kill Chain Phase
-
+#### How To Implement
+To successfully implement this search, it requires that the &#39;Update&#39; data model is being populated. This can be accomplished by ingesting Windows events or the Windows Update log via a universal forwarder on the Windows endpoints you wish to monitor. The Windows add-on should be also be installed and configured to properly parse Windows events in Splunk. There may be other data sources which can populate this data model, including vulnerability management systems.
 
 #### Known False Positives
 None identified
+
+#### Associated Analytic story
+* [Monitor for Updates](/stories/monitor_for_updates)
+
+
+#### Kill Chain Phase
+
 
 
 

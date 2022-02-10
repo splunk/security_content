@@ -1,0 +1,332 @@
+{
+	// Place your security-content workspace snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and 
+	// description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope 
+	// is left empty or omitted, the snippet gets applied to all languages. The prefix is what is 
+	// used to trigger the snippet and the body will be expanded and inserted. Possible variables are: 
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. 
+	// Placeholders with the same ids are connected.
+	// Example:
+	// "Print to console": {
+	// 	"scope": "javascript,typescript",
+	// 	"prefix": "log",
+	// 	"body": [
+	// 		"console.log('$1');",
+	// 		"$2"
+	// 	],
+	// 	"description": "Log output to console"
+	// }
+	// use https://snippet-generator.app/
+	"datamodel how to implement": {
+		"prefix": "how_to_datamodel",
+		"body": [
+		  "To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product."
+		],
+		"description": "datamodel how to implement"
+	  },
+
+	  "Original FileName": {
+		"prefix": "orig",
+		"body": [
+		  "Processes.original_file_name"
+		],
+		"description": "Original FileName"
+	  },
+	  
+	  "tstat": {
+		"prefix": "tstat_example",
+		"body": [
+		  "| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)",
+		  "  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=rundll32.exe",
+		  "  Processes.process=*start* by Processes.dest Processes.user Processes.parent_process_name Processes.process_name",
+		  "  Processes.process Processes.process_id Processes.parent_process_id",
+		  "  | `drop_dm_object_name(Processes)` ",
+		  "  | `security_content_ctime(firstTime)`",
+		  "  | `security_content_ctime(lastTime)`"
+		],
+		"description": "tstat datamodel query example"
+	  },
+	  "sysmon": {
+		"prefix": "sysmon_example",
+		"body": [
+		  "'`sysmon` EventID=1 (OriginalFileName=RUNDLL32.EXE OR process_name=rundll32.exe) CommandLine=*advpack*",
+		  "  | stats count min(_time) as firstTime max(_time) as lastTime by Computer, User,",
+		  "  parent_process_name, process_name, OriginalFileName, process_path, CommandLine ",
+		  "  | rename Computer as dest ",
+		  "  | `security_content_ctime(firstTime)`",
+		  "  | `security_content_ctime(lastTime)`",
+		  "  | `detect_rundll32_application_control_bypass___advpack_filter`'"
+		],
+		"description": "sysmon query example"
+	  },
+	  "Sysmon query to detect No Command Line Arguments": {
+		"prefix": "no_cl_arguments",
+		"body": [
+		  "'`sysmon` EventID=1 (process_name=rundll32.exe OR OriginalFileName=RUNDLL32.EXE)",
+		  "  | regex CommandLine=\"(rundll32\\.exe.{0,4}$)\" | stats count min(_time) as firstTime",
+		  "  max(_time) as lastTime by dest, User, ParentImage,ParentCommandLine, process_name,",
+		  "  OriginalFileName, process_path, CommandLine | rename Computer as dest | `security_content_ctime(firstTime)`",
+		  "  | `security_content_ctime(lastTime)` | `suspicious_rundll32_no_commandline_arguments_filter`'"
+		],
+		"description": "Sysmon query to detect No Command Line Arguments"
+	  },
+	  "Sysmon query to detect external netconn": {
+		"prefix": "sysmon_external_netconn",
+		"body": [
+		  "'`sysmon` EventID=3 dest_ip!=10.0.0.0/12 dest_ip!=172.16.0.0/12 dest_ip!=192.168.0.0/16 process_name=regasm.exe",
+		  "  | rename Computer as dest ",
+		  "  | stats count min(_time) as firstTime max(_time) as lastTime by dest, User, process_name, src_ip, dest_host, dest_ip",
+		  "  | `security_content_ctime(firstTime)`",
+		  "  | `security_content_ctime(lastTime)`",
+		  "  | `detect_regasm_with_network_connection_filter`'"
+		],
+		"description": "Sysmon query to detect external netconn"
+	  },
+	  "tstat load from suspicious path": {
+		"prefix": "tstat_load_suspicious_path",
+		"body": [
+		  "'| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)",
+		  "  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=regsvr32.exe",
+		  "  (Processes.process=*appdata* OR Processes.process=*programdata* OR Processes.process=*windows\\temp*)",
+		  "  (Processes.process!=*.dll Processes.process!=*.ax Processes.process!=*.ocx) by Processes.dest",
+		  "  Processes.user Processes.parent_process_name Processes.process_name Processes.process",
+		  "  Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`",
+		  "  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `suspicious_regsvr32_register_suspicious_path_filter`'"
+		],
+		"description": "tstat load from suspicious path"
+	  },
+	  "sysmon how to implement": {
+		"prefix": "sysmon_how_to",
+		"body": [
+		  "To successfully implement this search, you need to be ingesting",
+		  "  logs with the process name, parent process, and command-line executions from your",
+		  "  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the",
+		  "  Sysmon TA."
+		],
+		"description": "sysmon how to implement"
+	  },
+
+	  "cloudtrail": {
+		"prefix": "cloudtrail_query",
+		"body": [
+		  "`cloudtrail` eventSource=iam.amazonaws.com eventName=DeleteGroup errorCode=failure ",
+		  "| stats count min(_time) as firstTime max(_time) as lastTime values(requestParameters.policyArn) as policy_arn by src requestParameters.versionId eventName eventSource aws_account_id errorCode userAgent eventID awsRegion userIdentity.principalId user_arn ",
+		  "| `security_content_ctime(firstTime)`",
+		  "| `security_content_ctime(lastTime)` "
+		],
+		"description": "cloudtrail"
+	  },
+
+	  "howto_cloudtrail": {
+		"prefix": "cloudtrail_howto",
+		"body": [
+		  "The Splunk AWS Add-on and Splunk App for AWS is required to utilize this data. The search requires AWS Cloudtrail logs."
+		],
+		"description": "howto_cloudtrail"
+	  },
+	  "winword_spawn_tstat": {
+		"prefix": "winword_spawn_tstat",
+		"body": [
+		  "  | tstats `security_content_summariesonly` count values(Processes.process)",
+		  "  min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes",
+		  "  where Processes.parent_process_name=\"winword.exe\" Processes.process_name=rundll32.exe  by Processes.parent_process_name Processes.process_name",
+		  "  Processes.user Processes.dest | `drop_dm_object_name(\"Processes\")` | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`"
+		],
+		"description": "winword_spawn_tstat"
+	  },
+	  "dns_datamodel": {
+		"prefix": "dns_datamodel",
+		"body": [
+		  "To successfully implement this search, you will need to ensure that",
+		  "  DNS data is populating the Network_Resolution data model."
+		],
+		"description": "dns_datamodel"
+	  },
+	  "Required fields for datamodel": {
+		"prefix": "datamodel_required_fields",
+		"body": [
+		  "  - Processes.dest",
+		  "  - Processes.user",
+		  "  - Processes.parent_process_name #parent process name",
+		  "  - Processes.parent_process #parent cmdline",
+		  "  - Processes.original_file_name",
+		  "  - Processes.process_name #process name",
+		  "  - Processes.process #process cmdline",
+		  "  - Processes.process_id",
+		  "  - Processes.parent_process_path",
+		  "  - Processes.process_path",
+		  "  - Processes.parent_process_id"
+		],
+		"description": "Required fields for datamodel"
+	  },
+	  
+	  "risk_impact": {
+		"prefix": "risk",
+		"body": [
+		  "  impact: 80",
+		  "  confidence: 100",
+		  "  # (impact * confidence)/100",
+		  "  risk_score: 80",
+		  "  context:",
+		  "  - Source:Endpoint",
+		  "  - Stage:Defense Evasion",
+		  "  message: An instance of $parent_process_name$ spawning process_name$ was identified on endpoint $Computer$ by user user$ attempting to decode a file.",
+		  "  observable:",
+		  "  - name: user",
+		  "    type: User",
+		  "    role:",
+		  "    - Victim",
+		  "  - name: Computer",
+		  "    type: Hostname",
+		  "    role:",
+		  "    - Victim",
+		  "  - name: parent_process_name",
+		  "    type: Parent Process",
+		  "    role:",
+		  "    - Parent Process",
+		  "  - name: process_name",
+		  "    type: Process",
+		  "    role:",
+		  "    - Child Process"
+		],
+		"description": "risk_impact"
+	  },
+
+	  "certutil macro": {
+		"prefix": "certutil macro",
+		"body": [
+		  "`process_certutil`"
+		],
+		"description": "certutil macro"
+	  },
+
+	  "hh macro": {
+		"prefix": "hh macro",
+		"body": [
+		  "`process_hh`"
+		],
+		"description": "hh macro"
+	  },
+
+	  "powershell macro": {
+		"prefix": "powershell macro",
+		"body": [
+		  "`process_powershell`"
+		],
+		"description": "powershell macro"
+	  },
+
+	  "net macro": {
+		"prefix": "net macro",
+		"body": [
+		  "`process_net`"
+		],
+		"description": "net macro"
+	  },
+
+	  "mshta macro": {
+		"prefix": "mshta macro",
+		"body": [
+		  "`process_mshta`"
+		],
+		"description": "mshta macro"
+	  },
+
+	  "cmd macro": {
+		"prefix": "cmd macro",
+		"body": [
+		  "`process_cmd`"
+		],
+		"description": "cmd macro"
+	  },
+	  "reg macro": {
+		"prefix": "reg macro",
+		"body": [
+		  "`process_reg`"
+		],
+		"description": "reg macro"
+	  },
+	  "wmic macro": {
+		"prefix": "wmic macro",
+		"body": [
+		  "`process_wmic`"
+		],
+		"description": "wmic macro"
+	  },
+	  "rundll32 macro": {
+		"prefix": "rundll32 macro",
+		"body": [
+		  "`process_rundll32`"
+		],
+		"description": "rundll32 macro"
+	  },
+
+	  "regsvr32 macro": {
+		"prefix": "regsvr32 macro",
+		"body": [
+		  "`process_regsvr32`"
+		],
+		"description": "regsvr32 macro"
+	  },
+
+	  "bitsadmin macro": {
+		"prefix": "bitsadmin macro",
+		"body": [
+		  "`process_bitsadmin`"
+		],
+		"description": "bitsadmin macro"
+	  },
+
+	  "dllhost macro": {
+		"prefix": "dllhost macro",
+		"body": [
+		  "`process_dllhost`"
+		],
+		"description": "dllhost macro"
+	  },
+	  "dsquery macro": {
+		"prefix": "dsquery macro",
+		"body": [
+		  "`process_dsquery`"
+		],
+		"description": "dsquery macro"
+	  },
+	  "fodhelper macro": {
+		"prefix": "fodhelper macro",
+		"body": [
+		  "`process_fodhelper`"
+		],
+		"description": "fodhelper macro"
+	  },
+
+	  "gpupdate macro": {
+		"prefix": "gpupdate macro",
+		"body": [
+		  "`process_gpupdate`"
+		],
+		"description": "gpupdate macro"
+	  },
+	  "msbuild macro": {
+		"prefix": "msbuild macro",
+		"body": [
+		  "`process_msbuild`"
+		],
+		"description": "msbuild macro"
+	  },
+
+	  "microsoftworkflowcompiler macro": {
+		"prefix": "microsoftworkflowcompiler macro",
+		"body": [
+		  "`process_microsoftworkflowcompiler`"
+		],
+		"description": "microsoftworkflowcompiler macro"
+	  },
+
+	  "netsh macro": {
+		"prefix": "netsh macro",
+		"body": [
+		  "`process_netsh`"
+		],
+		"description": "netsh macro"
+	  }
+	  
+}
