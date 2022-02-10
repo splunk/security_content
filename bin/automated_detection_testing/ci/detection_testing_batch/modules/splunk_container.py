@@ -23,7 +23,7 @@ SPLUNKBASE_URL = "https://splunkbase.splunk.com/app/%d/release/%s/download"
 SPLUNK_START_ARGS = "--accept-license"
 
 #Give ten minutes to start - this is probably enough time
-MAX_CONTAINER_START_TIME_SECONDS = 60*10
+MAX_CONTAINER_START_TIME_SECONDS = 60*20
 class SplunkContainer:
     def __init__(
         self,
@@ -96,6 +96,8 @@ class SplunkContainer:
                 apps_to_install.append(target)
                 #We will require credentials since we are installing at least one splunkbase app
                 require_credentials = True
+            #Some paths may have a local_path and an HTTP path defined. Default to the local_path first,
+            #mostly because we may have copied it before into the cache to speed up start time.
             elif 'local_path' in app_info:
                 app_file_name = os.path.basename(app_info['local_path'])
                 app_file_container_path = os.path.join("/tmp/apps", app_file_name)

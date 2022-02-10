@@ -1,6 +1,7 @@
 import argparse
 import copy
 import csv
+from ctypes.wintypes import tagRECT
 import json
 import os
 import queue
@@ -45,27 +46,57 @@ datamodel_file_container_path = os.path.join(
 authorizations_file_local_path = "authorize.conf.tar"
 authorizations_file_container_path = "/opt/splunk/etc/system/local"
 
+CONTAINER_APP_DIRECTORY = "apps"
 
 MAX_RECOMMENDED_CONTAINERS_BEFORE_WARNING = 2
 
 
-def download_file_from_http(url:str, target:str)->None:
-    #Will just overwrite an existing file
+def download_file_from_http(url:str, destination_file:str, overwrite_file:bool=False)->None:
+    if os.path.exists(destination_file) and overwrite_file is False:
+        print(f"[{destination_file}] already exists...using cached version")
+        return
+    print(f"downloading to [{destination_file}]")
     file_to_download = requests.get(url, stream=True)
-    with open(target, "wb") as output:
+    with open(destination_file, "wb") as output:
         for piece in file_to_download.iter_content(chunk_size=(1024*1024)):
             output.write(piece)
     
 
-def copy_local_apps_to_directory(apps: dict[str, dict], target_directory) -> None:
-    for key, item in apps.items():
+def copy_local_apps_to_directory(apps: dict[str, dict], splunkbase_username:tuple[str,None] = None, splunkbase_password:tuple[str,None] = None, mock:bool = False, target_directory:str = "apps") -> str:
+    if mock is True:
+        target_directory = os.path.join("prior_config", target_directory)
         
+        # Remove the apps directory or the prior config directory.  If it's just an apps directory, then we don't want
+        #to remove that.
+        shutil.rmtree(target_directory, ignore_errors=True)
+    try:
+        # Make sure the directory exists.  If it already did, that's okay. Don't delete anything from it
+        # We want to re-use previously downloaded apps
+        os.makedirs(target_directory, exist_ok = True)
+        
+    except Exception as e:
+        raise(Exception(f"Some error occured when trying to make the {target_directory}: [{str(e)}]"))
+
+    
+    for key, item in apps.items():
+
+        # These apps are URLs that will be passed.  The apps will be downloaded and installed by the container
+        # # Get the file from an http source
+        splunkbase_info = True if ('app_number' in item and item['app_number'] is not None and 
+                                  'app_version' in item and item['app_version'] is not None) else False
+        splunkbase_creds = True if (splunkbase_username is not None and 
+                                   splunkbase_password is not None) else False
+        can_download_from_splunkbase = splunkbase_info and splunkbase_creds
+
+        
+
         #local apps can either have a local_path or an http_path
         if 'local_path' in item:
             source_path = os.path.abspath(os.path.expanduser(item['local_path']))
             base_name = os.path.basename(source_path)
             dest_path = os.path.join(target_directory, base_name)
             try:
+                print(f"copying {os.path.relpath(source_path)} to {os.path.relpath(dest_path)}")
                 shutil.copy(source_path, dest_path)
                 item['local_path'] = dest_path
             except shutil.SameFileError as e:
@@ -77,25 +108,34 @@ def copy_local_apps_to_directory(apps: dict[str, dict], target_directory) -> Non
                     source_path, dest_path, str(e)), file=sys.stderr)
                 sys.exit(1)
 
-        # These apps are URLs that will be passed.  The apps will be downloaded and installed by the container
-        # # Get the file from an http source
-        # elif 'http_path' in item:
-        #     http_path = item['http_path']
-        #     try:
-        #         url_parse_obj = urlparse(http_path)
-        #         path_after_host = url_parse_obj[2].rstrip('/') #removes / at the end, if applicable
-        #         base_name = path_after_host.rpartition('/')[-1] #just get the file name
-        #         dest_path = os.path.join(target_directory, base_name) #write the whole path
-        #         download_file_from_http(http_path, dest_path)
-        #         #we need to updat the local path because this is used to copy it into the container later
-        #         item['local_path'] = dest_path
-        #     except Exception as e:
-        #         print("Error trying to download %s @ %s: [%s].  This app is required.\n\tQuitting..."%(key, http_path, str(e)),file=sys.stderr)
-        #         sys.exit(1)
-        # else:
-        #     print("Error - trying to install a local app that does not have 'local_path' or 'http_path'.\n\tQuitting...")
-        #     sys.exit(1)
+        
+        elif can_download_from_splunkbase is True:
+            #Don't do anything, this will be downloaded from splunkbase
+            pass
+        elif splunkbase_info is True and splunkbase_creds is False and mock is True:
+            #Don't need to do anything, when this actually runs the apps will be downloaded from Splunkbase
+            #There is another opportunity to provide the creds then
+            pass
+        elif 'http_path' in item and can_download_from_splunkbase is False:
+            http_path = item['http_path']
+            try:
+                url_parse_obj = urlparse(http_path)
+                path_after_host = url_parse_obj[2].rstrip('/') #removes / at the end, if applicable
+                base_name = path_after_host.rpartition('/')[-1] #just get the file name
+                dest_path = os.path.join(target_directory, base_name) #write the whole path
+                download_file_from_http(http_path, dest_path)
+                #we need to update the local path because this is used to copy it into the container later
+                item['local_path'] = dest_path
+                #Remove the HTTP Path, we will use the local_path instead
+            except Exception as e:
+                print("Error trying to download %s @ %s: [%s].  This app is required.\n\tQuitting..."%(key, http_path, str(e)),file=sys.stderr)
+                sys.exit(1)
 
+        elif splunkbase_info is False:
+            print(f"Error - trying to install an app [{key}] that does not have 'local_path', 'http_path', "
+                   "or 'app_version' and 'app_number' for installing from Splunkbase.\n\tQuitting...")
+            sys.exit(1)
+    return target_directory
 
 
 def ensure_security_content(branch: str, commit_hash: Union[str,None], pr_number: Union[int, None], persist_security_content: bool) -> tuple[GithubService, bool]:
@@ -183,7 +223,7 @@ def generate_escu_app(persist_security_content: bool = False) -> str:
 
     else:
         os.mkdir("slim_packaging")
-        os.mkdir("apps")
+        
         try:
             SPLUNK_PACKAGING_TOOLKIT_URL = "https://download.splunk.com/misc/packaging-toolkit/splunk-packaging-toolkit-0.9.0.tar.gz"
             SPLUNK_PACKAGING_TOOLKIT_FILENAME = 'splunk-packaging-toolkit-latest.tar.gz'
@@ -216,7 +256,7 @@ def generate_escu_app(persist_security_content: bool = False) -> str:
 
     ret = subprocess.run("; ".join(commands),
                          shell=True, capture_output=True)
-    if ret.returncode != 0:
+    if ret.returncode != 0: 
         print("Command List:\n%s" % (commands))
         print("Error generating new ESCU Package.\n\tQuitting and dumping error...\n[%s]" % (
             ret.stderr.decode('utf-8')), file=sys.stderr)
@@ -226,26 +266,9 @@ def generate_escu_app(persist_security_content: bool = False) -> str:
     return output_file_path_from_root
 
 
+
 def finish_mock(settings: dict, detections: list[str], output_file_template: str = "prior_config/config_tests_%d.json")->bool:
     num_containers = settings['num_containers']
-
-    try:
-        # Remove the prior config directory if it exists.  If not, continue
-        shutil.rmtree("prior_config", ignore_errors=True)
-
-        # We want to make the prior_config directory and the prior_config/apps directory
-        os.makedirs("prior_config/apps")
-    except FileExistsError as e:
-        print("Directory priorconfig/apps exists, but we just deleted it!\n\tQuitting...", file=sys.stderr)
-        return False
-    except Exception as e:
-        print("Some error occured when trying to make the configs folder: [%s]\n\tQuitting..." % (
-            str(e)), file=sys.stderr)
-        return False
-
-    # Copy the apps to the appropriate local.  This will also update
-    # the app paths in settings['apps']['local_path'] if it exists
-    copy_local_apps_to_directory(settings['apps'], "prior_config/apps")
 
     for output_file_index in range(0, num_containers):
         fname = output_file_template % (output_file_index)
@@ -285,9 +308,8 @@ def finish_mock(settings: dict, detections: list[str], output_file_template: str
         # Make sure that it still validates after all of the changes
 
         try:
-            with open(fname, 'w') as cfg:
-                validated_settings, b = validate_and_write(
-                    mock_settings, cfg)
+            with open(fname, 'w') as outfile:
+                validated_settings, b = validate_and_write(configuration=mock_settings, output_file = outfile, strip_credentials=True)
                 if validated_settings is None:
                     print(
                         "There was an error validating the updated mock settings.\n\tQuitting...", file=sys.stderr)
@@ -422,23 +444,7 @@ def main(args: list[str]):
     print("***This run will test [%d] detections!***"%(len(all_test_files)))
     
 
-    #Set up the directory that will be used to store the local apps/apps we build
-    local_volume_absolute_path = os.path.abspath(
-        os.path.join(os.getcwd(), "apps"))
-    try:
-        # remove the directory first
-        shutil.rmtree(local_volume_absolute_path, ignore_errors=True)
-        os.mkdir(local_volume_absolute_path)
-    except FileExistsError as e:
-        # Directory already exists, do nothing
-        pass
-    except Exception as e:
-        print("Error creating the apps folder [%s]: [%s]\n\tQuitting..."
-              % (local_volume_absolute_path, str(e)), file=sys.stderr)
-        sys.exit(1)
-    #Add the info about the mount
-    mounts = [{"local_path": local_volume_absolute_path,
-               "container_path": "/tmp/apps", "type": "bind", "read_only": True}]
+    
 
 
     # Check to see if we want to install ESCU and whether it was preeviously generated and we should use that file
@@ -456,8 +462,17 @@ def main(args: list[str]):
         
 
     # Copy all the apps, to include ESCU (whether pregenerated or just generated)
-    copy_local_apps_to_directory(
-        settings['apps'], local_volume_absolute_path)
+    try:
+        relative_app_path = copy_local_apps_to_directory(settings['apps'], 
+                                     splunkbase_username = settings['splunkbase_username'], 
+                                     splunkbase_password = settings['splunkbase_password'], 
+                                     mock=settings['mock'], target_directory = CONTAINER_APP_DIRECTORY)
+        
+        mounts = [{"local_path": os.path.abspath(relative_app_path),
+                    "container_path": "/tmp/apps", "type": "bind", "read_only": True}]
+    except Exception as e:
+        print(f"Error occurred when copying apps to app folder: [{str(e)}]\n\tQuitting...", file=sys.stderr)
+        sys.exit(1)
 
 
     # If this is a mock run, finish it now
