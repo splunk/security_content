@@ -10,7 +10,7 @@ description: The following analytic identifies Schtasks.exe creating a new task 
   This is commonly used by adversaries to spawn a process in an elevated state. 
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_schtasks`
-  Processes.process="*//create *" AND Processes.process="*//ru *" AND Processes.process="*system*" by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.original_file_name
+  Processes.process="*/create *" AND Processes.process="*/ru *" AND Processes.process="*system*" by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.original_file_name
   Processes.process Processes.process_id Processes.parent_process_id
   | `drop_dm_object_name(Processes)` 
   | `security_content_ctime(firstTime)`
