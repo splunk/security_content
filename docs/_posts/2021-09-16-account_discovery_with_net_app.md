@@ -25,7 +25,7 @@ tags:
 
 this search is to detect a potential account discovery series of command used by several malware or attack to recon the target machine. This technique is also seen in some note worthy malware like trickbot where it runs a cmd process, or even drop its module that will execute the said series of net command. This series of command are good correlation search and indicator of attacker recon if seen in the machines within a none technical user or department (HR, finance, ceo and etc) network.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-09-16
@@ -35,8 +35,8 @@ this search is to detect a potential account discovery series of command used by
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1087.002](https://attack.mitre.org/techniques/T1087/002/) | Domain Account | Discovery |
 
 | [T1087](https://attack.mitre.org/techniques/T1087/) | Account Discovery | Discovery |
@@ -53,13 +53,13 @@ this search is to detect a potential account discovery series of command used by
 | `account_discovery_with_net_app_filter`
 ```
 
-#### Associated Analytic Story
-* [Trickbot](/stories/trickbot)
-* [IcedID](/stories/icedid)
+#### Macros
+The SPL above uses the following Macros:
+* [process_net](https://github.com/splunk/security_content/blob/develop/macros/process_net.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product..
+Note that `account_discovery_with_net_app_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -76,12 +76,20 @@ To successfully implement this search you need to be ingesting information on pr
 * Processes.parent_process_id
 
 
-#### Kill Chain Phase
-* Reconnaissance
-
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product..
 
 #### Known False Positives
 admin or power user may used this series of command.
+
+#### Associated Analytic story
+* [Trickbot](/stories/trickbot)
+* [IcedID](/stories/icedid)
+
+
+#### Kill Chain Phase
+* Reconnaissance
+
 
 
 #### RBA

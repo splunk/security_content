@@ -24,7 +24,7 @@ tags:
 
 This analytic identifies the suspicious Remote Thread execution of rundll32.exe process to &#34;firefox.exe&#34; and &#34;chrome.exe&#34; browser. This technique was seen in IcedID malware where it hooks the browser to parse banking information as user used the targetted browser process.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-07-26
@@ -34,8 +34,8 @@ This analytic identifies the suspicious Remote Thread execution of rundll32.exe 
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation |
 
 #### Search
@@ -48,12 +48,12 @@ This analytic identifies the suspicious Remote Thread execution of rundll32.exe 
 | `rundll32_createremotethread_in_browser_filter`
 ```
 
-#### Associated Analytic Story
-* [IcedID](/stories/icedid)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the SourceImage, TargetImage, and EventCode executions from your endpoints related to create remote thread or injecting codes. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+Note that `rundll32_createremotethread_in_browser_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -66,12 +66,19 @@ To successfully implement this search, you need to be ingesting logs with the So
 * Computer
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the SourceImage, TargetImage, and EventCode executions from your endpoints related to create remote thread or injecting codes. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 
 #### Known False Positives
 unknown
+
+#### Associated Analytic story
+* [IcedID](/stories/icedid)
+
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA

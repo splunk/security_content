@@ -29,7 +29,7 @@ tags:
 
 The following analytic identifies the Windows binary InstallUtil.exe running from a non-standard location. The analytic utilizes a macro for InstallUtil and identifies both the process_name and original_file_name.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2022-01-19
@@ -39,8 +39,8 @@ The following analytic identifies the Windows binary InstallUtil.exe running fro
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1036](https://attack.mitre.org/techniques/T1036/) | Masquerading | Defense Evasion |
 
 | [T1036.003](https://attack.mitre.org/techniques/T1036/003/) | Rename System Utilities | Defense Evasion |
@@ -60,16 +60,13 @@ The following analytic identifies the Windows binary InstallUtil.exe running fro
 | `windows_installutil_in_non_standard_path_filter`
 ```
 
-#### Associated Analytic Story
-* [Masquerading - Rename System Utilities](/stories/masquerading_-_rename_system_utilities)
-* [Unusual Processes](/stories/unusual_processes)
-* [Ransomware](/stories/ransomware)
-* [Signed Binary Proxy Execution InstallUtil](/stories/signed_binary_proxy_execution_installutil)
-* [WhisperGate](/stories/whispergate)
+#### Macros
+The SPL above uses the following Macros:
+* [process_installutil](https://github.com/splunk/security_content/blob/develop/macros/process_installutil.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
+Note that `windows_installutil_in_non_standard_path_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -86,12 +83,23 @@ To successfully implement this search you need to be ingesting information on pr
 * Processes.parent_process_id
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 
 #### Known False Positives
 False positives may be present and filtering may be required. Certain utilities will run from non-standard paths based on the third-party application in use.
+
+#### Associated Analytic story
+* [Masquerading - Rename System Utilities](/stories/masquerading_-_rename_system_utilities)
+* [Unusual Processes](/stories/unusual_processes)
+* [Ransomware](/stories/ransomware)
+* [Signed Binary Proxy Execution InstallUtil](/stories/signed_binary_proxy_execution_installutil)
+* [WhisperGate](/stories/whispergate)
+
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA

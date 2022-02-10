@@ -27,7 +27,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 This search allows you to identify DNS requests that are unusually large for the record type being requested in your environment.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Resolution](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution)
 - **Last Updated**: 2020-01-22
@@ -37,8 +37,8 @@ This search allows you to identify DNS requests that are unusually large for the
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1071.004](https://attack.mitre.org/techniques/T1071/004/) | DNS | Command And Control |
 
 | [T1071](https://attack.mitre.org/techniques/T1071/) | Application Layer Protocol | Command And Control |
@@ -61,10 +61,19 @@ This search allows you to identify DNS requests that are unusually large for the
 | `dns_query_length_outliers___mltk_filter` 
 ```
 
-#### Associated Analytic Story
-* [Hidden Cobra Malware](/stories/hidden_cobra_malware)
-* [Suspicious DNS Traffic](/stories/suspicious_dns_traffic)
-* [Command and Control](/stories/command_and_control)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+
+Note that `dns_query_length_outliers_-_mltk_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+
+#### Required field
+* _time
+* DNS.src
+* DNS.dest
+* DNS.query
+* DNS.record_type
 
 
 #### How To Implement
@@ -76,20 +85,18 @@ This search produces fields (`query`,`query_length`,`count`) that are not yet su
 1. **Label:** Number of events, **Field:** count\
 Detailed documentation on how to create a new field within Incident Review may be found here: `https://docs.splunk.com/Documentation/ES/5.3.0/Admin/Customizenotables#Add_a_field_to_the_notable_event_details`
 
-#### Required field
-* _time
-* DNS.src
-* DNS.dest
-* DNS.query
-* DNS.record_type
+#### Known False Positives
+If you are seeing more results than desired, you may consider reducing the value for threshold in the search. You should also periodically re-run the support search to re-build the ML model on the latest data.
+
+#### Associated Analytic story
+* [Hidden Cobra Malware](/stories/hidden_cobra_malware)
+* [Suspicious DNS Traffic](/stories/suspicious_dns_traffic)
+* [Command and Control](/stories/command_and_control)
 
 
 #### Kill Chain Phase
 * Command and Control
 
-
-#### Known False Positives
-If you are seeing more results than desired, you may consider reducing the value for threshold in the search. You should also periodically re-run the support search to re-build the ML model on the latest data.
 
 
 

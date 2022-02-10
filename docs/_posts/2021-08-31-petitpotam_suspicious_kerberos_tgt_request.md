@@ -23,7 +23,7 @@ tags:
 
 The following analytic identifes Event Code 4768, A `Kerberos authentication ticket (TGT) was requested`, successfull occurs. This behavior has been identified to assist with detecting PetitPotam, CVE-2021-36942. Once an attacer obtains a computer certificate by abusing Active Directory Certificate Services in combination with PetitPotam, the next step would be to leverage the certificate for malicious purposes. One way of doing this is to request a Kerberos Ticket Granting Ticket using a tool like Rubeus. This request will generate a 4768 event with some unusual fields depending on the environment. This analytic will require tuning, we recommend filtering Account_Name to Domain Controllers for your environment.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-08-31
@@ -33,8 +33,8 @@ The following analytic identifes Event Code 4768, A `Kerberos authentication tic
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
 
 #### Search
@@ -47,12 +47,12 @@ The following analytic identifes Event Code 4768, A `Kerberos authentication tic
 | `petitpotam_suspicious_kerberos_tgt_request_filter`
 ```
 
-#### Associated Analytic Story
-* [PetitPotam NTLM Relay on Active Directory Certificate Services](/stories/petitpotam_ntlm_relay_on_active_directory_certificate_services)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 
-
-#### How To Implement
-The following analytic requires Event Code 4768. Ensure that it is logging no Domain Controllers and appearing in Splunk.
+Note that `petitpotam_suspicious_kerberos_tgt_request_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -63,13 +63,20 @@ The following analytic requires Event Code 4768. Ensure that it is logging no Do
 * Message
 
 
+#### How To Implement
+The following analytic requires Event Code 4768. Ensure that it is logging no Domain Controllers and appearing in Splunk.
+
+#### Known False Positives
+False positives are possible if the environment is using certificates for authentication.
+
+#### Associated Analytic story
+* [PetitPotam NTLM Relay on Active Directory Certificate Services](/stories/petitpotam_ntlm_relay_on_active_directory_certificate_services)
+
+
 #### Kill Chain Phase
 * Exploitation
 * Lateral Movement
 
-
-#### Known False Positives
-False positives are possible if the environment is using certificates for authentication.
 
 
 #### RBA

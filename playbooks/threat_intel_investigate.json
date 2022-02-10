@@ -1,0 +1,629 @@
+{
+    "blockly": false,
+    "blockly_xml": "<xml></xml>",
+    "category": "Use Cases",
+    "coa": {
+        "data": {
+            "description": "This parent playbook collects data and launches appropriate child playbooks to gather threat intelligence information about indicators. After the child playbooks have run, this playbook posts the notes to the container and prompts the analyst to add tags to each enriched indicator based on the intelligence provided.",
+            "edges": [
+                {
+                    "id": "port_0_to_port_2",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "2",
+                    "targetPort": "2_in"
+                },
+                {
+                    "id": "port_2_to_port_3",
+                    "sourceNode": "2",
+                    "sourcePort": "2_out",
+                    "targetNode": "3",
+                    "targetPort": "3_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_3_to_port_4",
+                    "sourceNode": "3",
+                    "sourcePort": "3_out",
+                    "targetNode": "4",
+                    "targetPort": "4_in"
+                },
+                {
+                    "id": "port_4_to_port_5",
+                    "sourceNode": "4",
+                    "sourcePort": "4_out",
+                    "targetNode": "5",
+                    "targetPort": "5_in"
+                },
+                {
+                    "id": "port_5_to_port_6",
+                    "sourceNode": "5",
+                    "sourcePort": "5_out",
+                    "targetNode": "6",
+                    "targetPort": "6_in"
+                },
+                {
+                    "id": "port_6_to_port_8",
+                    "sourceNode": "6",
+                    "sourcePort": "6_out",
+                    "targetNode": "8",
+                    "targetPort": "8_in"
+                },
+                {
+                    "id": "port_8_to_port_9",
+                    "sourceNode": "8",
+                    "sourcePort": "8_out",
+                    "targetNode": "9",
+                    "targetPort": "9_in"
+                },
+                {
+                    "id": "port_9_to_port_11",
+                    "sourceNode": "9",
+                    "sourcePort": "9_out",
+                    "targetNode": "11",
+                    "targetPort": "11_in"
+                },
+                {
+                    "id": "port_11_to_port_1",
+                    "sourceNode": "11",
+                    "sourcePort": "11_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                }
+            ],
+            "hash": "75eb82d5a8ba447e780d5fce7569bcacc368b579",
+            "nodes": {
+                "0": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_start",
+                        "id": "0",
+                        "type": "start"
+                    },
+                    "errors": {},
+                    "id": "0",
+                    "type": "start",
+                    "x": 19.999999999999986,
+                    "y": -4.618527782440651e-14
+                },
+                "1": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionId": 1,
+                        "functionName": "on_finish",
+                        "id": "1",
+                        "type": "end"
+                    },
+                    "errors": {},
+                    "id": "1",
+                    "type": "end",
+                    "userCode": "\n    # This function is called after all actions are completed.\n    # summary of all the action and/or all details of actions\n    # can be collected here.\n\n    # summary_json = phantom.get_summary()\n    # if 'result' in summary_json:\n        # for action_result in summary_json['result']:\n            # if 'action_run_id' in action_result:\n                # action_results = phantom.get_action_results(action_run_id=action_result['action_run_id'], result_data=False, flatten=False)\n                # phantom.debug(action_results)\n\n",
+                    "x": 19.999999999999986,
+                    "y": 1060
+                },
+                "11": {
+                    "data": {
+                        "advanced": {
+                            "customName": "tag indicators",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "indicator_tag",
+                            "repoName": "community"
+                        },
+                        "functionId": 5,
+                        "functionName": "tag_indicators",
+                        "id": "11",
+                        "selectMore": false,
+                        "type": "utility",
+                        "utilities": {
+                            "indicator_tag": {
+                                "description": "Tag an existing indicator record. Tags can be overwritten or appended.",
+                                "fields": [
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "Specifies the indicator which the tag will be added to. Supports a string indicator value or an indicator id.",
+                                        "inputType": "item",
+                                        "label": "indicator",
+                                        "name": "indicator",
+                                        "placeholder": "my_indicator",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "Comma separated list of tags. Tags should only contain characters Aa-Zz, 0-9, '-', and '_'.",
+                                        "inputType": "item",
+                                        "label": "tags",
+                                        "name": "tags",
+                                        "placeholder": "tag1,tag2,...,tagk",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Optional input. Either \"true\" or \"false\" with default as \"false\". If set to \"true\", existing tags on the indicator record will be replaced by the provided input. If set to \"false\", the new tags will be appended to the existing indicator tags.",
+                                        "inputType": "item",
+                                        "label": "overwrite",
+                                        "name": "overwrite",
+                                        "placeholder": "false",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "indicator_tag",
+                                "name": "indicator_tag"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "indicator_tag": {
+                                "indicator": "process_responses:custom_function_result.data",
+                                "overwrite": null,
+                                "tags": "process_responses:custom_function_result.data"
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "11",
+                    "type": "utility",
+                    "userCode": "    \n    # overwrite the parameters, extracting the indicator and tag for each result from process_responses\n    parameters = []\n    for item in process_responses__result:\n        parameters.append({\n            \"indicator\": item[0][0]['item'],\n            \"tags\": item[0][1]['item'],\n            \"overwrite\": None\n        })\n\n",
+                    "x": -1.4210854715202004e-14,
+                    "y": 960
+                },
+                "2": {
+                    "data": {
+                        "advanced": {
+                            "customName": "list investigate playbooks",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "playbooks_list",
+                            "repoName": "community"
+                        },
+                        "functionId": 1,
+                        "functionName": "list_investigate_playbooks",
+                        "id": "2",
+                        "selectMore": false,
+                        "type": "utility",
+                        "utilities": {
+                            "playbooks_list": {
+                                "description": "List all playbooks matching the provided name, category, and tags. If no filters are provided, list all playbooks.",
+                                "fields": [
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Only return playbooks with the provided name.",
+                                        "inputType": "item",
+                                        "label": "name",
+                                        "name": "name",
+                                        "placeholder": "Playbook Name",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Only returns playbooks that match the provided category.",
+                                        "inputType": "item",
+                                        "label": "category",
+                                        "name": "category",
+                                        "placeholder": "Playbook Category",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Only return playbooks that contain ALL the provided tags. Multiple tags must be a comma-separated list.",
+                                        "inputType": "item",
+                                        "label": "tags",
+                                        "name": "tags",
+                                        "placeholder": "tag1,tag2,tag3",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Only return playbooks that exist in this repo.",
+                                        "inputType": "item",
+                                        "label": "repo",
+                                        "name": "repo",
+                                        "placeholder": "local",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Only return playbooks that match the provided type. Accepts 'automation', 'input' or 'data.'",
+                                        "inputType": "item",
+                                        "label": "playbook_type",
+                                        "name": "playbook_type",
+                                        "placeholder": "automation",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "playbooks_list",
+                                "name": "playbooks_list"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "playbooks_list": {
+                                "category": null,
+                                "name": null,
+                                "playbook_type": "input",
+                                "repo": "local",
+                                "tags": "investigate, threat_intel"
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "2",
+                    "type": "utility",
+                    "x": 1.4210854715202004e-14,
+                    "y": 99.99999999999997
+                },
+                "3": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "list_investigate_playbooks:custom_function_result.data.*.name",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "display": "If",
+                                "logic": "and",
+                                "type": "if"
+                            }
+                        ],
+                        "functionId": 1,
+                        "functionName": "decision_1",
+                        "id": "3",
+                        "type": "decision"
+                    },
+                    "errors": {},
+                    "id": "3",
+                    "type": "decision",
+                    "x": 80,
+                    "y": 220
+                },
+                "4": {
+                    "data": {
+                        "advanced": {
+                            "customName": "collect all indicators",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "indicator_collect",
+                            "repoName": "community"
+                        },
+                        "functionId": 2,
+                        "functionName": "collect_all_indicators",
+                        "id": "4",
+                        "selectMore": false,
+                        "type": "utility",
+                        "utilities": {
+                            "indicator_collect": {
+                                "description": "Collect all indicators in a container and separate them by data type. Additional output data paths are created for each data type. Artifact scope is ignored. ",
+                                "fields": [
+                                    {
+                                        "dataTypes": [
+                                            "phantom container id"
+                                        ],
+                                        "description": "The current container",
+                                        "inputType": "item",
+                                        "label": "container",
+                                        "name": "container",
+                                        "placeholder": "container:id",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "indicator_collect",
+                                "name": "indicator_collect"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "indicator_collect": {
+                                "container": "container:id"
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "4",
+                    "type": "utility",
+                    "x": -1.4210854715202004e-14,
+                    "y": 340
+                },
+                "5": {
+                    "data": {
+                        "advanced": {
+                            "customName": "launch investigate playbooks",
+                            "customNameId": 0,
+                            "description": "Determine if any investigate playbooks are available with input types matching the indicators in the container, and synchronously launch any playbooks that are found. By default, this will look for local playbooks only, but it can be changed to use community playbooks.",
+                            "join": [],
+                            "note": "Determine if any investigate playbooks are available with input types matching the indicators in the container, and synchronously launch any playbooks that are found. By default, this will look for local playbooks only, but it can be changed to use community playbooks."
+                        },
+                        "functionId": 1,
+                        "functionName": "launch_investigate_playbooks",
+                        "id": "5",
+                        "inputParameters": [
+                            "list_investigate_playbooks:custom_function_result.data.*.full_name",
+                            "list_investigate_playbooks:custom_function_result.data.*.input_spec",
+                            "collect_all_indicators:custom_function_result.data.all_indicators.*.cef_value",
+                            "collect_all_indicators:custom_function_result.data.all_indicators.*.data_types"
+                        ],
+                        "outputVariables": [
+                            "playbooks_launched"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "5",
+                    "type": "code",
+                    "userCode": "\n    playbooks_launched = []\n    \n    # loop through each playbook with the matching tags\n    for playbook in list_investigate_playbooks_data:\n        playbook_name = playbook[0]\n        input_spec = playbook[1]\n        phantom.debug(playbook_name)\n        inputs_to_provide = []\n        # loop through each input parameter, matching only the \"indicators\" input\n        for param in input_spec:\n            if param['name'] == 'indicators':\n                # loop through each accepted data type\n                for accepted_data_type in param['contains']:\n                    # loop through each indicator in the container and add any indicators with matching data types to the \"inputs_to_provide\" list\n                    for indicator in collect_all_indicators_data_all_indicators:\n                        for indicator_type in indicator[1]:\n                            # if the types match and the indicator value is not already in the inputs_to_provide then add it now \n                            if indicator_type == accepted_data_type and indicator[0] not in inputs_to_provide:\n                                inputs_to_provide.append(indicator[0])\n        # back in the playbook loop, call the playbook if there are any inputs\n        if inputs_to_provide != []:\n            playbook_run_name = playbook_name.split('/')[1].replace(' ','_').lower()\n            playbook_input = {'indicators': inputs_to_provide}\n            phantom.debug('launching playbook {} with input {}'.format(playbook_name, playbook_input))\n            phantom.playbook(playbook=playbook_name, container=container, name=playbook_run_name, inputs=playbook_input, callback=add_notes)\n            playbooks_launched.append(playbook_run_name)\n            \n    launch_investigate_playbooks__playbooks_launched = playbooks_launched\n\n",
+                    "x": -1.4210854715202004e-14,
+                    "y": 439.99999999999994
+                },
+                "6": {
+                    "data": {
+                        "advanced": {
+                            "customName": "add notes",
+                            "customNameId": 0,
+                            "description": "Add notes to the container if any were generated by playbooks from the previous step.",
+                            "join": [],
+                            "note": "Add notes to the container if any were generated by playbooks from the previous step."
+                        },
+                        "functionId": 2,
+                        "functionName": "add_notes",
+                        "id": "6",
+                        "inputParameters": [
+                            "launch_investigate_playbooks:custom_function:playbooks_launched",
+                            ""
+                        ],
+                        "outputVariables": [],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "6",
+                    "type": "code",
+                    "userCode": "    \n    playbooks_launched = launch_investigate_playbooks__playbooks_launched\n    \n    # return early if any of the launched playbooks are not completed\n    if not phantom.completed(playbook_names=launch_investigate_playbooks__playbooks_launched):\n        return\n    \n    playbook_outputs = []\n    for playbook_name in playbooks_launched:\n        note_title = phantom.collect2(container=container, datapath=[\"{}:playbook_output:note_title\".format(playbook_name)])[0][0]\n        note_content = phantom.collect2(container=container, datapath=[\"{}:playbook_output:note_content\".format(playbook_name)])[0][0]\n        phantom.add_note(container=container, content=note_content, note_format=\"markdown\", note_type=\"general\", title=note_title)\n    \n    \n    #phantom.add_note(container=container, content=note, note_format=\"markdown\", note_type=\"general\", title='trustar test note')\n\n",
+                    "x": 0,
+                    "y": 600
+                },
+                "8": {
+                    "customCode": "def threat_intel_indicator_review(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):\n    phantom.debug(\"threat_intel_indicator_review() called\")\n\n    # set user and message variables for phantom.prompt call\n\n    user = \"Administrator\"\n    message = \"\"\"For each indicator below, please review the gathered information and mark the indicator for further action.\"\"\"\n    \n    # add the note from each of the launched playbooks\n    playbooks_launched = json.loads(phantom.get_run_data(key=\"launch_investigate_playbooks:playbooks_launched\"))\n    for playbook in playbooks_launched:\n        message += '\\n\\n'\n        message += phantom.collect2(container=container, datapath=[\"{}:playbook_output:note_title\".format(playbook)])[0][0] + '\\n'\n        message += phantom.collect2(container=container, datapath=[\"{}:playbook_output:note_content\".format(playbook)])[0][0] + '\\n'\n\n    # no parameters to add\n    parameters = []\n    \n    # create two questions and responses for each indicator. the first chooses a tag from a preconfigured list, and the second accepts a freeform comma-separated list of tags\n    response_types = []\n    all_indicators = phantom.collect2(container=container, datapath=[\"collect_all_indicators:custom_function_result.data.all_indicators.*.cef_value\",\"collect_all_indicators:custom_function_result.data.all_indicators.*.data_types\"])\n\n    \n    for index, indicator in enumerate(all_indicators):\n        response_types.append({\n            \"prompt\": \"Choose a tag for the indicator [{0}]\".format(indicator[0]),\n            \"options\": {\n                \"type\": \"list\",\n                \"choices\": [\n                    \"Tag to block\",\n                    \"Tag as safe\",\n                    \"Do nothing\"]}})\n        response_types.append({\n            \"prompt\": \"Add any other comma-separated freeform tags for the indicator [{}], or enter 'n' to not add more tags.\".format(indicator[0]),\n            \"options\": {\n                \"type\": \"message\"}})\n\n    phantom.prompt2(container=container, user=user, message=message, respond_in_mins=30, name=\"threat_intel_indicator_review\", parameters=parameters, response_types=response_types, callback=process_responses)\n\n    return",
+                    "data": {
+                        "advanced": {
+                            "customName": "threat intel indicator review",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "approver": "proyer",
+                        "functionId": 1,
+                        "functionName": "threat_intel_indicator_review",
+                        "id": "8",
+                        "message": "a",
+                        "parameters": [],
+                        "responseTime": 30,
+                        "responses": [],
+                        "type": "prompt"
+                    },
+                    "errors": {},
+                    "id": "8",
+                    "type": "prompt",
+                    "x": 80,
+                    "y": 740
+                },
+                "9": {
+                    "data": {
+                        "advanced": {
+                            "customName": "process responses",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "passthrough",
+                            "repoName": "community"
+                        },
+                        "functionId": 3,
+                        "functionName": "process_responses",
+                        "id": "9",
+                        "selectMore": false,
+                        "type": "utility",
+                        "utilities": {
+                            "passthrough": {
+                                "description": "Return the inputs as outputs. This is useful for publishing pieces of data for other blocks in the playbook to use.",
+                                "fields": [
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_1",
+                                        "name": "input_1",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_2",
+                                        "name": "input_2",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_3",
+                                        "name": "input_3",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_4",
+                                        "name": "input_4",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_5",
+                                        "name": "input_5",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_6",
+                                        "name": "input_6",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_7",
+                                        "name": "input_7",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_8",
+                                        "name": "input_8",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_9",
+                                        "name": "input_9",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_10",
+                                        "name": "input_10",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "passthrough",
+                                "name": "passthrough"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "passthrough": {
+                                "input_1": "threat_intel_indicator_review:action_result.summary.responses",
+                                "input_10": null,
+                                "input_2": "collect_all_indicators:custom_function_result.data.all_indicators.*.cef_value",
+                                "input_3": null,
+                                "input_4": null,
+                                "input_5": null,
+                                "input_6": null,
+                                "input_7": null,
+                                "input_8": null,
+                                "input_9": null
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "9",
+                    "type": "utility",
+                    "userCode": "\n    responses = threat_intel_indicator_review_summary_responses[0]\n    indicator_values = collect_all_indicators_data_all_indicators___cef_value\n\n    # lookup table to turn prompt responses into tags to add. \"Do nothing\" is not included, so no tags will be added\n    response_to_tag_map = {\n        \"Tag to block\": \"marked_for_block\",\n        \"Tag as safe\": \"safe\"\n    }\n\n    # overwrite the parameters list with a list of one indicator and one tag per parameter dictionary \n    parameters = []\n    for indicator_index, indicator_value in enumerate(indicator_values):\n        preconfigured_response = responses[indicator_index * 2]\n        freeform_response = responses[indicator_index * 2 + 1]\n        \n        # handle the preconfigured responses\n        if preconfigured_response in response_to_tag_map:\n            phantom.comment(comment=\"Tagging the indicator {} with the preconfigured tag {}\".format(indicator_value, response_to_tag_map[preconfigured_response]))\n            parameters.append({\"input_1\": [indicator_value, response_to_tag_map[preconfigured_response]]})\n        elif preconfigured_response != 'Do nothing':\n            phantom.error('The response {} was chosen for the indicator {}, but that response is not in the set of allowed responses.'.format(preconfigured_response, indicator_value))\n        \n        # handle the freeform responses\n        if freeform_response.lower() not in ['n', 'none', 'na', 'n/a']:\n            freeform_tags = freeform_response.replace(' ','').split(',')\n            for tag in freeform_tags:\n                phantom.comment(comment=\"Tagging the indicator {} with the freeform tag {}\".format(indicator_value, tag))\n                parameters.append({\"input_1\": [indicator_value, tag]})\n\n",
+                    "x": -1.4210854715202004e-14,
+                    "y": 860
+                }
+            },
+            "notes": "Deployment Notes:\n - The prompt is currently sent to the Administrator role, but should be changed to the appropriate user and role\n - The \"list_investigate_playbooks\" block fetches playbooks from the local repository with the tags \n\"investigate\" and \"threat_intel\" by default. The playbook \"trustar_enrich_indicators\" is meant to be used by this playbook, and others can be created to replace it or work alongside it. To add a new input playbook, copy it to the local repository and give it the necessary tags. Define a playbook input with the name \"indicators\" and the data type matching the types of indicators the playbook can process.\n - To add a new tag to the preconfigured list, add it to the \"choices\" array in the \"threat_intel_indicator_review\" prompt block, and add it to the \"response_to_tag_map\" in \"process_indicators\".\n\n"
+        },
+        "input_spec": null,
+        "output_spec": null,
+        "playbook_type": "automation",
+        "python_version": "3",
+        "schema": "5.0.4",
+        "version": "5.1.0.70187"
+    },
+    "create_time": "2021-11-30T16:26:33.845191+00:00",
+    "draft_mode": false,
+    "labels": [
+        "events"
+    ],
+    "tags": []
+}
