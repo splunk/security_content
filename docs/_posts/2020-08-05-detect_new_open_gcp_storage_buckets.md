@@ -24,7 +24,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 This search looks for GCP PubSub events where a user has created an open/public GCP Storage bucket.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-08-05
@@ -34,8 +34,8 @@ This search looks for GCP PubSub events where a user has created an open/public 
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1530](https://attack.mitre.org/techniques/T1530/) | Data from Cloud Storage Object | Collection |
 
 #### Search
@@ -54,12 +54,11 @@ This search looks for GCP PubSub events where a user has created an open/public 
 | search `detect_new_open_gcp_storage_buckets_filter`
 ```
 
-#### Associated Analytic Story
-* [Suspicious GCP Storage Activities](/stories/suspicious_gcp_storage_activities)
+#### Macros
+The SPL above uses the following Macros:
+* [google_gcp_pubsub_message](https://github.com/splunk/security_content/blob/develop/macros/google_gcp_pubsub_message.yml)
 
-
-#### How To Implement
-This search relies on the Splunk Add-on for Google Cloud Platform, setting up a Cloud Pub/Sub input, along with the relevant GCP PubSub topics and logging sink to capture GCP Storage Bucket events (https://cloud.google.com/logging/docs/routing/overview).
+Note that `detect_new_open_gcp_storage_buckets_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -74,12 +73,19 @@ This search relies on the Splunk Add-on for Google Cloud Platform, setting up a 
 * data.protoPayload.serviceData.policyDelta.bindingDeltas{}.member
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+This search relies on the Splunk Add-on for Google Cloud Platform, setting up a Cloud Pub/Sub input, along with the relevant GCP PubSub topics and logging sink to capture GCP Storage Bucket events (https://cloud.google.com/logging/docs/routing/overview).
 
 #### Known False Positives
 While this search has no known false positives, it is possible that a GCP admin has legitimately created a public bucket for a specific purpose. That said, GCP strongly advises against granting full control to the &#34;allUsers&#34; group.
+
+#### Associated Analytic story
+* [Suspicious GCP Storage Activities](/stories/suspicious_gcp_storage_activities)
+
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 

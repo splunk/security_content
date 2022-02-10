@@ -27,7 +27,7 @@ The detection calculates the standard deviation for each host and leverages the 
 This detection will only trigger on domain controllers, not on member servers or workstations.\
 The analytics returned fields allow analysts to investigate the event further by providing fields like source workstation name and attempted user accounts.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-04-13
@@ -37,8 +37,8 @@ The analytics returned fields allow analysts to investigate the event further by
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1110.003](https://attack.mitre.org/techniques/T1110/003/) | Password Spraying | Credential Access |
 
 | [T1110](https://attack.mitre.org/techniques/T1110/) | Brute Force | Credential Access |
@@ -56,12 +56,11 @@ The analytics returned fields allow analysts to investigate the event further by
 | `multiple_users_failing_to_authenticate_from_host_using_ntlm_filter`
 ```
 
-#### Associated Analytic Story
-* [Active Directory Password Spraying](/stories/active_directory_password_spraying)
+#### Macros
+The SPL above uses the following Macros:
+* [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting Domain Controller events. The Advanced Security Audit policy setting `Audit Credential Validation` within `Account Logon` needs to be enabled.
+Note that `multiple_users_failing_to_authenticate_from_host_using_ntlm_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -71,12 +70,19 @@ To successfully implement this search, you need to be ingesting Domain Controlle
 * Source_Workstation
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting Domain Controller events. The Advanced Security Audit policy setting `Audit Credential Validation` within `Account Logon` needs to be enabled.
 
 #### Known False Positives
 A host failing to authenticate with multiple valid domain users is not a common behavior for legitimate systems. Possible false positive scenarios include but are not limited to vulnerability scanners and missconfigured systems. If this detection triggers on a host other than a Domain Controller, the behavior could represent a password spraying attack against the host&#39;s local accounts.
+
+#### Associated Analytic story
+* [Active Directory Password Spraying](/stories/active_directory_password_spraying)
+
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA

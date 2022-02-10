@@ -25,7 +25,7 @@ tags:
 
 This analytic is to detect a suspicious copy of file from systemroot folder of the windows OS. This technique is commonly used by APT or other malware as part of execution (LOLBIN) to run its malicious code using the available legitimate tool in OS. this type of event may seen or may execute of normal user in some instance but this is really a anomaly that needs to be check within the network.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-10-05
@@ -35,8 +35,8 @@ This analytic is to detect a suspicious copy of file from systemroot folder of t
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1036.003](https://attack.mitre.org/techniques/T1036/003/) | Rename System Utilities | Defense Evasion |
 
 | [T1036](https://attack.mitre.org/techniques/T1036/) | Masquerading | Defense Evasion |
@@ -52,12 +52,13 @@ This analytic is to detect a suspicious copy of file from systemroot folder of t
 | `suspicious_copy_on_system32_filter`
 ```
 
-#### Associated Analytic Story
-* [Unusual Processes](/stories/unusual_processes)
+#### Macros
+The SPL above uses the following Macros:
+* [process_copy](https://github.com/splunk/security_content/blob/develop/macros/process_copy.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
+Note that `suspicious_copy_on_system32_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -74,12 +75,19 @@ To successfully implement this search you need to be ingesting information on pr
 * Processes.parent_process_id
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 
 #### Known False Positives
 every user may do this event but very un-ussual.
+
+#### Associated Analytic story
+* [Unusual Processes](/stories/unusual_processes)
+
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA

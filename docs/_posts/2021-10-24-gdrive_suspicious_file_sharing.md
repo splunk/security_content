@@ -24,7 +24,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 This search can help the detection of compromised accounts or internal users sharing potentially malicious/classified documents with users outside your organization via GSuite file sharing .
 
-- **Type**: Hunting
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-10-24
@@ -34,8 +34,8 @@ This search can help the detection of compromised accounts or internal users sha
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1566](https://attack.mitre.org/techniques/T1566/) | Phishing | Initial Access |
 
 #### Search
@@ -49,13 +49,11 @@ This search can help the detection of compromised accounts or internal users sha
 | `gdrive_suspicious_file_sharing_filter`
 ```
 
-#### Associated Analytic Story
-* [Spearphishing Attachments](/stories/spearphishing_attachments)
-* [Data Exfiltration](/stories/data_exfiltration)
+#### Macros
+The SPL above uses the following Macros:
+* [gsuite_drive](https://github.com/splunk/security_content/blob/develop/macros/gsuite_drive.yml)
 
-
-#### How To Implement
-Need to implement Gsuite logging targeting Google suite drive activity. In order for the search to work for your environment please update `yourdomain.com` value in the query with the domain relavant for your organization.
+Note that `gdrive_suspicious_file_sharing_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -66,12 +64,20 @@ Need to implement Gsuite logging targeting Google suite drive activity. In order
 * parameters.doc_type
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+Need to implement Gsuite logging targeting Google suite drive activity. In order for the search to work for your environment please update `yourdomain.com` value in the query with the domain relavant for your organization.
 
 #### Known False Positives
 This is an anomaly search, you must specify your domain in the parameters so it either filters outside domains or focus on internal domains. This search may also help investigate compromise of accounts. By looking at for example source ip addresses, document titles and abnormal number of shares and shared target users.
+
+#### Associated Analytic story
+* [Spearphishing Attachments](/stories/spearphishing_attachments)
+* [Data Exfiltration](/stories/data_exfiltration)
+
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 

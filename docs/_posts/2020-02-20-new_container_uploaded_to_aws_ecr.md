@@ -24,7 +24,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 This searches show information on uploaded containers including source user, image id, source IP user type, http user agent, region, first time, last time of operation (PutImage). These searches are based on Cloud Infrastructure Data Model.
 
-- **Type**: Hunting
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-02-20
@@ -34,8 +34,8 @@ This searches show information on uploaded containers including source user, ima
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1525](https://attack.mitre.org/techniques/T1525/) | Implant Internal Image | Persistence |
 
 #### Search
@@ -47,22 +47,27 @@ This searches show information on uploaded containers including source user, ima
 | `new_container_uploaded_to_aws_ecr_filter` 
 ```
 
-#### Associated Analytic Story
-* [Container Implantation Monitoring and Investigation](/stories/container_implantation_monitoring_and_investigation)
+#### Macros
+The SPL above uses the following Macros:
 
-
-#### How To Implement
-You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your AWS CloudTrail inputs. You must also install Cloud Infrastructure data model. Please also customize the `container_implant_aws_detection_filter` macro to filter out the false positives.
+Note that `new_container_uploaded_to_aws_ecr_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
 
 
-#### Kill Chain Phase
-
+#### How To Implement
+You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your AWS CloudTrail inputs. You must also install Cloud Infrastructure data model. Please also customize the `container_implant_aws_detection_filter` macro to filter out the false positives.
 
 #### Known False Positives
 Uploading container is a normal behavior from developers or users with access to container registry.
+
+#### Associated Analytic story
+* [Container Implantation Monitoring and Investigation](/stories/container_implantation_monitoring_and_investigation)
+
+
+#### Kill Chain Phase
+
 
 
 
