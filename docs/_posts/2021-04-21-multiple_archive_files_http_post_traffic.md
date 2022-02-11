@@ -97,6 +97,8 @@ Normal archive transfer via HTTP protocol may trip this detection.
 | 25.0 | 50 | 50 | A http post $http_method$ sending packet with possible archive bytes header 4form_data$ in uri path $uri_path$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

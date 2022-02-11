@@ -89,6 +89,8 @@ Unknown. Tune out child processes as needed to limit volume of false positives.
 | 56.0 | 70 | 80 | Possible CVE-2021-26857 exploitation on $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 #### CVE
 

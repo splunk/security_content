@@ -93,6 +93,8 @@ A single public IP address servicing multiple legitmate users may trigger this s
 
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

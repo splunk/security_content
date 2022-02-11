@@ -70,6 +70,8 @@ Very few legitimate Content-Type fields will have a length greater than 100 char
 
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference
