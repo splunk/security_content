@@ -97,8 +97,8 @@ setup_schema = {
                 },
                 "SPLUNK_ADD_ON_FOR_SYSMON": {
                     "app_number": 5709,
-                    "app_version": "1.0.1",
-                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-sysmon_101.tgz"
+                    "app_version": "2.0.0",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-sysmon_200.tgz"
                 },
                 "SPLUNK_COMMON_INFORMATION_MODEL": {
                     "app_number": 1621,
