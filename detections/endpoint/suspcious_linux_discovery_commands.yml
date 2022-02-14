@@ -6,21 +6,22 @@ author: Bhavin Patel, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: This search, detects Linux post exploitation tool AutoSUID, which is
-  an a tool that searches for SUID executables files in order to escalate privileges.
+description: This search, detects execution of high number of suspicious bash commands from various commonly leveraged bash scripts like (AutoSUID, LinEnum, LinPeas) to perform discovery of vulnerable directories, executables and file permissions on a Linux host. The search logic specifically looks for high number of distinct commands run in a short period of time. 
 search: '| tstats `security_content_summariesonly` count values(Processes.process) values(Processes.process_name) values(Processes.parent_process_name) dc(Processes.process) as dc min(_time) as firstTime max(_time)
     as lastTime from datamodel=Endpoint.Processes where Processes.process
-    IN ("uname -a","cat /proc/version", "cat /etc/*-release","/etc/passwd" ,"cat /etc/*", "lastlog", "id","PermitRootLogin","sestatus *","ps","sudo*","mysql*","netstat*","find *","mysql*","head /var/mail/root","docker","cat /etc/issue","cat /etc/*-release","cat /proc/version","uname -a","uname -mrs","rpm -q kernel","dmesg | grep Linux","ls /boot | grep vmlinuz-","cat /etc/profile","cat /etc/bashrc","cat ~/.bash_profile","cat ~/.bashrc","cat ~/.bash_logout", "ps -aux | grep root","ps -ef | grep root","crontab -l","cat /etc/cron*","cat /etc/cron.allow","cat /etc/cron.deny","cat /etc/crontab","grep -i user *","grep -i pass *","ifconfig","cat /etc/network/interfaces","cat /etc/sysconfig/network","cat /etc/resolv.conf","cat /etc/networks","iptables -L","lsof -i","netstat -antup","netstat -antpx","netstat -tulpn","arp -e","route","cat /etc/passwd","cat /etc/group","cat /etc/shadow","find / -perm -u=s","find / -perm -g=s","find / -perm -4000","find / -perm -2000") by _time span=5m Processes.user Processes.dest
+    IN ("uname -a","cat /proc/version", "cat /etc/*-release","/etc/passwd" ,"cat /etc/*", "lastlog", "id","PermitRootLogin","sestatus *","ps","mysql*","netstat*","find *","mysql*","head /var/mail/root","docker","cat /etc/issue","cat /etc/*-release","cat /proc/version","uname -a","uname -mrs","rpm -q kernel","dmesg | grep Linux","ls /boot | grep vmlinuz-","cat /etc/profile","cat /etc/bashrc","cat ~/.bash_profile","cat ~/.bashrc","cat ~/.bash_logout", "ps -aux | grep root","ps -ef | grep root","crontab -l","cat /etc/cron*","cat /etc/cron.allow","cat /etc/cron.deny","cat /etc/crontab","grep -i user *","grep -i pass *","ifconfig","cat /etc/network/interfaces","cat /etc/sysconfig/network","cat /etc/resolv.conf","cat /etc/networks","iptables -L","lsof -i","netstat -antup","netstat -antpx","netstat -tulpn","arp -e","route","cat /etc/passwd","cat /etc/group","cat /etc/shadow","find / -perm -u=s","find / -perm -g=s","find / -perm -4000","find / -perm -2000") by _time span=5m Processes.user Processes.dest 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
-| `security_content_ctime(lastTime)`| `suspcious_linux_discovery_commands_filter`'
-how_to_implement: This detection search is based on Splunk add-on for Microsoft Sysmon-Linux.(https://splunkbase.splunk.com/app/6176/)
-  Please install this add-on to parse fields correctly and execute detection search.
+| `security_content_ctime(lastTime)`| where dc>40| `suspcious_linux_discovery_commands_filter`'
+how_to_implement: This detection search is based on Splunk add-on for Microsoft Sysmon-Linux.(https://splunkbase.splunk.com/app/6176/). 
+  Please install this add-on to parse fields correctly and execute detection search. Consider customizing the time window and threshold values according to your environment.
 known_false_positives: Unless an administrator is using these commands to troubleshoot
   or audit a system, the execution of these commands should be monitored.
 references:
 - https://attack.mitre.org/matrices/enterprise/linux/
 - https://github.com/IvanGlinkin/AutoSUID
+- https://github.com/carlospolop/PEASS-ng/tree/master/linPEAS
+- https://github.com/rebootuser/LinEnum
 tags:
   analytic_story:
   - Linux Post-Exploitation
@@ -30,7 +31,7 @@ tags:
   - Source:Endpoint
   - Stage:Discovery
   dataset:
-  - https://github.com/splunk/attack_data/raw/master/datasets/suspicious_behaviour/linux_post_exploitation/autoSUID.txt
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.004/linux_discovery_tools/sysmon_linux.log
   impact: 90
   kill_chain_phases:
   - Exploitation
@@ -48,14 +49,9 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - dest
-  - user
-  - process
-  - parent_process_name
-  - user 
-  - process_name
-  - process_id 
-  - parent_process_id 
-  - process_guid
+  - Processes.process
+  - Processes.parent_process_name
+  - Processes.user 
+  - Processes.process_name
   risk_score: 81
   security_domain: endpoint
