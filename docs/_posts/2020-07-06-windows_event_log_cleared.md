@@ -70,6 +70,12 @@ To successfully implement this search, you need to be ingesting Windows event lo
 #### Known False Positives
 It is possible that these logs may be legitimately cleared by Administrators. Filter as needed.
 
+#### Associated Analytic story
+* [Windows Log Manipulation](/stories/windows_log_manipulation)
+* [Ransomware](/stories/ransomware)
+* [Clop Ransomware](/stories/clop_ransomware)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

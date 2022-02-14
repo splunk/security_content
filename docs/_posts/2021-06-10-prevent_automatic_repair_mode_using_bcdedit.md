@@ -73,6 +73,10 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Known False Positives
 Administrators may modify the boot configuration ignore failure during testing and debugging.
 
+#### Associated Analytic story
+* [Ransomware](/stories/ransomware)
+
+
 #### Kill Chain Phase
 * Exploitation
 

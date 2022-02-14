@@ -73,6 +73,11 @@ To successfully implement this search, you must be ingesting data that records p
 #### Known False Positives
 None identified.
 
+#### Associated Analytic story
+* [Windows File Extension and Association Abuse](/stories/windows_file_extension_and_association_abuse)
+* [Masquerading - Rename System Utilities](/stories/masquerading_-_rename_system_utilities)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

@@ -77,6 +77,10 @@ This search requires you to be ingesting your network traffic and populating the
 #### Known False Positives
 The false-positive rate will vary based on how you set the deviation_threshold and data_samples values. Our recommendation is to adjust these values based on your network traffic to and from your email servers.
 
+#### Associated Analytic story
+* [Collection and Staging](/stories/collection_and_staging)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

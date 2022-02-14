@@ -73,6 +73,10 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Known False Positives
 other tools or script may used this to change code page to UTF-* or others
 
+#### Associated Analytic story
+* [IcedID](/stories/icedid)
+
+
 #### Kill Chain Phase
 * Reconnaissance
 

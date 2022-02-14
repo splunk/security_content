@@ -77,6 +77,13 @@ To successfully implement this search you need to identify systems that commonly
 #### Known False Positives
 Remote Desktop may be used legitimately by users on the network.
 
+#### Associated Analytic story
+* [SamSam Ransomware](/stories/samsam_ransomware)
+* [Ryuk Ransomware](/stories/ryuk_ransomware)
+* [Hidden Cobra Malware](/stories/hidden_cobra_malware)
+* [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

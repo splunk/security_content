@@ -73,6 +73,12 @@ You must be ingesting data that records process activity from your hosts to popu
 #### Known False Positives
 Administrators may attempt to change the default execution policy on a system for a variety of reasons. However, setting the policy to &#34;unrestricted&#34; or &#34;bypass&#34; as this search is designed to identify, would be unusual. Hits should be reviewed and investigated as appropriate.
 
+#### Associated Analytic story
+* [Malicious PowerShell](/stories/malicious_powershell)
+* [Credential Dumping](/stories/credential_dumping)
+* [HAFNIUM Group](/stories/hafnium_group)
+
+
 #### Kill Chain Phase
 * Installation
 * Actions on Objectives

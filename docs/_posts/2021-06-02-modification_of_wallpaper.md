@@ -72,6 +72,12 @@ To successfully implement this search, you need to be ingesting logs with the Im
 #### Known False Positives
 3rd party tool may used to changed the wallpaper of the machine
 
+#### Associated Analytic story
+* [Ransomware](/stories/ransomware)
+* [Revil Ransomware](/stories/revil_ransomware)
+* [BlackMatter Ransomware](/stories/blackmatter_ransomware)
+
+
 #### Kill Chain Phase
 * Exploitation
 

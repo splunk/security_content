@@ -76,6 +76,10 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Known False Positives
 excessive execution of sc.exe is quite suspicious since it can modify or execute app in high privilege permission.
 
+#### Associated Analytic story
+* [Ransomware](/stories/ransomware)
+
+
 #### Kill Chain Phase
 * Exploitation
 

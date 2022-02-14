@@ -79,6 +79,18 @@ To successfully implement this search, you must be ingesting data that records r
 #### Known False Positives
 There are many legitimate applications that must execute on system startup and will use these registry keys to accomplish that task.
 
+#### Associated Analytic story
+* [Suspicious Windows Registry Activities](/stories/suspicious_windows_registry_activities)
+* [Suspicious MSHTA Activity](/stories/suspicious_mshta_activity)
+* [DHS Report TA18-074A](/stories/dhs_report_ta18-074a)
+* [Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns](/stories/possible_backdoor_activity_associated_with_mudcarp_espionage_campaigns)
+* [Ransomware](/stories/ransomware)
+* [Windows Persistence Techniques](/stories/windows_persistence_techniques)
+* [Emotet Malware  DHS Report TA18-201A ](/stories/emotet_malware__dhs_report_ta18-201a_)
+* [IcedID](/stories/icedid)
+* [Remcos](/stories/remcos)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

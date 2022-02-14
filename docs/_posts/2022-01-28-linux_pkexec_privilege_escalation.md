@@ -78,6 +78,10 @@ Depending on the EDR product in use, there are multiple ways to &#34;null&#34; t
 #### Known False Positives
 False positives may be present, filter as needed.
 
+#### Associated Analytic story
+* [Linux Privilege Escalation](/stories/linux_privilege_escalation)
+
+
 #### Kill Chain Phase
 * Exploitation
 

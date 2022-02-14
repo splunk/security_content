@@ -83,6 +83,11 @@ If Splunk Phantom is also configured in your environment, a Playbook called &#34
 #### Known False Positives
 None identified
 
+#### Associated Analytic story
+* [Emotet Malware  DHS Report TA18-201A ](/stories/emotet_malware__dhs_report_ta18-201a_)
+* [Suspicious Emails](/stories/suspicious_emails)
+
+
 #### Kill Chain Phase
 * Delivery
 

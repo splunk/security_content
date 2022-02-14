@@ -74,6 +74,10 @@ o successfully implement this search, you need to be ingesting Windows Security 
 #### Known False Positives
 this behavior may seen in normal transfer of file within network if network share is common place for sharing documents.
 
+#### Associated Analytic story
+* [Information Sabotage](/stories/information_sabotage)
+
+
 #### Kill Chain Phase
 * Exfiltration
 

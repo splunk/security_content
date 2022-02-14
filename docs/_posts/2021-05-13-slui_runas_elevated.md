@@ -78,6 +78,11 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Limited false positives should be present as this is not commonly used by legitimate applications.
 
+#### Associated Analytic story
+* [DarkSide Ransomware](/stories/darkside_ransomware)
+* [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
+
+
 #### Kill Chain Phase
 * Exploitation
 

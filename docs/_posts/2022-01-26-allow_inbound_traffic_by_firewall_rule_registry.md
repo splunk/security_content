@@ -85,6 +85,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 network admin may add/remove/modify public inbound firewall rule that may cause this rule to be triggered.
 
+#### Associated Analytic story
+* [Prohibited Traffic Allowed or Protocol Mismatch](/stories/prohibited_traffic_allowed_or_protocol_mismatch)
+
+
 #### Kill Chain Phase
 * Exploitation
 

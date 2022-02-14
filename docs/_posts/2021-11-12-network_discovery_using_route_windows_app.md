@@ -78,6 +78,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 A network operator or systems administrator may utilize an automated host discovery application that may generate false positives or an amazon ec2 script that uses this application. Filter as needed.
 
+#### Associated Analytic story
+* [Active Directory Discovery](/stories/active_directory_discovery)
+
+
 #### Kill Chain Phase
 * Reconnaissance
 

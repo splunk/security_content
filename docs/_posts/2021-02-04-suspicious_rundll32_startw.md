@@ -81,6 +81,12 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Although unlikely, some legitimate applications may use Start as a function and call it via the command line. Filter as needed.
 
+#### Associated Analytic story
+* [Suspicious Rundll32 Activity](/stories/suspicious_rundll32_activity)
+* [Cobalt Strike](/stories/cobalt_strike)
+* [Trickbot](/stories/trickbot)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

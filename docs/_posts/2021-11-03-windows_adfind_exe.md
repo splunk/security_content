@@ -72,6 +72,11 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Known False Positives
 administrators rarely use adfind, usually not used for legitimate reasons
 
+#### Associated Analytic story
+* [NOBELIUM Group](/stories/nobelium_group)
+* [Domain Trust Discovery](/stories/domain_trust_discovery)
+
+
 #### Kill Chain Phase
 * Exploitation
 

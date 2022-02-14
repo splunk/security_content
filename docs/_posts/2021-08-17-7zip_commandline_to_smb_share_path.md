@@ -77,6 +77,10 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Known False Positives
 unknown
 
+#### Associated Analytic story
+* [Ransomware](/stories/ransomware)
+
+
 #### Kill Chain Phase
 * Exploitation
 

@@ -85,6 +85,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 user may execute and use this application
 
+#### Associated Analytic story
+* [Masquerading - Rename System Utilities](/stories/masquerading_-_rename_system_utilities)
+
+
 #### Kill Chain Phase
 * Exploitation
 

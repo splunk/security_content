@@ -76,6 +76,13 @@ This search requires you to be ingesting your network traffic logs and populatin
 #### Known False Positives
 A file server may experience high-demand loads that could cause this analytic to trigger.
 
+#### Associated Analytic story
+* [Emotet Malware  DHS Report TA18-201A ](/stories/emotet_malware__dhs_report_ta18-201a_)
+* [Hidden Cobra Malware](/stories/hidden_cobra_malware)
+* [Ransomware](/stories/ransomware)
+* [DHS Report TA18-074A](/stories/dhs_report_ta18-074a)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

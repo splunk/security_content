@@ -76,6 +76,12 @@ To successfully implement this search, you will need to ensure that DNS data is 
 #### Known False Positives
 It&#39;s possible there can be long domain names that are legitimate.
 
+#### Associated Analytic story
+* [Hidden Cobra Malware](/stories/hidden_cobra_malware)
+* [Suspicious DNS Traffic](/stories/suspicious_dns_traffic)
+* [Command and Control](/stories/command_and_control)
+
+
 #### Kill Chain Phase
 * Command and Control
 

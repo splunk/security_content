@@ -82,6 +82,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Administrators often leverage net.exe to create or delete network shares. You should verify that the activity was intentional and is legitimate.
 
+#### Associated Analytic story
+* [Hidden Cobra Malware](/stories/hidden_cobra_malware)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

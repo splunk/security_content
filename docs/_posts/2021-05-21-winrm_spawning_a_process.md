@@ -75,6 +75,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Unknown. Add new processes or filter as needed. It is possible system management software may spawn processes from `wsmprovhost.exe`.
 
+#### Associated Analytic story
+* [Unusual Processes](/stories/unusual_processes)
+
+
 #### Kill Chain Phase
 * Exploitation
 * Privilege Escalation

@@ -78,6 +78,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 network operator may disable this feature of windows but not so common.
 
+#### Associated Analytic story
+* [Ransomware](/stories/ransomware)
+
+
 #### Kill Chain Phase
 * Exploitation
 

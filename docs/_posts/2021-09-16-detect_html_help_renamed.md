@@ -81,6 +81,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Although unlikely a renamed instance of hh.exe will be used legitimately, filter as needed.
 
+#### Associated Analytic story
+* [Suspicious Compiled HTML Activity](/stories/suspicious_compiled_html_activity)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 

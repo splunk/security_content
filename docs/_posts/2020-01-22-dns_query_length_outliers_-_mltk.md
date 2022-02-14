@@ -88,6 +88,12 @@ Detailed documentation on how to create a new field within Incident Review may b
 #### Known False Positives
 If you are seeing more results than desired, you may consider reducing the value for threshold in the search. You should also periodically re-run the support search to re-build the ML model on the latest data.
 
+#### Associated Analytic story
+* [Hidden Cobra Malware](/stories/hidden_cobra_malware)
+* [Suspicious DNS Traffic](/stories/suspicious_dns_traffic)
+* [Command and Control](/stories/command_and_control)
+
+
 #### Kill Chain Phase
 * Command and Control
 

@@ -80,6 +80,10 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Limited false positives will be present as control.exe does not natively load from writable paths as defined. One may add .cpl or .inf to the command-line if there is any false positives. Tune as needed.
 
+#### Associated Analytic story
+* [Microsoft MSHTML Remote Code Execution CVE-2021-40444](/stories/microsoft_mshtml_remote_code_execution_cve-2021-40444)
+
+
 #### Kill Chain Phase
 * Exploitation
 

@@ -76,6 +76,15 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Using sc.exe to manipulate Windows services is uncommon. However, there may be legitimate instances of this behavior. It is important to validate and investigate as appropriate.
 
+#### Associated Analytic story
+* [Windows Service Abuse](/stories/windows_service_abuse)
+* [DHS Report TA18-074A](/stories/dhs_report_ta18-074a)
+* [Orangeworm Attack Group](/stories/orangeworm_attack_group)
+* [Windows Persistence Techniques](/stories/windows_persistence_techniques)
+* [Disabling Security Tools](/stories/disabling_security_tools)
+* [NOBELIUM Group](/stories/nobelium_group)
+
+
 #### Kill Chain Phase
 * Installation
 

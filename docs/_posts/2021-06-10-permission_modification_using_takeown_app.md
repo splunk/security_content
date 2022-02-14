@@ -73,6 +73,10 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Known False Positives
 takeown.exe is a normal windows application that may used by network operator.
 
+#### Associated Analytic story
+* [Ransomware](/stories/ransomware)
+
+
 #### Kill Chain Phase
 * Exploitation
 

@@ -75,6 +75,10 @@ To successfully implement this search, you must be ingesting data that records r
 #### Known False Positives
 Unknown.
 
+#### Associated Analytic story
+* [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
+
+
 #### Kill Chain Phase
 * Exploitation
 

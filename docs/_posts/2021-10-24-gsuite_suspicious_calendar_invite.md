@@ -70,6 +70,10 @@ In order to successfully implement this search, you need to be ingesting logs re
 #### Known False Positives
 This search will also produce normal activity statistics. Fields such as email, ip address, name, parameters.organizer_calendar_id, parameters.target_calendar_id and parameters.event_title may give away phishing intent.For more specific results use email parameter.
 
+#### Associated Analytic story
+* [Spearphishing Attachments](/stories/spearphishing_attachments)
+
+
 #### Kill Chain Phase
 * Exploitation
 
