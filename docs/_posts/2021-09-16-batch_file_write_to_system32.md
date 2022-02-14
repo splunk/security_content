@@ -95,6 +95,8 @@ It is possible for this search to generate a notable event for a batch file writ
 | 63.0 | 70 | 90 | A file - $file_name$ was written to system32 has occurred on endpoint $dest$ by user $user$. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

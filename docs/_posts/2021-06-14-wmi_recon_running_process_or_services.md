@@ -83,6 +83,8 @@ network administrator may used this command for checking purposes
 | 30.0 | 30 | 100 | Suspicious powerShell script execution by $user$ on $ComputerName$ via EventCode 4104, where WMI is performing an event query looking for running processes or running services |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

@@ -92,6 +92,8 @@ The wevtutil.exe application is a legitimate Windows event log utility. Administ
 | 28.0 | 40 | 70 | Wevtutil.exe being used to clear Event Logs on $dest$ by $user$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

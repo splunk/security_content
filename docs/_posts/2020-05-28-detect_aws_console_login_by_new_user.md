@@ -83,6 +83,8 @@ When a legitimate new user logins for the first time, this activity will be dete
 | 30.0 | 50 | 60 | User $user$ is logging into the AWS console for the first time |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

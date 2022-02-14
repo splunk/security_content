@@ -84,6 +84,8 @@ System administrators may use this windows utility. filter is needed.
 | 35.0 | 50 | 70 | A cacls process $process_name$ with commandline $cmd_line$ try to modify a permission of a file or directory in host $dest_device_id$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

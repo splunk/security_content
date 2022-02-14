@@ -96,6 +96,8 @@ It is possible Administrators or super users will use Curl for legitimate purpos
 | 80.0 | 80 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ to download a file to a suspicious directory. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

@@ -91,6 +91,8 @@ Administrators can create memory dumps for debugging purposes, but memory dumps 
 | 63.0 | 70 | 90 | process $SourceImage$ injected into $TargetImage$ and was attempted dump LSASS on $dest$. Adversaries tend to do this when trying to accesss credential material stored in the process memory of the Local Security Authority Subsystem Service (LSASS). |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference
