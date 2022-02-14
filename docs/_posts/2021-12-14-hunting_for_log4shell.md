@@ -210,6 +210,8 @@ It is highly possible you will find false positives, however, the base score is 
 | 40.0 | 80 | 50 | Hunting for Log4Shell exploitation has occurred. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 #### CVE
 

@@ -101,6 +101,8 @@ Although unlikely, some legitimate applications may use a moved copy of rundll32
 | 49.0 | 70 | 70 | Suspicious rundll32.exe process with no command line arguments executed on $dest$ by $user$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 #### CVE
 

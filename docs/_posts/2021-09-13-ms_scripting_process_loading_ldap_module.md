@@ -91,6 +91,8 @@ automation scripting language may used by network operator to do ldap query.
 | 9.0 | 30 | 30 | $process_name$ loading ldap modules $ImageLoaded$ in $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

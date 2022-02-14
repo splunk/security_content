@@ -72,6 +72,8 @@ There might be some false positives as keyboard event taps are used by processes
 
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

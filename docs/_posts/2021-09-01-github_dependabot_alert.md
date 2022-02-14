@@ -97,6 +97,8 @@ unknown
 | 27.0 | 30 | 90 | Vulnerabilities found in packages used by GitHub repository $repository$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

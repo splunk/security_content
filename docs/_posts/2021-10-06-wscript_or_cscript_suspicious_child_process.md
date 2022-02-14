@@ -111,6 +111,8 @@ Administrators may create vbs or js script that use several tool as part of its 
 | 49.0 | 70 | 70 | wscript or cscript parent process spawned $process_name$ in $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference
