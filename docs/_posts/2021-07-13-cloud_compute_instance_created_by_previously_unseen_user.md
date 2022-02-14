@@ -105,6 +105,8 @@ It&#39;s possible that a user will start to create compute instances for the fir
 | 18.0 | 30 | 60 | User $user$ is creating a new instance $dest$ for the first time |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

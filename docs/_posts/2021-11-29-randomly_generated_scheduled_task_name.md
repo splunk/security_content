@@ -95,6 +95,8 @@ Legitimate applications may use random Scheduled Task names.
 | 45.0 | 90 | 50 | A windows scheduled task with a suspicious task name was created on $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

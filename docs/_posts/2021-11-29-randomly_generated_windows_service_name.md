@@ -93,6 +93,8 @@ Legitimate applications may use random Windows Service names.
 | 45.0 | 90 | 50 | A Windows Service with a suspicious service name was installed on $ComputerName$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

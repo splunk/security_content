@@ -87,6 +87,8 @@ PST export can be done for legitimate purposes but due to the sensitive nature o
 | 48.0 | 80 | 60 | User $Source$ has exported a PST file from the search using this operation- $Operation$ with a severity of $Severity$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

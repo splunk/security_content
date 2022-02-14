@@ -91,6 +91,8 @@ Some administrative tasks may involve multiple use of LOLBAS applications in a s
 | 25.0 | 50 | 50 | A system process $process_name$ with commandline $cmd_line$ spawn iin short period of time in host $dest_device_id$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

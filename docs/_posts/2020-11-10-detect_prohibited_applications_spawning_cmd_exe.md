@@ -86,6 +86,8 @@ There are circumstances where an application may legitimately execute and intera
 | 35.0 | 70 | 50 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest_device_id$ by user $dest_user_id$, producing a suspicious event that warrants investigating. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference
