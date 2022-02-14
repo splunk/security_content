@@ -1,0 +1,47 @@
+name: Windows Powershell Connect to Internet With Hidden Window
+id: 477e068e-8b6d-11ec-b6c1-81af21670352
+version: 1
+date: '2022-02-11'
+author: Jose Hernandez
+type: Anomaly
+datamodel:
+- Endpoint
+description: 
+	UPDATE_DESCRIPTION
+	WHAT IS THIS?
+	WHAT DOES IT LOOK LIKE?
+	HOW DO YOU TRIAGE IT?
+search: '| UPDATE_SPL | `windows_powershell_connect_to_internet_with_hidden_window_filter`'
+how_to_implement: UPDATE_HOW_TO_IMPLEMENT
+known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
+references:
+-  
+tags:
+  analytic_story:
+  - UPDATE_STORY_NAME
+  dataset:
+  - UPDATE_DATASET_URL
+  kill_chain_phases:
+  - Exploitation
+  - Lateral Movement
+  mitre_attack_id:
+  - T1059.001
+  - T1059
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  security_domain: endpoint
+  impact: 
+  confidence: 
+  # (impact * confidence)/100
+  risk_score: 
+  context:
+  message: 
+  observable:
+  nist:
+  -
+  cis20:
+  -
