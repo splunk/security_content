@@ -97,6 +97,8 @@ Unknown.
 | 56.0 | 70 | 80 | A process $process_name$ attempt to kill process by its file path using commandline $process$ in host $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

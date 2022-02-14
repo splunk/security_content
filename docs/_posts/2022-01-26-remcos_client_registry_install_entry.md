@@ -90,6 +90,8 @@ unknown
 | 90.0 | 90 | 100 | A registry entry $registry_path$ with registry keyname $registry_key_name$ related to Remcos RAT in host $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

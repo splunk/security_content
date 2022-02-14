@@ -98,6 +98,8 @@ It&#39;s possible that an admin has created this ACL with all ports open for som
 | 48.0 | 60 | 80 | User $user_arn$ has created network ACLs with all the ports open to a specified CIDR $requestParameters.cidrBlock$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

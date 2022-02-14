@@ -89,6 +89,8 @@ Because the Recycle Bin is a hidden folder in modern versions of Windows, it wou
 | 28.0 | 40 | 70 | Suspicious writes to windows Recycle Bin process $Processes.process_name$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

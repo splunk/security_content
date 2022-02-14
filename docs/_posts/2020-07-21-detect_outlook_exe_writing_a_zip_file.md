@@ -98,6 +98,8 @@ It is not uncommon for outlook to write legitimate zip files to the disk.
 
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

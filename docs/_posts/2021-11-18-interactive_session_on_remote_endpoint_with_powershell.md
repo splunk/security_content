@@ -85,6 +85,8 @@ Administrators may leverage WinRM and `Enter-PSSession` for administrative and t
 | 45.0 | 90 | 50 | An interactive session was opened on a remote endpoint from $ComputerName |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

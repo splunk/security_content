@@ -89,6 +89,8 @@ Admin or user may choose to disable windows defender product
 | 49.0 | 70 | 70 | Modified/added/deleted registry entry $registry_path$ in $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

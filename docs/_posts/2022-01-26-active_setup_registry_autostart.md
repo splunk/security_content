@@ -97,6 +97,8 @@ Active setup installer may add or modify this registry.
 | 64.0 | 80 | 80 | modified/added/deleted registry entry $Registry.registry_path$ in $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference
