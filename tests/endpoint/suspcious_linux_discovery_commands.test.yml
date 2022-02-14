@@ -1,0 +1,12 @@
+name: Suspcious Linux Discovery Commands
+tests:
+- name: Linux Possible Access To Sudoers File
+  file: endpoint/suspcious_linux_discovery_commands.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-30d'
+  latest_time: 'now'
+  attack_data:
+  - file_name: sysmon_linux.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.004/linux_discovery_tools/sysmon_linux.log
+    source: Syslog:Linux-Sysmon/Operational
+    sourcetype: sysmon_linux
