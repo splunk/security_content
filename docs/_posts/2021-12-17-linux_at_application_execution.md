@@ -97,6 +97,8 @@ Administrator or network operator can use this application for automation purpos
 | 9.0 | 30 | 30 | At application was executed in $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

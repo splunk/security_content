@@ -95,6 +95,8 @@ If you are seeing more results than desired, you may consider reducing the value
 
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

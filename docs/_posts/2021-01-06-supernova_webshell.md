@@ -79,6 +79,8 @@ There might be false positives associted with this detection since items like ar
 
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

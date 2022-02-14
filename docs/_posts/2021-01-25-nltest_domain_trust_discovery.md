@@ -91,6 +91,8 @@ Administrators may use nltest for troubleshooting purposes, otherwise, rarely us
 | 15.0 | 30 | 50 | Domain trust discovery execution on $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

@@ -86,6 +86,8 @@ Administrators may leverage WinRM and `Invoke-Command` to start a process on rem
 | 45.0 | 90 | 50 | A process was started on a remote endpoint from $ComputerName by abusing WinRM using PowerShell.exe |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

@@ -81,6 +81,8 @@ admin can do changes directly to develop branch
 | 9.0 | 30 | 30 | suspicious commit by $commit.commit.author.email$ to develop branch |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

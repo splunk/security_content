@@ -94,6 +94,8 @@ Renaming a computer account name to a name that not end with &#39;$&#39; is high
 | 70.0 | 100 | 70 | A computer account $Old_Account_Name$ was renamed with a suspicious computer name |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 #### CVE
 
