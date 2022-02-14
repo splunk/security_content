@@ -71,6 +71,8 @@ Uploading container is a normal behavior from developers or users with access to
 
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

@@ -90,6 +90,8 @@ False positives may only pertain to it not being related to Empire, but another 
 | 81.0 | 90 | 90 | The following behavior was identified and typically related to PowerShell-Empire on $ComputerName$ by $User$. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

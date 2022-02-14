@@ -92,6 +92,8 @@ A host failing to authenticate with multiple disabled domain users is not a comm
 | 49.0 | 70 | 70 | Potential Kerberos based password spraying attack from $Client_Address$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

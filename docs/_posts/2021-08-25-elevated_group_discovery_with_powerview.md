@@ -86,6 +86,8 @@ Administrators or power users may use this PowerView for troubleshooting.
 | 21.0 | 30 | 70 | Elevated group discovery using PowerView on $dest$ by $user$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

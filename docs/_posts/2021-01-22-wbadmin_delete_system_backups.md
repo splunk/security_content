@@ -87,6 +87,8 @@ Administrators may modify the boot configuration.
 | 15.0 | 30 | 50 | System backups deletion on $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

@@ -97,6 +97,8 @@ False positives may be present. Tune as needed.
 | 15.0 | 30 | 50 | Local group discovery on $dest$ by $user$. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference
