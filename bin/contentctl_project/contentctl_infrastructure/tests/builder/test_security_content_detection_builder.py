@@ -8,6 +8,7 @@ from contentctl_core.domain.entities.enums.enums import SecurityContentType
 from contentctl_infrastructure.builder.yml_reader import YmlReader
 from contentctl_infrastructure.builder.security_content_investigation_builder import SecurityContentInvestigationBuilder
 from contentctl_infrastructure.builder.security_content_baseline_builder import SecurityContentBaselineBuilder
+from contentctl_infrastructure.builder.attack_enrichment import AttackEnrichment
 
 
 def test_read_detection():
@@ -148,8 +149,35 @@ def test_detection_enrich_unit_test():
     security_content_builder = SecurityContentDetectionBuilder()
     security_content_builder.setObject(os.path.join(os.path.dirname(__file__), 
         'test_data/detection/valid.yml'))
-    security_content_builder
     security_content_builder.addUnitTest([test])
     detection = security_content_builder.getObject()
 
     assert detection.test.tests[0].file == "endpoint/attempted_credential_dump_from_registry_via_reg_exe.yml"
+
+
+def test_attack_enrichment():
+    security_content_builder = SecurityContentDetectionBuilder()
+    security_content_builder.setObject(os.path.join(os.path.dirname(__file__), 
+        'test_data/detection/valid.yml'))
+    security_content_builder.addMitreAttackEnrichment(AttackEnrichment.get_attack_lookup())
+    detection = security_content_builder.getObject()
+
+    assert detection.tags.mitre_attack_techniques == ['Security Account Manager', 'OS Credential Dumping']
+    assert detection.tags.mitre_attack_tactics == ['Credential Access']
+    assert detection.tags.mitre_attack_groups == ['Wizard Spider', 'Threat Group-3390', 'Ke3chang', 'GALLIUM', 'Night Dragon', 'Dragonfly 2.0', 'menuPass', 'Tonto Team', 'APT39', 'Frankenstein', 'APT32', 'APT28', 'Leviathan', 'Sowbug', 'Suckfly', 'Poseidon Group', 'Axiom']
+
+
+def test_macros_enrichment():
+    basic_builder = SecurityContentBasicBuilder()
+    basic_builder.setObject(os.path.join(os.path.dirname(__file__), 
+        'test_data/macro/process_reg.yml'), SecurityContentType.macros)
+    macro = basic_builder.getObject() 
+
+    security_content_builder = SecurityContentDetectionBuilder()
+    security_content_builder.setObject(os.path.join(os.path.dirname(__file__), 
+        'test_data/detection/valid.yml'))
+    security_content_builder.addMacros([macro])
+    detection = security_content_builder.getObject()
+    
+    assert detection.macros[0].name == 'process_reg'
+    assert detection.macros[1].name == 'attempted_credential_dump_from_registry_via_reg_exe_filter'

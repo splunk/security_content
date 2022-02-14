@@ -23,6 +23,8 @@ class Story(BaseModel, SecurityContentObject):
     baseline_names: list = None
     author_company: str = None
     author_name: str = None
+    detections: list = None
+    investigations: list = None
     
     
     @validator('name')

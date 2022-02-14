@@ -1,11 +1,6 @@
 name: Fsutil Zeroing File
 id: f792cdc9-43ee-4429-a3c0-ffce4fed1a85
 version: 1
-date: '2021-12-07'
-author: Michael Haag, Splunk
-type: TTP
-datamodel:
-- Endpoint_Processes
 description: This search is to detect a suspicious fsutil process to zeroing a target
   file. This technique was seen in lockbit ransomware where it tries to zero out its
   malware path as part of its defense evasion after encrypting the compromised host.
@@ -31,46 +26,14 @@ references:
 - https://app.any.run/tasks/e0ac072d-58c9-4f53-8a3b-3e491c7ac5db/
 - https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/fsutil-file
 tags:
-  name: Fsutil Zeroing File
   analytic_story:
   - Ransomware
-  asset_type: Endpoint
-  automated_detection_testing: null
   cis20: []
-  confidence: 90
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070/fsutil_file_zero/windows-security.log
-  impact: 60
   kill_chain_phases:
   - Exploitation
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified
-    on endpoint $dest_device_id$ by user $dest_user_id$ atempting to perform file
-    deletion.
   mitre_attack_id:
   - T1070
   nist: []
-  observable:
-  - name: dest_user_id
-    type: User
-    role:
-    - Victim
-  - name: dest_device_id
-    type: Hostname
-    role:
-    - Victim
-  - name: parent_process_name
-    type: Process
-    role:
-    - Parent Process
-  - name: process_name
-    type: Process
-    role:
-    - Child Process
-  product:
-  - Splunk Behavioral Analytics
   required_fields:
   - _time
   - dest_device_id
@@ -80,7 +43,6 @@ tags:
   - dest_user_id
   - process
   - cmd_line
-  risk_score: 54
   security_domain: endpoint
   risk_severity: medium
 test:

@@ -3,7 +3,6 @@ import re
 from pydantic import BaseModel, validator, ValidationError
 
 
-
 class DetectionTags(BaseModel):
     name: str
     analytic_story: list
@@ -23,9 +22,10 @@ class DetectionTags(BaseModel):
     required_fields: list
     risk_score: int
     security_domain: str
-    detections: list = None
-    deployments: list = None
     risk_severity: str = None
+    mitre_attack_techniques: list = None
+    mitre_attack_tactics: list = None
+    mitre_attack_groups: list = None
 
 
     @validator('cis20')

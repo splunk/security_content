@@ -11,6 +11,7 @@ from contentctl_infrastructure.builder.security_content_story_builder import Sec
 from contentctl_core.domain.entities.enums.enums import SecurityContentProduct
 from contentctl_infrastructure.builder.security_content_investigation_builder import SecurityContentInvestigationBuilder
 from contentctl_infrastructure.builder.security_content_baseline_builder import SecurityContentBaselineBuilder
+from contentctl_infrastructure.builder.attack_enrichment import AttackEnrichment
 
 
 FAKE_TIME = datetime.datetime(2020, 12, 25, 17, 5, 55)
@@ -65,11 +66,13 @@ def test_write_conf_files(patch_datetime_now):
 
     detection_builder = SecurityContentDetectionBuilder()
     director.constructDetection(detection_builder, os.path.join(os.path.dirname(__file__), 
-        '../builder/test_data/detection/valid.yml'), [deployment], [playbook], [baseline], [test])
+        '../builder/test_data/detection/valid.yml'), [deployment], [playbook], [baseline], [test],
+        {}, [])
     detection = detection_builder.getObject()
 
     director.constructDetection(detection_builder, os.path.join(os.path.dirname(__file__), 
-        '../builder/test_data/detection/deprecated/detect_new_user_aws_console_login.yml'), [deployment], [playbook], [baseline], [test])
+        '../builder/test_data/detection/deprecated/detect_new_user_aws_console_login.yml'), [deployment], [playbook], [baseline], [test],
+        {}, [])
     detection_deprecated = detection_builder.getObject()
 
     investigation_builder = SecurityContentInvestigationBuilder()

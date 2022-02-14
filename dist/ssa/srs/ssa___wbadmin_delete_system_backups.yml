@@ -1,11 +1,6 @@
 name: WBAdmin Delete System Backups
 id: 71efbf52-4dbb-4c00-a520-306aa546cbb7
 version: 1
-date: '2021-12-07'
-author: Michael Haag, Splunk
-type: TTP
-datamodel:
-- Endpoint_Processes
 description: This search looks for flags passed to wbadmin.exe (Windows Backup Administrator
   Tool) that delete backup files. This is typically used by ransomware to prevent
   recovery.
@@ -32,50 +27,18 @@ references:
 - https://attack.mitre.org/techniques/T1490/
 - https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/wbadmin
 tags:
-  name: WBAdmin Delete System Backups
   analytic_story:
   - Ryuk Ransomware
   - Ransomware
-  asset_type: Endpoint
-  automated_detection_testing: null
   cis20:
   - CIS 8
-  confidence: 50
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1490/atomic_red_team/windows-security_bcdedit_wbadmin.log
-  impact: 30
   kill_chain_phases:
   - Exploitation
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified
-    on endpoint $dest_device_id$ by user $dest_user_id$ attempting to delete system
-    backups.
   mitre_attack_id:
   - T1490
   nist:
   - PR.AC
   - PR.IP
-  observable:
-  - name: dest_user_id
-    type: User
-    role:
-    - Victim
-  - name: dest_device_id
-    type: Hostname
-    role:
-    - Victim
-  - name: parent_process_name
-    type: Process
-    role:
-    - Parent Process
-  - name: process_name
-    type: Process
-    role:
-    - Child Process
-  product:
-  - Splunk Behavioral Analytics
   required_fields:
   - _time
   - dest_device_id
@@ -85,7 +48,6 @@ tags:
   - dest_user_id
   - process
   - cmd_line
-  risk_score: 15
   security_domain: endpoint
   risk_severity: low
 test:

@@ -19,6 +19,10 @@ class Adapter(abc.ABC):
         pass
 
     @abc.abstractmethod
+    def writeDeployments(self, deployments: list, output_folder: str) -> None:
+        pass
+
+    @abc.abstractmethod
     def writeInvestigations(self, investigations: list, output_folder: str) -> None:
         pass
 

@@ -8,6 +8,7 @@ from contentctl_core.domain.entities.enums.enums import SecurityContentProduct
 from contentctl_infrastructure.builder.security_content_investigation_builder import SecurityContentInvestigationBuilder
 from contentctl_infrastructure.builder.security_content_baseline_builder import SecurityContentBaselineBuilder
 from contentctl_infrastructure.builder.security_content_object_builder import SecurityContentObjectBuilder
+from contentctl_infrastructure.builder.attack_enrichment import AttackEnrichment
 
 
 def test_construct_deployments():
@@ -126,9 +127,15 @@ def test_construct_detections():
         'test_data/test/attempted_credential_dump_from_registry_via_reg_exe.test.yml'))
     test = unit_test_builder.getObject()
 
+    macro_builder = SecurityContentBasicBuilder()
+    director.constructMacro(macro_builder, os.path.join(os.path.dirname(__file__), 
+        'test_data/macro/process_reg.yml'))
+    macro = macro_builder.getObject()  
+
     detection_builder = SecurityContentDetectionBuilder()
     director.constructDetection(detection_builder, os.path.join(os.path.dirname(__file__), 
-        'test_data/detection/valid.yml'), [deployment], [playbook], [baseline], [test])
+        'test_data/detection/valid.yml'), [deployment], [playbook], [baseline], [test],
+        AttackEnrichment.get_attack_lookup(), [macro])
     detection = detection_builder.getObject()
 
     valid_annotations = {'mitre_attack': ['T1003.002', 'T1003'], 
@@ -157,7 +164,8 @@ def test_construct_detections():
     assert detection.playbooks[0].name == "Ransomware Investigate and Contain"
     assert detection.baselines[0].name == "Previously Seen Users In CloudTrail - Update"
     assert detection.test.name == "Attempted Credential Dump From Registry via Reg exe Unit Test"
-
+    assert detection.macros[0].name == 'process_reg'
+    assert detection.macros[1].name == 'attempted_credential_dump_from_registry_via_reg_exe_filter'
 
 def test_construct_stories():
     director = SecurityContentDirector()
@@ -188,7 +196,8 @@ def test_construct_stories():
 
     detection_builder = SecurityContentDetectionBuilder()
     director.constructDetection(detection_builder, os.path.join(os.path.dirname(__file__), 
-        'test_data/detection/valid.yml'), [deployment], [playbook], [baseline], [test])
+        'test_data/detection/valid.yml'), [deployment], [playbook], [baseline], [test],
+        AttackEnrichment.get_attack_lookup(), [])
     detection = detection_builder.getObject()
 
     investigation_builder = SecurityContentInvestigationBuilder()

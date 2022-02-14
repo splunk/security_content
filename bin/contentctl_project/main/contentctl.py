@@ -13,6 +13,7 @@ from contentctl_core.application.factory.object_factory import ObjectFactoryInpu
 from contentctl_infrastructure.builder.security_content_object_builder import SecurityContentObjectBuilder
 from contentctl_infrastructure.builder.security_content_director import SecurityContentDirector
 from contentctl_infrastructure.adapter.obj_to_yml_adapter import ObjToYmlAdapter
+from contentctl_infrastructure.adapter.obj_to_json_adapter import ObjToJsonAdapter
 from contentctl_infrastructure.builder.security_content_story_builder import SecurityContentStoryBuilder
 from contentctl_infrastructure.builder.security_content_detection_builder import SecurityContentDetectionBuilder
 from contentctl_infrastructure.builder.security_content_basic_builder import SecurityContentBasicBuilder
@@ -20,6 +21,7 @@ from contentctl_infrastructure.builder.security_content_investigation_builder im
 from contentctl_infrastructure.builder.security_content_baseline_builder import SecurityContentBaselineBuilder
 from contentctl_core.domain.entities.enums.enums import SecurityContentProduct
 from contentctl_infrastructure.adapter.obj_to_conf_adapter import ObjToConfAdapter
+from contentctl_infrastructure.builder.attack_enrichment import AttackEnrichment
 
 
 def init(args):
@@ -94,7 +96,8 @@ def generate(args) -> None:
         SecurityContentStoryBuilder(),
         SecurityContentBaselineBuilder(),
         SecurityContentInvestigationBuilder(),
-        SecurityContentDirector()
+        SecurityContentDirector(),
+        AttackEnrichment.get_attack_lookup()
     )
 
     ba_factory_input_dto = BAFactoryInputDto(
@@ -111,6 +114,14 @@ def generate(args) -> None:
             ba_factory_input_dto,
             ObjToConfAdapter(),
             SecurityContentProduct.ESCU
+        )
+    elif args.product == "API":
+        generate_input_dto = GenerateInputDto(
+            os.path.abspath(args.output),
+            factory_input_dto,
+            ba_factory_input_dto,
+            ObjToJsonAdapter(),
+            SecurityContentProduct.API
         )
     else:
         generate_input_dto = GenerateInputDto(
@@ -137,7 +148,8 @@ def validate(args) -> None:
         SecurityContentStoryBuilder(),
         SecurityContentBaselineBuilder(),
         SecurityContentInvestigationBuilder(),
-        SecurityContentDirector()
+        SecurityContentDirector(),
+        AttackEnrichment.get_attack_lookup()
     )
 
     validate_input_dto = ValidateInputDto(
@@ -180,7 +192,7 @@ def main(args):
     generate_parser.add_argument("-o", "--output", required=True, type=str,
                                         help="Path where to store the deployment package")
     generate_parser.add_argument("-pr", "--product", required=True, type=str,
-                                        help="Type of package to create, choose between `ESCU` or `BA`.")
+                                        help="Type of package to create, choose between `ESCU`, `BA` or `API`.")
     generate_parser.set_defaults(func=generate)
     
     content_changer_parser.add_argument("-cf", "--change_function", required=True, type=str,

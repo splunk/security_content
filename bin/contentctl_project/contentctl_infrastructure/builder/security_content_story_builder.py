@@ -30,12 +30,15 @@ class SecurityContentStoryBuilder(StoryBuilder):
 
     def addDetections(self, detections: list) -> None:
         matched_detection_names = []
+        matched_detections = []
         for detection in detections:
             for detection_analytic_story in detection.tags.analytic_story:
                 if detection_analytic_story == self.story.name:
                     matched_detection_names.append(str('ESCU - ' + detection.name + ' - Rule'))
+                    matched_detections.append(detection)
 
         self.story.detection_names = matched_detection_names
+        self.story.detections = matched_detections
 
     def addBaselines(self, baselines: list) -> None:
         matched_baseline_names = []
@@ -48,12 +51,15 @@ class SecurityContentStoryBuilder(StoryBuilder):
 
     def addInvestigations(self, investigations: list) -> None:
         matched_investigation_names = []
+        matched_investigations = []
         for investigation in investigations:
             for investigation_analytic_story in  investigation.tags.analytic_story:
                 if investigation_analytic_story == self.story.name:
                     matched_investigation_names.append(str('ESCU - ' + investigation.name + ' - Response Task'))
+                    matched_investigations.append(investigation)
 
         self.story.investigation_names = matched_investigation_names
+        self.story.investigations = matched_investigations
 
     def addAuthorCompanyName(self) -> None:
         match_author = re.search(r'^([^,]+)', self.story.author)

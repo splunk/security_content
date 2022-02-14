@@ -28,6 +28,9 @@ class ObjToYmlAdapter(Adapter):
     def writeMacros(self, macros: list, output_folder: str) -> None:
         pass
 
+    def writeDeployments(self, deployments: list, output_folder: str) -> None:
+        pass
+
     def writeObjectsInPlace(self, objects: list) -> None:
         for object in objects:
             file_path = object['file_path']
@@ -46,23 +49,49 @@ class ObjToYmlAdapter(Adapter):
 
             # remove unncessary fields
             YmlWriter.writeYmlFile(file_path, obj.dict(
-                exclude = 
+                include =
                     {
-                        "tags": {"detections": True , "deployments": True}, 
-                        "deprecated": True, 
-                        "experimental": True,
-                        "deployment": True,
-                        "annotations": True,
-                        "risk": True,
-                        "playbooks": True,
-                        "baselines": True,
-                        "mappings": True,
-                        "test": { "tests": {"__all__": 
-                            { "earliest_time": True , "latest_time": True, "baselines": True, "attack_data": {"__all__":  
-                                {"sourcetype": True, "update_timestamp": True}}
+                        "name": True,
+                        "id": True,
+                        "version": True,
+                        "description": True,
+                        "search": True,
+                        "how_to_implement": True,
+                        "known_false_positives": True,
+                        "references": True,
+                        "tags": 
+                            {
+                                "analytic_story": True,
+                                "cis20" : True,
+                                "nist": True,
+                                "kill_chain_phases": True,
+                                "mitre_attack_id": True,
+                                "risk_severity": True,
+                                "security_domain": True,
+                                "required_fields": True
+                            },
+                        "test": 
+                            {
+                                "name": True,
+                                "tests": {
+                                    '__all__': 
+                                        {
+                                            "name": True,
+                                            "file": True,
+                                            "pass_condition": True,
+                                            "attack_data": {
+                                                '__all__': 
+                                                {
+                                                    "file_name": True,
+                                                    "data": True,
+                                                    "source": True
+                                                }
+                                            }
+                                        }
+                                }
                             }
-                        }} 
-                    }))
+                    }
+                ))
 
     def convertNameToFileName(self, obj: dict):
         file_name = obj.name \

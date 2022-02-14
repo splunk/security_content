@@ -1,11 +1,6 @@
 name: Resize Shadowstorage Volume
 id: dbc30554-d27e-11eb-9e5e-acde48001122
 version: 3
-date: '2021-11-30'
-author: Teoderick Contreras, Splunk
-type: TTP
-datamodel:
-- Endpoint_Processes
 description: The following analytic identifies the resizing of shadowstorage using
   vssadmin.exe to avoid the shadow volumes being made again. This technique is typically
   found used by adversaries during a ransomware event and a precursor to deleting
@@ -33,51 +28,19 @@ references:
 - https://www.fireeye.com/blog/threat-research/2020/10/fin11-email-campaigns-precursor-for-ransomware-data-theft.html
 - https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html
 tags:
-  name: Resize Shadowstorage Volume
   analytic_story:
   - Clop Ransomware
   - Ransomware
-  asset_type: Endpoint
-  automated_detection_testing: null
   cis20:
   - CIS 10
   - CIS 13
-  confidence: 80
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/windows-security.log
-  impact: 80
   kill_chain_phases:
   - Exploitation
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified
-    on endpoint $dest_device_id$ by user $dest_user_id$ attempting to create a shadow
-    copy to perform offline password cracking.
   mitre_attack_id:
   - T1489
   nist:
   - PR.DS
   - PR.IP
-  observable:
-  - name: dest_user_id
-    type: User
-    role:
-    - Victim
-  - name: dest_device_id
-    type: Hostname
-    role:
-    - Victim
-  - name: parent_process
-    type: Process
-    role:
-    - Parent Process
-  - name: process_name
-    type: Process
-    role:
-    - Child Process
-  product:
-  - Splunk Behavioral Analytics
   required_fields:
   - _time
   - dest_device_id
@@ -87,7 +50,6 @@ tags:
   - dest_user_id
   - process
   - cmd_line
-  risk_score: 64
   security_domain: endpoint
   risk_severity: medium
 test:

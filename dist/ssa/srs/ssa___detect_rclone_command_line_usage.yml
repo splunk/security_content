@@ -1,11 +1,6 @@
 name: Detect RClone Command-Line Usage
 id: e8b74268-5454-11ec-a799-acde48001122
 version: 1
-date: '2021-12-03'
-author: Michael Haag, Splunk
-type: TTP
-datamodel:
-- Endpoint_Processes
 description: This analytic identifies commonly used command-line arguments used by
   `rclone.exe` to initiate a file transfer. Some arguments were negated as they are
   specific to the configuration used by adversaries. In particular, an adversary may
@@ -41,47 +36,15 @@ references:
 - https://thedfirreport.com/2021/03/29/sodinokibi-aka-revil-ransomware/
 - https://thedfirreport.com/2021/11/29/continuing-the-bazar-ransomware-story/
 tags:
-  name: Detect RClone Command-Line Usage
   analytic_story:
   - DarkSide Ransomware
   - Ransomware
-  asset_type: Endpoint
-  automated_detection_testing: null
   cis20: []
-  confidence: 70
-  context:
-  - Source:Endpoint
-  - Stage:Exfiltration
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1020/windows-security.log
-  impact: 50
   kill_chain_phases:
   - Exploitation
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified
-    on endpoint $dest_device_id$ by user $dest_user_id$ attempting to connect to a
-    remote cloud service to move files or folders.
   mitre_attack_id:
   - T1020
   nist: []
-  observable:
-  - name: dest_user_id
-    type: User
-    role:
-    - Victim
-  - name: dest_device_id
-    type: Hostname
-    role:
-    - Victim
-  - name: parent_process_name
-    type: Process
-    role:
-    - Parent Process
-  - name: process_name
-    type: Process
-    role:
-    - Child Process
-  product:
-  - Splunk Behavioral Analytics
   required_fields:
   - _time
   - dest_device_id
@@ -91,7 +54,6 @@ tags:
   - dest_user_id
   - process
   - cmd_line
-  risk_score: 35
   security_domain: endpoint
   risk_severity: low
 test:

@@ -41,6 +41,14 @@ class DetectionBuilder(abc.ABC):
         pass
 
     @abc.abstractmethod
+    def addMitreAttackEnrichment(self) -> None:
+        pass
+
+    @abc.abstractmethod
+    def addMacros(self, macros: list) -> None:
+        pass
+
+    @abc.abstractmethod
     def setObject(self, path: str) -> None:
         pass
 

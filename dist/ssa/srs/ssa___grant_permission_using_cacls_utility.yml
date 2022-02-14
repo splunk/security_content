@@ -1,11 +1,6 @@
 name: Grant Permission Using Cacls Utility
 id: c6da561a-cd29-11eb-ae65-acde48001122
 version: 3
-date: '2021-11-30'
-author: Teoderick Contreras, Splunk
-type: TTP
-datamodel:
-- Endpoint_Processes
 description: The following analytic identifies the use of `cacls.exe`, `icacls.exe`
   or `xcacls.exe` placing the grant permission on a file or directory. Adversaries
   perform this behavior to allow components of their files to run, however it allows
@@ -31,41 +26,18 @@ known_false_positives: System administrators may use cacls utilities but this is
 references:
 - https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
 tags:
-  name: Grant Permission Using Cacls Utility
   analytic_story:
   - XMRig
-  asset_type: Endpoint
-  automated_detection_testing: null
   cis20:
   - CIS 14
   - CIS 16
-  confidence: 70
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/ssa_cacls/all_icalc.log
-  impact: 50
   kill_chain_phases:
   - Exploitation
-  message: A cacls process $process_name$ with commandline $cmd_line$ try to grant
-    user a permission to a file or directory in host $dest_device_id$
   mitre_attack_id:
   - T1222
   nist:
   - PR.AC
   - PR.IP
-  observable:
-  - name: dest_device_id
-    type: Hostname
-    role:
-    - Victim
-  - name: dest_user_id
-    type: User
-    role:
-    - Victim
-  product:
-  - Splunk Behavioral Analytics
   required_fields:
   - _time
   - dest_device_id
@@ -75,7 +47,6 @@ tags:
   - dest_user_id
   - process
   - cmd_line
-  risk_score: 35
   security_domain: endpoint
   risk_severity: low
 test:

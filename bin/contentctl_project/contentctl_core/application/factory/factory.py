@@ -22,6 +22,7 @@ class FactoryInputDto:
     baseline_builder: BaselineBuilder
     investigation_builder: InvestigationBuilder
     director: Director
+    attack_enrichment: dict
     
 
 @dataclass(frozen=True)
@@ -107,7 +108,7 @@ class Factory():
                     elif type == SecurityContentType.detections:
                          self.input_dto.director.constructDetection(self.input_dto.detection_builder, file, 
                               self.output_dto.deployments, self.output_dto.playbooks, self.output_dto.baselines,
-                              self.output_dto.tests)
+                              self.output_dto.tests, self.input_dto.attack_enrichment, self.output_dto.macros)
                          detection = self.input_dto.detection_builder.getObject()
                          self.output_dto.detections.append(detection)
                

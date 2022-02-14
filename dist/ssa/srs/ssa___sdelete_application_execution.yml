@@ -1,11 +1,6 @@
 name: Sdelete Application Execution
 id: fcc52b9a-4616-11ec-8454-acde48001122
 version: 1
-date: '2021-11-15'
-author: Teoderick Contreras, Splunk
-type: Anomaly
-datamodel:
-- Endpoint_Processes
 description: This analytic will detect the execution of sdelete.exe attempting to
   delete potentially important files that may related to adversary or insider threats
   to destroy evidence or information sabotage. Sdelete is a SysInternals utility meant
@@ -43,47 +38,16 @@ references:
 - https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1485/T1485.md
 tags:
-  name: Sdelete Application Execution
   analytic_story:
   - Information Sabotage
-  asset_type: Endpoint
-  automated_detection_testing: null
   cis20: []
-  confidence: 70
-  context:
-  - Source:Endpoint
-  - Stage:Execution
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/sdelete/security.log
-  impact: 60
   kill_chain_phases:
   - Exploitation
-  message: Sdelete process $process_name$ executed on $dest_device_id$ attempting
-    to permanently delete files by $dest_user_id$.
   mitre_attack_id:
   - T1485
   - T1070.004
   - T1070
   nist: []
-  observable:
-  - name: dest_user_id
-    type: User
-    role:
-    - Victim
-  - name: dest_device_id
-    type: Hostname
-    role:
-    - Victim
-  - name: parent_process
-    type: Process
-    role:
-    - Parent Process
-  - name: process_name
-    type: Process
-    role:
-    - Child Process
-  product:
-  - Splunk Behavioral Analytics
   required_fields:
   - _time
   - dest
@@ -95,7 +59,6 @@ tags:
   - process_id
   - process_path
   - cmd_line
-  risk_score: 42
   security_domain: endpoint
   risk_severity: low
 test:

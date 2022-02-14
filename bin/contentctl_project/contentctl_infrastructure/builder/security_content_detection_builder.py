@@ -1,23 +1,19 @@
 import sys
+import re
 
 from pydantic import ValidationError
 
 from contentctl_core.application.builder.detection_builder import DetectionBuilder
 from contentctl_infrastructure.builder.yml_reader import YmlReader
 from contentctl_core.domain.entities.detection import Detection
-from contentctl_core.domain.entities.story import Story
-from contentctl_core.domain.entities.deployment import Deployment
-from contentctl_core.domain.entities.macro import Macro
-from contentctl_core.domain.entities.lookup import Lookup
-from contentctl_core.domain.entities.enums.enums import SecurityContentType
-from contentctl_core.domain.entities.enums.enums import AnalyticsType
-from contentctl_core.domain.entities.enums.enums import SecurityContentProduct
 from contentctl_core.domain.entities.security_content_object import SecurityContentObject
+from contentctl_core.domain.entities.macro import Macro
 
 
 class SecurityContentDetectionBuilder(DetectionBuilder):
     security_content_obj : SecurityContentObject
-    
+
+
     def setObject(self, path: str) -> None:
         yml_dict = YmlReader.load_file(path)
         yml_dict["tags"]["name"] = yml_dict["name"]
@@ -27,6 +23,7 @@ class SecurityContentDetectionBuilder(DetectionBuilder):
             print('Validation Error for file ' + path)
             print(e)
             sys.exit(1)
+
 
     def addDeployment(self, deployments: list) -> None:
         matched_deployments = []
@@ -159,9 +156,53 @@ class SecurityContentDetectionBuilder(DetectionBuilder):
                 return
 
 
+    def addMitreAttackEnrichment(self, attack_enrichment: dict) -> None:
+        if attack_enrichment:
+            if self.security_content_obj.tags.mitre_attack_id:
+                self.security_content_obj.tags.mitre_attack_techniques = []
+                self.security_content_obj.tags.mitre_attack_tactics = []
+                self.security_content_obj.tags.mitre_attack_groups = []
+                for mitre_attack_id in self.security_content_obj.tags.mitre_attack_id:
+                    if mitre_attack_id in attack_enrichment:
+                        self.security_content_obj.tags.mitre_attack_techniques.append(attack_enrichment[mitre_attack_id]["technique"])
+                        self.security_content_obj.tags.mitre_attack_tactics.extend(attack_enrichment[mitre_attack_id]["tactics"])
+                        self.security_content_obj.tags.mitre_attack_groups.extend(attack_enrichment[mitre_attack_id]["groups"])
+                    else:
+                        raise ValueError("mitre_attack_id " + mitre_attack_id + " doesn't exist for detecction " + self.security_content_obj.name)
+
+                self.security_content_obj.tags.mitre_attack_techniques = list(dict.fromkeys(self.security_content_obj.tags.mitre_attack_techniques))
+                self.security_content_obj.tags.mitre_attack_tactics = list(dict.fromkeys(self.security_content_obj.tags.mitre_attack_tactics))
+                self.security_content_obj.tags.mitre_attack_groups = list(dict.fromkeys(self.security_content_obj.tags.mitre_attack_groups))
+
+
+    def addMacros(self, macros: list) -> None:
+        macros_found = re.findall(r'`([^\s]+)`', self.security_content_obj.search)
+        macros_filtered = set()
+        self.security_content_obj.macros = []
+
+        for macro in macros_found:
+            if not '_filter' in macro and not 'drop_dm_object_name' in macro:
+                start = macro.find('(')
+                if start != -1:
+                    macros_filtered.add(macro[:start])
+                else:
+                    macros_filtered.add(macro)
+
+        for macro_name in macros_filtered:
+            for macro in macros:
+                if macro_name == macro.name:
+                    self.security_content_obj.macros.append(macro)
+
+        name = self.security_content_obj.name.replace(' ', '_').replace('-', '_').replace('.', '_').replace('/', '_').lower() + '_filter'
+        macro = Macro(name=name, definition='search *', description='Update this macro to limit the output results to filter out false positives.')
+        
+        self.security_content_obj.macros.append(macro)
+
+
     def reset(self) -> None:
         self.security_content_obj = None
 
 
     def getObject(self) -> SecurityContentObject:
         return self.security_content_obj
+

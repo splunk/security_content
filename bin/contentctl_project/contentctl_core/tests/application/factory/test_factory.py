@@ -1,4 +1,5 @@
 import os
+from re import A
 
 from contentctl_core.application.factory.factory import FactoryInputDto
 from contentctl_core.application.factory.factory import FactoryOutputDto
@@ -10,6 +11,7 @@ from contentctl_infrastructure.builder.security_content_story_builder import Sec
 from contentctl_core.domain.entities.enums.enums import SecurityContentProduct
 from contentctl_infrastructure.builder.security_content_investigation_builder import SecurityContentInvestigationBuilder
 from contentctl_infrastructure.builder.security_content_baseline_builder import SecurityContentBaselineBuilder
+from contentctl_infrastructure.builder.attack_enrichment import AttackEnrichment
 
 
 def test_factory_ESCU():
@@ -22,7 +24,8 @@ def test_factory_ESCU():
         SecurityContentStoryBuilder(),
         SecurityContentBaselineBuilder(),
         SecurityContentInvestigationBuilder(),
-        SecurityContentDirector()
+        SecurityContentDirector(),
+        AttackEnrichment.get_attack_lookup()
     )
 
     output_dto = FactoryOutputDto([],[],[],[],[],[],[],[],[])

@@ -14,6 +14,10 @@ from contentctl_core.domain.entities.enums.enums import DataModel
 from contentctl_core.domain.entities.detection_tags import DetectionTags
 from contentctl_core.domain.entities.deployment import Deployment
 from contentctl_core.domain.entities.unit_test import UnitTest
+from contentctl_core.domain.entities.macro import Macro
+from contentctl_core.domain.entities.baseline import Baseline
+from contentctl_core.domain.entities.playbook import Playbook
+
 class Detection(BaseModel, SecurityContentObject):
     name: str
     id: str
@@ -33,10 +37,11 @@ class Detection(BaseModel, SecurityContentObject):
     deployment: Deployment = None
     annotations: dict = None
     risk: list = None
-    playbooks: list = None
-    baselines: list = None
+    playbooks: list[Playbook] = None
+    baselines: list[Baseline] = None
     mappings: dict = None
     test: UnitTest = None
+    macros: list[Macro] = None
 
 
     @validator('name')

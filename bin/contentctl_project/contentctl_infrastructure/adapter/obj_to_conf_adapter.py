@@ -93,6 +93,10 @@ class ObjToConfAdapter(Adapter):
             macros)
 
 
+    def writeDeployments(self, deployments: list, output_folder: str) -> None:
+        pass
+
+
     def writeObjectsInPlace(self, objects: list) -> None:
         pass
 
