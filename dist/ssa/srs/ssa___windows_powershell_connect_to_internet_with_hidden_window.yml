@@ -103,5 +103,16 @@ tags:
   risk_score: 35
   risk_severity: low
   security_domain: endpoint
+test:
+  name: Windows Powershell Connect to Internet With Hidden Window Unit Test
+  tests:
+  - attack_data:
+    - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/hidden_powershell/hidden_windows-security.log
+      file_name: hidden_windows-security.log
+      source: WinEventLog:Security
+    description: Test Windows Powershell Connect to Internet With Hidden Window detections
+    file: endpoint/ssa___windows_powershell_connect_to_internet_with_hidden_window.yml
+    name: Windows Powershell Connect to Internet With Hidden Window
+    pass_condition: '@count_gt(0)'
 type: Anomaly
 version: 1
