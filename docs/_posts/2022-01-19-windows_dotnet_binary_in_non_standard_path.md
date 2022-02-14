@@ -116,6 +116,8 @@ False positives may be present and filtering may be required. Certain utilities 
 | 49.0 | 70 | 70 | An instance of $parent_process_name$ spawning $process_name$ from a non-standard path was identified on endpoint $dest$ by user $user$. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

@@ -89,6 +89,8 @@ takeown.exe is a normal windows application that may used by network operator.
 | 56.0 | 70 | 80 | A suspicious of execution of $process_name$ with process id $process_id$ and commandline $process$ to modify permission of directory or files in host $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

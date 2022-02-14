@@ -88,6 +88,8 @@ The false-positive rate will vary based on how you set the deviation_threshold a
 
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

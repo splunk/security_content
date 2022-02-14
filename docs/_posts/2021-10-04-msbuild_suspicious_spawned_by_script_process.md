@@ -92,6 +92,8 @@ False positives should be limited as developers do not spawn MSBuild via a WSH.
 | 49.0 | 70 | 70 | Msbuild.exe process spawned by $parent_process_name$ on $dest$ executed by $user$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

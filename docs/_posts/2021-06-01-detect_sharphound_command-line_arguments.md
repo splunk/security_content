@@ -113,6 +113,8 @@ False positives should be limited as the arguments used are specific to SharpHou
 | 24.0 | 30 | 80 | Possible SharpHound command-Line arguments identified on $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

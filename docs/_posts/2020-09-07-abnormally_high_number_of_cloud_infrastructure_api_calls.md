@@ -104,6 +104,8 @@ You must be ingesting your cloud infrastructure logs. You also must run the base
 | 15.0 | 30 | 50 | user $user$ has made $api_calls$ api calls, violating the dynamic threshold of $expected_upper_threshold$ with the following command $command$. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

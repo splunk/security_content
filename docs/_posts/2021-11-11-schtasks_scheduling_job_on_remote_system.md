@@ -95,6 +95,8 @@ Administrators may create scheduled tasks on remote systems, but this activity i
 | 63.0 | 70 | 90 | A schedule task process $process_name$ with remote job commandline $process$ in host $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

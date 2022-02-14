@@ -89,6 +89,8 @@ A file server may experience high-demand loads that could cause this analytic to
 
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

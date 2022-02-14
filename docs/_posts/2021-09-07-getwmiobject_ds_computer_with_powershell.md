@@ -91,6 +91,8 @@ Administrators or power users may use this command for troubleshooting.
 | 21.0 | 30 | 70 | Remote system discovery enumeration using WMI on $dest$ by $user$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference
