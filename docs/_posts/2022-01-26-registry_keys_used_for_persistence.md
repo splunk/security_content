@@ -103,6 +103,8 @@ There are many legitimate applications that must execute on system startup and w
 | 76.0 | 80 | 95 | A registry activity in $registry_path$ related to persistence in host $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

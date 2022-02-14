@@ -91,6 +91,8 @@ unknown
 | 81.0 | 90 | 90 | Kubernetes Scanner image pulled on host $host$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference
