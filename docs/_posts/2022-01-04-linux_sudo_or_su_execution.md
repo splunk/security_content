@@ -95,6 +95,8 @@ Administrator or network operator can execute this command. Please update the fi
 | 9.0 | 30 | 30 | A commandline $process$ that execute sudo or su in $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

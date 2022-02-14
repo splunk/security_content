@@ -94,6 +94,8 @@ Limited false positives may be present in small environments. Tuning may be requ
 | 49.0 | 70 | 70 | Suspicious searchprotocolhost.exe process with no command line arguments executed on $dest$ by $user$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

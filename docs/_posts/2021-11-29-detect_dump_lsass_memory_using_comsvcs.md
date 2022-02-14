@@ -85,6 +85,8 @@ False positives should be limited, filter as needed.
 | 70.0 | 70 | 100 | A dump of lsass.exe was attempted using comsvcs.dll on endpoint $dest_device_id$ by user $dest_device_user$. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference
