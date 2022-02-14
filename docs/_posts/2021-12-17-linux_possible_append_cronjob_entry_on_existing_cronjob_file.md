@@ -97,6 +97,8 @@ Administrator or network operator can use this commandline for automation purpos
 | 49.0 | 70 | 70 | A commandline $process$ that may modify cronjob file in $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

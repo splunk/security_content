@@ -83,6 +83,8 @@ Although unlikely, administrators may use event subscriptions for legitimate pur
 
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

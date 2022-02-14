@@ -87,6 +87,8 @@ network admin can resize the shadowstorage for valid purposes.
 | 72.0 | 80 | 90 | A process $parent_process_name$ attempt to resize shadow copy with commandline $process$ in host $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

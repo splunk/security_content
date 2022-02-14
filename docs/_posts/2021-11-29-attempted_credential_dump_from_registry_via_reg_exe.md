@@ -88,6 +88,8 @@ None identified.
 | 63.0 | 70 | 90 | An attempt to save registry keys storing credentials has been performed on $dest_device_id$ by $dest_user_id$ via process $process_name$. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

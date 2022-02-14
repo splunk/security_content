@@ -91,6 +91,8 @@ It is likely that the outbound Server Message Block (SMB) traffic is legitimate,
 
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

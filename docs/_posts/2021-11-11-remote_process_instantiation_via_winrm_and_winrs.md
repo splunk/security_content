@@ -96,6 +96,8 @@ Administrators may leverage WinRM and WinRs to start a process on remote systems
 | 54.0 | 90 | 60 | A process was started on a remote endpoint from $dest |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

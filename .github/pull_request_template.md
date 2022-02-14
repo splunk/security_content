@@ -8,3 +8,5 @@ For Reviewers:
 - [ ] Validate SPL logic.
 - [ ] Validate tags, description, and how to implement.
 - [ ] Validate name patches `<platform>_<mitre att&ck technique>_<short description>`
+- [ ] Verify references match analytic.
+- [ ] Is there an Atomic Test?

@@ -95,6 +95,8 @@ Administrator or network operator can create file in systemd folders for automat
 | 64.0 | 80 | 80 | A service file named as $file_path$ is created in systemd folder on $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference
