@@ -45,7 +45,7 @@ The following analytic identifies credential dumping using comsvcs.dll with `reg
 
 | from read_ssa_enriched_events() 
 | eval tenant=ucast(map_get(input_event, "_tenant"), "string", null), machine=ucast(map_get(input_event, "dest_device_id"), "string", null), process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), process=lower(ucast(map_get(input_event, "process"), "string", null)), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
-| where process_name LIKE "%rundll32.exe%" AND match_regex(process, /(?i)comsvcs.dll[,\s]+MiniDump/)=true 
+| where process IS NOT NULL AND process_name IS NOT NULL AND process_name LIKE "%rundll32.exe%" AND match_regex(process, /(?i)comsvcs.dll[,\s]+MiniDump/)=true 
 | eval start_time = timestamp, end_time = timestamp, entities = mvappend(machine), body=create_map(["event_id", event_id, "process_name", process_name, "process", process]) 
 | into write_ssa_detected_events();
 ```
@@ -84,6 +84,8 @@ False positives should be limited, filter as needed.
 | ----------- | ----------- |--------------|--------------|
 | 70.0 | 70 | 100 | A dump of lsass.exe was attempted using comsvcs.dll on endpoint $dest_device_id$ by user $dest_device_user$. |
 
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 

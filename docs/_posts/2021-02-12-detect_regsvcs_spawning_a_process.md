@@ -93,6 +93,8 @@ Although unlikely, limited instances of regasm.exe or regsvcs.exe may cause a fa
 | 64.0 | 80 | 80 | An instance of $parent_process_name$ spawning $process_name$  was identified on endpoint $dest$ by user $user$ typically not normal for this process. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

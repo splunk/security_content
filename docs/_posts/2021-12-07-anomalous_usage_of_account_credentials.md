@@ -88,6 +88,8 @@ Shared workstations can cause false positives
 | 6.0 | 20 | 30 | Multiple interactive logins detected on $device$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

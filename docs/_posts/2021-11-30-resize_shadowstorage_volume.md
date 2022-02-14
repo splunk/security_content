@@ -85,6 +85,8 @@ System administrators may resize the shadowstorage for valid purposes. Filter as
 | 64.0 | 80 | 80 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest_device_id$ by user $dest_user_id$ attempting to create a shadow copy to perform offline password cracking. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

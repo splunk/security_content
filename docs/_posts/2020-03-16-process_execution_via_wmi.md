@@ -86,6 +86,8 @@ Although unlikely, administrators may use wmi to execute commands for legitimate
 | 49.0 | 70 | 70 | A remote instance execution of wmic.exe that will spawn $parent_process_name$ in host $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

@@ -86,6 +86,8 @@ Unknown. Filter as needed.
 | 72.0 | 80 | 90 | $SourceImage$ was GrantedAccess open access to $TargetImage$ on endpoint $Computer$. This behavior is suspicious and related to PrintNightmare. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 #### CVE
 

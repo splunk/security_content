@@ -97,6 +97,8 @@ Administrator or network operator can use this commandline for automation purpos
 | 25.0 | 50 | 50 | A commandline $process$ that may create or start a service on $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

@@ -97,6 +97,8 @@ IT or network admin may create an document automation that will run shell script
 | 56.0 | 70 | 80 | an office product parent process $parent_process_name$ spawn child process $process_name$ in host $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

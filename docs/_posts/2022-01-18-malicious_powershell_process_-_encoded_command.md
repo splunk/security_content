@@ -99,6 +99,8 @@ System administrators may use this option, but it&#39;s not common.
 | 35.0 | 70 | 50 | Powershell.exe running potentially malicious encodede commands on $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

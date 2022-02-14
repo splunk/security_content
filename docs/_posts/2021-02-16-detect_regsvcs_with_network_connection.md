@@ -91,6 +91,8 @@ Although unlikely, limited instances of regsvcs.exe may cause a false positive. 
 | 80.0 | 80 | 100 | An instance of $process_name$ contacting a remote destination was identified on endpoint $Computer$ by user $user$. This behavior is not normal for $process_name$. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

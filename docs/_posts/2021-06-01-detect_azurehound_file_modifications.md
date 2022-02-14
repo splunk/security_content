@@ -110,6 +110,8 @@ False positives should be limited as the analytic is specific to a filename with
 | 63.0 | 70 | 90 | A file - $file_name$ was written to disk that is related to AzureHound, a AzureAD enumeration utility, has occurred on endpoint $dest$ by user $user$. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

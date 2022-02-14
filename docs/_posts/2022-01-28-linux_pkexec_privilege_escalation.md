@@ -94,6 +94,8 @@ False positives may be present, filter as needed.
 | 56.0 | 80 | 70 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ related to a local privilege escalation in polkit pkexec. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 #### CVE
 

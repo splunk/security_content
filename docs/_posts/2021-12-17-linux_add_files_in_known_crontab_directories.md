@@ -95,6 +95,8 @@ Administrator or network operator can create file in crontab folders for automat
 | 25.0 | 50 | 50 | a file $file_name$ is created in $file_path$ on $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference
