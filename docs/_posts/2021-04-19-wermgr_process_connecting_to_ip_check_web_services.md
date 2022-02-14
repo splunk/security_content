@@ -92,6 +92,8 @@ unknown
 | 56.0 | 70 | 80 | Wermgr.exe process connecting IP location web services on $ComputerName$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

@@ -80,6 +80,8 @@ Some legitimate applications use long command lines for installs or updates. You
 
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

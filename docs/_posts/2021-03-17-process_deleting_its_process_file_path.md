@@ -93,6 +93,8 @@ unknown
 | 60.0 | 60 | 100 | A process $Image$ tries to delete its process path in commandline $cmdline$ as part of defense evasion in host $Computer$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

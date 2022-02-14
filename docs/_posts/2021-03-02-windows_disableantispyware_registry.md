@@ -91,6 +91,8 @@ It is unusual to turn this feature off a Windows system since it is a default se
 | 24.0 | 30 | 80 | Windows DisableAntiSpyware registry key set to &#39;disabled&#39; on $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

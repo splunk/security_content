@@ -345,11 +345,14 @@ def generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, messag
         additional_detection_lookups = parse_and_add_lookups(detection_yaml['search'], lookups)
         if len(additional_detection_lookups) > 0:
             for lookup in additional_detection_lookups:
+                # skip duplicate lookups
+                if lookup in detection_lookups:
+                    continue
                 detection_lookups.append(lookup)
             detection_yaml['lookups'] = detection_lookups
         detection_yaml['lookups'] = detection_lookups
         
-          # sort macros and lookups
+        # sort macros and lookups
         sorted_macros = sorted(detection_yaml['macros'], key=lambda i: i['name'])
         detection_yaml['macros'] = sorted_macros
         sorted_lookups = sorted(detection_yaml['lookups'], key=lambda i: i['name'])

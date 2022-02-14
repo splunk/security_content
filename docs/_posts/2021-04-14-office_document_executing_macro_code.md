@@ -94,6 +94,8 @@ Normal Office Document macro use for automation
 | 35.0 | 70 | 50 | Office document executing a macro on $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

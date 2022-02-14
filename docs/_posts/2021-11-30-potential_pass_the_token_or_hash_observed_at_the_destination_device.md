@@ -98,6 +98,8 @@ Environments in which NTLM is used extremely rarely and for benign purposes (suc
 | 72.0 | 80 | 90 | Potential lateral movement and credential stealing via Pass the Token or Pass the Hash techniques. Operation is performed via credentials of the account $dest_user_id$ and observed by the destination device $dest_device_id$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference
