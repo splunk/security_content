@@ -91,6 +91,8 @@ It&#39;s possible that a user has legitimately deleted a network ACL.
 | 5.0 | 10 | 50 | User $user_arn$ from $src$ has sucessfully deleted network ACLs entry (eventName= $eventName$), such that the instance is accessible from anywhere |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

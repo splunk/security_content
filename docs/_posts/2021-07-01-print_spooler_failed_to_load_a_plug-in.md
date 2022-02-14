@@ -95,6 +95,8 @@ False positives are unknown and filtering may be required.
 | 72.0 | 80 | 90 | Suspicious printer spooler errors have occured on endpoint $ComputerName$ with EventCode $EventCode$. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 #### CVE
 

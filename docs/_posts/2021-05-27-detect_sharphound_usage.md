@@ -117,6 +117,8 @@ False positives should be limited as this is specific to a file attribute not us
 | 24.0 | 30 | 80 | Potential SharpHound binary identified on $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

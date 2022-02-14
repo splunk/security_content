@@ -95,6 +95,8 @@ There are many legitimate applications that leverage shim databases for compatib
 | 56.0 | 70 | 80 | A registry activity in $registry_path$ related to shim modication in host $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

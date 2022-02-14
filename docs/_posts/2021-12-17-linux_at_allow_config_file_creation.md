@@ -95,6 +95,8 @@ Administrator or network operator can create this file for automation purposes. 
 | 25.0 | 50 | 50 | A file $file_name$ is created in $file_path$ on $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

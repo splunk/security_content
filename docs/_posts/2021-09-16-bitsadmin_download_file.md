@@ -100,6 +100,8 @@ Limited false positives, however it may be required to filter based on parent pr
 | 49.0 | 70 | 70 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to download a file. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

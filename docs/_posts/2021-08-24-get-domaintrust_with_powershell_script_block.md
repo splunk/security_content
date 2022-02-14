@@ -87,6 +87,8 @@ It is possible certain system management frameworks utilize this command to gath
 | 12.0 | 30 | 40 | Suspicious PowerShell Get-DomainTrust was identified on endpoint $ComputerName$ by user $user$. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

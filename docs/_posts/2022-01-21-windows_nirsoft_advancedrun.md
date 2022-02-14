@@ -94,6 +94,8 @@ False positives should be limited as it is specific to AdvancedRun. Filter as ne
 | 60.0 | 60 | 100 | An instance of advancedrun.exe, $process_name$, was spawned by $parent_process_name$ on $dest$ by $user$. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

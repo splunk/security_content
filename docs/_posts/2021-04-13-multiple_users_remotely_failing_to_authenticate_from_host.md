@@ -95,6 +95,8 @@ A host failing to authenticate with multiple valid users against a remote host i
 | 49.0 | 70 | 70 | Potential password spraying attack on $ComputerName$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

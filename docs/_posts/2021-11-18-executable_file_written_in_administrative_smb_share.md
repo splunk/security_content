@@ -92,6 +92,8 @@ System Administrators may use looks like PsExec for troubleshooting or administr
 | 70.0 | 70 | 100 | $user$ dropped or created an executable file in known sensitive SMB share.  Share name=$Share_Name$, Target name=$Relative_Target_Name$, and Access mask=$Access_Mask$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

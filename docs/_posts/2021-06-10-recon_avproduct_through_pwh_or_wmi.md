@@ -84,6 +84,8 @@ network administrator may used this command for checking purposes
 | 56.0 | 70 | 80 | A suspicious powershell script contains AV recon command in $Message$ with EventCode $EventCode$ in host $ComputerName$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

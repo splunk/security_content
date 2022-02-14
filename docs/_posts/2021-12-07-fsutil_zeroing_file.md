@@ -84,6 +84,8 @@ System administrators or scripts may delete user accounts via this technique. Fi
 | 54.0 | 60 | 90 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest_device_id$ by user $dest_user_id$ atempting to perform file deletion. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference
