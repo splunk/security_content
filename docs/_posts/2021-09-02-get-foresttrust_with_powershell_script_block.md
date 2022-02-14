@@ -87,6 +87,8 @@ UPDATE_KNOWN_FALSE_POSITIVES
 | 12.0 | 30 | 40 | Suspicious PowerShell Get-ForestTrust was identified on endpoint $ComputerName$ by user $User$. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

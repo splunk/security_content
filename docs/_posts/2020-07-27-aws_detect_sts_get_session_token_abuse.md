@@ -85,6 +85,8 @@ Sts:GetSessionToken can be very noisy as in certain environments numerous calls 
 
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

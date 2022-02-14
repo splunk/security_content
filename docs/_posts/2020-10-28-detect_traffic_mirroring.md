@@ -91,6 +91,8 @@ This search will return false positives for any legitimate traffic captures by n
 
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

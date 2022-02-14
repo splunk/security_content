@@ -95,6 +95,8 @@ Highly possible Server Administrators will troubleshoot with ntdsutil.exe, gener
 | 50.0 | 100 | 50 | Active Directory NTDS export on $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

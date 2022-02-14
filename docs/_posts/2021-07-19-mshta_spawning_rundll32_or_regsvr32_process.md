@@ -99,6 +99,8 @@ limitted. this anomaly behavior is not commonly seen in clean host.
 | 56.0 | 70 | 80 | a mshta parent process $parent_process_name$ spawn child process $process_name$ in host $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

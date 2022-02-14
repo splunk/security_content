@@ -74,7 +74,6 @@ Note that `detect_spike_in_s3_bucket_deletion_filter` is a empty macro by defaul
 The SPL above uses the following Lookups:
 
 * [s3_deletion_baseline](https://github.com/splunk/security_content/blob/develop/lookups/s3_deletion_baseline.yml) with [data](https://github.com/splunk/security_content/blob/develop/lookups/s3_deletion_baseline.csv)
-* [s3_deletion_baseline](https://github.com/splunk/security_content/blob/develop/lookups/s3_deletion_baseline.yml) with [data](https://github.com/splunk/security_content/blob/develop/lookups/s3_deletion_baseline.csv)
 
 #### Required field
 * _time
@@ -97,6 +96,8 @@ Based on the values of`dataPointThreshold` and `deviationThreshold`, the false p
 
 
 
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 

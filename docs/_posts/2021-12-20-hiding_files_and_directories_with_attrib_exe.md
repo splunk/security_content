@@ -83,6 +83,8 @@ Some applications and users may legitimately use attrib.exe to interact with the
 | 72.0 | 80 | 90 | Attrib.exe with +h flag to hide files on $dest$ executed by $user$ is detected. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

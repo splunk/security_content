@@ -92,6 +92,8 @@ To successfully implement this search, you need to be ingesting logs with the pr
 | 64.0 | 80 | 80 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ executing specific Conti Ransomware related parameters. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

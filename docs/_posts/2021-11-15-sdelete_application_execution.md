@@ -94,6 +94,8 @@ False positives should be limited, filter as needed.
 | 42.0 | 60 | 70 | Sdelete process $process_name$ executed on $dest_device_id$ attempting to permanently delete files by $dest_user_id$. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

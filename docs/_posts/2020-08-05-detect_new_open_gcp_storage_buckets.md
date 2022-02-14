@@ -89,6 +89,8 @@ While this search has no known false positives, it is possible that a GCP admin 
 
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

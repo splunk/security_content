@@ -89,6 +89,8 @@ There may be a faulty config preventing legitmate users from accessing apps they
 
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference
