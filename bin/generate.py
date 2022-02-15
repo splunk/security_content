@@ -170,7 +170,7 @@ def generate_savedsearches_conf(detections, deployments, TEMPLATE_PATH, OUTPUT_P
     output_path = path.join(OUTPUT_PATH, 'default/savedsearches.conf')
     output = template.render(detections=detections, time=utc_time)
     with open(output_path, 'w') as f:
-        output = output.encode('ascii', 'ignore').decode('ascii')
+        output = output.encode('utf-8', 'ignore').decode('utf-8')
         f.write(output)
 
     return output_path
