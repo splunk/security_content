@@ -99,6 +99,8 @@ admin or power user may used this series of command.
 | 5.0 | 10 | 50 | Suspicious $process_name$ usage detected on endpoint $dest$ by user $user$. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

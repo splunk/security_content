@@ -77,6 +77,8 @@ Attach to policy can create a lot of noise. This search can be adjusted to provi
 
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

@@ -88,6 +88,8 @@ network operator may disable this feature of windows but not so common.
 
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

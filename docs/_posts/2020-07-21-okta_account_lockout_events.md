@@ -86,6 +86,8 @@ None. Account lockouts should be followed up on to determine if the actual user 
 
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

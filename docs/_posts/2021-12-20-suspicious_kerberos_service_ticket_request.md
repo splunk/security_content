@@ -96,6 +96,8 @@ We have tested this detection logic with ~2 million 4769 events and did not iden
 | 60.0 | 100 | 60 | A suspicious Kerberos Service Ticket was requested by $Account_Name$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 #### CVE
 

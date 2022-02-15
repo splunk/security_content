@@ -89,6 +89,8 @@ It is possible legitimate traffic can trigger this rule. Please investigate as a
 
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

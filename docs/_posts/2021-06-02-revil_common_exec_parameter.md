@@ -90,6 +90,8 @@ third party tool may have same command line parameters as revil ransomware.
 | 54.0 | 60 | 90 | A process $process_name$ with commandline $process$ related to revil ransomware in host $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

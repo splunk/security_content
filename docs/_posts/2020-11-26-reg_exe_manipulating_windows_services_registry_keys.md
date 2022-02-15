@@ -96,6 +96,8 @@ It is unusual for a service to be created or modified by directly manipulating t
 | 45.0 | 75 | 60 | A reg.exe process $process_name$ with commandline $process$ in host $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

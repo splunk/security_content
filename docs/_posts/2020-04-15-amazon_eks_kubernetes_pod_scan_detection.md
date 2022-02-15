@@ -87,6 +87,8 @@ Not all unauthenticated requests are malicious, but frequency, UA and source IPs
 
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference
