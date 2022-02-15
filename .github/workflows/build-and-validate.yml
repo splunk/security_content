@@ -145,7 +145,7 @@ jobs:
         run: |
           source venv/bin/activate
           python3 bin/contentctl_project/main/contentctl.py --path . generate --product ESCU --output dist/escu
-          python3 bin/contentctl_project/main/contentctl.py --path . generate --product SSA --output dist/ssa
+          python3 bin/contentctl_project/main/contentctl.py --path . generate --product BA --output dist/ba
           python3 bin/contentctl_project/main/contentctl.py --path . generate --product API --output dist/api
 
       # - name: Copy lookups .csv files
@@ -196,11 +196,7 @@ jobs:
             sed -i "s/\"version\": .*$/\"version\": \"$CONTENT_VERSION\"/g" dist/escu/app.manifest
             sed -i "s/version = .*$/version = $CONTENT_VERSION/g" dist/escu/default/content-version.conf
             tar -czf content-pack-build-escu.tar.gz dist/escu/*
-
-            # # update build number and version for ssa
-            # tar -czf content-pack-build-ssa.tar.gz dist/ssa/*
-            # update build number and version for ssa
-            tar -czf content-pack-build-ssa.tar.gz dist/ssa/*
+            tar -czf content-pack-build-ba.tar.gz dist/ba/*
 
       - name: Persist to Workspace
         uses: actions/upload-artifact@v2
@@ -208,7 +204,7 @@ jobs:
           name: content-pack-build
           path: |
             content-pack-build-escu.tar.gz
-            content-pack-build-ssa.tar.gz
+            content-pack-build-ba.tar.gz
 
 
   build-package:
@@ -252,22 +248,16 @@ jobs:
           source slim-latest/venv/bin/activate
           cd build
           tar -zxf content-pack-build-escu.tar.gz
-          tar -zxf content-pack-build-ssa.tar.gz
+          tar -zxf content-pack-build-ba.tar.gz
 
           mv dist/escu      DA-ESS-ContentUpdate
-          mv dist/ssa       SSA_Content
+          mv dist/ba        BA_Content
 
           slim package -o upload DA-ESS-ContentUpdate
 
           cp upload/DA-ESS-ContentUpdate-*.tar.gz DA-ESS-ContentUpdate-latest.tar.gz
           sha256sum DA-ESS-ContentUpdate-latest.tar.gz > checksum.txt
 
-          #Do this copy so that we conform as much as possible, and have to make 
-          #as few changes as possible, once we start generating this as a real,
-          #properly packaged app
-          # tar -zcf upload/SSA_Content-NO_SLIM.tar.gz SSA_Content  
-          # cp upload/SSA_Content-*.tar.gz SSA_Content-latest.tar.gz
-          # sha256sum SSA_Content-latest.tar.gz >> checksum.txt
 
       - name: store_artifacts
         uses: actions/upload-artifact@v2
@@ -282,8 +272,7 @@ jobs:
           name: content-latest
           path: |
             build/DA-ESS-ContentUpdate-latest.tar.gz
-            build/SSA_Content-latest.tar.gz
-            # build/checksum.txt
+            build/BA_Content-latest.tar.gz
 
 
   # #Everything below this line should ONLY run on a tag and nothing else
