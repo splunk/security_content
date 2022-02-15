@@ -89,6 +89,10 @@ def generate(args) -> None:
         print("ERROR: missing parameter -p/--product .")
         sys.exit(1)     
 
+    if args.product not in ['ESCU', 'BA', 'API']:
+        print("ERROR: invalid product. valid products are ESCU, BA or API.")
+        sys.exit(1)
+
     factory_input_dto = FactoryInputDto(
         os.path.abspath(args.path),
         SecurityContentBasicBuilder(),
