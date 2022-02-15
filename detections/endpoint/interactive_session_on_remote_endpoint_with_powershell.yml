@@ -10,8 +10,7 @@ description: The following analytic utilizes PowerShell Script Block Logging (Ev
   an interactive session on a remote endpoint leveraging the WinRM protocol. Red Teams
   and adversaries alike may abuse WinRM and `Enter-PSSession` for lateral movement
   and remote code execution.
-search: '
-  `powershell` EventCode=4104 (Message=""*Enter-PSSession*"" AND Message=""*-ComputerName*"") 
+search: '`powershell` EventCode=4104 (Message="*Enter-PSSession*" AND Message="*-ComputerName*") 
   | stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message ComputerName User 
   | `security_content_ctime(firstTime)` 
   | `interactive_session_on_remote_endpoint_with_powershell_filter` 

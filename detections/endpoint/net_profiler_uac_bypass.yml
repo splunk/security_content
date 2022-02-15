@@ -12,10 +12,9 @@ description: This search is to detect modification of registry to bypass UAC win
   the registry key and values in the detection area. It may happened that windows
   update some dll related to mmc.exe and add dll path in this registry. In this case
   filtering is needed.
-search: '
-  "| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime 
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime 
   from datamodel=Endpoint.Registry where 
-  Registry.registry_path= ""*\\Environment\\COR_PROFILER_PATH"" Registry.registry_value_data = ""*.dll"" 
+  Registry.registry_path= "*\\Environment\\COR_PROFILER_PATH" Registry.registry_value_data = "*.dll" 
   by Registry.registry_path Registry.registry_key_name Registry.registry_value_data Registry.dest 
   | `drop_dm_object_name(Registry)` 
   | `security_content_ctime(firstTime)` 

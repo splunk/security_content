@@ -11,8 +11,7 @@ description: This search is to detect a suspicious rundll32.exe process having a
   malware where the rundll32 that execute its payload will contact amazon.com to check
   internet connect and to communicate to its C&C server to download config and other
   file component.
-search: '
-  `sysmon` EventCode=22 process_name="rundll32.exe" 
+search: '`sysmon` EventCode=22 process_name="rundll32.exe" 
   | stats count min(_time) as firstTime max(_time) as lastTime by Image QueryName QueryStatus ProcessId  Computer 
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)` 

@@ -8,8 +8,7 @@ datamodel: []
 description: This search looks for AWS CloudTrail events and analyse the amount of
   eventNames which starts with Describe by a single user. This indicates that this
   user scans the configuration of your AWS cloud environment.
-search: '
-  `cloudtrail` eventName=Describe* OR eventName=List* OR eventName=Get*  |
+search: '`cloudtrail` eventName=Describe* OR eventName=List* OR eventName=Get*  |
   stats dc(eventName) as dc_events min(_time) as firstTime max(_time) as lastTime
   values(eventName) as eventName values(src) as src values(userAgent) as userAgent
   by user userIdentity.arn | where dc_events > 50 | `security_content_ctime(firstTime)`
