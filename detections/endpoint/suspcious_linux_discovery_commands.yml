@@ -19,6 +19,7 @@ known_false_positives: Unless an administrator is using these commands to troubl
   or audit a system, the execution of these commands should be monitored.
 references:
 - https://attack.mitre.org/matrices/enterprise/linux/
+- https://attack.mitre.org/techniques/T1059/004/
 - https://github.com/IvanGlinkin/AutoSUID
 - https://github.com/carlospolop/PEASS-ng/tree/master/linPEAS
 - https://github.com/rebootuser/LinEnum
