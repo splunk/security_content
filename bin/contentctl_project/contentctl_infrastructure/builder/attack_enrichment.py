@@ -25,8 +25,9 @@ class AttackEnrichment():
                             apt_groups.append(group['name'])
 
             tactics = []
-            for tactic in technique['tactic']:
-                tactics.append(tactic.replace('-',' ').title())
+            if ('tactic' in technique):
+                for tactic in technique['tactic']:
+                    tactics.append(tactic.replace('-',' ').title())
 
             if not ('revoked' in technique):
                 attack_lookup[technique['technique_id']] = {'technique': technique['technique'], 'tactics': tactics, 'groups': apt_groups}
