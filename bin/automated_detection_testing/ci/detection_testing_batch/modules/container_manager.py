@@ -1,4 +1,5 @@
 from collections import OrderedDict
+from tabnanny import check
 import docker
 import datetime
 import docker.types
@@ -42,6 +43,9 @@ class ContainerManager:
         interactive:bool=False
 
     ):
+        #Used to determine whether or not we should wait for container threads to finish when summarizing
+        self.all_tests_completed = False
+
         self.synchronization_object = test_driver.TestDriver(
             test_list, num_containers, summarization_reproduce_failure_config)
 
@@ -99,13 +103,22 @@ class ContainerManager:
 
 
     def run_test(self)->bool:
-        self.run_containers()
         self.run_status_thread()
-        for container in self.containers:
-            container.thread.join()
-            print(container.get_container_summary())
-        print("Waiting for next summary thread printout to finish...")
+        self.run_containers()
         self.summary_thread.join()
+        
+        
+            
+            
+        for container in self.containers:
+            if self.all_tests_completed == True:
+                container.thread.join()
+            elif self.all_tests_completed == False:
+                #For some reason, we stopped early.  So don't wait on the child threads to finish. Don't join,
+                #these threads may be stuck in their setup loops. Continue on.
+                pass
+            
+            print(container.get_container_summary())
         print("All containers completed testing!")
         
         
@@ -216,16 +229,19 @@ class ContainerManager:
         password = "".join(password_list)
         return password
 
-    def queue_status_thread(self, status_interval:int=60)->None:
+    def queue_status_thread(self, status_interval:int=60, num_steps:int=10)->None:
 
         while True:
-            if self.synchronization_object.checkContainerFailure():
-                print("One of the containers has shut down prematurely and generated an exception. Shut down the rest of the containers.")
-                for container in self.containers:
-                    container.stopContainer()
-                print("All containers stopped")
-                
-                return None
+            #This for loop lets us run the summarize print less often, but check for failure more often
+            for chunk in range(0, status_interval, int(status_interval/num_steps)):
+                if self.synchronization_object.checkContainerFailure():
+                    print("One of the containers has shut down prematurely or the test was halted. Ensuring all containers are stopped.")
+                    for container in self.containers:
+                        container.stopContainer()
+                    print("All containers stopped")
+                    self.all_tests_completed = False
+                    return None
+                time.sleep(status_interval/num_steps)
 
             at_least_one_container_has_started_running_tests = False
             for container in self.containers:
@@ -234,9 +250,9 @@ class ContainerManager:
                     break
             if self.synchronization_object.summarize(testing_currently_active = at_least_one_container_has_started_running_tests) == False:
                 #There are no more tests to run, so we can return from this thread
-                
+                self.all_tests_completed = True
                 return None
-            time.sleep(status_interval)
+            
 
     def setup_image(self, reuse_images: bool, container_name: str) -> None:
         client = docker.client.from_env()

@@ -20,6 +20,8 @@ from tempfile import mkdtemp
 from timeit import default_timer as timer
 from typing import Union
 from urllib.parse import urlparse
+import signal
+
 
 import docker
 import requests
@@ -49,6 +51,9 @@ authorizations_file_container_path = "/opt/splunk/etc/system/local"
 CONTAINER_APP_DIRECTORY = "apps"
 
 MAX_RECOMMENDED_CONTAINERS_BEFORE_WARNING = 2
+
+
+
 
 
 def download_file_from_http(url:str, destination_file:str, overwrite_file:bool=False)->None:
@@ -451,6 +456,7 @@ def main(args: list[str]):
     if ES_APP_NAME in settings['apps'] and settings['apps'][ES_APP_NAME]['local_path'] is not None:
         # Using a pregenerated ESCU, no need to build it
         pass
+
     elif ES_APP_NAME not in settings['apps']:
         print(f"{ES_APP_NAME} was not found in {settings['apps'].keys()}.  We assume this is an error and shut down.\n\t"
               "Quitting...", file=sys.stderr)
@@ -499,6 +505,39 @@ def main(args: list[str]):
     
 
     
+    def shutdown_signal_handler_setup(sig, frame):
+        
+        print(f"Signal {sig} received... stopping all [{settings['num_containers']}] containers and shutting down...")
+        shutdown_client = docker.client.from_env()
+        errorCount = 0
+        for container_number in range(settings['num_containers']):
+            container_name = settings['local_base_container_name']%container_number
+            print(f"Shutting down {container_name}...", file=sys.stderr, end='')
+            sys.stdout.flush()
+            try:
+                container = shutdown_client.containers.get(container_name)
+                #Note that stopping does not remove any of the volumes or logs,
+                #so stopping can be useful if we want to debug any container failure 
+                container.stop(timeout=10)
+                print("done", file=sys.stderr)
+            except Exception as e:
+                print(f"Error trying to shut down {container_name}. It may have already shut down.  Stop it youself with 'docker containter stop {container_name}", sys.stderr)
+                errorCount += 1
+        if errorCount == 0:
+            print("All containers shut down successfully", file=sys.stderr)        
+        else:
+            print(f"{errorCount} containers may still be running. Find out what is running with:\n\t'docker container ls'\nand shut them down with\n\t'docker container stop CONTAINER_NAME' ", file=sys.stderr)
+        
+        print("Quitting...",file=sys.stderr)
+        #We must use os._exit(1) because sys.exit(1) actually generates an exception which can be caught! And then we don't Quit!
+        os._exit(1)
+        
+
+            
+
+    #Setup requires a different teardown handler than during execution
+    signal.signal(signal.SIGINT, shutdown_signal_handler_setup)
+
     try:
         cm = container_manager.ContainerManager(all_test_files,
                                                 FULL_DOCKER_HUB_CONTAINER_NAME,
@@ -523,6 +562,15 @@ def main(args: list[str]):
         print("Error - unrecoverable error trying to set up the containers: [%s].\n\tQuitting..."%(str(e)),file=sys.stderr)
         sys.exit(1)
 
+    def shutdown_signal_handler_execution(sig, frame):
+        #Set that a container has failed which will gracefully stop the other containers.
+        #This way we get our full cleanup routine, too!
+        print("Got a signal to shut down. Shutting down all containers, please wait...", file=sys.stderr)
+        cm.synchronization_object.containerFailure()
+    
+    #Update the signal handler
+
+    signal.signal(signal.SIGINT, shutdown_signal_handler_execution)
     try:
         result = cm.run_test()
     except Exception as e:
@@ -539,7 +587,10 @@ def main(args: list[str]):
         sys.exit(0)
     else:
         print("Test Execution Failed - review the logs for more details")
-        sys.exit(1)
+        #Because one or more of the threads could be stuck in a certain setup loop, like
+        #trying to copy files to a containers (which igonores errors), we must os._exit
+        #instead of sys.exit
+        os._exit(1)
 
 
 if __name__ == "__main__":

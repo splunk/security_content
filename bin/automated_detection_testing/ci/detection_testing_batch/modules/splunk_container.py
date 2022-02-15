@@ -71,6 +71,7 @@ class SplunkContainer:
         self.num_tests_completed = 0
 
 
+
     def prepare_apps_path(
         self,
         apps: OrderedDict,
@@ -318,10 +319,36 @@ class SplunkContainer:
             time.sleep(seconds_between_attempts)
 
     
-    @wrapt_timeout_decorator.timeout(MAX_CONTAINER_START_TIME_SECONDS, timeout_exception=RuntimeError)
+    #@wrapt_timeout_decorator.timeout(MAX_CONTAINER_START_TIME_SECONDS, timeout_exception=RuntimeError)
     def setup_container(self):
-
+        
         self.container.start()
+
+
+        # def shutdown_signal_handler(sig, frame):
+        #     shutdown_client = docker.client.from_env()
+        #     errorCount = 0
+        
+        #     print(f"Shutting down {self.container_name}...", file=sys.stderr)
+        #     try:
+        #         container = shutdown_client.containers.get(self.container_name)
+        #         #Note that stopping does not remove any of the volumes or logs,
+        #         #so stopping can be useful if we want to debug any container failure 
+        #         container.stop(timeout=10)
+        #         print(f"{self.container_name} shut down successfully", file=sys.stderr)        
+        #     except Exception as e:
+        #         print(f"Error trying to shut down {self.container_name}. It may have already shut down.  Stop it youself with 'docker containter stop {self.container_name}", sys.stderr)
+            
+            
+        #     #We must use os._exit(1) because sys.exit(1) actually generates an exception which can be caught! And then we don't Quit!
+        #     import os
+        #     os._exit(1)
+                
+
+                    
+        # import signal
+        # signal.signal(signal.SIGINT, shutdown_signal_handler)
+
         # By default, first copy the index file then the datamodel file
         for file_description, file_dict in self.files_to_copy_to_container.items():
             self.extract_tar_file_to_container(
@@ -423,7 +450,7 @@ class SplunkContainer:
                     % (detection_to_test, str(e))
                 )
                 
-                traceback.print_exc()
+                #traceback.print_exc()
                 #import pdb
                 #pdb.set_trace()
                 # Fill in all the "Empty" fields with default values. Otherwise, we will not be able to 
