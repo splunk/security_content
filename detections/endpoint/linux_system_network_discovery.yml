@@ -41,6 +41,13 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_id
   security_domain: endpoint
   impact: 30
   confidence: 30 
