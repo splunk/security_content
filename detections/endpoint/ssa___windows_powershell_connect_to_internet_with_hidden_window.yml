@@ -5,7 +5,7 @@ date: '2022-02-11'
 author: Jose Hernandez, David Dorsey, Michael Haag Splunk
 type: Anomaly
 datamodel:
-- Endpoint
+- Endpoint_Processes
 description: The following hunting analytic identifies PowerShell commands utilizing
   the WindowStyle parameter to hide the window on the compromised endpoint. This combination
   of command-line options is suspicious because it is overriding the default PowerShell
