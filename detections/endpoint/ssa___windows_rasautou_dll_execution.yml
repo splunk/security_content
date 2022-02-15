@@ -5,7 +5,7 @@ date: '2022-02-15'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint_Processes
 description: The following analytic identifies the Windows Windows Remote Auto Dialer, rasautou.exe executing an arbitrary DLL. This technique is used to execute arbitrary shellcode or DLLs via the rasautou.exe LOLBin capability. 
   During triage, review parent and child process behavior including file and image loads.
 search: '| from read_ssa_enriched_events() | where "Endpoint_Processes" IN(_datamodels)
