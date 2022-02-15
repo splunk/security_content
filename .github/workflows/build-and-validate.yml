@@ -128,6 +128,7 @@ jobs:
 
       - name: Install System Packages
         run: |
+          sudo apt upgrade -qq
           sudo apt update -qq
           sudo apt install jq -qq
 
