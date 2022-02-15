@@ -128,7 +128,6 @@ jobs:
 
       - name: Install System Packages
         run: |
-          sudo apt upgrade -qq
           sudo apt update -qq
           sudo apt install jq -qq
 
@@ -141,7 +140,7 @@ jobs:
           source venv/bin/activate
           python3 -m pip install --upgrade pip
           python3 -m pip install wheel
-          python3 -m pip install -q -r requirements.txt
+          python3 -m pip install -q -r bin/contentctl_project/requirements.txt
 
       - name: Run Generate
         run: |
