@@ -139,7 +139,7 @@ jobs:
           source venv/bin/activate
           python3 -m pip install --upgrade pip
           python3 -m pip install wheel
-          python3 -m pip install -q -r bin/contentctl_project/requirements.txt
+          python3 -m pip install -r bin/contentctl_project/requirements.txt
           python3 bin/contentctl_project/main/contentctl.py --path . generate --product ESCU --output dist/escu
           python3 bin/contentctl_project/main/contentctl.py --path . generate --product BA --output dist/ba
           python3 bin/contentctl_project/main/contentctl.py --path . generate --product API --output dist/api
