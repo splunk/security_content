@@ -145,8 +145,11 @@ jobs:
       - name: Run Generate
         run: |
           source venv/bin/activate
+
           python3 bin/contentctl_project/main/contentctl.py --path . generate --product ESCU --output dist/escu
+          
           python3 bin/contentctl_project/main/contentctl.py --path . generate --product BA --output dist/ba
+          
           python3 bin/contentctl_project/main/contentctl.py --path . generate --product API --output dist/api
 
       # - name: Copy lookups .csv files
