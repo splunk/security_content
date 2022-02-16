@@ -126,23 +126,19 @@
                 "Suckfly",
                 "Poseidon Group",
                 "Axiom"
-            ],
-            "cve": null
+            ]
         },
         "macros": [
             {
                 "name": "process_reg",
                 "definition": "(Processes.process_name=reg.exe OR Processes.original_file_name=reg.exe)",
-                "description": "Matches the process with its original file name, data for this macro came from https://strontic.github.io/",
-                "arguments": null
+                "description": "Matches the process with its original file name, data for this macro came from https://strontic.github.io/"
             },
             {
                 "name": "attempted_credential_dump_from_registry_via_reg_exe_filter",
                 "definition": "search *",
-                "description": "Update this macro to limit the output results to filter out false positives.",
-                "arguments": null
+                "description": "Update this macro to limit the output results to filter out false positives."
             }
-        ],
-        "cve_enrichment": null
+        ]
     }
 ]

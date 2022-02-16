@@ -14,7 +14,7 @@ class ObjToJsonAdapter(Adapter):
     def writeDetections(self, detections: list, output_folder: str) -> None:
         obj_array = []
         for detection in detections:
-            obj_array.append(detection.dict(
+            obj_array.append(detection.dict(exclude_none=True, 
                 exclude =
                 {
                     "deprecated": True,
@@ -25,7 +25,8 @@ class ObjToJsonAdapter(Adapter):
                     "baselines": True,
                     "mappings": True,
                     "test": True,
-                    "deployment": True
+                    "deployment": True,
+                    "cve_enrichment": True
                 }
             ))
         
