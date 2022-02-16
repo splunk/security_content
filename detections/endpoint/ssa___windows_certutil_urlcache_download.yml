@@ -1,18 +1,18 @@
-name: Windows CertUtil VerifyCtl Download
-id: 9ac29c40-8f6b-11ec-b19a-acde48001122
+name: Windows CertUtil URLCache Download
+id: 8cb1ad38-8f6d-11ec-87a3-acde48001122
 version: 1
 date: '2022-02-16'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
-- Endpoint_Processes
-description: 'Certutil.exe may download a file from a remote destination using `-VerifyCtl`.
+- Endpoint
+description: Certutil.exe may download a file from a remote destination using `-urlcache`.
   This behavior does require a URL to be passed on the command-line. In addition,
   `-f` (force) and `-split` (Split embedded ASN.1 elements, and save to files) will
   be used. It is not entirely common for `certutil.exe` to contact public IP space.
-  \ During triage, capture any files on disk and review. Review the reputation of
-  the remote IP or domain in question. Using `-VerifyCtl`, the file will either be
-  written to the current working directory or `%APPDATA%\..\LocalLow\Microsoft\CryptnetUrlCache\Content\<hash>`. '
+  However, it is uncommon for `certutil.exe` to write files to world writeable paths.\
+  During triage, capture any files on disk and review. Review the reputation of the
+  remote IP or domain in question.
 search: '| from read_ssa_enriched_events() | where "Endpoint_Processes" IN(_datamodels)
   | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
   cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event,
@@ -20,7 +20,7 @@ search: '| from read_ssa_enriched_events() | where "Endpoint_Processes" IN(_data
   "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"),
   "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null)
   | where cmd_line IS NOT NULL AND process_name IS NOT NULL AND process_name="certutil.exe"
-  AND (like (cmd_line, "%verifyctl%") AND like (cmd_line, "%split%")) OR (like (cmd_line, "%verifyctl%"))
+  AND (like (cmd_line, "%urlcache%") AND like (cmd_line, "%split%")) OR (like (cmd_line, "%urlcache%"))
   | eval start_time=timestamp,
   end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"),
   "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null))
@@ -34,9 +34,8 @@ known_false_positives: Limited false positives in most environments, however tun
   as needed based on parent-child relationship or network connection.
 references:
 - https://attack.mitre.org/techniques/T1105/
-- https://www.hexacorn.com/blog/2020/08/23/certutil-one-more-gui-lolbin/
-- https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/cc732443(v=ws.11)#-verifyctl
 - https://www.avira.com/en/blog/certutil-abused-by-attackers-to-spread-threats
+- https://www.fireeye.com/blog/threat-research/2019/10/certutil-qualms-they-came-to-drop-fombs.html
 tags:
   analytic_story:
   - Ingress Tool Transfer
