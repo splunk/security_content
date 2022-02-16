@@ -181,3 +181,13 @@ def test_macros_enrichment():
     
     assert detection.macros[0].name == 'process_reg'
     assert detection.macros[1].name == 'attempted_credential_dump_from_registry_via_reg_exe_filter'
+
+
+def test_add_cve():
+    security_content_builder = SecurityContentDetectionBuilder()
+    security_content_builder.setObject(os.path.join(os.path.dirname(__file__), 
+        'test_data/detection/spoolsv_suspicious_loaded_modules.yml'))
+    security_content_builder.addCve()
+    detection = security_content_builder.getObject()
+    
+    assert detection.cve_enrichment == [{'id': 'CVE-2021-34527', 'cvss': 9.0, 'summary': 'Windows Print Spooler Remote Code Execution Vulnerability'}]

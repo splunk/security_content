@@ -1,6 +1,7 @@
 attackcti
 jinja2
 mock
+pycvesearch
 pydantic
 pytest
 PyYAML

@@ -126,7 +126,8 @@
                 "Suckfly",
                 "Poseidon Group",
                 "Axiom"
-            ]
+            ],
+            "cve": null
         },
         "macros": [
             {
@@ -141,6 +142,7 @@
                 "description": "Update this macro to limit the output results to filter out false positives.",
                 "arguments": null
             }
-        ]
+        ],
+        "cve_enrichment": null
     }
 ]

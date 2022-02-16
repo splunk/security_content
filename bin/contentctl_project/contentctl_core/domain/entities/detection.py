@@ -42,6 +42,7 @@ class Detection(BaseModel, SecurityContentObject):
     mappings: dict = None
     test: UnitTest = None
     macros: list[Macro] = None
+    cve_enrichment: list = None
 
 
     @validator('name')

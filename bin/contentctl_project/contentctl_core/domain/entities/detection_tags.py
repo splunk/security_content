@@ -26,6 +26,7 @@ class DetectionTags(BaseModel):
     mitre_attack_techniques: list = None
     mitre_attack_tactics: list = None
     mitre_attack_groups: list = None
+    cve: list = None
 
 
     @validator('cis20')

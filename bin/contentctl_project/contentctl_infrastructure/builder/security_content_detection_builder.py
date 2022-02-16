@@ -8,6 +8,7 @@ from contentctl_infrastructure.builder.yml_reader import YmlReader
 from contentctl_core.domain.entities.detection import Detection
 from contentctl_core.domain.entities.security_content_object import SecurityContentObject
 from contentctl_core.domain.entities.macro import Macro
+from contentctl_infrastructure.builder.cve_enrichment import CveEnrichment
 
 
 class SecurityContentDetectionBuilder(DetectionBuilder):
@@ -197,6 +198,11 @@ class SecurityContentDetectionBuilder(DetectionBuilder):
         macro = Macro(name=name, definition='search *', description='Update this macro to limit the output results to filter out false positives.')
         
         self.security_content_obj.macros.append(macro)
+
+
+    def addCve(self) -> None:
+        for cve in self.security_content_obj.tags.cve:
+            self.security_content_obj.cve_enrichment.append(CveEnrichment.enrich_cve(cve))
 
 
     def reset(self) -> None:
