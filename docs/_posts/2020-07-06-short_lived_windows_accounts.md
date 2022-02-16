@@ -25,7 +25,7 @@ tags:
 
 This search detects accounts that were created and deleted in a short time period.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
 - **Last Updated**: 2020-07-06
@@ -35,8 +35,8 @@ This search detects accounts that were created and deleted in a short time perio
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1136.001](https://attack.mitre.org/techniques/T1136/001/) | Local Account | Persistence |
 
 | [T1136](https://attack.mitre.org/techniques/T1136/) | Create Account | Persistence |
@@ -55,12 +55,12 @@ This search detects accounts that were created and deleted in a short time perio
 | `short_lived_windows_accounts_filter`
 ```
 
-#### Associated Analytic Story
-* [Account Monitoring and Controls](/stories/account_monitoring_and_controls)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-This search requires you to have enabled your Group Management Audit Logs in your Local Windows Security Policy and be ingesting those logs.  More information on how to enable them can be found here: http://whatevernetworks.com/auditing-group-membership-changes-in-active-directory/
+Note that `short_lived_windows_accounts_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -69,11 +69,18 @@ This search requires you to have enabled your Group Management Audit Logs in you
 * All_Changes.dest
 
 
-#### Kill Chain Phase
-
+#### How To Implement
+This search requires you to have enabled your Group Management Audit Logs in your Local Windows Security Policy and be ingesting those logs.  More information on how to enable them can be found here: http://whatevernetworks.com/auditing-group-membership-changes-in-active-directory/
 
 #### Known False Positives
 It is possible that an administrator created and deleted an account in a short time period.  Verifying activity with an administrator is advised.
+
+#### Associated Analytic story
+* [Account Monitoring and Controls](/stories/account_monitoring_and_controls)
+
+
+#### Kill Chain Phase
+
 
 
 #### RBA
@@ -82,6 +89,8 @@ It is possible that an administrator created and deleted an account in a short t
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | A user account created or delete shortly in host $dest$ |
 
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 

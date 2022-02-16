@@ -24,7 +24,7 @@ tags:
 
 The following analytic utilizes PowerShell Script Block Logging (EventCode=4104) to identify the execution of the `Get-DomainUser` commandlet. `GetDomainUser` is part of PowerView, a PowerShell tool used to perform enumeration on Windows domains. Red Teams and adversaries alike may use PowerView to enumerate domain users for situational awareness and Active Directory Discovery.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-08-24
@@ -34,8 +34,8 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1087.002](https://attack.mitre.org/techniques/T1087/002/) | Domain Account | Discovery |
 
 | [T1087](https://attack.mitre.org/techniques/T1087/) | Account Discovery | Discovery |
@@ -50,12 +50,12 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 | `get_domainuser_with_powershell_script_block_filter`
 ```
 
-#### Associated Analytic Story
-* [Active Directory Discovery](/stories/active_directory_discovery)
+#### Macros
+The SPL above uses the following Macros:
+* [powershell](https://github.com/splunk/security_content/blob/develop/macros/powershell.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-
-#### How To Implement
-The following Hunting analytic requires PowerShell operational logs to be imported. Modify the powershell macro as needed to match the sourcetype or add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
+Note that `get_domainuser_with_powershell_script_block_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -65,12 +65,19 @@ The following Hunting analytic requires PowerShell operational logs to be import
 * User
 
 
-#### Kill Chain Phase
-* Reconnaissance
-
+#### How To Implement
+The following Hunting analytic requires PowerShell operational logs to be imported. Modify the powershell macro as needed to match the sourcetype or add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
 
 #### Known False Positives
 Administrators or power users may use this command for troubleshooting.
+
+#### Associated Analytic story
+* [Active Directory Discovery](/stories/active_directory_discovery)
+
+
+#### Kill Chain Phase
+* Reconnaissance
+
 
 
 #### RBA
@@ -79,6 +86,8 @@ Administrators or power users may use this command for troubleshooting.
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | powershell process having commandline $Message$ for user enumeration |
 
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 

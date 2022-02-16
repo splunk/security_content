@@ -38,7 +38,7 @@ tags:
 
 The following analytic assists with identifying a PowerShell process spawned as a child or grand child process of commonly abused processes during lateral movement techniques including `services.exe`, `wmiprsve.exe`, `svchost.exe`, `wsmprovhost.exe` and `mmc.exe`. Legitimate Windows features such as the Service Control Manager, Windows Management Instrumentation, Task Scheduler, Windows Remote Management and the DCOM protocol can be abused to start a process on a remote endpoint. Looking for PowerShell spawned out of this processes may reveal a lateral movement attack. Red Teams and adversaries alike may abuse these services during a breach for lateral movement and remote code execution.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-11-29
@@ -48,8 +48,8 @@ The following analytic assists with identifying a PowerShell process spawned as 
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1021](https://attack.mitre.org/techniques/T1021/) | Remote Services | Lateral Movement |
 
 | [T1021.003](https://attack.mitre.org/techniques/T1021/003/) | Distributed Component Object Model | Lateral Movement |
@@ -75,13 +75,12 @@ The following analytic assists with identifying a PowerShell process spawned as 
 | `possible_lateral_movement_powershell_spawn_filter`
 ```
 
-#### Associated Analytic Story
-* [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
-* [Malicious PowerShell](/stories/malicious_powershell)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints.
+Note that `possible_lateral_movement_powershell_spawn_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -98,13 +97,21 @@ To successfully implement this search, you need to be ingesting logs with the pr
 * Processes.parent_process_id
 
 
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints.
+
+#### Known False Positives
+Legitimate applications may spawn PowerShell as a child process of the the identified processes. Filter as needed.
+
+#### Associated Analytic story
+* [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
+* [Malicious PowerShell](/stories/malicious_powershell)
+
+
 #### Kill Chain Phase
 * Lateral Movement
 * Malicious PowerShell
 
-
-#### Known False Positives
-Legitimate applications may spawn PowerShell as a child process of the the identified processes. Filter as needed.
 
 
 #### RBA
@@ -113,6 +120,8 @@ Legitimate applications may spawn PowerShell as a child process of the the ident
 | ----------- | ----------- |--------------|--------------|
 | 45.0 | 90 | 50 | A PowerShell process was spawned as a child process of typically abused processes on $dest$ |
 
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 

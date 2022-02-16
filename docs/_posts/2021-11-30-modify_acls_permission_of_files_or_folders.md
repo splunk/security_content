@@ -21,7 +21,7 @@ tags:
 
 This analytic identifies suspicious modification of ACL permission to a files or folder to make it available to everyone or to a specific user. This technique may be used by the adversary to evade ACLs or protected files access. This changes is commonly configured by the file or directory owner with appropriate permission. This behavior raises suspicion if this command is seen on an endpoint utilized by an account with no permission to do so.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2021-11-30
@@ -31,8 +31,8 @@ This analytic identifies suspicious modification of ACL permission to a files or
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1222](https://attack.mitre.org/techniques/T1222/) | File and Directory Permissions Modification | Defense Evasion |
 
 #### Search
@@ -46,12 +46,10 @@ This analytic identifies suspicious modification of ACL permission to a files or
 | into write_ssa_detected_events();
 ```
 
-#### Associated Analytic Story
-* [XMRig](/stories/xmrig)
+#### Macros
+The SPL above uses the following Macros:
 
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed cacls.exe may be used.
+Note that `modify_acls_permission_of_files_or_folders_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -64,12 +62,19 @@ To successfully implement this search, you need to be ingesting logs with the pr
 * cmd_line
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed cacls.exe may be used.
 
 #### Known False Positives
 System administrators may use this windows utility. filter is needed.
+
+#### Associated Analytic story
+* [XMRig](/stories/xmrig)
+
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA
@@ -78,6 +83,8 @@ System administrators may use this windows utility. filter is needed.
 | ----------- | ----------- |--------------|--------------|
 | 35.0 | 50 | 70 | A cacls process $process_name$ with commandline $cmd_line$ try to modify a permission of a file or directory in host $dest_device_id$ |
 
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 

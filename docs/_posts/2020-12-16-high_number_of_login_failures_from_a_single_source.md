@@ -26,7 +26,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 This search will detect more than 5 login failures in Office365 Azure Active Directory from a single source IP address. Please adjust the threshold value of 5 as suited for your environment.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-12-16
@@ -36,8 +36,8 @@ This search will detect more than 5 login failures in Office365 Azure Active Dir
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1110.001](https://attack.mitre.org/techniques/T1110/001/) | Password Guessing | Credential Access |
 
 | [T1110](https://attack.mitre.org/techniques/T1110/) | Brute Force | Credential Access |
@@ -51,12 +51,11 @@ This search will detect more than 5 login failures in Office365 Azure Active Dir
 | `high_number_of_login_failures_from_a_single_source_filter`
 ```
 
-#### Associated Analytic Story
-* [Office 365 Detections](/stories/office_365_detections)
+#### Macros
+The SPL above uses the following Macros:
+* [o365_management_activity](https://github.com/splunk/security_content/blob/develop/macros/o365_management_activity.yml)
 
-
-#### How To Implement
-
+Note that `high_number_of_login_failures_from_a_single_source_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -72,14 +71,23 @@ This search will detect more than 5 login failures in Office365 Azure Active Dir
 * record_type
 
 
-#### Kill Chain Phase
-* Actions on Objectives
+#### How To Implement
 
 
 #### Known False Positives
 unknown
 
+#### Associated Analytic story
+* [Office 365 Detections](/stories/office_365_detections)
 
+
+#### Kill Chain Phase
+* Actions on Objectives
+
+
+
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 

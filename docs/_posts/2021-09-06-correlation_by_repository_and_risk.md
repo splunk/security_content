@@ -25,7 +25,7 @@ tags:
 
 This search correlations detections by repository and risk_score
 
-- **Type**: Correlation
+- **Type**: [Correlation](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Dev Sec Ops Analytics
 - **Datamodel**: 
 - **Last Updated**: 2021-09-06
@@ -35,8 +35,8 @@ This search correlations detections by repository and risk_score
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1204.003](https://attack.mitre.org/techniques/T1204/003/) | Malicious Image | Execution |
 
 | [T1204](https://attack.mitre.org/techniques/T1204/) | User Execution | Execution |
@@ -52,23 +52,29 @@ This search correlations detections by repository and risk_score
 | `correlation_by_repository_and_risk_filter`
 ```
 
-#### Associated Analytic Story
-* [Dev Sec Ops](/stories/dev_sec_ops)
+#### Macros
+The SPL above uses the following Macros:
+* [signals](https://github.com/splunk/security_content/blob/develop/macros/signals.yml)
 
-
-#### How To Implement
-For Dev Sec Ops POC
+Note that `correlation_by_repository_and_risk_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+For Dev Sec Ops POC
 
 #### Known False Positives
 unknown
+
+#### Associated Analytic story
+* [Dev Sec Ops](/stories/dev_sec_ops)
+
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 #### RBA
@@ -77,6 +83,8 @@ unknown
 | ----------- | ----------- |--------------|--------------|
 | 70.0 | 70 | 100 | Correlation triggered for user $user$ |
 
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 

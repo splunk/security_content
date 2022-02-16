@@ -23,7 +23,7 @@ tags:
 
 Malicious actors often abuse legitimate Dynamic DNS services to host malicious payloads or interactive command and control nodes. Attackers will automate domain resolution changes by routing dynamic domains to countless IP addresses to circumvent firewall blocks, block lists as well as frustrate a network defenders analytic and investigative processes. This search will look for DNS queries made from within your infrastructure to suspicious dynamic domains.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Resolution](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution)
 - **Last Updated**: 2021-01-14
@@ -33,8 +33,8 @@ Malicious actors often abuse legitimate Dynamic DNS services to host malicious p
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1189](https://attack.mitre.org/techniques/T1189/) | Drive-by Compromise | Initial Access |
 
 #### Search
@@ -48,13 +48,25 @@ Malicious actors often abuse legitimate Dynamic DNS services to host malicious p
 | `detect_hosts_connecting_to_dynamic_domain_providers_filter`
 ```
 
-#### Associated Analytic Story
-* [Data Protection](/stories/data_protection)
-* [Prohibited Traffic Allowed or Protocol Mismatch](/stories/prohibited_traffic_allowed_or_protocol_mismatch)
-* [DNS Hijacking](/stories/dns_hijacking)
-* [Suspicious DNS Traffic](/stories/suspicious_dns_traffic)
-* [Dynamic DNS](/stories/dynamic_dns)
-* [Command and Control](/stories/command_and_control)
+#### Macros
+The SPL above uses the following Macros:
+* [dynamic_dns_providers](https://github.com/splunk/security_content/blob/develop/macros/dynamic_dns_providers.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+
+Note that `detect_hosts_connecting_to_dynamic_domain_providers_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+
+#### Lookups
+The SPL above uses the following Lookups:
+
+* [dynamic_dns_providers_default](https://github.com/splunk/security_content/blob/develop/lookups/dynamic_dns_providers_default.yml) with [data](https://github.com/splunk/security_content/blob/develop/lookups/dynamic_dns_providers_default.csv)
+* [dynamic_dns_providers_local](https://github.com/splunk/security_content/blob/develop/lookups/dynamic_dns_providers_local.yml) with [data](https://github.com/splunk/security_content/blob/develop/lookups/dynamic_dns_providers_local.csv)
+
+#### Required field
+* _time
+* DNS.answer
+* DNS.query
+* host
 
 
 #### How To Implement
@@ -66,20 +78,22 @@ This search produces fields (query, answer, isDynDNS) that are not yet supported
 1. **Label:** IsDynamicDNS, **Field:** isDynDNS\
 Detailed documentation on how to create a new field within Incident Review may be found here: `https://docs.splunk.com/Documentation/ES/5.3.0/Admin/Customizenotables#Add_a_field_to_the_notable_event_details`
 
-#### Required field
-* _time
-* DNS.answer
-* DNS.query
-* host
+#### Known False Positives
+Some users and applications may leverage Dynamic DNS to reach out to some domains on the Internet since dynamic DNS by itself is not malicious, however this activity must be verified.
+
+#### Associated Analytic story
+* [Data Protection](/stories/data_protection)
+* [Prohibited Traffic Allowed or Protocol Mismatch](/stories/prohibited_traffic_allowed_or_protocol_mismatch)
+* [DNS Hijacking](/stories/dns_hijacking)
+* [Suspicious DNS Traffic](/stories/suspicious_dns_traffic)
+* [Dynamic DNS](/stories/dynamic_dns)
+* [Command and Control](/stories/command_and_control)
 
 
 #### Kill Chain Phase
 * Command and Control
 * Actions on Objectives
 
-
-#### Known False Positives
-Some users and applications may leverage Dynamic DNS to reach out to some domains on the Internet since dynamic DNS by itself is not malicious, however this activity must be verified.
 
 
 #### RBA
@@ -88,6 +102,8 @@ Some users and applications may leverage Dynamic DNS to reach out to some domain
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | A dns query $query$ from your infra connecting to suspicious domain in host  $host$ |
 
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 

@@ -26,7 +26,7 @@ tags:
 
 This search looks for modifications to registry keys that can be used to elevate privileges. The registry keys under &#34;Image File Execution Options&#34; are used to intercept calls to an executable and can be used to attach malicious binaries to benign system binaries.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2022-01-26
@@ -36,8 +36,8 @@ This search looks for modifications to registry keys that can be used to elevate
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1546.012](https://attack.mitre.org/techniques/T1546/012/) | Image File Execution Options Injection | Privilege Escalation, Persistence |
 
 | [T1546](https://attack.mitre.org/techniques/T1546/) | Event Triggered Execution | Privilege Escalation, Persistence |
@@ -58,14 +58,11 @@ This search looks for modifications to registry keys that can be used to elevate
 | `registry_keys_used_for_privilege_escalation_filter`
 ```
 
-#### Associated Analytic Story
-* [Windows Privilege Escalation](/stories/windows_privilege_escalation)
-* [Suspicious Windows Registry Activities](/stories/suspicious_windows_registry_activities)
-* [Cloud Federated Credential Abuse](/stories/cloud_federated_credential_abuse)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search, you must be ingesting data that records registry activity from your hosts to populate the endpoint data model in the registry node. This is typically populated via endpoint detection-and-response product, such as Carbon Black, or endpoint data sources, such as Sysmon. The data used for this search is typically generated via logs that report reads and writes to the registry.
+Note that `registry_keys_used_for_privilege_escalation_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -75,12 +72,21 @@ To successfully implement this search, you must be ingesting data that records r
 * Registry.user
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+To successfully implement this search, you must be ingesting data that records registry activity from your hosts to populate the endpoint data model in the registry node. This is typically populated via endpoint detection-and-response product, such as Carbon Black, or endpoint data sources, such as Sysmon. The data used for this search is typically generated via logs that report reads and writes to the registry.
 
 #### Known False Positives
 There are many legitimate applications that must execute upon system startup and will use these registry keys to accomplish that task.
+
+#### Associated Analytic story
+* [Windows Privilege Escalation](/stories/windows_privilege_escalation)
+* [Suspicious Windows Registry Activities](/stories/suspicious_windows_registry_activities)
+* [Cloud Federated Credential Abuse](/stories/cloud_federated_credential_abuse)
+
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 #### RBA
@@ -89,6 +95,8 @@ There are many legitimate applications that must execute upon system startup and
 | ----------- | ----------- |--------------|--------------|
 | 76.0 | 80 | 95 | A registry activity in $registry_path$ related to privilege escalation in host $dest$ |
 
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 

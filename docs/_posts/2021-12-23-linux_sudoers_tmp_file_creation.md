@@ -27,7 +27,7 @@ tags:
 
 This analytic is to looks for file creation of sudoers.tmp file cause by editing /etc/sudoers using visudo or editor in linux platform. This technique may abuse by adversaries, malware author and red teamers to gain elevated privilege to targeted or compromised host. /etc/sudoers file controls who can run what commands as what users on what machines and can also control special things such as whether you need a password for particular commands. The file is composed of aliases (basically variables) and user specifications (which control who can run what).
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-12-23
@@ -37,8 +37,8 @@ This analytic is to looks for file creation of sudoers.tmp file cause by editing
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1548.003](https://attack.mitre.org/techniques/T1548/003/) | Sudo and Sudo Caching | Privilege Escalation, Defense Evasion |
 
 | [T1548](https://attack.mitre.org/techniques/T1548/) | Abuse Elevation Control Mechanism | Privilege Escalation, Defense Evasion |
@@ -54,13 +54,12 @@ This analytic is to looks for file creation of sudoers.tmp file cause by editing
 | `linux_sudoers_tmp_file_creation_filter`
 ```
 
-#### Associated Analytic Story
-* [Linux Privilege Escalation](/stories/linux_privilege_escalation)
-* [Linux Persistence Techniques](/stories/linux_persistence_techniques)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from Splunkbase.
+Note that `linux_sudoers_tmp_file_creation_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -71,12 +70,20 @@ To successfully implement this search, you need to be ingesting logs with the pr
 * Filesystem.file_path
 
 
-#### Kill Chain Phase
-* Privilege Escalation
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from Splunkbase.
 
 #### Known False Positives
 administrator or network operator can execute this command. Please update the filter macros to remove false positives.
+
+#### Associated Analytic story
+* [Linux Privilege Escalation](/stories/linux_privilege_escalation)
+* [Linux Persistence Techniques](/stories/linux_persistence_techniques)
+
+
+#### Kill Chain Phase
+* Privilege Escalation
+
 
 
 #### RBA
@@ -85,6 +92,8 @@ administrator or network operator can execute this command. Please update the fi
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 80 | 90 | A file $file_name$ is created in $file_path$ on $dest$ |
 
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 

@@ -25,7 +25,7 @@ The following analytic identifies the use of Windows Curl.exe downloading a file
 -O or --output is used when a file is to be downloaded and placed in a specified location. \
 During triage, review parallel processes for further behavior. In addition, identify if the download was successful. If a file was downloaded, capture and analyze.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-10-19
@@ -35,8 +35,8 @@ During triage, review parallel processes for further behavior. In addition, iden
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1105](https://attack.mitre.org/techniques/T1105/) | Ingress Tool Transfer | Command And Control |
 
 #### Search
@@ -50,13 +50,13 @@ During triage, review parallel processes for further behavior. In addition, iden
 | `windows_curl_download_to_suspicious_path_filter`
 ```
 
-#### Associated Analytic Story
-* [IceID](/stories/iceid)
-* [Ingress Tool Transfer](/stories/ingress_tool_transfer)
+#### Macros
+The SPL above uses the following Macros:
+* [process_curl](https://github.com/splunk/security_content/blob/develop/macros/process_curl.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
+Note that `windows_curl_download_to_suspicious_path_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -73,12 +73,20 @@ To successfully implement this search you need to be ingesting information on pr
 * Processes.parent_process_id
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 
 #### Known False Positives
 It is possible Administrators or super users will use Curl for legitimate purposes. Filter as needed.
+
+#### Associated Analytic story
+* [IceID](/stories/iceid)
+* [Ingress Tool Transfer](/stories/ingress_tool_transfer)
+
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA
@@ -87,6 +95,8 @@ It is possible Administrators or super users will use Curl for legitimate purpos
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ to download a file to a suspicious directory. |
 
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 

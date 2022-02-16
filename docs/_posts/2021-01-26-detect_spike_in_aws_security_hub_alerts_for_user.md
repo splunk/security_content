@@ -22,7 +22,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 This search looks for a spike in number of of AWS security Hub alerts for an AWS IAM User in 4 hours intervals.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-01-26
@@ -44,12 +44,11 @@ This search looks for a spike in number of of AWS security Hub alerts for an AWS
 |`detect_spike_in_aws_security_hub_alerts_for_user_filter`
 ```
 
-#### Associated Analytic Story
-* [AWS Security Hub Alerts](/stories/aws_security_hub_alerts)
+#### Macros
+The SPL above uses the following Macros:
+* [aws_securityhub_finding](https://github.com/splunk/security_content/blob/develop/macros/aws_securityhub_finding.yml)
 
-
-#### How To Implement
-You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your Security Hub inputs. The threshold_value should be tuned to your environment and schedule these searches according to the bucket span interval.
+Note that `detect_spike_in_aws_security_hub_alerts_for_user_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -58,13 +57,22 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 * user
 
 
-#### Kill Chain Phase
-
+#### How To Implement
+You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your Security Hub inputs. The threshold_value should be tuned to your environment and schedule these searches according to the bucket span interval.
 
 #### Known False Positives
 None
 
+#### Associated Analytic story
+* [AWS Security Hub Alerts](/stories/aws_security_hub_alerts)
 
+
+#### Kill Chain Phase
+
+
+
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 

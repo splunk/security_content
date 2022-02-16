@@ -32,7 +32,7 @@ tags:
 
 This search will detect a spike in the number of API calls made to your cloud infrastructure environment about security groups by a user.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
 - **Last Updated**: 2020-09-07
@@ -42,8 +42,8 @@ This search will detect a spike in the number of API calls made to your cloud in
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1078.004](https://attack.mitre.org/techniques/T1078/004/) | Cloud Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
@@ -70,12 +70,10 @@ This search will detect a spike in the number of API calls made to your cloud in
 | `abnormally_high_number_of_cloud_security_group_api_calls_filter`
 ```
 
-#### Associated Analytic Story
-* [Suspicious Cloud User Activities](/stories/suspicious_cloud_user_activities)
+#### Macros
+The SPL above uses the following Macros:
 
-
-#### How To Implement
-You must be ingesting your cloud infrastructure logs. You also must run the baseline search `Baseline Of Cloud Security Group API Calls Per User` to create the probability density function model.
+Note that `abnormally_high_number_of_cloud_security_group_api_calls_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -85,11 +83,18 @@ You must be ingesting your cloud infrastructure logs. You also must run the base
 * All_Changes.user
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+You must be ingesting your cloud infrastructure logs. You also must run the baseline search `Baseline Of Cloud Security Group API Calls Per User` to create the probability density function model.
 
 #### Known False Positives
+
+
+#### Associated Analytic story
+* [Suspicious Cloud User Activities](/stories/suspicious_cloud_user_activities)
+
+
+#### Kill Chain Phase
+* Actions on Objectives
 
 
 
@@ -99,6 +104,8 @@ You must be ingesting your cloud infrastructure logs. You also must run the base
 | ----------- | ----------- |--------------|--------------|
 | 15.0 | 30 | 50 | user $user$ has made $api_calls$ api calls related to security groups, violating the dynamic threshold of $expected_upper_threshold$ with the following command $command$. |
 
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 

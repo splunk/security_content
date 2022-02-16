@@ -3,7 +3,7 @@ title: "O365 Added Service Principal"
 excerpt: "Cloud Account, Create Account"
 categories:
   - Cloud
-last_modified_at: 2021-01-26
+last_modified_at: 2022-02-03
 toc: true
 toc_label: ""
 tags:
@@ -25,18 +25,18 @@ tags:
 
 This search detects the creation of a new Federation setting by alerting about an specific event related to its creation.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **Last Updated**: 2021-01-26
+- **Last Updated**: 2022-02-03
 - **Author**: Rod Soto, Splunk
 - **ID**: 1668812a-6047-11eb-ae93-0242ac130002
 
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1136.003](https://attack.mitre.org/techniques/T1136/003/) | Cloud Account | Persistence |
 
 | [T1136](https://attack.mitre.org/techniques/T1136/) | Create Account | Persistence |
@@ -44,20 +44,19 @@ This search detects the creation of a new Federation setting by alerting about a
 #### Search
 
 ```
-`o365_management_activity` Workload=AzureActiveDirectory signature="Add service principal credentials." 
-| stats min(_time) as firstTime max(_time) as lastTime values(Actor{}.ID) as Actor.ID values(ModifiedProperties{}.Name) as ModifiedProperties.Name values(ModifiedProperties{}.NewValue) as ModifiedProperties.NewValue values(Target{}.ID) as Target.ID by ActorIpAddress signature 
+`o365_management_activity` Workload=AzureActiveDirectory Operation="Add service principal credentials." 
+| stats min(_time) as firstTime max(_time) as lastTime values(Actor{}.ID) as Actor.ID values(ModifiedProperties{}.Name) as ModifiedProperties.Name values(ModifiedProperties{}.NewValue) as ModifiedProperties.NewValue values(Target{}.ID) as Target.ID by ActorIpAddress Operation 
 | `security_content_ctime(firstTime)`
 | `security_content_ctime(lastTime)` 
 | `o365_added_service_principal_filter`
 ```
 
-#### Associated Analytic Story
-* [Office 365 Detections](/stories/office_365_detections)
-* [Cloud Federated Credential Abuse](/stories/cloud_federated_credential_abuse)
+#### Macros
+The SPL above uses the following Macros:
+* [o365_management_activity](https://github.com/splunk/security_content/blob/develop/macros/o365_management_activity.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-
-#### How To Implement
-You must install splunk Microsoft Office 365 add-on. This search works with o365:management:activity
+Note that `o365_added_service_principal_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -70,12 +69,20 @@ You must install splunk Microsoft Office 365 add-on. This search works with o365
 * ActorIpAddress
 
 
-#### Kill Chain Phase
-* Actions on Objective
-
+#### How To Implement
+You must install splunk Microsoft Office 365 add-on. This search works with o365:management:activity
 
 #### Known False Positives
 The creation of a new Federation is not necessarily malicious, however these events need to be followed closely, as it may indicate federated credential abuse or backdoor via federated identities at a different cloud provider.
+
+#### Associated Analytic story
+* [Office 365 Detections](/stories/office_365_detections)
+* [Cloud Federated Credential Abuse](/stories/cloud_federated_credential_abuse)
+
+
+#### Kill Chain Phase
+* Actions on Objective
+
 
 
 #### RBA
@@ -84,6 +91,8 @@ The creation of a new Federation is not necessarily malicious, however these eve
 | ----------- | ----------- |--------------|--------------|
 | 42.0 | 70 | 60 | User $Actor.ID$ created a new federation setting on $Target.ID$ and added service principal credentials from IP Address $ActorIpAddress$ |
 
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 

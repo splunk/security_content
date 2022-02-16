@@ -25,7 +25,7 @@ tags:
 
 Enforcing network-access controls is one of the defensive mechanisms used by cloud administrators to restrict access to a cloud instance. After the attacker has gained control of the AWS console by compromising an admin account, they can delete a network ACL and gain access to the instance from anywhere. This search will query the AWS CloudTrail logs to detect users deleting network ACLs.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-01-12
@@ -35,8 +35,8 @@ Enforcing network-access controls is one of the defensive mechanisms used by clo
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1562.007](https://attack.mitre.org/techniques/T1562/007/) | Disable or Modify Cloud Firewall | Defense Evasion |
 
 | [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
@@ -52,12 +52,12 @@ Enforcing network-access controls is one of the defensive mechanisms used by clo
 | `aws_network_access_control_list_deleted_filter`
 ```
 
-#### Associated Analytic Story
-* [AWS Network ACL Activity](/stories/aws_network_acl_activity)
+#### Macros
+The SPL above uses the following Macros:
+* [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-
-#### How To Implement
-You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your AWS CloudTrail inputs.
+Note that `aws_network_access_control_list_deleted_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -69,12 +69,19 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 * userAgent
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your AWS CloudTrail inputs.
 
 #### Known False Positives
 It&#39;s possible that a user has legitimately deleted a network ACL.
+
+#### Associated Analytic story
+* [AWS Network ACL Activity](/stories/aws_network_acl_activity)
+
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 #### RBA
@@ -83,6 +90,8 @@ It&#39;s possible that a user has legitimately deleted a network ACL.
 | ----------- | ----------- |--------------|--------------|
 | 5.0 | 10 | 50 | User $user_arn$ from $src$ has sucessfully deleted network ACLs entry (eventName= $eventName$), such that the instance is accessible from anywhere |
 
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 

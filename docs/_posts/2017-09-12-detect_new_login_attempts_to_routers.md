@@ -23,7 +23,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 The search queries the authentication logs for assets that are categorized as routers in the ES Assets and Identity Framework, to identify connections that have not been seen before in the last 30 days.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Authentication](https://docs.splunk.com/Documentation/CIM/latest/User/Authentication)
 - **Last Updated**: 2017-09-12
@@ -43,12 +43,12 @@ The search queries the authentication logs for assets that are categorized as ro
 | `detect_new_login_attempts_to_routers_filter`
 ```
 
-#### Associated Analytic Story
-* [Router and Infrastructure Security](/stories/router_and_infrastructure_security)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search, you must ensure the network router devices are categorized as &#34;router&#34; in the Assets and identity table. You must also populate the Authentication data model with logs related to users authenticating to routing infrastructure.
+Note that `detect_new_login_attempts_to_routers_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -57,14 +57,23 @@ To successfully implement this search, you must ensure the network router device
 * Authentication.user
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+To successfully implement this search, you must ensure the network router devices are categorized as &#34;router&#34; in the Assets and identity table. You must also populate the Authentication data model with logs related to users authenticating to routing infrastructure.
 
 #### Known False Positives
 Legitimate router connections may appear as new connections
 
+#### Associated Analytic story
+* [Router and Infrastructure Security](/stories/router_and_infrastructure_security)
 
+
+#### Kill Chain Phase
+* Actions on Objectives
+
+
+
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 

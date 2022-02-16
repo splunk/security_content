@@ -25,7 +25,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 This search looks for network traffic defined by port and transport layer protocol in the Enterprise Security lookup table &#34;lookup_interesting_ports&#34;, that is marked as prohibited, and has an associated &#39;allow&#39; action in the Network_Traffic data model. This could be indicative of a misconfigured network device.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
 - **Last Updated**: 2020-07-21
@@ -35,8 +35,8 @@ This search looks for network traffic defined by port and transport layer protoc
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1048](https://attack.mitre.org/techniques/T1048/) | Exfiltration Over Alternative Protocol | Exfiltration |
 
 #### Search
@@ -52,14 +52,12 @@ This search looks for network traffic defined by port and transport layer protoc
 | `prohibited_network_traffic_allowed_filter`
 ```
 
-#### Associated Analytic Story
-* [Prohibited Traffic Allowed or Protocol Mismatch](/stories/prohibited_traffic_allowed_or_protocol_mismatch)
-* [Ransomware](/stories/ransomware)
-* [Command and Control](/stories/command_and_control)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-In order to properly run this search, Splunk needs to ingest data from firewalls or other network control devices that mediate the traffic allowed into an environment. This is necessary so that the search can identify an &#39;action&#39; taken on the traffic of interest. The search requires the Network_Traffic data model be populated.
+Note that `prohibited_network_traffic_allowed_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -69,15 +67,26 @@ In order to properly run this search, Splunk needs to ingest data from firewalls
 * All_Traffic.dest_port
 
 
+#### How To Implement
+In order to properly run this search, Splunk needs to ingest data from firewalls or other network control devices that mediate the traffic allowed into an environment. This is necessary so that the search can identify an &#39;action&#39; taken on the traffic of interest. The search requires the Network_Traffic data model be populated.
+
+#### Known False Positives
+None identified
+
+#### Associated Analytic story
+* [Prohibited Traffic Allowed or Protocol Mismatch](/stories/prohibited_traffic_allowed_or_protocol_mismatch)
+* [Ransomware](/stories/ransomware)
+* [Command and Control](/stories/command_and_control)
+
+
 #### Kill Chain Phase
 * Delivery
 * Command and Control
 
 
-#### Known False Positives
-None identified
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 

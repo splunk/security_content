@@ -25,7 +25,7 @@ tags:
 
 This search detects the addition of a new Federated domain.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-01-26
@@ -35,8 +35,8 @@ This search detects the addition of a new Federated domain.
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1136.003](https://attack.mitre.org/techniques/T1136/003/) | Cloud Account | Persistence |
 
 | [T1136](https://attack.mitre.org/techniques/T1136/) | Create Account | Persistence |
@@ -51,13 +51,12 @@ This search detects the addition of a new Federated domain.
 | `o365_new_federated_domain_added_filter`
 ```
 
-#### Associated Analytic Story
-* [Office 365 Detections](/stories/office_365_detections)
-* [Cloud Federated Credential Abuse](/stories/cloud_federated_credential_abuse)
+#### Macros
+The SPL above uses the following Macros:
+* [o365_management_activity](https://github.com/splunk/security_content/blob/develop/macros/o365_management_activity.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-
-#### How To Implement
-You must install splunk Microsoft Office 365 add-on. This search works with o365:management:activity.
+Note that `o365_new_federated_domain_added_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -71,12 +70,20 @@ You must install splunk Microsoft Office 365 add-on. This search works with o365
 * UserKey
 
 
-#### Kill Chain Phase
-* Actions on Objective
-
+#### How To Implement
+You must install splunk Microsoft Office 365 add-on. This search works with o365:management:activity.
 
 #### Known False Positives
 The creation of a new Federated domain is not necessarily malicious, however these events need to be followed closely, as it may indicate federated credential abuse or backdoor via federated identities at a similar or different cloud provider.
+
+#### Associated Analytic story
+* [Office 365 Detections](/stories/office_365_detections)
+* [Cloud Federated Credential Abuse](/stories/cloud_federated_credential_abuse)
+
+
+#### Kill Chain Phase
+* Actions on Objective
+
 
 
 #### RBA
@@ -85,6 +92,8 @@ The creation of a new Federated domain is not necessarily malicious, however the
 | ----------- | ----------- |--------------|--------------|
 | 64.0 | 80 | 80 | User $UserId$ has added a new federated domaain $Parameters.Value$ for $OrganizationName$ |
 
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 

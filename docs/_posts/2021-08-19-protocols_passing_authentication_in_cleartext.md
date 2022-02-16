@@ -23,7 +23,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 The following analytic identifies cleartext protocols at risk of leaking sensitive information. Currently, this consists of legacy protocols such as telnet (port 23), POP3 (port 110), IMAP (port 143), and non-anonymous FTP (port 21) sessions. While some of these protocols may be used over SSL, they typically are found on different assigned ports in those instances.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
 - **Last Updated**: 2021-08-19
@@ -41,12 +41,12 @@ The following analytic identifies cleartext protocols at risk of leaking sensiti
 | `protocols_passing_authentication_in_cleartext_filter`
 ```
 
-#### Associated Analytic Story
-* [Use of Cleartext Protocols](/stories/use_of_cleartext_protocols)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-This search requires you to be ingesting your network traffic, and populating the Network_Traffic data model. For more accurate result it&#39;s better to limit destination to organization private and public IP range, like All_Traffic.dest IN(192.168.0.0/16,172.16.0.0/12,10.0.0.0/8, x.x.x.x/22)
+Note that `protocols_passing_authentication_in_cleartext_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -58,15 +58,24 @@ This search requires you to be ingesting your network traffic, and populating th
 * All_Traffic.action
 
 
+#### How To Implement
+This search requires you to be ingesting your network traffic, and populating the Network_Traffic data model. For more accurate result it&#39;s better to limit destination to organization private and public IP range, like All_Traffic.dest IN(192.168.0.0/16,172.16.0.0/12,10.0.0.0/8, x.x.x.x/22)
+
+#### Known False Positives
+Some networks may use kerberized FTP or telnet servers, however, this is rare.
+
+#### Associated Analytic story
+* [Use of Cleartext Protocols](/stories/use_of_cleartext_protocols)
+
+
 #### Kill Chain Phase
 * Reconnaissance
 * Actions on Objectives
 
 
-#### Known False Positives
-Some networks may use kerberized FTP or telnet servers, however, this is rare.
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 

@@ -11,6 +11,9 @@ tags:
 {%- for app in playbook.app_list %}
   - {{ app }}
 {%- endfor %}
+{%- for tag in playbook.tags.platform_tags %}
+  - {{ tag }}
+{%- endfor %}
 ---
 
 [Try in Splunk SOAR](https://www.splunk.com/en_us/software/splunk-security-orchestration-and-automation.html){: .btn .btn--success}

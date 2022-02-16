@@ -24,7 +24,7 @@ tags:
 
 this search is to detect potential trickbot infection through the create/connected named pipe to the system. This technique is used by trickbot to communicate to its c2 to post or get command during infection.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-04-26
@@ -34,8 +34,8 @@ this search is to detect potential trickbot infection through the create/connect
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation |
 
 #### Search
@@ -48,12 +48,12 @@ this search is to detect potential trickbot infection through the create/connect
 | `trickbot_named_pipe_filter`
 ```
 
-#### Associated Analytic Story
-* [Trickbot](/stories/trickbot)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name and pipename from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. .
+Note that `trickbot_named_pipe_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -66,12 +66,19 @@ To successfully implement this search, you need to be ingesting logs with the pr
 * process_id
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name and pipename from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. .
 
 #### Known False Positives
 unknown
+
+#### Associated Analytic story
+* [Trickbot](/stories/trickbot)
+
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA
@@ -80,6 +87,8 @@ unknown
 | ----------- | ----------- |--------------|--------------|
 | 42.0 | 70 | 60 | Possible Trickbot namedpipe created on $Computer$ by $Image$ |
 
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 

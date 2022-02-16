@@ -25,7 +25,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 This particular behavior is typically executed when an adversaries or malware gains access to an endpoint and beings to perform execution and to evade detections. Usually, a batch (.bat) will be executed and multiple registry and scheduled task modifications will occur. During triage, review parallel processes and identify any further file modifications. Endpoint should be isolated.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: [Endpoint_Registry](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointRegistry)
 - **Last Updated**: 2021-12-08
@@ -35,8 +35,8 @@ This particular behavior is typically executed when an adversaries or malware ga
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1562.001](https://attack.mitre.org/techniques/T1562/001/) | Disable or Modify Tools | Defense Evasion |
 
 | [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
@@ -52,12 +52,10 @@ This particular behavior is typically executed when an adversaries or malware ga
 | into write_ssa_detected_events();
 ```
 
-#### Associated Analytic Story
-* [IceID](/stories/iceid)
+#### Macros
+The SPL above uses the following Macros:
 
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the registry value name, registry path, and registry value data from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+Note that `disable_defender_antivirus_registry_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -69,12 +67,19 @@ To successfully implement this search, you need to be ingesting logs with the re
 * Registry.registry_value_data
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the registry value name, registry path, and registry value data from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 
 #### Known False Positives
 Admin or user may choose to disable windows defender product
+
+#### Associated Analytic story
+* [IceID](/stories/iceid)
+
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA
@@ -83,6 +88,8 @@ Admin or user may choose to disable windows defender product
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | Modified/added/deleted registry entry $registry_path$ in $dest$ |
 
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 

@@ -23,7 +23,7 @@ tags:
 
 This search provides detection of KMS keys where action kms:Encrypt is accessible for everyone (also outside of your organization). This is an indicator that your account is compromised and the attacker uses the encryption key to compromise another company.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-01-11
@@ -33,8 +33,8 @@ This search provides detection of KMS keys where action kms:Encrypt is accessibl
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1486](https://attack.mitre.org/techniques/T1486/) | Data Encrypted for Impact | Impact |
 
 #### Search
@@ -54,12 +54,12 @@ This search provides detection of KMS keys where action kms:Encrypt is accessibl
 |`aws_detect_users_creating_keys_with_encrypt_policy_without_mfa_filter`
 ```
 
-#### Associated Analytic Story
-* [Ransomware Cloud](/stories/ransomware_cloud)
+#### Macros
+The SPL above uses the following Macros:
+* [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-
-#### How To Implement
-You must install splunk AWS add on and Splunk App for AWS. This search works with AWS CloudTrail logs
+Note that `aws_detect_users_creating_keys_with_encrypt_policy_without_mfa_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -71,11 +71,18 @@ You must install splunk AWS add on and Splunk App for AWS. This search works wit
 * userIdentity.principalId
 
 
-#### Kill Chain Phase
-
+#### How To Implement
+You must install splunk AWS add on and Splunk App for AWS. This search works with AWS CloudTrail logs
 
 #### Known False Positives
 unknown
+
+#### Associated Analytic story
+* [Ransomware Cloud](/stories/ransomware_cloud)
+
+
+#### Kill Chain Phase
+
 
 
 #### RBA
@@ -84,6 +91,8 @@ unknown
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | AWS account is potentially compromised and user $userIdentity.principalId$ is trying to compromise other accounts. |
 
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 

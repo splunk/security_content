@@ -23,7 +23,7 @@ tags:
 
 This search uses the Kubernetes logs from a nginx ingress controller to detect local file inclusion attacks.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Dev Sec Ops Analytics
 - **Datamodel**: 
 - **Last Updated**: 2021-08-20
@@ -33,8 +33,8 @@ This search uses the Kubernetes logs from a nginx ingress controller to detect l
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1212](https://attack.mitre.org/techniques/T1212/) | Exploitation for Credential Access | Credential Access |
 
 #### Search
@@ -54,23 +54,35 @@ This search uses the Kubernetes logs from a nginx ingress controller to detect l
 | `kubernetes_nginx_ingress_lfi_filter`
 ```
 
-#### Associated Analytic Story
-* [Dev Sec Ops](/stories/dev_sec_ops)
+#### Macros
+The SPL above uses the following Macros:
+* [kubernetes_container_controller](https://github.com/splunk/security_content/blob/develop/macros/kubernetes_container_controller.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
+Note that `kubernetes_nginx_ingress_lfi_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
-#### How To Implement
-You must ingest Kubernetes logs through Splunk Connect for Kubernetes.
+#### Lookups
+The SPL above uses the following Lookups:
+
+* [local_file_inclusion_paths](https://github.com/splunk/security_content/blob/develop/lookups/local_file_inclusion_paths.yml) with [data](https://github.com/splunk/security_content/blob/develop/lookups/local_file_inclusion_paths.csv)
 
 #### Required field
 * raw
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+You must ingest Kubernetes logs through Splunk Connect for Kubernetes.
 
 #### Known False Positives
 unknown
+
+#### Associated Analytic story
+* [Dev Sec Ops](/stories/dev_sec_ops)
+
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 #### RBA
@@ -79,6 +91,8 @@ unknown
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | Local File Inclusion Attack detected on $host$ |
 
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 

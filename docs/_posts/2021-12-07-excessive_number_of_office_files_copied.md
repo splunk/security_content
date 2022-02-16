@@ -23,7 +23,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 This detection detects a high amount of office file copied. This can be an indicator for a malicious insider.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: [Endpoint_Filesystem](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointFilesystem)
 - **Last Updated**: 2021-12-07
@@ -33,8 +33,8 @@ This detection detects a high amount of office file copied. This can be an indic
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1048.003](https://attack.mitre.org/techniques/T1048/003/) | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
 
 #### Search
@@ -53,11 +53,10 @@ This detection detects a high amount of office file copied. This can be an indic
 | into write_ssa_detected_events();
 ```
 
-#### Associated Analytic Story
+#### Macros
+The SPL above uses the following Macros:
 
-
-#### How To Implement
-To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Filesytem` node.
+Note that `excessive_number_of_office_files_copied_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * action
@@ -66,14 +65,22 @@ To successfully implement this search you need to be ingesting information on pr
 * file_path
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Filesytem` node.
 
 #### Known False Positives
 user may copy a lot of office fies from one folder to another
 
+#### Associated Analytic story
 
+
+#### Kill Chain Phase
+* Exploitation
+
+
+
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 

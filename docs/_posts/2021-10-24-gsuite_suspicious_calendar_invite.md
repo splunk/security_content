@@ -24,7 +24,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 This search can help the detection of compromised accounts or internal users sending suspcious calendar invites via GSuite calendar. These invites may contain malicious links or attachments.
 
-- **Type**: Hunting
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-10-24
@@ -34,8 +34,8 @@ This search can help the detection of compromised accounts or internal users sen
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1566](https://attack.mitre.org/techniques/T1566/) | Phishing | Initial Access |
 
 #### Search
@@ -50,12 +50,11 @@ This search can help the detection of compromised accounts or internal users sen
 | `gsuite_suspicious_calendar_invite_filter`
 ```
 
-#### Associated Analytic Story
-* [Spearphishing Attachments](/stories/spearphishing_attachments)
+#### Macros
+The SPL above uses the following Macros:
+* [gsuite_calendar](https://github.com/splunk/security_content/blob/develop/macros/gsuite_calendar.yml)
 
-
-#### How To Implement
-In order to successfully implement this search, you need to be ingesting logs related to gsuite (gsuite:calendar:json) having the file sharing metadata like file type, source owner, destination target user, description, etc. This search can also be made more specific by selecting specific emails, subdomains timeframe, organizational units, targeted user, etc. In order for the search to work for your environment please update `yourdomain.com` value in the query with the domain relavant for your organization.
+Note that `gsuite_suspicious_calendar_invite_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -65,14 +64,23 @@ In order to successfully implement this search, you need to be ingesting logs re
 * parameters.event_title
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+In order to successfully implement this search, you need to be ingesting logs related to gsuite (gsuite:calendar:json) having the file sharing metadata like file type, source owner, destination target user, description, etc. This search can also be made more specific by selecting specific emails, subdomains timeframe, organizational units, targeted user, etc. In order for the search to work for your environment please update `yourdomain.com` value in the query with the domain relavant for your organization.
 
 #### Known False Positives
 This search will also produce normal activity statistics. Fields such as email, ip address, name, parameters.organizer_calendar_id, parameters.target_calendar_id and parameters.event_title may give away phishing intent.For more specific results use email parameter.
 
+#### Associated Analytic story
+* [Spearphishing Attachments](/stories/spearphishing_attachments)
 
+
+#### Kill Chain Phase
+* Exploitation
+
+
+
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 

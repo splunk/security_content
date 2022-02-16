@@ -23,7 +23,7 @@ tags:
 
 This analytic is to detect a suspicious creation of .wav file in appdata folder. This behavior was seen in Remcos RAT malware where it put the audio recording in the appdata\audio folde as part of data collection. this recording can be send to its C2 server as part of its exfiltration to the compromised machine. creation of wav files in this folder path is not a ussual disk place used by user to save audio format file.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-09-21
@@ -33,8 +33,8 @@ This analytic is to detect a suspicious creation of .wav file in appdata folder.
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1113](https://attack.mitre.org/techniques/T1113/) | Screen Capture | Collection |
 
 #### Search
@@ -50,12 +50,11 @@ This analytic is to detect a suspicious creation of .wav file in appdata folder.
 | `suspicious_wav_file_in_appdata_folder_filter`
 ```
 
-#### Associated Analytic Story
-* [Remcos](/stories/remcos)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name, parent process, file_name, file_path and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+Note that `suspicious_wav_file_in_appdata_folder_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -68,12 +67,19 @@ To successfully implement this search, you need to be ingesting logs with the pr
 * process
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, file_name, file_path and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 
 #### Known False Positives
 unknown
+
+#### Associated Analytic story
+* [Remcos](/stories/remcos)
+
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA
@@ -82,6 +88,8 @@ unknown
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | process $process_name$ creating image file $file_path$ in $dest$ |
 
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 

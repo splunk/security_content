@@ -25,7 +25,7 @@ tags:
 
 This search looks for Dependabot Alerts in Github logs.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Dev Sec Ops Analytics
 - **Datamodel**: 
 - **Last Updated**: 2021-09-01
@@ -35,8 +35,8 @@ This search looks for Dependabot Alerts in Github logs.
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1195.001](https://attack.mitre.org/techniques/T1195/001/) | Compromise Software Dependencies and Development Tools | Initial Access |
 
 | [T1195](https://attack.mitre.org/techniques/T1195/) | Supply Chain Compromise | Initial Access |
@@ -53,12 +53,12 @@ This search looks for Dependabot Alerts in Github logs.
 | `github_dependabot_alert_filter`
 ```
 
-#### Associated Analytic Story
-* [Dev Sec Ops](/stories/dev_sec_ops)
+#### Macros
+The SPL above uses the following Macros:
+* [github](https://github.com/splunk/security_content/blob/develop/macros/github.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-
-#### How To Implement
-You must index GitHub logs. You can follow the url in reference to onboard GitHub logs.
+Note that `github_dependabot_alert_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -75,12 +75,19 @@ You must index GitHub logs. You can follow the url in reference to onboard GitHu
 * alert.severity
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+You must index GitHub logs. You can follow the url in reference to onboard GitHub logs.
 
 #### Known False Positives
 unknown
+
+#### Associated Analytic story
+* [Dev Sec Ops](/stories/dev_sec_ops)
+
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 #### RBA
@@ -89,6 +96,8 @@ unknown
 | ----------- | ----------- |--------------|--------------|
 | 27.0 | 30 | 90 | Vulnerabilities found in packages used by GitHub repository $repository$ |
 
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 

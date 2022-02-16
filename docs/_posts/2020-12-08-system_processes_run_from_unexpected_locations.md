@@ -27,7 +27,7 @@ This search looks for system processes that typically execute from `C:\Windows\S
 This detection utilizes a lookup that is deduped `system32` and `syswow64` directories from Server 2016 and Windows 10.\
 During triage, review the parallel processes - what process moved the native Windows binary? identify any artifacts on disk and review. If a remote destination is contacted, what is the reputation?
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-12-08
@@ -37,8 +37,8 @@ During triage, review the parallel processes - what process moved the native Win
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1036](https://attack.mitre.org/techniques/T1036/) | Masquerading | Defense Evasion |
 
 | [T1036.003](https://attack.mitre.org/techniques/T1036/003/) | Rename System Utilities | Defense Evasion |
@@ -55,15 +55,18 @@ During triage, review the parallel processes - what process moved the native Win
 | `system_processes_run_from_unexpected_locations_filter`
 ```
 
-#### Associated Analytic Story
-* [Suspicious Command-Line Executions](/stories/suspicious_command-line_executions)
-* [Unusual Processes](/stories/unusual_processes)
-* [Ransomware](/stories/ransomware)
-* [Masquerading - Rename System Utilities](/stories/masquerading_-_rename_system_utilities)
+#### Macros
+The SPL above uses the following Macros:
+* [is_windows_system_file](https://github.com/splunk/security_content/blob/develop/macros/is_windows_system_file.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
+Note that `system_processes_run_from_unexpected_locations_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
-#### How To Implement
-To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
+#### Lookups
+The SPL above uses the following Lookups:
+
+* [is_windows_system_file](https://github.com/splunk/security_content/blob/develop/lookups/is_windows_system_file.yml) with [data](https://github.com/splunk/security_content/blob/develop/lookups/is_windows_system_file.csv)
 
 #### Required field
 * _time
@@ -76,12 +79,22 @@ To successfully implement this search you need to be ingesting information on pr
 * Processes.process_hash
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
 
 #### Known False Positives
 This detection may require tuning based on third party applications utilizing native Windows binaries in non-standard paths.
+
+#### Associated Analytic story
+* [Suspicious Command-Line Executions](/stories/suspicious_command-line_executions)
+* [Unusual Processes](/stories/unusual_processes)
+* [Ransomware](/stories/ransomware)
+* [Masquerading - Rename System Utilities](/stories/masquerading_-_rename_system_utilities)
+
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 #### RBA
@@ -90,6 +103,8 @@ This detection may require tuning based on third party applications utilizing na
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | System process running from unexpected location on $dest$ |
 
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 

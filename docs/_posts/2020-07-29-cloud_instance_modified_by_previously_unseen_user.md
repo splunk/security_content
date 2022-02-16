@@ -32,7 +32,7 @@ tags:
 
 This search looks for cloud instances being modified by users who have not previously modified them.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
 - **Last Updated**: 2020-07-29
@@ -42,8 +42,8 @@ This search looks for cloud instances being modified by users who have not previ
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1078.004](https://attack.mitre.org/techniques/T1078/004/) | Cloud Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
@@ -64,12 +64,17 @@ This search looks for cloud instances being modified by users who have not previ
 | `cloud_instance_modified_by_previously_unseen_user_filter`
 ```
 
-#### Associated Analytic Story
-* [Suspicious Cloud Instance Activities](/stories/suspicious_cloud_instance_activities)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
+Note that `cloud_instance_modified_by_previously_unseen_user_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
-#### How To Implement
-This search has a dependency on other searches to create and update a baseline of users observed to be associated with this activity. The search &#34;Previously Seen Cloud Instance Modifications By User - Update&#34; should be enabled for this detection to properly work.
+#### Lookups
+The SPL above uses the following Lookups:
+
+* [previously_seen_cloud_instance_modifications_by_user](https://github.com/splunk/security_content/blob/develop/lookups/previously_seen_cloud_instance_modifications_by_user.yml) with [data]()
 
 #### Required field
 * _time
@@ -81,11 +86,18 @@ This search has a dependency on other searches to create and update a baseline o
 * All_Changes.user
 
 
-#### Kill Chain Phase
-
+#### How To Implement
+This search has a dependency on other searches to create and update a baseline of users observed to be associated with this activity. The search &#34;Previously Seen Cloud Instance Modifications By User - Update&#34; should be enabled for this detection to properly work.
 
 #### Known False Positives
 It&#39;s possible that a new user will start to modify EC2 instances when they haven&#39;t before for any number of reasons. Verify with the user that is modifying instances that this is the intended behavior.
+
+#### Associated Analytic story
+* [Suspicious Cloud Instance Activities](/stories/suspicious_cloud_instance_activities)
+
+
+#### Kill Chain Phase
+
 
 
 #### RBA
@@ -94,6 +106,8 @@ It&#39;s possible that a new user will start to modify EC2 instances when they h
 | ----------- | ----------- |--------------|--------------|
 | 42.0 | 70 | 60 | User $user$ is modifying an instance $dest$ for the first time. |
 
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 

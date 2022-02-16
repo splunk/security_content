@@ -27,7 +27,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 This search looks for RDP application network traffic and filters any source/destination pair generating more than twice the standard deviation of the average traffic.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
 - **Last Updated**: 2020-07-21
@@ -37,8 +37,8 @@ This search looks for RDP application network traffic and filters any source/des
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1021.001](https://attack.mitre.org/techniques/T1021/001/) | Remote Desktop Protocol | Lateral Movement |
 
 | [T1021](https://attack.mitre.org/techniques/T1021/) | Remote Services | Lateral Movement |
@@ -55,13 +55,11 @@ This search looks for RDP application network traffic and filters any source/des
 | `remote_desktop_network_bruteforce_filter`
 ```
 
-#### Associated Analytic Story
-* [SamSam Ransomware](/stories/samsam_ransomware)
-* [Ryuk Ransomware](/stories/ryuk_ransomware)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-You must ensure that your network traffic data is populating the Network_Traffic data model.
+Note that `remote_desktop_network_bruteforce_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -71,15 +69,25 @@ You must ensure that your network traffic data is populating the Network_Traffic
 * All_Traffic.dest_port
 
 
+#### How To Implement
+You must ensure that your network traffic data is populating the Network_Traffic data model.
+
+#### Known False Positives
+RDP gateways may have unusually high amounts of traffic from all other hosts&#39; RDP applications in the network.
+
+#### Associated Analytic story
+* [SamSam Ransomware](/stories/samsam_ransomware)
+* [Ryuk Ransomware](/stories/ryuk_ransomware)
+
+
 #### Kill Chain Phase
 * Reconnaissance
 * Delivery
 
 
-#### Known False Positives
-RDP gateways may have unusually high amounts of traffic from all other hosts&#39; RDP applications in the network.
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 

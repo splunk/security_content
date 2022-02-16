@@ -22,7 +22,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 This search looks for processes in an MacOS system that is tapping keyboard events in MacOS, and essentially monitoring all keystrokes made by a user. This is a common technique used by RATs to log keystrokes from a victim, although it can also be used by legitimate processes like Siri to react on human input
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2019-01-25
@@ -41,12 +41,10 @@ This search looks for processes in an MacOS system that is tapping keyboard even
 | `processes_tapping_keyboard_events_filter`
 ```
 
-#### Associated Analytic Story
-* [ColdRoot MacOS RAT](/stories/coldroot_macos_rat)
+#### Macros
+The SPL above uses the following Macros:
 
-
-#### How To Implement
-In order to properly run this search, Splunk needs to ingest data from your osquery deployed agents with the [osx-attacks.conf](https://github.com/facebook/osquery/blob/experimental/packs/osx-attacks.conf#L599) pack enabled. Also the [TA-OSquery](https://github.com/d1vious/TA-osquery) must be deployed across your indexers and universal forwarders in order to have the osquery data populate the Alerts data model.
+Note that `processes_tapping_keyboard_events_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -58,14 +56,23 @@ In order to properly run this search, Splunk needs to ingest data from your osqu
 * host
 
 
-#### Kill Chain Phase
-* Command and Control
-
+#### How To Implement
+In order to properly run this search, Splunk needs to ingest data from your osquery deployed agents with the [osx-attacks.conf](https://github.com/facebook/osquery/blob/experimental/packs/osx-attacks.conf#L599) pack enabled. Also the [TA-OSquery](https://github.com/d1vious/TA-osquery) must be deployed across your indexers and universal forwarders in order to have the osquery data populate the Alerts data model.
 
 #### Known False Positives
 There might be some false positives as keyboard event taps are used by processes like Siri and Zoom video chat, for some good examples of processes to exclude please see [this](https://github.com/facebook/osquery/pull/5345#issuecomment-454639161) comment.
 
+#### Associated Analytic story
+* [ColdRoot MacOS RAT](/stories/coldroot_macos_rat)
 
+
+#### Kill Chain Phase
+* Command and Control
+
+
+
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 

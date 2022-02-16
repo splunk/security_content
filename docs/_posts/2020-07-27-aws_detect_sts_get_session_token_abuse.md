@@ -25,7 +25,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 This search provides detection of suspicious use of sts:GetSessionToken. These tokens can be created on the go and used by attackers to move laterally and escalate privileges.
 
-- **Type**: Hunting
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-07-27
@@ -35,8 +35,8 @@ This search provides detection of suspicious use of sts:GetSessionToken. These t
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1550](https://attack.mitre.org/techniques/T1550/) | Use Alternate Authentication Material | Defense Evasion, Lateral Movement |
 
 #### Search
@@ -49,12 +49,11 @@ This search provides detection of suspicious use of sts:GetSessionToken. These t
 | `aws_detect_sts_get_session_token_abuse_filter`
 ```
 
-#### Associated Analytic Story
-* [AWS Cross Account Activity](/stories/aws_cross_account_activity)
+#### Macros
+The SPL above uses the following Macros:
+* [aws_cloudwatchlogs_eks](https://github.com/splunk/security_content/blob/develop/macros/aws_cloudwatchlogs_eks.yml)
 
-
-#### How To Implement
-You must install splunk AWS add-on and Splunk App for AWS. This search works with cloudwatch logs
+Note that `aws_detect_sts_get_session_token_abuse_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -70,14 +69,23 @@ You must install splunk AWS add-on and Splunk App for AWS. This search works wit
 * region
 
 
-#### Kill Chain Phase
-* Lateral Movement
-
+#### How To Implement
+You must install splunk AWS add-on and Splunk App for AWS. This search works with cloudwatch logs
 
 #### Known False Positives
 Sts:GetSessionToken can be very noisy as in certain environments numerous calls of this type can be executed. This search can be adjusted to provide specific values to identify cases of abuse. In specific environments the use of field requestParameters.serialNumber will need to be used.
 
+#### Associated Analytic story
+* [AWS Cross Account Activity](/stories/aws_cross_account_activity)
 
+
+#### Kill Chain Phase
+* Lateral Movement
+
+
+
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 

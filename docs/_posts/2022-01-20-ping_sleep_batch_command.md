@@ -27,7 +27,7 @@ tags:
 
 This analytic will identify the possible execution of ping sleep batch commands. This technique was seen in several malware samples and is used to trigger sleep times without explicitly calling sleep functions or commandlets. The goal is to delay the execution of malicious code and bypass detection or sandbox analysis. This  detection can be a good indicator of a process delaying its execution for malicious purposes.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2022-01-20
@@ -37,8 +37,8 @@ This analytic will identify the possible execution of ping sleep batch commands.
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1497](https://attack.mitre.org/techniques/T1497/) | Virtualization/Sandbox Evasion | Defense Evasion, Discovery |
 
 | [T1497.003](https://attack.mitre.org/techniques/T1497/003/) | Time Based Evasion | Defense Evasion, Discovery |
@@ -54,12 +54,13 @@ This analytic will identify the possible execution of ping sleep batch commands.
 | `ping_sleep_batch_command_filter`
 ```
 
-#### Associated Analytic Story
-* [WhisperGate](/stories/whispergate)
+#### Macros
+The SPL above uses the following Macros:
+* [process_ping](https://github.com/splunk/security_content/blob/develop/macros/process_ping.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+Note that `ping_sleep_batch_command_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -76,12 +77,19 @@ To successfully implement this search, you need to be ingesting logs with the pr
 * Processes.parent_process_id
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 
 #### Known False Positives
 Administrator or network operator may execute this command. Please update the filter macros to remove false positives.
+
+#### Associated Analytic story
+* [WhisperGate](/stories/whispergate)
+
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA
@@ -90,6 +98,8 @@ Administrator or network operator may execute this command. Please update the fi
 | ----------- | ----------- |--------------|--------------|
 | 36.0 | 60 | 60 | suspicious $process$ commandline run in $dest$ |
 
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 

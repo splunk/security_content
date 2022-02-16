@@ -25,7 +25,7 @@ tags:
 
 This search is to detect a suspicious MS office application that drop or create executables or script in the host. This behavior is commonly seen in spear phishing office attachment where it drop malicious files or script to compromised the host. It might be some normal macro may drop script or tools as part of automation but still this behavior is reallly suspicious and not commonly seen in normal office application
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-09-13
@@ -35,8 +35,8 @@ This search is to detect a suspicious MS office application that drop or create 
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1566](https://attack.mitre.org/techniques/T1566/) | Phishing | Initial Access |
 
 | [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
@@ -58,12 +58,11 @@ This search is to detect a suspicious MS office application that drop or create 
 | `office_application_drop_executable_filter`
 ```
 
-#### Associated Analytic Story
-* [FIN7](/stories/fin7)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
+Note that `office_application_drop_executable_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -74,12 +73,19 @@ To successfully implement this search, you need to be ingesting logs with the pr
 * user_id
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
 
 #### Known False Positives
 office macro for automation may do this behavior
+
+#### Associated Analytic story
+* [FIN7](/stories/fin7)
+
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA
@@ -88,6 +94,8 @@ office macro for automation may do this behavior
 | ----------- | ----------- |--------------|--------------|
 | 64.0 | 80 | 80 | process $process_name$ drops a file $TargetFilename$ in host $dest$ |
 
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 

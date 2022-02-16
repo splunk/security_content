@@ -1,0 +1,350 @@
+{
+    "blockly": false,
+    "blockly_xml": "<xml></xml>",
+    "category": "Use Cases",
+    "coa": {
+        "data": {
+            "description": "This is a playbook that is designed to be recommended within a workbook. If used in this manner, the playbook will assign the user that launched the playbook as the owner of the event, move the event status to \"Open\", and complete the workbook task where this playbook appears. If there is a task after the one where the playbook appears (within the same phase), it will set the next task to \"In Progress.\"",
+            "edges": [
+                {
+                    "id": "port_0_to_port_2",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "2",
+                    "targetPort": "2_in"
+                },
+                {
+                    "id": "port_2_to_port_4",
+                    "sourceNode": "2",
+                    "sourcePort": "2_out",
+                    "targetNode": "4",
+                    "targetPort": "4_in"
+                },
+                {
+                    "id": "port_6_to_port_7",
+                    "sourceNode": "6",
+                    "sourcePort": "6_out",
+                    "targetNode": "7",
+                    "targetPort": "7_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_7_to_port_8",
+                    "sourceNode": "7",
+                    "sourcePort": "7_out",
+                    "targetNode": "8",
+                    "targetPort": "8_in"
+                },
+                {
+                    "id": "port_8_to_port_9",
+                    "sourceNode": "8",
+                    "sourcePort": "8_out",
+                    "targetNode": "9",
+                    "targetPort": "9_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 1
+                        }
+                    ],
+                    "id": "port_7_to_port_9",
+                    "sourceNode": "7",
+                    "sourcePort": "7_out",
+                    "targetNode": "9",
+                    "targetPort": "9_in"
+                },
+                {
+                    "id": "port_9_to_port_1",
+                    "sourceNode": "9",
+                    "sourcePort": "9_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_4_to_port_6",
+                    "sourceNode": "4",
+                    "sourcePort": "4_out",
+                    "targetNode": "6",
+                    "targetPort": "6_in"
+                }
+            ],
+            "hash": "486d29f43a4378a9e142395cf537970427d36ce8",
+            "nodes": {
+                "0": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_start",
+                        "id": "0",
+                        "type": "start"
+                    },
+                    "errors": {},
+                    "id": "0",
+                    "type": "start",
+                    "x": 100,
+                    "y": 59.999999999999915
+                },
+                "1": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionId": 1,
+                        "functionName": "on_finish",
+                        "id": "1",
+                        "type": "end"
+                    },
+                    "errors": {},
+                    "id": "1",
+                    "type": "end",
+                    "userCode": "\n    # This function is called after all actions are completed.\n    # summary of all the action and/or all details of actions\n    # can be collected here.\n\n    # summary_json = phantom.get_summary()\n    # if 'result' in summary_json:\n        # for action_result in summary_json['result']:\n            # if 'action_run_id' in action_result:\n                # action_results = phantom.get_action_results(action_run_id=action_result['action_run_id'], result_data=False, flatten=False)\n                # phantom.debug(action_results)\n\n",
+                    "x": 80,
+                    "y": 1060
+                },
+                "2": {
+                    "data": {
+                        "advanced": {
+                            "customName": "get effective user",
+                            "customNameId": 0,
+                            "description": "Find the user and user type that launched this playbook.",
+                            "join": [],
+                            "note": "Find the user and user type that launched this playbook."
+                        },
+                        "functionId": 1,
+                        "functionName": "get_effective_user",
+                        "id": "2",
+                        "inputParameters": [],
+                        "outputVariables": [
+                            "user_id",
+                            "user_type"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "2",
+                    "type": "code",
+                    "userCode": "\n    effective_user_id = phantom.get_effective_user()\n    url = phantom.build_phantom_rest_url('ph_user', effective_user_id)\n    response_json = phantom.requests.get(url, verify=False).json()\n    \n    get_effective_user__user_type = response_json['type']\n    get_effective_user__user_id = effective_user_id\n        \n\n",
+                    "x": 80,
+                    "y": 180
+                },
+                "4": {
+                    "data": {
+                        "advanced": {
+                            "customName": "user decision",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "get_effective_user:custom_function:user_type",
+                                        "value": "automation"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "normal user",
+                                "display": "If",
+                                "logic": "and",
+                                "type": "if"
+                            }
+                        ],
+                        "functionId": 1,
+                        "functionName": "user_decision",
+                        "id": "4",
+                        "type": "decision"
+                    },
+                    "errors": {},
+                    "id": "4",
+                    "type": "decision",
+                    "x": 160,
+                    "y": 320
+                },
+                "6": {
+                    "data": {
+                        "advanced": {
+                            "customName": "set owner",
+                            "customNameId": 0,
+                            "description": "Sets the owner of the container as the user that launched this playbook",
+                            "join": [],
+                            "note": "Sets the owner of the container as the user that launched this playbook"
+                        },
+                        "functionId": 2,
+                        "functionName": "set_owner",
+                        "id": "6",
+                        "inputParameters": [
+                            "get_effective_user:custom_function:user_id"
+                        ],
+                        "outputVariables": [],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "6",
+                    "type": "code",
+                    "userCode": "\n    phantom.set_owner(container=container, user=get_effective_user__user_id)\n\n",
+                    "x": 80,
+                    "y": 500
+                },
+                "7": {
+                    "data": {
+                        "advanced": {
+                            "customName": "status decision",
+                            "customNameId": 0,
+                            "description": "Determine if the status of the container should be changed.",
+                            "join": [],
+                            "note": "Determine if the status of the container should be changed."
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "==",
+                                        "param": "container:status",
+                                        "value": "new"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "set status",
+                                "display": "If",
+                                "logic": "and",
+                                "type": "if"
+                            },
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 1,
+                                        "op": "==",
+                                        "param": "",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 1,
+                                "customName": "move on",
+                                "display": "Else",
+                                "logic": "and",
+                                "type": "else"
+                            }
+                        ],
+                        "functionId": 3,
+                        "functionName": "status_decision",
+                        "id": "7",
+                        "type": "decision"
+                    },
+                    "errors": {},
+                    "id": "7",
+                    "type": "decision",
+                    "x": 160,
+                    "y": 640
+                },
+                "8": {
+                    "data": {
+                        "advanced": {
+                            "join": [],
+                            "refreshNotableData": true
+                        },
+                        "functionId": 1,
+                        "functionName": "set_status_1",
+                        "id": "8",
+                        "selectMore": false,
+                        "tab": "apis",
+                        "type": "utility",
+                        "utilities": {
+                            "set_status": {
+                                "description": "",
+                                "fields": [
+                                    {
+                                        "choices": "notableStatus",
+                                        "description": "",
+                                        "label": "status",
+                                        "name": "status",
+                                        "placeholder": "Select status",
+                                        "renderType": "dropdown",
+                                        "required": true
+                                    },
+                                    {
+                                        "hidden": true,
+                                        "name": "container",
+                                        "required": false
+                                    },
+                                    {
+                                        "hidden": true,
+                                        "name": "trace",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "set status",
+                                "name": "set_status",
+                                "refreshNotableData": true
+                            }
+                        },
+                        "utilityType": "api",
+                        "values": {
+                            "set_status": {
+                                "_internal": [
+                                    "container",
+                                    "trace"
+                                ],
+                                "status": "open"
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "8",
+                    "type": "utility",
+                    "x": 0,
+                    "y": 800
+                },
+                "9": {
+                    "data": {
+                        "advanced": {
+                            "customName": "update workbook tasks",
+                            "customNameId": 0,
+                            "description": "Custom code to determine which task this playbook occurs in, complete that task, and set the status of the next task in the workbook (within the same phase) to \"In Progress\".",
+                            "join": [],
+                            "note": "Custom code to determine which task this playbook occurs in, complete that task, and set the status of the next task in the workbook (within the same phase) to \"In Progress\"."
+                        },
+                        "functionId": 3,
+                        "functionName": "update_workbook_tasks",
+                        "id": "9",
+                        "inputParameters": [],
+                        "outputVariables": [],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "9",
+                    "type": "code",
+                    "userCode": "\n    # Get current repo and playbook name\n    current_scm = phantom.get_playbook_info()[0]['repo_name']\n    current_playbook = phantom.get_playbook_info()[0]['name']\n    task_order = None\n    \n    # Iterate through tasks on the current container\n    for task in phantom.get_tasks(container=container):\n        playbooks = task.get('data').get('suggestions').get('playbooks')\n        if playbooks:\n            for playbook in playbooks:\n                # Check if the current container tasks contain a reference to this playbook.\n                # If so, this is the task phase you want to mark as current\n                if playbook['playbook'] == current_playbook and playbook['scm'] == current_scm:\n                    task_order = task['data']['order']\n                    status = task['data']['status']\n                    url = phantom.build_phantom_rest_url('workflow_task') + '/{}'.format(task['data']['id'])\n                    # If status is not started (statud id 0), move to in progress (status id 2) before moving to complete (status id 1)\n                    if status == 0:\n                        data = {'status': 2}\n                        phantom.requests.post(url, data=json.dumps(data), verify=False)\n                    data = {'status': 1}      \n                    phantom.set_phase(container=container, phase=task['data']['phase']) \n                    phantom.requests.post(url, data=json.dumps(data), verify=False)\n                    \n    # Iterate through the other tasks on the current container if a task was updated as indicated by the presence of \"task_order\"                \n    if task_order:\n        for task in phantom.get_tasks(container=container):\n            # If another task matches the updated task's order + 1, then update it as well\n            if task['data']['order'] == task_order + 1:\n                data = {'status': 2}\n                url = phantom.build_phantom_rest_url('workflow_task') + '/{}'.format(task['data']['id'])\n                phantom.requests.post(url, data=json.dumps(data), verify=False)\n\n\n",
+                    "x": 60,
+                    "y": 920
+                }
+            },
+            "notes": ""
+        },
+        "input_spec": null,
+        "output_spec": null,
+        "playbook_type": "automation",
+        "python_version": "3",
+        "schema": "5.0.3",
+        "version": "5.0.1.66250"
+    },
+    "create_time": "2021-10-07T16:24:36.298613+00:00",
+    "draft_mode": false,
+    "labels": [
+        "*"
+    ],
+    "tags": []
+}

@@ -23,7 +23,7 @@ tags:
 
 The search looks for file modifications with extensions commonly used by Ransomware
 
-- **Type**: Hunting
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-11-09
@@ -33,8 +33,8 @@ The search looks for file modifications with extensions commonly used by Ransomw
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1485](https://attack.mitre.org/techniques/T1485/) | Data Destruction | Impact |
 
 #### Search
@@ -50,19 +50,18 @@ The search looks for file modifications with extensions commonly used by Ransomw
 | `common_ransomware_extensions_filter`
 ```
 
-#### Associated Analytic Story
-* [SamSam Ransomware](/stories/samsam_ransomware)
-* [Ryuk Ransomware](/stories/ryuk_ransomware)
-* [Ransomware](/stories/ransomware)
-* [Clop Ransomware](/stories/clop_ransomware)
+#### Macros
+The SPL above uses the following Macros:
+* [ransomware_extensions](https://github.com/splunk/security_content/blob/develop/macros/ransomware_extensions.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
+Note that `common_ransomware_extensions_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
-#### How To Implement
-You must be ingesting data that records the filesystem activity from your hosts to populate the Endpoint file-system data model node. If you are using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which you want to collect data.\
-This search produces fields (`query`,`query_length`,`count`) that are not yet supported by ES Incident Review and therefore cannot be viewed when a notable event is raised. These fields contribute additional context to the notable. To see the additional metadata, add the following fields, if not already present, to Incident Review - Event Attributes (Configure &gt; Incident Management &gt; Incident Review Settings &gt; Add New Entry):\\n1. **Label:** Name, **Field:** Name\
-1. \
-1. **Label:** File Extension, **Field:** file_extension\
-Detailed documentation on how to create a new field within Incident Review may be found here: `https://docs.splunk.com/Documentation/ES/5.3.0/Admin/Customizenotables#Add_a_field_to_the_notable_event_details`
+#### Lookups
+The SPL above uses the following Lookups:
+
+* [ransomware_extensions_lookup](https://github.com/splunk/security_content/blob/develop/lookups/ransomware_extensions_lookup.yml) with [data](https://github.com/splunk/security_content/blob/develop/lookups/ransomware_extensions.csv)
 
 #### Required field
 * _time
@@ -72,12 +71,26 @@ Detailed documentation on how to create a new field within Incident Review may b
 * Filesystem.file_name
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+You must be ingesting data that records the filesystem activity from your hosts to populate the Endpoint file-system data model node. If you are using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which you want to collect data.\
+This search produces fields (`query`,`query_length`,`count`) that are not yet supported by ES Incident Review and therefore cannot be viewed when a notable event is raised. These fields contribute additional context to the notable. To see the additional metadata, add the following fields, if not already present, to Incident Review - Event Attributes (Configure &gt; Incident Management &gt; Incident Review Settings &gt; Add New Entry):\\n1. **Label:** Name, **Field:** Name\
+1. \
+1. **Label:** File Extension, **Field:** file_extension\
+Detailed documentation on how to create a new field within Incident Review may be found here: `https://docs.splunk.com/Documentation/ES/5.3.0/Admin/Customizenotables#Add_a_field_to_the_notable_event_details`
 
 #### Known False Positives
 It is possible for a legitimate file with these extensions to be created. If this is a true ransomware attack, there will be a large number of files created with these extensions.
+
+#### Associated Analytic story
+* [SamSam Ransomware](/stories/samsam_ransomware)
+* [Ryuk Ransomware](/stories/ryuk_ransomware)
+* [Ransomware](/stories/ransomware)
+* [Clop Ransomware](/stories/clop_ransomware)
+
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 #### RBA
@@ -86,6 +99,8 @@ It is possible for a legitimate file with these extensions to be created. If thi
 | ----------- | ----------- |--------------|--------------|
 | 90.0 | 90 | 100 | A file - $file_name$ was written to disk on endpoint $dest$ by user $user$, this is indicative of a known ransomware file extension and should be reviewed immediately. |
 
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 

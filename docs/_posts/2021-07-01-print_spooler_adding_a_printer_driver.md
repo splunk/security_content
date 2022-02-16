@@ -31,7 +31,7 @@ The following analytic identifies new printer drivers being load by utilizing th
 Within the proof of concept code, the following event will occur - &#34;Printer driver 1234 for Windows x64 Version-3 was added or updated. Files:- UNIDRV.DLL, kernelbase.dll, evil.dll. No user action is required.&#34; \
 During triage, isolate the endpoint and review for source of exploitation. Capture any additional file modification events and review the source of where the exploitation began.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-07-01
@@ -41,8 +41,8 @@ During triage, isolate the endpoint and review for source of exploitation. Captu
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1547.012](https://attack.mitre.org/techniques/T1547/012/) | Print Processors | Persistence, Privilege Escalation |
 
 | [T1547](https://attack.mitre.org/techniques/T1547/) | Boot or Logon Autostart Execution | Persistence, Privilege Escalation |
@@ -57,12 +57,12 @@ During triage, isolate the endpoint and review for source of exploitation. Captu
 | `print_spooler_adding_a_printer_driver_filter`
 ```
 
-#### Associated Analytic Story
-* [PrintNightmare CVE-2021-34527](/stories/printnightmare_cve-2021-34527)
+#### Macros
+The SPL above uses the following Macros:
+* [printservice](https://github.com/splunk/security_content/blob/develop/macros/printservice.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-
-#### How To Implement
-You will need to ensure PrintService Admin and Operational logs are being logged to Splunk from critical or all systems.
+Note that `print_spooler_adding_a_printer_driver_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -72,12 +72,19 @@ You will need to ensure PrintService Admin and Operational logs are being logged
 * Message
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+You will need to ensure PrintService Admin and Operational logs are being logged to Splunk from critical or all systems.
 
 #### Known False Positives
 Unknown. This may require filtering.
+
+#### Associated Analytic story
+* [PrintNightmare CVE-2021-34527](/stories/printnightmare_cve-2021-34527)
+
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA
@@ -86,6 +93,8 @@ Unknown. This may require filtering.
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 80 | 90 | Suspicious print driver was loaded on endpoint $ComputerName$. |
 
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 #### CVE

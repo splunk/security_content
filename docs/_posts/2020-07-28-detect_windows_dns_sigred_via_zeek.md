@@ -26,7 +26,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 This search detects SIGRed via Zeek DNS and Zeek Conn data.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Resolution](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution)
 - **Last Updated**: 2020-07-28
@@ -36,8 +36,8 @@ This search detects SIGRed via Zeek DNS and Zeek Conn data.
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1203](https://attack.mitre.org/techniques/T1203/) | Exploitation for Client Execution | Execution |
 
 #### Search
@@ -55,12 +55,11 @@ This search detects SIGRed via Zeek DNS and Zeek Conn data.
 | fields - count 
 ```
 
-#### Associated Analytic Story
-* [Windows DNS SIGRed CVE-2020-1350](/stories/windows_dns_sigred_cve-2020-1350)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-You must be ingesting Zeek DNS and Zeek Conn data into Splunk. Zeek data should also be getting ingested in JSON format.  We are detecting SIG and KEY records via bro:dns:json and TCP payload over 65KB in size via bro:conn:json.  The Network Resolution and Network Traffic datamodels are in use for this search.
+Note that `detect_windows_dns_sigred_via_zeek_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -70,14 +69,23 @@ You must be ingesting Zeek DNS and Zeek Conn data into Splunk. Zeek data should 
 * All_Traffic.flow_id
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+You must be ingesting Zeek DNS and Zeek Conn data into Splunk. Zeek data should also be getting ingested in JSON format.  We are detecting SIG and KEY records via bro:dns:json and TCP payload over 65KB in size via bro:conn:json.  The Network Resolution and Network Traffic datamodels are in use for this search.
 
 #### Known False Positives
 unknown
 
+#### Associated Analytic story
+* [Windows DNS SIGRed CVE-2020-1350](/stories/windows_dns_sigred_cve-2020-1350)
 
+
+#### Kill Chain Phase
+* Exploitation
+
+
+
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 #### CVE

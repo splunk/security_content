@@ -23,7 +23,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 By populating the organization&#39;s assets within the assets_by_str.csv, we will be able to detect unauthorized devices that are trying to connect with the organization&#39;s network by inspecting DHCP request packets, which are issued by devices when they attempt to obtain an IP address from the DHCP server. The MAC address associated with the source of the DHCP request is checked against the list of known devices, and reports on those that are not found.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Sessions](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkSessions)
 - **Last Updated**: 2017-09-13
@@ -45,12 +45,11 @@ By populating the organization&#39;s assets within the assets_by_str.csv, we wil
 | `detect_unauthorized_assets_by_mac_address_filter`
 ```
 
-#### Associated Analytic Story
-* [Asset Tracking](/stories/asset_tracking)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-This search uses the Network_Sessions data model shipped with Enterprise Security. It leverages the Assets and Identity framework to populate the assets_by_str.csv file located in SA-IdentityManagement, which will contain a list of known authorized organizational assets including their MAC addresses. Ensure that all inventoried systems have their MAC address populated.
+Note that `detect_unauthorized_assets_by_mac_address_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -59,16 +58,25 @@ This search uses the Network_Sessions data model shipped with Enterprise Securit
 * All_Sessions.dest_mac
 
 
+#### How To Implement
+This search uses the Network_Sessions data model shipped with Enterprise Security. It leverages the Assets and Identity framework to populate the assets_by_str.csv file located in SA-IdentityManagement, which will contain a list of known authorized organizational assets including their MAC addresses. Ensure that all inventoried systems have their MAC address populated.
+
+#### Known False Positives
+This search might be prone to high false positives. Please consider this when conducting analysis or investigations. Authorized devices may be detected as unauthorized. If this is the case, verify the MAC address of the system responsible for the false positive and add it to the Assets and Identity framework with the proper information.
+
+#### Associated Analytic story
+* [Asset Tracking](/stories/asset_tracking)
+
+
 #### Kill Chain Phase
 * Reconnaissance
 * Delivery
 * Actions on Objectives
 
 
-#### Known False Positives
-This search might be prone to high false positives. Please consider this when conducting analysis or investigations. Authorized devices may be detected as unauthorized. If this is the case, verify the MAC address of the system responsible for the false positive and add it to the Assets and Identity framework with the proper information.
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 

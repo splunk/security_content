@@ -40,7 +40,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 {{ detection.description }}
 
-- **Type**: {{ detection.type }}
+- **Type**: [{{ detection.type }}](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: {{ detection.tags.product|join(', ') }}
 - **Datamodel**: {% for datamodel in detection.datamodel %}[{{ datamodel }}](https://docs.splunk.com/Documentation/CIM/latest/User/{{ datamodel|replace("_", "")}}){% if not loop.last %}, {% endif %}{%-endfor %}
 - **Last Updated**: {{ detection.date }}
@@ -50,8 +50,8 @@ We have not been able to test, simulate, or build datasets for this detection. U
 {% if detection.mitre_attacks %}
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 {%- for attack in detection.mitre_attacks %}
 {% if attack.technique_id -%}
 {% set sub_technique = attack.technique_id.split('.') %}{% if sub_technique | length > 1 -%}
@@ -69,26 +69,47 @@ We have not been able to test, simulate, or build datasets for this detection. U
 {{ detection.search|replace("|", "\n|")|safe }}
 ```
 
-#### Associated Analytic Story
-{% for story in detection.tags.analytic_story -%}
-* [{{ story }}](/stories/{{story|lower|replace(" ", "_")}})
+{% if detection.macros -%}
+#### Macros
+The SPL above uses the following Macros:
+{% for macro in detection.macros -%}
+{% if not '_filter' in macro.name -%}
+* [{{ macro.name }}](https://github.com/splunk/security_content/blob/develop/macros/{{macro.name}}.yml)
+{% endif -%}
 {% endfor %}
+{% endif -%}
 
-#### How To Implement
-{{ detection.how_to_implement}}
+Note that `{{detection.name | lower | replace(" ", "_") }}_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+
+{% if detection.lookups -%}
+#### Lookups
+The SPL above uses the following Lookups:
+
+{% for lookup in detection.lookups -%}
+* [{{lookup.name}}](https://github.com/splunk/security_content/blob/develop/lookups/{{lookup.name}}.yml) with [data]({{lookup.csv_file_url}})
+{% endfor %}
+{% endif -%}
 
 #### Required field
 {% for field in detection.tags.required_fields -%}
 * {{ field }}
 {% endfor %}
 
+#### How To Implement
+{{ detection.how_to_implement}}
+
+#### Known False Positives
+{{ detection.known_false_positives}}
+
+#### Associated Analytic story
+{% for story in detection.tags.analytic_story -%}
+* [{{ story }}](/stories/{{story|lower|replace(" ", "_")}})
+{% endfor %}
+
 #### Kill Chain Phase
 {% for phase in detection.tags.kill_chain_phases -%}
 * {{ phase }}
 {% endfor %}
-
-#### Known False Positives
-{{ detection.known_false_positives}}
 
 {% if detection.tags.observable %}
 #### RBA
@@ -97,6 +118,8 @@ We have not been able to test, simulate, or build datasets for this detection. U
 | ----------- | ----------- |--------------|--------------|
 | {{(detection.tags.impact * detection.tags.confidence)/100}} | {{ detection.tags.impact }} | {{ detection.tags.confidence }} | {{detection.tags.message}} |
 {% endif %}
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 {% if detection.cve %}
 #### CVE

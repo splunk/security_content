@@ -28,7 +28,7 @@ DSQuery.exe is natively found in `C:\Windows\system32` and `C:\Windows\syswow64`
 The following DLL(s) are loaded when DSQuery.exe is launched `dsquery.dll`. If found loaded by another process, it is possible dsquery is running within that process context in memory.\
 In addition to trust discovery, review parallel processes for additional behaviors performed. Identify the parent process and capture any files (batch files, for example) being used.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-03-31
@@ -38,8 +38,8 @@ In addition to trust discovery, review parallel processes for additional behavio
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1482](https://attack.mitre.org/techniques/T1482/) | Domain Trust Discovery | Discovery |
 
 #### Search
@@ -53,13 +53,12 @@ In addition to trust discovery, review parallel processes for additional behavio
 | `dsquery_domain_discovery_filter`
 ```
 
-#### Associated Analytic Story
-* [Domain Trust Discovery](/stories/domain_trust_discovery)
-* [Active Directory Discovery](/stories/active_directory_discovery)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
+Note that `dsquery_domain_discovery_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -72,12 +71,20 @@ To successfully implement this search you need to be ingesting information on pr
 * Processes.parent_process_id
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
 
 #### Known False Positives
 Limited false positives. If there is a true false positive, filter based on command-line or parent process.
+
+#### Associated Analytic story
+* [Domain Trust Discovery](/stories/domain_trust_discovery)
+* [Active Directory Discovery](/stories/active_directory_discovery)
+
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA
@@ -86,6 +93,8 @@ Limited false positives. If there is a true false positive, filter based on comm
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 80 | 90 | An instance of $parent_process_name$ spawning $process_name$ was identified performing domain discovery on endpoint $dest$ by user $user$. |
 
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 

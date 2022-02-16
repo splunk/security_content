@@ -23,7 +23,7 @@ tags:
 
 This analytic will identify suspicious series of process executions.  We have observed that post exploit framework tools like Koadic and Meterpreter will launch an excessive number of processes with distinct file paths from Windows\Temp to execute actions on objective.  This behavior is extremely anomalous compared to typical application behaviors that use Windows\Temp.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-03
@@ -33,8 +33,8 @@ This analytic will identify suspicious series of process executions.  We have ob
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 
 #### Search
@@ -49,12 +49,12 @@ This analytic will identify suspicious series of process executions.  We have ob
 | `excessive_number_of_distinct_processes_created_in_windows_temp_folder_filter`
 ```
 
-#### Associated Analytic Story
-* [Meterpreter](/stories/meterpreter)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the full process path in the process field of CIM&#39;s Process data model. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed sc.exe may be used.
+Note that `excessive_number_of_distinct_processes_created_in_windows_temp_folder_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -63,12 +63,19 @@ To successfully implement this search, you need to be ingesting logs with the fu
 * Processes.user
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the full process path in the process field of CIM&#39;s Process data model. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed sc.exe may be used.
 
 #### Known False Positives
 Many benign applications will create processes from executables in Windows\Temp, although unlikely to exceed the given threshold.  Filter as needed.
+
+#### Associated Analytic story
+* [Meterpreter](/stories/meterpreter)
+
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA
@@ -77,6 +84,8 @@ Many benign applications will create processes from executables in Windows\Temp,
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | Multiple processes were executed out of windows\temp within a short amount of time on $dest$. |
 
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 

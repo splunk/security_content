@@ -27,7 +27,7 @@ tags:
 
 This analytic is to detect a suspicious modification of time provider registry for persistence and autostart. This technique can allow the attacker to persist on the compromised host and autostart as soon as the machine boot up. This TTP can be a good indicator of suspicious behavior since this registry is not commonly modified by normal user or even an admin.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2022-01-26
@@ -37,8 +37,8 @@ This analytic is to detect a suspicious modification of time provider registry f
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1547.003](https://attack.mitre.org/techniques/T1547/003/) | Time Providers | Persistence, Privilege Escalation |
 
 | [T1547](https://attack.mitre.org/techniques/T1547/) | Boot or Logon Autostart Execution | Persistence, Privilege Escalation |
@@ -59,13 +59,11 @@ This analytic is to detect a suspicious modification of time provider registry f
 | `time_provider_persistence_registry_filter`
 ```
 
-#### Associated Analytic Story
-* [Windows Persistence Techniques](/stories/windows_persistence_techniques)
-* [Windows Privilege Escalation](/stories/windows_privilege_escalation)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search, you must be ingesting data that records registry activity from your hosts to populate the endpoint data model in the registry node. This is typically populated via endpoint detection-and-response product, such as Carbon Black or endpoint data sources, such as Sysmon. The data used for this search is typically generated via logs that report reads and writes to the registry.
+Note that `time_provider_persistence_registry_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -76,12 +74,20 @@ To successfully implement this search, you must be ingesting data that records r
 * Registry.registry_value_name
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search, you must be ingesting data that records registry activity from your hosts to populate the endpoint data model in the registry node. This is typically populated via endpoint detection-and-response product, such as Carbon Black or endpoint data sources, such as Sysmon. The data used for this search is typically generated via logs that report reads and writes to the registry.
 
 #### Known False Positives
 unknown
+
+#### Associated Analytic story
+* [Windows Persistence Techniques](/stories/windows_persistence_techniques)
+* [Windows Privilege Escalation](/stories/windows_privilege_escalation)
+
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA
@@ -90,6 +96,8 @@ unknown
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | modified/added/deleted registry entry $Registry.registry_path$ in $dest$ |
 
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 

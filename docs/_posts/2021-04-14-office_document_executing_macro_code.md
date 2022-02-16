@@ -25,7 +25,7 @@ tags:
 
 this detection was designed to identifies suspicious office documents that using macro code. Macro code is known to be one of the prevalent weaponization or attack vector of threat actor. This malicious macro code is embed to a office document as an attachment that may execute malicious payload, download malware payload or other malware component. It is really good practice to disable macro by default to avoid automatically execute macro code while opening or closing a office document files.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-04-14
@@ -35,8 +35,8 @@ this detection was designed to identifies suspicious office documents that using
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1566](https://attack.mitre.org/techniques/T1566/) | Phishing | Initial Access |
 
 | [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
@@ -51,14 +51,12 @@ this detection was designed to identifies suspicious office documents that using
 | `office_document_executing_macro_code_filter`
 ```
 
-#### Associated Analytic Story
-* [Spearphishing Attachments](/stories/spearphishing_attachments)
-* [Trickbot](/stories/trickbot)
-* [IcedID](/stories/icedid)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name and ImageLoaded (Like sysmon EventCode 7) from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Also be sure to include those monitored dll to your own sysmon config.
+Note that `office_document_executing_macro_code_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * ImageLoaded
@@ -72,12 +70,21 @@ To successfully implement this search, you need to be ingesting logs with the pr
 * _time
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name and ImageLoaded (Like sysmon EventCode 7) from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Also be sure to include those monitored dll to your own sysmon config.
 
 #### Known False Positives
 Normal Office Document macro use for automation
+
+#### Associated Analytic story
+* [Spearphishing Attachments](/stories/spearphishing_attachments)
+* [Trickbot](/stories/trickbot)
+* [IcedID](/stories/icedid)
+
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA
@@ -86,6 +93,8 @@ Normal Office Document macro use for automation
 | ----------- | ----------- |--------------|--------------|
 | 35.0 | 70 | 50 | Office document executing a macro on $dest$ |
 
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 

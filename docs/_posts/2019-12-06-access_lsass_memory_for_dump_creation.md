@@ -24,7 +24,7 @@ tags:
 
 Detect memory dumping of the LSASS process.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2019-12-06
@@ -34,8 +34,8 @@ Detect memory dumping of the LSASS process.
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1003.001](https://attack.mitre.org/techniques/T1003/001/) | LSASS Memory | Credential Access |
 
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
@@ -51,12 +51,12 @@ Detect memory dumping of the LSASS process.
 | `access_lsass_memory_for_dump_creation_filter` 
 ```
 
-#### Associated Analytic Story
-* [Credential Dumping](/stories/credential_dumping)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 
-
-#### How To Implement
-This search requires Sysmon Logs and a Sysmon configuration, which includes EventCode 10 for lsass.exe. This search uses an input macro named `sysmon`. We strongly recommend that you specify your environment-specific configurations (index, source, sourcetype, etc.) for Windows Sysmon logs. Replace the macro definition with configurations for your Splunk environment. The search also uses a post-filter macro designed to filter out known false positives.
+Note that `access_lsass_memory_for_dump_creation_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -69,12 +69,19 @@ This search requires Sysmon Logs and a Sysmon configuration, which includes Even
 * SourceProcessId
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+This search requires Sysmon Logs and a Sysmon configuration, which includes EventCode 10 for lsass.exe. This search uses an input macro named `sysmon`. We strongly recommend that you specify your environment-specific configurations (index, source, sourcetype, etc.) for Windows Sysmon logs. Replace the macro definition with configurations for your Splunk environment. The search also uses a post-filter macro designed to filter out known false positives.
 
 #### Known False Positives
 Administrators can create memory dumps for debugging purposes, but memory dumps of the LSASS process would be unusual.
+
+#### Associated Analytic story
+* [Credential Dumping](/stories/credential_dumping)
+
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 #### RBA
@@ -83,6 +90,8 @@ Administrators can create memory dumps for debugging purposes, but memory dumps 
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | process $SourceImage$ injected into $TargetImage$ and was attempted dump LSASS on $dest$. Adversaries tend to do this when trying to accesss credential material stored in the process memory of the Local Security Authority Subsystem Service (LSASS). |
 
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 

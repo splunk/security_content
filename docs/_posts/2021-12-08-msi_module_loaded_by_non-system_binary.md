@@ -33,7 +33,7 @@ The following hunting analytic identifies `msi.dll` being loaded by a binary not
 1. Racing to introduce a junction and a symlink to trick msiexec.exe to modify the attacker specified file. \
 In addition, `msi.dll` has been abused in DLL side-loading attacks by being loaded by non-system binaries.
 
-- **Type**: Hunting
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-12-08
@@ -43,8 +43,8 @@ In addition, `msi.dll` has been abused in DLL side-loading attacks by being load
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1574.002](https://attack.mitre.org/techniques/T1574/002/) | DLL Side-Loading | Persistence, Privilege Escalation, Defense Evasion |
 
 | [T1574](https://attack.mitre.org/techniques/T1574/) | Hijack Execution Flow | Persistence, Privilege Escalation, Defense Evasion |
@@ -59,12 +59,12 @@ In addition, `msi.dll` has been abused in DLL side-loading attacks by being load
 | `msi_module_loaded_by_non_system_binary_filter`
 ```
 
-#### Associated Analytic Story
-* [Windows Privilege Escalation](/stories/windows_privilege_escalation)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name and imageloaded executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+Note that `msi_module_loaded_by_non-system_binary_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -76,12 +76,19 @@ To successfully implement this search, you need to be ingesting logs with the pr
 * ProcessId
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name and imageloaded executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 
 #### Known False Positives
 It is possible some Administrative utilities will load msi.dll outside of normal system paths, filter as needed.
+
+#### Associated Analytic story
+* [Windows Privilege Escalation](/stories/windows_privilege_escalation)
+
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA
@@ -90,6 +97,8 @@ It is possible some Administrative utilities will load msi.dll outside of normal
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 80 | 70 | The following module $ImageLoaded$ was loaded by $Image$ outside of the normal system paths on endpoint $Computer$, potentally related to DLL side-loading. |
 
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 

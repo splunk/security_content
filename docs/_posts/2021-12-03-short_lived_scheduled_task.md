@@ -24,7 +24,7 @@ tags:
 
 The following analytic leverages Windows Security EventCode 4698, `A scheduled task was created` and Windows Security EventCode 4699, `A scheduled task was deleted` to identify scheduled tasks created and deleted in less than 30 seconds. This behavior may represent a lateral movement attack abusing the Task Scheduler to obtain code execution. Red Teams and adversaries alike may abuse the Task Scheduler for lateral movement and remote code execution.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-12-03
@@ -34,8 +34,8 @@ The following analytic leverages Windows Security EventCode 4698, `A scheduled t
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1053.005](https://attack.mitre.org/techniques/T1053/005/) | Scheduled Task | Execution, Persistence, Privilege Escalation |
 
 #### Search
@@ -50,12 +50,11 @@ The following analytic leverages Windows Security EventCode 4698, `A scheduled t
 | `short_lived_scheduled_task_filter` 
 ```
 
-#### Associated Analytic Story
-* [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
+#### Macros
+The SPL above uses the following Macros:
+* [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting Windows Security Event Logs with 4698 EventCode enabled. The Windows TA is also required.
+Note that `short_lived_scheduled_task_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -67,12 +66,19 @@ To successfully implement this search, you need to be ingesting Windows Security
 * Command
 
 
-#### Kill Chain Phase
-* Lateral Movement
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting Windows Security Event Logs with 4698 EventCode enabled. The Windows TA is also required.
 
 #### Known False Positives
 Although uncommon, legitimate applications may create and delete a Scheduled Task within 30 seconds. Filter as needed.
+
+#### Associated Analytic story
+* [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
+
+
+#### Kill Chain Phase
+* Lateral Movement
+
 
 
 #### RBA
@@ -81,6 +87,8 @@ Although uncommon, legitimate applications may create and delete a Scheduled Tas
 | ----------- | ----------- |--------------|--------------|
 | 81.0 | 90 | 90 | A windows scheduled task was created and deleted in 30 seconds on $ComputerName$ |
 
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 

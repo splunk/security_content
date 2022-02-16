@@ -25,7 +25,7 @@ tags:
 
 This analytic identifies a process making a DNS query to Discord, a well known instant messaging and digital distribution platform. Discord can be abused by adversaries, as seen in the WhisperGate campaign, to host and download malicious. external files. A process resolving a Discord DNS name could be an indicator of malware trying to download files from Discord for further execution.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2022-01-19
@@ -35,8 +35,8 @@ This analytic identifies a process making a DNS query to Discord, a well known i
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1059.005](https://attack.mitre.org/techniques/T1059/005/) | Visual Basic | Execution |
 
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
@@ -51,12 +51,12 @@ This analytic identifies a process making a DNS query to Discord, a well known i
 | `suspicious_process_with_discord_dns_query_filter`
 ```
 
-#### Associated Analytic Story
-* [WhisperGate](/stories/whispergate)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 
-
-#### How To Implement
-his detection relies on sysmon logs with the Event ID 22, DNS Query.
+Note that `suspicious_process_with_discord_dns_query_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -69,12 +69,19 @@ his detection relies on sysmon logs with the Event ID 22, DNS Query.
 * process_path
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+his detection relies on sysmon logs with the Event ID 22, DNS Query.
 
 #### Known False Positives
 Noise and false positive can be seen if the following instant messaging is allowed to use within corporate network. In this case, a filter is needed.
+
+#### Associated Analytic story
+* [WhisperGate](/stories/whispergate)
+
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA
@@ -83,6 +90,8 @@ Noise and false positive can be seen if the following instant messaging is allow
 | ----------- | ----------- |--------------|--------------|
 | 64.0 | 80 | 80 | suspicious process $process_name$ has a dns query in $QueryName$ on $Computer$ |
 
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 

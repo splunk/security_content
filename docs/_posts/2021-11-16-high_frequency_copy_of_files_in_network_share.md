@@ -23,7 +23,7 @@ tags:
 
 This analytic is to detect a suspicious high frequency copying/moving of files in network share as part of information sabotage. This anomaly event can be a good indicator of insider trying to sabotage data by transfering classified or internal files within network share to exfitrate it after or to lure evidence of insider attack to other user. This behavior may catch several noise if network share is a common place for classified or internal document processing.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-11-16
@@ -33,8 +33,8 @@ This analytic is to detect a suspicious high frequency copying/moving of files i
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1537](https://attack.mitre.org/techniques/T1537/) | Transfer Data to Cloud Account | Exfiltration |
 
 #### Search
@@ -50,12 +50,11 @@ This analytic is to detect a suspicious high frequency copying/moving of files i
 | `high_frequency_copy_of_files_in_network_share_filter`
 ```
 
-#### Associated Analytic Story
-* [Information Sabotage](/stories/information_sabotage)
+#### Macros
+The SPL above uses the following Macros:
+* [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 
-
-#### How To Implement
-o successfully implement this search, you need to be ingesting Windows Security Event Logs with 5145 EventCode enabled. The Windows TA is also required. Also enable the object Audit access success/failure in your group policy.
+Note that `high_frequency_copy_of_files_in_network_share_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -69,12 +68,19 @@ o successfully implement this search, you need to be ingesting Windows Security 
 * Source_Address
 
 
-#### Kill Chain Phase
-* Exfiltration
-
+#### How To Implement
+o successfully implement this search, you need to be ingesting Windows Security Event Logs with 5145 EventCode enabled. The Windows TA is also required. Also enable the object Audit access success/failure in your group policy.
 
 #### Known False Positives
 this behavior may seen in normal transfer of file within network if network share is common place for sharing documents.
+
+#### Associated Analytic story
+* [Information Sabotage](/stories/information_sabotage)
+
+
+#### Kill Chain Phase
+* Exfiltration
+
 
 
 #### RBA
@@ -83,6 +89,8 @@ this behavior may seen in normal transfer of file within network if network shar
 | ----------- | ----------- |--------------|--------------|
 | 9.0 | 30 | 30 | high frequency copy of document in network share $Share_Name$ from $Source_Address$ by $user$ |
 
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 

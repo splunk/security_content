@@ -35,7 +35,7 @@ tags:
 
 SharpHound is used as a reconnaissance collector, ingestor, for BloodHound. SharpHound will query the domain controller and begin gathering all the data related to the domain and trusts. For output, it will drop a .zip file upon completion following a typical pattern that is often not changed. This analytic focuses on the default file name scheme. Note that this may be evaded with different parameters within SharpHound, but that depends on the operator. `-randomizefilenames` and `-encryptzip` are two examples. In addition, executing SharpHound via .exe or .ps1 without any command-line arguments will still perform activity and dump output to the default filename. Example default filename `20210601181553_BloodHound.zip`. SharpHound creates multiple temp files following the same pattern `20210601182121_computers.json`, `domains.json`, `gpos.json`, `ous.json` and `users.json`. Tuning may be required, or remove these json&#39;s entirely if it is too noisy. During traige, review parallel processes for further suspicious behavior. Typically, the process executing the `.ps1` ingestor will be PowerShell.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-05-27
@@ -45,8 +45,8 @@ SharpHound is used as a reconnaissance collector, ingestor, for BloodHound. Shar
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1087.002](https://attack.mitre.org/techniques/T1087/002/) | Domain Account | Discovery |
 
 | [T1069.001](https://attack.mitre.org/techniques/T1069/001/) | Local Groups | Discovery |
@@ -72,13 +72,12 @@ SharpHound is used as a reconnaissance collector, ingestor, for BloodHound. Shar
 | `detect_sharphound_file_modifications_filter`
 ```
 
-#### Associated Analytic Story
-* [Discovery Techniques](/stories/discovery_techniques)
-* [Ransomware](/stories/ransomware)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search you need to be ingesting information on file modifications that include the name of the process, and file, responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Filesystem` node.
+Note that `detect_sharphound_file_modifications_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -89,12 +88,20 @@ To successfully implement this search you need to be ingesting information on fi
 * file_create_time
 
 
-#### Kill Chain Phase
-* Reconnaissance
-
+#### How To Implement
+To successfully implement this search you need to be ingesting information on file modifications that include the name of the process, and file, responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Filesystem` node.
 
 #### Known False Positives
 False positives should be limited as the analytic is specific to a filename with extension .zip. Filter as needed.
+
+#### Associated Analytic story
+* [Discovery Techniques](/stories/discovery_techniques)
+* [Ransomware](/stories/ransomware)
+
+
+#### Kill Chain Phase
+* Reconnaissance
+
 
 
 #### RBA
@@ -103,6 +110,8 @@ False positives should be limited as the analytic is specific to a filename with
 | ----------- | ----------- |--------------|--------------|
 | 24.0 | 30 | 80 | Potential SharpHound file modifications identified on $dest$ |
 
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 

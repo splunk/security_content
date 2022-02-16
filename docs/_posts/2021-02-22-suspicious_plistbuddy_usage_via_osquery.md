@@ -35,7 +35,7 @@ The following analytic identifies the use of a native MacOS utility, PlistBuddy,
 - PlistBuddy -c &#34;Add :ProgramArguments:1 string -c&#34; ~/Library/Launchagents/init_verx.plist \
 Upon triage, capture the property list file being written to disk and review for further indicators. Contain the endpoint and triage further.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-02-22
@@ -45,8 +45,8 @@ Upon triage, capture the property list file being written to disk and review for
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1543.001](https://attack.mitre.org/techniques/T1543/001/) | Launch Agent | Persistence, Privilege Escalation |
 
 | [T1543](https://attack.mitre.org/techniques/T1543/) | Create or Modify System Process | Persistence, Privilege Escalation |
@@ -58,26 +58,34 @@ Upon triage, capture the property list file being written to disk and review for
 |  `suspicious_plistbuddy_usage_via_osquery_filter`
 ```
 
-#### Associated Analytic Story
-* [Silver Sparrow](/stories/silver_sparrow)
+#### Macros
+The SPL above uses the following Macros:
+* [osquery_process](https://github.com/splunk/security_content/blob/develop/macros/osquery_process.yml)
 
-
-#### How To Implement
-OSQuery must be installed and configured to pick up process events (info at https://osquery.io) as well as using the Splunk OSQuery Add-on https://splunkbase.splunk.com/app/4402. Modify the macro and validate fields are correct.
+Note that `suspicious_plistbuddy_usage_via_osquery_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
 * columns.cmdline
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+OSQuery must be installed and configured to pick up process events (info at https://osquery.io) as well as using the Splunk OSQuery Add-on https://splunkbase.splunk.com/app/4402. Modify the macro and validate fields are correct.
 
 #### Known False Positives
 Some legitimate applications may use PlistBuddy to create or modify property lists and possibly generate false positives. Review the property list being modified or created to confirm.
 
+#### Associated Analytic story
+* [Silver Sparrow](/stories/silver_sparrow)
 
+
+#### Kill Chain Phase
+* Actions on Objectives
+
+
+
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 

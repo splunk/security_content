@@ -24,7 +24,7 @@ tags:
 
 The following analytic identifies the use of curl on Linux or MacOS attempting to download a file from a remote source and pipe it to bash. This is typically found with coinminers and most recently with CVE-2021-44228, a vulnerability in Log4j.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-12-10
@@ -34,8 +34,8 @@ The following analytic identifies the use of curl on Linux or MacOS attempting t
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1105](https://attack.mitre.org/techniques/T1105/) | Ingress Tool Transfer | Command And Control |
 
 #### Search
@@ -50,13 +50,12 @@ The following analytic identifies the use of curl on Linux or MacOS attempting t
 | `curl_download_and_bash_execution_filter`
 ```
 
-#### Associated Analytic Story
-* [Ingress Tool Transfer](/stories/ingress_tool_transfer)
-* [Log4Shell CVE-2021-44228](/stories/log4shell_cve-2021-44228)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon for Linux, you will need to ensure mapping is occurring correctly. If the EDR is not parsing the pipe bash in the command-line, modifying the analytic will be required. Add parent process name (Processes.parent_process_name) as needed to filter.
+Note that `curl_download_and_bash_execution_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -72,12 +71,20 @@ To successfully implement this search, you need to be ingesting logs with the pr
 * Processes.parent_process_id
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon for Linux, you will need to ensure mapping is occurring correctly. If the EDR is not parsing the pipe bash in the command-line, modifying the analytic will be required. Add parent process name (Processes.parent_process_name) as needed to filter.
 
 #### Known False Positives
 False positives should be limited, however filtering may be required.
+
+#### Associated Analytic story
+* [Ingress Tool Transfer](/stories/ingress_tool_transfer)
+* [Log4Shell CVE-2021-44228](/stories/log4shell_cve-2021-44228)
+
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA
@@ -86,6 +93,8 @@ False positives should be limited, however filtering may be required.
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | An instance of $process_name$ was identified on endpoint $dest$ attempting to download a remote file and run it with bash. |
 
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 #### CVE
