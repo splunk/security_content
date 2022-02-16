@@ -7,7 +7,8 @@ type: Anomaly
 datamodel: []
 description: The following hunting analytic leverages Kerberos Event 4769, A Kerberos service ticket was requested, to identify a potential kerberoasting attack
  against Active Directory networks. Kerberoasting allows an adversary to request kerberos tickets for domain accounts typically used as service accounts and 
- attempt to crack them offline allowing them to obtain privileged access to the domain. 
+ attempt to crack them offline allowing them to obtain privileged access to the domain.\
+ 
  The detection calculates the standard deviation for each host and leverages the
  3-sigma statistical rule to identify an unusual number service ticket requests. To customize this
  analytic, users can try different combinations of the `bucket` span time and the
