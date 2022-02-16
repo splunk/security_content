@@ -8,12 +8,10 @@ datamodel: []
 description: The following hunting analytic leverages Kerberos Event 4769, A Kerberos service ticket was requested, to identify a potential kerberoasting attack
  against Active Directory networks. Kerberoasting allows an adversary to request kerberos tickets for domain accounts typically used as service accounts and 
  attempt to crack them offline allowing them to obtain privileged access to the domain. 
-
  The detection calculates the standard deviation for each host and leverages the
  3-sigma statistical rule to identify an unusual number service ticket requests. To customize this
  analytic, users can try different combinations of the `bucket` span time and the
  calculation of the `upperBound` field. 
-
 search: ' `wineventlog_security` EventCode=4769 Service_Name!="*$" Ticket_Encryption_Type=0x17
 | bucket span=2m _time
 | stats dc(Service_Name) AS unique_services values(Service_Name) as requested_services by _time, Client_Address
