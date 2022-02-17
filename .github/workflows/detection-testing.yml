@@ -87,7 +87,7 @@ jobs:
               echo "Push from branch [${{ steps.vars.outputs.branch }}]"
               python detection_testing_execution.py run --branch  ${{ steps.vars.outputs.branch }}  --mode changes --mock --config_file test_config_github_actions.json
             fi
-            ls
+            
             mv *-test-run.json replicate_test.json
         - name: Upload Test Results Files
           uses: actions/upload-artifact@v2

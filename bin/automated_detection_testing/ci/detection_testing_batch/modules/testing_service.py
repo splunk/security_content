@@ -166,6 +166,8 @@ def test_detection(splunk_ip:str, splunk_port:int, container_name:str, splunk_pa
 
 
         #Don't run this search for each individual sourcetype, just run it on the index that we have ingested the data into
+        #The most common cause for a failed search is just that we didn't wait long enough for everything to be ingested.
+        #We try to solve this with polling for the number of events, but that doesn't always help and we need to try again.
         if not splunk_sdk.wait_for_indexing_to_complete(splunk_ip, splunk_port, splunk_password, None, "main", previous_attempt_failed=True):
             raise Exception("There was an error waiting for indexing to complete.")
 

@@ -1,5 +1,6 @@
 from collections import OrderedDict
 import datetime
+from re import L
 import docker
 import docker.types
 import docker.models
@@ -46,7 +47,7 @@ class SplunkContainer:
         self.interactive_failure = interactive_failure
         self.interactive = interactive
         self.synchronization_object = synchronization_object
-        self.client = docker.client.from_env()
+        
         self.full_docker_hub_path = full_docker_hub_path
         self.container_password = container_password
         self.local_apps = local_apps
@@ -71,7 +72,11 @@ class SplunkContainer:
         self.test_start_time = -1
         self.num_tests_completed = 0
 
+        #Set daemon to true so program can stop even if this thread is still running
+        self.container_health_thread = threading.Thread(target=self.monitor_container_health, args=(), daemon=True)
 
+        self.container_health_thread_stop = False
+        
     def prepare_apps_path(
         self,
         local_apps: OrderedDict,
@@ -162,7 +167,8 @@ class SplunkContainer:
         # First, make sure that the container has been removed if it already existed
         self.removeContainer()
 
-        container = self.client.containers.create(
+        client = docker.client.from_env()
+        container = client.containers.create(
             self.full_docker_hub_path,
             ports=self.ports,
             environment=self.environment,
@@ -206,11 +212,12 @@ class SplunkContainer:
 
     def stopContainer(self,timeout=10) -> bool:
         try:        
-            container = self.client.containers.get(self.container_name)
+            self.container_health_thread_stop = True
+            client = docker.client.from_env()
+            container = client.containers.get(self.container_name)
             #Note that stopping does not remove any of the volumes or logs,
             #so stopping can be useful if we want to debug any container failure 
             container.stop(timeout=10)
-            self.synchronization_object.containerFailure()
             return True
 
         except Exception as e:
@@ -218,15 +225,24 @@ class SplunkContainer:
             print("Error stopping docker container [%s]"%(self.container_name))
             return False
         
+        #Always runs, regardless of whether or not the try/except fails
+        finally:
+            self.synchronization_object.containerFailure()
+        
 
     def removeContainer(
         self, removeVolumes: bool = True, forceRemove: bool = True
     ) -> bool:
+        
+        self.container_health_thread_stop = True
         try:
-            container = self.client.containers.get(self.container_name)
+            client = docker.client.from_env()
+            container = client.containers.get(self.container_name)
         except Exception as e:
             # Container does not exist, no need to try and remove it
             return True
+
+        
         try:
             # container was found, so now we try to remove it
             # v also removes volumes linked to the container
@@ -314,10 +330,13 @@ class SplunkContainer:
             time.sleep(seconds_between_attempts)
 
     
-    @wrapt_timeout_decorator.timeout(MAX_CONTAINER_START_TIME_SECONDS, timeout_exception=RuntimeError)
+    #@wrapt_timeout_decorator.timeout(MAX_CONTAINER_START_TIME_SECONDS, timeout_exception=RuntimeError)
     def setup_container(self):
 
         self.container.start()
+        self.container_health_thread.start()
+
+
         # By default, first copy the index file then the datamodel file
         for file_description, file_dict in self.files_to_copy_to_container.items():
             self.extract_tar_file_to_container(
@@ -345,6 +364,29 @@ class SplunkContainer:
 
         return None
     
+    def monitor_container_health(self, interval_seconds:int = 5):
+        #This will be a thread started when we start the container.  
+        #It will be stopped when we stop the container.  If the 
+        #container shuts down before we stop the thread, then we know 
+        #it has "crashed" and that will be a flag to stop the testing
+        while True:
+            time.sleep(interval_seconds)
+            if self.container_health_thread_stop is True:
+                return
+            try:
+                docker_client = docker.client.from_env()
+                container = docker_client.containers.get(self.container_name)
+                if container.attrs['State']['Running'] is not True:
+                    print(f"Container [{self.container_name}] has crashed unexpectedly.  Try running 'docker logs {self.container_name}' to troubleshoot.")
+                    self.stopContainer()
+                    return
+            except Exception as e:
+                print(f"There was an issue checking the status of [{self.container_name}]")
+                self.stopContainer()
+                return
+
+                
+
 
     def run_container(self) -> None:
         print("Starting the container [%s]" % (self.container_name))

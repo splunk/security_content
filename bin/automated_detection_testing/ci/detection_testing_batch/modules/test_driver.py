@@ -51,12 +51,11 @@ class TestDriver:
         # Warning the first time this function is called with interval = 0.0 or None it will return a meaningless 0.0 value which you are supposed to ignore.
         # We call this exactly once here to prime for future calls and throw away the result
         cpu_info = psutil.cpu_times_percent(percpu=False)
-            
+        
+        
 
     def checkContainerFailure(self)->bool:
-        
         self.lock.acquire()
-        
         try:
             result = self.container_failure
         finally:
@@ -73,6 +72,7 @@ class TestDriver:
             self.container_failure = True
         finally:
             self.lock.release()
+        print(f"just set container_failure to true {self.container_failure}")
         
     def checkIfTestsRemain(self):
         failure = self.checkContainerFailure()
@@ -245,7 +245,7 @@ class TestDriver:
     def cleanup(self):
         self.lock.acquire()
         try:
-            print("Removing all attack data that was downloaded during this test at: [%s]"%(self.attack_data_root_folder))
+            print("Removing all attack data that was downloaded during this test at: [%s]"%(os.path.relpath(self.attack_data_root_folder)))
             shutil.rmtree(self.attack_data_root_folder)
             print("Successfully removed all attack data")
         finally:
@@ -291,7 +291,7 @@ class TestDriver:
             if not testing_currently_active:
                 #Testing has not started yet. We are setting up containers
                 print("***********PROGRESS UPDATE***********\n"\
-                      "\tWaiting for container setup: %s\n\t%s\n"%(datetime.timedelta(seconds=current_time - self.start_time),system_stats))
+                      "\tWaiting for container setup: %s\n\t%s\n"%(datetime.timedelta(seconds=round(current_time - self.start_time)),system_stats))
             else:
                 
                 if self.container_ready_time is None:

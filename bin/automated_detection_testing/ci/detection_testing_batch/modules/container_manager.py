@@ -226,6 +226,8 @@ class ContainerManager:
     def queue_status_thread(self, status_interval:int=60)->None:
 
         while True:
+            
+
             if self.synchronization_object.checkContainerFailure():
                 print("One of the containers has shut down prematurely and generated an exception. Shut down the rest of the containers.")
                 for container in self.containers:

@@ -93,35 +93,38 @@ def get_number_of_indexed_events(splunk_host, splunk_port, splunk_password, inde
     
 
 
-def wait_for_indexing_to_complete(splunk_host, splunk_port, splunk_password, sourcetype:Union[str,None], index:str, check_interval_seconds:int=10, previous_attempt_failed:bool=False, failure_modifier:int=5)->bool:
+def wait_for_indexing_to_complete(splunk_host, splunk_port, splunk_password, sourcetype:Union[str,None], index:str, check_interval_seconds:int=10, previous_attempt_failed:bool=False, failure_modifier:int=6)->bool:
     #If a previous attempt has failed, there is a good chance we didn't wait long enough between checks of updates.
     #Since failures are relatively infrequent, wait a really long time as we run this check again.
-    if previous_attempt_failed is True:
-        check_interval_seconds *= failure_modifier
         
 
-    startTime = timeit.default_timer()
+    
     previous_count = -1
-    time.sleep(check_interval_seconds)
+    if previous_attempt_failed is True:
+        time.sleep(check_interval_seconds * failure_modifier)
+    else:
+        time.sleep(check_interval_seconds)
+
     while True:
         new_count = get_number_of_indexed_events(splunk_host, splunk_port, splunk_password, index=index, sourcetype=sourcetype)
-        #print(f"Previous Count [{previous_count}] New Count [{new_count}]")
-        if previous_count == -1:
-            previous_count = new_count
-        else:
-            if new_count == previous_count:
-                stopTime = timeit.default_timer()
-                return True
-            else:
-                previous_count = new_count
         
-        #If new_count is really low, then the server is taking some extra time to index the data.
-        # So sleep for longer to make sure that we give time to complete (or at least process more
-        # events so we don't return from this function prematurely) 
-        if new_count < 2:
-            time.sleep(check_interval_seconds*3)
+    
+        if new_count == previous_count:
+            
+            return True
         else:
-            time.sleep(check_interval_seconds)
+            if new_count < (previous_count + 5):
+                #If this is a very low number, then there were either a tiny number of events,
+                # which is fairly rare, or no events were ingested, or ingestion is taking a very long time.
+                #We will wait some extra time because it's usually the last one.
+                time.sleep(check_interval_seconds*2)
+            else:
+                time.sleep(check_interval_seconds)
+            previous_count = new_count
+    
+            
+            
+
         
 
 '''

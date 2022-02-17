@@ -34,7 +34,8 @@ class GithubService:
     def __init__(self, security_content_branch: Union[str,None], commit_hash: Union[str,None], PR_number: Union[int,None], persist_security_content:bool = False):
         
         if PR_number is not None and security_content_branch is not None:
-            raise(Exception(f"Error - branch {security_content_branch} and PR_number {PR_number} were provided.  You may only provide branch OR PR_number, not both"))
+            print(f"Warning - branch {security_content_branch} and PR_number {PR_number} were provided.  You may only provide branch OR PR_number, not both. Dropping branch and assuming PR number...")
+            security_content_branch = None
         if PR_number is None and security_content_branch is None and commit_hash is None:
             raise(Exception("PR number, branch, and commit hash were all none.  There is nothing we can check out."))
 
@@ -50,7 +51,7 @@ class GithubService:
                 
 
         self.PR_number = PR_number
-        persist_security_content=False
+        
         if persist_security_content is False and os.path.exists(SECURITY_CONTENT_DIRECTORY_NAME):
             print("Deleting the security_content directory...",end='')
             sys.stdout.flush()
@@ -63,12 +64,13 @@ class GithubService:
             print("done")
         
         if persist_security_content is True and os.path.exists(SECURITY_CONTENT_DIRECTORY_NAME):
-            print(f"************************ \n"
-                  "Warning: the {SECURITY_CONTENT_DIRECTORY_NAME} directory exists and you have set "
-                  "persist_security_content to true.  We will intentionally not overwrite/update/check "
-                  "out the repo - doing so can clobber local changes.  Only use this option if you are "
-                  "using a very low bandwidth connection or have made local changes you wish to test "
-                  "without pushing them to the repo.\n************************")
+            print("\n********************************************************************************\n\n"
+                  f"Warning: the {SECURITY_CONTENT_DIRECTORY_NAME} directory exists and you have set\n"
+                  "persist_security_content to true.  We will intentionally not overwrite/update/check\n"
+                  "out the repo - doing so can clobber local changes.  Only use this option if you are\n"
+                  "using a very low bandwidth connection or have made local changes you wish to test\n"
+                  "without pushing them to the repo.\n\n"
+                  "********************************************************************************\n")
 
         #Now get the security_content repo if it doesn't exist:
         #It didn't exist in the first place
@@ -78,6 +80,8 @@ class GithubService:
             sys.stdout.flush()
             self.security_content_repo_obj = self.clone_project(SECURITY_CONTENT_URL, SECURITY_CONTENT_DIRECTORY_NAME, SECURITY_CONTENT_MAIN_BRANCH)
             print("done")
+        else:
+            self.security_content_repo_obj = git.Repo("security_content")
 
 
         #For a Fork PR, that branch may not exist in security_content.  Or, worse, it may
@@ -86,9 +90,14 @@ class GithubService:
             self.security_content_remote_branch = security_content_branch
             self.security_content_local_branch = LOCAL_PR_BRANCH%self.PR_number
 
+            print(f"Checking out pull request {PR_number}...",end='')
+            sys.stdout.flush()
+            
             self.security_content_repo_obj.git.fetch("origin", f"pull/{self.PR_number}/head:{self.security_content_local_branch}")
+            
             self.security_content_repo_obj.git.checkout(self.security_content_local_branch)
-
+            print("done")
+            
         elif commit_hash is not None:
                 if security_content_branch is None:
                     security_content_branch = f"UNKNOWN_BRANCH_{commit_hash}"
@@ -117,10 +126,30 @@ class GithubService:
             if "origin/%s"%(self.security_content_remote_branch) not in branch_names:
                 raise(Exception("Branch name [%s] not found in valid branches.  Try running \n"\
                            "'git branch -a' to examine [%d] branches"%(self.security_content_remote_branch, len(branch_names))))
+            
             print(f"Checking out branch: [{security_content_branch}]...", end='')
             sys.stdout.flush()
-            self.security_content_repo_obj.git.checkout(security_content_branch)
-            print("done")
+            
+            try:
+                self.security_content_repo_obj.git.checkout(security_content_branch)
+                print("done")
+            except Exception as e:
+                print(f"\nError checking out branch [{security_content_branch}]:\n{str(e)}", file=sys.stderr)
+                response = input(f"THIS WILL OVERWRITE LOCAL CHANGES TO BRANCH [{security_content_branch}]\n\t @ {os.path.abspath(SECURITY_CONTENT_DIRECTORY_NAME)}\n\tType 'yes' if you want to proceed: ")
+                if response == 'yes':
+                    try:
+                        self.security_content_repo_obj.git.checkout(security_content_branch, "-f")
+                    except Exception as e:
+                        print(f"Another error checking out the branch {security_content_branch}: {str(e)}\n\tQuitting...",file=sys.stderr)
+                        sys.exit(1)
+                else:
+                    print(f"Your response '{response}' was not 'yes'. We did not overwirte the repo.\n\tQuitting",file=sys.stderr)
+                    sys.exit(1)
+                print(f"Successfully checked out {security_content_branch}. Local changes were overwritten at your request.")
+
+
+             
+            
             
 
         else:

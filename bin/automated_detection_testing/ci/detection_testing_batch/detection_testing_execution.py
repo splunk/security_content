@@ -121,7 +121,7 @@ def generate_escu_app() -> str:
                                 "python -m pip install wheel"]
         
     os.chdir("security_content")
-    print("\tRunning contentcl...",end='')
+    print("\tRunning contentctl...",end='')
     sys.stdout.flush()
 
 
@@ -147,7 +147,7 @@ def generate_escu_app() -> str:
     output_file_path_from_root = os.path.join(
         "security_content", output_file_path_from_security_content)
 
-    if os.path.exists("security_content/slim_packaging/slim_latest") is True:
+    if os.path.exists("slim_packaging/slim_latest") is True:
         try:
             os.remove(output_file_path_from_security_content)
         except FileNotFoundError:

@@ -13,7 +13,7 @@ setup_schema = {
     "type": "object",
     "properties": {
         "branch": {
-            "type": ["string", "null"],
+            "type": "string",
             "default": "develop"
         },
         "commit_hash": {
@@ -401,17 +401,18 @@ def check_dependencies(settings: dict, skip_password_accessibility_check:bool=Tr
     if skip_password_accessibility_check:
         pass
     elif (settings['interactive'] or not settings['no_interactive_failure']) and settings['show_splunk_app_password'] is False:
-        print("\n\n******************************************************\n\n")
+        print("\n********************************************************************************\n")
         if settings['splunk_app_password'] is not None:
             print("Warning: You have chosen an interactive mode, set show_splunk_app_password False,\n"\
                   "and provided a password in the config file.  We will NOT print this password to\n"\
                   "stdout.  Look in the config file for this password.",file=sys.stderr)
         else:
             print("Warning: You have chosen an interactive mode, set show_splunk_app_password False,\n"\
-                  "and DID NOT provide a password in the config file.  We have updated show_splunk_app_password\n"\
-                  "to True for you.  Otherwise, interactive mode login would be impossible.",file=sys.stderr)
+                  "and DID NOT provide a password in the config file.  We have updated\n"
+                  "show_splunk_app_password to True for you.  Otherwise, interactive mode login would\n"
+                  "be impossible.",file=sys.stderr)
             settings['show_splunk_app_password'] = True
-        print("\n\n******************************************************\n\n")
+        print("\n********************************************************************************\n")
 
     # Returns true if there are not errors
     return error_free
