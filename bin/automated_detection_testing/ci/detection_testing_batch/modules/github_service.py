@@ -131,13 +131,40 @@ class GithubService:
             sys.stdout.flush()
             
             try:
+                
+                if (self.security_content_repo_obj.active_branch.name != security_content_branch):
+                    #print(f"Checking for changes to tracked files in {self.security_content_repo_obj.active_branch.name}...",end='')
+                    print(f"requested to change current security_content branch from "
+                          f"{self.security_content_repo_obj.active_branch.name} --> {security_content_branch}")
+                    self.security_content_repo_obj.git.diff("--quiet")
+                else:
+                    changed_files = self.security_content_repo_obj.git.diff("--name-only").split('\n')
+                    changed_files_string = ''.join(['\n\t\t* '+filename for filename in changed_files])
+                    if len(changed_files) > 0:
+                        print(f"Local modified, UNCOMITTED, tracked files:"
+                              f"{changed_files_string}")
+                
+                #We only get here if there are NO changes... otherwise the diff("--quiet") throws an exception
                 self.security_content_repo_obj.git.checkout(security_content_branch)
                 print("done")
             except Exception as e:
                 print(f"\nError checking out branch [{security_content_branch}]:\n{str(e)}", file=sys.stderr)
-                response = input(f"THIS WILL OVERWRITE LOCAL CHANGES TO BRANCH [{security_content_branch}]\n\t @ {os.path.abspath(SECURITY_CONTENT_DIRECTORY_NAME)}\n\tType 'yes' if you want to proceed: ")
-                if response == 'yes':
+                
+                try:
+                    changed_files = self.security_content_repo_obj.git.diff("--name-only").split("\n")
+                except Exception as e:
+                    changed_files = ["ERROR GETTING CHANGED FILES"]
+                changed_files_string = ''.join(['\n\t\t* '+filename for filename in changed_files])
+                response = input(f"\n\tFull Branch Path:"
+                                 f"\n\t\t{os.path.abspath(SECURITY_CONTENT_DIRECTORY_NAME)}"
+                                 f"\n\tModified Tracked Files:"
+                                 f"{changed_files_string}"
+                                 f"\n\n\tTHIS WILL OVERWRITE ABOVE CHANGES TO BRANCH [{security_content_branch}].  "
+                                 "Type 'overwrite' if you want to proceed: ")
+                if response == 'overwrite':
                     try:
+                        #Throw away all of the local changes that were made in this branch
+                        self.security_content_repo_obj.git.reset("--hard")
                         self.security_content_repo_obj.git.checkout(security_content_branch, "-f")
                     except Exception as e:
                         print(f"Another error checking out the branch {security_content_branch}: {str(e)}\n\tQuitting...",file=sys.stderr)
