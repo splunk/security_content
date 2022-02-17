@@ -87,6 +87,8 @@ After a new image is created, the first systems created with that image will cau
 | 36.0 | 60 | 60 | User $user$ is creating an instance $dest$ with an image that has not been previously seen. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

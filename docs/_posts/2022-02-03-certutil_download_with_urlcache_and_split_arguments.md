@@ -1,9 +1,9 @@
 ---
-title: "CertUtil Download With VerifyCtl and Split Arguments"
+title: "CertUtil Download With URLCache and Split Arguments"
 excerpt: "Ingress Tool Transfer"
 categories:
   - Endpoint
-last_modified_at: 2021-03-23
+last_modified_at: 2022-02-03
 toc: true
 toc_label: ""
 tags:
@@ -21,14 +21,14 @@ tags:
 
 #### Description
 
-Certutil.exe may download a file from a remote destination using `-VerifyCtl`. This behavior does require a URL to be passed on the command-line. In addition, `-f` (force) and `-split` (Split embedded ASN.1 elements, and save to files) will be used. It is not entirely common for `certutil.exe` to contact public IP space. \ During triage, capture any files on disk and review. Review the reputation of the remote IP or domain in question. Using `-VerifyCtl`, the file will either be written to the current working directory or `%APPDATA%\..\LocalLow\Microsoft\CryptnetUrlCache\Content\&lt;hash&gt;`. 
+Certutil.exe may download a file from a remote destination using `-urlcache`. This behavior does require a URL to be passed on the command-line. In addition, `-f` (force) and `-split` (Split embedded ASN.1 elements, and save to files) will be used. It is not entirely common for `certutil.exe` to contact public IP space. However, it is uncommon for `certutil.exe` to write files to world writeable paths.\ During triage, capture any files on disk and review. Review the reputation of the remote IP or domain in question.
 
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
-- **Last Updated**: 2021-03-23
+- **Last Updated**: 2022-02-03
 - **Author**: Michael Haag, Splunk
-- **ID**: 801ad9e4-8bfb-11eb-8b31-acde48001122
+- **ID**: 415b4306-8bfb-11eb-85c4-acde48001122
 
 
 #### [ATT&CK](https://attack.mitre.org/)
@@ -41,11 +41,11 @@ Certutil.exe may download a file from a remote destination using `-VerifyCtl`. T
 
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where `process_certutil` Processes.process=*verifyctl* Processes.process=*split* by Processes.dest Processes.user Processes.original_file_name Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where `process_certutil` (Processes.process=*urlcache* Processes.process=*split*) OR Processes.process=*urlcache* by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.original_file_name Processes.parent_process_id 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
-| `certutil_download_with_verifyctl_and_split_arguments_filter`
+| `certutil_download_with_urlcache_and_split_arguments_filter`
 ```
 
 #### Macros
@@ -54,7 +54,7 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that `certutil_download_with_verifyctl_and_split_arguments_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+Note that `certutil_download_with_urlcache_and_split_arguments_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -94,14 +94,15 @@ Limited false positives in most environments, however tune as needed based on pa
 | 90.0 | 90 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to download a file. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference
 
 * [https://attack.mitre.org/techniques/T1105/](https://attack.mitre.org/techniques/T1105/)
-* [https://www.hexacorn.com/blog/2020/08/23/certutil-one-more-gui-lolbin/](https://www.hexacorn.com/blog/2020/08/23/certutil-one-more-gui-lolbin/)
-* [https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/cc732443(v=ws.11)#-verifyctl](https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/cc732443(v=ws.11)#-verifyctl)
 * [https://www.avira.com/en/blog/certutil-abused-by-attackers-to-spread-threats](https://www.avira.com/en/blog/certutil-abused-by-attackers-to-spread-threats)
+* [https://www.fireeye.com/blog/threat-research/2019/10/certutil-qualms-they-came-to-drop-fombs.html](https://www.fireeye.com/blog/threat-research/2019/10/certutil-qualms-they-came-to-drop-fombs.html)
 
 
 
@@ -113,4 +114,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/certutil_download_with_verifyctl_and_split_arguments.yml) \| *version*: **2**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/certutil_download_with_urlcache_and_split_arguments.yml) \| *version*: **3**

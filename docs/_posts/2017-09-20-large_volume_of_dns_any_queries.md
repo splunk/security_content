@@ -82,6 +82,8 @@ Legitimate ANY requests may trigger this search, however it is unusual to see a 
 
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

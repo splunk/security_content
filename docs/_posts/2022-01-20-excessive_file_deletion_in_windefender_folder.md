@@ -87,6 +87,8 @@ Windows Defender AV updates may cause this alert. Please update the filter macro
 | 25.0 | 50 | 50 | High frequency file deletion activity detected on host $Computer$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

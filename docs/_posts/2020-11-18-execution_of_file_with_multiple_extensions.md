@@ -90,6 +90,8 @@ None identified.
 | 56.0 | 80 | 70 | process $process$ have double extensions in the file name is executed on $dest$ by $user$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

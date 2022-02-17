@@ -92,6 +92,8 @@ network admin may modify this firewall feature that may cause this rule to be tr
 
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

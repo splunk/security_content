@@ -103,6 +103,8 @@ This search might be prone to high false positives if you have malfunctioning de
 
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

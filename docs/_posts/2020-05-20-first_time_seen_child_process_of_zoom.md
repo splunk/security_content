@@ -98,6 +98,8 @@ A new child process of zoom isn&#39;t malicious by that fact alone. Further inve
 | 64.0 | 80 | 80 | Child process $process_name$ with $process_id$ spawned by zoom.exe or zoom.us which has not been previously on host $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

@@ -61,7 +61,6 @@ Note that `detect_spike_in_blocked_outbound_traffic_from_your_aws_filter` is a e
 The SPL above uses the following Lookups:
 
 * [baseline_blocked_outbound_connections](https://github.com/splunk/security_content/blob/develop/lookups/baseline_blocked_outbound_connections.yml) with [data](https://github.com/splunk/security_content/blob/develop/lookups/baseline_blocked_outbound_connections.csv)
-* [baseline_blocked_outbound_connections](https://github.com/splunk/security_content/blob/develop/lookups/baseline_blocked_outbound_connections.yml) with [data](https://github.com/splunk/security_content/blob/develop/lookups/baseline_blocked_outbound_connections.csv)
 
 #### Required field
 * _time
@@ -88,6 +87,8 @@ The false-positive rate may vary based on the values of`dataPointThreshold` and 
 
 
 
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 

@@ -94,6 +94,8 @@ Unknown. This may require filtering.
 | 72.0 | 80 | 90 | Suspicious print driver was loaded on endpoint $ComputerName$. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 #### CVE
 

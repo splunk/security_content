@@ -83,6 +83,8 @@ normal user or normal transaction may contain the subject and file type attachme
 
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

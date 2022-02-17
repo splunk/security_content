@@ -103,6 +103,8 @@ This is a strictly behavioral search, so we define &#34;false positive&#34; slig
 | 18.0 | 30 | 60 | User $user$ is starting or creating an instance $dest$ for the first time in City $City$ from IP address $src$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference
