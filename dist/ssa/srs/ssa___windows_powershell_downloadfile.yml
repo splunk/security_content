@@ -1,6 +1,6 @@
 author: Jose Hernandez, Michael Haag, Splunk
 datamodel:
-- Endpoint
+- Endpoint_Processes
 date: '2022-02-11'
 description: The following analytic identifies the use of PowerShell downloading a
   file using `DownloadFile` method. This particular method is utilized in many different

@@ -2,7 +2,7 @@
 title: "Disable Defender AntiVirus Registry"
 excerpt: "Disable or Modify Tools, Impair Defenses"
 categories:
-  - Experimental
+  - Endpoint
 last_modified_at: 2021-12-08
 toc: true
 toc_label: ""
@@ -107,4 +107,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/experimental/experimental/disable_defender_antivirus_registry.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/experimental/endpoint/disable_defender_antivirus_registry.yml) \| *version*: **1**
