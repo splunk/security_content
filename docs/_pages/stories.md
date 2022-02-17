@@ -49,18 +49,18 @@ sidebar:
 | [F5 TMUI RCE CVE-2020-5902](f5_tmui_rce_cve-2020-5902) | [Exploit Public-Facing Application](/tags/#exploit-public-facing-application) | [Initial Access](/tags/#initial-access) |
 | [FIN7](fin7) | [XSL Script Processing](/tags/#xsl-script-processing) | [Defense Evasion](/tags/#defense-evasion) |
 | [GCP Cross Account Activity](gcp_cross_account_activity) | [Valid Accounts](/tags/#valid-accounts) | [Defense Evasion](/tags/#defense-evasion) |
-| [HAFNIUM Group](hafnium_group) | [Server Software Component](/tags/#server-software-component), [Web Shell](/tags/#web-shell) | [Persistence](/tags/#persistence) |
+| [HAFNIUM Group](hafnium_group) | [Automated Exfiltration](/tags/#automated-exfiltration) | [Exfiltration](/tags/#exfiltration) |
 | [Hidden Cobra Malware](hidden_cobra_malware) | [SMB/Windows Admin Shares](/tags/#smb/windows-admin-shares), [Remote Services](/tags/#remote-services) | [Lateral Movement](/tags/#lateral-movement) |
 | [IcedID](icedid) | [Scheduled Task](/tags/#scheduled-task) | [Execution](/tags/#execution) |
 | [Information Sabotage](information_sabotage) | [Data Destruction](/tags/#data-destruction), [File Deletion](/tags/#file-deletion), [Indicator Removal on Host](/tags/#indicator-removal-on-host) | [Impact](/tags/#impact) |
-| [Ingress Tool Transfer](ingress_tool_transfer) | [Ingress Tool Transfer](/tags/#ingress-tool-transfer) | [Command And Control](/tags/#command-and-control) |
+| [Ingress Tool Transfer](ingress_tool_transfer) | [Automated Exfiltration](/tags/#automated-exfiltration) | [Exfiltration](/tags/#exfiltration) |
 | [JBoss Vulnerability](jboss_vulnerability) | [System Information Discovery](/tags/#system-information-discovery) | [Discovery](/tags/#discovery) |
 | [Kubernetes Scanning Activity](kubernetes_scanning_activity) | [Cloud Service Discovery](/tags/#cloud-service-discovery) | [Discovery](/tags/#discovery) |
 | [Kubernetes Sensitive Object Access Activity]() | None | None |
 | [Linux Persistence Techniques](linux_persistence_techniques) | [Sudo and Sudo Caching](/tags/#sudo-and-sudo-caching), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism) | [Privilege Escalation](/tags/#privilege-escalation) |
 | [Linux Privilege Escalation](linux_privilege_escalation) | [Exploitation for Privilege Escalation](/tags/#exploitation-for-privilege-escalation) | [Privilege Escalation](/tags/#privilege-escalation) |
-| [Log4Shell CVE-2021-44228](log4shell_cve-2021-44228) | [Exploit Public-Facing Application](/tags/#exploit-public-facing-application) | [Initial Access](/tags/#initial-access) |
-| [Malicious PowerShell](malicious_powershell) | [Gather Victim Host Information](/tags/#gather-victim-host-information) | [Reconnaissance](/tags/#reconnaissance) |
+| [Log4Shell CVE-2021-44228](log4shell_cve-2021-44228) | [Automated Exfiltration](/tags/#automated-exfiltration) | [Exfiltration](/tags/#exfiltration) |
+| [Malicious PowerShell](malicious_powershell) | [Automated Exfiltration](/tags/#automated-exfiltration) | [Exfiltration](/tags/#exfiltration) |
 | [Masquerading - Rename System Utilities](masquerading_-_rename_system_utilities) | [Masquerading](/tags/#masquerading), [Rename System Utilities](/tags/#rename-system-utilities), [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [InstallUtil](/tags/#installutil) | [Defense Evasion](/tags/#defense-evasion) |
 | [Meterpreter](meterpreter) | [System Owner/User Discovery](/tags/#system-owner/user-discovery) | [Discovery](/tags/#discovery) |
 | [Microsoft MSHTML Remote Code Execution CVE-2021-40444](microsoft_mshtml_remote_code_execution_cve-2021-40444) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Rundll32](/tags/#rundll32) | [Defense Evasion](/tags/#defense-evasion) |
@@ -70,7 +70,7 @@ sidebar:
 | [Office 365 Detections](office_365_detections) | [Email Forwarding Rule](/tags/#email-forwarding-rule), [Email Collection](/tags/#email-collection) | [Collection](/tags/#collection) |
 | [Orangeworm Attack Group](orangeworm_attack_group) | [Windows Service](/tags/#windows-service), [Create or Modify System Process](/tags/#create-or-modify-system-process) | [Persistence](/tags/#persistence) |
 | [PetitPotam NTLM Relay on Active Directory Certificate Services](petitpotam_ntlm_relay_on_active_directory_certificate_services) | [OS Credential Dumping](/tags/#os-credential-dumping) | [Credential Access](/tags/#credential-access) |
-| [Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns](possible_backdoor_activity_associated_with_mudcarp_espionage_campaigns) | [Registry Run Keys / Startup Folder](/tags/#registry-run-keys-/-startup-folder), [Boot or Logon Autostart Execution](/tags/#boot-or-logon-autostart-execution) | [Persistence](/tags/#persistence) |
+| [Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns](possible_backdoor_activity_associated_with_mudcarp_espionage_campaigns) | [Automated Exfiltration](/tags/#automated-exfiltration) | [Exfiltration](/tags/#exfiltration) |
 | [PrintNightmare CVE-2021-34527](printnightmare_cve-2021-34527) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Rundll32](/tags/#rundll32) | [Defense Evasion](/tags/#defense-evasion) |
 | [Prohibited Traffic Allowed or Protocol Mismatch](prohibited_traffic_allowed_or_protocol_mismatch) | [Application Layer Protocol](/tags/#application-layer-protocol), [Web Protocols](/tags/#web-protocols) | [Command And Control](/tags/#command-and-control) |
 | [ProxyShell](proxyshell) | [Server Software Component](/tags/#server-software-component), [Web Shell](/tags/#web-shell) | [Persistence](/tags/#persistence) |
@@ -112,11 +112,11 @@ sidebar:
 | [Use of Cleartext Protocols]() | None | None |
 | [WhisperGate](whispergate) | [Process Injection](/tags/#process-injection), [Create or Modify System Process](/tags/#create-or-modify-system-process), [Parent PID Spoofing](/tags/#parent-pid-spoofing), [Access Token Manipulation](/tags/#access-token-manipulation) | [Defense Evasion](/tags/#defense-evasion) |
 | [Windows DNS SIGRed CVE-2020-1350](windows_dns_sigred_cve-2020-1350) | [Exploitation for Client Execution](/tags/#exploitation-for-client-execution) | [Execution](/tags/#execution) |
-| [Windows Defense Evasion Tactics](windows_defense_evasion_tactics) | [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Impair Defenses](/tags/#impair-defenses) | [Defense Evasion](/tags/#defense-evasion) |
+| [Windows Defense Evasion Tactics](windows_defense_evasion_tactics) | [Dynamic-link Library Injection](/tags/#dynamic-link-library-injection), [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Process Injection](/tags/#process-injection) | [Defense Evasion](/tags/#defense-evasion) |
 | [Windows Discovery Techniques](windows_discovery_techniques) | [Permission Groups Discovery](/tags/#permission-groups-discovery), [Local Groups](/tags/#local-groups) | [Discovery](/tags/#discovery) |
 | [Windows File Extension and Association Abuse](windows_file_extension_and_association_abuse) | [Masquerading](/tags/#masquerading), [Rename System Utilities](/tags/#rename-system-utilities) | [Defense Evasion](/tags/#defense-evasion) |
 | [Windows Log Manipulation](windows_log_manipulation) | [Indicator Removal on Host](/tags/#indicator-removal-on-host), [Clear Windows Event Logs](/tags/#clear-windows-event-logs) | [Defense Evasion](/tags/#defense-evasion) |
-| [Windows Persistence Techniques](windows_persistence_techniques) | [Scheduled Task](/tags/#scheduled-task) | [Execution](/tags/#execution) |
+| [Windows Persistence Techniques](windows_persistence_techniques) | [Scheduled Task](/tags/#scheduled-task), [Scheduled Task/Job](/tags/#scheduled-task/job) | [Execution](/tags/#execution) |
 | [Windows Privilege Escalation](windows_privilege_escalation) | [Time Providers](/tags/#time-providers), [Boot or Logon Autostart Execution](/tags/#boot-or-logon-autostart-execution) | [Persistence](/tags/#persistence) |
 | [Windows Service Abuse](windows_service_abuse) | [Windows Service](/tags/#windows-service), [Create or Modify System Process](/tags/#create-or-modify-system-process) | [Persistence](/tags/#persistence) |
 | [XMRig](xmrig) | [Windows Service](/tags/#windows-service), [Create or Modify System Process](/tags/#create-or-modify-system-process) | [Persistence](/tags/#persistence) |
