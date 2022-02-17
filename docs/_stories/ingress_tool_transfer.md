@@ -42,6 +42,7 @@ Ingress tool transfer is a Technique under tactic Command and Control. Behaviors
 | [Windows Curl Download to Suspicious Path](/endpoint/windows_curl_download_to_suspicious_path/) | [Ingress Tool Transfer](/tags/#ingress-tool-transfer) | TTP |
 | [Windows Curl Upload to Remote Destination](/endpoint/windows_curl_upload_to_remote_destination/) | [Ingress Tool Transfer](/tags/#ingress-tool-transfer) | TTP |
 | [Windows Curl Upload to Remote Destination](/endpoint/windows_curl_upload_to_remote_destination/) | [Ingress Tool Transfer](/tags/#ingress-tool-transfer) | TTP |
+| [Windows Powershell DownloadFile](/endpoint/windows_powershell_downloadfile/) | [Automated Exfiltration](/tags/#automated-exfiltration) | Anomaly |
 
 #### Reference
 
