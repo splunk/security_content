@@ -2,7 +2,7 @@ name: Kerberoasting spn request with RC4 encryption
 id: 5cc67381-44fa-4111-8a37-7a230943f027
 version: 4
 date: '2022-02-09'
-author: Jose Hernandez, Patrick Bareiss, Mauricio Velazcu, Splunk
+author: Jose Hernandez, Patrick Bareiss, Mauricio Velazco, Splunk
 type: TTP
 datamodel: []
 description: The following analytic leverages Kerberos Event 4769, A Kerberos service ticket was requested, to identify a potential kerberoasting attack
@@ -35,7 +35,7 @@ tags:
   - Source:Endpoint
   - Stage:Credential Access
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.003/atomic_red_team/windows-security.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.003/rubeus/windows-security.log
   impact: 90
   kill_chain_phases:
   - Privilege Escalation

@@ -3,10 +3,16 @@ id: 38b8cf16-8461-11ec-ade1-acde48001122
 version: 1
 date: '2022-02-02'
 author: Mauricio Velazco, Splunk
-description: UPDATE_DESCRIPTION
-narrative: UPDATE_NARRATIVE
+description: Monitor for activities and techniques associated with Kerberos based attacks within with Active Directory environments.
+narrative: Kerberos, initially named after Cerberus, the three-headed dog in Greek mythology, is a network authentication protocol that allows computers and
+ users to prove their identity through a trusted third-party. This trusted third-party issues Kerberos tickets using symmetric encryption to allow users access
+ to services and network resources based on their privilege level. Kerberos is the default authentication protocol used on Windows Active Directory networks.
 references:
-- https://www.destroyallsoftware.com/talks/wat
+- https://en.wikipedia.org/wiki/Kerberos_(protocol)
+- https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-kile/2a32282e-dd48-4ad9-a542-609804b02cc9
+- https://m0chan.github.io/2019/07/31/How-To-Attack-Kerberos-101.html
+- https://attack.mitre.org/techniques/T1558/003/
+- https://attack.mitre.org/techniques/T1550/003/
 tags:
   analytic_story:
   - Active Directory Kerberos Attacks
