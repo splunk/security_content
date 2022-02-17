@@ -103,6 +103,8 @@ Although unlikely, some legitimate applications may use a moved copy of microsof
 | 63.0 | 70 | 90 | Suspicious renamed microsoft.workflow.compiler.exe binary ran on $dest$ by $user$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

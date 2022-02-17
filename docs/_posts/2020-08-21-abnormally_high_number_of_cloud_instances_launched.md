@@ -102,6 +102,8 @@ Many service accounts configured within an AWS infrastructure are known to exhib
 
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

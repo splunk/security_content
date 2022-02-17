@@ -94,6 +94,8 @@ admin may disable this application for non technical user.
 | 40.0 | 40 | 100 | Disabled Registry Tools on $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

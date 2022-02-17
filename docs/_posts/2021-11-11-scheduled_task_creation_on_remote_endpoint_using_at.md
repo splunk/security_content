@@ -100,6 +100,8 @@ Administrators may create scheduled tasks on remote systems, but this activity i
 | 54.0 | 90 | 60 | A Windows Scheduled Task was created on a remote endpoint from $dest |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

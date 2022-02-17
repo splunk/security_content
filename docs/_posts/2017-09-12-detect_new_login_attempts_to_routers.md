@@ -73,6 +73,8 @@ Legitimate router connections may appear as new connections
 
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

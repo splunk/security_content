@@ -95,6 +95,8 @@ The wmic.exe utility is a benign Windows application. It may be used legitimatel
 | 49.0 | 70 | 70 | A wmic.exe process $process$ contain process spawn commandline $process$ in host $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

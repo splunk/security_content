@@ -99,6 +99,8 @@ Administrator or network operator may execute this command. Please update the fi
 | 36.0 | 60 | 60 | suspicious $process$ commandline run in $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

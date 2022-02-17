@@ -80,6 +80,8 @@ user may copy a lot of office fies from one folder to another
 
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference
