@@ -1,6 +1,6 @@
 author: Jose Hernandez, David Dorsey, Michael Haag Splunk
 datamodel:
-- Endpoint
+- Endpoint_Processes
 date: '2022-02-11'
 description: The following hunting analytic identifies PowerShell commands utilizing
   the WindowStyle parameter to hide the window on the compromised endpoint. This combination

@@ -43,7 +43,7 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 #### Search
 
 ```
-`powershell` EventCode=4104 (Message=*Get-WmiObject* AND Message=*"namespace root\\directory\\ldap"* AND Message=*"class ds_group"*) 
+`powershell` EventCode=4104 (Message=*Get-WmiObject* AND Message="*namespace root\\directory\\ldap*" AND Message="*class ds_group*") 
 | stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message ComputerName User 
 | `security_content_ctime(firstTime)` 
 | `getwmiobject_ds_group_with_powershell_script_block_filter`
