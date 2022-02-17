@@ -92,6 +92,8 @@ Older systems that support kerberos RC4 by default NetApp may generate false pos
 | 14.0 | 70 | 20 | Kerberoasting malware is potentially applying stolen credentials. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

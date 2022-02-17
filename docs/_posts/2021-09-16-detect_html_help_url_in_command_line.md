@@ -97,6 +97,8 @@ Although unlikely, some legitimate applications may retrieve a CHM remotely, fil
 | 90.0 | 90 | 100 | An instance of $parent_proces_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ contacting a remote destination to potentally download a malicious payload. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

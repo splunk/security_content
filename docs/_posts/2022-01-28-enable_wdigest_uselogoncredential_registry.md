@@ -95,6 +95,8 @@ unknown
 | 80.0 | 80 | 100 | wdigest registry $registry_path$ was modified in $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

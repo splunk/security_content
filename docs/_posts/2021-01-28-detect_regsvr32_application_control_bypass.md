@@ -99,6 +99,8 @@ Limited false positives related to third party software registering .DLL&#39;s.
 | 80.0 | 80 | 100 | An instance of $parent_process_name$ spawning $process_name$ in an attempt to bypass detection and preventative controls was identified on endpoint $dest$ by user $user$. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

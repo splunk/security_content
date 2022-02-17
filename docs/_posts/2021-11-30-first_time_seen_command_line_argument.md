@@ -95,6 +95,8 @@ Legitimate programs use command-line arguments to execute. Verify the command-li
 | 30.0 | 50 | 60 | A process $process_name$ ha been identified in the environment with a command-line $cmd_line$ not previously seen before on host $dest_device_id$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

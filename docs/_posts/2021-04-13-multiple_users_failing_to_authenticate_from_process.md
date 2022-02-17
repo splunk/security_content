@@ -96,6 +96,8 @@ A process failing to authenticate with multiple users is not a common behavior f
 | 49.0 | 70 | 70 | Potential password spraying attack from $ComputerName$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

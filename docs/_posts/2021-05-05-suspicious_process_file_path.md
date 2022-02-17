@@ -91,6 +91,8 @@ Administrators may allow execution of specific binaries in non-standard paths. F
 | 35.0 | 70 | 50 | Suspicioues process $Processes.process_path.file_path$ running from suspicious location |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

@@ -89,6 +89,8 @@ Administrators may use to debug Schedule Task entries. Filter as needed.
 | 48.0 | 60 | 80 | A &#34;on demand&#34; execution of schedule task process $process_name$  using commandline $process$ in host $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

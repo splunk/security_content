@@ -95,6 +95,8 @@ Administrator or network operator can execute this command. Please update the fi
 | 64.0 | 80 | 80 | A commandline $process$ that may install kernel module on $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference
