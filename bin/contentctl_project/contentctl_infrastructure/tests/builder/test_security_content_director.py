@@ -103,6 +103,11 @@ def test_construct_investigations():
 def test_construct_detections():
     director = SecurityContentDirector()
 
+    lookup_builder = SecurityContentBasicBuilder()
+    director.constructLookup(lookup_builder, os.path.join(os.path.dirname(__file__), 
+        'test_data/lookups/previously_seen_aws_regions.yml'))
+    lookup = lookup_builder.getObject()    
+
     deployment_builder = SecurityContentBasicBuilder()
     director.constructDeployment(deployment_builder, os.path.join(os.path.dirname(__file__), 
         'test_data/deployment/ESCU/00_default_ttp.yml'))
@@ -135,7 +140,7 @@ def test_construct_detections():
     detection_builder = SecurityContentDetectionBuilder()
     director.constructDetection(detection_builder, os.path.join(os.path.dirname(__file__), 
         'test_data/detection/valid.yml'), [deployment], [playbook], [baseline], [test],
-        AttackEnrichment.get_attack_lookup(), [macro])
+        AttackEnrichment.get_attack_lookup(), [macro], [lookup])
     detection = detection_builder.getObject()
 
     valid_annotations = {'mitre_attack': ['T1003.002', 'T1003'], 
@@ -167,6 +172,7 @@ def test_construct_detections():
     assert detection.macros[0].name == 'process_reg'
     assert detection.macros[1].name == 'attempted_credential_dump_from_registry_via_reg_exe_filter'
 
+
 def test_construct_stories():
     director = SecurityContentDirector()
 
@@ -197,7 +203,7 @@ def test_construct_stories():
     detection_builder = SecurityContentDetectionBuilder()
     director.constructDetection(detection_builder, os.path.join(os.path.dirname(__file__), 
         'test_data/detection/valid.yml'), [deployment], [playbook], [baseline], [test],
-        AttackEnrichment.get_attack_lookup(), [])
+        AttackEnrichment.get_attack_lookup(), [], [])
     detection = detection_builder.getObject()
 
     investigation_builder = SecurityContentInvestigationBuilder()

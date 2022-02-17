@@ -3,33 +3,10 @@ import re
 
 from contentctl_infrastructure.adapter.yml_writer import YmlWriter
 from contentctl_core.application.adapter.adapter import Adapter
+from contentctl_core.domain.entities.enums.enums import SecurityContentType
 
 
 class ObjToYmlAdapter(Adapter):
-
-    def writeHeaders(self, output_folder: str) -> None:
-        pass
-
-    def writeDetections(self, detections: list, output_folder: str) -> None:
-        pass
-
-    def writeStories(self, stories: list, output_folder: str) -> None:
-        pass
-
-    def writeBaselines(self, baselines: list, output_folder: str) -> None:
-        pass
-
-    def writeInvestigations(self, investigations: list, output_folder: str) -> None:
-        pass
-
-    def writeLookups(self, lookups: list, output_folder: str, security_content_path: str) -> None:
-        pass
-
-    def writeMacros(self, macros: list, output_folder: str) -> None:
-        pass
-
-    def writeDeployments(self, deployments: list, output_folder: str) -> None:
-        pass
 
     def writeObjectsInPlace(self, objects: list) -> None:
         for object in objects:
@@ -39,7 +16,8 @@ class ObjToYmlAdapter(Adapter):
             object.pop('experimental') 
             YmlWriter.writeYmlFile(file_path, object)
 
-    def writeObjects(self, objects: list, output_path: str) -> None:
+
+    def writeObjects(self, objects: list, output_path: str, type: SecurityContentType = None) -> None:
         for obj in objects:
             file_name = "ssa___" + self.convertNameToFileName(obj)
             if self.isComplexBARule(obj.search):
@@ -93,6 +71,7 @@ class ObjToYmlAdapter(Adapter):
                     }
                 ))
 
+
     def convertNameToFileName(self, obj: dict):
         file_name = obj.name \
             .replace(' ', '_') \
@@ -103,5 +82,8 @@ class ObjToYmlAdapter(Adapter):
         file_name = file_name + '.yml'
         return file_name
 
+
     def isComplexBARule(self, search):
         return re.findall("stats|first_time_event|adaptive_threshold", search)
+
+

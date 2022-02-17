@@ -183,6 +183,21 @@ def test_macros_enrichment():
     assert detection.macros[1].name == 'attempted_credential_dump_from_registry_via_reg_exe_filter'
 
 
+def test_lookup_enrichment():
+    security_content_builder = SecurityContentBasicBuilder()
+    security_content_builder.setObject(os.path.join(os.path.dirname(__file__), 
+        'test_data/lookups/attacker_tools.yml'), SecurityContentType.lookups)
+    lookup = security_content_builder.getObject()    
+
+    security_content_builder = SecurityContentDetectionBuilder()
+    security_content_builder.setObject(os.path.join(os.path.dirname(__file__), 
+        'test_data/detection/attacker_tools_on_endpoint.yml'))
+    security_content_builder.addLookups([lookup])
+    detection = security_content_builder.getObject()
+
+    assert detection.lookups[0].name == 'attacker_tools'
+
+
 def test_add_cve():
     security_content_builder = SecurityContentDetectionBuilder()
     security_content_builder.setObject(os.path.join(os.path.dirname(__file__), 

@@ -15,6 +15,7 @@ from contentctl_core.domain.entities.detection_tags import DetectionTags
 from contentctl_core.domain.entities.deployment import Deployment
 from contentctl_core.domain.entities.unit_test import UnitTest
 from contentctl_core.domain.entities.macro import Macro
+from contentctl_core.domain.entities.lookup import Lookup
 from contentctl_core.domain.entities.baseline import Baseline
 from contentctl_core.domain.entities.playbook import Playbook
 
@@ -42,6 +43,7 @@ class Detection(BaseModel, SecurityContentObject):
     mappings: dict = None
     test: UnitTest = None
     macros: list[Macro] = None
+    lookups: list[Lookup] = None
     cve_enrichment: list = None
 
 

@@ -47,7 +47,7 @@ class BAFactory():
         for file in files:
             if 'ssa__' in file:
                 if type == SecurityContentType.detections:
-                    self.input_dto.director.constructDetection(self.input_dto.detection_builder, file, [], [], [], self.output_dto.tests, {}, [])
+                    self.input_dto.director.constructDetection(self.input_dto.detection_builder, file, [], [], [], self.output_dto.tests, {}, [], [])
                     detection = self.input_dto.detection_builder.getObject()
                     if not detection.deprecated and not detection.experimental:
                         self.output_dto.detections.append(detection)

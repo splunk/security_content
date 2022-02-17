@@ -8,7 +8,7 @@ from contentctl_infrastructure.builder.security_content_director import Security
 from contentctl_infrastructure.builder.security_content_basic_builder import SecurityContentBasicBuilder
 from contentctl_infrastructure.builder.security_content_detection_builder import SecurityContentDetectionBuilder
 from contentctl_infrastructure.builder.security_content_story_builder import SecurityContentStoryBuilder
-from contentctl_core.domain.entities.enums.enums import SecurityContentProduct
+from contentctl_core.domain.entities.enums.enums import SecurityContentType
 from contentctl_infrastructure.builder.security_content_investigation_builder import SecurityContentInvestigationBuilder
 from contentctl_infrastructure.builder.security_content_baseline_builder import SecurityContentBaselineBuilder
 from contentctl_infrastructure.builder.attack_enrichment import AttackEnrichment
@@ -67,12 +67,12 @@ def test_write_conf_files(patch_datetime_now):
     detection_builder = SecurityContentDetectionBuilder()
     director.constructDetection(detection_builder, os.path.join(os.path.dirname(__file__), 
         '../builder/test_data/detection/valid.yml'), [deployment], [playbook], [baseline], [test],
-        {}, [])
+        {}, [], [])
     detection = detection_builder.getObject()
 
     director.constructDetection(detection_builder, os.path.join(os.path.dirname(__file__), 
         '../builder/test_data/detection/deprecated/detect_new_user_aws_console_login.yml'), [deployment], [playbook], [baseline], [test],
-        {}, [])
+        {}, [], [])
     detection_deprecated = detection_builder.getObject()
 
     investigation_builder = SecurityContentInvestigationBuilder()
@@ -89,13 +89,12 @@ def test_write_conf_files(patch_datetime_now):
     output_path = os.path.join(os.path.dirname(__file__), 'data')
     adapter = ObjToConfAdapter()
     adapter.writeHeaders(output_path)
-    adapter.writeDetections([detection, detection_deprecated], output_path)
-    adapter.writeStories([story], output_path)
-    adapter.writeBaselines([baseline], output_path)
-    adapter.writeInvestigations([investigation], output_path)
-    adapter.writeLookups([lookup], output_path, os.path.join(os.path.dirname(__file__), 
-        '../builder/test_data'))
-    adapter.writeMacros([macro], output_path)
+    adapter.writeObjects([detection, detection_deprecated], output_path, SecurityContentType.detections)
+    adapter.writeObjects([story], output_path, SecurityContentType.stories)
+    adapter.writeObjects([baseline], output_path, SecurityContentType.baselines)
+    adapter.writeObjects([investigation], output_path, SecurityContentType.investigations)
+    adapter.writeObjects([lookup], output_path, SecurityContentType.lookups)
+    adapter.writeObjects([macro], output_path, SecurityContentType.macros)
 
     files_to_compare = [
         'data/ui/panels/workbench_panel_get_parent_process_info___response_task.xml',

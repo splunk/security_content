@@ -200,6 +200,15 @@ class SecurityContentDetectionBuilder(DetectionBuilder):
         self.security_content_obj.macros.append(macro)
 
 
+    def addLookups(self, lookups: list) -> None:
+        lookups_found = re.findall(r'lookup (?:update=true)?(?:append=t)?\s*([^\s]*)', self.security_content_obj.search)
+        self.security_content_obj.lookups = []
+        for lookup_name in lookups_found:
+            for lookup in lookups:
+                if lookup.name == lookup_name:
+                    self.security_content_obj.lookups.append(lookup)
+
+
     def addCve(self) -> None:
         self.security_content_obj.cve_enrichment = []
         for cve in self.security_content_obj.tags.cve:

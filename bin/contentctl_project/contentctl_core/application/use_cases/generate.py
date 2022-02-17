@@ -3,7 +3,7 @@ import shutil
 
 from dataclasses import dataclass
 
-from contentctl_core.domain.entities.enums.enums import SecurityContentProduct
+from contentctl_core.domain.entities.enums.enums import SecurityContentProduct, SecurityContentType
 from contentctl_core.application.adapter.adapter import Adapter
 from contentctl_core.application.factory.factory import FactoryInputDto, Factory, FactoryOutputDto
 from contentctl_core.application.factory.ba_factory import BAFactoryInputDto, BAFactory, BAFactoryOutputDto
@@ -28,12 +28,12 @@ class Generate:
             factory = Factory(factory_output_dto)
             factory.execute(input_dto.factory_input_dto)
             input_dto.adapter.writeHeaders(input_dto.output_path)
-            input_dto.adapter.writeDetections(factory_output_dto.detections, input_dto.output_path)
-            input_dto.adapter.writeStories(factory_output_dto.stories, input_dto.output_path)
-            input_dto.adapter.writeBaselines(factory_output_dto.baselines, input_dto.output_path)
-            input_dto.adapter.writeInvestigations(factory_output_dto.investigations, input_dto.output_path)
-            input_dto.adapter.writeLookups(factory_output_dto.lookups, input_dto.output_path, input_dto.factory_input_dto.input_path)
-            input_dto.adapter.writeMacros(factory_output_dto.macros, input_dto.output_path)
+            input_dto.adapter.writeObjects(factory_output_dto.detections, input_dto.output_path, SecurityContentType.detections)
+            input_dto.adapter.writeObjects(factory_output_dto.stories, input_dto.output_path, SecurityContentType.stories)
+            input_dto.adapter.writeObjects(factory_output_dto.baselines, input_dto.output_path, SecurityContentType.baselines)
+            input_dto.adapter.writeObjects(factory_output_dto.investigations, input_dto.output_path, SecurityContentType.investigations)
+            input_dto.adapter.writeObjects(factory_output_dto.lookups, input_dto.output_path, SecurityContentType.lookups)
+            input_dto.adapter.writeObjects(factory_output_dto.macros, input_dto.output_path, SecurityContentType.macros)
         
         elif input_dto.product == SecurityContentProduct.BA:
             shutil.rmtree(input_dto.output_path + '/srs/', ignore_errors=True)
@@ -49,10 +49,10 @@ class Generate:
             factory_output_dto = FactoryOutputDto([],[],[],[],[],[],[],[],[])
             factory = Factory(factory_output_dto)
             factory.execute(input_dto.factory_input_dto)
-            input_dto.adapter.writeDetections(factory_output_dto.detections, input_dto.output_path)
-            input_dto.adapter.writeStories(factory_output_dto.stories, input_dto.output_path)
-            input_dto.adapter.writeBaselines(factory_output_dto.baselines, input_dto.output_path)
-            input_dto.adapter.writeInvestigations(factory_output_dto.investigations, input_dto.output_path)
-            input_dto.adapter.writeLookups(factory_output_dto.lookups, input_dto.output_path, input_dto.factory_input_dto.input_path)
-            input_dto.adapter.writeMacros(factory_output_dto.macros, input_dto.output_path)
-            input_dto.adapter.writeDeployments(factory_output_dto.deployments, input_dto.output_path)
+            input_dto.adapter.writeObjects(factory_output_dto.detections, input_dto.output_path, SecurityContentType.detections)
+            input_dto.adapter.writeObjects(factory_output_dto.stories, input_dto.output_path, SecurityContentType.stories)
+            input_dto.adapter.writeObjects(factory_output_dto.baselines, input_dto.output_path, SecurityContentType.baselines)
+            input_dto.adapter.writeObjects(factory_output_dto.investigations, input_dto.output_path, SecurityContentType.investigations)
+            input_dto.adapter.writeObjects(factory_output_dto.lookups, input_dto.output_path, SecurityContentType.lookups)
+            input_dto.adapter.writeObjects(factory_output_dto.macros, input_dto.output_path, SecurityContentType.macros)
+            input_dto.adapter.writeObjects(factory_output_dto.deployments, input_dto.output_path, SecurityContentType.deployments)

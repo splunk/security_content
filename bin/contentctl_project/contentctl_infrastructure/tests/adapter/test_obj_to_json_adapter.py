@@ -9,6 +9,7 @@ from contentctl_infrastructure.builder.security_content_investigation_builder im
 from contentctl_infrastructure.builder.security_content_story_builder import SecurityContentStoryBuilder
 from contentctl_infrastructure.builder.security_content_director import SecurityContentDirector
 from contentctl_infrastructure.builder.attack_enrichment import AttackEnrichment
+from contentctl_core.domain.entities.enums.enums import SecurityContentType
 
 
 def test_write_detections():
@@ -19,15 +20,20 @@ def test_write_detections():
         '../builder/test_data/macro/process_reg.yml'))
     macro = macro_builder.getObject()  
 
+    lookup_builder = SecurityContentBasicBuilder()
+    director.constructLookup(lookup_builder, os.path.join(os.path.dirname(__file__), 
+        '../builder/test_data/lookups/previously_seen_aws_regions.yml'))
+    lookup = lookup_builder.getObject()    
+
     detection_builder = SecurityContentDetectionBuilder()
     director.constructDetection(detection_builder, os.path.join(os.path.dirname(__file__), 
         '../builder/test_data/detection/valid.yml'), [], [], [], [],
-        AttackEnrichment.get_attack_lookup(), [macro])
+        AttackEnrichment.get_attack_lookup(), [macro], [lookup])
     detection = detection_builder.getObject()
     
     output_path = os.path.join(os.path.dirname(__file__), 'obj_to_json_adapter_data')
     adapter = ObjToJsonAdapter()
-    adapter.writeDetections([detection], output_path)
+    adapter.writeObjects([detection], output_path, SecurityContentType.detections)
 
     path = os.path.join(os.path.dirname(__file__), 'obj_to_json_adapter_data/detections.json')
     path_ref = os.path.join(os.path.dirname(__file__), 'obj_to_json_adapter_data/detections_ref.json')
@@ -49,7 +55,7 @@ def test_write_baselines():
 
     output_path = os.path.join(os.path.dirname(__file__), 'obj_to_json_adapter_data')
     adapter = ObjToJsonAdapter()
-    adapter.writeBaselines([baseline], output_path)
+    adapter.writeObjects([baseline], output_path, SecurityContentType.baselines)
 
     path = os.path.join(os.path.dirname(__file__), 'obj_to_json_adapter_data/baselines.json')
     path_ref = os.path.join(os.path.dirname(__file__), 'obj_to_json_adapter_data/baselines_ref.json')
@@ -66,7 +72,7 @@ def test_write_deployments():
 
     output_path = os.path.join(os.path.dirname(__file__), 'obj_to_json_adapter_data')
     adapter = ObjToJsonAdapter()
-    adapter.writeDeployments([deployment], output_path)
+    adapter.writeObjects([deployment], output_path, SecurityContentType.deployments)
 
     path = os.path.join(os.path.dirname(__file__), 'obj_to_json_adapter_data/deployments.json')
     path_ref = os.path.join(os.path.dirname(__file__), 'obj_to_json_adapter_data/deployments_ref.json')
@@ -83,7 +89,7 @@ def test_write_lookups():
 
     output_path = os.path.join(os.path.dirname(__file__), 'obj_to_json_adapter_data')
     adapter = ObjToJsonAdapter()
-    adapter.writeLookups([lookup], output_path, '')
+    adapter.writeObjects([lookup], output_path, SecurityContentType.lookups)
 
     path = os.path.join(os.path.dirname(__file__), 'obj_to_json_adapter_data/lookups.json')
     path_ref = os.path.join(os.path.dirname(__file__), 'obj_to_json_adapter_data/lookups_ref.json')
@@ -99,7 +105,7 @@ def test_write_macros():
 
     output_path = os.path.join(os.path.dirname(__file__), 'obj_to_json_adapter_data')
     adapter = ObjToJsonAdapter()
-    adapter.writeMacros([macro], output_path)
+    adapter.writeObjects([macro], output_path, SecurityContentType.macros)
 
     path = os.path.join(os.path.dirname(__file__), 'obj_to_json_adapter_data/macros.json')
     path_ref = os.path.join(os.path.dirname(__file__), 'obj_to_json_adapter_data/macros_ref.json')
@@ -115,7 +121,7 @@ def test_write_investigations():
 
     output_path = os.path.join(os.path.dirname(__file__), 'obj_to_json_adapter_data')
     adapter = ObjToJsonAdapter()
-    adapter.writeInvestigations([investigation], output_path)
+    adapter.writeObjects([investigation], output_path, SecurityContentType.investigations)
 
     path = os.path.join(os.path.dirname(__file__), 'obj_to_json_adapter_data/response_task.json')
     path_ref = os.path.join(os.path.dirname(__file__), 'obj_to_json_adapter_data/response_task_ref.json')
@@ -152,7 +158,7 @@ def test_write_stories():
     detection_builder = SecurityContentDetectionBuilder()
     director.constructDetection(detection_builder, os.path.join(os.path.dirname(__file__), 
         '../builder/test_data/detection/valid.yml'), [deployment], [playbook], [baseline], [test],
-        AttackEnrichment.get_attack_lookup(), [])
+        AttackEnrichment.get_attack_lookup(), [], [])
     detection = detection_builder.getObject()
 
     investigation_builder = SecurityContentInvestigationBuilder()
@@ -168,7 +174,7 @@ def test_write_stories():
 
     output_path = os.path.join(os.path.dirname(__file__), 'obj_to_json_adapter_data')
     adapter = ObjToJsonAdapter()
-    adapter.writeStories([story], output_path)
+    adapter.writeObjects([story], output_path, SecurityContentType.stories)
 
     path = os.path.join(os.path.dirname(__file__), 'obj_to_json_adapter_data/story.json')
     path_ref = os.path.join(os.path.dirname(__file__), 'obj_to_json_adapter_data/story_ref.json')

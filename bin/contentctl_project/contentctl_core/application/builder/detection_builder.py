@@ -49,6 +49,10 @@ class DetectionBuilder(abc.ABC):
         pass
 
     @abc.abstractmethod
+    def addLookups(self, lookups: list) -> None:
+        pass
+
+    @abc.abstractmethod
     def addCve(self) -> None:
         pass
 
