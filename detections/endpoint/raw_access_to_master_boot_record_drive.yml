@@ -10,7 +10,7 @@ description: This analytic is to look for suspicious raw access read to drive wh
   This technique was seen in several attacks by adversaries or threat actor to wipe, encrypt or overwrite the master boot record code 
   as part of their impact payload. This detection is a good indicator that there is a process try to read or write on MBR sector.
 search: '`sysmon` EventCode=9 Device = \\Device\\Harddisk0\\DR0 NOT (Image IN("C:\\Windows\\System32\\*", "C:\\Windows\\SysWOW64\\*")) 
-  | stats count min(_time) as firstTime max(_time) as lastTime by dest Image Device ProcessGuid ProcessId EventDescription EventCode
+  | stats count min(_time) as firstTime max(_time) as lastTime by Computer Image Device ProcessGuid ProcessId EventDescription EventCode
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` 
   | `raw_access_to_master_boot_record_drive_filter`'
@@ -40,6 +40,13 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
+  - Computer 
+  - Image 
+  - Device 
+  - ProcessGuid 
+  - ProcessId 
+  - EventDescription 
+  - EventCode
   security_domain: endpoint
   impact: 90
   confidence: 100
