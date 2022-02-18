@@ -1,0 +1,22 @@
+name: Living Off The Land
+id: 6f7982e2-900b-11ec-a54a-acde48001122
+version: 1
+date: '2022-02-17'
+author: Lou Stella, Splunk
+description: Leverage searches that allow you to search for the presence of an attacker leveraging existing tooling within your environment. 
+narrative: Living Off The Land refers to an attacker methodology of using software already installed on their target host to achieve their goals. Many utilities that ship with Windows can be used to achieve various goals, with reduced chances of detection by an antivirus software.
+references:
+- https://lolbas-project.github.io/
+tags:
+  analytic_story:
+  - Living Off The Land
+  category:
+  - Adversary Tactics
+  - Unauthorized Software
+  - Lateral Movement
+  - Privilege Escalation
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Security Monitoring
