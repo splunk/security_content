@@ -188,37 +188,25 @@ class GithubService:
                                         f"\n\t\t{os.path.abspath(SECURITY_CONTENT_DIRECTORY_NAME)}"
                                         f"\n\tModified Tracked Files:"
                                         f"{changed_files_string}"
-                                        f"\n\n\tTHIS WILL STASH THE ABOVE CHANGES TO CURRENT BRANCH [{self.security_content_repo_obj.active_branch.name}].  "
-                                        "Type 'stash' if you want to proceed: ")
-                    if response == 'stash':
+                                        f"\n\n\tTHIS WILL LOSE THE ABOVE CHANGES TO CURRENT BRANCH [{self.security_content_repo_obj.active_branch.name}].  "
+                                        "Type 'overwrite' if you want to proceed: ")
+                    if response == 'overwrite':
                         try:
-                            #Stash the changes for this branch
-                            if self.security_content_repo_obj.active_branch.name != security_content_branch:
-                                self.security_content_repo_obj.git.stash()
-                                print(f"\n\tStashed changes. They can be restored with (probably) with:\n"
-                                "\t\tcd security_content\n"
-                                f"\t\tgit checkout {self.security_content_repo_obj.active_branch.name}\n"
-                                "\t\tgit restore dist/escu/default/*\n"
-                                "\t\tgit stash pop")
-                            #Get a different branch
+                            
                             self.security_content_repo_obj.git.checkout(security_content_branch, "-f")
                             #Stash any changes that might be uncommitted for this branch
                             #self.security_content_repo_obj.git.stash()
                             #Get the newest version of this repo from the remote
                             self.security_content_repo_obj.git.pull("--rebase")
-                            try:
-                                self.security_content_repo_obj.git.restore("dist/escu/default/*")
-                                self.security_content_repo_obj.git.stash("pop")
-                            except:
-                                print("No stash to restore")
+                            
                             
                         except Exception as e:
                             print(f"Another error checking out the branch {security_content_branch}: {str(e)}\n\tQuitting...",file=sys.stderr)
                             sys.exit(1)
                     else:
-                        print(f"Your response '{response}' was not 'yes'. We did not overwirte the repo.\n\tQuitting",file=sys.stderr)
+                        print(f"Your response '{response}' was not 'overwrite'. We did not overwrite the repo.\n\tQuitting",file=sys.stderr)
                         sys.exit(1)
-                    print(f"Successfully checked out {security_content_branch}. Local changes were stashed at your request.")
+                    print(f"Successfully checked out {security_content_branch}. Local changes were overwritten at your request.")
 
 
              
