@@ -1,7 +1,7 @@
 name: O365 Excessive Authentication Failures Alert
 id: d441364c-349c-453b-b55f-12eccab67cf9
-version: 1
-date: '2020-12-16'
+version: 2
+date: '2022-02-18'
 author: Rod Soto, Splunk
 type: Anomaly
 datamodel: []

@@ -1,7 +1,7 @@
 name: Detect Regsvcs with Network Connection
 id: e3e7a1c0-f2b9-445c-8493-f30a63522d1a
-version: 1
-date: '2021-02-16'
+version: 2
+date: '2022-02-18'
 author: Michael Haag, Splunk
 type: TTP
 datamodel: []

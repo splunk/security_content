@@ -1,7 +1,7 @@
 name: Detect Regasm with Network Connection
 id: 07921114-6db4-4e2e-ae58-3ea8a52ae93f
-version: 1
-date: '2021-02-16'
+version: 2
+date: '2022-02-18'
 author: Michael Haag, Splunk
 type: TTP
 datamodel: []
