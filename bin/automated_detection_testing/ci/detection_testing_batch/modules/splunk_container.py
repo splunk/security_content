@@ -23,15 +23,14 @@ SPLUNKBASE_URL = "https://splunkbase.splunk.com/app/%d/release/%s/download"
 SPLUNK_START_ARGS = "--accept-license"
 
 #Give ten minutes to start - this is probably enough time
-MAX_CONTAINER_START_TIME_SECONDS = 60*10
+MAX_CONTAINER_START_TIME_SECONDS = 60*20
 class SplunkContainer:
     def __init__(
         self,
         synchronization_object: test_driver.TestDriver,
         full_docker_hub_path,
         container_name: str,
-        local_apps: OrderedDict,
-        splunkbase_apps: OrderedDict,
+        apps: OrderedDict,
         web_port_tuple: tuple[str, int],
         management_port_tuple: tuple[str, int],
         container_password: str,
@@ -49,15 +48,15 @@ class SplunkContainer:
         self.client = docker.client.from_env()
         self.full_docker_hub_path = full_docker_hub_path
         self.container_password = container_password
-        self.local_apps = local_apps
-        self.splunkbase_apps = splunkbase_apps
+        
+        self.apps = apps
 
         self.files_to_copy_to_container = files_to_copy_to_container
         self.splunk_ip = splunk_ip
         self.container_name = container_name
         self.mounts = mounts
         self.environment = self.make_environment(
-            local_apps, splunkbase_apps, container_password, splunkbase_username, splunkbase_password
+            apps, container_password, splunkbase_username, splunkbase_password
         )
         self.ports = self.make_ports(web_port_tuple, management_port_tuple)
         self.web_port = web_port_tuple[1]
@@ -72,50 +71,56 @@ class SplunkContainer:
         self.num_tests_completed = 0
 
 
+
     def prepare_apps_path(
         self,
-        local_apps: OrderedDict,
-        splunkbase_apps: OrderedDict,
+        apps: OrderedDict,
         splunkbase_username: Union[str, None] = None,
         splunkbase_password: Union[str, None] = None,
     ) -> tuple[str, bool]:
         apps_to_install = []
+
+        #We don't require credentials unless we install at least one splunkbase app
         require_credentials = False
 
-        for app_name, app_info in self.local_apps.items():
-            
-            if 'local_path' in app_info:
+        #If the username and password are supplied, then we will use splunkbase...
+        #assuming that the app_name and app_number are supplied.  Note that if a 
+        #local_path is supplied, then it should override this option!
+        if splunkbase_username is not None and splunkbase_password is not None:
+            use_splunkbase = True
+        else:
+            use_splunkbase = False
+
+        for app_name, app_info in self.apps.items():
+            if use_splunkbase is True and 'local_path' not in app_info:
+                target = SPLUNKBASE_URL % (app_info["app_number"], app_info["app_version"])
+                apps_to_install.append(target)
+                #We will require credentials since we are installing at least one splunkbase app
+                require_credentials = True
+            #Some paths may have a local_path and an HTTP path defined. Default to the local_path first,
+            #mostly because we may have copied it before into the cache to speed up start time.
+            elif 'local_path' in app_info:
                 app_file_name = os.path.basename(app_info['local_path'])
                 app_file_container_path = os.path.join("/tmp/apps", app_file_name)
-                apps_to_install.append(app_file_container_path)
+                apps_to_install.append(app_file_container_path)                
             elif 'http_path' in app_info:
                 apps_to_install.append(app_info['http_path'])
+                
             else:
-                print("Error, the app %s: %s has no http_path or local_path.\n\tQuitting..."%(app_name,app_info), file=sys.stderr)
+                if use_splunkbase is True:
+                    print("Error, the app %s: %s could not be installed from Splunkbase because "
+                          "--splunkbase_username and.or --splunkbase_password were not provided."
+                          "\n\tQuitting..."%(app_name,app_info), file=sys.stderr)
+                else:
+                    print("Error, the app %s: %s has no http_path or local_path.\n\tQuitting..."%(app_name,app_info), file=sys.stderr)
                 sys.exit(1)
 
-        for app_name, app_info in self.splunkbase_apps.items():
-
-            if splunkbase_username is None or splunkbase_password is None:
-                raise Exception(
-                    "Error: Requested app from Splunkbase but Splunkbase username and/or password were not supplied."
-                )
-            target = SPLUNKBASE_URL % (
-                app_info["app_number"], app_info["app_version"])
-            apps_to_install.append(target)
-            require_credentials = True
-            # elif app["location"] == "local":
-            #    apps_to_install.append(app["container_path"])
         
-        #for printing out all the app paths we will install
-        #for num, name in zip(range(len(apps_to_install)),apps_to_install):
-        #    print("%d: %s"%(num,name))
         return ",".join(apps_to_install), require_credentials
 
     def make_environment(
         self,
-        local_apps: OrderedDict,
-        splunkbase_apps: OrderedDict,
+        apps: OrderedDict,
         container_password: str,
         splunkbase_username: Union[str, None] = None,
         splunkbase_password: Union[str, None] = None,
@@ -124,7 +129,7 @@ class SplunkContainer:
         env["SPLUNK_START_ARGS"] = SPLUNK_START_ARGS
         env["SPLUNK_PASSWORD"] = container_password
         splunk_apps_url, require_credentials = self.prepare_apps_path(
-            local_apps, splunkbase_apps, splunkbase_username, splunkbase_password
+            apps, splunkbase_username, splunkbase_password
         )
         
         if require_credentials:
@@ -314,10 +319,36 @@ class SplunkContainer:
             time.sleep(seconds_between_attempts)
 
     
-    @wrapt_timeout_decorator.timeout(MAX_CONTAINER_START_TIME_SECONDS, timeout_exception=RuntimeError)
+    #@wrapt_timeout_decorator.timeout(MAX_CONTAINER_START_TIME_SECONDS, timeout_exception=RuntimeError)
     def setup_container(self):
-
+        
         self.container.start()
+
+
+        # def shutdown_signal_handler(sig, frame):
+        #     shutdown_client = docker.client.from_env()
+        #     errorCount = 0
+        
+        #     print(f"Shutting down {self.container_name}...", file=sys.stderr)
+        #     try:
+        #         container = shutdown_client.containers.get(self.container_name)
+        #         #Note that stopping does not remove any of the volumes or logs,
+        #         #so stopping can be useful if we want to debug any container failure 
+        #         container.stop(timeout=10)
+        #         print(f"{self.container_name} shut down successfully", file=sys.stderr)        
+        #     except Exception as e:
+        #         print(f"Error trying to shut down {self.container_name}. It may have already shut down.  Stop it youself with 'docker containter stop {self.container_name}", sys.stderr)
+            
+            
+        #     #We must use os._exit(1) because sys.exit(1) actually generates an exception which can be caught! And then we don't Quit!
+        #     import os
+        #     os._exit(1)
+                
+
+                    
+        # import signal
+        # signal.signal(signal.SIGINT, shutdown_signal_handler)
+
         # By default, first copy the index file then the datamodel file
         for file_description, file_dict in self.files_to_copy_to_container.items():
             self.extract_tar_file_to_container(
@@ -419,7 +450,7 @@ class SplunkContainer:
                     % (detection_to_test, str(e))
                 )
                 
-                traceback.print_exc()
+                #traceback.print_exc()
                 #import pdb
                 #pdb.set_trace()
                 # Fill in all the "Empty" fields with default values. Otherwise, we will not be able to 
