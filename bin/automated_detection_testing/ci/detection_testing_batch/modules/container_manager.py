@@ -1,4 +1,5 @@
 from collections import OrderedDict
+from tabnanny import check
 import docker
 import datetime
 import docker.types
@@ -25,8 +26,7 @@ class ContainerManager:
         full_docker_hub_name: str,
         container_name_template: str,
         num_containers: int,
-        local_apps: OrderedDict,
-        splunkbase_apps:OrderedDict,
+        apps: OrderedDict,
         branch:str,
         commit_hash:str,
         summarization_reproduce_failure_config:dict,
@@ -43,12 +43,15 @@ class ContainerManager:
         interactive:bool=False
 
     ):
+        #Used to determine whether or not we should wait for container threads to finish when summarizing
+        self.all_tests_completed = False
+
         self.synchronization_object = test_driver.TestDriver(
             test_list, num_containers, summarization_reproduce_failure_config)
 
         self.mounts = self.create_mounts(mounts)
-        self.local_apps = local_apps
-        self.splunkbase_apps = splunkbase_apps
+        self.apps = apps
+        
 
         if container_password is None:
             self.container_password = self.get_random_password()
@@ -93,21 +96,29 @@ class ContainerManager:
         self.baseline['TEST_FINISH_TIME'] = "TO BE UPDATED"
         self.baseline['TEST_DURATION'] = "TO BE UPDATED"
 
-        for key in self.local_apps:
-            self.baseline[key] = self.local_apps[key]
+        for key in self.apps:
+            self.baseline[key] = self.apps[key]
 
-        for key in self.splunkbase_apps:
-            self.baseline[key] = self.splunkbase_apps[key]
+        
 
 
     def run_test(self)->bool:
-        self.run_containers()
         self.run_status_thread()
-        for container in self.containers:
-            container.thread.join()
-            print(container.get_container_summary())
-        print("Waiting for next summary thread printout to finish...")
+        self.run_containers()
         self.summary_thread.join()
+        
+        
+            
+            
+        for container in self.containers:
+            if self.all_tests_completed == True:
+                container.thread.join()
+            elif self.all_tests_completed == False:
+                #For some reason, we stopped early.  So don't wait on the child threads to finish. Don't join,
+                #these threads may be stuck in their setup loops. Continue on.
+                pass
+            
+            print(container.get_container_summary())
         print("All containers completed testing!")
         
         
@@ -170,8 +181,7 @@ class ContainerManager:
                     self.synchronization_object,
                     full_docker_hub_name,
                     container_name,
-                    self.local_apps,
-                    self.splunkbase_apps,
+                    self.apps,
                     web_port_tuple,
                     management_port_tuple,
                     self.container_password,
@@ -219,16 +229,19 @@ class ContainerManager:
         password = "".join(password_list)
         return password
 
-    def queue_status_thread(self, status_interval:int=60)->None:
+    def queue_status_thread(self, status_interval:int=60, num_steps:int=10)->None:
 
         while True:
-            if self.synchronization_object.checkContainerFailure():
-                print("One of the containers has shut down prematurely and generated an exception. Shut down the rest of the containers.")
-                for container in self.containers:
-                    container.stopContainer()
-                print("All containers stopped")
-                
-                return None
+            #This for loop lets us run the summarize print less often, but check for failure more often
+            for chunk in range(0, status_interval, int(status_interval/num_steps)):
+                if self.synchronization_object.checkContainerFailure():
+                    print("One of the containers has shut down prematurely or the test was halted. Ensuring all containers are stopped.")
+                    for container in self.containers:
+                        container.stopContainer()
+                    print("All containers stopped")
+                    self.all_tests_completed = False
+                    return None
+                time.sleep(status_interval/num_steps)
 
             at_least_one_container_has_started_running_tests = False
             for container in self.containers:
@@ -237,9 +250,9 @@ class ContainerManager:
                     break
             if self.synchronization_object.summarize(testing_currently_active = at_least_one_container_has_started_running_tests) == False:
                 #There are no more tests to run, so we can return from this thread
-                
+                self.all_tests_completed = True
                 return None
-            time.sleep(status_interval)
+            
 
     def setup_image(self, reuse_images: bool, container_name: str) -> None:
         client = docker.client.from_env()
