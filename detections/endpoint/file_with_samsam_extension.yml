@@ -69,3 +69,5 @@ tags:
   - Filesystem.file_name
   risk_score: 90
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon
