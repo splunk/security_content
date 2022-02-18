@@ -80,8 +80,21 @@ class GithubService:
             sys.stdout.flush()
             self.security_content_repo_obj = self.clone_project(SECURITY_CONTENT_URL, SECURITY_CONTENT_DIRECTORY_NAME, SECURITY_CONTENT_MAIN_BRANCH)
             print("done")
+            clean_checkout = True
         else:
             self.security_content_repo_obj = git.Repo("security_content")
+            print("Fetching the latest version of the 'develop' branch...", end='')
+            sys.stdout.flush()
+            self.security_content_repo_obj.git.stash()
+            self.security_content_repo_obj.git.pull('origin', 'develop:develop', "--rebase")
+            try:
+                self.security_content_repo_obj.git.stash("pop")
+            except:
+                #No changes were stashed, that's okay
+                pass
+            print("done")
+            clean_checkout = False
+            
 
 
         #For a Fork PR, that branch may not exist in security_content.  Or, worse, it may
@@ -118,6 +131,8 @@ class GithubService:
                 #    raise(Exception(f"The commit hash {commit_hash} was found, but not found in the "
                 #                     "specified branch {self.security_content_local_branch}"))
         
+        
+            
         elif security_content_branch is not None:
             self.security_content_remote_branch = security_content_branch
             self.security_content_local_branch  = security_content_branch
@@ -128,57 +143,85 @@ class GithubService:
                            "'git branch -a' to examine [%d] branches"%(self.security_content_remote_branch, len(branch_names))))
             
             print(f"Checking out branch: [{security_content_branch}]...", end='')
-            sys.stdout.flush()
             
-            try:
-                
-                if (self.security_content_repo_obj.active_branch.name != security_content_branch):
-                    #print(f"Checking for changes to tracked files in {self.security_content_repo_obj.active_branch.name}...",end='')
-                    print(f"requested to change current security_content branch from "
-                          f"{self.security_content_repo_obj.active_branch.name} --> {security_content_branch}")
-                    self.security_content_repo_obj.git.diff("--quiet")
-                else:
-                    changed_files = self.security_content_repo_obj.git.diff("--name-only").split('\n')
-                    changed_files_string = ''.join(['\n\t\t* '+filename for filename in changed_files])
-                    if len(changed_files) > 0:
-                        print(f"Local modified, UNCOMITTED, tracked files:"
-                              f"{changed_files_string}")
-                
-                #We only get here if there are NO changes... otherwise the diff("--quiet") throws an exception
+            sys.stdout.flush()
+            if clean_checkout == True:
                 self.security_content_repo_obj.git.checkout(security_content_branch)
+                if self.PR_number is None and security_content_branch != 'develop':
+                    self.security_content_repo_obj.git.pull()
                 print("done")
-            except Exception as e:
-                print(f"\nError checking out branch [{security_content_branch}]:\n{str(e)}", file=sys.stderr)
-                
+
+            else:
                 try:
-                    changed_files = self.security_content_repo_obj.git.diff("--name-only").split("\n")
-                except Exception as e:
-                    changed_files = ["ERROR GETTING CHANGED FILES"]
-                changed_files_string = ''.join(['\n\t\t* '+filename for filename in changed_files])
-                response = input(f"\n\tFull Branch Path:"
-                                 f"\n\t\t{os.path.abspath(SECURITY_CONTENT_DIRECTORY_NAME)}"
-                                 f"\n\tModified Tracked Files:"
-                                 f"{changed_files_string}"
-                                 f"\n\n\tTHIS WILL OVERWRITE ABOVE CHANGES TO BRANCH [{security_content_branch}].  "
-                                 "Type 'overwrite' if you want to proceed: ")
-                if response == 'overwrite':
+                    
+                    if (self.security_content_repo_obj.active_branch.name != security_content_branch):
+                        #print(f"Checking for changes to tracked files in {self.security_content_repo_obj.active_branch.name}...",end='')
+                        print(f"requested change of security_content branch from "
+                                f"{self.security_content_repo_obj.active_branch.name} --> {security_content_branch}")
+                        self.security_content_repo_obj.git.diff("--quiet")
+                    else:
+                        changed_files = self.security_content_repo_obj.git.diff("--name-only").strip().split('\n')
+                        changed_files_string = ''.join(['\n\t\t* '+filename for filename in changed_files])
+                        if len(changed_files) > 0:
+                            print(f"Local modified, UNCOMMITTED, tracked files:"
+                                    f"{changed_files_string}")
+                    
+                    #We only get here if there are NO changes... otherwise the diff("--quiet") throws an exception
+                    self.security_content_repo_obj.git.checkout(security_content_branch)
+                    self.security_content_repo_obj.git.stash()
+                    self.security_content_repo_obj.git.pull("--rebase")
                     try:
-                        #Throw away all of the local changes that were made in this branch
-                        self.security_content_repo_obj.git.reset("--hard")
-                        self.security_content_repo_obj.git.checkout(security_content_branch, "-f")
+                        self.security_content_repo_obj.git.stash("pop")
+                    except:
+                        #No changes were stashed, that's okay
+                        pass
+                    
+                except Exception as e:
+                    print(f"\nError checking out branch [{security_content_branch}]:\n{str(e)}", file=sys.stderr)
+                    
+                    try:
+                        changed_files = self.security_content_repo_obj.git.diff("--name-only").split("\n")
                     except Exception as e:
-                        print(f"Another error checking out the branch {security_content_branch}: {str(e)}\n\tQuitting...",file=sys.stderr)
+                        changed_files = ["ERROR GETTING CHANGED FILES"]
+                    changed_files_string = ''.join(['\n\t\t* '+filename for filename in changed_files])
+                    response = input(f"\n\tFull Branch Path:"
+                                        f"\n\t\t{os.path.abspath(SECURITY_CONTENT_DIRECTORY_NAME)}"
+                                        f"\n\tModified Tracked Files:"
+                                        f"{changed_files_string}"
+                                        f"\n\n\tTHIS WILL STASH THE ABOVE CHANGES TO CURRENT BRANCH [{self.security_content_repo_obj.active_branch.name}].  "
+                                        "Type 'stash' if you want to proceed: ")
+                    if response == 'stash':
+                        try:
+                            #Stash the changes for this branch
+                            if self.security_content_repo_obj.active_branch.name != security_content_branch:
+                                self.security_content_repo_obj.git.stash()
+                                print(f"\n\tStashed changes. They can be restored with (probably) with:\n"
+                                "\t\tcd security_content\n"
+                                f"\t\tgit checkout {self.security_content_repo_obj.active_branch.name}\n"
+                                "\t\tgit restore dist/escu/default/*\n"
+                                "\t\tgit stash pop")
+                            #Get a different branch
+                            self.security_content_repo_obj.git.checkout(security_content_branch, "-f")
+                            #Stash any changes that might be uncommitted for this branch
+                            #self.security_content_repo_obj.git.stash()
+                            #Get the newest version of this repo from the remote
+                            self.security_content_repo_obj.git.pull("--rebase")
+                            try:
+                                self.security_content_repo_obj.git.restore("dist/escu/default/*")
+                                self.security_content_repo_obj.git.stash("pop")
+                            except:
+                                print("No stash to restore")
+                            
+                        except Exception as e:
+                            print(f"Another error checking out the branch {security_content_branch}: {str(e)}\n\tQuitting...",file=sys.stderr)
+                            sys.exit(1)
+                    else:
+                        print(f"Your response '{response}' was not 'yes'. We did not overwirte the repo.\n\tQuitting",file=sys.stderr)
                         sys.exit(1)
-                else:
-                    print(f"Your response '{response}' was not 'yes'. We did not overwirte the repo.\n\tQuitting",file=sys.stderr)
-                    sys.exit(1)
-                print(f"Successfully checked out {security_content_branch}. Local changes were overwritten at your request.")
+                    print(f"Successfully checked out {security_content_branch}. Local changes were stashed at your request.")
 
 
              
-            
-            
-
         else:
             raise(Exception("Could not check out by PR number, commit hash, or branch"))
 
@@ -524,11 +567,14 @@ class GithubService:
 
         all_changed_detection_files = []
         if branch1 != SECURITY_CONTENT_MAIN_BRANCH:
-            if self.commit_hash is None:
-                differ = g.diff('--name-status', branch2 + '...' + branch1)
-            else:
-                differ = g.diff('--name-status', branch2 +
-                                '...' + self.commit_hash)
+        
+            #differ = g.diff('--name-status', branch2 + '...' + branch1)
+            
+            #diffs against the current state of the repo!
+            #this form is required if there have been local change or a commit hash.
+            #So just use it all the time - no drawbacks if just a branch is supplied
+            differ = g.diff('--name-status', branch2) 
+        
 
             changed_files = differ.splitlines()
 

@@ -158,7 +158,7 @@ def generate_escu_app() -> str:
                 str(e)), file=sys.stderr)
             sys.exit(1)
 
-        
+        print("\tGenerating the ESCU App...",end='')
         commands = ["cd slim_packaging/slim_latest",
                     ". ./.venv/bin/activate",
                     "cp -R ../../dist/escu DA-ESS-ContentUpdate",
@@ -184,7 +184,7 @@ def generate_escu_app() -> str:
             print("Error downloading the Splunk Packaging Toolkit: [%s].\n\tQuitting..." %
                   (str(e)), file=sys.stderr)
             sys.exit(1)
-        
+        print("\tInstalling ESCU App Prereqs and Generating the ESCU App...",end='')    
         commands = ["rm -rf slim_packaging/slim_latest",
                     "mkdir slim_packaging/slim_latest",
                     "cd slim_packaging",
@@ -199,7 +199,7 @@ def generate_escu_app() -> str:
                     "cp -R ../../dist/escu DA-ESS-ContentUpdate",
                     "slim package -o upload DA-ESS-ContentUpdate",
                     "cp upload/DA-ESS-ContentUpdate*.tar.gz %s" % (output_file_path_from_slim_latest)]
-    print("\tGenerating the ESCU App...",end='')
+    
     sys.stdout.flush()
     ret = subprocess.run("; ".join(commands),
                          shell=True, capture_output=True)
@@ -390,6 +390,7 @@ def main(args: list[str]):
         sys.exit(1)
 
     print("***This run will test [%d] detections!***"%(len(all_test_files)))
+    print(all_test_files)
        
 
     #Set up the directory that will be used to store the local apps/apps we build
