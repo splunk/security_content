@@ -6,7 +6,11 @@ author: Mauricio Velazco, Splunk
 description: Monitor for activities and techniques associated with Kerberos based attacks within with Active Directory environments.
 narrative: Kerberos, initially named after Cerberus, the three-headed dog in Greek mythology, is a network authentication protocol that allows computers and
  users to prove their identity through a trusted third-party. This trusted third-party issues Kerberos tickets using symmetric encryption to allow users access
- to services and network resources based on their privilege level. Kerberos is the default authentication protocol used on Windows Active Directory networks.
+ to services and network resources based on their privilege level. Kerberos is the default authentication protocol used on Windows Active Directory networks since
+ the introduction of Windows Server 2003. With Kerberos being the backbone of Windows authentication, it is commonly abused by adversaries across the different phases 
+ of a breach including initial access, privilege escalation, defense evasion, credential access, lateral movement, etc.\
+ This Analytic Story groups detection use cases in which the Kerberos protocol is abused. Defenders can leverage these analytics to detect and hunt for adversaries engaging in 
+ Kerberos based attacks.
 references:
 - https://en.wikipedia.org/wiki/Kerberos_(protocol)
 - https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-kile/2a32282e-dd48-4ad9-a542-609804b02cc9
