@@ -1,0 +1,82 @@
+name: Windows Command and Scripting Interpreter Outbound LDAP Traffic
+id: 4d16a90c-d1a9-4d17-8156-d0db0c73c449
+version: 1
+date: '2022-02-17'
+author: Jose Hernandez, Michael Haag, Splunk
+type: Anomaly
+datamodel:
+- Endpoint_Processes
+description: Malicious actors often abuse misconfigured LDAP servers or applications that use the LDAP servers in organizations. 
+Outbound LDAP traffic should not be allowed outbound through your perimeter firewall. 
+This search will help determine if you have any LDAP connections to IP addresses outside of private (RFC1918) address space.
+search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
+  "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"),
+  "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"),
+  "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string",
+  null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string",
+  null), event_id=ucast(map_get(input_event, "event_id"), "string", null) | where
+  cmd_line IS NOT NULL AND process_name IS NOT NULL | where process_name="pwsh.exe"
+  OR process_name="pwsh.exe" OR process_name="sqlps.exe" OR process_name="sqltoolsps.exe"
+  OR process_name="powershell.exe" OR process_name="powershell_ise.exe" | where (like
+  (cmd_line, "%downloadfile%")) | eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event,
+  "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
+  "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name",
+  process_name, "parent_process_name", parent_process_name, "process_path", process_path])
+  | into write_ssa_detected_events();'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on network traffic, specifically data that populates the Network_Traffic datamodel. 
+  To develop this analytic we used specifically Zeek/Bro conn.log and PAN Traffic events.
+known_false_positives: Unknown at this moment. Outbound LDAP traffic should not be allowed outbound through your perimeter firewall. 
+Please check those servers to verify if the activity is legitimate.
+references:
+- https://www.govcert.ch/blog/zero-day-exploit-targeting-popular-java-library-log4j/
+- https://www.splunk.com/en_us/blog/security/simulating-detecting-and-responding-to-log4shell-with-splunk.html
+- https://www.cisa.gov/uscert/ncas/alerts/aa21-356a
+tags:
+  analytic_story:
+  - Log4Shell CVE-2021-44228
+  cis20:
+  - CIS 13
+  confidence: 70
+  context:
+  - Scope:Outbound
+  - Source:Endpoint
+  - Stage:Execution
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/atomic_red_team/downloadfile_windows-security.log
+  impact: 50
+  kill_chain_phases:
+  - Execution
+  message: An outbound LDAP connection from $src_ip$ in your infrastructure connecting to dest ip $dest_ip$
+  mitre_attack_id:
+  - T1059
+  nist:
+  - PR.PT
+  - DE.CM
+  observable:
+  - name: dest_user_id
+    type: User
+    role:
+    - Victim
+  - name: dest_device_id
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Parent Process
+    role:
+    - Parent Process
+  product:
+  - Splunk Behavioral Analytics
+  required_fields:
+  - _time
+  - dest_device_id
+  - process_name
+  - parent_process_name
+  - process_path
+  - dest_user_id
+  - process
+  - cmd_line
+  risk_score: 35
+  risk_severity: low
+  security_domain: network
