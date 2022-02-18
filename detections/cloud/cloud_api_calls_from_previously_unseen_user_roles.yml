@@ -68,3 +68,5 @@ tags:
   - All_Changes.object
   risk_score: 36
   security_domain: threat
+  supported_tas:
+  - Splunk_TA_aws-kinesis-firehose
