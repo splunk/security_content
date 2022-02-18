@@ -13,9 +13,7 @@ description: The following analytic utilizes PowerShell Script Block Logging (Ev
 search: '`powershell` EventCode=4104 (Message="*Enter-PSSession*" AND Message="*-ComputerName*") 
   | stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message ComputerName User 
   | `security_content_ctime(firstTime)` 
-  | `interactive_session_on_remote_endpoint_with_powershell_filter` 
-  | stats count 
-  | where count > 0'
+  | `interactive_session_on_remote_endpoint_with_powershell_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup instructions
   can be found https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.

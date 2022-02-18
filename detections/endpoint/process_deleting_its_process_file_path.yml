@@ -36,8 +36,8 @@ tags:
   automated_detection_testing: passed
   confidence: 100
   context:
-  - source:endpoint
-  - stage: Credential Access
+  - Source:Endpoint
+  - Stage:Credential Access
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-sysmon.log
   impact: 60
@@ -53,7 +53,7 @@ tags:
     role:
     - Victim
   - name: user
-    type: user
+    type: User
     role:
     - Victim
   product:

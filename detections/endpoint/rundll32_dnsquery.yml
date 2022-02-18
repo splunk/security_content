@@ -60,7 +60,6 @@ tags:
   - QueryName
   - QueryStatus
   - ProcessId
-  - direction
   - Computer
   risk_score: 56
   security_domain: endpoint
