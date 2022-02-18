@@ -88,6 +88,8 @@ unknown
 | 90.0 | 100 | 90 | suspicious powershell script $Message$ was executed on the $ComputerName$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

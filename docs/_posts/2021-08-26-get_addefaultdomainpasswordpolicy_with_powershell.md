@@ -89,6 +89,8 @@ Administrators or power users may use this command for troubleshooting.
 | 9.0 | 30 | 30 | an instance of process $process_name$ with commandline $process$ in $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

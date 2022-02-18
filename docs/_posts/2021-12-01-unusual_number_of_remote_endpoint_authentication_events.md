@@ -94,6 +94,8 @@ An single endpoint authenticating to a large number of hosts is not common behav
 | 42.0 | 70 | 60 | None |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

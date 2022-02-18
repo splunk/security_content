@@ -89,6 +89,8 @@ It is possible for some legitimate administrative utilities to use similar cmd_l
 | 72.0 | 90 | 80 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest_device_id$ by user $dest_user_id$ performing activity related to DNS exfiltration. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

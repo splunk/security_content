@@ -95,6 +95,8 @@ False positives should be limited, however it is possible to filter by Processes
 | 80.0 | 80 | 100 | dynwrapx.dll loaded by process $process_name$ on $Computer$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

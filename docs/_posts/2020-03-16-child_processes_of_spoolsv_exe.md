@@ -85,6 +85,8 @@ Some legitimate printer-related processes may show up as children of spoolsv.exe
 
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 #### CVE
 

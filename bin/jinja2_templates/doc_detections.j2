@@ -119,6 +119,8 @@ The SPL above uses the following Lookups:
 | {{(detection.tags.impact * detection.tags.confidence)/100}} | {{ detection.tags.impact }} | {{ detection.tags.confidence }} | {{detection.tags.message}} |
 {% endif %}
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 {% if detection.cve %}
 #### CVE
 

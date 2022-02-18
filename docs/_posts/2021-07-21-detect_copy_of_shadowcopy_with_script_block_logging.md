@@ -91,6 +91,8 @@ Limited false positives as the scope is limited to SAM, SYSTEM and SECURITY hive
 | 80.0 | 80 | 100 | PowerShell was identified running a script to capture the SAM hive on endpoint $ComputerName$ by user $user$. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 #### CVE
 

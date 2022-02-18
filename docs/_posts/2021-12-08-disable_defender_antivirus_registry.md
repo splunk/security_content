@@ -2,7 +2,7 @@
 title: "Disable Defender AntiVirus Registry"
 excerpt: "Disable or Modify Tools, Impair Defenses"
 categories:
-  - Experimental
+  - Endpoint
 last_modified_at: 2021-12-08
 toc: true
 toc_label: ""
@@ -89,6 +89,8 @@ Admin or user may choose to disable windows defender product
 | 49.0 | 70 | 70 | Modified/added/deleted registry entry $registry_path$ in $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference
@@ -105,4 +107,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/experimental/experimental/disable_defender_antivirus_registry.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/experimental/endpoint/disable_defender_antivirus_registry.yml) \| *version*: **1**

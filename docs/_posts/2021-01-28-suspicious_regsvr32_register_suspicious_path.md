@@ -98,6 +98,8 @@ Limited false positives with the query restricted to specified paths. Add more w
 | 35.0 | 70 | 50 | Suspicious $Processes.process_path.file_path$ process potentially loading malicious code |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference
