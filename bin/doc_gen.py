@@ -1,3 +1,4 @@
+from threading import Thread
 from functools import cache
 import glob
 import yaml
@@ -13,6 +14,7 @@ from stix2 import Filter
 from pycvesearch import CVESearch
 
 CVESSEARCH_API_URL = 'https://cve.circl.lu'
+CVESSEARCH_API_TIMEOUT = 10
 
 
 def load_objects(REPO_PATH, TYPE):
@@ -101,6 +103,9 @@ def parse_and_add_lookups(search_string, lookups):
 #the calls to this function - there will be many duplicates which
 #should all return the same results. This will gives us a significant
 #speedup.
+#Hackish way of keeping the original functionality and allowing it
+#to easily return a value when in a thread... making an optional
+#default argument with a type that is mutable!
 @cache
 def get_cve_enrichment_new(cve_id):
     cve = CVESearch(CVESSEARCH_API_URL)
@@ -110,6 +115,15 @@ def get_cve_enrichment_new(cve_id):
     cve_enriched['cvss'] = result['cvss']
     cve_enriched['summary'] = result['summary']
     return cve_enriched
+
+#helper function to easily return a value from a thread that is 
+#running a memoized/@cached function
+def get_cve_enrichment_new_wrapper(cve_id,mutable_list):
+    mutable_list.append(get_cve_enrichment_new(cve_id))
+    
+
+
+
 
 def get_all_techniques(projects_path):
     path_cti = path.join(projects_path,'cti/enterprise-attack')
@@ -335,8 +349,17 @@ def generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, messag
         cves = []
         if 'cve' in detection_yaml['tags']:
             for cve_id in detection_yaml['tags']['cve']:
-                cve = get_cve_enrichment_new(cve_id)
-                cves.append(cve)
+                mutable_list = []
+                try:
+                    cve_thread = Thread(target=get_cve_enrichment_new_wrapper, args=(cve_id, mutable_list))
+                    cve_thread.start()
+                    cve_thread.join(timeout=CVESSEARCH_API_TIMEOUT)
+                    if cve_thread.is_alive():
+                        raise(Exception(f"Timed out getting CVE Enrichment from {CVESSEARCH_API_URL} after {CVESSEARCH_API_TIMEOUT} seconds."))
+                    cves.append(mutable_list[0])
+                except Exception as e:
+                    print(f"Error - {str(e)}\nQuitting...",file=sys.stderr)
+                    sys.exit(1)
             detection_yaml['cve'] = cves
 
         # enrich with macros
