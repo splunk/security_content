@@ -40,6 +40,11 @@ cat /etc/network/interfaces
 cat /etc/sysconfig/network
 cat /etc/resolv.conf
 cat /etc/networks
+cvelist-file:*
+exploit-db*
+strings -e /etc/apache2/apache2.conf
+strings -e /etc/ssh/sshd_config
+strings -e /etc/shadow
 iptables -L
 lsof -i
 netstat -antup
