@@ -235,7 +235,7 @@ class TestDriver:
         
 
         if self.checkContainerFailure():
-            print("One or more containers crashed, so testing did not complete successfully. We wrote out all the results that we could")
+            print("One or more containers crashed or the test was HALTED early, so testing did not complete successfully. We wrote out all the results that we could")
             return False
         else:
             return success
@@ -269,16 +269,7 @@ class TestDriver:
 
 
     def summarize(self,testing_currently_active:bool=False)->bool:
-        
-        if self.checkContainerFailure() == True:
-            print("Error running containers... shutting down", file=sys.stderr)
-            return False
-        
-
-        
-
         self.lock.acquire()
-        
         try:
         
             #Get a summary of some system stats
