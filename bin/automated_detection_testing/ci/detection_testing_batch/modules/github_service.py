@@ -243,112 +243,6 @@ class GithubService:
         self.commit_hash = self.security_content_repo_obj.head.object.hexsha
 
 
-
-
-
-        '''
-        #If the directory exists, we do a checkout on develop and pull to make sure we have the latest content for develop
-        try:
-            if os.path.exists(SECURITY_CONTENT_DIRECTORY_NAME):
-                print(f"SECURITY_CONTENT_DIRECTORY_NAME exists.  Getting the most updated version of the main branch ({SECURITY_CONTENT_MAIN_BRANCH})...",end='')
-                sys.stdout.flush()
-                
-                self.security_content_repo_obj = git.Repo(SECURITY_CONTENT_DIRECTORY_NAME)
-                
-                #Make sure we're on the right branch (develop)
-                self.security_content_repo_obj.git.checkout(SECURITY_CONTENT_MAIN_BRANCH)
-                
-                #Make sure that branch is up to date
-                self.security_content_repo_obj.git.pull()
-                
-  
-        
-  
-            else:
-                #the folder did not exist, so clone the repo
-                print(f"{SECURITY_CONTENT_DIRECTORY_NAME} does not exist.  Downloading it and switching to the main branch ({SECURITY_CONTENT_MAIN_BRANCH})...",end='')
-                sys.stdout.flush()
-
-                self.security_content_repo_obj = self.clone_project(SECURITY_CONTENT_URL, f"security_content", f"develop")
-        except Exception as e:
-            raise(Exception(f"Failure updating {SECURITY_CONTENT_DIRECTORY_NAME} folder - is it a valid repo? - [{str(e)}]"))
-
-        print("done")
-        
-        if self.PR_number is not None:
-            self.security_content_remote_branch = security_content_branch
-            self.security_content_local_branch = LOCAL_PR_BRANCH%self.PR_number
-        else:
-            self.security_content_remote_branch = security_content_branch
-            self.security_content_local_branch = security_content_branch
-
-
-        #Ensure that the branch name is valid   
-        #Get all the branch names, prefixed with "origin/"
-        branch_names = [branch.name for branch in self.security_content_repo_obj.remote().refs]
-
-        #Validate that the branch name is valid.  For a PR, this should be the branch that the PR resides in
-        if "origin/%s"%(self.security_content_remote_branch) not in branch_names:
-            raise(Exception("Branch name [%s] not found in valid branches.  Try running \n"\
-                           "'git branch -a' to examine [%d] branches"%(self.security_content_remote_branch, len(branch_names))))
-
-
-        if commit_hash is not None and PR_number is not None: 
-            print(f"\n************\nWARNING - both the PR_number {PR_number} and the commit_hash {commit_hash} were provided. "
-                  f"You should only pass neither or one of these.  We will ASSUME you want to use the PR_number, not the commit_hash. " 
-                  f"Removing the commit_hash...\n************\n")
-            commit_hash = None
-            
-            
-
-        if PR_number:
-            print(f"Fetching PR {self.PR_number} into local branch {self.security_content_local_branch}...",end='')
-            self.security_content_repo_obj.git.fetch("origin", f"pull/{self.PR_number}/head:{self.security_content_local_branch}")
-            self.security_content_repo_obj.git.checkout(self.security_content_local_branch)
-            
-        elif commit_hash is not None:
-            # No checking to see if the hash is to a commit inside of the branch - the user
-            # has to do that by hand.
-            print("Checking out commit hash: [%s]..." % (commit_hash),end='')
-            self.security_content_repo_obj.git.checkout(commit_hash)
-            
-        else:
-            #Just checking out and testing a branch
-            print("Checking out branch: [%s]..." %
-                  (security_content_branch), end='')
-            sys.stdout.flush()
-            self.security_content_repo_obj.git.checkout(security_content_branch)
-        #Pull to make sure we are up to date
-        
-        
-        #Print completion and store the commit hash
-        
-        print(f"done")
-        if (commit_hash !=  None) and (commit_hash != self.security_content_repo_obj.head.object.hexsha):
-            print("Warning: commit hash in configuration file [{commit_hash}] did NOT match the commit "
-                  "hash of the PR [{self.security_content_repo_obj.head.object.hexsha}].  We just warn "
-                  "about this and update the commit hash in the new test file.") 
-        
-        commit_hash = self.security_content_repo_obj.head.object.hexsha
-        self.commit_hash = commit_hash
-        
-        if self.PR_number is not None:
-            #Verify that, if this was a PR, that the PR exists in the branch we believe it does
-            output = self.security_content_repo_obj.git.branch("-a", "--contains", commit_hash)
-            print(output)
-            print("***")
-            print(f"remotes/origin/{self.security_content_remote_branch}")
-            if f"remotes/origin/{self.security_content_remote_branch}" not in output:
-                #raise(Exception(f"PR number {self.PR_number} not found in branch {self.security_content_remote_branch}"))
-                print(f"PR number {self.PR_number} not found in branch {self.security_content_remote_branch}")
-                print("maybe this is a remote pr? or maybe you gave the wrong branch?")
-
-        '''
-
-
-        
-
-
     def update_and_commit_passed_tests(self, results:list[dict])->bool:
         
         changed_file_paths = []
@@ -554,31 +448,28 @@ class GithubService:
         all_changed_test_files = []
 
         all_changed_detection_files = []
-        if branch1 != SECURITY_CONTENT_MAIN_BRANCH:
         
-            #differ = g.diff('--name-status', branch2 + '...' + branch1)
-            
-            #diffs against the current state of the repo!
-            #this form is required if there have been local change or a commit hash.
-            #So just use it all the time - no drawbacks if just a branch is supplied
-            differ = g.diff('--name-status', branch2) 
+    
+        #differ = g.diff('--name-status', branch2 + '...' + branch1)
         
+        #diffs against the current state of the repo!
+        #this form is required if there have been local change or a commit hash.
+        #So just use it all the time - no drawbacks if just a branch is supplied
+        differ = g.diff('--name-status', branch2) 
+    
 
-            changed_files = differ.splitlines()
+        changed_files = differ.splitlines()
 
-            for file_path in changed_files:
-                # added or changed test files
-                if file_path.startswith('A') or file_path.startswith('M'):
-                    if 'tests' in file_path and os.path.basename(file_path).endswith('.test.yml'):
-                        all_changed_test_files.append(file_path)
+        for file_path in changed_files:
+            # added or changed test files
+            if file_path.startswith('A') or file_path.startswith('M'):
+                if 'tests' in file_path and os.path.basename(file_path).endswith('.test.yml'):
+                    all_changed_test_files.append(file_path)
 
-                    # changed detections
-                    if 'detections' in file_path and os.path.basename(file_path).endswith('.yml'):
-                        all_changed_detection_files.append(file_path)
-        else:
-            print("Looking for changed detections by diffing [%s] against [%s].  They are the same branch, so none were returned." % (
-                branch1, branch2), file=sys.stderr)
-            return []
+                # changed detections
+                if 'detections' in file_path and os.path.basename(file_path).endswith('.yml'):
+                    all_changed_detection_files.append(file_path)
+    
 
         
         # all files have the format A\tFILENAME or M\tFILENAME.  Get rid of those leading characters
@@ -636,21 +527,15 @@ class GithubService:
                 changed_detection_files.append(name)
         
 
-        return self.prune_detections(changed_detection_files,   types_to_test, previously_successful_tests)
+        pruned_detections = self.prune_detections(changed_detection_files,   types_to_test, previously_successful_tests)
 
-        #detections_to_test,_,_ = self.filter_test_types(changed_detection_files)
-        # for f in detections_to_test:
-        #    file_path_base = os.path.splitext(f)[0].replace('detections', 'tests') + '.test'
-        #    file_path_new = file_path_base + '.yml'
-        #    if file_path_new not in changed_test_files:
-        #        changed_test_files.append(file_path_new)
+        if len(pruned_detections) == 0 and branch1 == SECURITY_CONTENT_MAIN_BRANCH:
+            print(f"Looking for changed detections by diffing [{branch1}] against [{branch2}].  "
+                  "They are the same branch and there have been no local changes, so no changed "
+                  "test files were returned.", file=sys.stderr)
+        return pruned_detections
 
-        #print("Total things to test (test files and detection files changed): [%d]"%(len(changed_test_files)))
-        # for l in changed_test_files:
-        #    print(l)
-        # print(len(changed_test_files))
-        #import time
-        # time.sleep(5)
+      
 
     def filter_test_types(self, test_files, test_types=["Anomaly", "Hunting", "TTP"]):
         files_to_test = []
