@@ -69,3 +69,5 @@ tags:
   - All_Changes.vendor_region
   risk_score: 18
   security_domain: threat
+  supported_tas:
+  - Splunk_TA_aws-kinesis-firehose
