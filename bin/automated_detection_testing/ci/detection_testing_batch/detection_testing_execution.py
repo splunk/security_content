@@ -1,6 +1,7 @@
 import argparse
 import copy
 import csv
+from ctypes.wintypes import tagRECT
 import json
 import os
 import queue
@@ -19,6 +20,8 @@ from tempfile import mkdtemp
 from timeit import default_timer as timer
 from typing import Union
 from urllib.parse import urlparse
+import signal
+
 
 import docker
 import requests
@@ -30,7 +33,7 @@ import modules.new_arguments2
 from modules import (container_manager, new_arguments2,
                      testing_service, validate_args)
 from modules.github_service import GithubService
-from modules.validate_args import validate, validate_and_write
+from modules.validate_args import validate, validate_and_write, ES_APP_NAME
 
 SPLUNK_CONTAINER_APPS_DIR = "/opt/splunk/etc/apps"
 index_file_local_path = "indexes.conf.tar"
@@ -45,27 +48,60 @@ datamodel_file_container_path = os.path.join(
 authorizations_file_local_path = "authorize.conf.tar"
 authorizations_file_container_path = "/opt/splunk/etc/system/local"
 
+CONTAINER_APP_DIRECTORY = "apps"
 
 MAX_RECOMMENDED_CONTAINERS_BEFORE_WARNING = 2
 
 
-def download_file_from_http(url:str, target:str)->None:
-    #Will just overwrite an existing file
+
+
+
+def download_file_from_http(url:str, destination_file:str, overwrite_file:bool=False)->None:
+    if os.path.exists(destination_file) and overwrite_file is False:
+        print(f"[{destination_file}] already exists...using cached version")
+        return
+    print(f"downloading to [{destination_file}]")
     file_to_download = requests.get(url, stream=True)
-    with open(target, "wb") as output:
+    with open(destination_file, "wb") as output:
         for piece in file_to_download.iter_content(chunk_size=(1024*1024)):
             output.write(piece)
     
 
-def copy_local_apps_to_directory(apps: dict[str, dict], target_directory) -> None:
-    for key, item in apps.items():
+def copy_local_apps_to_directory(apps: dict[str, dict], splunkbase_username:tuple[str,None] = None, splunkbase_password:tuple[str,None] = None, mock:bool = False, target_directory:str = "apps") -> str:
+    if mock is True:
+        target_directory = os.path.join("prior_config", target_directory)
         
+        # Remove the apps directory or the prior config directory.  If it's just an apps directory, then we don't want
+        #to remove that.
+        shutil.rmtree(target_directory, ignore_errors=True)
+    try:
+        # Make sure the directory exists.  If it already did, that's okay. Don't delete anything from it
+        # We want to re-use previously downloaded apps
+        os.makedirs(target_directory, exist_ok = True)
+        
+    except Exception as e:
+        raise(Exception(f"Some error occured when trying to make the {target_directory}: [{str(e)}]"))
+
+    
+    for key, item in apps.items():
+
+        # These apps are URLs that will be passed.  The apps will be downloaded and installed by the container
+        # # Get the file from an http source
+        splunkbase_info = True if ('app_number' in item and item['app_number'] is not None and 
+                                  'app_version' in item and item['app_version'] is not None) else False
+        splunkbase_creds = True if (splunkbase_username is not None and 
+                                   splunkbase_password is not None) else False
+        can_download_from_splunkbase = splunkbase_info and splunkbase_creds
+
+        
+
         #local apps can either have a local_path or an http_path
         if 'local_path' in item:
             source_path = os.path.abspath(os.path.expanduser(item['local_path']))
             base_name = os.path.basename(source_path)
             dest_path = os.path.join(target_directory, base_name)
             try:
+                print(f"copying {os.path.relpath(source_path)} to {os.path.relpath(dest_path)}")
                 shutil.copy(source_path, dest_path)
                 item['local_path'] = dest_path
             except shutil.SameFileError as e:
@@ -77,25 +113,34 @@ def copy_local_apps_to_directory(apps: dict[str, dict], target_directory) -> Non
                     source_path, dest_path, str(e)), file=sys.stderr)
                 sys.exit(1)
 
-        # These apps are URLs that will be passed.  The apps will be downloaded and installed by the container
-        # # Get the file from an http source
-        # elif 'http_path' in item:
-        #     http_path = item['http_path']
-        #     try:
-        #         url_parse_obj = urlparse(http_path)
-        #         path_after_host = url_parse_obj[2].rstrip('/') #removes / at the end, if applicable
-        #         base_name = path_after_host.rpartition('/')[-1] #just get the file name
-        #         dest_path = os.path.join(target_directory, base_name) #write the whole path
-        #         download_file_from_http(http_path, dest_path)
-        #         #we need to updat the local path because this is used to copy it into the container later
-        #         item['local_path'] = dest_path
-        #     except Exception as e:
-        #         print("Error trying to download %s @ %s: [%s].  This app is required.\n\tQuitting..."%(key, http_path, str(e)),file=sys.stderr)
-        #         sys.exit(1)
-        # else:
-        #     print("Error - trying to install a local app that does not have 'local_path' or 'http_path'.\n\tQuitting...")
-        #     sys.exit(1)
+        
+        elif can_download_from_splunkbase is True:
+            #Don't do anything, this will be downloaded from splunkbase
+            pass
+        elif splunkbase_info is True and splunkbase_creds is False and mock is True:
+            #Don't need to do anything, when this actually runs the apps will be downloaded from Splunkbase
+            #There is another opportunity to provide the creds then
+            pass
+        elif 'http_path' in item and can_download_from_splunkbase is False:
+            http_path = item['http_path']
+            try:
+                url_parse_obj = urlparse(http_path)
+                path_after_host = url_parse_obj[2].rstrip('/') #removes / at the end, if applicable
+                base_name = path_after_host.rpartition('/')[-1] #just get the file name
+                dest_path = os.path.join(target_directory, base_name) #write the whole path
+                download_file_from_http(http_path, dest_path)
+                #we need to update the local path because this is used to copy it into the container later
+                item['local_path'] = dest_path
+                #Remove the HTTP Path, we will use the local_path instead
+            except Exception as e:
+                print("Error trying to download %s @ %s: [%s].  This app is required.\n\tQuitting..."%(key, http_path, str(e)),file=sys.stderr)
+                sys.exit(1)
 
+        elif splunkbase_info is False:
+            print(f"Error - trying to install an app [{key}] that does not have 'local_path', 'http_path', "
+                   "or 'app_version' and 'app_number' for installing from Splunkbase.\n\tQuitting...")
+            sys.exit(1)
+    return target_directory
 
 
 def ensure_security_content(branch: str, commit_hash: Union[str,None], pr_number: Union[int, None], persist_security_content: bool) -> tuple[GithubService, bool]:
@@ -183,7 +228,7 @@ def generate_escu_app(persist_security_content: bool = False) -> str:
 
     else:
         os.mkdir("slim_packaging")
-        os.mkdir("apps")
+        
         try:
             SPLUNK_PACKAGING_TOOLKIT_URL = "https://download.splunk.com/misc/packaging-toolkit/splunk-packaging-toolkit-0.9.0.tar.gz"
             SPLUNK_PACKAGING_TOOLKIT_FILENAME = 'splunk-packaging-toolkit-latest.tar.gz'
@@ -216,7 +261,7 @@ def generate_escu_app(persist_security_content: bool = False) -> str:
 
     ret = subprocess.run("; ".join(commands),
                          shell=True, capture_output=True)
-    if ret.returncode != 0:
+    if ret.returncode != 0: 
         print("Command List:\n%s" % (commands))
         print("Error generating new ESCU Package.\n\tQuitting and dumping error...\n[%s]" % (
             ret.stderr.decode('utf-8')), file=sys.stderr)
@@ -226,26 +271,9 @@ def generate_escu_app(persist_security_content: bool = False) -> str:
     return output_file_path_from_root
 
 
+
 def finish_mock(settings: dict, detections: list[str], output_file_template: str = "prior_config/config_tests_%d.json")->bool:
     num_containers = settings['num_containers']
-
-    try:
-        # Remove the prior config directory if it exists.  If not, continue
-        shutil.rmtree("prior_config", ignore_errors=True)
-
-        # We want to make the prior_config directory and the prior_config/apps directory
-        os.makedirs("prior_config/apps")
-    except FileExistsError as e:
-        print("Directory priorconfig/apps exists, but we just deleted it!\n\tQuitting...", file=sys.stderr)
-        return False
-    except Exception as e:
-        print("Some error occured when trying to make the configs folder: [%s]\n\tQuitting..." % (
-            str(e)), file=sys.stderr)
-        return False
-
-    # Copy the apps to the appropriate local.  This will also update
-    # the app paths in settings['local_apps']
-    copy_local_apps_to_directory(settings['local_apps'], "prior_config/apps")
 
     for output_file_index in range(0, num_containers):
         fname = output_file_template % (output_file_index)
@@ -285,9 +313,8 @@ def finish_mock(settings: dict, detections: list[str], output_file_template: str
         # Make sure that it still validates after all of the changes
 
         try:
-            with open(fname, 'w') as cfg:
-                validated_settings, b = validate_and_write(
-                    mock_settings, cfg)
+            with open(fname, 'w') as outfile:
+                validated_settings, b = validate_and_write(configuration=mock_settings, output_file = outfile, strip_credentials=True)
                 if validated_settings is None:
                     print(
                         "There was an error validating the updated mock settings.\n\tQuitting...", file=sys.stderr)
@@ -331,23 +358,40 @@ def main(args: list[str]):
         
         credentials_needed = False
         credential_error = False
-        if len(settings['splunkbase_apps']) > 0:
-            credentials_needed = True
         
         
-        if settings['splunkbase_username'] == None and credentials_needed:
-            print("Error - you have listed apps to download from Splunkbase but have "\
-                  "not provided --splunkbase_username via the command line or config file.",file=sys.stderr)
-            credential_error = True
+        
+        if settings['splunkbase_username'] == None or settings['splunkbase_password'] == None:
 
-        if settings['splunkbase_password'] == None and credentials_needed:
-            print("Error - you have listed apps to download from Splunkbase but have "\
-                    "not provided --splunkbase_password via the command line or config file.",file=sys.stderr)
-            credential_error = True
+            missing_credentials = []
+            if settings['splunkbase_username'] == None:
+                missing_credentials.append("--splunkbase_username")
+            if settings['splunkbase_password'] == None:
+                missing_credentials.append("--splunkbase_password")
+            
+            missing_credentials_string = '\n\t'.join(missing_credentials)
+            
+            splunkbase_only_apps = []
+            for app,content in settings['apps'].items():
+                if 'local_path' not in content and 'http_path' not in content:
+                    splunkbase_only_apps.append(app)
+            if len(splunkbase_only_apps) != 0:
+                print(f"Error - you have attempted to install the following apps: {splunkbase_only_apps}, "
+                     "but you have not provided a local_path or an http_path in the config file.  Normally, "
+                     "we would download these from Splunkbase, but the following credentials are "
+                     f"missing:\n\t{missing_credentials_string}\n  Please provide them on the command line "
+                     "or in the config file.\n\tQuitting...")
+                sys.exit(1)
+
+            print(f"You have listed apps to install but have "\
+                  f"not provided\n\t{missing_credentials_string} \nvia the command line or config file. "
+                  f"We will download these files from S3 rather than Splunkbase.")
+        else:
+
+            print(f"You have listed apps to install and provided Splunkbase credentials. "\
+                  f"These apps will be downloaded and installed from Splunkbase!")
+
         
-        if credential_error:
-            print("Please supply the required credentials to continue.\n\tQuitting...",file=sys.stderr)
-            sys.exit(1)
 
     
     FULL_DOCKER_HUB_CONTAINER_NAME = "splunk/splunk:%s" % settings['container_tag']
@@ -405,42 +449,36 @@ def main(args: list[str]):
     print("***This run will test [%d] detections!***"%(len(all_test_files)))
     
 
-    #Set up the directory that will be used to store the local apps/apps we build
-    local_volume_absolute_path = os.path.abspath(
-        os.path.join(os.getcwd(), "apps"))
-    try:
-        # remove the directory first
-        shutil.rmtree(local_volume_absolute_path, ignore_errors=True)
-        os.mkdir(local_volume_absolute_path)
-    except FileExistsError as e:
-        # Directory already exists, do nothing
-        pass
-    except Exception as e:
-        print("Error creating the apps folder [%s]: [%s]\n\tQuitting..."
-              % (local_volume_absolute_path, str(e)), file=sys.stderr)
-        sys.exit(1)
-    #Add the info about the mount
-    mounts = [{"local_path": local_volume_absolute_path,
-               "container_path": "/tmp/apps", "type": "bind", "read_only": True}]
+    
 
 
     # Check to see if we want to install ESCU and whether it was preeviously generated and we should use that file
-    if 'SPLUNK_ES_CONTENT_UPDATE' in settings['local_apps'] and settings['local_apps']['SPLUNK_ES_CONTENT_UPDATE']['local_path'] is not None:
+    if ES_APP_NAME in settings['apps'] and settings['apps'][ES_APP_NAME]['local_path'] is not None:
         # Using a pregenerated ESCU, no need to build it
         pass
-    elif 'SPLUNK_ES_CONTENT_UPDATE' not in settings['local_apps']:
-        print("%s was not found in %s.  We assume this is an error and shut down.\n\t"
-              "Quitting..." % ('SPLUNK_ES_CONTENT_UPDATE', "settings['local_apps']"), file=sys.stderr)
+
+    elif ES_APP_NAME not in settings['apps']:
+        print(f"{ES_APP_NAME} was not found in {settings['apps'].keys()}.  We assume this is an error and shut down.\n\t"
+              "Quitting...", file=sys.stderr)
         sys.exit(1)
     else:
         # Generate the ESCU package from this branch.
         source_path = generate_escu_app(settings['persist_security_content'])
-        settings['local_apps']['SPLUNK_ES_CONTENT_UPDATE']['local_path'] = source_path
+        settings['apps']['SPLUNK_ES_CONTENT_UPDATE']['local_path'] = source_path
         
 
     # Copy all the apps, to include ESCU (whether pregenerated or just generated)
-    copy_local_apps_to_directory(
-        settings['local_apps'], local_volume_absolute_path)
+    try:
+        relative_app_path = copy_local_apps_to_directory(settings['apps'], 
+                                     splunkbase_username = settings['splunkbase_username'], 
+                                     splunkbase_password = settings['splunkbase_password'], 
+                                     mock=settings['mock'], target_directory = CONTAINER_APP_DIRECTORY)
+        
+        mounts = [{"local_path": os.path.abspath(relative_app_path),
+                    "container_path": "/tmp/apps", "type": "bind", "read_only": True}]
+    except Exception as e:
+        print(f"Error occurred when copying apps to app folder: [{str(e)}]\n\tQuitting...", file=sys.stderr)
+        sys.exit(1)
 
 
     # If this is a mock run, finish it now
@@ -467,13 +505,45 @@ def main(args: list[str]):
     
 
     
+    def shutdown_signal_handler_setup(sig, frame):
+        
+        print(f"Signal {sig} received... stopping all [{settings['num_containers']}] containers and shutting down...")
+        shutdown_client = docker.client.from_env()
+        errorCount = 0
+        for container_number in range(settings['num_containers']):
+            container_name = settings['local_base_container_name']%container_number
+            print(f"Shutting down {container_name}...", file=sys.stderr, end='')
+            sys.stdout.flush()
+            try:
+                container = shutdown_client.containers.get(container_name)
+                #Note that stopping does not remove any of the volumes or logs,
+                #so stopping can be useful if we want to debug any container failure 
+                container.stop(timeout=10)
+                print("done", file=sys.stderr)
+            except Exception as e:
+                print(f"Error trying to shut down {container_name}. It may have already shut down.  Stop it youself with 'docker containter stop {container_name}", sys.stderr)
+                errorCount += 1
+        if errorCount == 0:
+            print("All containers shut down successfully", file=sys.stderr)        
+        else:
+            print(f"{errorCount} containers may still be running. Find out what is running with:\n\t'docker container ls'\nand shut them down with\n\t'docker container stop CONTAINER_NAME' ", file=sys.stderr)
+        
+        print("Quitting...",file=sys.stderr)
+        #We must use os._exit(1) because sys.exit(1) actually generates an exception which can be caught! And then we don't Quit!
+        os._exit(1)
+        
+
+            
+
+    #Setup requires a different teardown handler than during execution
+    signal.signal(signal.SIGINT, shutdown_signal_handler_setup)
+
     try:
         cm = container_manager.ContainerManager(all_test_files,
                                                 FULL_DOCKER_HUB_CONTAINER_NAME,
                                                 settings['local_base_container_name'],
                                                 settings['num_containers'],
-                                                settings['local_apps'],
-                                                settings['splunkbase_apps'],
+                                                settings['apps'],
                                                 settings['branch'],
                                                 settings['commit_hash'],
                                                 reproduce_test_config,
@@ -492,6 +562,15 @@ def main(args: list[str]):
         print("Error - unrecoverable error trying to set up the containers: [%s].\n\tQuitting..."%(str(e)),file=sys.stderr)
         sys.exit(1)
 
+    def shutdown_signal_handler_execution(sig, frame):
+        #Set that a container has failed which will gracefully stop the other containers.
+        #This way we get our full cleanup routine, too!
+        print("Got a signal to shut down. Shutting down all containers, please wait...", file=sys.stderr)
+        cm.synchronization_object.containerFailure()
+    
+    #Update the signal handler
+
+    signal.signal(signal.SIGINT, shutdown_signal_handler_execution)
     try:
         result = cm.run_test()
     except Exception as e:
@@ -508,7 +587,10 @@ def main(args: list[str]):
         sys.exit(0)
     else:
         print("Test Execution Failed - review the logs for more details")
-        sys.exit(1)
+        #Because one or more of the threads could be stuck in a certain setup loop, like
+        #trying to copy files to a containers (which igonores errors), we must os._exit
+        #instead of sys.exit
+        os._exit(1)
 
 
 if __name__ == "__main__":
