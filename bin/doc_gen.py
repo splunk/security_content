@@ -1,3 +1,4 @@
+from functools import cache
 import glob
 import yaml
 import argparse
@@ -94,6 +95,13 @@ def parse_and_add_lookups(search_string, lookups):
     return lookup_objects
 
 
+#This function hits an API, which can be slow, especially if the API
+#or network connection is slow. This has sometimes caused issues
+#in our CI/CD taking a very long time.  Here, we memoize/cache
+#the calls to this function - there will be many duplicates which
+#should all return the same results. This will gives us a significant
+#speedup.
+@cache
 def get_cve_enrichment_new(cve_id):
     cve = CVESearch(CVESSEARCH_API_URL)
     result = cve.id(cve_id)
