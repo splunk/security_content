@@ -47,6 +47,10 @@ class ObjToConfAdapter(Adapter):
             ConfWriter.writeConfFile('savedsearches_investigations.j2', 
                 os.path.join(output_path, 'default/savedsearches.conf'), 
                 objects)
+            
+            ConfWriter.writeConfFile('analyticstories_investigations.j2', 
+                os.path.join(output_path, 'default/analyticstories.conf'), 
+                objects)
 
             workbench_panels = []
             for investigation in objects:
