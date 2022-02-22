@@ -105,12 +105,6 @@ setup_schema = {
                     "app_version": "5.0.0",
                     "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-common-information-model-cim_500.tgz"
                 },
-                #Note - end of life on July 15, 2022 - https://splunkbase.splunk.com/app/1274/
-                "SPLUNK_APP_FOR_AWS": {
-                    "app_number": 1274,
-                    "app_version": "6.0.3",
-                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-app-for-aws_603.tgz"
-                },
                 "PYTHON_FOR_SCIENTIFIC_COMPUTING_FOR_LINUX_64_BIT": {
                     "app_number": 2882,
                     "app_version": "3.0.2",
@@ -136,12 +130,6 @@ setup_schema = {
                     "app_version": "8.0.1",
                     "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-stream-forwarders_801.tgz"
                 },
-                "SPLUNK_SECURITY_ESSENTIALS": {
-                    "app_number": 3435,
-                    "app_version": "3.4.0",
-                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-security-essentials_340.tgz"
-                },
-
                 "SPLUNK_ADD_ON_FOR_AMAZON_KINESIS_FIREHOSE": {
                     "app_number": 3719,
                     "app_version": "1.3.2",
