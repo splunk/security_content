@@ -24,8 +24,7 @@ class ObjToJsonAdapter(Adapter):
                         "baselines": True,
                         "mappings": True,
                         "test": True,
-                        "deployment": True,
-                        "cve_enrichment": True
+                        "deployment": True
                     }
                 ))
             

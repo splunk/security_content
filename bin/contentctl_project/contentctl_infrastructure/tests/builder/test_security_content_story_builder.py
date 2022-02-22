@@ -6,6 +6,7 @@ from contentctl_infrastructure.builder.security_content_basic_builder import Sec
 from contentctl_core.domain.entities.enums.enums import SecurityContentType
 from contentctl_infrastructure.builder.security_content_investigation_builder import SecurityContentInvestigationBuilder
 from contentctl_infrastructure.builder.security_content_baseline_builder import SecurityContentBaselineBuilder
+from contentctl_infrastructure.builder.attack_enrichment import AttackEnrichment
 
 
 def test_read_story():
@@ -22,6 +23,7 @@ def test_add_detections():
     security_content_builder = SecurityContentDetectionBuilder()
     security_content_builder.setObject(os.path.join(os.path.dirname(__file__), 
         'test_data/detection/valid.yml'))
+    security_content_builder.addMitreAttackEnrichment(AttackEnrichment.get_attack_lookup())
     detection = security_content_builder.getObject()
 
     story_builder = SecurityContentStoryBuilder()
@@ -31,6 +33,19 @@ def test_add_detections():
     story = story_builder.getObject()
 
     assert story.detection_names == ["ESCU - Attempted Credential Dump From Registry via Reg exe - Rule"]
+    assert story.tags.datamodels == ['Endpoint']
+    assert story.tags.kill_chain_phases == ['Actions on Objectives']
+    assert story.tags.mitre_attack_enrichments[0].dict() == {
+        'mitre_attack_id': 'T1003.002', 
+        'mitre_attack_technique': 'Security Account Manager', 
+        'mitre_attack_tactics': ['Credential Access'], 
+        'mitre_attack_groups': ['Dragonfly 2.0', 'GALLIUM', 'Ke3chang', 'Night Dragon', 'Threat Group-3390', 'Wizard Spider', 'menuPass']
+    }
+    assert story.tags.mitre_attack_enrichments[1].dict() == {
+        'mitre_attack_id': 'T1003', 
+        'mitre_attack_technique': 'OS Credential Dumping', 
+        'mitre_attack_tactics': ['Credential Access'], 'mitre_attack_groups': ['APT28', 'APT32', 'APT39', 'Axiom', 'Frankenstein', 'Leviathan', 'Poseidon Group', 'Sowbug', 'Suckfly', 'Tonto Team']
+    }
 
 
 def test_add_baselines():

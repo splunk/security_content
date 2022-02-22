@@ -9,4 +9,5 @@ class PlaybookTag(BaseModel):
     playbook_fields: list = None
     product: list = None
     playbook_fields: list = None
+    detection_objects: list = None
     

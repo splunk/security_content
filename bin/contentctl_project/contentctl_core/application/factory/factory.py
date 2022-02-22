@@ -9,6 +9,7 @@ from contentctl_core.application.builder.detection_builder import DetectionBuild
 from contentctl_core.application.builder.story_builder import StoryBuilder
 from contentctl_core.application.builder.baseline_builder import BaselineBuilder
 from contentctl_core.application.builder.investigation_builder import InvestigationBuilder
+from contentctl_core.application.builder.playbook_builder import PlaybookBuilder
 from contentctl_core.application.builder.director import Director
 from contentctl_core.application.factory.utils.utils import Utils
 
@@ -21,11 +22,12 @@ class FactoryInputDto:
     story_builder: StoryBuilder
     baseline_builder: BaselineBuilder
     investigation_builder: InvestigationBuilder
+    playbook_builder: PlaybookBuilder
     director: Director
     attack_enrichment: dict
     
 
-@dataclass(frozen=True)
+@dataclass()
 class FactoryOutputDto:
      detections: list
      stories: list
@@ -55,9 +57,11 @@ class Factory():
           self.createSecurityContent(SecurityContentType.lookups)
           self.createSecurityContent(SecurityContentType.macros)
           self.createSecurityContent(SecurityContentType.deployments)
-          self.createSecurityContent(SecurityContentType.playbooks)
           self.createSecurityContent(SecurityContentType.baselines)
           self.createSecurityContent(SecurityContentType.investigations)
+          self.createSecurityContent(SecurityContentType.detections) # execution only for playbook enrichment
+          self.createSecurityContent(SecurityContentType.playbooks)
+          self.output_dto.detections = []
           self.createSecurityContent(SecurityContentType.detections)
           self.createSecurityContent(SecurityContentType.stories)
 
@@ -86,8 +90,8 @@ class Factory():
                          self.output_dto.deployments.append(self.input_dto.basic_builder.getObject())
                     
                     elif type == SecurityContentType.playbooks:
-                         self.input_dto.director.constructPlaybook(self.input_dto.basic_builder, file)
-                         self.output_dto.playbooks.append(self.input_dto.basic_builder.getObject())                    
+                         self.input_dto.director.constructPlaybook(self.input_dto.playbook_builder, file, self.output_dto.detections)
+                         self.output_dto.playbooks.append(self.input_dto.playbook_builder.getObject())                    
                     
                     elif type == SecurityContentType.baselines:
                          self.input_dto.director.constructBaseline(self.input_dto.baseline_builder, file, self.output_dto.deployments)

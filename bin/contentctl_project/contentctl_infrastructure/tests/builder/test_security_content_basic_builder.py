@@ -38,16 +38,6 @@ def test_read_macro():
     assert macro.name == "powershell"
 
 
-def test_read_playbook():
-    security_content_builder = SecurityContentBasicBuilder()
-    security_content_builder.setObject(os.path.join(os.path.dirname(__file__), 
-        'test_data/playbook/example_playbook.yml'), SecurityContentType.playbooks)
-    playbook = security_content_builder.getObject()   
-
-    assert playbook.name == "Ransomware Investigate and Contain"
-    assert playbook.tags.detections[0] == "Conti Common Exec parameter"
-
-
 def test_read_test():
     security_content_builder = SecurityContentBasicBuilder()
     security_content_builder.setObject(os.path.join(os.path.dirname(__file__), 

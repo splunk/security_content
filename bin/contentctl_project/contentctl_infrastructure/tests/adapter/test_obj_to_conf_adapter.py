@@ -12,6 +12,7 @@ from contentctl_core.domain.entities.enums.enums import SecurityContentType
 from contentctl_infrastructure.builder.security_content_investigation_builder import SecurityContentInvestigationBuilder
 from contentctl_infrastructure.builder.security_content_baseline_builder import SecurityContentBaselineBuilder
 from contentctl_infrastructure.builder.attack_enrichment import AttackEnrichment
+from contentctl_infrastructure.builder.security_content_playbook_builder import SecurityContentPlaybookBuilder
 
 
 FAKE_TIME = datetime.datetime(2020, 12, 25, 17, 5, 55)
@@ -49,9 +50,9 @@ def test_write_conf_files(patch_datetime_now):
         '../builder/test_data/deployment/ESCU/00_default_baseline.yml'))
     deployment_baseline = deployment_builder.getObject()
 
-    playbook_builder = SecurityContentBasicBuilder()
+    playbook_builder = SecurityContentPlaybookBuilder()
     director.constructPlaybook(playbook_builder, os.path.join(os.path.dirname(__file__), 
-        '../builder/test_data/playbook/example_playbook.yml'))
+        '../builder/test_data/playbook/example_playbook.yml'), [])
     playbook = playbook_builder.getObject()    
 
     baseline_builder = SecurityContentBaselineBuilder()

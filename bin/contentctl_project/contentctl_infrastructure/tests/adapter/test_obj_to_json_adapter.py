@@ -10,6 +10,7 @@ from contentctl_infrastructure.builder.security_content_story_builder import Sec
 from contentctl_infrastructure.builder.security_content_director import SecurityContentDirector
 from contentctl_infrastructure.builder.attack_enrichment import AttackEnrichment
 from contentctl_core.domain.entities.enums.enums import SecurityContentType
+from contentctl_infrastructure.builder.security_content_playbook_builder import SecurityContentPlaybookBuilder
 
 
 def test_write_detections():
@@ -140,9 +141,9 @@ def test_write_stories():
         '../builder/test_data/deployment/ESCU/00_default_baseline.yml'))
     deployment_baseline = deployment_builder.getObject() 
 
-    playbook_builder = SecurityContentBasicBuilder()
+    playbook_builder = SecurityContentPlaybookBuilder()
     director.constructPlaybook(playbook_builder, os.path.join(os.path.dirname(__file__), 
-        '../builder/test_data/playbook/example_playbook.yml'))
+        '../builder/test_data/playbook/example_playbook.yml'), [])
     playbook = playbook_builder.getObject()    
 
     baseline_builder = SecurityContentBaselineBuilder()

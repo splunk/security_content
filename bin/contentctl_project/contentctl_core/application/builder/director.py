@@ -5,6 +5,7 @@ from contentctl_core.application.builder.detection_builder import DetectionBuild
 from contentctl_core.application.builder.baseline_builder import BaselineBuilder
 from contentctl_core.application.builder.investigation_builder import InvestigationBuilder
 from contentctl_core.application.builder.story_builder import StoryBuilder
+from contentctl_core.application.builder.playbook_builder import PlaybookBuilder
 from contentctl_core.domain.entities.enums.enums import SecurityContentProduct
 
 class Director(abc.ABC):
@@ -30,7 +31,7 @@ class Director(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def constructPlaybook(self, builder: BasicBuilder, path: str) -> None:
+    def constructPlaybook(self, builder: PlaybookBuilder, path: str, detections: list) -> None:
         pass
 
     @abc.abstractmethod

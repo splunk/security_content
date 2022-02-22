@@ -1,6 +1,7 @@
 
 
 from pydantic import BaseModel, validator, ValidationError
+from contentctl_core.domain.entities.mitre_attack_enrichment import MitreAttackEnrichment
 
 
 class StoryTags(BaseModel):
@@ -9,6 +10,11 @@ class StoryTags(BaseModel):
     category: list
     product: list
     usecase: str
+    mitre_attack_enrichments: list[MitreAttackEnrichment] = None
+    mitre_attack_tactics: list = None
+    datamodels: list = None
+    kill_chain_phases: list = None
+
 
     @validator('product')
     def tags_product(cls, v, values):

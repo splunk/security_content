@@ -12,6 +12,7 @@ from contentctl_core.domain.entities.enums.enums import SecurityContentProduct
 from contentctl_infrastructure.builder.security_content_investigation_builder import SecurityContentInvestigationBuilder
 from contentctl_infrastructure.builder.security_content_baseline_builder import SecurityContentBaselineBuilder
 from contentctl_infrastructure.builder.attack_enrichment import AttackEnrichment
+from contentctl_infrastructure.builder.security_content_playbook_builder import SecurityContentPlaybookBuilder
 
 
 def test_factory_ESCU():
@@ -24,6 +25,7 @@ def test_factory_ESCU():
         SecurityContentStoryBuilder(),
         SecurityContentBaselineBuilder(),
         SecurityContentInvestigationBuilder(),
+        SecurityContentPlaybookBuilder(),
         SecurityContentDirector(),
         AttackEnrichment.get_attack_lookup()
     )

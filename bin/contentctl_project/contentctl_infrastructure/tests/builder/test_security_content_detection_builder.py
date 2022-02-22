@@ -9,6 +9,7 @@ from contentctl_infrastructure.builder.yml_reader import YmlReader
 from contentctl_infrastructure.builder.security_content_investigation_builder import SecurityContentInvestigationBuilder
 from contentctl_infrastructure.builder.security_content_baseline_builder import SecurityContentBaselineBuilder
 from contentctl_infrastructure.builder.attack_enrichment import AttackEnrichment
+from contentctl_infrastructure.builder.security_content_playbook_builder import SecurityContentPlaybookBuilder
 
 
 def test_read_detection():
@@ -111,9 +112,9 @@ def test_detection_add_rba():
 
 
 def test_detection_add_playbooks():
-    playbook_builder = SecurityContentBasicBuilder()
+    playbook_builder = SecurityContentPlaybookBuilder()
     playbook_builder.setObject(os.path.join(os.path.dirname(__file__), 
-        'test_data/playbook/example_playbook.yml'), SecurityContentType.playbooks)
+        'test_data/playbook/example_playbook.yml'))
     playbook = playbook_builder.getObject()
 
     security_content_builder = SecurityContentDetectionBuilder()
@@ -162,9 +163,17 @@ def test_attack_enrichment():
     security_content_builder.addMitreAttackEnrichment(AttackEnrichment.get_attack_lookup())
     detection = security_content_builder.getObject()
 
-    assert detection.tags.mitre_attack_techniques == ['Security Account Manager', 'OS Credential Dumping']
-    assert detection.tags.mitre_attack_tactics == ['Credential Access']
-    assert detection.tags.mitre_attack_groups == ['Wizard Spider', 'Threat Group-3390', 'Ke3chang', 'GALLIUM', 'Night Dragon', 'Dragonfly 2.0', 'menuPass', 'Tonto Team', 'APT39', 'Frankenstein', 'APT32', 'APT28', 'Leviathan', 'Sowbug', 'Suckfly', 'Poseidon Group', 'Axiom']
+    assert detection.tags.mitre_attack_enrichments[0].dict() == {
+        'mitre_attack_id': 'T1003.002', 
+        'mitre_attack_technique': 'Security Account Manager', 
+        'mitre_attack_tactics': ['Credential Access'], 
+        'mitre_attack_groups': ['Dragonfly 2.0', 'GALLIUM', 'Ke3chang', 'Night Dragon', 'Threat Group-3390', 'Wizard Spider', 'menuPass']
+    }
+    assert detection.tags.mitre_attack_enrichments[1].dict() == {
+        'mitre_attack_id': 'T1003', 
+        'mitre_attack_technique': 'OS Credential Dumping', 
+        'mitre_attack_tactics': ['Credential Access'], 'mitre_attack_groups': ['APT28', 'APT32', 'APT39', 'Axiom', 'Frankenstein', 'Leviathan', 'Poseidon Group', 'Sowbug', 'Suckfly', 'Tonto Team']
+    }
 
 
 def test_macros_enrichment():

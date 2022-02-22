@@ -1,7 +1,7 @@
 import re
 
 from pydantic import BaseModel, validator, ValidationError
-
+from contentctl_core.domain.entities.mitre_attack_enrichment import MitreAttackEnrichment
 
 class DetectionTags(BaseModel):
     name: str
@@ -23,9 +23,7 @@ class DetectionTags(BaseModel):
     risk_score: int
     security_domain: str
     risk_severity: str = None
-    mitre_attack_techniques: list = None
-    mitre_attack_tactics: list = None
-    mitre_attack_groups: list = None
+    mitre_attack_enrichments: list[MitreAttackEnrichment] = None
     cve: list = None
 
 

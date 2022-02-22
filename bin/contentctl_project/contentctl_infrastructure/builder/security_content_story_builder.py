@@ -31,14 +31,33 @@ class SecurityContentStoryBuilder(StoryBuilder):
     def addDetections(self, detections: list) -> None:
         matched_detection_names = []
         matched_detections = []
+        mitre_attack_enrichments = []
+        mitre_attack_tactics = set()
+        datamodels = set()
+        kill_chain_phases = set()
+
         for detection in detections:
             for detection_analytic_story in detection.tags.analytic_story:
                 if detection_analytic_story == self.story.name:
                     matched_detection_names.append(str('ESCU - ' + detection.name + ' - Rule'))
                     matched_detections.append(detection)
+                    datamodels.update(detection.datamodel)
+                    if detection.tags.kill_chain_phases:
+                        kill_chain_phases.update(detection.tags.kill_chain_phases)
+
+                    if detection.tags.mitre_attack_enrichments:
+                        for attack_enrichment in detection.tags.mitre_attack_enrichments:
+                            mitre_attack_tactics.update(attack_enrichment.mitre_attack_tactics)
+                            if attack_enrichment.mitre_attack_id not in [attack.mitre_attack_id for attack in mitre_attack_enrichments]:
+                                mitre_attack_enrichments.append(attack_enrichment)
 
         self.story.detection_names = matched_detection_names
         self.story.detections = matched_detections
+        self.story.tags.datamodels = sorted(list(datamodels))
+        self.story.tags.kill_chain_phases = sorted(list(kill_chain_phases))
+        self.story.tags.mitre_attack_enrichments = mitre_attack_enrichments
+        self.story.tags.mitre_attack_tactics = sorted(list(mitre_attack_tactics))
+
 
     def addBaselines(self, baselines: list) -> None:
         matched_baseline_names = []

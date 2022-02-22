@@ -6,6 +6,7 @@ from contentctl_core.application.builder.detection_builder import DetectionBuild
 from contentctl_core.application.builder.story_builder import StoryBuilder
 from contentctl_core.application.builder.investigation_builder import InvestigationBuilder
 from contentctl_core.application.builder.baseline_builder import BaselineBuilder
+from contentctl_core.application.builder.playbook_builder import PlaybookBuilder
 from contentctl_core.domain.entities.enums.enums import SecurityContentType
 from contentctl_core.domain.entities.enums.enums import SecurityContentProduct
 
@@ -57,9 +58,10 @@ class SecurityContentDirector(Director):
         builder.setObject(os.path.join(os.path.dirname(__file__), path), SecurityContentType.macros)
 
 
-    def constructPlaybook(self, builder: BasicBuilder, path: str) -> None:
+    def constructPlaybook(self, builder: PlaybookBuilder, path: str, detections: list) -> None:
         builder.reset()
-        builder.setObject(os.path.join(os.path.dirname(__file__), path), SecurityContentType.playbooks)
+        builder.setObject(os.path.join(os.path.dirname(__file__), path))
+        builder.addDetections(detections)
 
 
     def constructTest(self, builder: BasicBuilder, path: str) -> None:

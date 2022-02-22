@@ -45,6 +45,8 @@ class Detection(BaseModel, SecurityContentObject):
     macros: list[Macro] = None
     lookups: list[Lookup] = None
     cve_enrichment: list = None
+    file_path: str = None
+    source: str = None
 
 
     @validator('name')

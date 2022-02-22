@@ -19,7 +19,6 @@ tags:
   analytic_story:
   - Ransomware
   detections:
-  - Conti Common Exec parameter
   - Attempted Credential Dump From Registry via Reg exe
   platform_tags:
   - Ransomware

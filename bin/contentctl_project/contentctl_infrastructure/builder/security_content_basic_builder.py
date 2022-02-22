@@ -30,13 +30,6 @@ class SecurityContentBasicBuilder(BasicBuilder):
                 print('Validation Error for file ' + path)
                 print(e)
                 sys.exit(1)
-        elif type == SecurityContentType.playbooks:
-            try:
-                self.security_content_obj = Playbook.parse_obj(yml_dict)
-            except ValidationError as e:
-                print('Validation Error for file ' + path)
-                print(e)
-                sys.exit(1)
         elif type == SecurityContentType.macros:
             try:
                 self.security_content_obj = Macro.parse_obj(yml_dict)

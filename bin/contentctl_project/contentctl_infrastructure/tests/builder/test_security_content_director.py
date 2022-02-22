@@ -9,6 +9,7 @@ from contentctl_infrastructure.builder.security_content_investigation_builder im
 from contentctl_infrastructure.builder.security_content_baseline_builder import SecurityContentBaselineBuilder
 from contentctl_infrastructure.builder.security_content_object_builder import SecurityContentObjectBuilder
 from contentctl_infrastructure.builder.attack_enrichment import AttackEnrichment
+from contentctl_infrastructure.builder.security_content_playbook_builder import SecurityContentPlaybookBuilder
 
 
 def test_construct_deployments():
@@ -47,13 +48,13 @@ def test_construct_macros():
 
 def test_construct_playbooks():
     director = SecurityContentDirector()
-    playbook_builder = SecurityContentBasicBuilder()
+    playbook_builder = SecurityContentPlaybookBuilder()
     director.constructPlaybook(playbook_builder, os.path.join(os.path.dirname(__file__), 
-        'test_data/playbook/example_playbook.yml'))
+        'test_data/playbook/example_playbook.yml'), [])
     playbook = playbook_builder.getObject()     
 
     assert playbook.name == "Ransomware Investigate and Contain"
-    assert playbook.tags.detections[0] == "Conti Common Exec parameter"
+    assert playbook.tags.detections[0] == "Attempted Credential Dump From Registry via Reg exe"
 
 
 def test_construct_unit_tests():
@@ -117,9 +118,9 @@ def test_construct_detections():
         'test_data/deployment/ESCU/00_default_baseline.yml'))
     deployment_baseline = deployment_builder.getObject() 
 
-    playbook_builder = SecurityContentBasicBuilder()
+    playbook_builder = SecurityContentPlaybookBuilder()
     director.constructPlaybook(playbook_builder, os.path.join(os.path.dirname(__file__), 
-        'test_data/playbook/example_playbook.yml'))
+        'test_data/playbook/example_playbook.yml'), [])
     playbook = playbook_builder.getObject()    
 
     baseline_builder = SecurityContentBaselineBuilder()
@@ -185,9 +186,9 @@ def test_construct_stories():
         'test_data/deployment/ESCU/00_default_baseline.yml'))
     deployment_baseline = deployment_builder.getObject() 
 
-    playbook_builder = SecurityContentBasicBuilder()
+    playbook_builder = SecurityContentPlaybookBuilder()
     director.constructPlaybook(playbook_builder, os.path.join(os.path.dirname(__file__), 
-        'test_data/playbook/example_playbook.yml'))
+        'test_data/playbook/example_playbook.yml'), [])
     playbook = playbook_builder.getObject()    
 
     baseline_builder = SecurityContentBaselineBuilder()

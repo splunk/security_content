@@ -1,5 +1,6 @@
 import sys
 import re
+import os
 
 from pydantic import ValidationError
 
@@ -8,6 +9,7 @@ from contentctl_infrastructure.builder.yml_reader import YmlReader
 from contentctl_core.domain.entities.detection import Detection
 from contentctl_core.domain.entities.security_content_object import SecurityContentObject
 from contentctl_core.domain.entities.macro import Macro
+from contentctl_core.domain.entities.mitre_attack_enrichment import MitreAttackEnrichment
 from contentctl_infrastructure.builder.cve_enrichment import CveEnrichment
 
 
@@ -24,6 +26,8 @@ class SecurityContentDetectionBuilder(DetectionBuilder):
             print('Validation Error for file ' + path)
             print(e)
             sys.exit(1)
+
+        self.security_content_obj.source = os.path.split(os.path.dirname(self.security_content_obj.file_path))[-1]      
 
 
     def addDeployment(self, deployments: list) -> None:
@@ -160,20 +164,18 @@ class SecurityContentDetectionBuilder(DetectionBuilder):
     def addMitreAttackEnrichment(self, attack_enrichment: dict) -> None:
         if attack_enrichment:
             if self.security_content_obj.tags.mitre_attack_id:
-                self.security_content_obj.tags.mitre_attack_techniques = []
-                self.security_content_obj.tags.mitre_attack_tactics = []
-                self.security_content_obj.tags.mitre_attack_groups = []
+                self.security_content_obj.tags.mitre_attack_enrichments = []
                 for mitre_attack_id in self.security_content_obj.tags.mitre_attack_id:
                     if mitre_attack_id in attack_enrichment:
-                        self.security_content_obj.tags.mitre_attack_techniques.append(attack_enrichment[mitre_attack_id]["technique"])
-                        self.security_content_obj.tags.mitre_attack_tactics.extend(attack_enrichment[mitre_attack_id]["tactics"])
-                        self.security_content_obj.tags.mitre_attack_groups.extend(attack_enrichment[mitre_attack_id]["groups"])
+                        mitre_attack_enrichment = MitreAttackEnrichment(
+                            mitre_attack_id = mitre_attack_id, 
+                            mitre_attack_technique = attack_enrichment[mitre_attack_id]["technique"], 
+                            mitre_attack_tactics = sorted(attack_enrichment[mitre_attack_id]["tactics"]), 
+                            mitre_attack_groups = sorted(attack_enrichment[mitre_attack_id]["groups"])
+                        )
+                        self.security_content_obj.tags.mitre_attack_enrichments.append(mitre_attack_enrichment)
                     else:
                         raise ValueError("mitre_attack_id " + mitre_attack_id + " doesn't exist for detecction " + self.security_content_obj.name)
-
-                self.security_content_obj.tags.mitre_attack_techniques = list(dict.fromkeys(self.security_content_obj.tags.mitre_attack_techniques))
-                self.security_content_obj.tags.mitre_attack_tactics = list(dict.fromkeys(self.security_content_obj.tags.mitre_attack_tactics))
-                self.security_content_obj.tags.mitre_attack_groups = list(dict.fromkeys(self.security_content_obj.tags.mitre_attack_groups))
 
 
     def addMacros(self, macros: list) -> None:
