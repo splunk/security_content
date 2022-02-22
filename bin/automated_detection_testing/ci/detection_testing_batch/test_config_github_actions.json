@@ -50,11 +50,6 @@
           "app_version": "8.4.0",
           "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-unix-and-linux_840.tgz"
       },
-      "SPLUNK_APP_FOR_AWS": {
-          "app_number": 1274,
-          "app_version": "6.0.3",
-          "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-app-for-aws_603.tgz"
-      },
       "SPLUNK_APP_FOR_STREAM": {
           "app_number": 1809,
           "app_version": "8.0.1",
@@ -74,11 +69,6 @@
           "app_number": 2890,
           "app_version": "5.3.1",
           "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-machine-learning-toolkit_531.tgz"
-      },
-      "SPLUNK_SECURITY_ESSENTIALS": {
-          "app_number": 3435,
-          "app_version": "3.4.0",
-          "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-security-essentials_340.tgz"
       },
       "SPLUNK_TA_FOR_ZEEK": {
           "app_number": 5466,
