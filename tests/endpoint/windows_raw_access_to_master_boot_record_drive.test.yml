@@ -1,7 +1,7 @@
-name: Raw Access To Master Boot Record Drive Unit Test
+name: Windows Raw Access To Master Boot Record Drive Unit Test
 tests:
-- name: Raw Access To Master Boot Record Drive
-  file: endpoint/raw_access_to_master_boot_record_drive.yml
+- name: Windows Raw Access To Master Boot Record Drive
+  file: endpoint/windows_raw_access_to_master_boot_record_drive.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'

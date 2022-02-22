@@ -1,4 +1,4 @@
-name: Raw Access To Master Boot Record Drive
+name: Windows Raw Access To Master Boot Record Drive
 id: 7b83f666-900c-11ec-a2d9-acde48001122
 version: 1
 date: '2022-02-17'
@@ -9,11 +9,11 @@ datamodel:
 description: This analytic is to look for suspicious raw access read to drive where master boot record is place.
   This technique was seen in several attacks by adversaries or threat actor to wipe, encrypt or overwrite the master boot record code 
   as part of their impact payload. This detection is a good indicator that there is a process try to read or write on MBR sector.
-search: '`sysmon` EventCode=9 Device = \\Device\\Harddisk0\\DR0 NOT (Image IN("C:\\Windows\\System32\\*", "C:\\Windows\\SysWOW64\\*")) 
+search: '`sysmon` EventCode=9 Device = \\Device\\Harddisk0\\DR0 NOT (Image IN("*\\Windows\\System32\\*", "*\\Windows\\SysWOW64\\*")) 
   | stats count min(_time) as firstTime max(_time) as lastTime by Computer Image Device ProcessGuid ProcessId EventDescription EventCode
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` 
-  | `raw_access_to_master_boot_record_drive_filter`'
+  | `windows_raw_access_to_master_boot_record_drive_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the raw access read event (like sysmon eventcode 9), process name and process guid from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
