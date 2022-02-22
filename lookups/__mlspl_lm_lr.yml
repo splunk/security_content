@@ -1,0 +1,6 @@
+description: An MLTK model for a language model based on character n-grams
+filename: __mlspl_lm_lr.mlmodel
+name: __mlspl_lm_lr
+case_sensitive_match: 'false'
+min_matches: 1
+default_match: 'false'

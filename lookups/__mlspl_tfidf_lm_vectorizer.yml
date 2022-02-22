@@ -1,0 +1,6 @@
+description: An MLTK model for detecting malicious commandlines
+filename: __mlspl_tfidf_lm_vectorizer.mlmodel
+name: __mlspl_tfidf_lm_vectorizer
+case_sensitive_match: 'false'
+min_matches: 1
+default_match: 'false'
