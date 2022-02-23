@@ -1,11 +1,12 @@
 name: Rundll32 with no Command Line Arguments with Network
 id: 35307032-a12d-11eb-835f-acde48001122
-version: 3
-date: '2021-10-13'
+version: 4
+date: '2022-02-22'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
 - Endpoint
+- Network_Traffic
 description: The following analytic identifies rundll32.exe with no command line arguments
   and performing a network connection. It is unusual for rundll32.exe to execute with
   no command line arguments present. This particular behavior is common with malicious
@@ -13,15 +14,21 @@ description: The following analytic identifies rundll32.exe with no command line
   and parallel processes. Identify any suspicious module loads related to credential
   dumping or file writes. Rundll32.exe is natively found in C:\Windows\system32 and
   C:\Windows\syswow64.
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
-  where `process_rundll32` by _time span=1h  Processes.process_guid Processes.process_name
-  Processes.dest Processes.process_path Processes.process Processes.parent_process_name
-  Processes.original_file_name | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | regex process="(rundll32\.exe.{0,4}$)" |
-  join  process_guid [| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Ports
-  where Ports.dest_port !="0" by Ports.process_guid Ports.dest Ports.dest_port| `drop_dm_object_name(Ports)`
-  | rename  dest as connection_to_CNC] | table _time dest parent_process_name process_name
-  process_path process process_guid connection_to_CNC dest_port | `rundll32_with_no_command_line_arguments_with_network_filter`'
+search: '| tstats `security_content_summariesonly` count FROM 
+  datamodel=Endpoint.Processes where `process_rundll32` 
+  by _time span=1h Processes.process_guid Processes.process_name Processes.dest Processes.process_path Processes.process Processes.parent_process_name Processes.original_file_name 
+  | `drop_dm_object_name(Processes)` 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | regex process="(rundll32\.exe.{0,4}$)" 
+  | join process_guid 
+    [ | tstats `security_content_summariesonly` count FROM 
+        datamodel=Network_Traffic.All_Traffic where All_Traffic.dest_port !="0" 
+        by All_Traffic.process_guid All_Traffic.dest All_Traffic.dest_port 
+      | `drop_dm_object_name(All_Traffic)` 
+      | rename dest as connection_to_CNC]  
+  | table _time dest parent_process_name process_name process_path process process_guid connection_to_CNC dest_port 
+  | `rundll32_with_no_command_line_arguments_with_network_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` and `port` node.
