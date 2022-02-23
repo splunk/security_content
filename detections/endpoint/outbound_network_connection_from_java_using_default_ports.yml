@@ -5,8 +5,8 @@ date: '2022-02-22'
 author: Mauricio Velazco, Splunk
 type: TTP
 datamodel: 
-- Endpoint.Processes
-- Network_Traffic.All_Traffic  
+- Endpoint
+- Network_Traffic  
 description: A required step while exploiting the CVE-2021-44228-Log4j vulnerability
   is that the victim server will perform outbound connections to attacker-controlled
   infrastructure. This is required as part of the JNDI lookup as well as for retrieving
