@@ -13,19 +13,18 @@ description: Start-BitsTransfer is the PowerShell "version" of BitsAdmin.exe. Si
   is used, it is highly possible files will be archived. During triage, review parallel
   processes and process lineage. Capture any files on disk and review. For the remote
   domain or IP, what is the reputation?
-search: '| from read_ssa_enriched_events() | where "Endpoint_Processes" IN(_datamodels)
-  | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
-  cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event,
-  "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"),
-  "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"),
-  "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null)
-  | where cmd_line IS NOT NULL AND process_name IS NOT NULL | where process_name="pwsh.exe"
+search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
+  "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"),
+  "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"),
+  "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string",
+  null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string",
+  null), event_id=ucast(map_get(input_event, "event_id"), "string", null) | where
+  cmd_line IS NOT NULL AND process_name IS NOT NULL | where process_name="pwsh.exe"
   OR process_name="pwsh.exe" OR process_name="sqlps.exe" OR process_name="sqltoolsps.exe"
   OR process_name="powershell.exe" OR process_name="powershell_ise.exe" | where (like
-  (cmd_line, "%start-bitstransfer%")) | eval start_time=timestamp,
-  end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"),
-  "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null))
-  | eval body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name",
+  (cmd_line, "%start-bitstransfer%")) | eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event,
+  "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
+  "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name",
   process_name, "parent_process_name", parent_process_name, "process_path", process_path])
   | into write_ssa_detected_events();'
 how_to_implement: To successfully implement this search you need to be ingesting information
