@@ -1,15 +1,16 @@
 ---
 title: "Cloud Compute Instance Created In Previously Unused Region"
-excerpt: "Unused/Unsupported Cloud Regions"
+excerpt: "Unused/Unsupported Cloud Regions
+"
 categories:
   - Cloud
 last_modified_at: 2020-09-02
 toc: true
 toc_label: ""
 tags:
+
   - Unused/Unsupported Cloud Regions
   - Defense Evasion
-  - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -24,8 +25,8 @@ tags:
 
 This search looks at cloud-infrastructure events where an instance is created in any region within the last hour and then compares it to a lookup file of previously seen regions where instances have been created.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
-- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
 - **Last Updated**: 2020-09-02
 - **Author**: David Dorsey, Splunk
@@ -63,7 +64,7 @@ Note that `cloud_compute_instance_created_in_previously_unused_region_filter` is
 #### Lookups
 The SPL above uses the following Lookups:
 
-* [previously_seen_cloud_regions](https://github.com/splunk/security_content/blob/develop/lookups/previously_seen_cloud_regions.yml) with [data]()
+* [previously_seen_cloud_regions](https://github.com/splunk/security_content/blob/develop/lookups/previously_seen_cloud_regions.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/previously_seen_cloud_regions.csv)
 
 #### Required field
 * _time
@@ -77,7 +78,7 @@ The SPL above uses the following Lookups:
 You must be ingesting your cloud infrastructure logs from your cloud provider. You should run the baseline search `Previously Seen Cloud Regions - Initial` to build the initial table of images observed and times. You must also enable the second baseline search `Previously Seen Cloud Regions - Update` to keep this table up to date and to age out old data. You can also provide additional filtering for this search by customizing the `cloud_compute_instance_created_in_previously_unused_region_filter` macro.
 
 #### Known False Positives
-It&#39;s possible that a user has unknowingly started an instance in a new region. Please verify that this activity is legitimate.
+It's possible that a user has unknowingly started an instance in a new region. Please verify that this activity is legitimate.
 
 #### Associated Analytic story
 * [Cloud Cryptomining](/stories/cloud_cryptomining)
@@ -103,6 +104,7 @@ It&#39;s possible that a user has unknowingly started an instance in a new regio
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json)
 

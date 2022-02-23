@@ -7,7 +7,7 @@ last_modified_at: 2018-10-12
 toc: true
 toc_label: ""
 tags:
-  - Splunk Security Analytics for AWS
+
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -22,8 +22,8 @@ tags:
 
 This search looks for cloud compute instances being created with previously unseen image IDs.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
-- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
 - **Last Updated**: 2018-10-12
 - **Author**: David Dorsey, Splunk
@@ -56,7 +56,7 @@ Note that `cloud_compute_instance_created_with_previously_unseen_image_filter` i
 #### Lookups
 The SPL above uses the following Lookups:
 
-* [previously_seen_cloud_compute_images](https://github.com/splunk/security_content/blob/develop/lookups/previously_seen_cloud_compute_images.yml) with [data]()
+* [previously_seen_cloud_compute_images](https://github.com/splunk/security_content/blob/develop/lookups/previously_seen_cloud_compute_images.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/previously_seen_cloud_compute_images.csv)
 
 #### Required field
 * _time
@@ -77,6 +77,7 @@ After a new image is created, the first systems created with that image will cau
 
 
 #### Kill Chain Phase
+* Exploitation
 
 
 
@@ -95,6 +96,7 @@ After a new image is created, the first systems created with that image will cau
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json)
 

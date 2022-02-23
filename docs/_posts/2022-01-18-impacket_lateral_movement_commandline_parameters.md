@@ -1,21 +1,27 @@
 ---
 title: "Impacket Lateral Movement Commandline Parameters"
-excerpt: "Remote Services, SMB/Windows Admin Shares, Distributed Component Object Model, Windows Management Instrumentation, Windows Service"
+excerpt: "Remote Services
+, SMB/Windows Admin Shares
+, Distributed Component Object Model
+, Windows Management Instrumentation
+, Windows Service
+"
 categories:
   - Endpoint
 last_modified_at: 2022-01-18
 toc: true
 toc_label: ""
 tags:
+
   - Remote Services
-  - Lateral Movement
   - SMB/Windows Admin Shares
-  - Lateral Movement
   - Distributed Component Object Model
-  - Lateral Movement
   - Windows Management Instrumentation
-  - Execution
   - Windows Service
+  - Lateral Movement
+  - Lateral Movement
+  - Lateral Movement
+  - Execution
   - Persistence
   - Privilege Escalation
   - Splunk Enterprise
@@ -32,7 +38,7 @@ tags:
 
 This analytic looks for the presence of suspicious commandline parameters typically present when using Impacket tools. Impacket is a collection of python classes meant to be used with Microsoft network protocols. There are multiple scripts that leverage impacket libraries like `wmiexec.py`, `smbexec.py`, `dcomexec.py` and `atexec.py` used to execute commands on remote endpoints. By default, these scripts leverage administrative shares and hardcoded parameters that can be used as a signature to detect its use. Red Teams and adversaries alike may leverage Impackets tools for lateral movement and remote code execution.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2022-01-18
@@ -67,8 +73,8 @@ This analytic looks for the presence of suspicious commandline parameters typica
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `impacket_lateral_movement_commandline_parameters_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -99,7 +105,7 @@ Although uncommon, Administrators may leverage Impackets tools to start a proces
 
 
 #### Kill Chain Phase
-* Lateral Movement
+* Exploitation
 
 
 
@@ -128,6 +134,7 @@ Although uncommon, Administrators may leverage Impackets tools to start a proces
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.003/impacket/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.003/impacket/windows-sysmon.log)
 

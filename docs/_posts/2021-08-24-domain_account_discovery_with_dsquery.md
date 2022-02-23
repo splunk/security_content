@@ -1,15 +1,18 @@
 ---
 title: "Domain Account Discovery with Dsquery"
-excerpt: "Domain Account, Account Discovery"
+excerpt: "Domain Account
+, Account Discovery
+"
 categories:
   - Endpoint
 last_modified_at: 2021-08-24
 toc: true
 toc_label: ""
 tags:
+
   - Domain Account
-  - Discovery
   - Account Discovery
+  - Discovery
   - Discovery
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -25,7 +28,7 @@ tags:
 
 This analytic looks for the execution of `dsquery.exe` with command-line arguments utilized to discover  domain users. The `user` argument returns a list of all users registered in the domain. Red Teams and adversaries alike engage in remote system discovery for situational awareness and Active Directory Discovery.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-08-24
@@ -54,8 +57,8 @@ This analytic looks for the execution of `dsquery.exe` with command-line argumen
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `domain_account_discovery_with_dsquery_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -105,6 +108,7 @@ Administrators or power users may use this command for troubleshooting.
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/AD_discovery/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/AD_discovery/windows-sysmon.log)
 

@@ -1,12 +1,14 @@
 ---
 title: "WMI Permanent Event Subscription"
-excerpt: "Windows Management Instrumentation"
+excerpt: "Windows Management Instrumentation
+"
 categories:
   - Endpoint
 last_modified_at: 2018-10-23
 toc: true
 toc_label: ""
 tags:
+
   - Windows Management Instrumentation
   - Execution
   - Splunk Enterprise
@@ -14,8 +16,8 @@ tags:
   - Splunk Cloud
 ---
 
-### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
-We have not been able to test, simulate, or build datasets for this detection. Use at your own risk. This analytic is **NOT** supported.
+###  WARNING THIS IS A EXPERIMENTAL object
+We have not been able to test, simulate, or build datasets for this object. Use at your own risk. This analytic is **NOT** supported.
 
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -24,7 +26,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 This search looks for the creation of WMI permanent event subscriptions.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2018-10-23
@@ -54,8 +56,8 @@ This search looks for the creation of WMI permanent event subscriptions.
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [wmi](https://github.com/splunk/security_content/blob/develop/macros/wmi.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `wmi_permanent_event_subscription_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -82,6 +84,12 @@ Although unlikely, administrators may use event subscriptions for legitimate pur
 
 
 
+#### RBA
+
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 25.0 | 50 | 50 | tbd |
+
 
 
 
@@ -91,7 +99,6 @@ Although unlikely, administrators may use event subscriptions for legitimate pur
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

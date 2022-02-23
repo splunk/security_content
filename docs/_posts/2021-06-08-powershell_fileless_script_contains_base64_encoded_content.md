@@ -1,17 +1,21 @@
 ---
 title: "Powershell Fileless Script Contains Base64 Encoded Content"
-excerpt: "Command and Scripting Interpreter, Obfuscated Files or Information, PowerShell"
+excerpt: "Command and Scripting Interpreter
+, Obfuscated Files or Information
+, PowerShell
+"
 categories:
   - Endpoint
 last_modified_at: 2021-06-08
 toc: true
 toc_label: ""
 tags:
+
   - Command and Scripting Interpreter
-  - Execution
   - Obfuscated Files or Information
-  - Defense Evasion
   - PowerShell
+  - Execution
+  - Defense Evasion
   - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -29,7 +33,7 @@ This analytic identifies `FromBase64String` within the script block. A typical m
 Command example - `[Byte[]]$var_code = [System.Convert]::FromBase64String(38uqIyMjQ6rG....` \
 During triage, review parallel processes using an EDR product or 4688 events. It will be important to understand the timeline of events around this activity. Review the entire logged PowerShell script block.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-06-08
@@ -85,7 +89,6 @@ False positives should be limited. Filter as needed.
 
 #### Kill Chain Phase
 * Exploitation
-* Privilege Escalation
 
 
 
@@ -110,6 +113,7 @@ False positives should be limited. Filter as needed.
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/windows-powershell.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/windows-powershell.log)
 

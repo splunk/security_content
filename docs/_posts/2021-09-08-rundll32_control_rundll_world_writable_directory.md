@@ -1,20 +1,22 @@
 ---
 title: "Rundll32 Control RunDLL World Writable Directory"
-excerpt: "Signed Binary Proxy Execution, Rundll32"
+excerpt: "Signed Binary Proxy Execution
+, Rundll32
+"
 categories:
   - Endpoint
 last_modified_at: 2021-09-08
 toc: true
 toc_label: ""
 tags:
+
   - Signed Binary Proxy Execution
-  - Defense Evasion
   - Rundll32
+  - Defense Evasion
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - CVE-2021-40444
   - Endpoint
 ---
 
@@ -26,7 +28,7 @@ tags:
 
 The following detection identifies rundll32.exe with `control_rundll` within the command-line, loading a .cpl or another file type from windows\temp, programdata, or appdata. Developed in relation to CVE-2021-40444. Rundll32.exe can also be used to execute Control Panel Item files (.cpl) through the undocumented shell32.dll functions Control_RunDLL and Control_RunDLLAsUser. Double-clicking a .cpl file also causes rundll32.exe to execute. This is written to be a bit more broad by not including .cpl. The paths are specified, add more as needed. During triage, review parallel processes to identify any further suspicious behavior.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-09-08
@@ -56,8 +58,8 @@ The following detection identifies rundll32.exe with `control_rundll` within the
 #### Macros
 The SPL above uses the following Macros:
 * [process_rundll32](https://github.com/splunk/security_content/blob/develop/macros/process_rundll32.yml)
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `rundll32_control_rundll_world_writable_directory_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -79,7 +81,7 @@ Note that `rundll32_control_rundll_world_writable_directory_filter` is a empty m
 To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 
 #### Known False Positives
-This may be tuned, or a new one related, by adding .cpl to command-line. However, it&#39;s important to look for both. Tune/filter as needed.
+This may be tuned, or a new one related, by adding .cpl to command-line. However, it's important to look for both. Tune/filter as needed.
 
 #### Associated Analytic story
 * [Suspicious Rundll32 Activity](/stories/suspicious_rundll32_activity)
@@ -99,13 +101,6 @@ This may be tuned, or a new one related, by adding .cpl to command-line. However
 
 
 
-#### CVE
-
-| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
-| ----------- | ----------- | -------------- |
-| [CVE-2021-40444](https://nvd.nist.gov/vuln/detail/CVE-2021-40444) | Microsoft MSHTML Remote Code Execution Vulnerability | 6.8 |
-
-
 
 #### Reference
 
@@ -121,6 +116,7 @@ This may be tuned, or a new one related, by adding .cpl to command-line. However
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.002/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.002/atomic_red_team/windows-sysmon.log)
 

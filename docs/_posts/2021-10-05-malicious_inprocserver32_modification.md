@@ -1,15 +1,18 @@
 ---
 title: "Malicious InProcServer32 Modification"
-excerpt: "Regsvr32, Modify Registry"
+excerpt: "Regsvr32
+, Modify Registry
+"
 categories:
   - Endpoint
 last_modified_at: 2021-10-05
 toc: true
 toc_label: ""
 tags:
+
   - Regsvr32
-  - Defense Evasion
   - Modify Registry
+  - Defense Evasion
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -25,7 +28,7 @@ tags:
 
 The following analytic identifies a process modifying the registry with a known malicious CLSID under InProcServer32. Most COM classes are registered with the operating system and are identified by a GUID that represents the Class Identifier (CLSID) within the registry (usually under HKLM\\Software\\Classes\\CLSID or HKCU\\Software\\Classes\\CLSID).  Behind the implementation of a COM class is the server (some binary) that is referenced within registry keys under the CLSID.  The LocalServer32 key represents a path to an executable (exe) implementation, and the InprocServer32 key represents a path to a dynamic link library (DLL) implementation (Bohops). During triage, review parallel processes for suspicious activity. Pivot on the process GUID to see the full timeline of events. Analyze the value and look for file modifications. Being this is looking for inprocserver32, a DLL found in the value will most likely be loaded by a parallel process.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-10-05
@@ -59,8 +62,8 @@ The following analytic identifies a process modifying the registry with a known 
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `malicious_inprocserver32_modification_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -110,6 +113,7 @@ False positives should be limited, filter as needed. In our test case, Remcos us
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos/windows-sysmon.log)
 

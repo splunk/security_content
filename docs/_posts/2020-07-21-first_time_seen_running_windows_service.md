@@ -1,23 +1,26 @@
 ---
 title: "First Time Seen Running Windows Service"
-excerpt: "System Services, Service Execution"
+excerpt: "System Services
+, Service Execution
+"
 categories:
   - Endpoint
 last_modified_at: 2020-07-21
 toc: true
 toc_label: ""
 tags:
+
   - System Services
-  - Execution
   - Service Execution
+  - Execution
   - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
 ---
 
-### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
-We have not been able to test, simulate, or build datasets for this detection. Use at your own risk. This analytic is **NOT** supported.
+###  WARNING THIS IS A EXPERIMENTAL object
+We have not been able to test, simulate, or build datasets for this object. Use at your own risk. This analytic is **NOT** supported.
 
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -26,7 +29,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 This search looks for the first and last time a Windows service is seen running in your environment. This table is then cached.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-07-21
@@ -64,7 +67,7 @@ Note that `first_time_seen_running_windows_service_filter` is a empty macro by d
 #### Lookups
 The SPL above uses the following Lookups:
 
-* [previously_seen_running_windows_services](https://github.com/splunk/security_content/blob/develop/lookups/previously_seen_running_windows_services.yml) with [data]()
+* [previously_seen_running_windows_services](https://github.com/splunk/security_content/blob/develop/lookups/previously_seen_running_windows_services.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/previously_seen_running_windows_services.csv)
 
 #### Required field
 * _time
@@ -91,6 +94,12 @@ A previously unseen service is not necessarily malicious. Verify that the servic
 
 
 
+#### RBA
+
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 25.0 | 50 | 50 | tbd |
+
 
 
 
@@ -100,7 +109,6 @@ A previously unseen service is not necessarily malicious. Verify that the servic
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

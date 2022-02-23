@@ -1,12 +1,14 @@
 ---
 title: "Clop Common Exec Parameter"
-excerpt: "User Execution"
+excerpt: "User Execution
+"
 categories:
   - Endpoint
 last_modified_at: 2021-03-17
 toc: true
 toc_label: ""
 tags:
+
   - User Execution
   - Execution
   - Splunk Enterprise
@@ -21,9 +23,9 @@ tags:
 
 #### Description
 
-The following analytics are designed to identifies some CLOP ransomware variant that using arguments to execute its main code or feature of its code. In this variant if the parameter is &#34;runrun&#34;, CLOP ransomware will try to encrypt files in network shares and if it is &#34;temp.dat&#34;, it will try to read from some stream pipe or file start encrypting files within the infected local machines. This technique can be also identified as an anti-sandbox technique to make its code non-responsive since it is waiting for some parameter to execute properly.
+The following analytics are designed to identifies some CLOP ransomware variant that using arguments to execute its main code or feature of its code. In this variant if the parameter is "runrun", CLOP ransomware will try to encrypt files in network shares and if it is "temp.dat", it will try to read from some stream pipe or file start encrypting files within the infected local machines. This technique can be also identified as an anti-sandbox technique to make its code non-responsive since it is waiting for some parameter to execute properly.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-03-17
@@ -50,8 +52,8 @@ The following analytics are designed to identifies some CLOP ransomware variant 
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `clop_common_exec_parameter_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -81,7 +83,7 @@ Operators can execute third party tools using these parameters.
 
 
 #### Kill Chain Phase
-* Obfuscation
+* Exploitation
 
 
 
@@ -104,6 +106,7 @@ Operators can execute third party tools using these parameters.
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_b/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_b/windows-sysmon.log)
 

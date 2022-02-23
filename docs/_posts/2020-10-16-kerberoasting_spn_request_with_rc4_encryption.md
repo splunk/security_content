@@ -1,15 +1,18 @@
 ---
 title: "Kerberoasting spn request with RC4 encryption"
-excerpt: "Kerberoasting, Steal or Forge Kerberos Tickets"
+excerpt: "Kerberoasting
+, Steal or Forge Kerberos Tickets
+"
 categories:
   - Endpoint
 last_modified_at: 2020-10-16
 toc: true
 toc_label: ""
 tags:
+
   - Kerberoasting
-  - Credential Access
   - Steal or Forge Kerberos Tickets
+  - Credential Access
   - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -24,7 +27,7 @@ tags:
 
 This search detects a potential kerberoasting attack via service principal name requests
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-10-16
@@ -52,8 +55,8 @@ This search detects a potential kerberoasting attack via service principal name 
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `kerberoasting_spn_request_with_rc4_encryption_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -78,7 +81,7 @@ Older systems that support kerberos RC4 by default NetApp may generate false pos
 
 
 #### Kill Chain Phase
-* Privilege Escalation
+* Exploitation
 
 
 
@@ -101,6 +104,7 @@ Older systems that support kerberos RC4 by default NetApp may generate false pos
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.003/atomic_red_team/windows-security.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.003/atomic_red_team/windows-security.log)
 

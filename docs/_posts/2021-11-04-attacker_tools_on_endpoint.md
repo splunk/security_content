@@ -1,19 +1,24 @@
 ---
 title: "Attacker Tools On Endpoint"
-excerpt: "Match Legitimate Name or Location, Masquerading, OS Credential Dumping, Active Scanning"
+excerpt: "Match Legitimate Name or Location
+, Masquerading
+, OS Credential Dumping
+, Active Scanning
+"
 categories:
   - Endpoint
 last_modified_at: 2021-11-04
 toc: true
 toc_label: ""
 tags:
+
   - Match Legitimate Name or Location
-  - Defense Evasion
   - Masquerading
-  - Defense Evasion
   - OS Credential Dumping
-  - Credential Access
   - Active Scanning
+  - Defense Evasion
+  - Defense Evasion
+  - Credential Access
   - Reconnaissance
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -29,7 +34,7 @@ tags:
 
 This search looks for execution of commonly used attacker tools on an endpoint.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-11-04
@@ -64,15 +69,15 @@ This search looks for execution of commonly used attacker tools on an endpoint.
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `attacker_tools_on_endpoint_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Lookups
 The SPL above uses the following Lookups:
 
-* [attacker_tools](https://github.com/splunk/security_content/blob/develop/lookups/attacker_tools.yml) with [data](https://github.com/splunk/security_content/blob/develop/lookups/attacker_tools.csv)
+* [attacker_tools](https://github.com/splunk/security_content/blob/develop/lookups/attacker_tools.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/attacker_tools.csv)
 
 #### Required field
 * Processes.dest
@@ -116,6 +121,7 @@ Some administrator activity can be potentially triggered, please add those users
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1595/attacker_scan_tools/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1595/attacker_scan_tools/windows-sysmon.log)
 

@@ -1,19 +1,24 @@
 ---
 title: "Windows DotNet Binary in Non Standard Path"
-excerpt: "Masquerading, Rename System Utilities, Signed Binary Proxy Execution, InstallUtil"
+excerpt: "Masquerading
+, Rename System Utilities
+, Signed Binary Proxy Execution
+, InstallUtil
+"
 categories:
   - Endpoint
 last_modified_at: 2022-01-19
 toc: true
 toc_label: ""
 tags:
+
   - Masquerading
-  - Defense Evasion
   - Rename System Utilities
-  - Defense Evasion
   - Signed Binary Proxy Execution
-  - Defense Evasion
   - InstallUtil
+  - Defense Evasion
+  - Defense Evasion
+  - Defense Evasion
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -29,7 +34,7 @@ tags:
 
 The following analytic identifies native .net binaries within the Windows operating system that may be abused by adversaries by moving it to a new directory. The analytic identifies the .net binary by using a lookup and compares the process name and original file name (internal name). The analytic utilizes a lookup with the is_net_windows_file macro to identify the binary process name and original file name. if one or the other matches an alert will be generated. Adversaries abuse these binaries as they are native to windows and native DotNet. Note that not all SDK (post install of Windows) are captured in the lookup.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2022-01-19
@@ -63,17 +68,11 @@ The following analytic identifies native .net binaries within the Windows operat
 
 #### Macros
 The SPL above uses the following Macros:
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [is_net_windows_file](https://github.com/splunk/security_content/blob/develop/macros/is_net_windows_file.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `windows_dotnet_binary_in_non_standard_path_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Lookups
-The SPL above uses the following Lookups:
-
-* [is_net_windows_file](https://github.com/splunk/security_content/blob/develop/lookups/is_net_windows_file.yml) with [data](https://github.com/splunk/security_content/blob/develop/lookups/is_net_windows_file.csv)
-* [is_net_windows_file](https://github.com/splunk/security_content/blob/develop/lookups/is_net_windows_file.yml) with [data](https://github.com/splunk/security_content/blob/develop/lookups/is_net_windows_file.csv)
 
 #### Required field
 * _time
@@ -130,6 +129,7 @@ False positives may be present and filtering may be required. Certain utilities 
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.004/atomic_red_team/windows-sysmon_installutil_path.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.004/atomic_red_team/windows-sysmon_installutil_path.log)
 

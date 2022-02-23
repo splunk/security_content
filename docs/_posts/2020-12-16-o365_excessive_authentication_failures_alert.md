@@ -1,15 +1,16 @@
 ---
 title: "O365 Excessive Authentication Failures Alert"
-excerpt: "Brute Force"
+excerpt: "Brute Force
+"
 categories:
   - Cloud
 last_modified_at: 2020-12-16
 toc: true
 toc_label: ""
 tags:
+
   - Brute Force
   - Credential Access
-  - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -23,8 +24,8 @@ tags:
 
 This search detects when an excessive number of authentication failures occur this search also includes attempts against MFA prompt codes
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
-- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-12-16
 - **Author**: Rod Soto, Splunk
@@ -76,7 +77,7 @@ The threshold for alert is above 10 attempts and this should reduce the number o
 
 
 #### Kill Chain Phase
-* Not Applicable
+* Exploitation
 
 
 
@@ -98,6 +99,7 @@ The threshold for alert is above 10 attempts and this should reduce the number o
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110/o365_brute_force_login/o365_brute_force_login.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110/o365_brute_force_login/o365_brute_force_login.json)
 

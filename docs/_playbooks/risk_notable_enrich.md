@@ -27,7 +27,7 @@ This playbook collects the available Indicator data types within the event as we
 
 
 #### How To Implement
-None
+tbd
 
 #### Playbooks
 ![](https://raw.githubusercontent.com/splunk/security_content/develop/playbooks/risk_notable_enrich.png)

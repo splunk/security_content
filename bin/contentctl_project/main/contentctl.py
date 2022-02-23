@@ -185,7 +185,7 @@ def doc_gen(args) -> None:
     doc_gen_input_dto = DocGenInputDto(
         os.path.abspath(args.output),
         factory_input_dto,
-        ObjToMdAdapter
+        ObjToMdAdapter()
     )
 
     doc_gen = DocGen()

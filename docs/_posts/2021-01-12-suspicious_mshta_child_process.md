@@ -1,15 +1,18 @@
 ---
 title: "Suspicious mshta child process"
-excerpt: "Signed Binary Proxy Execution, Mshta"
+excerpt: "Signed Binary Proxy Execution
+, Mshta
+"
 categories:
   - Endpoint
 last_modified_at: 2021-01-12
 toc: true
 toc_label: ""
 tags:
+
   - Signed Binary Proxy Execution
-  - Defense Evasion
   - Mshta
+  - Defense Evasion
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -23,9 +26,9 @@ tags:
 
 #### Description
 
-The following analytic identifies child processes spawning from  &#34;mshta.exe&#34;. The search will return the first time and last time these command-line arguments were used for these executions, as well as the target system, the user, parent process &#34;mshta.exe&#34; and its child process.
+The following analytic identifies child processes spawning from  "mshta.exe". The search will return the first time and last time these command-line arguments were used for these executions, as well as the target system, the user, parent process "mshta.exe" and its child process.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-01-12
@@ -54,8 +57,8 @@ The following analytic identifies child processes spawning from  &#34;mshta.exe&
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `suspicious_mshta_child_process_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -103,6 +106,7 @@ Although unlikely, some legitimate applications may exhibit this behavior, trigg
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.005/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.005/atomic_red_team/windows-sysmon.log)
 

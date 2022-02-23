@@ -1,17 +1,19 @@
 ---
 title: "O365 Suspicious Rights Delegation"
-excerpt: "Remote Email Collection, Email Collection"
+excerpt: "Remote Email Collection
+, Email Collection
+"
 categories:
   - Cloud
 last_modified_at: 2020-12-15
 toc: true
 toc_label: ""
 tags:
+
   - Remote Email Collection
-  - Collection
   - Email Collection
   - Collection
-  - Splunk Security Analytics for AWS
+  - Collection
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -25,8 +27,8 @@ tags:
 
 This search detects the assignment of rights to accesss content from another mailbox. This is usually only assigned to a service account.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
-- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-12-15
 - **Author**: Patrick Bareiss, Splunk
@@ -97,6 +99,7 @@ Service Accounts
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114.002/suspicious_rights_delegation/suspicious_rights_delegation.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114.002/suspicious_rights_delegation/suspicious_rights_delegation.json)
 

@@ -1,20 +1,23 @@
 ---
 title: "MSI Module Loaded by Non-System Binary"
-excerpt: "DLL Side-Loading, Hijack Execution Flow"
+excerpt: "DLL Side-Loading
+, Hijack Execution Flow
+"
 categories:
   - Endpoint
 last_modified_at: 2021-12-08
 toc: true
 toc_label: ""
 tags:
+
   - DLL Side-Loading
-  - Persistence
-  - Privilege Escalation
-  - Defense Evasion
   - Hijack Execution Flow
+  - Defense Evasion
   - Persistence
   - Privilege Escalation
   - Defense Evasion
+  - Persistence
+  - Privilege Escalation
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -33,7 +36,7 @@ The following hunting analytic identifies `msi.dll` being loaded by a binary not
 1. Racing to introduce a junction and a symlink to trick msiexec.exe to modify the attacker specified file. \
 In addition, `msi.dll` has been abused in DLL side-loading attacks by being loaded by non-system binaries.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-12-08
@@ -45,9 +48,9 @@ In addition, `msi.dll` has been abused in DLL side-loading attacks by being load
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
-| [T1574.002](https://attack.mitre.org/techniques/T1574/002/) | DLL Side-Loading | Persistence, Privilege Escalation, Defense Evasion |
+| [T1574.002](https://attack.mitre.org/techniques/T1574/002/) | DLL Side-Loading | Defense Evasion, Persistence, Privilege Escalation |
 
-| [T1574](https://attack.mitre.org/techniques/T1574/) | Hijack Execution Flow | Persistence, Privilege Escalation, Defense Evasion |
+| [T1574](https://attack.mitre.org/techniques/T1574/) | Hijack Execution Flow | Defense Evasion, Persistence, Privilege Escalation |
 
 #### Search
 
@@ -111,7 +114,6 @@ It is possible some Administrative utilities will load msi.dll outside of normal
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

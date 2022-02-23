@@ -1,20 +1,22 @@
 ---
 title: "Correlation by Repository and Risk"
-excerpt: "Malicious Image, User Execution"
+excerpt: "Malicious Image
+, User Execution
+"
 categories:
   - Cloud
 last_modified_at: 2021-09-06
 toc: true
 toc_label: ""
 tags:
+
   - Malicious Image
-  - Execution
   - User Execution
+  - Execution
   - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Dev Sec Ops Analytics
 ---
 
 
@@ -25,8 +27,8 @@ tags:
 
 This search correlations detections by repository and risk_score
 
-- **Type**: [Correlation](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Dev Sec Ops Analytics
+- **Type**: [Correlation](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-09-06
 - **Author**: Patrick Bareiss, Splunk
@@ -92,7 +94,6 @@ unknown
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

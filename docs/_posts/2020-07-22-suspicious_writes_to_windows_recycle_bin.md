@@ -1,12 +1,14 @@
 ---
 title: "Suspicious writes to windows Recycle Bin"
-excerpt: "Masquerading"
+excerpt: "Masquerading
+"
 categories:
   - Endpoint
 last_modified_at: 2020-07-22
 toc: true
 toc_label: ""
 tags:
+
   - Masquerading
   - Defense Evasion
   - Splunk Enterprise
@@ -22,7 +24,7 @@ tags:
 
 This search detects writes to the recycle bin by a process other than explorer.exe.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-07-22
@@ -79,6 +81,7 @@ Because the Recycle Bin is a hidden folder in modern versions of Windows, it wou
 
 
 #### Kill Chain Phase
+* Exploitation
 
 
 
@@ -97,6 +100,7 @@ Because the Recycle Bin is a hidden folder in modern versions of Windows, it wou
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/write_to_recycle_bin/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/write_to_recycle_bin/windows-sysmon.log)
 

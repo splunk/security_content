@@ -1,15 +1,16 @@
 ---
 title: "{{object.name}}"
-excerpt: "{% for attack in object.tags.mitre_attack_enrichments -%}
+excerpt: "{% if object.tags.mitre_attack_enrichments %}{% for attack in object.tags.mitre_attack_enrichments -%}
 {{ attack.mitre_attack_technique }}
 {% if not loop.last -%}, {% endif -%}
-{% endfor %}"
+{% endfor %}{% endif -%}"
 categories:
   - {{object.source|capitalize}}
 last_modified_at: {{object.date}}
 toc: true
 toc_label: ""
 tags:
+{% if object.tags.mitre_attack_enrichments %}
 {%- for attack in object.tags.mitre_attack_enrichments %}
   - {{ attack.mitre_attack_technique }}
 {%- endfor -%}
@@ -18,6 +19,7 @@ tags:
   - {{ tactic }}
 {%- endfor -%}
 {%- endfor -%}
+{% endif -%}
 {%- for product in object.tags.product %}
   - {{ product }}
 {%- endfor -%}
@@ -148,4 +150,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 {% endfor %}
 {% endif %}
 
-[*source*](https://github.com/splunk/security_content/tree/develop/objects/{% if object.experimental is sameas true -%}experimental/{%- endif -%}{{object.source}}/{{ object.name | lower | replace (" ", "_") }}.yml) \| *version*: **{{object.version}}**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/{% if object.experimental is sameas true -%}experimental/{%- endif -%}{{object.source}}/{{ object.name | lower | replace (" ", "_") }}.yml) \| *version*: **{{object.version}}**
