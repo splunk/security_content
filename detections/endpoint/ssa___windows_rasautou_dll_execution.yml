@@ -31,6 +31,7 @@ references:
 tags:
   analytic_story:
   - Windows Defense Evasion Tactics
+  - Living Off The Land
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055.001/rasautou/windows-security.log
   kill_chain_phases:

@@ -43,6 +43,7 @@ references:
 tags:
   analytic_story:
   - Deobfuscate-Decode Files or Information
+  - Living Off The Land
   automated_detection_testing: passed
   confidence: 80
   context:
