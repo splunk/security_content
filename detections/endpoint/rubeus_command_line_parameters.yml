@@ -61,7 +61,7 @@ tags:
   risk_score: 36
   context:
   - Source:Endpoint
-  - Stage:PrivilegeEscalation
+  - Stage:Privilege Escalation
   message: Rubeus command line parameters were used on $dest$ 
   observable:
   - name: user
