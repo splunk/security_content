@@ -1,6 +1,6 @@
-name: Detect Regasm With Network Connection Unit Test
+name: Detect Regasm with Network Connection Unit Test
 tests:
-- name: Detect Regasm With Network Connection
+- name: Detect Regasm with Network Connection
   file: endpoint/detect_regasm_with_network_connection.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h

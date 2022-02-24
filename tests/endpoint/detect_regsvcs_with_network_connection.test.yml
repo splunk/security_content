@@ -1,6 +1,6 @@
-name: Detect Regsvcs With Network Connection Unit Test
+name: Detect Regsvcs with Network Connection Unit Test
 tests:
-- name: Detect Regsvcs With Network Connection
+- name: Detect Regsvcs with Network Connection
   file: endpoint/detect_regsvcs_with_network_connection.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h

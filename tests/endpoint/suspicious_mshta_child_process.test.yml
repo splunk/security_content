@@ -1,6 +1,6 @@
-name: Detect mshta spawning a process Unit Test
+name: Suspicious mshta child process Unit Test
 tests:
-- name: Detect mshta spawning a process
+- name: Suspicious mshta child process
   file: endpoint/suspicious_mshta_child_process.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -7d

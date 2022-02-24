@@ -1,6 +1,6 @@
-name: Suspicious Rundll32 startw Unit Test
+name: Suspicious Rundll32 StartW Unit Test
 tests:
-- name: Suspicious Rundll32 startw
+- name: Suspicious Rundll32 StartW
   file: endpoint/suspicious_rundll32_startw.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h

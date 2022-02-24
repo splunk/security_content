@@ -9,6 +9,7 @@ from contentctl_core.application.use_cases.generate import GenerateInputDto, Gen
 from contentctl_core.application.use_cases.validate import ValidateInputDto, Validate
 from contentctl_core.application.use_cases.doc_gen import DocGenInputDto, DocGen
 from contentctl_core.application.use_cases.new_content import NewContentInputDto, NewContent
+from contentctl_core.application.use_cases.reporting import ReportingInputDto, Reporting
 from contentctl_core.application.factory.factory import FactoryInputDto
 from contentctl_core.application.factory.ba_factory import BAFactoryInputDto
 from contentctl_core.application.factory.new_content_factory import NewContentFactoryInputDto
@@ -26,6 +27,7 @@ from contentctl_infrastructure.builder.security_content_playbook_builder import 
 from contentctl_core.domain.entities.enums.enums import SecurityContentProduct
 from contentctl_infrastructure.adapter.obj_to_conf_adapter import ObjToConfAdapter
 from contentctl_infrastructure.adapter.obj_to_md_adapter import ObjToMdAdapter
+from contentctl_infrastructure.adapter.obj_to_svg_adapter import ObjToSvgAdapter
 from contentctl_infrastructure.builder.attack_enrichment import AttackEnrichment
 from contentctl_core.domain.entities.enums.enums import SecurityContentType
 
@@ -210,6 +212,28 @@ def new_content(args) -> None:
     new_content.execute(new_content_input_dto)
 
 
+def reporting(args) -> None:
+    factory_input_dto = FactoryInputDto(
+        os.path.abspath(args.path),
+        SecurityContentBasicBuilder(),
+        SecurityContentDetectionBuilder(),
+        SecurityContentStoryBuilder(),
+        SecurityContentBaselineBuilder(),
+        SecurityContentInvestigationBuilder(),
+        SecurityContentPlaybookBuilder(),
+        SecurityContentDirector(),
+        AttackEnrichment.get_attack_lookup()
+    )
+
+    reporting_input_dto = ReportingInputDto(
+        factory_input_dto,
+        ObjToSvgAdapter()
+    )
+
+    reporting = Reporting()
+    reporting.execute(reporting_input_dto)
+
+
 def main(args):
 
     # grab arguments
@@ -226,6 +250,7 @@ def main(args):
     content_changer_parser = actions_parser.add_parser("content_changer", help="Change Security Content based on defined rules")
     docgen_parser = actions_parser.add_parser("docgen", help="Generates documentation")
     new_content_parser = actions_parser.add_parser("new_content", help="Create new security content object")
+    reporting_parser = actions_parser.add_parser("reporting", help="Create security content reporting")
 
     # # new arguments
     # new_parser.add_argument("-t", "--type", required=False, type=str, default="detection",
@@ -256,6 +281,8 @@ def main(args):
     new_content_parser.add_argument("-t", "--type", required=True, type=str,
         help="Type of security content object, choose between `detection`, `story`")
     new_content_parser.set_defaults(func=new_content)
+
+    reporting_parser.set_defaults(func=reporting)
 
     # # parse them
     args = parser.parse_args()

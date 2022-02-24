@@ -1,6 +1,6 @@
-name: Detect wmiprvse spawn msbuild Unit Test
+name: Suspicious MSBuild Spawn Unit Test
 tests:
-- name: Detect wmiprvse spawn msbuild
+- name: Suspicious MSBuild Spawn
   file: endpoint/suspicious_msbuild_spawn.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h

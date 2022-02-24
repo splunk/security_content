@@ -1,6 +1,6 @@
-name: Detect Regsvcs Regasm Spawning a Process Unit Test
+name: Detect Regsvcs Spawning a Process Unit Test
 tests:
-- name: Detect Regsvcs Regasm Spawning a Process
+- name: Detect Regsvcs Spawning a Process
   file: endpoint/detect_regsvcs_spawning_a_process.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h

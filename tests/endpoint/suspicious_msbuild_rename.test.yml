@@ -1,6 +1,6 @@
-name: Detect renamed msbuild execution Unit Test
+name: Suspicious MSBuild Rename Unit Test
 tests:
-- name: Detect renamed msbuild execution
+- name: Suspicious MSBuild Rename
   file: endpoint/suspicious_msbuild_rename.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h

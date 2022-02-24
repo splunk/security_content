@@ -1,6 +1,6 @@
-name: Detect mshta Rename Unit Test
+name: Detect mshta renamed Unit Test
 tests:
-- name: Detect mshta Rename
+- name: Detect mshta renamed
   file: endpoint/detect_mshta_renamed.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h

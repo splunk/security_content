@@ -1,6 +1,6 @@
-name: Detect regsvr32 Application Control Bypass Unit Test
+name: Detect Regsvr32 Application Control Bypass Unit Test
 tests:
-- name: Detect regsvr32 Application Control Bypass
+- name: Detect Regsvr32 Application Control Bypass
   file: endpoint/detect_regsvr32_application_control_bypass.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h

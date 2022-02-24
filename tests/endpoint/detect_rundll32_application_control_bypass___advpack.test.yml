@@ -1,6 +1,6 @@
-name: Detect Rundll32 Application Control Bypass - advpack and ieadvpack Unit Test
+name: Detect Rundll32 Application Control Bypass - advpack Unit Test
 tests:
-- name: Detect Rundll32 Application Control Bypass - advpack and ieadvpack
+- name: Detect Rundll32 Application Control Bypass - advpack
   file: endpoint/detect_rundll32_application_control_bypass___advpack.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h

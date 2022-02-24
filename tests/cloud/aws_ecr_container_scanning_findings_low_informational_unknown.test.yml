@@ -1,6 +1,6 @@
 name: AWS ECR Container Scanning Findings Low Informational Unknwon Unit Test
 tests:
-- name: AWS ECR Container Scanning Findings Low Informational Unknwon
+- name: AWS ECR Container Scanning Findings Low Informational Unknown
   file: cloud/aws_ecr_container_scanning_findings_low_informational_unknown.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -7d

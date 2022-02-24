@@ -1,6 +1,6 @@
-name: Detect microsoft.workflow.compiler.exe rename Unit Test
+name: Suspicious microsoft workflow compiler rename Unit Test
 tests:
-- name: Detect microsoft.workflow.compiler.exe rename
+- name: Suspicious microsoft workflow compiler rename
   file: endpoint/suspicious_microsoft_workflow_compiler_rename.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h

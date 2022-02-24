@@ -1,6 +1,6 @@
-name: Detect mshta spawn Unit Test
+name: Suspicious mshta spawn Unit Test
 tests:
-- name: Detect mshta spawn
+- name: Suspicious mshta spawn
   file: endpoint/suspicious_mshta_spawn.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h

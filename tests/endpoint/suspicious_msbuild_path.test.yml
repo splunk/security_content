@@ -1,6 +1,6 @@
-name: Detect moved msbuild execution Unit Test
+name: Suspicious msbuild path Unit Test
 tests:
-- name: Detect moved msbuild execution
+- name: Suspicious msbuild path
   file: endpoint/suspicious_msbuild_path.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h

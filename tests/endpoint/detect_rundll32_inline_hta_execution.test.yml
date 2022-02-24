@@ -1,6 +1,6 @@
-name: Detect rundll32 executing hta with inline protocols Unit Test
+name: Detect Rundll32 Inline HTA Execution Unit Test
 tests:
-- name: Detect rundll32 executing hta with inline protocols
+- name: Detect Rundll32 Inline HTA Execution
   file: endpoint/detect_rundll32_inline_hta_execution.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h

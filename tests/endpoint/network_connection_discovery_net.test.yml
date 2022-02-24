@@ -1,6 +1,6 @@
-name: Network Connection Discovery With Arp Unit Test
+name: Network Connection Discovery With Net Unit Test
 tests:
-- name: Network Connection Discovery With Arp
+- name: Network Connection Discovery With Net
   file: endpoint/network_connection_discovery_net.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h

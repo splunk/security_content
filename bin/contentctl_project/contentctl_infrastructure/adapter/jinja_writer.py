@@ -3,7 +3,7 @@ import os
 from jinja2 import Environment, FileSystemLoader
 
 
-class MdWriter:
+class JinjaWriter:
 
     @staticmethod
     def writeObjectsList(template_name : str, output_path : str, objects : list) -> None:

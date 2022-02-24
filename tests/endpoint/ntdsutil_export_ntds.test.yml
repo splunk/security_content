@@ -1,6 +1,6 @@
-name: NTdsutil to export ntds dit from Directory Services Unit Test
+name: Ntdsutil Export NTDS Unit Test
 tests:
-- name: NTdsutil to export ntds dit from Directory Services
+- name: Ntdsutil Export NTDS
   file: endpoint/ntdsutil_export_ntds.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h

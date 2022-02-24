@@ -1,6 +1,6 @@
-name: Detect mshta executing inline protocol handlers Unit Test
+name: Detect mshta inline hta execution Unit Test
 tests:
-- name: Detect mshta executing inline protocol handlers
+- name: Detect mshta inline hta execution
   file: endpoint/detect_mshta_inline_hta_execution.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h

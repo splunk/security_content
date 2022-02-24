@@ -1,6 +1,6 @@
-name: Windows Desired Access Request Unit Test
+name: PetitPotam Network Share Access Request Unit Test
 tests:
-- name: Windows Desired Access Request
+- name: PetitPotam Network Share Access Request
   file: endpoint/petitpotam_network_share_access_request.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h

@@ -1,6 +1,6 @@
-name: Detect HTML Help Using Infotech Storage Handlers Unit Test
+name: Detect HTML Help Using InfoTech Storage Handlers Unit Test
 tests:
-- name: Detect HTML Help Using Infotech Storage Handlers
+- name: Detect HTML Help Using InfoTech Storage Handlers
   file: endpoint/detect_html_help_using_infotech_storage_handlers.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h

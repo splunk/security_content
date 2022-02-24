@@ -1,6 +1,6 @@
-name: Detect Exchange Web Shell, ProxyLogon Unit Test
+name: Detect Exchange Web Shell Unit Test
 tests:
-- name: Detect Exchange Web Shell, ProxyLogon
+- name: Detect Exchange Web Shell
   file: endpoint/detect_exchange_web_shell.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h

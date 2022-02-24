@@ -1,6 +1,6 @@
-name: Scheduled Task Deleted Or Created Via CMD Unit Test
+name: Scheduled Task Deleted Or Created via CMD Unit Test
 tests:
-- name: Scheduled Task Deleted Or Created Via CMD
+- name: Scheduled Task Deleted Or Created via CMD
   file: endpoint/scheduled_task_deleted_or_created_via_cmd.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h

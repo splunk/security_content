@@ -1,6 +1,6 @@
-name: Excessive Deleting Of Users Unit Test
+name: Deleting Of Net Users Unit Test
 tests:
-- name: Excessive Deleting Of Users
+- name: Deleting Of Net Users
   file: endpoint/deleting_of_net_users.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h
