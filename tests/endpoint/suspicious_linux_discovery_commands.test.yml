@@ -1,7 +1,7 @@
-name: Suspcious Linux Discovery Commands
+name: Suspicious Linux Discovery Commands
 tests:
-- name: Linux Possible Access To Sudoers File
-  file: endpoint/suspcious_linux_discovery_commands.yml
+- name: Suspicious Linux Discovery Commands
+  file: endpoint/suspicious_linux_discovery_commands.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-30d'
   latest_time: 'now'
