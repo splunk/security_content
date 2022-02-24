@@ -8,8 +8,10 @@ from contentctl_core.application.use_cases.content_changer import ContentChanger
 from contentctl_core.application.use_cases.generate import GenerateInputDto, Generate
 from contentctl_core.application.use_cases.validate import ValidateInputDto, Validate
 from contentctl_core.application.use_cases.doc_gen import DocGenInputDto, DocGen
+from contentctl_core.application.use_cases.new_content import NewContentInputDto, NewContent
 from contentctl_core.application.factory.factory import FactoryInputDto
 from contentctl_core.application.factory.ba_factory import BAFactoryInputDto
+from contentctl_core.application.factory.new_content_factory import NewContentFactoryInputDto
 from contentctl_core.application.factory.object_factory import ObjectFactoryInputDto
 from contentctl_infrastructure.builder.security_content_object_builder import SecurityContentObjectBuilder
 from contentctl_infrastructure.builder.security_content_director import SecurityContentDirector
@@ -25,6 +27,7 @@ from contentctl_core.domain.entities.enums.enums import SecurityContentProduct
 from contentctl_infrastructure.adapter.obj_to_conf_adapter import ObjToConfAdapter
 from contentctl_infrastructure.adapter.obj_to_md_adapter import ObjToMdAdapter
 from contentctl_infrastructure.builder.attack_enrichment import AttackEnrichment
+from contentctl_core.domain.entities.enums.enums import SecurityContentType
 
 
 def init(args):
@@ -192,6 +195,21 @@ def doc_gen(args) -> None:
     doc_gen.execute(doc_gen_input_dto)
 
 
+def new_content(args) -> None:
+    if args.type == 'detection':
+        type = SecurityContentType.detections
+    elif args.type == 'story':
+        type = SecurityContentType.stories
+    else:
+        print("ERROR: type " + args.type + " not supported")
+        sys.exit(1)
+
+    new_content_factory_input_dto = NewContentFactoryInputDto(type)
+    new_content_input_dto = NewContentInputDto(new_content_factory_input_dto, ObjToYmlAdapter())
+    new_content = NewContent()
+    new_content.execute(new_content_input_dto)
+
+
 def main(args):
 
     # grab arguments
@@ -207,6 +225,7 @@ def main(args):
     generate_parser = actions_parser.add_parser("generate", help="Generates a deployment package for different platforms (splunk_app)")
     content_changer_parser = actions_parser.add_parser("content_changer", help="Change Security Content based on defined rules")
     docgen_parser = actions_parser.add_parser("docgen", help="Generates documentation")
+    new_content_parser = actions_parser.add_parser("new_content", help="Create new security content object")
 
     # # new arguments
     # new_parser.add_argument("-t", "--type", required=False, type=str, default="detection",
@@ -216,24 +235,27 @@ def main(args):
     # new_parser.set_defaults(func=new)
 
     validate_parser.add_argument("-pr", "--product", required=True, type=str,
-                                        help="Type of package to create, choose between `ESCU` or `BA`.")
+        help="Type of package to create, choose between `ESCU` or `BA`.")
     validate_parser.set_defaults(func=validate, epilog="""
                 Validates security manifest for correctness, adhering to spec and other common items.""")
 
     generate_parser.add_argument("-o", "--output", required=True, type=str,
-                                        help="Path where to store the deployment package")
+        help="Path where to store the deployment package")
     generate_parser.add_argument("-pr", "--product", required=True, type=str,
-                                        help="Type of package to create, choose between `ESCU`, `BA` or `API`.")
+        help="Type of package to create, choose between `ESCU`, `BA` or `API`.")
     generate_parser.set_defaults(func=generate)
     
     content_changer_parser.add_argument("-cf", "--change_function", required=True, type=str,
-                                        help="Define a change funtion defined in bin/contentctl_core/contentctl/application/use_cases/content_changer.py")
+        help="Define a change funtion defined in bin/contentctl_core/contentctl/application/use_cases/content_changer.py")
     content_changer_parser.set_defaults(func=content_changer)
 
     docgen_parser.add_argument("-o", "--output", required=True, type=str,
-                                        help="Path where to store the documentation")
+        help="Path where to store the documentation")
     docgen_parser.set_defaults(func=doc_gen)
 
+    new_content_parser.add_argument("-t", "--type", required=True, type=str,
+        help="Type of security content object, choose between `detection`, `story`")
+    new_content_parser.set_defaults(func=new_content)
 
     # # parse them
     args = parser.parse_args()

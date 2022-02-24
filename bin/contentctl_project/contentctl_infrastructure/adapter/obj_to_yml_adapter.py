@@ -19,7 +19,7 @@ class ObjToYmlAdapter(Adapter):
 
     def writeObjects(self, objects: list, output_path: str, type: SecurityContentType = None) -> None:
         for obj in objects:
-            file_name = "ssa___" + self.convertNameToFileName(obj)
+            file_name = "ssa___" + self.convertNameToFileName(obj.name)
             if self.isComplexBARule(obj.search):
                 file_path = os.path.join(output_path, 'complex', file_name)
             else:
@@ -72,8 +72,40 @@ class ObjToYmlAdapter(Adapter):
                 ))
 
 
-    def convertNameToFileName(self, obj: dict):
-        file_name = obj.name \
+
+    def writeObjectNewContent(self, object: dict, type: SecurityContentType) -> None:
+        if type == SecurityContentType.detections:
+            file_path = os.path.join(os.path.dirname(__file__), '../../../../detections', object['source'], self.convertNameToFileName(object['name']))
+            test_obj = {}
+            test_obj['name'] = object['name'] + ' Unit Test'
+            test_obj['tests'] = [
+                {
+                    'name': object['name'],
+                    'file': object['source'] + '/' + self.convertNameToFileName(object['name']),
+                    'pass_condition': '| stats count | where count > 0',
+                    'earliest_time': '-24h',
+                    'latest_time': 'now',
+                    'attack_data': [
+                        {
+                            'file_name': 'UPDATE',
+                            'data': 'UPDATE',
+                            'source': 'UPDATE',
+                            'sourcetype': 'UPDATE'
+                        }
+                    ]
+                }
+            ]
+            file_path_test = os.path.join(os.path.dirname(__file__), '../../../../tests', object['source'], self.convertNameToFileName(object['name']))
+            YmlWriter.writeYmlFile(file_path_test, test_obj)
+            object.pop('source')
+        elif type == SecurityContentType.stories:
+            file_path = os.path.join(os.path.dirname(__file__), '../../../../stories', self.convertNameToFileName(object['name']))
+
+        YmlWriter.writeYmlFile(file_path, object)
+
+
+    def convertNameToFileName(self, name: str):
+        file_name = name \
             .replace(' ', '_') \
             .replace('-','_') \
             .replace('.','_') \
