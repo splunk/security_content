@@ -56,6 +56,7 @@ references:
 tags:
   analytic_story:
   - Active Directory Discovery
+  - Active Directory Kerberos Attacks
   automated_detection_testing: passed
   confidence: 100
   context:
