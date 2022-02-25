@@ -37,6 +37,7 @@ tags:
   impact: 70
   confidence: 90
   risk_score: 63 
+  risk_severity: medium
   context:
   - Source:Endpoint
   - Stage:Persistence
