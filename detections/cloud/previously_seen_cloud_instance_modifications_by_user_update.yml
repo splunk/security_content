@@ -9,7 +9,7 @@ datamodel:
 description: This search updates a table of previously seen Cloud Instance modifications
   that have been made by a user
 search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen
-  from datamodel=Change where All_Changes.action=modified All_Changes.change_type=EC2
+  from datamodel=Change where All_Changes.action=modified All_Changes.change_type=firewall
   All_Changes.status=success by All_Changes.user | `drop_dm_object_name("All_Changes")`
   | inputlookup append=t previously_seen_cloud_instance_modifications_by_user | stats
   min(firstTimeSeen) as firstTimeSeen max(lastTimeSeen) as lastTimeSeen by user |
