@@ -1,4 +1,4 @@
-name: Windows Disable Memory Crash Drump
+name: Windows Disable Memory Crash Dump
 id: 59e54602-9680-11ec-a8a6-acde48001122
 version: 1
 date: '2022-02-25'
@@ -20,7 +20,7 @@ search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint
   process_path process process_guid registry_path registry_value_name registry_value_data
   registry_key_name] | table _time dest user parent_process_name parent_process process_name
   process_path process process_guid registry_path registry_value_name registry_value_data
-  registry_key_name | `windows_disable_memory_crash_drump_filter`'
+  registry_key_name | `windows_disable_memory_crash_dump_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the Filesystem responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Filesystem` node.
