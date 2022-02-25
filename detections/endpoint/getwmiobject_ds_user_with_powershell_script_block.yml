@@ -1,7 +1,7 @@
 name: GetWmiObject DS User with PowerShell Script Block
 id: fabd364e-04f3-11ec-b34b-acde48001122
-version: 1
-date: '2021-08-24'
+version: 2
+date: '2022-02-25'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 type: TTP
 datamodel: []
@@ -10,9 +10,9 @@ description: The following analytic utilizes PowerShell Script Block Logging (Ev
   parameter leverages WMI to query for all domain users. Red Teams and adversaries
   may leverage this commandlet to enumerate domain users for situational awareness
   and Active Directory Discovery.
-search: '`powershell` EventCode=4104 Message = "*get-wmiobject*" Message = "*ds_user*"
-  Message = "*-namespace*" Message = "*root\\directory\\ldap*" | stats count min(_time)
-  as firstTime max(_time) as lastTime by EventCode Message ComputerName User | `security_content_ctime(firstTime)`
+search: '`powershell` EventCode=4104 ScriptBlockText = "*get-wmiobject*" ScriptBlockText = "*ds_user*"
+  ScriptBlockText = "*-namespace*" ScriptBlockText = "*root\\directory\\ldap*" | stats count min(_time)
+  as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `getwmiobject_ds_user_with_powershell_script_block_filter`'
 how_to_implement: he following Hunting analytic requires PowerShell operational logs
   to be imported. Modify the powershell macro as needed to match the sourcetype or
@@ -21,9 +21,11 @@ known_false_positives: Administrators or power users may use this command for tr
 references:
 - https://www.blackhillsinfosec.com/red-blue-purple/
 - https://docs.microsoft.com/en-us/windows/win32/wmisdk/describing-the-ldap-namespace
+- https://www.splunk.com/en_us/blog/security/hunting-for-malicious-powershell-using-script-block-logging.html
 tags:
   analytic_story:
   - Active Directory Discovery
+  - Malicious PowerShell
   automated_detection_testing: passed
   confidence: 50
   context:
@@ -38,8 +40,9 @@ tags:
   mitre_attack_id:
   - T1087.002
   - T1087
+  - T1059.001
   observable:
-  - name: ComputerName
+  - name: Computer
     type: Hostname
     role:
     - Victim
@@ -54,8 +57,8 @@ tags:
   required_fields:
   - _time
   - EventCode
-  - Message
-  - ComputerName
-  - User
+  - ScriptBlockText
+  - Computer
+  - UserID
   risk_score: 25
   security_domain: endpoint

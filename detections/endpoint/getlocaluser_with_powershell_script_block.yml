@@ -1,7 +1,7 @@
 name: GetLocalUser with PowerShell Script Block
 id: 2e891cbe-0426-11ec-9c9c-acde48001122
-version: 1
-date: '2021-08-23'
+version: 2
+date: '2022-02-25'
 author: Mauricio Velazco, Splunk
 type: Hunting
 datamodel: []
@@ -10,8 +10,8 @@ description: The following analytic utilizes PowerShell Script Block Logging (Ev
   commandlet is used to return a list of all local users. Red Teams and adversaries
   may leverage this commandlet to enumerate users for situational awareness and Active
   Directory Discovery.
-search: '`powershell` EventCode=4104 (Message = "*Get-LocalUser*") | stats count min(_time)
-  as firstTime max(_time) as lastTime by EventCode Message ComputerName User | `security_content_ctime(firstTime)`
+search: '`powershell` EventCode=4104 (ScriptBlockText = "*Get-LocalUser*") | stats count min(_time)
+  as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID | `security_content_ctime(firstTime)`
   | `getlocaluser_with_powershell_script_block_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
@@ -20,9 +20,11 @@ known_false_positives: Administrators or power users may use this PowerShell com
   for troubleshooting.
 references:
 - https://attack.mitre.org/techniques/T1087/001/
+- https://www.splunk.com/en_us/blog/security/hunting-for-malicious-powershell-using-script-block-logging.html
 tags:
   analytic_story:
   - Active Directory Discovery
+  - Malicious PowerShell
   confidence: 50
   context:
   - Source:Endpoint
@@ -37,6 +39,7 @@ tags:
   mitre_attack_id:
   - T1087
   - T1087.001
+  - T1059.001
   observable:
   - name: dest
     type: Endpoint
@@ -48,5 +51,9 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
+  - EventCode 
+  - ScriptBlockText
+  - Computer
+  - UserID
   risk_score: 15
   security_domain: endpoint

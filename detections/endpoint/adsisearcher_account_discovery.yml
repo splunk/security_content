@@ -1,7 +1,7 @@
 name: AdsiSearcher Account Discovery
 id: de7fcadc-04f3-11ec-a241-acde48001122
-version: 1
-date: '2021-08-24'
+version: 2
+date: '2022-02-24'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 type: TTP
 datamodel: []
@@ -9,9 +9,9 @@ description: The following analytic utilizes PowerShell Script Block Logging (Ev
   to identify the `[Adsisearcher]` type accelerator being used to query Active Directory
   for domain groups. Red Teams and adversaries may leverage `[Adsisearcher]` to enumerate
   domain users for situational awareness and Active Directory Discovery.
-search: '`powershell` EventCode=4104 Message = "*[adsisearcher]*" Message = "*objectcategory=user*"
-  Message = "*.findAll()*" | stats count min(_time) as firstTime max(_time) as lastTime
-  by EventCode Message ComputerName User | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+search: '`powershell` EventCode=4104 ScriptBlockText = "*[adsisearcher]*" ScriptBlockText = "*objectcategory=user*"
+  ScriptBlockText = "*.findAll()*" | stats count min(_time) as firstTime max(_time) as lastTime
+  by EventCode ScriptBlockText Computer UserID | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `adsisearcher_account_discovery_filter`'
 how_to_implement: The following Hunting analytic requires PowerShell operational logs
   to be imported. Modify the powershell macro as needed to match the sourcetype or
@@ -21,9 +21,11 @@ references:
 - https://attack.mitre.org/techniques/T1087/002/
 - https://www.blackhillsinfosec.com/red-blue-purple/
 - https://devblogs.microsoft.com/scripting/use-the-powershell-adsisearcher-type-accelerator-to-search-active-directory/
+- https://www.splunk.com/en_us/blog/security/hunting-for-malicious-powershell-using-script-block-logging.html
 tags:
   analytic_story:
   - Active Directory Discovery
+  - Malicious PowerShell
   automated_detection_testing: passed
   confidence: 50
   context:
@@ -34,16 +36,17 @@ tags:
   impact: 50
   kill_chain_phases:
   - Reconnaissance
-  message: powershell process having commandline $Message$ for user enumeration
+  message: PowerShell process having command-line $ScriptBlockText$ for user enumeration
   mitre_attack_id:
   - T1087.002
   - T1087
+  - T1059.001
   observable:
-  - name: ComputerName
+  - name: Computer
     type: Hostname
     role:
     - Victim
-  - name: User
+  - name: UserID
     type: User
     role:
     - Victim
@@ -54,8 +57,8 @@ tags:
   required_fields:
   - _time
   - EventCode
-  - Message
-  - ComputerName
-  - User
+  - ScriptBlockText
+  - Computer
+  - UserID
   risk_score: 25
   security_domain: endpoint

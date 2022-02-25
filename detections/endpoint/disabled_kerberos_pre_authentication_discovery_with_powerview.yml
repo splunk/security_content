@@ -1,7 +1,7 @@
 name: Disabled Kerberos Pre-Authentication Discovery With PowerView
 id: b0b34e2c-90de-11ec-baeb-acde48001122
-version: 1
-date: '2022-02-18'
+version: 2
+date: '2022-02-24'
 author: Mauricio Velazco, Splunk
 type: TTP
 datamodel: []
@@ -11,8 +11,8 @@ description: The following analytic utilizes PowerShell Script Block Logging (Ev
   As the name suggests, `Get-DomainUser` is used to identify domain users and combining it with `-PreauthNotRequired`
   allows adversaries to discover domain accounts with Kerberos Pre Authentication disabled.\
   Red Teams and adversaries alike use may leverage PowerView to enumerate these accounts and attempt to crack their passwords offline.
-search: ' `powershell` EventCode=4104 (Message = "*Get-DomainUser*" AND Message="*PreauthNotRequired*")
-  | stats count min(_time)  as firstTime max(_time) as lastTime by EventCode Message ComputerName User | `security_content_ctime(firstTime)`
+search: ' `powershell` EventCode=4104 (ScriptBlockText = "*Get-DomainUser*" AND ScriptBlockText="*PreauthNotRequired*")
+  | stats count min(_time)  as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID | `security_content_ctime(firstTime)`
   | `disabled_kerberos_pre_authentication_discovery_with_powerview_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
@@ -22,9 +22,11 @@ references:
 - https://attack.mitre.org/techniques/T1558/004/
 - https://m0chan.github.io/2019/07/31/How-To-Attack-Kerberos-101.html
 - https://stealthbits.com/blog/cracking-active-directory-passwords-with-as-rep-roasting/
+- https://www.splunk.com/en_us/blog/security/hunting-for-malicious-powershell-using-script-block-logging.html
 tags:
   analytic_story:
   - Active Directory Kerberos Attacks
+  - Malicious PowerShell
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.004/powerview/windows-powershell.log
   kill_chain_phases:
@@ -32,6 +34,7 @@ tags:
   mitre_attack_id:
   - T1558
   - T1558.004
+  - T1059.001
   observable:
   - name: dest
     type: Endpoint
@@ -44,9 +47,9 @@ tags:
   required_fields:
   - _time
   - EventCode
-  - Message
-  - ComputerName
-  - User
+  - ScriptBlockText
+  - Computer
+  - UserIDID
   security_domain: endpoint
   impact: 60
   confidence: 90 

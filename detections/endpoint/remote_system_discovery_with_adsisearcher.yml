@@ -9,9 +9,9 @@ description: The following analytic utilizes PowerShell Script Block Logging (Ev
   to identify the `[Adsisearcher]` type accelerator being used to query Active Directory
   for domain computers. Red Teams and adversaries may leverage `[Adsisearcher]` to
   enumerate domain computers for situational awareness and Active Directory Discovery.
-search: '`powershell` EventCode=4104 (Message = "*[adsisearcher]*" AND Message = "*objectclass=computer*"
-  AND Message = "*findAll()*") | stats count min(_time) as firstTime max(_time) as
-  lastTime by EventCode Message ComputerName User | `security_content_ctime(firstTime)`
+search: '`powershell` EventCode=4104 (ScriptBlockText = "*[adsisearcher]*" AND ScriptBlockText = "*objectclass=computer*"
+  AND ScriptBlockText = "*findAll()*") | stats count min(_time) as firstTime max(_time) as
+  lastTime by EventCode ScriptBlockText Computer UserID | `security_content_ctime(firstTime)`
   | `remote_system_discovery_with_adsisearcher_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
@@ -49,8 +49,8 @@ tags:
   required_fields:
   - _time
   - EventCode
-  - Message
-  - ComputerName
-  - User
+  - ScriptBlockText
+  - Computer
+  - UserID
   risk_score: 15
   security_domain: endpoint

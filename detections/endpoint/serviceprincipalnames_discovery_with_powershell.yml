@@ -22,8 +22,8 @@ description: 'The following analytic identifies `powershell.exe` usage, using Sc
   class in PowerShell is the equivelant of using setspn.exe. \
 
   During triage, review parallel processes for further suspicious activity.'
-search: '`powershell` EventCode=4104 Message="*KerberosRequestorSecurityToken*" |
-  stats count min(_time) as firstTime max(_time) as lastTime by Message OpCode ComputerName
+search: '`powershell` EventCode=4104 ScriptBlockText="*KerberosRequestorSecurityToken*" |
+  stats count min(_time) as firstTime max(_time) as lastTime by Message OpCode Computer
   User EventCode | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `serviceprincipalnames_discovery_with_powershell_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable

@@ -1,7 +1,7 @@
 name: GetCurrent User with PowerShell Script Block
 id: 80879283-c30f-44f7-8471-d1381f6d437a
-version: 1
-date: '2021-09-13'
+version: 2
+date: '2022-02-25'
 author: Mauricio Velazco, Splunk
 type: Hunting
 datamodel: []
@@ -10,9 +10,9 @@ description: The following analytic utilizes PowerShell Script Block Logging (Ev
   class. This method returns an object that represents the current Windows user. Red
   Teams and adversaries may leverage this method to identify the logged user on a
   compromised endpoint for situational awareness and Active Directory Discovery.
-search: '`powershell` EventCode=4104 (Message = "*[System.Security.Principal.WindowsIdentity]*"
-  AND Message = "*GetCurrent()*") | stats count min(_time) as firstTime max(_time)
-  as lastTime by EventCode Message ComputerName User | `security_content_ctime(firstTime)`
+search: '`powershell` EventCode=4104 (ScriptBlockText = "*[System.Security.Principal.WindowsIdentity]*"
+  AND ScriptBlockText = "*GetCurrent()*") | stats count min(_time) as firstTime max(_time)
+  as lastTime by EventCode ScriptBlockText Computer UserID | `security_content_ctime(firstTime)`
   | `getcurrent_user_with_powershell_script_block_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
@@ -22,9 +22,11 @@ known_false_positives: Administrators or power users may use this PowerShell com
 references:
 - https://attack.mitre.org/techniques/T1033/
 - https://docs.microsoft.com/en-us/dotnet/api/system.security.principal.windowsidentity.getcurrent?view=net-5.0
+- https://www.splunk.com/en_us/blog/security/hunting-for-malicious-powershell-using-script-block-logging.html
 tags:
   analytic_story:
   - Active Directory Discovery
+  - Malicious PowerShell
   automated_detection_testing: passed
   confidence: 50
   context:
@@ -39,6 +41,7 @@ tags:
   message: System user discovery on $dest$
   mitre_attack_id:
   - T1033
+  - T1059.001
   observable:
   - name: dest
     type: Endpoint
@@ -51,10 +54,10 @@ tags:
   required_fields:
   - _time
   - Path
-  - Message
+  - ScriptBlockText
   - OpCode
-  - ComputerName
-  - User
+  - Computer
+  - UserIDID
   - EventCode
   risk_score: 15
   security_domain: endpoint
