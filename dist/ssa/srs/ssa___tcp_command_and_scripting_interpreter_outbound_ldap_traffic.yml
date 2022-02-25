@@ -25,19 +25,15 @@ references:
 risk_message: An outbound LDAP connection from $src_ip$ in your infrastructure connecting
   to dest ip $dest_ip$
 search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
-  "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"),
-  "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"),
-  "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string",
-  null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string",
-  null), event_id=ucast(map_get(input_event, "event_id"), "string", null) | where
-  cmd_line IS NOT NULL AND process_name IS NOT NULL | where process_name="pwsh.exe"
-  OR process_name="pwsh.exe" OR process_name="sqlps.exe" OR process_name="sqltoolsps.exe"
-  OR process_name="powershell.exe" OR process_name="powershell_ise.exe" | where (like
-  (cmd_line, "%downloadfile%")) | eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event,
+  "_time"), "string", null)), dest_port=map_get(input_event, "dest_port"), event_id=ucast(map_get(input_event,
+  "event_id"), "string", null), dest_ip=ucast(map_get(input_event, "dest_device_primary_artifact"),
+  "string", null) | where dest_port=389 OR dest_port=1389 OR dest_port=636 | where
+  NOT (cidrmatch(ip: dest_ip, cidr_range: "10.0.0.0/8") OR cidrmatch(ip: dest_ip,
+  cidr_range: "192.168.0.0/16") OR cidrmatch(ip: dest_ip, cidr_range: "172.16.0.0/12"))
+  | eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event,
   "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
-  "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name",
-  process_name, "parent_process_name", parent_process_name, "process_path", process_path])
-  | into write_ssa_detected_events();'
+  "string", null)), body=create_map(["event_id", event_id, "dest_port", dest_port,
+  "dest_ip", dest_ip]) | into write_ssa_detected_events();'
 tags:
   analytic_story:
   - Log4Shell CVE-2021-44228
@@ -49,7 +45,7 @@ tags:
   - Source:Endpoint
   - Stage:Execution
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/log4shell_ldap_traffic/pantraffic.txt
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/log4shell_ldap_traffic/pantraffic.log
   impact: 50
   kill_chain_phases:
   - Execution
@@ -91,7 +87,7 @@ test:
   name: TCP Command and Scripting Interpreter Outbound LDAP Traffic Unit Test
   tests:
   - attack_data:
-    - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/log4shell_ldap_traffic/pantraffic.txt
+    - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/log4shell_ldap_traffic/pantraffic.log
       file_name: pantraffic.txt
       source: pan:traffic
       sourcetype: pan:traffic
