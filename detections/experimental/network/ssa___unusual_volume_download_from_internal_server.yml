@@ -6,33 +6,37 @@ author: Xiao Lin, Splunk
 type: Anomaly
 datamodel:
 - Network_Traffic
-description: Insider might conduct information collection before data exfiltration,
-  and unusual volume of data download from internal server is an indicator of such
-  potential threat. This detection evaluates the total bytes downloaded from internal
-  servers at specific time window per entity level, and then flagged these that are
-  higher than 99.999% percentile as an anamaly. A behavior will be reported as long
-  as the downloaded byte volume is unusual even though that operation is benigh, which
-  causes false positive. It is therefore advised to adjust threshold and time window
-  based on detection performance whenever necessary. It should be noted that seasonality
-  is not modeled in the current approach.
-search: '| from read_ssa_enriched_events() | eval sourcetype = ucast(map_get(input_event,
-  "sourcetype"), "string", null) | eval timestamp = parse_long(ucast(map_get(input_event,
-  "_time"), "string", null)) | where sourcetype == "pan:traffic" | eval src_device_scope
-  = map_get(input_event, "src_device_scope") | eval dest_device_scope = map_get(input_event,
-  "src_device_scope") | where src_device_scope IS NOT NULL AND dest_device_scope IS
-  NOT NULL | eval dest_device = map_get(input_event, "dest_device_ips") | where dest_device
-  IS NOT NULL AND dest_device_scope == "INTERNAL" | eval src_device = map_get(input_event,
-  "source_device_ips") | where src_device IS NOT NULL AND src_device_scope == "INTERNAL"
-  | eval download_bytes = parse_double(ucast(map_get(input_event, "bytes_in"), "string",
-  null)) | where download_bytes IS NOT NULL | eval tenant = map_get(input_event, "_tenant"),
-  event_id = map_get(input_event, "event_id") | adaptive_threshold algorithm="quantile"
-  value="download_bytes" entity="dest_device" threshold=0.001 window=86400L | eval
-  end_time = timestamp | eval start_time = end_time - 86400 | eval body = create_map(["event_id",
-  event_id, "tenant", tenant]) | select start_time, end_time, dest_device, label,
-  body | into write_ssa_detected_events();'
-how_to_implement: Ingest PAN traffic logs
-known_false_positives: Benign large volume data download might be flagged as (false)
-  positive.
+description: Insider might conduct information collection before data exfiltration, and unusual volume of data
+  download from internal server is an indicator of such potential threat. This detection evaluates the total 
+  bytes downloaded from internal servers at specific time window per entity level, and then flagged these that 
+  are higher than 99.999% percentile as an anamaly. A behavior will be reported as long as the downloaded byte 
+  volume is unusual even though that operation is benign, which causes false positive. It is therefore advised 
+  to adjust threshold and time window based on detection performance whenever necessary. It should be noted that 
+  seasonality is not modeled in the current approach.
+search: '| from read_ssa_enriched_events() 
+  | eval sourcetype = ucast(map_get(input_event, "sourcetype"), "string", null)
+  | eval timestamp = parse_long(ucast(map_get(input_event, "_time"), "string", null))
+  | where sourcetype == "pan:traffic"
+  | eval src_device_scope =ucast(map_get(input_event, "src_device_scope"), "string", null)
+  | eval dest_device_scope=ucast(map_get(input_event, "dest_device_scope"), "string", null)
+  | where src_device_scope IS NOT NULL AND dest_device_scope IS NOT NULL
+  | eval dest_device = ucast(map_get(input_event, "dest_device_ips"), "collection<string>", [])[0]
+  | where dest_device IS NOT NULL AND dest_device_scope == "INTERNAL"
+  | eval src_device  = ucast(map_get(input_event, "src_device_ips"), "collection<string>", [])[0]
+  | where src_device IS NOT NULL AND src_device_scope == "INTERNAL"
+  | eval bytes_in = ucast(map_get(input_event, "bytes_in"), "integer", 0)
+  | eval download_bytes = cast(bytes_in, "double")
+  | eval tenant = ucast(map_get(input_event, "_tenant"), "string", null)
+  | eval event_id = ucast(map_get(input_event, "event_id"), "string", null)
+  | adaptive_threshold algorithm="quantile" value="download_bytes" entity="dest_device" window=86400000L
+  | where label AND quantile>0.99999
+  | eval end_time = timestamp
+  | eval start_time = end_time - 86400000
+  | eval body = create_map(["event_id", event_id, "tenant", tenant])
+  | eval entities=mvappend(dest_device)
+  | into write_ssa_detected_events();'
+how_to_implement: Ingest PAN traffic logs 
+known_false_positives: Benign large volume data download might be flagged as (false) positive.
 references:
 - https://github.com/twitter/AnomalyDetection
 tags:
