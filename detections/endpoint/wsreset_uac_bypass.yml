@@ -36,6 +36,7 @@ references:
 tags:
   analytic_story:
   - Windows Defense Evasion Tactics
+  - Living Off The Land 
   confidence: 90
   context:
   - Source:Endpoint
@@ -70,3 +71,5 @@ tags:
   - Registry.dest
   risk_score: 63
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon
