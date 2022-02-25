@@ -31,7 +31,7 @@ This story addresses Darkside ransomware. This ransomware payload has many simil
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Attempted Credential Dump From Registry via Reg exe](/detection/attempted_credential_dump_from_registry_via_reg_exe/) | [Security Account Manager](/tags/#security-account-manager), [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
+| [Attempted Credential Dump From Registry via Reg exe](/detection/attempted_credential_dump_from_registry_via_reg_exe/) | [Security Account Manager](/tags/#security-account-manager), [OS Credential Dumping](/tags/#os-credential-dumping)| TTP |
 
 #### Reference
 

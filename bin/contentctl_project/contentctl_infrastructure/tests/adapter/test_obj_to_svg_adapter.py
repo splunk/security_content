@@ -59,3 +59,13 @@ def test_svg_writer():
 
     adapter = ObjToSvgAdapter()
     adapter.writeObjects([detection], os.path.join(os.path.dirname(__file__), 'obj_to_svg_data'))
+
+    files_to_compare = [
+        'detection_count.svg',
+        'detection_coverage.svg'
+    ]
+
+    for file in files_to_compare:
+        path = os.path.join(os.path.dirname(__file__), 'obj_to_svg_data', file)
+        path_ref = os.path.join(os.path.dirname(__file__), 'obj_to_svg_data_ref', file)
+        assert filecmp.cmp(path, path_ref, shallow=False)

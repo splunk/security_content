@@ -28,6 +28,7 @@ from contentctl_core.domain.entities.enums.enums import SecurityContentProduct
 from contentctl_infrastructure.adapter.obj_to_conf_adapter import ObjToConfAdapter
 from contentctl_infrastructure.adapter.obj_to_md_adapter import ObjToMdAdapter
 from contentctl_infrastructure.adapter.obj_to_svg_adapter import ObjToSvgAdapter
+from contentctl_infrastructure.adapter.obj_to_attack_nav_adapter import ObjToAttackNavAdapter
 from contentctl_infrastructure.builder.attack_enrichment import AttackEnrichment
 from contentctl_core.domain.entities.enums.enums import SecurityContentType
 
@@ -227,7 +228,8 @@ def reporting(args) -> None:
 
     reporting_input_dto = ReportingInputDto(
         factory_input_dto,
-        ObjToSvgAdapter()
+        ObjToSvgAdapter(),
+        ObjToAttackNavAdapter()
     )
 
     reporting = Reporting()

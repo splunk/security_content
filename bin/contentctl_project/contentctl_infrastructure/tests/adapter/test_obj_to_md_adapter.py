@@ -94,8 +94,8 @@ def test_md_writer():
         '_pages/stories.md',
         '_pages/detections.md',
         '_stories/darkside_ransomware.md',
-        '_posts/attempted_credential_dump_from_registry_via_reg_exe.md',
-        '_posts/detect_new_user_aws_console_login.md'
+        '_posts/2020-07-21-detect_new_user_aws_console_login.md',
+        '_posts/2021-09-16-attempted_credential_dump_from_registry_via_reg_exe.md'
     ]
 
     for file in files_to_compare:

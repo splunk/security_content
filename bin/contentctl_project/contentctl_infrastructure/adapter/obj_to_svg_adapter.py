@@ -12,7 +12,7 @@ class ObjToSvgAdapter(Adapter):
         
         detections_tmp = objects
         detection_without_test = 0    
-        detection_experimental = 0       
+      
         detections = []
         obj = dict()
 
@@ -22,7 +22,6 @@ class ObjToSvgAdapter(Adapter):
 
                 if not detection.test and not detection.experimental:
                     detection_without_test = detection_without_test + 1
-                    print(detection.name)
 
 
         obj['count'] = len(detections) 
@@ -32,4 +31,3 @@ class ObjToSvgAdapter(Adapter):
         JinjaWriter.writeObject('detection_count.j2', os.path.join(output_path, 'detection_count.svg'), obj)
         JinjaWriter.writeObject('detection_coverage.j2', os.path.join(output_path, 'detection_coverage.svg'), obj)
 
-        #os.path.join(os.path.dirname(__file__), '../../../reporting'
