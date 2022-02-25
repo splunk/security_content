@@ -17,6 +17,7 @@ tags:
   playbook_outputs:
   - note_title
   - note_content
+  playbook_type: Automation
   platform_tags:
   - Risk Notable
   product:
