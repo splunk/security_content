@@ -1,0 +1,7 @@
+description: A list of suspicious bash commonly used by attackers via scripts
+filename: linux_tool_discovery_process.csv
+name: linux_tool_discovery_process
+default_match: 'false'
+match_type: WILDCARD(process)
+min_matches: 1
+case_sensitive_match: 'false'

@@ -2,14 +2,14 @@ name: Registry Keys Used For Persistence
 id: f5f6af30-7aa7-4295-bfe9-07fe87c01a4b
 version: 7
 date: '2022-01-26'
-author: Jose Hernandez, David Dorsey, Teoderick Contreras, Splunk
+author: Jose Hernandez, David Dorsey, Teoderick Contreras, Rod Soto, Splunk
 type: TTP
 datamodel:
 - Endpoint
 description: The search looks for modifications to registry keys that can be used
   to launch an application or service at system startup.
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
-  where (Registry.registry_path=*\\currentversion\\run* OR Registry.registry_path=*\\currentVersion\\Windows\\Appinit_Dlls*
+  where (Registry.registry_path=*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnce OR Registry.registry_path=*\\currentversion\\run* OR Registry.registry_path=*\\currentVersion\\Windows\\Appinit_Dlls*
   OR Registry.registry_path=*\\CurrentVersion\\Winlogon\\Shell* OR Registry.registry_path=*\\CurrentVersion\\Winlogon\\Notify*
   OR Registry.registry_path=*\\CurrentVersion\\Winlogon\\Userinit* OR Registry.registry_path=*\\CurrentVersion\\Winlogon\\VmApplet*
   OR Registry.registry_path=*\\currentversion\\policies\\explorer\\run* OR Registry.registry_path=*\\currentversion\\runservices*
@@ -65,6 +65,7 @@ tags:
   - Privilege Escalation
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.001/atomic_red_team/windows-sysmon.log
+  - https://raw.githubusercontent.com/splunk/attack_data/master/datasets/attack_techniques/T1547.001/atomic_red_team/t1547001-runonce.log
   impact: 80
   kill_chain_phases:
   - Actions on Objectives
@@ -97,3 +98,5 @@ tags:
   - Registry.user
   risk_score: 76
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon
