@@ -55,8 +55,8 @@ This search detects a potential kerberoasting attack via service principal name 
 
 #### Macros
 The SPL above uses the following Macros:
-* [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 
 Note that `kerberoasting_spn_request_with_rc4_encryption_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 

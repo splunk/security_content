@@ -98,8 +98,8 @@ def generate(args) -> None:
         print("ERROR: missing parameter -p/--product .")
         sys.exit(1)     
 
-    if args.product not in ['ESCU', 'BA', 'API']:
-        print("ERROR: invalid product. valid products are ESCU, BA or API.")
+    if args.product not in ['ESCU', 'SSA', 'API']:
+        print("ERROR: invalid product. valid products are ESCU, SSA or API.")
         sys.exit(1)
 
     factory_input_dto = FactoryInputDto(
@@ -143,7 +143,7 @@ def generate(args) -> None:
             factory_input_dto,
             ba_factory_input_dto,
             ObjToYmlAdapter(),
-            SecurityContentProduct.BA
+            SecurityContentProduct.SSA
         ) 
 
     generate = Generate()
@@ -262,14 +262,14 @@ def main(args):
     # new_parser.set_defaults(func=new)
 
     validate_parser.add_argument("-pr", "--product", required=True, type=str,
-        help="Type of package to create, choose between `ESCU` or `BA`.")
+        help="Type of package to create, choose between `ESCU` or `SSA`.")
     validate_parser.set_defaults(func=validate, epilog="""
                 Validates security manifest for correctness, adhering to spec and other common items.""")
 
     generate_parser.add_argument("-o", "--output", required=True, type=str,
         help="Path where to store the deployment package")
     generate_parser.add_argument("-pr", "--product", required=True, type=str,
-        help="Type of package to create, choose between `ESCU`, `BA` or `API`.")
+        help="Type of package to create, choose between `ESCU`, `SSA` or `API`.")
     generate_parser.set_defaults(func=generate)
     
     content_changer_parser.add_argument("-cf", "--change_function", required=True, type=str,

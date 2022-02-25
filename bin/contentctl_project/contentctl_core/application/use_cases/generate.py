@@ -35,7 +35,7 @@ class Generate:
             input_dto.adapter.writeObjects(factory_output_dto.lookups, input_dto.output_path, SecurityContentType.lookups)
             input_dto.adapter.writeObjects(factory_output_dto.macros, input_dto.output_path, SecurityContentType.macros)
         
-        elif input_dto.product == SecurityContentProduct.BA:
+        elif input_dto.product == SecurityContentProduct.SSA:
             shutil.rmtree(input_dto.output_path + '/srs/', ignore_errors=True)
             shutil.rmtree(input_dto.output_path + '/complex/', ignore_errors=True)
             os.makedirs(input_dto.output_path + '/complex/')
