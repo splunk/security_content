@@ -1,0 +1,69 @@
+name: Windows File Without Extension In Critical Folder
+id: 0dbcac64-963c-11ec-bf04-acde48001122
+version: 1
+date: '2022-02-25'
+author: Teoderick Contreras, Splunk
+type: TTP
+datamodel:
+- Endpoint
+description: This analytic is to look for suspicious file creation in Critical folder like "System32\Drivers" folder without file extension. 
+  This artifacts was seen in latest hermeticwiper where it drops its driver component in Driver Directory both the compressed(without file extension) 
+  and the actual driver component (with .sys file extension). This TTP is really a good indication that a host might be compromised by this destructive 
+  malware that wipes the boot sector of the system.
+search: '|tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem
+  where Filesystem.file_path IN ("*\\System32\\drivers\\*", "*\\syswow64\\drivers\\*")  
+  by Filesystem.file_create_time Filesystem.process_id  Filesystem.file_name Filesystem.user Filesystem.file_path Filesystem.dest
+  | `drop_dm_object_name(Filesystem)` 
+  | rex field="file_name" "\.(?<extension>[^\.]*$)"
+  | where isnull(extension)
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `windows_file_without_extension_in_critical_folder_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the Filesystem responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Filesystem` node.
+known_false_positives: unknown
+references:
+-  https://blog.talosintelligence.com/2022/02/threat-advisory-hermeticwiper.html
+tags:
+  analytic_story:
+  - Data Destruction
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/hermetic_wiper/sysmon.log
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1485
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Filesystem.file_create_time 
+  - Filesystem.process_id 
+  - Filesystem.file_name 
+  - Filesystem.user 
+  - Filesystem.file_path 
+  - Filesystem.dest
+  security_domain: endpoint
+  impact: 90
+  confidence: 100 
+  # (impact * confidence)/100
+  risk_score: 90
+  context: 
+  - source:endpoint
+  - stage:Persistence
+  - Privilege Escalation
+  message: driver file with out file extension drop in $file_path$ in $dest$
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  nist:
+  - DE.CM
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
