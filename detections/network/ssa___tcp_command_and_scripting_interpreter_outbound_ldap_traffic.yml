@@ -8,7 +8,7 @@ datamodel:
 - Endpoint_Processes
 description: Malicious actors often abuse misconfigured LDAP servers or applications that use the LDAP servers in organizations. Outbound LDAP traffic should not be allowed outbound through your perimeter firewall. This search will help determine if you have any LDAP connections to IP addresses outside of private (RFC1918) address space.
 search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
-  "_time"), "string", null)), dest_port=map_get(input_event, "dest_port"), event_id=ucast(map_get(input_event, "event_id"), "string", null), dest_ip=ucast(map_get(input_event, "dest_device_primary_artifact"), "string", null)
+  "_time"), "string", null)), dest_port=map_get(input_event, "dest_port"), event_id=ucast(map_get(input_event, "event_id"), "string", null), dest_ip=ucast(map_get(input_event, "dest_device_ips"), "collection<string>", [])[0]
   | where dest_port=389 OR dest_port=1389 OR dest_port=636
   | where NOT (cidrmatch(ip: dest_ip, cidr_range: "10.0.0.0/8") OR cidrmatch(ip: dest_ip, cidr_range: "192.168.0.0/16") OR cidrmatch(ip: dest_ip, cidr_range: "172.16.0.0/12"))
   | eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event,

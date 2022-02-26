@@ -26,9 +26,9 @@ risk_message: An outbound LDAP connection from $src_ip$ in your infrastructure c
   to dest ip $dest_ip$
 search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
   "_time"), "string", null)), dest_port=map_get(input_event, "dest_port"), event_id=ucast(map_get(input_event,
-  "event_id"), "string", null), dest_ip=ucast(map_get(input_event, "dest_device_primary_artifact"),
-  "string", null) | where dest_port=389 OR dest_port=1389 OR dest_port=636 | where
-  NOT (cidrmatch(ip: dest_ip, cidr_range: "10.0.0.0/8") OR cidrmatch(ip: dest_ip,
+  "event_id"), "string", null), dest_ip=ucast(map_get(input_event, "dest_device_ips"),
+  "collection<string>", [])[0] | where dest_port=389 OR dest_port=1389 OR dest_port=636
+  | where NOT (cidrmatch(ip: dest_ip, cidr_range: "10.0.0.0/8") OR cidrmatch(ip: dest_ip,
   cidr_range: "192.168.0.0/16") OR cidrmatch(ip: dest_ip, cidr_range: "172.16.0.0/12"))
   | eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event,
   "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
