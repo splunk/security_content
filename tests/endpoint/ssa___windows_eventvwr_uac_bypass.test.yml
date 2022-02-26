@@ -1,0 +1,10 @@
+name: Windows Eventvwr UAC Bypass Unit Test
+tests:
+- name: Windows Eventvwr UAC Bypass
+  file: endpoint/ssa___windows_eventvwr_uac_bypass.yml
+  pass_condition: '@count_gt(0)'
+  attack_data:
+  - file_name: windows-sysmon-registry.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.002/ssa_eventvwr/windows-sysmon-registry.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
