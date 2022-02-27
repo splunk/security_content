@@ -1,4 +1,4 @@
-name: windows_randomized_filenames
+name: Windows Randomized Filenames
 id: 02127a66-8ed9-11ec-9511-acde48001122
 version: 1
 date: '2022-02-15'
@@ -20,7 +20,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Processes.process_name Processes.process Processes.user  Processes.dest | `drop_dm_object_name(Processes)` |
   where match(process_name, "\w+.exe") and len(process_name) >= 12 | eval lm_input=lower(replace(process_name, ".exe$", ""))
   | apply tfidf_lm_vectorizer | apply lm_lr | eval score=''predicted(avg_char_prob)'' | where score > -0.15 | fields - lm_input_tfidf*
-  lm_input avg_char_prob predicted* | `windows_randomized_filenames`'
+  lm_input avg_char_prob predicted* | `windows_randomized_filenames_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the

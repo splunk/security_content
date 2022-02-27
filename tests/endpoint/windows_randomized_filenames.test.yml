@@ -1,7 +1,7 @@
 name: Suspiciously named executable Unit Test
 tests:
 - name: Suspiciously named executable
-  file: endpoint/suspiciously_named_executable.yml
+  file: endpoint/windows_randomized_filenames.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-10y'
   latest_time: 'now'
