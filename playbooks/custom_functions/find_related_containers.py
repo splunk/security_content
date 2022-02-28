@@ -96,7 +96,7 @@ def find_related_containers(value_list=None, minimum_match_count=None, container
         filter_in_case = True
     
     # If value list is equal to * then proceed to grab all indicator records for the current container
-    if isinstance(value_list, list) and value_list[0] == "*":
+    if value_list and (isinstance(value_list, list) and "*" in value_list) or (isinstance(value_list, str) and value_list == "*"):
         new_value_list = []
         url = phantom.build_phantom_rest_url('container', current_container, 'artifacts') + '?page_size=0'
         response_data = phantom.requests.get(uri=url, verify=False).json().get('data')
@@ -127,15 +127,10 @@ def find_related_containers(value_list=None, minimum_match_count=None, container
     for indicator_id in list(set(indicator_id_list)):
         params = {'indicator_ids': indicator_id}
         response_data = phantom.requests.get(indicator_common_container_url, params=params, verify=False).json()
+        
         # Populate an indicator dictionary where the original ids are the dictionary keys and the                     
         # associated continers are the values
         if response_data:
-            # Quit early if no related containers were found
-            if len(response_data) == 1 and response_data[0].get('container_id') == current_container:
-                phantom.debug(f"No related containers found for provided values: '{value_list}'")
-                assert json.dumps(outputs)  # Will raise an exception if the :outputs: object is not JSON-serializable
-                return outputs
-            
             indicator_id_dictionary[str(indicator_id)] = []
             for item in response_data:
                 # Append all related containers except for current container
@@ -167,8 +162,7 @@ def find_related_containers(value_list=None, minimum_match_count=None, container
 
             # Gather container data
             params = {'page_size': 0}
-            if offset_time:
-                params['_filter__create_time__gt'] = f'"{format_offset_time(time_in_seconds)}"'
+            params['_filter__create_time__gt'] = f'"{format_offset_time(time_in_seconds)}"'
             containers_response = phantom.requests.get(uri=container_url, params=params, verify=False).json()
             all_container_dictionary = {}
             if containers_response['count'] > 0:
