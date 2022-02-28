@@ -4,7 +4,7 @@ import string
 import re
 import requests
 
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, validator, root_validator
 from dataclasses import dataclass
 from datetime import datetime
 
@@ -101,6 +101,17 @@ class Detection(BaseModel, SecurityContentObject):
         except UnicodeEncodeError:
             raise ValueError('encoding error in ' + field.name + ': ' + values["name"])
         return v
+
+    @root_validator
+    def search_validation(cls, values):
+        if 'ssa_' not in values['file_path']:
+            if not '_filter' in values['search']:
+                raise ValueError('filter macro missing in: ' + values["name"])
+            if any(x in values['search'] for x in ['eventtype=', 'sourcetype=', ' source=', 'index=']):
+                if not 'index=_internal' in values['search']:
+                    raise ValueError('Use source macro instead of eventtype, sourcetype, source or index in detection: ' + values["name"])
+        return values
+
 
     # @validator('references')
     # def references_check(cls, v, values):
