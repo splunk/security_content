@@ -1,8 +1,8 @@
 name: Excessive number of distinct processes created in Windows Temp folder
 id: 23587b6a-c479-11eb-b671-acde48001122
-version: 1
-date: '2021-06-03'
-author: Michael Hart, Splunk
+version: 2
+date: '2022-02-28'
+author: Michael Hart, Mauricio Velazco, Splunk
 type: Anomaly
 datamodel:
 - Endpoint
@@ -13,7 +13,7 @@ description: This analytic will identify suspicious series of process executions
   to typical application behaviors that use Windows\Temp.
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
   distinct_count(Processes.process) as distinct_process_count  min(_time) as firstTime
-  max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process
+  max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_path
   = "*\\Windows\\Temp\\*" by Processes.dest Processes.user  _time span=20m | where
   distinct_process_count > 37 | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `excessive_number_of_distinct_processes_created_in_windows_temp_folder_filter`'
