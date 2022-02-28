@@ -13,6 +13,7 @@ from contentctl_core.domain.entities.deployment import Deployment
 
 
 class Baseline(BaseModel, SecurityContentObject):
+    # baseline spec
     name: str
     id: str
     version: int
@@ -26,6 +27,8 @@ class Baseline(BaseModel, SecurityContentObject):
     known_false_positives: str
     references: list
     tags: BaselineTags
+
+    # enrichment
     deployment: Deployment = None
 
 

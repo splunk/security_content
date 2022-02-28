@@ -14,6 +14,10 @@
         "how_to_implement": "You must be ingesting endpoint data that tracks process activity, including parent-child relationships from your endpoints to populate the Endpoint data model in the Processes node. The command-line arguments are mapped to the \"process\" field in the Endpoint data model.",
         "known_false_positives": "",
         "references": [],
+        "inputs": [
+            "parent_process_name",
+            "dest"
+        ],
         "tags": {
             "analytic_story": [
                 "Collection and Staging",
@@ -58,10 +62,6 @@
             ],
             "security_domain": "endpoint"
         },
-        "inputs": [
-            "parent_process_name",
-            "dest"
-        ],
         "lowercase_name": "get_parent_process_info"
     }
 ]

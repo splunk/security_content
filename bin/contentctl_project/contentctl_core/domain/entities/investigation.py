@@ -15,6 +15,7 @@ from contentctl_core.domain.entities.investigation_tags import InvestigationTags
 
 
 class Investigation(BaseModel, SecurityContentObject):
+    # investigation spec
     name: str
     id: str
     version: int
@@ -27,8 +28,10 @@ class Investigation(BaseModel, SecurityContentObject):
     how_to_implement: str
     known_false_positives: str
     references: list
-    tags: InvestigationTags
     inputs: list = None
+    tags: InvestigationTags
+
+    # enrichment
     lowercase_name: str = None
 
 

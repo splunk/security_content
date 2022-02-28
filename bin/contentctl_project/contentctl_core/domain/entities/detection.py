@@ -4,7 +4,7 @@ import string
 import re
 import requests
 
-from pydantic import BaseModel, validator, ValidationError
+from pydantic import BaseModel, validator
 from dataclasses import dataclass
 from datetime import datetime
 
@@ -20,6 +20,7 @@ from contentctl_core.domain.entities.baseline import Baseline
 from contentctl_core.domain.entities.playbook import Playbook
 
 class Detection(BaseModel, SecurityContentObject):
+    # detection spec
     name: str
     id: str
     version: int
@@ -33,8 +34,10 @@ class Detection(BaseModel, SecurityContentObject):
     known_false_positives: str
     references: list
     tags: DetectionTags
-    deprecated: bool
-    experimental: bool
+
+    # enrichments
+    deprecated: bool = None
+    experimental: bool = None
     deployment: Deployment = None
     annotations: dict = None
     risk: list = None

@@ -4,6 +4,7 @@ from pydantic import BaseModel, validator, ValidationError
 from contentctl_core.domain.entities.mitre_attack_enrichment import MitreAttackEnrichment
 
 class DetectionTags(BaseModel):
+    # detection spec
     name: str
     analytic_story: list
     asset_type: str
@@ -23,8 +24,10 @@ class DetectionTags(BaseModel):
     risk_score: int
     security_domain: str
     risk_severity: str = None
-    mitre_attack_enrichments: list[MitreAttackEnrichment] = None
     cve: list = None
+
+    # enrichment
+    mitre_attack_enrichments: list[MitreAttackEnrichment] = None
 
 
     @validator('cis20')

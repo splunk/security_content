@@ -5,11 +5,14 @@ from contentctl_core.domain.entities.mitre_attack_enrichment import MitreAttackE
 
 
 class StoryTags(BaseModel):
+    # story spec
     name: str
     analytic_story: str
     category: list
     product: list
     usecase: str
+
+    # enrichment
     mitre_attack_enrichments: list[MitreAttackEnrichment] = None
     mitre_attack_tactics: list = None
     datamodels: list = None

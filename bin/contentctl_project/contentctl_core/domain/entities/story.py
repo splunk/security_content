@@ -9,6 +9,7 @@ from contentctl_core.domain.entities.security_content_object import SecurityCont
 from contentctl_core.domain.entities.story_tags import StoryTags
 
 class Story(BaseModel, SecurityContentObject):
+    # story spec
     name: str
     id: str
     version: int
@@ -18,6 +19,8 @@ class Story(BaseModel, SecurityContentObject):
     narrative: str
     references: list
     tags: StoryTags
+
+    # enrichments
     detection_names: list = None
     investigation_names: list = None
     baseline_names: list = None

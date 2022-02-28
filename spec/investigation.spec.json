@@ -1,5 +1,5 @@
 {
-    "title": "Playbook",
+    "title": "Investigation",
     "type": "object",
     "properties": {
       "name": {
@@ -26,16 +26,25 @@
         "title": "Type",
         "type": "string"
       },
+      "datamodel": {
+        "title": "Datamodel",
+        "type": "array",
+        "items": {}
+      },
       "description": {
         "title": "Description",
+        "type": "string"
+      },
+      "search": {
+        "title": "Search",
         "type": "string"
       },
       "how_to_implement": {
         "title": "How To Implement",
         "type": "string"
       },
-      "playbook": {
-        "title": "Playbook",
+      "known_false_positives": {
+        "title": "Known False Positives",
         "type": "string"
       },
       "references": {
@@ -43,13 +52,17 @@
         "type": "array",
         "items": {}
       },
-      "app_list": {
-        "title": "App List",
+      "inputs": {
+        "title": "Inputs",
         "type": "array",
         "items": {}
       },
       "tags": {
-        "$ref": "#/definitions/PlaybookTag"
+        "$ref": "#/definitions/InvestigationTags"
+      },
+      "lowercase_name": {
+        "title": "Lowercase Name",
+        "type": "string"
       }
     },
     "required": [
@@ -59,35 +72,21 @@
       "date",
       "author",
       "type",
+      "datamodel",
       "description",
+      "search",
       "how_to_implement",
-      "playbook",
+      "known_false_positives",
       "references",
-      "app_list",
       "tags"
     ],
     "definitions": {
-      "PlaybookTag": {
-        "title": "PlaybookTag",
+      "InvestigationTags": {
+        "title": "InvestigationTags",
         "type": "object",
         "properties": {
           "analytic_story": {
             "title": "Analytic Story",
-            "type": "array",
-            "items": {}
-          },
-          "detections": {
-            "title": "Detections",
-            "type": "array",
-            "items": {}
-          },
-          "platform_tags": {
-            "title": "Platform Tags",
-            "type": "array",
-            "items": {}
-          },
-          "playbook_fields": {
-            "title": "Playbook Fields",
             "type": "array",
             "items": {}
           },
@@ -96,12 +95,22 @@
             "type": "array",
             "items": {}
           },
-          "detection_objects": {
-            "title": "Detection Objects",
+          "required_fields": {
+            "title": "Required Fields",
             "type": "array",
             "items": {}
+          },
+          "security_domain": {
+            "title": "Security Domain",
+            "type": "string"
           }
-        }
+        },
+        "required": [
+          "analytic_story",
+          "product",
+          "required_fields",
+          "security_domain"
+        ]
       }
     }
   }
