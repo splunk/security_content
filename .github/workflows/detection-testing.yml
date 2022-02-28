@@ -49,8 +49,8 @@ jobs:
             echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
 
         - name: Checkout Repo
-          ref: develop
           uses: actions/checkout@v2
+            ref: develop
         
       
 
@@ -137,8 +137,8 @@ jobs:
             echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
 
         - name: Checkout Repo
-          ref: develop
           uses: actions/checkout@v2
+            ref: develop
         
         - name: Download artifacts
           uses: actions/download-artifact@v2
@@ -201,8 +201,8 @@ jobs:
             echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
 
         - name: Checkout Repo
-          ref: develop
           uses: actions/checkout@v2
+            ref: develop
         
         - name: Download artifacts
           uses: actions/download-artifact@v2
