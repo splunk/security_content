@@ -1,6 +1,6 @@
 {
-    "create_time": "2021-10-07T15:52:23.940165+00:00",
-    "custom_function_id": "24c4ef5ecd259674a07cd3c747f4223f09b5dd8f",
+    "create_time": "2022-02-10T18:24:50.244936+00:00",
+    "custom_function_id": "5781e3d5a4773b2c48afd429768fd81b5e733e54",
     "description": "Takes a provided list of indicator values to search for and finds all related containers. It will produce a list of the related container details.",
     "draft_mode": false,
     "inputs": [
@@ -113,6 +113,6 @@
             "description": "Link to container"
         }
     ],
-    "platform_version": "5.0.1.66250",
+    "platform_version": "5.2.1.78411",
     "python_version": "3"
 }
