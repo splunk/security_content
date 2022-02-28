@@ -15,6 +15,7 @@ app_list:
 tags:
   platform_tags:
   - Cloud
+  playbook_type: Automation
   playbook_fields: []
   product:
   - Splunk SOAR
