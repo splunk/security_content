@@ -6,7 +6,7 @@ author: Michael Haag, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: The following analytic identifies a process that is attempting to disable the ability on Windows to prevent a memory crash dump. This was recently identified being utilized by HermeticWiper.
+description: The following analytic identifies a process that is attempting to disable the ability on Windows to generate a memory crash dump. This was recently identified being utilized by HermeticWiper.
   To disable crash dumps, the value must be set to 0. 
   This feature is typically modified to perform a memory crash dump when a computer stops unexpectedly because of a Stop error (also known as a blue screen, system crash, or bug check).
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
