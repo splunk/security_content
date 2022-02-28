@@ -12,6 +12,7 @@ app_list:
 - "Windows Remote Management"
 tags:
   platform_tags: []
+  playbook_type: Input
   playbook_fields: []
   product:
   - Splunk SOAR
