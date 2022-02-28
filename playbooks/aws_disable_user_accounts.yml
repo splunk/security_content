@@ -14,6 +14,7 @@ app_list:
 tags:
   platform_tags:
   - Cloud
+  playbook_type: Input
   playbook_fields:
   - aws_username
   product:

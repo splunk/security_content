@@ -15,6 +15,7 @@ tags:
   platform_tags:
   - threat_intel
   - risk_notable
+  playbook_type: Input
   playbook_fields: 
   - indicators
   product:
