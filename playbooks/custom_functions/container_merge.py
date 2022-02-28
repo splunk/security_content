@@ -162,7 +162,7 @@ def container_merge(target_container=None, container_list=None, workbook=None, c
     # Fetch any previous merge note
     params = {'_filter_container': '"{}"'.format(container['id']), '_filter_title': '"[Auto-Generated] Child Containers"'}
     note_url = phantom.build_phantom_rest_url('note')
-    response_data = phantom.requests.get(note_url, verify=False).json()
+    response_data = phantom.requests.get(note_url, params=params, verify=False).json()
     # If an old note was found, proceed to overwrite it
     if response_data['count'] > 0:
         note_item = response_data['data'][0]
