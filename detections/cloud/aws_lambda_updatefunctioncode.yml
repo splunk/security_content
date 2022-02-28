@@ -5,12 +5,11 @@ date: '2022-02-24'
 author: Bhavin Patel, Splunk
 type: Hunting
 datamodel: []
-description: This analytic is designed to detect IAM users attempting to update/modify AWS lambda code via the AWS CLI to gain persistence, futher access into your AWS environment and to facilitate planting backdoors. 
+description: This analytic is designed to detect IAM users attempting to update/modify AWS lambda code via the AWS CLI to gain persistence, futher access into your AWS environment and to facilitate planting backdoors. In this instance, an attacker may upload malicious code/binary to a lambda function which will be executed automatically when the funnction is triggered. 
 search: '`cloudtrail` eventSource=lambda.amazonaws.com eventName=UpdateFunctionCode*  errorCode = success  user_type=IAMUser | stats  count min(_time) as firstTime max(_time) as lastTime  values(requestParameters.functionName) as function_updated by src_ip user_arn user_agent user_type eventName aws_account_id |`aws_lambda_updatefunctioncode_filter`'
-how_to_implement: You must install Splunk AWS add on and Splunk App for AWS. This
-  search works with AWS CloudTrail logs.
+how_to_implement: You must install Splunk AWS Add on and enable Cloudtrail logs in your AWS Environment. 
 known_false_positives: While this search has no known false positives, it is possible
-  that an AWS admin or an autorized IAM user has updated the lambda code legitimately. 
+  that an AWS admin or an autorized IAM user has updated the lambda fuction code legitimately. 
 references:
 - http://detectioninthe.cloud/execution/modify_lambda_function_code/
 - https://sysdig.com/blog/exploit-mitigate-aws-lambdas-mitre/
@@ -24,7 +23,6 @@ tags:
   confidence: 90
   context:
   - Source:Cloud Data
-  - Scope:External
   - Outcome:Allowed
   - Stage:Execution
   dataset:
@@ -32,8 +30,7 @@ tags:
   impact: 70
   kill_chain_phases:
   - Actions on Objectives
-  message: User $user_arn$ is attempting to create access keys for $requestParameters.userName$
-    from this IP $src$
+  message: User $user_arn$ is attempting to update the lambda function code of $function_updated$ from this IP $src_ip$
   mitre_attack_id:
   - T1204
   nist:
