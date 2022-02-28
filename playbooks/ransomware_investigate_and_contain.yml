@@ -22,6 +22,7 @@ tags:
   - Conti Common Exec parameter
   platform_tags:
   - Ransomware
+  playbook_type: Automation
   playbook_fields:
   - ComputerName
   - Username
