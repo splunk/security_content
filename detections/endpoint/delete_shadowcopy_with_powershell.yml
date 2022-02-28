@@ -62,6 +62,6 @@ tags:
   - EventCode
   - ScriptBlockText
   - Computer
-  - UserIDID
+  - UserID
   risk_score: 81
   security_domain: endpoint

@@ -20,7 +20,7 @@ description: 'The following analytic identifies the usage of Exchange PowerShell
   role group, management role assignment policy, user, or universal security group
   (USG).'
 search: '`powershell` EventCode=4104 ScriptBlockText IN ("*New-MailboxExportRequest*", "*New-ManagementRoleAssignment*")
-  | stats count min(_time) as firstTime max(_time) as lastTime by Path ScriptBlockText OpCode
+  | stats count min(_time) as firstTime max(_time) as lastTime by Path ScriptBlockText Opcode
   Computer UserID EventCode| `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `exchange_powershell_module_usage_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
@@ -66,7 +66,7 @@ tags:
   - _time
   - Path
   - ScriptBlockText
-  - OpCode
+  - Opcode
   - Computer
   - UserID
   - EventCode

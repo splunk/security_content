@@ -18,7 +18,7 @@ description: 'The following analytic utilizes PowerShell Script Block Logging (E
   will be important to understand the timeline of events around this activity. Review
   the entire logged PowerShell script block.'
 search: '`powershell` EventCode=4104 ScriptBlockText = "*get-foresttrust*" | stats count min(_time)
-  as firstTime max(_time) as lastTime by ScriptBlockText OpCode Computer UserID EventCode
+  as firstTime max(_time) as lastTime by ScriptBlockText Opcode Computer UserID EventCode
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `get_foresttrust_with_powershell_script_block_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
@@ -63,8 +63,8 @@ tags:
   - EventCode
   - ScriptBlockText
   - Path
-  - OpCode
+  - Opcode
   - Computer
-  - UserIDID
+  - UserID
   risk_score: 12
   security_domain: endpoint

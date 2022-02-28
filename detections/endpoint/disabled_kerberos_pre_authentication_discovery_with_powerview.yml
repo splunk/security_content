@@ -36,7 +36,7 @@ tags:
   - T1558.004
   - T1059.001
   observable:
-  - name: dest
+  - name: Computer
     type: Endpoint
     role:
     - Victim
@@ -49,7 +49,7 @@ tags:
   - EventCode
   - ScriptBlockText
   - Computer
-  - UserIDID
+  - UserID
   security_domain: endpoint
   impact: 60
   confidence: 90 
@@ -58,4 +58,4 @@ tags:
   - Source:Endpoint
   - Stage:Discovery
   - Stage:Recon
-  message: Disabled Kerberos Pre-Authentication Discovery With PowerView from $dest$
+  message: Disabled Kerberos Pre-Authentication Discovery With PowerView from $Computer$

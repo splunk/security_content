@@ -11,7 +11,7 @@ description: The following analytic utilizes PowerShell Script Block Logging (Ev
   logged user on a compromised endpoint for situational awareness and Active Directory
   Discovery.
 search: '`powershell` EventCode=4104 (ScriptBlockText = "*$env:UserName*" OR ScriptBlockText = "*[System.Environment]::UserName*")
-  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText
+  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Opcode
   Computer UserID | `security_content_ctime(firstTime)` | `user_discovery_with_env_vars_powershell_script_block_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
@@ -20,9 +20,11 @@ known_false_positives: Administrators or power users may use this PowerShell com
   for troubleshooting.
 references:
 - https://attack.mitre.org/techniques/T1033/
+- https://www.splunk.com/en_us/blog/security/hunting-for-malicious-powershell-using-script-block-logging.html
 tags:
   analytic_story:
   - Active Directory Discovery
+  - Malicious PowerShell
   automated_detection_testing: passed
   confidence: 50
   context:
@@ -34,11 +36,11 @@ tags:
   impact: 30
   kill_chain_phases:
   - Reconnaissance
-  message: System user discovery on $dest$
+  message: System user discovery on $Computer$
   mitre_attack_id:
   - T1033
   observable:
-  - name: dest
+  - name: Computer
     type: Endpoint
     role:
     - Victim
@@ -50,7 +52,7 @@ tags:
   - _time
   - Path
   - ScriptBlockText
-  - OpCode
+  - Opcode
   - Computer
   - UserID
   - EventCode

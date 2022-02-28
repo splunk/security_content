@@ -40,7 +40,7 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   observable:
-  - name: dest
+  - name: Computer
     type: Endpoint
     role:
     - Victim
@@ -53,7 +53,7 @@ tags:
   - EventCode
   - ScriptBlockText
   - Computer
-  - UserIDID
+  - UserID
   security_domain: endpoint
   impact: 60
   confidence: 90 
@@ -62,4 +62,4 @@ tags:
   - Source:Endpoint
   - Stage:Discovery
   - Stage:Recon
-  message: Disabled Kerberos Pre-Authentication Discovery With Get-ADUser from $dest$.
+  message: Disabled Kerberos Pre-Authentication Discovery With Get-ADUser from $Computer$.

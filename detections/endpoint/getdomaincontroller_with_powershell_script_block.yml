@@ -37,12 +37,12 @@ tags:
   impact: 30
   kill_chain_phases:
   - Reconnaissance
-  message: Remote system discovery with PowerView on $dest$ by $UserID$
+  message: Remote system discovery with PowerView on $Computer$ by $UserID$
   mitre_attack_id:
   - T1018
   - T1059.001
   observable:
-  - name: dest
+  - name: Computer
     type: Endpoint
     role:
     - Victim
@@ -55,6 +55,6 @@ tags:
   - EventCode
   - ScriptBlockText
   - Computer
-  - UserIDID
+  - UserID
   risk_score: 24
   security_domain: endpoint

@@ -21,7 +21,7 @@ description: 'The following analytic utilizes PowerShell Script Block Logging (E
   will be important to understand the timeline of events around this activity. Review
   the entire logged PowerShell script block.'
 search: '`powershell` EventCode=4104 ScriptBlockText=*frombase64string* | stats count min(_time)
-  as firstTime max(_time) as lastTime by OpCode Computer UserID EventCode ScriptBlockText
+  as firstTime max(_time) as lastTime by Opcode Computer UserID EventCode ScriptBlockText
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `powershell_fileless_script_contains_base64_encoded_content_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
@@ -69,7 +69,7 @@ tags:
   required_fields:
   - _time
   - ScriptBlockText
-  - OpCode
+  - Opcode
   - Computer
   - UserID
   - EventCode
