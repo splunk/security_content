@@ -34,4 +34,4 @@ class Validate:
                      found_detection = True
 
             if not found_detection:
-                print("detection doesn't exist for test file: " + test.name)
+                ValueError("detection doesn't exist for test file: " + test.name)
