@@ -52,17 +52,24 @@ tags:
   - Registry.user
   - Registry.dest
   - Registry.registry_value_name
+  - Processes.process_id 
+  - Processes.process_name
+  - Processes.process 
+  - Processes.dest 
+  - Processes.parent_process_name 
+  - Processes.parent_process
+  - Processes.process_guid
   security_domain: endpoint
   impact: 80
   confidence: 80 
   # (impact * confidence)/100
   risk_score: 64
   context: 
-  - source:Endpoint
-  - stage:Lateral Movement
-  - stage:Persistence
-  - Privilege Escalation
-  message: A Windows Service was created on a endpoint from $dest
+  - Source:Endpoint
+  - Stage:Lateral Movement
+  - Stage:Persistence
+  - Stage:Privilege Escalation
+  message: A Windows Service was created on a endpoint from $dest$
   observable:
   - name: dest
     type: Endpoint

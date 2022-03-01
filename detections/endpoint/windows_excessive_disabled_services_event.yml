@@ -19,7 +19,7 @@ search: '`wineventlog_system` EventCode=7040 Message = "*service was changed fro
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the Service name, Service File Name Service Start type, and Service Type
   from your endpoints.
-known_false_positives: unknown
+known_false_positives: Unknown
 references:
 -  https://blog.talosintelligence.com/2018/02/olympic-destroyer.html
 tags:
@@ -49,8 +49,8 @@ tags:
   # (impact * confidence)/100
   risk_score: 81
   context: 
-  - source:Endpoint
-  - stage:Defense Evasion
+  - Source:Endpoint
+  - Stage:Defense Evasion
   message: Service was disabled in $Computer$
   observable:
   - name: ComputerName

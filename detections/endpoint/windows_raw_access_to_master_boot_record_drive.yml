@@ -53,11 +53,11 @@ tags:
   # (impact * confidence)/100
   risk_score: 90
   context: 
-  - source:endpoint
-  - stage:Impact
+  - Source:Endpoint
+  - Stage:Impact
   message: process accessing MBR $device$ in $dest$
   observable:
-  - name: ComputerName
+  - name: Computer
     type: Hostname
     role:
     - Victim

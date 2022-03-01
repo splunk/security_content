@@ -23,7 +23,7 @@ how_to_implement: To successfully implement this search, you need to be ingestin
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
   Sysmon TA.
-known_false_positives: normal browser application may use this technique. Please update the filter macros to remove false positives.
+known_false_positives: Normal browser application may use this technique. Please update the filter macros to remove false positives.
 references:
 -  https://blog.talosintelligence.com/2018/02/olympic-destroyer.html
 tags:
@@ -59,11 +59,11 @@ tags:
   # (impact * confidence)/100
   risk_score: 49
   context: 
-  - source:Endpoint
-  - stage:Defense Evasion
-  message: process with named pipe in $process$ in $dest$
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  message: Process with named pipe in $process$ on $dest$
   observable:
-  - name: ComputerName
+  - name: dest
     type: Endpoint
     role:
     - Victim
