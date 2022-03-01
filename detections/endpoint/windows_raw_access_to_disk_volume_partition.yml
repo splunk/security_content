@@ -52,9 +52,9 @@ tags:
   # (impact * confidence)/100
   risk_score: 90
   context: 
-  - source:endpoint
-  - stage:Impact
-  message: process accessing disk partition $device$ in $dest$
+  - Source:Endpoint
+  - Stage:Impact
+  message: Process accessing disk partition $device$ in $dest$
   observable:
   - name: ComputerName
     type: Hostname
