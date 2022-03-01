@@ -33,7 +33,7 @@ search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map
   create_map("name", "parent_process_name", "role_ids", [5], "type_id", 15, "value", 
   parent_process_name), create_map("name", "process_name", "role_ids", [6], "type_id", 15, 
   "value", process_name)], "origin", create_map("product", create_map("name", "Splunk Behavioral Analytics")), 
-  "priority_id", 0, "rule", create_map("name", "Anomalous usage of Archive Tools", 
+  "rule", create_map("name", "Anomalous usage of Archive Tools", 
   "uid", "63614a58-10e2-4c6c-ae81-ea1113681439", "version", "1"), "start_time", start_time, "time", timestamp,
   "user_entities", [create_map("uid", ucast(map_get(input_event, "dest_user_id"),"string", null))])
   | into write_ssa_finding_events();'
