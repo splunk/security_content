@@ -21,6 +21,7 @@ known_false_positives: Administrators or power users may use search for accounts
 references:
 - https://attack.mitre.org/techniques/T1558/004/
 - https://m0chan.github.io/2019/07/31/How-To-Attack-Kerberos-101.html
+- https://docs.microsoft.com/en-us/troubleshoot/windows-server/identity/useraccountcontrol-manipulate-account-properties
 - https://stealthbits.com/blog/cracking-active-directory-passwords-with-as-rep-roasting/
 - https://www.splunk.com/en_us/blog/security/hunting-for-malicious-powershell-using-script-block-logging.html
 tags:
@@ -28,7 +29,7 @@ tags:
   - Active Directory Kerberos Attacks
   - Malicious PowerShell
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.004/getaduser/windows-powershell.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.004/getaduser/get-aduser-powershell.log
   kill_chain_phases:
   - Privilege Escalation
   mitre_attack_id:
