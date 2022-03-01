@@ -7,8 +7,7 @@ type: Hunting
 datamodel:
 - Endpoint
 description: This analytic will identify suspicious system event of services that was modified from start to disabled. 
-  This technique is seen where the adversary attempts to disable security app services, other malware services oer serve as an destructive impact
-  to complete the objective on the compromised system.
+  This technique is seen where the adversary attempts to disable security app services, other malware services to evade the defense systems on the compromised host
 search: '`wineventlog_system` EventCode=7040 Message = "*service was changed from demand start to disabled." 
   | stats count min(_time) as firstTime max(_time) as lastTime by ComputerName EventCode Message User Sid
   | `security_content_ctime(firstTime)` 
