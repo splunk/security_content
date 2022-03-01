@@ -50,6 +50,8 @@ jobs:
 
         - name: Checkout Repo
           uses: actions/checkout@v2
+          with:
+            ref: develop
         
       
 
@@ -137,6 +139,8 @@ jobs:
 
         - name: Checkout Repo
           uses: actions/checkout@v2
+          with:
+            ref: develop
         
         - name: Download artifacts
           uses: actions/download-artifact@v2
@@ -194,6 +198,8 @@ jobs:
 
         - name: Checkout Repo
           uses: actions/checkout@v2
+          with:
+            ref: develop
         
         - name: Download artifacts
           uses: actions/download-artifact@v2

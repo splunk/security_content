@@ -13,6 +13,7 @@ app_list:
 tags:
   labels:
   - risk_notable
+  playbook_type: Automation
   platform_tags:
   - Risk Notable
   product:
