@@ -8,7 +8,7 @@ datamodel: []
 description: This search detects when an excessive number of authentication failures
   occur this search also includes attempts against MFA prompt codes
 search: '`o365_management_activity` Workload=AzureActiveDirectory UserAuthenticationMethod=* status=failure
-  | stats count earliest(_time) as firstTime latest(_time) values(UserAuthenticationMethod) AS UserAuthenticationMethod 
+  | stats count earliest(_time) AS firstTime latest(_time) AS lastTime values(UserAuthenticationMethod) AS UserAuthenticationMethod 
   values(UserAgent) AS UserAgent values(status) AS status values(src_ip) AS src_ip by user 
   | where count > 10 
   | `security_content_ctime(firstTime)` 
