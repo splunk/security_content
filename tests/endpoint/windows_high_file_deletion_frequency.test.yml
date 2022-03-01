@@ -1,7 +1,7 @@
-name: High File Deletion Frequency Unit Test
+name: Windows High File Deletion Frequency Unit Test
 tests:
-- name: High File Deletion Frequency
-  file: endpoint/high_file_deletion_frequency.yml
+- name: Windows High File Deletion Frequency
+  file: endpoint/windows_high_file_deletion_frequency.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'
