@@ -22,6 +22,7 @@ known_false_positives: administrator may allow inbound traffic in certain networ
 references:
 - https://docs.microsoft.com/en-us/powershell/module/netsecurity/new-netfirewallrule?view=windowsserver2019-ps
 - https://www.splunk.com/en_us/blog/security/hunting-for-malicious-powershell-using-script-block-logging.html
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1021.001/T1021.001.md#atomic-test-3---changing-rdp-port-to-non-standard-port-via-powershell
 tags:
   analytic_story:
   - Prohibited Traffic Allowed or Protocol Mismatch
@@ -32,7 +33,7 @@ tags:
   - Source:Endpoint
   - Stage:Lateral Movement
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/honeypots/casper/datasets1/windows-powershell.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.002/atomic_red_team/firewall-powershell.log
   impact: 10
   kill_chain_phases:
   - Exploitation
