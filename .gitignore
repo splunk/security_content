@@ -115,3 +115,10 @@ package/bin/sftp-config.json
 package/default/sftp-config.json
 *.code-snippets
 notes
+
+# detection_testing_batch innteractive mode
+bin/automated_detection_testing/ci/detection_testing_batch/*-test-run.json
+bin/automated_detection_testing/ci/detection_testing_batch/apps/
+bin/automated_detection_testing/ci/detection_testing_batch/security_content/
+bin/automated_detection_testing/ci/detection_testing_batch/test_config.json
+bin/automated_detection_testing/ci/detection_testing_batch/test_results/
