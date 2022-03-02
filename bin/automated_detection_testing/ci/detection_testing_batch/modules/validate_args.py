@@ -43,13 +43,6 @@ setup_schema = {
             },
             "default": None,
         },
-
-        "detections_file": {
-            "type": ["string", "null"],
-            "default": None
-        },
-
-
         "apps": {
             "type": "object",
             "additionalProperties": False,
@@ -259,16 +252,11 @@ def check_dependencies(settings: dict, skip_password_accessibility_check:bool=Tr
     if settings['mode'] == 'selected':
         # Make sure that exactly one of the following fields is populated
 
-        if settings['detections_file'] == None and settings['detections_list'] == None:
-            print("Error - mode was 'selected' but no detections_list or detections_file were supplied.", file=sys.stderr)
+        if settings['detections_list'] == None:
+            print("Error - mode was 'selected' but no detections_list was supplied.", file=sys.stderr)
             error_free = False
-        elif settings['detections_file'] != None and settings['detections_list'] != None:
-            print("Error - mode was 'selected' but detections_list and detections_file were supplied.", file=sys.stderr)
-            error_free = False
-    if settings['mode'] != 'selected' and settings['detections_file'] != None:
-        print("Error - mode was not 'selected' but detections_file was supplied.", file=sys.stderr)
-        error_free = False
-    elif settings['mode'] != 'selected' and settings['detections_list'] != None:
+
+    if settings['mode'] != 'selected' and settings['detections_list'] != None:
         print("Error - mode was not 'selected' but detections_list was supplied.", file=sys.stderr)
         error_free = False
 

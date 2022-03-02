@@ -21,10 +21,15 @@ LOGGER = logging.getLogger(__name__)
 SECURITY_CONTENT_URL = "https://github.com/splunk/security_content"
 
 
+DETECTION_ROOT_PATH      = "security_content/detections"
+TEST_ROOT_PATH           = "security_content/tests"
+DETECTION_FILE_EXTENSION = ".yml"
+TEST_FILE_EXTENSION      = ".test.yml"
+SSA_PREFIX = "ssa___"
 class GithubService:
 
 
-    def __init__(self, security_content_branch: str, commit_hash: Union[str,None], PR_number: int = None, persist_security_content: bool = False):
+    def __init__(self, security_content_branch: str, commit_hash: Union[str,None], PR_number: Union[int,None] = None, persist_security_content: bool = False):
 
         self.security_content_branch = security_content_branch
         if persist_security_content:
@@ -80,6 +85,8 @@ class GithubService:
             print("commit_hash %s" % (commit_hash))
 
         self.commit_hash = commit_hash
+
+        
 
 
     def update_and_commit_passed_tests(self, results:list[dict])->bool:
@@ -140,16 +147,17 @@ class GithubService:
 
 
     def prune_detections(self,
-                         detections_to_prune: list[str],
+                         detection_files: list[str],
                          types_to_test: list[str],
-                         previously_successful_tests: list[str],
-                         exclude_ssa: bool = True,
-                         summary_file: str = None) -> list[str]:
-        pruned_tests = []
-        csvlines = []
+                         exclude_ssa: bool = True) -> list[str]:
+    
         
-        for detection in detections_to_prune:
-            if os.path.basename(detection).startswith("ssa") and exclude_ssa:
+    
+        pruned_tests = []
+    
+        for detection in detection_files:
+            
+            if os.path.basename(detection).startswith(SSA_PREFIX) and exclude_ssa:
                 continue
             with open(detection, "r") as d:
                 description = yaml.safe_load(d)
@@ -165,79 +173,115 @@ class GithubService:
                         print("Detection [%s] references [%s], but it does not exist" % (
                             detection, test_filepath))
                         #raise(Exception("Detection [%s] references [%s], but it does not exist"%(detection, test_filepath)))
-                    elif test_filepath_without_security_content in previously_successful_tests:
-                        print(
-                            "Ignoring test [%s] before it has already passed previously" % (detection))
                     else:
                         # remove leading security_content/ from path
-                        pruned_tests.append(
-                            test_filepath_without_security_content)
-                        if summary_file is not None:
-                            try:
-                                mitre_id = str(
-                                    description['tags']['mitre_attack_id'])
-                            except:
-                                mitre_id = 'NONE'
-                            try:
-
-                                csvlines.append({'name': description['name'], 'filename': detection, 'description': description['description'],
-                                                 'search': description['search'], 'mitre_attack_id': mitre_id, 'security_domain': description['tags']['security_domain'],
-                                                 'Relevant': '', 'Comments': '', "Runnable on SSA?": str(os.path.basename(detection).startswith("ssa"))})
-                            except Exception as e:
-                                print("Error outputting summary for [%s]: [%s]" % (
-                                    detection, str(e)))
+                        pruned_tests.append(test_filepath_without_security_content)
+                        
                 else:
                     # Don't do anything with these files
                     pass
-
-        if summary_file is not None:
-            print("writing")
-            with open(summary_file, 'w') as csvfile:
-                fieldnames = ['name', 'filename', 'description', 'search', 'mitre_attack_id',
-                              'security_domain', 'Runnable on SSA?', 'Relevant', 'Comments']
-                writer = csv.DictWriter(
-                    csvfile, fieldnames=fieldnames, quoting=csv.QUOTE_ALL)
-                writer.writeheader()
-                for r in csvlines:
-                    writer.writerow(r)
-
+        
+        if not self.ensure_paired_detection_and_test_files([], [os.path.join("security_content", p) for p in pruned_tests], exclude_ssa):
+            raise(Exception("Missing one or more test/detection files. Please see the output above."))
+        
         return pruned_tests
 
+    def ensure_paired_detection_and_test_files(self, detection_files: list[str], test_files: list[str], exclude_ssa: bool = True)->bool: 
+        '''
+        The security_content repo contains two folders: detections and test.
+        For EVERY detection in the detections folder, there must be a test.
+        for EVERY test in the tests folder, there MUST be a detection.
+        
+        If this requirement is not met, then throw an error
+        '''
+
+
+        missing = False
+        #Check that all detection files have a test file
+        for detection_file in detection_files:
+            if os.path.basename(detection_file).startswith(SSA_PREFIX) and exclude_ssa is True:
+                continue
+            if not os.path.exists(self.convert_detection_filename_into_test_filename(detection_file)):
+                missing = True
+                print(f"Missing test file:"
+                      f"\n\tEXISTS  - {detection_file}"
+                      f"\n\tMISSING - {self.convert_detection_filename_into_test_filename(detection_file)}"
+                      "\n", file=sys.stderr)
+                
+
+
+
+        #Check that all test files have a detection file
+        
+        for test_file in test_files:
+            if os.path.basename(test_file).startswith(SSA_PREFIX) and exclude_ssa is True:
+                continue
+            if not os.path.exists(self.convert_test_filename_into_detection_filename(test_file)):
+                missing = True
+                print(f"Missing detection file:"
+                      f"\n\tEXISTS  - {test_file}"
+                      f"\n\tMISSING - {self.convert_test_filename_into_detection_filename(test_file)}"
+                      "\n", file=sys.stderr)
+        
+        
+        if missing is not False:
+            raise(Exception("Error finding DETECTION and TEST filenames - see message output above"))
+        
+                        
+        return True
+    
+    def convert_detection_filename_into_test_filename(self, detection_filename:str) ->str:
+        head, tail = os.path.split(detection_filename)
+        
+        assert head.startswith(DETECTION_ROOT_PATH), \
+               f"Error - Expected detection filename to start with [{DETECTION_ROOT_PATH}] but instead got {detection_filename}"
+                
+        updated_head = head.replace(DETECTION_ROOT_PATH, TEST_ROOT_PATH, 1)
+
+        
+        assert tail.endswith(DETECTION_FILE_EXTENSION),\
+               f"Error - Expected detection filename to end with [{DETECTION_FILE_EXTENSION}] but instead got [{detection_filename}]"
+        updated_tail = TEST_FILE_EXTENSION.join(tail.rsplit(DETECTION_FILE_EXTENSION))
+
+        return os.path.join(updated_head, updated_tail)
+
+    def convert_test_filename_into_detection_filename(self, test_filename:str) ->str :
+        head, tail = os.path.split(test_filename)
+        
+
+        assert head.startswith(TEST_ROOT_PATH), \
+               f"Error - Expected test filename to start with [{TEST_ROOT_PATH}] but instead got {test_filename}"
+
+        updated_head = head.replace(TEST_ROOT_PATH, DETECTION_ROOT_PATH, 1)
+
+        
+        assert tail.endswith(TEST_FILE_EXTENSION), \
+               f"Error - Expected test filename to end with [{TEST_FILE_EXTENSION}] but instead got [{test_filename}]"
+        updated_tail = DETECTION_FILE_EXTENSION.join(tail.rsplit(TEST_FILE_EXTENSION))
+
+        return os.path.join(updated_head, updated_tail)
+
+
     def get_test_files(self, mode: str, folders: list[str],   types: list[str],
-                       detections_list: Union[list[str], None],
-                       detections_file=Union[str, None]) -> list[str]:
+                       detections_list: Union[list[str], None]) -> list[str]:
+
+        #Every test should have a detection associated with it.  It is NOT necessarily
+        #true that all detections should have a test associated with them.  For example,
+        #only certain types of detections should have a test associated with them.
+        self.verify_all_tests_have_detections(folders, types)
+        
         if mode == "changes":
             tests = self.get_changed_test_files(folders, types)
         elif mode == "selected":
-            if detections_list is None and detections_file is None:
+            if detections_list is None:
                 # It's actually valid to supply an EMPTY list of files and the test should pass.
                 # This can occur when we try to test, for example, 1 detection but start 2 containers.
                 # We still want this to pass testing, so we shouldn't fail there!
-                print(
-                    "Trying to test a list of files, but None were provided", file=sys.stderr)
+                print("Trying to test a list of files, but None were provided", file=sys.stderr)
                 sys.exit(1)
 
-            elif detections_list is not None and detections_file is not None:
-                print("Both detections_list [%s] and detections_file [%s] were provided.  "
-                      "Because these confilect, we cannot test.\n\tQuitting..." %
-                      (detections_list, detections_file), file=sys.stderr)
-                sys.exit(1)
             elif detections_list is not None:
                 tests = self.get_selected_test_files(detections_list, types)
-            elif detections_file is not None:
-                try:
-                    with open(detections_file, 'r') as f:
-                        data = f.readlines()
-                    # Strip all whitespace from lines and exclude lines that are just whitespace
-                    files_to_test = [line.strip()
-                                     for line in data if len(line.strip()) > 0]
-                except Exception as e:
-                    print("There was an error reading the input file [%s]: [%s].\n\t"
-                          "Quitting..." % (detections_file, str(e)))
-                    sys.exit(1)
-
-                tests = self.get_selected_test_files(
-                    files_to_test, folders,   types)
             else:
                 # impossible to get here
                 print(
@@ -251,35 +295,53 @@ class GithubService:
                 "Error, unsupported mode [%s].  Mode must be one of %s", file=sys.stderr)
             sys.exit(1)
 
+
         return tests
 
     def get_selected_test_files(self,
                                 detection_file_list: list[str],
                                 types_to_test: list[str] = [
-                                    "Anomaly", "Hunting", "TTP"],
-                                previously_successful_tests: list[str] = []) -> list[str]:
+                                    "Anomaly", "Hunting", "TTP"]) -> list[str]:
 
-        return self.prune_detections(detection_file_list, types_to_test, previously_successful_tests)
+        return self.prune_detections(detection_file_list, types_to_test)
+
+    def verify_all_tests_have_detections(self, folders: list[str] = [
+                                         'endpoint', 'cloud', 'network'],
+                                     types_to_test: list[str] = [
+                                         "Anomaly", "Hunting", "TTP"],
+                                         exclude_ssa:bool=True)->bool:
+        all_tests = []
+        for folder in folders:
+            #Get all the tests in a folder 
+            tests = self.get_all_files_in_folder(os.path.join(TEST_ROOT_PATH, folder), "*")
+            #Convert all of those tests to detection paths
+            for test in tests:
+                all_tests.append(test)
+
+
+        if not self.ensure_paired_detection_and_test_files([], all_tests, exclude_ssa):
+            raise(Exception("Missing one or more detection files. Please see the output above."))
+        
+        return True
+
 
     def get_all_tests_and_detections(self,
                                      folders: list[str] = [
                                          'endpoint', 'cloud', 'network'],
                                      types_to_test: list[str] = [
-                                         "Anomaly", "Hunting", "TTP"],
-                                     previously_successful_tests: list[str] = []) -> list[str]:
+                                         "Anomaly", "Hunting", "TTP"]) -> list[str]:
         detections = []
         for folder in folders:
-            detections.extend(self.get_all_files_in_folder(
-                os.path.join("security_content/detections", folder), "*.yml"))
+            detections.extend(self.get_all_files_in_folder(os.path.join(DETECTION_ROOT_PATH, folder), "*"))
 
         # Prune this down to only the subset of detections we can test
-        return self.prune_detections(detections, types_to_test, previously_successful_tests)
-
+        return self.prune_detections(detections, types_to_test)
+        
     def get_all_files_in_folder(self, foldername: str, extension: str) -> list[str]:
         filenames = glob.glob(os.path.join(foldername, extension))
         return filenames
 
-    def get_changed_test_files(self, folders=['endpoint', 'cloud', 'network'],   types_to_test=["Anomaly", "Hunting", "TTP"], previously_successful_tests=[]) -> list[str]:
+    def get_changed_test_files(self, folders=['endpoint', 'cloud', 'network'],   types_to_test=["Anomaly", "Hunting", "TTP"]) -> list[str]:
 
         branch1 = self.security_content_branch
         branch2 = 'develop'
@@ -366,7 +428,7 @@ class GithubService:
                 changed_detection_files.append(name)
         
 
-        return self.prune_detections(changed_detection_files,   types_to_test, previously_successful_tests)
+        return self.prune_detections(changed_detection_files, types_to_test)
 
         #detections_to_test,_,_ = self.filter_test_types(changed_detection_files)
         # for f in detections_to_test:

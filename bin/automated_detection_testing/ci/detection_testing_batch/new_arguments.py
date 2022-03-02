@@ -80,8 +80,7 @@ def main(args):
                                                               " are passed on the command line.  These can be given as "\
                                                               "a list of files or as a file containing a list of files.")
     selected_group = selected_parser.add_mutually_exclusive_group(required=True)
-    selected_group.add_argument('-df', '--detections_file', type=argparse.FileType('r'), 
-                                required=False, help="A file containing a list of detections to run, one per line")
+    
     selected_group.add_argument('-dl', '--detections_list', 
                                 required=False, help="The names of files that you want to test, separated by commas.  "\
                                                      "Do not include spaces between the detections!")

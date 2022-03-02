@@ -430,8 +430,7 @@ def main(args: list[str]):
         all_test_files = github_service.get_test_files(settings['mode'],
                                                     settings['folders'],
                                                     settings['types'],
-                                                    settings['detections_list'],
-                                                    settings['detections_file'])
+                                                    settings['detections_list'])
         
         #We randomly shuffle this because there are likely patterns in searches.  For example,
         #cloud/endpoint/network likely have different impacts on the system.  By shuffling,
