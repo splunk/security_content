@@ -33,6 +33,7 @@ references:
 tags:
   analytic_story:
   - Windows Defense Evasion Tactics
+  - Hermetic Wiper
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/hermetic_wiper/globalfolderoptions_reg/sysmon.log
   kill_chain_phases:
