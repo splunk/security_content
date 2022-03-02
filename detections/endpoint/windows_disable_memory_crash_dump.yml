@@ -23,7 +23,7 @@ search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint
   registry_key_name | `windows_disable_memory_crash_dump_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the Filesystem responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Filesystem` node.
+  your endpoints into the `Endpoint` datamodel in the `Filesystem` and `Registry` node.
 known_false_positives: unknown
 references:
   - https://blog.talosintelligence.com/2022/02/threat-advisory-hermeticwiper.html
@@ -50,14 +50,21 @@ tags:
   - Filesystem.user 
   - Filesystem.file_path 
   - Filesystem.dest
+  - Processes.process_id 
+  - Processes.process_name
+  - Processes.process 
+  - Processes.dest 
+  - Processes.parent_process_name 
+  - Processes.parent_process
+  - Processes.process_guid
   security_domain: endpoint
   impact: 90
   confidence: 100 
   # (impact * confidence)/100
   risk_score: 90
   context: 
-  - source:endpoint
-  - stage:Persistence
+  - Source:Endpoint
+  - Stage:Persistence
   - Privilege Escalation
   message: A process $process_name$ was identified attempting to disable memory crash dumps on $dest$.
   observable:
