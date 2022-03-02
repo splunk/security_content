@@ -24,8 +24,10 @@ search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint
   | table _time dest user parent_process_name parent_process process_name process_path
   process proc_guid registry_path registry_value_name registry_value_data 
   | `windows_modify_show_compress_color_and_info_tip_registry_filter`'
-how_to_implement: UPDATE_HOW_TO_IMPLEMENT
-known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the Filesystem responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` and `Registry` node.
+known_false_positives: unknown 
 references:
 -  https://blog.talosintelligence.com/2022/02/threat-advisory-hermeticwiper.html
 tags:
