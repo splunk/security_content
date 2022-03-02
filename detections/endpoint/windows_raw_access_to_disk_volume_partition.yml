@@ -26,6 +26,7 @@ references:
 tags:
   analytic_story:
   - Data Destruction
+  - Hermetic Wiper
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/hermetic_wiper/sysmon.log
   kill_chain_phases:
