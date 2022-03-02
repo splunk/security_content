@@ -4,8 +4,7 @@ version: 1
 date: '2022-03-02'
 author: Teoderick Contreras, Rod Soto, Michael Haag, Splunk
 description: This analytic story contains detections that allow security analysts to detect and investigate unusual activities
-  that might relate to the destructive malware targeting Ukrainian organizations also known as "Hermetic Wiper". This analytic
-  story looks for abuse of Regsvr32, Executables written in administrative SMB Share, Suspcious processes, Disabling of Memory Crash DUmp and more.
+  that might relate to the destructive malware targeting Ukrainian organizations also known as "Hermetic Wiper". This analytic story looks for abuse of Regsvr32, executables written in administrative SMB Share, suspicious processes, disabling of memory crash dump and more.
 narrative: Hermetic Wiper is destructive malware operation found by Sentinel One targeting
   multiple organizations in Ukraine. This malicious payload corrupts Master Boot Records, uses signed drivers and manipulates NTFS attributes for file destruction. 
 references:
