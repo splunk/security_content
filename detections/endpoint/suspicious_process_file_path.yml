@@ -35,6 +35,7 @@ tags:
   - XMRig
   - Remcos
   - WhisperGate
+  - Hermetic Wiper
   automated_detection_testing: passed
   confidence: 50
   context:
