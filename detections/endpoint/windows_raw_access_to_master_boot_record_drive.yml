@@ -27,6 +27,7 @@ references:
 tags:
   analytic_story:
   - WhisperGate
+  - Hermetic Wiper
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1561.002/mbr_raw_access/sysmon.log
   kill_chain_phases:
