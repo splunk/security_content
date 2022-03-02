@@ -195,40 +195,36 @@ class GithubService:
         If this requirement is not met, then throw an error
         '''
 
+        MISSING_TEMPLATE = "Missing {type} file:"\
+                           "\n\tEXISTS  - {exists}"\
+                           "\n\tMISSING - {missing}"\
+                           
 
-        missing = False
+        no_missing_files = True
         #Check that all detection files have a test file
         for detection_file in detection_files:
-            if os.path.basename(detection_file).startswith(SSA_PREFIX) and exclude_ssa is True:
-                continue
-            if not os.path.exists(self.convert_detection_filename_into_test_filename(detection_file)):
-                missing = True
-                print(f"Missing test file:"
-                      f"\n\tEXISTS  - {detection_file}"
-                      f"\n\tMISSING - {self.convert_detection_filename_into_test_filename(detection_file)}"
-                      "\n", file=sys.stderr)
-                
-
-
-
+            test_file = self.convert_detection_filename_into_test_filename(detection_file)
+            if not os.path.exists(test_file):
+                if os.path.basename(detection_file).startswith(SSA_PREFIX) and exclude_ssa is True:
+                    print(MISSING_TEMPLATE.format(type="test", exists=detection_file, missing=test_file))
+                    print("\tSince exclude_ssa is TRUE, this is not an error, just a warning")
+                else:
+                    print(MISSING_TEMPLATE.format(type="test", exists=detection_file, missing=test_file))
+                    no_missing_files = False
+                    
         #Check that all test files have a detection file
-        
         for test_file in test_files:
-            if os.path.basename(test_file).startswith(SSA_PREFIX) and exclude_ssa is True:
-                continue
-            if not os.path.exists(self.convert_test_filename_into_detection_filename(test_file)):
-                missing = True
-                print(f"Missing detection file:"
-                      f"\n\tEXISTS  - {test_file}"
-                      f"\n\tMISSING - {self.convert_test_filename_into_detection_filename(test_file)}"
-                      "\n", file=sys.stderr)
+            detection_file = self.convert_test_filename_into_detection_filename(test_file)
+            if not os.path.exists(detection_file):
+                if os.path.basename(test_file).startswith(SSA_PREFIX) and exclude_ssa is True:
+                    print(MISSING_TEMPLATE.format(type="detection", exists=test_file, missing=detection_file))
+                    print("\tSince exclude_ssa is TRUE, this is not an error, just a warning")
+                else:
+                    print(MISSING_TEMPLATE.format(type="detection", exists=test_file, missing=detection_file))
+                    no_missing_files = False
         
-        
-        if missing is not False:
-            raise(Exception("Error finding DETECTION and TEST filenames - see message output above"))
-        
-                        
-        return True
+                    
+        return no_missing_files
     
     def convert_detection_filename_into_test_filename(self, detection_filename:str) ->str:
         head, tail = os.path.split(detection_filename)
