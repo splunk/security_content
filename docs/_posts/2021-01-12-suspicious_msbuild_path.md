@@ -112,6 +112,8 @@ Some legitimate applications may use a moved copy of msbuild.exe, triggering a f
 | 49.0 | 70 | 70 | Msbuild.exe ran from an uncommon path on $dest$ execyted by $user$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

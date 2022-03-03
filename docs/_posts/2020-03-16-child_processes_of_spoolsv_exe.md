@@ -87,9 +87,8 @@ Some legitimate printer-related processes may show up as children of spoolsv.exe
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   | Message      |
-| ----------- | ----------- |--------------|--------------|
-| 25.0 | 50 | 50 | tbd |
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 

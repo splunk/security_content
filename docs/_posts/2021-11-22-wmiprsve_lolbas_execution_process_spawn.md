@@ -94,6 +94,8 @@ Legitimate applications may trigger this behavior, filter as needed.
 | 54.0 | 90 | 60 | Wmiprsve.exe spawned a LOLBAS process on $dest$. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

@@ -100,6 +100,8 @@ Although unlikely, some legitimate applications may exhibit this behavior, trigg
 | 90.0 | 90 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ executing with inline HTA, indicative of defense evasion. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

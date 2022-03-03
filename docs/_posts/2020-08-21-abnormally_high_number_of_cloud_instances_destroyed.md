@@ -109,6 +109,8 @@ Many service accounts configured within a cloud infrastructure are known to exhi
 | 25.0 | 50 | 50 | tbd |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

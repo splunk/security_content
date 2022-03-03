@@ -91,6 +91,8 @@ None identified
 | 45.0 | 50 | 90 | Possible USN journal deletion on $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

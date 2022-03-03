@@ -89,6 +89,8 @@ Administrators may leverage DCOM to start a process on remote systems, but this 
 | 63.0 | 90 | 70 | A process was started on a remote endpoint from $ComputerName by abusing WMI using PowerShell.exe |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

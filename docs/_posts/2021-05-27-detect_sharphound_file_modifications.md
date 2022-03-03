@@ -119,6 +119,8 @@ False positives should be limited as the analytic is specific to a filename with
 | 24.0 | 30 | 80 | Potential SharpHound file modifications identified on $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

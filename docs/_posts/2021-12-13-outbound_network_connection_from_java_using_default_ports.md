@@ -96,6 +96,8 @@ Legitimate Java applications may use perform outbound connections to these ports
 | 54.0 | 90 | 60 | Java performed outbound connections to default ports of LDAP or RMI on $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

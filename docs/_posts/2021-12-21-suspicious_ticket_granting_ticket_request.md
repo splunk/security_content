@@ -99,6 +99,8 @@ A computer account name change event inmediately followed by a kerberos TGT requ
 | 60.0 | 100 | 60 | A suspicious TGT was requested was requested |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

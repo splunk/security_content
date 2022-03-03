@@ -95,6 +95,8 @@ This commandline can be used by a network administrator to audit host machine sp
 | 25.0 | 50 | 50 | dxdiag.exe process with commandline $process$ on $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

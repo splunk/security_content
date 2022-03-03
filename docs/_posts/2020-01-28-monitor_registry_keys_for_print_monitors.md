@@ -100,6 +100,8 @@ You will encounter noise from legitimate print-monitor registry entries.
 | 64.0 | 80 | 80 | New print monitor added on $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

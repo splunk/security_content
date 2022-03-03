@@ -95,6 +95,8 @@ Filtering may be required on internal developer build systems or classify assets
 | 40.0 | 80 | 50 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ spawning a Linux shell, potentially indicative of exploitation. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

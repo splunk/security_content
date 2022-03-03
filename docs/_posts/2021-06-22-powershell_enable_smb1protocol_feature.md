@@ -92,6 +92,8 @@ network operator may enable or disable this windows feature.
 | 25.0 | 50 | 50 | Powershell Enable SMB1Protocol Feature |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

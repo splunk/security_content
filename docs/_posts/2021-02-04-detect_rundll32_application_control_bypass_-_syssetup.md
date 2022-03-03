@@ -100,6 +100,8 @@ Although unlikely, some legitimate applications may use syssetup.dll, triggering
 | 80.0 | 80 | 100 | An instance of $parent_process_name$ spawning $process_name$ loading syssetup.dll by calling the LaunchINFSection function on the command line was identified on endpoint $dest$ by user $user$. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

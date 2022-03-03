@@ -97,6 +97,8 @@ Some VPN applications are known to launch netsh.exe. Outside of these instances,
 | 42.0 | 60 | 70 | A process $process_name$ that tries to execute netsh commandline $process$ in host $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

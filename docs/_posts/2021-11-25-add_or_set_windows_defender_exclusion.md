@@ -101,6 +101,8 @@ Admin or user may choose to use this windows features. Filter as needed.
 | 64.0 | 80 | 80 | exclusion command $process$ executed on $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

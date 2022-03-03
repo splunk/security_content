@@ -89,6 +89,8 @@ This is an anomaly search, you must specify your domain in the parameters so it 
 | 25.0 | 50 | 50 | tbd |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

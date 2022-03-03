@@ -23,6 +23,7 @@ class DataModel(enum.Enum):
     Endpoint_Processes = 13
     Endpoint_Filesystem = 14
     Endpoint_Registry = 15
+    Risk = 16
 
 class SecurityContentType(enum.Enum):
     detections = 1

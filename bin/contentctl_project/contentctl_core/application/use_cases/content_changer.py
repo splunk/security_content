@@ -99,6 +99,8 @@ class ContentChanger:
         for obj in objects:
             if 'kill_chain_phases' not in obj['tags']:
                 obj['tags']['kill_chain_phases'] = ['Exploitation']
+            if obj['tags']['kill_chain_phases'] == ['Privilege Escalation']:
+                obj['tags']['kill_chain_phases'] = ['Exploitation']
 
     def fix_wrong_calculated_risk_score(self, objects : list) -> None:
         for obj in objects:
@@ -169,3 +171,13 @@ class ContentChanger:
             if 'kill_chain_phases' in obj['tags']:
                 if obj['tags']['kill_chain_phases'] == 'Exploitation':
                     obj['tags']['kill_chain_phases'] = ['Exploitation']
+
+    def add_default_confidence_impact_risk_score(self, objects : list) -> None:
+        for obj in objects:
+            if 'confidence' not in obj['tags']:
+                obj['tags']['confidence'] = 50
+            if 'impact' not in obj['tags']:
+                obj['tags']['impact'] = 50
+            if 'risk_score' not in obj['tags']:
+                calculated_risk_score = (int(obj['tags']['impact']))*(int(obj['tags']['confidence']))/100
+                obj['tags']['risk_score'] = calculated_risk_score

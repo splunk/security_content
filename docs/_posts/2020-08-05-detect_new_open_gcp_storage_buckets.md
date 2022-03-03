@@ -97,6 +97,8 @@ While this search has no known false positives, it is possible that a GCP admin 
 | 25.0 | 50 | 50 | tbd |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

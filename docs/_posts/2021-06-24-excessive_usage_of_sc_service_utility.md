@@ -95,6 +95,8 @@ excessive execution of sc.exe is quite suspicious since it can modify or execute
 | 25.0 | 50 | 50 | Excessive Usage Of SC Service Utility |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

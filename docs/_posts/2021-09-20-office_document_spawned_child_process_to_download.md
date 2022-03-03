@@ -99,6 +99,8 @@ Default browser not in the filter list.
 | 35.0 | 70 | 50 | Office document spawning suspicious child process on $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

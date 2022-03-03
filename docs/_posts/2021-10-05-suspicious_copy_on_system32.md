@@ -100,6 +100,8 @@ every user may do this event but very un-ussual.
 | 63.0 | 70 | 90 | execution of copy exe to copy file from $process$ in $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

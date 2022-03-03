@@ -102,6 +102,8 @@ unknown
 | 21.0 | 30 | 70 | Vulnerabilities with severity high found in image $image$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

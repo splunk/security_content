@@ -89,6 +89,8 @@ Unknown. It is possible some administrative scripts use ICacls. Filter as needed
 | 72.0 | 90 | 80 | Process name $process_name$ with deny argument executed by $user$ to change security permission of a specific file or directory on host $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

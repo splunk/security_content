@@ -100,6 +100,8 @@ False positives should be limited, but if any are present, filter as needed.
 | 70.0 | 70 | 100 | $parent_process_name$ on $dest$ by $user$ launched the following powershell process: $process_name$ which is very common in spearphishing attacks |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

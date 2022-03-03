@@ -95,6 +95,8 @@ Limited false positives will be present. Some applications do load drivers
 | 63.0 | 70 | 90 | Suspicious driver $ImageLoaded$ on $Computer$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

@@ -128,6 +128,8 @@ Legitimate applications may spawn PowerShell as a child process of the the ident
 | 45.0 | 90 | 50 | A PowerShell process was spawned as a child process of typically abused processes on $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

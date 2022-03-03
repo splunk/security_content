@@ -91,6 +91,8 @@ Administrators may use this legitimately to gather info from remote systems. Fil
 | 36.0 | 60 | 60 | A wmic.exe process $process$ contain node commandline $process$ in host $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

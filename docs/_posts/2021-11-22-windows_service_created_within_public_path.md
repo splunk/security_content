@@ -93,6 +93,8 @@ Legitimate applications may install services with uncommon services paths.
 | 54.0 | 90 | 60 | A Windows Service $Service_File_Name$ with a public path was created on $ComputerName |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

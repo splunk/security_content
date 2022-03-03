@@ -86,6 +86,8 @@ Some legitimate applications start with long command lines.
 | 42.0 | 70 | 60 | Unusually long command line $Processes.process_name$ on $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

@@ -95,6 +95,8 @@ unknown
 | 49.0 | 70 | 70 | Office document creating a schedule task on $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

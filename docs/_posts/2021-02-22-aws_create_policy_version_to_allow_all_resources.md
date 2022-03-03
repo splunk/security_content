@@ -100,6 +100,8 @@ While this search has no known false positives, it is possible that an AWS admin
 | 49.0 | 70 | 70 | User $user$ created a policy version that allows them to access any resource in their account |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

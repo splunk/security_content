@@ -104,6 +104,8 @@ It's possible that a widely used system, such as a kiosk, could cause a large nu
 | 36.0 | 60 | 60 | Multiple accounts have been locked out. Review $dest$ and results related to $user$. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

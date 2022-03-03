@@ -90,6 +90,8 @@ Administrators debugging servers
 | 15.0 | 30 | 50 | Potential system information discovery behavior on $dest$ by $User$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

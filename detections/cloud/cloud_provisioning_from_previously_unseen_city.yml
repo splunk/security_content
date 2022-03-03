@@ -55,6 +55,8 @@ tags:
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
   impact: 30
+  kill_chain_phases:
+  - Actions on Objectives
   message: User $user$ is starting or creating an instance $dest$ for the first time
     in City $City$ from IP address $src$
   mitre_attack_id:
@@ -88,5 +90,5 @@ tags:
   - All_Changes.command
   risk_score: 18
   security_domain: threat
-  kill_chain_phases:
-  - Exploitation
+  supported_tas:
+  - Splunk_TA_aws-kinesis-firehose

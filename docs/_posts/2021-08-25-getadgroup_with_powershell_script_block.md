@@ -89,6 +89,8 @@ Administrators or power users may use this PowerShell commandlet for troubleshoo
 | 15.0 | 30 | 50 | Domain group discovery enumeration using PowerShell on $dest$ by $user$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

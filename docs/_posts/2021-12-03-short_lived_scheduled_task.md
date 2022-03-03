@@ -90,6 +90,8 @@ Although uncommon, legitimate applications may create and delete a Scheduled Tas
 | 81.0 | 90 | 90 | A windows scheduled task was created and deleted in 30 seconds on $ComputerName$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

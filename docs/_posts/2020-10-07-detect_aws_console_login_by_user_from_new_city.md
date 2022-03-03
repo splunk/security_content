@@ -101,6 +101,8 @@ When a legitimate new user logins for the first time, this activity will be dete
 | 18.0 | 30 | 60 | User $user$ is logging into the AWS console from City $City$ for the first time |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

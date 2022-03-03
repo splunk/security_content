@@ -95,6 +95,8 @@ Single-letter executables are not always malicious. Investigate this activity wi
 | 63.0 | 70 | 90 | A suspicious process $process_name$ with single letter in host $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

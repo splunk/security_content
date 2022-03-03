@@ -95,6 +95,8 @@ You must be ingesting data that records process activity from your hosts to popu
 | 45.0 | 50 | 90 | Possible Sysmon filter driver unloading on $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

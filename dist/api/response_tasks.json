@@ -12,6 +12,9 @@
         "how_to_implement": "The successfully implement this search you must first send your backup logs to Splunk.",
         "known_false_positives": "none",
         "references": [],
+        "inputs": [
+            "dest"
+        ],
         "tags": {
             "analytic_story": [
                 "Monitor Backup Solution"
@@ -25,9 +28,6 @@
             ],
             "security_domain": "endpoint"
         },
-        "inputs": [
-            "dest"
-        ],
         "lowercase_name": "all_backup_logs_for_host"
     },
     {
@@ -43,6 +43,9 @@
         "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your Cloud Watch EKS inputs.",
         "known_false_positives": "",
         "references": [],
+        "inputs": [
+            "src_ip"
+        ],
         "tags": {
             "analytic_story": [
                 "Kubernetes Scanning Activity"
@@ -61,9 +64,6 @@
             ],
             "security_domain": "network"
         },
-        "inputs": [
-            "src_ip"
-        ],
         "lowercase_name": "amazon_eks_kubernetes_activity_by_src_ip"
     },
     {
@@ -79,6 +79,9 @@
         "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs.",
         "known_false_positives": "",
         "references": [],
+        "inputs": [
+            "dest"
+        ],
         "tags": {
             "analytic_story": [
                 "Cloud Compute Instance",
@@ -103,9 +106,6 @@
             ],
             "security_domain": "network"
         },
-        "inputs": [
-            "dest"
-        ],
         "lowercase_name": "aws_investigate_security_hub_alerts_by_dest"
     },
     {
@@ -121,6 +121,9 @@
         "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs.",
         "known_false_positives": "",
         "references": [],
+        "inputs": [
+            "accessKeyId"
+        ],
         "tags": {
             "analytic_story": [
                 "AWS Cross Account Activity"
@@ -141,9 +144,6 @@
             ],
             "security_domain": "network"
         },
-        "inputs": [
-            "accessKeyId"
-        ],
         "lowercase_name": "aws_investigate_user_activities_by_accesskeyid"
     },
     {
@@ -159,6 +159,9 @@
         "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs.",
         "known_false_positives": "",
         "references": [],
+        "inputs": [
+            "user"
+        ],
         "tags": {
             "analytic_story": [
                 "AWS Cryptomining",
@@ -192,9 +195,6 @@
             ],
             "security_domain": "network"
         },
-        "inputs": [
-            "user"
-        ],
         "lowercase_name": "aws_investigate_user_activities_by_arn"
     },
     {
@@ -210,6 +210,9 @@
         "how_to_implement": "In order to implement this search, you must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS(version 4.4.0 or later) and configure your AWS description inputs.",
         "known_false_positives": "",
         "references": [],
+        "inputs": [
+            "networkAclId"
+        ],
         "tags": {
             "analytic_story": [
                 "AWS Network ACL Activity",
@@ -228,9 +231,6 @@
             ],
             "security_domain": "network"
         },
-        "inputs": [
-            "networkAclId"
-        ],
         "lowercase_name": "aws_network_acl_details_from_id"
     },
     {
@@ -246,6 +246,9 @@
         "how_to_implement": "In order to implement this search, you must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS(version 4.4.0 or later) and configure your AWS configuration inputs",
         "known_false_positives": "",
         "references": [],
+        "inputs": [
+            "resourceId"
+        ],
         "tags": {
             "analytic_story": [
                 "AWS Network ACL Activity",
@@ -267,9 +270,6 @@
             ],
             "security_domain": "network"
         },
-        "inputs": [
-            "resourceId"
-        ],
         "lowercase_name": "aws_network_interface_details_via_resourceid"
     },
     {
@@ -285,6 +285,9 @@
         "how_to_implement": "To implement this search, you must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later) and configure your AWS inputs.",
         "known_false_positives": "",
         "references": [],
+        "inputs": [
+            "bucketName"
+        ],
         "tags": {
             "analytic_story": [
                 "Suspicious AWS S3 Activities"
@@ -304,9 +307,6 @@
             ],
             "security_domain": "network"
         },
-        "inputs": [
-            "bucketName"
-        ],
         "lowercase_name": "aws_s3_bucket_details_via_bucketname"
     },
     {
@@ -322,6 +322,9 @@
         "how_to_implement": "You must install the GCP App for Splunk (version 2.0.0 or later), then configure stackdriver and set a Pub/Sub subscription to be imported to Splunk. You must also install Cloud Infrastructure data model.Customize the macro kubernetes_gcp_scan_fingerprint_attack_detection to filter out FPs.",
         "known_false_positives": "",
         "references": [],
+        "inputs": [
+            "src_ip"
+        ],
         "tags": {
             "analytic_story": [
                 "Kubernetes Scanning Activity"
@@ -342,9 +345,6 @@
             ],
             "security_domain": "network"
         },
-        "inputs": [
-            "src_ip"
-        ],
         "lowercase_name": "gcp_kubernetes_activity_by_src_ip"
     },
     {
@@ -360,6 +360,9 @@
         "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs.",
         "known_false_positives": "",
         "references": [],
+        "inputs": [
+            "City"
+        ],
         "tags": {
             "analytic_story": [
                 "AWS Suspicious Provisioning Activities"
@@ -379,9 +382,6 @@
             ],
             "security_domain": "network"
         },
-        "inputs": [
-            "City"
-        ],
         "lowercase_name": "get_all_aws_activity_from_city"
     },
     {
@@ -397,6 +397,9 @@
         "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs.",
         "known_false_positives": "",
         "references": [],
+        "inputs": [
+            "Country"
+        ],
         "tags": {
             "analytic_story": [
                 "AWS Suspicious Provisioning Activities"
@@ -416,9 +419,6 @@
             ],
             "security_domain": "network"
         },
-        "inputs": [
-            "Country"
-        ],
         "lowercase_name": "get_all_aws_activity_from_country"
     },
     {
@@ -434,6 +434,9 @@
         "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs.",
         "known_false_positives": "",
         "references": [],
+        "inputs": [
+            "src_ip"
+        ],
         "tags": {
             "analytic_story": [
                 "AWS Network ACL Activity",
@@ -458,9 +461,6 @@
             ],
             "security_domain": "network"
         },
-        "inputs": [
-            "src_ip"
-        ],
         "lowercase_name": "get_all_aws_activity_from_ip_address"
     },
     {
@@ -476,6 +476,9 @@
         "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs.",
         "known_false_positives": "",
         "references": [],
+        "inputs": [
+            "Region"
+        ],
         "tags": {
             "analytic_story": [
                 "AWS Suspicious Provisioning Activities"
@@ -495,9 +498,6 @@
             ],
             "security_domain": "network"
         },
-        "inputs": [
-            "Region"
-        ],
         "lowercase_name": "get_all_aws_activity_from_region"
     },
     {
@@ -513,6 +513,9 @@
         "how_to_implement": "You must be ingesting your backup logs.",
         "known_false_positives": "",
         "references": [],
+        "inputs": [
+            "dest"
+        ],
         "tags": {
             "analytic_story": [
                 "Ransomware",
@@ -528,9 +531,6 @@
             ],
             "security_domain": "endpoint"
         },
-        "inputs": [
-            "dest"
-        ],
         "lowercase_name": "get_backup_logs_for_endpoint"
     },
     {
@@ -546,6 +546,9 @@
         "how_to_implement": "You must be ingesting your certificates or SSL logs from your network traffic into your Certificates datamodel. Please note the wildcard(*) before domain in the search syntax, we use to match for all domain and subdomain combinations",
         "known_false_positives": "",
         "references": [],
+        "inputs": [
+            "domain"
+        ],
         "tags": {
             "analytic_story": [
                 "Common Phishing Frameworks"
@@ -563,9 +566,6 @@
             ],
             "security_domain": "network"
         },
-        "inputs": [
-            "domain"
-        ],
         "lowercase_name": "get_certificate_logs_for_a_domain"
     },
     {
@@ -581,6 +581,9 @@
         "how_to_implement": "To successfully implement this search, you must be ingesting your DNS traffic",
         "known_false_positives": "",
         "references": [],
+        "inputs": [
+            "src_ip"
+        ],
         "tags": {
             "analytic_story": [
                 "AWS Network ACL Activity",
@@ -605,9 +608,6 @@
             ],
             "security_domain": "network"
         },
-        "inputs": [
-            "src_ip"
-        ],
         "lowercase_name": "get_dns_server_history_for_a_host"
     },
     {
@@ -625,6 +625,9 @@
         "how_to_implement": "You must be ingesting your network traffic",
         "known_false_positives": "",
         "references": [],
+        "inputs": [
+            "src_ip"
+        ],
         "tags": {
             "analytic_story": [
                 "AWS Network ACL Activity",
@@ -648,9 +651,6 @@
             ],
             "security_domain": "network"
         },
-        "inputs": [
-            "src_ip"
-        ],
         "lowercase_name": "get_dns_traffic_ratio"
     },
     {
@@ -666,6 +666,9 @@
         "how_to_implement": "In order to implement this search, you must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS(version 4.4.0 or later) and configure your AWS description inputs.",
         "known_false_positives": "",
         "references": [],
+        "inputs": [
+            "instanceId"
+        ],
         "tags": {
             "analytic_story": [
                 "AWS Cryptomining",
@@ -693,9 +696,6 @@
             ],
             "security_domain": "network"
         },
-        "inputs": [
-            "instanceId"
-        ],
         "lowercase_name": "get_ec2_instance_details_by_instanceid"
     },
     {
@@ -711,6 +711,9 @@
         "how_to_implement": "In order to implement this search, you must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS(version 4.4.0 or later) and configure your AWS description inputs.",
         "known_false_positives": "",
         "references": [],
+        "inputs": [
+            "dest"
+        ],
         "tags": {
             "analytic_story": [
                 "AWS Cryptomining",
@@ -733,9 +736,6 @@
             ],
             "security_domain": "network"
         },
-        "inputs": [
-            "dest"
-        ],
         "lowercase_name": "get_ec2_launch_details"
     },
     {
@@ -751,6 +751,9 @@
         "how_to_implement": "To successfully implement this search you must be ingesting your email logs or capturing unencrypted network traffic which contains email communications.",
         "known_false_positives": "",
         "references": [],
+        "inputs": [
+            "message_id"
+        ],
         "tags": {
             "analytic_story": [
                 "Brand Monitoring",
@@ -765,9 +768,6 @@
             ],
             "security_domain": "network"
         },
-        "inputs": [
-            "message_id"
-        ],
         "lowercase_name": "get_email_info"
     },
     {
@@ -783,6 +783,9 @@
         "how_to_implement": "To successfully implement this search you must ingest your email logs or capture unencrypted email communications within network traffic, and populate the Email data model.",
         "known_false_positives": "",
         "references": [],
+        "inputs": [
+            "src_user"
+        ],
         "tags": {
             "analytic_story": [
                 "Brand Monitoring",
@@ -798,9 +801,6 @@
             ],
             "security_domain": "networks"
         },
-        "inputs": [
-            "src_user"
-        ],
         "lowercase_name": "get_emails_from_specific_sender"
     },
     {
@@ -818,6 +818,9 @@
         "how_to_implement": "To successfully implement this search, you must be ingesting the logs from your DHCP server.",
         "known_false_positives": "",
         "references": [],
+        "inputs": [
+            "src_mac"
+        ],
         "tags": {
             "analytic_story": [
                 "Asset Tracking"
@@ -835,9 +838,6 @@
             ],
             "security_domain": "network"
         },
-        "inputs": [
-            "src_mac"
-        ],
         "lowercase_name": "get_first_occurrence_and_last_occurrence_of_a_mac_address"
     },
     {
@@ -855,6 +855,9 @@
         "how_to_implement": "To successfully implement this search you must ingest your email logs or capture unencrypted email communications within network traffic, and populate the Email data model.",
         "known_false_positives": "",
         "references": [],
+        "inputs": [
+            "src"
+        ],
         "tags": {
             "analytic_story": [
                 "Emotet Malware  DHS Report TA18-201A ",
@@ -877,9 +880,6 @@
             ],
             "security_domain": "network"
         },
-        "inputs": [
-            "src"
-        ],
         "lowercase_name": "get_history_of_email_sources"
     },
     {
@@ -895,6 +895,9 @@
         "how_to_implement": "To successfully implement this search you must be ingesting your Windows event logs",
         "known_false_positives": "",
         "references": [],
+        "inputs": [
+            "dest"
+        ],
         "tags": {
             "analytic_story": [
                 "Account Monitoring and Controls"
@@ -910,9 +913,6 @@
             ],
             "security_domain": "endpoint"
         },
-        "inputs": [
-            "dest"
-        ],
         "lowercase_name": "get_logon_rights_modifications_for_endpoint"
     },
     {
@@ -928,6 +928,9 @@
         "how_to_implement": "To successfully implement this search you must be ingesting your Windows event logs",
         "known_false_positives": "",
         "references": [],
+        "inputs": [
+            "user"
+        ],
         "tags": {
             "analytic_story": [
                 "Account Monitoring and Controls"
@@ -943,9 +946,6 @@
             ],
             "security_domain": "endpoint"
         },
-        "inputs": [
-            "user"
-        ],
         "lowercase_name": "get_logon_rights_modifications_for_user"
     },
     {
@@ -961,6 +961,9 @@
         "how_to_implement": "If you are using Enterprise Security you are likely already creating notable events with your correlation rules. No additional configuration is necessary.",
         "known_false_positives": "",
         "references": [],
+        "inputs": [
+            "dest"
+        ],
         "tags": {
             "analytic_story": [
                 "AWS Cross Account Activity",
@@ -1041,9 +1044,6 @@
             ],
             "security_domain": "endpoint"
         },
-        "inputs": [
-            "dest"
-        ],
         "lowercase_name": "get_notable_history"
     },
     {
@@ -1061,6 +1061,7 @@
         "how_to_implement": "To successfully implement this search you must ingest your email logs or capture unencrypted email communications within network traffic, and populate the Email data model.",
         "known_false_positives": "",
         "references": [],
+        "inputs": [],
         "tags": {
             "analytic_story": [
                 "Hidden Cobra Malware"
@@ -1077,7 +1078,6 @@
             ],
             "security_domain": "network"
         },
-        "inputs": [],
         "lowercase_name": "get_outbound_emails_to_hidden_cobra_threat_actors"
     },
     {
@@ -1095,6 +1095,10 @@
         "how_to_implement": "You must be ingesting endpoint data that tracks process activity, including parent-child relationships from your endpoints to populate the Endpoint data model in the Processes node. The command-line arguments are mapped to the \"process\" field in the Endpoint data model.",
         "known_false_positives": "",
         "references": [],
+        "inputs": [
+            "parent_process_name",
+            "dest"
+        ],
         "tags": {
             "analytic_story": [
                 "Collection and Staging",
@@ -1138,10 +1142,6 @@
             ],
             "security_domain": "endpoint"
         },
-        "inputs": [
-            "parent_process_name",
-            "dest"
-        ],
         "lowercase_name": "get_parent_process_info"
     },
     {
@@ -1159,6 +1159,10 @@
         "how_to_implement": "To successfully implement this search you must be ingesting endpoint data and populating the Endpoint data model.",
         "known_false_positives": "",
         "references": [],
+        "inputs": [
+            "dest",
+            "process_name"
+        ],
         "tags": {
             "analytic_story": [
                 "DHS Report TA18-074A",
@@ -1177,10 +1181,6 @@
             ],
             "security_domain": "endpoint"
         },
-        "inputs": [
-            "dest",
-            "process_name"
-        ],
         "lowercase_name": "get_process_file_activity"
     },
     {
@@ -1198,6 +1198,10 @@
         "how_to_implement": "To successfully implement this search you must be ingesting endpoint data and populating the Endpoint data model.",
         "known_false_positives": "",
         "references": [],
+        "inputs": [
+            "process_name",
+            "dest"
+        ],
         "tags": {
             "analytic_story": [
                 "AWS Network ACL Activity",
@@ -1243,10 +1247,6 @@
             ],
             "security_domain": "endpoint"
         },
-        "inputs": [
-            "process_name",
-            "dest"
-        ],
         "lowercase_name": "get_process_info"
     },
     {
@@ -1264,6 +1264,10 @@
         "how_to_implement": "To successfully implement this search you must be ingesting endpoint data that associates processes with network events and populate the Endpoint Datamodel",
         "known_false_positives": "",
         "references": [],
+        "inputs": [
+            "dest",
+            "dest_port"
+        ],
         "tags": {
             "analytic_story": [
                 "AWS Network ACL Activity",
@@ -1293,10 +1297,6 @@
             ],
             "security_domain": "endpoint"
         },
-        "inputs": [
-            "dest",
-            "dest_port"
-        ],
         "lowercase_name": "get_process_information_for_port_activity"
     },
     {
@@ -1314,6 +1314,9 @@
         "how_to_implement": "You must be ingesting endpoint data that associates processes with network events into the Endpoint datamodel. This can come from endpoint protection products such as carbon black, or endpoint data sources such as Sysmon.",
         "known_false_positives": "",
         "references": [],
+        "inputs": [
+            "dest"
+        ],
         "tags": {
             "analytic_story": [
                 "AWS Network ACL Activity",
@@ -1341,9 +1344,6 @@
             ],
             "security_domain": "endpoint"
         },
-        "inputs": [
-            "dest"
-        ],
         "lowercase_name": "get_process_responsible_for_the_dns_traffic"
     },
     {
@@ -1359,6 +1359,9 @@
         "how_to_implement": "To successfully implement this search, you must be collecting Sysmon data using Sysmon version 6.1 or greater and have Sysmon configured to generate events for WMI activity. In addition, you must have at least version 6.0.4 of the Sysmon TA installed to properly parse the fields.",
         "known_false_positives": "",
         "references": [],
+        "inputs": [
+            "dest"
+        ],
         "tags": {
             "analytic_story": [
                 "Ransomware",
@@ -1381,9 +1384,6 @@
             ],
             "security_domain": "endpoint"
         },
-        "inputs": [
-            "dest"
-        ],
         "lowercase_name": "get_sysmon_wmi_activity_for_host"
     },
     {
@@ -1399,6 +1399,9 @@
         "how_to_implement": "This search leverages data extracted from Stream:HTTP. You must configure the HTTP stream using the Splunk Stream App on your Splunk Stream deployment server.",
         "known_false_positives": "",
         "references": [],
+        "inputs": [
+            "session_id"
+        ],
         "tags": {
             "analytic_story": [
                 "Web Fraud Detection"
@@ -1415,9 +1418,6 @@
             ],
             "security_domain": "network"
         },
-        "inputs": [
-            "session_id"
-        ],
         "lowercase_name": "get_web_session_information_via_session_id"
     },
     {
@@ -1433,6 +1433,9 @@
         "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs.",
         "known_false_positives": "",
         "references": [],
+        "inputs": [
+            "vendor_region"
+        ],
         "tags": {
             "analytic_story": [
                 "AWS Cryptomining",
@@ -1452,9 +1455,6 @@
             ],
             "security_domain": "network"
         },
-        "inputs": [
-            "vendor_region"
-        ],
         "lowercase_name": "investigate_aws_activities_via_region_name"
     },
     {
@@ -1470,6 +1470,9 @@
         "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs.",
         "known_false_positives": "",
         "references": [],
+        "inputs": [
+            "user"
+        ],
         "tags": {
             "analytic_story": [
                 "AWS User Monitoring",
@@ -1492,9 +1495,6 @@
             ],
             "security_domain": "network"
         },
-        "inputs": [
-            "user"
-        ],
         "lowercase_name": "investigate_aws_user_activities_by_user_field"
     },
     {
@@ -1512,6 +1512,9 @@
         "how_to_implement": "To successfully implement this search you need to be ingesting authentication logs from your various systems and populating the Authentication data model.",
         "known_false_positives": "",
         "references": [],
+        "inputs": [
+            "user"
+        ],
         "tags": {
             "analytic_story": [
                 "Credential Dumping"
@@ -1528,9 +1531,6 @@
             ],
             "security_domain": "endpoint"
         },
-        "inputs": [
-            "user"
-        ],
         "lowercase_name": "investigate_failed_logins_for_multiple_destinations"
     },
     {
@@ -1548,6 +1548,9 @@
         "how_to_implement": "To successfully implement this search, you must be ingesting your web-traffic logs and populating the web data model.",
         "known_false_positives": "",
         "references": [],
+        "inputs": [
+            "src_ip"
+        ],
         "tags": {
             "analytic_story": [
                 "ColdRoot MacOS RAT",
@@ -1562,9 +1565,6 @@
             ],
             "security_domain": "network"
         },
-        "inputs": [
-            "src_ip"
-        ],
         "lowercase_name": "investigate_network_traffic_from_src_ip"
     },
     {
@@ -1580,6 +1580,9 @@
         "how_to_implement": "You must be ingesting Okta logs",
         "known_false_positives": "",
         "references": [],
+        "inputs": [
+            "app"
+        ],
         "tags": {
             "analytic_story": [
                 "Suspicious Okta Activity"
@@ -1601,9 +1604,6 @@
             ],
             "security_domain": "network"
         },
-        "inputs": [
-            "app"
-        ],
         "lowercase_name": "investigate_okta_activity_by_app"
     },
     {
@@ -1619,6 +1619,7 @@
         "how_to_implement": "You must be ingesting Okta logs",
         "known_false_positives": "",
         "references": [],
+        "inputs": [],
         "tags": {
             "analytic_story": [
                 "Suspicious Okta Activity"
@@ -1640,7 +1641,6 @@
             ],
             "security_domain": "network"
         },
-        "inputs": [],
         "lowercase_name": "investigate_okta_activity_by_ip_address"
     },
     {
@@ -1656,6 +1656,9 @@
         "how_to_implement": "To successfully implement this search you need be ingesting windows security logs. This search uses an input macro named `wineventlog_security`. We strongly recommend that you specify your environment-specific configurations (index, source, sourcetype, etc.) for Windows Security logs. Replace the macro definition with configurations for your Splunk environment. The search also uses a post-filter macro designed to filter out known false positives.",
         "known_false_positives": "",
         "references": [],
+        "inputs": [
+            "dest"
+        ],
         "tags": {
             "analytic_story": [
                 "Credential Dumping"
@@ -1673,9 +1676,6 @@
             ],
             "security_domain": "endpoint"
         },
-        "inputs": [
-            "dest"
-        ],
         "lowercase_name": "investigate_pass_the_hash_attempts"
     },
     {
@@ -1691,6 +1691,9 @@
         "how_to_implement": "To successfully implement this search you need to be ingesting windows security logs. This search uses an input macro named `wineventlog_security`. We strongly recommend that you specify your environment-specific configurations (index, source, sourcetype, etc.) for Windows Security logs. Replace the macro definition with configurations for your Splunk environment. The search also uses a post-filter macro designed to filter out known false positives.",
         "known_false_positives": "",
         "references": [],
+        "inputs": [
+            "dest"
+        ],
         "tags": {
             "analytic_story": [
                 "Credential Dumping"
@@ -1706,9 +1709,6 @@
             ],
             "security_domain": "endpoint"
         },
-        "inputs": [
-            "dest"
-        ],
         "lowercase_name": "investigate_pass_the_ticket_attempts"
     },
     {
@@ -1726,6 +1726,9 @@
         "how_to_implement": "To successfully implement this search you need to be ingesting authentication logs from your various systems and populating the Authentication data model.",
         "known_false_positives": "",
         "references": [],
+        "inputs": [
+            "dest"
+        ],
         "tags": {
             "analytic_story": [
                 "Credential Dumping"
@@ -1742,9 +1745,6 @@
             ],
             "security_domain": "endpoint"
         },
-        "inputs": [
-            "dest"
-        ],
         "lowercase_name": "investigate_previous_unseen_user"
     },
     {
@@ -1762,6 +1762,9 @@
         "how_to_implement": "You must be populating the Authentication data model with security events from your Windows event logs.",
         "known_false_positives": "",
         "references": [],
+        "inputs": [
+            "dest"
+        ],
         "tags": {
             "analytic_story": [
                 "Hidden Cobra Malware",
@@ -1783,9 +1786,6 @@
             ],
             "security_domain": "endpoint"
         },
-        "inputs": [
-            "dest"
-        ],
         "lowercase_name": "investigate_successful_remote_desktop_authentications"
     },
     {
@@ -1801,6 +1801,10 @@
         "how_to_implement": "This particular search leverages data extracted from Stream:HTTP. You must configure the http stream using the Splunk Stream App on your Splunk Stream deployment server to extract the cs_content_type field.",
         "known_false_positives": "",
         "references": [],
+        "inputs": [
+            "src_ip",
+            "dest_ip"
+        ],
         "tags": {
             "analytic_story": [
                 "Apache Struts Vulnerability"
@@ -1817,10 +1821,6 @@
             ],
             "security_domain": "network"
         },
-        "inputs": [
-            "src_ip",
-            "dest_ip"
-        ],
         "lowercase_name": "investigate_suspicious_strings_in_http_header"
     },
     {
@@ -1836,6 +1836,9 @@
         "how_to_implement": "You must be ingesting Okta logs",
         "known_false_positives": "",
         "references": [],
+        "inputs": [
+            "user"
+        ],
         "tags": {
             "analytic_story": [
                 "Suspicious Okta Activity"
@@ -1856,9 +1859,6 @@
             ],
             "security_domain": "network"
         },
-        "inputs": [
-            "user"
-        ],
         "lowercase_name": "investigate_user_activities_in_okta"
     },
     {
@@ -1876,6 +1876,9 @@
         "how_to_implement": "To successfully implement this search, you must be ingesting your web-traffic logs and populating the web data model.",
         "known_false_positives": "",
         "references": [],
+        "inputs": [
+            "src"
+        ],
         "tags": {
             "analytic_story": [
                 "Apache Struts Vulnerability"
@@ -1892,9 +1895,6 @@
             ],
             "security_domain": "network"
         },
-        "inputs": [
-            "src"
-        ],
         "lowercase_name": "investigate_web_posts_from_src"
     },
     {
@@ -1914,6 +1914,7 @@
         "references": [
             "https://threadreaderapp.com/thread/1423361119926816776.html"
         ],
+        "inputs": [],
         "tags": {
             "analytic_story": [
                 "Ransomware"
@@ -1936,7 +1937,6 @@
             ],
             "security_domain": "endpoint"
         },
-        "inputs": [],
         "lowercase_name": "rundll32_lockworkstation"
     }
 ]

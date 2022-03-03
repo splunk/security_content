@@ -91,6 +91,8 @@ unknown
 | 49.0 | 70 | 70 | process $process_name$ creating image file $file_path$ in $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

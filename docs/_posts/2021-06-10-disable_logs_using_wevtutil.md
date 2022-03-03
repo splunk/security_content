@@ -96,6 +96,8 @@ network operator may disable audit event logs for debugging purposes.
 | 24.0 | 30 | 80 | WevtUtil.exe used to disable Event Logging on $dest |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

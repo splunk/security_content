@@ -88,6 +88,8 @@ Using multiple AWS accounts and roles is perfectly valid behavior. It's suspicio
 | 15.0 | 30 | 50 | AWS account $requestingAccountId$ is trying to access resource from some other account $requestedAccountId$, for the first time. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

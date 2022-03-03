@@ -97,6 +97,8 @@ other browser not listed related to firefox may catch by this rule.
 | 35.0 | 50 | 70 | a non firefox browser process $process_name$ accessing $Object_Name$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

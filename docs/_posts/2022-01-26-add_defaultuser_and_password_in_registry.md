@@ -96,6 +96,8 @@ unknown
 | 25.0 | 50 | 50 | modified registry key $registry_key_name$ with registry value $registry_value_name$ to prepare autoadminlogon |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

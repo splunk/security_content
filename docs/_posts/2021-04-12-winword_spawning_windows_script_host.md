@@ -94,6 +94,8 @@ There will be limited false positives and it will be different for every environ
 | 70.0 | 70 | 100 | User $user$ on $dest$ spawned Windows Script Host from Winword.exe |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

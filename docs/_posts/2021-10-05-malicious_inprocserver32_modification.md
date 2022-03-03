@@ -100,6 +100,8 @@ False positives should be limited, filter as needed. In our test case, Remcos us
 | 80.0 | 80 | 100 | The $process_name$ was identified on endpoint $dest$ modifying the registry with a known malicious clsid under InProcServer32. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

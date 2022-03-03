@@ -95,6 +95,8 @@ False positives should be limited, however filtering may be required.
 | 80.0 | 80 | 100 | An instance of $process_name$ was identified on endpoint $dest$ attempting to download a remote file and run it with bash. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

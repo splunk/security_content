@@ -106,6 +106,8 @@ If there is a vulnerablility scannner looking for log4shells this will trigger, 
 | 15.0 | 50 | 30 | CVE-2021-44228 Log4Shell triggered for host $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

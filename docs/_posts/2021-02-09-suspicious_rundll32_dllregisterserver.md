@@ -100,6 +100,8 @@ This is likely to produce false positives and will require some filtering. Tune 
 | 35.0 | 70 | 50 | $Processes.process_path.file_path$ process potentially loading malicious code |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

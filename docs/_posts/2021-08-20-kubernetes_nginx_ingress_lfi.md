@@ -93,6 +93,8 @@ unknown
 | 49.0 | 70 | 70 | Local File Inclusion Attack detected on $host$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

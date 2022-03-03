@@ -94,6 +94,8 @@ Although unlikely, some legitimate applications may exhibit this behavior, trigg
 | 40.0 | 50 | 80 | suspicious mshta child process detected on host $dest$ by user $user$. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

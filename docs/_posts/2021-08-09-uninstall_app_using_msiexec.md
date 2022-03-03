@@ -96,6 +96,8 @@ unknown.
 | 30.0 | 50 | 60 | process $process_name$ with a cmdline $process$ in host $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

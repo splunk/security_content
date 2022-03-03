@@ -100,6 +100,8 @@ Although unlikely, some legitimate applications may exhibit this behavior, trigg
 | 42.0 | 70 | 60 | Suspicious msbuild.exe process executed on $dest$ by $user$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

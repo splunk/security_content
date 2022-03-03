@@ -55,7 +55,9 @@ tags:
   - Filesystem.user
   - Filesystem.file_path
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon
+  asset_type: Endpoint
   confidence: 50
   impact: 50
-  risk_score: 25
-  asset_type: Endpoint
+  risk_score: 25.0

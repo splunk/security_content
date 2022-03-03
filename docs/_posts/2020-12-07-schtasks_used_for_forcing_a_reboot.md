@@ -98,6 +98,8 @@ Administrators may create jobs on systems forcing reboots to perform updates, ma
 | 56.0 | 70 | 80 | A schedule task process $process_name$ with force reboot commandline $process$ in host $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

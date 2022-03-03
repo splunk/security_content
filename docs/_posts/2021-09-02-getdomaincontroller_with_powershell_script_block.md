@@ -84,6 +84,8 @@ Administrators or power users may use this PowerShell commandlet for troubleshoo
 | 24.0 | 30 | 80 | Remote system discovery with PowerView on $dest$ by $user$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

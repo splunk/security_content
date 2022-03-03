@@ -100,6 +100,8 @@ Although unlikely a renamed instance of hh.exe will be used legitimately, filter
 | 80.0 | 80 | 100 | The following $process_name$ has been identified as renamed, spawning from $parent_process_name$. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

@@ -95,6 +95,8 @@ S3 buckets can be accessed from any IP, as long as it can make a successful conn
 | 25.0 | 50 | 50 | tbd |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

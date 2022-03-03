@@ -87,6 +87,8 @@ Admin activities or installing related updates may do a sudden stop to list of s
 | 72.0 | 90 | 80 | Known services $Message$ terminated by a potential ransomware on $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

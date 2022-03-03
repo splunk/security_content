@@ -94,6 +94,8 @@ Sts:AssumeRole can be very noisy as it is a standard mechanism to provide cross 
 | 25.0 | 50 | 50 | tbd |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

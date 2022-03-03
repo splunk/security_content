@@ -80,3 +80,5 @@ tags:
   risk_score: 80
   asset_type: Endpoint
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon

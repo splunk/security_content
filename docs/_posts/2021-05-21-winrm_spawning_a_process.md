@@ -86,7 +86,8 @@ Unknown. Add new processes or filter as needed. It is possible system management
 
 
 
-#### RBA
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|

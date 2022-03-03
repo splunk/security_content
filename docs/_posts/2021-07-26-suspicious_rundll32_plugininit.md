@@ -100,6 +100,8 @@ third party application may used this dll export name to execute function.
 | 42.0 | 60 | 70 | rundll32 process $process_name$ with commandline $process$ in host $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

@@ -95,6 +95,8 @@ Not all permanent key creations are malicious. If there is a policy of rotating 
 | 25.0 | 50 | 50 | tbd |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

@@ -97,6 +97,8 @@ network operator may disable this feature of windows but not so common.
 | 25.0 | 50 | 50 | Disable ETW Through Registry |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

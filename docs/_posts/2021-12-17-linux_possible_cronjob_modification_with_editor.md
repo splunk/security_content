@@ -100,6 +100,8 @@ Administrator or network operator can use this commandline for automation purpos
 | 6.0 | 20 | 30 | A commandline $process$ that may modify cronjob file using editor in $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

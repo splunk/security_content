@@ -96,6 +96,8 @@ It is possible some applications will create a consumer and may be required to b
 | 63.0 | 70 | 90 | Possible malicious WMI Subscription created on $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

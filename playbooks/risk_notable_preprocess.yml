@@ -20,6 +20,7 @@ tags:
   - risk_notable
   platform_tags:
   - Risk Notable
+  playbook_type: Automation
   playbook_fields:
   - event_id
   - info_min_time

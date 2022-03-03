@@ -100,6 +100,8 @@ It is possible legitimate applications may perform this behavior and will need t
 | 80.0 | 80 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $est$ by user $user$ attempting to access a remote destination to download an additional payload. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

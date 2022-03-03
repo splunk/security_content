@@ -32,6 +32,8 @@ tags:
   analytic_story:
   - Suspicious Regsvr32 Activity
   - Remcos
+  - Hermetic Wiper
+  automated_detection_testing: passed
   confidence: 60
   context:
   - Source:Endpoint
@@ -83,4 +85,6 @@ tags:
   - Processes.parent_process_id
   risk_score: 36
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon
   asset_type: Endpoint

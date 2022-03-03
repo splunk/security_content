@@ -86,6 +86,7 @@ jobs:
         run: |
           source venv/bin/activate
           python3 bin/contentctl_project/main/contentctl.py -p . validate -pr ESCU
+          python3 bin/contentctl_project/main/contentctl.py -p . validate -pr SSA
       
       # - name: Get CTI Repo for Mitre context
       #   uses:  actions/checkout@v2
@@ -421,21 +422,26 @@ jobs:
       - name: Run doc-gen
         run: |
           source venv/bin/activate
-          python3 bin/contentctl_project/main/contentctl.py -p . docgen -o docs
-      
-      # - name: Enrich detections with TAs
-      #   env:
-      #     GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_ACCESS_TOKEN }}
-      #   run: |
-      #     source venv/bin/activate
-      #     python3 -m pip install security_content_automation/requirements.txt
-      #     python3 security_content_automation/enrich_detections.py
-      
-      # - name: Run generate-coverage-map
-      #   run: |
-      #     source venv/bin/activate
-      #     python3 bin/generate-coverage-map.py --projects_path . --output docs/mitre-map
-      
+          python3 bin/doc_gen.py --path . --output docs -v
+
+      - name: Enrich detections with TAs
+        env:
+          GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_ACCESS_TOKEN }}
+        run: |
+          source venv/bin/activate
+          python3 -m pip install -r security_content_automation/requirements.txt
+          python3 security_content_automation/enrich_detections.py
+
+      - name: Make YAMLs Pretty
+        run: |
+          source venv/bin/activate
+          python3 bin/pretty_yaml.py --path . -v
+
+      - name: Run generate-coverage-map
+        run: |
+          source venv/bin/activate
+          python3 bin/generate-coverage-map.py --projects_path . --output docs/mitre-map
+
       - name: Update github with new docs and package bits
         run: |
           rm -rf dist

@@ -92,6 +92,8 @@ To successfully implement this search, you need to be ingesting logs with the Im
 | 54.0 | 60 | 90 | Wallpaper modification on $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

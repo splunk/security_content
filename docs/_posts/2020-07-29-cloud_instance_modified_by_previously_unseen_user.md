@@ -110,6 +110,8 @@ It's possible that a new user will start to modify EC2 instances when they haven
 | 42.0 | 70 | 60 | User $user$ is modifying an instance $dest$ for the first time. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

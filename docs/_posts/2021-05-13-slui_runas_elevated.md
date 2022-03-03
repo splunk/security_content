@@ -98,6 +98,8 @@ Limited false positives should be present as this is not commonly used by legiti
 | 63.0 | 70 | 90 | A slui process $process_name$ with elevated commandline $process$ in host $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

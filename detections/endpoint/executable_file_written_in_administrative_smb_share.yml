@@ -32,6 +32,8 @@ tags:
   analytic_story:
   - Active Directory Lateral Movement
   - Trickbot
+  - Hermetic Wiper
+  automated_detection_testing: passed
   confidence: 100
   context:
   - Source:Endpoint

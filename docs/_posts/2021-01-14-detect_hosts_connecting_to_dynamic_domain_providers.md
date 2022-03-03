@@ -99,6 +99,8 @@ Some users and applications may leverage Dynamic DNS to reach out to some domain
 | 56.0 | 70 | 80 | A dns query $query$ from your infra connecting to suspicious domain in host  $host$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

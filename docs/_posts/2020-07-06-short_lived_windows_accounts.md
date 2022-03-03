@@ -94,6 +94,8 @@ It is possible that an administrator created and deleted an account in a short t
 | 63.0 | 70 | 90 | A user account created or delete shortly in host $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

@@ -97,6 +97,8 @@ admin may disable this application for non technical user.
 | 42.0 | 70 | 60 | The Windows Task Manager was disabled on $dest$ by $user$. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

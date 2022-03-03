@@ -97,6 +97,8 @@ admin may disable this application for non technical user.
 | 25.0 | 50 | 50 | The Windows registry was modified to disable run application in window start menu on $dest$ by $user$. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

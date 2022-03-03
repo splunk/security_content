@@ -99,6 +99,8 @@ Tasks should not be manually created via CLI, this is rarely done by admins as w
 | 56.0 | 70 | 80 | A schedule task process $process_name$ with create or delete commandline $process$ in host $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

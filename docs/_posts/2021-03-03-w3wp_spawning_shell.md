@@ -102,6 +102,8 @@ Baseline your environment before production. It is possible build systems using 
 | 56.0 | 70 | 80 | Possible Web Shell execution on $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

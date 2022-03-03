@@ -103,6 +103,8 @@ A single public IP address servicing multiple legitmate users may trigger this s
 | 25.0 | 50 | 50 | tbd |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

@@ -102,6 +102,8 @@ unknown
 | 7.0 | 10 | 70 | Vulnerabilities with severity high found in repository $repositoryName$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

@@ -94,6 +94,8 @@ Microsoft may provide updates to these binaries. Verify that these changes do no
 | 72.0 | 80 | 90 | A suspicious file modification or replace in $file_path$  in host $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

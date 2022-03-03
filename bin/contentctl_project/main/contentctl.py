@@ -153,6 +153,10 @@ def generate(args) -> None:
 def validate(args) -> None:
     if not args.product:
         print("ERROR: missing parameter -p/--product .")
+        sys.exit(1)     
+
+    if args.product not in ['ESCU', 'SSA']:
+        print("ERROR: invalid product. valid products are ESCU, SSA or API.")
         sys.exit(1)
 
     factory_input_dto = FactoryInputDto(
@@ -167,9 +171,25 @@ def validate(args) -> None:
         AttackEnrichment.get_attack_lookup()
     )
 
-    validate_input_dto = ValidateInputDto(
-        factory_input_dto
+    ba_factory_input_dto = BAFactoryInputDto(
+        os.path.abspath(args.path),
+        SecurityContentBasicBuilder(),
+        SecurityContentDetectionBuilder(),
+        SecurityContentDirector()
     )
+
+    if args.product == "ESCU":
+        validate_input_dto = ValidateInputDto(
+            factory_input_dto,
+            ba_factory_input_dto,
+            SecurityContentProduct.ESCU
+        )
+    elif args.product == "SSA":
+        validate_input_dto = ValidateInputDto(
+            factory_input_dto,
+            ba_factory_input_dto,
+            SecurityContentProduct.SSA
+        )
 
     validate = Validate()
     validate.execute(validate_input_dto)

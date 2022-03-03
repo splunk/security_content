@@ -4,7 +4,7 @@ excerpt: "Ingress Tool Transfer
 "
 categories:
   - Endpoint
-last_modified_at: 2021-03-23
+last_modified_at: 2022-02-03
 toc: true
 toc_label: ""
 tags:
@@ -28,7 +28,7 @@ Certutil.exe may download a file from a remote destination using `-urlcache`. Th
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
-- **Last Updated**: 2021-03-23
+- **Last Updated**: 2022-02-03
 - **Author**: Michael Haag, Splunk
 - **ID**: 415b4306-8bfb-11eb-85c4-acde48001122
 
@@ -43,7 +43,7 @@ Certutil.exe may download a file from a remote destination using `-urlcache`. Th
 
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where `process_certutil` Processes.process=*urlcache* Processes.process=*split* by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.original_file_name Processes.parent_process_id 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where `process_certutil` (Processes.process=*urlcache* Processes.process=*split*) OR Processes.process=*urlcache* by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.original_file_name Processes.parent_process_id 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -96,6 +96,8 @@ Limited false positives in most environments, however tune as needed based on pa
 | 90.0 | 90 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to download a file. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference
@@ -115,4 +117,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/certutil_download_with_urlcache_and_split_arguments.yml) \| *version*: **2**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/certutil_download_with_urlcache_and_split_arguments.yml) \| *version*: **3**

@@ -100,6 +100,8 @@ Using sc.exe to manipulate Windows services is uncommon. However, there may be l
 | 56.0 | 70 | 80 | A sc process $process_name$ with commandline $process$ to create of configure services in host $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

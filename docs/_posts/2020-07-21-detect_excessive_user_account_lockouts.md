@@ -99,6 +99,8 @@ It is possible that a legitimate user is experiencing an issue causing multiple 
 | 36.0 | 60 | 60 | Multiple accounts have been locked out. Review $nodename$ and $result$ related to $user$. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

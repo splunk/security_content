@@ -104,6 +104,8 @@ This is a strictly behavioral search, so we define "false positive" slightly dif
 | 42.0 | 70 | 60 | User $user$ is starting or creating an instance $object$ for the first time in Country $Country$ from IP address $src$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

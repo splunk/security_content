@@ -101,6 +101,8 @@ Although unlikely, some legitimate applications may exhibit this behavior, trigg
 | 56.0 | 70 | 80 | Suspicious rundll32.exe inline HTA execution on $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

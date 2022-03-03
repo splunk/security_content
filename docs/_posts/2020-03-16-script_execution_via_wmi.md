@@ -86,6 +86,8 @@ Although unlikely, administrators may use wmi to launch scripts for legitimate p
 | 36.0 | 60 | 60 | A wmic.exe process $process_name$ taht execute script in host $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

@@ -50,9 +50,7 @@
         "notable": {
             "rule_description": "%description%",
             "rule_title": "%name%",
-            "nes_fields": [
-                "user"
-            ]
+            "nes_fields": []
         },
         "tags": {
             "type": "Correlation",

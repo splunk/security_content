@@ -93,6 +93,8 @@ normal application like mmc.exe and other ldap query tool may trigger this detec
 | 25.0 | 50 | 50 | process $Image$ create a file $TargetFilename$ in host $Computer$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

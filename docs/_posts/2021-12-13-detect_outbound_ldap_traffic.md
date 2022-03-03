@@ -92,6 +92,8 @@ Unknown at this moment. Outbound LDAP traffic should not be allowed outbound thr
 | 56.0 | 70 | 80 | An outbound LDAP connection from $src_ip$ in your infrastructure connecting to dest ip $dest_ip$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

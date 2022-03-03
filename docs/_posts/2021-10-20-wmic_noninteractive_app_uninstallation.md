@@ -99,6 +99,8 @@ third party application may use this approach to uninstall there application
 | 25.0 | 50 | 50 | wmic $process$ with commandline $process$ in $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

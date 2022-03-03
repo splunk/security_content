@@ -98,6 +98,8 @@ Certain applications may spawn from `slui.exe` that are legitimate. Filtering wi
 | 63.0 | 70 | 90 | A slui process $parent_process_name$ spawning child process $process_name$ in host $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

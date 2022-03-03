@@ -167,7 +167,7 @@ jobs:
             cd bin/automated_detection_testing/ci/detection_testing_batch
             source .venv/bin/activate
             
-            python3 detection_testing_execution.py run -c prior_config/${{ matrix.manifest_filename}} --splunkbase_username ${{ secrets.SPLUNKBASE_TESTING_USERNAME }} --splunkbase_password ${{ secrets.SPLUNKBASE_TESTING_KEY }} 
+            python3 detection_testing_execution.py run -c prior_config/${{ matrix.manifest_filename}} 
                     
         
         - name: Upload Test Results Files

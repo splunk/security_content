@@ -99,6 +99,8 @@ False positive is quite limited. Filter is needed
 | 16.0 | 40 | 40 | suspicious process $process_name$ contains commandline $process$ on $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

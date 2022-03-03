@@ -93,6 +93,8 @@ network admin and normal user may send this file attachment as part of their day
 | 9.0 | 30 | 30 | suspicious email from $source.address$ to $destination{}.address$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

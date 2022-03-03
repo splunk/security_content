@@ -102,6 +102,8 @@ There may be legitimate reasons to bypass the PowerShell execution policy. The P
 | 42.0 | 70 | 60 | PowerShell local execution policy bypass attempt on $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

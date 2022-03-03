@@ -96,6 +96,8 @@ It's possible that a user has unknowingly started an instance in a new region. P
 | 42.0 | 70 | 60 | User $user$ is creating an instance $dest$ in a new region for the first time |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

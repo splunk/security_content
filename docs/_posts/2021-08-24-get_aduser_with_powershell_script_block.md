@@ -90,6 +90,8 @@ Administrators or power users may use this command for troubleshooting.
 | 25.0 | 50 | 50 | powershell process having commandline $Message$ for user enumeration |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

@@ -89,6 +89,8 @@ unknown
 | 54.0 | 60 | 90 | Possible file data deletion on $dest$ using $process$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

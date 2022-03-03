@@ -126,6 +126,15 @@
         "filename": "legit_domains.csv"
     },
     {
+        "name": "linux_tool_discovery_process",
+        "description": "A list of suspicious bash commonly used by attackers via scripts",
+        "filename": "linux_tool_discovery_process.csv",
+        "default_match": "false",
+        "match_type": "WILDCARD(process)",
+        "min_matches": 1,
+        "case_sensitive_match": "false"
+    },
+    {
         "name": "local_file_inclusion_paths",
         "description": "A list of interesting files in a local file inclusion attack",
         "filename": "local_file_inclusion_paths.csv",

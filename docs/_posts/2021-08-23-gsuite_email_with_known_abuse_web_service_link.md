@@ -91,6 +91,8 @@ normal email contains this link that are known application within the organizati
 | 25.0 | 50 | 50 | suspicious email from $source.address$ to $destination{}.address$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

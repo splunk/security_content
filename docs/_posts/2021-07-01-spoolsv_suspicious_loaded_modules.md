@@ -94,6 +94,8 @@ unknown
 | 72.0 | 80 | 90 | $Image$ with process id $process_id$ has loaded a driver from $ImageLoaded$ on endpoint $Computer$. This behavior is suspicious and related to PrintNightmare. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

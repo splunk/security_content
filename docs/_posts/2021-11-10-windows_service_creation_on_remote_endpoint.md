@@ -101,6 +101,8 @@ Administrators may create Windows Services on remote systems, but this activity 
 | 54.0 | 90 | 60 | A Windows Service was created on a remote endpoint from $dest |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

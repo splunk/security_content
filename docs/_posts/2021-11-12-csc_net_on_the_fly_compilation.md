@@ -97,6 +97,8 @@ A network operator or systems administrator may utilize an automated powershell 
 | 25.0 | 50 | 50 | csc.exe with commandline $process$ to compile .net code on $dest$ by $user$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

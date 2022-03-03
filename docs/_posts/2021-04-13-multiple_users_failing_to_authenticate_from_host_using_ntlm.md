@@ -95,6 +95,8 @@ A host failing to authenticate with multiple valid domain users is not a common 
 | 49.0 | 70 | 70 | Potential NTLM based password spraying attack from $Source_Workstation$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

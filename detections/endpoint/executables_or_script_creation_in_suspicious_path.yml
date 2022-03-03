@@ -38,6 +38,8 @@ tags:
   - XMRig
   - Remcos
   - WhisperGate
+  - Hermetic Wiper
+  automated_detection_testing: passed
   confidence: 70
   context:
   - Source:Endpoint
@@ -78,4 +80,6 @@ tags:
   - Filesystem.user
   risk_score: 56
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon
   asset_type: Endpoint

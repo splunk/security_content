@@ -79,4 +79,6 @@ tags:
   - Processes.parent_process_id
   risk_score: 80
   security_domain: access
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon
   asset_type: Endpoint

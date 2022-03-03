@@ -102,6 +102,8 @@ This detection may require tuning based on third party applications utilizing na
 | 49.0 | 70 | 70 | System process running from unexpected location on $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

@@ -93,6 +93,8 @@ False positives should be limited as day to day scripts do not use this method.
 | 56.0 | 70 | 80 | A suspicious powershell script contains reflective class assembly  command in $Message$ to load .net code in memory with EventCode $EventCode$ in host $ComputerName$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

@@ -91,6 +91,8 @@ It is possible that these logs may be legitimately cleared by Administrators. Fi
 | 70.0 | 70 | 100 | Windows event logs cleared on $dest$ via EventCode $EventCode$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

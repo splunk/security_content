@@ -116,6 +116,8 @@ Although uncommon, Administrators may leverage Impackets tools to start a proces
 | 63.0 | 90 | 70 | Suspicious command line parameters on $dest may represent a lateral movement attack with Impackets tools |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

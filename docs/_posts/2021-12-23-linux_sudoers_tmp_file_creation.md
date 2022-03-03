@@ -96,6 +96,8 @@ administrator or network operator can execute this command. Please update the fi
 | 72.0 | 80 | 90 | A file $file_name$ is created in $file_path$ on $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

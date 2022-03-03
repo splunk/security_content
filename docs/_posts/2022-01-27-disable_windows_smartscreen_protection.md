@@ -97,6 +97,8 @@ admin or user may choose to disable this windows features.
 | 25.0 | 50 | 50 | The Windows Smartscreen was disabled on $dest$ by $user$. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

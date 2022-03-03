@@ -95,6 +95,8 @@ Limited false positives may be present in small environments. Tuning may be requ
 | 70.0 | 70 | 100 | A searchprotocolhost.exe process $process_name$ with no commandline in host $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

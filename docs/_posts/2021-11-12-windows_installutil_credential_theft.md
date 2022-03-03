@@ -102,6 +102,8 @@ Typically this will not trigger as by it's very nature InstallUtil does not need
 | 80.0 | 80 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ loading samlib.dll and vaultcli.dll to potentially capture credentials in memory. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

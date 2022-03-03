@@ -90,6 +90,8 @@ powershell developer may used this function in their script for instance checkin
 | 40.0 | 50 | 80 | A suspicious powershell script contains Thread Mutex in $Message$ with EventCode $EventCode$ in host $ComputerName$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

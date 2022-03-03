@@ -91,6 +91,8 @@ unknown
 | 80.0 | 80 | 100 | RDP was moved to a non-standard port on $dest$ by $user$. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

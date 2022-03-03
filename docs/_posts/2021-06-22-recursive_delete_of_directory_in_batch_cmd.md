@@ -100,6 +100,8 @@ network operator may use this batch command to delete recursively a directory or
 | 25.0 | 50 | 50 | Recursive Delete of Directory In Batch CMD |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

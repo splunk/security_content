@@ -95,6 +95,8 @@ Some legitimate applications may exhibit this behavior.
 | 35.0 | 70 | 50 | cmd.exe launching script interpreters on $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

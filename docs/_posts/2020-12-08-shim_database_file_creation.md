@@ -93,6 +93,8 @@ Because legitimate shim files are created and used all the time, this event, in 
 | 56.0 | 70 | 80 | A process that possibly write shim database in $file_path$ in host $dest$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

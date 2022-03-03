@@ -98,6 +98,8 @@ A source user failing attempting to authenticate multiple users on a host is not
 | 49.0 | 70 | 70 | Potential password spraying attack from $ComputerName$ |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference

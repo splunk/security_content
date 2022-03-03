@@ -73,8 +73,7 @@ Note that `detect_gcp_storage_access_from_a_new_ip_filter` is a empty macro by d
 #### Lookups
 The SPL above uses the following Lookups:
 
-* [previously_seen_gcp_storage_access_from_remote_ip](https://github.com/splunk/security_content/blob/develop/lookups/previously_seen_gcp_storage_access_from_remote_ip.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/previously_seen_gcp_storage_access_from_remote_ip.csv)
-* [previously_seen_gcp_storage_access_from_remote_ip](https://github.com/splunk/security_content/blob/develop/lookups/previously_seen_gcp_storage_access_from_remote_ip.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/previously_seen_gcp_storage_access_from_remote_ip.csv)
+* [previously_seen_gcp_storage_access_from_remote_ip](https://github.com/splunk/security_content/blob/develop/lookups/previously_seen_gcp_storage_access_from_remote_ip.yml) with [data](https://github.com/splunk/security_content/blob/develop/lookups/previously_seen_gcp_storage_access_from_remote_ip.csv)
 
 #### Required field
 * _time
@@ -106,6 +105,8 @@ GCP Storage buckets can be accessed from any IP (if the ACLs are open to allow i
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
 
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 
