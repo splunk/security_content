@@ -32,6 +32,7 @@ tags:
   analytic_story:
   - Suspicious Regsvr32 Activity
   - Remcos
+  - Hermetic Wiper
   automated_detection_testing: passed
   confidence: 60
   context:
