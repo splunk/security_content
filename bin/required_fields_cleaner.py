@@ -155,7 +155,7 @@ def update_required_fields_for_yaml(filename:str, search:str, required_fields:se
     #    print(f"{filename} is {datamodels_from_datamodel_field}")
     for model in datamodels_from_datamodel_field:
         if model not in datamodels_with_submodel:
-            print (f"{filename} used datamodel {model} but not in search {datamodels_from_search}")
+            #print (f"{filename} used datamodel {model} but not in search {datamodels_from_search}")
             break
         
 
@@ -280,8 +280,8 @@ def clean_folder(directory:str, defined_datamodels:dict):
             with open(filename,"r") as cfg:
                 parsed = yaml.safe_load(cfg)
             
-            #if parsed["type"] not in ["TTP", "Anomaly" "TTP" ]:
-            #    continue
+            if parsed["type"] not in ["Anomaly", "Hunting", "TTP" ]:
+                continue
 
             if "search" not in parsed:
                 print(f"Failed to find ['search'] in {filename}")
