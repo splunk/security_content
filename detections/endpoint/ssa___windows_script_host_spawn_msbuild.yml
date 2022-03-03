@@ -5,7 +5,7 @@ date: '2022-03-03'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint_Processes
 description: This analytic is to detect a suspicious child process of MSBuild spawned
   by Windows Script Host - cscript or wscript. This behavior or event are commonly
   seen and used by malware or adversaries to execute malicious msbuild process using
