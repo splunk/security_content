@@ -80,6 +80,7 @@ False positives should be limited, however filter as needed.
 
 #### Associated Analytic story
 * [Active Directory Discovery](/stories/active_directory_discovery)
+* [Active Directory Kerberos Attacks](/stories/active_directory_kerberos_attacks)
 
 
 #### Kill Chain Phase

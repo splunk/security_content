@@ -13,10 +13,11 @@ description: The following analytic identifies a suspicious process creation of 
   and after this process execution, when it was executed and what schedule task it
   will execute.
 search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Processes
-  where  Processes.process_name IN ("at", "atd") OR Processes.parent_process_name IN ("at", "atd") by Processes.dest
-  Processes.user Processes.parent_process_name Processes.process_name Processes.process
-  Processes.process_id Processes.parent_process_id Processes.process_guid | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `linux_at_application_execution_filter`'
+  where  Processes.process_name IN ("at", "atd") OR Processes.parent_process_name
+  IN ("at", "atd") by Processes.dest Processes.user Processes.parent_process_name
+  Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
+  Processes.process_guid | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `linux_at_application_execution_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from

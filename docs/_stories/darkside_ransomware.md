@@ -48,6 +48,9 @@ This story addresses Darkside ransomware. This ransomware payload has many simil
 | [Ransomware Notes bulk creation](/endpoint/ransomware_notes_bulk_creation/) | [Data Encrypted for Impact](/tags/#data-encrypted-for-impact) | Anomaly |
 | [SLUI RunAs Elevated](/endpoint/slui_runas_elevated/) | [Bypass User Account Control](/tags/#bypass-user-account-control), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism) | TTP |
 | [SLUI Spawning a Process](/endpoint/slui_spawning_a_process/) | [Bypass User Account Control](/tags/#bypass-user-account-control), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism) | TTP |
+| [Windows Bitsadmin Download File](/endpoint/windows_bitsadmin_download_file/) | [BITS Jobs](/tags/#bits-jobs), [Ingress Tool Transfer](/tags/#ingress-tool-transfer) | TTP |
+| [Windows CertUtil URLCache Download](/endpoint/windows_certutil_urlcache_download/) | [Ingress Tool Transfer](/tags/#ingress-tool-transfer) | TTP |
+| [Windows CertUtil VerifyCtl Download](/endpoint/windows_certutil_verifyctl_download/) | [Ingress Tool Transfer](/tags/#ingress-tool-transfer) | TTP |
 | [Windows Possible Credential Dumping](/endpoint/windows_possible_credential_dumping/) | [LSASS Memory](/tags/#lsass-memory), [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
 
 #### Reference

@@ -3,7 +3,7 @@ title: "Process Deleting Its Process File Path"
 excerpt: "Indicator Removal on Host"
 categories:
   - Endpoint
-last_modified_at: 2021-03-17
+last_modified_at: 2022-02-18
 toc: true
 toc_label: ""
 tags:
@@ -26,7 +26,7 @@ This detection is to identify a suspicious process that tries to delete the proc
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
-- **Last Updated**: 2021-03-17
+- **Last Updated**: 2022-02-18
 - **Author**: Teoderick Contreras
 - **ID**: f7eda4bc-871c-11eb-b110-acde48001122
 
@@ -40,9 +40,9 @@ This detection is to identify a suspicious process that tries to delete the proc
 #### Search
 
 ```
-`sysmon` EventCode=1 cmdline = "* /c *" cmdline = "* del*" Image = "*\\cmd.exe" 
-|eval result = if(like(process,"%".parent_process."%"), "Found", "Not Found") 
-| stats min(_time) as firstTime max(_time) as lastTime count by Computer user ParentImage ParentCommandLine Image cmdline EventCode ProcessID result 
+`sysmon` EventCode=1 CommandLine = "* /c *" CommandLine = "* del*" Image = "*\\cmd.exe" 
+| eval result = if(like(process,"%".parent_process."%"), "Found", "Not Found") 
+| stats min(_time) as firstTime max(_time) as lastTime count by Computer user ParentImage ParentCommandLine Image CommandLine EventCode ProcessID result 
 | where result = "Found" 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -113,4 +113,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/process_deleting_its_process_file_path.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/process_deleting_its_process_file_path.yml) \| *version*: **2**
