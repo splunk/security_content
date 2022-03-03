@@ -1,7 +1,7 @@
-name: Windows Script Host Spawn MSBuild Unit Test
+name: Windows WMIPrvse Spawn MSBuild Unit Test
 tests:
-- name: Windows Script Host Spawn MSBuild
-  file: endpoint/ssa___windows_script_host_spawn_msbuild.yml
+- name: Windows WMIPrvse Spawn MSBuild
+  file: endpoint/ssa___windows_wmiprvse_spawn_msbuild.yml
   pass_condition: '@count_gt(0)'
   attack_data:
   - file_name: msbuild-windows-security.log
