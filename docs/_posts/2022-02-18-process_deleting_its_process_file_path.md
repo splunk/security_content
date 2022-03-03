@@ -1,16 +1,16 @@
 ---
-title: "High File Deletion Frequency"
-excerpt: "Data Destruction
+title: "Process Deleting Its Process File Path"
+excerpt: "Indicator Removal on Host
 "
 categories:
   - Endpoint
-last_modified_at: 2021-03-16
+last_modified_at: 2022-02-18
 toc: true
 toc_label: ""
 tags:
 
-  - Data Destruction
-  - Impact
+  - Indicator Removal on Host
+  - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -23,31 +23,32 @@ tags:
 
 #### Description
 
-This search looks for high frequency of file deletion relative to process name and process id. These events usually happen when the ransomware tries to encrypt the files with the ransomware file extensions and sysmon treat the original files to be deleted as soon it was replace as encrypted data.
+This detection is to identify a suspicious process that tries to delete the process file path related to its process. This technique is known to be defense evasion once a certain condition of malware is satisfied or not. Clop ransomware use this technique where it will try to delete its process file path using a .bat command if the keyboard layout is not the layout it tries to infect.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
-- **Last Updated**: 2021-03-16
+- **Last Updated**: 2022-02-18
 - **Author**: Teoderick Contreras
-- **ID**: 45b125c4-866f-11eb-a95a-acde48001122
+- **ID**: f7eda4bc-871c-11eb-b110-acde48001122
 
 
 #### [ATT&CK](https://attack.mitre.org/)
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
-| [T1485](https://attack.mitre.org/techniques/T1485/) | Data Destruction | Impact |
+| [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
 
 #### Search
 
 ```
-`sysmon` EventCode=23 TargetFilename IN ("*\.cmd", "*\.ini","*\.gif", "*\.jpg", "*\.jpeg", "*\.db", "*\.ps1", "*\.doc*", "*\.xls*", "*\.ppt*", "*\.bmp","*\.zip", "*\.rar", "*\.7z", "*\.chm", "*\.png", "*\.log", "*\.vbs", "*\.js") 
-| stats values(TargetFilename) as deleted_files min(_time) as firstTime max(_time) as lastTime count by Computer user EventCode Image ProcessID 
-|where count >=100 
+`sysmon` EventCode=1 CommandLine = "* /c *" CommandLine = "* del*" Image = "*\\cmd.exe" 
+| eval result = if(like(process,"%".parent_process."%"), "Found", "Not Found") 
+| stats min(_time) as firstTime max(_time) as lastTime count by Computer user ParentImage ParentCommandLine Image CommandLine EventCode ProcessID result 
+| where result = "Found" 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
-| `high_file_deletion_frequency_filter`
+| `process_deleting_its_process_file_path_filter`
 ```
 
 #### Macros
@@ -55,26 +56,30 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 
-Note that `high_file_deletion_frequency_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+Note that `process_deleting_its_process_file_path_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * EventCode
-* TargetFilename
 * Computer
 * user
+* ParentImage
+* ParentCommandLine
 * Image
+* cmdline
 * ProcessID
+* result
 * _time
 
 
 #### How To Implement
-To successfully implement this search, you need to be ingesting logs with the deleted target file name, process name and process id  from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the "process" field in the Endpoint data model.
 
 #### Known False Positives
-user may delete bunch of pictures or files in a folder.
+unknown
 
 #### Associated Analytic story
 * [Clop Ransomware](/stories/clop_ransomware)
+* [Remcos](/stories/remcos)
 * [WhisperGate](/stories/whispergate)
 
 
@@ -87,7 +92,7 @@ user may delete bunch of pictures or files in a folder.
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
-| 72.0 | 90 | 80 | High frequency file deletion activity detected on host $Computer$ |
+| 60.0 | 60 | 100 | A process $Image$ tries to delete its process path in commandline $cmdline$ as part of defense evasion in host $Computer$ |
 
 
 Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
@@ -111,4 +116,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/high_file_deletion_frequency.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/process_deleting_its_process_file_path.yml) \| *version*: **2**

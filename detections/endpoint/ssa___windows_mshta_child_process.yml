@@ -39,39 +39,26 @@ tags:
   analytic_story:
   - Suspicious MSHTA Activity
   - Living Off The Land
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.005/atomic_red_team/windows-security.log
-  kill_chain_phases:
-  - Exploitation
-  mitre_attack_id:
-  - T1218.005
-  - T1218
-  product:
-  - Splunk Behavioral Analytics
-  required_fields:
-  - _time
-  - dest_device_id
-  - process_name
-  - parent_process_name
-  - process_path
-  - dest_user_id
-  - process
-  - cmd_line
-  security_domain: endpoint
-  impact: 80
+  cis20:
+  - CIS 8
   confidence: 100
-  risk_score: 80
   context:
   - Source:Endpoint
   - Stage:Defense Evasion
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.005/atomic_red_team/windows-security.log
+  impact: 80
+  kill_chain_phases:
+  - Exploitation
   message: An instance of $parent_process_name$ spawning $process_name$ was identified
     on endpoint $dest_device_id$ by user $dest_user_id$ attempting to access a remote
     destination to download an additional payload.
+  mitre_attack_id:
+  - T1218.005
+  - T1218
   nist:
   - PR.PT
   - DE.CM
-  cis20:
-  - CIS 8
   observable:
   - name: dest_user_id
     type: User
@@ -89,4 +76,16 @@ tags:
     type: Process
     role:
     - Child Process
-  asset_type: Endpoint
+  product:
+  - Splunk Behavioral Analytics
+  required_fields:
+  - _time
+  - dest_device_id
+  - process_name
+  - parent_process_name
+  - process_path
+  - dest_user_id
+  - process
+  - cmd_line
+  risk_score: 80
+  security_domain: endpoint

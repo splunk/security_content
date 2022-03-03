@@ -5,7 +5,7 @@ excerpt: "Signed Binary Proxy Execution
 "
 categories:
   - Endpoint
-last_modified_at: 2021-07-26
+last_modified_at: 2022-02-18
 toc: true
 toc_label: ""
 tags:
@@ -31,7 +31,7 @@ This search is to detect a suspicious rundll32.exe process having a http connect
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
-- **Last Updated**: 2021-07-26
+- **Last Updated**: 2022-02-18
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: f1483f5e-ee29-11eb-9d23-acde48001122
 
@@ -48,7 +48,7 @@ This search is to detect a suspicious rundll32.exe process having a http connect
 
 ```
 `sysmon` EventCode=22 process_name="rundll32.exe" 
-| stats count min(_time) as firstTime max(_time) as lastTime by Image QueryName QueryStatus ProcessId direction Computer 
+| stats count min(_time) as firstTime max(_time) as lastTime by Image QueryName QueryStatus ProcessId  Computer 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
 | `rundll32_dnsquery_filter`
@@ -67,7 +67,6 @@ Note that `rundll32_dnsquery_filter` is a empty macro by default. It allows the 
 * QueryName
 * QueryStatus
 * ProcessId
-* direction
 * Computer
 
 
@@ -112,4 +111,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/rundll32_dnsquery.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/rundll32_dnsquery.yml) \| *version*: **2**

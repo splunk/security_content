@@ -88,10 +88,12 @@ False positives may be caused by Administrators resetting SPNs or querying for S
 
 #### Associated Analytic story
 * [Active Directory Discovery](/stories/active_directory_discovery)
+* [Active Directory Kerberos Attacks](/stories/active_directory_kerberos_attacks)
 
 
 #### Kill Chain Phase
-* Exploitation
+* Privilege Escalation
+* Active Directory Kerberos Attacks
 
 
 

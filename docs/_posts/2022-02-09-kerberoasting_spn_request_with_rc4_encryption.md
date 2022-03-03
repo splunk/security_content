@@ -1,18 +1,15 @@
 ---
 title: "Kerberoasting spn request with RC4 encryption"
-excerpt: "Kerberoasting
-, Steal or Forge Kerberos Tickets
-"
+excerpt: "Steal or Forge Kerberos Tickets, Kerberoasting"
 categories:
   - Endpoint
-last_modified_at: 2020-10-16
+last_modified_at: 2022-02-09
 toc: true
 toc_label: ""
 tags:
-
-  - Kerberoasting
   - Steal or Forge Kerberos Tickets
   - Credential Access
+  - Kerberoasting
   - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -25,13 +22,13 @@ tags:
 
 #### Description
 
-This search detects a potential kerberoasting attack via service principal name requests
+The following analytic leverages Kerberos Event 4769, A Kerberos service ticket was requested, to identify a potential kerberoasting attack against Active Directory networks. Kerberoasting allows an adversary to request kerberos tickets for domain accounts typically used as service accounts and attempt to crack them offline allowing them to obtain privileged access to the domain. This analytic looks for a specific combination of the Ticket_Options field based on common kerberoasting tools. Defenders should be aware that it may be possible for a Kerberoast attack to use different Ticket_Options.
 
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **Last Updated**: 2020-10-16
-- **Author**: Jose Hernandez, Patrick Bareiss, Splunk
+- **Last Updated**: 2022-02-09
+- **Author**: Jose Hernandez, Patrick Bareiss, Mauricio Velazco, Splunk
 - **ID**: 5cc67381-44fa-4111-8a37-7a230943f027
 
 
@@ -39,14 +36,14 @@ This search detects a potential kerberoasting attack via service principal name 
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
-| [T1558.003](https://attack.mitre.org/techniques/T1558/003/) | Kerberoasting | Credential Access |
-
 | [T1558](https://attack.mitre.org/techniques/T1558/) | Steal or Forge Kerberos Tickets | Credential Access |
+
+| [T1558.003](https://attack.mitre.org/techniques/T1558/003/) | Kerberoasting | Credential Access |
 
 #### Search
 
 ```
-`wineventlog_security` EventCode=4769 Ticket_Options=0x40810000 Ticket_Encryption_Type=0x17 
+`wineventlog_security` EventCode=4769 Service_Name!="*$" (Ticket_Options=0x40810000 OR Ticket_Options=0x40800000 OR Ticket_Options=0x40810010) Ticket_Encryption_Type=0x17 
 | stats count min(_time) as firstTime max(_time) as lastTime by dest, service, service_id, Ticket_Encryption_Type, Ticket_Options 
 | `security_content_ctime(lastTime)` 
 | `security_content_ctime(firstTime)` 
@@ -71,13 +68,14 @@ Note that `kerberoasting_spn_request_with_rc4_encryption_filter` is a empty macr
 
 
 #### How To Implement
-You must be ingesting endpoint data that tracks process activity, and include the windows security event logs that contain kerberos
+To successfully implement this search, you need to be ingesting Domain Controller and Kerberos events. The Advanced Security Audit policy setting `Audit Kerberos Authentication Service` within `Account Logon` needs to be enabled.
 
 #### Known False Positives
-Older systems that support kerberos RC4 by default NetApp may generate false positives
+Older systems that support kerberos RC4 by default like NetApp may generate false positives. Filter as needed
 
 #### Associated Analytic story
 * [Windows Privilege Escalation](/stories/windows_privilege_escalation)
+* [Active Directory Kerberos Attacks](/stories/active_directory_kerberos_attacks)
 
 
 #### Kill Chain Phase
@@ -107,9 +105,8 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
-
-* [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.003/atomic_red_team/windows-security.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.003/atomic_red_team/windows-security.log)
-
+* [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.003/rubeus/windows-security.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.003/rubeus/windows-security.log)
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/kerberoasting_spn_request_with_rc4_encryption.yml) \| *version*: **3**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/kerberoasting_spn_request_with_rc4_encryption.yml) \| *version*: **4**

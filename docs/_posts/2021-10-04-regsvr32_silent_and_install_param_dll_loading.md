@@ -89,6 +89,7 @@ Other third part application may used this parameter but not so common in base w
 #### Associated Analytic story
 * [Suspicious Regsvr32 Activity](/stories/suspicious_regsvr32_activity)
 * [Remcos](/stories/remcos)
+* [Hermetic Wiper](/stories/hermetic_wiper)
 
 
 #### Kill Chain Phase

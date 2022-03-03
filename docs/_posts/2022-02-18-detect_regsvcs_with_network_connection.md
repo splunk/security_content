@@ -5,7 +5,7 @@ excerpt: "Signed Binary Proxy Execution
 "
 categories:
   - Endpoint
-last_modified_at: 2021-02-16
+last_modified_at: 2022-02-18
 toc: true
 toc_label: ""
 tags:
@@ -30,7 +30,7 @@ The following analytic identifies Regsvcs.exe with a network connection to a pub
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **Last Updated**: 2021-02-16
+- **Last Updated**: 2022-02-18
 - **Author**: Michael Haag, Splunk
 - **ID**: e3e7a1c0-f2b9-445c-8493-f30a63522d1a
 
@@ -48,7 +48,7 @@ The following analytic identifies Regsvcs.exe with a network connection to a pub
 ```
 `sysmon` EventID=3 dest_ip!=10.0.0.0/12 dest_ip!=172.16.0.0/12 dest_ip!=192.168.0.0/16 process_name=regsvcs.exe 
 | rename Computer as dest 
-| stats count min(_time) as firstTime max(_time) as lastTime by dest, User, process_name, src_ip, dest_host, dest_ip 
+| stats count min(_time) as firstTime max(_time) as lastTime by dest, user, process_name, src_ip, dest_ip 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
 | `detect_regsvcs_with_network_connection_filter`
@@ -67,7 +67,7 @@ Note that `detect_regsvcs_with_network_connection_filter` is a empty macro by de
 * dest_ip
 * process_name
 * Computer
-* User
+* user
 * src_ip
 * dest_host
 
@@ -115,4 +115,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/detect_regsvcs_with_network_connection.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/detect_regsvcs_with_network_connection.yml) \| *version*: **2**

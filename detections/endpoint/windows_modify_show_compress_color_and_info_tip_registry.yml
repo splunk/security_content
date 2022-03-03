@@ -36,12 +36,29 @@ tags:
   analytic_story:
   - Windows Defense Evasion Tactics
   - Hermetic Wiper
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  confidence: 50
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/hermetic_wiper/globalfolderoptions_reg/sysmon.log
+  impact: 50
   kill_chain_phases:
   - Exploitation
+  message: Registry modification in "ShowCompColor" and "ShowInfoTips" on $dest$
   mitre_attack_id:
   - T1112
+  nist:
+  - DE.CM
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -52,23 +69,5 @@ tags:
   - Registry.registry_path
   - Registry.registry_value_name
   - Registry.dest Registry.user
-  security_domain: endpoint
-  impact: 50
-  confidence: 50
   risk_score: 25
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  message: Registry modification in "ShowCompColor" and "ShowInfoTips" on $dest$
-  observable:
-  - name: dest
-    type: Endpoint
-    role:
-    - Victim
-  nist:
-  - DE.CM
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
-  asset_type: Endpoint
+  security_domain: endpoint

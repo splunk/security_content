@@ -27,10 +27,17 @@ references:
 tags:
   analytic_story:
   - Active Directory Kerberos Attacks
+  confidence: 90
+  context:
+  - Source:Endpoint
+  - Stage:Discovery
+  - Stage:Recon
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.004/powerview/windows-powershell.log
+  impact: 60
   kill_chain_phases:
-  - Exploitation
+  - Privilege Escalation
+  message: Disabled Kerberos Pre-Authentication Discovery With PowerView from $dest$
   mitre_attack_id:
   - T1558
   - T1558.004
@@ -49,13 +56,5 @@ tags:
   - Message
   - ComputerName
   - User
-  security_domain: endpoint
-  impact: 60
-  confidence: 90
   risk_score: 54
-  context:
-  - Source:Endpoint
-  - Stage:Discovery
-  - Stage:Recon
-  message: Disabled Kerberos Pre-Authentication Discovery With PowerView from $dest$
-  asset_type: Endpoint
+  security_domain: endpoint

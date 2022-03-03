@@ -88,4 +88,3 @@ tags:
   - cmd_line
   risk_score: 40
   security_domain: endpoint
-  asset_type: Endpoint

@@ -48,12 +48,14 @@ This search looks for executions of cmd.exe spawned by a process that is often a
 
 ```
 
-| tstats `security_content_summariesonly` count values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where `process_cmd` by Processes.parent_process_name Processes.process_name Processes.original_file_name Processes.dest Processes.user
-| `drop_dm_object_name(Processes)` 
-| `security_content_ctime(firstTime)`
-| `security_content_ctime(lastTime)` 
-|search [`prohibited_apps_launching_cmd`] 
-| `detect_prohibited_applications_spawning_cmd_exe_filter`
+| from read_ssa_enriched_events() 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)) 
+| eval process_name=ucast(map_get(input_event, "process_name"), "string", null), parent_process=lower(ucast(map_get(input_event, "parent_process_name"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"),"string", null)), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null), event_id=ucast(map_get(input_event,"event_id"), "string", null) 
+| where process_name="cmd.exe" 
+| rex field=parent_process "(?<ParentBaseFileName>[^\\\\]+)$" 
+| where ParentBaseFileName="winword.exe" OR ParentBaseFileName="excel.exe" OR ParentBaseFileName="outlook.exe" OR ParentBaseFileName="powerpnt.exe" OR ParentBaseFileName="visio.exe" OR ParentBaseFileName="mspub.exe" OR ParentBaseFileName="acrobat.exe" OR ParentBaseFileName="acrord32.exe" OR ParentBaseFileName="iexplore.exe" OR ParentBaseFileName="opera.exe" OR ParentBaseFileName="firefox.exe" OR (ParentBaseFileName="java.exe" AND (cmd_line IS NULL OR (cmd_line IS NOT NULL AND match_regex(cmd_line, /(?i)patch1-Hotfix1a/)=false))) OR ParentBaseFileName="powershell.exe" OR (ParentBaseFileName="chrome.exe" AND (cmd_line IS NULL OR (cmd_line IS NOT NULL AND NOT like(cmd_line, "%chrome-extension%")))) 
+| eval start_time=timestamp, end_time=timestamp, entities=mvappend(dest_device_id, dest_user_id), body=create_map(["event_id", event_id,  "process_name", process_name, "parent_process_name", parent_process, "cmd_line", cmd_line]) 
+| into write_ssa_detected_events();
 ```
 
 #### Macros

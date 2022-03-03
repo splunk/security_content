@@ -30,13 +30,30 @@ tags:
   analytic_story:
   - WhisperGate
   - Hermetic Wiper
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  confidence: 100
+  context:
+  - Source:Endpoint
+  - Stage:Impact
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1561.002/mbr_raw_access/sysmon.log
+  impact: 90
   kill_chain_phases:
   - Exploitation
+  message: process accessing MBR $device$ in $dest$
   mitre_attack_id:
   - T1561.002
   - T1561
+  nist:
+  - DE.CM
+  observable:
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -50,22 +67,5 @@ tags:
   - ProcessId
   - EventDescription
   - EventCode
-  security_domain: endpoint
-  impact: 90
-  confidence: 100
   risk_score: 90
-  context:
-  - Source:Endpoint
-  message: process accessing MBR $device$ in $dest$
-  observable:
-  - name: Computer
-    type: Hostname
-    role:
-    - Victim
-  nist:
-  - DE.CM
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
-  asset_type: Endpoint
+  security_domain: endpoint

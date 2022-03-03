@@ -5,7 +5,7 @@ excerpt: "Remote Services
 "
 categories:
   - Endpoint
-last_modified_at: 2021-11-18
+last_modified_at: 2022-02-18
 toc: true
 toc_label: ""
 tags:
@@ -30,7 +30,7 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **Last Updated**: 2021-11-18
+- **Last Updated**: 2022-02-18
 - **Author**: Mauricio Velazco, Splunk
 - **ID**: a4e8f3a4-48b2-11ec-bcfc-3e22fbd008af
 
@@ -46,7 +46,7 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 #### Search
 
 ```
-powershell` EventCode=4104 (Message="*Enter-PSSession*" AND Message="*-ComputerName*") 
+`powershell` EventCode=4104 (Message="*Enter-PSSession*" AND Message="*-ComputerName*") 
 | stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message ComputerName User 
 | `security_content_ctime(firstTime)` 
 | `interactive_session_on_remote_endpoint_with_powershell_filter`
@@ -54,6 +54,7 @@ powershell` EventCode=4104 (Message="*Enter-PSSession*" AND Message="*-ComputerN
 
 #### Macros
 The SPL above uses the following Macros:
+* [powershell](https://github.com/splunk/security_content/blob/develop/macros/powershell.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `interactive_session_on_remote_endpoint_with_powershell_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -108,4 +109,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/interactive_session_on_remote_endpoint_with_powershell.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/interactive_session_on_remote_endpoint_with_powershell.yml) \| *version*: **2**

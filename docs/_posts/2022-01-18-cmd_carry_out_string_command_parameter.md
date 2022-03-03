@@ -86,6 +86,7 @@ False positives may be high based on legitimate scripted code in any environment
 * [IcedID](/stories/icedid)
 * [Log4Shell CVE-2021-44228](/stories/log4shell_cve-2021-44228)
 * [WhisperGate](/stories/whispergate)
+* [Hermetic Wiper](/stories/hermetic_wiper)
 
 
 #### Kill Chain Phase

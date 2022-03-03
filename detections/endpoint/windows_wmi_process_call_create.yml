@@ -30,12 +30,33 @@ references:
 tags:
   analytic_story:
   - Suspicious WMI Use
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  confidence: 50
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1047/atomic_red_team/windows-sysmon.log
+  impact: 50
   kill_chain_phases:
   - Exploitation
+  message: process with $process$ commandline executed in $dest$
   mitre_attack_id:
   - T1047
+  nist:
+  - DE.CM
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -54,27 +75,5 @@ tags:
   - Processes.process_path
   - Processes.parent_process_id
   - Processes.process_guid
-  security_domain: endpoint
-  impact: 50
-  confidence: 50
   risk_score: 25
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  message: process with $process$ commandline executed in $dest$
-  observable:
-  - name: user
-    type: User
-    role:
-    - Victim
-  - name: dest
-    type: Hostname
-    role:
-    - Victim
-  nist:
-  - DE.CM
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
-  asset_type: Endpoint
+  security_domain: endpoint

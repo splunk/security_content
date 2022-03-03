@@ -33,12 +33,30 @@ tags:
   analytic_story:
   - Data Destruction
   - Hermetic Wiper
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  confidence: 100
+  context:
+  - Source:Endpoint
+  - Stage:Persistence
+  - Privilege Escalation
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/hermetic_wiper/sysmon.log
+  impact: 90
   kill_chain_phases:
   - Exploitation
+  message: Driver file with out file extension drop in $file_path$ in $dest$
   mitre_attack_id:
   - T1485
+  nist:
+  - DE.CM
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -55,23 +73,5 @@ tags:
   - Processes.dest
   - Processes.process_guid
   - Processes.user
-  security_domain: endpoint
-  impact: 90
-  confidence: 100
   risk_score: 90
-  context:
-  - Source:Endpoint
-  - Stage:Persistence
-  message: Driver file with out file extension drop in $file_path$ in $dest$
-  observable:
-  - name: user
-    type: User
-    role:
-    - Victim
-  nist:
-  - DE.CM
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
-  asset_type: Endpoint
+  security_domain: endpoint

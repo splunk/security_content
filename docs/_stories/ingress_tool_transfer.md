@@ -40,6 +40,9 @@ Ingress tool transfer is a Technique under tactic Command and Control. Behaviors
 | [Curl Download and Bash Execution](/endpoint/curl_download_and_bash_execution/) | [Ingress Tool Transfer](/tags/#ingress-tool-transfer) | TTP |
 | [Suspicious Curl Network Connection](/endpoint/suspicious_curl_network_connection/) | [Ingress Tool Transfer](/tags/#ingress-tool-transfer) | TTP |
 | [Wget Download and Bash Execution](/endpoint/wget_download_and_bash_execution/) | [Ingress Tool Transfer](/tags/#ingress-tool-transfer) | TTP |
+| [Windows Bitsadmin Download File](/endpoint/windows_bitsadmin_download_file/) | [BITS Jobs](/tags/#bits-jobs), [Ingress Tool Transfer](/tags/#ingress-tool-transfer) | TTP |
+| [Windows CertUtil URLCache Download](/endpoint/windows_certutil_urlcache_download/) | [Ingress Tool Transfer](/tags/#ingress-tool-transfer) | TTP |
+| [Windows CertUtil VerifyCtl Download](/endpoint/windows_certutil_verifyctl_download/) | [Ingress Tool Transfer](/tags/#ingress-tool-transfer) | TTP |
 | [Windows Curl Download to Suspicious Path](/endpoint/windows_curl_download_to_suspicious_path/) | [Ingress Tool Transfer](/tags/#ingress-tool-transfer) | TTP |
 | [Windows Curl Upload to Remote Destination](/endpoint/windows_curl_upload_to_remote_destination/) | [Ingress Tool Transfer](/tags/#ingress-tool-transfer) | TTP |
 | [Windows Curl Upload to Remote Destination](/endpoint/windows_curl_upload_to_remote_destination/) | [Ingress Tool Transfer](/tags/#ingress-tool-transfer) | TTP |

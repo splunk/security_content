@@ -79,6 +79,7 @@ Administrators may allow execution of specific binaries in non-standard paths. F
 * [XMRig](/stories/xmrig)
 * [Remcos](/stories/remcos)
 * [WhisperGate](/stories/whispergate)
+* [Hermetic Wiper](/stories/hermetic_wiper)
 
 
 #### Kill Chain Phase

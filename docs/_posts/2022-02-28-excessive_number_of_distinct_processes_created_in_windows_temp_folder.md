@@ -4,7 +4,7 @@ excerpt: "Command and Scripting Interpreter
 "
 categories:
   - Endpoint
-last_modified_at: 2021-06-03
+last_modified_at: 2022-02-28
 toc: true
 toc_label: ""
 tags:
@@ -28,8 +28,8 @@ This analytic will identify suspicious series of process executions.  We have ob
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
-- **Last Updated**: 2021-06-03
-- **Author**: Michael Hart, Splunk
+- **Last Updated**: 2022-02-28
+- **Author**: Michael Hart, Mauricio Velazco, Splunk
 - **ID**: 23587b6a-c479-11eb-b671-acde48001122
 
 
@@ -43,7 +43,7 @@ This analytic will identify suspicious series of process executions.  We have ob
 
 ```
 
-| tstats `security_content_summariesonly` values(Processes.process) as process distinct_count(Processes.process) as distinct_process_count  min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process = "*\\Windows\\Temp\\*" by Processes.dest Processes.user  _time span=20m 
+| tstats `security_content_summariesonly` values(Processes.process) as process distinct_count(Processes.process) as distinct_process_count  min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_path = "*\\Windows\\Temp\\*" by Processes.dest Processes.user  _time span=20m 
 | where distinct_process_count > 37 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
@@ -106,4 +106,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/excessive_number_of_distinct_processes_created_in_windows_temp_folder.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/excessive_number_of_distinct_processes_created_in_windows_temp_folder.yml) \| *version*: **2**
