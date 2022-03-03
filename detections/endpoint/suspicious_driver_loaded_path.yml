@@ -1,11 +1,6 @@
-name: Suspicious Driver Loaded Path
-id: f880acd4-a8f1-11eb-a53b-acde48001122
-version: 1
-date: '2021-04-29'
 author: Teoderick Contreras, Splunk
-type: TTP
-datamodel:
-- Endpoint
+datamodel: []
+date: '2021-04-29'
 description: This analytic will detect suspicious driver loaded paths. This technique
   is commonly used by malicious software like coin miners (xmrig) to register its
   malicious driver from notable directories where executable or drivers do not commonly
@@ -14,19 +9,21 @@ description: This analytic will detect suspicious driver loaded paths. This tech
   is not normal, but occurs. In addition, review driver loads into `ntoskrnl.exe`
   for possible other drivers of interest. Long tail analyze drivers by path (outside
   of default, and in default) for further review.
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the driver loaded and Signature from your endpoints. If you are using
+  Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+id: f880acd4-a8f1-11eb-a53b-acde48001122
+known_false_positives: Limited false positives will be present. Some applications
+  do load drivers
+name: Suspicious Driver Loaded Path
+references:
+- https://www.trendmicro.com/vinfo/hk/threat-encyclopedia/malware/trojan.ps1.powtran.a/
+- https://redcanary.com/blog/tracking-driver-inventory-to-expose-rootkits/
 search: '`sysmon` EventCode=6 ImageLoaded = "*.sys" NOT (ImageLoaded IN("*\\WINDOWS\\inf","*\\WINDOWS\\System32\\drivers\\*",
   "*\\WINDOWS\\System32\\DriverStore\\FileRepository\\*")) |  stats  min(_time) as
   firstTime max(_time) as lastTime count by Computer ImageLoaded Hashes IMPHASH Signature
   Signed | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `suspicious_driver_loaded_path_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the driver loaded and Signature from your endpoints. If you are using
-  Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
-known_false_positives: Limited false positives will be present. Some applications
-  do load drivers
-references:
-- https://www.trendmicro.com/vinfo/hk/threat-encyclopedia/malware/trojan.ps1.powtran.a/
-- https://redcanary.com/blog/tracking-driver-inventory-to-expose-rootkits/
 tags:
   analytic_story:
   - XMRig
@@ -47,13 +44,13 @@ tags:
   - T1543
   observable:
   - name: Computer
-    type: Endpoint
     role:
     - Victim
+    type: Endpoint
   - name: ImageLoaded
-    type: File Name
     role:
     - Attacker
+    type: File Name
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -68,3 +65,5 @@ tags:
   - Signed
   risk_score: 63
   security_domain: endpoint
+type: TTP
+version: 1

@@ -1,14 +1,17 @@
-name: Mailsniper Invoke functions
-id: a36972c8-b894-11eb-9f78-acde48001122
-version: 1
-date: '2021-05-19'
 author: Teoderick Contreras, Splunk
-type: TTP
-datamodel:
-- Endpoint
+datamodel: []
+date: '2021-05-19'
 description: This search is to detect known mailsniper.ps1 functions executed in a
   machine. This technique was seen in some attacker to harvest some sensitive e-mail
   in a compromised exchange server.
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the powershell logs  from your endpoints. make sure you enable needed
+  registry to monitor this event.
+id: a36972c8-b894-11eb-9f78-acde48001122
+known_false_positives: unknown
+name: Mailsniper Invoke functions
+references:
+- https://www.blackhillsinfosec.com/introducing-mailsniper-a-tool-for-searching-every-users-email-for-sensitive-data/
 search: '`powershell` EventCode=4104 Message IN ("*Invoke-GlobalO365MailSearch*",
   "*Invoke-GlobalMailSearch*", "*Invoke-SelfSearch*", "*Invoke-PasswordSprayOWA*",
   "*Invoke-PasswordSprayEWS*","*Invoke-DomainHarvestOWA*", "*Invoke-UsernameHarvestOWA*","*Invoke-OpenInboxFinder*","*Invoke-InjectGEventAPI*","*Invoke-InjectGEvent*","*Invoke-SearchGmail*",
@@ -16,12 +19,6 @@ search: '`powershell` EventCode=4104 Message IN ("*Invoke-GlobalO365MailSearch*"
   | stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message
   ComputerName User | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `mailsniper_invoke_functions_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the powershell logs  from your endpoints. make sure you enable needed
-  registry to monitor this event.
-known_false_positives: unknown
-references:
-- https://www.blackhillsinfosec.com/introducing-mailsniper-a-tool-for-searching-every-users-email-for-sensitive-data/
 tags:
   analytic_story:
   - Data Exfiltration
@@ -42,13 +39,13 @@ tags:
   - T1114.001
   observable:
   - name: dest
+    role:
+    - Victim
     type: Endpoint
-    role:
-    - Victim
   - name: user
-    type: User
     role:
     - Victim
+    type: User
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -61,3 +58,5 @@ tags:
   - User
   risk_score: 72
   security_domain: endpoint
+type: TTP
+version: 1

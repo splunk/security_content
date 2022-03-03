@@ -1,17 +1,22 @@
-name: Excessive number of taskhost processes
-id: f443dac2-c7cf-11eb-ab51-acde48001122
-version: 1
-date: '2021-06-07'
 author: Michael Hart
-type: Anomaly
 datamodel:
-- Endpoint
+- Endpoint.Processes
+date: '2021-06-07'
 description: This detection targets behaviors observed in post exploit kits like Meterpreter
   and Koadic that are run in memory.  We have observed that these tools must invoke
   an excessive number of taskhost.exe and taskhostex.exe processes to complete various
   actions (discovery, lateral movement, etc.).  It is extremely uncommon in the course
   of normal operations to see so many distinct taskhost and taskhostex processes running
   concurrently in a short time frame.
+how_to_implement: To successfully implement this search you need to be ingesting events
+  related to processes on the endpoints that include the name of the process and process
+  id into the `Endpoint` datamodel in the `Processes` node.
+id: f443dac2-c7cf-11eb-ab51-acde48001122
+known_false_positives: Administrators, administrative actions or certain applications
+  may run many instances of taskhost and taskhostex concurrently.  Filter as needed.
+name: Excessive number of taskhost processes
+references:
+- https://attack.mitre.org/software/S0250/
 search: '| tstats `security_content_summariesonly` values(Processes.process_id) as
   process_ids  min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
   WHERE Processes.process_name = "taskhost.exe" OR Processes.process_name = "taskhostex.exe"
@@ -22,13 +27,6 @@ search: '| tstats `security_content_summariesonly` values(Processes.process_id) 
   as taskhostex_count by _time, dest, firstTime, lastTime | where taskhost_count >
   10 and taskhostex_count > 10 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `excessive_number_of_taskhost_processes_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting events
-  related to processes on the endpoints that include the name of the process and process
-  id into the `Endpoint` datamodel in the `Processes` node.
-known_false_positives: Administrators, administrative actions or certain applications
-  may run many instances of taskhost and taskhostex concurrently.  Filter as needed.
-references:
-- https://attack.mitre.org/software/S0250/
 tags:
   analytic_story:
   - Meterpreter
@@ -48,24 +46,25 @@ tags:
   - T1033
   observable:
   - name: dest
-    type: Hostname
     role:
     - Victim
+    type: Hostname
   - name: process_name
-    type: Process
     role:
     - Child Process
+    type: Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - Endpoint.Processes.dest
+  - Endpoint.Processes.process_id
+  - Endpoint.Processes.process_name
   - _time
-  - Processes.process_id
-  - Processes.process_name
-  - Processes.dest
-  - Processes.user
   risk_score: 56
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_windows
+type: Anomaly
+version: 1

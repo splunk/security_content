@@ -1,13 +1,25 @@
-name: Batch File Write to System32
-id: 503d17cb-9eab-4cf8-a20e-01d5c6987ae3
-version: 2
-date: '2021-09-16'
 author: Michael Haag, Rico Valdez, Splunk
-type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Filesystem
+- Endpoint.Processes
+date: '2021-09-16'
 description: The search looks for a batch file (.bat) written to the Windows system
   directory tree.
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+id: 503d17cb-9eab-4cf8-a20e-01d5c6987ae3
+known_false_positives: It is possible for this search to generate a notable event
+  for a batch file write to a path that includes the string "system32", but is not
+  the actual Windows system directory. As such, you should confirm the path of the
+  batch file identified by the search. In addition, a false positive may be generated
+  by an administrator copying a legitimate batch file in this directory tree. You
+  should confirm that the activity is legitimate and modify the search to add exclusions,
+  as necessary.
+name: Batch File Write to System32
+references: []
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
   where Processes.process_name=*  by _time span=1h Processes.process_id Processes.process_name
   Processes.dest | `drop_dm_object_name(Processes)` | join process_guid, _time [|
@@ -18,19 +30,6 @@ search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint
   | fields _time dest file_create_time file_name file_path process_name process_path
   process] | dedup file_create_time | table dest file_create_time, file_name, file_path,
   process_name  | `batch_file_write_to_system32_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
-  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
-  endpoint product.
-known_false_positives: It is possible for this search to generate a notable event
-  for a batch file write to a path that includes the string "system32", but is not
-  the actual Windows system directory. As such, you should confirm the path of the
-  batch file identified by the search. In addition, a false positive may be generated
-  by an administrator copying a legitimate batch file in this directory tree. You
-  should confirm that the activity is legitimate and modify the search to add exclusions,
-  as necessary.
-references: []
 tags:
   analytic_story:
   - SamSam Ransomware
@@ -57,31 +56,33 @@ tags:
   - DE.CM
   observable:
   - name: user
+    role:
+    - Victim
     type: User
-    role:
-    - Victim
   - name: dest
+    role:
+    - Victim
     type: Hostname
-    role:
-    - Victim
   - name: file_name
-    type: File Name
     role:
     - Victim
+    type: File Name
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - Endpoint.Filesystem.dest
+  - Endpoint.Filesystem.file_create_time
+  - Endpoint.Filesystem.file_name
+  - Endpoint.Filesystem.file_path
+  - Endpoint.Processes.dest
+  - Endpoint.Processes.process_id
+  - Endpoint.Processes.process_name
   - _time
-  - Filesystem.dest
-  - Filesystem.file_name
-  - Filesystem.user
-  - Filesystem.file_path
-  - Processes.process_id
-  - Processes.process_name
-  - Processes.dest
   risk_score: 63
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_microsoft_sysmon
+type: TTP
+version: 2

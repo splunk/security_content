@@ -1,15 +1,21 @@
-name: Disable Show Hidden Files
-id: 6f3ccfa2-91fe-11eb-8f9b-acde48001122
-version: 2
-date: '2022-01-27'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
-type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
+- Endpoint.Registry
+date: '2022-01-27'
 description: The following analytic is to identify a modification in the Windows registry
   to prevent users from seeing all the files with hidden attributes. This event or
   techniques are known on some worm and trojan spy malware that will drop hidden files
   on the infected machine.
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure
+  that this registry was included in your config files ex. sysmon config to be monitored.
+id: 6f3ccfa2-91fe-11eb-8f9b-acde48001122
+known_false_positives: unknown
+name: Disable Show Hidden Files
+references:
+- https://www.sophos.com/en-us/threat-center/threat-analyses/viruses-and-spyware/W32~Tiotua-P/detailed-analysis.aspx
 search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Registry
   where (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\Hidden"
   OR Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\HideFileExt"
@@ -25,13 +31,6 @@ search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint
   process_path process proc_guid registry_path registry_value_name registry_value_data]
   | table _time dest user parent_process_name parent_process process_name process_path
   process proc_guid registry_path registry_value_name registry_value_data | `disable_show_hidden_files_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure
-  that this registry was included in your config files ex. sysmon config to be monitored.
-known_false_positives: unknown
-references:
-- https://www.sophos.com/en-us/threat-center/threat-analyses/viruses-and-spyware/W32~Tiotua-P/detailed-analysis.aspx
 tags:
   analytic_story:
   - Windows Defense Evasion Tactics
@@ -55,19 +54,29 @@ tags:
   - T1562
   observable:
   - name: dest
-    type: Endpoint
     role:
     - Victim
+    type: Endpoint
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - Endpoint.Processes.dest
+  - Endpoint.Processes.parent_process
+  - Endpoint.Processes.parent_process_name
+  - Endpoint.Processes.process
+  - Endpoint.Processes.process_guid
+  - Endpoint.Processes.process_id
+  - Endpoint.Processes.process_name
+  - Endpoint.Registry.dest
+  - Endpoint.Registry.process_guid
+  - Endpoint.Registry.registry_path
+  - Endpoint.Registry.registry_value_data
+  - Endpoint.Registry.registry_value_name
+  - Endpoint.Registry.user
   - _time
-  - Registry.registry_key_name
-  - Registry.registry_path
-  - Registry.user
-  - Registry.dest
-  - Registry.registry_value_nam
   risk_score: 40
   security_domain: endpoint
+type: TTP
+version: 2

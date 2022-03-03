@@ -1,11 +1,7 @@
-name: Log4Shell JNDI Payload Injection Attempt
-id: c184f12e-5c90-11ec-bf1f-497c9a704a72
-version: 1
-date: '2021-12-13'
 author: Jose Hernandez
-type: Anomaly
 datamodel:
-- Web
+- Web.Web
+date: '2021-12-13'
 description: CVE-2021-44228 Log4Shell payloads can be injected via various methods,
   but on of the most common vectors injection is via Web calls. Many of the vulnerable
   java web applications that are using log4j have a web component to them are specially
@@ -23,16 +19,18 @@ description: CVE-2021-44228 Log4Shell payloads can be injected via various metho
   that there was a attempt at a injection, which could be a reconnaissance activity
   or a valid expliotation attempt, but this does not exactly mean that the host was
   indeed successfully exploited.
+how_to_implement: This detection requires the Web datamodel to be populated from a
+  supported Technology Add-On like Splunk for Apache or Splunk for Nginx.
+id: c184f12e-5c90-11ec-bf1f-497c9a704a72
+known_false_positives: If there is a vulnerablility scannner looking for log4shells
+  this will trigger, otherwise likely to have low false positives.
+name: Log4Shell JNDI Payload Injection Attempt
+references:
+- https://www.lunasec.io/docs/blog/log4j-zero-day/
 search: '| from datamodel Web.Web | regex _raw="[jJnNdDiI]{4}(\:|\%3A|\/|\%2F)\w+(\:\/\/|\%3A\%2F\%2F)(\$\{.*?\}(\.)?)?"
   | fillnull | stats count by action, category, dest, dest_port, http_content_type,
   http_method, http_referrer, http_user_agent, site, src, url, url_domain, user |
   `log4shell_jndi_payload_injection_attempt_filter`'
-how_to_implement: This detection requires the Web datamodel to be populated from a
-  supported Technology Add-On like Splunk for Apache or Splunk for Nginx.
-known_false_positives: If there is a vulnerablility scannner looking for log4shells
-  this will trigger, otherwise likely to have low false positives.
-references:
-- https://www.lunasec.io/docs/blog/log4j-zero-day/
 tags:
   analytic_story:
   - Log4Shell CVE-2021-44228
@@ -60,13 +58,13 @@ tags:
   - DE.CM
   observable:
   - name: user
+    role:
+    - Victim
     type: User
-    role:
-    - Victim
   - name: dest
-    type: Hostname
     role:
     - Victim
+    type: Hostname
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -87,3 +85,5 @@ tags:
   - user
   risk_score: 15
   security_domain: threat
+type: Anomaly
+version: 1

@@ -1,59 +1,59 @@
-name: Kerberos Pre-Authentication Flag Disabled in UserAccountControl
-id: 0cb847ee-9423-11ec-b2df-acde48001122
-version: 1
-date: '2022-02-22'
 author: Mauricio Velazco, Splunk
-type: TTP
 datamodel: []
-description: The following analytic leverages Windows Security Event 4738, `A user account was changed`,
-  to identify a change performed on a domain user object that disables Kerberos Pre-Authentication.
-  Disabling the Pre Authentication flag in the UserAccountControl property allows an adversary to easily perform a brute
-  force attack against the user's password offline leveraging the ASP REP Roasting technique.
-  Red Teams and adversaries alike who have obtained privileges in an Active Directory network may use this technique as a backdoor 
-  or a way to escalate privileges.
-search: ' `wineventlog_security` EventCode=4738 MSADChangedAttributes="*Don''t Require Preauth'' - Enabled*"
-| table EventCode, Account_Name, Security_ID, MSADChangedAttributes
-| `kerberos_pre_authentication_flag_disabled_in_useraccountcontrol_filter`'
+date: '2022-02-22'
+description: The following analytic leverages Windows Security Event 4738, `A user
+  account was changed`, to identify a change performed on a domain user object that
+  disables Kerberos Pre-Authentication. Disabling the Pre Authentication flag in the
+  UserAccountControl property allows an adversary to easily perform a brute force
+  attack against the user's password offline leveraging the ASP REP Roasting technique.
+  Red Teams and adversaries alike who have obtained privileges in an Active Directory
+  network may use this technique as a backdoor or a way to escalate privileges.
 how_to_implement: To successfully implement this search, you need to be ingesting
-  Domain Controller events. The Advanced Security Audit policy setting
-  `User Account Management` within `Account Management` needs to be enabled.
+  Domain Controller events. The Advanced Security Audit policy setting `User Account
+  Management` within `Account Management` needs to be enabled.
+id: 0cb847ee-9423-11ec-b2df-acde48001122
 known_false_positives: Unknown.
+name: Kerberos Pre-Authentication Flag Disabled in UserAccountControl
 references:
-- https://docs.microsoft.com/en-us/troubleshoot/windows-server/identity/useraccountcontrol-manipulate-account-properties 
+- https://docs.microsoft.com/en-us/troubleshoot/windows-server/identity/useraccountcontrol-manipulate-account-properties
 - https://m0chan.github.io/2019/07/31/How-To-Attack-Kerberos-101.html
 - https://stealthbits.com/blog/cracking-active-directory-passwords-with-as-rep-roasting/
+search: ' `wineventlog_security` EventCode=4738 MSADChangedAttributes="*Don''t Require
+  Preauth'' - Enabled*" | table EventCode, Account_Name, Security_ID, MSADChangedAttributes
+  | `kerberos_pre_authentication_flag_disabled_in_useraccountcontrol_filter`'
 tags:
   analytic_story:
   - Active Directory Kerberos Attacks
+  confidence: 90
+  context:
+  - Source:Endpoint
+  - Stage:PrivilegeEscalation
+  - Stage:Persistence
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.004/powershell/windows-security.log
+  impact: 50
   kill_chain_phases:
   - Intrusion
   - Privilege Escalation
+  message: Kerberos Pre Authentication was Disabled for $Account_Name$
   mitre_attack_id:
   - T1558
   - T1558.004
+  observable:
+  - name: dest
+    role:
+    - Victim
+    type: Endpoint
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - _time
-  - EventCode
   - Account_Name
-  - Security_ID
+  - EventCode
   - MSADChangedAttributes
-  security_domain: endpoint
-  impact: 50
-  confidence: 90 
+  - Security_ID
   risk_score: 45
-  context:
-  - Source:Endpoint
-  - Stage:PrivilegeEscalation
-  - Stage:Persistence
-  message: Kerberos Pre Authentication was Disabled for $Account_Name$
-  observable:
-  - name: dest
-    type: Endpoint
-    role:
-    - Victim
+  security_domain: endpoint
+type: TTP
+version: 1

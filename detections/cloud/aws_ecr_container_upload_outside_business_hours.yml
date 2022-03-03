@@ -1,25 +1,23 @@
-name: AWS ECR Container Upload Outside Business Hours
-id: d4c4d4eb-3994-41ca-a25e-a82d64e125bb
-version: 1
-date: '2021-08-19'
 author: Patrick Bareiss, Splunk
-type: Anomaly
 datamodel: []
+date: '2021-08-19'
 description: This search looks for AWS CloudTrail events from AWS Elastic Container
   Service (ECR). A upload of a new container is normally done during business hours.
   When done outside business hours, we want to take a look into it.
+how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
+  search works with AWS CloudTrail logs.
+id: d4c4d4eb-3994-41ca-a25e-a82d64e125bb
+known_false_positives: When your development is spreaded in different time zones,
+  applying this rule can be difficult.
+name: AWS ECR Container Upload Outside Business Hours
+references:
+- https://attack.mitre.org/techniques/T1204/003/
 search: '`cloudtrail` eventSource=ecr.amazonaws.com eventName=PutImage date_hour>=20
   OR date_hour<8 NOT (date_wday=saturday OR date_wday=sunday) | rename requestParameters.*
   as * | rename repositoryName AS image | eval phase="release" | eval severity="medium"
   | stats min(_time) as firstTime max(_time) as lastTime by awsRegion, eventName,
   eventSource, user, userName, src_ip, imageTag, registryId, image, phase, severity
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `aws_ecr_container_upload_outside_business_hours_filter`'
-how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
-  search works with AWS CloudTrail logs.
-known_false_positives: When your development is spreaded in different time zones,
-  applying this rule can be difficult.
-references:
-- https://attack.mitre.org/techniques/T1204/003/
 tags:
   analytic_story:
   - Dev Sec Ops
@@ -40,27 +38,26 @@ tags:
   - DE.CM
   observable:
   - name: src_ip
+    role:
+    - Attacker
     type: IP Address
-    role:
-    - Attacker
   - name: user
-    type: User
     role:
     - Attacker
+    type: User
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Dev Sec Ops Analytics
   required_fields:
-  - eventSource
-  - eventName
   - awsRegion
-  - requestParameters.imageTag
-  - requestParameters.registryId
-  - requestParameters.repositoryName
+  - eventName
+  - eventSource
+  - src_ip
   - user
   - userName
-  - src_ip
   risk_score: 49
   security_domain: network
+type: Anomaly
+version: 1

@@ -1,11 +1,7 @@
-name: Linux Doas Tool Execution
-id: d5a62490-6e09-11ec-884e-acde48001122
-version: 1
-date: '2022-01-05'
 author: Teoderick Contreras, Splunk
-type: Anomaly
 datamodel:
-- Endpoint
+- Endpoint.Processes
+date: '2022-01-05'
 description: This analytic is to detect the doas tool execution in linux host platform.
   This utility tool allow standard users to perform tasks as root, the same way sudo
   does. This tool is developed as a minimalistic alternative to sudo application.
@@ -13,21 +9,23 @@ description: This analytic is to detect the doas tool execution in linux host pl
   to the targeted or compromised host. On the other hand this can also be executed
   by administrator for a certain task that needs admin rights. In this case filter
   is needed.
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from
+  Splunkbase.
+id: d5a62490-6e09-11ec-884e-acde48001122
+known_false_positives: Administrator or network operator can execute this command.
+  Please update the filter macros to remove false positives.
+name: Linux Doas Tool Execution
+references:
+- https://wiki.gentoo.org/wiki/Doas
+- https://www.makeuseof.com/how-to-install-and-use-doas/
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name = "doas"
   by Processes.dest Processes.user Processes.parent_process_name Processes.process_name
   Processes.process Processes.process_id Processes.parent_process_id Processes.process_guid
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `linux_doas_tool_execution_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from
-  Splunkbase.
-known_false_positives: Administrator or network operator can execute this command.
-  Please update the filter macros to remove false positives.
-references:
-- https://wiki.gentoo.org/wiki/Doas
-- https://www.makeuseof.com/how-to-install-and-use-doas/
 tags:
   analytic_story:
   - Linux Privilege Escalation
@@ -55,21 +53,24 @@ tags:
   - DE.CM
   observable:
   - name: dest
-    type: Hostname
     role:
     - Victim
+    type: Hostname
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - Endpoint.Processes.dest
+  - Endpoint.Processes.parent_process_id
+  - Endpoint.Processes.parent_process_name
+  - Endpoint.Processes.process
+  - Endpoint.Processes.process_guid
+  - Endpoint.Processes.process_id
+  - Endpoint.Processes.process_name
+  - Endpoint.Processes.user
   - _time
-  - Processes.dest
-  - Processes.user
-  - Processes.parent_process_name
-  - Processes.process_name
-  - Processes.process
-  - Processes.process_id
-  - Processes.parent_process_id
   risk_score: 49
   security_domain: endpoint
+type: Anomaly
+version: 1

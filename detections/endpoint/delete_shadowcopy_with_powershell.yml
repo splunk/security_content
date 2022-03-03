@@ -1,27 +1,24 @@
-name: Delete ShadowCopy With PowerShell
-id: 5ee2bcd0-b2ff-11eb-bb34-acde48001122
-version: 1
-date: '2021-05-12'
 author: Teoderick Contreras, Splunk
-type: TTP
-datamodel:
-- Endpoint
+datamodel: []
+date: '2021-05-12'
 description: This following analytic detects PowerShell command to delete shadow copy
   using the WMIC PowerShell module. This technique was seen used by a recent adversary
   to deploy DarkSide Ransomware where it executed a child process of PowerShell to
   execute a hex encoded command to delete shadow copy. This hex encoded command was
   able to be decrypted by PowerShell log.
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the powershell logs  from your endpoints. make sure you enable needed
+  registry to monitor this event.
+id: 5ee2bcd0-b2ff-11eb-bb34-acde48001122
+known_false_positives: unknown
+name: Delete ShadowCopy With PowerShell
+references:
+- https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html
+- https://searchwindowsserver.techtarget.com/tutorial/Set-up-PowerShell-script-block-logging-for-added-security
 search: '`powershell` EventCode=4104 Message= "*ShadowCopy*" (Message = "*Delete*"
   OR Message = "*Remove*") | stats count min(_time) as firstTime max(_time) as lastTime
   by EventCode Message ComputerName User | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `delete_shadowcopy_with_powershell_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the powershell logs  from your endpoints. make sure you enable needed
-  registry to monitor this event.
-known_false_positives: unknown
-references:
-- https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html
-- https://searchwindowsserver.techtarget.com/tutorial/Set-up-PowerShell-script-block-logging-for-added-security
 tags:
   analytic_story:
   - DarkSide Ransomware
@@ -43,13 +40,13 @@ tags:
   - T1490
   observable:
   - name: User
+    role:
+    - Victim
     type: User
-    role:
-    - Victim
   - name: ComputerName
-    type: Hostname
     role:
     - Victim
+    type: Hostname
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -62,3 +59,5 @@ tags:
   - User
   risk_score: 81
   security_domain: endpoint
+type: TTP
+version: 1

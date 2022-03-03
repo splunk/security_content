@@ -1,17 +1,27 @@
-name: Excessive number of service control start as disabled
-id: 77592bec-d5cc-11eb-9e60-acde48001122
-version: 1
-date: '2021-06-25'
 author: Michael Hart, Splunk
-type: Anomaly
 datamodel:
-- Endpoint
+- Endpoint.Processes
+date: '2021-06-25'
 description: This detection targets behaviors observed when threat actors have used
   sc.exe to modify services. We observed malware in a honey pot spawning numerous
   sc.exe processes in a short period of time, presumably to impair defenses, possibly
   to block others from compromising the same machine.  This detection will alert when
   we see both an excessive number of sc.exe processes launched with specific commandline
   arguments to disable the start of certain services.
+how_to_implement: You must be ingesting data that records process activity from your
+  hosts to populate the Endpoint data model in the Processes node. You must be ingesting
+  logs with both the process name and command line from your endpoints. The complete
+  process name with command-line arguments are mapped to the "process" field in the
+  Endpoint data model.
+id: 77592bec-d5cc-11eb-9e60-acde48001122
+known_false_positives: Legitimate programs and administrators will execute sc.exe
+  with the start disabled flag.  It is possible, but unlikely from the telemetry of
+  normal Windows operation we observed, that sc.exe will be called more than seven
+  times in a short period of time.
+name: Excessive number of service control start as disabled
+references:
+- https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/sc-create
+- https://attack.mitre.org/techniques/T1562/001/
 search: '| tstats `security_content_summariesonly` distinct_count(Processes.process)
   as distinct_cmdlines values(Processes.process_id) as process_ids min(_time) as firstTime
   max(_time) as lastTime FROM datamodel=Endpoint.Processes WHERE Processes.process_name
@@ -19,18 +29,6 @@ search: '| tstats `security_content_summariesonly` distinct_count(Processes.proc
   Processes.parent_process Processes.process_name Processes.parent_process_id, _time
   span=30m | where distinct_cmdlines >= 8 | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `excessive_number_of_service_control_start_as_disabled_filter`'
-how_to_implement: You must be ingesting data that records process activity from your
-  hosts to populate the Endpoint data model in the Processes node. You must be ingesting
-  logs with both the process name and command line from your endpoints. The complete
-  process name with command-line arguments are mapped to the "process" field in the
-  Endpoint data model.
-known_false_positives: Legitimate programs and administrators will execute sc.exe
-  with the start disabled flag.  It is possible, but unlikely from the telemetry of
-  normal Windows operation we observed, that sc.exe will be called more than seven
-  times in a short period of time.
-references:
-- https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/sc-create
-- https://attack.mitre.org/techniques/T1562/001/
 tags:
   analytic_story:
   - Windows Defense Evasion Tactics
@@ -51,27 +49,29 @@ tags:
   - T1562
   observable:
   - name: dest
-    type: Hostname
     role:
     - Victim
+    type: Hostname
   - name: process_name
-    type: Process
     role:
     - Child Process
+    type: Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - Endpoint.Processes.dest
+  - Endpoint.Processes.parent_process
+  - Endpoint.Processes.parent_process_id
+  - Endpoint.Processes.process
+  - Endpoint.Processes.process_id
+  - Endpoint.Processes.process_name
+  - Endpoint.Processes.user
   - _time
-  - Processes.dest
-  - Processes.user
-  - Processes.parent_process
-  - Processes.process_name
-  - Processes.process
-  - Processes.process_id
-  - Processes.parent_process_id
   risk_score: 80
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_microsoft_sysmon
+type: Anomaly
+version: 1

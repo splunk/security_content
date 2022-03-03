@@ -1,25 +1,22 @@
-name: IcedID Exfiltrated Archived File Creation
-id: 0db4da70-f14b-11eb-8043-acde48001122
-version: 1
-date: '2021-07-30'
 author: Teoderick Contreras, Splunk
-type: Hunting
-datamodel:
-- Endpoint
+datamodel: []
+date: '2021-07-30'
 description: This search is to detect a suspicious file creation namely passff.tar
   and cookie.tar. This files are possible archived of stolen browser information like
   history and cookies in a compromised machine with IcedID.
-search: '`sysmon` EventCode= 11  (TargetFilename = "*\\passff.tar" OR TargetFilename
-  = "*\\cookie.tar") |stats count min(_time) as firstTime max(_time) as lastTime by
-  TargetFilename EventCode process_id  process_name Computer | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `icedid_exfiltrated_archived_file_creation_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
   Sysmon TA.
+id: 0db4da70-f14b-11eb-8043-acde48001122
 known_false_positives: unknown
+name: IcedID Exfiltrated Archived File Creation
 references:
 - https://www.cisecurity.org/white-papers/security-primer-icedid/
+search: '`sysmon` EventCode= 11  (TargetFilename = "*\\passff.tar" OR TargetFilename
+  = "*\\cookie.tar") |stats count min(_time) as firstTime max(_time) as lastTime by
+  TargetFilename EventCode process_id  process_name Computer | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `icedid_exfiltrated_archived_file_creation_filter`'
 tags:
   analytic_story:
   - IcedID
@@ -39,13 +36,13 @@ tags:
   - T1560
   observable:
   - name: Computer
-    type: Hostname
     role:
     - Victim
+    type: Hostname
   - name: SourceImage
-    type: process name
     role:
     - Attacker
+    type: process name
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -59,3 +56,5 @@ tags:
   - Computer
   risk_score: 72
   security_domain: endpoint
+type: Hunting
+version: 1
