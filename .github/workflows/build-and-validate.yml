@@ -455,13 +455,15 @@ jobs:
           source venv/bin/activate
           python3 bin/doc_gen.py --path . --output docs -v
 
-      - name: Enrich detections with TAs
-        env:
-          GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          source venv/bin/activate
-          python3 -m pip install -r security_content_automation/requirements.txt
-          python3 security_content_automation/enrich_detections.py
+      # this step is creating some TOKEN issues while tagging a build, commenting this out for now
+      
+      # - name: Enrich detections with TAs
+      #   env:
+      #     GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   run: |
+      #     source venv/bin/activate
+      #     python3 -m pip install -r security_content_automation/requirements.txt
+      #     python3 security_content_automation/enrich_detections.py
 
       - name: Make YAMLs Pretty
         run: |
