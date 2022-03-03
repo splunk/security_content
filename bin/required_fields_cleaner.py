@@ -12,7 +12,7 @@ import pprint
 DATAMODEL_PATTERN = r"datamodel\s*=?\s*\S*"
 
 QUOTATIONS_PATTERN = r'''(["'])(?:(?=(\\?))\2.)*?\1'''
-KEY_VALUE_PATTERN = r"[a-zA-Z0-9_]*\.[a-zA-Z0-9_]*"
+KEY_VALUE_PATTERN = r"[a-zA-Z0-9_]+\.[a-zA-Z0-9_]+"
 
 def dictPrint(d):
     
@@ -147,16 +147,24 @@ def update_required_fields_for_yaml(filename:str, search:str, required_fields:se
    
 
     
-    datamodels_no_submodel = [d[0] for d in datamodels_from_search]
-    disjoint_members = datamodels_from_datamodel_field.symmetric_difference(datamodels_no_submodel)
+    datamodels_with_submodel = [f"{d[0]}.{d[1]}" for d in datamodels_from_search]
+    disjoint_members = datamodels_from_datamodel_field.symmetric_difference(datamodels_with_submodel)
     if len(disjoint_members) != 0:
-        yaml_fields_to_update['datamodel'] = sorted(datamodels_no_submodel)
-    '''
+        yaml_fields_to_update['datamodel'] = sorted(datamodels_with_submodel)
+    #if len(datamodels_from_datamodel_field) == 0:
+    #    print(f"{filename} is {datamodels_from_datamodel_field}")
+    for model in datamodels_from_datamodel_field:
+        if model not in datamodels_with_submodel:
+            print (f"{filename} used datamodel {model} but not in search {datamodels_from_search}")
+            break
+        
+
+    '''    
     for model in datamodels_from_datamodel_field:
         if model not in datamodels_from_search:
-            #print(f"file {filename} yml contains datamodels:{datamodels} but {model} was not found in search: {search}")
+            print(f"file {filename} yml contains datamodels:{datamodels_from_datamodel_field} but {model} was not found in search")
             #print("ERROR")
-            yaml_update_required = True
+            #yaml_update_required = True
             #input("waiting...\n")
     
     for model in datamodels_from_search:
@@ -216,10 +224,8 @@ def update_required_fields_for_yaml(filename:str, search:str, required_fields:se
                 break
         #If we got here, then we didn't find the fieldname in any of the models! This is bad. All these fields should probably be quoted... and there is some cleaning that needs to take place here...
         #if found == False and len(datamodels_in_use) > 0:
-        if found == False:
-            # TODO
-            pass
-            #print(f"Failed to find {submodel}.{fieldname} in the datamodels {datamodels_in_use.keys()} for {filename}")
+        if found == False and len(datamodels_in_use) > 0 and "exe" not in fieldname.lower():
+            print(f"Failed to find {submodel}.{fieldname} in the datamodels {datamodels_in_use.keys()} for {filename}")
 
 
     non_datamodel_required_fields_from_yaml = [f for f in required_fields if "." not in f]        
@@ -232,13 +238,6 @@ def update_required_fields_for_yaml(filename:str, search:str, required_fields:se
     if len(symdiff) != 0:
         yaml_fields_to_update['tags']= {'required_fields': new_required_fields}
     
-    #print(f"{filename}")
-    #print(f"Old   %d: {sorted(list(required_fields_from_yaml))}"%len(required_fields_from_yaml))
-    #print(f"New   %d: {sorted(list(fully_qualified_field_dicts.keys()))}"%len(fully_qualified_field_dicts.keys()))
-    #print(f"Diff  %d: {symdiff}"%(len(symdiff)))
-    #print(f"Final %d: {new_required_fields}"%(len(new_required_fields)))
-    #input("*************\n")
-
     
 
 
@@ -272,11 +271,18 @@ def clean_folder(directory:str, defined_datamodels:dict):
     required_updates = 0
     no_updates = 0
     error_files = []
+    total_files = 0
+    files_with_datamodels = 0
+    files_without_datamodels = 0
     for filename in files:
         try:
+            total_files+=1
             with open(filename,"r") as cfg:
                 parsed = yaml.safe_load(cfg)
             
+            #if parsed["type"] not in ["TTP", "Anomaly" "TTP" ]:
+            #    continue
+
             if "search" not in parsed:
                 print(f"Failed to find ['search'] in {filename}")
                 failure_count += 1
@@ -303,11 +309,18 @@ def clean_folder(directory:str, defined_datamodels:dict):
                     parsed['tags']['required_fields'] = fields_to_update['tags']['required_fields']
                 
                 required_updates += 1
+                
                 with open(filename, 'w') as updated_cfg:
                     yaml.safe_dump(parsed, updated_cfg)
+                
                     
             else:
                 no_updates += 1
+            
+            if len(parsed['datamodel']) > 0:
+                files_with_datamodels+=1
+            else:
+                files_without_datamodels+=1
             #print(fields_to_update)
             #input("wait")
 
@@ -326,18 +339,29 @@ def clean_folder(directory:str, defined_datamodels:dict):
     print(f"The number of failures     : {failure_count}")
     print(f"The total number of files  : {len(files)}\n")
     print(f"The total number of updates: {required_updates}\n")
-    return        
+    return  (total_files, files_with_datamodels, files_without_datamodels)
 
 
 def clean():
+    
     datamodel_directory = sys.argv[1]
     defined_datamodels = load_datamodels_from_directory(datamodel_directory)
 
     #sys.exit(0)
     folders = sys.argv[2:]
+    total_files = 0
+    total_files_with_datamodels = 0
+    total_files_without_datamodels = 0
     for folder in folders:
-        clean_folder(folder, defined_datamodels)
+        total_files_folder, files_with_datamodels_folder, files_without_datamodels_folder = clean_folder(folder, defined_datamodels)
+        total_files += total_files_folder
+        total_files_with_datamodels += files_with_datamodels_folder
+        total_files_without_datamodels += files_without_datamodels_folder
 
+
+    print(f"Total Files                   : {total_files}")
+    print(f"Total Files with datamodels   : {total_files_with_datamodels}")
+    print(f"Total Files without datamodels: {total_files_without_datamodels}")
     pass
 
 
