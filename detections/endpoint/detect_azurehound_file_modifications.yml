@@ -31,6 +31,7 @@ references:
 tags:
   analytic_story:
   - Discovery Techniques
+  automated_detection_testing: passed
   confidence: 90
   context:
   - Source:Endpoint
@@ -76,4 +77,3 @@ tags:
   - file_create_time
   risk_score: 63
   security_domain: endpoint
-  asset_type: Endpoint

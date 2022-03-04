@@ -834,6 +834,8 @@ This playbook requires the Splunk SOAR apps for Palo Alto Networks Firewalls, Pa
 ![](https://raw.githubusercontent.com/splunk/security_content/develop/playbooks/ransomware_investigate_and_contain.png)
 
 #### Required field
+* ComputerName
+* Username
 
 
 #### Reference

@@ -9,7 +9,6 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   - Change
-  - Exploitation
 ---
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -33,10 +32,10 @@ This Analytic Story was designed to provide you with flexibility in the precisio
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Cloud Provisioning Activity From Previously Unseen City](/cloud/cloud_provisioning_activity_from_previously_unseen_city/) | [Valid Accounts](/tags/#valid-accounts)| Anomaly |
-| [Cloud Provisioning Activity From Previously Unseen Country](/cloud/cloud_provisioning_activity_from_previously_unseen_country/) | [Valid Accounts](/tags/#valid-accounts)| Anomaly |
-| [Cloud Provisioning Activity From Previously Unseen IP Address](/cloud/cloud_provisioning_activity_from_previously_unseen_ip_address/) | [Valid Accounts](/tags/#valid-accounts)| Anomaly |
-| [Cloud Provisioning Activity From Previously Unseen Region](/cloud/cloud_provisioning_activity_from_previously_unseen_region/) | [Valid Accounts](/tags/#valid-accounts)| Anomaly |
+| [Cloud Provisioning Activity From Previously Unseen City](/cloud/cloud_provisioning_activity_from_previously_unseen_city/) | [Valid Accounts](/tags/#valid-accounts) | Anomaly |
+| [Cloud Provisioning Activity From Previously Unseen Country](/cloud/cloud_provisioning_activity_from_previously_unseen_country/) | [Valid Accounts](/tags/#valid-accounts) | Anomaly |
+| [Cloud Provisioning Activity From Previously Unseen IP Address](/cloud/cloud_provisioning_activity_from_previously_unseen_ip_address/) | [Valid Accounts](/tags/#valid-accounts) | Anomaly |
+| [Cloud Provisioning Activity From Previously Unseen Region](/cloud/cloud_provisioning_activity_from_previously_unseen_region/) | [Valid Accounts](/tags/#valid-accounts) | Anomaly |
 
 #### Reference
 

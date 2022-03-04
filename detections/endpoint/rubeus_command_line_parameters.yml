@@ -39,7 +39,6 @@ references:
 tags:
   analytic_story:
   - Active Directory Kerberos Attacks
-  asset_type: Endpoint
   confidence: 60
   context:
   - Source:Endpoint
@@ -48,7 +47,7 @@ tags:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1550.003/rubeus/windows-sysmon.log
   impact: 60
   kill_chain_phases:
-  - Exploitation
+  - Privilege Escalation
   message: Rubeus command line parameters were used on $dest$
   mitre_attack_id:
   - T1550
@@ -66,7 +65,7 @@ tags:
     role:
     - Victim
   - name: parent_process_name
-    type: Process
+    type: Parent Process
     role:
     - Parent Process
   product:

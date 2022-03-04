@@ -27,6 +27,7 @@ tags:
   analytic_story:
   - Credential Dumping
   asset_type: Endpoint
+  automated_detection_testing: passed
   cis20:
   - CIS 8
   - CIS 16
@@ -57,7 +58,7 @@ tags:
     role:
     - Victim
   - name: parent_process
-    type: Process
+    type: Parent Process
     role:
     - Parent Process
   - name: process_name

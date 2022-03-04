@@ -28,6 +28,7 @@ tags:
   - Ransomware
   - Revil Ransomware
   - BlackMatter Ransomware
+  automated_detection_testing: passed
   confidence: 90
   context:
   - Source:Endpoint
@@ -61,4 +62,3 @@ tags:
   - user_id
   risk_score: 54
   security_domain: endpoint
-  asset_type: Endpoint
