@@ -47,12 +47,12 @@ tags:
   confidence: 70
   context:
   - Source:Endpoint
-  - Stage:LateralMovement
+  - Stage:Lateral Movement
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/atomic_red_team/downloadfile_windows-security.log
   impact: 50
   kill_chain_phases:
-  - Lateral Movement
+  - Exploitation
   message: An instance of $parent_process_name$ spawning $process_name$ was identified
     on endpoint $dest$ by user $user$. This behavior identifies the use of DownloadFile
     within PowerShell.
@@ -71,7 +71,7 @@ tags:
     role:
     - Victim
   - name: parent_process_name
-    type: Parent Process
+    type: Process
     role:
     - Parent Process
   - name: process_name
@@ -92,3 +92,4 @@ tags:
   risk_score: 35
   risk_severity: low
   security_domain: endpoint
+  asset_type: Endpoint

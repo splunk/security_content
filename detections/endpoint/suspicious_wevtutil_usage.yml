@@ -30,7 +30,6 @@ tags:
   - Windows Log Manipulation
   - Ransomware
   - Clop Ransomware
-  automated_detection_testing: passed
   cis20:
   - CIS 3
   - CIS 5
@@ -79,3 +78,4 @@ tags:
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_microsoft_sysmon
+  asset_type: Endpoint

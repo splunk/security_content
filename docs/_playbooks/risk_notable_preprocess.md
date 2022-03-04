@@ -14,7 +14,7 @@ tags:
 
 #### Description
 
-&#34;This playbook prepares a risk notable for investigation by performing the following tasks: 1. Ensures that a risk notable links back to the original notable event with a card pinned to the HUD. 2. Posts a link to this container in the comment field of Splunk ES. 3. Updates the container name, description, and severity to reflect the data in the notable artifact.&#34;
+"This playbook prepares a risk notable for investigation by performing the following tasks: 1. Ensures that a risk notable links back to the original notable event with a card pinned to the HUD. 2. Posts a link to this container in the comment field of Splunk ES. 3. Updates the container name, description, and severity to reflect the data in the notable artifact."
 
 
 - **Type**: Investigation
@@ -28,15 +28,12 @@ tags:
 
 
 #### How To Implement
-None
+tbd
 
 #### Playbooks
 ![](https://raw.githubusercontent.com/splunk/security_content/develop/playbooks/risk_notable_preprocess.png)
 
 #### Required field
-* event_id
-* info_min_time
-* info_max_time
 
 
 #### Reference

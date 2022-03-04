@@ -1,0 +1,36 @@
+name: Identify Systems Creating Remote Desktop Traffic
+id: 5cdda34f-4caf-4128-a713-0837fc48b67a
+version: 1
+date: '2017-09-15'
+author: David Dorsey, Splunk
+type: Baseline
+datamodel:
+- Network_Traffic
+description: This search counts the numbers of times the system has generated remote
+  desktop traffic.
+search: '| tstats `security_content_summariesonly` count from datamodel=Network_Traffic
+  where All_Traffic.dest_port=3389 by All_Traffic.src | `drop_dm_object_name("All_Traffic")`
+  | sort - count'
+how_to_implement: To successfully implement this search, you must ingest network traffic
+  and populate the Network_Traffic data model.
+known_false_positives: none
+references: []
+tags:
+  analytic_story:
+  - SamSam Ransomware
+  - Ryuk Ransomware
+  - Hidden Cobra Malware
+  - Active Directory Lateral Movement
+  deployments:
+  - Daily Cache Updates
+  detections:
+  - Remote Desktop Network Traffic
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - All_Traffic.dest_port
+  - All_Traffic.src
+  security_domain: network

@@ -36,7 +36,6 @@ tags:
   - Credential Dumping
   - HAFNIUM Group
   asset_type: Endpoint
-  automated_detection_testing: passed
   cis20:
   - CIS 3
   - CIS 5
@@ -67,7 +66,7 @@ tags:
     role:
     - Victim
   - name: parent_process_name
-    type: Parent Process
+    type: Process
     role:
     - Parent Process
   - name: process_name

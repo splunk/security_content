@@ -1,0 +1,9 @@
+[
+    {
+        "name": "previously_seen_aws_regions",
+        "description": "A place holder for a list of used AWS regions",
+        "filename": "previously_seen_aws_regions.csv",
+        "default_match": "false",
+        "min_matches": 1
+    }
+]

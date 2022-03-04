@@ -1,1 +1,101 @@
-{"deployments": [{"name": "Baseline Cache Hourly Updates", "id": "1030c701-2acf-4b1a-9970-46c7145caf2d", "date": "2020-06-24", "author": "Bhavin Patel", "description": "This configuration file applies to all baselines with tag deployments Hourly Cache Updates", "scheduling": {"cron_schedule": "55 * * * *", "earliest_time": "-70m@m", "latest_time": "-10m@m", "schedule_window": "auto"}, "tags": {"deployments": ["Hourly Cache Updates"]}}, {"name": "Weekly Model Rebuild 90 Day Lookback", "id": "4b329568-bcff-49fa-8c85-92e95f0f270d", "date": "2020-09-07", "author": "David Dorsey", "description": "This configuration file applies to all baselines with tag deployments Weekly Model Rebuild 90 Day Lookback", "scheduling": {"cron_schedule": "0 2 * * 0", "earliest_time": "-90d@d", "latest_time": "-1d@d", "schedule_window": "auto"}, "tags": {"deployments": ["Weekly Model Rebuild 90 Day Lookback"]}}, {"name": "Enterprise Security config for Splunk Security Analytics for AWS customers", "id": "bc91a8cd-35e7-4bb2-6140-e756cc46f211", "date": "2021-01-20", "author": "Bhavin Patel", "description": "This configuration file applies to all correlation searches that are used in the Splunk Security Analytics for AWS product. NOTE - Splunk Security Analytics for AWS searches do not need notable  configurations", "scheduling": {"cron_schedule": "0 * * * *", "earliest_time": "-70m@m", "latest_time": "-10m@m", "schedule_window": "auto"}, "tags": {"product": ["Splunk Security Analytics for AWS"]}}, {"name": "Baseline Cache Daily Updates", "id": "9541d6f8-fa58-4d48-bb44-6720e39b7b0d", "date": "2020-08-18", "author": "David Dorsey", "description": "This configuration file applies to all baselines with tag deployments Daily Cache Updates", "scheduling": {"cron_schedule": "10 0 * * *", "earliest_time": "-1450m@m", "latest_time": "-10m@m", "schedule_window": "auto"}, "tags": {"deployments": ["Daily Cache Updates"]}}, {"name": "Access LSASS Memory for Dump Creation Deployment", "id": "974c422f-db3f-4538-8f2a-ee5bf8eec0fa", "date": "2021-01-13", "author": "Patrick Bareiss", "description": "Example for a deployment for a specific Detection", "scheduling": {"cron_schedule": "0 * * * *", "earliest_time": "-70m@m", "latest_time": "-10m@m", "schedule_window": "auto"}, "alert_action": {"notable": {"rule_description": "%description%", "rule_title": "%name%", "nes_fields": ["user", "dest", "src"]}}, "tags": {"detection_name": "Access LSASS Memory for Dump Creation"}}, {"name": "Enterprise Security deployment configuration", "id": "bc91a8cd-35e7-4bb2-6140-e756cc46f212", "date": "2020-04-27", "author": "Bhavin Patel", "description": "This configuration file applies to all correlation searches that are used for detection", "scheduling": {"cron_schedule": "0 * * * *", "earliest_time": "-70m@m", "latest_time": "-10m@m", "schedule_window": "auto"}, "alert_action": {"notable": {"rule_description": "%description%", "rule_title": "%name%", "nes_fields": ["user", "dest", "src"]}}, "tags": {"analytic_story": "all"}}, {"name": "Detect ARP Poisoning deployment configuration", "id": "e1d5b4dc-4cf3-404f-905c-b478bbb20474", "date": "2020-08-14", "author": "Mikael Bjerkeland", "description": "This configuration file applies to the Detect ARP Poisoning detection", "scheduling": {"cron_schedule": "59 * * * *", "earliest_time": "-70m@m", "latest_time": "-10m@m", "schedule_window": "auto"}, "alert_action": {"notable": {"rule_description": "ARP Poisoning has been detected on interface $src_interface$ on host $orig_host$. This may be an indication of a MITM attack.", "rule_title": "ARP Poisoning Detected on $orig_host$", "nes_fields": ["src_interface", "firstTime", "lastTime", "count"]}}, "tags": {"detection_name": "Detect ARP Poisoning"}}, {"name": "Credential Dumping Story", "id": "52f52a7c-078f-4413-84da-388b61ccac26", "date": "2021-01-13", "author": "Patrick Bareiss", "description": "Example for a deployment for a specific Analytics Story", "scheduling": {"cron_schedule": "0 * * * *", "earliest_time": "-70m@m", "latest_time": "-10m@m", "schedule_window": "auto"}, "alert_action": {"notable": {"rule_description": "%description%", "rule_title": "%name%", "nes_fields": ["user", "dest", "src"]}}, "tags": {"analytic_story": "Credential Dumping"}}, {"name": "Detect Rogue DHCP Server deployment configuration", "id": "6e4e20ac-e719-4ebe-a52d-d672cd451dbb", "date": "2020-08-14", "author": "Mikael Bjerkeland", "description": "This configuration file applies to the Detect Rogue DHCP Server detection", "scheduling": {"cron_schedule": "59 * * * *", "earliest_time": "-70m@m", "latest_time": "-10m@m", "schedule_window": "auto"}, "alert_action": {"notable": {"rule_description": "DHCP Snooping has detected a Rogue DHCP Server on $orig_host$ from $src_mac$. This may be an indication of a MITM attack.", "rule_title": "Rogue DHCP Server Detected on $orig_host$", "nes_fields": ["src_mac", "firstTime", "lastTime", "count", "message_type"]}}, "tags": {"detection_name": "Detect Rogue DHCP Server"}}, {"name": "90 Day Baseline Searches", "id": "6eac9f8b-a35d-4b64-b57f-e5ecde43be6b", "date": "2020-06-24", "author": "Bhavin Patel", "description": "This configuration file applies to all baselines with tag deployments Long Running Baseline", "scheduling": {"cron_schedule": "0 1 1 1,4,7,10 *", "earliest_time": "-90d@d", "latest_time": "-1d@d", "schedule_window": "auto"}, "tags": {"deployments": ["90 Day Baseline"]}}], "count": 10}
+[
+    {
+        "name": "ESCU Default Configuration Anomaly",
+        "id": "a9e210c6-9f50-4f8b-b60e-71bb26e4f216",
+        "date": "2021-12-21",
+        "author": "Patrick Bareiss",
+        "description": "This configuration file applies to all detections of type anomaly. These detections will use Risk Based Alerting.",
+        "scheduling": {
+            "cron_schedule": "0 * * * *",
+            "earliest_time": "-70m@m",
+            "latest_time": "-10m@m",
+            "schedule_window": "auto"
+        },
+        "rba": {
+            "enabled": "true"
+        },
+        "tags": {
+            "type": "Anomaly",
+            "product": "ESCU"
+        }
+    },
+    {
+        "name": "ESCU Default Configuration Baseline",
+        "id": "0f7ee854-1aad-4bef-89c5-5c402b488510",
+        "date": "2021-12-21",
+        "author": "Patrick Bareiss",
+        "description": "This configuration file applies to all detections of type baseline.",
+        "scheduling": {
+            "cron_schedule": "0 * * * *",
+            "earliest_time": "-70m@m",
+            "latest_time": "-10m@m",
+            "schedule_window": "auto"
+        },
+        "tags": {
+            "type": "Baseline"
+        }
+    },
+    {
+        "name": "ESCU Default Configuration Correlation",
+        "id": "36ba498c-46e8-4b62-8bde-67e984a40fb4",
+        "date": "2021-12-21",
+        "author": "Patrick Bareiss",
+        "description": "This configuration file applies to all detections of type Correlation. These correlations will generate Notable Events.",
+        "scheduling": {
+            "cron_schedule": "0 * * * *",
+            "earliest_time": "-70m@m",
+            "latest_time": "-10m@m",
+            "schedule_window": "auto"
+        },
+        "notable": {
+            "rule_description": "%description%",
+            "rule_title": "%name%",
+            "nes_fields": []
+        },
+        "tags": {
+            "type": "Correlation",
+            "product": "ESCU"
+        }
+    },
+    {
+        "name": "ESCU Default Configuration Hunting",
+        "id": "cc5895e8-3420-4ab7-af38-cf87a28f9c3b",
+        "date": "2021-12-21",
+        "author": "Patrick Bareiss",
+        "description": "This configuration file applies to all detections of type hunting.",
+        "scheduling": {
+            "cron_schedule": "0 * * * *",
+            "earliest_time": "-70m@m",
+            "latest_time": "-10m@m",
+            "schedule_window": "auto"
+        },
+        "tags": {
+            "type": "Hunting",
+            "product": "ESCU"
+        }
+    },
+    {
+        "name": "ESCU Default Configuration TTP",
+        "id": "b81cd059-a3e8-4c03-96ca-e168c50ff70b",
+        "date": "2021-12-21",
+        "author": "Patrick Bareiss",
+        "description": "This configuration file applies to all detections of type TTP. These detections will use Risk Based Alerting and generate Notable Events.",
+        "scheduling": {
+            "cron_schedule": "0 * * * *",
+            "earliest_time": "-70m@m",
+            "latest_time": "-10m@m",
+            "schedule_window": "auto"
+        },
+        "notable": {
+            "rule_description": "%description%",
+            "rule_title": "%name%",
+            "nes_fields": []
+        },
+        "rba": {
+            "enabled": "true"
+        },
+        "tags": {
+            "type": "TTP"
+        }
+    }
+]

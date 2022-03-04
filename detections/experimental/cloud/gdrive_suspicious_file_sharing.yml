@@ -27,6 +27,7 @@ tags:
   analytic_story:
   - Spearphishing Attachments
   - Data Exfiltration
+  asset_type: GDrive
   dataset:
   - []
   kill_chain_phases:
@@ -45,3 +46,13 @@ tags:
   - parameters.doc_title
   - parameters.doc_type
   security_domain: threat
+  confidence: 50
+  impact: 50
+  risk_score: 25
+  context: []
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  message: tbd
