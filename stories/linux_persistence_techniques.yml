@@ -15,7 +15,6 @@ references:
 - https://kifarunix.com/scheduling-tasks-using-at-command-in-linux/
 - https://gtfobins.github.io/gtfobins/at/
 - https://www.cert.ssi.gouv.fr/uploads/CERTFR-2021-CTI-005.pdf
-
 tags:
   analytic_story: Linux Persistence Techniques
   category:

@@ -35,11 +35,11 @@ references:
 tags:
   analytic_story:
   - Dev Sec Ops
-  automated_detection_testing: passed
+  asset_type: GSuite
   confidence: 70
   context:
   - Source:Endpoint
-  - Stage:Reconnaissance
+  - Stage:Discovery
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/gdrive_susp_file_share/gdrive_susp_attach.log
   impact: 30
@@ -53,7 +53,7 @@ tags:
   - name: parameters.owner
     type: User
     role:
-    - attacker
+    - Attacker
   - name: email
     type: User
     role:
@@ -62,7 +62,6 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Dev Sec Ops Analytics
   required_fields:
   - _time
   - parameters.doc_title

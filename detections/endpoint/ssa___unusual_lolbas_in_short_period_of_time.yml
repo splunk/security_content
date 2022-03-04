@@ -77,9 +77,9 @@ tags:
     role:
     - Victim
   - name: process_name
-    type: processname
+    type: Process
     role:
-    - Others
+    - Other
   product:
   - Splunk Behavioral Analytics
   required_fields:
@@ -89,3 +89,4 @@ tags:
   risk_score: 25
   risk_severity: low
   security_domain: endpoint
+  asset_type: Endpoint

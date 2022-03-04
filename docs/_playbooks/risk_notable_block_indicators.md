@@ -27,7 +27,7 @@ This playbook handles locating indicators marked for blocking and determining if
 
 
 #### How To Implement
-None
+tbd
 
 #### Playbooks
 ![](https://raw.githubusercontent.com/splunk/security_content/develop/playbooks/risk_notable_block_indicators.png)

@@ -28,10 +28,11 @@ references:
 tags:
   analytic_story:
   - Dev Sec Ops
+  asset_type: GSuite
   confidence: 30
   context:
   - Source:Endpoint
-  - Stage:Reconnaissance
+  - Stage:Discovery
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/gsuite_outbound_email_to_external/gsuite_external_domain.log
   impact: 30
@@ -45,7 +46,7 @@ tags:
   - name: source.address
     type: User
     role:
-    - attacker
+    - Attacker
   - name: destination{}.address
     type: User
     role:
@@ -54,7 +55,6 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Dev Sec Ops Analytics
   required_fields:
   - _time
   risk_score: 9

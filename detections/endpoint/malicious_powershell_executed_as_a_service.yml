@@ -26,7 +26,6 @@ references:
 tags:
   analytic_story:
   - Malicious Powershell
-  automated_detection_testing: passed
   confidence: 80
   context:
   - Source:Endpoint
@@ -35,7 +34,7 @@ tags:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1569.002/atomic_red_team/windows-system.log
   impact: 90
   kill_chain_phases:
-  - Privilege Escalation
+  - Exploitation
   message: Identifies the abuse the Windows SC.exe to execute malicious powerShell
     as a service $Service_File_Name$ by $user$ on $dest$
   mitre_attack_id:
@@ -65,3 +64,4 @@ tags:
   - user
   risk_score: 72
   security_domain: endpoint
+  asset_type: Endpoint

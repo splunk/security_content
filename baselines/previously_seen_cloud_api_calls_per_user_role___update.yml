@@ -1,0 +1,41 @@
+name: Previously Seen Cloud API Calls Per User Role - Update
+id: c4b760a0-6a97-47e9-b089-8ae9e57f210e
+version: 1
+date: '2020-09-03'
+author: David Dorsey, Splunk
+type: Baseline
+datamodel:
+- Change
+description: This search updates the table of the first and last times seen for every
+  user role and command combination.
+search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen
+  from datamodel=Change where All_Changes.user_type=AssumedRole AND All_Changes.status=success
+  by All_Changes.user, All_Changes.command | `drop_dm_object_name("All_Changes")`
+  | table user, command, firstTimeSeen, lastTimeSeen | inputlookup previously_seen_cloud_api_calls_per_user_role
+  append=t | stats min(firstTimeSeen) as firstTimeSeen, max(lastTimeSeen) as lastTimeSeen
+  by user, command | where lastTimeSeen > relative_time(now(), `previously_seen_cloud_api_calls_per_user_role_forget_window`)
+  | eventstats min(firstTimeSeen) as globalFirstTime | eval enough_data = if(globalFirstTime
+  <= relative_time(now(), "-7d@d"), 1, 0) | table user, command, firstTimeSeen, lastTimeSeen,
+  enough_data | outputlookup previously_seen_cloud_api_calls_per_user_role'
+how_to_implement: You must be ingesting Cloud infrastructure logs from your cloud
+  provider.
+known_false_positives: none
+references: []
+tags:
+  analytic_story:
+  - Suspicious Cloud User Activities
+  deployments:
+  - Daily Cache Updates
+  detections:
+  - Cloud API Calls From Previously Unseen User Roles
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - All_Changes.user_type
+  - All_Changes.status
+  - All_Changes.user
+  - All_Changes.command
+  security_domain: network

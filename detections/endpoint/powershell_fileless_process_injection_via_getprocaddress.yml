@@ -36,11 +36,10 @@ references:
 tags:
   analytic_story:
   - Malicious PowerShell
-  automated_detection_testing: passed
   confidence: 80
   context:
-  - source:endpoint
-  - stage: recon
+  - Source:Endpoint
+  - Stage:Execution
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/windows-powershell.log
   impact: 60
@@ -74,3 +73,4 @@ tags:
   - EventCode
   risk_score: 48
   security_domain: endpoint
+  asset_type: Endpoint

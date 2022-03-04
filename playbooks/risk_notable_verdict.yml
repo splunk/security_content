@@ -6,6 +6,7 @@ author: Kelby Shelton, Splunk
 type: Response
 description: This playbook locates available playbooks with the response tag and presents them to the analyst. Based on the analyst selection, it will launch its chosen playbook.
 playbook: risk_notable_verdict
+how_to_implement: tbd
 references:
 - https://docs.splunk.com/Documentation/ESSOC/latest/user/Useplaybookpack#Call_child_playbooks_with_the_dynamic_playbook_system
 app_list:

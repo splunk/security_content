@@ -1,12 +1,14 @@
 ---
 title: "Recon AVProduct Through Pwh or WMI"
-excerpt: "Gather Victim Host Information"
+excerpt: "Gather Victim Host Information
+"
 categories:
   - Endpoint
 last_modified_at: 2021-06-10
 toc: true
 toc_label: ""
 tags:
+
   - Gather Victim Host Information
   - Reconnaissance
   - Splunk Enterprise
@@ -22,7 +24,7 @@ tags:
 
 The following analytic identifies suspicious PowerShell script execution via EventCode 4104 performing checks to identify anti-virus products installed on the endpoint. This technique is commonly found in malware and APT events where the adversary will map all running security applications or services. During triage, review parallel processes within the same timeframe. Review the full script block to identify other related artifacts.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-06-10
@@ -48,8 +50,8 @@ The following analytic identifies suspicious PowerShell script execution via Eve
 
 #### Macros
 The SPL above uses the following Macros:
-* [powershell](https://github.com/splunk/security_content/blob/develop/macros/powershell.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [powershell](https://github.com/splunk/security_content/blob/develop/macros/powershell.yml)
 
 Note that `recon_avproduct_through_pwh_or_wmi_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -101,6 +103,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/honeypots/pwsh/windows-powershell.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/honeypots/pwsh/windows-powershell.log)
 

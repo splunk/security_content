@@ -39,7 +39,6 @@ tags:
   analytic_story:
   - Active Directory Lateral Movement
   - Malicious PowerShell
-  automated_detection_testing: passed
   confidence: 50
   context:
   - Source:Endpoint
@@ -48,8 +47,7 @@ tags:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1543.003/lateral_movement_powershell/windows-sysmon.log
   impact: 90
   kill_chain_phases:
-  - Lateral Movement
-  - Malicious PowerShell
+  - Exploitation
   message: A PowerShell process was spawned as a child process of typically abused
     processes on $dest$
   mitre_attack_id:
@@ -86,3 +84,4 @@ tags:
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_microsoft_sysmon
+  asset_type: Endpoint

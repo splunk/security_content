@@ -38,4 +38,4 @@ The winrm asset requires Administrator access to gather certain files.
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/playbooks/internal_host_winrm_log4j_respond.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/playbooks/internal_host_winrm_response.yml) \| *version*: **1**
