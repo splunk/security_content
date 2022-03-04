@@ -83,3 +83,4 @@ tags:
   - Processes.process_guid
   risk_score: 64
   security_domain: endpoint
+  asset_type: Endpoint

@@ -37,7 +37,6 @@ references:
 tags:
   analytic_story:
   - Prohibited Traffic Allowed or Protocol Mismatch
-  automated_detection_testing: passed
   confidence: 30
   context:
   - Source:Endpoint
@@ -76,3 +75,4 @@ tags:
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_microsoft_sysmon
+  asset_type: Endpoint

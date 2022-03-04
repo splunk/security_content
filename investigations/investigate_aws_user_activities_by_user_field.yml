@@ -1,0 +1,36 @@
+name: Investigate AWS User Activities by user field
+id: bc91a8cd-35e7-4bb2-6140-e756cc46fd76
+version: 1
+date: '2018-03-12'
+author: Bhavin Patel, Splunk
+type: Investigation
+datamodel: []
+description: This search lists all the logged CloudTrail activities by a specific
+  user and will create a table containing the source of the user, the region of the
+  activity, the name and type of the event, the action taken, and the user's identity
+  information.
+search: '`cloudtrail` user=$user$ | table _time userIdentity.type userIdentity.userName
+  userIdentity.arn aws_account_id src awsRegion eventName eventType '
+how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
+  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
+  inputs.
+known_false_positives: ''
+references: []
+tags:
+  analytic_story:
+  - AWS User Monitoring
+  - Suspicious Cloud Authentication Activities
+  product:
+  - Splunk Phantom
+  required_fields:
+  - _time
+  - user
+  - userIdentity.type
+  - userIdentity.userName
+  - userIdentity.arn
+  - aws_account_id
+  - src
+  - awsRegion
+  - eventName
+  - eventType
+  security_domain: network

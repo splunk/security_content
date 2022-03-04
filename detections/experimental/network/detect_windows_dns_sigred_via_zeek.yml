@@ -18,8 +18,7 @@ how_to_implement: You must be ingesting Zeek DNS and Zeek Conn data into Splunk.
   records via bro:dns:json and TCP payload over 65KB in size via bro:conn:json.  The
   Network Resolution and Network Traffic datamodels are in use for this search.
 known_false_positives: unknown
-references:
-- https://research.checkpoint.com/2020/resolving-your-way-into-domain-admin-exploiting-a-17-year-old-bug-in-windows-dns-servers/
+references: []
 tags:
   analytic_story:
   - Windows DNS SIGRed CVE-2020-1350
@@ -46,3 +45,13 @@ tags:
   - All_Traffic.bytes_in
   - All_Traffic.flow_id
   security_domain: endpoint
+  confidence: 50
+  impact: 50
+  risk_score: 25
+  context: []
+  message: tbd
+  observable:
+  - name: dest
+    type: Other
+    role:
+    - Other

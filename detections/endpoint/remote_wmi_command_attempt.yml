@@ -30,14 +30,13 @@ tags:
   analytic_story:
   - Suspicious WMI Use
   asset_type: Endpoint
-  automated_detection_testing: passed
   cis20:
   - CIS 3
   - CIS 5
   confidence: 60
   context:
-  - source:endpoint
-  - stage: Execution
+  - Source:Endpoint
+  - Stage:Execution
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1047/atomic_red_team/windows-sysmon.log
   impact: 60
@@ -58,7 +57,7 @@ tags:
     role:
     - Victim
   - name: user
-    type: user
+    type: User
     role:
     - Victim
   product:

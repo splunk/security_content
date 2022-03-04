@@ -1,25 +1,33 @@
 ---
 title: "Detect SharpHound Command-Line Arguments"
-excerpt: "Domain Account, Local Groups, Domain Trust Discovery, Local Account, Account Discovery, Domain Groups, Permission Groups Discovery"
+excerpt: "Domain Account
+, Local Groups
+, Domain Trust Discovery
+, Local Account
+, Account Discovery
+, Domain Groups
+, Permission Groups Discovery
+"
 categories:
   - Endpoint
 last_modified_at: 2021-06-01
 toc: true
 toc_label: ""
 tags:
+
   - Domain Account
-  - Discovery
   - Local Groups
-  - Discovery
   - Domain Trust Discovery
-  - Discovery
   - Local Account
-  - Discovery
   - Account Discovery
-  - Discovery
   - Domain Groups
-  - Discovery
   - Permission Groups Discovery
+  - Discovery
+  - Discovery
+  - Discovery
+  - Discovery
+  - Discovery
+  - Discovery
   - Discovery
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -35,7 +43,7 @@ tags:
 
 The following analytic identifies common command-line arguments used by SharpHound `-collectionMethod` and `invoke-bloodhound`. Being the script is FOSS, function names may be modified, but these changes are dependent upon the operator. In most instances the defaults are used. This analytic works to identify the common command-line attributes used. It does not cover the entirety of every argument in order to avoid false positives.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-01
@@ -130,6 +138,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/sharphound/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/sharphound/windows-sysmon.log)
 

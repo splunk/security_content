@@ -43,7 +43,6 @@ known_false_positives: Some legitimate applications may use PlistBuddy to create
   modify property lists and possibly generate false positives. Review the property
   list being modified or created to confirm.
 references:
-- https://redcanary.com/blog/clipping-silver-sparrows-wings/
 - https://marcosantadev.com/manage-plist-files-plistbuddy/
 tags:
   analytic_story:
@@ -69,3 +68,17 @@ tags:
   - Processes.process_id
   - Processes.parent_process_id
   security_domain: endpoint
+  confidence: 50
+  impact: 50
+  risk_score: 25
+  context: []
+  message: tbd
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim

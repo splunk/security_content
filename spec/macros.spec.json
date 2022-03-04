@@ -1,43 +1,28 @@
 {
-  "$id": "https://api.splunkresearch.com/schemas/macros.json",
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "description": "An object that defines the parameters for a Splunk Macro",
+  "title": "Macro",
+  "type": "object",
   "properties": {
-    "arguments": {
-      "description": "A list of the arguments being passed to this macro",
-      "items": {
-        "type": "string"
-      },
-      "minItems": 0,
-      "type": "array",
-      "uniqueItems": true
+    "name": {
+      "title": "Name",
+      "type": "string"
     },
     "definition": {
-      "description": "The macro definition",
-      "examples": [
-        "(query=fls-na* AND query = www* AND query=images*)"
-      ],
+      "title": "Definition",
       "type": "string"
     },
     "description": {
-      "description": "What the macro is intended to filter",
-      "examples": [
-        "Use this macro to filter out known good objects"
-      ],
+      "title": "Description",
       "type": "string"
     },
-    "name": {
-      "description": "The name of the macro",
-      "examples": [
-        "detection_search_output_filter"
-      ],
-      "type": "string"
+    "arguments": {
+      "title": "Arguments",
+      "type": "array",
+      "items": {}
     }
   },
   "required": [
     "name",
+    "definition",
     "description"
-  ],
-  "title": "Macro Manifest",
-  "type": "object"
+  ]
 }

@@ -3,8 +3,8 @@ tests:
 - name: Powershell Fileless Process Injection via GetProcAddress
   file: endpoint/powershell_fileless_process_injection_via_getprocaddress.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-24h'
-  latest_time: 'now'
+  earliest_time: -24h
+  latest_time: now
   attack_data:
   - file_name: windows-powershell.log
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/windows-powershell.log

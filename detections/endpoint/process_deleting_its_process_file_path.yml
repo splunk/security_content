@@ -32,7 +32,6 @@ tags:
   - Clop Ransomware
   - Remcos
   - WhisperGate
-  automated_detection_testing: passed
   confidence: 100
   context:
   - Source:Endpoint
@@ -72,3 +71,4 @@ tags:
   - _time
   risk_score: 60
   security_domain: endpoint
+  asset_type: Endpoint

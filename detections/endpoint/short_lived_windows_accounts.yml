@@ -25,13 +25,12 @@ tags:
   analytic_story:
   - Account Monitoring and Controls
   asset_type: Windows
-  automated_detection_testing: passed
   cis20:
   - CIS 16
   confidence: 90
   context:
-  - source:endpoint
-  - stage: Persistence
+  - Source:Endpoint
+  - Stage:Persistence
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.001/atomic_red_team/windows-security.log
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.001/atomic_red_team/windows-system.log
@@ -49,7 +48,7 @@ tags:
     role:
     - Victim
   - name: user
-    type: user
+    type: User
     role:
     - Victim
   product:
@@ -63,3 +62,5 @@ tags:
   - All_Changes.dest
   risk_score: 63
   security_domain: access
+  kill_chain_phases:
+  - Exploitation

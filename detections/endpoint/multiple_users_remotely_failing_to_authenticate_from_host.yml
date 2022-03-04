@@ -47,7 +47,6 @@ references:
 tags:
   analytic_story:
   - Active Directory Password Spraying
-  automated_detection_testing: passed
   confidence: 70
   context:
   - Source:Endpoint
@@ -81,3 +80,4 @@ tags:
   - Source_Network_Address
   risk_score: 49
   security_domain: endpoint
+  asset_type: Endpoint
