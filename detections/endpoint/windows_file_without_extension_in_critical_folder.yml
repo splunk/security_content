@@ -41,6 +41,7 @@ tags:
   context:
   - Source:Endpoint
   - Stage:Persistence
+  - Privilege Escalation
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/hermetic_wiper/sysmon.log
   impact: 90
@@ -74,4 +75,3 @@ tags:
   - Processes.user
   risk_score: 90
   security_domain: endpoint
-  asset_type: Endpoint

@@ -24,6 +24,7 @@ references:
 tags:
   analytic_story:
   - Clop Ransomware
+  automated_detection_testing: passed
   confidence: 80
   context:
   - Source:Endpoint
@@ -58,4 +59,3 @@ tags:
   - ProcessID
   risk_score: 72
   security_domain: endpoint
-  asset_type: Endpoint

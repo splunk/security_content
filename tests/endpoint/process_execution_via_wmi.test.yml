@@ -1,6 +1,6 @@
-name: Process Execution via WMI Unit Test
+name: Process execution via wmi Unit Test
 tests:
-- name: Process Execution via WMI
+- name: Process execution via wmi
   file: endpoint/process_execution_via_wmi.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'

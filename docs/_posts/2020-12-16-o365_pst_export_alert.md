@@ -1,16 +1,15 @@
 ---
 title: "O365 PST export alert"
-excerpt: "Email Collection
-"
+excerpt: "Email Collection"
 categories:
   - Cloud
 last_modified_at: 2020-12-16
 toc: true
 toc_label: ""
 tags:
-
   - Email Collection
   - Collection
+  - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -24,8 +23,8 @@ tags:
 
 This search detects when a user has performed an Ediscovery search or exported a PST file from the search. This PST file usually has sensitive information including email body content
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-12-16
 - **Author**: Rod Soto, Splunk
@@ -50,8 +49,8 @@ This search detects when a user has performed an Ediscovery search or exported a
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [o365_management_activity](https://github.com/splunk/security_content/blob/develop/macros/o365_management_activity.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `o365_pst_export_alert_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -77,7 +76,7 @@ PST export can be done for legitimate purposes but due to the sensitive nature o
 
 
 #### Kill Chain Phase
-* Exploitation
+* Actions on Objective
 
 
 
@@ -101,7 +100,6 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114/o365_export_pst_file/o365_export_pst_file.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114/o365_export_pst_file/o365_export_pst_file.json)
 

@@ -31,6 +31,7 @@ tags:
   analytic_story:
   - FIN7
   - Suspicious WMI Use
+  automated_detection_testing: passed
   confidence: 70
   context:
   - Source:Endpoint
@@ -54,7 +55,7 @@ tags:
     role:
     - Victim
   - name: parent_process_name
-    type: Process
+    type: Parent Process
     role:
     - Parent Process
   - name: process_name
@@ -78,4 +79,3 @@ tags:
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_microsoft_sysmon
-  asset_type: Endpoint
