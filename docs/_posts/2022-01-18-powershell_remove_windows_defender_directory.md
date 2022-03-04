@@ -3,7 +3,7 @@ title: "Powershell Remove Windows Defender Directory"
 excerpt: "Disable or Modify Tools, Impair Defenses"
 categories:
   - Endpoint
-last_modified_at: 2022-01-20
+last_modified_at: 2022-01-18
 toc: true
 toc_label: ""
 tags:
@@ -28,7 +28,7 @@ This analytic will identify a suspicious PowerShell command used to delete the W
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
-- **Last Updated**: 2022-01-20
+- **Last Updated**: 2022-01-18
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: adf47620-79fa-11ec-b248-acde48001122
 
@@ -44,11 +44,11 @@ This analytic will identify a suspicious PowerShell command used to delete the W
 #### Search
 
 ```
-`powershell` EventCode=4104 Message = "* rmdir *" AND Message = "*\\Microsoft\\Windows Defender*" 
+`powershell` EventCode=4104 Message = "*rmdir *" AND Message = "*\\Microsoft\\Windows Defender*" 
 | stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message ComputerName User 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
-| `powershell_remove_windows_defender_directory_filter`
+| `powershell_remove_windows_defender_directory_filter` 
 ```
 
 #### Macros
@@ -106,4 +106,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/powershell_remove_windows_defender_directory.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/powershell_remove_windows_defender_directory.yml) \| *version*: **2**
