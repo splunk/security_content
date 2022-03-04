@@ -64,6 +64,8 @@ detections:
         url: /detections/network_sessions/
       - title: Network_Traffic
         url: /detections/network_traffic/
+      - title: Risk
+        url: /detections/risk/
       - title: Updates
         url: /detections/updates/
       - title: Web

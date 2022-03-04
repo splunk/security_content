@@ -49,7 +49,7 @@ The following analytic identifies a suspicious process creation of At applicatio
 
 ```
 
-| tstats `security_content_summariesonly` count from datamodel=Endpoint.Processes where  Processes.process_name = at OR Processes.parent_process_name = at by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.process Processes.process_id Processes.parent_process_id Processes.process_guid 
+| tstats `security_content_summariesonly` count from datamodel=Endpoint.Processes where  Processes.process_name IN ("at", "atd") OR Processes.parent_process_name IN ("at", "atd") by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.process Processes.process_id Processes.parent_process_id Processes.process_guid 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 

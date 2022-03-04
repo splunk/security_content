@@ -83,6 +83,7 @@ Some false positives may be present and will need to be filtered.
 #### Associated Analytic story
 * [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
 * [IcedID](/stories/icedid)
+* [Living Off The Land](/stories/living_off_the_land)
 
 
 #### Kill Chain Phase
