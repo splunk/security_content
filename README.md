@@ -46,7 +46,7 @@ curl -s https://content.splunkresearch.com | jq
 ### contentctl.py 
 The Content Control tool allows you to manipulate Splunk Security Content via the following actions: 
 
-1. **new** - Creates new content (detection, story, baseline)
+1. **new_content** - Creates new content (detection, story)
 2. **validate** - Validates written content
 3. **generate** - Generates a deployment package for different platforms (splunk_app)
 
@@ -61,18 +61,18 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 ### create a new detection 
-`python contentctl.py new` 
+`python3 bin/contentctl_project/main/contentctl.py -p . new_content -t detection` 
 
 for a more indepth write up on how to write content see our [guide](https://github.com/splunk/security_content/wiki/Developing-Content).
 
 ### create a new analytic story 
-`python contentctl.py new -t story` 
+`python3 bin/contentctl_project/main/contentctl.py -p . new_content -t story` 
 
 ### validate written content a new analytic story 
-`python contentctl.py --verbose validate` 
+`python3 bin/contentctl_project/main/contentctl.py -p . validate -pr ESCU` 
 
 ### generate a splunk app from current content
-`python contentctl.py --path . --verbose generate --output package` 
+`python3 bin/contentctl_project/main/contentctl.py --path . generate --product ESCU --output dist/escu` 
 
 # MITRE ATT&CK ⚔️
 ### Detection Coverage
@@ -91,8 +91,6 @@ A complete use case, specifically built to detect, investigate, and respond to a
 * [detections/](detections/): Contains all 209 detection searches to-date and growing.
 * [stories/](stories/): All Analytic Stories that are group detections or also known as Use Cases
 * [deployments/](deployments/): Configuration for the schedule and alert action for all content
-* [responses/](responses/): Incident Response Playbooks/Workflow for responding to a specific Use Case or Threat.
-* [response_tasks/](response_tasks/): Individual steps in responses that help the user investigate via a Splunk search, automate via a phantom playbook, and visualize via dashboards threats.
 * [baselines/](baselines/): Searches that must be executed before a detection runs. It is specifically useful for collecting data on a system before running your detection on the collected data.
 * [dashboards/](dashboards/): JSON definitions of Mission Control dashboards, to be used as a response task. Currently not used.
 * [macros/](macros/): Implements Splunk’s search macros, shortcuts to commonly used search patterns like sysmon source type. More on how macros are used to customize content below.
