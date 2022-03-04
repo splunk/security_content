@@ -1,18 +1,19 @@
 ---
 title: "Hunting for Log4Shell"
-excerpt: "Exploit Public-Facing Application"
+excerpt: "Exploit Public-Facing Application
+"
 categories:
   - Endpoint
 last_modified_at: 2021-12-14
 toc: true
 toc_label: ""
 tags:
+
   - Exploit Public-Facing Application
   - Initial Access
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - CVE-2021-44228
   - Web
 ---
 
@@ -24,7 +25,7 @@ tags:
 
 The following hunting query assists with quickly assessing CVE-2021-44228, or Log4Shell, activity mapped to the Web Datamodel. This is a combination query attempting to identify, score and dashboard. Because the Log4Shell vulnerability requires the string to be in the logs, this will work to identify the activity anywhere in the HTTP headers using _raw. Modify the first line to use the same pattern matching against other log sources. Scoring is based on a simple rubric of 0-5. 5 being the best match, and less than 5 meant to identify additional patterns that will equate to a higher total score. \
 The first jndi match identifies the standard pattern of `{jndi:` \
-jndi_fastmatch is meant to identify any jndi in the logs. The score is set low and is meant to be the &#34;base&#34; score used later. \
+jndi_fastmatch is meant to identify any jndi in the logs. The score is set low and is meant to be the "base" score used later. \
 jndi_proto is a protocol match that identifies `jndi` and one of `ldap, ldaps, rmi, dns, nis, iiop, corba, nds, http, https.` \
 all_match is a very well written regex by https://gist.github.com/Schvenn that identifies nearly all patterns of this attack behavior. \
 env works to identify environment variables in the header, meant to capture `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` and `env`. \
@@ -34,7 +35,7 @@ lookup matching is meant to catch some basic obfuscation that has been identifie
 Scoring will then occur based on any findings. The base score is meant to be 2 , created by jndi_fastmatch. Everything else is meant to increase that score. \
 Finally, a simple table is created to show the scoring and the _raw field. Sort based on score or columns of interest.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Web](https://docs.splunk.com/Documentation/CIM/latest/User/Web)
 - **Last Updated**: 2021-12-14
@@ -189,7 +190,7 @@ Note that `hunting_for_log4shell_filter` is a empty macro by default. It allows 
 
 
 #### How To Implement
-Out of the box, the Web datamodel is required to be pre-filled. However, tested was performed against raw httpd access logs. Change the first line to any dataset to pass the regex&#39;s against.
+Out of the box, the Web datamodel is required to be pre-filled. However, tested was performed against raw httpd access logs. Change the first line to any dataset to pass the regex's against.
 
 #### Known False Positives
 It is highly possible you will find false positives, however, the base score is set to 2 for _any_ jndi found in raw logs. tune and change as needed, include any filtering.
@@ -213,13 +214,6 @@ It is highly possible you will find false positives, however, the base score is 
 Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
-#### CVE
-
-| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
-| ----------- | ----------- | -------------- |
-| [CVE-2021-44228](https://nvd.nist.gov/vuln/detail/CVE-2021-44228) | Apache Log4j2 2.0-beta9 through 2.15.0 (excluding security releases 2.12.2, 2.12.3, and 2.3.1) JNDI features used in configuration, log messages, and parameters do not protect against attacker controlled LDAP and other JNDI related endpoints. An attacker who can control log messages or log message parameters can execute arbitrary code loaded from LDAP servers when message lookup substitution is enabled. From log4j 2.15.0, this behavior has been disabled by default. From version 2.16.0 (along with 2.12.2, 2.12.3, and 2.3.1), this functionality has been completely removed. Note that this vulnerability is specific to log4j-core and does not affect log4net, log4cxx, or other Apache Logging Services projects. | 9.3 |
-
-
 
 #### Reference
 
@@ -236,6 +230,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/java/log4shell-nginx.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/java/log4shell-nginx.log)
 

@@ -30,15 +30,16 @@ references:
 tags:
   analytic_story:
   - Active Directory Kerberos Attacks
+  asset_type: endpoint
   confidence: 60
   context:
   - Source:Endpoint
-  - Stage:PrivilegeEscalation
+  - Stage:Privilege Escalation
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1550.003/mimikatz/windows-sysmon.log
   impact: 60
   kill_chain_phases:
-  - Privilege Escalation
+  - Exploitation
   message: Mimikatz command line parameters for pass the ticket attacks were used
     on $dest$
   mitre_attack_id:
@@ -54,7 +55,7 @@ tags:
     role:
     - Victim
   - name: parent_process_name
-    type: Parent Process
+    type: Process
     role:
     - Parent Process
   product:

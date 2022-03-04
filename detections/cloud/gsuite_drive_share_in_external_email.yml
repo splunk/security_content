@@ -29,17 +29,18 @@ references:
 tags:
   analytic_story:
   - Dev Sec Ops
+  asset_type: GSuite
   confidence: 90
   context:
   - Source:Endpoint
-  - Stage:Reconnaissance
+  - Stage:Discovery
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1567.002/gsuite_share_drive/gdrive_share_external.log
   deployments:
   - Send to Phantom
   impact: 80
   kill_chain_phases:
-  - Exfiltration
+  - Exploitation
   message: suspicious share gdrive from $parameters.owner$ to $email$ namely as $parameters.doc_title$
   mitre_attack_id:
   - T1567.002
@@ -57,7 +58,6 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Dev Sec Ops Analytics
   required_fields:
   - _time
   - parameters.doc_title

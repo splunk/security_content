@@ -26,13 +26,11 @@ tags:
   - Ryuk Ransomware
   - Ransomware
   asset_type: Endpoint
-  automated_detection_testing: passed
   cis20:
   - CIS 8
   confidence: 80
   context:
   - Source:Endpoint
-  - Stage:Impact
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1490/atomic_red_team/windows-sysmon.log
   impact: 100
@@ -55,7 +53,7 @@ tags:
     role:
     - Victim
   - name: parent_process_name
-    type: Parent Process
+    type: Process
     role:
     - Parent Process
   - name: process_name

@@ -37,11 +37,10 @@ tags:
   analytic_story:
   - Windows Persistence Techniques
   - Windows Privilege Escalation
-  automated_detection_testing: passed
   confidence: 100
   context:
-  - source:endpoint
-  - stage:Privilege Escalation Persistence
+  - Source:Endpoint
+  - Stage:Privilege Escalation
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127/etw_disable/sysmon.log
   impact: 90
@@ -58,7 +57,7 @@ tags:
     role:
     - Victim
   - name: user
-    type: user
+    type: User
     role:
     - Victim
   product:
@@ -77,3 +76,4 @@ tags:
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_microsoft_sysmon
+  asset_type: Endpoint

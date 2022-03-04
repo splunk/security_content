@@ -31,10 +31,10 @@ tags:
   confidence: 90
   context:
   - Source:Endpoint
-  - Stage:Persistence,
+  - Stage:Persistence
   - Stage:Privilege Escalation
   - Stage:Defense Evasion
-  - Scope:Incoming
+  - Scope:Inbound
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/uac_bypass/windows-sysmon2.log
   impact: 70
@@ -64,3 +64,4 @@ tags:
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_microsoft_sysmon
+  asset_type: Endpoint

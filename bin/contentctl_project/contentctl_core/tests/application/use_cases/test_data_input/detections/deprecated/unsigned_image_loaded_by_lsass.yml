@@ -1,0 +1,68 @@
+name: Unsigned Image Loaded by LSASS
+id: 56ef054c-76ef-45f9-af4a-a634695dcd65
+version: 1
+date: '2019-12-06'
+author: Patrick Bareiss, Splunk
+type: TTP
+datamodel: []
+description: This search detects loading of unsigned images by LSASS. Deprecated because
+  too noisy.
+search: '`sysmon` EventID=7 Image=*lsass.exe Signed=false | stats count min(_time)
+  as firstTime max(_time) as lastTime by Computer, Image, ImageLoaded, Signed, SHA1
+  | rename Computer as dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+  | `unsigned_image_loaded_by_lsass_filter` '
+how_to_implement: This search needs Sysmon Logs with a sysmon configuration, which
+  includes EventCode 7 with lsass.exe. This search uses an input macro named `sysmon`.
+  We strongly recommend that you specify your environment-specific configurations
+  (index, source, sourcetype, etc.) for Windows Sysmon logs. Replace the macro definition
+  with configurations for your Splunk environment. The search also uses a post-filter
+  macro designed to filter out known false positives.
+known_false_positives: Other tools could load images into LSASS for legitimate reason.
+  But enterprise tools should always use signed DLLs.
+references:
+- https://attack.mitre.org/techniques/T1003/001/
+tags:
+  analytic_story:
+  - Credential Dumping
+  asset_type: Windows
+  cis20:
+  - CIS 8
+  - CIS 16
+  confidence: 100
+  context:
+  - Source:Endpoint
+  - Stage:Credential Access
+  impact: 90
+  kill_chain_phases:
+  - Actions on Objectives
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified
+    on endpoint $dest$ by user $user$ attempting to export the registry keys.
+  mitre_attack_id:
+  - T1003.001
+  nist:
+  - DE.CM
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Process
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  risk_score: 90
+  security_domain: endpoint

@@ -30,6 +30,7 @@ references:
 tags:
   analytic_story:
   - Network Discovery
+  asset_type: endpoint
   cis20:
   - CIS 3
   - CIS 5
@@ -37,7 +38,7 @@ tags:
   confidence: 30
   context:
   - Source:Endpoint
-  - Stage:Reconaissance
+  - Stage:Recon
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1016/atomic_red_team/linux_net_discovery/sysmon_linux.log
   impact: 30

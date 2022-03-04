@@ -1,0 +1,32 @@
+name: Windows Updates Install Failures
+id: 6a4dbd1b-4502-4a11-943a-82b5ae7a42d7
+version: 1
+date: '2017-09-14'
+author: David Dorsey, Splunk
+type: Baseline
+datamodel: []
+description: This search is intended to give you a feel for how often Windows updates
+  fail to install in your environment. Fluctuations in these numbers will allow you
+  to determine when you should be concerned.
+search: '| tstats `security_content_summariesonly` dc(Updates.dest) as count FROM
+  datamodel=Updates where Updates.vendor_product="Microsoft Windows" AND Updates.status=failure
+  by _time span=1d'
+how_to_implement: You must be ingesting your Windows Update Logs
+known_false_positives: none
+references: []
+tags:
+  analytic_story:
+  - Monitor for Updates
+  deployments:
+  - Daily Cache Updates
+  detections:
+  - No Windows Updates in a time frame
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Updates.vendor_product
+  - Updates.status
+  security_domain: endpoint

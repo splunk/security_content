@@ -3,12 +3,10 @@ tests:
 - name: Plain HTTP POST Exfiltrated Data
   file: network/plain_http_post_exfiltrated_data.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-24h'
-  latest_time: 'now'
+  earliest_time: -24h
+  latest_time: now
   attack_data:
   - file_name: stream_http_events.log
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/plain_exfil_data/stream_http_events.log
     source: stream
     sourcetype: stream:http
-
-

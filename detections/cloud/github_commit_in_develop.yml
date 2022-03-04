@@ -23,11 +23,10 @@ references:
 tags:
   analytic_story:
   - Dev Sec Ops
-  automated_detection_testing: passed
+  asset_type: GitHub
   confidence: 30
   context:
-  - Source:Endpoint
-  - Stage:Reconnaissance
+  - Source:Application Log
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1199/github_push_master/github_push_develop.json
   impact: 30
@@ -40,12 +39,11 @@ tags:
   - name: commit.commit.author.email
     type: User
     role:
-    - attacker
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Dev Sec Ops Analytics
   required_fields:
   - _time
   risk_score: 9

@@ -3,8 +3,8 @@ tests:
 - name: Rundll32 Process Creating Exe Dll Files
   file: endpoint/rundll32_process_creating_exe_dll_files.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-24h'
-  latest_time: 'now'
+  earliest_time: -24h
+  latest_time: now
   attack_data:
   - file_name: windows-sysmon.log
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/inf_icedid/windows-sysmon.log

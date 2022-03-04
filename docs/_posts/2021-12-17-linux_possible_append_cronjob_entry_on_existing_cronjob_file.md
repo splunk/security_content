@@ -1,17 +1,20 @@
 ---
 title: "Linux Possible Append Cronjob Entry on Existing Cronjob File"
-excerpt: "Cron, Scheduled Task/Job"
+excerpt: "Cron
+, Scheduled Task/Job
+"
 categories:
   - Endpoint
 last_modified_at: 2021-12-17
 toc: true
 toc_label: ""
 tags:
+
   - Cron
+  - Scheduled Task/Job
   - Execution
   - Persistence
   - Privilege Escalation
-  - Scheduled Task/Job
   - Execution
   - Persistence
   - Privilege Escalation
@@ -29,7 +32,7 @@ tags:
 
 This analytic looks for possible suspicious commandline that may use to append a code to any existing cronjob files for persistence or privilege escalation. This technique is commonly abused by malware, adversaries and red teamers to automatically execute their code within a existing or sometimes in normal cronjob script file.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-12-17
@@ -86,7 +89,7 @@ Administrator or network operator can use this commandline for automation purpos
 
 
 #### Kill Chain Phase
-* Privilege Escalation
+* Exploitation
 
 
 
@@ -112,6 +115,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.003/cronjobs_entry/sysmon_linux.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.003/cronjobs_entry/sysmon_linux.log)
 
