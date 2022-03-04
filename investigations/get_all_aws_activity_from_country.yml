@@ -1,0 +1,36 @@
+name: Get All AWS Activity From Country
+id: e763cdb9-00da-41e0-9bda-444debc9501a
+version: 1
+date: '2018-03-19'
+author: David Dorsey, Splunk
+type: Investigation
+datamodel: []
+description: This search retrieves all the activity from a specific country and will
+  create a table containing the time, country, ARN, username, the type of user, the
+  source IP address, the AWS region the activity was in, the API called, and whether
+  or not the API call was successful.
+search: '`cloudtrail` | iplocation sourceIPAddress | search Country=$Country$ | spath
+  output=user path=userIdentity.arn | spath output=awsUserName path=userIdentity.userName
+  | spath output=userType path=userIdentity.type | rename sourceIPAddress as src_ip
+  | table _time, Country, user, userName, userType, src_ip, awsRegion, eventName,
+  errorCode'
+how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
+  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
+  inputs.
+known_false_positives: ''
+references: []
+tags:
+  analytic_story:
+  - AWS Suspicious Provisioning Activities
+  product:
+  - Splunk Phantom
+  required_fields:
+  - _time
+  - sourceIPAddress
+  - userIdentity.arn
+  - userIdentity.userName
+  - userIdentity.type
+  - awsRegion
+  - eventName
+  - errorCode
+  security_domain: network

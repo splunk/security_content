@@ -1,5 +1,5 @@
 name: Detect API activity from users without MFA
-id: 2a9b80d3-6340-4345-w5ad-212bf5d1dac4
+id: 4d46e8bd-4072-48e4-92db-0325889ef894
 version: 1
 date: '2018-05-17'
 author: Bhavin Patel, Splunk
@@ -67,5 +67,17 @@ tags:
   - user
   risk_object: user
   risk_object_type: user
-  risk_score: 10
+  risk_score: 25.0
   security_domain: network
+  kill_chain_phases:
+  - Exploitation
+  confidence: 50
+  impact: 50
+  context:
+  - Unknown
+  message: tbd
+  observable:
+  - name: field
+    type: Unknown
+    role:
+    - Unknown

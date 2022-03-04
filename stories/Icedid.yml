@@ -5,12 +5,14 @@ date: '2021-07-29'
 author: Teoderick Contreras, Splunk
 type: batch
 description: Leverage searches that allow you to detect and investigate unusual activities
-  that might relate to the IcedID banking trojan, including looking for file writes associated
-  with its payload, process injection, shellcode execution and data collection.
-narrative: IcedId banking trojan campaigns targeting banks and other vertical sectors.This malware is known
-  in Microsoft Windows OS targetting browser such as firefox and chrom to steal banking information. It is also known
-  to its unique payload downloaded in C2 where it can be a .png file that hides the core shellcode bot using steganography technique or
-  gzip dat file that contains "license.dat" which is the actual core icedid bot.
+  that might relate to the IcedID banking trojan, including looking for file writes
+  associated with its payload, process injection, shellcode execution and data collection.
+narrative: IcedId banking trojan campaigns targeting banks and other vertical sectors.This
+  malware is known in Microsoft Windows OS targetting browser such as firefox and
+  chrom to steal banking information. It is also known to its unique payload downloaded
+  in C2 where it can be a .png file that hides the core shellcode bot using steganography
+  technique or gzip dat file that contains "license.dat" which is the actual core
+  icedid bot.
 references:
 - https://threatpost.com/icedid-banking-trojan-surges-emotet/165314/
 - https://app.any.run/tasks/48414a33-3d66-4a46-afe5-c2003bb55ccf/

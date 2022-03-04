@@ -1,12 +1,14 @@
 ---
 title: "Unloading AMSI via Reflection"
-excerpt: "Impair Defenses"
+excerpt: "Impair Defenses
+"
 categories:
   - Endpoint
 last_modified_at: 2021-06-09
 toc: true
 toc_label: ""
 tags:
+
   - Impair Defenses
   - Defense Evasion
   - Splunk Enterprise
@@ -21,10 +23,10 @@ tags:
 #### Description
 
 The following analytic utilizes PowerShell Script Block Logging (EventCode=4104) to identify suspicious PowerShell execution. Script Block Logging captures the command sent to PowerShell, the full command to be executed. Upon enabling, logs will output to Windows event logs. Dependent upon volume, enable on critical endpoints or all. \
-This analytic identifies the behavior of AMSI being tampered with. Implemented natively in many frameworks, the command will look similar to `SEtValuE($Null,(New-OBJEct COLlECtionS.GenerIC.HAshSEt{[StrINg]))}$ReF=[ReF].AsSeMbLY.GeTTyPe(&#34;System.Management.Automation.Amsi&#34;+&#34;Utils&#34;)` taken from Powershell-Empire. \
+This analytic identifies the behavior of AMSI being tampered with. Implemented natively in many frameworks, the command will look similar to `SEtValuE($Null,(New-OBJEct COLlECtionS.GenerIC.HAshSEt{[StrINg]))}$ReF=[ReF].AsSeMbLY.GeTTyPe("System.Management.Automation.Amsi"+"Utils")` taken from Powershell-Empire. \
 During triage, review parallel processes using an EDR product or 4688 events. It will be important to understand the timeline of events around this activity. Review the entire logged PowerShell script block.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-06-09
@@ -50,8 +52,8 @@ During triage, review parallel processes using an EDR product or 4688 events. It
 
 #### Macros
 The SPL above uses the following Macros:
-* [powershell](https://github.com/splunk/security_content/blob/develop/macros/powershell.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [powershell](https://github.com/splunk/security_content/blob/develop/macros/powershell.yml)
 
 Note that `unloading_amsi_via_reflection_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -102,6 +104,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/windows-powershell.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/windows-powershell.log)
 

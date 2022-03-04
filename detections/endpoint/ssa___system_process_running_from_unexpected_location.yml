@@ -240,8 +240,8 @@ tags:
   - CIS 8
   confidence: 80
   context:
-  - source:endpoint
-  - stage: Defense Evasion
+  - Source:Endpoint
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/system_process_running_unexpected_location/windows-security.log
   impact: 70
@@ -260,7 +260,7 @@ tags:
     role:
     - Victim
   - name: dest_user_id
-    type: user
+    type: User
     role:
     - Victim
   product:
@@ -274,3 +274,4 @@ tags:
   risk_score: 56
   risk_severity: medium
   security_domain: endpoint
+  asset_type: Endpoint

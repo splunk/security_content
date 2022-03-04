@@ -24,7 +24,6 @@ tags:
   analytic_story:
   - AWS Network ACL Activity
   asset_type: AWS Instance
-  automated_detection_testing: passed
   cis20:
   - CIS 11
   confidence: 50
@@ -55,7 +54,6 @@ tags:
     role:
     - Victim
   product:
-  - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud

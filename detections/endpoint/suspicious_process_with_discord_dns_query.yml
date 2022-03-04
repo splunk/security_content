@@ -53,7 +53,7 @@ tags:
     role:
     - Victim
   - name: process_name
-    type: process name
+    type: Process Name
     role:
     - Attacker
   product:
@@ -71,3 +71,4 @@ tags:
   - process_path
   risk_score: 64
   security_domain: endpoint
+  asset_type: Endpoint

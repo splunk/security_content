@@ -1,17 +1,19 @@
 ---
 title: "O365 Suspicious Rights Delegation"
-excerpt: "Remote Email Collection, Email Collection"
+excerpt: "Remote Email Collection
+, Email Collection
+"
 categories:
   - Cloud
 last_modified_at: 2020-12-15
 toc: true
 toc_label: ""
 tags:
+
   - Remote Email Collection
-  - Collection
   - Email Collection
   - Collection
-  - Splunk Security Analytics for AWS
+  - Collection
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -25,8 +27,8 @@ tags:
 
 This search detects the assignment of rights to accesss content from another mailbox. This is usually only assigned to a service account.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
-- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-12-15
 - **Author**: Patrick Bareiss, Splunk
@@ -56,8 +58,8 @@ This search detects the assignment of rights to accesss content from another mai
 
 #### Macros
 The SPL above uses the following Macros:
-* [o365_management_activity](https://github.com/splunk/security_content/blob/develop/macros/o365_management_activity.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [o365_management_activity](https://github.com/splunk/security_content/blob/develop/macros/o365_management_activity.yml)
 
 Note that `o365_suspicious_rights_delegation_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -99,6 +101,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114.002/suspicious_rights_delegation/suspicious_rights_delegation.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114.002/suspicious_rights_delegation/suspicious_rights_delegation.json)
 

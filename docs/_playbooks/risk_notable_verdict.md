@@ -27,7 +27,7 @@ This playbook locates available playbooks with the response tag and presents the
 
 
 #### How To Implement
-
+tbd
 
 #### Playbooks
 ![](https://raw.githubusercontent.com/splunk/security_content/develop/playbooks/risk_notable_verdict.png)

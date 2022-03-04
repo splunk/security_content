@@ -28,7 +28,6 @@ tags:
   - Office 365 Detections
   - Cloud Federated Credential Abuse
   asset_type: Office 365
-  automated_detection_testing: passed
   confidence: 60
   context:
   - Source:Cloud Data
@@ -39,7 +38,7 @@ tags:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.003/o365_add_service_principal/o365_add_service_principal.json
   impact: 70
   kill_chain_phases:
-  - Actions on Objective
+  - Exploitation
   message: User $Actor.ID$ created a new federation setting on $Target.ID$ and added
     service principal credentials from IP Address $ActorIpAddress$
   mitre_attack_id:
@@ -55,7 +54,6 @@ tags:
     role:
     - Victim
   product:
-  - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud

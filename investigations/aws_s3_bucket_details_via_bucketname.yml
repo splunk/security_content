@@ -1,0 +1,34 @@
+name: AWS S3 Bucket details via bucketName
+id: 2762d4ed-9266-465e-b966-1c10dc8d91f3
+version: 1
+date: '2018-06-26'
+author: Bhavin Patel, Splunk
+type: Investigation
+datamodel: []
+description: This search queries AWS configuration logs and returns the information
+  about a specific S3 bucket. The information returned includes the time the S3 bucket
+  was created, the resource ID, the region it belongs to, the value of action performed,
+  AWS account ID, and configuration values of the access-control lists associated
+  with the bucket.
+search: '`aws_config` | rename resourceId as bucketName |search bucketName=$bucketName$
+  | table resourceCreationTime bucketName vendor_region action aws_account_id supplementaryConfiguration.AccessControlList'
+how_to_implement: To implement this search, you must install the AWS App for Splunk
+  (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later) and
+  configure your AWS inputs.
+known_false_positives: ''
+references: []
+tags:
+  analytic_story:
+  - Suspicious AWS S3 Activities
+  product:
+  - Splunk Phantom
+  required_fields:
+  - _time
+  - resourceId
+  - bucketName
+  - resourceCreationTime
+  - vendor_region
+  - action
+  - aws_account_id
+  - supplementaryConfiguration.AccessControlList
+  security_domain: network

@@ -30,16 +30,14 @@ tags:
   - Disabling Security Tools
   - NOBELIUM Group
   asset_type: Endpoint
-  automated_detection_testing: passed
   cis20:
   - CIS 3
   - CIS 5
   - CIS 8
   confidence: 80
   context:
-  - source:endpoint
-  - stage: Persistence
-  - Privilege Escalation
+  - Source:Endpoint
+  - Stage:Persistence
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1543.003/atomic_red_team/windows-sysmon.log
   impact: 70
@@ -62,7 +60,7 @@ tags:
     role:
     - Victim
   - name: user
-    type: user
+    type: User
     role:
     - Victim
   product:
