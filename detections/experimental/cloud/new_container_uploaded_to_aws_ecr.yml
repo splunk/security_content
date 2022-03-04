@@ -33,3 +33,15 @@ tags:
   required_fields:
   - _time
   security_domain: threat
+  confidence: 50
+  impact: 50
+  risk_score: 25
+  context: []
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  message: tbd
+  kill_chain_phases:
+  - Exploitation

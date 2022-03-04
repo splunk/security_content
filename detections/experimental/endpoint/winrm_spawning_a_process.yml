@@ -30,13 +30,13 @@ references:
 tags:
   analytic_story:
   - Unusual Processes
+  asset_type: Endpoint
   cve:
   - CVE-2021-31166
   dataset: []
   kill_chain_phases:
   - Exploitation
-  - Privilege Escalation
-  - Denial of Service
+  - Actions on Objectives
   mitre_attack_id:
   - T1190
   product:
@@ -53,3 +53,17 @@ tags:
   - Processes.process_id
   - Processes.parent_process_id
   security_domain: endpoint
+  confidence: 50
+  impact: 50
+  risk_score: 25
+  context: []
+  message: tbd
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim

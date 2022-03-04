@@ -1,0 +1,17 @@
+name: ESCU Default Configuration Anomaly
+id: a9e210c6-9f50-4f8b-b60e-71bb26e4f216
+date: '2021-12-21'
+author: Patrick Bareiss
+description: This configuration file applies to all detections of type anomaly.
+  These detections will use Risk Based Alerting.
+scheduling:
+  cron_schedule: 0 * * * *
+  earliest_time: -70m@m
+  latest_time: -10m@m
+  schedule_window: auto
+alert_action:
+  rba:
+    enabled: 'true'
+tags:
+  type: Anomaly
+  product: ESCU

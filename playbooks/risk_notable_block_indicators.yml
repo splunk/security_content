@@ -6,7 +6,7 @@ author: Kelby Shelton, Splunk
 type: Response
 description: This playbook handles locating indicators marked for blocking and determining if any blocking playbooks exist. If there is a match to the appropriate tags in the playbook, a filter block routes the name of the playbook to launch to a code block.
 playbook: risk_notable_block_indicators
-how_to_implement:
+how_to_implement: tbd
 references:
 - https://docs.splunk.com/Documentation/ESSOC/latest/user/Useplaybookpack#Call_child_playbooks_with_the_dynamic_playbook_system
 - https://docs.splunk.com/Documentation/ESSOC/latest/user/Useplaybookpack#Indicator_tagging_system

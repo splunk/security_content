@@ -1,17 +1,20 @@
 ---
 title: "Schtasks scheduling job on remote system"
-excerpt: "Scheduled Task, Scheduled Task/Job"
+excerpt: "Scheduled Task
+, Scheduled Task/Job
+"
 categories:
   - Endpoint
 last_modified_at: 2021-11-11
 toc: true
 toc_label: ""
 tags:
+
   - Scheduled Task
+  - Scheduled Task/Job
   - Execution
   - Persistence
   - Privilege Escalation
-  - Scheduled Task/Job
   - Execution
   - Persistence
   - Privilege Escalation
@@ -29,7 +32,7 @@ tags:
 
 This analytic looks for the execution of `schtasks.exe` with command-line arguments utilized to create a Scheduled Task on a remote endpoint. Red Teams and adversaries alike may abuse the Task Scheduler for lateral movement and remote code execution.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-11-11
@@ -73,7 +76,7 @@ Note that `schtasks_scheduling_job_on_remote_system_filter` is a empty macro by 
 
 
 #### How To Implement
-You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the &#34;process&#34; field in the Endpoint data model.
+You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the "process" field in the Endpoint data model.
 
 #### Known False Positives
 Administrators may create scheduled tasks on remote systems, but this activity is usually limited to a small set of hosts or users. It is important to validate and investigate as appropriate.
@@ -105,6 +108,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/atomic_red_team/windows-sysmon.log)
 

@@ -41,8 +41,8 @@ tags:
   - Suspicious Command-Line Executions
   confidence: 20
   context:
-  - source:endpoint
-  - stage:Execution
+  - Source:Endpoint
+  - Stage:Execution
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/malicious_cmd_line_samples/windows-sysmon.log
   impact: 60
@@ -77,3 +77,4 @@ tags:
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_microsoft_sysmon
+  asset_type: Endpoint

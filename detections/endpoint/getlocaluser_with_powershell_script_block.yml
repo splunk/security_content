@@ -27,7 +27,6 @@ tags:
   context:
   - Source:Endpoint
   - Stage:Discovery
-  - Stage:Recon
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.001/AD_discovery/windows-powershell.log
   impact: 30
@@ -50,3 +49,4 @@ tags:
   - _time
   risk_score: 15
   security_domain: endpoint
+  asset_type: Endpoint

@@ -8,6 +8,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - Actions on Objectives
 ---
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -20,7 +21,7 @@ Use the searches in this Analytic Story to monitor your AWS S3 buckets for evide
 - **Datamodel**: 
 - **Last Updated**: 2018-07-24
 - **Author**: Bhavin Patel, Splunk
-- **ID**: 2e8948a5-5239-406b-b56b-6c50w3168af3
+- **ID**: 66732346-8fb0-407b-9633-da16756567d6
 
 #### Narrative
 
@@ -32,10 +33,10 @@ Among things to look out for are S3 access from unfamiliar locations and by unfa
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Detect New Open S3 Buckets over AWS CLI](/cloud/detect_new_open_s3_buckets_over_aws_cli/) | [Data from Cloud Storage Object](/tags/#data-from-cloud-storage-object) | TTP |
-| [Detect New Open S3 buckets](/cloud/detect_new_open_s3_buckets/) | [Data from Cloud Storage Object](/tags/#data-from-cloud-storage-object) | TTP |
-| [Detect S3 access from a new IP](/cloud/detect_s3_access_from_a_new_ip/) | [Data from Cloud Storage Object](/tags/#data-from-cloud-storage-object) | Anomaly |
-| [Detect Spike in S3 Bucket deletion](/cloud/detect_spike_in_s3_bucket_deletion/) | [Data from Cloud Storage Object](/tags/#data-from-cloud-storage-object) | Anomaly |
+| [Detect New Open S3 buckets](/cloud/detect_new_open_s3_buckets/) | [Data from Cloud Storage Object](/tags/#data-from-cloud-storage-object)| TTP |
+| [Detect New Open S3 Buckets over AWS CLI](/cloud/detect_new_open_s3_buckets_over_aws_cli/) | [Data from Cloud Storage Object](/tags/#data-from-cloud-storage-object)| TTP |
+| [Detect S3 access from a new IP](/cloud/detect_s3_access_from_a_new_ip/) | [Data from Cloud Storage Object](/tags/#data-from-cloud-storage-object)| Anomaly |
+| [Detect Spike in S3 Bucket deletion](/cloud/detect_spike_in_s3_bucket_deletion/) | [Data from Cloud Storage Object](/tags/#data-from-cloud-storage-object)| Anomaly |
 
 #### Reference
 

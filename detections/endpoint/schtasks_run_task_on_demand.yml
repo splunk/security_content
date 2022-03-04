@@ -27,13 +27,10 @@ references:
 tags:
   analytic_story:
   - XMRig
-  automated_detection_testing: passed
   confidence: 80
   context:
-  - source:endpoint
-  - stage: Execution
-  - Persistence
-  - Privilege Escalation
+  - Source:Endpoint
+  - Stage:Execution
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
   impact: 60
@@ -49,7 +46,7 @@ tags:
     role:
     - Victim
   - name: user
-    type: user
+    type: User
     role:
     - Victim
   product:
@@ -68,3 +65,4 @@ tags:
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_microsoft_sysmon
+  asset_type: Endpoint

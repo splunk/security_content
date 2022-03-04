@@ -47,11 +47,10 @@ tags:
   - Stage:Persistence
   - Stage:Privilege Escalation
   - Stage:Defense Evasion
-  - Scope:Incoming
   impact: 70
   kill_chain_phases:
-  - Privilege Escalation
-  message: null
+  - Exploitation
+  message: tbd
   mitre_attack_id:
   - T1548.002
   - T1548
@@ -76,3 +75,4 @@ tags:
   risk_score: 63
   risk_severity: medium
   security_domain: endpoint
+  asset_type: Endpoint

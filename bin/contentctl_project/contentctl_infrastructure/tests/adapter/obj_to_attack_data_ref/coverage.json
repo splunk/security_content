@@ -1,0 +1,52 @@
+{
+    "version": "4.2",
+    "name": "Detection Coverage",
+    "description": "security_content detection coverage",
+    "domain": "mitre-enterprise",
+    "techniques": [
+        {
+            "techniqueID": "T1003.002",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/detection/attempted_credential_dump_from_registry_via_reg_exe.yml"
+        },
+        {
+            "techniqueID": "T1003",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/detection/attempted_credential_dump_from_registry_via_reg_exe.yml"
+        }
+    ],
+    "gradient": {
+        "colors": [
+            "#ffffff",
+            "#66b1ff",
+            "#096ed7"
+        ],
+        "minValue": 0,
+        "maxValue": 1
+    },
+    "filters": {
+        "platforms": [
+            "Windows",
+            "Linux",
+            "macOS",
+            "AWS",
+            "GCP",
+            "Azure",
+            "Office 365",
+            "SaaS"
+        ]
+    },
+    "legendItems": [
+        {
+            "label": "NO available detections",
+            "color": "#ffffff"
+        },
+        {
+            "label": "Some detections available",
+            "color": "#66b1ff"
+        }
+    ],
+    "showTacticRowBackground": true,
+    "tacticRowBackground": "#dddddd",
+    "sorting": 3
+}

@@ -35,7 +35,6 @@ references:
 tags:
   analytic_story:
   - Spearphishing Attachments
-  automated_detection_testing: passed
   confidence: 70
   context:
   - Source:Endpoint
@@ -70,3 +69,4 @@ tags:
   - _time
   risk_score: 49
   security_domain: endpoint
+  asset_type: Endpoint

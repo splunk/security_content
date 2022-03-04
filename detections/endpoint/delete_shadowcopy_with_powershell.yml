@@ -27,7 +27,6 @@ tags:
   - DarkSide Ransomware
   - Ransomware
   - Revil Ransomware
-  automated_detection_testing: passed
   confidence: 90
   context:
   - Source:Endpoint
@@ -62,3 +61,4 @@ tags:
   - User
   risk_score: 81
   security_domain: endpoint
+  asset_type: Endpoint

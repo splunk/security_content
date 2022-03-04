@@ -44,7 +44,7 @@ tags:
   confidence: 100
   context:
   - Source:Endpoint
-  - Stage:Command and Control
+  - Stage:Command And Control
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1105/atomic_red_team/T1105-windows-security.log
   impact: 90
@@ -64,7 +64,7 @@ tags:
     role:
     - Victim
   - name: parent_process_name
-    type: Parent Process
+    type: Process
     role:
     - Parent Process
   - name: process_name
@@ -84,3 +84,4 @@ tags:
   - cmd_line
   risk_score: 90
   security_domain: endpoint
+  asset_type: Endpoint

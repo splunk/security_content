@@ -1,0 +1,7 @@
+description: A list of tools used by attackers
+filename: attacker_tools.csv
+name: attacker_tools
+default_match: 'false'
+match_type: WILDCARD(attacker_tool_names)
+min_matches: 1
+case_sensitive_match: 'false'

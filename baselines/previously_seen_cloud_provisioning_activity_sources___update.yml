@@ -1,0 +1,48 @@
+name: Previously Seen Cloud Provisioning Activity Sources - Update
+id: 9830abb9-be80-4563-b232-09bf1f628cf3
+version: 1
+date: '2020-08-20'
+author: David Dorsey, Splunk
+type: Baseline
+datamodel:
+- Change
+description: This returns the first and last times seen for every IP address (along
+  with its physical location) previously associated with cloud-provisioning activity
+  within the last day. Cloud provisioning is broadly defined as any event that runs
+  or creates something.  It then updates this information with historical data and
+  filters out locations that have not been seen within the specified time window.
+  This updated table is then cached.
+search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen
+  from datamodel=Change where (All_Changes.action=started OR All_Changes.action=created)
+  All_Changes.status=success by All_Changes.src | `drop_dm_object_name("All_Changes")`
+  | iplocation src | where isnotnull(Country) | table src, firstTimeSeen, lastTimeSeen,
+  City, Country, Region | inputlookup previously_seen_cloud_provisioning_activity_sources
+  append=t | stats min(firstTimeSeen) as firstTimeSeen, max(lastTimeSeen) as lastTimeSeen
+  by src, City, Country, Region | where lastTimeSeen > relative_time(now(), `previously_seen_cloud_provisioning_activity_forget_window`)
+  | eventstats min(firstTimeSeen) as globalFirstTime | eval enough_data = if(globalFirstTime
+  <= relative_time(now(), "-7d@d"), 1, 0) | table src, City, Country, Region, firstTimeSeen,
+  lastTimeSeen, enough_data | outputlookup previously_seen_cloud_provisioning_activity_sources'
+how_to_implement: You must be ingesting Cloud infrastructure logs from your cloud
+  provider.
+known_false_positives: none
+references: []
+tags:
+  analytic_story:
+  - Suspicious Cloud Provisioning Activities
+  deployments:
+  - Daily Cache Updates
+  detections:
+  - Cloud Provisioning Activity From Previously Unseen IP Address
+  - Cloud Provisioning Activity From Previously Unseen City
+  - Cloud Provisioning Activity From Previously Unseen Country
+  - Cloud Provisioning Activity From Previously Unseen Region
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - All_Changes.action
+  - All_Changes.src
+  - All_Changes.status
+  security_domain: network

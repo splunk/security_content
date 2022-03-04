@@ -29,7 +29,7 @@ tags:
   confidence: 80
   context:
   - Source:Endpoint
-  - Stage:Exfitration
+  - Stage:Exfiltration
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/mass_file_creation/windows-sysmon.log
   impact: 90
@@ -38,6 +38,15 @@ tags:
   message: High number of files copied
   mitre_attack_id:
   - T1048.003
+  observable:
+  - name: dest_user_id
+    type: User
+    role:
+    - Actor
+  - name: dest_device_id
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Behavioral Analytics
   required_fields:
@@ -48,3 +57,4 @@ tags:
   risk_score: 72
   risk_severity: medium
   security_domain: endpoint
+  asset_type: Endpoint

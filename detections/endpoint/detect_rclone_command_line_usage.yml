@@ -36,7 +36,6 @@ tags:
   analytic_story:
   - DarkSide Ransomware
   - Ransomware
-  automated_detection_testing: passed
   confidence: 70
   context:
   - Source:Endpoint
@@ -45,7 +44,7 @@ tags:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1020/windows-sysmon.log
   impact: 50
   kill_chain_phases:
-  - Exfiltration
+  - Exploitation
   message: An instance of $parent_process_name$ spawning $process_name$ was identified
     on endpoint $dest$ by user $user$ attempting to connect to a remote cloud service
     to move files or folders.
@@ -61,7 +60,7 @@ tags:
     role:
     - Victim
   - name: parent_process_name
-    type: Parent Process
+    type: Process
     role:
     - Parent Process
   - name: process_name
@@ -86,3 +85,4 @@ tags:
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_microsoft_sysmon
+  asset_type: Endpoint

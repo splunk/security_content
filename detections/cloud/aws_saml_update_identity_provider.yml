@@ -27,7 +27,6 @@ tags:
   analytic_story:
   - Cloud Federated Credential Abuse
   asset_type: AWS Federated Account
-  automated_detection_testing: passed
   confidence: 80
   context:
   - Source:Cloud Data
@@ -51,7 +50,6 @@ tags:
     - Victim
     - Target
   product:
-  - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -66,3 +64,5 @@ tags:
   - userIdentity.principalId
   risk_score: 64
   security_domain: threat
+  kill_chain_phases:
+  - Exploitation
