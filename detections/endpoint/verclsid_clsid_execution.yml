@@ -32,10 +32,11 @@ references:
 tags:
   analytic_story:
   - Unusual Processes
+  automated_detection_testing: passed
   confidence: 50
   context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
+  - source:endpoint
+  - stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.012/verclsid_exec/sysmon.log
   impact: 50
@@ -52,7 +53,7 @@ tags:
     role:
     - Victim
   - name: user
-    type: User
+    type: user
     role:
     - Victim
   product:
@@ -74,4 +75,3 @@ tags:
   - Processes.parent_process_id
   risk_score: 25
   security_domain: endpoint
-  asset_type: Endpoint

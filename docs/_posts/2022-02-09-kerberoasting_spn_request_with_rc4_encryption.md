@@ -24,7 +24,7 @@ tags:
 
 The following analytic leverages Kerberos Event 4769, A Kerberos service ticket was requested, to identify a potential kerberoasting attack against Active Directory networks. Kerberoasting allows an adversary to request kerberos tickets for domain accounts typically used as service accounts and attempt to crack them offline allowing them to obtain privileged access to the domain. This analytic looks for a specific combination of the Ticket_Options field based on common kerberoasting tools. Defenders should be aware that it may be possible for a Kerberoast attack to use different Ticket_Options.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2022-02-09
@@ -79,7 +79,7 @@ Older systems that support kerberos RC4 by default like NetApp may generate fals
 
 
 #### Kill Chain Phase
-* Exploitation
+* Privilege Escalation
 
 
 

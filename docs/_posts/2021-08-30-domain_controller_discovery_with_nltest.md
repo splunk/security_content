@@ -1,14 +1,12 @@
 ---
 title: "Domain Controller Discovery with Nltest"
-excerpt: "Remote System Discovery
-"
+excerpt: "Remote System Discovery"
 categories:
   - Endpoint
 last_modified_at: 2021-08-30
 toc: true
 toc_label: ""
 tags:
-
   - Remote System Discovery
   - Discovery
   - Splunk Enterprise
@@ -23,9 +21,9 @@ tags:
 
 #### Description
 
-This analytic looks for the execution of `nltest.exe` with command-line arguments utilized to discover remote systems. The arguments `/dclist:` and '/dsgetdc:', can be used to return a list of all domain controllers. Red Teams and adversaries alike may use nltest.exe to identify domain controllers in a Windows Domain for situational awareness and Active Directory Discovery.
+This analytic looks for the execution of `nltest.exe` with command-line arguments utilized to discover remote systems. The arguments `/dclist:` and &#39;/dsgetdc:&#39;, can be used to return a list of all domain controllers. Red Teams and adversaries alike may use nltest.exe to identify domain controllers in a Windows Domain for situational awareness and Active Directory Discovery.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-08-30
@@ -106,7 +104,6 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1018/AD_discovery/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1018/AD_discovery/windows-sysmon.log)
 

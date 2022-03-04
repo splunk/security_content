@@ -30,6 +30,7 @@ tags:
   - Remcos
   - Windows Defense Evasion Tactics
   - WhisperGate
+  automated_detection_testing: passed
   confidence: 80
   context:
   - Source:Endpoint
@@ -64,4 +65,3 @@ tags:
   - User
   risk_score: 64
   security_domain: endpoint
-  asset_type: Endpoint

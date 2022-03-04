@@ -34,6 +34,7 @@ tags:
   - HAFNIUM Group
   - DarkSide Ransomware
   - Active Directory Lateral Movement
+  automated_detection_testing: passed
   confidence: 90
   context:
   - Source:Endpoint
@@ -43,6 +44,8 @@ tags:
   impact: 30
   kill_chain_phases:
   - Exploitation
+  - Lateral Movement
+  - Execution
   message: The following $process_name$ has been identified as renamed, spawning from
     $parent_process_name$ on $dest$ by $user$.
   mitre_attack_id:
@@ -58,7 +61,7 @@ tags:
     role:
     - Victim
   - name: parent_process_name
-    type: Process
+    type: Parent Process
     role:
     - Parent Process
   - name: process_name
@@ -84,4 +87,3 @@ tags:
   - Processes.parent_process_id
   risk_score: 27
   security_domain: endpoint
-  asset_type: Endpoint
