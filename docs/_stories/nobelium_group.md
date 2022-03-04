@@ -47,6 +47,7 @@ This Analytic Story supports you to detect Tactics, Techniques and Procedures (T
 | [Supernova Webshell](/web/supernova_webshell/) | [Web Shell](/tags/#web-shell) | TTP |
 | [TOR Traffic](/network/tor_traffic/) | [Application Layer Protocol](/tags/#application-layer-protocol), [Web Protocols](/tags/#web-protocols) | TTP |
 | [Windows AdFind Exe](/endpoint/windows_adfind_exe/) | [Remote System Discovery](/tags/#remote-system-discovery) | TTP |
+| [Windows Rundll32 Inline HTA Execution](/endpoint/windows_rundll32_inline_hta_execution/) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Mshta](/tags/#mshta) | TTP |
 
 #### Reference
 

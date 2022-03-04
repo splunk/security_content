@@ -3,7 +3,7 @@ title: "Set Default PowerShell Execution Policy To Unrestricted or Bypass"
 excerpt: "Command and Scripting Interpreter, PowerShell"
 categories:
   - Endpoint
-last_modified_at: 2020-11-06
+last_modified_at: 2022-02-18
 toc: true
 toc_label: ""
 tags:
@@ -28,7 +28,7 @@ Monitor for changes of the ExecutionPolicy in the registry to the values &#34;un
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
-- **Last Updated**: 2020-11-06
+- **Last Updated**: 2022-02-18
 - **Author**: Patrick Bareiss, Splunk
 - **ID**: c2590137-0b08-4985-9ec5-6ae23d92f63d
 
@@ -45,10 +45,10 @@ Monitor for changes of the ExecutionPolicy in the registry to the values &#34;un
 
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_path=*Software\\Microsoft\\Powershell\\1\\ShellIds\\Microsoft.PowerShell* Registry.registry_key_name=ExecutionPolicy (Registry.registry_value_name=Unrestricted OR Registry.registry_value_name=Bypass) by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.dest 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_path=*Software\\Microsoft\\Powershell\\1\\ShellIds\\Microsoft.PowerShell* Registry.registry_value_name=ExecutionPolicy (Registry.registry_value_data=Unrestricted OR Registry.registry_value_data=Bypass) by Registry.registry_path Registry.registry_value_name Registry.registry_value_data Registry.dest 
 | `drop_dm_object_name(Registry)` 
-| `security_content_ctime(firstTime)`
-|`security_content_ctime(lastTime)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
 | `set_default_powershell_execution_policy_to_unrestricted_or_bypass_filter`
 ```
 
@@ -107,4 +107,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/set_default_powershell_execution_policy_to_unrestricted_or_bypass.yml) \| *version*: **6**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/set_default_powershell_execution_policy_to_unrestricted_or_bypass.yml) \| *version*: **7**

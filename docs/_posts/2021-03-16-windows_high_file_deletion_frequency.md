@@ -1,5 +1,5 @@
 ---
-title: "High File Deletion Frequency"
+title: "Windows High File Deletion Frequency"
 excerpt: "Data Destruction"
 categories:
   - Endpoint
@@ -40,12 +40,12 @@ This search looks for high frequency of file deletion relative to process name a
 #### Search
 
 ```
-`sysmon` EventCode=23 TargetFilename IN ("*\.cmd", "*\.ini","*\.gif", "*\.jpg", "*\.jpeg", "*\.db", "*\.ps1", "*\.doc*", "*\.xls*", "*\.ppt*", "*\.bmp","*\.zip", "*\.rar", "*\.7z", "*\.chm", "*\.png", "*\.log", "*\.vbs", "*\.js") 
+`sysmon` EventCode=23 TargetFilename IN ("*.cmd", "*.ini","*.gif", "*.jpg", "*.jpeg", "*.db", "*.ps1", "*.doc*", "*.xls*", "*.ppt*", "*.bmp","*.zip", "*.rar", "*.7z", "*.chm", "*.png", "*.log", "*.vbs", "*.js", "*.vhd", "*.bak", "*.wbcat", "*.bkf" , "*.backup*", "*.dsk", , "*.win") 
 | stats values(TargetFilename) as deleted_files min(_time) as firstTime max(_time) as lastTime count by Computer user EventCode Image ProcessID 
 |where count >=100 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
-| `high_file_deletion_frequency_filter`
+| `windows_high_file_deletion_frequency_filter`
 ```
 
 #### Macros
@@ -53,7 +53,7 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 
-Note that `high_file_deletion_frequency_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+Note that `windows_high_file_deletion_frequency_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * EventCode
@@ -108,4 +108,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/high_file_deletion_frequency.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/windows_high_file_deletion_frequency.yml) \| *version*: **1**
