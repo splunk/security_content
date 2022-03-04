@@ -30,10 +30,11 @@ references:
 tags:
   analytic_story:
   - Trickbot
+  automated_detection_testing: passed
   confidence: 80
   context:
-  - Source:Endpoint
-  - Stage:Execution
+  - source:endpoint
+  - stage: executions
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/spear_phish/windows-sysmon.log
   impact: 70
@@ -50,7 +51,7 @@ tags:
     role:
     - Victim
   - name: user
-    type: User
+    type: user
     role:
     - Victim
   product:
@@ -74,4 +75,3 @@ tags:
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_microsoft_sysmon
-  asset_type: Endpoint

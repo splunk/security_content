@@ -1,14 +1,12 @@
 ---
 title: "WinEvent Windows Task Scheduler Event Action Started"
-excerpt: "Scheduled Task
-"
+excerpt: "Scheduled Task"
 categories:
   - Endpoint
 last_modified_at: 2021-10-19
 toc: true
 toc_label: ""
 tags:
-
   - Scheduled Task
   - Execution
   - Persistence
@@ -27,7 +25,7 @@ tags:
 
 The following hunting analytic assists with identifying suspicious tasks that have been registered and ran in Windows using EventID 200 (action run) and 201 (action completed). It is recommended to filter based on ActionName by specifying specific paths not used in your environment. After some basic tuning, this may be effective in capturing evasive ways to register tasks on Windows. Review parallel events related to tasks being scheduled. EventID 106 will generate when a new task is generated, however, that does not mean it ran. Capture any files on disk and analyze.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-10-19
@@ -54,8 +52,8 @@ The following hunting analytic assists with identifying suspicious tasks that ha
 
 #### Macros
 The SPL above uses the following Macros:
-* [wineventlog_task_scheduler](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_task_scheduler.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [wineventlog_task_scheduler](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_task_scheduler.yml)
 
 Note that `winevent_windows_task_scheduler_event_action_started_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -105,7 +103,6 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/windows_taskschedule/windows-taskschedule.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/windows_taskschedule/windows-taskschedule.log)
 

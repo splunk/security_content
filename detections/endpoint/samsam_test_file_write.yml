@@ -23,11 +23,13 @@ tags:
   analytic_story:
   - SamSam Ransomware
   asset_type: Endpoint
+  automated_detection_testing: passed
   cis20:
   - CIS 8
   confidence: 20
   context:
-  - Source:Endpoint
+  - source:endpoint
+  - stage: Impact
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1486/sam_sam_note/windows-sysmon.log
   impact: 60
@@ -45,7 +47,7 @@ tags:
     role:
     - Victim
   - name: user
-    type: User
+    type: user
     role:
     - Victim
   product:

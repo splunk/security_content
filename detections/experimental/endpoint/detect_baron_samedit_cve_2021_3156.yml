@@ -12,7 +12,8 @@ how_to_implement: Splunk Universal Forwarder running on Linux systems, capturing
   user tries passing in a single \ character at the end of the command while using
   the shell and edit flags.
 known_false_positives: unknown
-references: []
+references:
+- https://blog.qualys.com/vulnerabilities-research/2021/01/26/cve-2021-3156-heap-based-buffer-overflow-in-sudo-baron-samedit
 tags:
   analytic_story:
   - Baron Samedit CVE-2021-3156
@@ -36,13 +37,3 @@ tags:
   required_fields:
   - _time
   security_domain: endpoint
-  confidence: 50
-  impact: 50
-  risk_score: 25
-  context: []
-  message: tbd
-  observable:
-  - name: dest
-    type: Other
-    role:
-    - Other

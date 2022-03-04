@@ -46,13 +46,3 @@ tags:
   - columns.pid
   - host
   security_domain: threat
-  confidence: 50
-  impact: 50
-  risk_score: 25
-  context: []
-  message: tbd
-  observable:
-  - name: dest
-    type: Other
-    role:
-    - Other
