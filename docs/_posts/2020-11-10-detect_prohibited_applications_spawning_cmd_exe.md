@@ -39,13 +39,12 @@ The following analytic identifies parent processes, browsers, Windows terminal a
 
 ```
 
-| from read_ssa_enriched_events()
-
+| from read_ssa_enriched_events() 
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)) 
 | eval process_name=ucast(map_get(input_event, "process_name"), "string", null), parent_process=lower(ucast(map_get(input_event, "parent_process_name"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"),"string", null)), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null), event_id=ucast(map_get(input_event,"event_id"), "string", null) 
 | where process_name="cmd.exe" 
 | rex field=parent_process "(?<ParentBaseFileName>[^\\\\]+)$" 
-| where ParentBaseFileName="winword.exe" OR ParentBaseFileName="excel.exe" OR ParentBaseFileName="outlook.exe" OR ParentBaseFileName="powerpnt.exe" OR ParentBaseFileName="visio.exe" OR ParentBaseFileName="mspub.exe" OR ParentBaseFileName="acrobat.exe" OR ParentBaseFileName="acrord32.exe" OR ParentBaseFileName="iexplore.exe" OR ParentBaseFileName="opera.exe" OR ParentBaseFileName="firefox.exe" OR (ParentBaseFileName="java.exe" AND (cmd_line IS NULL OR (cmd_line IS NOT NULL AND NOT like(cmd_line, "%patch1-Hotfix1a%")))) OR ParentBaseFileName="powershell.exe" OR (ParentBaseFileName="chrome.exe" AND (cmd_line IS NULL OR (cmd_line IS NOT NULL AND NOT like(cmd_line, "%chrome-extension%")))) 
+| where ParentBaseFileName="winword.exe" OR ParentBaseFileName="excel.exe" OR ParentBaseFileName="outlook.exe" OR ParentBaseFileName="powerpnt.exe" OR ParentBaseFileName="visio.exe" OR ParentBaseFileName="mspub.exe" OR ParentBaseFileName="acrobat.exe" OR ParentBaseFileName="acrord32.exe" OR ParentBaseFileName="iexplore.exe" OR ParentBaseFileName="opera.exe" OR ParentBaseFileName="firefox.exe" OR (ParentBaseFileName="java.exe" AND (cmd_line IS NULL OR (cmd_line IS NOT NULL AND match_regex(cmd_line, /(?i)patch1-Hotfix1a/)=false))) OR ParentBaseFileName="powershell.exe" OR (ParentBaseFileName="chrome.exe" AND (cmd_line IS NULL OR (cmd_line IS NOT NULL AND NOT like(cmd_line, "%chrome-extension%")))) 
 | eval start_time=timestamp, end_time=timestamp, entities=mvappend(dest_device_id, dest_user_id), body=create_map(["event_id", event_id,  "process_name", process_name, "parent_process_name", parent_process, "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
