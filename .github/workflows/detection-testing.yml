@@ -185,12 +185,6 @@ jobs:
               bin/automated_detection_testing/ci/detection_testing_batch/test_results/combined.json
 
               bin/automated_detection_testing/ci/detection_testing_batch/test_results/summary.json
-        
-        - name: Print Docker Logs on Failure
-          if: failure()
-          run: |
-            echo "PRINTING OUT THE DOCKER LOGS"
-            docker logs splunk_test_0
           
   docker-detection-testing-execution-merge-results:
     runs-on: ubuntu-latest

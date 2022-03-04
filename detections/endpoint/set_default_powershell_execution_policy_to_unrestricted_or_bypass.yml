@@ -29,13 +29,14 @@ tags:
   - Credential Dumping
   - HAFNIUM Group
   asset_type: Endpoint
+  automated_detection_testing: passed
   cis20:
   - CIS 3
   - CIS 8
   confidence: 80
   context:
-  - Source:Endpoint
-  - Stage:Execution
+  - source:endpoint
+  - stage: Execution
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_execution_policy/windows-sysmon.log
   impact: 60
@@ -55,9 +56,9 @@ tags:
     role:
     - Victim
   - name: registry_path
-    type: Unknown
+    type: RegistryPath
     role:
-    - Other
+    - Others
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

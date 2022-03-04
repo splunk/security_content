@@ -1,18 +1,15 @@
 ---
 title: "Process Creating LNK file in Suspicious Location"
-excerpt: "Phishing
-, Spearphishing Link
-"
+excerpt: "Phishing, Spearphishing Link"
 categories:
   - Endpoint
 last_modified_at: 2021-08-26
 toc: true
 toc_label: ""
 tags:
-
   - Phishing
-  - Spearphishing Link
   - Initial Access
+  - Spearphishing Link
   - Initial Access
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -28,7 +25,7 @@ tags:
 
 This search looks for a process launching an `*.lnk` file under `C:\User*` or `*\Local\Temp\*`. This is common behavior used by various spear phishing tools.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-08-26
@@ -117,7 +114,6 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.002/lnk_file_temp_folder/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.002/lnk_file_temp_folder/windows-sysmon.log)
 

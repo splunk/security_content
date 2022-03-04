@@ -1,0 +1,11 @@
+name: Rare Parent/Child Process Relationship with LOLBAS - SSA Unit Test
+tests:
+  - name: Rare Parent/Child Process Relationship with LOLBAS
+    file: endpoint/ssa___rare_parent_process_relationship_lolbas.yml
+    pass_condition: '@count_gt(0)'
+    description: Test detection looking for LOLBAS processes spawned by other processes that are rarely seen together
+    attack_data:
+      - file_name: windows-sec-events.out
+        data: https://raw.githubusercontent.com/splunk/attack_data/master/datasets/attack_techniques/T1003.003/atomic_red_team/windows-sec-events.out
+        source: WinEventLog:Security
+

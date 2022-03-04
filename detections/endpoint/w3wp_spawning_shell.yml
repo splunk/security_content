@@ -37,6 +37,7 @@ tags:
   analytic_story:
   - HAFNIUM Group
   - ProxyShell
+  automated_detection_testing: passed
   confidence: 80
   context:
   - Source:Endpoint
@@ -81,4 +82,3 @@ tags:
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_microsoft_sysmon
-  asset_type: Endpoint

@@ -29,6 +29,7 @@ tags:
   analytic_story:
   - Clop Ransomware
   - WhisperGate
+  automated_detection_testing: passed
   confidence: 80
   context:
   - Source:Endpoint
@@ -68,4 +69,3 @@ tags:
   - _time
   risk_score: 72
   security_domain: endpoint
-  asset_type: Endpoint

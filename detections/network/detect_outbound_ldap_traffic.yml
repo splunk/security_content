@@ -1,5 +1,5 @@
 name: Detect Outbound LDAP Traffic
-id: 5e06e262-d7cd-4216-b2f8-27b437e18458
+id: c77162d3-f91c-45cc-80c8-22f6v546119f
 version: 1
 date: '2021-12-13'
 author: Bhavin Patel, Johan Bjerke, Splunk
@@ -30,6 +30,7 @@ tags:
   analytic_story:
   - Log4Shell CVE-2021-44228
   asset_type: Endpoint
+  automated_detection_testing: passed
   cis20:
   - CIS 12
   - CIS 13

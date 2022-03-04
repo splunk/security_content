@@ -29,6 +29,7 @@ references:
 tags:
   analytic_story:
   - PrintNightmare CVE-2021-34527
+  automated_detection_testing: passed
   confidence: 90
   context:
   - Source:Endpoint
@@ -72,4 +73,3 @@ tags:
   - EventCode
   risk_score: 72
   security_domain: endpoint
-  asset_type: Endpoint
