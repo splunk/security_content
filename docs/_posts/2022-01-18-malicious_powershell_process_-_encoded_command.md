@@ -1,14 +1,12 @@
 ---
 title: "Malicious PowerShell Process - Encoded Command"
-excerpt: "Obfuscated Files or Information
-"
+excerpt: "Obfuscated Files or Information"
 categories:
   - Endpoint
 last_modified_at: 2022-01-18
 toc: true
 toc_label: ""
 tags:
-
   - Obfuscated Files or Information
   - Defense Evasion
   - Splunk Enterprise
@@ -28,7 +26,7 @@ The analytic identifies all variations of EncodedCommand, as PowerShell allows t
 During triage, review parallel events to determine legitimacy. Tune as needed based on admin scripts in use. \
 Alternatively, may use regex per matching here https://regexr.com/662ov.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2022-01-18
@@ -52,9 +50,9 @@ Alternatively, may use regex per matching here https://regexr.com/662ov.
 | `security_content_ctime(lastTime)` 
 | where match(process,"(?i)[\-
 |\/
-|
-|
-|]e(nc*o*d*e*d*c*o*m*m*a*n*d*)*\s+[^-]") 
+|–
+|—
+|―]e(nc*o*d*e*d*c*o*m*m*a*n*d*)*\s+[^-]") 
 | `malicious_powershell_process___encoded_command_filter`
 ```
 
@@ -80,7 +78,7 @@ Note that `malicious_powershell_process_-_encoded_command_filter` is a empty mac
 To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 
 #### Known False Positives
-System administrators may use this option, but it's not common.
+System administrators may use this option, but it&#39;s not common.
 
 #### Associated Analytic story
 * [Malicious PowerShell](/stories/malicious_powershell)
@@ -118,7 +116,6 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1027/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1027/atomic_red_team/windows-sysmon.log)
 

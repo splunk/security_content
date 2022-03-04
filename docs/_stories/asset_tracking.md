@@ -8,9 +8,6 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   - Network_Sessions
-  - Actions on Objectives
-  - Delivery
-  - Reconnaissance
 ---
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -33,7 +30,7 @@ This Analytic Story is designed to help you develop a better understanding of wh
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Detect Unauthorized Assets by MAC address](/network/detect_unauthorized_assets_by_mac_address/) | None| TTP |
+| [Detect Unauthorized Assets by MAC address](/network/detect_unauthorized_assets_by_mac_address/) |  | TTP |
 
 #### Reference
 

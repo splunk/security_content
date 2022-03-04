@@ -1,14 +1,12 @@
 ---
 title: "Winhlp32 Spawning a Process"
-excerpt: "Process Injection
-"
+excerpt: "Process Injection"
 categories:
   - Endpoint
 last_modified_at: 2021-10-05
 toc: true
 toc_label: ""
 tags:
-
   - Process Injection
   - Defense Evasion
   - Privilege Escalation
@@ -24,9 +22,9 @@ tags:
 
 #### Description
 
-The following analytic identifies winhlp32.exe, found natively in `c:\windows\`, spawning a child process that loads a file out of appdata, programdata, or temp. Winhlp32.exe has a rocky past in that multiple vulnerabilities were found and added to MetaSploit. WinHlp32.exe is required to display 32-bit Help files that have the ".hlp" file name extension. This particular instance is related to a Remcos sample where dynwrapx.dll is added to the registry under inprocserver32, and later module loaded by winhlp32.exe to spawn wscript.exe and load a vbs or file from disk. During triage, review parallel processes to identify further suspicious behavior. Review module loads for unsuspecting unsigned modules. Capture any file modifications and analyze.
+The following analytic identifies winhlp32.exe, found natively in `c:\windows\`, spawning a child process that loads a file out of appdata, programdata, or temp. Winhlp32.exe has a rocky past in that multiple vulnerabilities were found and added to MetaSploit. WinHlp32.exe is required to display 32-bit Help files that have the &#34;.hlp&#34; file name extension. This particular instance is related to a Remcos sample where dynwrapx.dll is added to the registry under inprocserver32, and later module loaded by winhlp32.exe to spawn wscript.exe and load a vbs or file from disk. During triage, review parallel processes to identify further suspicious behavior. Review module loads for unsuspecting unsigned modules. Capture any file modifications and analyze.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-10-05
@@ -110,7 +108,6 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos/windows-sysmon.log)
 

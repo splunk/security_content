@@ -1,14 +1,12 @@
 ---
 title: "Potentially malicious code on commandline"
-excerpt: "Windows Command Shell
-"
+excerpt: "Windows Command Shell"
 categories:
   - Endpoint
 last_modified_at: 2022-01-14
 toc: true
 toc_label: ""
 tags:
-
   - Windows Command Shell
   - Execution
   - Splunk Enterprise
@@ -23,9 +21,9 @@ tags:
 
 #### Description
 
-The following analytic uses a pretrained machine learning text classifier to detect potentially malicious commandlines.  The model identifies unusual combinations of keywords found in samples of commandlines where adversaries executed powershell code, primarily for C2 communication.  For example, adversaries will leverage IO capabilities such as "streamreader" and "webclient", threading capabilties such as "mutex" locks, programmatic constructs like "function" and "catch", and cryptographic operations like "computehash".  Although observing one of these keywords in a commandline script is possible, combinations of keywords observed in attack data are not typically found in normal usage of the commandline.  The model will output a score where all values above zero are suspicious, anything greater than one particularly so.
+The following analytic uses a pretrained machine learning text classifier to detect potentially malicious commandlines.  The model identifies unusual combinations of keywords found in samples of commandlines where adversaries executed powershell code, primarily for C2 communication.  For example, adversaries will leverage IO capabilities such as &#34;streamreader&#34; and &#34;webclient&#34;, threading capabilties such as &#34;mutex&#34; locks, programmatic constructs like &#34;function&#34; and &#34;catch&#34;, and cryptographic operations like &#34;computehash&#34;.  Although observing one of these keywords in a commandline script is possible, combinations of keywords observed in attack data are not typically found in normal usage of the commandline.  The model will output a score where all values above zero are suspicious, anything greater than one particularly so.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2022-01-14
@@ -110,7 +108,6 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/malicious_cmd_line_samples/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/malicious_cmd_line_samples/windows-sysmon.log)
 

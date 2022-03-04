@@ -1,20 +1,17 @@
 ---
 title: "Scheduled Task Creation on Remote Endpoint using At"
-excerpt: "Scheduled Task/Job
-, At (Windows)
-"
+excerpt: "Scheduled Task/Job, At (Windows)"
 categories:
   - Endpoint
 last_modified_at: 2021-11-11
 toc: true
 toc_label: ""
 tags:
-
   - Scheduled Task/Job
-  - At (Windows)
   - Execution
   - Persistence
   - Privilege Escalation
+  - At (Windows)
   - Execution
   - Persistence
   - Privilege Escalation
@@ -32,7 +29,7 @@ tags:
 
 This analytic looks for the execution of `at.exe` with command-line arguments utilized to create a Scheduled Task on a remote endpoint. Red Teams and adversaries alike may abuse the Task Scheduler for lateral movement and remote code execution. The `at.exe` binary internally leverages the AT protocol which was deprecated starting with Windows 8 and Windows Server 2012 but may still work on previous versions of Windows. Furthermore, attackers may enable this protocol on demand by changing a sytem registry key.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-11-11
@@ -92,7 +89,7 @@ Administrators may create scheduled tasks on remote systems, but this activity i
 
 
 #### Kill Chain Phase
-* Exploitation
+* Lateral Movement
 
 
 
@@ -117,7 +114,6 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.002/lateral_movement/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.002/lateral_movement/windows-sysmon.log)
 

@@ -23,6 +23,7 @@ references:
 tags:
   analytic_story:
   - IcedID
+  automated_detection_testing: passed
   confidence: 90
   context:
   - Source:Endpoint
@@ -42,7 +43,7 @@ tags:
     role:
     - Victim
   - name: SourceImage
-    type: Process
+    type: process name
     role:
     - Attacker
   product:
@@ -58,4 +59,3 @@ tags:
   - Computer
   risk_score: 72
   security_domain: endpoint
-  asset_type: Endpoint
