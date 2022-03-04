@@ -45,7 +45,7 @@ Detect system information discovery techniques used by attackers to understand c
 | `drop_dm_object_name(Processes)` 
 | eventstats dc(process) as dc_processes_by_dest by dest 
 | where dc_processes_by_dest > 2 
-| stats values(process) as processes min(firstTime) as firstTime max(lastTime) as lastTime by user, dest parent_process_name 
+| stats values(process) as process min(firstTime) as firstTime max(lastTime) as lastTime by user, dest parent_process_name 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
 | `system_information_discovery_detection_filter`
