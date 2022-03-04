@@ -7,11 +7,9 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - Authentication
   - Endpoint
   - Network_Traffic
-  - Actions on Objectives
-  - Exploitation
-  - Reconnaissance
 ---
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -21,7 +19,7 @@ tags:
 Detect and investigate tactics, techniques, and procedures around how attackers move laterally within an Active Directory environment. Since lateral movement is often a necessary step in a breach, it is important for cyber defenders to deploy detection coverage.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint), [Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
+- **Datamodel**: [Authentication](https://docs.splunk.com/Documentation/CIM/latest/User/Authentication), [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint), [Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
 - **Last Updated**: 2021-12-09
 - **Author**: David Dorsey, Mauricio Velazco Splunk
 - **ID**: 399d65dc-1f08-499b-a259-aad9051f38ad

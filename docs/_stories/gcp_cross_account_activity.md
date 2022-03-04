@@ -7,7 +7,6 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Exploitation
 ---
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -32,10 +31,7 @@ This Analytic Story includes searches that will help you monitor your GCP Audit 
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [GCP Detect accounts with high risk roles by project](/deprecated/gcp_detect_accounts_with_high_risk_roles_by_project/) | [Valid Accounts](/tags/#valid-accounts)| Hunting |
-| [GCP Detect high risk permissions by resource and account](/deprecated/gcp_detect_high_risk_permissions_by_resource_and_account/) | [Valid Accounts](/tags/#valid-accounts)| Hunting |
-| [gcp detect oauth token abuse](/deprecated/gcp_detect_oauth_token_abuse/) | [Valid Accounts](/tags/#valid-accounts)| Hunting |
-| [GCP Detect gcploit framework](/cloud/gcp_detect_gcploit_framework/) | [Valid Accounts](/tags/#valid-accounts)| TTP |
+| [GCP Detect gcploit framework](/cloud/gcp_detect_gcploit_framework/) | [Valid Accounts](/tags/#valid-accounts) | TTP |
 
 #### Reference
 
