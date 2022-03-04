@@ -1,19 +1,18 @@
 ---
 title: "AWS IAM Failure Group Deletion"
-excerpt: "Account Manipulation
-"
+excerpt: "Account Manipulation"
 categories:
   - Cloud
 last_modified_at: 2021-04-01
 toc: true
 toc_label: ""
 tags:
-
   - Account Manipulation
   - Persistence
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - Splunk Security Analytics for AWS
 ---
 
 
@@ -24,8 +23,8 @@ tags:
 
 This detection identifies failure attempts to delete groups. We want to identify when a group is attempting to be deleted, but either access is denied, there is a conflict or there is no group. This is indicative of administrators performing an action, but also could be suspicious behavior occurring. Review parallel IAM events - recently added users, new groups and so forth.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Splunk Security Analytics for AWS
 - **Datamodel**: 
 - **Last Updated**: 2021-04-01
 - **Author**: Michael Haag, Splunk
@@ -99,7 +98,6 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/aws_iam_failure_group_deletion/aws_iam_failure_group_deletion.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/aws_iam_failure_group_deletion/aws_iam_failure_group_deletion.json)
 

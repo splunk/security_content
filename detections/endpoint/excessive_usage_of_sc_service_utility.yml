@@ -27,23 +27,14 @@ references:
 tags:
   analytic_story:
   - Ransomware
-  context:
-  - Source:Endpoint
-  - Scope:Local
-  - Stage:Exfiltration
+  automated_detection_testing: passed
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data2/windows-sysmon.log
   kill_chain_phases:
   - Exploitation
-  message: Excessive Usage Of SC Service Utility
   mitre_attack_id:
   - T1569
   - T1569.002
-  observable:
-  - name: Computer
-    type: Endpoint
-    role:
-    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -54,7 +45,3 @@ tags:
   - process_name
   - process
   security_domain: endpoint
-  confidence: 50
-  impact: 50
-  risk_score: 25
-  asset_type: Endpoint

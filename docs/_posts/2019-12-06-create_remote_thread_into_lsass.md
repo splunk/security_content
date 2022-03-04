@@ -1,18 +1,15 @@
 ---
 title: "Create Remote Thread into LSASS"
-excerpt: "LSASS Memory
-, OS Credential Dumping
-"
+excerpt: "LSASS Memory, OS Credential Dumping"
 categories:
   - Endpoint
 last_modified_at: 2019-12-06
 toc: true
 toc_label: ""
 tags:
-
   - LSASS Memory
-  - OS Credential Dumping
   - Credential Access
+  - OS Credential Dumping
   - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -27,7 +24,7 @@ tags:
 
 Detect remote thread creation into LSASS consistent with credential dumping.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2019-12-06
@@ -107,7 +104,6 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.001/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.001/atomic_red_team/windows-sysmon.log)
 

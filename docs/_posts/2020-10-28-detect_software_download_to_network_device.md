@@ -1,19 +1,16 @@
 ---
 title: "Detect Software Download To Network Device"
-excerpt: "TFTP Boot
-, Pre-OS Boot
-"
+excerpt: "TFTP Boot, Pre-OS Boot"
 categories:
   - Network
 last_modified_at: 2020-10-28
 toc: true
 toc_label: ""
 tags:
-
   - TFTP Boot
-  - Pre-OS Boot
   - Defense Evasion
   - Persistence
+  - Pre-OS Boot
   - Defense Evasion
   - Persistence
   - Splunk Enterprise
@@ -22,8 +19,8 @@ tags:
   - Network_Traffic
 ---
 
-###  WARNING THIS IS A EXPERIMENTAL object
-We have not been able to test, simulate, or build datasets for this object. Use at your own risk. This analytic is **NOT** supported.
+### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
+We have not been able to test, simulate, or build datasets for this detection. Use at your own risk. This analytic is **NOT** supported.
 
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -32,7 +29,7 @@ We have not been able to test, simulate, or build datasets for this object. Use 
 
 Adversaries may abuse netbooting to load an unauthorized network device operating system from a Trivial File Transfer Protocol (TFTP) server. TFTP boot (netbooting) is commonly used by network administrators to load configuration-controlled network device images from a centralized management server. Netbooting is one option in the boot sequence and can be used to centralize, manage, and control device images.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
 - **Last Updated**: 2020-10-28
@@ -77,7 +74,7 @@ Note that `detect_software_download_to_network_device_filter` is a empty macro b
 
 
 #### How To Implement
-This search looks for Network Traffic events to TFTP, FTP or SSH/SCP ports from network devices. Make sure to tag any network devices as network, router or switch in order for this detection to work. If the TFTP traffic doesn't traverse a firewall nor packet inspection, these events will not be logged. This is typically an issue if the TFTP server is on the same subnet as the network device. There is also a chance of the network device loading software using a DHCP assigned IP address (netboot) which is not in the Asset inventory.
+This search looks for Network Traffic events to TFTP, FTP or SSH/SCP ports from network devices. Make sure to tag any network devices as network, router or switch in order for this detection to work. If the TFTP traffic doesn&#39;t traverse a firewall nor packet inspection, these events will not be logged. This is typically an issue if the TFTP server is on the same subnet as the network device. There is also a chance of the network device loading software using a DHCP assigned IP address (netboot) which is not in the Asset inventory.
 
 #### Known False Positives
 This search will also report any legitimate attempts of software downloads to network devices as well as outbound SSH sessions from network devices.
@@ -91,12 +88,6 @@ This search will also report any legitimate attempts of software downloads to ne
 
 
 
-#### RBA
-
-| Risk Score  | Impact      | Confidence   | Message      |
-| ----------- | ----------- |--------------|--------------|
-| 25.0 | 50 | 50 | tbd |
-
 
 Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
@@ -108,6 +99,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 
 

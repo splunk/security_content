@@ -1,46 +1,102 @@
 {
-  "title": "Lookup",
-  "type": "object",
-  "properties": {
-    "name": {
-      "title": "Name",
-      "type": "string"
+  "$id": "https://api.splunkresearch.com/schemas/lookups.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "A object that defines a lookup file and its properties.",
+  "oneOf": [
+    {
+      "required": [
+        "collection"
+      ]
     },
-    "description": {
-      "title": "Description",
+    {
+      "required": [
+        "filename"
+      ]
+    }
+  ],
+  "properties": {
+    "case_sensitive_match": {
+      "description": "What the macro is intended to filter",
+      "enum": [
+        "true",
+        "false"
+      ],
+      "examples": [
+        "true"
+      ],
       "type": "string"
     },
     "collection": {
-      "title": "Collection",
-      "type": "string"
-    },
-    "fields_list": {
-      "title": "Fields List",
-      "type": "string"
-    },
-    "filename": {
-      "title": "Filename",
+      "description": "Name of the collection to use for this lookup",
+      "examples": [
+        "prohibited_apps_launching_cmd"
+      ],
       "type": "string"
     },
     "default_match": {
-      "title": "Default Match",
+      "description": "The default value if no match is found",
+      "examples": [
+        "true"
+      ],
+      "type": "string"
+    },
+    "description": {
+      "description": "The description of this lookup",
+      "examples": [
+        "This lookup contains file names that exist in the Windows\\System32 directory"
+      ],
+      "type": "string"
+    },
+    "fields_list": {
+      "description": "A comma and space separated list of field names",
+      "examples": [
+        "_key, dest, process_name"
+      ],
+      "type": "string"
+    },
+    "filename": {
+      "description": "The name of the file to use for this lookup",
+      "examples": [
+        "prohibited_apps_launching_cmd.csv"
+      ],
+      "type": "string"
+    },
+    "filter": {
+      "description": "Use this attribute to improve search performance when working with significantly large KV",
+      "examples": [
+        "dest=\"SPLK_*\""
+      ],
       "type": "string"
     },
     "match_type": {
-      "title": "Match Type",
+      "description": "A comma and space-delimited list of <match_type>(<field_name>) specification to allow for non-exact matching",
+      "examples": [
+        "WILDCARD(process)"
+      ],
       "type": "string"
     },
-    "min_matches": {
-      "title": "Min Matches",
+    "max_matches": {
+      "description": "The maximum number of possible matches for each input lookup value",
+      "examples": [
+        "100"
+      ],
       "type": "integer"
     },
-    "case_sensitive_match": {
-      "title": "Case Sensitive Match",
+    "min_matches": {
+      "description": "Minimum number of possible matches for each input lookup value",
+      "examples": [
+        "1"
+      ],
+      "type": "integer"
+    },
+    "name": {
+      "description": "The name of the lookup to be used in searches",
+      "examples": [
+        "isWindowsSystemFile_lookup"
+      ],
       "type": "string"
     }
   },
-  "required": [
-    "name",
-    "description"
-  ]
+  "title": "Lookup Manifest",
+  "type": "object"
 }

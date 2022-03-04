@@ -34,7 +34,6 @@ references:
 tags:
   analytic_story:
   - Active Directory Kerberos Attacks
-  asset_type: Endpoint
   confidence: 60
   context:
   - Source:Endpoint
@@ -43,8 +42,8 @@ tags:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.003/rubeus/windows-security.log
   impact: 60
   kill_chain_phases:
-  - Exploitation
-  message: tbd
+  - Privilege Escalation
+  message: null
   mitre_attack_id:
   - T1558
   - T1558.003
