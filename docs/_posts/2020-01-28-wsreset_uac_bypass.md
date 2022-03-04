@@ -81,6 +81,7 @@ unknown
 
 #### Associated Analytic story
 * [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
+* [Living Off The Land](/stories/living_off_the_land)
 
 
 #### Kill Chain Phase
