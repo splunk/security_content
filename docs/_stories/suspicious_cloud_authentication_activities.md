@@ -9,6 +9,7 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   - Authentication
+  - Actions on Objectives
 ---
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -32,11 +33,11 @@ This Analytic Story has data model versions of cloud searches leveraging Authent
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [AWS Cross Account Activity From Previously Unseen Account](/cloud/aws_cross_account_activity_from_previously_unseen_account/) |  | Anomaly |
-| [Detect AWS Console Login by New User](/cloud/detect_aws_console_login_by_new_user/) |  | Hunting |
-| [Detect AWS Console Login by User from New City](/cloud/detect_aws_console_login_by_user_from_new_city/) | [Unused/Unsupported Cloud Regions](/tags/#unused/unsupported-cloud-regions) | Hunting |
-| [Detect AWS Console Login by User from New Country](/cloud/detect_aws_console_login_by_user_from_new_country/) | [Unused/Unsupported Cloud Regions](/tags/#unused/unsupported-cloud-regions) | Hunting |
-| [Detect AWS Console Login by User from New Region](/cloud/detect_aws_console_login_by_user_from_new_region/) | [Unused/Unsupported Cloud Regions](/tags/#unused/unsupported-cloud-regions) | Hunting |
+| [AWS Cross Account Activity From Previously Unseen Account](/cloud/aws_cross_account_activity_from_previously_unseen_account/) | None| Anomaly |
+| [Detect AWS Console Login by New User](/cloud/detect_aws_console_login_by_new_user/) | None| Hunting |
+| [Detect AWS Console Login by User from New City](/cloud/detect_aws_console_login_by_user_from_new_city/) | [Unused/Unsupported Cloud Regions](/tags/#unused/unsupported-cloud-regions)| Hunting |
+| [Detect AWS Console Login by User from New Country](/cloud/detect_aws_console_login_by_user_from_new_country/) | [Unused/Unsupported Cloud Regions](/tags/#unused/unsupported-cloud-regions)| Hunting |
+| [Detect AWS Console Login by User from New Region](/cloud/detect_aws_console_login_by_user_from_new_region/) | [Unused/Unsupported Cloud Regions](/tags/#unused/unsupported-cloud-regions)| Hunting |
 
 #### Reference
 

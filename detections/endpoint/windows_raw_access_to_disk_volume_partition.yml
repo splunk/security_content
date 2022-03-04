@@ -35,7 +35,6 @@ tags:
   confidence: 100
   context:
   - Source:Endpoint
-  - Stage:Impact
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/hermetic_wiper/sysmon.log
   impact: 90
@@ -67,3 +66,4 @@ tags:
   - EventCode
   risk_score: 90
   security_domain: endpoint
+  asset_type: Endpoint

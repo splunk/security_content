@@ -1,16 +1,12 @@
 name: Wmiprsve LOLBAS Execution Process Spawn Unit Test
 tests:
-- name: Wmiprsve.exe LOLBAS Execution Process Spawn
+- name: Wmiprsve LOLBAS Execution Process Spawn
   file: endpoint/wmiprsve_exe_lolbas_execution_process_spawn.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-24h'
-  latest_time: 'now'
+  earliest_time: -24h
+  latest_time: now
   attack_data:
   - file_name: windows-sysmon.log
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1047/lateral_movement_lolbas/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
-
-
-
-    

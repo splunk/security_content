@@ -3,10 +3,10 @@ tests:
 - name: O365 Add App Role Assignment Grant User
   file: cloud/o365_add_app_role_assignment_grant_user.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-24h'
-  latest_time: 'now'
+  earliest_time: -24h
+  latest_time: now
   attack_data:
   - file_name: o365_management_activity.json
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.003/o365_new_federation/o365_new_federation.json
-    sourcetype: 'o365:management:activity'
-    source: 'o365'
+    sourcetype: o365:management:activity
+    source: o365

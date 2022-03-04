@@ -33,7 +33,6 @@ references:
 tags:
   analytic_story:
   - Windows Defense Evasion Tactics
-  automated_detection_testing: passed
   confidence: 50
   context:
   - Source:Endpoint
@@ -71,3 +70,4 @@ tags:
   - Registry.registry_value_nam
   risk_score: 25
   security_domain: endpoint
+  asset_type: Endpoint

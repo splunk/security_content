@@ -9,6 +9,9 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   - Change
+  - Actions on Objectives
+  - Exploitation
+  - Reconnaissance
 ---
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}

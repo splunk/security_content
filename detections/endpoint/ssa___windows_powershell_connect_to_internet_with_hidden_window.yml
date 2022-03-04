@@ -60,7 +60,7 @@ tags:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/hidden_powershell/hidden_windows-security.log
   impact: 50
   kill_chain_phases:
-  - Exfiltration
+  - Exploitation
   message: PowerShell processes $process$ started with parameters to modify the execution
     policy of the run, run in a hidden window, and connect to the Internet on host
     $dest$ executed by user $user$.
@@ -79,7 +79,7 @@ tags:
     role:
     - Victim
   - name: parent_process_name
-    type: Parent Process
+    type: Process
     role:
     - Parent Process
   - name: process_name
@@ -100,3 +100,4 @@ tags:
   risk_score: 35
   risk_severity: low
   security_domain: endpoint
+  asset_type: Endpoint

@@ -41,8 +41,8 @@ tags:
   - CIS 13
   confidence: 70
   context:
-  - source:endpoint
-  - stage: Defense Evasion
+  - Source:Endpoint
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/ssa_cacls/all_icalc.log
   impact: 50
@@ -61,7 +61,7 @@ tags:
     role:
     - Victim
   - name: dest_user_id
-    type: user
+    type: User
     role:
     - Victim
   product:
@@ -78,3 +78,4 @@ tags:
   risk_score: 35
   risk_severity: low
   security_domain: endpoint
+  asset_type: Endpoint

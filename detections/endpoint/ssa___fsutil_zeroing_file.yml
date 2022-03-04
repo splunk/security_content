@@ -37,7 +37,7 @@ tags:
   confidence: 90
   context:
   - Source:Endpoint
-  - stage:Defense Evasion
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070/fsutil_file_zero/windows-security.log
   impact: 60
@@ -59,7 +59,7 @@ tags:
     role:
     - Victim
   - name: parent_process_name
-    type: Parent Process
+    type: Process
     role:
     - Parent Process
   - name: process_name
@@ -80,3 +80,4 @@ tags:
   risk_score: 54
   risk_severity: medium
   security_domain: endpoint
+  asset_type: Endpoint
