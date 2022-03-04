@@ -33,10 +33,13 @@ references:
 tags:
   analytic_story:
   - Windows Persistence Techniques
+  automated_detection_testing: passed
   confidence: 90
   context:
-  - Source:Endpoint
-  - Stage:Execution
+  - source:endpoint
+  - stage: Execution
+  - Persistence
+  - Privilege Escalation
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/tasksched/windows-security.log
   impact: 70
@@ -51,6 +54,10 @@ tags:
     type: Hostname
     role:
     - Victim
+  - name: Arguments
+    type: Arguments
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -66,4 +73,3 @@ tags:
   - Arguments
   risk_score: 63
   security_domain: endpoint
-  asset_type: Endpoint

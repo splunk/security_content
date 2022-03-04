@@ -29,12 +29,13 @@ tags:
   analytic_story:
   - Windows Privilege Escalation
   asset_type: Endpoint
+  automated_detection_testing: passed
   cis20:
   - CIS 8
   confidence: 90
   context:
-  - Source:Endpoint
-  - Stage:Privilege Escalation
+  - source:endpoint
+  - stage: privilege escalation
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.008/atomic_red_team/windows-sysmon.log
   impact: 80
@@ -53,7 +54,7 @@ tags:
     role:
     - Victim
   - name: file_path
-    type: File
+    type: file_path
     role:
     - Attacker
   product:

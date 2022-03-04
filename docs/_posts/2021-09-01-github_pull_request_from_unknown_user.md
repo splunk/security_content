@@ -1,22 +1,20 @@
 ---
 title: "GitHub Pull Request from Unknown User"
-excerpt: "Compromise Software Dependencies and Development Tools
-, Supply Chain Compromise
-"
+excerpt: "Compromise Software Dependencies and Development Tools, Supply Chain Compromise"
 categories:
   - Cloud
 last_modified_at: 2021-09-01
 toc: true
 toc_label: ""
 tags:
-
   - Compromise Software Dependencies and Development Tools
-  - Supply Chain Compromise
   - Initial Access
+  - Supply Chain Compromise
   - Initial Access
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - Dev Sec Ops Analytics
 ---
 
 
@@ -27,8 +25,8 @@ tags:
 
 This search looks for Pull Request from unknown user.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Dev Sec Ops Analytics
 - **Datamodel**: 
 - **Last Updated**: 2021-09-01
 - **Author**: Patrick Bareiss, Splunk
@@ -59,8 +57,8 @@ This search looks for Pull Request from unknown user.
 #### Macros
 The SPL above uses the following Macros:
 * [github](https://github.com/splunk/security_content/blob/develop/macros/github.yml)
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [github_known_users](https://github.com/splunk/security_content/blob/develop/macros/github_known_users.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `github_pull_request_from_unknown_user_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -114,7 +112,6 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1195.001/github_pull_request/github_pull_request.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1195.001/github_pull_request/github_pull_request.json)
 

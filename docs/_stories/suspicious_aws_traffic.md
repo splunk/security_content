@@ -7,8 +7,6 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Actions on Objectives
-  - Command and Control
 ---
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -34,7 +32,7 @@ The searches in this Analytic Story will monitor your AWS network traffic for ev
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Detect Spike in blocked Outbound Traffic from your AWS](/cloud/detect_spike_in_blocked_outbound_traffic_from_your_aws/) | None| Anomaly |
+| [Detect Spike in blocked Outbound Traffic from your AWS](/cloud/detect_spike_in_blocked_outbound_traffic_from_your_aws/) |  | Anomaly |
 
 #### Reference
 

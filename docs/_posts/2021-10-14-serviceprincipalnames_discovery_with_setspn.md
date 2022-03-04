@@ -1,14 +1,12 @@
 ---
 title: "ServicePrincipalNames Discovery with SetSPN"
-excerpt: "Kerberoasting
-"
+excerpt: "Kerberoasting"
 categories:
   - Endpoint
 last_modified_at: 2021-10-14
 toc: true
 toc_label: ""
 tags:
-
   - Kerberoasting
   - Credential Access
   - Splunk Enterprise
@@ -27,12 +25,12 @@ The following analytic identifies `setspn.exe` usage related to querying the dom
 What is a ServicePrincipleName? \
 A service principal name (SPN) is a unique identifier of a service instance. SPNs are used by Kerberos authentication to associate a service instance with a service logon account. This allows a client application to request that the service authenticate an account even if the client does not have the account name.\
 Example usage includes the following \
-1. setspn -T offense -Q */* 1. setspn -T attackrange.local -F -Q MSSQLSvc/* 1. setspn -Q */* > allspns.txt 1. setspn -q \
+1. setspn -T offense -Q */* 1. setspn -T attackrange.local -F -Q MSSQLSvc/* 1. setspn -Q */* &gt; allspns.txt 1. setspn -q \
 Values \
 1. -F = perform queries at the forest, rather than domain level 1. -T = perform query on the specified domain or forest (when -F is also used) 1. -Q = query for existence of SPN \
 During triage, review parallel processes for further suspicious activity.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-10-14
@@ -60,8 +58,8 @@ During triage, review parallel processes for further suspicious activity.
 #### Macros
 The SPL above uses the following Macros:
 * [process_setspn](https://github.com/splunk/security_content/blob/develop/macros/process_setspn.yml)
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `serviceprincipalnames_discovery_with_setspn_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -125,7 +123,6 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.003/atomic_red_team/windows-sysmon_setspn.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.003/atomic_red_team/windows-sysmon_setspn.log)
 

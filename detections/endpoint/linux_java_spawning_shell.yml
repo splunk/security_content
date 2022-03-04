@@ -31,7 +31,6 @@ references:
 tags:
   analytic_story:
   - Log4Shell CVE-2021-44228
-  asset_type: Endpoint
   confidence: 50
   context:
   - Source:Endpoint
@@ -52,7 +51,7 @@ tags:
     role:
     - Victim
   - name: parent_process_name
-    type: Process
+    type: Parent Process
     role:
     - Parent Process
   - name: process_name
