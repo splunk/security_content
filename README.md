@@ -59,6 +59,8 @@ pip install virtualenv
 virtualenv venv
 source venv/bin/activate
 pip install -r requirements.txt
+python3 -m pip install -q -r bin/contentctl_project/requirements.txt
+
 ```
 ### create a new detection 
 `python3 bin/contentctl_project/main/contentctl.py -p . new_content -t detection` 
@@ -88,15 +90,15 @@ A complete use case, specifically built to detect, investigate, and respond to a
 
 # Content Parts 🧩
 
-* [detections/](detections/): Contains all 209 detection searches to-date and growing.
+* [detections/](detections/): Contains all detection search yml files
 * [stories/](stories/): All Analytic Stories that are group detections or also known as Use Cases
 * [deployments/](deployments/): Configuration for the schedule and alert action for all content
 * [baselines/](baselines/): Searches that must be executed before a detection runs. It is specifically useful for collecting data on a system before running your detection on the collected data.
 * [dashboards/](dashboards/): JSON definitions of Mission Control dashboards, to be used as a response task. Currently not used.
 * [macros/](macros/): Implements Splunk’s search macros, shortcuts to commonly used search patterns like sysmon source type. More on how macros are used to customize content below.
 * [lookups/](lookups/): Implements Splunk’s lookup, usually to provide a list of static values like commonly used ransomware extensions.
+* [playbooks/](playbooks/): Contains all playbook related files
 * [security_content_automation/](security_content_automation/): It contains script for enriching detection with relevant supported TAs and also contains script for publishing release build to [Pre-QA artifactory](https://repo.splunk.com/artifactory/Solutions/DA/Pre-QA/) on every tag release.
-
 
 
 # Contribution 🥰
