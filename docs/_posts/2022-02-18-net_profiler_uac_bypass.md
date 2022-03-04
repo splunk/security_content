@@ -3,7 +3,7 @@ title: "NET Profiler UAC bypass"
 excerpt: "Bypass User Account Control, Abuse Elevation Control Mechanism"
 categories:
   - Endpoint
-last_modified_at: 2021-07-12
+last_modified_at: 2022-02-18
 toc: true
 toc_label: ""
 tags:
@@ -30,7 +30,7 @@ This search is to detect modification of registry to bypass UAC windows feature.
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
-- **Last Updated**: 2021-07-12
+- **Last Updated**: 2022-02-18
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: 0252ca80-e30d-11eb-8aa3-acde48001122
 
@@ -47,7 +47,7 @@ This search is to detect modification of registry to bypass UAC windows feature.
 
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= "*\\Environment\\COR_PROFILER_PATH" Registry.registry_value_name = "*.dll" by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.dest 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= "*\\Environment\\COR_PROFILER_PATH" Registry.registry_value_data = "*.dll" by Registry.registry_path Registry.registry_key_name Registry.registry_value_data Registry.dest 
 | `drop_dm_object_name(Registry)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -109,4 +109,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/net_profiler_uac_bypass.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/net_profiler_uac_bypass.yml) \| *version*: **2**

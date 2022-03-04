@@ -78,6 +78,7 @@ A host failing to authenticate with multiple disabled domain users is not a comm
 
 #### Associated Analytic story
 * [Active Directory Password Spraying](/stories/active_directory_password_spraying)
+* [Active Directory Kerberos Attacks](/stories/active_directory_kerberos_attacks)
 
 
 #### Kill Chain Phase
