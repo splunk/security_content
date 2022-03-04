@@ -1,22 +1,20 @@
 ---
 title: "PowerShell - Connect To Internet With Hidden Window"
-excerpt: "PowerShell
-, Command and Scripting Interpreter
-"
+excerpt: "PowerShell, Command and Scripting Interpreter"
 categories:
   - Endpoint
 last_modified_at: 2022-01-12
 toc: true
 toc_label: ""
 tags:
-
   - PowerShell
-  - Command and Scripting Interpreter
   - Execution
+  - Command and Scripting Interpreter
   - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - CVE-2021-44228
   - Endpoint
 ---
 
@@ -28,7 +26,7 @@ tags:
 
 The following hunting analytic identifies PowerShell commands utilizing the WindowStyle parameter to hide the window on the compromised endpoint. This combination of command-line options is suspicious because it is overriding the default PowerShell execution policy, attempts to hide its activity from the user, and connects to the Internet. Removed in this version of the query is New-Object. The analytic identifies all variations of WindowStyle, as PowerShell allows the ability to shorten the parameter. For example w, win, windowsty and so forth. In addition, through our research it was identified that PowerShell will interpret different command switch types beyond the hyphen. We have added endash, emdash, horizontal bar, and forward slash.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2022-01-12
@@ -54,9 +52,9 @@ The following hunting analytic identifies PowerShell commands utilizing the Wind
 | `security_content_ctime(lastTime)` 
 | where match(process,"(?i)[\-
 |\/
-|
-|
-|]w(in*d*o*w*s*t*y*l*e*)*\s+[^-]") 
+|–
+|—
+|―]w(in*d*o*w*s*t*y*l*e*)*\s+[^-]") 
 | `powershell___connect_to_internet_with_hidden_window_filter`
 ```
 
@@ -78,10 +76,10 @@ Note that `powershell_-_connect_to_internet_with_hidden_window_filter` is a empt
 
 
 #### How To Implement
-You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the "process" field in the Endpoint data model.
+You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the &#34;process&#34; field in the Endpoint data model.
 
 #### Known False Positives
-Legitimate process can have this combination of command-line options, but it's not common.
+Legitimate process can have this combination of command-line options, but it&#39;s not common.
 
 #### Associated Analytic story
 * [Malicious PowerShell](/stories/malicious_powershell)
@@ -106,6 +104,13 @@ Legitimate process can have this combination of command-line options, but it's n
 Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
+#### CVE
+
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+| [CVE-2021-44228](https://nvd.nist.gov/vuln/detail/CVE-2021-44228) | Apache Log4j2 2.0-beta9 through 2.15.0 (excluding security releases 2.12.2, 2.12.3, and 2.3.1) JNDI features used in configuration, log messages, and parameters do not protect against attacker controlled LDAP and other JNDI related endpoints. An attacker who can control log messages or log message parameters can execute arbitrary code loaded from LDAP servers when message lookup substitution is enabled. From log4j 2.15.0, this behavior has been disabled by default. From version 2.16.0 (along with 2.12.2, 2.12.3, and 2.3.1), this functionality has been completely removed. Note that this vulnerability is specific to log4j-core and does not affect log4net, log4cxx, or other Apache Logging Services projects. | 9.3 |
+
+
 
 #### Reference
 
@@ -120,7 +125,6 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/hidden_powershell/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/hidden_powershell/windows-sysmon.log)
 

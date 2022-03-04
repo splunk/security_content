@@ -37,6 +37,7 @@ tags:
   confidence: 100
   context:
   - Source:Endpoint
+  - Stage:Impact
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1561.002/mbr_raw_access/sysmon.log
   impact: 90
@@ -68,4 +69,3 @@ tags:
   - EventCode
   risk_score: 90
   security_domain: endpoint
-  asset_type: Endpoint

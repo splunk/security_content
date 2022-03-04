@@ -28,7 +28,7 @@ references:
 tags:
   analytic_story:
   - AWS IAM Privilege Escalation
-  asset_type: AWS Account
+  automated_detection_testing: passed
   confidence: 50
   context:
   - Source:Cloud Data
@@ -60,6 +60,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - Splunk Security Analytics for AWS
   required_fields:
   - _time
   - eventName

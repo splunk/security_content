@@ -25,6 +25,7 @@ references:
 tags:
   analytic_story:
   - Data Exfiltration
+  automated_detection_testing: passed
   confidence: 80
   context:
   - Source:Endpoint
@@ -60,4 +61,3 @@ tags:
   - User
   risk_score: 72
   security_domain: endpoint
-  asset_type: Endpoint

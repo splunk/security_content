@@ -1,20 +1,17 @@
 ---
 title: "Linux At Application Execution"
-excerpt: "At (Linux)
-, Scheduled Task/Job
-"
+excerpt: "At (Linux), Scheduled Task/Job"
 categories:
   - Endpoint
 last_modified_at: 2021-12-17
 toc: true
 toc_label: ""
 tags:
-
   - At (Linux)
-  - Scheduled Task/Job
   - Execution
   - Persistence
   - Privilege Escalation
+  - Scheduled Task/Job
   - Execution
   - Persistence
   - Privilege Escalation
@@ -32,7 +29,7 @@ tags:
 
 The following analytic identifies a suspicious process creation of At application. This process can be used by malware, adversaries and red teamers to create persistence entry to the targeted or compromised host with their malicious code. This anomaly detection can be a good indicator to investigate the event before and after this process execution, when it was executed and what schedule task it will execute.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-12-17
@@ -89,7 +86,7 @@ Administrator or network operator can use this application for automation purpos
 
 
 #### Kill Chain Phase
-* Exploitation
+* Privilege Escalation
 
 
 
@@ -114,7 +111,6 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.001/at_execution/sysmon_linux.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.001/at_execution/sysmon_linux.log)
 

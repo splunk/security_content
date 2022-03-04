@@ -1,14 +1,12 @@
 ---
 title: "WBAdmin Delete System Backups"
-excerpt: "Inhibit System Recovery
-"
+excerpt: "Inhibit System Recovery"
 categories:
   - Endpoint
 last_modified_at: 2021-01-22
 toc: true
 toc_label: ""
 tags:
-
   - Inhibit System Recovery
   - Impact
   - Splunk Enterprise
@@ -25,7 +23,7 @@ tags:
 
 This search looks for flags passed to wbadmin.exe (Windows Backup Administrator Tool) that delete backup files. This is typically used by ransomware to prevent recovery.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-01-22
@@ -105,7 +103,6 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1490/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1490/atomic_red_team/windows-sysmon.log)
 

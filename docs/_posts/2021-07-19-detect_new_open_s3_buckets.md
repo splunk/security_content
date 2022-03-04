@@ -1,16 +1,15 @@
 ---
 title: "Detect New Open S3 buckets"
-excerpt: "Data from Cloud Storage Object
-"
+excerpt: "Data from Cloud Storage Object"
 categories:
   - Cloud
 last_modified_at: 2021-07-19
 toc: true
 toc_label: ""
 tags:
-
   - Data from Cloud Storage Object
   - Collection
+  - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -24,8 +23,8 @@ tags:
 
 This search looks for AWS CloudTrail events where a user has created an open/public S3 bucket.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-07-19
 - **Author**: Bhavin Patel, Patrick Bareiss, Splunk
@@ -80,7 +79,7 @@ Note that `detect_new_open_s3_buckets_filter` is a empty macro by default. It al
 You must install the AWS App for Splunk.
 
 #### Known False Positives
-While this search has no known false positives, it is possible that an AWS admin has legitimately created a public bucket for a specific purpose. That said, AWS strongly advises against granting full control to the "All Users" group.
+While this search has no known false positives, it is possible that an AWS admin has legitimately created a public bucket for a specific purpose. That said, AWS strongly advises against granting full control to the &#34;All Users&#34; group.
 
 #### Associated Analytic story
 * [Suspicious AWS S3 Activities](/stories/suspicious_aws_s3_activities)
@@ -108,7 +107,6 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1530/aws_s3_public_bucket/aws_cloudtrail_events.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1530/aws_s3_public_bucket/aws_cloudtrail_events.json)
 

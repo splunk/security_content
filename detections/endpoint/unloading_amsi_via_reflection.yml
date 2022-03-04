@@ -36,6 +36,7 @@ references:
 tags:
   analytic_story:
   - Malicious PowerShell
+  automated_detection_testing: passed
   confidence: 70
   context:
   - Source:Endpoint
@@ -67,4 +68,3 @@ tags:
   - EventCode
   risk_score: 49
   security_domain: endpoint
-  asset_type: Endpoint

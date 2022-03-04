@@ -1,14 +1,12 @@
 ---
 title: "Deleting Of Net Users"
-excerpt: "Account Access Removal
-"
+excerpt: "Account Access Removal"
 categories:
   - Endpoint
 last_modified_at: 2021-05-04
 toc: true
 toc_label: ""
 tags:
-
   - Account Access Removal
   - Impact
   - Splunk Enterprise
@@ -25,7 +23,7 @@ tags:
 
 This analytic will detect a suspicious net.exe/net1.exe command-line to delete a user on a system. This technique may be use by an administrator for legitimate purposes, however this behavior has been used in the wild to impair some user or deleting adversaries tracks created during its lateral movement additional systems. During triage, review parallel processes for additional behavior. Identify any other user accounts created before or after.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-05-04
@@ -108,7 +106,6 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log)
 

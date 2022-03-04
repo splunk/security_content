@@ -30,6 +30,7 @@ tags:
   - Spearphishing Attachments
   - Trickbot
   - IcedID
+  automated_detection_testing: passed
   confidence: 50
   context:
   - Source:Endpoint
@@ -64,4 +65,3 @@ tags:
   - _time
   risk_score: 35
   security_domain: endpoint
-  asset_type: Endpoint
