@@ -23,10 +23,11 @@ references:
 tags:
   analytic_story:
   - Active Directory Discovery
+  automated_detection_testing: passed
   confidence: 60
   context:
-  - Source:Endpoint
-  - Stage:Discovery
+  - source:endpoint
+  - stage:Reconnaissance
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1201/pwd_policy_discovery/windows-powershell.log
   impact: 50
@@ -56,4 +57,3 @@ tags:
   - User
   risk_score: 30
   security_domain: endpoint
-  asset_type: Endpoint

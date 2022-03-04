@@ -1,18 +1,15 @@
 ---
 title: "Linux Possible Access Or Modification Of sshd Config File"
-excerpt: "SSH Authorized Keys
-, Account Manipulation
-"
+excerpt: "SSH Authorized Keys, Account Manipulation"
 categories:
   - Endpoint
 last_modified_at: 2022-01-11
 toc: true
 toc_label: ""
 tags:
-
   - SSH Authorized Keys
-  - Account Manipulation
   - Persistence
+  - Account Manipulation
   - Persistence
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -28,7 +25,7 @@ tags:
 
 This analytic is to look for suspicious process command-line that might be accessing or modifying sshd_config. This file is the ssh configuration file that might be modify by threat actors or adversaries to redirect port connection, allow user using authorized key generated during attack. This anomaly detection might catch noise from administrator auditing or modifying ssh configuration file. In this scenario filter is needed
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2022-01-11
@@ -85,7 +82,7 @@ Administrator or network operator can use this commandline for automation purpos
 
 
 #### Kill Chain Phase
-* Exploitation
+* Privilege Escalation
 
 
 
@@ -110,7 +107,6 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.004/ssh_authorized_keys/sysmon_linux.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.004/ssh_authorized_keys/sysmon_linux.log)
 

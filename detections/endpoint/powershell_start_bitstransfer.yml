@@ -33,10 +33,12 @@ references:
 tags:
   analytic_story:
   - BITS Jobs
+  automated_detection_testing: passed
   confidence: 80
   context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
+  - source:endpoint
+  - stage: Defense Evasion
+  - Persistence
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1197/atomic_red_team/windows-sysmon.log
   impact: 70
@@ -52,7 +54,7 @@ tags:
     role:
     - Victim
   - name: user
-    type: User
+    type: user
     role:
     - Victim
   product:
@@ -76,4 +78,3 @@ tags:
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_microsoft_sysmon
-  asset_type: Endpoint

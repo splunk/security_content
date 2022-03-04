@@ -1,9 +1,0 @@
-attackcti
-jinja2
-mock
-pycvesearch
-pydantic
-PyInquirer
-pytest
-PyYAML
-requests

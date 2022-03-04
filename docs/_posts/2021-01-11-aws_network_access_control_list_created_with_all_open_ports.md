@@ -1,19 +1,17 @@
 ---
 title: "AWS Network Access Control List Created with All Open Ports"
-excerpt: "Disable or Modify Cloud Firewall
-, Impair Defenses
-"
+excerpt: "Disable or Modify Cloud Firewall, Impair Defenses"
 categories:
   - Cloud
 last_modified_at: 2021-01-11
 toc: true
 toc_label: ""
 tags:
-
   - Disable or Modify Cloud Firewall
+  - Defense Evasion
   - Impair Defenses
   - Defense Evasion
-  - Defense Evasion
+  - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -27,8 +25,8 @@ tags:
 
 The search looks for AWS CloudTrail events to detect if any network ACLs were created with all the ports open to a specified CIDR.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-01-11
 - **Author**: Bhavin Patel, Patrick Bareiss, Splunk
@@ -82,7 +80,7 @@ Note that `aws_network_access_control_list_created_with_all_open_ports_filter` i
 You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS, version 4.4.0 or later, and configure your AWS CloudTrail inputs.
 
 #### Known False Positives
-It's possible that an admin has created this ACL with all ports open for some legitimate purpose however, this should be scoped and not allowed in production environment.
+It&#39;s possible that an admin has created this ACL with all ports open for some legitimate purpose however, this should be scoped and not allowed in production environment.
 
 #### Associated Analytic story
 * [AWS Network ACL Activity](/stories/aws_network_acl_activity)
@@ -110,7 +108,6 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.007/aws_create_acl/aws_cloudtrail_events.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.007/aws_create_acl/aws_cloudtrail_events.json)
 
