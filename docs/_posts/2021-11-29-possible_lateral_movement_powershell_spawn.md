@@ -1,28 +1,36 @@
 ---
 title: "Possible Lateral Movement PowerShell Spawn"
-excerpt: "Remote Services, Distributed Component Object Model, Windows Remote Management, Windows Management Instrumentation, Scheduled Task, Windows Service, PowerShell"
+excerpt: "Remote Services
+, Distributed Component Object Model
+, Windows Remote Management
+, Windows Management Instrumentation
+, Scheduled Task
+, Windows Service
+, PowerShell
+"
 categories:
   - Endpoint
 last_modified_at: 2021-11-29
 toc: true
 toc_label: ""
 tags:
+
   - Remote Services
-  - Lateral Movement
   - Distributed Component Object Model
-  - Lateral Movement
   - Windows Remote Management
-  - Lateral Movement
   - Windows Management Instrumentation
-  - Execution
   - Scheduled Task
+  - Windows Service
+  - PowerShell
+  - Lateral Movement
+  - Lateral Movement
+  - Lateral Movement
+  - Execution
   - Execution
   - Persistence
   - Privilege Escalation
-  - Windows Service
   - Persistence
   - Privilege Escalation
-  - PowerShell
   - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -38,7 +46,7 @@ tags:
 
 The following analytic assists with identifying a PowerShell process spawned as a child or grand child process of commonly abused processes during lateral movement techniques including `services.exe`, `wmiprsve.exe`, `svchost.exe`, `wsmprovhost.exe` and `mmc.exe`. Legitimate Windows features such as the Service Control Manager, Windows Management Instrumentation, Task Scheduler, Windows Remote Management and the DCOM protocol can be abused to start a process on a remote endpoint. Looking for PowerShell spawned out of this processes may reveal a lateral movement attack. Red Teams and adversaries alike may abuse these services during a breach for lateral movement and remote code execution.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-11-29
@@ -109,8 +117,7 @@ Legitimate applications may spawn PowerShell as a child process of the the ident
 
 
 #### Kill Chain Phase
-* Lateral Movement
-* Malicious PowerShell
+* Exploitation
 
 
 
@@ -138,6 +145,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1543.003/lateral_movement_powershell/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1543.003/lateral_movement_powershell/windows-sysmon.log)
 

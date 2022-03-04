@@ -1,15 +1,18 @@
 ---
 title: "Jscript Execution Using Cscript App"
-excerpt: "Command and Scripting Interpreter, JavaScript"
+excerpt: "Command and Scripting Interpreter
+, JavaScript
+"
 categories:
   - Endpoint
 last_modified_at: 2021-09-13
 toc: true
 toc_label: ""
 tags:
+
   - Command and Scripting Interpreter
-  - Execution
   - JavaScript
+  - Execution
   - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -25,7 +28,7 @@ tags:
 
 This search is to detect a execution of jscript using cscript process. Commonly when a user run jscript file it was executed by wscript.exe application. This technique was seen in FIN7 js implant to execute its malicious script using cscript process. This behavior is uncommon and a good artifacts to check further anomalies within the network
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-09-13
@@ -107,6 +110,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_macro_js_1/sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_macro_js_1/sysmon.log)
 

@@ -1,0 +1,22 @@
+
+### DETECTIONS ###
+
+{% for detection in objects %}
+{% if (detection.type == 'TTP' or detection.type == 'Anomaly' or detection.type == 'Hunting' or detection.type == 'Correlation') %}
+[savedsearch://ESCU - {{ detection.name }} - Rule]
+type = detection
+asset_type = {{ detection.tags.asset_type }}
+confidence = medium
+explanation = {{ detection.description }}
+{% if detection.how_to_implement is defined %}
+how_to_implement = {{ detection.how_to_implement }}
+{% else %}
+how_to_implement = none
+{% endif %}
+annotations = {{ detection.mappings | tojson }}
+known_false_positives = {{ detection.known_false_positives }}
+providing_technologies = []
+
+{% endif %}
+{% endfor %}
+### END DETECTIONS ###

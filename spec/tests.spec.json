@@ -1,57 +1,133 @@
 {
-  "$id": "https://raw.githubusercontent.com/splunk/security_content/develop/docs/spec/tests.spec.json",
-  "$schema": "http://json-schema.org/draft-07/schema",
-  "additionalProperties": true,
-  "default": {},
-  "description": "schema test file",
+  "title": "UnitTest",
+  "type": "object",
   "properties": {
     "name": {
-      "$id": "#/properties/name",
-      "default": "",
-      "description": "Name of the Analytics Story",
-      "examples": [
-        "Credential Dumping"
-      ],
+      "title": "Name",
       "type": "string"
     },
     "tests": {
-      "$id": "#/properties/tests",
-      "additionalProperties": true,
-      "default": {},
-      "description": "a test description.",
-      "examples": [
-        [
-          {
-            "name": "Detect Activity Related to Pass the Hash Attacks",
-            "file": "endpoint/detect_activity_related_to_pass_the_hash_attacks.yml",
-            "pass_condition": "| stats count | where count > 0",
-            "earliest_time": "-24h",
-            "latest_time": "now",
-            "attack_data": [
-              {
-                "file_name": "windows-security.log",
-                "data": "https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1550.002/atomic_red_team/windows-security.log",
-                "source": "WinEventLog:Security",
-                "sourcetype": "WinEventLog",
-                "update_timestamp": true
-              }
-            ]
-          }
-        ]
-      ],
-      "minItems": 1,
+      "title": "Tests",
       "type": "array",
-      "items": [
-   {
-     "type": "object"
-   }
- ]
+      "items": {
+        "$ref": "#/definitions/UnitTestTest"
+      }
     }
   },
   "required": [
     "name",
     "tests"
   ],
-  "title": "Test file schema",
-  "type": "object"
+  "definitions": {
+    "UnitTestBaseline": {
+      "title": "UnitTestBaseline",
+      "type": "object",
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "file": {
+          "title": "File",
+          "type": "string"
+        },
+        "pass_condition": {
+          "title": "Pass Condition",
+          "type": "string"
+        },
+        "earliest_time": {
+          "title": "Earliest Time",
+          "type": "string"
+        },
+        "latest_time": {
+          "title": "Latest Time",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "file",
+        "pass_condition",
+        "earliest_time",
+        "latest_time"
+      ]
+    },
+    "UnitTestAttackData": {
+      "title": "UnitTestAttackData",
+      "type": "object",
+      "properties": {
+        "file_name": {
+          "title": "File Name",
+          "type": "string"
+        },
+        "data": {
+          "title": "Data",
+          "type": "string"
+        },
+        "source": {
+          "title": "Source",
+          "type": "string"
+        },
+        "sourcetype": {
+          "title": "Sourcetype",
+          "type": "string"
+        },
+        "update_timestamp": {
+          "title": "Update Timestamp",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "file_name",
+        "data",
+        "source"
+      ]
+    },
+    "UnitTestTest": {
+      "title": "UnitTestTest",
+      "type": "object",
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "file": {
+          "title": "File",
+          "type": "string"
+        },
+        "pass_condition": {
+          "title": "Pass Condition",
+          "type": "string"
+        },
+        "earliest_time": {
+          "title": "Earliest Time",
+          "type": "string"
+        },
+        "latest_time": {
+          "title": "Latest Time",
+          "type": "string"
+        },
+        "baselines": {
+          "title": "Baselines",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UnitTestBaseline"
+          }
+        },
+        "attack_data": {
+          "title": "Attack Data",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UnitTestAttackData"
+          }
+        }
+      },
+      "required": [
+        "name",
+        "file",
+        "pass_condition",
+        "attack_data"
+      ]
+    }
+  }
 }

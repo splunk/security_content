@@ -48,7 +48,6 @@ tags:
   - Ryuk Ransomware
   - IcedID
   - Active Directory Lateral Movement
-  automated_detection_testing: passed
   confidence: 100
   context:
   - Source:Endpoint
@@ -59,7 +58,7 @@ tags:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/taskschedule/windows-security.log
   impact: 70
   kill_chain_phases:
-  - Privilege Escalation
+  - Exploitation
   message: 'A windows scheduled task was created (task name=$Task_Name$) on $dest$
     by the following command: $Command$'
   mitre_attack_id:
@@ -71,7 +70,7 @@ tags:
     role:
     - Victim
   - name: Command
-    type: Command
+    type: Unknown
     role:
     - Target
   product:
@@ -86,3 +85,4 @@ tags:
   - Command
   risk_score: 70
   security_domain: endpoint
+  asset_type: Endpoint

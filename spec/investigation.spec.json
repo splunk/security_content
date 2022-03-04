@@ -1,0 +1,116 @@
+{
+    "title": "Investigation",
+    "type": "object",
+    "properties": {
+      "name": {
+        "title": "Name",
+        "type": "string"
+      },
+      "id": {
+        "title": "Id",
+        "type": "string"
+      },
+      "version": {
+        "title": "Version",
+        "type": "integer"
+      },
+      "date": {
+        "title": "Date",
+        "type": "string"
+      },
+      "author": {
+        "title": "Author",
+        "type": "string"
+      },
+      "type": {
+        "title": "Type",
+        "type": "string"
+      },
+      "datamodel": {
+        "title": "Datamodel",
+        "type": "array",
+        "items": {}
+      },
+      "description": {
+        "title": "Description",
+        "type": "string"
+      },
+      "search": {
+        "title": "Search",
+        "type": "string"
+      },
+      "how_to_implement": {
+        "title": "How To Implement",
+        "type": "string"
+      },
+      "known_false_positives": {
+        "title": "Known False Positives",
+        "type": "string"
+      },
+      "references": {
+        "title": "References",
+        "type": "array",
+        "items": {}
+      },
+      "inputs": {
+        "title": "Inputs",
+        "type": "array",
+        "items": {}
+      },
+      "tags": {
+        "$ref": "#/definitions/InvestigationTags"
+      },
+      "lowercase_name": {
+        "title": "Lowercase Name",
+        "type": "string"
+      }
+    },
+    "required": [
+      "name",
+      "id",
+      "version",
+      "date",
+      "author",
+      "type",
+      "datamodel",
+      "description",
+      "search",
+      "how_to_implement",
+      "known_false_positives",
+      "references",
+      "tags"
+    ],
+    "definitions": {
+      "InvestigationTags": {
+        "title": "InvestigationTags",
+        "type": "object",
+        "properties": {
+          "analytic_story": {
+            "title": "Analytic Story",
+            "type": "array",
+            "items": {}
+          },
+          "product": {
+            "title": "Product",
+            "type": "array",
+            "items": {}
+          },
+          "required_fields": {
+            "title": "Required Fields",
+            "type": "array",
+            "items": {}
+          },
+          "security_domain": {
+            "title": "Security Domain",
+            "type": "string"
+          }
+        },
+        "required": [
+          "analytic_story",
+          "product",
+          "required_fields",
+          "security_domain"
+        ]
+      }
+    }
+  }

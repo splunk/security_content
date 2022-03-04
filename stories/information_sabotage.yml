@@ -6,20 +6,20 @@ author: Teoderick Contreras, Splunk
 type: Anomaly
 description: Leverage searches that allow you to detect and investigate unusual activities
   that might correlate to insider threat specially in terms of information sabotage.
-narrative: Information sabotage is the type of crime many people associate with insider threat. 
-  Where the current or former employees, contractors, or business partners intentionally exceeded 
-  or misused an authorized level of access to networks, systems, or data with the intention of harming a specific individual, 
-  the organization, or the organization's data, systems, and/or daily business operations.
+narrative: Information sabotage is the type of crime many people associate with insider
+  threat. Where the current or former employees, contractors, or business partners
+  intentionally exceeded or misused an authorized level of access to networks, systems,
+  or data with the intention of harming a specific individual, the organization, or
+  the organization's data, systems, and/or daily business operations.
 references:
 - https://insights.sei.cmu.edu/blog/insider-threat-deep-dive-it-sabotage/
 tags:
   analytic_story: Information Sabotage
   category:
-   - Abuse
+  - Abuse
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Splunk Behavioral Analytics
   usecase: Security Monitoring
-  

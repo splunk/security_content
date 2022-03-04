@@ -27,7 +27,7 @@ This playbook was designed to be called by a user to process indicators that are
 
 
 #### How To Implement
-
+tbd
 
 #### Playbooks
 ![](https://raw.githubusercontent.com/splunk/security_content/develop/playbooks/risk_notable_review_indicators.png)

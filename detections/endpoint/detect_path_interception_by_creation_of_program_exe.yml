@@ -1,5 +1,5 @@
 name: Detect Path Interception By Creation Of program exe
-id: c77162d3-f93c-45cc-80c8-22f6v5264g9f
+id: cbef820c-e1ff-407f-887f-0a9240a2d477
 version: 3
 date: '2020-07-03'
 author: Patrick Bareiss, Splunk
@@ -28,7 +28,6 @@ tags:
   analytic_story:
   - Windows Persistence Techniques
   asset_type: Endpoint
-  automated_detection_testing: passed
   cis20:
   - CIS 8
   confidence: 70
@@ -59,7 +58,7 @@ tags:
     role:
     - Victim
   - name: parent_process_name
-    type: Parent Process
+    type: Process
     role:
     - Parent Process
   - name: process_name

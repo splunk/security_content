@@ -1,15 +1,18 @@
 ---
 title: "Attempt To Stop Security Service"
-excerpt: "Disable or Modify Tools, Impair Defenses"
+excerpt: "Disable or Modify Tools
+, Impair Defenses
+"
 categories:
   - Endpoint
 last_modified_at: 2020-07-21
 toc: true
 toc_label: ""
 tags:
+
   - Disable or Modify Tools
-  - Defense Evasion
   - Impair Defenses
+  - Defense Evasion
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -25,7 +28,7 @@ tags:
 
 This search looks for attempts to stop security-related services on the endpoint.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-07-21
@@ -65,7 +68,7 @@ Note that `attempt_to_stop_security_service_filter` is a empty macro by default.
 #### Lookups
 The SPL above uses the following Lookups:
 
-* [security_services_lookup](https://github.com/splunk/security_content/blob/develop/lookups/security_services_lookup.yml) with [data](https://github.com/splunk/security_content/blob/develop/lookups/security_services.csv)
+* [security_services_lookup](https://github.com/splunk/security_content/blob/develop/lookups/security_services_lookup.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/security_services_lookup.csv)
 
 #### Required field
 * _time
@@ -121,6 +124,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_defend_service_stop/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_defend_service_stop/windows-sysmon.log)
 

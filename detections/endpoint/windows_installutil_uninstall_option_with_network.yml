@@ -49,7 +49,6 @@ references:
 tags:
   analytic_story:
   - Signed Binary Proxy Execution InstallUtil
-  automated_detection_testing: passed
   confidence: 100
   context:
   - Source:Endpoint
@@ -59,7 +58,6 @@ tags:
   impact: 80
   kill_chain_phases:
   - Exploitation
-  - Privilege Escalation
   message: An instance of $parent_process_name$ spawning $process_name$ was identified
     on endpoint $dest$ by user $user$ performing an uninstall.
   mitre_attack_id:
@@ -75,7 +73,7 @@ tags:
     role:
     - Victim
   - name: parent_process_name
-    type: Parent Process
+    type: Process
     role:
     - Parent Process
   - name: process_name
@@ -104,3 +102,4 @@ tags:
   - Ports.dest_port
   risk_score: 80
   security_domain: endpoint
+  asset_type: Endpoint

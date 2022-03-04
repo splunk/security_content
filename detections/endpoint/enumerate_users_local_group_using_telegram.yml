@@ -24,7 +24,6 @@ references:
 tags:
   analytic_story:
   - XMRig
-  automated_detection_testing: passed
   confidence: 100
   context:
   - Source:Endpoint
@@ -64,3 +63,4 @@ tags:
   - Message
   risk_score: 80
   security_domain: endpoint
+  asset_type: Endpoint
