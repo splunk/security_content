@@ -78,6 +78,7 @@ System Administrators may use looks like PsExec for troubleshooting or administr
 #### Associated Analytic story
 * [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
 * [Trickbot](/stories/trickbot)
+* [Hermetic Wiper](/stories/hermetic_wiper)
 
 
 #### Kill Chain Phase
