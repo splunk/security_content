@@ -1,5 +1,5 @@
 name: Unload Sysmon Filter Driver
-id: c77162d3-f93c-45cc-80c8-22f665664g9f
+id: e5928ff3-23eb-4d8b-b8a4-dcbc844fdfbe
 version: 3
 date: '2020-07-22'
 author: Bhavin Patel, Splunk
@@ -28,7 +28,6 @@ tags:
   analytic_story:
   - Disabling Security Tools
   asset_type: ''
-  automated_detection_testing: passed
   cis20:
   - CIS 8
   confidence: 90

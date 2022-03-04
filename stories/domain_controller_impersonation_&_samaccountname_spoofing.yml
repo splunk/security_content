@@ -3,23 +3,28 @@ id: 0244fdee-61be-11ec-900e-acde48001122
 version: 1
 date: '2021-12-20'
 author: Mauricio Velazco, Splunk
-description: Monitor for activities and techniques associated with the exploitation of the sAMAccountName Spoofing (CVE-2021-42278) 
-  and Domain Controller Impersonation (CVE-2021-42287) vulnerabilities.
-narrative: On November 9, 2021, Microsoft released patches to address two vulnerabilities that affect Windows Active Directory networks, 
-  sAMAccountName Spoofing (CVE-2021-42278) and Domain Controller Impersonation (CVE-2021-42287). On December 10, 2021, security researchers Charlie Clark and
-  Andrew Schwartz released a blog post where they shared how to weaponise these vulnerabilities in a target network an the initial detection opportunities. When successfully exploited, 
-  CVE-2021-42278 and CVE-2021-42287 allow an adversary, who has stolen the credentials of a low priviled domain user, to obtain a Kerberos Service ticket for a 
-  Domain Controller computer account. The only requirement is to have network connectivity to a domain controller. 
-  This attack vector effectivelly allows attackers to escalate their privileges in an Active Directory from a regular domain user account 
-  and take control of a domain controller. While patches have been released to address these vulnerabilities, deploying detection controls for this attack may help
-  help defenders identify attackers attempting exploitation. 
+description: Monitor for activities and techniques associated with the exploitation
+  of the sAMAccountName Spoofing (CVE-2021-42278) and Domain Controller Impersonation
+  (CVE-2021-42287) vulnerabilities.
+narrative: On November 9, 2021, Microsoft released patches to address two vulnerabilities
+  that affect Windows Active Directory networks, sAMAccountName Spoofing (CVE-2021-42278)
+  and Domain Controller Impersonation (CVE-2021-42287). On December 10, 2021, security
+  researchers Charlie Clark and Andrew Schwartz released a blog post where they shared
+  how to weaponise these vulnerabilities in a target network an the initial detection
+  opportunities. When successfully exploited, CVE-2021-42278 and CVE-2021-42287 allow
+  an adversary, who has stolen the credentials of a low priviled domain user, to obtain
+  a Kerberos Service ticket for a Domain Controller computer account. The only requirement
+  is to have network connectivity to a domain controller. This attack vector effectivelly
+  allows attackers to escalate their privileges in an Active Directory from a regular
+  domain user account and take control of a domain controller. While patches have
+  been released to address these vulnerabilities, deploying detection controls for
+  this attack may help help defenders identify attackers attempting exploitation.
 references:
-- https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-42278 
+- https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-42278
 - https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-42287
 - https://exploit.ph/cve-2021-42287-cve-2021-42278-weaponisation.html
 tags:
-  analytic_story:
-  - sAMAccountName Spoofing and Domain Controller Impersonation
+  analytic_story: sAMAccountName Spoofing and Domain Controller Impersonation
   category:
   - Privilege Escalation
   product:

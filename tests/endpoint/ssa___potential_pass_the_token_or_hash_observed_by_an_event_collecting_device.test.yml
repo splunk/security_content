@@ -1,11 +1,10 @@
-name: Potential Pass the Token or Hash Observed by an Event Collecting Device - SSA Unit test
+name: Potential Pass the Token or Hash Observed by an Event Collecting Device Unit Test
 tests:
   - name: Potential Pass the Token or Hash Observed by an Event Collecting Device
-    file: endpoint/ssa___potential_pass_the_token_or_hash_observed_by_an_event_collecting_device.yml
+    file: endpoint/ssa___ptt_pth_kerb_ntlm_origin_device.yml
     pass_condition: '@count_gt(0)'
     description: Test Pass the Hash or Pass the Token Detection Observed by an Event Collecting Device
     attack_data:
       - file_name: ptt_pth_kerb_ntlm_anon_DC_dataset.log
         data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1550.002/extracts_from_real_data/ptt_pth_kerb_ntlm_anon_DC_dataset.log
         source: WinEventLog:Security
-

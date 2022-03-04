@@ -36,11 +36,9 @@ references:
 tags:
   analytic_story:
   - Clop Ransomware
-  automated_detection_testing: passed
   confidence: 90
   context:
-  - source:endpoint
-  - stage: Impact
+  - Source:Endpoint
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-sysmon.log
   impact: 80
@@ -56,7 +54,7 @@ tags:
     role:
     - Victim
   - name: user
-    type: user
+    type: User
     role:
     - Victim
   product:
@@ -75,3 +73,4 @@ tags:
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_microsoft_sysmon
+  asset_type: Endpoint

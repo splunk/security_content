@@ -20,8 +20,7 @@ references:
 - https://attack.mitre.org/techniques/T1550/003/
 - https://attack.mitre.org/techniques/T1558/004/
 tags:
-  analytic_story:
-  - Active Directory Kerberos Attacks
+  analytic_story: Active Directory Kerberos Attacks
   category:
   - Adversary Tactics
   - Account Compromise

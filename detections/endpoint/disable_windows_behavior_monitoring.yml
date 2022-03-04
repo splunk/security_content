@@ -41,11 +41,10 @@ tags:
   - Windows Defense Evasion Tactics
   - Ransomware
   - Revil Ransomware
-  automated_detection_testing: passed
   confidence: 100
   context:
-  - Source: Endpoint
-  - Stage: Defense Evasion
+  - Source:Endpoint
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-security.log
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-system.log
@@ -77,3 +76,4 @@ tags:
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_microsoft_sysmon
+  asset_type: Endpoint

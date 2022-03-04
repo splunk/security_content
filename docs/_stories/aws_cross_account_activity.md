@@ -7,6 +7,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - Exploitation
 ---
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -31,11 +32,11 @@ This Analytic Story includes searches that will help you monitor your AWS CloudT
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [aws detect attach to role policy](/cloud/aws_detect_attach_to_role_policy/) | [Valid Accounts](/tags/#valid-accounts) | Hunting |
-| [aws detect permanent key creation](/cloud/aws_detect_permanent_key_creation/) | [Valid Accounts](/tags/#valid-accounts) | Hunting |
-| [aws detect role creation](/cloud/aws_detect_role_creation/) | [Valid Accounts](/tags/#valid-accounts) | Hunting |
-| [aws detect sts assume role abuse](/cloud/aws_detect_sts_assume_role_abuse/) | [Valid Accounts](/tags/#valid-accounts) | Hunting |
-| [aws detect sts get session token abuse](/cloud/aws_detect_sts_get_session_token_abuse/) | [Use Alternate Authentication Material](/tags/#use-alternate-authentication-material) | Hunting |
+| [aws detect attach to role policy](/cloud/aws_detect_attach_to_role_policy/) | [Valid Accounts](/tags/#valid-accounts)| Hunting |
+| [aws detect permanent key creation](/cloud/aws_detect_permanent_key_creation/) | [Valid Accounts](/tags/#valid-accounts)| Hunting |
+| [aws detect role creation](/cloud/aws_detect_role_creation/) | [Valid Accounts](/tags/#valid-accounts)| Hunting |
+| [aws detect sts assume role abuse](/cloud/aws_detect_sts_assume_role_abuse/) | [Valid Accounts](/tags/#valid-accounts)| Hunting |
+| [aws detect sts get session token abuse](/cloud/aws_detect_sts_get_session_token_abuse/) | [Use Alternate Authentication Material](/tags/#use-alternate-authentication-material)| Hunting |
 
 #### Reference
 
