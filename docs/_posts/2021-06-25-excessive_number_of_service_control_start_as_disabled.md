@@ -1,18 +1,15 @@
 ---
 title: "Excessive number of service control start as disabled"
-excerpt: "Disable or Modify Tools
-, Impair Defenses
-"
+excerpt: "Disable or Modify Tools, Impair Defenses"
 categories:
   - Endpoint
 last_modified_at: 2021-06-25
 toc: true
 toc_label: ""
 tags:
-
   - Disable or Modify Tools
-  - Impair Defenses
   - Defense Evasion
+  - Impair Defenses
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -28,7 +25,7 @@ tags:
 
 This detection targets behaviors observed when threat actors have used sc.exe to modify services. We observed malware in a honey pot spawning numerous sc.exe processes in a short period of time, presumably to impair defenses, possibly to block others from compromising the same machine.  This detection will alert when we see both an excessive number of sc.exe processes launched with specific commandline arguments to disable the start of certain services.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-25
@@ -75,7 +72,7 @@ Note that `excessive_number_of_service_control_start_as_disabled_filter` is a em
 
 
 #### How To Implement
-You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must be ingesting logs with both the process name and command line from your endpoints. The complete process name with command-line arguments are mapped to the "process" field in the Endpoint data model.
+You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must be ingesting logs with both the process name and command line from your endpoints. The complete process name with command-line arguments are mapped to the &#34;process&#34; field in the Endpoint data model.
 
 #### Known False Positives
 Legitimate programs and administrators will execute sc.exe with the start disabled flag.  It is possible, but unlikely from the telemetry of normal Windows operation we observed, that sc.exe will be called more than seven times in a short period of time.
@@ -110,7 +107,6 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/sc_service_start_disabled/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/sc_service_start_disabled/windows-sysmon.log)
 

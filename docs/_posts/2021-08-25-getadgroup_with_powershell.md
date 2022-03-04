@@ -1,18 +1,15 @@
 ---
 title: "GetAdGroup with PowerShell"
-excerpt: "Permission Groups Discovery
-, Domain Groups
-"
+excerpt: "Permission Groups Discovery, Domain Groups"
 categories:
   - Endpoint
 last_modified_at: 2021-08-25
 toc: true
 toc_label: ""
 tags:
-
   - Permission Groups Discovery
-  - Domain Groups
   - Discovery
+  - Domain Groups
   - Discovery
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -28,7 +25,7 @@ tags:
 
 This analytic looks for the execution of `powershell.exe` with command-line arguments utilized to query for domain groups. The `Get-AdGroup` commandlnet is used to return a list of all groups available in a Windows Domain. Red Teams and adversaries alike may leverage this commandlet to enumerate domain groups for situational awareness and Active Directory Discovery.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-08-25
@@ -112,7 +109,6 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.002/AD_discovery/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.002/AD_discovery/windows-sysmon.log)
 

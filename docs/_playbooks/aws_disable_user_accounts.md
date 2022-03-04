@@ -33,6 +33,7 @@ This playbook works with the community playbook aws_find_inactive_users using th
 ![](https://raw.githubusercontent.com/splunk/security_content/develop/playbooks/aws_disable_user_accounts.png)
 
 #### Required field
+* aws_username
 
 
 #### Reference

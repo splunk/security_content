@@ -28,6 +28,7 @@ references:
 tags:
   analytic_story:
   - Collection and Staging
+  automated_detection_testing: passed
   confidence: 90
   context:
   - Source:Endpoint
@@ -36,7 +37,7 @@ tags:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1560.001/archive_utility/windows-sysmon.log
   impact: 30
   kill_chain_phases:
-  - Exploitation
+  - Exfiltration
   message: The following $process_name$ has been identified as renamed, spawning from
     $parent_process_name$ on $dest$ by $user$.
   mitre_attack_id:
@@ -52,7 +53,7 @@ tags:
     role:
     - Victim
   - name: parent_process_name
-    type: Process
+    type: Parent Process
     role:
     - Parent Process
   - name: process_name
@@ -78,4 +79,3 @@ tags:
   - Processes.parent_process_id
   risk_score: 27
   security_domain: endpoint
-  asset_type: Endpoint

@@ -1,19 +1,16 @@
 ---
 title: "Randomly Generated Windows Service Name"
-excerpt: "Create or Modify System Process
-, Windows Service
-"
+excerpt: "Create or Modify System Process, Windows Service"
 categories:
   - Endpoint
 last_modified_at: 2021-11-29
 toc: true
 toc_label: ""
 tags:
-
   - Create or Modify System Process
-  - Windows Service
   - Persistence
   - Privilege Escalation
+  - Windows Service
   - Persistence
   - Privilege Escalation
   - Splunk Enterprise
@@ -21,17 +18,17 @@ tags:
   - Splunk Cloud
 ---
 
-###  WARNING THIS IS A EXPERIMENTAL object
-We have not been able to test, simulate, or build datasets for this object. Use at your own risk. This analytic is **NOT** supported.
+### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
+We have not been able to test, simulate, or build datasets for this detection. Use at your own risk. This analytic is **NOT** supported.
 
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
-The following hunting analytic leverages Event ID 7045, `A new service was installed in the system`, to identify the installation of a Windows Service with a suspicious, high entropy, Service Name. To achieve this, this analytic also leverages the `ut_shannon` function from the URL ToolBox Splunk application. Red teams and adversaries alike may abuse the Service Control Manager to create and start a remote Windows Service and obtain remote code execution. To achieve this goal, some tools like Metasploit, Cobalt Strike and Impacket, typically create a Windows Service with a random service name on the victim host. This hunting analytic may help defenders identify Windows Services installed as part of a lateral movement attack. The entropy threshold `ut_shannon > 3` should be customized by users. The Service_File_Name field can be used to determine if the Windows Service has malicious intent or not.
+The following hunting analytic leverages Event ID 7045, `A new service was installed in the system`, to identify the installation of a Windows Service with a suspicious, high entropy, Service Name. To achieve this, this analytic also leverages the `ut_shannon` function from the URL ToolBox Splunk application. Red teams and adversaries alike may abuse the Service Control Manager to create and start a remote Windows Service and obtain remote code execution. To achieve this goal, some tools like Metasploit, Cobalt Strike and Impacket, typically create a Windows Service with a random service name on the victim host. This hunting analytic may help defenders identify Windows Services installed as part of a lateral movement attack. The entropy threshold `ut_shannon &gt; 3` should be customized by users. The Service_File_Name field can be used to determine if the Windows Service has malicious intent or not.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-11-29
@@ -84,7 +81,8 @@ Legitimate applications may use random Windows Service names.
 
 
 #### Kill Chain Phase
-* Exploitation
+* Privilege Escalation
+* Lateral Movement
 
 
 
@@ -108,6 +106,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 
 

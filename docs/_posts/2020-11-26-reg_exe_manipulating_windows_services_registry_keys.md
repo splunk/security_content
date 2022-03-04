@@ -1,23 +1,20 @@
 ---
 title: "Reg exe Manipulating Windows Services Registry Keys"
-excerpt: "Services Registry Permissions Weakness
-, Hijack Execution Flow
-"
+excerpt: "Services Registry Permissions Weakness, Hijack Execution Flow"
 categories:
   - Endpoint
 last_modified_at: 2020-11-26
 toc: true
 toc_label: ""
 tags:
-
   - Services Registry Permissions Weakness
+  - Persistence
+  - Privilege Escalation
+  - Defense Evasion
   - Hijack Execution Flow
-  - Defense Evasion
   - Persistence
   - Privilege Escalation
   - Defense Evasion
-  - Persistence
-  - Privilege Escalation
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -32,7 +29,7 @@ tags:
 
 The search looks for reg.exe modifying registry keys that define Windows services and their configurations.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-11-26
@@ -44,9 +41,9 @@ The search looks for reg.exe modifying registry keys that define Windows service
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
-| [T1574.011](https://attack.mitre.org/techniques/T1574/011/) | Services Registry Permissions Weakness | Defense Evasion, Persistence, Privilege Escalation |
+| [T1574.011](https://attack.mitre.org/techniques/T1574/011/) | Services Registry Permissions Weakness | Persistence, Privilege Escalation, Defense Evasion |
 
-| [T1574](https://attack.mitre.org/techniques/T1574/) | Hijack Execution Flow | Defense Evasion, Persistence, Privilege Escalation |
+| [T1574](https://attack.mitre.org/techniques/T1574/) | Hijack Execution Flow | Persistence, Privilege Escalation, Defense Evasion |
 
 #### Search
 
@@ -109,7 +106,6 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.011/change_registry_path_service/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.011/change_registry_path_service/windows-sysmon.log)
 

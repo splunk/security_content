@@ -1,14 +1,12 @@
 ---
 title: "Detect Mimikatz With PowerShell Script Block Logging"
-excerpt: "OS Credential Dumping
-"
+excerpt: "OS Credential Dumping"
 categories:
   - Endpoint
 last_modified_at: 2021-06-09
 toc: true
 toc_label: ""
 tags:
-
   - OS Credential Dumping
   - Credential Access
   - Splunk Enterprise
@@ -26,7 +24,7 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 This analytic identifies common Mimikatz functions that may be identified in the script block, including `mimikatz`. This will catch the most basic use cases for Pass the Ticket, Pass the Hash and `-DumprCreds`. \
 During triage, review parallel processes using an EDR product or 4688 events. It will be important to understand the timeline of events around this activity. Review the entire logged PowerShell script block.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-06-09
@@ -52,8 +50,8 @@ During triage, review parallel processes using an EDR product or 4688 events. It
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [powershell](https://github.com/splunk/security_content/blob/develop/macros/powershell.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `detect_mimikatz_with_powershell_script_block_logging_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -104,7 +102,6 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/windows-powershell.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/windows-powershell.log)
 

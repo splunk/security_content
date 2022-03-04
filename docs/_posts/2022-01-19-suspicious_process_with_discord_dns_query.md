@@ -1,18 +1,15 @@
 ---
 title: "Suspicious Process With Discord DNS Query"
-excerpt: "Visual Basic
-, Command and Scripting Interpreter
-"
+excerpt: "Visual Basic, Command and Scripting Interpreter"
 categories:
   - Endpoint
 last_modified_at: 2022-01-19
 toc: true
 toc_label: ""
 tags:
-
   - Visual Basic
-  - Command and Scripting Interpreter
   - Execution
+  - Command and Scripting Interpreter
   - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -28,7 +25,7 @@ tags:
 
 This analytic identifies a process making a DNS query to Discord, a well known instant messaging and digital distribution platform. Discord can be abused by adversaries, as seen in the WhisperGate campaign, to host and download malicious. external files. A process resolving a Discord DNS name could be an indicator of malware trying to download files from Discord for further execution.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2022-01-19
@@ -109,7 +106,6 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.005/discord_dnsquery/sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.005/discord_dnsquery/sysmon.log)
 

@@ -35,6 +35,7 @@ tags:
   analytic_story:
   - Account Monitoring and Controls
   asset_type: Windows
+  automated_detection_testing: passed
   cis20:
   - CIS 16
   confidence: 60
@@ -73,5 +74,3 @@ tags:
   - All_Changes.dest
   risk_score: 36
   security_domain: access
-  kill_chain_phases:
-  - Exploitation

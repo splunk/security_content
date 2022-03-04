@@ -1,5 +1,5 @@
 name: First time seen command line argument
-id: a1b6e73f-98d5-470f-99ac-77aacd578473
+id: 9be56c82-b1cc-4318-87eb-q138afaaqa39
 version: 5
 date: '2020-07-21'
 author: Bhavin Patel, Splunk
@@ -66,14 +66,3 @@ tags:
   - Processes.parent_process_name
   - Processes.dest
   security_domain: endpoint
-  confidence: 50
-  impact: 50
-  risk_score: 25
-  context:
-  - Unknown
-  message: tbd
-  observable:
-  - name: field
-    type: Unknown
-    role:
-    - Unknown

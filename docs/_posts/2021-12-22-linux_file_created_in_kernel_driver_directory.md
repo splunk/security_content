@@ -1,19 +1,16 @@
 ---
 title: "Linux File Created In Kernel Driver Directory"
-excerpt: "Kernel Modules and Extensions
-, Boot or Logon Autostart Execution
-"
+excerpt: "Kernel Modules and Extensions, Boot or Logon Autostart Execution"
 categories:
   - Endpoint
 last_modified_at: 2021-12-22
 toc: true
 toc_label: ""
 tags:
-
   - Kernel Modules and Extensions
-  - Boot or Logon Autostart Execution
   - Persistence
   - Privilege Escalation
+  - Boot or Logon Autostart Execution
   - Persistence
   - Privilege Escalation
   - Splunk Enterprise
@@ -30,7 +27,7 @@ tags:
 
 This analytic looks for suspicious file creation in kernel/driver directory in linux platform. This directory is known folder for all linux kernel module available within the system. so creation of file in this directory is a good indicator that there is a possible rootkit installation in the host machine. This technique was abuse by adversaries, malware author and red teamers to gain high privileges to their malicious code such us in kernel level. Even this event is not so common administrator or legitimate 3rd party tool may install driver or linux kernel module as part of its installation.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-12-22
@@ -85,7 +82,7 @@ Administrator or network operator can create file in this folders for automation
 
 
 #### Kill Chain Phase
-* Exploitation
+* Privilege Escalation
 
 
 
@@ -111,7 +108,6 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.006/loading_linux_kernel_module/sysmon_linux.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.006/loading_linux_kernel_module/sysmon_linux.log)
 
