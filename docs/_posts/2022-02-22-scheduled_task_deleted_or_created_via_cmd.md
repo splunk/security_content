@@ -3,7 +3,7 @@ title: "Scheduled Task Deleted Or Created via CMD"
 excerpt: "Scheduled Task, Scheduled Task/Job"
 categories:
   - Endpoint
-last_modified_at: 2020-12-17
+last_modified_at: 2022-02-22
 toc: true
 toc_label: ""
 tags:
@@ -27,12 +27,12 @@ tags:
 
 #### Description
 
-This search looks for flags passed to schtasks.exe on the command-line that indicate a task was created via command like. This has been associated with the Dragonfly threat actor, and the SUNBURST attack against Solarwinds.
+The following analytic identifies the creation or deletion of a scheduled task using schtasks.exe with flags - create or delete being passed on the command-line. This has been associated with the Dragonfly threat actor, and the SUNBURST attack against Solarwinds. This analytic replaces &#34;Scheduled Task used in BadRabbit Ransomware&#34;.
 
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
-- **Last Updated**: 2020-12-17
+- **Last Updated**: 2022-02-22
 - **Author**: Bhavin Patel, Splunk
 - **ID**: d5af132c-7c17-439c-9d31-13d55340f36c
 
@@ -74,14 +74,15 @@ Note that `scheduled_task_deleted_or_created_via_cmd_filter` is a empty macro by
 
 
 #### How To Implement
-You must be ingesting endpoint data that tracks process activity, including parent-child relationships from your endpoints to populate the Endpoint data model in the Processes node. The command-line arguments are mapped to the &#34;process&#34; field in the Endpoint data model.
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 
 #### Known False Positives
-Tasks should not be manually created via CLI, this is rarely done by admins as well
+It is possible scripts or administrators may trigger this analytic. Filter as needed based on parent process, application.
 
 #### Associated Analytic story
 * [DHS Report TA18-074A](/stories/dhs_report_ta18-074a)
 * [NOBELIUM Group](/stories/nobelium_group)
+* [Windows Persistence Techniques](/stories/windows_persistence_techniques)
 
 
 #### Kill Chain Phase
@@ -102,6 +103,9 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 
 #### Reference
 
+* [https://thedfirreport.com/2022/02/21/qbot-and-zerologon-lead-to-full-domain-compromise/](https://thedfirreport.com/2022/02/21/qbot-and-zerologon-lead-to-full-domain-compromise/)
+
+
 
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
@@ -111,4 +115,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/scheduled_task_deleted_or_created_via_cmd.yml) \| *version*: **5**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/scheduled_task_deleted_or_created_via_cmd.yml) \| *version*: **6**
