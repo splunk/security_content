@@ -1,12 +1,14 @@
 ---
 title: "Windows AdFind Exe"
-excerpt: "Remote System Discovery"
+excerpt: "Remote System Discovery
+"
 categories:
   - Endpoint
 last_modified_at: 2021-11-03
 toc: true
 toc_label: ""
 tags:
+
   - Remote System Discovery
   - Discovery
   - Splunk Enterprise
@@ -23,7 +25,7 @@ tags:
 
 This search looks for the execution of `adfind.exe` with command-line arguments that it uses by default. Specifically the filter or search functions. It also considers the arguments necessary like objectcategory, see readme for more details: https://www.joeware.net/freetools/tools/adfind/usage.htm. This has been seen used before by Wizard Spider, FIN6 and actors whom also launched SUNBURST. AdFind.exe is usually used a recon tool to enumare a domain controller.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-11-03
@@ -82,6 +84,12 @@ administrators rarely use adfind, usually not used for legitimate reasons
 
 
 
+#### RBA
+
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 25.0 | 50 | 50 | Windows AdFind Exe |
+
 
 Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
@@ -97,6 +105,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1018/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1018/atomic_red_team/windows-sysmon.log)
 

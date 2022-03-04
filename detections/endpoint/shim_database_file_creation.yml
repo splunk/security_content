@@ -27,14 +27,12 @@ tags:
   analytic_story:
   - Windows Persistence Techniques
   asset_type: Endpoint
-  automated_detection_testing: passed
   cis20:
   - CIS 8
   confidence: 80
   context:
-  - source:endpoint
-  - stage: Privilege Escalation
-  - Persistence
+  - Source:Endpoint
+  - Stage:Privilege Escalation
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.011/atomic_red_team/windows-sysmon.log
   impact: 70
@@ -52,9 +50,9 @@ tags:
     role:
     - Victim
   - name: file_path
-    type: file path
+    type: File
     role:
-    - Others
+    - Other
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

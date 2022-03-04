@@ -44,20 +44,14 @@ detections:
     children:
       - title: Authentication
         url: /detections/authentication/
-      - title: Certificates
-        url: /detections/certificates/
       - title: Change
         url: /detections/change/
+      - title: Change_Analysis
+        url: /detections/change_analysis/
       - title: Email
         url: /detections/email/
       - title: Endpoint
         url: /detections/endpoint/
-      - title: Endpoint_Filesystem
-        url: /detections/endpoint_filesystem/
-      - title: Endpoint_Processes
-        url: /detections/endpoint_processes/
-      - title: Endpoint_Registry
-        url: /detections/endpoint_registry/
       - title: Network_Resolution
         url: /detections/network_resolution/
       - title: Network_Sessions
@@ -68,6 +62,8 @@ detections:
         url: /detections/risk/
       - title: Updates
         url: /detections/updates/
+      - title: Vulnerabilities
+        url: /detections/vulnerabilities/
       - title: Web
         url: /detections/web/
   - title: "Product"
@@ -93,6 +89,8 @@ stories:
         url: /stories/malware/
       - title: Privilege Escalation
         url: /stories/privilege_escalation/
+      - title: Ransomware
+        url: /stories/ransomware/
       - title: Vulnerability
         url: /stories/vulnerability/
 playbooks:

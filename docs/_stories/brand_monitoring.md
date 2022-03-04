@@ -8,7 +8,10 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   - Email
+  - Network_Resolution
   - Web
+  - Actions on Objectives
+  - Delivery
 ---
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -18,7 +21,7 @@ tags:
 Detect and investigate activity that may indicate that an adversary is using faux domains to mislead users into interacting with malicious infrastructure. Monitor DNS, email, and web traffic for permutations of your brand name.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: [Email](https://docs.splunk.com/Documentation/CIM/latest/User/Email), [Web](https://docs.splunk.com/Documentation/CIM/latest/User/Web)
+- **Datamodel**: [Email](https://docs.splunk.com/Documentation/CIM/latest/User/Email), [Network_Resolution](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution), [Web](https://docs.splunk.com/Documentation/CIM/latest/User/Web)
 - **Last Updated**: 2017-12-19
 - **Author**: David Dorsey, Splunk
 - **ID**: 91c676cf-0b23-438d-abee-f6335e1fce78
@@ -33,8 +36,9 @@ Notable events will include IP addresses, URLs, and user data. Drilling down can
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Monitor Email For Brand Abuse](/application/monitor_email_for_brand_abuse/) |  | TTP |
-| [Monitor Web Traffic For Brand Abuse](/web/monitor_web_traffic_for_brand_abuse/) |  | TTP |
+| [Monitor DNS For Brand Abuse](/deprecated/monitor_dns_for_brand_abuse/) | None| TTP |
+| [Monitor Email For Brand Abuse](/application/monitor_email_for_brand_abuse/) | None| TTP |
+| [Monitor Web Traffic For Brand Abuse](/web/monitor_web_traffic_for_brand_abuse/) | None| TTP |
 
 #### Reference
 
