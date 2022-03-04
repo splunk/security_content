@@ -1,23 +1,16 @@
 ---
 title: "Detect Prohibited Applications Spawning cmd exe"
-excerpt: "Command and Scripting Interpreter
-, Windows Command Shell
-"
+excerpt: "Command and Scripting Interpreter"
 categories:
   - Endpoint
 last_modified_at: 2020-11-10
 toc: true
 toc_label: ""
 tags:
-
   - Command and Scripting Interpreter
-  - Windows Command Shell
   - Execution
-  - Execution
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  - Endpoint
+  - Splunk Behavioral Analytics
+  - Endpoint_Processes
 ---
 
 
@@ -26,14 +19,14 @@ tags:
 
 #### Description
 
-This search looks for executions of cmd.exe spawned by a process that is often abused by attackers and that does not typically launch cmd.exe.
+The following analytic identifies parent processes, browsers, Windows terminal applications, Office Products and Java spawning cmd.exe. By its very nature, many applications spawn cmd.exe natively or built into macros. Much of this will need to be tuned to further enhance the risk.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Product**: Splunk Behavioral Analytics
+- **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2020-11-10
-- **Author**: Bhavin Patel, Splunk
-- **ID**: dcfd6b40-42f9-469d-a433-2e53f7486664
+- **Author**: Ignacio Bermudez Corrales, Splunk
+- **ID**: c10a18cb-fd80-4ffa-a844-25026e0a0c94
 
 
 #### [ATT&CK](https://attack.mitre.org/)
@@ -41,8 +34,6 @@ This search looks for executions of cmd.exe spawned by a process that is often a
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
-
-| [T1059.003](https://attack.mitre.org/techniques/T1059/003/) | Windows Command Shell | Execution |
 
 #### Search
 
@@ -60,39 +51,26 @@ This search looks for executions of cmd.exe spawned by a process that is often a
 
 #### Macros
 The SPL above uses the following Macros:
-* [prohibited_apps_launching_cmd](https://github.com/splunk/security_content/blob/develop/macros/prohibited_apps_launching_cmd.yml)
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
-* [process_cmd](https://github.com/splunk/security_content/blob/develop/macros/process_cmd.yml)
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `detect_prohibited_applications_spawning_cmd_exe_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
+* process_name
+* parent_process_name
 * _time
-* Processes.dest
-* Processes.user
-* Processes.parent_process_name
-* Processes.parent_process
-* Processes.original_file_name
-* Processes.process_name
-* Processes.process
-* Processes.process_id
-* Processes.parent_process_path
-* Processes.process_path
-* Processes.parent_process_id
+* dest_device_id
+* dest_user_id
+* cmd_line
 
 
 #### How To Implement
-You must be ingesting data that records process activity from your hosts and populates the Endpoint data model with the resultant dataset. This search includes a lookup file, `prohibited_apps_launching_cmd.csv`, that contains a list of processes that should not be spawning cmd.exe. You can modify this lookup to better suit your environment. To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
+In order to successfully implement this analytic, you will need endpoint process data from a EDR product or Sysmon. This search has been modified to process raw sysmon data from attack_range&#39;s nxlogs on DSP.
 
 #### Known False Positives
-There are circumstances where an application may legitimately execute and interact with the Windows command-line interface. Investigate and modify the lookup file, as appropriate.
+There are circumstances where an application may legitimately execute and interact with the Windows command-line interface.
 
 #### Associated Analytic story
 * [Suspicious Command-Line Executions](/stories/suspicious_command-line_executions)
-* [Suspicious MSHTA Activity](/stories/suspicious_mshta_activity)
-* [Suspicious Zoom Child Processes](/stories/suspicious_zoom_child_processes)
-* [NOBELIUM Group](/stories/nobelium_group)
 
 
 #### Kill Chain Phase
@@ -104,7 +82,7 @@ There are circumstances where an application may legitimately execute and intera
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
-| 80.0 | 80 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ running prohibited applications. |
+| 35.0 | 70 | 50 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest_device_id$ by user $dest_user_id$, producing a suspicious event that warrants investigating. |
 
 
 Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
@@ -113,14 +91,15 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 
 #### Reference
 
+* [https://attack.mitre.org/techniques/T1059/](https://attack.mitre.org/techniques/T1059/)
+
+
 
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 
-* [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.003/powershell_spawn_cmd/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.003/powershell_spawn_cmd/windows-sysmon.log)
 
 
-
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/detect_prohibited_applications_spawning_cmd_exe.yml) \| *version*: **6**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/detect_prohibited_applications_spawning_cmd_exe.yml) \| *version*: **2**

@@ -10,10 +10,6 @@ tags:
   - Endpoint
   - Endpoint_Processes
   - Network_Traffic
-  - Actions on Objectives
-  - Command and Control
-  - Exploitation
-  - Installation
 ---
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}

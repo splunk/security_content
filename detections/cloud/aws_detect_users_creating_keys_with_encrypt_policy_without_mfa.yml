@@ -29,6 +29,7 @@ tags:
   analytic_story:
   - Ransomware Cloud
   asset_type: AWS Account
+  automated_detection_testing: passed
   confidence: 50
   context:
   - Source:Cloud Data
@@ -48,6 +49,7 @@ tags:
     role:
     - Attacker
   product:
+  - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -61,5 +63,3 @@ tags:
   - userIdentity.principalId
   risk_score: 25
   security_domain: threat
-  kill_chain_phases:
-  - Exploitation

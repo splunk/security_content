@@ -1,21 +1,18 @@
 ---
 title: "Linux NOPASSWD Entry In Sudoers File"
-excerpt: "Sudo and Sudo Caching
-, Abuse Elevation Control Mechanism
-"
+excerpt: "Sudo and Sudo Caching, Abuse Elevation Control Mechanism"
 categories:
   - Endpoint
 last_modified_at: 2021-12-21
 toc: true
 toc_label: ""
 tags:
-
   - Sudo and Sudo Caching
+  - Privilege Escalation
+  - Defense Evasion
   - Abuse Elevation Control Mechanism
-  - Defense Evasion
   - Privilege Escalation
   - Defense Evasion
-  - Privilege Escalation
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -30,7 +27,7 @@ tags:
 
 This analytic is to look for suspicious command lines that may add entry to /etc/sudoers with NOPASSWD attribute in linux platform. This technique is commonly abuse by adversaries, malware author and red teamers to gain elevated privilege to the targeted or compromised host. /etc/sudoers file controls who can run what commands users can execute on the machines and can also control whether user need a password to execute particular commands. This file is composed of aliases (basically variables) and user specifications.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-12-21
@@ -42,9 +39,9 @@ This analytic is to look for suspicious command lines that may add entry to /etc
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
-| [T1548.003](https://attack.mitre.org/techniques/T1548/003/) | Sudo and Sudo Caching | Defense Evasion, Privilege Escalation |
+| [T1548.003](https://attack.mitre.org/techniques/T1548/003/) | Sudo and Sudo Caching | Privilege Escalation, Defense Evasion |
 
-| [T1548](https://attack.mitre.org/techniques/T1548/) | Abuse Elevation Control Mechanism | Defense Evasion, Privilege Escalation |
+| [T1548](https://attack.mitre.org/techniques/T1548/) | Abuse Elevation Control Mechanism | Privilege Escalation, Defense Evasion |
 
 #### Search
 
@@ -87,7 +84,7 @@ Administrator or network operator can execute this command. Please update the fi
 
 
 #### Kill Chain Phase
-* Exploitation
+* Privilege Escalation
 
 
 
@@ -112,7 +109,6 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.003/nopasswd_sudoers/sysmon_linux.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.003/nopasswd_sudoers/sysmon_linux.log)
 

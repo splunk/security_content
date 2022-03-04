@@ -21,7 +21,7 @@ Monitor and detect techniques used by attackers who leverage the mshta.exe proce
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint), [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2021-01-20
 - **Author**: Bhavin Patel, Michael Haag, Splunk
-- **ID**: 1e5a5a53-540b-462a-8fb7-f44a4292f5dc
+- **ID**: 2b1800dd-92f9-47dd-a981-fdf13w1q5d55
 
 #### Narrative
 

@@ -13,7 +13,7 @@ tags:
 
 #### Description
 
-This playbook acts upon events where a file has been determined to be malicious (ie webshells being dropped on an end host). Before deleting the file, we run a "more" command on the file in question to extract its contents. We then run a delete on the file in question.
+This playbook acts upon events where a file has been determined to be malicious (ie webshells being dropped on an end host). Before deleting the file, we run a &#34;more&#34; command on the file in question to extract its contents. We then run a delete on the file in question.
 
 - **Type**: Response
 - **Product**: Splunk SOAR
@@ -829,6 +829,8 @@ This playbook reads and then deletes files stored with artifact:*.cef.filePath f
 ![](https://raw.githubusercontent.com/splunk/security_content/develop/playbooks/delete_detected_files.png)
 
 #### Required field
+* filePath
+* destinationAddress
 
 
 #### Reference

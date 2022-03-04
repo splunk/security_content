@@ -1,18 +1,15 @@
 ---
 title: "Interactive Session on Remote Endpoint with PowerShell"
-excerpt: "Remote Services
-, Windows Remote Management
-"
+excerpt: "Remote Services, Windows Remote Management"
 categories:
   - Endpoint
 last_modified_at: 2022-02-18
 toc: true
 toc_label: ""
 tags:
-
   - Remote Services
-  - Windows Remote Management
   - Lateral Movement
+  - Windows Remote Management
   - Lateral Movement
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -27,7 +24,7 @@ tags:
 
 The following analytic utilizes PowerShell Script Block Logging (EventCode=4104) to identify the usage of the `Enter-PSSession`. This commandlet can be used to open an interactive session on a remote endpoint leveraging the WinRM protocol. Red Teams and adversaries alike may abuse WinRM and `Enter-PSSession` for lateral movement and remote code execution.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2022-02-18
@@ -78,7 +75,7 @@ Administrators may leverage WinRM and `Enter-PSSession` for administrative and t
 
 
 #### Kill Chain Phase
-* Exploitation
+* Lateral Movement
 
 
 
@@ -103,7 +100,6 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.006/lateral_movement_pssession/windows-powershell.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.006/lateral_movement_pssession/windows-powershell.log)
 

@@ -28,6 +28,7 @@ references:
 tags:
   analytic_story:
   - Meterpreter
+  automated_detection_testing: passed
   confidence: 100
   context:
   - Source:Endpoint
@@ -59,4 +60,3 @@ tags:
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_windows
-  asset_type: Endpoint

@@ -1,24 +1,20 @@
 ---
 title: "FodHelper UAC Bypass"
-excerpt: "Modify Registry
-, Bypass User Account Control
-, Abuse Elevation Control Mechanism
-"
+excerpt: "Modify Registry, Bypass User Account Control, Abuse Elevation Control Mechanism"
 categories:
   - Endpoint
 last_modified_at: 2021-03-01
 toc: true
 toc_label: ""
 tags:
-
   - Modify Registry
+  - Defense Evasion
   - Bypass User Account Control
+  - Privilege Escalation
+  - Defense Evasion
   - Abuse Elevation Control Mechanism
-  - Defense Evasion
-  - Defense Evasion
   - Privilege Escalation
   - Defense Evasion
-  - Privilege Escalation
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -37,7 +33,7 @@ Fodhelper.exe has a known UAC bypass as it attempts to look for specific registr
 1. `HKCU:\Software\Classes\ms-settings\shell\open\command\(default)`\
 Upon triage, fodhelper.exe will have a child process and read access will occur on the registry keys. Isolate the endpoint and review parallel processes for additional behavior.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-03-01
@@ -51,9 +47,9 @@ Upon triage, fodhelper.exe will have a child process and read access will occur 
 | -------------- | ---------------- |-------------------- |
 | [T1112](https://attack.mitre.org/techniques/T1112/) | Modify Registry | Defense Evasion |
 
-| [T1548.002](https://attack.mitre.org/techniques/T1548/002/) | Bypass User Account Control | Defense Evasion, Privilege Escalation |
+| [T1548.002](https://attack.mitre.org/techniques/T1548/002/) | Bypass User Account Control | Privilege Escalation, Defense Evasion |
 
-| [T1548](https://attack.mitre.org/techniques/T1548/) | Abuse Elevation Control Mechanism | Defense Evasion, Privilege Escalation |
+| [T1548](https://attack.mitre.org/techniques/T1548/) | Abuse Elevation Control Mechanism | Privilege Escalation, Defense Evasion |
 
 #### Search
 
@@ -98,6 +94,7 @@ Limited to no false positives are expected.
 
 #### Kill Chain Phase
 * Exploitation
+* Privilege Escalation
 
 
 
@@ -124,7 +121,6 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.002/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.002/atomic_red_team/windows-sysmon.log)
 
