@@ -58,7 +58,7 @@ tags:
     role:
     - Victim
   - name: ImageLoaded
-    type: Parent Process
+    type: Process
     role:
     - Other
   - name: SourceImage
@@ -80,3 +80,4 @@ tags:
   - TargetUser
   risk_score: 64
   security_domain: endpoint
+  asset_type: Endpoint

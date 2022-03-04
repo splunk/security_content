@@ -1,15 +1,18 @@
 ---
 title: "Network Discovery Using Route Windows App"
-excerpt: "System Network Configuration Discovery, Internet Connection Discovery"
+excerpt: "System Network Configuration Discovery
+, Internet Connection Discovery
+"
 categories:
   - Endpoint
 last_modified_at: 2021-11-12
 toc: true
 toc_label: ""
 tags:
+
   - System Network Configuration Discovery
-  - Discovery
   - Internet Connection Discovery
+  - Discovery
   - Discovery
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -25,7 +28,7 @@ tags:
 
 This analytic look for a spawned process of route.exe windows application. Adversaries and red teams alike abuse this application the recon or do a network discovery on a target host. but one possible false positive might be an automated tool used by a system administator or a powershell script in amazon ec2 config services.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-11-12
@@ -54,8 +57,8 @@ This analytic look for a spawned process of route.exe windows application. Adver
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_route](https://github.com/splunk/security_content/blob/develop/macros/process_route.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [process_route](https://github.com/splunk/security_content/blob/develop/macros/process_route.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `network_discovery_using_route_windows_app_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -107,6 +110,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/vilsel/sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/vilsel/sysmon.log)
 

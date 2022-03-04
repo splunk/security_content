@@ -41,4 +41,4 @@ The ssh asset may require ssh access to delete some files depending on their per
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/playbooks/internal_host_ssh_log4j_respond.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/playbooks/internal_host_ssh_log4j_response.yml) \| *version*: **1**

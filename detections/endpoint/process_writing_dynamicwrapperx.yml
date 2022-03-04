@@ -43,7 +43,6 @@ references:
 tags:
   analytic_story:
   - Remcos
-  automated_detection_testing: passed
   confidence: 100
   context:
   - Source:Endpoint
@@ -85,3 +84,4 @@ tags:
   - file_create_time user
   risk_score: 80
   security_domain: endpoint
+  asset_type: Endpoint

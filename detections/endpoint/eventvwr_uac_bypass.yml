@@ -51,7 +51,6 @@ tags:
   impact: 80
   kill_chain_phases:
   - Exploitation
-  - Privilege Escalation
   message: Registry values were modified to bypass UAC using Event Viewer on $dest$
     by $user$.
   mitre_attack_id:
@@ -81,3 +80,4 @@ tags:
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_microsoft_sysmon
+  asset_type: Endpoint

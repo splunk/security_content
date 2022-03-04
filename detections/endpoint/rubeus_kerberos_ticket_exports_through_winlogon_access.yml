@@ -36,6 +36,7 @@ references:
 tags:
   analytic_story:
   - Active Directory Kerberos Attacks
+  asset_type: Endpoint
   confidence: 60
   context:
   - Source:Endpoint
@@ -44,8 +45,7 @@ tags:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1550.003/rubeus/windows-sysmon.log
   impact: 60
   kill_chain_phases:
-  - Privilege Escalation
-  - Lateral Movement
+  - Exploitation
   message: Winlogon.exe was accessed by $SourceImage$ on $dest$
   mitre_attack_id:
   - T1550

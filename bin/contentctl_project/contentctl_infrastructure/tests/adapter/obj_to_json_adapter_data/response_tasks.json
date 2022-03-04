@@ -1,0 +1,67 @@
+[
+    {
+        "name": "Get Parent Process Info",
+        "id": "fecf2918-670d-4f1c-872b-3d7317a41bf9",
+        "version": 2,
+        "date": "2019-02-28",
+        "author": "Bhavin Patel, Splunk",
+        "type": "Investigation",
+        "datamodel": [
+            "Endpoint"
+        ],
+        "description": "This search queries the Endpoint data model to give you details about the parent process of a process running on a host which is under investigation. Enter the values of the process name in question and the dest",
+        "search": "| tstats `security_content_summariesonly` count values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes by Processes.user Processes.parent_process_name Processes.process_name Processes.dest | `drop_dm_object_name(\"Processes\")` | search  parent_process_name= $parent_process_name$ |search dest = $dest$ | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`",
+        "how_to_implement": "You must be ingesting endpoint data that tracks process activity, including parent-child relationships from your endpoints to populate the Endpoint data model in the Processes node. The command-line arguments are mapped to the \"process\" field in the Endpoint data model.",
+        "known_false_positives": "",
+        "references": [],
+        "inputs": [
+            "parent_process_name",
+            "dest"
+        ],
+        "tags": {
+            "analytic_story": [
+                "Collection and Staging",
+                "Command and Control",
+                "DHS Report TA18-074A",
+                "Disabling Security Tools",
+                "Emotet Malware  DHS Report TA18-201A ",
+                "Hidden Cobra Malware",
+                "Lateral Movement",
+                "Malicious PowerShell",
+                "Monitor for Unauthorized Software",
+                "Netsh Abuse",
+                "Orangeworm Attack Group",
+                "Phishing Payloads",
+                "Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns",
+                "Prohibited Traffic Allowed or Protocol Mismatch",
+                "Ransomware",
+                "SamSam Ransomware",
+                "Suspicious Command-Line Executions",
+                "Suspicious DNS Traffic",
+                "Suspicious MSHTA Activity",
+                "Suspicious WMI Use",
+                "Suspicious Windows Registry Activities",
+                "Unusual Processes",
+                "Windows Defense Evasion Tactics",
+                "Windows File Extension and Association Abuse",
+                "Windows Log Manipulation",
+                "Windows Persistence Techniques",
+                "Windows Privilege Escalation",
+                "Windows Service Abuse",
+                "DarkSide Ransomware"
+            ],
+            "product": [
+                "Splunk Phantom"
+            ],
+            "required_fields": [
+                "_time",
+                "Processes.user",
+                "Processes.parent_process_name",
+                "Processes.process_name",
+                "Processes.dest"
+            ],
+            "security_domain": "endpoint"
+        },
+        "lowercase_name": "get_parent_process_info"
+    }
+]
