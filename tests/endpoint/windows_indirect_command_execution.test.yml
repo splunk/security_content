@@ -1,0 +1,15 @@
+name: Windows Indirect Command Execution Unit Test
+tests:
+- name: Windows Indirect Command Excecution
+  file: endpoint/windows_indirect_command_execution.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: DOES_NOT_EXIST.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/DOES/NOT/EXIST/DATASET.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
+
+
+    

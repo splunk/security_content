@@ -1,0 +1,87 @@
+name: Windows T1202 Indirect Command Execution
+id: 59e54602-9680-11ec-a8a6-acde48001122
+version: 1
+date: '2022-03-04'
+author: Eric McGinnis, Splunk
+type: Hunting
+datamodel:
+- Endpoint
+description: The following analytic detection programs that have been started by pcalua.exe, forfiles, forfiles.exe, or conhost.exe.  
+  While these tools can be used to start legitimate programs, they have been observed being evade protections on command line execution.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+    as lastTime from datamodel=Endpoint.Processes where (Processes.parent_process_name IN ("forfiles.exe", "pcalua.exe") AND NOT (`common_windows_binary_paths`) 
+    by Processes.dest Processes.user Processes.parent_process Processes.parent_process_name Processes.process_name Processes.process Processes.process_id Processes.parent_process_id Processes.process_path
+  | `drop_dm_object_name(Processes)` 
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `windows_indirect_command_execution_file`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the full process path in the process field of CIM's Process data model.
+  If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+  Tune and filter known instances where renamed forfiles.exe and pcalua.exe may be used.
+known_false_positives: Some legacy applications may be run using pcalua.exe.  
+  Similarly, forfiles.exe may be used in legitimate batch scripts.  Filter these results as needed.  
+references:
+  - REF1
+  - REF2 - NOTHING BELOW HERE HAS BEEN MODIFIED YET
+tags:
+  analytic_story:
+  - Data Destruction
+  - Ransomware
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/hermetic_wiper/sysmon.log
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1485
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Filesystem.file_create_time 
+  - Filesystem.process_id 
+  - Filesystem.file_name 
+  - Filesystem.user 
+  - Filesystem.file_path 
+  - Filesystem.dest
+  - Processes.process_id 
+  - Processes.process_name
+  - Processes.process 
+  - Processes.dest 
+  - Processes.parent_process_name 
+  - Processes.parent_process
+  - Processes.process_guid
+  security_domain: endpoint
+  impact: 90
+  confidence: 100 
+  # (impact * confidence)/100
+  risk_score: 90
+  context: 
+  - Source:Endpoint
+  - Stage:Persistence
+  - Privilege Escalation
+  message: A process $process_name$ was identified attempting to disable memory crash dumps on $dest$.
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Parent Process
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
+  nist:
+  - DE.CM
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16 
