@@ -82,5 +82,7 @@ tags:
   - user
   risk_score: 80
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon
 type: TTP
 version: 1

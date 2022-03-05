@@ -72,5 +72,7 @@ tags:
   - nodename
   risk_score: 36
   security_domain: access
+  supported_tas:
+  - Splunk_TA_windows
 type: Anomaly
 version: 5
