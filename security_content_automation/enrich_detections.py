@@ -15,7 +15,8 @@ import yaml
 from github import Github
 
 
-TIMESTAMP_FORMAT = '%(asctime)s %(levelname)s - %(message)s'
+TIMESTAMP_FORMAT = "%(asctime)s %(levelname)s - %(message)s"
+
 
 def fetch_ta_cim_mapping_report(file_name):
     try:
@@ -41,38 +42,88 @@ def map_required_fields(cim_summary, datamodel, required_fields):
     datasets_fields = {}
     add_addon = False
     flag = 0
-    for item in required_fields:
+    time_fields = ["_time", "_times"]
+    if len(required_fields) > 0:
+
         # Only required field with valid format will be mapped
-        if re.match("^[A-Za-z0-9_.]*$", item):
-            if item == "_time" or item == "_times":
-                continue
+        # if re.match("^[A-Za-z0-9_.]*$", item):
+        #     if item == "_time" or item == "_times":
+        #         continue
+        # else:
+        for required_field in required_fields:
+            dataset_field = required_field.split(".")
+            length = len(dataset_field)
+            if length == 3:
+                detection_datamodel, detection_dataset, detection_field = dataset_field
+
+                if not datasets_fields.get(
+                    f"{detection_datamodel}:{detection_dataset}"
+                ):
+                    datasets_fields[
+                        f"{detection_datamodel}:{detection_dataset}"
+                    ] = list()
+
+                datasets_fields[f"{detection_datamodel}:{detection_dataset}"].append(
+                    detection_field
+                )
+
+            elif length == 2:
+                detection_datamodel = datamodel
+                detection_dataset, detection_field = dataset_field
+
+                if not datasets_fields.get(
+                    f"{detection_datamodel}:{detection_dataset}"
+                ):
+                    datasets_fields[
+                        f"{detection_datamodel}:{detection_dataset}"
+                    ] = list()
+
+                datasets_fields[f"{detection_datamodel}:{detection_dataset}"].append(
+                    detection_field
+                )
+
             else:
-                dataset_field = item.split(".")
-                length = len(dataset_field)
-                if length == 1:
-                    dataset = datamodel[0]
-                    field = dataset_field[0]
+                if length == 1 and required_field in time_fields:
+                    continue
                 else:
-                    dataset = dataset_field[length - 2]
-                    field = dataset_field[length - 1]
-                if dataset not in datasets_fields:
-                    datasets_fields[dataset] = []
-                datasets_fields[dataset].append(field)
+                    with open("unsupported_fields.txt", "a") as file_obj:
+                        file_obj.write(str(required_field))
+                        file_obj.write("\n")
 
-    for dataset in datasets_fields:
-        add_addon = False
-        mapping_set = datamodel[0] + ":" + dataset
-        for item in cim_summary:
-            if mapping_set in item:
-                for eventtype in cim_summary[item].values():
-                    for e_type in eventtype:
-                        cim_fields = e_type.get("fields", [])
-                        if set(datasets_fields[dataset]).issubset(set(cim_fields)):
+        for mapping_set, fields in datasets_fields.items():
+            if mapping_set in cim_summary.keys():
+                for fields_list in cim_summary[mapping_set].values():
+                    for field_set in fields_list:
+                        if set(fields).issubset(set(field_set.get("fields", []))):
                             add_addon = True
-        if add_addon == False:
-            return add_addon
 
-    return add_addon
+            if not add_addon:
+                return False
+
+        return add_addon
+
+        # if length == 1:
+        #     dataset = datamodel[0]
+        #     field = dataset_field[0]
+        # else:
+        #     dataset = dataset_field[length - 2]
+        #     field = dataset_field[length - 1]
+        # if dataset not in datasets_fields:
+        #     datasets_fields[dataset] = []
+        # datasets_fields[dataset].append(field)
+
+    # for dataset in datasets_fields:
+    #     add_addon = False
+    #     mapping_set = datamodel[0] + ":" + dataset
+    #     for item in cim_summary:
+    #         if mapping_set in item:
+    #             for eventtype in cim_summary[item].values():
+    #                 for e_type in eventtype:
+    #                     cim_fields = e_type.get("fields", [])
+    #                     if set(datasets_fields[dataset]).issubset(set(cim_fields)):
+    #                         add_addon = True
+    #     if add_addon == False:
+    #         return add_addon
 
 
 def is_valid_detection_file(filepath):
@@ -102,15 +153,15 @@ def enrich_detection_file(file, ta_list, keyname):
 def main():
 
     security_content_repo = "splunk/security_content"
-    security_content_branch = "develop"
+    security_content_branch = "MoreDatamodelUpdates"
 
     ta_cim_field_reports_repo = "splunk/ta-cim-field-reports"
-    ta_cim_field_reports_branch = "main"
+    ta_cim_field_reports_branch = "test/custom-ms-sysmon-report"
 
     # Decodin GITHUB_ACCESS_TOKEN from base64
-    git_token_base64_bytes = os.environ.get("GITHUB_ACCESS_TOKEN").encode('ascii')
+    git_token_base64_bytes = os.environ.get("GITHUB_ACCESS_TOKEN").encode("ascii")
     git_token_bytes = base64.b64decode(git_token_base64_bytes)
-    github_token = git_token_bytes.decode('ascii') 
+    github_token = git_token_bytes.decode("ascii")
 
     git_token = Github(github_token)
     detection_types = ["cloud", "endpoint", "network"]
@@ -119,7 +170,7 @@ def main():
     )
     detection_ta_mapping = {}
 
-    
+
     try:
         # clone security content repository
         security_content_repo_obj = git.Repo.clone_from(
@@ -133,7 +184,9 @@ def main():
         message = "Successfully cloned security_content."
         logging.info(message)
     except Exception as error:
-        error_message = f"Unexpected error occurred while Cloning security_content, {error}"
+        error_message = (
+            f"Unexpected error occurred while Cloning security_content, {error}"
+        )
         logging.error(error_message)
 
     try:
@@ -152,9 +205,7 @@ def main():
         error_message = f"Unexpected error occurred while Cloning ta-cim-field-reports repo, {error}"
         logging.error(error_message)
 
-
     # iterate for every detection types
-
 
     for detection_type in detection_types:
 
@@ -170,14 +221,12 @@ def main():
                     source_types.append(data.get("sourcetype"))
 
                 detection_file_name_path = (
-                    detection_obj.get("tests")[0]
-                    .get("file")
-                    .rsplit("/", 1)[1]
+                    detection_obj.get("tests")[0].get("file").rsplit("/", 1)[1]
                 )
                 detection_file_name = Path(detection_file_name_path).stem
-                filepath = "security_content/detections/" + detection_obj.get("tests")[
-                    0
-                ].get("file")
+                filepath = "security_content/detections/" + detection_obj.get(
+                    "tests"
+                )[0].get("file")
                 if not os.path.isfile(filepath):
                     continue
 
@@ -230,7 +279,9 @@ def main():
                             keyname
                         ] = supported_tas_list
 
-                        logging.info(f"Enriched {detection_file_name} with supported TAs : {supported_tas_list}")
+                        logging.info(
+                            f"Enriched {detection_file_name} with supported TAs : {supported_tas_list}"
+                        )
 
                     security_content_repo_obj.index.add(
                         [filepath.strip("security_content/")]
@@ -244,9 +295,12 @@ def main():
             encoding="utf8",
         ) as outfile:
             yaml.safe_dump(
-                detection_ta_mapping, outfile, default_flow_style=False, allow_unicode=True
+                detection_ta_mapping,
+                outfile,
+                default_flow_style=False,
+                allow_unicode=True,
             )
-        
+
         security_content_repo_obj.index.add(
             ["security_content_automation/detection_ta_mapping.yml"]
         )
@@ -257,24 +311,38 @@ def main():
         error_message = f"Unexpected error occurred while generating detection_ta_mapping.yml file, {error}"
         logging.error(error_message)
 
-
     # Generating detection_ta_mapping CSV report
     try:
-        with open(r"./security_content/security_content_automation/detection_ta_mapping.csv", 'w+', newline='') as csv_file:
-            fieldnames = ['detection_name', 'cim_version', 'supported_tas', 'tas_with_cim_mapping']
+        with open(
+            r"./security_content/security_content_automation/detection_ta_mapping.csv",
+            "w+",
+            newline="",
+        ) as csv_file:
+            fieldnames = [
+                "detection_name",
+                "cim_version",
+                "supported_tas",
+                "tas_with_cim_mapping",
+            ]
             writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
             writer.writeheader()
             for detection_name, detection_content in detection_ta_mapping.items():
-                detection_content.update({
-                    'tas_with_cim_mapping': ', '.join(detection_content["tas_with_cim_mapping"]) if detection_content.get(
-                        'tas_with_cim_mapping') else '',
-                    'supported_tas': ', '.join(detection_content["supported_tas"]) if detection_content.get(
-                        'supported_tas') else '',
-                    'detection_name': detection_name
-                })
+                detection_content.update(
+                    {
+                        "tas_with_cim_mapping": ", ".join(
+                            detection_content["tas_with_cim_mapping"]
+                        )
+                        if detection_content.get("tas_with_cim_mapping")
+                        else "",
+                        "supported_tas": ", ".join(detection_content["supported_tas"])
+                        if detection_content.get("supported_tas")
+                        else "",
+                        "detection_name": detection_name,
+                    }
+                )
                 writer.writerow(detection_content)
         security_content_repo_obj.index.add(
-        ["security_content_automation/detection_ta_mapping.csv"]
+            ["security_content_automation/detection_ta_mapping.csv"]
         )
         message = "Created detection_ta_mapping.csv file"
         logging.info(message)
@@ -282,10 +350,6 @@ def main():
     except Exception as error:
         error_message = f"Unexpected error occurred while generating detection_ta_mapping CSV report, {error}"
         logging.error(error_message)
-    
-
-    
-
 
     try:
         security_content_repo_obj.index.commit(
@@ -293,23 +357,24 @@ def main():
         )
 
         epoch_time = str(int(time.time()))
-        branch_name = "security_content_automation_" + epoch_time
+        branch_name = "enrich_detection_MoreDatamodelUpdates"
         security_content_repo_obj.git.checkout("-b", branch_name)
         security_content_repo_obj.git.push("--set-upstream", "origin", branch_name)
         repo = git_token.get_repo("splunk/security_content")
 
-        pr = repo.create_pull(
-            title="Enrich Detection PR " + branch_name,
-            body="Enriched the detections with supported TAs",
-            head=branch_name,
-            base="develop",
-        )
-        message = "Created pull request"
-        logging.info(message)
+        # pr = repo.create_pull(
+        #     title="Enrich Detection PR " + branch_name,
+        #     body="Enriched the detections with supported TAs",
+        #     head=branch_name,
+        #     base="develop",
+        # )
+        # message = "Created pull request"
+        # logging.info(message)
     except Exception as error:
-        error_message = f"Unexpected error occurred while creating pull request, {error}"
+        error_message = (
+            f"Unexpected error occurred while creating pull request, {error}"
+        )
         logging.error(error_message)
-
 
     try:
         shutil.rmtree("./security_content")
@@ -322,7 +387,7 @@ def main():
 
 
 if __name__ == "__main__":
-    log_level=logging.INFO
+    log_level = logging.INFO
     handlers = [logging.StreamHandler()]
     logging.basicConfig(level=log_level, format=TIMESTAMP_FORMAT, handlers=handlers)
     main()
