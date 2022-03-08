@@ -39,7 +39,7 @@ tags:
   - DHS Report TA18-074A
   - Suspicious Command-Line Executions
   - Orangeworm Attack Group
-  - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
+  - MUDCARP Espionage Campaigns
   - Hidden Cobra Malware
   asset_type: Endpoint
   cis20:

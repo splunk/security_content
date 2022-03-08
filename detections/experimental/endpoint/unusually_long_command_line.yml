@@ -25,7 +25,7 @@ tags:
   analytic_story:
   - Suspicious Command-Line Executions
   - Unusual Processes
-  - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
+  - MUDCARP Espionage Campaigns
   - Ransomware
   asset_type: Endpoint
   automated_detection_testing: passed

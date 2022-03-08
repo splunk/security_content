@@ -1,4 +1,4 @@
-name: Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
+name: 
 id: 988C59C5-0A1C-45B6-A555-0C62276E327E
 version: 1
 date: '2020-01-22'
@@ -79,7 +79,7 @@ references:
 - https://www.infosecurity-magazine.com/news/scope-of-mudcarp-attacks-highlight-1/
 - http://blog.amossys.fr/badflick-is-not-so-bad.html
 tags:
-  analytic_story: Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
+  analytic_story: 
   category:
   - Adversary Tactics
   product:

@@ -46,7 +46,7 @@ references:
 tags:
   analytic_story:
   - Malicious PowerShell
-  - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
+  - MUDCARP Espionage Campaigns
   - HAFNIUM Group
   - Log4Shell CVE-2021-44228
   automated_detection_testing: passed

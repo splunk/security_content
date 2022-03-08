@@ -29,7 +29,7 @@ known_false_positives: none
 references: []
 tags:
   analytic_story:
-  - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
+  - MUDCARP Espionage Campaigns
   - Ransomware
   - Suspicious Command-Line Executions
   - Suspicious MSHTA Activity
