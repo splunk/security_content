@@ -12,8 +12,8 @@ description: The following analytic leverages Event 4768, A Kerberos authenticat
   hash of a valid domain account is able to authenticate to the Kerberos Distribution Center(KDC) on behalf of the legitimate account and obtain a Kerberos TGT ticket. Depending on the 
   privileges of the compromised account, this ticket may be used to obtain unauthorized access to systems and other network resources. 
 search: ' `wineventlog_security`
-   EventCode=4768 Ticket_Encryption_Type=0x17 Account_Name!=*$
-  `| kerberos_tgt_request_using_rc4_encryption_filter`'
+  EventCode=4768 Ticket_Encryption_Type=0x17 Account_Name!=*$
+  | `kerberos_tgt_request_using_rc4_encryption_filter` '
 how_to_implement: To successfully implement this search, you need to be ingesting
   Domain Controller and Kerberos events. The Advanced Security Audit policy setting
   `Audit Kerberos Authentication Service` within `Account Logon` needs to be enabled.
