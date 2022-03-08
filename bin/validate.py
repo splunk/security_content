@@ -118,6 +118,10 @@ def validate_fields(object):
         if object['type'] == 'streaming' and 'risk_severity' not in object['tags']:
             errors.append("ERROR: a `risk_severity` tag is required for object: %s" % object['name'])
 
+        if 'product' in object['tags']: 
+            if (not 'Splunk Behavioral Analytics' in object['tags']['product']) and len(str('ESCU - ' + str(object['name']) + ' - Rule')) > 81:
+                errors.append('ERROR: 'ESCU - ' + <search_name> + ' - Rule' is longer than 81 characters: %s' % (object['name']))
+
     return errors
 
 
@@ -132,10 +136,7 @@ def validate_standard_fields(object, uuids):
         errors.append('ERROR: Duplicate UUID found for object: %s' % object['name'])
     else:
         uuids.append(object['id'])
-
-    if 'products' in object['tags']: 
-        if (not 'Splunk Behavioral Analytics' in object['tags']['products']) and len(object['name']) > 75:
-            errors.append('ERROR: Search name is longer than 75 characters: %s' % (object['name']))
+            
 
     # if object['name'].endswith(" "):
     #     errors.append(
@@ -144,7 +145,7 @@ def validate_standard_fields(object, uuids):
 
     invalidChars = set(string.punctuation.replace("-", ""))
     if any(char in invalidChars for char in object['name']):
-        errors.append('ERROR: No special characters allowed in name for object: %s' % object['name'])
+        errors.append('ERROR: No special characters allowed in name for object: %s ' % object['name'])
 
     try:
         object['description'].encode('ascii')

@@ -1,6 +1,6 @@
-name: Multiple Disabled Users Failing To Authenticate From Host Using Kerberos Unit Test
+name: Windows Disabled Users Failing To Authenticate Using Kerberos Unit Test
 tests:
-- name: Multiple Disabled Users Failing To Authenticate From Host Using Kerberos
+- name: Windows Disabled Users Failing To Authenticate Using Kerberos
   file: endpoint/multiple_disabled_users_failing_to_authenticate_from_host_using_kerberos.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
