@@ -14,7 +14,8 @@ description: This analytic is to detect a suspicious registry modification to di
   This windows feature may implement by administrator in some server where shutdown is critical. In that scenario filter of machine 
   and users that can modify this registry is needed.
 search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Registry
-  where Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoLogOff"
+  where Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\*" 
+  Registry.registry_value_name IN ("NoLogOff", "StartMenuLogOff")
   Registry.registry_value_data = "0x00000001" by _time span=1h Registry.dest Registry.user
   Registry.registry_path Registry.registry_value_name Registry.registry_value_data
   Registry.process_guid | `drop_dm_object_name(Registry)` |rename process_guid as
