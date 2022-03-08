@@ -10,7 +10,7 @@ description: The following analytic utilizes PowerShell Script Block Logging (Ev
   is part of the Active Directory PowerShell module used to manage Windows Active Directory networks.
   As the name suggests, `Get-ADUser` is used to query for domain users. With the appropiate parameters, Get-ADUser 
   allows adversaries to discover domain accounts with Kerberos Pre Authentication disabled.\
-  Red Teams and adversaries alike use may abuse Get-ADUSer to enumerate these accounts and attempt to crack their passwords offline.
+  Red Teams and adversaries alike use may abuse Get-ADUser to enumerate these accounts and attempt to crack their passwords offline.
 search: ' `powershell` EventCode=4104 (ScriptBlockText = "*Get-ADUser*" AND ScriptBlockText="*4194304*")
   | stats count min(_time)  as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID | `security_content_ctime(firstTime)`
   | `disabled_kerberos_pre_authentication_discovery_with_get_aduser_filter`'
