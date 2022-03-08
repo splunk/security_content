@@ -11,7 +11,7 @@ description: This search looks for AWS CloudTrail events where a user A who has 
   in case new victim(user B) has more permissions than old victim(user B)
 search: '`cloudtrail` eventName = CreateAccessKey userAgent !=console.amazonaws.com
     errorCode = success 
-| eval match=if(match(userIdentity.userName,requestParameters.userName),0,1)
+| eval match=if(match(userIdentity.userName,requestParameters.userName),1,0)
 | search match=0
 | stats
     count min(_time) as firstTime max(_time) as lastTime by requestParameters.userName
