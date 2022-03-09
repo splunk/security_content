@@ -4,8 +4,7 @@ version: 1
 date: '2021-07-01'
 author: Mauricio Velazco, Michael Haag, Teoderick Contreras, Splunk
 type: TTP
-datamodel:
-- Endpoint
+datamodel: []
 description: 'The following analytic identifies new printer drivers being load by
   utilizing the Windows PrintService operational logs, EventCode 316. This was identified
   during our testing of CVE-2021-34527 previously (CVE-2021-1675) or PrintNightmare.

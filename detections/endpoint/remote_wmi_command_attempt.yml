@@ -5,7 +5,7 @@ date: '2018-12-03'
 author: Rico Valdez, Michael Haag, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: The following analytic identifies usage of `wmic.exe` spawning a local
   or remote process, identified by the `node` switch. During triage, review parallel
   processes for additional commands executed. Look for any file modifications before
@@ -66,14 +66,14 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - Endpoint.Processes.dest
+  - Endpoint.Processes.parent_process
+  - Endpoint.Processes.parent_process_id
+  - Endpoint.Processes.process
+  - Endpoint.Processes.process_id
+  - Endpoint.Processes.process_name
+  - Endpoint.Processes.user
   - _time
-  - Processes.user
-  - Processes.process_name
-  - Processes.parent_process_name
-  - Processes.dest
-  - Processes.parent_process
-  - Processes.parent_process_id
-  - Processes.process_id
   risk_score: 36
   security_domain: endpoint
   supported_tas:

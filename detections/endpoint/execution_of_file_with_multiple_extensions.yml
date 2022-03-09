@@ -5,7 +5,7 @@ date: '2020-11-18'
 author: Rico Valdez, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This search looks for processes launched from files that have double
   extensions in the file name. This is typically done to obscure the "real" file extension
   and make it appear as though the file being accessed is a data file, as opposed
@@ -67,11 +67,11 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - Endpoint.Processes.dest
+  - Endpoint.Processes.parent_process
+  - Endpoint.Processes.process
+  - Endpoint.Processes.user
   - _time
-  - Processes.process
-  - Processes.dest
-  - Processes.user
-  - Processes.parent_process
   risk_score: 56
   security_domain: endpoint
   supported_tas:

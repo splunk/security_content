@@ -5,7 +5,7 @@ date: '2021-11-04'
 author: Bhavin Patel, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This search looks for execution of commonly used attacker tools on an
   endpoint.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -80,10 +80,11 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Processes.dest
-  - Processes.user
-  - Processes.process_name
-  - Processes.parent_process
+  - Endpoint.Processes.dest
+  - Endpoint.Processes.parent_process
+  - Endpoint.Processes.process
+  - Endpoint.Processes.process_name
+  - Endpoint.Processes.user
   risk_score: 64
   security_domain: endpoint
   supported_tas:

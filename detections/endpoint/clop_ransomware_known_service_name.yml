@@ -4,8 +4,7 @@ version: 1
 date: '2021-03-17'
 author: Teoderick Contreras
 type: TTP
-datamodel:
-- Endpoint
+datamodel: []
 description: This detection is to identify the common service name created by the
   CLOP ransomware as part of its persistence and high privilege code execution in
   the infected machine. Ussually CLOP ransomware use StartServiceCtrlDispatcherW API
@@ -61,11 +60,6 @@ tags:
   - Splunk Cloud
   required_fields:
   - EventCode
-  - cmdline
   - _time
-  - parent_process_name
-  - process_name
-  - OriginalFileName
-  - process_path
   risk_score: 100
   security_domain: endpoint

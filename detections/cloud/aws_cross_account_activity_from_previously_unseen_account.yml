@@ -5,7 +5,7 @@ date: '2020-05-28'
 author: Rico Valdez, Splunk
 type: Anomaly
 datamodel:
-- Authentication
+- Authentication.Authentication
 description: This search looks for AssumeRole events where an IAM role in a different
   account is requested for the first time.
 search: '| tstats min(_time) as firstTime max(_time) as lastTime from datamodel=Authentication.Authentication
@@ -68,11 +68,11 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - Authentication.Authentication.signature
+  - Authentication.Authentication.src
+  - Authentication.Authentication.user
+  - Authentication.Authentication.user_role
+  - Authentication.Authentication.vendor_account
   - _time
-  - Authentication.signature
-  - Authentication.vendor_account
-  - Authentication.user
-  - Authentication.user_role
-  - Authentication.src
   risk_score: 15
   security_domain: network

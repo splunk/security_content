@@ -4,8 +4,7 @@ version: 1
 date: '2021-04-21'
 author: Teoderick Contreras, Stanislav Miskovic, Splunk
 type: Anomaly
-datamodel:
-- Endpoint
+datamodel: []
 description: This search is to detect potential DNS exfiltration using nslookup application.
   This technique are seen in couple of malware and APT group to exfiltrated collected
   data in a infected machine or infected network. This detection is looking for unique

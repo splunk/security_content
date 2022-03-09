@@ -60,12 +60,8 @@ tags:
   - Dev Sec Ops Analytics
   required_fields:
   - _time
-  - parameters.doc_title
-  - src_domain
   - dest_domain
   - email
-  - parameters.visibility
-  - parameters.owner
-  - parameters.doc_type
+  - src_domain
   risk_score: 72
   security_domain: endpoint

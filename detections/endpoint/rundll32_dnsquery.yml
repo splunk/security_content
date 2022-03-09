@@ -4,8 +4,7 @@ version: 2
 date: '2022-02-18'
 author: Teoderick Contreras, Splunk
 type: TTP
-datamodel:
-- Endpoint
+datamodel: []
 description: This search is to detect a suspicious rundll32.exe process having a http
   connection and do a dns query in some web domain. This technique was seen in IcedID
   malware where the rundll32 that execute its payload will contact amazon.com to check

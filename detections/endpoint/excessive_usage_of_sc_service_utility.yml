@@ -4,8 +4,7 @@ version: 1
 date: '2021-06-24'
 author: Teoderick Contreras, Splunk
 type: Anomaly
-datamodel:
-- Endpoint
+datamodel: []
 description: This search is to detect a suspicious excessive usage of sc.exe in a
   host machine. This technique was seen in several ransomware , xmrig and other malware
   to create, modify, delete or disable a service may related to security application

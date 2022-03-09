@@ -48,13 +48,12 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - _time
-  - Resources{}.Type
   - Title
   - Types{}
+  - _time
+  - dest
+  - severity
   - vendor_account
   - vendor_region
-  - severity
-  - dest
   risk_score: 15
   security_domain: endpoint

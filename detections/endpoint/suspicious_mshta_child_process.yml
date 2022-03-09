@@ -5,7 +5,7 @@ date: '2021-01-12'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: The following analytic identifies child processes spawning from  "mshta.exe".
   The search will return the first time and last time these command-line arguments
   were used for these executions, as well as the target system, the user, parent process
@@ -70,13 +70,13 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - Endpoint.Processes.dest
+  - Endpoint.Processes.parent_process
+  - Endpoint.Processes.parent_process_name
+  - Endpoint.Processes.process
+  - Endpoint.Processes.process_name
+  - Endpoint.Processes.user
   - _time
-  - Processes.process_name
-  - Processes.process
-  - Processes.parent_process_name
-  - Processes.dest
-  - Processes.parent_process
-  - Processes.user
   risk_score: 40
   security_domain: endpoint
   supported_tas:

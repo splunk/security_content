@@ -5,7 +5,7 @@ date: '2021-12-17'
 author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
-- Endpoint
+- Endpoint.Filesystem
 description: The following analytic identifies a suspicious file creation of /etc/at.allow
   or /etc/at.deny. These 2 files are commonly abused by malware, adversaries or red
   teamers to persist on the targeted or compromised host. These config files can restrict
@@ -61,11 +61,11 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - Endpoint.Filesystem.dest
+  - Endpoint.Filesystem.file_create_time
+  - Endpoint.Filesystem.file_name
+  - Endpoint.Filesystem.file_path
+  - Endpoint.Filesystem.process_guid
   - _time
-  - Filesystem.dest
-  - Filesystem.file_create_time
-  - Filesystem.file_name
-  - Filesystem.process_guid
-  - Filesystem.file_path
   risk_score: 25
   security_domain: endpoint

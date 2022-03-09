@@ -5,7 +5,7 @@ date: '2020-09-04'
 author: David Dorsey, Splunk
 type: Anomaly
 datamodel:
-- Change
+- Change.All_Changes
 description: This search looks for new commands from each user role.
 search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from datamodel=Change.All_Changes
   where All_Changes.user_type=AssumedRole AND All_Changes.status=success by All_Changes.user,
@@ -60,12 +60,12 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - Change.All_Changes.command
+  - Change.All_Changes.object
+  - Change.All_Changes.status
+  - Change.All_Changes.user
+  - Change.All_Changes.user_type
   - _time
-  - All_Changes.user
-  - All_Changes.user_type
-  - All_Changes.status
-  - All_Changes.command
-  - All_Changes.object
   risk_score: 36
   security_domain: threat
   supported_tas:

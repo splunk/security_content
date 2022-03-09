@@ -5,7 +5,8 @@ date: '2021-08-26'
 author: Jose Hernandez, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Filesystem
+- Endpoint.Processes
 description: This search looks for a process launching an `*.lnk` file under `C:\User*`
   or `*\Local\Temp\*`. This is common behavior used by various spear phishing tools.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -70,14 +71,18 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - Endpoint.Filesystem.file_hash
+  - Endpoint.Filesystem.file_name
+  - Endpoint.Filesystem.file_path
+  - Endpoint.Filesystem.process_guid
+  - Endpoint.Filesystem.user
+  - Endpoint.Processes.dest
+  - Endpoint.Processes.parent_process_guid
+  - Endpoint.Processes.process
+  - Endpoint.Processes.process_id
+  - Endpoint.Processes.process_name
+  - Endpoint.Processes.process_path
   - _time
-  - Filesystem.file_name
-  - Filesystem.file_path
-  - Filesystem.process_id
-  - Filesystem.file_name
-  - Filesystem.file_path
-  - Filesystem.file_hash
-  - Filesystem.user
   risk_score: 63
   security_domain: network
   supported_tas:

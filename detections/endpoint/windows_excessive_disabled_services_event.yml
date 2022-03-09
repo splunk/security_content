@@ -4,8 +4,7 @@ version: 1
 date: '2022-02-23'
 author: Teoderick Contreras, Splunk
 type: TTP
-datamodel:
-- Endpoint
+datamodel: []
 description: This analytic will identify suspicious excessive number of system events
   of services that was modified from start to disabled. This technique is seen where
   the adversary attempts to disable security app services, other malware services

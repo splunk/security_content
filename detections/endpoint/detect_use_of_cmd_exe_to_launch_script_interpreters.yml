@@ -5,7 +5,7 @@ date: '2020-07-21'
 author: Bhavin Patel, Mauricio Velazco, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This search looks for the execution of the cscript.exe or wscript.exe
   processes, with a parent of cmd.exe. The search will return the count, the first
   and last time this execution was seen on a machine, the user, and the destination
@@ -58,13 +58,13 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - Endpoint.Processes.dest
+  - Endpoint.Processes.parent_process
+  - Endpoint.Processes.parent_process_name
+  - Endpoint.Processes.process
+  - Endpoint.Processes.process_name
+  - Endpoint.Processes.user
   - _time
-  - Processes.process
-  - Processes.parent_process_name
-  - Processes.process_name
-  - Processes.parent_process
-  - Processes.user
-  - Processes.dest
   risk_score: 35
   security_domain: endpoint
   supported_tas:

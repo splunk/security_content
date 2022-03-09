@@ -48,18 +48,6 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   - Dev Sec Ops Analytics
-  required_fields:
-  - _time
-  - alert.id
-  - repository.full_name
-  - repository.html_url
-  - action
-  - alert.affected_package_name
-  - alert.affected_range
-  - alert.created_at
-  - alert.external_identifier
-  - alert.external_reference
-  - alert.fixed_in
-  - alert.severity
+  required_fields: []
   risk_score: 27
   security_domain: network

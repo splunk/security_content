@@ -4,8 +4,7 @@ version: 1
 date: '2021-05-19'
 author: Teoderick Contreras, Splunk
 type: TTP
-datamodel:
-- Endpoint
+datamodel: []
 description: The following analytic identifies suspicious PowerShell command to allow
   inbound traffic inbound to a specific local port within the public profile. This
   technique was seen in some attacker want to have a remote access to a machine by

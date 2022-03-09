@@ -5,7 +5,7 @@ date: '2021-05-04'
 author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic will identify suspicious series of command-line to disable
   several services. This technique is seen where the adversary attempts to disable
   security app services or other malware services to complete the objective on the
@@ -55,13 +55,13 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - Endpoint.Processes.dest
+  - Endpoint.Processes.parent_process_name
+  - Endpoint.Processes.process
+  - Endpoint.Processes.process_id
+  - Endpoint.Processes.process_name
+  - Endpoint.Processes.user
   - _time
-  - Processes.process
-  - Processes.process_id
-  - Processes.process_name
-  - Processes.parent_process_name
-  - Processes.dest
-  - Processes.user
   risk_score: 80
   security_domain: endpoint
   supported_tas:

@@ -5,7 +5,7 @@ date: '2022-01-11'
 author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
-- Endpoint
+- Endpoint.Filesystem
 description: This analytic is to look for possible ssh key file creation on ~/.ssh/
   folder. This technique is commonly abused by threat actors and adversaries to gain
   persistence and privilege escalation to the targeted host. by creating ssh private
@@ -60,11 +60,10 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - Endpoint.Filesystem.dest
+  - Endpoint.Filesystem.file_name
+  - Endpoint.Filesystem.file_path
+  - Endpoint.Filesystem.process_guid
   - _time
-  - Filesystem.dest
-  - Filesystem.file_create_time
-  - Filesystem.file_name
-  - Filesystem.process_guid
-  - Filesystem.file_path
   risk_score: 36
   security_domain: endpoint

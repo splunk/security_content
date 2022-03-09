@@ -4,7 +4,8 @@ version: 3
 date: '2020-12-08'
 author: David Dorsey, Splunk
 type: TTP
-datamodel: []
+datamodel:
+- Endpoint.Filesystem
 description: This search looks for shim database files being written to default directories.
   The sdbinst.exe application is used to install shim database files (.sdb). According
   to Microsoft, a shim is a small library that transparently intercepts an API, changes
@@ -60,10 +61,11 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - Endpoint.Filesystem.action
+  - Endpoint.Filesystem.dest
+  - Endpoint.Filesystem.file_hash
+  - Endpoint.Filesystem.file_name
+  - Endpoint.Filesystem.file_path
   - _time
-  - Filesystem.file_hash
-  - Filesystem.file_path
-  - Filesystem.file_name
-  - Filesystem.dest
   risk_score: 56
   security_domain: endpoint

@@ -60,9 +60,8 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
+  - errorCode
   - eventName
   - userAgent
-  - errorCode
-  - requestParameters.userName
   risk_score: 30
   security_domain: threat
