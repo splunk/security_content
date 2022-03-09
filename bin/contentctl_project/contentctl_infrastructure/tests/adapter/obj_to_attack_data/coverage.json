@@ -1,0 +1,41 @@
+{
+    "version": "4.2",
+    "name": "Detection Coverage",
+    "description": "security_content detection coverage",
+    "domain": "mitre-enterprise",
+    "techniques": [],
+    "gradient": {
+        "colors": [
+            "#ffffff",
+            "#66b1ff",
+            "#096ed7"
+        ],
+        "minValue": 0,
+        "maxValue": 0
+    },
+    "filters": {
+        "platforms": [
+            "Windows",
+            "Linux",
+            "macOS",
+            "AWS",
+            "GCP",
+            "Azure",
+            "Office 365",
+            "SaaS"
+        ]
+    },
+    "legendItems": [
+        {
+            "label": "NO available detections",
+            "color": "#ffffff"
+        },
+        {
+            "label": "Some detections available",
+            "color": "#66b1ff"
+        }
+    ],
+    "showTacticRowBackground": true,
+    "tacticRowBackground": "#dddddd",
+    "sorting": 3
+}

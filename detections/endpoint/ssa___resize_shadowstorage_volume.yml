@@ -42,7 +42,7 @@ tags:
   confidence: 80
   context:
   - Source:Endpoint
-  - stage:Defense Evasion
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/windows-security.log
   impact: 80
@@ -66,7 +66,7 @@ tags:
     role:
     - Victim
   - name: parent_process
-    type: Parent Process
+    type: Process
     role:
     - Parent Process
   - name: process_name
@@ -87,3 +87,4 @@ tags:
   risk_score: 64
   risk_severity: medium
   security_domain: endpoint
+  asset_type: Endpoint

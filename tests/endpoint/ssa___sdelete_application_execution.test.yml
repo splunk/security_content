@@ -1,10 +1,10 @@
 name: Sdelete Application Execution Unit Test
 tests:
-  - name: Sdelete Application Execution
-    file: endpoint/ssa___sdelete_application_execution.yml
-    pass_condition: '@count_gt(0)'
-    description: Test for sdelete execution command
-    attack_data:
-      - file_name: security.log
-        data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/sdelete/security.log
-        source: WinEventLog:Security
+- name: Sdelete Application Execution
+  file: endpoint/ssa___sdelete_application_execution.yml
+  pass_condition: '@count_gt(0)'
+  description: Test for sdelete execution command
+  attack_data:
+  - file_name: security.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/sdelete/security.log
+    source: WinEventLog:Security

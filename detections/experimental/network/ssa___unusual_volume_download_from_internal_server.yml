@@ -39,10 +39,12 @@ references:
 tags:
   analytic_story:
   - Insider Threat
+  asset_type: endpoint
   cis20:
   - CIS 13
   confidence: 50
-  context: null
+  context:
+  - Source:Endpoint
   dataset:
   - https://github.com/splunk/attack_data/blob/master/datasets/suspicious_behaviour/unusual_data_download/unusual_volume_data_download.txt
   impact: 50
@@ -57,9 +59,9 @@ tags:
   - DE.AE
   observable:
   - name: src_device_ip
-    type: Host IP
+    type: IP Address
     role:
-    - Others
+    - Other
   product:
   - Splunk Behavioral Analytics
   required_fields:

@@ -28,11 +28,10 @@ references:
 tags:
   analytic_story:
   - Malicious PowerShell
-  automated_detection_testing: passed
   confidence: 80
   context:
-  - source:endpoint
-  - stage: Defense Evasion
+  - Source:Endpoint
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/honeypots/pwsh/windows-powershell.log
   impact: 50
@@ -66,3 +65,4 @@ tags:
   - Score
   risk_score: 40
   security_domain: endpoint
+  asset_type: Endpoint

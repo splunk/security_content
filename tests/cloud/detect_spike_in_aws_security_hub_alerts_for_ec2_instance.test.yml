@@ -3,8 +3,8 @@ tests:
 - name: Detect Spike in AWS Security Hub Alerts for EC2 Instance
   file: cloud/detect_spike_in_aws_security_hub_alerts_for_ec2_instance.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-24h'
-  latest_time: 'now'
+  earliest_time: -24h
+  latest_time: now
   attack_data:
   - file_name: security_hub_ec2_spike.json
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/security_hub_ec2_spike/security_hub_ec2_spike.json

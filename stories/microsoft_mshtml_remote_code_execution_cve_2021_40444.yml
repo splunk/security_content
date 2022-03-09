@@ -3,20 +3,32 @@ id: 4ad4253e-10ca-11ec-8235-acde48001122
 version: 1
 date: '2021-09-08'
 author: Michael Haag, Splunk
-description: CVE-2021-40444 is a remote code execution vulnerability in MSHTML, recently used to delivery targeted spearphishing documents.
-narrative: 'Microsoft is aware of targeted attacks that attempt to exploit this vulnerability, CVE-2021-40444 by using specially-crafted Microsoft Office documents. MSHTML is a software component used to render web pages on Windows. Although it’s most commonly associated with Internet Explorer, it is also used in other software.  CVE-2021-40444 received a CVSS score of 8.8 out of 10. MSHTML is the beating heart of Internet Explorer, the vulnerability also exists in that browser. Although given its limited use, there is little risk of infection by that vector. Microsoft Office applications use the MSHTML component to display web content in Office documents. The attack depends on MSHTML loading a specially crafted ActiveX control when the target opens a malicious Office document. The loaded ActiveX control can then run arbitrary code to infect the system with more malware. \
-  At the moment all supported Windows versions are vulnerable. Since there is no patch available yet, Microsoft proposes a few methods to block these attacks. \
-
-  1. Disable the installation of all ActiveX controls in Internet Explorer via the registry. Previously-installed ActiveX controls will still run, but no new ones will be added, including malicious ones. \
-
-  1. Open documents from the Internet in Protected View or Application Guard for Office, both of which prevent the current attack. This is a default setting but it may have been changed.'
+description: CVE-2021-40444 is a remote code execution vulnerability in MSHTML, recently
+  used to delivery targeted spearphishing documents.
+narrative: "Microsoft is aware of targeted attacks that attempt to exploit this vulnerability,\
+  \ CVE-2021-40444 by using specially-crafted Microsoft Office documents. MSHTML is\
+  \ a software component used to render web pages on Windows. Although it is 2019s most\
+  \ commonly associated with Internet Explorer, it is also used in other software.\
+  \  CVE-2021-40444 received a CVSS score of 8.8 out of 10. MSHTML is the beating\
+  \ heart of Internet Explorer, the vulnerability also exists in that browser. Although\
+  \ given its limited use, there is little risk of infection by that vector. Microsoft\
+  \ Office applications use the MSHTML component to display web content in Office\
+  \ documents. The attack depends on MSHTML loading a specially crafted ActiveX control\
+  \ when the target opens a malicious Office document. The loaded ActiveX control\
+  \ can then run arbitrary code to infect the system with more malware. At the\
+  \ moment all supported Windows versions are vulnerable. Since there is no patch\
+  \ available yet, Microsoft proposes a few methods to block these attacks. \\\n1.\
+  \ Disable the installation of all ActiveX controls in Internet Explorer via the\
+  \ registry. Previously-installed ActiveX controls will still run, but no new ones\
+  \ will be added, including malicious ones. Open documents from the Internet\
+  \ in Protected View or Application Guard for Office, both of which prevent the current\
+  \ attack. This is a default setting but it may have been changed."
 references:
-  - https://blog.malwarebytes.com/exploits-and-vulnerabilities/2021/09/windows-mshtml-zero-day-actively-exploited-mitigations-required/
-  - https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-40444
-  - https://www.echotrail.io/insights/search/control.exe
+- https://blog.malwarebytes.com/exploits-and-vulnerabilities/2021/09/windows-mshtml-zero-day-actively-exploited-mitigations-required/
+- https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-40444
+- https://www.echotrail.io/insights/search/control.exe
 tags:
-  analytic_story:
-  - Microsoft MSHTML Remote Code Execution CVE-2021-40444
+  analytic_story: Microsoft MSHTML Remote Code Execution CVE-2021-40444
   category:
   - Adversary Tactics
   product:

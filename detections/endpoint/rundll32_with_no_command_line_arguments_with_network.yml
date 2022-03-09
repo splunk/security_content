@@ -41,11 +41,10 @@ tags:
   - Suspicious Rundll32 Activity
   - Cobalt Strike
   - PrintNightmare CVE-2021-34527
-  automated_detection_testing: passed
   confidence: 100
   context:
-  - source:endpoint
-  - stage: Defense Evasion
+  - Source:Endpoint
+  - Stage:Defense Evasion
   cve:
   - CVE-2021-34527
   dataset:
@@ -64,7 +63,7 @@ tags:
     role:
     - Victim
   - name: process_name
-    type: processname
+    type: Process Name
     role:
     - Attacker
   product:
@@ -88,3 +87,4 @@ tags:
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_microsoft_sysmon
+  asset_type: Endpoint

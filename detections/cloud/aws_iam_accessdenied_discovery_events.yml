@@ -24,7 +24,7 @@ references:
 tags:
   analytic_story:
   - Suspicious Cloud User Activities
-  automated_detection_testing: passed
+  asset_type: AWS Account
   confidence: 50
   context:
   - Source:Cloud Data
@@ -53,7 +53,6 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Splunk Security Analytics for AWS
   required_fields:
   - _time
   - eventName
