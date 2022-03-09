@@ -3,9 +3,9 @@ import sys
 
 from pydantic import ValidationError
 
-from contentctl_core.application.builder.story_builder import StoryBuilder
-from contentctl_core.domain.entities.story import Story
-from contentctl_core.domain.entities.enums.enums import SecurityContentType
+from bin.contentctl_project.contentctl_core.application.builder.story_builder import StoryBuilder
+from bin.contentctl_project.contentctl_core.domain.entities.story import Story
+from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import SecurityContentType
 from contentctl_infrastructure.builder.yml_reader import YmlReader
 
 

@@ -36,9 +36,9 @@ This Analytic Story is designed to help you detect and investigate suspicious ac
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [First time seen command line argument](/deprecated/first_time_seen_command_line_argument/) | [PowerShell](/tags/#powershell), [Windows Command Shell](/tags/#windows-command-shell)| Hunting |
-| [Sc exe Manipulating Windows Services](/endpoint/sc_exe_manipulating_windows_services/) | [Windows Service](/tags/#windows-service), [Create or Modify System Process](/tags/#create-or-modify-system-process)| TTP |
-| [First Time Seen Running Windows Service](/endpoint/first_time_seen_running_windows_service/) | [System Services](/tags/#system-services), [Service Execution](/tags/#service-execution)| Anomaly |
+| [First time seen command line argument](/deprecated/first_time_seen_command_line_argument/) | None| Hunting |
+| [Sc exe Manipulating Windows Services](/endpoint/sc_exe_manipulating_windows_services/) | None| TTP |
+| [First Time Seen Running Windows Service](/endpoint/first_time_seen_running_windows_service/) | None| Anomaly |
 
 #### Reference
 

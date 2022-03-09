@@ -10,127 +10,133 @@ sidebar:
 
 | Name    |   Technique |     Tactic   |
 | ----------- | ----------- |--------------|
-| [AWS Cross Account Activity](aws_cross_account_activity) | [Valid Accounts](/tags/#valid-accounts), [Use Alternate Authentication Material](/tags/#use-alternate-authentication-material) | [Defense Evasion](/tags/#defense-evasion), [Initial Access](/tags/#initial-access), [Lateral Movement](/tags/#lateral-movement), [Persistence](/tags/#persistence), [Privilege Escalation](/tags/#privilege-escalation) |
-| [AWS Cryptomining](aws_cryptomining) | [Cloud Accounts](/tags/#cloud-accounts), [Unused/Unsupported Cloud Regions](/tags/#unused/unsupported-cloud-regions) | [Defense Evasion](/tags/#defense-evasion), [Initial Access](/tags/#initial-access), [Persistence](/tags/#persistence), [Privilege Escalation](/tags/#privilege-escalation) |
-| [AWS IAM Privilege Escalation](aws_iam_privilege_escalation) | [Cloud Accounts](/tags/#cloud-accounts), [Valid Accounts](/tags/#valid-accounts), [Cloud Account](/tags/#cloud-account), [Create Account](/tags/#create-account), [Cloud Infrastructure Discovery](/tags/#cloud-infrastructure-discovery), [Brute Force](/tags/#brute-force), [Account Manipulation](/tags/#account-manipulation), [Cloud Groups](/tags/#cloud-groups), [Permission Groups Discovery](/tags/#permission-groups-discovery) | [Credential Access](/tags/#credential-access), [Defense Evasion](/tags/#defense-evasion), [Discovery](/tags/#discovery), [Initial Access](/tags/#initial-access), [Persistence](/tags/#persistence), [Privilege Escalation](/tags/#privilege-escalation) |
-| [AWS Network ACL Activity](aws_network_acl_activity) | [Disable or Modify Cloud Firewall](/tags/#disable-or-modify-cloud-firewall), [Impair Defenses](/tags/#impair-defenses) | [Defense Evasion](/tags/#defense-evasion) |
+| [AWS Cross Account Activity]() | None | None |
+| [AWS Cryptomining]() | None | None |
+| [AWS IAM Privilege Escalation]() | None | None |
+| [AWS Network ACL Activity]() | None | None |
 | [AWS Security Hub Alerts]() | None | None |
-| [AWS User Monitoring](aws_user_monitoring) | [Cloud Service Discovery](/tags/#cloud-service-discovery) | [Discovery](/tags/#discovery) |
-| [Active Directory Discovery](active_directory_discovery) | [Permission Groups Discovery](/tags/#permission-groups-discovery), [Local Groups](/tags/#local-groups) | [Discovery](/tags/#discovery) |
-| [Active Directory Kerberos Attacks](active_directory_kerberos_attacks) | [Steal or Forge Kerberos Tickets](/tags/#steal-or-forge-kerberos-tickets), [Kerberoasting](/tags/#kerberoasting) | [Credential Access](/tags/#credential-access) |
-| [Active Directory Lateral Movement](active_directory_lateral_movement) | [Remote Services](/tags/#remote-services), [Windows Remote Management](/tags/#windows-remote-management) | [Lateral Movement](/tags/#lateral-movement) |
-| [Active Directory Password Spraying](active_directory_password_spraying) | [Password Spraying](/tags/#password-spraying), [Brute Force](/tags/#brute-force) | [Credential Access](/tags/#credential-access) |
-| [Apache Struts Vulnerability](apache_struts_vulnerability) | [System Information Discovery](/tags/#system-information-discovery) | [Discovery](/tags/#discovery) |
+| [AWS Suspicious Provisioning Activities]() | None | None |
+| [AWS User Monitoring]() | None | None |
+| [Active Directory Discovery]() | None | None |
+| [Active Directory Kerberos Attacks]() | None | None |
+| [Active Directory Lateral Movement]() | None | None |
+| [Active Directory Password Spraying]() | None | None |
+| [Apache Struts Vulnerability]() | None | None |
 | [Asset Tracking]() | None | None |
-| [BITS Jobs](bits_jobs) | [BITS Jobs](/tags/#bits-jobs), [Ingress Tool Transfer](/tags/#ingress-tool-transfer) | [Defense Evasion](/tags/#defense-evasion) |
-| [Baron Samedit CVE-2021-3156](baron_samedit_cve-2021-3156) | [Exploitation for Privilege Escalation](/tags/#exploitation-for-privilege-escalation) | [Privilege Escalation](/tags/#privilege-escalation) |
-| [BlackMatter Ransomware](blackmatter_ransomware) | [Credentials in Registry](/tags/#credentials-in-registry), [Unsecured Credentials](/tags/#unsecured-credentials), [Inhibit System Recovery](/tags/#inhibit-system-recovery), [Defacement](/tags/#defacement), [Data Encrypted for Impact](/tags/#data-encrypted-for-impact) | [Credential Access](/tags/#credential-access), [Impact](/tags/#impact) |
+| [BITS Jobs]() | None | None |
+| [Baron Samedit CVE-2021-3156]() | None | None |
+| [BlackMatter Ransomware]() | None | None |
 | [Brand Monitoring]() | None | None |
-| [Clop Ransomware](clop_ransomware) | [User Execution](/tags/#user-execution), [Create or Modify System Process](/tags/#create-or-modify-system-process), [Data Destruction](/tags/#data-destruction), [Inhibit System Recovery](/tags/#inhibit-system-recovery), [Data Encrypted for Impact](/tags/#data-encrypted-for-impact), [Indicator Removal on Host](/tags/#indicator-removal-on-host), [Clear Windows Event Logs](/tags/#clear-windows-event-logs), [System Services](/tags/#system-services), [Service Execution](/tags/#service-execution) | [Defense Evasion](/tags/#defense-evasion), [Execution](/tags/#execution), [Impact](/tags/#impact), [Persistence](/tags/#persistence), [Privilege Escalation](/tags/#privilege-escalation) |
-| [Cloud Cryptomining](cloud_cryptomining) | [Cloud Accounts](/tags/#cloud-accounts), [Valid Accounts](/tags/#valid-accounts), [Unused/Unsupported Cloud Regions](/tags/#unused/unsupported-cloud-regions) | [Defense Evasion](/tags/#defense-evasion), [Initial Access](/tags/#initial-access), [Persistence](/tags/#persistence), [Privilege Escalation](/tags/#privilege-escalation) |
-| [Cloud Federated Credential Abuse](cloud_federated_credential_abuse) | [Valid Accounts](/tags/#valid-accounts), [Cloud Account](/tags/#cloud-account), [Create Account](/tags/#create-account), [Modify Authentication Process](/tags/#modify-authentication-process), [LSASS Memory](/tags/#lsass-memory), [OS Credential Dumping](/tags/#os-credential-dumping), [Image File Execution Options Injection](/tags/#image-file-execution-options-injection), [Event Triggered Execution](/tags/#event-triggered-execution) | [Credential Access](/tags/#credential-access), [Defense Evasion](/tags/#defense-evasion), [Initial Access](/tags/#initial-access), [Persistence](/tags/#persistence), [Privilege Escalation](/tags/#privilege-escalation) |
-| [Cobalt Strike](cobalt_strike) | [Archive via Utility](/tags/#archive-via-utility), [Archive Collected Data](/tags/#archive-collected-data), [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [Windows Command Shell](/tags/#windows-command-shell), [Windows Service](/tags/#windows-service), [Create or Modify System Process](/tags/#create-or-modify-system-process), [Process Injection](/tags/#process-injection), [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Regsvr32](/tags/#regsvr32), [Rundll32](/tags/#rundll32), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism), [Masquerading](/tags/#masquerading), [Trusted Developer Utilities Proxy Execution](/tags/#trusted-developer-utilities-proxy-execution), [Rename System Utilities](/tags/#rename-system-utilities), [MSBuild](/tags/#msbuild) | [Collection](/tags/#collection), [Defense Evasion](/tags/#defense-evasion), [Execution](/tags/#execution), [Persistence](/tags/#persistence), [Privilege Escalation](/tags/#privilege-escalation) |
+| [Clop Ransomware]() | None | None |
+| [Cloud Cryptomining]() | None | None |
+| [Cloud Federated Credential Abuse]() | None | None |
+| [Cobalt Strike]() | None | None |
 | [ColdRoot MacOS RAT]() | None | None |
-| [Collection and Staging](collection_and_staging) | [Masquerading](/tags/#masquerading), [Archive via Utility](/tags/#archive-via-utility), [Archive Collected Data](/tags/#archive-collected-data), [Email Collection](/tags/#email-collection), [Local Email Collection](/tags/#local-email-collection), [Remote Email Collection](/tags/#remote-email-collection) | [Collection](/tags/#collection), [Defense Evasion](/tags/#defense-evasion) |
-| [Command and Control](command_and_control) | [Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol](/tags/#exfiltration-over-unencrypted/obfuscated-non-c2-protocol), [DNS](/tags/#dns), [Exfiltration Over Alternative Protocol](/tags/#exfiltration-over-alternative-protocol), [Non-Application Layer Protocol](/tags/#non-application-layer-protocol), [Application Layer Protocol](/tags/#application-layer-protocol), [Web Protocols](/tags/#web-protocols), [Drive-by Compromise](/tags/#drive-by-compromise) | [Command And Control](/tags/#command-and-control), [Exfiltration](/tags/#exfiltration), [Initial Access](/tags/#initial-access) |
-| [Common Phishing Frameworks](common_phishing_frameworks) | [Spearphishing via Service](/tags/#spearphishing-via-service) | [Initial Access](/tags/#initial-access) |
-| [Container Implantation Monitoring and Investigation](container_implantation_monitoring_and_investigation) | [Implant Internal Image](/tags/#implant-internal-image) | [Persistence](/tags/#persistence) |
-| [Credential Dumping](credential_dumping) | [LSASS Memory](/tags/#lsass-memory), [OS Credential Dumping](/tags/#os-credential-dumping), [Security Account Manager](/tags/#security-account-manager), [NTDS](/tags/#ntds), [Modify Registry](/tags/#modify-registry), [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [PowerShell](/tags/#powershell) | [Credential Access](/tags/#credential-access), [Defense Evasion](/tags/#defense-evasion), [Execution](/tags/#execution) |
-| [DHS Report TA18-074A](dhs_report_ta18-074a) | [PowerShell](/tags/#powershell), [Windows Command Shell](/tags/#windows-command-shell), [Local Account](/tags/#local-account), [Create Account](/tags/#create-account), [Remote Services](/tags/#remote-services), [SMB/Windows Admin Shares](/tags/#smb/windows-admin-shares), [System Services](/tags/#system-services), [Service Execution](/tags/#service-execution), [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [Disable or Modify System Firewall](/tags/#disable-or-modify-system-firewall), [Impair Defenses](/tags/#impair-defenses), [Registry Run Keys / Startup Folder](/tags/#registry-run-keys-/-startup-folder), [Boot or Logon Autostart Execution](/tags/#boot-or-logon-autostart-execution), [Windows Service](/tags/#windows-service), [Create or Modify System Process](/tags/#create-or-modify-system-process), [Scheduled Task](/tags/#scheduled-task), [Scheduled Task/Job](/tags/#scheduled-task/job), [User Execution](/tags/#user-execution), [Malicious File](/tags/#malicious-file), [Modify Registry](/tags/#modify-registry), [File Transfer Protocols](/tags/#file-transfer-protocols), [Application Layer Protocol](/tags/#application-layer-protocol) | [Command And Control](/tags/#command-and-control), [Defense Evasion](/tags/#defense-evasion), [Execution](/tags/#execution), [Lateral Movement](/tags/#lateral-movement), [Persistence](/tags/#persistence), [Privilege Escalation](/tags/#privilege-escalation) |
-| [DNS Amplification Attacks](dns_amplification_attacks) | [Network Denial of Service](/tags/#network-denial-of-service), [Reflection Amplification](/tags/#reflection-amplification) | [Impact](/tags/#impact) |
-| [DNS Hijacking](dns_hijacking) | [Drive-by Compromise](/tags/#drive-by-compromise) | [Initial Access](/tags/#initial-access) |
-| [DarkSide Ransomware](darkside_ransomware) | [LSASS Memory](/tags/#lsass-memory), [OS Credential Dumping](/tags/#os-credential-dumping) | [Credential Access](/tags/#credential-access) |
-| [Data Destruction](data_destruction) | [Disk Structure Wipe](/tags/#disk-structure-wipe), [Disk Wipe](/tags/#disk-wipe) | [Impact](/tags/#impact) |
-| [Data Exfiltration](data_exfiltration) | [Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol](/tags/#exfiltration-over-unencrypted/obfuscated-non-c2-protocol), [Exfiltration Over Alternative Protocol](/tags/#exfiltration-over-alternative-protocol) | [Exfiltration](/tags/#exfiltration) |
-| [Data Protection](data_protection) | [Drive-by Compromise](/tags/#drive-by-compromise) | [Initial Access](/tags/#initial-access) |
-| [Deobfuscate-Decode Files or Information](deobfuscate-decode_files_or_information) | [Deobfuscate/Decode Files or Information](/tags/#deobfuscate/decode-files-or-information) | [Defense Evasion](/tags/#defense-evasion) |
-| [Detect Zerologon Attack](detect_zerologon_attack) | [LSASS Memory](/tags/#lsass-memory), [OS Credential Dumping](/tags/#os-credential-dumping), [Exploitation of Remote Services](/tags/#exploitation-of-remote-services), [Exploit Public-Facing Application](/tags/#exploit-public-facing-application) | [Credential Access](/tags/#credential-access), [Initial Access](/tags/#initial-access), [Lateral Movement](/tags/#lateral-movement) |
-| [Dev Sec Ops](dev_sec_ops) | [Malicious Image](/tags/#malicious-image), [User Execution](/tags/#user-execution), [Compromise Client Software Binary](/tags/#compromise-client-software-binary), [Trusted Relationship](/tags/#trusted-relationship), [Compromise Software Dependencies and Development Tools](/tags/#compromise-software-dependencies-and-development-tools), [Supply Chain Compromise](/tags/#supply-chain-compromise), [Exfiltration to Cloud Storage](/tags/#exfiltration-to-cloud-storage), [Exfiltration Over Web Service](/tags/#exfiltration-over-web-service), [Spearphishing Attachment](/tags/#spearphishing-attachment), [Phishing](/tags/#phishing), [Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol](/tags/#exfiltration-over-unencrypted/obfuscated-non-c2-protocol), [Exfiltration Over Alternative Protocol](/tags/#exfiltration-over-alternative-protocol), [Exploitation for Credential Access](/tags/#exploitation-for-credential-access), [Cloud Service Discovery](/tags/#cloud-service-discovery) | [Credential Access](/tags/#credential-access), [Discovery](/tags/#discovery), [Execution](/tags/#execution), [Exfiltration](/tags/#exfiltration), [Initial Access](/tags/#initial-access), [Persistence](/tags/#persistence) |
-| [Disabling Security Tools](disabling_security_tools) | [Install Root Certificate](/tags/#install-root-certificate), [Subvert Trust Controls](/tags/#subvert-trust-controls), [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Impair Defenses](/tags/#impair-defenses), [Disable or Modify System Firewall](/tags/#disable-or-modify-system-firewall), [Windows Service](/tags/#windows-service), [Create or Modify System Process](/tags/#create-or-modify-system-process), [Modify Registry](/tags/#modify-registry) | [Defense Evasion](/tags/#defense-evasion), [Persistence](/tags/#persistence), [Privilege Escalation](/tags/#privilege-escalation) |
-| [Domain Trust Discovery](domain_trust_discovery) | [Domain Trust Discovery](/tags/#domain-trust-discovery), [Remote System Discovery](/tags/#remote-system-discovery) | [Discovery](/tags/#discovery) |
-| [Dynamic DNS](dynamic_dns) | [Web Protocols](/tags/#web-protocols), [Exfiltration Over Alternative Protocol](/tags/#exfiltration-over-alternative-protocol), [Drive-by Compromise](/tags/#drive-by-compromise) | [Command And Control](/tags/#command-and-control), [Exfiltration](/tags/#exfiltration), [Initial Access](/tags/#initial-access) |
-| [Emotet Malware  DHS Report TA18-201A ](emotet_malware__dhs_report_ta18-201a_) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [Windows Command Shell](/tags/#windows-command-shell), [Registry Run Keys / Startup Folder](/tags/#registry-run-keys-/-startup-folder), [Boot or Logon Autostart Execution](/tags/#boot-or-logon-autostart-execution), [Spearphishing Attachment](/tags/#spearphishing-attachment), [Phishing](/tags/#phishing), [Software Deployment Tools](/tags/#software-deployment-tools), [SMB/Windows Admin Shares](/tags/#smb/windows-admin-shares), [Remote Services](/tags/#remote-services) | [Execution](/tags/#execution), [Initial Access](/tags/#initial-access), [Lateral Movement](/tags/#lateral-movement), [Persistence](/tags/#persistence), [Privilege Escalation](/tags/#privilege-escalation) |
-| [F5 TMUI RCE CVE-2020-5902](f5_tmui_rce_cve-2020-5902) | [Exploit Public-Facing Application](/tags/#exploit-public-facing-application) | [Initial Access](/tags/#initial-access) |
-| [FIN7](fin7) | [XSL Script Processing](/tags/#xsl-script-processing) | [Defense Evasion](/tags/#defense-evasion) |
-| [GCP Cross Account Activity](gcp_cross_account_activity) | [Valid Accounts](/tags/#valid-accounts) | [Defense Evasion](/tags/#defense-evasion) |
-| [HAFNIUM Group](hafnium_group) | [Automated Exfiltration](/tags/#automated-exfiltration) | [Exfiltration](/tags/#exfiltration) |
-| [Hermetic Wiper](hermetic_wiper) | [Disk Structure Wipe](/tags/#disk-structure-wipe), [Disk Wipe](/tags/#disk-wipe) | [Impact](/tags/#impact) |
-| [Hidden Cobra Malware](hidden_cobra_malware) | [SMB/Windows Admin Shares](/tags/#smb/windows-admin-shares), [Remote Services](/tags/#remote-services) | [Lateral Movement](/tags/#lateral-movement) |
-| [IcedID](icedid) | [Bypass User Account Control](/tags/#bypass-user-account-control), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism) | [Privilege Escalation](/tags/#privilege-escalation) |
-| [Information Sabotage](information_sabotage) | [Data Destruction](/tags/#data-destruction), [File Deletion](/tags/#file-deletion), [Indicator Removal on Host](/tags/#indicator-removal-on-host) | [Impact](/tags/#impact) |
-| [Ingress Tool Transfer](ingress_tool_transfer) | [Automated Exfiltration](/tags/#automated-exfiltration) | [Exfiltration](/tags/#exfiltration) |
-| [JBoss Vulnerability](jboss_vulnerability) | [System Information Discovery](/tags/#system-information-discovery) | [Discovery](/tags/#discovery) |
-| [Kubernetes Scanning Activity](kubernetes_scanning_activity) | [Cloud Service Discovery](/tags/#cloud-service-discovery) | [Discovery](/tags/#discovery) |
+| [Collection and Staging]() | None | None |
+| [Command and Control]() | None | None |
+| [Common Phishing Frameworks]() | None | None |
+| [Container Implantation Monitoring and Investigation]() | None | None |
+| [Credential Dumping]() | None | None |
+| [DHS Report TA18-074A]() | None | None |
+| [DNS Amplification Attacks]() | None | None |
+| [DNS Hijacking]() | None | None |
+| [DarkSide Ransomware]() | None | None |
+| [Data Destruction]() | None | None |
+| [Data Exfiltration]() | None | None |
+| [Data Protection]() | None | None |
+| [Deobfuscate-Decode Files or Information]() | None | None |
+| [Detect Zerologon Attack]() | None | None |
+| [Dev Sec Ops]() | None | None |
+| [Disabling Security Tools]() | None | None |
+| [Domain Trust Discovery]() | None | None |
+| [Dynamic DNS]() | None | None |
+| [Emotet Malware  DHS Report TA18-201A ]() | None | None |
+| [F5 TMUI RCE CVE-2020-5902]() | None | None |
+| [FIN7]() | None | None |
+| [GCP Cross Account Activity]() | None | None |
+| [HAFNIUM Group]() | None | None |
+| [Hermetic Wiper]() | None | None |
+| [Hidden Cobra Malware]() | None | None |
+| [Host Redirection]() | None | None |
+| [IcedID]() | None | None |
+| [Information Sabotage]() | None | None |
+| [Ingress Tool Transfer]() | None | None |
+| [JBoss Vulnerability]() | None | None |
+| [Kubernetes Scanning Activity]() | None | None |
 | [Kubernetes Sensitive Object Access Activity]() | None | None |
-| [Linux Persistence Techniques](linux_persistence_techniques) | [Sudo and Sudo Caching](/tags/#sudo-and-sudo-caching), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism) | [Privilege Escalation](/tags/#privilege-escalation) |
-| [Linux Post-Exploitation](linux_post-exploitation) | [Unix Shell](/tags/#unix-shell) | [Execution](/tags/#execution) |
-| [Linux Privilege Escalation](linux_privilege_escalation) | [Exploitation for Privilege Escalation](/tags/#exploitation-for-privilege-escalation) | [Privilege Escalation](/tags/#privilege-escalation) |
-| [Living Off The Land](living_off_the_land) | [Bypass User Account Control](/tags/#bypass-user-account-control), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism) | [Privilege Escalation](/tags/#privilege-escalation) |
-| [Log4Shell CVE-2021-44228](log4shell_cve-2021-44228) | [Automated Exfiltration](/tags/#automated-exfiltration) | [Exfiltration](/tags/#exfiltration) |
-| [Malicious PowerShell](malicious_powershell) | [Automated Exfiltration](/tags/#automated-exfiltration) | [Exfiltration](/tags/#exfiltration) |
-| [Masquerading - Rename System Utilities](masquerading_-_rename_system_utilities) | [Masquerading](/tags/#masquerading), [Rename System Utilities](/tags/#rename-system-utilities), [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [InstallUtil](/tags/#installutil) | [Defense Evasion](/tags/#defense-evasion) |
-| [Meterpreter](meterpreter) | [System Owner/User Discovery](/tags/#system-owner/user-discovery) | [Discovery](/tags/#discovery) |
-| [Microsoft MSHTML Remote Code Execution CVE-2021-40444](microsoft_mshtml_remote_code_execution_cve-2021-40444) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Rundll32](/tags/#rundll32) | [Defense Evasion](/tags/#defense-evasion) |
+| [Kubernetes Sensitive Role Activity]() | None | None |
+| [Linux Persistence Techniques]() | None | None |
+| [Linux Post-Exploitation]() | None | None |
+| [Linux Privilege Escalation]() | None | None |
+| [Living Off The Land]() | None | None |
+| [Log4Shell CVE-2021-44228]() | None | None |
+| [Malicious PowerShell]() | None | None |
+| [Masquerading - Rename System Utilities]() | None | None |
+| [Meterpreter]() | None | None |
+| [Microsoft MSHTML Remote Code Execution CVE-2021-40444]() | None | None |
+| [Monitor Backup Solution]() | None | None |
+| [Monitor for Unauthorized Software]() | None | None |
 | [Monitor for Updates]() | None | None |
-| [NOBELIUM Group](nobelium_group) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Mshta](/tags/#mshta) | [Defense Evasion](/tags/#defense-evasion) |
-| [Netsh Abuse](netsh_abuse) | [Disable or Modify System Firewall](/tags/#disable-or-modify-system-firewall), [Impair Defenses](/tags/#impair-defenses) | [Defense Evasion](/tags/#defense-evasion) |
-| [Network Discovery](network_discovery) | [System Network Configuration Discovery](/tags/#system-network-configuration-discovery) | [Discovery](/tags/#discovery) |
-| [Office 365 Detections](office_365_detections) | [Email Forwarding Rule](/tags/#email-forwarding-rule), [Email Collection](/tags/#email-collection) | [Collection](/tags/#collection) |
-| [Orangeworm Attack Group](orangeworm_attack_group) | [Windows Service](/tags/#windows-service), [Create or Modify System Process](/tags/#create-or-modify-system-process) | [Persistence](/tags/#persistence) |
-| [PetitPotam NTLM Relay on Active Directory Certificate Services](petitpotam_ntlm_relay_on_active_directory_certificate_services) | [OS Credential Dumping](/tags/#os-credential-dumping) | [Credential Access](/tags/#credential-access) |
-| [Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns](possible_backdoor_activity_associated_with_mudcarp_espionage_campaigns) | [Automated Exfiltration](/tags/#automated-exfiltration) | [Exfiltration](/tags/#exfiltration) |
-| [PrintNightmare CVE-2021-34527](printnightmare_cve-2021-34527) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Rundll32](/tags/#rundll32) | [Defense Evasion](/tags/#defense-evasion) |
-| [Prohibited Traffic Allowed or Protocol Mismatch](prohibited_traffic_allowed_or_protocol_mismatch) | [Application Layer Protocol](/tags/#application-layer-protocol), [Web Protocols](/tags/#web-protocols) | [Command And Control](/tags/#command-and-control) |
-| [ProxyShell](proxyshell) | [Server Software Component](/tags/#server-software-component), [Web Shell](/tags/#web-shell) | [Persistence](/tags/#persistence) |
-| [Ransomware](ransomware) | [Disable or Modify Tools](/tags/#disable-or-modify-tools) | [Defense Evasion](/tags/#defense-evasion) |
-| [Ransomware Cloud](ransomware_cloud) | [Data Encrypted for Impact](/tags/#data-encrypted-for-impact) | [Impact](/tags/#impact) |
-| [Remcos](remcos) | [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Impair Defenses](/tags/#impair-defenses), [Bypass User Account Control](/tags/#bypass-user-account-control), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism), [Masquerading](/tags/#masquerading), [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [JavaScript](/tags/#javascript), [Process Injection](/tags/#process-injection), [Dynamic-link Library Injection](/tags/#dynamic-link-library-injection), [Regsvr32](/tags/#regsvr32), [Modify Registry](/tags/#modify-registry), [Credentials from Password Stores](/tags/#credentials-from-password-stores), [Credentials from Web Browsers](/tags/#credentials-from-web-browsers), [Indicator Removal on Host](/tags/#indicator-removal-on-host), [Component Object Model](/tags/#component-object-model), [Registry Run Keys / Startup Folder](/tags/#registry-run-keys-/-startup-folder), [Boot or Logon Autostart Execution](/tags/#boot-or-logon-autostart-execution), [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Screen Capture](/tags/#screen-capture), [Visual Basic](/tags/#visual-basic), [Create or Modify System Process](/tags/#create-or-modify-system-process), [Gather Victim Host Information](/tags/#gather-victim-host-information), [Parent PID Spoofing](/tags/#parent-pid-spoofing), [Access Token Manipulation](/tags/#access-token-manipulation) | [Collection](/tags/#collection), [Credential Access](/tags/#credential-access), [Defense Evasion](/tags/#defense-evasion), [Execution](/tags/#execution), [Persistence](/tags/#persistence), [Privilege Escalation](/tags/#privilege-escalation), [Reconnaissance](/tags/#reconnaissance) |
-| [Revil Ransomware](revil_ransomware) | [Disable or Modify Cloud Firewall](/tags/#disable-or-modify-cloud-firewall), [Impair Defenses](/tags/#impair-defenses), [Inhibit System Recovery](/tags/#inhibit-system-recovery), [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Defacement](/tags/#defacement), [DLL Side-Loading](/tags/#dll-side-loading), [Hijack Execution Flow](/tags/#hijack-execution-flow), [User Execution](/tags/#user-execution), [Modify Registry](/tags/#modify-registry), [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [CMSTP](/tags/#cmstp) | [Defense Evasion](/tags/#defense-evasion), [Execution](/tags/#execution), [Impact](/tags/#impact), [Persistence](/tags/#persistence), [Privilege Escalation](/tags/#privilege-escalation) |
-| [Router and Infrastructure Security](router_and_infrastructure_security) | [Hardware Additions](/tags/#hardware-additions), [Network Denial of Service](/tags/#network-denial-of-service), [Adversary-in-the-Middle](/tags/#adversary-in-the-middle), [ARP Cache Poisoning](/tags/#arp-cache-poisoning), [TFTP Boot](/tags/#tftp-boot), [Pre-OS Boot](/tags/#pre-os-boot), [Automated Exfiltration](/tags/#automated-exfiltration), [Traffic Duplication](/tags/#traffic-duplication) | [Collection](/tags/#collection), [Credential Access](/tags/#credential-access), [Defense Evasion](/tags/#defense-evasion), [Exfiltration](/tags/#exfiltration), [Impact](/tags/#impact), [Initial Access](/tags/#initial-access), [Persistence](/tags/#persistence) |
-| [Ryuk Ransomware](ryuk_ransomware) | [Windows Command Shell](/tags/#windows-command-shell), [Inhibit System Recovery](/tags/#inhibit-system-recovery), [Data Destruction](/tags/#data-destruction), [Domain Trust Discovery](/tags/#domain-trust-discovery), [Data Encrypted for Impact](/tags/#data-encrypted-for-impact), [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [Scheduled Task](/tags/#scheduled-task), [Scheduled Task/Job](/tags/#scheduled-task/job), [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Impair Defenses](/tags/#impair-defenses), [Service Stop](/tags/#service-stop), [Remote Desktop Protocol](/tags/#remote-desktop-protocol), [Remote Services](/tags/#remote-services) | [Defense Evasion](/tags/#defense-evasion), [Discovery](/tags/#discovery), [Execution](/tags/#execution), [Impact](/tags/#impact), [Lateral Movement](/tags/#lateral-movement), [Persistence](/tags/#persistence), [Privilege Escalation](/tags/#privilege-escalation) |
-| [SQL Injection](sql_injection) | [Exploit Public-Facing Application](/tags/#exploit-public-facing-application) | [Initial Access](/tags/#initial-access) |
-| [SamSam Ransomware](samsam_ransomware) | [Match Legitimate Name or Location](/tags/#match-legitimate-name-or-location), [Masquerading](/tags/#masquerading), [OS Credential Dumping](/tags/#os-credential-dumping), [Active Scanning](/tags/#active-scanning), [User Execution](/tags/#user-execution), [Malicious File](/tags/#malicious-file), [Data Destruction](/tags/#data-destruction), [Inhibit System Recovery](/tags/#inhibit-system-recovery), [Remote Services](/tags/#remote-services), [SMB/Windows Admin Shares](/tags/#smb/windows-admin-shares), [System Services](/tags/#system-services), [Service Execution](/tags/#service-execution), [Data Encrypted for Impact](/tags/#data-encrypted-for-impact), [Remote Desktop Protocol](/tags/#remote-desktop-protocol), [System Information Discovery](/tags/#system-information-discovery) | [Credential Access](/tags/#credential-access), [Defense Evasion](/tags/#defense-evasion), [Discovery](/tags/#discovery), [Execution](/tags/#execution), [Impact](/tags/#impact), [Lateral Movement](/tags/#lateral-movement), [Reconnaissance](/tags/#reconnaissance) |
-| [Signed Binary Proxy Execution InstallUtil](signed_binary_proxy_execution_installutil) | [Masquerading](/tags/#masquerading), [Rename System Utilities](/tags/#rename-system-utilities), [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [InstallUtil](/tags/#installutil) | [Defense Evasion](/tags/#defense-evasion) |
-| [Silver Sparrow](silver_sparrow) | [Ingress Tool Transfer](/tags/#ingress-tool-transfer), [Launch Agent](/tags/#launch-agent), [Create or Modify System Process](/tags/#create-or-modify-system-process), [Data Staged](/tags/#data-staged) | [Collection](/tags/#collection), [Command And Control](/tags/#command-and-control), [Persistence](/tags/#persistence), [Privilege Escalation](/tags/#privilege-escalation) |
-| [Spearphishing Attachments](spearphishing_attachments) | [Security Account Manager](/tags/#security-account-manager), [OS Credential Dumping](/tags/#os-credential-dumping), [Phishing](/tags/#phishing), [Spearphishing Attachment](/tags/#spearphishing-attachment), [Spearphishing Link](/tags/#spearphishing-link) | [Credential Access](/tags/#credential-access), [Initial Access](/tags/#initial-access) |
+| [NOBELIUM Group]() | None | None |
+| [Netsh Abuse]() | None | None |
+| [Network Discovery]() | None | None |
+| [Office 365 Detections]() | None | None |
+| [Orangeworm Attack Group]() | None | None |
+| [PetitPotam NTLM Relay on Active Directory Certificate Services]() | None | None |
+| [Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns]() | None | None |
+| [PrintNightmare CVE-2021-34527]() | None | None |
+| [Prohibited Traffic Allowed or Protocol Mismatch]() | None | None |
+| [ProxyShell]() | None | None |
+| [Ransomware]() | None | None |
+| [Ransomware Cloud]() | None | None |
+| [Remcos]() | None | None |
+| [Revil Ransomware]() | None | None |
+| [Router and Infrastructure Security]() | None | None |
+| [Ryuk Ransomware]() | None | None |
+| [SQL Injection]() | None | None |
+| [SamSam Ransomware]() | None | None |
+| [Signed Binary Proxy Execution InstallUtil]() | None | None |
+| [Silver Sparrow]() | None | None |
+| [Spearphishing Attachments]() | None | None |
 | [Spectre And Meltdown Vulnerabilities]() | None | None |
 | [Splunk Enterprise Vulnerability]() | None | None |
 | [Splunk Enterprise Vulnerability CVE-2018-11409]() | None | None |
-| [Suspicious AWS EC2 Activities](suspicious_aws_ec2_activities) | [Cloud Accounts](/tags/#cloud-accounts), [Unused/Unsupported Cloud Regions](/tags/#unused/unsupported-cloud-regions) | [Defense Evasion](/tags/#defense-evasion), [Initial Access](/tags/#initial-access), [Persistence](/tags/#persistence), [Privilege Escalation](/tags/#privilege-escalation) |
-| [Suspicious AWS Login Activities](suspicious_aws_login_activities) | [Unused/Unsupported Cloud Regions](/tags/#unused/unsupported-cloud-regions), [Cloud Accounts](/tags/#cloud-accounts) | [Defense Evasion](/tags/#defense-evasion), [Initial Access](/tags/#initial-access), [Persistence](/tags/#persistence), [Privilege Escalation](/tags/#privilege-escalation) |
-| [Suspicious AWS S3 Activities](suspicious_aws_s3_activities) | [Data from Cloud Storage Object](/tags/#data-from-cloud-storage-object) | [Collection](/tags/#collection) |
+| [Suspicious AWS EC2 Activities]() | None | None |
+| [Suspicious AWS Login Activities]() | None | None |
+| [Suspicious AWS S3 Activities]() | None | None |
 | [Suspicious AWS Traffic]() | None | None |
-| [Suspicious Cloud Authentication Activities](suspicious_cloud_authentication_activities) | [Unused/Unsupported Cloud Regions](/tags/#unused/unsupported-cloud-regions) | [Defense Evasion](/tags/#defense-evasion) |
-| [Suspicious Cloud Instance Activities](suspicious_cloud_instance_activities) | [Cloud Accounts](/tags/#cloud-accounts), [Valid Accounts](/tags/#valid-accounts), [Transfer Data to Cloud Account](/tags/#transfer-data-to-cloud-account) | [Defense Evasion](/tags/#defense-evasion), [Exfiltration](/tags/#exfiltration), [Initial Access](/tags/#initial-access), [Persistence](/tags/#persistence), [Privilege Escalation](/tags/#privilege-escalation) |
-| [Suspicious Cloud Provisioning Activities](suspicious_cloud_provisioning_activities) | [Valid Accounts](/tags/#valid-accounts) | [Defense Evasion](/tags/#defense-evasion), [Initial Access](/tags/#initial-access), [Persistence](/tags/#persistence), [Privilege Escalation](/tags/#privilege-escalation) |
-| [Suspicious Cloud User Activities](suspicious_cloud_user_activities) | [Cloud Accounts](/tags/#cloud-accounts), [Valid Accounts](/tags/#valid-accounts), [Cloud Infrastructure Discovery](/tags/#cloud-infrastructure-discovery) | [Defense Evasion](/tags/#defense-evasion), [Discovery](/tags/#discovery), [Initial Access](/tags/#initial-access), [Persistence](/tags/#persistence), [Privilege Escalation](/tags/#privilege-escalation) |
-| [Suspicious Command-Line Executions](suspicious_command-line_executions) | [PowerShell](/tags/#powershell), [Windows Command Shell](/tags/#windows-command-shell), [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [Masquerading](/tags/#masquerading), [Rename System Utilities](/tags/#rename-system-utilities) | [Defense Evasion](/tags/#defense-evasion), [Execution](/tags/#execution) |
-| [Suspicious Compiled HTML Activity](suspicious_compiled_html_activity) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Compiled HTML File](/tags/#compiled-html-file) | [Defense Evasion](/tags/#defense-evasion) |
-| [Suspicious DNS Traffic](suspicious_dns_traffic) | [Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol](/tags/#exfiltration-over-unencrypted/obfuscated-non-c2-protocol), [DNS](/tags/#dns), [Exfiltration Over Alternative Protocol](/tags/#exfiltration-over-alternative-protocol), [Application Layer Protocol](/tags/#application-layer-protocol), [Drive-by Compromise](/tags/#drive-by-compromise) | [Command And Control](/tags/#command-and-control), [Exfiltration](/tags/#exfiltration), [Initial Access](/tags/#initial-access) |
-| [Suspicious Emails](suspicious_emails) | [Phishing](/tags/#phishing), [Spearphishing Attachment](/tags/#spearphishing-attachment) | [Initial Access](/tags/#initial-access) |
-| [Suspicious GCP Storage Activities](suspicious_gcp_storage_activities) | [Data from Cloud Storage Object](/tags/#data-from-cloud-storage-object) | [Collection](/tags/#collection) |
-| [Suspicious MSHTA Activity](suspicious_mshta_activity) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Mshta](/tags/#mshta), [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [Windows Command Shell](/tags/#windows-command-shell), [Registry Run Keys / Startup Folder](/tags/#registry-run-keys-/-startup-folder), [Boot or Logon Autostart Execution](/tags/#boot-or-logon-autostart-execution) | [Defense Evasion](/tags/#defense-evasion), [Execution](/tags/#execution), [Persistence](/tags/#persistence), [Privilege Escalation](/tags/#privilege-escalation) |
-| [Suspicious Okta Activity](suspicious_okta_activity) | [Valid Accounts](/tags/#valid-accounts), [Default Accounts](/tags/#default-accounts) | [Defense Evasion](/tags/#defense-evasion), [Initial Access](/tags/#initial-access), [Persistence](/tags/#persistence), [Privilege Escalation](/tags/#privilege-escalation) |
-| [Suspicious Regsvcs Regasm Activity](suspicious_regsvcs_regasm_activity) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Regsvcs/Regasm](/tags/#regsvcs/regasm) | [Defense Evasion](/tags/#defense-evasion) |
-| [Suspicious Regsvr32 Activity](suspicious_regsvr32_activity) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Regsvr32](/tags/#regsvr32) | [Defense Evasion](/tags/#defense-evasion) |
-| [Suspicious Rundll32 Activity](suspicious_rundll32_activity) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Rundll32](/tags/#rundll32) | [Defense Evasion](/tags/#defense-evasion) |
-| [Suspicious WMI Use](suspicious_wmi_use) | [XSL Script Processing](/tags/#xsl-script-processing) | [Defense Evasion](/tags/#defense-evasion) |
-| [Suspicious Windows Registry Activities](suspicious_windows_registry_activities) | [Services Registry Permissions Weakness](/tags/#services-registry-permissions-weakness) | [Persistence](/tags/#persistence) |
-| [Suspicious Zoom Child Processes](suspicious_zoom_child_processes) | [Exploitation for Privilege Escalation](/tags/#exploitation-for-privilege-escalation) | [Privilege Escalation](/tags/#privilege-escalation) |
-| [Trickbot](trickbot) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter) | [Execution](/tags/#execution) |
-| [Trusted Developer Utilities Proxy Execution](trusted_developer_utilities_proxy_execution) | [Trusted Developer Utilities Proxy Execution](/tags/#trusted-developer-utilities-proxy-execution) | [Defense Evasion](/tags/#defense-evasion) |
-| [Trusted Developer Utilities Proxy Execution MSBuild](trusted_developer_utilities_proxy_execution_msbuild) | [Masquerading](/tags/#masquerading), [Trusted Developer Utilities Proxy Execution](/tags/#trusted-developer-utilities-proxy-execution), [Rename System Utilities](/tags/#rename-system-utilities), [MSBuild](/tags/#msbuild) | [Defense Evasion](/tags/#defense-evasion) |
-| [Unusual Processes](unusual_processes) | [Process Injection](/tags/#process-injection), [Create or Modify System Process](/tags/#create-or-modify-system-process), [Parent PID Spoofing](/tags/#parent-pid-spoofing), [Access Token Manipulation](/tags/#access-token-manipulation) | [Defense Evasion](/tags/#defense-evasion) |
+| [Suspicious Cloud Authentication Activities]() | None | None |
+| [Suspicious Cloud Instance Activities]() | None | None |
+| [Suspicious Cloud Provisioning Activities]() | None | None |
+| [Suspicious Cloud User Activities]() | None | None |
+| [Suspicious Command-Line Executions]() | None | None |
+| [Suspicious Compiled HTML Activity]() | None | None |
+| [Suspicious DNS Traffic]() | None | None |
+| [Suspicious Emails]() | None | None |
+| [Suspicious GCP Storage Activities]() | None | None |
+| [Suspicious MSHTA Activity]() | None | None |
+| [Suspicious Okta Activity]() | None | None |
+| [Suspicious Regsvcs Regasm Activity]() | None | None |
+| [Suspicious Regsvr32 Activity]() | None | None |
+| [Suspicious Rundll32 Activity]() | None | None |
+| [Suspicious WMI Use]() | None | None |
+| [Suspicious Windows Registry Activities]() | None | None |
+| [Suspicious Zoom Child Processes]() | None | None |
+| [Trickbot]() | None | None |
+| [Trusted Developer Utilities Proxy Execution]() | None | None |
+| [Trusted Developer Utilities Proxy Execution MSBuild]() | None | None |
+| [Unusual AWS EC2 Modifications]() | None | None |
+| [Unusual Processes]() | None | None |
 | [Use of Cleartext Protocols]() | None | None |
-| [Web Fraud Detection](web_fraud_detection) | [Create Account](/tags/#create-account), [Valid Accounts](/tags/#valid-accounts) | [Defense Evasion](/tags/#defense-evasion), [Initial Access](/tags/#initial-access), [Persistence](/tags/#persistence), [Privilege Escalation](/tags/#privilege-escalation) |
-| [WhisperGate](whispergate) | [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Impair Defenses](/tags/#impair-defenses), [Windows Command Shell](/tags/#windows-command-shell), [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [Data Destruction](/tags/#data-destruction), [Masquerading](/tags/#masquerading), [Remote Services](/tags/#remote-services), [SMB/Windows Admin Shares](/tags/#smb/windows-admin-shares), [Distributed Component Object Model](/tags/#distributed-component-object-model), [Windows Management Instrumentation](/tags/#windows-management-instrumentation), [Windows Service](/tags/#windows-service), [Obfuscated Files or Information](/tags/#obfuscated-files-or-information), [Virtualization/Sandbox Evasion](/tags/#virtualization/sandbox-evasion), [Time Based Evasion](/tags/#time-based-evasion), [Indicator Removal on Host](/tags/#indicator-removal-on-host), [Visual Basic](/tags/#visual-basic), [Create or Modify System Process](/tags/#create-or-modify-system-process), [Rename System Utilities](/tags/#rename-system-utilities), [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [InstallUtil](/tags/#installutil), [Tool](/tags/#tool), [Process Injection](/tags/#process-injection), [Parent PID Spoofing](/tags/#parent-pid-spoofing), [Access Token Manipulation](/tags/#access-token-manipulation) | [Defense Evasion](/tags/#defense-evasion), [Discovery](/tags/#discovery), [Execution](/tags/#execution), [Impact](/tags/#impact), [Lateral Movement](/tags/#lateral-movement), [Persistence](/tags/#persistence), [Privilege Escalation](/tags/#privilege-escalation), [Resource Development](/tags/#resource-development) |
-| [Windows DNS SIGRed CVE-2020-1350](windows_dns_sigred_cve-2020-1350) | [Exploitation for Client Execution](/tags/#exploitation-for-client-execution) | [Execution](/tags/#execution) |
-| [Windows Defense Evasion Tactics](windows_defense_evasion_tactics) | [Bypass User Account Control](/tags/#bypass-user-account-control), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism) | [Privilege Escalation](/tags/#privilege-escalation) |
-| [Windows Discovery Techniques](windows_discovery_techniques) | [Permission Groups Discovery](/tags/#permission-groups-discovery), [Local Groups](/tags/#local-groups) | [Discovery](/tags/#discovery) |
-| [Windows File Extension and Association Abuse](windows_file_extension_and_association_abuse) | [Masquerading](/tags/#masquerading), [Rename System Utilities](/tags/#rename-system-utilities) | [Defense Evasion](/tags/#defense-evasion) |
-| [Windows Log Manipulation](windows_log_manipulation) | [Indicator Removal on Host](/tags/#indicator-removal-on-host), [Clear Windows Event Logs](/tags/#clear-windows-event-logs) | [Defense Evasion](/tags/#defense-evasion) |
-| [Windows Persistence Techniques](windows_persistence_techniques) | [Services Registry Permissions Weakness](/tags/#services-registry-permissions-weakness) | [Persistence](/tags/#persistence) |
-| [Windows Privilege Escalation](windows_privilege_escalation) | [Time Providers](/tags/#time-providers), [Boot or Logon Autostart Execution](/tags/#boot-or-logon-autostart-execution) | [Persistence](/tags/#persistence) |
-| [Windows Service Abuse](windows_service_abuse) | [Windows Service](/tags/#windows-service), [Create or Modify System Process](/tags/#create-or-modify-system-process) | [Persistence](/tags/#persistence) |
-| [XMRig](xmrig) | [Windows Service](/tags/#windows-service), [Create or Modify System Process](/tags/#create-or-modify-system-process) | [Persistence](/tags/#persistence) |
-| [sAMAccountName Spoofing and Domain Controller Impersonation](samaccountname_spoofing_and_domain_controller_impersonation) | [Valid Accounts](/tags/#valid-accounts), [Domain Accounts](/tags/#domain-accounts) | [Defense Evasion](/tags/#defense-evasion) |
+| [Web Fraud Detection]() | None | None |
+| [WhisperGate]() | None | None |
+| [Windows DNS SIGRed CVE-2020-1350]() | None | None |
+| [Windows Defense Evasion Tactics]() | None | None |
+| [Windows Discovery Techniques]() | None | None |
+| [Windows File Extension and Association Abuse]() | None | None |
+| [Windows Log Manipulation]() | None | None |
+| [Windows Persistence Techniques]() | None | None |
+| [Windows Privilege Escalation]() | None | None |
+| [Windows Service Abuse]() | None | None |
+| [XMRig]() | None | None |
+| [sAMAccountName Spoofing and Domain Controller Impersonation]() | None | None |

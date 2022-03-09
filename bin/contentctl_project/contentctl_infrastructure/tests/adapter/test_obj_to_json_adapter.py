@@ -9,7 +9,7 @@ from contentctl_infrastructure.builder.security_content_investigation_builder im
 from contentctl_infrastructure.builder.security_content_story_builder import SecurityContentStoryBuilder
 from contentctl_infrastructure.builder.security_content_director import SecurityContentDirector
 from contentctl_infrastructure.builder.attack_enrichment import AttackEnrichment
-from contentctl_core.domain.entities.enums.enums import SecurityContentType
+from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import SecurityContentType
 from contentctl_infrastructure.builder.security_content_playbook_builder import SecurityContentPlaybookBuilder
 
 

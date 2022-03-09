@@ -1,9 +1,9 @@
 import os
 
 
-from contentctl_core.domain.entities.enums.enums import SecurityContentType
-from contentctl_core.application.factory.object_factory import ObjectFactoryInputDto
-from contentctl_core.application.factory.object_factory import ObjectFactory
+from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import SecurityContentType
+from bin.contentctl_project.contentctl_core.application.factory.object_factory import ObjectFactoryInputDto
+from bin.contentctl_project.contentctl_core.application.factory.object_factory import ObjectFactory
 from contentctl_infrastructure.builder.security_content_object_builder import SecurityContentObjectBuilder
 from contentctl_infrastructure.builder.security_content_director import SecurityContentDirector
 

@@ -2,16 +2,16 @@ import os
 
 from dataclasses import dataclass
 
-from contentctl_core.domain.entities.enums.enums import SecurityContentProduct
-from contentctl_core.domain.entities.enums.enums import SecurityContentType
-from contentctl_core.application.builder.basic_builder import BasicBuilder
-from contentctl_core.application.builder.detection_builder import DetectionBuilder
-from contentctl_core.application.builder.story_builder import StoryBuilder
-from contentctl_core.application.builder.baseline_builder import BaselineBuilder
-from contentctl_core.application.builder.investigation_builder import InvestigationBuilder
-from contentctl_core.application.builder.playbook_builder import PlaybookBuilder
-from contentctl_core.application.builder.director import Director
-from contentctl_core.application.factory.utils.utils import Utils
+from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import SecurityContentProduct
+from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import SecurityContentType
+from bin.contentctl_project.contentctl_core.application.builder.basic_builder import BasicBuilder
+from bin.contentctl_project.contentctl_core.application.builder.detection_builder import DetectionBuilder
+from bin.contentctl_project.contentctl_core.application.builder.story_builder import StoryBuilder
+from bin.contentctl_project.contentctl_core.application.builder.baseline_builder import BaselineBuilder
+from bin.contentctl_project.contentctl_core.application.builder.investigation_builder import InvestigationBuilder
+from bin.contentctl_project.contentctl_core.application.builder.playbook_builder import PlaybookBuilder
+from bin.contentctl_project.contentctl_core.application.builder.director import Director
+from bin.contentctl_project.contentctl_core.application.factory.utils.utils import Utils
 
 
 @dataclass(frozen=True)

@@ -34,27 +34,27 @@ XMRig is a high performance, open source, cross platform RandomX, KawPow, Crypto
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Attacker Tools On Endpoint](/endpoint/attacker_tools_on_endpoint/) | [Match Legitimate Name or Location](/tags/#match-legitimate-name-or-location), [Masquerading](/tags/#masquerading), [OS Credential Dumping](/tags/#os-credential-dumping), [Active Scanning](/tags/#active-scanning)| TTP |
-| [Deleting Of Net Users](/endpoint/deleting_of_net_users/) | [Account Access Removal](/tags/#account-access-removal)| TTP |
-| [Disable Windows App Hotkeys](/endpoint/disable_windows_app_hotkeys/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Impair Defenses](/tags/#impair-defenses)| TTP |
-| [Disabling Net User Account](/endpoint/disabling_net_user_account/) | [Account Access Removal](/tags/#account-access-removal)| TTP |
-| [Download Files Using Telegram](/endpoint/download_files_using_telegram/) | [Ingress Tool Transfer](/tags/#ingress-tool-transfer)| TTP |
-| [Enumerate Users Local Group Using Telegram](/endpoint/enumerate_users_local_group_using_telegram/) | [Account Discovery](/tags/#account-discovery)| TTP |
-| [Excessive Attempt To Disable Services](/endpoint/excessive_attempt_to_disable_services/) | [Service Stop](/tags/#service-stop)| Anomaly |
-| [Excessive Service Stop Attempt](/endpoint/excessive_service_stop_attempt/) | [Service Stop](/tags/#service-stop)| Anomaly |
-| [Excessive Usage Of Cacls App](/endpoint/excessive_usage_of_cacls_app/) | [File and Directory Permissions Modification](/tags/#file-and-directory-permissions-modification)| Anomaly |
-| [Excessive Usage Of Net App](/endpoint/excessive_usage_of_net_app/) | [Account Access Removal](/tags/#account-access-removal)| Anomaly |
-| [Excessive Usage Of Taskkill](/endpoint/excessive_usage_of_taskkill/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Impair Defenses](/tags/#impair-defenses)| Anomaly |
-| [Executables Or Script Creation In Suspicious Path](/endpoint/executables_or_script_creation_in_suspicious_path/) | [Masquerading](/tags/#masquerading)| TTP |
-| [Hide User Account From Sign-In Screen](/endpoint/hide_user_account_from_sign-in_screen/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Impair Defenses](/tags/#impair-defenses)| TTP |
-| [Icacls Deny Command](/endpoint/icacls_deny_command/) | [File and Directory Permissions Modification](/tags/#file-and-directory-permissions-modification)| TTP |
-| [ICACLS Grant Command](/endpoint/icacls_grant_command/) | [File and Directory Permissions Modification](/tags/#file-and-directory-permissions-modification)| TTP |
-| [Modify ACL permission To Files Or Folder](/endpoint/modify_acl_permission_to_files_or_folder/) | [File and Directory Permissions Modification](/tags/#file-and-directory-permissions-modification)| TTP |
-| [Process Kill Base On File Path](/endpoint/process_kill_base_on_file_path/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Impair Defenses](/tags/#impair-defenses)| TTP |
-| [Schtasks Run Task On Demand](/endpoint/schtasks_run_task_on_demand/) | [Scheduled Task/Job](/tags/#scheduled-task/job)| TTP |
-| [Suspicious Driver Loaded Path](/endpoint/suspicious_driver_loaded_path/) | [Windows Service](/tags/#windows-service), [Create or Modify System Process](/tags/#create-or-modify-system-process)| TTP |
-| [Suspicious Process File Path](/endpoint/suspicious_process_file_path/) | [Create or Modify System Process](/tags/#create-or-modify-system-process)| TTP |
-| [XMRIG Driver Loaded](/endpoint/xmrig_driver_loaded/) | [Windows Service](/tags/#windows-service), [Create or Modify System Process](/tags/#create-or-modify-system-process)| TTP |
+| [Attacker Tools On Endpoint](/endpoint/attacker_tools_on_endpoint/) | None| TTP |
+| [Deleting Of Net Users](/endpoint/deleting_of_net_users/) | None| TTP |
+| [Disable Windows App Hotkeys](/endpoint/disable_windows_app_hotkeys/) | None| TTP |
+| [Disabling Net User Account](/endpoint/disabling_net_user_account/) | None| TTP |
+| [Download Files Using Telegram](/endpoint/download_files_using_telegram/) | None| TTP |
+| [Enumerate Users Local Group Using Telegram](/endpoint/enumerate_users_local_group_using_telegram/) | None| TTP |
+| [Excessive Attempt To Disable Services](/endpoint/excessive_attempt_to_disable_services/) | None| Anomaly |
+| [Excessive Service Stop Attempt](/endpoint/excessive_service_stop_attempt/) | None| Anomaly |
+| [Excessive Usage Of Cacls App](/endpoint/excessive_usage_of_cacls_app/) | None| Anomaly |
+| [Excessive Usage Of Net App](/endpoint/excessive_usage_of_net_app/) | None| Anomaly |
+| [Excessive Usage Of Taskkill](/endpoint/excessive_usage_of_taskkill/) | None| Anomaly |
+| [Executables Or Script Creation In Suspicious Path](/endpoint/executables_or_script_creation_in_suspicious_path/) | None| TTP |
+| [Hide User Account From Sign-In Screen](/endpoint/hide_user_account_from_sign-in_screen/) | None| TTP |
+| [Icacls Deny Command](/endpoint/icacls_deny_command/) | None| TTP |
+| [ICACLS Grant Command](/endpoint/icacls_grant_command/) | None| TTP |
+| [Modify ACL permission To Files Or Folder](/endpoint/modify_acl_permission_to_files_or_folder/) | None| TTP |
+| [Process Kill Base On File Path](/endpoint/process_kill_base_on_file_path/) | None| TTP |
+| [Schtasks Run Task On Demand](/endpoint/schtasks_run_task_on_demand/) | None| TTP |
+| [Suspicious Driver Loaded Path](/endpoint/suspicious_driver_loaded_path/) | None| TTP |
+| [Suspicious Process File Path](/endpoint/suspicious_process_file_path/) | None| TTP |
+| [XMRIG Driver Loaded](/endpoint/xmrig_driver_loaded/) | None| TTP |
 
 #### Reference
 

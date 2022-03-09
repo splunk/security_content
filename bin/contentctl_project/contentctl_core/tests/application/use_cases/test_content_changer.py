@@ -1,7 +1,7 @@
 import os
 
-from contentctl_core.application.use_cases.content_changer import ContentChanger, ContentChangerInputDto
-from contentctl_core.application.factory.object_factory import ObjectFactoryInputDto
+from bin.contentctl_project.contentctl_core.application.use_cases.content_changer import ContentChanger, ContentChangerInputDto
+from bin.contentctl_project.contentctl_core.application.factory.object_factory import ObjectFactoryInputDto
 from contentctl_infrastructure.builder.security_content_object_builder import SecurityContentObjectBuilder
 from contentctl_infrastructure.builder.security_content_director import SecurityContentDirector
 from contentctl_infrastructure.adapter.obj_to_yml_adapter import ObjToYmlAdapter

@@ -31,8 +31,8 @@ Attackers will often attempt to manipulate client communications for nefarious p
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Clients Connecting to Multiple DNS Servers](/deprecated/clients_connecting_to_multiple_dns_servers/) | [Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol](/tags/#exfiltration-over-unencrypted/obfuscated-non-c2-protocol)| TTP |
-| [DNS Query Requests Resolved by Unauthorized DNS Servers](/deprecated/dns_query_requests_resolved_by_unauthorized_dns_servers/) | [DNS](/tags/#dns)| TTP |
+| [Clients Connecting to Multiple DNS Servers](/deprecated/clients_connecting_to_multiple_dns_servers/) | None| TTP |
+| [DNS Query Requests Resolved by Unauthorized DNS Servers](/deprecated/dns_query_requests_resolved_by_unauthorized_dns_servers/) | None| TTP |
 | [Windows hosts file modification](/deprecated/windows_hosts_file_modification/) | None| TTP |
 
 #### Reference

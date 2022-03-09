@@ -6,10 +6,10 @@ from pydantic import BaseModel, validator, ValidationError
 from dataclasses import dataclass
 from datetime import datetime
 
-from contentctl_core.domain.entities.security_content_object import SecurityContentObject
-from contentctl_core.domain.entities.enums.enums import DataModel
-from contentctl_core.domain.entities.baseline_tags import BaselineTags
-from contentctl_core.domain.entities.deployment import Deployment
+from bin.contentctl_project.contentctl_core.domain.entities.security_content_object import SecurityContentObject
+from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import DataModel
+from bin.contentctl_project.contentctl_core.domain.entities.baseline_tags import BaselineTags
+from bin.contentctl_project.contentctl_core.domain.entities.deployment import Deployment
 
 
 class Baseline(BaseModel, SecurityContentObject):

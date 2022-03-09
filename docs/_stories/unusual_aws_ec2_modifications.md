@@ -31,7 +31,7 @@ A common attack technique is to infiltrate a cloud instance and make modificatio
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [EC2 Instance Modified With Previously Unseen User](/deprecated/ec2_instance_modified_with_previously_unseen_user/) | [Cloud Accounts](/tags/#cloud-accounts)| Anomaly |
+| [EC2 Instance Modified With Previously Unseen User](/deprecated/ec2_instance_modified_with_previously_unseen_user/) | None| Anomaly |
 
 #### Reference
 

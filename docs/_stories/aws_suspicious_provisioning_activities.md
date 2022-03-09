@@ -31,10 +31,10 @@ This Analytic Story was designed to provide you with flexibility in the precisio
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [AWS Cloud Provisioning From Previously Unseen City](/deprecated/aws_cloud_provisioning_from_previously_unseen_city/) | [Unused/Unsupported Cloud Regions](/tags/#unused/unsupported-cloud-regions)| Anomaly |
-| [AWS Cloud Provisioning From Previously Unseen Country](/deprecated/aws_cloud_provisioning_from_previously_unseen_country/) | [Unused/Unsupported Cloud Regions](/tags/#unused/unsupported-cloud-regions)| Anomaly |
+| [AWS Cloud Provisioning From Previously Unseen City](/deprecated/aws_cloud_provisioning_from_previously_unseen_city/) | None| Anomaly |
+| [AWS Cloud Provisioning From Previously Unseen Country](/deprecated/aws_cloud_provisioning_from_previously_unseen_country/) | None| Anomaly |
 | [AWS Cloud Provisioning From Previously Unseen IP Address](/deprecated/aws_cloud_provisioning_from_previously_unseen_ip_address/) | None| Anomaly |
-| [AWS Cloud Provisioning From Previously Unseen Region](/deprecated/aws_cloud_provisioning_from_previously_unseen_region/) | [Unused/Unsupported Cloud Regions](/tags/#unused/unsupported-cloud-regions)| Anomaly |
+| [AWS Cloud Provisioning From Previously Unseen Region](/deprecated/aws_cloud_provisioning_from_previously_unseen_region/) | None| Anomaly |
 
 #### Reference
 

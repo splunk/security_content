@@ -1,12 +1,12 @@
 import abc
 
-from contentctl_core.application.builder.basic_builder import BasicBuilder
-from contentctl_core.application.builder.detection_builder import DetectionBuilder
-from contentctl_core.application.builder.baseline_builder import BaselineBuilder
-from contentctl_core.application.builder.investigation_builder import InvestigationBuilder
-from contentctl_core.application.builder.story_builder import StoryBuilder
-from contentctl_core.application.builder.playbook_builder import PlaybookBuilder
-from contentctl_core.domain.entities.enums.enums import SecurityContentProduct
+from bin.contentctl_project.contentctl_core.application.builder.basic_builder import BasicBuilder
+from bin.contentctl_project.contentctl_core.application.builder.detection_builder import DetectionBuilder
+from bin.contentctl_project.contentctl_core.application.builder.baseline_builder import BaselineBuilder
+from bin.contentctl_project.contentctl_core.application.builder.investigation_builder import InvestigationBuilder
+from bin.contentctl_project.contentctl_core.application.builder.story_builder import StoryBuilder
+from bin.contentctl_project.contentctl_core.application.builder.playbook_builder import PlaybookBuilder
+from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import SecurityContentProduct
 
 class Director(abc.ABC):
 

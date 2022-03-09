@@ -32,9 +32,9 @@ The Windows operating system uses a services architecture to allow for running c
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Reg exe Manipulating Windows Services Registry Keys](/endpoint/reg_exe_manipulating_windows_services_registry_keys/) | [Services Registry Permissions Weakness](/tags/#services-registry-permissions-weakness), [Hijack Execution Flow](/tags/#hijack-execution-flow)| TTP |
-| [Sc exe Manipulating Windows Services](/endpoint/sc_exe_manipulating_windows_services/) | [Windows Service](/tags/#windows-service), [Create or Modify System Process](/tags/#create-or-modify-system-process)| TTP |
-| [First Time Seen Running Windows Service](/endpoint/first_time_seen_running_windows_service/) | [System Services](/tags/#system-services), [Service Execution](/tags/#service-execution)| Anomaly |
+| [Reg exe Manipulating Windows Services Registry Keys](/endpoint/reg_exe_manipulating_windows_services_registry_keys/) | None| TTP |
+| [Sc exe Manipulating Windows Services](/endpoint/sc_exe_manipulating_windows_services/) | None| TTP |
+| [First Time Seen Running Windows Service](/endpoint/first_time_seen_running_windows_service/) | None| Anomaly |
 
 #### Reference
 

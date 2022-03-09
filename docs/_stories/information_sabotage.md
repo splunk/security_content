@@ -32,7 +32,7 @@ Information sabotage is the type of crime many people associate with insider thr
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [High Frequency Copy Of Files In Network Share](/endpoint/high_frequency_copy_of_files_in_network_share/) | [Transfer Data to Cloud Account](/tags/#transfer-data-to-cloud-account)| Anomaly |
+| [High Frequency Copy Of Files In Network Share](/endpoint/high_frequency_copy_of_files_in_network_share/) | None| Anomaly |
 
 #### Reference
 

@@ -36,8 +36,8 @@ Another search detects incidents wherein a single password is used across multip
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Web Fraud - Account Harvesting](/deprecated/web_fraud_-_account_harvesting/) | [Create Account](/tags/#create-account)| TTP |
-| [Web Fraud - Anomalous User Clickspeed](/deprecated/web_fraud_-_anomalous_user_clickspeed/) | [Valid Accounts](/tags/#valid-accounts)| Anomaly |
+| [Web Fraud - Account Harvesting](/deprecated/web_fraud_-_account_harvesting/) | None| TTP |
+| [Web Fraud - Anomalous User Clickspeed](/deprecated/web_fraud_-_anomalous_user_clickspeed/) | None| Anomaly |
 | [Web Fraud - Password Sharing Across Accounts](/deprecated/web_fraud_-_password_sharing_across_accounts/) | None| Anomaly |
 
 #### Reference

@@ -3,10 +3,10 @@ import sys
 
 from pydantic import ValidationError
 
-from contentctl_core.application.builder.investigation_builder import InvestigationBuilder
-from contentctl_core.domain.entities.investigation import Investigation
+from bin.contentctl_project.contentctl_core.application.builder.investigation_builder import InvestigationBuilder
+from bin.contentctl_project.contentctl_core.domain.entities.investigation import Investigation
 from contentctl_infrastructure.builder.yml_reader import YmlReader
-from contentctl_core.domain.entities.enums.enums import SecurityContentType
+from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import SecurityContentType
 
 
 class SecurityContentInvestigationBuilder(InvestigationBuilder):

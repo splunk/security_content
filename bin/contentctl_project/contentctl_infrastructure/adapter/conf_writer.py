@@ -2,7 +2,7 @@ import datetime
 import os
 from jinja2 import Environment, FileSystemLoader
 
-from contentctl_core.domain.entities.security_content_object import SecurityContentObject
+from bin.contentctl_project.contentctl_core.domain.entities.security_content_object import SecurityContentObject
 
 class ConfWriter():
 

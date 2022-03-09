@@ -33,7 +33,7 @@ This Analytic Story focuses on detecting signs of MiTM attacks enabled by [EvilG
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Detect DNS requests to Phishing Sites leveraging EvilGinx2](/deprecated/detect_dns_requests_to_phishing_sites_leveraging_evilginx2/) | [Spearphishing via Service](/tags/#spearphishing-via-service)| TTP |
+| [Detect DNS requests to Phishing Sites leveraging EvilGinx2](/deprecated/detect_dns_requests_to_phishing_sites_leveraging_evilginx2/) | None| TTP |
 
 #### Reference
 

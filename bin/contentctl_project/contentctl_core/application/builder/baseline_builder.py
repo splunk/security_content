@@ -1,9 +1,9 @@
 import abc
 
-from contentctl_core.domain.entities.enums.enums import SecurityContentType
-from contentctl_core.domain.entities.baseline import Baseline
-from contentctl_core.domain.entities.enums.enums import SecurityContentProduct
-from contentctl_core.domain.entities.security_content_object import SecurityContentObject
+from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import SecurityContentType
+from bin.contentctl_project.contentctl_core.domain.entities.baseline import Baseline
+from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import SecurityContentProduct
+from bin.contentctl_project.contentctl_core.domain.entities.security_content_object import SecurityContentObject
 
 
 class BaselineBuilder(abc.ABC):

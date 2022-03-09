@@ -4,12 +4,12 @@ import os
 
 from pydantic import ValidationError
 
-from contentctl_core.application.builder.detection_builder import DetectionBuilder
+from bin.contentctl_project.contentctl_core.application.builder.detection_builder import DetectionBuilder
 from contentctl_infrastructure.builder.yml_reader import YmlReader
-from contentctl_core.domain.entities.detection import Detection
-from contentctl_core.domain.entities.security_content_object import SecurityContentObject
-from contentctl_core.domain.entities.macro import Macro
-from contentctl_core.domain.entities.mitre_attack_enrichment import MitreAttackEnrichment
+from bin.contentctl_project.contentctl_core.domain.entities.detection import Detection
+from bin.contentctl_project.contentctl_core.domain.entities.security_content_object import SecurityContentObject
+from bin.contentctl_project.contentctl_core.domain.entities.macro import Macro
+from bin.contentctl_project.contentctl_core.domain.entities.mitre_attack_enrichment import MitreAttackEnrichment
 from contentctl_infrastructure.builder.cve_enrichment import CveEnrichment
 
 

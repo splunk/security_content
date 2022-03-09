@@ -51,7 +51,7 @@ The Content Control tool allows you to manipulate Splunk Security Content via th
 3. **generate** - Generates a deployment package for different platforms (splunk_app)
 
 ### pre-requisites
-
+Make sure you use python version 3.9 or higher.
 ```
 git clone git@github.com:splunk/security_content.git
 cd security_content
@@ -68,11 +68,11 @@ for a more indepth write up on how to write content see our [guide](https://gith
 ### create a new analytic story 
 `python contentctl.py new -t story` 
 
-### validate written content a new analytic story 
-`python contentctl.py --verbose validate` 
+### validate security content
+`python contentctl.py -p . validate -pr ESCU` 
 
 ### generate a splunk app from current content
-`python contentctl.py --path . --verbose generate --output package` 
+`python contentctl.py -p . generate -o dist/escu -pr ESCU` 
 
 # MITRE ATT&CK ⚔️
 ### Detection Coverage

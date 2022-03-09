@@ -2,9 +2,9 @@ import os
 import glob
 import shutil
 
-from contentctl_core.application.adapter.adapter import Adapter
+from bin.contentctl_project.contentctl_core.application.adapter.adapter import Adapter
 from contentctl_infrastructure.adapter.conf_writer import ConfWriter
-from contentctl_core.domain.entities.enums.enums import SecurityContentType
+from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import SecurityContentType
 
 
 class ObjToConfAdapter(Adapter):

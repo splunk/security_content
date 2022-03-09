@@ -1,9 +1,9 @@
 import pytest
 import os
 
-from contentctl_core.domain.entities.enums.enums import SecurityContentProduct
+from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import SecurityContentProduct
 from contentctl_infrastructure.builder.security_content_basic_builder import SecurityContentBasicBuilder
-from contentctl_core.domain.entities.enums.enums import SecurityContentType
+from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import SecurityContentType
 from contentctl_infrastructure.builder.yml_reader import YmlReader
 
 

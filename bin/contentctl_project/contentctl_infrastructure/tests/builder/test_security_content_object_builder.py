@@ -3,7 +3,7 @@ import os
 
 
 from contentctl_infrastructure.builder.security_content_object_builder import SecurityContentObjectBuilder
-from contentctl_core.domain.entities.enums.enums import SecurityContentType
+from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import SecurityContentType
 
 
 def test_read_detection():

@@ -80,13 +80,13 @@ jobs:
           source venv/bin/activate
           python3 -m pip install --upgrade pip
           python3 -m pip install wheel
-          python3 -m pip install -q -r bin/contentctl_project/requirements.txt
+          python3 -m pip install -q -r requirements.txt
       
       - name: run validate
         run: |
           source venv/bin/activate
-          python3 bin/contentctl_project/main/contentctl.py -p . validate -pr ESCU
-          python3 bin/contentctl_project/main/contentctl.py -p . validate -pr SSA
+          python3 contentctl.py -p . validate -pr ESCU
+          python3 contentctl.py -p . validate -pr SSA
       
       # - name: Get CTI Repo for Mitre context
       #   uses:  actions/checkout@v2
@@ -105,7 +105,7 @@ jobs:
           ls -lah
           #Enter the virtualenv and run the docgen
           source venv/bin/activate
-          python3 bin/contentctl_project/main/contentctl.py -p . docgen -o docs
+          python3 contentctl.py -p . docgen -o docs
           #Now generate the spec docs
           npm install -g @adobe/jsonschema2md
           jsonschema2md -d spec -o docs/spec -f yaml -e spec.json -x -
@@ -140,13 +140,13 @@ jobs:
           source venv/bin/activate
           python3 -m pip install --upgrade pip
           python3 -m pip install wheel
-          python3 -m pip install -q -r bin/contentctl_project/requirements.txt
+          python3 -m pip install -q -r requirements.txt
       
       - name: Run Generate
         run: |
           source venv/bin/activate
-          python3 bin/contentctl_project/main/contentctl.py --path . generate --product ESCU --output dist/escu
-          python3 bin/contentctl_project/main/contentctl.py --path . generate --product SSA --output dist/ssa
+          python3 contentctl.py --path . generate --product ESCU --output dist/escu
+          python3 contentctl.py --path . generate --product SSA --output dist/ssa
       
       - name: Copy lookups .mlmodel files
         run: |
@@ -356,12 +356,12 @@ jobs:
           source venv/bin/activate
           python3 -m pip install --upgrade pip
           python3 -m pip install wheel
-          python3 -m pip install -q -r bin/contentctl_project/requirements.txt
+          python3 -m pip install -q -r requirements.txt
       
       - name: run reporting
         run: |
           source venv/bin/activate
-          python3 bin/contentctl_project/main/contentctl.py -p . reporting
+          python3 contentctl.py -p . reporting
       
       #Official, Verified Amazon-AWS Github Account Provided Action
       - uses: aws-actions/configure-aws-credentials@v1
@@ -412,7 +412,7 @@ jobs:
           source venv/bin/activate
           python3 -m pip install --upgrade pip
           python3 -m pip install wheel
-          python3 -m pip install -q -r bin/contentctl_project/requirements.txt
+          python3 -m pip install -q -r requirements.txt
 
       - name: Get branch and PR required for detection testing main.py
         id: vars
@@ -422,7 +422,7 @@ jobs:
       - name: Run doc-gen
         run: |
           source venv/bin/activate
-          python3 bin/doc_gen.py --path . --output docs -v
+          python3 contentctl.py -p . docgen -o docs
 
       # this step is creating some TOKEN issues while tagging a build, commenting this out for now
       
@@ -433,16 +433,6 @@ jobs:
       #     source venv/bin/activate
       #     python3 -m pip install -r security_content_automation/requirements.txt
       #     python3 security_content_automation/enrich_detections.py
-
-      - name: Make YAMLs Pretty
-        run: |
-          source venv/bin/activate
-          python3 bin/pretty_yaml.py --path . -v
-
-      - name: Run generate-coverage-map
-        run: |
-          source venv/bin/activate
-          python3 bin/generate-coverage-map.py --projects_path . --output docs/mitre-map
 
       - name: Update github with new docs and package bits
         run: |
@@ -555,12 +545,12 @@ jobs:
           source venv/bin/activate
           python3 -m pip install --upgrade pip
           python3 -m pip install wheel
-          python3 -m pip install -q -r bin/contentctl_project/requirements.txt
+          python3 -m pip install -q -r requirements.txt
 
       - name: Create YML to JSON Folder
         run: |
           source venv/bin/activate
-          python3 bin/contentctl_project/main/contentctl.py --path . generate --product API --output dist/api
+          python3 contentctl.py --path . generate --product API --output dist/api
       
       #Official, Verified Amazon-AWS Github Account Provided Action
       - uses: aws-actions/configure-aws-credentials@v1

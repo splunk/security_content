@@ -10,4 +10,4 @@ sidebar:
 
 | Name    |   Technique |     Tactic   |
 | ----------- | ----------- |--------------|
-| [DarkSide Ransomware](darkside_ransomware) | [Security Account Manager](/tags/#security-account-manager), [OS Credential Dumping](/tags/#os-credential-dumping) | [Credential Access](/tags/#credential-access) |
+| [DarkSide Ransomware]() | None | None |

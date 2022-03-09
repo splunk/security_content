@@ -3,10 +3,10 @@ import shutil
 
 from dataclasses import dataclass
 
-from contentctl_core.domain.entities.enums.enums import SecurityContentProduct, SecurityContentType
-from contentctl_core.application.adapter.adapter import Adapter
-from contentctl_core.application.factory.factory import FactoryInputDto, Factory, FactoryOutputDto
-from contentctl_core.application.factory.ba_factory import BAFactoryInputDto, BAFactory, BAFactoryOutputDto
+from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import SecurityContentProduct, SecurityContentType
+from bin.contentctl_project.contentctl_core.application.adapter.adapter import Adapter
+from bin.contentctl_project.contentctl_core.application.factory.factory import FactoryInputDto, Factory, FactoryOutputDto
+from bin.contentctl_project.contentctl_core.application.factory.ba_factory import BAFactoryInputDto, BAFactory, BAFactoryOutputDto
 
 
 

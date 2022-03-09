@@ -1,7 +1,7 @@
 import os
 import pytest
 
-from contentctl_core.application.factory.ba_factory import BAFactory, BAFactoryInputDto, BAFactoryOutputDto
+from bin.contentctl_project.contentctl_core.application.factory.ba_factory import BAFactory, BAFactoryInputDto, BAFactoryOutputDto
 from contentctl_infrastructure.builder.security_content_director import SecurityContentDirector
 from contentctl_infrastructure.builder.security_content_basic_builder import SecurityContentBasicBuilder
 from contentctl_infrastructure.builder.security_content_detection_builder import SecurityContentDetectionBuilder

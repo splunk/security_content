@@ -35,16 +35,16 @@ This story is composed of detection searches based on endpoint that addresses th
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [AWS SAML Access by Provider User and Principal](/cloud/aws_saml_access_by_provider_user_and_principal/) | [Valid Accounts](/tags/#valid-accounts)| Anomaly |
-| [AWS SAML Update identity provider](/cloud/aws_saml_update_identity_provider/) | [Valid Accounts](/tags/#valid-accounts)| TTP |
-| [O365 Add App Role Assignment Grant User](/cloud/o365_add_app_role_assignment_grant_user/) | [Cloud Account](/tags/#cloud-account), [Create Account](/tags/#create-account)| TTP |
-| [O365 Added Service Principal](/cloud/o365_added_service_principal/) | [Cloud Account](/tags/#cloud-account), [Create Account](/tags/#create-account)| TTP |
-| [O365 Excessive SSO logon errors](/cloud/o365_excessive_sso_logon_errors/) | [Modify Authentication Process](/tags/#modify-authentication-process)| Anomaly |
-| [O365 New Federated Domain Added](/cloud/o365_new_federated_domain_added/) | [Cloud Account](/tags/#cloud-account), [Create Account](/tags/#create-account)| TTP |
-| [Detect Mimikatz Via PowerShell And EventCode 4703](/deprecated/detect_mimikatz_via_powershell_and_eventcode_4703/) | [LSASS Memory](/tags/#lsass-memory)| TTP |
+| [AWS SAML Access by Provider User and Principal](/cloud/aws_saml_access_by_provider_user_and_principal/) | None| Anomaly |
+| [AWS SAML Update identity provider](/cloud/aws_saml_update_identity_provider/) | None| TTP |
+| [O365 Add App Role Assignment Grant User](/cloud/o365_add_app_role_assignment_grant_user/) | None| TTP |
+| [O365 Added Service Principal](/cloud/o365_added_service_principal/) | None| TTP |
+| [O365 Excessive SSO logon errors](/cloud/o365_excessive_sso_logon_errors/) | None| Anomaly |
+| [O365 New Federated Domain Added](/cloud/o365_new_federated_domain_added/) | None| TTP |
+| [Detect Mimikatz Via PowerShell And EventCode 4703](/deprecated/detect_mimikatz_via_powershell_and_eventcode_4703/) | None| TTP |
 | [Certutil exe certificate extraction](/endpoint/certutil_exe_certificate_extraction/) | None| TTP |
-| [Detect Mimikatz Using Loaded Images](/endpoint/detect_mimikatz_using_loaded_images/) | [LSASS Memory](/tags/#lsass-memory), [OS Credential Dumping](/tags/#os-credential-dumping)| TTP |
-| [Registry Keys Used For Privilege Escalation](/endpoint/registry_keys_used_for_privilege_escalation/) | [Image File Execution Options Injection](/tags/#image-file-execution-options-injection), [Event Triggered Execution](/tags/#event-triggered-execution)| TTP |
+| [Detect Mimikatz Using Loaded Images](/endpoint/detect_mimikatz_using_loaded_images/) | None| TTP |
+| [Registry Keys Used For Privilege Escalation](/endpoint/registry_keys_used_for_privilege_escalation/) | None| TTP |
 | [Detect Rare Executables](/endpoint/detect_rare_executables/) | None| Anomaly |
 
 #### Reference

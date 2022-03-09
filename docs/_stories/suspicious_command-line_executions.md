@@ -33,11 +33,11 @@ The ability to execute arbitrary commands via the Windows CLI is a primary goal 
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [First time seen command line argument](/deprecated/first_time_seen_command_line_argument/) | [PowerShell](/tags/#powershell), [Windows Command Shell](/tags/#windows-command-shell)| Hunting |
-| [Detect Prohibited Applications Spawning cmd exe](/endpoint/detect_prohibited_applications_spawning_cmd_exe/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [Windows Command Shell](/tags/#windows-command-shell)| Hunting |
-| [Detect Use of cmd exe to Launch Script Interpreters](/endpoint/detect_use_of_cmd_exe_to_launch_script_interpreters/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [Windows Command Shell](/tags/#windows-command-shell)| TTP |
-| [Potentially malicious code on commandline](/endpoint/potentially_malicious_code_on_commandline/) | [Windows Command Shell](/tags/#windows-command-shell)| Anomaly |
-| [System Processes Run From Unexpected Locations](/endpoint/system_processes_run_from_unexpected_locations/) | [Masquerading](/tags/#masquerading), [Rename System Utilities](/tags/#rename-system-utilities)| TTP |
+| [First time seen command line argument](/deprecated/first_time_seen_command_line_argument/) | None| Hunting |
+| [Detect Prohibited Applications Spawning cmd exe](/endpoint/detect_prohibited_applications_spawning_cmd_exe/) | None| Hunting |
+| [Detect Use of cmd exe to Launch Script Interpreters](/endpoint/detect_use_of_cmd_exe_to_launch_script_interpreters/) | None| TTP |
+| [Potentially malicious code on commandline](/endpoint/potentially_malicious_code_on_commandline/) | None| Anomaly |
+| [System Processes Run From Unexpected Locations](/endpoint/system_processes_run_from_unexpected_locations/) | None| TTP |
 | [Unusually Long Command Line](/endpoint/unusually_long_command_line/) | None| Anomaly |
 | [Unusually Long Command Line - MLTK](/endpoint/unusually_long_command_line_-_mltk/) | None| Anomaly |
 

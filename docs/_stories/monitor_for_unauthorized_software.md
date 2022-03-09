@@ -35,7 +35,7 @@ It is important to investigate any software identified as suspicious, in order t
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
 | [Prohibited Software On Endpoint](/deprecated/prohibited_software_on_endpoint/) | None| Hunting |
-| [Attacker Tools On Endpoint](/endpoint/attacker_tools_on_endpoint/) | [Match Legitimate Name or Location](/tags/#match-legitimate-name-or-location), [Masquerading](/tags/#masquerading), [OS Credential Dumping](/tags/#os-credential-dumping), [Active Scanning](/tags/#active-scanning)| TTP |
+| [Attacker Tools On Endpoint](/endpoint/attacker_tools_on_endpoint/) | None| TTP |
 
 #### Reference
 

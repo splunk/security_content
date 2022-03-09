@@ -2,11 +2,11 @@ import sys
 
 from pydantic import ValidationError
 
-from contentctl_core.application.builder.baseline_builder import BaselineBuilder
+from bin.contentctl_project.contentctl_core.application.builder.baseline_builder import BaselineBuilder
 from contentctl_infrastructure.builder.yml_reader import YmlReader
-from contentctl_core.domain.entities.baseline import Baseline
-from contentctl_core.domain.entities.enums.enums import SecurityContentType
-from contentctl_core.domain.entities.enums.enums import SecurityContentProduct
+from bin.contentctl_project.contentctl_core.domain.entities.baseline import Baseline
+from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import SecurityContentType
+from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import SecurityContentProduct
 
 
 class SecurityContentBaselineBuilder(BaselineBuilder):

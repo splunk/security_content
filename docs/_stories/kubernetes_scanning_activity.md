@@ -30,12 +30,12 @@ Kubernetes is the most used container orchestration platform, this orchestration
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [GCP Kubernetes cluster scan detection](/deprecated/gcp_kubernetes_cluster_scan_detection/) | [Cloud Service Discovery](/tags/#cloud-service-discovery)| TTP |
+| [GCP Kubernetes cluster scan detection](/deprecated/gcp_kubernetes_cluster_scan_detection/) | None| TTP |
 | [Kubernetes Azure pod scan fingerprint](/deprecated/kubernetes_azure_pod_scan_fingerprint/) | None| Hunting |
-| [Kubernetes Azure scan fingerprint](/deprecated/kubernetes_azure_scan_fingerprint/) | [Cloud Service Discovery](/tags/#cloud-service-discovery)| Hunting |
-| [Amazon EKS Kubernetes cluster scan detection](/cloud/amazon_eks_kubernetes_cluster_scan_detection/) | [Cloud Service Discovery](/tags/#cloud-service-discovery)| Hunting |
-| [Amazon EKS Kubernetes Pod scan detection](/cloud/amazon_eks_kubernetes_pod_scan_detection/) | [Cloud Service Discovery](/tags/#cloud-service-discovery)| Hunting |
-| [GCP Kubernetes cluster pod scan detection](/cloud/gcp_kubernetes_cluster_pod_scan_detection/) | [Cloud Service Discovery](/tags/#cloud-service-discovery)| Hunting |
+| [Kubernetes Azure scan fingerprint](/deprecated/kubernetes_azure_scan_fingerprint/) | None| Hunting |
+| [Amazon EKS Kubernetes cluster scan detection](/cloud/amazon_eks_kubernetes_cluster_scan_detection/) | None| Hunting |
+| [Amazon EKS Kubernetes Pod scan detection](/cloud/amazon_eks_kubernetes_pod_scan_detection/) | None| Hunting |
+| [GCP Kubernetes cluster pod scan detection](/cloud/gcp_kubernetes_cluster_pod_scan_detection/) | None| Hunting |
 
 #### Reference
 

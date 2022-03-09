@@ -5,8 +5,8 @@ import requests
 from pydantic import BaseModel, validator, ValidationError
 from datetime import datetime
 
-from contentctl_core.domain.entities.security_content_object import SecurityContentObject
-from contentctl_core.domain.entities.story_tags import StoryTags
+from bin.contentctl_project.contentctl_core.domain.entities.security_content_object import SecurityContentObject
+from bin.contentctl_project.contentctl_core.domain.entities.story_tags import StoryTags
 
 class Story(BaseModel, SecurityContentObject):
     # story spec

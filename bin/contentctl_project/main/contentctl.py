@@ -4,16 +4,16 @@ import os
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from contentctl_core.application.use_cases.content_changer import ContentChanger, ContentChangerInputDto
-from contentctl_core.application.use_cases.generate import GenerateInputDto, Generate
-from contentctl_core.application.use_cases.validate import ValidateInputDto, Validate
-from contentctl_core.application.use_cases.doc_gen import DocGenInputDto, DocGen
-from contentctl_core.application.use_cases.new_content import NewContentInputDto, NewContent
-from contentctl_core.application.use_cases.reporting import ReportingInputDto, Reporting
-from contentctl_core.application.factory.factory import FactoryInputDto
-from contentctl_core.application.factory.ba_factory import BAFactoryInputDto
-from contentctl_core.application.factory.new_content_factory import NewContentFactoryInputDto
-from contentctl_core.application.factory.object_factory import ObjectFactoryInputDto
+from bin.contentctl_project.contentctl_core.application.use_cases.content_changer import ContentChanger, ContentChangerInputDto
+from bin.contentctl_project.contentctl_core.application.use_cases.generate import GenerateInputDto, Generate
+from bin.contentctl_project.contentctl_core.application.use_cases.validate import ValidateInputDto, Validate
+from bin.contentctl_project.contentctl_core.application.use_cases.doc_gen import DocGenInputDto, DocGen
+from bin.contentctl_project.contentctl_core.application.use_cases.new_content import NewContentInputDto, NewContent
+from bin.contentctl_project.contentctl_core.application.use_cases.reporting import ReportingInputDto, Reporting
+from bin.contentctl_project.contentctl_core.application.factory.factory import FactoryInputDto
+from bin.contentctl_project.contentctl_core.application.factory.ba_factory import BAFactoryInputDto
+from bin.contentctl_project.contentctl_core.application.factory.new_content_factory import NewContentFactoryInputDto
+from bin.contentctl_project.contentctl_core.application.factory.object_factory import ObjectFactoryInputDto
 from contentctl_infrastructure.builder.security_content_object_builder import SecurityContentObjectBuilder
 from contentctl_infrastructure.builder.security_content_director import SecurityContentDirector
 from contentctl_infrastructure.adapter.obj_to_yml_adapter import ObjToYmlAdapter
@@ -24,13 +24,13 @@ from contentctl_infrastructure.builder.security_content_basic_builder import Sec
 from contentctl_infrastructure.builder.security_content_investigation_builder import SecurityContentInvestigationBuilder
 from contentctl_infrastructure.builder.security_content_baseline_builder import SecurityContentBaselineBuilder
 from contentctl_infrastructure.builder.security_content_playbook_builder import SecurityContentPlaybookBuilder
-from contentctl_core.domain.entities.enums.enums import SecurityContentProduct
+from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import SecurityContentProduct
 from contentctl_infrastructure.adapter.obj_to_conf_adapter import ObjToConfAdapter
 from contentctl_infrastructure.adapter.obj_to_md_adapter import ObjToMdAdapter
 from contentctl_infrastructure.adapter.obj_to_svg_adapter import ObjToSvgAdapter
 from contentctl_infrastructure.adapter.obj_to_attack_nav_adapter import ObjToAttackNavAdapter
 from contentctl_infrastructure.builder.attack_enrichment import AttackEnrichment
-from contentctl_core.domain.entities.enums.enums import SecurityContentType
+from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import SecurityContentType
 
 
 def init(args):

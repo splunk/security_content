@@ -2,8 +2,8 @@ import os
 import re
 
 from contentctl_infrastructure.adapter.yml_writer import YmlWriter
-from contentctl_core.application.adapter.adapter import Adapter
-from contentctl_core.domain.entities.enums.enums import SecurityContentType
+from bin.contentctl_project.contentctl_core.application.adapter.adapter import Adapter
+from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import SecurityContentType
 
 
 class ObjToYmlAdapter(Adapter):

@@ -1,6 +1,6 @@
 import abc
 
-from contentctl_core.domain.entities.security_content_object import SecurityContentObject
+from bin.contentctl_project.contentctl_core.domain.entities.security_content_object import SecurityContentObject
 
 class InvestigationBuilder(abc.ABC):
 

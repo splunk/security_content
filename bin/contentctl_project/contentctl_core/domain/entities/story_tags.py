@@ -1,7 +1,7 @@
 
 
 from pydantic import BaseModel, validator, ValidationError
-from contentctl_core.domain.entities.mitre_attack_enrichment import MitreAttackEnrichment
+from bin.contentctl_project.contentctl_core.domain.entities.mitre_attack_enrichment import MitreAttackEnrichment
 
 
 class StoryTags(BaseModel):

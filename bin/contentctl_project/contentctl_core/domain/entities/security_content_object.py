@@ -1,6 +1,6 @@
 import abc
 
-from contentctl_core.domain.entities.enums.enums import SecurityContentType
+from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import SecurityContentType
 
 
 class SecurityContentObject(abc.ABC):

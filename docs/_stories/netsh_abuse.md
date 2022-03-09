@@ -32,8 +32,8 @@ To get started, run the detection search to identify parent processes of `netsh.
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Processes created by netsh](/deprecated/processes_created_by_netsh/) | [Disable or Modify System Firewall](/tags/#disable-or-modify-system-firewall)| TTP |
-| [Processes launching netsh](/endpoint/processes_launching_netsh/) | [Disable or Modify System Firewall](/tags/#disable-or-modify-system-firewall), [Impair Defenses](/tags/#impair-defenses)| TTP |
+| [Processes created by netsh](/deprecated/processes_created_by_netsh/) | None| TTP |
+| [Processes launching netsh](/endpoint/processes_launching_netsh/) | None| TTP |
 
 #### Reference
 

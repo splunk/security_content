@@ -2,15 +2,15 @@ import sys
 
 from pydantic import ValidationError
 
-from contentctl_core.application.builder.basic_builder import BasicBuilder
-from contentctl_core.domain.entities.security_content_object import SecurityContentObject
+from bin.contentctl_project.contentctl_core.application.builder.basic_builder import BasicBuilder
+from bin.contentctl_project.contentctl_core.domain.entities.security_content_object import SecurityContentObject
 from contentctl_infrastructure.builder.yml_reader import YmlReader
-from contentctl_core.domain.entities.enums.enums import SecurityContentType
-from contentctl_core.domain.entities.deployment import Deployment
-from contentctl_core.domain.entities.macro import Macro
-from contentctl_core.domain.entities.lookup import Lookup
-from contentctl_core.domain.entities.playbook import Playbook
-from contentctl_core.domain.entities.unit_test import UnitTest
+from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import SecurityContentType
+from bin.contentctl_project.contentctl_core.domain.entities.deployment import Deployment
+from bin.contentctl_project.contentctl_core.domain.entities.macro import Macro
+from bin.contentctl_project.contentctl_core.domain.entities.lookup import Lookup
+from bin.contentctl_project.contentctl_core.domain.entities.playbook import Playbook
+from bin.contentctl_project.contentctl_core.domain.entities.unit_test import UnitTest
 
 
 class SecurityContentBasicBuilder(BasicBuilder):

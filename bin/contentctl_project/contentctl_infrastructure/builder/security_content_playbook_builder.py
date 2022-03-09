@@ -3,8 +3,8 @@ import sys
 
 from pydantic import ValidationError
 
-from contentctl_core.application.builder.playbook_builder import PlaybookBuilder
-from contentctl_core.domain.entities.playbook import Playbook
+from bin.contentctl_project.contentctl_core.application.builder.playbook_builder import PlaybookBuilder
+from bin.contentctl_project.contentctl_core.domain.entities.playbook import Playbook
 from contentctl_infrastructure.builder.yml_reader import YmlReader
 
 

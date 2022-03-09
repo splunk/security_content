@@ -31,12 +31,12 @@ AWS CloudTrail is an AWS service that helps you enable governance, compliance, a
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Abnormally High AWS Instances Launched by User](/deprecated/abnormally_high_aws_instances_launched_by_user/) | [Cloud Accounts](/tags/#cloud-accounts)| Anomaly |
-| [Abnormally High AWS Instances Launched by User - MLTK](/deprecated/abnormally_high_aws_instances_launched_by_user_-_mltk/) | [Cloud Accounts](/tags/#cloud-accounts)| Anomaly |
-| [Abnormally High AWS Instances Terminated by User](/deprecated/abnormally_high_aws_instances_terminated_by_user/) | [Cloud Accounts](/tags/#cloud-accounts)| Anomaly |
-| [Abnormally High AWS Instances Terminated by User - MLTK](/deprecated/abnormally_high_aws_instances_terminated_by_user_-_mltk/) | [Cloud Accounts](/tags/#cloud-accounts)| Anomaly |
-| [EC2 Instance Started In Previously Unseen Region](/deprecated/ec2_instance_started_in_previously_unseen_region/) | [Unused/Unsupported Cloud Regions](/tags/#unused/unsupported-cloud-regions)| Anomaly |
-| [EC2 Instance Started With Previously Unseen User](/deprecated/ec2_instance_started_with_previously_unseen_user/) | [Cloud Accounts](/tags/#cloud-accounts)| Anomaly |
+| [Abnormally High AWS Instances Launched by User](/deprecated/abnormally_high_aws_instances_launched_by_user/) | None| Anomaly |
+| [Abnormally High AWS Instances Launched by User - MLTK](/deprecated/abnormally_high_aws_instances_launched_by_user_-_mltk/) | None| Anomaly |
+| [Abnormally High AWS Instances Terminated by User](/deprecated/abnormally_high_aws_instances_terminated_by_user/) | None| Anomaly |
+| [Abnormally High AWS Instances Terminated by User - MLTK](/deprecated/abnormally_high_aws_instances_terminated_by_user_-_mltk/) | None| Anomaly |
+| [EC2 Instance Started In Previously Unseen Region](/deprecated/ec2_instance_started_in_previously_unseen_region/) | None| Anomaly |
+| [EC2 Instance Started With Previously Unseen User](/deprecated/ec2_instance_started_with_previously_unseen_user/) | None| Anomaly |
 
 #### Reference
 

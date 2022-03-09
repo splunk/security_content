@@ -35,10 +35,10 @@ Dynamic DNS services (DDNS) are legitimate low-cost or free services that allow 
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Detect web traffic to dynamic domain providers](/deprecated/detect_web_traffic_to_dynamic_domain_providers/) | [Web Protocols](/tags/#web-protocols)| TTP |
-| [DNS Exfiltration Using Nslookup App](/endpoint/dns_exfiltration_using_nslookup_app/) | [Exfiltration Over Alternative Protocol](/tags/#exfiltration-over-alternative-protocol)| TTP |
-| [Excessive Usage of NSLOOKUP App](/endpoint/excessive_usage_of_nslookup_app/) | [Exfiltration Over Alternative Protocol](/tags/#exfiltration-over-alternative-protocol)| Anomaly |
-| [Detect hosts connecting to dynamic domain providers](/network/detect_hosts_connecting_to_dynamic_domain_providers/) | [Drive-by Compromise](/tags/#drive-by-compromise)| TTP |
+| [Detect web traffic to dynamic domain providers](/deprecated/detect_web_traffic_to_dynamic_domain_providers/) | None| TTP |
+| [DNS Exfiltration Using Nslookup App](/endpoint/dns_exfiltration_using_nslookup_app/) | None| TTP |
+| [Excessive Usage of NSLOOKUP App](/endpoint/excessive_usage_of_nslookup_app/) | None| Anomaly |
+| [Detect hosts connecting to dynamic domain providers](/network/detect_hosts_connecting_to_dynamic_domain_providers/) | None| TTP |
 
 #### Reference
 

@@ -4,9 +4,9 @@ from dataclasses import dataclass
 
 from pydantic import ValidationError
 
-from contentctl_core.domain.entities.enums.enums import SecurityContentProduct, SecurityContentType
-from contentctl_core.application.factory.factory import FactoryInputDto, Factory, FactoryOutputDto
-from contentctl_core.application.factory.ba_factory import BAFactoryInputDto, BAFactory, BAFactoryOutputDto
+from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import SecurityContentProduct
+from bin.contentctl_project.contentctl_core.application.factory.factory import FactoryInputDto, Factory, FactoryOutputDto
+from bin.contentctl_project.contentctl_core.application.factory.ba_factory import BAFactoryInputDto, BAFactory, BAFactoryOutputDto
 
 
 @dataclass(frozen=True)
@@ -19,7 +19,6 @@ class ValidateInputDto:
 class Validate:
 
     def execute(self, input_dto: ValidateInputDto) -> None:
-
         if input_dto.product == SecurityContentProduct.ESCU:
             factory_output_dto = FactoryOutputDto([],[],[],[],[],[],[],[],[])
             factory = Factory(factory_output_dto)

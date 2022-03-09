@@ -5,8 +5,8 @@ from dataclasses import dataclass
 from PyInquirer import prompt
 from datetime import datetime
 
-from contentctl_core.domain.entities.enums.enums import SecurityContentType
-from contentctl_core.application.factory.utils.new_content_questions import NewContentQuestions
+from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import SecurityContentType
+from bin.contentctl_project.contentctl_core.application.factory.utils.new_content_questions import NewContentQuestions
 
 
 @dataclass(frozen=True)

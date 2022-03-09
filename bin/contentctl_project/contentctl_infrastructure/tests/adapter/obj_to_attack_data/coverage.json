@@ -3,18 +3,7 @@
     "name": "Detection Coverage",
     "description": "security_content detection coverage",
     "domain": "mitre-enterprise",
-    "techniques": [
-        {
-            "techniqueID": "T1003.002",
-            "score": 1,
-            "comment": "https://github.com/splunk/security_content/blob/develop/detections/detection/attempted_credential_dump_from_registry_via_reg_exe.yml"
-        },
-        {
-            "techniqueID": "T1003",
-            "score": 1,
-            "comment": "https://github.com/splunk/security_content/blob/develop/detections/detection/attempted_credential_dump_from_registry_via_reg_exe.yml"
-        }
-    ],
+    "techniques": [],
     "gradient": {
         "colors": [
             "#ffffff",
@@ -22,7 +11,7 @@
             "#096ed7"
         ],
         "minValue": 0,
-        "maxValue": 1
+        "maxValue": 0
     },
     "filters": {
         "platforms": [

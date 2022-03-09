@@ -3,8 +3,8 @@ import uuid
 
 from dataclasses import dataclass
 
-from contentctl_core.application.factory.object_factory import ObjectFactory, ObjectFactoryInputDto
-from contentctl_core.application.adapter.adapter import Adapter
+from bin.contentctl_project.contentctl_core.application.factory.object_factory import ObjectFactory, ObjectFactoryInputDto
+from bin.contentctl_project.contentctl_core.application.adapter.adapter import Adapter
 
 
 @dataclass(frozen=True)

@@ -5,13 +5,13 @@ import string
 from pydantic import BaseModel, validator, ValidationError
 from datetime import datetime
 
-from contentctl_core.domain.entities.security_content_object import SecurityContentObject
-from contentctl_core.domain.entities.deployment_scheduling import DeploymentScheduling
-from contentctl_core.domain.entities.deployment_email import DeploymentEmail
-from contentctl_core.domain.entities.deployment_notable import DeploymentNotable
-from contentctl_core.domain.entities.deployment_rba import DeploymentRBA
-from contentctl_core.domain.entities.deployment_slack import DeploymentSlack
-from contentctl_core.domain.entities.deployment_phantom import DeploymentPhantom
+from bin.contentctl_project.contentctl_core.domain.entities.security_content_object import SecurityContentObject
+from bin.contentctl_project.contentctl_core.domain.entities.deployment_scheduling import DeploymentScheduling
+from bin.contentctl_project.contentctl_core.domain.entities.deployment_email import DeploymentEmail
+from bin.contentctl_project.contentctl_core.domain.entities.deployment_notable import DeploymentNotable
+from bin.contentctl_project.contentctl_core.domain.entities.deployment_rba import DeploymentRBA
+from bin.contentctl_project.contentctl_core.domain.entities.deployment_slack import DeploymentSlack
+from bin.contentctl_project.contentctl_core.domain.entities.deployment_phantom import DeploymentPhantom
 
 class Deployment(BaseModel, SecurityContentObject):
     name: str

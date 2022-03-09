@@ -8,16 +8,16 @@ from pydantic import BaseModel, validator, root_validator
 from dataclasses import dataclass
 from datetime import datetime
 
-from contentctl_core.domain.entities.security_content_object import SecurityContentObject
-from contentctl_core.domain.entities.enums.enums import AnalyticsType
-from contentctl_core.domain.entities.enums.enums import DataModel
-from contentctl_core.domain.entities.detection_tags import DetectionTags
-from contentctl_core.domain.entities.deployment import Deployment
-from contentctl_core.domain.entities.unit_test import UnitTest
-from contentctl_core.domain.entities.macro import Macro
-from contentctl_core.domain.entities.lookup import Lookup
-from contentctl_core.domain.entities.baseline import Baseline
-from contentctl_core.domain.entities.playbook import Playbook
+from bin.contentctl_project.contentctl_core.domain.entities.security_content_object import SecurityContentObject
+from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import AnalyticsType
+from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import DataModel
+from bin.contentctl_project.contentctl_core.domain.entities.detection_tags import DetectionTags
+from bin.contentctl_project.contentctl_core.domain.entities.deployment import Deployment
+from bin.contentctl_project.contentctl_core.domain.entities.unit_test import UnitTest
+from bin.contentctl_project.contentctl_core.domain.entities.macro import Macro
+from bin.contentctl_project.contentctl_core.domain.entities.lookup import Lookup
+from bin.contentctl_project.contentctl_core.domain.entities.baseline import Baseline
+from bin.contentctl_project.contentctl_core.domain.entities.playbook import Playbook
 
 class Detection(BaseModel, SecurityContentObject):
     # detection spec
