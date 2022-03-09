@@ -86,7 +86,7 @@ def validate_objects(REPO_PATH, objects, verbose):
 
     objects_array = objects['stories'] + objects['detections'] 
     for object in objects_array:
-        validation_errors, uuids = validate_standard_fields(object, uuids)
+        validation_errors, uuids = validate_standard_fields(REPO_PATH,object, uuids)
         errors = errors + validation_errors
 
     for object in objects['detections']:
@@ -125,7 +125,7 @@ def validate_fields(object):
     return errors
 
 
-def validate_standard_fields(object, uuids):
+def validate_standard_fields(REPO_PATH,object, uuids):
 
     errors = []
 
