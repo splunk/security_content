@@ -1,4 +1,4 @@
-name: Excessive number of distinct processes created in Windows Temp folder
+name: Excessive distinct processes from Windows Temp
 id: 23587b6a-c479-11eb-b671-acde48001122
 version: 2
 date: '2022-02-28'
@@ -16,7 +16,7 @@ search: '| tstats `security_content_summariesonly` values(Processes.process) as 
   max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_path
   = "*\\Windows\\Temp\\*" by Processes.dest Processes.user  _time span=20m | where
   distinct_process_count > 37 | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `excessive_number_of_distinct_processes_created_in_windows_temp_folder_filter`'
+  | `security_content_ctime(lastTime)` | `excessive_distinct_processes_from_windows_temp_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the full process path in the process field of CIM's Process data model.
   If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.

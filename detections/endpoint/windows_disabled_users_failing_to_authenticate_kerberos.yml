@@ -1,4 +1,4 @@
-name: Multiple Disabled Users Failing To Authenticate From Host Using Kerberos
+name: Windows Disabled Users Failing To Authenticate Kerberos
 id: 98f22d82-9d62-11eb-9fcf-acde48001122
 version: 1
 date: '2021-04-14'
@@ -31,7 +31,7 @@ search: '`wineventlog_security` EventCode=4768 Account_Name!="*$" Result_Code=0x
   as tried_accounts by _time, Client_Address | eventstats avg(unique_accounts) as
   comp_avg , stdev(unique_accounts) as comp_std by Client_Address | eval upperBound=(comp_avg+comp_std*3)
   | eval isOutlier=if(unique_accounts > 10 and unique_accounts >= upperBound, 1, 0)
-  | search isOutlier=1 | `multiple_disabled_users_failing_to_authenticate_from_host_using_kerberos_filter` '
+  | search isOutlier=1 | `windows_disabled_users_failing_to_authenticate_kerberos_filter` '
 how_to_implement: To successfully implement this search, you need to be ingesting
   Domain Controller and Kerberos events. The Advanced Security Audit policy setting
   `Audit Kerberos Authentication Service` within `Account Logon` needs to be enabled.
