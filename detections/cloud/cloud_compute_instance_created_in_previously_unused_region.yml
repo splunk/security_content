@@ -10,7 +10,7 @@ description: This search looks at cloud-infrastructure events where an instance 
   created in any region within the last hour and then compares it to a lookup file
   of previously seen regions where instances have been created.
 search: '| tstats earliest(_time) as firstTime latest(_time) as lastTime values(All_Changes.object_id)
-  as dest, count from datamodel=Change where All_Changes.action=created by All_Changes.vendor_region,
+  as dest, count from datamodel=Change.All_Changes where All_Changes.action=created by All_Changes.vendor_region,
   All_Changes.user | `drop_dm_object_name("All_Changes")` | lookup previously_seen_cloud_regions
   vendor_region as vendor_region OUTPUTNEW firstTimeSeen, enough_data | eventstats
   max(enough_data) as enough_data | where enough_data=1 | eval firstTimeSeenRegion=min(firstTimeSeen)

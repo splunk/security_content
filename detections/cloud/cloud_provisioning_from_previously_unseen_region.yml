@@ -9,7 +9,7 @@ datamodel:
 description: This search looks for cloud provisioning activities from previously unseen
   regions. Provisioning activities are defined broadly as any event that runs or creates
   something.
-search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from datamodel=Change
+search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from datamodel=Change.All_Changes
   where (All_Changes.action=started OR All_Changes.action=created) All_Changes.status=success
   by All_Changes.src, All_Changes.user, All_Changes.object, All_Changes.command |
   `drop_dm_object_name("All_Changes")` | iplocation src | where isnotnull(Region)

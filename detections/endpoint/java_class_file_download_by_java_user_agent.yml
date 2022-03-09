@@ -10,7 +10,7 @@ description: The following analytic identifies a Java user agent performing a GE
   request for a .class file from the remote site. This is potentially indicative of
   exploitation of the Java application and may be related to current event CVE-2021-44228
   (Log4Shell).
-search: '| tstats count from datamodel=Web where Web.http_user_agent="*Java*" Web.http_method="GET"
+search: '| tstats count from datamodel=Web.Web where Web.http_user_agent="*Java*" Web.http_method="GET"
   Web.url="*.class*" by Web.http_user_agent Web.http_method, Web.url,Web.url_length
   Web.src, Web.dest | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `java_class_file_download_by_java_user_agent_filter`'
