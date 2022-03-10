@@ -74,6 +74,7 @@ Administrators may allow creation of script or exe in the paths specified. Filte
 * [XMRig](/stories/xmrig)
 * [Remcos](/stories/remcos)
 * [WhisperGate](/stories/whispergate)
+* [Hermetic Wiper](/stories/hermetic_wiper)
 
 
 #### Kill Chain Phase
