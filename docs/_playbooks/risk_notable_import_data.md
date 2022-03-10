@@ -27,20 +27,15 @@ This playbook gathers all of the events associated with the risk notable and imp
 
 
 #### How To Implement
-The Splunk search used to locate contributing events requires three fields in the notable artifact\: risk_object, info_min_time, and info_max_time. The query also performs some deduplication on contributing events and may need to be adjusted based on individual Enterprise Security environments. Mitre Tactics and Techniques appear if using the annotation framework in Splunk ES.&#34;
-```index=risk risk_object=\&#34;{0}\&#34; earliest=\&#34;{1}\&#34; latest=&#34;{2}\&#34; | rex field=source \&#34;.*-\s(?&lt;source&gt;.*)\s+-\s+\w+\s+-\s+Rule\&#34; | fillnull value=\&#34;unknown\&#34; threat_object | eval risk_message=coalesce(risk_message,source) | stats values(*) as * by _time source threat_object risk_message | rename annotations.mitre_attack.mitre_technique_id as mitre_technique_id annotations.mitre_attack.mitre_tactic as mitre_tactic annotations.mitre_attack.mitre_technique as mitre_technique | fields - annotations* risk_object_* date_* orig_* user_* src_user_* src_* dest_* dest_user_* info_* search_* splunk_* tag* risk_modifier* risk_rule* sourcetype timestamp index next_cron_time timeendpos timestartpos testmode linecount | sort + _time | `uitime(_time)` | dedup source threat_object```
-A custom code block sorts the returned event data and produces a markdown formatted note into the note_content output field. This field is then available for use in downstream playbooks.&#34;
+The Splunk search used to locate contributing events requires three fields in the notable artifact\: risk_object, info_min_time, and info_max_time. The query also performs some deduplication on contributing events and may need to be adjusted based on individual Enterprise Security environments. Mitre Tactics and Techniques appear if using the annotation framework in Splunk ES."
+```index=risk risk_object=\"{0}\" earliest=\"{1}\" latest="{2}\" | rex field=source \".*-\s(?<source>.*)\s+-\s+\w+\s+-\s+Rule\" | fillnull value=\"unknown\" threat_object | eval risk_message=coalesce(risk_message,source) | stats values(*) as * by _time source threat_object risk_message | rename annotations.mitre_attack.mitre_technique_id as mitre_technique_id annotations.mitre_attack.mitre_tactic as mitre_tactic annotations.mitre_attack.mitre_technique as mitre_technique | fields - annotations* risk_object_* date_* orig_* user_* src_user_* src_* dest_* dest_user_* info_* search_* splunk_* tag* risk_modifier* risk_rule* sourcetype timestamp index next_cron_time timeendpos timestartpos testmode linecount | sort + _time | `uitime(_time)` | dedup source threat_object```
+A custom code block sorts the returned event data and produces a markdown formatted note into the note_content output field. This field is then available for use in downstream playbooks."
 
 
 #### Playbooks
 ![](https://raw.githubusercontent.com/splunk/security_content/develop/playbooks/risk_notable_import_data.png)
 
 #### Required field
-* event_id
-* info_min_time
-* info_max_time
-* risk_object
-* risk_object_type
 
 
 #### Reference

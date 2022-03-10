@@ -1,6 +1,7 @@
 ---
 title: "ServicePrincipalNames Discovery with PowerShell"
-excerpt: "Kerberoasting"
+excerpt: "Kerberoasting
+"
 categories:
   - Endpoint
 last_modified_at: 2021-10-14
@@ -26,7 +27,7 @@ A service principal name (SPN) is a unique identifier of a service instance. SPN
 The following analytic identifies the use of KerberosRequestorSecurityToken class within the script block. Using .NET System.IdentityModel.Tokens.KerberosRequestorSecurityToken class in PowerShell is the equivelant of using setspn.exe. \
 During triage, review parallel processes for further suspicious activity.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-10-14
@@ -52,8 +53,8 @@ During triage, review parallel processes for further suspicious activity.
 
 #### Macros
 The SPL above uses the following Macros:
-* [powershell](https://github.com/splunk/security_content/blob/develop/macros/powershell.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [powershell](https://github.com/splunk/security_content/blob/develop/macros/powershell.yml)
 
 Note that `serviceprincipalnames_discovery_with_powershell_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -84,7 +85,7 @@ False positives should be limited, however filter as needed.
 
 
 #### Kill Chain Phase
-* Privilege Escalation
+* Exploitation
 
 
 
@@ -94,8 +95,6 @@ False positives should be limited, however filter as needed.
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to identify service principle names. |
 
-
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 
@@ -121,6 +120,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.003/atomic_red_team/windows-powershell_kerberos.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.003/atomic_red_team/windows-powershell_kerberos.log)
 

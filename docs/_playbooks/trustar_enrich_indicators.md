@@ -15,7 +15,7 @@ tags:
 
 #### Description
 
-Use TruSTAR to gather threat information about indicators in a SOAR event. Tag the indicators with the normalized priority score from TruSTAR and summarize the findings in an analyst note. This playbook is meant to be used as a child playbook executed by a parent playbook such as &#34;threat_intel_investigate&#34;.
+Use TruSTAR to gather threat information about indicators in a SOAR event. Tag the indicators with the normalized priority score from TruSTAR and summarize the findings in an analyst note. This playbook is meant to be used as a child playbook executed by a parent playbook such as "threat_intel_investigate".
 
 - **Type**: Investigation
 - **Product**: Splunk SOAR
@@ -28,13 +28,12 @@ Use TruSTAR to gather threat information about indicators in a SOAR event. Tag t
 
 
 #### How To Implement
-To use this playbook as a sub-playbook of &#34;threat_intel_investigate&#34;, copy it to the local git repository and make sure it has the tags &#34;investigate&#34; and &#34;threat_intel&#34;. To use this playbook as a sub-playbook of &#34;risk_notable_enrich&#34;, copy it to local and make sure it has the tags &#34;investigate&#34; and &#34;risk_notable&#34; To control the types of indicators processed by this playbook, change the data types of the &#34;indicators&#34; input&#34;
+To use this playbook as a sub-playbook of "threat_intel_investigate", copy it to the local git repository and make sure it has the tags "investigate" and "threat_intel". To use this playbook as a sub-playbook of "risk_notable_enrich", copy it to local and make sure it has the tags "investigate" and "risk_notable" To control the types of indicators processed by this playbook, change the data types of the "indicators" input"
 
 #### Playbooks
 ![](https://raw.githubusercontent.com/splunk/security_content/develop/playbooks/trustar_enrich_indicators.png)
 
 #### Required field
-* indicators
 
 
 #### Reference

@@ -1,6 +1,8 @@
 ---
 title: "O365 New Federated Domain Added"
-excerpt: "Cloud Account, Create Account"
+excerpt: "Cloud Account
+, Create Account
+"
 categories:
   - Cloud
 last_modified_at: 2021-01-26
@@ -8,10 +10,9 @@ toc: true
 toc_label: ""
 tags:
   - Cloud Account
-  - Persistence
   - Create Account
   - Persistence
-  - Splunk Security Analytics for AWS
+  - Persistence
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -25,8 +26,8 @@ tags:
 
 This search detects the addition of a new Federated domain.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
-- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-01-26
 - **Author**: Rod Soto, Splunk
@@ -53,8 +54,8 @@ This search detects the addition of a new Federated domain.
 
 #### Macros
 The SPL above uses the following Macros:
-* [o365_management_activity](https://github.com/splunk/security_content/blob/develop/macros/o365_management_activity.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [o365_management_activity](https://github.com/splunk/security_content/blob/develop/macros/o365_management_activity.yml)
 
 Note that `o365_new_federated_domain_added_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -82,7 +83,7 @@ The creation of a new Federated domain is not necessarily malicious, however the
 
 
 #### Kill Chain Phase
-* Actions on Objective
+* Exploitation
 
 
 
@@ -92,8 +93,6 @@ The creation of a new Federated domain is not necessarily malicious, however the
 | ----------- | ----------- |--------------|--------------|
 | 64.0 | 80 | 80 | User $UserId$ has added a new federated domaain $Parameters.Value$ for $OrganizationName$ |
 
-
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 
@@ -110,6 +109,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.003/o365_new_federated_domain/o365_new_federated_domain.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.003/o365_new_federated_domain/o365_new_federated_domain.json)
 

@@ -34,9 +34,6 @@ This playbook uses the following custom lists:  ip_address_blocklist, domain_blo
 ![](https://raw.githubusercontent.com/splunk/security_content/develop/playbooks/block_indicators.png)
 
 #### Required field
-* destinationDnsDomain
-* destinationAddress
-* fileHash
 
 
 #### Reference

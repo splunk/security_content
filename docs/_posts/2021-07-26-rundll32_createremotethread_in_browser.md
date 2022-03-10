@@ -1,6 +1,7 @@
 ---
 title: "Rundll32 CreateRemoteThread In Browser"
-excerpt: "Process Injection"
+excerpt: "Process Injection
+"
 categories:
   - Endpoint
 last_modified_at: 2021-07-26
@@ -22,9 +23,9 @@ tags:
 
 #### Description
 
-This analytic identifies the suspicious Remote Thread execution of rundll32.exe process to &#34;firefox.exe&#34; and &#34;chrome.exe&#34; browser. This technique was seen in IcedID malware where it hooks the browser to parse banking information as user used the targetted browser process.
+This analytic identifies the suspicious Remote Thread execution of rundll32.exe process to "firefox.exe" and "chrome.exe" browser. This technique was seen in IcedID malware where it hooks the browser to parse banking information as user used the targetted browser process.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-07-26
@@ -88,8 +89,6 @@ unknown
 | 70.0 | 70 | 100 | rundl32 process $SourceImage$ create a remote thread to browser process $TargetImage$ in host $Computer$ |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -101,6 +100,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/inf_icedid/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/inf_icedid/windows-sysmon.log)
 

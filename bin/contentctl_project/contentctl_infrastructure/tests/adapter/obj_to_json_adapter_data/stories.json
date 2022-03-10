@@ -23,8 +23,46 @@
                 "Splunk Cloud"
             ],
             "usecase": "Advanced Threat Detection",
-            "mitre_attack_enrichments": [],
-            "mitre_attack_tactics": [],
+            "mitre_attack_enrichments": [
+                {
+                    "mitre_attack_id": "T1003.002",
+                    "mitre_attack_technique": "Security Account Manager",
+                    "mitre_attack_tactics": [
+                        "Credential Access"
+                    ],
+                    "mitre_attack_groups": [
+                        "Dragonfly 2.0",
+                        "GALLIUM",
+                        "Ke3chang",
+                        "Night Dragon",
+                        "Threat Group-3390",
+                        "Wizard Spider",
+                        "menuPass"
+                    ]
+                },
+                {
+                    "mitre_attack_id": "T1003",
+                    "mitre_attack_technique": "OS Credential Dumping",
+                    "mitre_attack_tactics": [
+                        "Credential Access"
+                    ],
+                    "mitre_attack_groups": [
+                        "APT28",
+                        "APT32",
+                        "APT39",
+                        "Axiom",
+                        "Frankenstein",
+                        "Leviathan",
+                        "Poseidon Group",
+                        "Sowbug",
+                        "Suckfly",
+                        "Tonto Team"
+                    ]
+                }
+            ],
+            "mitre_attack_tactics": [
+                "Credential Access"
+            ],
             "datamodels": [
                 "Endpoint"
             ],
@@ -145,7 +183,44 @@
                     ],
                     "risk_score": 90,
                     "security_domain": "endpoint",
-                    "risk_severity": "high"
+                    "risk_severity": "high",
+                    "mitre_attack_enrichments": [
+                        {
+                            "mitre_attack_id": "T1003.002",
+                            "mitre_attack_technique": "Security Account Manager",
+                            "mitre_attack_tactics": [
+                                "Credential Access"
+                            ],
+                            "mitre_attack_groups": [
+                                "Dragonfly 2.0",
+                                "GALLIUM",
+                                "Ke3chang",
+                                "Night Dragon",
+                                "Threat Group-3390",
+                                "Wizard Spider",
+                                "menuPass"
+                            ]
+                        },
+                        {
+                            "mitre_attack_id": "T1003",
+                            "mitre_attack_technique": "OS Credential Dumping",
+                            "mitre_attack_tactics": [
+                                "Credential Access"
+                            ],
+                            "mitre_attack_groups": [
+                                "APT28",
+                                "APT32",
+                                "APT39",
+                                "Axiom",
+                                "Frankenstein",
+                                "Leviathan",
+                                "Poseidon Group",
+                                "Sowbug",
+                                "Suckfly",
+                                "Tonto Team"
+                            ]
+                        }
+                    ]
                 },
                 "deprecated": false,
                 "experimental": false,

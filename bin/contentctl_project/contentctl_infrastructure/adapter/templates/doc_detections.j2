@@ -10,7 +10,7 @@ last_modified_at: {{object.date}}
 toc: true
 toc_label: ""
 tags:
-{% if object.tags.mitre_attack_enrichments %}
+{%- if object.tags.mitre_attack_enrichments %}
 {%- for attack in object.tags.mitre_attack_enrichments %}
   - {{ attack.mitre_attack_technique }}
 {%- endfor -%}
@@ -19,7 +19,7 @@ tags:
   - {{ tactic }}
 {%- endfor -%}
 {%- endfor -%}
-{% endif -%}
+{%- endif -%}
 {%- for product in object.tags.product %}
   - {{ product }}
 {%- endfor -%}

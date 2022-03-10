@@ -1,6 +1,7 @@
 ---
 title: "Detect processes used for System Network Configuration Discovery"
-excerpt: "System Network Configuration Discovery"
+excerpt: "System Network Configuration Discovery
+"
 categories:
   - Endpoint
 last_modified_at: 2020-11-10
@@ -23,7 +24,7 @@ tags:
 
 This search looks for fast execution of processes used for system network configuration discovery on the endpoint.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-11-10
@@ -55,8 +56,8 @@ This search looks for fast execution of processes used for system network config
 #### Macros
 The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [system_network_configuration_discovery_tools](https://github.com/splunk/security_content/blob/develop/macros/system_network_configuration_discovery_tools.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `detect_processes_used_for_system_network_configuration_discovery_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -99,8 +100,6 @@ It is uncommon for normal users to execute a series of commands used for network
 | 32.0 | 40 | 80 | An instance of $parent_process_name$ spawning multiple $process_name$ was identified on endpoint $dest$ by user $user$ typically not a normal behavior of the process. |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -109,6 +108,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1016/discovery_commands/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1016/discovery_commands/windows-sysmon.log)
 

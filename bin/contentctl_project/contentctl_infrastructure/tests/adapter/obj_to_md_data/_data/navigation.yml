@@ -12,6 +12,16 @@ main:
 detections:
   - title: "Tactic"
     children:
+      - title: Credential Access
+        url: /detections/credential_access/
+      - title: Defense Evasion
+        url: /detections/defense_evasion/
+      - title: Initial Access
+        url: /detections/initial_access/
+      - title: Persistence
+        url: /detections/persistence/
+      - title: Privilege Escalation
+        url: /detections/privilege_escalation/
   - title: "Datamodel"
     children:
       - title: Endpoint

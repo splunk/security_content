@@ -1,6 +1,7 @@
 ---
 title: "Windows Curl Download to Suspicious Path"
-excerpt: "Ingress Tool Transfer"
+excerpt: "Ingress Tool Transfer
+"
 categories:
   - Endpoint
 last_modified_at: 2021-10-19
@@ -25,7 +26,7 @@ The following analytic identifies the use of Windows Curl.exe downloading a file
 -O or --output is used when a file is to be downloaded and placed in a specified location. \
 During triage, review parallel processes for further behavior. In addition, identify if the download was successful. If a file was downloaded, capture and analyze.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-10-19
@@ -96,8 +97,6 @@ It is possible Administrators or super users will use Curl for legitimate purpos
 | 80.0 | 80 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ to download a file to a suspicious directory. |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -111,6 +110,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1105/atomic_red_team/windows-sysmon_curl.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1105/atomic_red_team/windows-sysmon_curl.log)
 
