@@ -8,6 +8,7 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
+  - Endpoint_Processes
 ---
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -17,7 +18,7 @@ tags:
 Monitor and detect techniques used by attackers who leverage the mshta.exe process to execute malicious code.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint), [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2021-01-20
 - **Author**: Bhavin Patel, Michael Haag, Splunk
 - **ID**: 2b1800dd-92f9-47dd-a981-fdf13w1q5d55
@@ -50,6 +51,10 @@ The objective of this step is to confirm the executed script code is benign or m
 | [Registry Keys Used For Persistence](/endpoint/registry_keys_used_for_persistence/) | [Registry Run Keys / Startup Folder](/tags/#registry-run-keys-/-startup-folder), [Boot or Logon Autostart Execution](/tags/#boot-or-logon-autostart-execution) | TTP |
 | [Suspicious mshta child process](/endpoint/suspicious_mshta_child_process/) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Mshta](/tags/#mshta) | TTP |
 | [Suspicious mshta spawn](/endpoint/suspicious_mshta_spawn/) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Mshta](/tags/#mshta) | TTP |
+| [Windows MSHTA Child Process](/endpoint/windows_mshta_child_process/) | [Mshta](/tags/#mshta), [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution) | TTP |
+| [Windows MSHTA Command-Line URL](/endpoint/windows_mshta_command-line_url/) | [Mshta](/tags/#mshta), [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution) | TTP |
+| [Windows MSHTA Inline HTA Execution](/endpoint/windows_mshta_inline_hta_execution/) | [Mshta](/tags/#mshta), [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution) | TTP |
+| [Windows Rundll32 Inline HTA Execution](/endpoint/windows_rundll32_inline_hta_execution/) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Mshta](/tags/#mshta) | TTP |
 
 #### Reference
 

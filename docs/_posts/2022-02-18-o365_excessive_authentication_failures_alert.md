@@ -3,7 +3,7 @@ title: "O365 Excessive Authentication Failures Alert"
 excerpt: "Brute Force"
 categories:
   - Cloud
-last_modified_at: 2020-12-16
+last_modified_at: 2022-02-18
 toc: true
 toc_label: ""
 tags:
@@ -26,7 +26,7 @@ This search detects when an excessive number of authentication failures occur th
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **Last Updated**: 2020-12-16
+- **Last Updated**: 2022-02-18
 - **Author**: Rod Soto, Splunk
 - **ID**: d441364c-349c-453b-b55f-12eccab67cf9
 
@@ -40,11 +40,11 @@ This search detects when an excessive number of authentication failures occur th
 #### Search
 
 ```
-`o365_management_activity` Workload=AzureActiveDirectory UserAuthenticationMethod=* status=Failed 
-| stats count earliest(_time) as firstTime latest(_time) values(UserAuthenticationMethod) AS UserAuthenticationMethod values(UserAgent) AS UserAgent values(status) AS status values(src_ip) AS src_ip by user 
+`o365_management_activity` Workload=AzureActiveDirectory UserAuthenticationMethod=* status=failure 
+| stats count earliest(_time) AS firstTime latest(_time) AS lastTime values(UserAuthenticationMethod) AS UserAuthenticationMethod values(UserAgent) AS UserAgent values(status) AS status values(src_ip) AS src_ip by user 
 | where count > 10 
-|`security_content_ctime(firstTime)` 
-|`security_content_ctime(lastTime)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
 | `o365_excessive_authentication_failures_alert_filter`
 ```
 
@@ -105,4 +105,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/o365_excessive_authentication_failures_alert.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/o365_excessive_authentication_failures_alert.yml) \| *version*: **2**
