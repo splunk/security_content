@@ -1,6 +1,6 @@
 def artifact_create(container=None, name=None, label=None, severity=None, cef_field=None, cef_value=None, cef_data_type=None, tags=None, run_automation=None, input_json=None, **kwargs):
     """
-    Create a new artifact with the specified attributes.
+    Create a new artifact with the specified attributes. Supports all fields available in /rest/artifact. Add any unlisted inputs as dictionary keys in input_json. Unsupported keys will automatically be dropped.
     
     Args:
         container (CEF type: phantom container id): Container which the artifact will be added to.
@@ -21,28 +21,29 @@ def artifact_create(container=None, name=None, label=None, severity=None, cef_fi
     import json
     import phantom.rules as phantom
     
+    valid_keys = [
+        'artifact_type', 'cef', 'cef_data', 'cef_types', 'container', 'container_id',  
+        'field_mapping', 'data', 'description', 'end_time', 'has_note', 'identifier', 
+        'ingest_app', 'ingest_app_id', 'kill_chain', 'label', 'name', 'owner_id', 
+        'parent_container', 'parent_artifact', 'raw_data', 'run_automation', 'severity',
+        'source_data_identifier', 'start_time', 'tags', 'type'
+    ]
     new_artifact = {}
     json_dict = None
+    rest_artifact = phantom.build_phantom_rest_url('artifact')
+    outputs = {}
     
     if isinstance(container, int):
-        container_id = container
+        new_artifact['container_id'] = container
     elif isinstance(container, dict):
-        container_id = container['id']
+        new_artifact['container_id'] = container['id']
     else:
         raise TypeError("container is neither an int nor a dictionary")
-
-    if name:
-        new_artifact['name'] = name
-    else:
-        new_artifact['name'] = 'artifact'
-    if label:
-        new_artifact['label'] = label
-    else:
-        new_artifact['label'] = 'events'
-    if severity:
-        new_artifact['severity'] = severity
-    else:
-        new_artifact['severity'] = 'Medium'
+    
+    new_artifact['name'] = name if name else 'artifact'
+    new_artifact['label'] = label if label else 'events'
+    new_artifact['severity'] = severity if severity else 'Medium'
+    new_artifact['tags'] = tags.replace(" ", "").split(",") if tags else None
 
     # validate that if cef_field or cef_value is provided, the other is also provided
     if (cef_field and not cef_value) or (cef_value and not cef_field):
@@ -50,9 +51,9 @@ def artifact_create(container=None, name=None, label=None, severity=None, cef_fi
 
     # cef_data should be formatted {cef_field: cef_value}
     if cef_field:
-        new_artifact['cef_data'] = {cef_field: cef_value}
+        new_artifact['cef'] = {cef_field: cef_value}
         if cef_data_type and isinstance(cef_data_type, str):
-            new_artifact['field_mapping'] = {cef_field: [cef_data_type]}
+            new_artifact['cef_types'] = {cef_field: [cef_data_type]}
 
     # run_automation must be "true" or "false" and defaults to "false"
     if run_automation:
@@ -75,30 +76,41 @@ def artifact_create(container=None, name=None, label=None, severity=None, cef_fi
             json_dict = json.loads(input_json)
         else:
             raise ValueError("input_json must be either 'dict' or valid json 'string'")
-            
+        
     if json_dict:
         # Merge dictionaries, using the value from json_dict if there are any conflicting keys
         for json_key in json_dict:
-            # extract tags from json_dict since it is not a valid parameter for phantom.add_artifact()
-            if json_key == 'tags':
-                tags = json_dict[json_key]
+            if json_key in valid_keys:
+                # translate keys supported in phantom.add_artifact() to their corresponding values in /rest/artifact
+                if json_key == 'container':
+                    new_artifact['container_id'] = json_dict[json_key]
+                elif json_key == 'raw_data':
+                    new_artifact['data'] = json_dict[json_key]
+                elif json_key == 'cef_data':
+                    new_artifact['cef'] = json_dict[json_key]
+                elif json_key == 'identifier':
+                    new_artifact['source_data_identifier'] = json_dict[json_key]
+                elif json_key == 'ingest_app':
+                    new_artifact['ingest_app_id'] = json_dict[json_key]
+                elif json_key == 'artifact_type':
+                    new_artifact['type'] = json_dict[json_key]
+                elif json_key == 'field_mapping':
+                    new_artifact['cef_types'] = json_dict[json_key]
+                else:
+                    new_artifact[json_key] = json_dict[json_key]
             else:
-                new_artifact[json_key] = json_dict[json_key]
+                phantom.debug(f"Unsupported key: '{json_key}'")
                 
     # now actually create the artifact
-    phantom.debug('creating a new artifact with the following attributes:\n{}'.format(new_artifact))
-    success, message, artifact_id = phantom.add_artifact(**new_artifact)
-
-    phantom.debug('add_artifact() returned the following:\nsuccess: {}\nmessage: {}\nartifact_id: {}'.format(success, message, artifact_id))
-    if not success:
-        raise RuntimeError("add_artifact() failed")
-
-    # add the tags in a separate REST call because there is no tags parameter in add_artifact()
-    if tags:
-        tags = tags.replace(" ", "").split(",")
-        url = phantom.build_phantom_rest_url('artifact', artifact_id)
-        response = phantom.requests.post(uri=url, json={'tags': tags}, verify=False).json()
-        phantom.debug('response from POST request to add tags:\n{}'.format(response))
+    phantom.debug(f"Creating artifact with the following details: '{new_artifact}'")
+    response_json = phantom.requests.post(rest_artifact, json=new_artifact, verify=False).json()
+    if response_json.get('message', '') == 'artifact already exists':
+        phantom.debug(f"Artifact already exists: '{response_json['existing_artifact_id']}'")
+    elif not response_json.get('success'):
+        raise RuntimeError(f"Error creating artifact: '{response_json}'")
+    else:
+        outputs['artifact_id'] = response_json['id']
         
-    # Return the id of the created artifact
-    return {'artifact_id': artifact_id}
+    # Return a JSON-serializable object
+    assert json.dumps(outputs)  # Will raise an exception if the :outputs: object is not JSON-serializable
+    return outputs
