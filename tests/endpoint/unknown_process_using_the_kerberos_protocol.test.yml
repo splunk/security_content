@@ -3,7 +3,7 @@ tests:
 - name: Unknown Process Using The Kerberos Protocol
   file: endpoint/unknown_process_using_the_kerberos_protocol.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-24h'
+  earliest_time: '-7d'
   latest_time: 'now'
   attack_data:
   - file_name: windows-security.log
