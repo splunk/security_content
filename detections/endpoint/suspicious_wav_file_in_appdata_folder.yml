@@ -79,3 +79,5 @@ tags:
   - process_path
   risk_score: 49
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon
