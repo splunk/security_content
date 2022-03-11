@@ -92,9 +92,9 @@ A complete use case, specifically built to detect, investigate, and respond to a
 * [detections/](detections/): Contains all 209 detection searches to-date and growing.
 * [stories/](stories/): All Analytic Stories that are group detections or also known as Use Cases
 * [deployments/](deployments/): Configuration for the schedule and alert action for all content
-* [responses/](responses/): Incident Response Playbooks/Workflow for responding to a specific Use Case or Threat.
-* [response_tasks/](response_tasks/): Individual steps in responses that help the user investigate via a Splunk search, automate via a phantom playbook, and visualize via dashboards threats.
+* [playbooks/](playbooks/): Incident Response Playbooks/Workflow for responding to a specific Use Case or Threat.
 * [baselines/](baselines/): Searches that must be executed before a detection runs. It is specifically useful for collecting data on a system before running your detection on the collected data.
+* [investigations/](investigations/): Investigations to further analysis the output from detections.
 * [dashboards/](dashboards/): JSON definitions of Mission Control dashboards, to be used as a response task. Currently not used.
 * [macros/](macros/): Implements Splunk’s search macros, shortcuts to commonly used search patterns like sysmon source type. More on how macros are used to customize content below.
 * [lookups/](lookups/): Implements Splunk’s lookup, usually to provide a list of static values like commonly used ransomware extensions.
@@ -116,7 +116,7 @@ If you have questions or need support, you can:
 
 
 ## License
-Copyright 2020 Splunk Inc.
+Copyright 2022 Splunk Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
