@@ -5,7 +5,7 @@ date: '2022-02-14'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
-- Endpoint.Processes
+- Endpoint
 description: This analytic is to look for dd command to overwrite file. This technique
   was abused by adversaries or threat actor to destroy files or data on specific system
   or in a large number of host within network to interrupt host avilability, services
@@ -57,14 +57,13 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.parent_process_id
-  - Endpoint.Processes.parent_process_name
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_guid
-  - Endpoint.Processes.process_id
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.user
   - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_id
   risk_score: 64
   security_domain: endpoint

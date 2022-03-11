@@ -5,7 +5,7 @@ date: '2022-01-18'
 author: David Dorsey, Michael Haag, Splunk
 type: Hunting
 datamodel:
-- Endpoint.Processes
+- Endpoint
 description: 'The following analytic identifies the use of the EncodedCommand PowerShell
   parameter. This is typically used by Administrators to run complex scripts, but
   commonly used by adversaries to hide their code. \
@@ -78,13 +78,12 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.original_file_name
-  - Endpoint.Processes.parent_process_name
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_id
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.user
   - _time
+  - Processes.process_name
+  - Processes.process
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.dest
+  - Processes.process_id
   risk_score: 35
   security_domain: endpoint

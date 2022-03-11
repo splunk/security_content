@@ -5,7 +5,7 @@ date: '2022-02-18'
 author: Patrick Bareiss, Splunk
 type: TTP
 datamodel:
-- Endpoint.Registry
+- Endpoint
 description: Monitor for changes of the ExecutionPolicy in the registry to the values
   "unrestricted" or "bypass," which allows the execution of malicious scripts.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -64,11 +64,11 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Registry.dest
-  - Endpoint.Registry.registry_path
-  - Endpoint.Registry.registry_value_data
-  - Endpoint.Registry.registry_value_name
   - _time
+  - Registry.registry_path
+  - Registry.registry_key_name
+  - Registry.registry_value_name
+  - Registry.dest
   risk_score: 48
   security_domain: endpoint
   supported_tas:

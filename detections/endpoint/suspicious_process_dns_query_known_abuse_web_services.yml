@@ -4,7 +4,8 @@ version: 2
 date: '2022-01-18'
 author: Teoderick Contreras, Splunk
 type: TTP
-datamodel: []
+datamodel:
+- Endpoint
 description: This analytic detects a suspicious process making a DNS query via known,
   abused text-paste web services, VoIP, instant messaging, and digital distribution
   platforms used to download external files. This technique is abused by adversaries,

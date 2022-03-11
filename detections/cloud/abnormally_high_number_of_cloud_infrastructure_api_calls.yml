@@ -60,10 +60,10 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Change.All_Changes.command
-  - Change.All_Changes.status
-  - Change.All_Changes.user
   - _time
+  - All_Changes.command
+  - All_Changes.user
+  - All_Changes.status
   risk_score: 15
   security_domain: network
   supported_tas:

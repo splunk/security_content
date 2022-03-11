@@ -5,8 +5,7 @@ date: '2021-07-01'
 author: Mauricio Velazco, Michael Haag, Splunk
 type: TTP
 datamodel:
-- Endpoint.Filesystem
-- Endpoint.Processes
+- Endpoint
 description: The following analytic identifies a `.dll` being written by `spoolsv.exe`.
   This was identified during our testing of CVE-2021-34527 previously (CVE-2021-1675)
   or PrintNightmare. Typically, this is not normal behavior for `spoolsv.exe` to write
@@ -71,14 +70,15 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Filesystem.dest
-  - Endpoint.Filesystem.file_create_time
-  - Endpoint.Filesystem.file_name
-  - Endpoint.Filesystem.file_path
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.process_id
-  - Endpoint.Processes.process_name
   - _time
+  - Filesystem.dest
+  - Filesystem.file_create_time
+  - Filesystem.file_name
+  - Filesystem.file_path
+  - Processes.process_name
+  - Processes.process_id
+  - Processes.process_name
+  - Processes.dest
   risk_score: 72
   security_domain: endpoint
   supported_tas:

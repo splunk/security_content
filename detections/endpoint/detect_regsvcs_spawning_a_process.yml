@@ -5,7 +5,7 @@ date: '2021-02-12'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
-- Endpoint.Processes
+- Endpoint
 description: The following analytic identifies regsvcs.exe spawning a process. This
   particular technique has been used in the wild to bypass application control products.
   Regasm.exe and Regsvcs.exe are signed by Microsoft. Spawning of a child process
@@ -75,15 +75,15 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.parent_process
-  - Endpoint.Processes.parent_process_id
-  - Endpoint.Processes.parent_process_name
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_id
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.user
   - _time
+  - Processes.parent_process_name
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_id
   risk_score: 64
   security_domain: endpoint
   supported_tas:

@@ -5,7 +5,7 @@ date: '2021-12-17'
 author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
-- Endpoint.Filesystem
+- Endpoint
 description: The following analytic identifies a suspicious file creation in known
   cron table directories. This event is commonly abuse by malware, adversaries and
   red teamers to persist on the target or compromised host. crontab or cronjob is
@@ -62,11 +62,11 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Filesystem.dest
-  - Endpoint.Filesystem.file_create_time
-  - Endpoint.Filesystem.file_name
-  - Endpoint.Filesystem.file_path
-  - Endpoint.Filesystem.process_guid
   - _time
+  - Filesystem.dest
+  - Filesystem.file_create_time
+  - Filesystem.file_name
+  - Filesystem.process_guid
+  - Filesystem.file_path
   risk_score: 25
   security_domain: endpoint

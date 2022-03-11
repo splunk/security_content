@@ -61,7 +61,8 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - errorCode
   - eventName
+  - userAgent
+  - errorCode
   risk_score: 63
   security_domain: cloud

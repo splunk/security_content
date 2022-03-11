@@ -5,7 +5,7 @@ date: '2021-07-01'
 author: Mauricio Velazco, Michael Haag, Splunk
 type: TTP
 datamodel:
-- Endpoint.Processes
+- Endpoint
 description: The following analytic identifies a suspicious child process, `rundll32.exe`,
   with no command-line arguments being spawned from `spoolsv.exe`. This was identified
   during our testing of CVE-2021-34527 previously (CVE-2021-1675) or PrintNightmare.
@@ -70,16 +70,18 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.original_file_name
-  - Endpoint.Processes.parent_process
-  - Endpoint.Processes.parent_process_id
-  - Endpoint.Processes.parent_process_name
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_id
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.user
   - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.parent_process
+  - Processes.original_file_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_path
+  - Processes.process_path
+  - Processes.parent_process_id
   risk_score: 72
   security_domain: endpoint
   supported_tas:

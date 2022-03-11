@@ -4,9 +4,7 @@ version: 4
 date: '2020-07-22'
 author: Rico Valdez, Splunk
 type: TTP
-datamodel:
-- Endpoint.Filesystem
-- Endpoint.Processes
+datamodel: []
 description: This search detects writes to the recycle bin by a process other than
   explorer.exe.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -58,15 +56,15 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Filesystem.dest
-  - Endpoint.Filesystem.file_name
-  - Endpoint.Filesystem.file_path
-  - Endpoint.Filesystem.process_id
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.parent_process_name
-  - Endpoint.Processes.process_id
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.user
   - _time
+  - Filesystem.file_path
+  - Filesystem.file_name
+  - Filesystem.process_id
+  - Filesystem.dest
+  - Processes.user
+  - Processes.process_name
+  - Processes.parent_process_name
+  - Processes.process_id
+  - Processes.dest
   risk_score: 28
   security_domain: endpoint

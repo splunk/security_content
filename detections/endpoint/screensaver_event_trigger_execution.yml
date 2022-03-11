@@ -5,7 +5,7 @@ date: '2021-09-27'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
-- Endpoint.Registry
+- Endpoint
 description: This analytic is developed to detect possible event trigger execution
   through screensaver registry entry modification for persistence or privilege escalation.
   This technique was seen in several APT and malware where they put the malicious
@@ -59,12 +59,12 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Registry.dest
-  - Endpoint.Registry.registry_key_name
-  - Endpoint.Registry.registry_path
-  - Endpoint.Registry.registry_value_name
-  - Endpoint.Registry.user
   - _time
+  - Registry.dest
+  - Registry.user
+  - Registry.registry_path
+  - Registry.registry_key_name
+  - Registry.registry_value_name
   risk_score: 72
   security_domain: endpoint
   supported_tas:

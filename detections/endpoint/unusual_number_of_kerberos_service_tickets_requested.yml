@@ -57,10 +57,13 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Client_Address
-  - EventCode
-  - Service_Name
-  - Ticket_Encryption_Type
   - _time
+  - EventCode
+  - Ticket_Options
+  - Ticket_Encryption_Type
+  - dest
+  - Service_Name
+  - service_id
+  - Client_Address
   risk_score: 36
   security_domain: endpoint

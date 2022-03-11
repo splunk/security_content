@@ -64,12 +64,13 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Computer
+  - _time
   - EventCode
+  - TargetImage
+  - CallTrace
+  - Computer
+  - TargetProcessId
   - SourceImage
   - SourceProcessId
-  - TargetImage
-  - TargetProcessId
-  - _time
   risk_score: 36
   security_domain: endpoint

@@ -5,8 +5,7 @@ date: '2022-01-28'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
-- Endpoint.Processes
-- Endpoint.Registry
+- Endpoint
 description: The following search identifies Eventvwr bypass by identifying the registry
   modification into a specific path that eventvwr.msc looks to (but is not valid)
   upon execution. A successful attack will include a suspicious command to be executed
@@ -72,21 +71,12 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.parent_process
-  - Endpoint.Processes.parent_process_name
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_guid
-  - Endpoint.Processes.process_id
-  - Endpoint.Processes.process_name
-  - Endpoint.Registry.dest
-  - Endpoint.Registry.process_guid
-  - Endpoint.Registry.registry_key_name
-  - Endpoint.Registry.registry_path
-  - Endpoint.Registry.registry_value_data
-  - Endpoint.Registry.registry_value_name
-  - Endpoint.Registry.user
   - _time
+  - Registry.registry_key_name
+  - Registry.registry_path
+  - Registry.user
+  - Registry.dest
+  - Registry.registry_value_name
   risk_score: 80
   security_domain: endpoint
   supported_tas:

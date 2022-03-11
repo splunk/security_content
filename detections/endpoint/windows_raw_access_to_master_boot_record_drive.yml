@@ -4,7 +4,8 @@ version: 1
 date: '2022-02-17'
 author: Teoderick Contreras, Splunk
 type: TTP
-datamodel: []
+datamodel:
+- Endpoint
 description: This analytic is to look for suspicious raw access read to drive where
   the master boot record is placed. This technique was seen in several attacks by
   adversaries or threat actor to wipe, encrypt or overwrite the master boot record

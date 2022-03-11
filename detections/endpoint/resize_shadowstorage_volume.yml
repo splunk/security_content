@@ -5,7 +5,7 @@ date: '2021-03-12'
 author: Teoderick Contreras
 type: TTP
 datamodel:
-- Endpoint.Processes
+- Endpoint
 description: The following analytics identifies the resizing of shadowstorage by ransomware
   malware to avoid the shadow volumes being made again. this technique is an alternative
   by ransomware attacker than deleting the shadowstorage which is known alert in defensive
@@ -64,15 +64,13 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.parent_process
-  - Endpoint.Processes.parent_process_name
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_guid
-  - Endpoint.Processes.process_id
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.user
+  - Processes.process
+  - Process.parent_process_name
   - _time
+  - Processes.process_name
+  - Processes.parent_process
+  - Processes.dest
+  - Processes.user
   risk_score: 72
   security_domain: endpoint
   supported_tas:

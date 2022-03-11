@@ -4,7 +4,8 @@ version: 1
 date: '2021-12-21'
 author: Mauricio Velazco, Splunk
 type: Hunting
-datamodel: []
+datamodel:
+- Endpoint
 description: As part of the sAMAccountName Spoofing (CVE-2021-42278) and Domain Controller
   Impersonation (CVE-2021-42287) exploitation chain, adversaries will need to request
   a Kerberos Ticket Granting Ticket (TGT) on behalf of the newly created and renamed

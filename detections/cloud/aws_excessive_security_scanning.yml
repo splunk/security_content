@@ -62,8 +62,9 @@ tags:
   - _time
   - eventName
   - src
-  - user
   - userAgent
+  - user
+  - userIdentity.arn
   risk_object: src
   risk_object_type: system
   risk_score: 18

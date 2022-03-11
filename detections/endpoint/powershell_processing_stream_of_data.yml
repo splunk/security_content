@@ -58,10 +58,11 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - ComputerName
+  - _time
   - EventCode
   - Message
+  - ComputerName
   - User
-  - _time
+  - Score
   risk_score: 40
   security_domain: endpoint

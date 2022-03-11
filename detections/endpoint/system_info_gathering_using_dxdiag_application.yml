@@ -5,7 +5,7 @@ date: '2021-11-19'
 author: Teoderick Contreras, Splunk
 type: Hunting
 datamodel:
-- Endpoint.Processes
+- Endpoint
 description: This analytic is to detect a suspicious dxdiag.exe process command-line
   execution. Dxdiag is used to collect the system info of the target host. This technique
   has been used by Remcos RATS, various actors, and other malware to collect information
@@ -59,14 +59,17 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.parent_process
-  - Endpoint.Processes.parent_process_id
-  - Endpoint.Processes.parent_process_name
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_id
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.user
   - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.parent_process
+  - Processes.original_file_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_path
+  - Processes.process_path
+  - Processes.parent_process_id
   risk_score: 25
   security_domain: endpoint

@@ -5,8 +5,7 @@ date: '2021-09-21'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
-- Endpoint.Filesystem
-- Endpoint.Processes
+- Endpoint
 description: This analytic is to detect a suspicious creation of .wav file in appdata
   folder. This behavior was seen in Remcos RAT malware where it put the audio recording
   in the appdata\audio folde as part of data collection. this recording can be send
@@ -60,22 +59,13 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Filesystem.dest
-  - Endpoint.Filesystem.file_create_time
-  - Endpoint.Filesystem.file_name
-  - Endpoint.Filesystem.file_path
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_id
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.process_path
   - _time
   - dest
   - file_create_time
   - file_name
   - file_path
-  - process
   - process_name
   - process_path
+  - process
   risk_score: 49
   security_domain: endpoint

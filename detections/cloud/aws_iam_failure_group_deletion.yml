@@ -63,8 +63,9 @@ tags:
   - Splunk Security Analytics for AWS
   required_fields:
   - _time
-  - errorCode
   - eventName
   - userAgent
+  - errorCode
+  - requestParameters.groupName
   risk_score: 5
   security_domain: cloud

@@ -4,9 +4,7 @@ version: 3
 date: '2020-01-28'
 author: Bhavin Patel, Teoderick Contreras, Splunk
 type: TTP
-datamodel:
-- Endpoint.Processes
-- Endpoint.Registry
+datamodel: []
 description: This search looks for registry activity associated with modifications
   to the registry key `HKLM\SYSTEM\CurrentControlSet\Control\Print\Monitors`. In this
   scenario, an attacker can load an arbitrary .dll into the print-monitor registry
@@ -74,21 +72,12 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.parent_process
-  - Endpoint.Processes.parent_process_name
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_guid
-  - Endpoint.Processes.process_id
-  - Endpoint.Processes.process_name
-  - Endpoint.Registry.action
-  - Endpoint.Registry.dest
-  - Endpoint.Registry.process_guid
-  - Endpoint.Registry.registry_key_name
-  - Endpoint.Registry.registry_path
-  - Endpoint.Registry.registry_value_data
-  - Endpoint.Registry.registry_value_name
-  - Endpoint.Registry.user
   - _time
+  - Registry.action
+  - Registry.registry_path
+  - Registry.dest
+  - Registry.registry_key_name
+  - Registry.user
+  - Registry.registry_value_name
   risk_score: 64
   security_domain: endpoint

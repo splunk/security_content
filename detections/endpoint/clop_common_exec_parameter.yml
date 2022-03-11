@@ -5,7 +5,7 @@ date: '2021-03-17'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
-- Endpoint.Processes
+- Endpoint
 description: The following analytics are designed to identifies some CLOP ransomware
   variant that using arguments to execute its main code or feature of its code. In
   this variant if the parameter is "runrun", CLOP ransomware will try to encrypt files
@@ -67,15 +67,18 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.parent_process
-  - Endpoint.Processes.parent_process_id
-  - Endpoint.Processes.parent_process_name
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_id
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.user
   - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.parent_process
+  - Processes.original_file_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_path
+  - Processes.process_path
+  - Processes.parent_process_id
   risk_score: 100
   security_domain: endpoint
   supported_tas:

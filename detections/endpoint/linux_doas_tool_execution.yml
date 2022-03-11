@@ -5,7 +5,7 @@ date: '2022-01-05'
 author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
-- Endpoint.Processes
+- Endpoint
 description: This analytic is to detect the doas tool execution in linux host platform.
   This utility tool allow standard users to perform tasks as root, the same way sudo
   does. This tool is developed as a minimalistic alternative to sudo application.
@@ -63,14 +63,13 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.parent_process_id
-  - Endpoint.Processes.parent_process_name
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_guid
-  - Endpoint.Processes.process_id
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.user
   - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_id
   risk_score: 49
   security_domain: endpoint

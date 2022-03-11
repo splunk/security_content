@@ -5,7 +5,7 @@ date: '2020-12-08'
 author: David Dorsey, Splunk
 type: TTP
 datamodel:
-- Endpoint.Processes
+- Endpoint
 description: This search looks for process names that consist only of a single letter.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes by Processes.dest, Processes.user,
@@ -59,11 +59,11 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.user
   - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.process
+  - Processes.process_name
   risk_score: 63
   security_domain: endpoint
   supported_tas:

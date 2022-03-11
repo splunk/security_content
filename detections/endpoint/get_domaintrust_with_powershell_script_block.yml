@@ -66,10 +66,12 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - ComputerName
+  - _time
   - EventCode
   - Message
+  - Path
+  - OpCode
+  - ComputerName
   - User
-  - _time
   risk_score: 12
   security_domain: endpoint

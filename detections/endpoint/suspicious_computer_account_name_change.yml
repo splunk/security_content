@@ -4,7 +4,8 @@ version: 1
 date: '2021-12-20'
 author: Mauricio Velazco, Splunk
 type: TTP
-datamodel: []
+datamodel:
+- Endpoint
 description: As part of the sAMAccountName Spoofing (CVE-2021-42278) and Domain Controller
   Impersonation (CVE-2021-42287) exploitation chain, adversaries need to create a
   new computer account name and rename it to match the name of a domain controller

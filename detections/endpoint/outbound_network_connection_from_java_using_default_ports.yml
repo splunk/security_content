@@ -4,9 +4,7 @@ version: 1
 date: '2021-12-13'
 author: Mauricio Velazco, Splunk
 type: TTP
-datamodel:
-- Endpoint.Ports
-- Endpoint.Processes
+datamodel: []
 description: A required step while exploiting the CVE-2021-44228-Log4j vulnerability
   is that the victim server will perform outbound connections to attacker-controlled
   infrastructure. This is required as part of the JNDI lookup as well as for retrieving
@@ -61,15 +59,15 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Ports.dest
-  - Endpoint.Ports.dest_port
-  - Endpoint.Ports.process_guid
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.parent_process_name
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_guid
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.process_path
   - _time
+  - Processes.process_guid
+  - Processes.process_name
+  - Processes.dest
+  - Processes.process_path
+  - Processes.process
+  - Processes.parent_process_name
+  - Ports.process_guid
+  - Ports.dest
+  - Ports.dest_port
   risk_score: 54
   security_domain: endpoint

@@ -51,9 +51,10 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Account_Name
+  - _time
   - EventCode
-  - MSADChangedAttributes
+  - Account_Name
   - Security_ID
+  - MSADChangedAttributes
   risk_score: 45
   security_domain: endpoint

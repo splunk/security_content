@@ -5,7 +5,7 @@ date: '2021-09-16'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
-- Endpoint.Processes
+- Endpoint
 description: 'Detect procdump.exe dumping the lsass process. This query looks for
   both -mm and -ma usage. -mm will produce a mini dump file and -ma will write a dump
   file with all process memory. Both are highly suspect and should be reviewed. This
@@ -79,12 +79,14 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.original_file_name
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.user
   - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_id
   risk_score: 80
   security_domain: endpoint
   supported_tas:

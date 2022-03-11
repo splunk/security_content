@@ -62,10 +62,14 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - action
-  - status
+  - signature
+  - ModifiedProperties{}.Name
+  - ModifiedProperties{}.NewValue
+  - ModifiedProperties{}.OldValue
   - user
-  - user_id
   - vendor_account
+  - status
+  - user_id
+  - action
   risk_score: 42
   security_domain: threat

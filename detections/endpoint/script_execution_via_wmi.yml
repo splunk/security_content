@@ -5,7 +5,7 @@ date: '2020-03-16'
 author: Rico Valdez, Michael Haag, Splunk
 type: TTP
 datamodel:
-- Endpoint.Processes
+- Endpoint
 description: This search looks for scripts launched via WMI.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name=scrcons.exe
@@ -59,14 +59,10 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.parent_process
-  - Endpoint.Processes.parent_process_id
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_id
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.user
   - _time
+  - Processes.process_name
+  - Processes.user
+  - Processes.dest
   risk_score: 36
   security_domain: endpoint
   supported_tas:

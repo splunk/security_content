@@ -72,11 +72,12 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Account_Name
-  - ComputerName
+  - _time
   - EventCode
   - Logon_Type
+  - Security_ID
+  - Account_Name
+  - ComputerName
   - Source_Network_Address
-  - _time
   risk_score: 49
   security_domain: endpoint

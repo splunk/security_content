@@ -5,7 +5,7 @@ date: '2018-12-03'
 author: David Dorsey, Splunk
 type: TTP
 datamodel:
-- Endpoint.Processes
+- Endpoint
 description: The fsutil.exe application is a legitimate Windows utility used to perform
   tasks related to the file allocation table (FAT) and NTFS file systems. The update
   sequence number (USN) change journal provides a log of all changes made to the files
@@ -61,13 +61,13 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.parent_process
-  - Endpoint.Processes.parent_process_name
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.user
   - _time
+  - Processes.process
+  - Processes.parent_process
+  - Processes.process_name
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.dest
   risk_score: 45
   security_domain: endpoint
   supported_tas:

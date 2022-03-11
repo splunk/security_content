@@ -64,8 +64,9 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - errorCode
   - eventName
   - userAgent
+  - errorCode
+  - requestParameters.userName
   risk_score: 63
   security_domain: network

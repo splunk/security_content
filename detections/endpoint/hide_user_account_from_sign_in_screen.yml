@@ -5,8 +5,7 @@ date: '2022-01-28'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
-- Endpoint.Processes
-- Endpoint.Registry
+- Endpoint
 description: This analytic identifies a suspicious registry modification to hide a
   user account on the Windows Login screen. This technique was seen in some tradecraft
   where the adversary will create a hidden user account with Admin privileges in login
@@ -73,21 +72,11 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.parent_process
-  - Endpoint.Processes.parent_process_name
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_guid
-  - Endpoint.Processes.process_id
-  - Endpoint.Processes.process_name
-  - Endpoint.Registry.dest
-  - Endpoint.Registry.process_guid
-  - Endpoint.Registry.registry_key_name
-  - Endpoint.Registry.registry_path
-  - Endpoint.Registry.registry_value_data
-  - Endpoint.Registry.registry_value_name
-  - Endpoint.Registry.user
   - _time
+  - Registry.registry_key_name
+  - Registry.registry_path
+  - Registry.registry_value_name
+  - Registry.dest Registry.user
   risk_score: 72
   security_domain: endpoint
   supported_tas:

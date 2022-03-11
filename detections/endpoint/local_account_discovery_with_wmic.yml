@@ -5,7 +5,7 @@ date: '2021-09-16'
 author: Mauricio Velazco, Splunk
 type: Hunting
 datamodel:
-- Endpoint.Processes
+- Endpoint
 description: This analytic looks for the execution of `wmic.exe` with command-line
   arguments utilized to query for local users. The argument `useraccount` is used
   to leverage WMI to return a list of all local users. Red Teams and adversaries alike
@@ -48,13 +48,6 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.parent_process
-  - Endpoint.Processes.parent_process_id
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_id
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.user
   - _time
   risk_score: 15
   security_domain: endpoint

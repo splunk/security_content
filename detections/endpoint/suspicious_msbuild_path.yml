@@ -5,7 +5,7 @@ date: '2021-01-12'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
-- Endpoint.Processes
+- Endpoint
 description: The following analytic identifies msbuild.exe executing from a non-standard
   path. Msbuild.exe is natively found in C:\Windows\Microsoft.NET\Framework\v4.0.30319
   and C:\Windows\Microsoft.NET\Framework64\v4.0.30319. Instances of Visual Studio
@@ -72,14 +72,18 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.original_file_name
-  - Endpoint.Processes.parent_process
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.process_path
-  - Endpoint.Processes.user
   - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.parent_process
+  - Processes.original_file_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_path
+  - Processes.process_path
+  - Processes.parent_process_id
   risk_score: 49
   security_domain: endpoint
   supported_tas:

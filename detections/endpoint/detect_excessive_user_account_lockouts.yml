@@ -5,7 +5,7 @@ date: '2020-07-21'
 author: David Dorsey, Splunk
 type: Anomaly
 datamodel:
-- Change.All_Changes
+- Change
 description: This search detects user accounts that have been locked out a relatively
   high number of times in a short period.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -56,9 +56,9 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Change.All_Changes.result
-  - Change.All_Changes.user
   - _time
+  - All_Changes.result
   - nodename
+  - All_Changes.user
   risk_score: 36
   security_domain: access

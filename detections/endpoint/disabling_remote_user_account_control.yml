@@ -4,8 +4,7 @@ version: 4
 date: '2020-11-18'
 author: David Dorsey, Patrick Bareiss, Splunk
 type: TTP
-datamodel:
-- Endpoint.Registry
+datamodel: []
 description: The search looks for modifications to registry keys that control the
   enforcement of Windows User Account Control (UAC).
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -62,12 +61,12 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Registry.action
-  - Endpoint.Registry.dest
-  - Endpoint.Registry.registry_key_name
-  - Endpoint.Registry.registry_path
-  - Endpoint.Registry.registry_value_data
-  - Endpoint.Registry.user
   - _time
+  - Registry.registry_path
+  - Registry.registry_value_name
+  - Registry.dest
+  - Registry.registry_key_name
+  - Registry.user
+  - Registry.action
   risk_score: 42
   security_domain: endpoint

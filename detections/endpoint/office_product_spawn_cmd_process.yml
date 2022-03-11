@@ -5,7 +5,7 @@ date: '2021-07-19'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
-- Endpoint.Processes
+- Endpoint
 description: this search is to detect a suspicious office product process that spawn
   cmd child process. This is commonly seen in a ms office product having macro to
   execute shell command to download or execute malicious lolbin relative to its malicious
@@ -59,16 +59,18 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.original_file_name
-  - Endpoint.Processes.parent_process
-  - Endpoint.Processes.parent_process_name
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_guid
-  - Endpoint.Processes.process_id
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.user
   - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.parent_process
+  - Processes.original_file_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_path
+  - Processes.process_path
+  - Processes.parent_process_id
   risk_score: 56
   security_domain: endpoint
   supported_tas:

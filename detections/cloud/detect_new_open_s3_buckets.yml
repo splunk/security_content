@@ -64,11 +64,13 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - eventName
   - eventSource
-  - permission
-  - uri
-  - userAgent
+  - eventName
+  - requestParameters.bucketName
   - user_arn
+  - userIdentity.principalId
+  - userAgent
+  - uri
+  - permission
   risk_score: 48
   security_domain: threat

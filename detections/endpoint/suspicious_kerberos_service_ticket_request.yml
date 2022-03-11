@@ -4,7 +4,8 @@ version: 1
 date: '2021-12-20'
 author: Mauricio Velazco, Splunk
 type: TTP
-datamodel: []
+datamodel:
+- Endpoint
 description: As part of the sAMAccountName Spoofing (CVE-2021-42278) and Domain Controller
   Impersonation (CVE-2021-42287) exploitation chain, adversaries will request and
   obtain a Kerberos Service Ticket (TGS) with a domain controller computer account

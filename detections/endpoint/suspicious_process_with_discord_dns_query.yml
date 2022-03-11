@@ -4,7 +4,8 @@ version: 1
 date: '2022-01-19'
 author: Teoderick Contreras, Splunk
 type: Anomaly
-datamodel: []
+datamodel:
+- Endpoint
 description: This analytic identifies a process making a DNS query to Discord, a well
   known instant messaging and digital distribution platform. Discord can be abused
   by adversaries, as seen in the WhisperGate campaign, to host and download malicious.

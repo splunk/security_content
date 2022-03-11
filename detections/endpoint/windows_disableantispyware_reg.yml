@@ -5,7 +5,7 @@ date: '2021-03-02'
 author: Rod Soto, Jose Hernandez, Michael Haag, Splunk
 type: TTP
 datamodel:
-- Endpoint.Registry
+- Endpoint
 description: The search looks for the Registry Key DisableAntiSpyware set to disable.
   This is consistent with Ryuk infections across a fleet of endpoints. This particular
   behavior is typically executed when an ransomware actor gains access to an endpoint
@@ -60,12 +60,12 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Registry.dest
-  - Endpoint.Registry.registry_path
-  - Endpoint.Registry.registry_value_data
-  - Endpoint.Registry.registry_value_name
-  - Endpoint.Registry.user
   - _time
+  - Registry.registry_key_name
+  - Registry.registry_value_name
+  - Registry.dest
+  - Registry.user
+  - Registry.registry_path
   risk_score: 24
   security_domain: endpoint
   supported_tas:

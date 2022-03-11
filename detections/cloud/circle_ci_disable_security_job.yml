@@ -47,6 +47,7 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   - Dev Sec Ops Analytics
-  required_fields: []
+  required_fields:
+  - _times
   risk_score: 72
   security_domain: network

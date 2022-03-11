@@ -5,7 +5,7 @@ date: '2021-05-05'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
-- Endpoint.Processes
+- Endpoint
 description: The following analytic will detect a suspicious process running in a
   file path where a process is not commonly seen and is most commonly used by malicious
   software. This behavior has been used by adversaries where they drop and run an
@@ -65,14 +65,14 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.parent_process
-  - Endpoint.Processes.parent_process_name
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.process_path
-  - Endpoint.Processes.user
   - _time
+  - Processes.process_name
+  - Processes.process
+  - Processes.parent_process_name
+  - Processes.parent_process
+  - Processes.process_path
+  - Processes.dest
+  - Processes.user
   risk_score: 35
   security_domain: endpoint
   supported_tas:

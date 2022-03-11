@@ -5,7 +5,7 @@ date: '2020-07-22'
 author: Bhavin Patel, Splunk
 type: TTP
 datamodel:
-- Endpoint.Processes
+- Endpoint
 description: Attackers often disable security tools to avoid detection. This search
   looks for the usage of process `fltMC.exe` to unload a Sysmon Driver that will stop
   sysmon from collecting the data.
@@ -56,13 +56,13 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.parent_process_name
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_id
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.user
   - _time
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_name
+  - Processes.dest
+  - Processes.user
   risk_score: 45
   security_domain: endpoint
   supported_tas:

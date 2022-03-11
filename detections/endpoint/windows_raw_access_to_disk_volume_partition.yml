@@ -4,7 +4,8 @@ version: 1
 date: '2022-02-25'
 author: Teoderick Contreras, Splunk
 type: Anomaly
-datamodel: []
+datamodel:
+- Endpoint
 description: This analytic is to look for suspicious raw access read to device disk
   partition of the host machine. This technique was seen in several attacks by adversaries
   or threat actor to wipe, encrypt or overwrite the boot sector of each partition

@@ -5,7 +5,7 @@ date: '2020-11-09'
 author: David Dorsey, Splunk
 type: Hunting
 datamodel:
-- Endpoint.Filesystem
+- Endpoint
 description: The search looks for file modifications with extensions commonly used
   by Ransomware
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -81,10 +81,10 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Filesystem.dest
-  - Endpoint.Filesystem.file_name
-  - Endpoint.Filesystem.file_path
-  - Endpoint.Filesystem.user
   - _time
+  - Filesystem.user
+  - Filesystem.dest
+  - Filesystem.file_path
+  - Filesystem.file_name
   risk_score: 90
   security_domain: endpoint

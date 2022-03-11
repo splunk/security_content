@@ -55,9 +55,11 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - awsRegion
-  - eventID
   - eventName
   - eventSource
+  - eventID
+  - awsRegion
+  - requestParameters.policy
+  - userIdentity.principalId
   risk_score: 25
   security_domain: threat

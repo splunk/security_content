@@ -5,7 +5,7 @@ date: '2021-09-10'
 author: Mauricio Velazco, Splunk
 type: Hunting
 datamodel:
-- Endpoint.Processes
+- Endpoint
 description: This analytic looks for the execution of `arp.exe` utilized to get a
   listing of network connections on a compromised system. Red Teams and adversaries
   alike may use arp.exe for situational awareness and Active Directory Discovery.
@@ -48,12 +48,16 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.parent_process
-  - Endpoint.Processes.parent_process_id
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_id
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.user
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.parent_process
+  - Processes.original_file_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_path
+  - Processes.process_path
+  - Processes.parent_process_id
   risk_score: 15
   security_domain: endpoint

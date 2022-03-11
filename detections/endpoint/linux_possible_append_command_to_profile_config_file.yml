@@ -5,7 +5,7 @@ date: '2021-12-20'
 author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
-- Endpoint.Processes
+- Endpoint
 description: This analytic looks for suspicious command-lines that can be possibly
   used to modify user profile files to automatically execute scripts/executables by
   shell upon reboot of the machine. This technique is commonly abused by adversaries,
@@ -63,14 +63,13 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.parent_process_id
-  - Endpoint.Processes.parent_process_name
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_guid
-  - Endpoint.Processes.process_id
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.user
   - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_id
   risk_score: 49
   security_domain: endpoint

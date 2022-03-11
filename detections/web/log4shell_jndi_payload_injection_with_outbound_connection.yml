@@ -5,8 +5,8 @@ date: '2021-12-13'
 author: Jose Hernandez
 type: Anomaly
 datamodel:
-- Network_Traffic.All_Traffic
-- Web.Web
+- Network_Traffic
+- Web
 description: CVE-2021-44228 Log4Shell payloads can be injected via various methods,
   but on of the most common vectors injection is via Web calls. Many of the vulnerable
   java web applications that are using log4j have a web component to them are specially
@@ -69,7 +69,6 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Network_Traffic.All_Traffic.dest
   - action
   - category
   - dest

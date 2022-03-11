@@ -85,6 +85,7 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - _time
   - Message
   risk_score: 80
   security_domain: endpoint

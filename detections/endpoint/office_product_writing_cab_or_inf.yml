@@ -5,8 +5,7 @@ date: '2021-09-10'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
-- Endpoint.Filesystem
-- Endpoint.Processes
+- Endpoint
 description: The following analytic identifies behavior related to CVE-2021-40444.
   Whereas the malicious document will load ActiveX and download the remote payload
   (.inf, .cab). During triage, review parallel processes and further activity on endpoint
@@ -68,20 +67,12 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Filesystem.dest
-  - Endpoint.Filesystem.file_create_time
-  - Endpoint.Filesystem.file_name
-  - Endpoint.Filesystem.file_path
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_id
-  - Endpoint.Processes.process_name
   - _time
   - dest
+  - process_name
+  - process
   - file_create_time
   - file_name
   - file_path
-  - process
-  - process_name
   risk_score: 80
   security_domain: endpoint
