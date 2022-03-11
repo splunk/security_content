@@ -37,7 +37,8 @@ tags:
   - Stage:Defense Evasion
   cve:
   - CVE-2021-44228
-  dataset: []
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/java/java_spawn_shell_nix.log
   impact: 80
   kill_chain_phases:
   - Exploitation
