@@ -15,7 +15,7 @@ QUOTATIONS_PATTERN = r'''(["'])(?:(?=(\\?))\2.)*?\1'''
 KEY_VALUE_PATTERN = r"[a-zA-Z0-9_]+\.[a-zA-Z0-9_]+"
 
 def dictPrint(d):
-    
+
     printer = pprint.PrettyPrinter(indent=3)
     printer.pprint(d)
 
@@ -26,7 +26,7 @@ def parse_datamodel(datamodel_name, object)->dict:
         raise(Exception(("nested objects!")))
 
     #print(object.keys())
-    
+
     #print(object['calculations'])
     #input("W")
     allFields = []
@@ -37,24 +37,24 @@ def parse_datamodel(datamodel_name, object)->dict:
         for calc_dict in object['calculations']:
             if 'outputFields' in calc_dict:
                 allFields += calc_dict['outputFields']
-        
-    
+
+
     for field in allFields:
-        
+
         fieldName = field['fieldName']
         if fieldName in submodules:
             raise(Exception(f"Duplicate Field {field} in {datamodel_name}"))
-        
+
         submodel_fieldname = f"{object['objectName']}.{fieldName}"
         model_submodel_fieldname =  f"{datamodel_name}.{submodel_fieldname}"
         submodules[fieldName] = {"field_name": fieldName, "submodel.fieldname": submodel_fieldname, "datamodel.submodel.field_name": model_submodel_fieldname}
-        
+
 
     return submodules
 
 def load_datamodels_from_directory(datamodels_directory:str)->dict:
     all_models = {}
-    datamodel_filenames = glob.glob(os.path.join(datamodels_directory,"*.json"))    
+    datamodel_filenames = glob.glob(os.path.join(datamodels_directory,"*.json"))
     for datamodel_filename in datamodel_filenames:
         #Load the YAML File
         with open(datamodel_filename, "r") as model_stream:
@@ -66,8 +66,8 @@ def load_datamodels_from_directory(datamodels_directory:str)->dict:
         #Load all the submodels from the YAML file
         for submodel in json_datamodel['objects']:
             model_fields[submodel['objectName']] = parse_datamodel(model_name, submodel)
-        
-        
+
+
         all_models[model_name] = model_fields
     print(f"All {len(datamodel_filenames)} datamodels parsed")
 
@@ -100,9 +100,9 @@ def get_datamodels(search:str, filename:str)->list[tuple[str,str]]:
     matches = re.findall(DATAMODEL_PATTERN, search)
 
     #get the models and strip out the whitespace
-    
+
     #If we want different dot-separated versions
-    
+
     models_and_submodels = [model.replace(" ","=").split("=")[1].strip() for model in matches]
 
 
@@ -113,8 +113,8 @@ def get_datamodels(search:str, filename:str)->list[tuple[str,str]]:
         else:
             m,s = model_and_submodel.split(".")
             results.append((m,s))
-       
-            
+
+
     #If we only care about the top level
     #models_only = [model.split(".")[0].strip() for model in models_and_submodels]
 
@@ -126,14 +126,14 @@ def get_tokens(search:str):
 
 
 def update_required_fields_for_yaml(filename:str, search:str, required_fields:set, datamodels_from_datamodel_field:set, defined_datamodels:dict, required_fields_from_yaml:set[str])->dict:
-    
+
     datamodels_from_search = get_datamodels(search,filename)
     #print(f"Datamodels found in {filename}: {datamodels}")
     yaml_fields_to_update = {}
-    
-  
-                
-    
+
+
+
+
 
     #Now, ensure all the datamodels that we read from the file exist in the defiend datamodels
     for model, submodel in datamodels_from_search:
@@ -143,10 +143,10 @@ def update_required_fields_for_yaml(filename:str, search:str, required_fields:se
         elif submodel not in defined_datamodels[model]:
             print(f"Error in {filename} - Failed to find submodel {submodel} in {defined_datamodels[model].keys()}")
             sys.exit(1)
-    
-   
 
-    
+
+
+
     datamodels_with_submodel = [f"{d[0]}.{d[1]}" for d in datamodels_from_search]
     disjoint_members = datamodels_from_datamodel_field.symmetric_difference(datamodels_with_submodel)
     if len(disjoint_members) != 0:
@@ -157,16 +157,16 @@ def update_required_fields_for_yaml(filename:str, search:str, required_fields:se
         if model not in datamodels_with_submodel:
             #print (f"{filename} used datamodel {model} but not in search {datamodels_from_search}")
             break
-        
 
-    '''    
+
+    '''
     for model in datamodels_from_datamodel_field:
         if model not in datamodels_from_search:
             print(f"file {filename} yml contains datamodels:{datamodels_from_datamodel_field} but {model} was not found in search")
             #print("ERROR")
             #yaml_update_required = True
             #input("waiting...\n")
-    
+
     for model in datamodels_from_search:
         if model not in datamodels_from_datamodel_field:
             #print(f"file {filename} yml contains search: {search} but {model} was not found in datamodels: {yml_datamodels}")
@@ -176,17 +176,17 @@ def update_required_fields_for_yaml(filename:str, search:str, required_fields:se
     '''
 
     toks = get_tokens(search)
-    
+
     #print(defined_datamodels)
     #print(toks)
     #dictPrint(defined_datamodels)
-    
-    #For each token (submodel.field) found in the search field, make sure that it is included in the 
+
+    #For each token (submodel.field) found in the search field, make sure that it is included in the
     # required_fields portion of the YAML.
     #Required fields in a datamodel should be in the format model.submodel.fieldname to be more explicit.
     #If a field is declared in required_fields that does not have a dot and exists in the raw search, then keep it.
     #If a field is declared in required_fields that does not have a dot and does not exit in the raw search, then remove it.
-    
+
     #Remove all the datamodels and datamodel.submodels from toks.
     toks_without_datamodels = set()
     datamodels_in_use = dict()
@@ -195,17 +195,17 @@ def update_required_fields_for_yaml(filename:str, search:str, required_fields:se
             model,submodel = tok.split(".")
         except Exception:
             raise Exception(f"Did not find 2 . in {tok}")
-        
+
         if model in defined_datamodels and submodel in defined_datamodels[model]:
             #print(f"Found {tok} in defined datamodels!")
             if model not in datamodels_in_use:
                 datamodels_in_use[model] = {}
-            
+
             datamodels_in_use[model][submodel] = defined_datamodels[model][submodel]
         else:
             toks_without_datamodels.add((model,submodel))
-    
-    
+
+
     #dictPrint(datamodels_in_use.keys())
     #dictPrint(toks_without_datamodels)
 
@@ -228,7 +228,7 @@ def update_required_fields_for_yaml(filename:str, search:str, required_fields:se
             print(f"Failed to find {submodel}.{fieldname} in the datamodels {datamodels_in_use.keys()} for {filename}")
 
 
-    non_datamodel_required_fields_from_yaml = [f for f in required_fields if "." not in f]        
+    non_datamodel_required_fields_from_yaml = [f for f in required_fields if "." not in f]
     new_required_fields = list(fully_qualified_field_dicts.keys())
     for field in non_datamodel_required_fields_from_yaml:
         if field in search:
@@ -237,8 +237,8 @@ def update_required_fields_for_yaml(filename:str, search:str, required_fields:se
     symdiff = required_fields_from_yaml.symmetric_difference(set(new_required_fields))
     if len(symdiff) != 0:
         yaml_fields_to_update['tags']= {'required_fields': new_required_fields}
-    
-    
+
+
 
 
     return yaml_fields_to_update
@@ -254,7 +254,7 @@ def update_required_fields_for_yaml(filename:str, search:str, required_fields:se
         yaml_fields_to_update['datamodel'] = datamodels_from_search
 
 
-    
+
 
     #print(datamodels)
     #print(yml_datamodels)
@@ -276,10 +276,13 @@ def clean_folder(directory:str, defined_datamodels:dict):
     files_without_datamodels = 0
     for filename in files:
         try:
+            attack_datafiles_in_test = []
+            dataset_updates = False
+
             total_files+=1
             with open(filename,"r") as cfg:
                 parsed = yaml.safe_load(cfg)
-            
+
             if parsed["type"] not in ["Anomaly", "Hunting", "TTP" ]:
                 continue
 
@@ -299,24 +302,76 @@ def clean_folder(directory:str, defined_datamodels:dict):
                 print(f"Failed to find ['datamodel'] in {filename}")
                 failure_count += 1
                 continue
-            
+
+            if "dataset" not in parsed["tags"] or True:
+                #print(f"Error - did not find dataset in   {filename}", file=sys.stderr)
+                test_filename = filename.replace(".yml", ".test.yml",1).replace("/detections/","/tests/",1)
+                #print(f"      Populating from test file   {test_filename}")
+                try:
+                    with open(test_filename, "r") as test_stream:
+                        test_datamodel = yaml.safe_load(test_stream)
+                        if 'tests' in test_datamodel:
+                            for test in test_datamodel['tests']:
+                                if 'attack_data' in test:
+                                    for data_file in test['attack_data']:
+                                        if 'data' in data_file:
+                                            attack_datafiles_in_test.append(data_file['data'])
+                                        else:
+                                            print(f"'data' field not found in attack_data for {test_filename}: {dictPrint(data_file)}")
+                                            sys.exit(1)
+                                else:
+                                    print(f"'attack_data' not found in the test file {test_filename}: : {dictPrint(test)}")
+                                    sys.exit(1)
+                        else:
+                            print(f"'tests' field not found in attack_data for {test_filename}: {dictPrint(test_datamodel)}")
+                            sys.exit(1)
+
+                    if 'dataset' in parsed['tags']:
+                        for attack_file in attack_datafiles_in_test:
+                            if attack_file not in parsed['tags']['dataset']:
+                                print(f"{filename[50:]: <60} dataset in test file but not in detection file {attack_file}")
+                                dataset_updates = True
+                        for attack_file in parsed['tags']['dataset']:
+                            if attack_file not in attack_datafiles_in_test:
+                                print(f"{filename[50:]: <60} dataset in detection file but not in test file {attack_file}")
+                                dataset_updates = True
+                    else:
+                        print(f"{filename[50:]: <60} dataset not declared in detection file {attack_file}")
+                        parsed["tags"]['dataset'] = attack_datafiles_in_test
+                        dataset_updates = True
+                        print("\tUpdated")
+
+                except Exception as e:
+                    print(f"Error while parsing {test_filename}: {str(e)}")
+                    sys.exit(1)
+
+
+
+
+
+
+
             required_fields_from_yaml = set(parsed['tags']['required_fields'])
             fields_to_update = update_required_fields_for_yaml(filename, parsed["search"], set(parsed["tags"]["required_fields"]), set(parsed["datamodel"]), defined_datamodels, required_fields_from_yaml)
-            if fields_to_update != {}:
+
+            if fields_to_update != {} or dataset_updates is True:
                 if 'datamodel' in fields_to_update:
                     parsed['datamodel'] = fields_to_update['datamodel']
                 if 'tags' in fields_to_update and 'required_fields' in fields_to_update['tags']:
                     parsed['tags']['required_fields'] = fields_to_update['tags']['required_fields']
-                
+                if dataset_updates is True:
+                    print(f"Updated dataset in {filename}")
+                    parsed["tags"]['dataset'] = attack_datafiles_in_test
+
                 required_updates += 1
-                
+
                 with open(filename, 'w') as updated_cfg:
                     yaml.safe_dump(parsed, updated_cfg)
-                
-                    
+
+
             else:
                 no_updates += 1
-            
+
             if len(parsed['datamodel']) > 0:
                 files_with_datamodels+=1
             else:
@@ -324,16 +379,16 @@ def clean_folder(directory:str, defined_datamodels:dict):
             #print(fields_to_update)
             #input("wait")
 
-            
-            
+
+
 
 
 
 
         except yaml.YAMLError as e:
             print(e)
-    
-    
+
+
     print(f"{directory}")
     print("Errors:%d %s"%(len(error_files), "\n\t".join(error_files)))
     print(f"The number of failures     : {failure_count}")
@@ -343,7 +398,7 @@ def clean_folder(directory:str, defined_datamodels:dict):
 
 
 def clean():
-    
+
     datamodel_directory = sys.argv[1]
     defined_datamodels = load_datamodels_from_directory(datamodel_directory)
 
