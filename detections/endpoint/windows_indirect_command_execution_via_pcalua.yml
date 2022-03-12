@@ -1,15 +1,15 @@
-name: Windows T1202 Indirect Command Execution
+name: Windows Indirect Command Execution Via pcalua
 id: 59e54602-9680-11ec-a8a6-aaaaaaaaaaaa
 version: 1
-date: '2022-03-04'
+date: '2022-03-09'
 author: Eric McGinnis, Splunk
-type: Hunting
+type: TTP
 datamodel:
 - Endpoint
 description: The following analytic detection programs that have been started by pcalua.exe, forfiles, forfiles.exe, or conhost.exe.  
   While these tools can be used to start legitimate programs, they have been observed being evade protections on command line execution.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-    as lastTime from datamodel=Endpoint.Processes where (Processes.parent_process_name IN ("forfiles.exe", "pcalua.exe") AND NOT (`common_windows_binary_paths`) 
+    as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name="pcalua.exe" 
     by Processes.dest Processes.user Processes.parent_process Processes.parent_process_name Processes.process_name Processes.process Processes.process_id Processes.parent_process_id Processes.process_path
   | `drop_dm_object_name(Processes)` 
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
@@ -21,67 +21,50 @@ how_to_implement: To successfully implement this search, you need to be ingestin
 known_false_positives: Some legacy applications may be run using pcalua.exe.  
   Similarly, forfiles.exe may be used in legitimate batch scripts.  Filter these results as needed.  
 references:
-  - REF1
-  - REF2 - NOTHING BELOW HERE HAS BEEN MODIFIED YET
+  - https://twitter.com/KyleHanslovan/status/912659279806640128
+  - REF2 - FIND ANOTHER REFERENCE
 tags:
   analytic_story:
-  - Data Destruction
-  - Ransomware
+  - Living Off The Land
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/hermetic_wiper/sysmon.log
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
-  - T1485
+  - T1202
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
   - _time
-  - Filesystem.file_create_time 
-  - Filesystem.process_id 
-  - Filesystem.file_name 
-  - Filesystem.user 
-  - Filesystem.file_path 
-  - Filesystem.dest
-  - Processes.process_id 
-  - Processes.process_name
-  - Processes.process 
-  - Processes.dest 
-  - Processes.parent_process_name 
-  - Processes.parent_process
-  - Processes.process_guid
+  - Endpoint.Processes.dest
+  - Endpoint.Processes.user
+  - Endpoint.Processes.dest 
+  - Endpoint.Processes.user 
+  - Endpoint.Processes.parent_process 
+  - Endpoint.Processes.parent_process_name 
+  - Endpoint.Processes.process_name 
+  - Endpoint.Processes.process 
+  - Endpoint.Processes.process_id 
+  - Endpoint.Processes.parent_process_id 
+  - Endpoint.Processes.process_path
   security_domain: endpoint
-  impact: 90
-  confidence: 100 
+  impact: 50
+  confidence: 50 
   # (impact * confidence)/100
-  risk_score: 90
+  risk_score: 50
   context: 
   - Source:Endpoint
-  - Stage:Persistence
-  - Privilege Escalation
-  message: A process $process_name$ was identified attempting to disable memory crash dumps on $dest$.
+  - Stage:Defense Evasion
+  message: The Program Compatability Assistant (pcalua.exe) launched the process $process_name$
   observable:
-  - name: user
-    type: User
-    role:
-    - Victim
-  - name: dest
-    type: Hostname
-    role:
-    - Victim
-  - name: parent_process_name
-    type: Parent Process
-    role:
-    - Parent Process
   - name: process_name
     type: Process
     role:
     - Child Process
   nist:
-  - DE.CM
+  - DE.AE
   cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16 
+  - CIS 8
+  - CIS 10 

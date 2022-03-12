@@ -1,4 +1,0 @@
-definition: Processes.process_path="C:\\Windows*" OR Processes.process_path="C:\\Program Files*") 
-description: A list of common Windows directories where binaries maybe found.
-  These binaries could be Windows System Binaries or user-installed binaries
-name: common_windows_binary_paths
