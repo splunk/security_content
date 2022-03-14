@@ -1,6 +1,7 @@
 ---
 title: "Short Lived Scheduled Task"
-excerpt: "Scheduled Task"
+excerpt: "Scheduled Task
+"
 categories:
   - Endpoint
 last_modified_at: 2021-12-03
@@ -24,7 +25,7 @@ tags:
 
 The following analytic leverages Windows Security EventCode 4698, `A scheduled task was created` and Windows Security EventCode 4699, `A scheduled task was deleted` to identify scheduled tasks created and deleted in less than 30 seconds. This behavior may represent a lateral movement attack abusing the Task Scheduler to obtain code execution. Red Teams and adversaries alike may abuse the Task Scheduler for lateral movement and remote code execution.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-12-03
@@ -77,7 +78,7 @@ Although uncommon, legitimate applications may create and delete a Scheduled Tas
 
 
 #### Kill Chain Phase
-* Lateral Movement
+* Exploitation
 
 
 
@@ -87,8 +88,6 @@ Although uncommon, legitimate applications may create and delete a Scheduled Tas
 | ----------- | ----------- |--------------|--------------|
 | 81.0 | 90 | 90 | A windows scheduled task was created and deleted in 30 seconds on $ComputerName$ |
 
-
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 
@@ -102,6 +101,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/lateral_movement/windows-security.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/lateral_movement/windows-security.log)
 

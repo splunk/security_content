@@ -1,6 +1,7 @@
 ---
 title: "Windows Raccine Scheduled Task Deletion"
-excerpt: "Disable or Modify Tools"
+excerpt: "Disable or Modify Tools
+"
 categories:
   - Endpoint
 last_modified_at: 2021-12-07
@@ -21,9 +22,9 @@ tags:
 
 #### Description
 
-The following analytic identifies the Raccine Rules Updater scheduled task being deleted. Adversaries may attempt to remove this task in order to prevent the update of Raccine.  Raccine is a &#34;ransomware vaccine&#34; created by security researcher Florian Roth, designed to intercept and prevent precursors and active ransomware behavior.
+The following analytic identifies the Raccine Rules Updater scheduled task being deleted. Adversaries may attempt to remove this task in order to prevent the update of Raccine.  Raccine is a "ransomware vaccine" created by security researcher Florian Roth, designed to intercept and prevent precursors and active ransomware behavior.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-12-07
@@ -92,8 +93,6 @@ False positives should be limited, however filter as needed.
 | 80.0 | 80 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user user$ attempting to disable Raccines scheduled task. |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -106,6 +105,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/atomic_red_team/windows-sysmon_raccine.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/atomic_red_team/windows-sysmon_raccine.log)
 

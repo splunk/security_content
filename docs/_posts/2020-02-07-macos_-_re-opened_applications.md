@@ -13,8 +13,8 @@ tags:
   - Endpoint
 ---
 
-### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
-We have not been able to test, simulate, or build datasets for this detection. Use at your own risk. This analytic is **NOT** supported.
+###  WARNING THIS IS A EXPERIMENTAL object
+We have not been able to test, simulate, or build datasets for this object. Use at your own risk. This analytic is **NOT** supported.
 
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -23,7 +23,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 This search looks for processes referencing the plist files that determine which applications are re-opened when a user reboots their machine.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-02-07
@@ -65,16 +65,21 @@ In order to properly run this search, Splunk needs to ingest process data from y
 At this stage, there are no known false positives. During testing, no process events refering the com.apple.loginwindow.plist files were observed during normal operation of re-opening applications on reboot. Therefore, it can be asumed that any occurences of this in the process events would be worth investigating. In the event that the legitimate modification by the system of these files is in fact logged to the process log, then the process_name of that process can be added to an allow list.
 
 #### Associated Analytic story
+* [ColdRoot MacOS RAT](/stories/coldroot_macos_rat)
 
 
 #### Kill Chain Phase
 * Installation
-* Command and Control
+* Command & Control
 
 
 
+#### RBA
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 25.0 | 50 | 50 | tbd |
+
 
 
 
@@ -84,7 +89,6 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

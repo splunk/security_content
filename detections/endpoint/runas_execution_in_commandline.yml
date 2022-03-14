@@ -31,16 +31,15 @@ references:
 tags:
   analytic_story:
   - Windows Privilege Escalation
-  automated_detection_testing: passed
   confidence: 50
   context:
   - Source:Endpoint
-  - stage:Privilege Escalation
+  - Stage:Privilege Escalation
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/vilsel/sysmon.log
   impact: 50
   kill_chain_phases:
-  - Privilege Escalation
+  - Exploitation
   message: elevated process using runas on $dest$ by $user$
   mitre_attack_id:
   - T1134
@@ -66,3 +65,4 @@ tags:
   - Processes.parent_process_id
   risk_score: 25
   security_domain: endpoint
+  asset_type: Endpoint

@@ -1,0 +1,3 @@
+definition: (Processes.process_name=reg.exe OR Processes.original_file_name=reg.exe)
+description: Matches the process with its original file name, data for this macro came from https://strontic.github.io/
+name: process_reg

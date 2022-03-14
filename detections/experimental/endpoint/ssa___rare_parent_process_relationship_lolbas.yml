@@ -62,8 +62,11 @@ tags:
   - Unusual Processes
   cis20:
   - CIS 8
+  context:
+  - Source:Endpoint
   kill_chain_phases:
   - Exploitation
+  message: Rare Parent-Child Process Relationship
   mitre_attack_id:
   - T1203
   - T1059
@@ -74,6 +77,15 @@ tags:
   - DE.CM
   product:
   - Splunk Behavioral Analytics
+  observable:
+  - name: dest_user_id
+    type: User
+    role:
+    - Actor
+  - name: dest_device_id
+    type: Hostname
+    role:
+    - Victim
   required_fields:
   - process
   - process_name
@@ -84,3 +96,7 @@ tags:
   - cmd_line
   risk_severity: low
   security_domain: endpoint
+  confidence: 50
+  impact: 50
+  risk_score: 25
+  asset_type: Endpoint

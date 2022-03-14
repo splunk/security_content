@@ -29,10 +29,11 @@ references:
 tags:
   analytic_story:
   - Dev Sec Ops
+  asset_type: GSuite
   confidence: 70
   context:
   - Source:Endpoint
-  - Stage:Reconnaissance
+  - Stage:Discovery
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/gsuite_susp_attachment_ext/gsuite_gmail_file_ext.log
   impact: 70
@@ -46,7 +47,7 @@ tags:
   - name: source.address
     type: User
     role:
-    - attacker
+    - Attacker
   - name: destination{}.address
     type: User
     role:
@@ -55,7 +56,6 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Dev Sec Ops Analytics
   required_fields:
   - _time
   - attachment{}.file_extension_type

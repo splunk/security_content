@@ -1,6 +1,7 @@
 ---
 title: "Kubernetes Scanner Image Pulling"
-excerpt: "Cloud Service Discovery"
+excerpt: "Cloud Service Discovery
+"
 categories:
   - Cloud
 last_modified_at: 2021-08-24
@@ -12,7 +13,6 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Dev Sec Ops Analytics
 ---
 
 
@@ -23,8 +23,8 @@ tags:
 
 This search uses the Kubernetes logs from Splunk Connect from Kubernetes to detect Kubernetes Security Scanner.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Dev Sec Ops Analytics
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-08-24
 - **Author**: Patrick Bareiss, Splunk
@@ -91,8 +91,6 @@ unknown
 | 81.0 | 90 | 90 | Kubernetes Scanner image pulled on host $host$ |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -104,6 +102,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1526/kubernetes_kube_hunter/kubernetes_kube_hunter.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1526/kubernetes_kube_hunter/kubernetes_kube_hunter.json)
 

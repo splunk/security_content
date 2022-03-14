@@ -4,13 +4,18 @@ version: 1
 date: '2021-08-20'
 author: Mauricio Velazco, Splunk
 type: batch
-description: Monitor for activities and techniques associated with Discovery and Reconnaissance within with Active Directory environments.
-narrative: 'Discovery consists of techniques an adversay uses to gain knowledge about an internal environment or network. These techniques provide adversaries 
-with situational awareness and allows them to have the necessary information before deciding how to act or who/what to target next.\ 
+description: Monitor for activities and techniques associated with Discovery and Reconnaissance
+  within with Active Directory environments.
+narrative: 'Discovery consists of techniques an adversay uses to gain knowledge about
+  an internal environment or network. These techniques provide adversaries with situational
+  awareness and allows them to have the necessary information before deciding how
+  to act or who/what to target next.\
 
-Once an attacker obtains an initial foothold in an Active Directory environment, she is forced to engage in Discovery techniques in the initial phases of a breach to better
-understand and navigate the target network. Some examples include but are not limited to enumerating domain users, domain admins, computers, 
-domain controllers, network shares, group policy objects, domain trusts, etc.'
+  Once an attacker obtains an initial foothold in an Active Directory environment,
+  she is forced to engage in Discovery techniques in the initial phases of a breach
+  to better understand and navigate the target network. Some examples include but
+  are not limited to enumerating domain users, domain admins, computers, domain controllers,
+  network shares, group policy objects, domain trusts, etc.'
 references:
 - https://attack.mitre.org/tactics/TA0007/
 - https://adsecurity.org/?p=2535
@@ -25,8 +30,7 @@ references:
 - https://attack.mitre.org/techniques/T1049/
 - https://attack.mitre.org/techniques/T1033/
 tags:
-  analytic_story:
-  - Active Directory Discovery
+  analytic_story: Active Directory Discovery
   category:
   - Adversary Tactics
   product:

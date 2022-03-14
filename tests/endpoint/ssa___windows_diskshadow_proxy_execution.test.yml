@@ -1,6 +1,6 @@
 name: BA Windows Diskshadow Proxy Execution Unit Test
 tests:
-- name: BA Windows Diskshadow Proxy Execution
+- name: Windows Diskshadow Proxy Execution
   file: endpoint/ssa___windows_diskshadow_proxy_execution.yml
   pass_condition: '@count_gt(0)'
   attack_data:

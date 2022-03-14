@@ -5,19 +5,22 @@ date: '2021-09-14'
 author: Teoderick Contreras, Splunk
 type: batch
 description: Leverage searches that allow you to detect and investigate unusual activities
-  that might relate to the FIN7 JS Implant and JSSLoader, including looking for Image Loading of ldap and wmi modules, associated
-  with its payload, data collection and script execution.
-narrative: FIN7 is a Russian criminal advanced persistent threat group that has primarily 
-  targeted the U.S. retail, restaurant, and hospitality sectors since mid-2015. 
-  A portion of FIN7 is run out of the front company Combi Security. 
-  It has been called one of the most successful criminal hacking groups in the world. this passed few day FIN7 tools and implant are seen in the wild 
-  where its code is updated. the FIN& is known to use the spear phishing attack as a entry to targetted network or host that will drop its staging payload like the JS and JSSloader. 
-  Now this artifacts and implants seen downloading other malware like cobaltstrike and event ransomware to encrypt host.
+  that might relate to the FIN7 JS Implant and JSSLoader, including looking for Image
+  Loading of ldap and wmi modules, associated with its payload, data collection and
+  script execution.
+narrative: FIN7 is a Russian criminal advanced persistent threat group that has primarily
+  targeted the U.S. retail, restaurant, and hospitality sectors since mid-2015. A
+  portion of FIN7 is run out of the front company Combi Security. It has been called
+  one of the most successful criminal hacking groups in the world. this passed few
+  day FIN7 tools and implant are seen in the wild where its code is updated. the FIN&
+  is known to use the spear phishing attack as a entry to targetted network or host
+  that will drop its staging payload like the JS and JSSloader. Now this artifacts
+  and implants seen downloading other malware like cobaltstrike and event ransomware
+  to encrypt host.
 references:
 - https://en.wikipedia.org/wiki/FIN7
 - https://threatpost.com/fin7-windows-11-release/169206/
 - https://www.proofpoint.com/us/blog/threat-insight/jssloader-recoded-and-reloaded
-
 tags:
   analytic_story: FIN7
   category:

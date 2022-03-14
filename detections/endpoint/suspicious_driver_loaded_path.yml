@@ -30,7 +30,6 @@ references:
 tags:
   analytic_story:
   - XMRig
-  automated_detection_testing: passed
   confidence: 90
   context:
   - Source:Endpoint
@@ -68,3 +67,4 @@ tags:
   - Signed
   risk_score: 63
   security_domain: endpoint
+  asset_type: Endpoint

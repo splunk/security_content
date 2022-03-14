@@ -1,6 +1,8 @@
 ---
 title: "Linux Doas Tool Execution"
-excerpt: "Sudo and Sudo Caching, Abuse Elevation Control Mechanism"
+excerpt: "Sudo and Sudo Caching
+, Abuse Elevation Control Mechanism
+"
 categories:
   - Endpoint
 last_modified_at: 2022-01-05
@@ -8,11 +10,11 @@ toc: true
 toc_label: ""
 tags:
   - Sudo and Sudo Caching
-  - Privilege Escalation
-  - Defense Evasion
   - Abuse Elevation Control Mechanism
+  - Defense Evasion
   - Privilege Escalation
   - Defense Evasion
+  - Privilege Escalation
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -27,7 +29,7 @@ tags:
 
 This analytic is to detect the doas tool execution in linux host platform. This utility tool allow standard users to perform tasks as root, the same way sudo does. This tool is developed as a minimalistic alternative to sudo application. This tool can be abused advesaries, attacker or malware to gain elevated privileges to the targeted or compromised host. On the other hand this can also be executed by administrator for a certain task that needs admin rights. In this case filter is needed.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2022-01-05
@@ -39,9 +41,9 @@ This analytic is to detect the doas tool execution in linux host platform. This 
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
-| [T1548.003](https://attack.mitre.org/techniques/T1548/003/) | Sudo and Sudo Caching | Privilege Escalation, Defense Evasion |
+| [T1548.003](https://attack.mitre.org/techniques/T1548/003/) | Sudo and Sudo Caching | Defense Evasion, Privilege Escalation |
 
-| [T1548](https://attack.mitre.org/techniques/T1548/) | Abuse Elevation Control Mechanism | Privilege Escalation, Defense Evasion |
+| [T1548](https://attack.mitre.org/techniques/T1548/) | Abuse Elevation Control Mechanism | Defense Evasion, Privilege Escalation |
 
 #### Search
 
@@ -84,7 +86,7 @@ Administrator or network operator can execute this command. Please update the fi
 
 
 #### Kill Chain Phase
-* Privilege Escalation
+* Exploitation
 
 
 
@@ -94,8 +96,6 @@ Administrator or network operator can execute this command. Please update the fi
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | A doas $process_name$ with commandline $process$ was executed on $dest$ |
 
-
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 
@@ -109,6 +109,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.003/doas_exec/sysmon_linux.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.003/doas_exec/sysmon_linux.log)
 

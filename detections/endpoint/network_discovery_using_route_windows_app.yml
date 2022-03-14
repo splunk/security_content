@@ -28,7 +28,6 @@ references:
 tags:
   analytic_story:
   - Active Directory Discovery
-  automated_detection_testing: passed
   confidence: 30
   context:
   - Source:Endpoint
@@ -64,3 +63,4 @@ tags:
   - Processes.parent_process_id
   risk_score: 9
   security_domain: endpoint
+  asset_type: Endpoint

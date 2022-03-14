@@ -1,0 +1,61 @@
+name: Get Process Info
+id: bc91a8cf-35e7-4bb2-8140-e756cc06fd71
+version: 2
+date: '2019-04-01'
+author: Bhavin Patel, Splunk
+type: Investigation
+datamodel:
+- Endpoint
+description: This search queries the Endpoint data model to give you details about
+  the process running on a host which is under investigation. To gather the process
+  info, enter the values for the process name in question and the destination IP address.
+search: '| tstats `security_content_summariesonly` count values(Processes.process)
+  as process min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
+  by Processes.user Processes.parent_process_name Processes.process_name Processes.dest
+  | `drop_dm_object_name("Processes")` | search  process_name= $process_name$ | search
+  dest = $dest$ | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+how_to_implement: To successfully implement this search you must be ingesting endpoint
+  data and populating the Endpoint data model.
+known_false_positives: ''
+references: []
+tags:
+  analytic_story:
+  - AWS Network ACL Activity
+  - Collection and Staging
+  - DHS Report TA18-074A
+  - Data Protection
+  - Disabling Security Tools
+  - 'Emotet Malware  DHS Report TA18-201A '
+  - Hidden Cobra Malware
+  - Lateral Movement
+  - Malicious PowerShell
+  - Monitor for Unauthorized Software
+  - Netsh Abuse
+  - Orangeworm Attack Group
+  - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
+  - Prohibited Traffic Allowed or Protocol Mismatch
+  - Ransomware
+  - SamSam Ransomware
+  - Suspicious AWS Traffic
+  - Suspicious Command-Line Executions
+  - Suspicious DNS Traffic
+  - Suspicious MSHTA Activity
+  - Suspicious WMI Use
+  - Suspicious Windows Registry Activities
+  - Unusual Processes
+  - Windows Defense Evasion Tactics
+  - Windows File Extension and Association Abuse
+  - Windows Log Manipulation
+  - Windows Persistence Techniques
+  - Windows Privilege Escalation
+  - Windows Service Abuse
+  - Command and Control
+  product:
+  - Splunk Phantom
+  required_fields:
+  - _time
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.process_name
+  - Processes.dest
+  security_domain: endpoint

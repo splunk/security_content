@@ -19,6 +19,8 @@ tags:
   cis20:
   - CIS 13
   confidence: 100
+  context:
+  - Unknown
   deployments:
   - Slack Alert
   impact: 70
@@ -41,7 +43,6 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Dev Sec Ops Analytics
   required_fields:
   - _time
   risk_score: 70

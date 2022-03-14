@@ -24,10 +24,11 @@ tags:
   analytic_story:
   - Dev Sec Ops
   asset_type: Kubernetes
-  automated_detection_testing: passed
   cis20:
   - CIS 13
   confidence: 70
+  context:
+  - Unknown
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1212/kubernetes_nginx_lfi_attack/kubernetes_nginx_lfi_attack.log
   deployments:
@@ -51,7 +52,6 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Dev Sec Ops Analytics
   required_fields:
   - raw
   risk_score: 49

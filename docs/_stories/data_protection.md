@@ -7,7 +7,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - Change_Analysis
   - Network_Resolution
+  - Actions on Objectives
+  - Command & Control
+  - Installation
 ---
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -17,7 +21,7 @@ tags:
 Fortify your data-protection arsenal--while continuing to ensure data confidentiality and integrity--with searches that monitor for and help you investigate possible signs of data exfiltration.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: [Network_Resolution](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution)
+- **Datamodel**: [Change_Analysis](https://docs.splunk.com/Documentation/CIM/latest/User/ChangeAnalysis), [Network_Resolution](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution)
 - **Last Updated**: 2017-09-14
 - **Author**: Bhavin Patel, Splunk
 - **ID**: 91c676cf-0b23-438d-abee-f6335e1fce33
@@ -30,7 +34,9 @@ Attackers can leverage a variety of resources to compromise or exfiltrate enterp
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Detect hosts connecting to dynamic domain providers](/network/detect_hosts_connecting_to_dynamic_domain_providers/) | [Drive-by Compromise](/tags/#drive-by-compromise) | TTP |
+| [Detect USB device insertion](/deprecated/detect_usb_device_insertion/) | None| TTP |
+| [Detection of DNS Tunnels](/deprecated/detection_of_dns_tunnels/) | [Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol](/tags/#exfiltration-over-unencrypted/obfuscated-non-c2-protocol)| TTP |
+| [Detect hosts connecting to dynamic domain providers](/network/detect_hosts_connecting_to_dynamic_domain_providers/) | [Drive-by Compromise](/tags/#drive-by-compromise)| TTP |
 
 #### Reference
 

@@ -1,6 +1,8 @@
 ---
 title: "DNS Query Length With High Standard Deviation"
-excerpt: "Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol, Exfiltration Over Alternative Protocol"
+excerpt: "Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol
+, Exfiltration Over Alternative Protocol
+"
 categories:
   - Network
 last_modified_at: 2021-10-06
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol
-  - Exfiltration
   - Exfiltration Over Alternative Protocol
+  - Exfiltration
   - Exfiltration
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -25,7 +27,7 @@ tags:
 
 This search allows you to identify DNS requests and compute the standard deviation on the length of the names being resolved, then filter on two times the standard deviation to show you those queries that are unusually large for your environment.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Resolution](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution)
 - **Last Updated**: 2021-10-06
@@ -74,7 +76,7 @@ Note that `dns_query_length_with_high_standard_deviation_filter` is a empty macr
 To successfully implement this search, you will need to ensure that DNS data is populating the Network_Resolution data model.
 
 #### Known False Positives
-It&#39;s possible there can be long domain names that are legitimate.
+It's possible there can be long domain names that are legitimate.
 
 #### Associated Analytic story
 * [Hidden Cobra Malware](/stories/hidden_cobra_malware)
@@ -83,7 +85,7 @@ It&#39;s possible there can be long domain names that are legitimate.
 
 
 #### Kill Chain Phase
-* Command and Control
+* Command & Control
 
 
 
@@ -94,8 +96,6 @@ It&#39;s possible there can be long domain names that are legitimate.
 | 56.0 | 70 | 80 | A dns query $query$ with 2 time standard deviation of name len of the dns query in host  $host$ |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -104,6 +104,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/long_dns_queries/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/long_dns_queries/windows-sysmon.log)
 

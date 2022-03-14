@@ -1,0 +1,38 @@
+name: code-testing
+on:
+  push:
+    paths:
+      - 'bin/contentctl_project/**'
+
+jobs:
+  code-testing:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository code
+        uses: actions/checkout@v2
+              
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.9' #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
+          architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+
+      - name: Install System Packages
+        run: |
+          sudo apt update -qq
+          sudo apt install jq -qq
+
+      - name: Install Python Dependencies
+        run: |
+          #Get the virtualenv set up
+          rm -rf venv
+          python3 -m venv --clear venv
+          source venv/bin/activate
+          python3 -m pip install --upgrade pip
+          python3 -m pip install wheel
+          python3 -m pip install -q -r requirements.txt
+      
+      - name: test code with pytest
+        run: |
+          source venv/bin/activate
+          export PYTHONPATH=$PYTHONPATH:/home/runner/work/security_content
+          pytest -s bin/contentctl_project 

@@ -28,7 +28,6 @@ tags:
   - Windows Log Manipulation
   - Ransomware
   asset_type: Endpoint
-  automated_detection_testing: passed
   cis20:
   - CIS 6
   - CIS 8

@@ -5,7 +5,7 @@ date: '2020-10-21'
 author: Xiao Lin, Splunk
 type: TTP
 datamodel:
-- Certificates
+- Endpoint_Processes
 description: This search detects a potential kerberoasting attack via service principal
   name requests
 search: ' | from read_ssa_enriched_events() | eval _time=map_get(input_event, "_time"),
@@ -61,9 +61,9 @@ tags:
     role:
     - Victim
   - name: cmd_line
-    type: processname
+    type: Process
     role:
-    - Others
+    - Other
   product:
   - Splunk Behavioral Analytics
   required_fields:
@@ -76,3 +76,4 @@ tags:
   risk_score: 14
   risk_severity: low
   security_domain: endpoint
+  asset_type: Endpoint

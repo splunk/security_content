@@ -61,3 +61,4 @@ tags:
   - Sid
   risk_score: 36
   security_domain: endpoint
+  asset_type: Endpoint
