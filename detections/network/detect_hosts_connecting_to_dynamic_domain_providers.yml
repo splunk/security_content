@@ -51,7 +51,7 @@ tags:
   - DNS Hijacking
   - Suspicious DNS Traffic
   - Dynamic DNS
-  - Command & Control
+  - Command and Control
   asset_type: Endpoint
   cis20:
   - CIS 8

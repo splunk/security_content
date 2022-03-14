@@ -23,7 +23,6 @@ references: []
 tags:
   analytic_story:
   - Collection and Staging
-  - Command & Control
   - DHS Report TA18-074A
   - Disabling Security Tools
   - 'Emotet Malware  DHS Report TA18-201A '
@@ -50,6 +49,7 @@ tags:
   - Windows Persistence Techniques
   - Windows Privilege Escalation
   - Windows Service Abuse
+  - Command and Control
   product:
   - Splunk Phantom
   required_fields:

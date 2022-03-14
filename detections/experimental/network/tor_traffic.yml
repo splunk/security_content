@@ -25,8 +25,8 @@ tags:
   analytic_story:
   - Prohibited Traffic Allowed or Protocol Mismatch
   - Ransomware
-  - Command & Control
   - NOBELIUM Group
+  - Command and Control
   asset_type: Endpoint
   cis20:
   - CIS 9

@@ -26,12 +26,12 @@ tags:
   analytic_story:
   - AWS Network ACL Activity
   - Brand Monitoring
-  - Command & Control
   - Data Protection
   - Dynamic DNS
   - Hidden Cobra Malware
   - Suspicious AWS Traffic
   - Suspicious DNS Traffic
+  - Command and Control
   product:
   - Splunk Phantom
   required_fields:

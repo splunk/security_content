@@ -17,8 +17,8 @@ references: []
 tags:
   analytic_story:
   - AWS Network ACL Activity
-  - Command & Control
   - Suspicious AWS Traffic
+  - Command and Control
   product:
   - Splunk Phantom
   required_fields:

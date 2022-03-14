@@ -21,7 +21,6 @@ tags:
   - AWS Cryptomining
   - AWS Network ACL Activity
   - Cloud Cryptomining
-  - Command & Control
   - Suspicious AWS EC2 Activities
   - Suspicious AWS Login Activities
   - Suspicious AWS S3 Activities
@@ -31,6 +30,7 @@ tags:
   - AWS Suspicious Provisioning Activities
   - Suspicious Cloud Instance Activities
   - AWS Security Hub Alerts
+  - Command and Control
   product:
   - Splunk Phantom
   required_fields:

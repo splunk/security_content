@@ -23,8 +23,8 @@ references:
 - https://blog.talosintelligence.com/2020/03/trickbot-primer.html
 tags:
   analytic_story:
-  - Command & Control
   - Data Exfiltration
+  - Command and Control
   asset_type: Endpoint
   confidence: 90
   context:

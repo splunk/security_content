@@ -44,7 +44,7 @@ tags:
   analytic_story:
   - AWS Network ACL Activity
   - Suspicious AWS Traffic
-  - Command & Control
+  - Command and Control
   asset_type: AWS Instance
   cis20:
   - CIS 11

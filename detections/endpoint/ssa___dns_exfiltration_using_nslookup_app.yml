@@ -39,8 +39,8 @@ tags:
   analytic_story:
   - Suspicious DNS Traffic
   - Dynamic DNS
-  - Command & Control
   - Data Exfiltration
+  - Command and Control
   cis20: []
   confidence: 80
   context:

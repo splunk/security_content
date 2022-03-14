@@ -27,7 +27,7 @@ tags:
   analytic_story:
   - Prohibited Traffic Allowed or Protocol Mismatch
   - Ransomware
-  - Command & Control
+  - Command and Control
   asset_type: Endpoint
   cis20:
   - CIS 9

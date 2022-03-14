@@ -19,7 +19,6 @@ references: []
 tags:
   analytic_story:
   - AWS Network ACL Activity
-  - Command & Control
   - DNS Hijacking
   - Data Protection
   - Dynamic DNS
@@ -28,6 +27,7 @@ tags:
   - Prohibited Traffic Allowed or Protocol Mismatch
   - Suspicious AWS Traffic
   - Suspicious DNS Traffic
+  - Command and Control
   product:
   - Splunk Phantom
   required_fields:

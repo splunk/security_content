@@ -181,3 +181,9 @@ class ContentChanger:
             if 'risk_score' not in obj['tags']:
                 calculated_risk_score = (int(obj['tags']['impact']))*(int(obj['tags']['confidence']))/100
                 obj['tags']['risk_score'] = calculated_risk_score
+
+    def fix_cc(self, objects : list) -> None:
+        for obj in objects:
+            if 'Command & Control' in obj['tags']['analytic_story']:
+                obj['tags']['analytic_story'].remove('Command & Control')
+                obj['tags']['analytic_story'].append('Command and Control')

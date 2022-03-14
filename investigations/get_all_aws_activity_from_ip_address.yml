@@ -22,10 +22,10 @@ tags:
   analytic_story:
   - AWS Network ACL Activity
   - AWS Suspicious Provisioning Activities
-  - Command & Control
   - Suspicious AWS S3 Activities
   - Suspicious AWS Traffic
   - Suspicious Cloud Instance Activities
+  - Command and Control
   product:
   - Splunk Phantom
   required_fields:

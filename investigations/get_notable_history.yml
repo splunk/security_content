@@ -27,7 +27,6 @@ tags:
   - Cloud Cryptomining
   - ColdRoot MacOS RAT
   - Collection and Staging
-  - Command & Control
   - DHS Report TA18-074A
   - DNS Amplification Attacks
   - Data Protection
@@ -85,6 +84,7 @@ tags:
   - Suspicious Cloud Provisioning Activities
   - Suspicious GCP Storage Activities
   - Windows DNS SIGRed CVE-2020-1350
+  - Command and Control
   product:
   - Splunk Phantom
   required_fields:

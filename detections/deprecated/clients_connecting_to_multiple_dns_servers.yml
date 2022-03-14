@@ -31,9 +31,9 @@ references: []
 tags:
   analytic_story:
   - DNS Hijacking
-  - Command & Control
   - Suspicious DNS Traffic
   - Host Redirection
+  - Command and Control
   asset_type: Endpoint
   cis20:
   - CIS 9

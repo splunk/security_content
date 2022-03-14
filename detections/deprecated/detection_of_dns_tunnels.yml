@@ -48,7 +48,7 @@ tags:
   analytic_story:
   - Data Protection
   - Suspicious DNS Traffic
-  - Command & Control
+  - Command and Control
   asset_type: Endpoint
   cis20:
   - CIS 13
