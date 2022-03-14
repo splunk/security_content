@@ -55,3 +55,4 @@ class BAFactory():
                     self.input_dto.director.constructTest(self.input_dto.basic_builder, file)
                     test = self.input_dto.basic_builder.getObject()
                     self.output_dto.tests.append(test)
+                    
