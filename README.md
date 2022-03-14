@@ -46,7 +46,7 @@ curl -s https://content.splunkresearch.com | jq
 ### contentctl.py 
 The Content Control tool allows you to manipulate Splunk Security Content via the following actions: 
 
-1. **new** - Creates new content (detection, story, baseline)
+1. **new_content** - Creates new content (detection, story, baseline)
 2. **validate** - Validates written content
 3. **generate** - Generates a deployment package for different platforms (splunk_app)
 
@@ -61,13 +61,13 @@ virtualenv venv
 source venv/bin/activate
 pip install -r requirements.txt
 ```
-### create a new detection 
-`python contentctl.py new` 
-
-for a more indepth write up on how to write content see our [guide](https://github.com/splunk/security_content/wiki/Developing-Content).
+### Architecture details for the tooling
+- [WIKI](https://github.com/splunk/security_content/wiki/Security-Content-Code)
 
 ### create a new detection 
 `python contentctl.py -p . new_content -t detection` 
+
+for a more indepth write up on how to write content see our [guide](https://github.com/splunk/security_content/wiki/Developing-Content).
 
 ### validate security content 
 `python contentctl.py -p . validate -pr ESCU` 
