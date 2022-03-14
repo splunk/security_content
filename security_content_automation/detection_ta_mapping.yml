@@ -1092,6 +1092,12 @@ linux_change_file_owner_to_root:
   - Splunk_TA_bit9-carbonblack
   - Splunk_TA_microsoft_sysmon
   - Splunk_TA_CrowdStrike_FDR
+linux_dd_file_overwrite:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_microsoft_sysmon
+  - Splunk_TA_CrowdStrike_FDR
 linux_doas_conf_file_creation:
   cim_version: 5.0.0
   tas_with_cim_mapping:
@@ -1219,6 +1225,12 @@ linux_sudoers_tmp_file_creation:
   tas_with_cim_mapping:
   - Splunk_TA_bit9-carbonblack
   - Splunk_TA_microsoft_sysmon
+linux_system_network_discovery:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_microsoft_sysmon
+  - Splunk_TA_CrowdStrike_FDR
 linux_visudo_utility_execution:
   cim_version: 5.0.0
   tas_with_cim_mapping:
@@ -1243,6 +1255,13 @@ malicious_powershell_process_with_obfuscation_techniques:
   supported_tas:
   - Splunk_TA_microsoft_sysmon
   tas_with_cim_mapping:
+  - Splunk_TA_microsoft_sysmon
+mimikatz_passtheticket_commandline_parameters:
+  cim_version: 5.0.0
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
   - Splunk_TA_microsoft_sysmon
 mmc_exe_lolbas_execution_process_spawn:
   cim_version: 5.0.0
@@ -1561,6 +1580,13 @@ revil_registry_entry:
   tas_with_cim_mapping:
   - Splunk_TA_bit9-carbonblack
   - Splunk_TA_microsoft_sysmon
+rubeus_command_line_parameters:
+  cim_version: 5.0.0
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_microsoft_sysmon
 rundll32_control_rundll_world_writable_directory:
   cim_version: 5.0.0
   supported_tas:
@@ -1574,6 +1600,12 @@ rundll32_shimcache_flush:
   tas_with_cim_mapping:
   - Splunk_TA_microsoft_sysmon
 rundll32_with_no_command_line_arguments_with_network:
+  cim_version: 5.0.0
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon
+  tas_with_cim_mapping:
+  - Splunk_TA_microsoft_sysmon
+rundll_loading_dll_by_ordinal:
   cim_version: 5.0.0
   supported_tas:
   - Splunk_TA_microsoft_sysmon
@@ -1807,6 +1839,12 @@ suspicious_icedid_rundll32_cmdline:
   - Splunk_TA_microsoft_sysmon
   tas_with_cim_mapping:
   - Splunk_TA_microsoft_sysmon
+suspicious_linux_discovery_commands:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_microsoft_sysmon
+  - Splunk_TA_CrowdStrike_FDR
 suspicious_microsoft_workflow_compiler_usage:
   cim_version: 5.0.0
   supported_tas:
@@ -2025,6 +2063,13 @@ windows_defender_exclusion_registry_entry:
   - Splunk_TA_microsoft_sysmon
   tas_with_cim_mapping:
   - Splunk_TA_microsoft_sysmon
+windows_disable_memory_crash_dump:
+  cim_version: 5.0.0
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_microsoft_sysmon
 windows_disableantispyware_reg:
   cim_version: 5.0.0
   supported_tas:
@@ -2043,6 +2088,13 @@ windows_dotnet_binary_in_non_standard_path:
   supported_tas:
   - Splunk_TA_microsoft_sysmon
   tas_with_cim_mapping:
+  - Splunk_TA_microsoft_sysmon
+windows_file_without_extension_in_critical_folder:
+  cim_version: 5.0.0
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
   - Splunk_TA_microsoft_sysmon
 windows_installutil_credential_theft:
   cim_version: 5.0.0
@@ -2068,7 +2120,20 @@ windows_installutil_url_in_command_line:
   - Splunk_TA_microsoft_sysmon
   tas_with_cim_mapping:
   - Splunk_TA_microsoft_sysmon
+windows_modify_show_compress_color_and_info_tip_registry:
+  cim_version: 5.0.0
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_microsoft_sysmon
 windows_nirsoft_advancedrun:
+  cim_version: 5.0.0
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon
+  tas_with_cim_mapping:
+  - Splunk_TA_microsoft_sysmon
+windows_process_with_namedpipe_commandline:
   cim_version: 5.0.0
   supported_tas:
   - Splunk_TA_microsoft_sysmon
@@ -2080,11 +2145,36 @@ windows_raccine_scheduled_task_deletion:
   - Splunk_TA_microsoft_sysmon
   tas_with_cim_mapping:
   - Splunk_TA_microsoft_sysmon
+windows_rasautou_dll_execution:
+  cim_version: 5.0.0
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon
+  tas_with_cim_mapping:
+  - Splunk_TA_microsoft_sysmon
+windows_remote_assistance_spawning_process:
+  cim_version: 5.0.0
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon
+  tas_with_cim_mapping:
+  - Splunk_TA_microsoft_sysmon
+windows_schtasks_create_run_as_system:
+  cim_version: 5.0.0
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon
+  tas_with_cim_mapping:
+  - Splunk_TA_microsoft_sysmon
 windows_service_creation_on_remote_endpoint:
   cim_version: 5.0.0
   supported_tas:
   - Splunk_TA_microsoft_sysmon
   tas_with_cim_mapping:
+  - Splunk_TA_microsoft_sysmon
+windows_service_creation_using_registry_entry:
+  cim_version: 5.0.0
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon
+  tas_with_cim_mapping:
+  - Splunk_TA_bit9-carbonblack
   - Splunk_TA_microsoft_sysmon
 windows_service_initiation_on_remote_endpoint:
   cim_version: 5.0.0
