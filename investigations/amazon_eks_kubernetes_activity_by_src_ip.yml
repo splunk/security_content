@@ -1,0 +1,33 @@
+name: Amazon EKS Kubernetes activity by src ip
+id: a636cca4-7434-4a15-a278-c70734938e39
+version: 1
+date: '2020-04-13'
+author: Rod Soto, Splunk
+type: Investigation
+datamodel: []
+description: This search provides investigation data about requests via user agent,
+  authentication request URI, verb and cluster name data against Kubernetes cluster
+  from a specific IP address
+search: '`aws_cloudwatchlogs_eks` |rename sourceIPs{} as src_ip |search src_ip=$src_ip$
+  | stats count min(_time) as firstTime max(_time) as lastTime values(user.username)
+  values(requestURI) values(verb) values(userAgent) by source annotations.authorization.k8s.io/decision
+  src_ip'
+how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
+  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your Cloud Watch
+  EKS inputs.
+known_false_positives: ''
+references: []
+tags:
+  analytic_story:
+  - Kubernetes Scanning Activity
+  product:
+  - Splunk Phantom
+  required_fields:
+  - _time
+  - sourceIPs{}
+  - user.username
+  - requestURI
+  - verb
+  - userAgent
+  - annotations.authorization.k8s.io/decision
+  security_domain: network

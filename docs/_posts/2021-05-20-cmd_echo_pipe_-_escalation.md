@@ -1,6 +1,10 @@
 ---
 title: "CMD Echo Pipe - Escalation"
-excerpt: "Command and Scripting Interpreter, Windows Command Shell, Windows Service, Create or Modify System Process"
+excerpt: "Command and Scripting Interpreter
+, Windows Command Shell
+, Windows Service
+, Create or Modify System Process
+"
 categories:
   - Endpoint
 last_modified_at: 2021-05-20
@@ -8,13 +12,13 @@ toc: true
 toc_label: ""
 tags:
   - Command and Scripting Interpreter
-  - Execution
   - Windows Command Shell
-  - Execution
   - Windows Service
+  - Create or Modify System Process
+  - Execution
+  - Execution
   - Persistence
   - Privilege Escalation
-  - Create or Modify System Process
   - Persistence
   - Privilege Escalation
   - Splunk Enterprise
@@ -29,9 +33,9 @@ tags:
 
 #### Description
 
-This analytic identifies a common behavior by Cobalt Strike and other frameworks where the adversary will escalate privileges, either via `jump` (Cobalt Strike PTH) or `getsystem`, using named-pipe impersonation. A suspicious event will look like `cmd.exe /c echo 4sgryt3436 &gt; \\.\Pipe\5erg53`.
+This analytic identifies a common behavior by Cobalt Strike and other frameworks where the adversary will escalate privileges, either via `jump` (Cobalt Strike PTH) or `getsystem`, using named-pipe impersonation. A suspicious event will look like `cmd.exe /c echo 4sgryt3436 > \\.\Pipe\5erg53`.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-05-20
@@ -64,9 +68,9 @@ This analytic identifies a common behavior by Cobalt Strike and other frameworks
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_cmd](https://github.com/splunk/security_content/blob/develop/macros/process_cmd.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [process_cmd](https://github.com/splunk/security_content/blob/develop/macros/process_cmd.yml)
 
 Note that `cmd_echo_pipe_-_escalation_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -97,7 +101,6 @@ Unknown. It is possible filtering may be required to ensure fidelity.
 
 #### Kill Chain Phase
 * Exploitation
-* Privilege Escalation
 
 
 
@@ -107,8 +110,6 @@ Unknown. It is possible filtering may be required to ensure fidelity.
 | ----------- | ----------- |--------------|--------------|
 | 64.0 | 80 | 80 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ potentially performing privilege escalation using named pipes related to Cobalt Strike and other frameworks. |
 
-
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 
@@ -122,6 +123,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon.log)
 

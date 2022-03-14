@@ -39,9 +39,8 @@ tags:
   analytic_story:
   - Suspicious DNS Traffic
   - Dynamic DNS
-  - Command and Control
   - Data Exfiltration
-  automated_detection_testing: passed
+  - Command and Control
   cis20: []
   confidence: 80
   context:
@@ -68,7 +67,7 @@ tags:
     role:
     - Victim
   - name: parent_process_name
-    type: Parent Process
+    type: Process
     role:
     - Parent Process
   - name: process_name
@@ -89,3 +88,4 @@ tags:
   risk_score: 72
   risk_severity: medium
   security_domain: endpoint
+  asset_type: Endpoint

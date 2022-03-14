@@ -1,0 +1,23 @@
+name: ESCU Default Configuration TTP
+id: b81cd059-a3e8-4c03-96ca-e168c50ff70b
+date: '2021-12-21'
+author: Patrick Bareiss
+description: This configuration file applies to all detections of type TTP.
+  These detections will use Risk Based Alerting and generate Notable Events.
+scheduling:
+  cron_schedule: 0 * * * *
+  earliest_time: -70m@m
+  latest_time: -10m@m
+  schedule_window: auto
+alert_action:
+  notable:
+    rule_description: '%description%'
+    rule_title: '%name%'
+    nes_fields:
+    - user
+    - dest
+    - src
+  rba:
+    enabled: 'true'
+tags:
+  type: TTP

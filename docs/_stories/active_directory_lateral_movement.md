@@ -7,9 +7,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Authentication
   - Endpoint
   - Network_Traffic
+  - Actions on Objectives
+  - Exploitation
+  - Reconnaissance
 ---
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -19,7 +21,7 @@ tags:
 Detect and investigate tactics, techniques, and procedures around how attackers move laterally within an Active Directory environment. Since lateral movement is often a necessary step in a breach, it is important for cyber defenders to deploy detection coverage.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: [Authentication](https://docs.splunk.com/Documentation/CIM/latest/User/Authentication), [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint), [Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint), [Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
 - **Last Updated**: 2021-12-09
 - **Author**: David Dorsey, Mauricio Velazco Splunk
 - **ID**: 399d65dc-1f08-499b-a259-aad9051f38ad
@@ -36,44 +38,42 @@ If there is evidence of lateral movement, it is imperative for analysts to colle
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Detect Activity Related to Pass the Hash Attacks](/endpoint/detect_activity_related_to_pass_the_hash_attacks/) | [Use Alternate Authentication Material](/tags/#use-alternate-authentication-material), [Pass the Hash](/tags/#pass-the-hash) | TTP |
-| [Detect PsExec With accepteula Flag](/endpoint/detect_psexec_with_accepteula_flag/) | [Remote Services](/tags/#remote-services), [SMB/Windows Admin Shares](/tags/#smb/windows-admin-shares) | TTP |
-| [Detect Renamed PSExec](/endpoint/detect_renamed_psexec/) | [System Services](/tags/#system-services), [Service Execution](/tags/#service-execution) | Hunting |
-| [Executable File Written in Administrative SMB Share](/endpoint/executable_file_written_in_administrative_smb_share/) | [Remote Services](/tags/#remote-services), [SMB/Windows Admin Shares](/tags/#smb/windows-admin-shares) | TTP |
-| [Impacket Lateral Movement Commandline Parameters](/endpoint/impacket_lateral_movement_commandline_parameters/) | [Remote Services](/tags/#remote-services), [SMB/Windows Admin Shares](/tags/#smb/windows-admin-shares), [Distributed Component Object Model](/tags/#distributed-component-object-model), [Windows Management Instrumentation](/tags/#windows-management-instrumentation), [Windows Service](/tags/#windows-service) | TTP |
-| [Interactive Session on Remote Endpoint with PowerShell](/endpoint/interactive_session_on_remote_endpoint_with_powershell/) | [Remote Services](/tags/#remote-services), [Windows Remote Management](/tags/#windows-remote-management) | TTP |
-| [Mmc LOLBAS Execution Process Spawn](/endpoint/mmc_lolbas_execution_process_spawn/) | [Remote Services](/tags/#remote-services), [Distributed Component Object Model](/tags/#distributed-component-object-model) | TTP |
-| [Possible Lateral Movement PowerShell Spawn](/endpoint/possible_lateral_movement_powershell_spawn/) | [Remote Services](/tags/#remote-services), [Distributed Component Object Model](/tags/#distributed-component-object-model), [Windows Remote Management](/tags/#windows-remote-management), [Windows Management Instrumentation](/tags/#windows-management-instrumentation), [Scheduled Task](/tags/#scheduled-task), [Windows Service](/tags/#windows-service), [PowerShell](/tags/#powershell) | TTP |
-| [Potential Pass the Token or Hash Observed at the Destination Device](/endpoint/potential_pass_the_token_or_hash_observed_at_the_destination_device/) | [Use Alternate Authentication Material](/tags/#use-alternate-authentication-material), [Pass the Hash](/tags/#pass-the-hash) | TTP |
-| [Potential Pass the Token or Hash Observed by an Event Collecting Device](/endpoint/potential_pass_the_token_or_hash_observed_by_an_event_collecting_device/) | [Use Alternate Authentication Material](/tags/#use-alternate-authentication-material), [Pass the Hash](/tags/#pass-the-hash) | TTP |
-| [Randomly Generated Scheduled Task Name](/endpoint/randomly_generated_scheduled_task_name/) | [Scheduled Task/Job](/tags/#scheduled-task/job), [Scheduled Task](/tags/#scheduled-task) | Hunting |
-| [Randomly Generated Windows Service Name](/endpoint/randomly_generated_windows_service_name/) | [Create or Modify System Process](/tags/#create-or-modify-system-process), [Windows Service](/tags/#windows-service) | Hunting |
-| [Remote Desktop Network Traffic](/network/remote_desktop_network_traffic/) | [Remote Desktop Protocol](/tags/#remote-desktop-protocol), [Remote Services](/tags/#remote-services) | Anomaly |
-| [Remote Desktop Process Running On System](/endpoint/remote_desktop_process_running_on_system/) | [Remote Desktop Protocol](/tags/#remote-desktop-protocol), [Remote Services](/tags/#remote-services) | Hunting |
-| [Remote Process Instantiation via DCOM and PowerShell](/endpoint/remote_process_instantiation_via_dcom_and_powershell/) | [Remote Services](/tags/#remote-services), [Distributed Component Object Model](/tags/#distributed-component-object-model) | TTP |
-| [Remote Process Instantiation via DCOM and PowerShell Script Block](/endpoint/remote_process_instantiation_via_dcom_and_powershell_script_block/) | [Remote Services](/tags/#remote-services), [Distributed Component Object Model](/tags/#distributed-component-object-model) | TTP |
-| [Remote Process Instantiation via WMI](/endpoint/remote_process_instantiation_via_wmi/) | [Windows Management Instrumentation](/tags/#windows-management-instrumentation) | TTP |
-| [Remote Process Instantiation via WMI and PowerShell](/endpoint/remote_process_instantiation_via_wmi_and_powershell/) | [Windows Management Instrumentation](/tags/#windows-management-instrumentation) | TTP |
-| [Remote Process Instantiation via WMI and PowerShell Script Block](/endpoint/remote_process_instantiation_via_wmi_and_powershell_script_block/) | [Windows Management Instrumentation](/tags/#windows-management-instrumentation) | TTP |
-| [Remote Process Instantiation via WinRM and PowerShell](/endpoint/remote_process_instantiation_via_winrm_and_powershell/) | [Remote Services](/tags/#remote-services), [Windows Remote Management](/tags/#windows-remote-management) | TTP |
-| [Remote Process Instantiation via WinRM and PowerShell Script Block](/endpoint/remote_process_instantiation_via_winrm_and_powershell_script_block/) | [Remote Services](/tags/#remote-services), [Windows Remote Management](/tags/#windows-remote-management) | TTP |
-| [Remote Process Instantiation via WinRM and Winrs](/endpoint/remote_process_instantiation_via_winrm_and_winrs/) | [Remote Services](/tags/#remote-services), [Windows Remote Management](/tags/#windows-remote-management) | TTP |
-| [Scheduled Task Creation on Remote Endpoint using At](/endpoint/scheduled_task_creation_on_remote_endpoint_using_at/) | [Scheduled Task/Job](/tags/#scheduled-task/job), [At (Windows)](/tags/#at-(windows)) | TTP |
-| [Scheduled Task Initiation on Remote Endpoint](/endpoint/scheduled_task_initiation_on_remote_endpoint/) | [Scheduled Task/Job](/tags/#scheduled-task/job), [Scheduled Task](/tags/#scheduled-task) | TTP |
-| [Schtasks scheduling job on remote system](/endpoint/schtasks_scheduling_job_on_remote_system/) | [Scheduled Task](/tags/#scheduled-task), [Scheduled Task/Job](/tags/#scheduled-task/job) | TTP |
-| [Services LOLBAS Execution Process Spawn](/endpoint/services_lolbas_execution_process_spawn/) | [Create or Modify System Process](/tags/#create-or-modify-system-process), [Windows Service](/tags/#windows-service) | TTP |
-| [Short Lived Scheduled Task](/endpoint/short_lived_scheduled_task/) | [Scheduled Task](/tags/#scheduled-task) | TTP |
-| [Svchost LOLBAS Execution Process Spawn](/endpoint/svchost_lolbas_execution_process_spawn/) | [Scheduled Task/Job](/tags/#scheduled-task/job), [Scheduled Task](/tags/#scheduled-task) | TTP |
-| [Unusual Number of Computer Service Tickets Requested](/endpoint/unusual_number_of_computer_service_tickets_requested/) | [Valid Accounts](/tags/#valid-accounts) | Hunting |
-| [Unusual Number of Remote Endpoint Authentication Events](/endpoint/unusual_number_of_remote_endpoint_authentication_events/) | [Valid Accounts](/tags/#valid-accounts) | Hunting |
-| [WinEvent Scheduled Task Created Within Public Path](/endpoint/winevent_scheduled_task_created_within_public_path/) | [Scheduled Task](/tags/#scheduled-task), [Scheduled Task/Job](/tags/#scheduled-task/job) | TTP |
-| [Windows Service Created With Suspicious Service Path](/endpoint/windows_service_created_with_suspicious_service_path/) | [System Services](/tags/#system-services), [Service Execution](/tags/#service-execution) | TTP |
-| [Windows Service Created Within Public Path](/endpoint/windows_service_created_within_public_path/) | [Create or Modify System Process](/tags/#create-or-modify-system-process), [Windows Service](/tags/#windows-service) | TTP |
-| [Windows Service Creation Using Registry Entry](/endpoint/windows_service_creation_using_registry_entry/) | [Services Registry Permissions Weakness](/tags/#services-registry-permissions-weakness) | TTP |
-| [Windows Service Creation on Remote Endpoint](/endpoint/windows_service_creation_on_remote_endpoint/) | [Create or Modify System Process](/tags/#create-or-modify-system-process), [Windows Service](/tags/#windows-service) | TTP |
-| [Windows Service Initiation on Remote Endpoint](/endpoint/windows_service_initiation_on_remote_endpoint/) | [Create or Modify System Process](/tags/#create-or-modify-system-process), [Windows Service](/tags/#windows-service) | TTP |
-| [Wmiprsve LOLBAS Execution Process Spawn](/endpoint/wmiprsve_lolbas_execution_process_spawn/) | [Windows Management Instrumentation](/tags/#windows-management-instrumentation) | TTP |
-| [Wsmprovhost LOLBAS Execution Process Spawn](/endpoint/wsmprovhost_lolbas_execution_process_spawn/) | [Remote Services](/tags/#remote-services), [Windows Remote Management](/tags/#windows-remote-management) | TTP |
+| [Detect Activity Related to Pass the Hash Attacks](/endpoint/detect_activity_related_to_pass_the_hash_attacks/) | [Use Alternate Authentication Material](/tags/#use-alternate-authentication-material), [Pass the Hash](/tags/#pass-the-hash)| TTP |
+| [Detect PsExec With accepteula Flag](/endpoint/detect_psexec_with_accepteula_flag/) | [Remote Services](/tags/#remote-services), [SMB/Windows Admin Shares](/tags/#smb/windows-admin-shares)| TTP |
+| [Detect Renamed PSExec](/endpoint/detect_renamed_psexec/) | [System Services](/tags/#system-services), [Service Execution](/tags/#service-execution)| Hunting |
+| [Executable File Written in Administrative SMB Share](/endpoint/executable_file_written_in_administrative_smb_share/) | [Remote Services](/tags/#remote-services), [SMB/Windows Admin Shares](/tags/#smb/windows-admin-shares)| TTP |
+| [Impacket Lateral Movement Commandline Parameters](/endpoint/impacket_lateral_movement_commandline_parameters/) | [Remote Services](/tags/#remote-services), [SMB/Windows Admin Shares](/tags/#smb/windows-admin-shares), [Distributed Component Object Model](/tags/#distributed-component-object-model), [Windows Management Instrumentation](/tags/#windows-management-instrumentation), [Windows Service](/tags/#windows-service)| TTP |
+| [Interactive Session on Remote Endpoint with PowerShell](/endpoint/interactive_session_on_remote_endpoint_with_powershell/) | [Remote Services](/tags/#remote-services), [Windows Remote Management](/tags/#windows-remote-management)| TTP |
+| [Mmc LOLBAS Execution Process Spawn](/endpoint/mmc_lolbas_execution_process_spawn/) | [Remote Services](/tags/#remote-services), [Distributed Component Object Model](/tags/#distributed-component-object-model)| TTP |
+| [Possible Lateral Movement PowerShell Spawn](/endpoint/possible_lateral_movement_powershell_spawn/) | [Remote Services](/tags/#remote-services), [Distributed Component Object Model](/tags/#distributed-component-object-model), [Windows Remote Management](/tags/#windows-remote-management), [Windows Management Instrumentation](/tags/#windows-management-instrumentation), [Scheduled Task](/tags/#scheduled-task), [Windows Service](/tags/#windows-service), [PowerShell](/tags/#powershell)| TTP |
+| [Remote Process Instantiation via DCOM and PowerShell](/endpoint/remote_process_instantiation_via_dcom_and_powershell/) | [Remote Services](/tags/#remote-services), [Distributed Component Object Model](/tags/#distributed-component-object-model)| TTP |
+| [Remote Process Instantiation via DCOM and PowerShell Script Block](/endpoint/remote_process_instantiation_via_dcom_and_powershell_script_block/) | [Remote Services](/tags/#remote-services), [Distributed Component Object Model](/tags/#distributed-component-object-model)| TTP |
+| [Remote Process Instantiation via WinRM and PowerShell](/endpoint/remote_process_instantiation_via_winrm_and_powershell/) | [Remote Services](/tags/#remote-services), [Windows Remote Management](/tags/#windows-remote-management)| TTP |
+| [Remote Process Instantiation via WinRM and PowerShell Script Block](/endpoint/remote_process_instantiation_via_winrm_and_powershell_script_block/) | [Remote Services](/tags/#remote-services), [Windows Remote Management](/tags/#windows-remote-management)| TTP |
+| [Remote Process Instantiation via WinRM and Winrs](/endpoint/remote_process_instantiation_via_winrm_and_winrs/) | [Remote Services](/tags/#remote-services), [Windows Remote Management](/tags/#windows-remote-management)| TTP |
+| [Remote Process Instantiation via WMI](/endpoint/remote_process_instantiation_via_wmi/) | [Windows Management Instrumentation](/tags/#windows-management-instrumentation)| TTP |
+| [Remote Process Instantiation via WMI and PowerShell](/endpoint/remote_process_instantiation_via_wmi_and_powershell/) | [Windows Management Instrumentation](/tags/#windows-management-instrumentation)| TTP |
+| [Remote Process Instantiation via WMI and PowerShell Script Block](/endpoint/remote_process_instantiation_via_wmi_and_powershell_script_block/) | [Windows Management Instrumentation](/tags/#windows-management-instrumentation)| TTP |
+| [Scheduled Task Creation on Remote Endpoint using At](/endpoint/scheduled_task_creation_on_remote_endpoint_using_at/) | [Scheduled Task/Job](/tags/#scheduled-task/job), [At (Windows)](/tags/#at-(windows))| TTP |
+| [Scheduled Task Initiation on Remote Endpoint](/endpoint/scheduled_task_initiation_on_remote_endpoint/) | [Scheduled Task/Job](/tags/#scheduled-task/job), [Scheduled Task](/tags/#scheduled-task)| TTP |
+| [Schtasks scheduling job on remote system](/endpoint/schtasks_scheduling_job_on_remote_system/) | [Scheduled Task](/tags/#scheduled-task), [Scheduled Task/Job](/tags/#scheduled-task/job)| TTP |
+| [Services LOLBAS Execution Process Spawn](/endpoint/services_lolbas_execution_process_spawn/) | [Create or Modify System Process](/tags/#create-or-modify-system-process), [Windows Service](/tags/#windows-service)| TTP |
+| [Short Lived Scheduled Task](/endpoint/short_lived_scheduled_task/) | [Scheduled Task](/tags/#scheduled-task)| TTP |
+| [Svchost LOLBAS Execution Process Spawn](/endpoint/svchost_lolbas_execution_process_spawn/) | [Scheduled Task/Job](/tags/#scheduled-task/job), [Scheduled Task](/tags/#scheduled-task)| TTP |
+| [Windows Service Created With Suspicious Service Path](/endpoint/windows_service_created_with_suspicious_service_path/) | [System Services](/tags/#system-services), [Service Execution](/tags/#service-execution)| TTP |
+| [Windows Service Created Within Public Path](/endpoint/windows_service_created_within_public_path/) | [Create or Modify System Process](/tags/#create-or-modify-system-process), [Windows Service](/tags/#windows-service)| TTP |
+| [Windows Service Creation on Remote Endpoint](/endpoint/windows_service_creation_on_remote_endpoint/) | [Create or Modify System Process](/tags/#create-or-modify-system-process), [Windows Service](/tags/#windows-service)| TTP |
+| [Windows Service Creation Using Registry Entry](/endpoint/windows_service_creation_using_registry_entry/) | [Services Registry Permissions Weakness](/tags/#services-registry-permissions-weakness)| TTP |
+| [Windows Service Initiation on Remote Endpoint](/endpoint/windows_service_initiation_on_remote_endpoint/) | [Create or Modify System Process](/tags/#create-or-modify-system-process), [Windows Service](/tags/#windows-service)| TTP |
+| [WinEvent Scheduled Task Created Within Public Path](/endpoint/winevent_scheduled_task_created_within_public_path/) | [Scheduled Task](/tags/#scheduled-task), [Scheduled Task/Job](/tags/#scheduled-task/job)| TTP |
+| [Wmiprsve LOLBAS Execution Process Spawn](/endpoint/wmiprsve_lolbas_execution_process_spawn/) | [Windows Management Instrumentation](/tags/#windows-management-instrumentation)| TTP |
+| [Wsmprovhost LOLBAS Execution Process Spawn](/endpoint/wsmprovhost_lolbas_execution_process_spawn/) | [Remote Services](/tags/#remote-services), [Windows Remote Management](/tags/#windows-remote-management)| TTP |
+| [Randomly Generated Scheduled Task Name](/endpoint/randomly_generated_scheduled_task_name/) | [Scheduled Task/Job](/tags/#scheduled-task/job), [Scheduled Task](/tags/#scheduled-task)| Hunting |
+| [Randomly Generated Windows Service Name](/endpoint/randomly_generated_windows_service_name/) | [Create or Modify System Process](/tags/#create-or-modify-system-process), [Windows Service](/tags/#windows-service)| Hunting |
+| [Remote Desktop Process Running On System](/endpoint/remote_desktop_process_running_on_system/) | [Remote Desktop Protocol](/tags/#remote-desktop-protocol), [Remote Services](/tags/#remote-services)| Hunting |
+| [Unusual Number of Computer Service Tickets Requested](/endpoint/unusual_number_of_computer_service_tickets_requested/) | [Valid Accounts](/tags/#valid-accounts)| Hunting |
+| [Unusual Number of Remote Endpoint Authentication Events](/endpoint/unusual_number_of_remote_endpoint_authentication_events/) | [Valid Accounts](/tags/#valid-accounts)| Hunting |
+| [Remote Desktop Network Traffic](/network/remote_desktop_network_traffic/) | [Remote Desktop Protocol](/tags/#remote-desktop-protocol), [Remote Services](/tags/#remote-services)| Anomaly |
 
 #### Reference
 

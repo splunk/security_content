@@ -25,7 +25,7 @@ tags:
   - GCP Cross Account Activity
   asset_type: GCP Account
   kill_chain_phases:
-  - Lateral Movement
+  - Exploitation
   mitre_attack_id:
   - T1078
   product:
@@ -43,3 +43,13 @@ tags:
   - data.protoPayload.request.location
   - http_user_agent
   security_domain: threat
+  confidence: 50
+  impact: 50
+  risk_score: 25
+  context: []
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  message: tbd

@@ -3,8 +3,8 @@ tests:
 - name: GitHub Pull Request from Unknown User
   file: cloud/github_pull_request_from_unknown_user.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-365d'
-  latest_time: 'now'
+  earliest_time: -365d
+  latest_time: now
   attack_data:
   - file_name: github_pull_request.json
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1195.001/github_pull_request/github_pull_request.json

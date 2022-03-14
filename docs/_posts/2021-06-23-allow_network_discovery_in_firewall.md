@@ -1,6 +1,8 @@
 ---
 title: "Allow Network Discovery In Firewall"
-excerpt: "Disable or Modify Cloud Firewall, Impair Defenses"
+excerpt: "Disable or Modify Cloud Firewall
+, Impair Defenses
+"
 categories:
   - Endpoint
 last_modified_at: 2021-06-23
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - Disable or Modify Cloud Firewall
-  - Defense Evasion
   - Impair Defenses
+  - Defense Evasion
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -25,7 +27,7 @@ tags:
 
 This search is to detect a suspicious modification to the firewall to allow network discovery on a machine. This technique was seen in couple of ransomware (revil, reddot) to discover other machine connected to the compromised host to encrypt more files.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-23
@@ -55,8 +57,8 @@ This search is to detect a suspicious modification to the firewall to allow netw
 #### Macros
 The SPL above uses the following Macros:
 * [process_netsh](https://github.com/splunk/security_content/blob/develop/macros/process_netsh.yml)
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `allow_network_discovery_in_firewall_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -91,8 +93,12 @@ network admin may modify this firewall feature that may cause this rule to be tr
 
 
 
+#### RBA
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 25.0 | 50 | 50 |  |
+
 
 
 
@@ -106,6 +112,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data2/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data2/windows-sysmon.log)
 

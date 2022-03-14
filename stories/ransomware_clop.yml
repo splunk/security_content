@@ -5,11 +5,12 @@ date: '2021-03-17'
 author: Rod Soto, Teoderick Contreras, Splunk
 description: Leverage searches that allow you to detect and investigate unusual activities
   that might relate to the Clop ransomware, including looking for file writes associated
-  with Clope, encrypting network shares, deleting and resizing shadow volume storage, registry key modification,
-  deleting of security logs, and more.
-narrative: Clop ransomware campaigns targeting healthcare and other vertical sectors, involve the use of
-  ransomware payloads along with exfiltration of data per HHS bulletin. Malicious actors demand payment for
-  ransome of data and threaten deletion and exposure of exfiltrated data.
+  with Clope, encrypting network shares, deleting and resizing shadow volume storage,
+  registry key modification, deleting of security logs, and more.
+narrative: Clop ransomware campaigns targeting healthcare and other vertical sectors,
+  involve the use of ransomware payloads along with exfiltration of data per HHS bulletin.
+  Malicious actors demand payment for ransome of data and threaten deletion and exposure
+  of exfiltrated data.
 references:
 - https://www.hhs.gov/sites/default/files/analyst-note-cl0p-tlp-white.pdf
 - https://securityaffairs.co/wordpress/115250/data-breach/qualys-clop-ransomware.html

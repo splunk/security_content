@@ -62,3 +62,13 @@ tags:
   - cs_uri_
   - cs_method_
   security_domain: network
+  confidence: 50
+  impact: 50
+  risk_score: 25
+  context: []
+  observable:
+  - name: dest
+    type: Other
+    role:
+    - Other
+  message: tbd

@@ -33,7 +33,6 @@ references:
 tags:
   analytic_story:
   - Cobalt Strike
-  automated_detection_testing: passed
   confidence: 90
   context:
   - Source:Endpoint
@@ -81,3 +80,4 @@ tags:
   - process_path
   risk_score: 81
   security_domain: endpoint
+  asset_type: Endpoint

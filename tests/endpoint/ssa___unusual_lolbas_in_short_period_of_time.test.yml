@@ -1,9 +1,10 @@
-name: Unusual LOLBAS in short period of time - SSA Unit Test
+name: Unusual LOLBAS in short period of time Unit Test
 tests:
-  - name: Unusual LOLBAS in short period of time
-    file: endpoint/ssa___unusual_lolbas_in_short_period_of_time.yml
-    pass_condition: '@count_gt(0)'
-    description: Test more than usual lolbas being executed in a short period of time
-    attack_data:
-      - file_name: T1059.all.labeled.lolbas-test.json
-        data: https://ssa-test-dataset.s3-us-west-2.amazonaws.com/T1059.all.labeled.lolbas-test.json
+- name: Unusual LOLBAS in short period of time
+  file: endpoint/ssa___unusual_lolbas_in_short_period_of_time.yml
+  pass_condition: '@count_gt(0)'
+  description: Test more than usual lolbas being executed in a short period of time
+  attack_data:
+  - file_name: T1059.all.labeled.lolbas-test.json
+    data: https://ssa-test-dataset.s3-us-west-2.amazonaws.com/T1059.all.labeled.lolbas-test.json
+    source: WinEventLog:Security
