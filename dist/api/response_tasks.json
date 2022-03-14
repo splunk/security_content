@@ -167,7 +167,7 @@
                 "AWS Cryptomining",
                 "AWS Network ACL Activity",
                 "Cloud Cryptomining",
-                "Command and Control",
+                "Command & Control",
                 "Suspicious AWS EC2 Activities",
                 "Suspicious AWS Login Activities",
                 "Suspicious AWS S3 Activities",
@@ -216,7 +216,7 @@
         "tags": {
             "analytic_story": [
                 "AWS Network ACL Activity",
-                "Command and Control",
+                "Command & Control",
                 "Suspicious AWS Traffic"
             ],
             "product": [
@@ -252,7 +252,7 @@
         "tags": {
             "analytic_story": [
                 "AWS Network ACL Activity",
-                "Command and Control",
+                "Command & Control",
                 "Suspicious AWS Traffic"
             ],
             "product": [
@@ -441,7 +441,7 @@
             "analytic_story": [
                 "AWS Network ACL Activity",
                 "AWS Suspicious Provisioning Activities",
-                "Command and Control",
+                "Command & Control",
                 "Suspicious AWS S3 Activities",
                 "Suspicious AWS Traffic",
                 "Suspicious Cloud Instance Activities"
@@ -587,7 +587,7 @@
         "tags": {
             "analytic_story": [
                 "AWS Network ACL Activity",
-                "Command and Control",
+                "Command & Control",
                 "DNS Hijacking",
                 "Data Protection",
                 "Dynamic DNS",
@@ -631,7 +631,7 @@
         "tags": {
             "analytic_story": [
                 "AWS Network ACL Activity",
-                "Command and Control",
+                "Command & Control",
                 "Data Protection",
                 "Dynamic DNS",
                 "Hidden Cobra Malware",
@@ -977,7 +977,7 @@
                 "Cloud Cryptomining",
                 "ColdRoot MacOS RAT",
                 "Collection and Staging",
-                "Command and Control",
+                "Command & Control",
                 "DHS Report TA18-074A",
                 "DNS Amplification Attacks",
                 "Data Protection",
@@ -1102,7 +1102,7 @@
         "tags": {
             "analytic_story": [
                 "Collection and Staging",
-                "Command and Control",
+                "Command & Control",
                 "DHS Report TA18-074A",
                 "Disabling Security Tools",
                 "Emotet Malware  DHS Report TA18-201A ",
@@ -1206,7 +1206,7 @@
             "analytic_story": [
                 "AWS Network ACL Activity",
                 "Collection and Staging",
-                "Command and Control",
+                "Command & Control",
                 "DHS Report TA18-074A",
                 "Data Protection",
                 "Disabling Security Tools",
@@ -1271,7 +1271,7 @@
         "tags": {
             "analytic_story": [
                 "AWS Network ACL Activity",
-                "Command and Control",
+                "Command & Control",
                 "DHS Report TA18-074A",
                 "Emotet Malware  DHS Report TA18-201A ",
                 "Hidden Cobra Malware",
@@ -1321,7 +1321,7 @@
             "analytic_story": [
                 "AWS Network ACL Activity",
                 "Brand Monitoring",
-                "Command and Control",
+                "Command & Control",
                 "Data Protection",
                 "Dynamic DNS",
                 "Hidden Cobra Malware",

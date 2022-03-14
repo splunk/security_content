@@ -19,7 +19,7 @@ references: []
 tags:
   analytic_story:
   - AWS Network ACL Activity
-  - Command and Control
+  - Command & Control
   - DNS Hijacking
   - Data Protection
   - Dynamic DNS

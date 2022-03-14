@@ -36,13 +36,13 @@ known_false_positives: ICMP packets are used in a variety of ways to help troubl
 references: []
 tags:
   analytic_story:
-  - Command and Control
+  - Command & Control
   asset_type: Endpoint
   cis20:
   - CIS 9
   - CIS 12
   kill_chain_phases:
-  - Command and Control
+  - Command & Control
   mitre_attack_id:
   - T1095
   nist:

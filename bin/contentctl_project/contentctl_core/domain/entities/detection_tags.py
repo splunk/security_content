@@ -2,6 +2,7 @@ import re
 
 from pydantic import BaseModel, validator, ValidationError
 from bin.contentctl_project.contentctl_core.domain.entities.mitre_attack_enrichment import MitreAttackEnrichment
+from bin.contentctl_project.contentctl_core.domain.constants.constants import *
 
 class DetectionTags(BaseModel):
     # detection spec
@@ -28,6 +29,13 @@ class DetectionTags(BaseModel):
 
     # enrichment
     mitre_attack_enrichments: list[MitreAttackEnrichment] = None
+    confidence_id: int = None
+    impact_id: int = None
+    context_ids: list = None
+    risk_level_id: int = None
+    risk_level: str = None
+    observable_str: str = None
+    kill_chain_phases_id: list = None
 
 
     @validator('cis20')
@@ -48,24 +56,7 @@ class DetectionTags(BaseModel):
 
     @validator('context')
     def tags_context(cls, v, values):
-        context_list = [
-            "Other", "Unknown", "Source:Endpoint",
-            "Source:AD", "Source:Firewall", "Source:Application Log",
-            "Source:IPS", "Source:Cloud Data", "Source:Correlation",
-            "Source:Printer", "Source:Badge", "Scope:Internal",
-            "Scope:External", "Scope:Inbound", "Scope:Outbound",
-            "Scope:Local", "Scope:Network", "Outcome:Blocked",
-            "Outcome:Allowed", "Stage:Recon", "Stage:Initial Access",
-            "Stage:Execution", "Stage:Persistence", "Stage:Privilege Escalation",
-            "Stage:Defense Evasion", "Stage:Credential Access", "Stage:Discovery",
-            "Stage:Lateral Movement", "Stage:Collection", "Stage:Exfiltration",
-            "Stage:Command And Control", "Consequence:Infection", "Consequence:Reduced Visibility",
-            "Consequence:Data Destruction", "Consequence:Denial Of Service", "Consequence:Loss Of Control",
-            "Rares:Rare User", "Rares:Rare Process", "Rares:Rare Device", 
-            "Rares:Rare Domain", "Rares:Rare Network", "Rares:Rare Location",
-            "Other:Peer Group", "Other:Brute Force", "Other:Policy Violation",
-            "Other:Threat Intelligence", "Other:Flight Risk", "Other:Removable Storage"
-        ]
+        context_list = SES_CONTEXT_MAPPING.keys()
         for value in v:
             if value not in context_list:
                 raise ValueError('context value not valid for ' + values["name"] + '. valid options are ' + str(context_list) )
@@ -80,10 +71,7 @@ class DetectionTags(BaseModel):
 
     @validator('kill_chain_phases')
     def tags_kill_chain_phases(cls, v, values):
-        valid_kill_chain_phases = [
-            'Reconnaissance', 'Weaponization', 'Delivery', 
-            'Exploitation', 'Installation', 'Command and Control', 
-            'Actions on Objectives']
+        valid_kill_chain_phases = SES_KILL_CHAIN_MAPPINGS.keys()
         for value in v:
             if value not in valid_kill_chain_phases:
                 raise ValueError('kill chain phase not valid for ' + values["name"] + '. valid options are ' + str(valid_kill_chain_phases))
@@ -99,21 +87,8 @@ class DetectionTags(BaseModel):
 
     @validator('observable')
     def tags_observable(cls,v,values):
-        valid_roles = [
-            "Other", "Unknown", "Actor",
-            "Target", "Attacker", "Victim",
-            "Parent Process", "Child Process", "Known Bad",
-            "Data Loss", "Observer"
-        ]
-        valid_types = [
-            "Other", "Unknown", "Device",
-            "Container", "Endpoint", "Hostname",
-            "IP Address", "User", "Username",
-            "Email", "Email Address", "URL",
-            "URL Domain", "File", "File Name",
-            "File Hash", "Process", "Process Name",
-            "Location"
-        ]
+        valid_roles = SES_OBSERVABLE_ROLE_MAPPING.keys()
+        valid_types = SES_OBSERVABLE_TYPE_MAPPING.keys()
         
         for value in v:
             if value['type'] in valid_types:

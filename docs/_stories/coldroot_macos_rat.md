@@ -8,7 +8,7 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Command and Control
+  - Command & Control
   - Installation
 ---
 

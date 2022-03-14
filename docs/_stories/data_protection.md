@@ -10,7 +10,7 @@ tags:
   - Change_Analysis
   - Network_Resolution
   - Actions on Objectives
-  - Command and Control
+  - Command & Control
   - Installation
 ---
 

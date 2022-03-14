@@ -43,7 +43,7 @@ tags:
   impact: 80
   kill_chain_phases:
   - Installation
-  - Command and Control
+  - Command & Control
   - Actions on Objectives
   message: An attacker tool $process_name$,listed in attacker_tools.csv is executed
     on host $dest$ by User $user$. This process $process_name$ is known to do- $description$

@@ -19,7 +19,7 @@ tags:
   analytic_story:
   - Prohibited Traffic Allowed or Protocol Mismatch
   - Ransomware
-  - Command and Control
+  - Command & Control
   deployments:
   - Daily Cache Updates
   detections:

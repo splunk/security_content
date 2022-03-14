@@ -10,7 +10,7 @@ tags:
   - Endpoint
   - Network_Resolution
   - Actions on Objectives
-  - Command and Control
+  - Command & Control
   - Exploitation
 ---
 

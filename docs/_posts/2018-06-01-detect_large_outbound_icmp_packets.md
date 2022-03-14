@@ -9,7 +9,7 @@ toc: true
 toc_label: ""
 tags:
   - Non-Application Layer Protocol
-  - Command And Control
+  - Command & Control
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud

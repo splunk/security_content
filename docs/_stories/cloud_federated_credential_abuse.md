@@ -10,7 +10,7 @@ tags:
   - Splunk Cloud
   - Endpoint
   - Actions on Objectives
-  - Command and Control
+  - Command & Control
   - Exploitation
   - Installation
 ---

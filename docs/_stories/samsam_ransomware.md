@@ -11,7 +11,7 @@ tags:
   - Network_Traffic
   - Web
   - Actions on Objectives
-  - Command and Control
+  - Command & Control
   - Delivery
   - Exploitation
   - Installation

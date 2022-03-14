@@ -8,7 +8,7 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   - Network_Resolution
-  - Command and Control
+  - Command & Control
   - Delivery
 ---
 

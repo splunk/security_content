@@ -33,7 +33,7 @@ tags:
   analytic_story:
   - Suspicious DNS Traffic
   - Dynamic DNS
-  - Command and Control
+  - Command & Control
   - Data Exfiltration
   confidence: 80
   context:

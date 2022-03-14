@@ -33,7 +33,7 @@ references:
 - https://www.microsoft.com/security/blog/2021/01/20/deep-dive-into-the-solorigate-second-stage-activation-from-sunburst-to-teardrop-and-raindrop/
 tags:
   analytic_story:
-  - Command and Control
+  - Command & Control
   - Data Exfiltration
   asset_type: Endpoint
   confidence: 50

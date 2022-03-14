@@ -11,8 +11,8 @@ toc_label: ""
 tags:
   - DNS
   - Application Layer Protocol
-  - Command And Control
-  - Command And Control
+  - Command & Control
+  - Command & Control
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud

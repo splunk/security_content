@@ -26,7 +26,7 @@ references: []
 tags:
   analytic_story:
   - AWS Network ACL Activity
-  - Command and Control
+  - Command & Control
   - Suspicious AWS Traffic
   deployments:
   - Daily Cache Updates

@@ -32,14 +32,14 @@ references: []
 tags:
   analytic_story:
   - Suspicious DNS Traffic
-  - Command and Control
+  - Command & Control
   asset_type: Endpoint
   cis20:
   - CIS 8
   - CIS 12
   - CIS 13
   kill_chain_phases:
-  - Command and Control
+  - Command & Control
   mitre_attack_id:
   - T1048.003
   nist:

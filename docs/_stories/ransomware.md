@@ -10,7 +10,7 @@ tags:
   - Endpoint
   - Network_Traffic
   - Actions on Objectives
-  - Command and Control
+  - Command & Control
   - Delivery
   - Exploitation
   - Reconnaissance

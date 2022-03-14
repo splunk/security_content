@@ -22,7 +22,7 @@ references: []
 tags:
   analytic_story:
   - DNS Hijacking
-  - Command and Control
+  - Command & Control
   - Suspicious DNS Traffic
   - Host Redirection
   asset_type: Endpoint
@@ -32,7 +32,7 @@ tags:
   - CIS 8
   - CIS 12
   kill_chain_phases:
-  - Command and Control
+  - Command & Control
   mitre_attack_id:
   - T1071.004
   nist:

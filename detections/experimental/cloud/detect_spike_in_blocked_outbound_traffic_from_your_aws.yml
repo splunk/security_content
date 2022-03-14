@@ -44,13 +44,13 @@ tags:
   analytic_story:
   - AWS Network ACL Activity
   - Suspicious AWS Traffic
-  - Command and Control
+  - Command & Control
   asset_type: AWS Instance
   cis20:
   - CIS 11
   kill_chain_phases:
   - Actions on Objectives
-  - Command and Control
+  - Command & Control
   nist:
   - DE.AE
   - DE.CM

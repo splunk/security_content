@@ -9,7 +9,7 @@ toc: true
 toc_label: ""
 tags:
   - Ingress Tool Transfer
-  - Command And Control
+  - Command & Control
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud

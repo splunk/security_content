@@ -27,7 +27,7 @@ known_false_positives: none
 references: []
 tags:
   analytic_story:
-  - Command and Control
+  - Command & Control
   - Hidden Cobra Malware
   - Suspicious DNS Traffic
   deployments:

@@ -11,7 +11,7 @@ tags:
   - Network_Resolution
   - Web
   - Actions on Objectives
-  - Command and Control
+  - Command & Control
   - Exploitation
 ---
 

@@ -22,7 +22,7 @@ tags:
   analytic_story:
   - AWS Network ACL Activity
   - AWS Suspicious Provisioning Activities
-  - Command and Control
+  - Command & Control
   - Suspicious AWS S3 Activities
   - Suspicious AWS Traffic
   - Suspicious Cloud Instance Activities

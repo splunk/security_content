@@ -4,7 +4,7 @@ import re
 from bin.contentctl_project.contentctl_infrastructure.adapter.yml_writer import YmlWriter
 from bin.contentctl_project.contentctl_core.application.adapter.adapter import Adapter
 from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import SecurityContentType
-
+from bin.contentctl_project.contentctl_infrastructure.adapter.finding_report_writer import FindingReportObject
 
 class ObjToYmlAdapter(Adapter):
 
@@ -24,6 +24,8 @@ class ObjToYmlAdapter(Adapter):
                 file_path = os.path.join(output_path, 'complex', file_name)
             else:
                 file_path = os.path.join(output_path, 'srs', file_name)
+
+            body = FindingReportObject.writeFindingReport(obj)
 
             # remove unncessary fields
             YmlWriter.writeYmlFile(file_path, obj.dict(
@@ -71,6 +73,13 @@ class ObjToYmlAdapter(Adapter):
                     }
                 ))
 
+            # Add Finding Report Object
+            with open(file_path, 'r') as file:
+                data = file.read().replace('--body--', body)
+
+            f = open(file_path, "w")
+            f.write(data)
+            f.close()       
 
 
     def writeObjectNewContent(self, object: dict, type: SecurityContentType) -> None:
