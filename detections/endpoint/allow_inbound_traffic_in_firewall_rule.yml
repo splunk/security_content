@@ -24,7 +24,6 @@ references:
 tags:
   analytic_story:
   - Prohibited Traffic Allowed or Protocol Mismatch
-  automated_detection_testing: passed
   confidence: 30
   context:
   - Source:Endpoint
@@ -60,3 +59,4 @@ tags:
   - User
   risk_score: 3
   security_domain: endpoint
+  asset_type: Endpoint

@@ -1,6 +1,7 @@
 ---
 title: "AWS Lambda UpdateFunctionCode"
-excerpt: "User Execution"
+excerpt: "User Execution
+"
 categories:
   - Cloud
 last_modified_at: 2022-02-24
@@ -22,7 +23,7 @@ tags:
 
 This analytic is designed to detect IAM users attempting to update/modify AWS lambda code via the AWS CLI to gain persistence, futher access into your AWS environment and to facilitate planting backdoors. In this instance, an attacker may upload malicious code/binary to a lambda function which will be executed automatically when the funnction is triggered.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2022-02-24
@@ -79,8 +80,6 @@ While this search has no known false positives, it is possible that an AWS admin
 | 63.0 | 70 | 90 | User $user_arn$ is attempting to update the lambda function code of $function_updated$ from this IP $src_ip$ |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -93,6 +92,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204/aws_updatelambdafunctioncode/aws_cloudtrail_events.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204/aws_updatelambdafunctioncode/aws_cloudtrail_events.json)
 

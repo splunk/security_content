@@ -30,7 +30,6 @@ tags:
   analytic_story:
   - Remcos
   - WhisperGate
-  automated_detection_testing: passed
   confidence: 80
   context:
   - Source:Endpoint
@@ -50,7 +49,7 @@ tags:
     role:
     - Victim
   - name: process_name
-    type: process name
+    type: Process
     role:
     - Attacker
   product:
@@ -67,3 +66,4 @@ tags:
   - Computer
   risk_score: 64
   security_domain: endpoint
+  asset_type: Endpoint

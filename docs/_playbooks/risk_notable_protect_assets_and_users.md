@@ -27,7 +27,7 @@ This playbook attempts to find assets and users from the notable event and match
 
 
 #### How To Implement
-
+tbd
 
 #### Playbooks
 ![](https://raw.githubusercontent.com/splunk/security_content/develop/playbooks/risk_notable_protect_assets_and_users.png)

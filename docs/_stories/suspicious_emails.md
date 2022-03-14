@@ -8,6 +8,8 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   - Email
+  - UEBA
+  - Delivery
 ---
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -17,7 +19,7 @@ tags:
 Email remains one of the primary means for attackers to gain an initial foothold within the modern enterprise. Detect and investigate suspicious emails in your environment with the help of the searches in this Analytic Story.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: [Email](https://docs.splunk.com/Documentation/CIM/latest/User/Email)
+- **Datamodel**: [Email](https://docs.splunk.com/Documentation/CIM/latest/User/Email), [UEBA](https://docs.splunk.com/Documentation/CIM/latest/User/UEBA)
 - **Last Updated**: 2020-01-27
 - **Author**: Bhavin Patel, Splunk
 - **ID**: 2b1800dd-92f9-47ec-a981-fdf1351e5d55
@@ -34,9 +36,10 @@ Once a phishing message has been detected, the next steps are to answer the foll
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Email Attachments With Lots Of Spaces](/application/email_attachments_with_lots_of_spaces/) |  | Anomaly |
-| [Monitor Email For Brand Abuse](/application/monitor_email_for_brand_abuse/) |  | TTP |
-| [Suspicious Email Attachment Extensions](/application/suspicious_email_attachment_extensions/) | [Spearphishing Attachment](/tags/#spearphishing-attachment), [Phishing](/tags/#phishing) | Anomaly |
+| [Suspicious Email - UBA Anomaly](/deprecated/suspicious_email_-_uba_anomaly/) | [Phishing](/tags/#phishing)| Anomaly |
+| [Email Attachments With Lots Of Spaces](/application/email_attachments_with_lots_of_spaces/) | None| Anomaly |
+| [Monitor Email For Brand Abuse](/application/monitor_email_for_brand_abuse/) | None| TTP |
+| [Suspicious Email Attachment Extensions](/application/suspicious_email_attachment_extensions/) | [Spearphishing Attachment](/tags/#spearphishing-attachment), [Phishing](/tags/#phishing)| Anomaly |
 
 #### Reference
 

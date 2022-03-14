@@ -32,7 +32,6 @@ references:
 tags:
   analytic_story:
   - Information Sabotage
-  automated_detection_testing: passed
   confidence: 30
   context:
   - Source:Endpoint
@@ -41,7 +40,7 @@ tags:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1537/high_copy_files_in_net_share/security.log
   impact: 30
   kill_chain_phases:
-  - Exfiltration
+  - Exploitation
   message: high frequency copy of document in network share $Share_Name$ from $Source_Address$
     by $user$
   mitre_attack_id:
@@ -67,3 +66,4 @@ tags:
   - Source_Address
   risk_score: 9
   security_domain: endpoint
+  asset_type: Endpoint

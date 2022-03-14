@@ -29,7 +29,6 @@ tags:
   analytic_story:
   - FIN7
   - Remcos
-  automated_detection_testing: passed
   confidence: 70
   context:
   - Source:Endpoint
@@ -69,3 +68,4 @@ tags:
   - user
   risk_score: 35
   security_domain: endpoint
+  asset_type: Endpoint

@@ -1,0 +1,62 @@
+name: Baseline of Excessive AWS Instances Terminated by User - MLTK
+id: b28ed6de-e4ba-40f7-ae0a-93a088c774ab
+version: 1
+date: '2019-11-14'
+author: Jason Brewer, Splunk
+type: Baseline
+datamodel: []
+description: This search is used to build a Machine Learning Toolkit (MLTK) model
+  for how many TerminateInstances users do in the environment. By default, the search
+  uses the last 90 days of data to build the model. The model created by this search
+  is then used in the corresponding detection search, which identifies subsequent
+  outliers in the number of TerminateInstances performed by a user in a small time
+  window.
+search: '`cloudtrail` eventName=TerminateInstances errorCode=success `ec2_excessive_terminateinstances_mltk_input_filter`
+  | bucket span=10m _time | stats count as instances_terminated by _time src_user
+  | fit DensityFunction instances_terminated threshold=0.0005 into ec2_excessive_terminateinstances_v1'
+how_to_implement: 'You must install the AWS App for Splunk (version 5.1.0 or later)
+  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
+  inputs.\
+
+  In addition, you must have the Machine Learning Toolkit (MLTK) version >= 4.2 installed,
+  along with any required dependencies. Depending on the number of users in your environment,
+  you may also need to adjust the value for max_inputs in the MLTK settings for the
+  DensityFunction algorithm, then ensure that the search completes in a reasonable
+  timeframe. By default, the search builds the model using the past 30 days of data.
+  You can modify the search window to build the model over a longer period of time,
+  which may give you better results. You may also want to periodically re-run this
+  search to rebuild the model with the latest data.\
+
+  More information on the algorithm used in the search can be found at `https://docs.splunk.com/Documentation/MLApp/4.2.0/User/Algorithms#DensityFunction`.'
+known_false_positives: none
+references: []
+tags:
+  analytic_story:
+  - Suspicious AWS EC2 Activities
+  deployments:
+  - Daily Cache Updates
+  detections:
+  - Abnormally High AWS Instances Terminated by User - MLTK
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - eventName
+  - errorCode
+  - src_user
+  security_domain: network
+  kill_chain_phases:
+  - Exploitation
+  confidence: 50
+  impact: 50
+  risk_score: 25
+  context:
+  - Unknown
+  message: tbd
+  observable:
+  - name: field
+    type: Unknown
+    role:
+    - Unknown

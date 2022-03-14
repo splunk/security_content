@@ -8,7 +8,8 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Endpoint_Processes
+  - Actions on Objectives
+  - Command & Control
 ---
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -18,7 +19,7 @@ tags:
 Monitor your environment for suspicious behaviors that resemble the techniques employed by the MUDCARP threat group.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint), [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-01-22
 - **Author**: iDefense Cyber Espionage Team, iDefense
 - **ID**: 988C59C5-0A1C-45B6-A555-0C62276E327E
@@ -58,11 +59,11 @@ If behavioral searches included in this story yield positive hits, iDefense reco
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [PowerShell - Connect To Internet With Hidden Window](/endpoint/powershell_-_connect_to_internet_with_hidden_window/) | [PowerShell](/tags/#powershell), [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter) | Hunting |
-| [Registry Keys Used For Persistence](/endpoint/registry_keys_used_for_persistence/) | [Registry Run Keys / Startup Folder](/tags/#registry-run-keys-/-startup-folder), [Boot or Logon Autostart Execution](/tags/#boot-or-logon-autostart-execution) | TTP |
-| [Unusually Long Command Line](/endpoint/unusually_long_command_line/) |  | Anomaly |
-| [Unusually Long Command Line - MLTK](/endpoint/unusually_long_command_line_-_mltk/) |  | Anomaly |
-| [Windows Powershell Connect to Internet With Hidden Window](/endpoint/windows_powershell_connect_to_internet_with_hidden_window/) | [Automated Exfiltration](/tags/#automated-exfiltration) | Anomaly |
+| [First time seen command line argument](/deprecated/first_time_seen_command_line_argument/) | [PowerShell](/tags/#powershell), [Windows Command Shell](/tags/#windows-command-shell)| Hunting |
+| [PowerShell - Connect To Internet With Hidden Window](/endpoint/powershell_-_connect_to_internet_with_hidden_window/) | [PowerShell](/tags/#powershell), [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter)| Hunting |
+| [Registry Keys Used For Persistence](/endpoint/registry_keys_used_for_persistence/) | [Registry Run Keys / Startup Folder](/tags/#registry-run-keys-/-startup-folder), [Boot or Logon Autostart Execution](/tags/#boot-or-logon-autostart-execution)| TTP |
+| [Unusually Long Command Line](/endpoint/unusually_long_command_line/) | None| Anomaly |
+| [Unusually Long Command Line - MLTK](/endpoint/unusually_long_command_line_-_mltk/) | None| Anomaly |
 
 #### Reference
 
