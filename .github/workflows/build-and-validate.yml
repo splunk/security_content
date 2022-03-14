@@ -88,6 +88,12 @@ jobs:
           python3 contentctl.py -p . validate -pr ESCU
           python3 contentctl.py -p . validate -pr SSA
       
+      - name: test code with pytest
+        run: |
+          source venv/bin/activate
+          pytest -s bin/contentctl_project 
+
+
       # - name: Get CTI Repo for Mitre context
       #   uses:  actions/checkout@v2
       #   with:
