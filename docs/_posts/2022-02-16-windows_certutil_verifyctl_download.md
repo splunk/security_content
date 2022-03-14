@@ -8,7 +8,7 @@ toc: true
 toc_label: ""
 tags:
   - Ingress Tool Transfer
-  - Command And Control
+  - Command & Control
   - Splunk Behavioral Analytics
   - Endpoint_Processes
 ---

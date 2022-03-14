@@ -1,6 +1,8 @@
 ---
 title: "CMD Carry Out String Command Parameter"
-excerpt: "Windows Command Shell, Command and Scripting Interpreter"
+excerpt: "Windows Command Shell
+, Command and Scripting Interpreter
+"
 categories:
   - Endpoint
 last_modified_at: 2022-01-18
@@ -8,13 +10,12 @@ toc: true
 toc_label: ""
 tags:
   - Windows Command Shell
-  - Execution
   - Command and Scripting Interpreter
+  - Execution
   - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - CVE-2021-44228
   - Endpoint
 ---
 
@@ -26,7 +27,7 @@ tags:
 
 The following analytic identifies command-line arguments where `cmd.exe /c` is used to execute a program. `cmd /c` is used to run commands in MS-DOS and terminate after command or process completion. This technique is commonly seen in adversaries and malware to execute batch command using different shell like PowerShell or different process other than `cmd.exe`. This is a good hunting query for suspicious command-line made by a script or relative process execute it.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2022-01-18
@@ -55,9 +56,9 @@ The following analytic identifies command-line arguments where `cmd.exe /c` is u
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_cmd](https://github.com/splunk/security_content/blob/develop/macros/process_cmd.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [process_cmd](https://github.com/splunk/security_content/blob/develop/macros/process_cmd.yml)
 
 Note that `cmd_carry_out_string_command_parameter_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -99,15 +100,6 @@ False positives may be high based on legitimate scripted code in any environment
 | 30.0 | 60 | 50 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting spawn a new process. |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
-
-#### CVE
-
-| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
-| ----------- | ----------- | -------------- |
-| [CVE-2021-44228](https://nvd.nist.gov/vuln/detail/CVE-2021-44228) | Apache Log4j2 2.0-beta9 through 2.15.0 (excluding security releases 2.12.2, 2.12.3, and 2.3.1) JNDI features used in configuration, log messages, and parameters do not protect against attacker controlled LDAP and other JNDI related endpoints. An attacker who can control log messages or log message parameters can execute arbitrary code loaded from LDAP servers when message lookup substitution is enabled. From log4j 2.15.0, this behavior has been disabled by default. From version 2.16.0 (along with 2.12.2, 2.12.3, and 2.3.1), this functionality has been completely removed. Note that this vulnerability is specific to log4j-core and does not affect log4net, log4cxx, or other Apache Logging Services projects. | 9.3 |
-
 
 
 #### Reference
@@ -120,6 +112,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/cmd_carry_str_param/sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/cmd_carry_str_param/sysmon.log)
 

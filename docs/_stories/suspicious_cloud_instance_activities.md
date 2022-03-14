@@ -9,6 +9,7 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   - Change
+  - Actions on Objectives
 ---
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -31,10 +32,10 @@ Monitoring your cloud infrastructure logs allows you enable governance, complian
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Abnormally High Number Of Cloud Instances Destroyed](/cloud/abnormally_high_number_of_cloud_instances_destroyed/) | [Cloud Accounts](/tags/#cloud-accounts), [Valid Accounts](/tags/#valid-accounts) | Anomaly |
-| [Abnormally High Number Of Cloud Instances Launched](/cloud/abnormally_high_number_of_cloud_instances_launched/) | [Cloud Accounts](/tags/#cloud-accounts), [Valid Accounts](/tags/#valid-accounts) | Anomaly |
-| [Cloud Instance Modified By Previously Unseen User](/cloud/cloud_instance_modified_by_previously_unseen_user/) | [Cloud Accounts](/tags/#cloud-accounts), [Valid Accounts](/tags/#valid-accounts) | Anomaly |
-| [Detect shared ec2 snapshot](/cloud/detect_shared_ec2_snapshot/) | [Transfer Data to Cloud Account](/tags/#transfer-data-to-cloud-account) | TTP |
+| [Cloud Instance Modified By Previously Unseen User](/cloud/cloud_instance_modified_by_previously_unseen_user/) | [Cloud Accounts](/tags/#cloud-accounts), [Valid Accounts](/tags/#valid-accounts)| Anomaly |
+| [Detect shared ec2 snapshot](/cloud/detect_shared_ec2_snapshot/) | [Transfer Data to Cloud Account](/tags/#transfer-data-to-cloud-account)| TTP |
+| [Abnormally High Number Of Cloud Instances Destroyed](/cloud/abnormally_high_number_of_cloud_instances_destroyed/) | [Cloud Accounts](/tags/#cloud-accounts), [Valid Accounts](/tags/#valid-accounts)| Anomaly |
+| [Abnormally High Number Of Cloud Instances Launched](/cloud/abnormally_high_number_of_cloud_instances_launched/) | [Cloud Accounts](/tags/#cloud-accounts), [Valid Accounts](/tags/#valid-accounts)| Anomaly |
 
 #### Reference
 

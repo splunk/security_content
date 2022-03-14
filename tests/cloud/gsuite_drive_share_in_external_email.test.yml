@@ -3,10 +3,10 @@ tests:
 - name: Gsuite Drive Share In External Email
   file: cloud/gsuite_drive_share_in_external_email.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-24h'
-  latest_time: 'now'
+  earliest_time: -24h
+  latest_time: now
   attack_data:
   - file_name: gdrive_share_external.log
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1567.002/gsuite_share_drive/gdrive_share_external.log
     source: http:gsuite
-    sourcetype: gsuite:drive:json 
+    sourcetype: gsuite:drive:json

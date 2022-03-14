@@ -3,8 +3,8 @@ tests:
 - name: Windows Service Created Within Public Path
   file: endpoint/windows_service_created_within_public_path.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-24h'
-  latest_time: 'now'
+  earliest_time: -24h
+  latest_time: now
   attack_data:
   - file_name: windows-system.log
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1543.003/lateral_movement_suspicious_path/windows-system.log

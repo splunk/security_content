@@ -56,14 +56,12 @@ tags:
   - IcedID
   - Remcos
   asset_type: Endpoint
-  automated_detection_testing: passed
   cis20:
   - CIS 8
   confidence: 95
   context:
-  - source:endpoint
-  - stage: Persistence
-  - Privilege Escalation
+  - Source:Endpoint
+  - Stage:Persistence
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.001/atomic_red_team/windows-sysmon.log
   - https://raw.githubusercontent.com/splunk/attack_data/master/datasets/attack_techniques/T1547.001/atomic_red_team/t1547001-runonce.log
@@ -84,7 +82,7 @@ tags:
     role:
     - Victim
   - name: user
-    type: user
+    type: User
     role:
     - Victim
   product:

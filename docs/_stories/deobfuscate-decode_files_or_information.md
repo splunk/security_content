@@ -8,7 +8,7 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Endpoint_Processes
+  - Exploitation
 ---
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -18,7 +18,7 @@ tags:
 Adversaries may use Obfuscated Files or Information to hide artifacts of an intrusion from analysis.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint), [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-03-24
 - **Author**: Michael Haag, Splunk
 - **ID**: 0bd01a54-8cbe-11eb-abcd-acde48001122
@@ -31,8 +31,7 @@ An example of obfuscated files is `Certutil.exe` usage to encode a portable exec
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [CertUtil With Decode Argument](/endpoint/certutil_with_decode_argument/) | [Deobfuscate/Decode Files or Information](/tags/#deobfuscate/decode-files-or-information) | TTP |
-| [Windows CertUtil Decode File](/endpoint/windows_certutil_decode_file/) | [Deobfuscate/Decode Files or Information](/tags/#deobfuscate/decode-files-or-information) | TTP |
+| [CertUtil With Decode Argument](/endpoint/certutil_with_decode_argument/) | [Deobfuscate/Decode Files or Information](/tags/#deobfuscate/decode-files-or-information)| TTP |
 
 #### Reference
 

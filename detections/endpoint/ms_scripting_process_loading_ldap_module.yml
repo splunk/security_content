@@ -30,7 +30,6 @@ references:
 tags:
   analytic_story:
   - FIN7
-  automated_detection_testing: passed
   confidence: 30
   context:
   - Source:Endpoint
@@ -64,3 +63,4 @@ tags:
   - ImageLoaded
   risk_score: 9
   security_domain: endpoint
+  asset_type: Endpoint

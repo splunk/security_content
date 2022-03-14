@@ -35,6 +35,7 @@ references:
 tags:
   analytic_story:
   - Log4Shell CVE-2021-44228
+  asset_type: endpoint
   cis20:
   - CIS 13
   confidence: 70
@@ -46,7 +47,7 @@ tags:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/log4shell_ldap_traffic/pantraffic.log
   impact: 50
   kill_chain_phases:
-  - Execution
+  - Exploitation
   message: An outbound LDAP connection from $src_ip$ in your infrastructure connecting
     to dest ip $dest_ip$
   mitre_attack_id:
@@ -64,7 +65,7 @@ tags:
     role:
     - Victim
   - name: parent_process_name
-    type: Parent Process
+    type: Process
     role:
     - Parent Process
   product:

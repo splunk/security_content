@@ -26,7 +26,6 @@ tags:
   - Windows File Extension and Association Abuse
   - Masquerading - Rename System Utilities
   asset_type: Endpoint
-  automated_detection_testing: passed
   cis20:
   - CIS 3
   - CIS 8

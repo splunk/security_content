@@ -3,8 +3,8 @@ tests:
 - name: Shim Database Installation With Suspicious Parameters
   file: endpoint/shim_database_installation_with_suspicious_parameters.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-24h'
-  latest_time: 'now'
+  earliest_time: -24h
+  latest_time: now
   attack_data:
   - file_name: windows-sysmon.log
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.011/atomic_red_team/windows-sysmon.log

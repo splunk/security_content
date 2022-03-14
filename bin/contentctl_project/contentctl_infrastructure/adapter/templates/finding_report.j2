@@ -1,0 +1,11 @@
+create_map("category_id", 101, "class_id", 101000, "detection_start_time", start_time, 
+  "detection_end_time", end_time, "device_entities", [create_map("uid", ucast(map_get(input_event, "enrichments.device_entities.device.uid"), "string", null), "type_id", 0)], 
+  "disposition_id", 1, "end_time", end_time, "event_id", 10100001, "event_time", timestamp, 
+  "finding", create_map("confidence", {{ detection.tags.confidence }}, "confidence_id", {{ detection.tags.confidence_id }}, 
+  "context_ids", {{ detection.tags.context_ids }}, "impact", {{ detection.tags.impact }}, "impact_id", {{ detection.tags.impact_id }},
+  "kill_chain_phase", {{ detection.tags.kill_chain_phases[0] }}, "kill_chain_phase_id", {{ detection.tags.kill_chain_phases_id[0] }}, 
+  "risk_level", {{ detection.tags.risk_level }}, "risk_level_id", {{ detection.tags.risk_level_id }}, "type_id", 1, "ref_event_uid", event_id), 
+  "message", {{ detection.tags.message }}, "metadata", create_map("log_name", {{ detection.datamodel[0] }}, "version",
+  "1.0.0"), "observables", {{ detection.tags.observables_str }}, "origin", create_map("product", create_map("name", "Splunk Behavioral Analytics")), 
+  "rule", create_map("name", "{{ detection.name }}", "uid", "{{ detection.id }}", "version", "1"), "start_time", start_time, "time", start_time,
+  "user_entities", [create_map("uid", ucast(map_get(input_event, "enrichments.user_entities.user.uid"),"string", null))])

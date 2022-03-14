@@ -11,7 +11,7 @@ tags:
   - Defense Evasion
   - Persistence
   - Ingress Tool Transfer
-  - Command And Control
+  - Command & Control
   - Splunk Behavioral Analytics
   - Endpoint_Processes
 ---
