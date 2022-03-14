@@ -31,7 +31,6 @@ tags:
   analytic_story:
   - IcedID
   - Windows Persistence Techniques
-  automated_detection_testing: passed
   confidence: 100
   context:
   - Source:Endpoint
@@ -62,3 +61,4 @@ tags:
   - ProcessID
   risk_score: 80
   security_domain: endpoint
+  asset_type: Endpoint

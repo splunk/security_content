@@ -31,9 +31,8 @@ tags:
   analytic_story:
   - Suspicious DNS Traffic
   - Dynamic DNS
-  - Command and Control
   - Data Exfiltration
-  automated_detection_testing: passed
+  - Command and Control
   confidence: 70
   context:
   - Source:Endpoint
@@ -64,3 +63,4 @@ tags:
   - EventCode
   risk_score: 28
   security_domain: endpoint
+  asset_type: Endpoint

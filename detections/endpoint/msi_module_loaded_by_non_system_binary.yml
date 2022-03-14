@@ -43,6 +43,8 @@ tags:
   context:
   - Source:Endpoint
   - Stage:Defense Evasion
+  cve:
+  - CVE-2021-41379
   dataset: []
   impact: 80
   kill_chain_phases:
@@ -53,16 +55,8 @@ tags:
   - T1574.002
   - T1574
   observable:
-  - name: Computer
-    type: Hostname
-    role:
-    - Victim
-  - name: ImageLoaded
-    type: Other
-    role:
-    - Other
   - name: process_name
-    type: Process
+    type: Process Name
     role:
     - Child Process
   product:
@@ -77,5 +71,6 @@ tags:
   - Computer
   - EventCode
   - ProcessId
-  risk_score: 56
   security_domain: endpoint
+  risk_score: 56
+  asset_type: Endpoint

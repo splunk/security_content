@@ -23,7 +23,6 @@ tags:
   analytic_story:
   - Office 365 Detections
   asset_type: Office 365
-  automated_detection_testing: passed
   confidence: 80
   context:
   - Source:Cloud Data
@@ -35,7 +34,7 @@ tags:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110/o365_brute_force_login/o365_brute_force_login.json
   impact: 80
   kill_chain_phases:
-  - Not Applicable
+  - Exploitation
   message: User $user$ has caused excessive number of authentication failures from
     $src_ip$ using UserAgent $UserAgent$.
   mitre_attack_id:
@@ -50,7 +49,6 @@ tags:
     role:
     - Victim
   product:
-  - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud

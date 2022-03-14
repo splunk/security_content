@@ -3,13 +3,10 @@ tests:
 - name: Powershell Enable SMB1Protocol Feature
   file: endpoint/powershell_enable_smb1protocol_feature.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-24h'
-  latest_time: 'now'
+  earliest_time: -24h
+  latest_time: now
   attack_data:
   - file_name: windows-powershell.log
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data2/windows-powershell.log
     source: WinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: WinEventLog
-
-
-    

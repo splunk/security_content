@@ -42,7 +42,6 @@ tags:
   analytic_story:
   - Discovery Techniques
   - Ransomware
-  automated_detection_testing: passed
   confidence: 80
   context:
   - Source:Endpoint
@@ -83,3 +82,4 @@ tags:
   - file_create_time
   risk_score: 24
   security_domain: endpoint
+  asset_type: Endpoint

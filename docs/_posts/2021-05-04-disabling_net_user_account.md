@@ -1,6 +1,7 @@
 ---
 title: "Disabling Net User Account"
-excerpt: "Account Access Removal"
+excerpt: "Account Access Removal
+"
 categories:
   - Endpoint
 last_modified_at: 2021-05-04
@@ -23,7 +24,7 @@ tags:
 
 This analytic will identify a suspicious command-line that disables a user account using the `net.exe` utility native to Windows. This technique may used by the adversaries to interrupt availability of such users to do their malicious act.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-05-04
@@ -50,9 +51,9 @@ This analytic will identify a suspicious command-line that disables a user accou
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_net](https://github.com/splunk/security_content/blob/develop/macros/process_net.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [process_net](https://github.com/splunk/security_content/blob/develop/macros/process_net.yml)
 
 Note that `disabling_net_user_account_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -93,8 +94,6 @@ unknown
 | 42.0 | 70 | 60 | An instance of $parent_process_name$ spawning $process_name$ was identified disabling a user account on endpoint $dest$ by user $user$. |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -106,6 +105,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log)
 

@@ -36,7 +36,7 @@ tags:
   - CIS 7
   - CIS 8
   kill_chain_phases:
-  - Command and Control
+  - Command & Control
   - Actions on Objectives
   mitre_attack_id:
   - T1059.001
@@ -51,3 +51,14 @@ tags:
   required_fields:
   - _time
   security_domain: endpoint
+  confidence: 50
+  impact: 50
+  risk_score: 25
+  context:
+  - Unknown
+  message: tbd
+  observable:
+  - name: field
+    type: Unknown
+    role:
+    - Unknown

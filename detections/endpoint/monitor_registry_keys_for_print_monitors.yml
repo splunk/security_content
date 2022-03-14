@@ -38,7 +38,6 @@ tags:
   - Suspicious Windows Registry Activities
   - Windows Persistence Techniques
   asset_type: Endpoint
-  automated_detection_testing: passed
   cis20:
   - CIS 8
   - CIS 5

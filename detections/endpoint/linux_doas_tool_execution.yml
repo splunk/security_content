@@ -46,7 +46,7 @@ tags:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.003/doas_exec/sysmon_linux.log
   impact: 70
   kill_chain_phases:
-  - Privilege Escalation
+  - Exploitation
   message: A doas $process_name$ with commandline $process$ was executed on $dest$
   mitre_attack_id:
   - T1548.003
@@ -73,3 +73,4 @@ tags:
   - Processes.parent_process_id
   risk_score: 49
   security_domain: endpoint
+  asset_type: Endpoint

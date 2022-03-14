@@ -1,0 +1,36 @@
+name: AWS Network Interface details via resourceId
+id: c55b0a17-8fca-4315-81e3-65ceaa176441
+version: 1
+date: '2018-05-07'
+author: Bhavin Patel, Splunk
+type: Investigation
+datamodel: []
+description: This search queries AWS configuration logs and returns the information
+  about a specific network interface via network interface ID. The information will
+  include the ARN of the network interface, its relationships with other AWS resources,
+  the public and the private IP associated with the network interface.
+search: '`aws_config` resourceId=$resourceId$ | table _time ARN relationships{}.resourceType
+  relationships{}.name relationships{}.resourceId  configuration.privateIpAddresses{}.privateIpAddress
+  configuration.privateIpAddresses{}.association.publicIp'
+how_to_implement: In order to implement this search, you must install the AWS App
+  for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS(version 4.4.0 or later)
+  and configure your AWS configuration inputs
+known_false_positives: ''
+references: []
+tags:
+  analytic_story:
+  - AWS Network ACL Activity
+  - Suspicious AWS Traffic
+  - Command and Control
+  product:
+  - Splunk Phantom
+  required_fields:
+  - _time
+  - resourceId
+  - ARN
+  - relationships{}.resourceType
+  - relationships{}.name
+  - relationships{}.resourceId
+  - configuration.privateIpAddresses{}.privateIpAddress
+  - configuration.privateIpAddresses{}.association.publicIp
+  security_domain: network

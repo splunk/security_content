@@ -1,5 +1,5 @@
 name: Web Fraud - Account Harvesting
-id: 31337aaa-941d-4ada-81ac-q2a17be5bf0d
+id: bf1d7b5c-df2f-4249-a401-c09fdc221ddf
 version: 1
 date: '2018-10-08'
 author: Jim Apger, Splunk
@@ -57,3 +57,14 @@ tags:
   - uri
   - cookie
   security_domain: threat
+  confidence: 50
+  impact: 50
+  risk_score: 25
+  context:
+  - Unknown
+  message: tbd
+  observable:
+  - name: field
+    type: Unknown
+    role:
+    - Unknown

@@ -1,6 +1,9 @@
 ---
 title: "Sdelete Application Execution"
-excerpt: "Data Destruction, File Deletion, Indicator Removal on Host"
+excerpt: "Data Destruction
+, File Deletion
+, Indicator Removal on Host
+"
 categories:
   - Endpoint
 last_modified_at: 2021-10-06
@@ -8,10 +11,10 @@ toc: true
 toc_label: ""
 tags:
   - Data Destruction
-  - Impact
   - File Deletion
-  - Defense Evasion
   - Indicator Removal on Host
+  - Impact
+  - Defense Evasion
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -27,7 +30,7 @@ tags:
 
 This analytic is to detect the execution of sdelete.exe application sysinternal tools. This tool is one of the most use tool of malware and adversaries to remove or clear their tracks and artifact in the targetted host. This tool is designed to delete securely a file in file system that remove the forensic evidence on the machine. A good TTP query to check why user execute this application which is not a common practice.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-10-06
@@ -58,9 +61,9 @@ This analytic is to detect the execution of sdelete.exe application sysinternal 
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_sdelete](https://github.com/splunk/security_content/blob/develop/macros/process_sdelete.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [process_sdelete](https://github.com/splunk/security_content/blob/develop/macros/process_sdelete.yml)
 
 Note that `sdelete_application_execution_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -101,8 +104,6 @@ user may execute and use this application
 | 49.0 | 70 | 70 | sdelete process $process_name$ executed in $dest$ |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -114,6 +115,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/sdelete/sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/sdelete/sysmon.log)
 

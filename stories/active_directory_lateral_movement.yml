@@ -4,18 +4,19 @@ version: 3
 date: '2021-12-09'
 author: David Dorsey, Mauricio Velazco Splunk
 description: Detect and investigate tactics, techniques, and procedures around how
-  attackers move laterally within an Active Directory environment. Since lateral movement 
-  is often a necessary step in a breach, it is important for cyber defenders to deploy 
+  attackers move laterally within an Active Directory environment. Since lateral movement
+  is often a necessary step in a breach, it is important for cyber defenders to deploy
   detection coverage.
 narrative: "Once attackers gain a foothold within an enterprise, they will seek to\
   \ expand their accesses and leverage techniques that facilitate lateral movement.\
   \ Attackers will often spend quite a bit of time and effort moving laterally. Because\
   \ lateral movement renders an attacker the most vulnerable to detection, it's an\
   \ excellent focus for detection and investigation.\\\nIndications of lateral movement\
-  \ in an Active Directory network can include the abuse of system utilities (such as `psexec.exe`), unauthorized\
-  \ use of remote desktop services, `file/admin$` shares, WMI, PowerShell, Service Control Manager,\
-  \ the DCOM protocol, WinRM or the abuse of scheduled tasks. Organizations must be extra vigilant in detecting\
-  \ lateral movement techniques and look for suspicious activity in and around high-value\
+  \ in an Active Directory network can include the abuse of system utilities (such\
+  \ as `psexec.exe`), unauthorized use of remote desktop services, `file/admin$` shares,\
+  \ WMI, PowerShell, Service Control Manager, the DCOM protocol, WinRM or the abuse\
+  \ of scheduled tasks. Organizations must be extra vigilant in detecting lateral\
+  \ movement techniques and look for suspicious activity in and around high-value\
   \ strategic network assets, such as Active Directory, which are often considered\
   \ the primary target or \"crown jewels\" to a persistent threat actor.\\\nAn adversary\
   \ can use lateral movement for multiple purposes, including remote execution of\
