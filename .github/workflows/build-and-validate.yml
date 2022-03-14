@@ -91,6 +91,7 @@ jobs:
       - name: test code with pytest
         run: |
           source venv/bin/activate
+          export PYTHONPATH=$PYTHONPATH:/home/runner/work/security_content
           pytest -s bin/contentctl_project 
 
 
