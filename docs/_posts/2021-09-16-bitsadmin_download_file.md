@@ -13,7 +13,7 @@ tags:
   - Ingress Tool Transfer
   - Defense Evasion
   - Persistence
-  - Command & Control
+  - Command And Control
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud

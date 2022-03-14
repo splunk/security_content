@@ -80,8 +80,8 @@ admin nslookup usage
 #### Associated Analytic story
 * [Suspicious DNS Traffic](/stories/suspicious_dns_traffic)
 * [Dynamic DNS](/stories/dynamic_dns)
-* [Command and Control](/stories/command_and_control)
 * [Data Exfiltration](/stories/data_exfiltration)
+* [Command and Control](/stories/command_and_control)
 
 
 #### Kill Chain Phase

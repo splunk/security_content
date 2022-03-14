@@ -70,7 +70,7 @@ At this stage, there are no known false positives. During testing, no process ev
 
 #### Kill Chain Phase
 * Installation
-* Command and Control
+* Command & Control
 
 
 

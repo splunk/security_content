@@ -101,7 +101,7 @@ Legitimate programs can also use command-line arguments to execute. Please verif
 
 
 #### Kill Chain Phase
-* Command and Control
+* Command & Control
 * Actions on Objectives
 
 

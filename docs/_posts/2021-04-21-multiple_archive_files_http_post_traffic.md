@@ -83,8 +83,8 @@ To successfully implement this search, you need to be ingesting logs with the st
 Normal archive transfer via HTTP protocol may trip this detection.
 
 #### Associated Analytic story
-* [Command and Control](/stories/command_and_control)
 * [Data Exfiltration](/stories/data_exfiltration)
+* [Command and Control](/stories/command_and_control)
 
 
 #### Kill Chain Phase

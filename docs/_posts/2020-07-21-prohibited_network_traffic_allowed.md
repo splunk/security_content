@@ -82,7 +82,7 @@ None identified
 
 #### Kill Chain Phase
 * Delivery
-* Command and Control
+* Command & Control
 
 
 

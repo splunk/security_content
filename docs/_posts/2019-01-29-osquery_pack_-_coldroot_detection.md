@@ -60,7 +60,7 @@ There are no known false positives.
 
 #### Kill Chain Phase
 * Installation
-* Command and Control
+* Command & Control
 
 
 

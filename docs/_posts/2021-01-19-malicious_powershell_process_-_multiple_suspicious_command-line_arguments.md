@@ -72,7 +72,7 @@ Legitimate process can have this combination of command-line options, but it's n
 
 
 #### Kill Chain Phase
-* Command and Control
+* Command & Control
 * Actions on Objectives
 
 

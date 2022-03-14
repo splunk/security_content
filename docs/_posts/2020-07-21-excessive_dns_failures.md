@@ -11,8 +11,8 @@ toc_label: ""
 tags:
   - DNS
   - Application Layer Protocol
-  - Command & Control
-  - Command & Control
+  - Command And Control
+  - Command And Control
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -86,7 +86,7 @@ It is possible legitimate traffic can trigger this rule. Please investigate as a
 
 
 #### Kill Chain Phase
-* Command and Control
+* Command & Control
 
 
 

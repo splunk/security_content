@@ -79,7 +79,7 @@ Unknown at this moment. Outbound LDAP traffic should not be allowed outbound thr
 
 
 #### Kill Chain Phase
-* Command and Control
+* Command & Control
 * Actions on Objectives
 
 

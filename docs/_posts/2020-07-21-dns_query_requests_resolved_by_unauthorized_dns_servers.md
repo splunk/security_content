@@ -9,7 +9,7 @@ toc: true
 toc_label: ""
 tags:
   - DNS
-  - Command & Control
+  - Command And Control
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -69,13 +69,13 @@ Legitimate DNS activity can be detected in this search. Investigate, verify and 
 
 #### Associated Analytic story
 * [DNS Hijacking](/stories/dns_hijacking)
-* [Command and Control](/stories/command_and_control)
 * [Suspicious DNS Traffic](/stories/suspicious_dns_traffic)
 * [Host Redirection](/stories/host_redirection)
+* [Command and Control](/stories/command_and_control)
 
 
 #### Kill Chain Phase
-* Command and Control
+* Command & Control
 
 
 

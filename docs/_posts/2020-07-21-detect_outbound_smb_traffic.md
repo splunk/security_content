@@ -11,8 +11,8 @@ toc_label: ""
 tags:
   - File Transfer Protocols
   - Application Layer Protocol
-  - Command & Control
-  - Command & Control
+  - Command And Control
+  - Command And Control
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -88,7 +88,7 @@ It is likely that the outbound Server Message Block (SMB) traffic is legitimate,
 
 #### Kill Chain Phase
 * Actions on Objectives
-* Command and Control
+* Command & Control
 
 
 

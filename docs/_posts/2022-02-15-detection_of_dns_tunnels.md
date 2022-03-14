@@ -84,7 +84,7 @@ It's possible that normal DNS traffic will exhibit this behavior. If an alert is
 
 
 #### Kill Chain Phase
-* Command and Control
+* Command & Control
 * Actions on Objectives
 
 

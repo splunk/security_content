@@ -9,7 +9,7 @@ toc: true
 toc_label: ""
 tags:
   - Non-Application Layer Protocol
-  - Command & Control
+  - Command And Control
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -81,7 +81,7 @@ ICMP packets are used in a variety of ways to help troubleshoot networking issue
 
 
 #### Kill Chain Phase
-* Command and Control
+* Command & Control
 
 
 

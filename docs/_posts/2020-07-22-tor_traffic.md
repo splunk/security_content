@@ -11,8 +11,8 @@ toc_label: ""
 tags:
   - Application Layer Protocol
   - Web Protocols
-  - Command & Control
-  - Command & Control
+  - Command And Control
+  - Command And Control
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -81,12 +81,12 @@ None at this time
 #### Associated Analytic story
 * [Prohibited Traffic Allowed or Protocol Mismatch](/stories/prohibited_traffic_allowed_or_protocol_mismatch)
 * [Ransomware](/stories/ransomware)
-* [Command and Control](/stories/command_and_control)
 * [NOBELIUM Group](/stories/nobelium_group)
+* [Command and Control](/stories/command_and_control)
 
 
 #### Kill Chain Phase
-* Command and Control
+* Command & Control
 
 
 

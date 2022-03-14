@@ -71,13 +71,13 @@ It's possible that an enterprise has more than five DNS servers that are configu
 
 #### Associated Analytic story
 * [DNS Hijacking](/stories/dns_hijacking)
-* [Command and Control](/stories/command_and_control)
 * [Suspicious DNS Traffic](/stories/suspicious_dns_traffic)
 * [Host Redirection](/stories/host_redirection)
+* [Command and Control](/stories/command_and_control)
 
 
 #### Kill Chain Phase
-* Command and Control
+* Command & Control
 
 
 

@@ -67,7 +67,7 @@ There might be some false positives as keyboard event taps are used by processes
 
 
 #### Kill Chain Phase
-* Command and Control
+* Command & Control
 
 
 

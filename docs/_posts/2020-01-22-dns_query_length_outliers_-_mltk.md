@@ -11,8 +11,8 @@ toc_label: ""
 tags:
   - DNS
   - Application Layer Protocol
-  - Command & Control
-  - Command & Control
+  - Command And Control
+  - Command And Control
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -97,7 +97,7 @@ If you are seeing more results than desired, you may consider reducing the value
 
 
 #### Kill Chain Phase
-* Command and Control
+* Command & Control
 
 
 

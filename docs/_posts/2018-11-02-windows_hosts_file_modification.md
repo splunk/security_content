@@ -61,7 +61,7 @@ There may be legitimate reasons for system administrators to add entries to this
 
 
 #### Kill Chain Phase
-* Command and Control
+* Command & Control
 
 
 

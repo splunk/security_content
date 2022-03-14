@@ -81,7 +81,7 @@ It's possible that legitimate TXT record responses can be long enough to trigger
 
 
 #### Kill Chain Phase
-* Command and Control
+* Command & Control
 
 
 

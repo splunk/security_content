@@ -83,7 +83,7 @@ None identified
 
 
 #### Kill Chain Phase
-* Command and Control
+* Command & Control
 
 
 

@@ -85,7 +85,7 @@ It's possible there can be long domain names that are legitimate.
 
 
 #### Kill Chain Phase
-* Command and Control
+* Command & Control
 
 
 

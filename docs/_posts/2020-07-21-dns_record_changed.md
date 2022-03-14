@@ -9,7 +9,7 @@ toc: true
 toc_label: ""
 tags:
   - DNS
-  - Command & Control
+  - Command And Control
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -97,7 +97,7 @@ Legitimate DNS changes can be detected in this search. Investigate, verify and u
 
 
 #### Kill Chain Phase
-* Command and Control
+* Command & Control
 
 
 

@@ -84,7 +84,7 @@ The false-positive rate may vary based on the values of`dataPointThreshold` and 
 
 #### Kill Chain Phase
 * Actions on Objectives
-* Command and Control
+* Command & Control
 
 
 

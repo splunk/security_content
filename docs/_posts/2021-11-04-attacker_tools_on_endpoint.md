@@ -100,7 +100,7 @@ Some administrator activity can be potentially triggered, please add those users
 
 #### Kill Chain Phase
 * Installation
-* Command and Control
+* Command & Control
 * Actions on Objectives
 
 
