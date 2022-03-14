@@ -3,8 +3,8 @@ tests:
 - name: Remcos client registry install entry
   file: endpoint/remcos_client_registry_install_entry.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-15d'
-  latest_time: 'now'
+  earliest_time: -15d
+  latest_time: now
   attack_data:
   - file_name: remcos_registry_entry.log
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos_panel_client/remcos_registry_entry.log

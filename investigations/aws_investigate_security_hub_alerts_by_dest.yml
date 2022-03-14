@@ -1,0 +1,39 @@
+name: AWS Investigate Security Hub alerts by dest
+id: b0d2e6a8-75fa-4b1b-9486-3d32acadf822
+version: 1
+date: '2020-06-08'
+author: Bhavin Patel, Splunk
+type: Investigation
+datamodel: []
+description: This search retrieves the all the alerts created by AWS Security Hub
+  for a specific dest(instance_id).
+search: '`aws_securityhub_firehose` "findings{}.Resources{}.Type"=AWSEC2Instance |
+  rex field=findings{}.Resources{}.Id .*instance/(?<instance>.*)| rename instance
+  as dest| search dest = $dest$ |rename findings{}.* as * | rename Remediation.Recommendation.Text
+  as Remediation |  table dest Title ProductArn Description FirstObservedAt RecordState
+  Remediation'
+how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
+  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
+  inputs.
+known_false_positives: ''
+references: []
+tags:
+  analytic_story:
+  - Cloud Compute Instance
+  - Cloud Cryptomining
+  - Suspicious AWS EC2 Activities
+  - AWS Suspicious Provisioning Activities
+  product:
+  - Splunk Phantom
+  required_fields:
+  - _time
+  - findings{}.Resources{}.Type
+  - findings{}.Resources{}.Id
+  - instance
+  - Remediation.Recommendation.Text
+  - Title
+  - ProductArn
+  - Description
+  - FirstObservedAt
+  - RecordState
+  security_domain: network

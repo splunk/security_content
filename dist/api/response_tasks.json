@@ -1,1 +1,1942 @@
-{"response_tasks": [], "count": 0}
+[
+    {
+        "name": "All backup logs for host",
+        "id": "bc91a8cf-aaaa-4bb2-8140-e756cc06fd72",
+        "version": 1,
+        "date": "2017-09-12",
+        "author": "Rico Valdez, Splunk",
+        "type": "Investigation",
+        "datamodel": [],
+        "description": "Retrieve the backup logs for the last 2 weeks for a specific host in order to investigate why backups are not completing successfully.",
+        "search": "| search `netbackup` dest=$dest$",
+        "how_to_implement": "The successfully implement this search you must first send your backup logs to Splunk.",
+        "known_false_positives": "none",
+        "references": [],
+        "inputs": [
+            "dest"
+        ],
+        "tags": {
+            "analytic_story": [
+                "Monitor Backup Solution"
+            ],
+            "product": [
+                "Splunk Phantom"
+            ],
+            "required_fields": [
+                "_time",
+                "dest"
+            ],
+            "security_domain": "endpoint"
+        },
+        "lowercase_name": "all_backup_logs_for_host"
+    },
+    {
+        "name": "Amazon EKS Kubernetes activity by src ip",
+        "id": "a636cca4-7434-4a15-a278-c70734938e39",
+        "version": 1,
+        "date": "2020-04-13",
+        "author": "Rod Soto, Splunk",
+        "type": "Investigation",
+        "datamodel": [],
+        "description": "This search provides investigation data about requests via user agent, authentication request URI, verb and cluster name data against Kubernetes cluster from a specific IP address",
+        "search": "`aws_cloudwatchlogs_eks` |rename sourceIPs{} as src_ip |search src_ip=$src_ip$ | stats count min(_time) as firstTime max(_time) as lastTime values(user.username) values(requestURI) values(verb) values(userAgent) by source annotations.authorization.k8s.io/decision src_ip",
+        "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your Cloud Watch EKS inputs.",
+        "known_false_positives": "",
+        "references": [],
+        "inputs": [
+            "src_ip"
+        ],
+        "tags": {
+            "analytic_story": [
+                "Kubernetes Scanning Activity"
+            ],
+            "product": [
+                "Splunk Phantom"
+            ],
+            "required_fields": [
+                "_time",
+                "sourceIPs{}",
+                "user.username",
+                "requestURI",
+                "verb",
+                "userAgent",
+                "annotations.authorization.k8s.io/decision"
+            ],
+            "security_domain": "network"
+        },
+        "lowercase_name": "amazon_eks_kubernetes_activity_by_src_ip"
+    },
+    {
+        "name": "AWS Investigate Security Hub alerts by dest",
+        "id": "b0d2e6a8-75fa-4b1b-9486-3d32acadf822",
+        "version": 1,
+        "date": "2020-06-08",
+        "author": "Bhavin Patel, Splunk",
+        "type": "Investigation",
+        "datamodel": [],
+        "description": "This search retrieves the all the alerts created by AWS Security Hub for a specific dest(instance_id).",
+        "search": "`aws_securityhub_firehose` \"findings{}.Resources{}.Type\"=AWSEC2Instance | rex field=findings{}.Resources{}.Id .*instance/(?<instance>.*)| rename instance as dest| search dest = $dest$ |rename findings{}.* as * | rename Remediation.Recommendation.Text as Remediation |  table dest Title ProductArn Description FirstObservedAt RecordState Remediation",
+        "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs.",
+        "known_false_positives": "",
+        "references": [],
+        "inputs": [
+            "dest"
+        ],
+        "tags": {
+            "analytic_story": [
+                "Cloud Compute Instance",
+                "Cloud Cryptomining",
+                "Suspicious AWS EC2 Activities",
+                "AWS Suspicious Provisioning Activities"
+            ],
+            "product": [
+                "Splunk Phantom"
+            ],
+            "required_fields": [
+                "_time",
+                "findings{}.Resources{}.Type",
+                "findings{}.Resources{}.Id",
+                "instance",
+                "Remediation.Recommendation.Text",
+                "Title",
+                "ProductArn",
+                "Description",
+                "FirstObservedAt",
+                "RecordState"
+            ],
+            "security_domain": "network"
+        },
+        "lowercase_name": "aws_investigate_security_hub_alerts_by_dest"
+    },
+    {
+        "name": "AWS Investigate User Activities By AccessKeyId",
+        "id": "703b65a4-a0ae-4171-965d-45507506c64f",
+        "version": 1,
+        "date": "2018-06-08",
+        "author": "David Dorsey, Splunk",
+        "type": "Investigation",
+        "datamodel": [],
+        "description": "This search retrieves the times, ARN, source IPs, AWS regions, event names, and the result of the event for specific credentials.",
+        "search": "`cloudtrail` | rename userIdentity.accessKeyId as accessKeyId| search accessKeyId=$accessKeyId$ | spath output=user path=userIdentity.arn  | rename sourceIPAddress as src_ip | table _time, user, src_ip, awsRegion, eventName, errorCode, errorMessage",
+        "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs.",
+        "known_false_positives": "",
+        "references": [],
+        "inputs": [
+            "accessKeyId"
+        ],
+        "tags": {
+            "analytic_story": [
+                "AWS Cross Account Activity"
+            ],
+            "product": [
+                "Splunk Phantom",
+                "Splunk Security Analytics for AWS"
+            ],
+            "required_fields": [
+                "_time",
+                "userIdentity.accessKeyId",
+                "userIdentity.arn",
+                "sourceIPAddress",
+                "awsRegion",
+                "eventName",
+                "errorCode",
+                "errorMessage"
+            ],
+            "security_domain": "network"
+        },
+        "lowercase_name": "aws_investigate_user_activities_by_accesskeyid"
+    },
+    {
+        "name": "AWS Investigate User Activities By ARN",
+        "id": "bc91a8cd-35e7-4bb2-6140-e756cc46fd72",
+        "version": 2,
+        "date": "2019-04-30",
+        "author": "Bhavin Patel, Splunk",
+        "type": "Investigation",
+        "datamodel": [],
+        "description": "This search lists all the logged CloudTrail activities by a specific user ARN and will create a table containing the source of the user, the region of the activity, the name and type of the event, the action taken, and all the user's identity information.",
+        "search": "`cloudtrail` | search user=$user$| table _time userIdentity.type userIdentity.userName userIdentity.arn aws_account_id src awsRegion eventName eventType",
+        "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs.",
+        "known_false_positives": "",
+        "references": [],
+        "inputs": [
+            "user"
+        ],
+        "tags": {
+            "analytic_story": [
+                "AWS Cryptomining",
+                "AWS Network ACL Activity",
+                "Cloud Cryptomining",
+                "Command & Control",
+                "Suspicious AWS EC2 Activities",
+                "Suspicious AWS Login Activities",
+                "Suspicious AWS S3 Activities",
+                "Suspicious AWS Traffic",
+                "Unusual AWS EC2 Modifications",
+                "Suspicious Cloud User Activities",
+                "AWS Suspicious Provisioning Activities",
+                "Suspicious Cloud Instance Activities",
+                "AWS Security Hub Alerts"
+            ],
+            "product": [
+                "Splunk Phantom"
+            ],
+            "required_fields": [
+                "_time",
+                "user",
+                "userIdentity.type",
+                "userIdentity.userName",
+                "userIdentity.arn",
+                "aws_account_id",
+                "src",
+                "awsRegion",
+                "eventName",
+                "eventType"
+            ],
+            "security_domain": "network"
+        },
+        "lowercase_name": "aws_investigate_user_activities_by_arn"
+    },
+    {
+        "name": "AWS Network ACL Details from ID",
+        "id": "2e11293f-c795-41bd-b470-fc87adc4e196",
+        "version": 1,
+        "date": "2017-01-22",
+        "author": "Bhavin Patel, Splunk",
+        "type": "Investigation",
+        "datamodel": [],
+        "description": "This search queries AWS description logs and returns all the information about a specific network ACL via network ACL ID",
+        "search": "`aws_description` | rename id as networkAclId | search  networkAclId=$networkAclId$ | table id account_id vpc_id network_acl_entries{}.*",
+        "how_to_implement": "In order to implement this search, you must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS(version 4.4.0 or later) and configure your AWS description inputs.",
+        "known_false_positives": "",
+        "references": [],
+        "inputs": [
+            "networkAclId"
+        ],
+        "tags": {
+            "analytic_story": [
+                "AWS Network ACL Activity",
+                "Command & Control",
+                "Suspicious AWS Traffic"
+            ],
+            "product": [
+                "Splunk Phantom"
+            ],
+            "required_fields": [
+                "_time",
+                "id",
+                "account_id",
+                "vpc_id",
+                "network_acl_entries{}.*"
+            ],
+            "security_domain": "network"
+        },
+        "lowercase_name": "aws_network_acl_details_from_id"
+    },
+    {
+        "name": "AWS Network Interface details via resourceId",
+        "id": "c55b0a17-8fca-4315-81e3-65ceaa176441",
+        "version": 1,
+        "date": "2018-05-07",
+        "author": "Bhavin Patel, Splunk",
+        "type": "Investigation",
+        "datamodel": [],
+        "description": "This search queries AWS configuration logs and returns the information about a specific network interface via network interface ID. The information will include the ARN of the network interface, its relationships with other AWS resources, the public and the private IP associated with the network interface.",
+        "search": "`aws_config` resourceId=$resourceId$ | table _time ARN relationships{}.resourceType relationships{}.name relationships{}.resourceId  configuration.privateIpAddresses{}.privateIpAddress configuration.privateIpAddresses{}.association.publicIp",
+        "how_to_implement": "In order to implement this search, you must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS(version 4.4.0 or later) and configure your AWS configuration inputs",
+        "known_false_positives": "",
+        "references": [],
+        "inputs": [
+            "resourceId"
+        ],
+        "tags": {
+            "analytic_story": [
+                "AWS Network ACL Activity",
+                "Command & Control",
+                "Suspicious AWS Traffic"
+            ],
+            "product": [
+                "Splunk Phantom"
+            ],
+            "required_fields": [
+                "_time",
+                "resourceId",
+                "ARN",
+                "relationships{}.resourceType",
+                "relationships{}.name",
+                "relationships{}.resourceId",
+                "configuration.privateIpAddresses{}.privateIpAddress",
+                "configuration.privateIpAddresses{}.association.publicIp"
+            ],
+            "security_domain": "network"
+        },
+        "lowercase_name": "aws_network_interface_details_via_resourceid"
+    },
+    {
+        "name": "AWS S3 Bucket details via bucketName",
+        "id": "2762d4ed-9266-465e-b966-1c10dc8d91f3",
+        "version": 1,
+        "date": "2018-06-26",
+        "author": "Bhavin Patel, Splunk",
+        "type": "Investigation",
+        "datamodel": [],
+        "description": "This search queries AWS configuration logs and returns the information about a specific S3 bucket. The information returned includes the time the S3 bucket was created, the resource ID, the region it belongs to, the value of action performed, AWS account ID, and configuration values of the access-control lists associated with the bucket.",
+        "search": "`aws_config` | rename resourceId as bucketName |search bucketName=$bucketName$ | table resourceCreationTime bucketName vendor_region action aws_account_id supplementaryConfiguration.AccessControlList",
+        "how_to_implement": "To implement this search, you must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later) and configure your AWS inputs.",
+        "known_false_positives": "",
+        "references": [],
+        "inputs": [
+            "bucketName"
+        ],
+        "tags": {
+            "analytic_story": [
+                "Suspicious AWS S3 Activities"
+            ],
+            "product": [
+                "Splunk Phantom"
+            ],
+            "required_fields": [
+                "_time",
+                "resourceId",
+                "bucketName",
+                "resourceCreationTime",
+                "vendor_region",
+                "action",
+                "aws_account_id",
+                "supplementaryConfiguration.AccessControlList"
+            ],
+            "security_domain": "network"
+        },
+        "lowercase_name": "aws_s3_bucket_details_via_bucketname"
+    },
+    {
+        "name": "GCP Kubernetes activity by src ip",
+        "id": "c00e7626-92cc-4e06-9a51-b6db0a50bd1f",
+        "version": 1,
+        "date": "2020-04-13",
+        "author": "Rod Soto, Splunk",
+        "type": "Investigation",
+        "datamodel": [],
+        "description": "This search provides investigation data about requests via user agent, authentication request URI, resource path and cluster name data against Kubernetes cluster from a specific IP address",
+        "search": "`google_gcp_pubsub_message` | rename data.protoPayload.requestMetadata.callerIp as src_ip | search src_ip =$src_ip$ | stats count min(_time) as firstTime max(_time) as lastTime values(data.protoPayload.methodName) as method_names values(data.protoPayload.resourceName) as resource_name values(data.protoPayload.requestMetadata.callerSuppliedUserAgent) as http_user_agent values(data.protoPayload.authenticationInfo.principalEmail) as user values(data.protoPayload.status.message) by src_ip data.resource.labels.cluster_name data.resource.type",
+        "how_to_implement": "You must install the GCP App for Splunk (version 2.0.0 or later), then configure stackdriver and set a Pub/Sub subscription to be imported to Splunk. You must also install Cloud Infrastructure data model.Customize the macro kubernetes_gcp_scan_fingerprint_attack_detection to filter out FPs.",
+        "known_false_positives": "",
+        "references": [],
+        "inputs": [
+            "src_ip"
+        ],
+        "tags": {
+            "analytic_story": [
+                "Kubernetes Scanning Activity"
+            ],
+            "product": [
+                "Splunk Phantom"
+            ],
+            "required_fields": [
+                "_time",
+                "data.protoPayload.requestMetadata.callerIp",
+                "data.protoPayload.methodName",
+                "data.protoPayload.resourceName",
+                "data.protoPayload.requestMetadata.callerSuppliedUserAgent",
+                "data.protoPayload.authenticationInfo.principalEmail",
+                "data.protoPayload.status.message",
+                "data.resource.labels.cluster_name",
+                "data.resource.type"
+            ],
+            "security_domain": "network"
+        },
+        "lowercase_name": "gcp_kubernetes_activity_by_src_ip"
+    },
+    {
+        "name": "Get All AWS Activity From City",
+        "id": "0abeeb40-1255-4b68-91d1-7a7eb410c4b8",
+        "version": 1,
+        "date": "2018-03-19",
+        "author": "David Dorsey, Splunk",
+        "type": "Investigation",
+        "datamodel": [],
+        "description": "This search retrieves all the activity from a specific city and will create a table containing the time, city, ARN, username, the type of user, the source IP address, the AWS region the activity was in, the API called, and whether or not the API call was successful.",
+        "search": "`cloudtrail` | iplocation sourceIPAddress | search City=$City$ | spath output=user path=userIdentity.arn | spath output=awsUserName path=userIdentity.userName | spath output=userType path=userIdentity.type | rename sourceIPAddress as src_ip | table _time, City, user, userName, userType, src_ip, awsRegion, eventName, errorCode",
+        "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs.",
+        "known_false_positives": "",
+        "references": [],
+        "inputs": [
+            "City"
+        ],
+        "tags": {
+            "analytic_story": [
+                "AWS Suspicious Provisioning Activities"
+            ],
+            "product": [
+                "Splunk Phantom"
+            ],
+            "required_fields": [
+                "_time",
+                "sourceIPAddress",
+                "userIdentity.arn",
+                "userIdentity.userName",
+                "userIdentity.type",
+                "awsRegion",
+                "eventName",
+                "errorCode"
+            ],
+            "security_domain": "network"
+        },
+        "lowercase_name": "get_all_aws_activity_from_city"
+    },
+    {
+        "name": "Get All AWS Activity From Country",
+        "id": "e763cdb9-00da-41e0-9bda-444debc9501a",
+        "version": 1,
+        "date": "2018-03-19",
+        "author": "David Dorsey, Splunk",
+        "type": "Investigation",
+        "datamodel": [],
+        "description": "This search retrieves all the activity from a specific country and will create a table containing the time, country, ARN, username, the type of user, the source IP address, the AWS region the activity was in, the API called, and whether or not the API call was successful.",
+        "search": "`cloudtrail` | iplocation sourceIPAddress | search Country=$Country$ | spath output=user path=userIdentity.arn | spath output=awsUserName path=userIdentity.userName | spath output=userType path=userIdentity.type | rename sourceIPAddress as src_ip | table _time, Country, user, userName, userType, src_ip, awsRegion, eventName, errorCode",
+        "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs.",
+        "known_false_positives": "",
+        "references": [],
+        "inputs": [
+            "Country"
+        ],
+        "tags": {
+            "analytic_story": [
+                "AWS Suspicious Provisioning Activities"
+            ],
+            "product": [
+                "Splunk Phantom"
+            ],
+            "required_fields": [
+                "_time",
+                "sourceIPAddress",
+                "userIdentity.arn",
+                "userIdentity.userName",
+                "userIdentity.type",
+                "awsRegion",
+                "eventName",
+                "errorCode"
+            ],
+            "security_domain": "network"
+        },
+        "lowercase_name": "get_all_aws_activity_from_country"
+    },
+    {
+        "name": "Get All AWS Activity From IP Address",
+        "id": "446ec87a-85c6-40d4-b060-bea4498281d6",
+        "version": 1,
+        "date": "2018-03-19",
+        "author": "David Dorsey, Splunk",
+        "type": "Investigation",
+        "datamodel": [],
+        "description": "This search retrieves all the activity from a specific IP address and will create a table containing the time, ARN, username, the type of user, the IP address, the AWS region the activity was in, the API called, and whether or not the API call was successful.",
+        "search": "`cloudtrail` | iplocation sourceIPAddress | search src_ip=$src_ip$ | spath output=user path=userIdentity.arn | spath output=awsUserName path=userIdentity.userName | spath output=userType path=userIdentity.type | rename sourceIPAddress as src_ip | table _time, user, userName, userType, src_ip, awsRegion, eventName, errorCode",
+        "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs.",
+        "known_false_positives": "",
+        "references": [],
+        "inputs": [
+            "src_ip"
+        ],
+        "tags": {
+            "analytic_story": [
+                "AWS Network ACL Activity",
+                "AWS Suspicious Provisioning Activities",
+                "Command & Control",
+                "Suspicious AWS S3 Activities",
+                "Suspicious AWS Traffic",
+                "Suspicious Cloud Instance Activities"
+            ],
+            "product": [
+                "Splunk Phantom"
+            ],
+            "required_fields": [
+                "_time",
+                "sourceIPAddress",
+                "userIdentity.arn",
+                "userIdentity.userName",
+                "userIdentity.type",
+                "awsRegion",
+                "eventName",
+                "errorCode"
+            ],
+            "security_domain": "network"
+        },
+        "lowercase_name": "get_all_aws_activity_from_ip_address"
+    },
+    {
+        "name": "Get All AWS Activity From Region",
+        "id": "5b794bef-1743-4f6f-804a-43915a2702ff",
+        "version": 1,
+        "date": "2018-03-19",
+        "author": "David Dorsey, Splunk",
+        "type": "Investigation",
+        "datamodel": [],
+        "description": "This search retrieves all the activity from a specific geographic region and will create a table containing the time, geographic region, ARN, username, the type of user, the source IP address, the AWS region the activity was in, the API called, and whether or not the API call was successful.",
+        "search": "`cloudtrail` | iplocation sourceIPAddress | search Region=$Region$ | spath output=user path=userIdentity.arn | spath output=awsUserName path=userIdentity.userName | spath output=userType path=userIdentity.type | rename sourceIPAddress as src_ip | table _time, Region, user, userName, userType, src_ip, awsRegion, eventName, errorCode",
+        "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs.",
+        "known_false_positives": "",
+        "references": [],
+        "inputs": [
+            "Region"
+        ],
+        "tags": {
+            "analytic_story": [
+                "AWS Suspicious Provisioning Activities"
+            ],
+            "product": [
+                "Splunk Phantom"
+            ],
+            "required_fields": [
+                "_time",
+                "sourceIPAddress",
+                "userIdentity.arn",
+                "userIdentity.userName",
+                "userIdentity.type",
+                "awsRegion",
+                "eventName",
+                "errorCode"
+            ],
+            "security_domain": "network"
+        },
+        "lowercase_name": "get_all_aws_activity_from_region"
+    },
+    {
+        "name": "Get Backup Logs For Endpoint",
+        "id": "fdcfb369-1725-4c24-824a-22972d7f0d44",
+        "version": 1,
+        "date": "2017-09-14",
+        "author": "David Dorsey, Splunk",
+        "type": "Investigation",
+        "datamodel": [],
+        "description": "This search will tell you the backup status from your netbackup_logs of a specific endpoint for the last week.",
+        "search": "`netbackup` COMPUTERNAME=$dest$ | rename COMPUTERNAME as dest, MESSAGE as signature | table _time, dest, signature",
+        "how_to_implement": "You must be ingesting your backup logs.",
+        "known_false_positives": "",
+        "references": [],
+        "inputs": [
+            "dest"
+        ],
+        "tags": {
+            "analytic_story": [
+                "Ransomware",
+                "SamSam Ransomware"
+            ],
+            "product": [
+                "Splunk Phantom"
+            ],
+            "required_fields": [
+                "_time",
+                "COMPUTERNAME",
+                "MESSAGE"
+            ],
+            "security_domain": "endpoint"
+        },
+        "lowercase_name": "get_backup_logs_for_endpoint"
+    },
+    {
+        "name": "Get Certificate logs for a domain",
+        "id": "bc91a8cf-35e7-4bb2-2240-e756cc06fd73",
+        "version": 2,
+        "date": "2019-04-29",
+        "author": "Bhavin Patel, Splunk",
+        "type": "Investigation",
+        "datamodel": [],
+        "description": "This search queries the Certificates datamodel and give you all the information for a specific domain. Please note that the certificates issued by \"Let's Encrypt\" are widely used by attackers.",
+        "search": "| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Certificates.All_Certificates where All_Certificates.SSL.ssl_subject_common_name=*$domain$  by All_Certificates.dest All_Certificates.src All_Certificates.SSL.ssl_issuer_common_name All_Certificates.SSL.ssl_subject_common_name All_Certificates.SSL.ssl_hash | `drop_dm_object_name(All_Certificates)` | `drop_dm_object_name(SSL)` | rename ssl_subject_common_name as domain | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`",
+        "how_to_implement": "You must be ingesting your certificates or SSL logs from your network traffic into your Certificates datamodel. Please note the wildcard(*) before domain in the search syntax, we use to match for all domain and subdomain combinations",
+        "known_false_positives": "",
+        "references": [],
+        "inputs": [
+            "domain"
+        ],
+        "tags": {
+            "analytic_story": [
+                "Common Phishing Frameworks"
+            ],
+            "product": [
+                "Splunk Phantom"
+            ],
+            "required_fields": [
+                "_time",
+                "All_Certificates.SSL.ssl_subject_common_name",
+                "All_Certificates.dest",
+                "All_Certificates.src",
+                "All_Certificates.SSL.ssl_issuer_common_name",
+                "All_Certificates.SSL.ssl_hash"
+            ],
+            "security_domain": "network"
+        },
+        "lowercase_name": "get_certificate_logs_for_a_domain"
+    },
+    {
+        "name": "Get DNS Server History for a host",
+        "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd72",
+        "version": 1,
+        "date": "2017-11-09",
+        "author": "Bhavin Patel, Splunk",
+        "type": "Investigation",
+        "datamodel": [],
+        "description": "While investigating any detections it is important to understand which and how many DNS servers a host has connected to in the past. This search uses data that is tagged as DNS and gives you a count and list of DNS servers that a particular host has connected to the previous 24 hours.",
+        "search": "| search tag=dns src_ip=$src_ip$ dest_port=53 | streamstats time_window=1d count values(dest_ip) as dcip by src_ip | table date_mday src_ip dcip count | sort -count",
+        "how_to_implement": "To successfully implement this search, you must be ingesting your DNS traffic",
+        "known_false_positives": "",
+        "references": [],
+        "inputs": [
+            "src_ip"
+        ],
+        "tags": {
+            "analytic_story": [
+                "AWS Network ACL Activity",
+                "Command & Control",
+                "DNS Hijacking",
+                "Data Protection",
+                "Dynamic DNS",
+                "Hidden Cobra Malware",
+                "Host Redirection",
+                "Prohibited Traffic Allowed or Protocol Mismatch",
+                "Suspicious AWS Traffic",
+                "Suspicious DNS Traffic"
+            ],
+            "product": [
+                "Splunk Phantom"
+            ],
+            "required_fields": [
+                "_time",
+                "src_ip",
+                "dest_port",
+                "dest_ip"
+            ],
+            "security_domain": "network"
+        },
+        "lowercase_name": "get_dns_server_history_for_a_host"
+    },
+    {
+        "name": "Get DNS traffic ratio",
+        "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd73",
+        "version": 1,
+        "date": "2017-11-09",
+        "author": "Bhavin Patel, Splunk",
+        "type": "Investigation",
+        "datamodel": [
+            "Network_Traffic"
+        ],
+        "description": "This search calculates the ratio of DNS traffic originating and coming from a host to a list of DNS servers over the last 24 hours. A high value of this ratio could be very useful to quickly understand if a src_ip (host) is sending a high volume of data out via port 53, could be an indicator of data exfiltration via DNS.  ",
+        "search": "| tstats allow_old_summaries=true sum(All_Traffic.bytes_out) as \"bytes_out\" sum(All_Traffic.bytes_in) as \"bytes_in\" from datamodel=Network_Traffic where nodename=All_Traffic All_Traffic.dest_port=53 by All_Traffic.src All_Traffic.dest| `drop_dm_object_name(All_Traffic)` | rename src as src_ip | rename dest as dest_ip | search src_ip=$src_ip$ | search dest_ip = $dest_ip | eval ratio = (bytes_out/bytes_in) | table ratio",
+        "how_to_implement": "You must be ingesting your network traffic",
+        "known_false_positives": "",
+        "references": [],
+        "inputs": [
+            "src_ip"
+        ],
+        "tags": {
+            "analytic_story": [
+                "AWS Network ACL Activity",
+                "Command & Control",
+                "Data Protection",
+                "Dynamic DNS",
+                "Hidden Cobra Malware",
+                "Suspicious AWS Traffic",
+                "Suspicious DNS Traffic"
+            ],
+            "product": [
+                "Splunk Phantom"
+            ],
+            "required_fields": [
+                "_time",
+                "All_Traffic.bytes_out",
+                "All_Traffic.bytes_in",
+                "All_Traffic.dest_port",
+                "All_Traffic.src",
+                "All_Traffic.dest"
+            ],
+            "security_domain": "network"
+        },
+        "lowercase_name": "get_dns_traffic_ratio"
+    },
+    {
+        "name": "Get EC2 Instance Details by instanceId",
+        "id": "de4aed1d-f13a-4d2f-a97a-73c60e2e6b56",
+        "version": 1,
+        "date": "2018-02-12",
+        "author": "Bhavin Patel, Splunk",
+        "type": "Investigation",
+        "datamodel": [],
+        "description": "This search queries AWS description logs and returns all the information about a specific instance via the instanceId field",
+        "search": "`aws_description` | dedup id sortby -_time |rename id as instanceId|  search instanceId=$instanceId$ | spath output=tags path=tags | eval tags=mvzip(key,value,\" = \"), ip_address=if((ip_address == \"null\"),private_ip_address,ip_address) | table id, tags.Name, aws_account_id, placement, instance_type, key_name, ip_address, launch_time, state, vpc_id, subnet_id, tags | rename aws_account_id as \"Account ID\", id as ID, instance_type as Type, ip_address as \"IP Address\", key_name as \"Key Pair\", launch_time as \"Launch Time\", placement as \"Availability Zone\", state as State, subnet_id as Subnet, \"tags.Name\" as Name, vpc_id as VPC",
+        "how_to_implement": "In order to implement this search, you must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS(version 4.4.0 or later) and configure your AWS description inputs.",
+        "known_false_positives": "",
+        "references": [],
+        "inputs": [
+            "instanceId"
+        ],
+        "tags": {
+            "analytic_story": [
+                "AWS Cryptomining",
+                "Cloud Cryptomining",
+                "Suspicious AWS EC2 Activities",
+                "Unusual AWS EC2 Modifications",
+                "AWS Security Hub Alerts"
+            ],
+            "product": [
+                "Splunk Phantom"
+            ],
+            "required_fields": [
+                "_time",
+                "id",
+                "ip_address",
+                "tags",
+                "aws_account_id",
+                "placement",
+                "instance_type",
+                "key_name",
+                "launch_time",
+                "state",
+                "vpc_id",
+                "subnet_id"
+            ],
+            "security_domain": "network"
+        },
+        "lowercase_name": "get_ec2_instance_details_by_instanceid"
+    },
+    {
+        "name": "Get EC2 Launch Details",
+        "id": "0e40fe83-3edb-4d86-8206-8fed36529ca6",
+        "version": 1,
+        "date": "2018-03-12",
+        "author": "Bhavin Patel, Splunk",
+        "type": "Investigation",
+        "datamodel": [],
+        "description": "This search returns some of the launch details for a EC2 instance.",
+        "search": "`cloudtrail` dest=$dest$ |rename userIdentity.arn as arn, responseElements.instancesSet.items{}.instanceId as dest, responseElements.instancesSet.items{}.privateIpAddress as privateIpAddress, responseElements.instancesSet.items{}.imageId as amiID, responseElements.instancesSet.items{}.architecture as architecture, responseElements.instancesSet.items{}.keyName as keyName | table arn, awsRegion, dest, architecture, privateIpAddress, amiID, keyName",
+        "how_to_implement": "In order to implement this search, you must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS(version 4.4.0 or later) and configure your AWS description inputs.",
+        "known_false_positives": "",
+        "references": [],
+        "inputs": [
+            "dest"
+        ],
+        "tags": {
+            "analytic_story": [
+                "AWS Cryptomining",
+                "Cloud Cryptomining",
+                "Suspicious AWS EC2 Activities",
+                "AWS Security Hub Alerts"
+            ],
+            "product": [
+                "Splunk Phantom"
+            ],
+            "required_fields": [
+                "_time",
+                "dest",
+                "userIdentity.arn",
+                "responseElements.instancesSet.items{}.instanceId",
+                "responseElements.instancesSet.items{}.privateIpAddress",
+                "responseElements.instancesSet.items{}.imageId",
+                "responseElements.instancesSet.items{}.architecture",
+                "responseElements.instancesSet.items{}.keyName"
+            ],
+            "security_domain": "network"
+        },
+        "lowercase_name": "get_ec2_launch_details"
+    },
+    {
+        "name": "Get Email Info",
+        "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd75",
+        "version": 1,
+        "date": "2017-11-09",
+        "author": "Bhavin Patel, Splunk",
+        "type": "Investigation",
+        "datamodel": [],
+        "description": "This search returns all the information Splunk might have collected a specific email message over the last 2 hours.",
+        "search": "| from datamodel Email.All_Email | search message_id=$message_id$",
+        "how_to_implement": "To successfully implement this search you must be ingesting your email logs or capturing unencrypted network traffic which contains email communications.",
+        "known_false_positives": "",
+        "references": [],
+        "inputs": [
+            "message_id"
+        ],
+        "tags": {
+            "analytic_story": [
+                "Brand Monitoring",
+                "Suspicious Emails"
+            ],
+            "product": [
+                "Splunk Phantom"
+            ],
+            "required_fields": [
+                "_time",
+                "message"
+            ],
+            "security_domain": "network"
+        },
+        "lowercase_name": "get_email_info"
+    },
+    {
+        "name": "Get Emails From Specific Sender",
+        "id": "5df39b3f-447d-4869-b673-8f45ad4616fe",
+        "version": 1,
+        "date": "2017-11-09",
+        "author": "David Dorsey, Splunk",
+        "type": "Investigation",
+        "datamodel": [],
+        "description": "This search returns all the emails from a specific sender over the last 24 and next hours.",
+        "search": "| from datamodel Email.All_Email | search src_user=$src_user$",
+        "how_to_implement": "To successfully implement this search you must ingest your email logs or capture unencrypted email communications within network traffic, and populate the Email data model.",
+        "known_false_positives": "",
+        "references": [],
+        "inputs": [
+            "src_user"
+        ],
+        "tags": {
+            "analytic_story": [
+                "Brand Monitoring",
+                "Suspicious Emails",
+                "Web Fraud Detection"
+            ],
+            "product": [
+                "Splunk Phantom"
+            ],
+            "required_fields": [
+                "_time",
+                "src_user"
+            ],
+            "security_domain": "networks"
+        },
+        "lowercase_name": "get_emails_from_specific_sender"
+    },
+    {
+        "name": "Get First Occurrence and Last Occurrence of a MAC Address",
+        "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd33",
+        "version": 1,
+        "date": "2017-09-13",
+        "author": "Bhavin Patel, Splunk",
+        "type": "Investigation",
+        "datamodel": [
+            "Network_Sessions"
+        ],
+        "description": "This search allows you to gather more context around a notable which has detected a new device connecting to your network. Use this search to determine the first and last occurrences of the suspicious device attempting to connect with your network.",
+        "search": "| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Network_Sessions where nodename=All_Sessions.DHCP All_Sessions.signature=DHCPREQUEST All_Sessions.src_mac= $src_mac$ by All_Sessions.src_ip All_Sessions.user | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`",
+        "how_to_implement": "To successfully implement this search, you must be ingesting the logs from your DHCP server.",
+        "known_false_positives": "",
+        "references": [],
+        "inputs": [
+            "src_mac"
+        ],
+        "tags": {
+            "analytic_story": [
+                "Asset Tracking"
+            ],
+            "product": [
+                "Splunk Phantom"
+            ],
+            "required_fields": [
+                "_time",
+                "All_Sessions.DHCP",
+                "All_Sessions.signature",
+                "All_Sessions.src_mac",
+                "All_Sessions.src_ip",
+                "All_Sessions.user"
+            ],
+            "security_domain": "network"
+        },
+        "lowercase_name": "get_first_occurrence_and_last_occurrence_of_a_mac_address"
+    },
+    {
+        "name": "Get History Of Email Sources",
+        "id": "ddc7af28-c34d-4392-af93-7f29a4e8806c",
+        "version": 1,
+        "date": "2019-02-21",
+        "author": "Rico Valdez, Splunk",
+        "type": "Investigation",
+        "datamodel": [
+            "Email"
+        ],
+        "description": "This search returns a list of all email sources seen in the 48 hours prior to the notable event to 24 hours after, and the number of emails from each source.",
+        "search": "|tstats `security_content_summariesonly` values(All_Email.dest) as dest values(All_Email.recipient) as recepient  min(_time) as firstTime max(_time) as lastTime count from datamodel=Email.All_Email by All_Email.src |`drop_dm_object_name(All_Email)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | search src=$src$",
+        "how_to_implement": "To successfully implement this search you must ingest your email logs or capture unencrypted email communications within network traffic, and populate the Email data model.",
+        "known_false_positives": "",
+        "references": [],
+        "inputs": [
+            "src"
+        ],
+        "tags": {
+            "analytic_story": [
+                "Emotet Malware  DHS Report TA18-201A ",
+                "Hidden Cobra Malware",
+                "Lateral Movement",
+                "Malicious PowerShell",
+                "Orangeworm Attack Group",
+                "Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns",
+                "Ransomware",
+                "SamSam Ransomware"
+            ],
+            "product": [
+                "Splunk Phantom"
+            ],
+            "required_fields": [
+                "_time",
+                "All_Email.dest",
+                "All_Email.recipient",
+                "All_Email.src"
+            ],
+            "security_domain": "network"
+        },
+        "lowercase_name": "get_history_of_email_sources"
+    },
+    {
+        "name": "Get Logon Rights Modifications For Endpoint",
+        "id": "03bffe94-ec7a-4cbe-b677-6af40d1c4505",
+        "version": 2,
+        "date": "2017-09-12",
+        "author": "David Dorsey, Splunk",
+        "type": "Investigation",
+        "datamodel": [],
+        "description": "This search allows you to retrieve any modifications to logon rights associated with a specific host.",
+        "search": "`wineventlog_security` (signature_id=4718 OR signature_id=4717) dest=$dest$ | rename user as \"Account Modified\" | table _time, dest, \"Account Modified\", Access_Right, signature",
+        "how_to_implement": "To successfully implement this search you must be ingesting your Windows event logs",
+        "known_false_positives": "",
+        "references": [],
+        "inputs": [
+            "dest"
+        ],
+        "tags": {
+            "analytic_story": [
+                "Account Monitoring and Controls"
+            ],
+            "product": [
+                "Splunk Phantom"
+            ],
+            "required_fields": [
+                "_time",
+                "signature_id",
+                "dest",
+                "user"
+            ],
+            "security_domain": "endpoint"
+        },
+        "lowercase_name": "get_logon_rights_modifications_for_endpoint"
+    },
+    {
+        "name": "Get Logon Rights Modifications For User",
+        "id": "552bc86c-f72c-4d44-b3f2-06ede13af7bb",
+        "version": 2,
+        "date": "2019-02-27",
+        "author": "David Dorsey, Splunk",
+        "type": "Investigation",
+        "datamodel": [],
+        "description": "This search allows you to retrieve any modifications to logon rights for a specific user account.",
+        "search": "`wineventlog_security` (signature_id=4718 OR signature_id=4717) user=$user$ | rename user as \"Account Modified\" | table _time, dest, \"Account Modified\", Access_Right, signature",
+        "how_to_implement": "To successfully implement this search you must be ingesting your Windows event logs",
+        "known_false_positives": "",
+        "references": [],
+        "inputs": [
+            "user"
+        ],
+        "tags": {
+            "analytic_story": [
+                "Account Monitoring and Controls"
+            ],
+            "product": [
+                "Splunk Phantom"
+            ],
+            "required_fields": [
+                "_time",
+                "signature_id",
+                "dest",
+                "user"
+            ],
+            "security_domain": "endpoint"
+        },
+        "lowercase_name": "get_logon_rights_modifications_for_user"
+    },
+    {
+        "name": "Get Notable History",
+        "id": "3d6c3213-5fff-4a1e-b57d-b24c262171e7",
+        "version": 2,
+        "date": "2017-09-20",
+        "author": "Bhavin Patel, Splunk",
+        "type": "Investigation",
+        "datamodel": [],
+        "description": "This search queries the notable index and returns all the Notable Events for the particular destination host, giving the analyst an overview of the incidents that may have occurred with the host under investigation.",
+        "search": "| search `notable` | search dest=$dest$ | table _time, dest, rule_name, owner, priority, severity, status_description",
+        "how_to_implement": "If you are using Enterprise Security you are likely already creating notable events with your correlation rules. No additional configuration is necessary.",
+        "known_false_positives": "",
+        "references": [],
+        "inputs": [
+            "dest"
+        ],
+        "tags": {
+            "analytic_story": [
+                "AWS Cross Account Activity",
+                "AWS Cryptomining",
+                "AWS Network ACL Activity",
+                "AWS User Monitoring",
+                "Account Monitoring and Controls",
+                "Apache Struts Vulnerability",
+                "Asset Tracking",
+                "Brand Monitoring",
+                "Cloud Cryptomining",
+                "ColdRoot MacOS RAT",
+                "Collection and Staging",
+                "Command & Control",
+                "DHS Report TA18-074A",
+                "DNS Amplification Attacks",
+                "Data Protection",
+                "Disabling Security Tools",
+                "Dynamic DNS",
+                "Emotet Malware  DHS Report TA18-201A ",
+                "Hidden Cobra Malware",
+                "Host Redirection",
+                "JBoss Vulnerability",
+                "Kubernetes Scanning Activity",
+                "Lateral Movement",
+                "Malicious PowerShell",
+                "Monitor Backup Solution",
+                "Monitor for Unauthorized Software",
+                "Monitor for Updates",
+                "Netsh Abuse",
+                "Orangeworm Attack Group",
+                "Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns",
+                "Prohibited Traffic Allowed or Protocol Mismatch",
+                "Ransomware",
+                "Router and Infrastructure Security",
+                "SQL Injection",
+                "SamSam Ransomware",
+                "Spectre And Meltdown Vulnerabilities",
+                "Splunk Enterprise Vulnerability",
+                "Splunk Enterprise Vulnerability CVE-2018-11409",
+                "Suspicious AWS EC2 Activities",
+                "Suspicious AWS S3 Activities",
+                "Suspicious AWS Traffic",
+                "Suspicious Cloud Authentication Activities",
+                "Suspicious Command-Line Executions",
+                "Suspicious DNS Traffic",
+                "Suspicious Emails",
+                "Suspicious MSHTA Activity",
+                "Suspicious WMI Use",
+                "Suspicious Windows Registry Activities",
+                "Unusual AWS EC2 Modifications",
+                "Unusual Processes",
+                "Use of Cleartext Protocols",
+                "Web Fraud Detection",
+                "Windows Defense Evasion Tactics",
+                "Windows File Extension and Association Abuse",
+                "Windows Log Manipulation",
+                "Windows Persistence Techniques",
+                "Windows Privilege Escalation",
+                "Windows Service Abuse",
+                "Data Exfiltration",
+                "F5 TMUI RCE CVE-2020-5902",
+                "Detect Zerologon Attack",
+                "GCP Cross Account Activity",
+                "Kubernetes Sensitive Object Access Activity",
+                "Kubernetes Sensitive Role Activity",
+                "Ransomware Cloud",
+                "Ryuk Ransomware",
+                "Suspicious Cloud Provisioning Activities",
+                "Suspicious GCP Storage Activities",
+                "Windows DNS SIGRed CVE-2020-1350"
+            ],
+            "product": [
+                "Splunk Phantom"
+            ],
+            "required_fields": [
+                "_time"
+            ],
+            "security_domain": "endpoint"
+        },
+        "lowercase_name": "get_notable_history"
+    },
+    {
+        "name": "Get Outbound Emails to Hidden Cobra Threat Actors",
+        "id": "80bac352-e089-46b9-a6a4-8a8467d4d8cf",
+        "version": 1,
+        "date": "2018-06-14",
+        "author": "Bhavin Patel, Splunk",
+        "type": "Investigation",
+        "datamodel": [
+            "Email"
+        ],
+        "description": "This search returns the information of the users that sent emails to the accounts controlled by the Hidden Cobra Threat Actors: specifically to `misswang8107@gmail.com`, and from `redhat@gmail.com`.",
+        "search": "| from datamodel Email.All_Email | search recipient=misswang8107@gmail.com OR src_user=redhat@gmail.com | stats count earliest(_time) as firstTime, latest(_time) as lastTime values(dest) values(src) by src_user recipient | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`",
+        "how_to_implement": "To successfully implement this search you must ingest your email logs or capture unencrypted email communications within network traffic, and populate the Email data model.",
+        "known_false_positives": "",
+        "references": [],
+        "inputs": [],
+        "tags": {
+            "analytic_story": [
+                "Hidden Cobra Malware"
+            ],
+            "product": [
+                "Splunk Phantom"
+            ],
+            "required_fields": [
+                "_time",
+                "recipient",
+                "src_user",
+                "dest",
+                "sec"
+            ],
+            "security_domain": "network"
+        },
+        "lowercase_name": "get_outbound_emails_to_hidden_cobra_threat_actors"
+    },
+    {
+        "name": "Get Parent Process Info",
+        "id": "fecf2918-670d-4f1c-872b-3d7317a41bf9",
+        "version": 2,
+        "date": "2019-02-28",
+        "author": "Bhavin Patel, Splunk",
+        "type": "Investigation",
+        "datamodel": [
+            "Endpoint"
+        ],
+        "description": "This search queries the Endpoint data model to give you details about the parent process of a process running on a host which is under investigation. Enter the values of the process name in question and the dest",
+        "search": "| tstats `security_content_summariesonly` count values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes by Processes.user Processes.parent_process_name Processes.process_name Processes.dest | `drop_dm_object_name(\"Processes\")` | search  parent_process_name= $parent_process_name$ |search dest = $dest$ | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`",
+        "how_to_implement": "You must be ingesting endpoint data that tracks process activity, including parent-child relationships from your endpoints to populate the Endpoint data model in the Processes node. The command-line arguments are mapped to the \"process\" field in the Endpoint data model.",
+        "known_false_positives": "",
+        "references": [],
+        "inputs": [
+            "parent_process_name",
+            "dest"
+        ],
+        "tags": {
+            "analytic_story": [
+                "Collection and Staging",
+                "Command & Control",
+                "DHS Report TA18-074A",
+                "Disabling Security Tools",
+                "Emotet Malware  DHS Report TA18-201A ",
+                "Hidden Cobra Malware",
+                "Lateral Movement",
+                "Malicious PowerShell",
+                "Monitor for Unauthorized Software",
+                "Netsh Abuse",
+                "Orangeworm Attack Group",
+                "Phishing Payloads",
+                "Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns",
+                "Prohibited Traffic Allowed or Protocol Mismatch",
+                "Ransomware",
+                "SamSam Ransomware",
+                "Suspicious Command-Line Executions",
+                "Suspicious DNS Traffic",
+                "Suspicious MSHTA Activity",
+                "Suspicious WMI Use",
+                "Suspicious Windows Registry Activities",
+                "Unusual Processes",
+                "Windows Defense Evasion Tactics",
+                "Windows File Extension and Association Abuse",
+                "Windows Log Manipulation",
+                "Windows Persistence Techniques",
+                "Windows Privilege Escalation",
+                "Windows Service Abuse"
+            ],
+            "product": [
+                "Splunk Phantom"
+            ],
+            "required_fields": [
+                "_time",
+                "Processes.user",
+                "Processes.parent_process_name",
+                "Processes.process_name",
+                "Processes.dest"
+            ],
+            "security_domain": "endpoint"
+        },
+        "lowercase_name": "get_parent_process_info"
+    },
+    {
+        "name": "Get Process File Activity",
+        "id": "6a9ad4d9-6ef2-4b85-953f-a37ab256acd5",
+        "version": 2,
+        "date": "2019-11-06",
+        "author": "David Dorsey, Splunk",
+        "type": "Investigation",
+        "datamodel": [
+            "Endpoint"
+        ],
+        "description": "This search returns the file activity for a specific process on a specific endpoint",
+        "search": "| tstats `security_content_summariesonly` values(Filesystem.file_name) as file_name values(Filesystem.dest) as dest, values(Filesystem.process_name) as process_name from datamodel=Endpoint.Filesystem by Filesystem.dest Filesystem.process_name Filesystem.file_path, Filesystem.action, _time | `drop_dm_object_name(Filesystem)`  | search dest=$dest$  | search process_name=$process_name$ | table _time, process_name, dest, action, file_name, file_path",
+        "how_to_implement": "To successfully implement this search you must be ingesting endpoint data and populating the Endpoint data model.",
+        "known_false_positives": "",
+        "references": [],
+        "inputs": [
+            "dest",
+            "process_name"
+        ],
+        "tags": {
+            "analytic_story": [
+                "DHS Report TA18-074A",
+                "Suspicious Zoom Child Processes"
+            ],
+            "product": [
+                "Splunk Phantom"
+            ],
+            "required_fields": [
+                "_time",
+                "Filesystem.file_name",
+                "Filesystem.dest",
+                "Filesystem.process_name",
+                "Filesystem.file_path",
+                "Filesystem.action"
+            ],
+            "security_domain": "endpoint"
+        },
+        "lowercase_name": "get_process_file_activity"
+    },
+    {
+        "name": "Get Process Info",
+        "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd71",
+        "version": 2,
+        "date": "2019-04-01",
+        "author": "Bhavin Patel, Splunk",
+        "type": "Investigation",
+        "datamodel": [
+            "Endpoint"
+        ],
+        "description": "This search queries the Endpoint data model to give you details about the process running on a host which is under investigation. To gather the process info, enter the values for the process name in question and the destination IP address.",
+        "search": "| tstats `security_content_summariesonly` count values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes by Processes.user Processes.parent_process_name Processes.process_name Processes.dest | `drop_dm_object_name(\"Processes\")` | search  process_name= $process_name$ | search dest = $dest$ | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`",
+        "how_to_implement": "To successfully implement this search you must be ingesting endpoint data and populating the Endpoint data model.",
+        "known_false_positives": "",
+        "references": [],
+        "inputs": [
+            "process_name",
+            "dest"
+        ],
+        "tags": {
+            "analytic_story": [
+                "AWS Network ACL Activity",
+                "Collection and Staging",
+                "Command & Control",
+                "DHS Report TA18-074A",
+                "Data Protection",
+                "Disabling Security Tools",
+                "Emotet Malware  DHS Report TA18-201A ",
+                "Hidden Cobra Malware",
+                "Lateral Movement",
+                "Malicious PowerShell",
+                "Monitor for Unauthorized Software",
+                "Netsh Abuse",
+                "Orangeworm Attack Group",
+                "Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns",
+                "Prohibited Traffic Allowed or Protocol Mismatch",
+                "Ransomware",
+                "SamSam Ransomware",
+                "Suspicious AWS Traffic",
+                "Suspicious Command-Line Executions",
+                "Suspicious DNS Traffic",
+                "Suspicious MSHTA Activity",
+                "Suspicious WMI Use",
+                "Suspicious Windows Registry Activities",
+                "Unusual Processes",
+                "Windows Defense Evasion Tactics",
+                "Windows File Extension and Association Abuse",
+                "Windows Log Manipulation",
+                "Windows Persistence Techniques",
+                "Windows Privilege Escalation",
+                "Windows Service Abuse"
+            ],
+            "product": [
+                "Splunk Phantom"
+            ],
+            "required_fields": [
+                "_time",
+                "Processes.user",
+                "Processes.parent_process_name",
+                "Processes.process_name",
+                "Processes.dest"
+            ],
+            "security_domain": "endpoint"
+        },
+        "lowercase_name": "get_process_info"
+    },
+    {
+        "name": "Get Process Information For Port Activity",
+        "id": "9925d08f-561e-4faa-8912-e3888a842341",
+        "version": 2,
+        "date": "2019-04-01",
+        "author": "Bhavin Patel, Splunk",
+        "type": "Investigation",
+        "datamodel": [
+            "Endpoint"
+        ],
+        "description": "This search will return information about the process associated with observed network traffic to a specific destination port from a specific host.",
+        "search": "| tstats `security_content_summariesonly` count min(_time) max(_time) as lastTime from datamodel=Endpoint.Processes by Processes.process_name Processes.user Processes.dest Processes.process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | search dest=$dest$ | join dest type=inner [| tstats `security_content_summariesonly` count from datamodel=Endpoint.Ports by Ports.process_id Ports.src Ports.dest_port | `drop_dm_object_name(Ports)` | search dest_port=$dest_port$ | rename src as dest]",
+        "how_to_implement": "To successfully implement this search you must be ingesting endpoint data that associates processes with network events and populate the Endpoint Datamodel",
+        "known_false_positives": "",
+        "references": [],
+        "inputs": [
+            "dest",
+            "dest_port"
+        ],
+        "tags": {
+            "analytic_story": [
+                "AWS Network ACL Activity",
+                "Command & Control",
+                "DHS Report TA18-074A",
+                "Emotet Malware  DHS Report TA18-201A ",
+                "Hidden Cobra Malware",
+                "Lateral Movement",
+                "Prohibited Traffic Allowed or Protocol Mismatch",
+                "Ransomware",
+                "SamSam Ransomware",
+                "Suspicious AWS Traffic",
+                "Use of Cleartext Protocols"
+            ],
+            "product": [
+                "Splunk Phantom"
+            ],
+            "required_fields": [
+                "_time",
+                "Processes.user",
+                "Processes.process_id",
+                "Processes.process_name",
+                "Processes.dest",
+                "Ports.process_id",
+                "Ports.src",
+                "Ports.dest_port"
+            ],
+            "security_domain": "endpoint"
+        },
+        "lowercase_name": "get_process_information_for_port_activity"
+    },
+    {
+        "name": "Get Process Responsible For The DNS Traffic",
+        "id": "910e6512-edc9-4f93-ba24-5b786f47a672",
+        "version": 2,
+        "date": "2019-04-01",
+        "author": "Bhavin Patel, Splunk",
+        "type": "Investigation",
+        "datamodel": [
+            "Endpoint"
+        ],
+        "description": "While investigating, an analyst will want to know what process and parent_process is responsible for generating suspicious DNS traffic. Use the following search and enter the value of `dest` in the search to get specific details on the process responsible for creating the DNS traffic.",
+        "search": "| tstats `security_content_summariesonly` count min(_time) max(_time) as lastTime from datamodel=Endpoint.Processes by Processes.parent_process Processes.process_name Processes.user Processes.dest Processes.process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | search dest = $dest$ | join dest type=inner [| tstats `security_content_summariesonly` count from datamodel=Endpoint.Ports where Ports.dest_port=53 by Ports.process_id Ports.src | `drop_dm_object_name(Ports)` | rename src as dest]",
+        "how_to_implement": "You must be ingesting endpoint data that associates processes with network events into the Endpoint datamodel. This can come from endpoint protection products such as carbon black, or endpoint data sources such as Sysmon.",
+        "known_false_positives": "",
+        "references": [],
+        "inputs": [
+            "dest"
+        ],
+        "tags": {
+            "analytic_story": [
+                "AWS Network ACL Activity",
+                "Brand Monitoring",
+                "Command & Control",
+                "Data Protection",
+                "Dynamic DNS",
+                "Hidden Cobra Malware",
+                "Suspicious AWS Traffic",
+                "Suspicious DNS Traffic"
+            ],
+            "product": [
+                "Splunk Phantom"
+            ],
+            "required_fields": [
+                "_time",
+                "Processes.user",
+                "Processes.process_id",
+                "Processes.process_name",
+                "Processes.dest",
+                "Processes.parent_process",
+                "Ports.process_id",
+                "Ports.src",
+                "Ports.dest_port"
+            ],
+            "security_domain": "endpoint"
+        },
+        "lowercase_name": "get_process_responsible_for_the_dns_traffic"
+    },
+    {
+        "name": "Get Sysmon WMI Activity for Host",
+        "id": "155e0571-7db6-42f2-aa62-9a3a4cf35c94",
+        "version": 1,
+        "date": "2018-10-23",
+        "author": "Rico Valdez, Splunk",
+        "type": "Investigation",
+        "datamodel": [],
+        "description": "This search queries Sysmon WMI events for the host of interest.",
+        "search": "`sysmon` EventCode>18 EventCode<22 | rename host as dest | search dest=$dest$| table _time, dest, user, Name, Operation, EventType, Type, Query, Consumer, Filter",
+        "how_to_implement": "To successfully implement this search, you must be collecting Sysmon data using Sysmon version 6.1 or greater and have Sysmon configured to generate events for WMI activity. In addition, you must have at least version 6.0.4 of the Sysmon TA installed to properly parse the fields.",
+        "known_false_positives": "",
+        "references": [],
+        "inputs": [
+            "dest"
+        ],
+        "tags": {
+            "analytic_story": [
+                "Ransomware",
+                "Suspicious WMI Use"
+            ],
+            "product": [
+                "Splunk Phantom"
+            ],
+            "required_fields": [
+                "_time",
+                "EventCode",
+                "user",
+                "Name",
+                "Operation",
+                "EventType",
+                "Type",
+                "Query",
+                "Consumer",
+                "Filter"
+            ],
+            "security_domain": "endpoint"
+        },
+        "lowercase_name": "get_sysmon_wmi_activity_for_host"
+    },
+    {
+        "name": "Get Web Session Information via session id",
+        "id": "bc91a8cf-35e7-4bb2-1120-e756cc06fd89",
+        "version": 1,
+        "date": "2018-10-08",
+        "author": "Bhavin Patel, Splunk",
+        "type": "Investigation",
+        "datamodel": [],
+        "description": "This search helps an analyst investigate a notable event to find out more about a specific web session. The search looks for a specific web session ID in the HTTP web traffic and outputs the URL and user agents, grouped by source IP address and HTTP status code.",
+        "search": "`stream_http` session_id  = $session_id$ | stats values(url) values(http_user_agent) by src_ip status",
+        "how_to_implement": "This search leverages data extracted from Stream:HTTP. You must configure the HTTP stream using the Splunk Stream App on your Splunk Stream deployment server.",
+        "known_false_positives": "",
+        "references": [],
+        "inputs": [
+            "session_id"
+        ],
+        "tags": {
+            "analytic_story": [
+                "Web Fraud Detection"
+            ],
+            "product": [
+                "Splunk Phantom"
+            ],
+            "required_fields": [
+                "_time",
+                "session_id",
+                "http_user_agent",
+                "src_ip",
+                "status"
+            ],
+            "security_domain": "network"
+        },
+        "lowercase_name": "get_web_session_information_via_session_id"
+    },
+    {
+        "name": "Investigate AWS activities via region name",
+        "id": "bc91a8cd-35e7-4bb2-6140-e756cc46fd11",
+        "version": 1,
+        "date": "2018-02-09",
+        "author": "Bhavin Patel, Splunk",
+        "type": "Investigation",
+        "datamodel": [],
+        "description": "This search lists all the user activities logged by CloudTrail for a specific region in question and will create a table of the values of parameters requested, the type of the event and the response from the AWS API by each user",
+        "search": "`cloudtrail` vendor_region=$vendor_region$| rename requestParameters.instancesSet.items{}.instanceId as instanceId | stats values(eventName) by user instanceId vendor_region",
+        "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs.",
+        "known_false_positives": "",
+        "references": [],
+        "inputs": [
+            "vendor_region"
+        ],
+        "tags": {
+            "analytic_story": [
+                "AWS Cryptomining",
+                "Cloud Cryptomining",
+                "Suspicious AWS EC2 Activities",
+                "Suspicious AWS S3 Activities"
+            ],
+            "product": [
+                "Splunk Phantom"
+            ],
+            "required_fields": [
+                "_time",
+                "vendor_region",
+                "requestParameters.instancesSet.items{}.instanceId",
+                "eventName",
+                "user"
+            ],
+            "security_domain": "network"
+        },
+        "lowercase_name": "investigate_aws_activities_via_region_name"
+    },
+    {
+        "name": "Investigate AWS User Activities by user field",
+        "id": "bc91a8cd-35e7-4bb2-6140-e756cc46fd76",
+        "version": 1,
+        "date": "2018-03-12",
+        "author": "Bhavin Patel, Splunk",
+        "type": "Investigation",
+        "datamodel": [],
+        "description": "This search lists all the logged CloudTrail activities by a specific user and will create a table containing the source of the user, the region of the activity, the name and type of the event, the action taken, and the user's identity information.",
+        "search": "`cloudtrail` user=$user$ | table _time userIdentity.type userIdentity.userName userIdentity.arn aws_account_id src awsRegion eventName eventType ",
+        "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs.",
+        "known_false_positives": "",
+        "references": [],
+        "inputs": [
+            "user"
+        ],
+        "tags": {
+            "analytic_story": [
+                "AWS User Monitoring",
+                "Suspicious Cloud Authentication Activities"
+            ],
+            "product": [
+                "Splunk Phantom"
+            ],
+            "required_fields": [
+                "_time",
+                "user",
+                "userIdentity.type",
+                "userIdentity.userName",
+                "userIdentity.arn",
+                "aws_account_id",
+                "src",
+                "awsRegion",
+                "eventName",
+                "eventType"
+            ],
+            "security_domain": "network"
+        },
+        "lowercase_name": "investigate_aws_user_activities_by_user_field"
+    },
+    {
+        "name": "Investigate Failed Logins for Multiple Destinations",
+        "id": "097e8030-8662-4254-a735-bf0bdda696e3",
+        "version": 1,
+        "date": "2019-12-10",
+        "author": "Patrick Bareiss, Splunk",
+        "type": "Investigation",
+        "datamodel": [
+            "Authentication"
+        ],
+        "description": "This search returns failed logins to multiple destinations by user.",
+        "search": "| tstats count `security_content_summariesonly` earliest(_time) as first_login latest(_time) as last_login dc(Authentication.dest) AS distinct_count_dest values(Authentication.dest) AS Authentication.dest values(Authentication.app) AS Authentication.app  from datamodel=Authentication where Authentication.action=failure by Authentication.user | where distinct_count_dest > 1 | `security_content_ctime(first_login)` | `security_content_ctime(last_login)` | `drop_dm_object_name(\"Authentication\")` | search user=$user$",
+        "how_to_implement": "To successfully implement this search you need to be ingesting authentication logs from your various systems and populating the Authentication data model.",
+        "known_false_positives": "",
+        "references": [],
+        "inputs": [
+            "user"
+        ],
+        "tags": {
+            "analytic_story": [
+                "Credential Dumping"
+            ],
+            "product": [
+                "Splunk Phantom"
+            ],
+            "required_fields": [
+                "_time",
+                "Authentication.dest",
+                "Authentication.app",
+                "Authentication.action",
+                "Authentication.user"
+            ],
+            "security_domain": "endpoint"
+        },
+        "lowercase_name": "investigate_failed_logins_for_multiple_destinations"
+    },
+    {
+        "name": "Investigate Network Traffic From src ip",
+        "id": "9df9ca9c-a02b-4f48-9eba-0bac55179050",
+        "version": 1,
+        "date": "2018-06-15",
+        "author": "David Dorsey, Splunk",
+        "type": "Investigation",
+        "datamodel": [
+            "Network_Traffic"
+        ],
+        "description": "This search allows you to find all the network traffic from a specific IP address.",
+        "search": "| from datamodel Network_Traffic.All_Traffic | search src_ip=$src_ip$",
+        "how_to_implement": "To successfully implement this search, you must be ingesting your web-traffic logs and populating the web data model.",
+        "known_false_positives": "",
+        "references": [],
+        "inputs": [
+            "src_ip"
+        ],
+        "tags": {
+            "analytic_story": [
+                "ColdRoot MacOS RAT",
+                "Splunk Enterprise Vulnerability CVE-2018-11409"
+            ],
+            "product": [
+                "Splunk Phantom"
+            ],
+            "required_fields": [
+                "_time",
+                "src_ip"
+            ],
+            "security_domain": "network"
+        },
+        "lowercase_name": "investigate_network_traffic_from_src_ip"
+    },
+    {
+        "name": "Investigate Okta Activity by app",
+        "id": "420eb1b8-2992-45d1-80cf-0b1b2759524d",
+        "version": 1,
+        "date": "2020-04-02",
+        "author": "Rico Valdez, Splunk",
+        "type": "Investigation",
+        "datamodel": [],
+        "description": "This search returns all okta events associated with a specific app",
+        "search": "`okta` app=$app$ | rename client.geographicalContext.country as country, client.geographicalContext.state as state, client.geographicalContext.city as city | table _time, user, displayMessage, app, src_ip, state, city, result, outcome.reason",
+        "how_to_implement": "You must be ingesting Okta logs",
+        "known_false_positives": "",
+        "references": [],
+        "inputs": [
+            "app"
+        ],
+        "tags": {
+            "analytic_story": [
+                "Suspicious Okta Activity"
+            ],
+            "product": [
+                "Splunk Phantom"
+            ],
+            "required_fields": [
+                "_time",
+                "app",
+                "client.geographicalContext.country",
+                "client.geographicalContext.state",
+                "client.geographicalContext.city",
+                "user",
+                "displayMessage",
+                "src_ip",
+                "result",
+                "outcome.reason"
+            ],
+            "security_domain": "network"
+        },
+        "lowercase_name": "investigate_okta_activity_by_app"
+    },
+    {
+        "name": "Investigate Okta Activity by IP Address",
+        "id": "56aae066-d619-477c-93e3-3fb83b2d23c3",
+        "version": 1,
+        "date": "2020-04-02",
+        "author": "Rico Valdez, Splunk",
+        "type": "Investigation",
+        "datamodel": [],
+        "description": "This search returns all okta events from a specific IP address.",
+        "search": "`okta` src_ip={src_ip} | rename client.geographicalContext.country as country, client.geographicalContext.state as state, client.geographicalContext.city as city | table _time, user, displayMessage, app, src_ip, state, city, result, outcome.reason",
+        "how_to_implement": "You must be ingesting Okta logs",
+        "known_false_positives": "",
+        "references": [],
+        "inputs": [],
+        "tags": {
+            "analytic_story": [
+                "Suspicious Okta Activity"
+            ],
+            "product": [
+                "Splunk Phantom"
+            ],
+            "required_fields": [
+                "_time",
+                "app",
+                "client.geographicalContext.country",
+                "client.geographicalContext.state",
+                "client.geographicalContext.city",
+                "user",
+                "displayMessage",
+                "src_ip",
+                "result",
+                "outcome.reason"
+            ],
+            "security_domain": "network"
+        },
+        "lowercase_name": "investigate_okta_activity_by_ip_address"
+    },
+    {
+        "name": "Investigate Pass the Hash Attempts",
+        "id": "ed3fff45-cba6-4990-983f-6fac72bee659",
+        "version": 1,
+        "date": "2019-12-10",
+        "author": "Patrick Bareiss, Splunk",
+        "type": "Investigation",
+        "datamodel": [],
+        "description": "This search hunts for dumped NTLM hashes used for pass the hash.",
+        "search": "`wineventlog_security` EventCode=4624 Logon_Type=9 AuthenticationPackageName=Negotiate | stats count earliest(_time) as first_login latest(_time) as last_login by src_user dest | `security_content_ctime(first_login)` | `security_content_ctime(last_login)` | search dest=$dest$",
+        "how_to_implement": "To successfully implement this search you need be ingesting windows security logs. This search uses an input macro named `wineventlog_security`. We strongly recommend that you specify your environment-specific configurations (index, source, sourcetype, etc.) for Windows Security logs. Replace the macro definition with configurations for your Splunk environment. The search also uses a post-filter macro designed to filter out known false positives.",
+        "known_false_positives": "",
+        "references": [],
+        "inputs": [
+            "dest"
+        ],
+        "tags": {
+            "analytic_story": [
+                "Credential Dumping"
+            ],
+            "product": [
+                "Splunk Phantom"
+            ],
+            "required_fields": [
+                "_time",
+                "EventCode",
+                "Logon_Type",
+                "AuthenticationPackageName",
+                "src_user",
+                "dest"
+            ],
+            "security_domain": "endpoint"
+        },
+        "lowercase_name": "investigate_pass_the_hash_attempts"
+    },
+    {
+        "name": "Investigate Pass the Ticket Attempts",
+        "id": "990007ad-d798-4b29-ab2f-f0034144c937",
+        "version": 1,
+        "date": "2019-12-10",
+        "author": "Patrick Bareiss, Splunk",
+        "type": "Investigation",
+        "datamodel": [],
+        "description": "This search hunts for dumped kerberos ticket from LSASS memory.",
+        "search": "`wineventlog_security` EventCode=4768 OR EventCode=4769 | rex field=user \"(?<new_user>[^\\@]+)\" | stats count BY new_user, dest, EventCode | stats max(count) AS max_count sum(count) AS sum_count BY new_user, dest| search dest=$dest$ | where sum_count/max_count!=2 | rename new_user AS user ",
+        "how_to_implement": "To successfully implement this search you need to be ingesting windows security logs. This search uses an input macro named `wineventlog_security`. We strongly recommend that you specify your environment-specific configurations (index, source, sourcetype, etc.) for Windows Security logs. Replace the macro definition with configurations for your Splunk environment. The search also uses a post-filter macro designed to filter out known false positives.",
+        "known_false_positives": "",
+        "references": [],
+        "inputs": [
+            "dest"
+        ],
+        "tags": {
+            "analytic_story": [
+                "Credential Dumping"
+            ],
+            "product": [
+                "Splunk Phantom"
+            ],
+            "required_fields": [
+                "_time",
+                "EventCode",
+                "user",
+                "dest"
+            ],
+            "security_domain": "endpoint"
+        },
+        "lowercase_name": "investigate_pass_the_ticket_attempts"
+    },
+    {
+        "name": "Investigate Previous Unseen User",
+        "id": "ad114d5c-8079-4a84-a646-2fd00dfc07cc",
+        "version": 1,
+        "date": "2019-12-10",
+        "author": "Patrick Bareiss, Splunk",
+        "type": "Investigation",
+        "datamodel": [
+            "Authentication"
+        ],
+        "description": "This search returns previous unseen user, which didn't log in for 30 days.",
+        "search": "| tstats count `security_content_summariesonly` earliest(_time) as first_login latest(_time) as last_login values(Authentication.dest) AS Authentication.dest values(Authentication.app) AS Authentication.app values(Authentication.action) AS Authentication.action from datamodel=Authentication where Authentication.action=success by _time, Authentication.user | bucket _time span=30d | stats count min(first_login) as first_login max(last_login) as last_login values(Authentication.dest) AS Authentication.dest by Authentication.user | where count=1 | where first_login >= relative_time(now(), \"-30d\") | `security_content_ctime(first_login)` | `security_content_ctime(last_login)` | `drop_dm_object_name(\"Authentication\")` | search dest=$dest$",
+        "how_to_implement": "To successfully implement this search you need to be ingesting authentication logs from your various systems and populating the Authentication data model.",
+        "known_false_positives": "",
+        "references": [],
+        "inputs": [
+            "dest"
+        ],
+        "tags": {
+            "analytic_story": [
+                "Credential Dumping"
+            ],
+            "product": [
+                "Splunk Phantom"
+            ],
+            "required_fields": [
+                "_time",
+                "Authentication.dest",
+                "Authentication.app",
+                "Authentication.action",
+                "Authentication.user"
+            ],
+            "security_domain": "endpoint"
+        },
+        "lowercase_name": "investigate_previous_unseen_user"
+    },
+    {
+        "name": "Investigate Successful Remote Desktop Authentications",
+        "id": "b6618e8e-be04-40a0-a0b9-f0bd4b6c81bc",
+        "version": 1,
+        "date": "2018-12-14",
+        "author": "Jose Hernandez, Splunk",
+        "type": "Investigation",
+        "datamodel": [
+            "Authentication"
+        ],
+        "description": "This search returns the source, destination, and user for all successful remote-desktop authentications. A successful authentication after a brute-force attack on a destination machine is suspicious behavior. ",
+        "search": "| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Authentication where Authentication.signature_id=4624 Authentication.app=win:remote by Authentication.src Authentication.dest Authentication.app Authentication.user Authentication.signature Authentication.src_nt_domain | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `drop_dm_object_name(\"Authentication\")` | search dest=$dest$ | table firstTime lastTime src src_nt_domain dest user app count | sort count",
+        "how_to_implement": "You must be populating the Authentication data model with security events from your Windows event logs.",
+        "known_false_positives": "",
+        "references": [],
+        "inputs": [
+            "dest"
+        ],
+        "tags": {
+            "analytic_story": [
+                "Hidden Cobra Malware",
+                "Active Directory Lateral Movement",
+                "SamSam Ransomware"
+            ],
+            "product": [
+                "Splunk Phantom"
+            ],
+            "required_fields": [
+                "_time",
+                "Authentication.signature_id",
+                "Authentication.app",
+                "Authentication.src",
+                "Authentication.dest",
+                "Authentication.user",
+                "Authentication.signature",
+                "Authentication.src_nt_domain"
+            ],
+            "security_domain": "endpoint"
+        },
+        "lowercase_name": "investigate_successful_remote_desktop_authentications"
+    },
+    {
+        "name": "Investigate Suspicious Strings in HTTP Header",
+        "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd89",
+        "version": 1,
+        "date": "2017-10-20",
+        "author": "Bhavin Patel, Splunk",
+        "type": "Investigation",
+        "datamodel": [],
+        "description": "This search helps an analyst investigate a notable event related to a potential Apache Struts exploitation. To investigate, we will want to isolate and analyze the \"payload\" or the commands that were passed to the vulnerable hosts by creating a few regular expressions to carve out the commands focusing on common keywords from the payload, such as cmd.exe, /bin/bash and whois. The search returns these suspicious strings found in the HTTP logs of the system of interest.",
+        "search": "`stream_http` | search src_ip=$src_ip$ | search dest_ip=$dest_ip$ | eval cs_content_type_length = len(cs_content_type) | search cs_content_type_length > 100 | rex field=\"cs_content_type\" (?<suspicious_strings>cmd.exe) | eval suspicious_strings_found=if(match(cs_content_type, \"application\"), \"True\", \"False\")  | rename suspicious_strings_found AS \"Suspicious Content-Type Found\" | fields \"Suspicious Content-Type Found\", dest_ip, src_ip, suspicious_strings, cs_content_type, cs_content_type_length, url",
+        "how_to_implement": "This particular search leverages data extracted from Stream:HTTP. You must configure the http stream using the Splunk Stream App on your Splunk Stream deployment server to extract the cs_content_type field.",
+        "known_false_positives": "",
+        "references": [],
+        "inputs": [
+            "src_ip",
+            "dest_ip"
+        ],
+        "tags": {
+            "analytic_story": [
+                "Apache Struts Vulnerability"
+            ],
+            "product": [
+                "Splunk Phantom"
+            ],
+            "required_fields": [
+                "_time",
+                "src_ip",
+                "dest_ip",
+                "cs_content_type",
+                "url"
+            ],
+            "security_domain": "network"
+        },
+        "lowercase_name": "investigate_suspicious_strings_in_http_header"
+    },
+    {
+        "name": "Investigate User Activities In Okta",
+        "id": "24ff145d-4d16-420a-b047-480f2a51c403",
+        "version": 1,
+        "date": "2020-04-02",
+        "author": "Rico Valdez, Splunk",
+        "type": "Investigation",
+        "datamodel": [],
+        "description": "This search returns all okta events by a specific user",
+        "search": "`okta` user=$user$ | rename client.geographicalContext.country as country, client.geographicalContext.state as state, client.geographicalContext.city as city | table _time, user, displayMessage, app, src_ip, state, city, result, outcome.reason",
+        "how_to_implement": "You must be ingesting Okta logs",
+        "known_false_positives": "",
+        "references": [],
+        "inputs": [
+            "user"
+        ],
+        "tags": {
+            "analytic_story": [
+                "Suspicious Okta Activity"
+            ],
+            "product": [
+                "Splunk Phantom"
+            ],
+            "required_fields": [
+                "_time",
+                "client.geographicalContext.country",
+                "client.geographicalContext.state",
+                "client.geographicalContext.city",
+                "user",
+                "displayMessage",
+                "src_ip",
+                "result",
+                "outcome.reason"
+            ],
+            "security_domain": "network"
+        },
+        "lowercase_name": "investigate_user_activities_in_okta"
+    },
+    {
+        "name": "Investigate Web POSTs From src",
+        "id": "f5c39fac-205c-4e07-9004-8fd61ea3431a",
+        "version": 1,
+        "date": "2018-12-06",
+        "author": "Jose Hernandez, Splunk",
+        "type": "Investigation",
+        "datamodel": [
+            "Web"
+        ],
+        "description": "This investigative search retrieves POST requests from a specified source IP or hostname. Identifying the POST requests, as well as their associated destination URLs and user agent(s), may help you scope and characterize the suspicious traffic. ",
+        "search": "| tstats `security_content_summariesonly` values(Web.url) as url from datamodel=Web by Web.src,Web.http_user_agent,Web.http_method | `drop_dm_object_name(\"Web\")`| search http_method, \"POST\" | search src=$src$",
+        "how_to_implement": "To successfully implement this search, you must be ingesting your web-traffic logs and populating the web data model.",
+        "known_false_positives": "",
+        "references": [],
+        "inputs": [
+            "src"
+        ],
+        "tags": {
+            "analytic_story": [
+                "Apache Struts Vulnerability"
+            ],
+            "product": [
+                "Splunk Phantom"
+            ],
+            "required_fields": [
+                "_time",
+                "Web.url",
+                "Web.src",
+                "Web.http_user_agent",
+                "Web.http_method"
+            ],
+            "security_domain": "network"
+        },
+        "lowercase_name": "investigate_web_posts_from_src"
+    },
+    {
+        "name": "Rundll32 LockWorkStation",
+        "id": "fa90f372-f91d-11eb-816c-acde48001122",
+        "version": 1,
+        "date": "2021-08-09",
+        "author": "Teoderick Contreras, Splunk",
+        "type": "Investigation",
+        "datamodel": [
+            "Endpoint"
+        ],
+        "description": "This search is to detect a suspicious rundll32 commandline to lock the workstation through command line. This technique was seen in CONTI leak tooling and script as part of its defense evasion. This technique is not a common practice to lock a screen and maybe a good indicator of compromise.",
+        "search": "| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=rundll32.exe Processes.process= \"*user32.dll,LockWorkStation*\" by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id Processes.parent_process_name | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `rundll32_lockworkstation_filter`",
+        "how_to_implement": "To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.",
+        "known_false_positives": "unknown",
+        "references": [
+            "https://threadreaderapp.com/thread/1423361119926816776.html"
+        ],
+        "inputs": [],
+        "tags": {
+            "analytic_story": [
+                "Ransomware"
+            ],
+            "product": [
+                "Splunk Enterprise",
+                "Splunk Enterprise Security",
+                "Splunk Cloud"
+            ],
+            "required_fields": [
+                "_time",
+                "Processes.dest",
+                "Processes.user",
+                "Processes.parent_process",
+                "Processes.parent_process_name",
+                "Processes.process_name",
+                "Processes.process",
+                "Processes.process_id",
+                "Processes.parent_process_id"
+            ],
+            "security_domain": "endpoint"
+        },
+        "lowercase_name": "rundll32_lockworkstation"
+    }
+]

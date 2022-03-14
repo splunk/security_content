@@ -1,0 +1,30 @@
+name: Ransomware Investigate and Contain
+id: fc0edc96-ff2b-48b0-9f6f-63da3783fd63
+version: 1
+date: '2018-02-04'
+author: Philip Royer, Splunk
+type: Response
+description: This playbook investigates and contains ransomware detected on endpoints.
+playbook: ransomware_investigate_and_contain
+how_to_implement: This playbook requires the Splunk SOAR apps for Palo Alto 
+  Networks Firewalls, Palo Alto Wildfire, LDAP, and Carbon Black Response. 
+references: []
+app_list:
+- "Carbon Black Response"
+- "LDAP"
+- "Palo Alto Networks Firewall"
+- "WildFire"
+- "Cylance"
+tags:
+  analytic_story:
+  - Ransomware
+  detections:
+  - Attempted Credential Dump From Registry via Reg exe
+  platform_tags:
+  - Ransomware
+  - Response
+  playbook_fields:
+  - ComputerName
+  - Username
+  product:
+  - Splunk SOAR

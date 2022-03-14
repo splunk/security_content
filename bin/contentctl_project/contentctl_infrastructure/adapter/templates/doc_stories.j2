@@ -1,0 +1,51 @@
+---
+title: "{{object.name}}"
+last_modified_at: {{object.date}}
+toc: true
+toc_label: ""
+tags:
+{%- for product in object.tags.product %}
+  - {{ product }}
+{%- endfor -%}
+{%- for datamodel in object.tags.datamodels %}
+  - {{ datamodel }}
+{%- endfor -%}
+{%- for phase in object.tags.kill_chain_phases %}
+  - {{ phase }}
+{%- endfor %}
+---
+
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+
+#### Description
+
+{{ object.description }}
+
+- **Product**: {{ object.tags.product|join(', ') }}
+- **Datamodel**: {% for datamodel in object.tags.datamodels %}[{{ datamodel }}](https://docs.splunk.com/Documentation/CIM/latest/User/{{ datamodel|replace("_", "")}}){% if not loop.last %}, {% endif %}{%-endfor %}
+- **Last Updated**: {{ object.date }}
+- **Author**: {{object.author}}
+- **ID**: {{ object.id }}
+
+#### Narrative
+
+{{ object.narrative }}
+
+#### Detections
+
+| Name        | Technique   | Type         |
+| ----------- | ----------- |--------------|
+{%- if object.detections %}
+{%- for detection in object.detections %}
+| [{{ detection.name }}](/{{ detection.source }}/{{ detection.name | lower | replace(' ', '_') }}/) | {% if detection.tags.mitre_attack_enrichments %}{% for attack in detection.tags.mitre_attack_enrichments -%}[{{ attack.mitre_attack_technique }}](/tags/#{{ attack.mitre_attack_technique | lower | replace(" ", "-") }}){% if not loop.last %}, {% endif %}{%- endfor %}{% else %}None{%- endif -%} | {{ detection.type }} |
+{%- endfor %}
+{%- endif %}
+
+#### Reference
+{% if object.references %}
+{% for reference in object.references -%}
+* [{{ reference }}]({{ reference }})
+{% endfor %}
+{% endif %}
+
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/{{ object.name | lower | replace (" ", "_") }}.yml) \| *version*: **{{object.version}}**

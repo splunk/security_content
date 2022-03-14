@@ -43,7 +43,7 @@ tags:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.004/ssh_authorized_keys/sysmon_linux.log
   impact: 60
   kill_chain_phases:
-  - Privilege Escalation
+  - Exploitation
   message: A file $file_name$ is created in $file_path$ on $dest$
   mitre_attack_id:
   - T1098.004
@@ -68,3 +68,4 @@ tags:
   - Filesystem.file_path
   risk_score: 36
   security_domain: endpoint
+  asset_type: Endpoint

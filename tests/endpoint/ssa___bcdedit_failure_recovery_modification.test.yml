@@ -1,4 +1,4 @@
-name: BCDEdit Failure Recovery Modification - SSA Unit Test
+name: BCDEdit Failure Recovery Modification Unit Test
 tests:
   - name: BCDEdit Failure Recovery Modification
     file: endpoint/ssa___bcdedit_failure_recovery_modification.yml

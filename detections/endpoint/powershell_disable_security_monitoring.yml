@@ -29,14 +29,22 @@ tags:
   analytic_story:
   - Ransomware
   - Revil Ransomware
-  automated_detection_testing: passed
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/pwh_defender_disabling/windows-sysmon.log
   kill_chain_phases:
   - Exploitation
+  message: ''
   mitre_attack_id:
   - T1562.001
   - T1562
+  observable:
+  - name: ComputerName
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -57,3 +65,7 @@ tags:
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_microsoft_sysmon
+  asset_type: Endpoint
+  confidence: 50
+  impact: 50
+  risk_score: 25.0

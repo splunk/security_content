@@ -32,7 +32,6 @@ references:
 tags:
   analytic_story:
   - blackMatter ransomware
-  automated_detection_testing: passed
   confidence: 50
   context:
   - Source:Endpoint
@@ -65,3 +64,4 @@ tags:
   - Computer
   risk_score: 25
   security_domain: endpoint
+  asset_type: Endpoint
