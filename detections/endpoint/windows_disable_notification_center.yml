@@ -1,4 +1,4 @@
-name: Disable Windows Notification Center
+name: Windows Disable Notification Center
 id: 1cd983c8-8fd6-11ec-a09d-acde48001122
 version: 1
 date: '2022-02-17'
@@ -24,7 +24,7 @@ search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint
   process_path process proc_guid registry_path registry_value_name registry_value_data
   registry_key_name] | table _time dest user parent_process_name parent_process process_name
   process_path process proc_guid registry_path registry_value_name registry_value_data
-  registry_key_name | `disable_windows_notification_center_filter`'
+  registry_key_name | `windows_disable_notification_center_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure
