@@ -8,6 +8,7 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
+  - Actions on Objectives
 ---
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -34,7 +35,9 @@ Run the searches in this story to detect and investigate suspicious behavior tha
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Execution of File with Multiple Extensions](/endpoint/execution_of_file_with_multiple_extensions/) | [Masquerading](/tags/#masquerading), [Rename System Utilities](/tags/#rename-system-utilities) | TTP |
+| [Execution of File With Spaces Before Extension](/deprecated/execution_of_file_with_spaces_before_extension/) | [Rename System Utilities](/tags/#rename-system-utilities)| TTP |
+| [Suspicious Changes to File Associations](/deprecated/suspicious_changes_to_file_associations/) | [Change Default File Association](/tags/#change-default-file-association)| TTP |
+| [Execution of File with Multiple Extensions](/endpoint/execution_of_file_with_multiple_extensions/) | [Masquerading](/tags/#masquerading), [Rename System Utilities](/tags/#rename-system-utilities)| TTP |
 
 #### Reference
 

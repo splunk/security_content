@@ -1,10 +1,10 @@
-name: Rundll32 Control_RunDLL Hunt Unit Test
+name: Rundll32 Control RunDLL Hunt Unit Test
 tests:
-- name: Rundll32 Control_RunDLL Hunt
+- name: Rundll32 Control RunDLL Hunt
   file: endpoint/rundll32_control_rundll_hunt.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-24h'
-  latest_time: 'now'
+  earliest_time: -24h
+  latest_time: now
   attack_data:
   - file_name: windows-sysmon.log
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.002/atomic_red_team/windows-sysmon.log

@@ -26,7 +26,6 @@ references:
 tags:
   analytic_story:
   - Active Directory Lateral Movement
-  automated_detection_testing: passed
   confidence: 90
   context:
   - Source:Endpoint
@@ -38,7 +37,7 @@ tags:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/lateral_movement/windows-security.log
   impact: 90
   kill_chain_phases:
-  - Lateral Movement
+  - Exploitation
   message: A windows scheduled task was created and deleted in 30 seconds on $ComputerName$
   mitre_attack_id:
   - T1053.005
@@ -47,10 +46,6 @@ tags:
     type: Endpoint
     role:
     - Victim
-  - name: Command
-    type: Command
-    role:
-    - Target
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -65,3 +60,4 @@ tags:
   - Command
   risk_score: 81
   security_domain: endpoint
+  asset_type: Endpoint

@@ -8,6 +8,8 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   - Network_Resolution
+  - Actions on Objectives
+  - Command & Control
 ---
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -38,7 +40,10 @@ The searches in this Analytic Story help you detect and investigate activities t
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Detect hosts connecting to dynamic domain providers](/network/detect_hosts_connecting_to_dynamic_domain_providers/) | [Drive-by Compromise](/tags/#drive-by-compromise) | TTP |
+| [Clients Connecting to Multiple DNS Servers](/deprecated/clients_connecting_to_multiple_dns_servers/) | [Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol](/tags/#exfiltration-over-unencrypted/obfuscated-non-c2-protocol)| TTP |
+| [DNS Query Requests Resolved by Unauthorized DNS Servers](/deprecated/dns_query_requests_resolved_by_unauthorized_dns_servers/) | [DNS](/tags/#dns)| TTP |
+| [DNS record changed](/deprecated/dns_record_changed/) | [DNS](/tags/#dns)| TTP |
+| [Detect hosts connecting to dynamic domain providers](/network/detect_hosts_connecting_to_dynamic_domain_providers/) | [Drive-by Compromise](/tags/#drive-by-compromise)| TTP |
 
 #### Reference
 

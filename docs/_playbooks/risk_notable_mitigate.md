@@ -6,10 +6,6 @@ toc_label: ""
 tags:
   - Response
   - Splunk SOAR
-  - N
-  - o
-  - n
-  - e
   - Risk Notable
 ---
 
@@ -21,7 +17,7 @@ This playbook checks for the presence of the Risk Response workbook and updates 
 
 - **Type**: Response
 - **Product**: Splunk SOAR
-- **Apps**: [N](https://splunkbase.splunk.com/apps/#/search/N/product/soar), [o](https://splunkbase.splunk.com/apps/#/search/o/product/soar), [n](https://splunkbase.splunk.com/apps/#/search/n/product/soar), [e](https://splunkbase.splunk.com/apps/#/search/e/product/soar)
+- **Apps**: 
 - **Last Updated**: 2021-10-22
 - **Author**: Kelby Shelton, Splunk
 - **ID**: rn0edc96-ff2b-48b0-9f6f-63da3783fd63
@@ -30,7 +26,7 @@ This playbook checks for the presence of the Risk Response workbook and updates 
 
 
 #### How To Implement
-
+tbd
 
 #### Playbooks
 ![](https://raw.githubusercontent.com/splunk/security_content/develop/playbooks/risk_notable_mitigate.png)

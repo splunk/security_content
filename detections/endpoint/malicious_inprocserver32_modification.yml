@@ -46,7 +46,6 @@ tags:
   analytic_story:
   - Suspicious Regsvr32 Activity
   - Remcos
-  automated_detection_testing: passed
   confidence: 100
   context:
   - Source:Endpoint
@@ -84,3 +83,4 @@ tags:
   - user
   risk_score: 80
   security_domain: endpoint
+  asset_type: Endpoint

@@ -3,8 +3,8 @@ tests:
 - name: Kubernetes Nginx Ingress RFI
   file: cloud/kubernetes_nginx_ingress_rfi.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-365d'
-  latest_time: 'now'
+  earliest_time: -365d
+  latest_time: now
   attack_data:
   - file_name: kubernetes_nginx_rfi_attack.log
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1212/kuberntest_nginx_rfi_attack/kubernetes_nginx_rfi_attack.log

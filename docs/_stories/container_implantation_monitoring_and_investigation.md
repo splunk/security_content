@@ -7,6 +7,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - Exploitation
 ---
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -29,7 +30,8 @@ Container Registrys provide a way for organizations to keep customized images of
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [New container uploaded to AWS ECR](/cloud/new_container_uploaded_to_aws_ecr/) | [Implant Internal Image](/tags/#implant-internal-image) | Hunting |
+| [GCP GCR container uploaded](/deprecated/gcp_gcr_container_uploaded/) | [Implant Internal Image](/tags/#implant-internal-image)| Hunting |
+| [New container uploaded to AWS ECR](/cloud/new_container_uploaded_to_aws_ecr/) | [Implant Internal Image](/tags/#implant-internal-image)| Hunting |
 
 #### Reference
 

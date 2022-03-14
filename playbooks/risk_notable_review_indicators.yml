@@ -6,6 +6,7 @@ author: Kelby Shelton, Splunk
 type: Response
 description: This playbook was designed to be called by a user to process indicators that are marked as suspicious within the SOAR platform. Analysts will review indicators in a prompt and mark them as blocked or safe.
 playbook: risk_notable_review_indicators
+how_to_implement: tbd
 references:
 - https://docs.splunk.com/Documentation/ESSOC/latest/user/Useplaybookpack#Indicator_tagging_system
 app_list:
