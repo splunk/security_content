@@ -32,7 +32,6 @@ references:
 tags:
   analytic_story:
   - Remcos
-  automated_detection_testing: passed
   confidence: 70
   context:
   - Source:Endpoint
@@ -51,7 +50,7 @@ tags:
     role:
     - Victim
   - name: process_name
-    type: process name
+    type: Process
     role:
     - Attacker
   product:
@@ -69,3 +68,4 @@ tags:
   - process
   risk_score: 49
   security_domain: endpoint
+  asset_type: Endpoint

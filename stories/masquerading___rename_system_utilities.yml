@@ -1,21 +1,33 @@
-name: 'Masquerading - Rename System Utilities'
+name: Masquerading - Rename System Utilities
 id: f0258af4-a6ae-11eb-b3c2-acde48001122
 version: 1
 date: '2021-04-26'
 author: Michael Haag, Splunk
-description: Adversaries may rename legitimate system utilities to try to evade security mechanisms concerning the usage of those utilities.
-narrative: 'Security monitoring and control mechanisms may be in place for system utilities adversaries are capable of abusing. 
-  It may be possible to bypass those security mechanisms by renaming the utility prior to utilization (ex: rename rundll32.exe). 
-  An alternative case occurs when a legitimate utility is copied or moved to a different directory and renamed to avoid detections based on system utilities executing from non-standard paths.\
+description: Adversaries may rename legitimate system utilities to try to evade security
+  mechanisms concerning the usage of those utilities.
+narrative: 'Security monitoring and control mechanisms may be in place for system
+  utilities adversaries are capable of abusing. It may be possible to bypass those
+  security mechanisms by renaming the utility prior to utilization (ex: rename rundll32.exe).
+  An alternative case occurs when a legitimate utility is copied or moved to a different
+  directory and renamed to avoid detections based on system utilities executing from
+  non-standard paths.\
 
-  The following content is here to assist with binaries within `system32` or `syswow64` being moved to a new location or an adversary bringing a the binary in to execute.\
-  
-  There will be false positives as some native Windows processes are moved or ran by third party applications from different paths. If file names are mismatched between the file name on disk and that of the binarys PE metadata, this is a likely indicator that a binary was renamed after it was compiled. Collecting and comparing disk and resource filenames for binaries by looking to see if the InternalName, OriginalFilename, and or ProductName match what is expected could provide useful leads, but may not always be indicative of malicious activity. Do not focus on the possible names a file could have, but instead on the command-line arguments that are known to be used and are distinct because it will have a better rate of detection.'
+  The following content is here to assist with binaries within `system32` or `syswow64`
+  being moved to a new location or an adversary bringing a the binary in to execute.\
+
+  There will be false positives as some native Windows processes are moved or ran
+  by third party applications from different paths. If file names are mismatched between
+  the file name on disk and that of the binarys PE metadata, this is a likely indicator
+  that a binary was renamed after it was compiled. Collecting and comparing disk and
+  resource filenames for binaries by looking to see if the InternalName, OriginalFilename,
+  and or ProductName match what is expected could provide useful leads, but may not
+  always be indicative of malicious activity. Do not focus on the possible names a
+  file could have, but instead on the command-line arguments that are known to be
+  used and are distinct because it will have a better rate of detection.'
 references:
 - https://attack.mitre.org/techniques/T1036/003/
 tags:
-  analytic_story:
-  - Masquerading - Rename System Utilities
+  analytic_story: Masquerading - Rename System Utilities
   category:
   - Adversary Tactics
   product:

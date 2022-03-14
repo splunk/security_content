@@ -36,7 +36,6 @@ tags:
   analytic_story:
   - Spearphishing Attachments
   - Microsoft MSHTML Remote Code Execution CVE-2021-40444
-  automated_detection_testing: passed
   confidence: 100
   context:
   - Source:Endpoint
@@ -76,3 +75,4 @@ tags:
   - file_path
   risk_score: 80
   security_domain: endpoint
+  asset_type: Endpoint

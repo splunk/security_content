@@ -1,0 +1,57 @@
+name: Update previously seen users in CloudTrail
+id: 06c036e6-d6d7-4daa-bd76-411c3d356031
+version: 1
+date: '2018-04-30'
+author: Jason Brewer, Splunk
+type: Baseline
+datamodel: []
+description: This search looks for CloudTrail events where a user logs into the console,
+  then updates the baseline of the latest and earliest times, City, Region, and Country
+  we have encountered this user in our dataset, grouped by ARN, within the last hour.
+  NOTE - This baseline search is deprecated and has been updated to use the Authentication
+  Datamodel
+search: '`cloudtrail` eventName=ConsoleLogin | rename userIdentity.arn as user | iplocation
+  src | eval City=if(City LIKE "",src,City),Region=if(Region LIKE "",src,Region) |
+  stats earliest(_time) AS firstTime latest(_time) AS lastTime by user src City Region
+  Country | inputlookup append=t previously_seen_users_console_logins_cloudtrail |
+  stats min(firstTime) as firstTime max(lastTime) as lastTime by user src City Region
+  Country | outputlookup previously_seen_users_console_logins_cloudtrail'
+how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
+  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
+  inputs. Please validate the user name entries in `previously_seen_users_console_logins_cloudtrail`,
+  which is a lookup file created as a result of running this support search.
+known_false_positives: none
+references: []
+tags:
+  analytic_story:
+  - Suspicious AWS Login Activities
+  deployments:
+  - Daily Cache Updates
+  detections:
+  - Detect AWS Console Login by User from New Country
+  - Detect AWS Console Login by User from New Region
+  - Detect AWS Console Login by User from New City
+  - Detect new user AWS Console Login
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - eventName
+  - userIdentity.arn
+  - src
+  security_domain: network
+  kill_chain_phases:
+  - Exploitation
+  confidence: 50
+  impact: 50
+  risk_score: 25
+  context:
+  - Unknown
+  message: tbd
+  observable:
+  - name: field
+    type: Unknown
+    role:
+    - Unknown

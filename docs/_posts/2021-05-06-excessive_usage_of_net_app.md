@@ -1,6 +1,7 @@
 ---
 title: "Excessive Usage Of Net App"
-excerpt: "Account Access Removal"
+excerpt: "Account Access Removal
+"
 categories:
   - Endpoint
 last_modified_at: 2021-05-06
@@ -23,7 +24,7 @@ tags:
 
 This analytic identifies excessive usage of `net.exe` or `net1.exe` within a bucket of time (1 minute). This behavior was seen in a Monero incident where the adversary attempts to create many users, delete and disable users as part of its malicious behavior.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-05-06
@@ -51,9 +52,9 @@ This analytic identifies excessive usage of `net.exe` or `net1.exe` within a buc
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_net](https://github.com/splunk/security_content/blob/develop/macros/process_net.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [process_net](https://github.com/splunk/security_content/blob/develop/macros/process_net.yml)
 
 Note that `excessive_usage_of_net_app_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -95,8 +96,6 @@ unknown. Filter as needed. Modify the time span as needed.
 | 28.0 | 40 | 70 | Excessive usage of net1.exe or net.exe within 1m, with command line $process$ has been detected on $dest$ by $user$ |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -108,6 +107,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log)
 

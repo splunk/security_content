@@ -10,7 +10,7 @@ description: >
   2. Posts a link to this container in the comment field of Splunk ES.
   3. Updates the container name, description, and severity to reflect the data in the notable artifact."
 playbook: risk_notable_preprocess
-how_to_implement:
+how_to_implement: tbd
 references:
 - https://docs.splunk.com/Documentation/ESSOC/latest/user/Useplaybookpack
 app_list:

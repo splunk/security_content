@@ -32,17 +32,15 @@ references:
 tags:
   analytic_story:
   - Ryuk Ransomware
-  automated_detection_testing: passed
   confidence: 90
   context:
-  - source:endpoint
-  - stage: Execution
+  - Source:Endpoint
+  - Stage:Execution
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.003/ryuk/windows-sysmon.log
   impact: 70
   kill_chain_phases:
   - Exploitation
-  - Lateral Movement
   message: A process $process_name$ with wake on LAN commandline $process$ in host
     $dest$
   mitre_attack_id:
@@ -54,7 +52,7 @@ tags:
     role:
     - Victim
   - name: user
-    type: user
+    type: User
     role:
     - Victim
   product:
@@ -75,3 +73,4 @@ tags:
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_microsoft_sysmon
+  asset_type: Endpoint

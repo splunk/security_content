@@ -28,7 +28,6 @@ references:
 tags:
   analytic_story:
   - PetitPotam NTLM Relay on Active Directory Certificate Services
-  automated_detection_testing: passed
   confidence: 70
   context:
   - Source:Endpoint
@@ -40,7 +39,6 @@ tags:
   impact: 80
   kill_chain_phases:
   - Exploitation
-  - Lateral Movement
   message: A Kerberos TGT was requested in a non-standard manner against $dest$, potentially
     related to CVE-2021-36942, PetitPotam.
   mitre_attack_id:
@@ -63,3 +61,4 @@ tags:
   - Message
   risk_score: 56
   security_domain: endpoint
+  asset_type: Endpoint

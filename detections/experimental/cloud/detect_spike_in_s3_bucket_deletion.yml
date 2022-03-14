@@ -1,5 +1,5 @@
 name: Detect Spike in S3 Bucket deletion
-id: ad12w478-84a8-4641-a3w1-e32372q4bd53
+id: e733a326-59d2-446d-b8db-14a17151aa68
 version: 1
 date: '2018-11-27'
 author: Bhavin Patel, Splunk
@@ -58,5 +58,14 @@ tags:
   - userIdentity.arn
   risk_object: user
   risk_object_type: user
-  risk_score: 10
+  risk_score: 25
   security_domain: network
+  confidence: 50
+  impact: 50
+  context: []
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  message: tbd

@@ -1,10 +1,10 @@
-name: WBAdmin Delete System Backups - SSA Unit Test
+name: WBAdmin Delete System Backups Unit Test
 tests:
-  - name: WBAdmin Delete System Backups
-    file: endpoint/ssa___wbadmin_delete_system_backups.yml
-    pass_condition: '@count_gt(0)'
-    description: Test detection of WBAdmin Delete System Backups
-    attack_data:
-      - file_name: windows-security_bcdedit_wbadmin.log
-        data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1490/atomic_red_team/windows-security_bcdedit_wbadmin.log
-        source: WinEventLog:Security
+- name: WBAdmin Delete System Backups
+  file: endpoint/ssa___wbadmin_delete_system_backups.yml
+  pass_condition: '@count_gt(0)'
+  description: Test detection of WBAdmin Delete System Backups
+  attack_data:
+  - file_name: windows-sysmon.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1490/atomic_red_team/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational

@@ -44,20 +44,14 @@ detections:
     children:
       - title: Authentication
         url: /detections/authentication/
-      - title: Certificates
-        url: /detections/certificates/
       - title: Change
         url: /detections/change/
+      - title: Change_Analysis
+        url: /detections/change_analysis/
       - title: Email
         url: /detections/email/
       - title: Endpoint
         url: /detections/endpoint/
-      - title: Endpoint_Filesystem
-        url: /detections/endpoint_filesystem/
-      - title: Endpoint_Processes
-        url: /detections/endpoint_processes/
-      - title: Endpoint_Registry
-        url: /detections/endpoint_registry/
       - title: Network_Resolution
         url: /detections/network_resolution/
       - title: Network_Sessions
@@ -66,8 +60,12 @@ detections:
         url: /detections/network_traffic/
       - title: Risk
         url: /detections/risk/
+      - title: UEBA
+        url: /detections/ueba/
       - title: Updates
         url: /detections/updates/
+      - title: Vulnerabilities
+        url: /detections/vulnerabilities/
       - title: Web
         url: /detections/web/
   - title: "Product"
@@ -83,16 +81,24 @@ stories:
     children:
       - title: Abuse
         url: /stories/abuse/
+      - title: Account Compromise
+        url: /stories/account_compromise/
       - title: Adversary Tactics
         url: /stories/adversary_tactics/
       - title: Best Practices
         url: /stories/best_practices/
       - title: Cloud Security
         url: /stories/cloud_security/
+      - title: Lateral Movement
+        url: /stories/lateral_movement/
       - title: Malware
         url: /stories/malware/
       - title: Privilege Escalation
         url: /stories/privilege_escalation/
+      - title: Ransomware
+        url: /stories/ransomware/
+      - title: Unauthorized Software
+        url: /stories/unauthorized_software/
       - title: Vulnerability
         url: /stories/vulnerability/
 playbooks:

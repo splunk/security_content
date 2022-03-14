@@ -32,12 +32,10 @@ references:
 tags:
   analytic_story:
   - Cobalt Strike
-  automated_detection_testing: passed
   confidence: 100
   context:
-  - source:endpoint
-  - stage: Defense Evasion
-  - Privilege Escalation
+  - Source:Endpoint
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon_searchprotocolhost.log
   impact: 70
@@ -53,7 +51,7 @@ tags:
     role:
     - Victim
   - name: process_name
-    type: processname
+    type: Process Name
     role:
     - Attacker
   product:
@@ -69,3 +67,4 @@ tags:
   - process_path
   risk_score: 70
   security_domain: endpoint
+  asset_type: Endpoint
