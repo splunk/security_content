@@ -1,0 +1,78 @@
+name: Windows Disable Notification Center
+id: 1cd983c8-8fd6-11ec-a09d-acde48001122
+version: 1
+date: '2022-02-17'
+author: Teoderick Contreras, Splunk
+type: Anomaly
+datamodel:
+- Endpoint
+description: The following search identifies a modification of registry to disable
+  the windows notification center feature in a windows host machine. This registry modification removes 
+  notification and action center from the notification area on the task bar. 
+  This modification are seen in RAT malware to cover their tracks upon
+  downloading other of its component or other payload.
+search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Registry
+  where Registry.registry_value_name= "DisableNotificationCenter"
+  Registry.registry_value_data = "0x00000001" by _time span=1h Registry.dest Registry.user
+  Registry.registry_path Registry.registry_value_name Registry.registry_key_name Registry.process_guid
+  Registry.registry_value_data | `drop_dm_object_name(Registry)` |rename process_guid
+  as proc_guid |join proc_guid, _time [| tstats `security_content_summariesonly` count
+  FROM datamodel=Endpoint.Processes by _time span=1h Processes.process_id Processes.process_name
+  Processes.process Processes.dest Processes.parent_process_name Processes.parent_process
+  Processes.process_guid | `drop_dm_object_name(Processes)` |rename process_guid as
+  proc_guid | fields _time dest user parent_process_name parent_process process_name
+  process_path process proc_guid registry_path registry_value_name registry_value_data
+  registry_key_name] | table _time dest user parent_process_name parent_process process_name
+  process_path process proc_guid registry_path registry_value_name registry_value_data
+  registry_key_name | `windows_disable_notification_center_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure
+  that this registry was included in your config files ex. sysmon config to be monitored.
+known_false_positives: admin or user may choose to disable this windows features.
+references:
+-  https://tccontre.blogspot.com/2020/01/remcos-rat-evading-windows-defender-av.html
+tags:
+  analytic_story:
+  - Windows Defense Evasion Tactics
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/disable_notif_center/sysmon.log
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1112
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Registry.registry_key_name
+  - Registry.registry_path
+  - Registry.user
+  - Registry.dest
+  - Registry.registry_value_nam
+  security_domain: endpoint
+  impact: 60
+  confidence: 80 
+  # (impact * confidence)/100
+  risk_score: 48
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  message: The Windows notification center was disabled on $dest$ by $user$.
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  nist:
+  - PR.PT
+  - DE.CM
+  cis20:
+  - CIS 8
+  asset_type: Endpoint
