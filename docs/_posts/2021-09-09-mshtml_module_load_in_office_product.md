@@ -16,6 +16,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - CVE-2021-40444
   - Endpoint
 ---
 
@@ -56,8 +57,8 @@ The following detection identifies the module load of mshtml.dll into an Office 
 
 #### Macros
 The SPL above uses the following Macros:
-* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 
 Note that `mshtml_module_load_in_office_product_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -92,6 +93,12 @@ Limited false positives will be present, however, tune as necessary.
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | An instance of $process_name$ was identified on endpoint $dest$ loading mshtml.dll. |
 
+
+#### CVE
+
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+| [CVE-2021-40444](https://nvd.nist.gov/vuln/detail/CVE-2021-40444) | Microsoft MSHTML Remote Code Execution Vulnerability | 6.8 |
 
 
 

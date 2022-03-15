@@ -10,6 +10,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - CVE-2016-4859
 ---
 
 
@@ -64,6 +65,12 @@ None identified
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
 
+
+#### CVE
+
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+| [CVE-2016-4859](https://nvd.nist.gov/vuln/detail/CVE-2016-4859) | Open redirect vulnerability in Splunk Enterprise 6.4.x prior to 6.4.3, Splunk Enterprise 6.3.x prior to 6.3.6, Splunk Enterprise 6.2.x prior to 6.2.10, Splunk Enterprise 6.1.x prior to 6.1.11, Splunk Enterprise 6.0.x prior to 6.0.12, Splunk Enterprise 5.0.x prior to 5.0.16 and Splunk Light prior to 6.4.3 allows to redirect users to arbitrary web sites and conduct phishing attacks via unspecified vectors. | 5.8 |
 
 
 

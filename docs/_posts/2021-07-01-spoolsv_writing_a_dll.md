@@ -18,6 +18,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - CVE-2021-34527
   - Endpoint
 ---
 
@@ -99,6 +100,12 @@ Unknown.
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 80 | 90 | $process_name$ has been identified writing dll's to $file_path$ on endpoint $dest$. This behavior is suspicious and related to PrintNightmare. |
 
+
+#### CVE
+
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+| [CVE-2021-34527](https://nvd.nist.gov/vuln/detail/CVE-2021-34527) | Windows Print Spooler Remote Code Execution Vulnerability | 9.0 |
 
 
 

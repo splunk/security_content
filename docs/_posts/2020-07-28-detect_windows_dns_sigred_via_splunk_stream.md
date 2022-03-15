@@ -13,6 +13,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - CVE-2020-1350
 ---
 
 ###  WARNING THIS IS A EXPERIMENTAL object
@@ -56,8 +57,8 @@ This search detects SIGRed via Splunk Stream.
 
 #### Macros
 The SPL above uses the following Macros:
-* [stream_tcp](https://github.com/splunk/security_content/blob/develop/macros/stream_tcp.yml)
 * [stream_dns](https://github.com/splunk/security_content/blob/develop/macros/stream_dns.yml)
+* [stream_tcp](https://github.com/splunk/security_content/blob/develop/macros/stream_tcp.yml)
 
 Note that `detect_windows_dns_sigred_via_splunk_stream_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -86,6 +87,12 @@ unknown
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
 
+
+#### CVE
+
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+| [CVE-2020-1350](https://nvd.nist.gov/vuln/detail/CVE-2020-1350) | A remote code execution vulnerability exists in Windows Domain Name System servers when they fail to properly handle requests, aka 'Windows DNS Server Remote Code Execution Vulnerability'. | 10.0 |
 
 
 
