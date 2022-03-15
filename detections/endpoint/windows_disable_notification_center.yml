@@ -58,8 +58,8 @@ tags:
   # (impact * confidence)/100
   risk_score: 48
   context:
-  - Source: Endpoint
-  - Stage: Defense Evasion
+  - Source:Endpoint
+  - Stage:Defense Evasion
   message: The Windows notification center was disabled on $dest$ by $user$.
   observable:
   - name: user
