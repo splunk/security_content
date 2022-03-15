@@ -1,0 +1,84 @@
+name: Windows Disable Windows Group Policy Features Through Registry
+id: 63a449ae-9f04-11ec-945e-acde48001122
+version: 1
+date: '2022-03-08'
+author: Teoderick Contreras, Splunk
+type: Anomaly
+datamodel:
+- Endpoint
+description: This analytic is to detect a suspicious registry modification to disable windows features. 
+  These techniques are seen in several ransomware malware to impair the compromised host to make it hard for analyst to mitigate or response 
+  from the attack. Disabling these known features make the analysis and forensic response more hard. Disabling these feature is not so common but 
+  can still be implemented by the administrator for security purposes. In this scenario filters for users that are allowed doing this is needed.
+search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Registry
+  where Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\*" OR Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\*"
+  Registry.registry_value_name IN ("NoDesktop", "NoFind", "NoControlPanel", "NoFileMenu", "NoSetTaskbar", "NoTrayContextMenu", 
+  "TaskbarLockAll", "NoThemesTab","NoPropertiesMyDocuments","NoVisualStyleChoice","NoColorChoice","NoPropertiesMyDocuments")
+  Registry.registry_value_data = "0x00000001" 
+  by _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_value_name Registry.registry_value_data
+  Registry.process_guid | `drop_dm_object_name(Registry)` |rename process_guid as
+  proc_guid |join proc_guid, _time [| tstats `security_content_summariesonly` count
+  FROM datamodel=Endpoint.Processes by _time span=1h Processes.process_id Processes.process_name
+  Processes.process Processes.dest Processes.parent_process_name Processes.parent_process
+  Processes.process_guid | `drop_dm_object_name(Processes)` |rename process_guid as
+  proc_guid | fields _time dest user parent_process_name parent_process process_name
+  process_path process proc_guid registry_path registry_value_name registry_value_data]
+  | table _time dest user parent_process_name parent_process process_name process_path
+  process proc_guid registry_path registry_value_name registry_value_data 
+  | `windows_disable_windows_group_policy_features_through_registry_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the Filesystem responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` and `Registry` node.
+known_false_positives: unknown
+references:
+- https://hybrid-analysis.com/sample/ef1c427394c205580576d18ba68d5911089c7da0386f19d1ca126929d3e671ab?environmentId=120&lang=en
+- https://www.sophos.com/de-de/threat-center/threat-analyses/viruses-and-spyware/Troj~Krotten-N/detailed-analysis
+- https://www.virustotal.com/gui/file/2d7855bf6470aa323edf2949b54ce2a04d9e38770f1322c3d0420c2303178d91/details
+tags:
+  analytic_story:
+  - Ransomware
+  - Windows Defense Evasion Tactics
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/ransomware_disable_reg/sysmon.log
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1112
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Registry.registry_key_name
+  - Registry.registry_path
+  - Registry.registry_value_name
+  - Registry.dest Registry.user
+  - Processes.process_id 
+  - Processes.process_name
+  - Processes.process 
+  - Processes.dest 
+  - Processes.parent_process_name 
+  - Processes.parent_process
+  - Processes.process_guid 
+  security_domain: endpoint
+  impact: 70
+  confidence: 70 
+  # (impact * confidence)/100
+  risk_score: 49
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  message: Registry modification to disable windows features on $dest$
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  nist:
+  - DE.CM
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  asset_type: Endpoint
