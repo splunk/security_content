@@ -187,13 +187,18 @@ def generate_escu_app(persist_security_content: bool = False) -> str:
                     ". ./.venv/bin/activate",
                     "python -m pip install wheel",
                     "python -m pip install -r requirements.txt",
-                    "python contentctl.py --path . generate --product ESCU --output dist/escu",
-                    "tar -czf DA-ESS-ContentUpdate.spl -C dist/escu ."]
+                    "python contentctl.py --path . generate --product ESCU --output dist/escu"]
     else:
         commands = [". ./.venv/bin/activate",
-                    "python contentctl.py --path . generate --product ESCU --output dist/escu",
-                    "tar -czf DA-ESS-ContentUpdate.spl -C dist/escu ."]
+                    "python contentctl.py --path . generate --product ESCU --output dist/escu"]
     ret = subprocess.run("; ".join(commands),
+                         shell=True, capture_output=True)
+    if ret.returncode != 0:
+        print("Error generating new content.\n\tQuitting and dumping error...\n[%s]" % (
+            ret.stderr))
+        sys.exit(1)
+
+    ret = subprocess.run("tar -czf DA-ESS-ContentUpdate.spl -C dist/escu .",
                          shell=True, capture_output=True)
     if ret.returncode != 0:
         print("Error generating new content.\n\tQuitting and dumping error...\n[%s]" % (
