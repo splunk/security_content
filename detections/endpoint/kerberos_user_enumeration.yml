@@ -62,3 +62,4 @@ tags:
     type: Endpoint
     role:
     - Victim
+  asset_type: Endpoint

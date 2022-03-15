@@ -31,8 +31,7 @@ tags:
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1550/rubeus/windows-security.log
   kill_chain_phases:
-  - Privilege Escalation
-  - Lateral Movement
+  - Reconnaissance
   mitre_attack_id:
   - T1550
   product:
@@ -58,7 +57,7 @@ tags:
   - Source:Endpoint
   - Stage:Privilege Escalation
   - Stage:Lateral Movement
-  message: 
+  message: ''
   observable:
   - name: src_ip
     type: IP Address
@@ -68,3 +67,4 @@ tags:
     type: IP Address
     role:
     - Victim
+  asset_type: Endpoint
