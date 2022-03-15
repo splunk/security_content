@@ -3,7 +3,7 @@ id: d82d4af4-a0bd-11ec-9445-3e22fbd008af
 version: 1
 date: '2022-03-10'
 author: Mauricio Velazco, Splunk
-type: TTP
+type: Anomaly
 datamodel: []
 description: The following analytic leverages Event Id 4768, A Kerberos authentication ticket (TGT) was requested, to identify 
   one source endpoint trying to obtain an unusual number Kerberos TGT ticket for non existing users. This behavior could represent an adversary 
