@@ -36,6 +36,7 @@ references:
 tags:
   analytic_story:
   - Suspicious Compiled HTML Activity
+  - Living Off The Land
   asset_type: Endpoint
   cis20:
   - CIS 8

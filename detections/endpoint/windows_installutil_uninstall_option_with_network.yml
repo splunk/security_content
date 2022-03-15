@@ -49,6 +49,7 @@ references:
 tags:
   analytic_story:
   - Signed Binary Proxy Execution InstallUtil
+  - Living Off The Land
   confidence: 100
   context:
   - Source:Endpoint
