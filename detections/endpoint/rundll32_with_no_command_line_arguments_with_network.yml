@@ -14,7 +14,7 @@ description: The following analytic identifies rundll32.exe with no command line
   dumping or file writes. Rundll32.exe is natively found in C:\Windows\system32 and
   C:\Windows\syswow64.
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
-  where `process_rundll32` by _time span=1h  Processes.process_guid Processes.process_name
+  where `process_rundll32` by _time span=1h  Processes.process_id Processes.process_name
   Processes.dest Processes.process_path Processes.process Processes.parent_process_name
   Processes.original_file_name | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | regex process="(?i)(rundll32\.exe.{0,4}$)" 

@@ -14,7 +14,7 @@ description: The following analytic identifies gpupdate.exe with no command line
   dumping or file writes. gpupdate.exe is natively found in C:\Windows\system32 and
   C:\Windows\syswow64.
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
-  where Processes.process_name=gpupdate.exe by _time span=1h  Processes.process_guid
+  where Processes.process_name=gpupdate.exe by _time span=1h  Processes.process_id
   Processes.process_name Processes.dest Processes.process_path Processes.process Processes.parent_process_name
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | regex process="(?i)(gpupdate\.exe.{0,4}$)"| join  process_id [| tstats `security_content_summariesonly`
