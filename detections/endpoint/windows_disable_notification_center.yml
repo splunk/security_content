@@ -75,3 +75,4 @@ tags:
   - DE.CM
   cis20:
   - CIS 8
+  asset_type: Endpoint
