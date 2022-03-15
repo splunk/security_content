@@ -82,10 +82,11 @@ tags:
     role:
     - Victim
   - name: parent_process_name
-    type: Parent Process
+    type: Process Name
     role:
     - Parent Process
   - name: process_name
     type: Process
     role:
     - Child Process
+  asset_type: Endpoint
