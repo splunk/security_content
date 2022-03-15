@@ -28,7 +28,6 @@ tags:
   - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
   - Ransomware
   asset_type: Endpoint
-  automated_detection_testing: passed
   cis20:
   - CIS 8
   confidence: 60

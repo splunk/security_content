@@ -1,5 +1,5 @@
 name: Detection of tools built by NirSoft
-id: 1297fb80-f42a-4q4a-9c8b-78c061417cf6
+id: 3d8d201c-aa03-422d-b0ee-2e5ecf9718c0
 version: 3
 date: '2020-07-21'
 author: Bhavin Patel, Splunk
@@ -45,3 +45,13 @@ tags:
   - Processes.process_name
   - Processes.user
   security_domain: endpoint
+  confidence: 50
+  impact: 50
+  risk_score: 25
+  context: []
+  message: tbd
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim

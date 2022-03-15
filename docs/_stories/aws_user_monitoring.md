@@ -7,6 +7,8 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - Actions on Objectives
+  - Exploitation
 ---
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -32,7 +34,12 @@ The detection searches in this Analytic Story are designed to help you uncover A
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [AWS Excessive Security Scanning](/cloud/aws_excessive_security_scanning/) | [Cloud Service Discovery](/tags/#cloud-service-discovery) | TTP |
+| [AWS Excessive Security Scanning](/cloud/aws_excessive_security_scanning/) | [Cloud Service Discovery](/tags/#cloud-service-discovery)| TTP |
+| [Detect API activity from users without MFA](/deprecated/detect_api_activity_from_users_without_mfa/) | None| Hunting |
+| [Detect AWS API Activities From Unapproved Accounts](/deprecated/detect_aws_api_activities_from_unapproved_accounts/) | [Cloud Accounts](/tags/#cloud-accounts)| Hunting |
+| [Detect new API calls from user roles](/deprecated/detect_new_api_calls_from_user_roles/) | [Cloud Accounts](/tags/#cloud-accounts)| Anomaly |
+| [Detect Spike in AWS API Activity](/deprecated/detect_spike_in_aws_api_activity/) | [Cloud Accounts](/tags/#cloud-accounts)| Anomaly |
+| [Detect Spike in Security Group Activity](/deprecated/detect_spike_in_security_group_activity/) | [Cloud Accounts](/tags/#cloud-accounts)| Anomaly |
 
 #### Reference
 

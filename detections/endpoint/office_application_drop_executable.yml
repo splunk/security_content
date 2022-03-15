@@ -36,11 +36,10 @@ references:
 tags:
   analytic_story:
   - FIN7
-  automated_detection_testing: passed
   confidence: 80
   context:
   - Source:Endpoint
-  - Stage:recon
+  - Stage:Recon
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_macro_js_1/sysmon.log
   impact: 80
@@ -56,7 +55,7 @@ tags:
     role:
     - Victim
   - name: process_name
-    type: process name
+    type: Process
     role:
     - Attacker
   product:
@@ -72,3 +71,4 @@ tags:
   - user_id
   risk_score: 64
   security_domain: endpoint
+  asset_type: Endpoint

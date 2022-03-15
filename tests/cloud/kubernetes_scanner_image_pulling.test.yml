@@ -3,8 +3,8 @@ tests:
 - name: Kubernetes Scanner Image Pulling
   file: cloud/kubernetes_scanner_image_pulling.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-7d'
-  latest_time: 'now'
+  earliest_time: -7d
+  latest_time: now
   attack_data:
   - file_name: kubernetes_kube_hunter.json
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1526/kubernetes_kube_hunter/kubernetes_kube_hunter.json

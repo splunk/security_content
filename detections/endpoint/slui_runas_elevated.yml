@@ -33,11 +33,10 @@ tags:
   analytic_story:
   - DarkSide Ransomware
   - Windows Defense Evasion Tactics
-  automated_detection_testing: passed
   confidence: 90
   context:
-  - source:endpoint
-  - stage: Privilege Escalation
+  - Source:Endpoint
+  - Stage:Privilege Escalation
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.002/slui/windows-sysmon.log
   impact: 70
@@ -74,3 +73,4 @@ tags:
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_microsoft_sysmon
+  asset_type: Endpoint

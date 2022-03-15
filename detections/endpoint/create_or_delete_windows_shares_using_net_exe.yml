@@ -1,5 +1,5 @@
 name: Create or delete windows shares using net exe
-id: qw9919ed-fe5f-492c-b139-151bb162140e
+id: 743a322c-9a68-4a0f-9c17-85d9cce2a27c
 version: 6
 date: '2020-09-16'
 author: Bhavin Patel, Splunk
@@ -27,7 +27,6 @@ tags:
   analytic_story:
   - Hidden Cobra Malware
   asset_type: Endpoint
-  automated_detection_testing: passed
   cis20:
   - CIS 8
   confidence: 50
@@ -57,7 +56,7 @@ tags:
     role:
     - Victim
   - name: parent_process_name
-    type: Parent Process
+    type: Process
     role:
     - Parent Process
   - name: process_name

@@ -3,11 +3,11 @@ tests:
 - name: Suspicious Computer Account Name Change
   file: endpoint/suspicious_computer_account_name_change.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-24h'
-  latest_time: 'now'
+  earliest_time: -24h
+  latest_time: now
   attack_data:
   - file_name: windows-security.log
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/samaccountname_spoofing/windows-security.log
     source: WinEventLog:Security
     sourcetype: WinEventLog
-    update_timestamp: True
+    update_timestamp: true

@@ -1,6 +1,8 @@
 ---
 title: "Gsuite Drive Share In External Email"
-excerpt: "Exfiltration to Cloud Storage, Exfiltration Over Web Service"
+excerpt: "Exfiltration to Cloud Storage
+, Exfiltration Over Web Service
+"
 categories:
   - Cloud
 last_modified_at: 2021-08-16
@@ -8,13 +10,12 @@ toc: true
 toc_label: ""
 tags:
   - Exfiltration to Cloud Storage
-  - Exfiltration
   - Exfiltration Over Web Service
+  - Exfiltration
   - Exfiltration
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Dev Sec Ops Analytics
 ---
 
 
@@ -25,8 +26,8 @@ tags:
 
 This search is to detect suspicious google drive or google docs files shared outside or externally. This behavior might be a good hunting query to monitor exfitration of data made by an attacker or insider to a targetted machine.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Dev Sec Ops Analytics
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-08-16
 - **Author**: Teoderick Contreras, Splunk
@@ -86,7 +87,7 @@ network admin or normal user may share files to customer and external team.
 
 
 #### Kill Chain Phase
-* Exfiltration
+* Exploitation
 
 
 
@@ -96,8 +97,6 @@ network admin or normal user may share files to customer and external team.
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 80 | 90 | suspicious share gdrive from $parameters.owner$ to $email$ namely as $parameters.doc_title$ |
 
-
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 
@@ -110,6 +109,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1567.002/gsuite_share_drive/gdrive_share_external.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1567.002/gsuite_share_drive/gdrive_share_external.log)
 

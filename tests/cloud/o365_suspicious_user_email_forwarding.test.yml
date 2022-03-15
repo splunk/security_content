@@ -3,10 +3,10 @@ tests:
 - name: O365 Suspicious User Email Forwarding
   file: cloud/o365_suspicious_user_email_forwarding.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-24h'
-  latest_time: 'now'
+  earliest_time: -24h
+  latest_time: now
   attack_data:
   - file_name: o365_email_forwarding_rule.json
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114.003/o365_email_forwarding_rule/o365_email_forwarding_rule.json
-    sourcetype: 'o365:management:activity'
-    source: 'o365'
+    sourcetype: o365:management:activity
+    source: o365

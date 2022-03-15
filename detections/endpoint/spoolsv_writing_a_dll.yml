@@ -34,7 +34,6 @@ references:
 tags:
   analytic_story:
   - PrintNightmare CVE-2021-34527
-  automated_detection_testing: passed
   confidence: 90
   context:
   - Source:Endpoint
@@ -60,7 +59,7 @@ tags:
   - name: process_id
     type: Process
     role:
-    - Process
+    - Child Process
   - name: file_path
     type: File
     role:
@@ -83,3 +82,4 @@ tags:
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_microsoft_sysmon
+  asset_type: Endpoint

@@ -42,7 +42,7 @@ tags:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1560.001/archive_tools/windows-security.log
   impact: 70
   kill_chain_phases:
-  - Actions on Objective
+  - Exploitation
   message: An instance of $parent_process_name$ spawning $process_name$ was identified
     on endpoint $dest$ by user $user$. This behavior is indicative of suspicious loading
     of 7zip.
@@ -60,7 +60,7 @@ tags:
     role:
     - Victim
   - name: parent_process_name
-    type: Parent Process
+    type: Process
     role:
     - Parent Process
   - name: process_name
@@ -80,3 +80,4 @@ tags:
   risk_score: 42
   risk_severity: medium
   security_domain: endpoint
+  asset_type: Endpoint

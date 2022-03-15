@@ -1,0 +1,430 @@
+[
+    {
+        "name": "DarkSide Ransomware",
+        "id": "507edc74-13d5-4339-878e-b9114ded1f35",
+        "version": 1,
+        "date": "2021-05-12",
+        "author": "Bhavin Patel, Splunk",
+        "description": "Leverage searches that allow you to detect and investigate unusual activities that might relate to the DarkSide Ransomware",
+        "narrative": "This story addresses Darkside ransomware. This ransomware payload has many similarities to common ransomware however there are certain items particular to it. The creation of a .TXT log that shows every item being encrypted as well as the creation of ransomware notes and files adding a machine ID created based on CRC32 checksum algorithm. This ransomware payload leaves machines in minimal operation level,enough to browse the attackers websites. A customized URI with leaked information is presented to each victim.This is the ransomware payload that shut down the Colonial pipeline. The story is composed of several detection searches covering similar items to other ransomware payloads and those particular to Darkside payload.",
+        "references": [
+            "https://www.splunk.com/en_us/blog/security/the-darkside-of-the-ransomware-pipeline.htmlbig-game-hunting-with-ryuk-another-lucrative-targeted-ransomware/",
+            "https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html"
+        ],
+        "tags": {
+            "name": "DarkSide Ransomware",
+            "analytic_story": "DarkSide Ransomware",
+            "category": [
+                "Malware"
+            ],
+            "product": [
+                "Splunk Enterprise",
+                "Splunk Enterprise Security",
+                "Splunk Cloud"
+            ],
+            "usecase": "Advanced Threat Detection"
+        },
+        "detection_names": [
+            "ESCU - Attempted Credential Dump From Registry via Reg exe - Rule"
+        ],
+        "investigation_names": [
+            "ESCU - Get Parent Process Info - Response Task"
+        ],
+        "baseline_names": [
+            "ESCU - Baseline Of Cloud Instances Launched"
+        ],
+        "author_company": "Splunk",
+        "author_name": "Bhavin Patel",
+        "detections": [
+            {
+                "name": "Attempted Credential Dump From Registry via Reg exe",
+                "id": "e9fb4a59-c5fb-440a-9f24-191fbc6b2911",
+                "version": 6,
+                "date": "2021-09-16",
+                "author": "Patrick Bareiss, Splunk",
+                "type": "TTP",
+                "datamodel": [
+                    "Endpoint"
+                ],
+                "description": "Monitor for execution of reg.exe with parameters specifying an export of keys that contain hashed credentials that attackers may try to crack offline.",
+                "search": "| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where `process_reg` OR `process_cmd` Processes.process=*save* (Processes.process=*HKEY_LOCAL_MACHINE\\\\Security* OR Processes.process=*HKEY_LOCAL_MACHINE\\\\SAM* OR Processes.process=*HKEY_LOCAL_MACHINE\\\\System* OR Processes.process=*HKLM\\\\Security* OR Processes.process=*HKLM\\\\System* OR Processes.process=*HKLM\\\\SAM*) by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.original_file_name Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `attempted_credential_dump_from_registry_via_reg_exe_filter`",
+                "how_to_implement": "To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.",
+                "known_false_positives": "None identified.",
+                "references": [
+                    "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.002/T1003.002.md#atomic-test-1---registry-dump-of-sam-creds-and-secrets"
+                ],
+                "tags": {
+                    "name": "Attempted Credential Dump From Registry via Reg exe",
+                    "analytic_story": [
+                        "Credential Dumping",
+                        "DarkSide Ransomware"
+                    ],
+                    "asset_type": "Endpoint",
+                    "automated_detection_testing": "passed",
+                    "cis20": [
+                        "CIS 3",
+                        "CIS 5",
+                        "CIS 16"
+                    ],
+                    "confidence": 100,
+                    "context": [
+                        "Source:Endpoint",
+                        "Stage:Credential Access"
+                    ],
+                    "dataset": [
+                        "https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.002/atomic_red_team/windows-sysmon.log"
+                    ],
+                    "impact": 90,
+                    "kill_chain_phases": [
+                        "Actions on Objectives"
+                    ],
+                    "message": "An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to export the registry keys.",
+                    "mitre_attack_id": [
+                        "T1003.002",
+                        "T1003"
+                    ],
+                    "nist": [
+                        "DE.CM"
+                    ],
+                    "observable": [
+                        {
+                            "name": "user",
+                            "type": "User",
+                            "role": [
+                                "Victim"
+                            ]
+                        },
+                        {
+                            "name": "dest",
+                            "type": "Hostname",
+                            "role": [
+                                "Victim"
+                            ]
+                        },
+                        {
+                            "name": "parent_process_name",
+                            "type": "Process",
+                            "role": [
+                                "Parent Process"
+                            ]
+                        },
+                        {
+                            "name": "process_name",
+                            "type": "Process",
+                            "role": [
+                                "Child Process"
+                            ]
+                        }
+                    ],
+                    "product": [
+                        "Splunk Enterprise",
+                        "Splunk Enterprise Security",
+                        "Splunk Cloud"
+                    ],
+                    "required_fields": [
+                        "_time",
+                        "Processes.dest",
+                        "Processes.user",
+                        "Processes.parent_process_name",
+                        "Processes.parent_process",
+                        "Processes.original_file_name",
+                        "Processes.process_name",
+                        "Processes.process",
+                        "Processes.process_id",
+                        "Processes.parent_process_path",
+                        "Processes.process_path",
+                        "Processes.parent_process_id"
+                    ],
+                    "risk_score": 90,
+                    "security_domain": "endpoint",
+                    "risk_severity": "high",
+                    "mitre_attack_techniques": [
+                        "Security Account Manager",
+                        "OS Credential Dumping"
+                    ],
+                    "mitre_attack_tactics": [
+                        "Credential Access"
+                    ],
+                    "mitre_attack_groups": [
+                        "Wizard Spider",
+                        "Threat Group-3390",
+                        "Ke3chang",
+                        "GALLIUM",
+                        "Night Dragon",
+                        "Dragonfly 2.0",
+                        "menuPass",
+                        "Tonto Team",
+                        "APT39",
+                        "Frankenstein",
+                        "APT32",
+                        "APT28",
+                        "Leviathan",
+                        "Sowbug",
+                        "Suckfly",
+                        "Poseidon Group",
+                        "Axiom"
+                    ]
+                },
+                "deprecated": false,
+                "experimental": false,
+                "deployment": {
+                    "name": "ESCU Default Configuration TTP",
+                    "id": "b81cd059-a3e8-4c03-96ca-e168c50ff70b",
+                    "date": "2021-12-21",
+                    "author": "Patrick Bareiss",
+                    "description": "This configuration file applies to all detections of type TTP. These detections will use Risk Based Alerting and generate Notable Events.",
+                    "scheduling": {
+                        "cron_schedule": "0 * * * *",
+                        "earliest_time": "-70m@m",
+                        "latest_time": "-10m@m",
+                        "schedule_window": "auto"
+                    },
+                    "notable": {
+                        "rule_description": "%description%",
+                        "rule_title": "%name%",
+                        "nes_fields": [
+                            "user",
+                            "dest"
+                        ]
+                    },
+                    "rba": {
+                        "enabled": "true"
+                    },
+                    "tags": {
+                        "type": "TTP"
+                    }
+                },
+                "annotations": {
+                    "mitre_attack": [
+                        "T1003.002",
+                        "T1003"
+                    ],
+                    "kill_chain_phases": [
+                        "Actions on Objectives"
+                    ],
+                    "cis20": [
+                        "CIS 3",
+                        "CIS 5",
+                        "CIS 16"
+                    ],
+                    "nist": [
+                        "DE.CM"
+                    ],
+                    "analytic_story": [
+                        "Credential Dumping",
+                        "DarkSide Ransomware"
+                    ],
+                    "observable": [
+                        {
+                            "name": "user",
+                            "type": "User",
+                            "role": [
+                                "Victim"
+                            ]
+                        },
+                        {
+                            "name": "dest",
+                            "type": "Hostname",
+                            "role": [
+                                "Victim"
+                            ]
+                        },
+                        {
+                            "name": "parent_process_name",
+                            "type": "Process",
+                            "role": [
+                                "Parent Process"
+                            ]
+                        },
+                        {
+                            "name": "process_name",
+                            "type": "Process",
+                            "role": [
+                                "Child Process"
+                            ]
+                        }
+                    ],
+                    "context": [
+                        "Source:Endpoint",
+                        "Stage:Credential Access"
+                    ],
+                    "impact": 90,
+                    "confidence": 100
+                },
+                "risk": [
+                    {
+                        "risk_object_type": "user",
+                        "risk_object_field": "user",
+                        "risk_score": 90
+                    },
+                    {
+                        "risk_object_type": "system",
+                        "risk_object_field": "dest",
+                        "risk_score": 90
+                    },
+                    {
+                        "threat_object_field": "parent_process_name",
+                        "threat_object_type": "process"
+                    },
+                    {
+                        "threat_object_field": "process_name",
+                        "threat_object_type": "process"
+                    }
+                ],
+                "playbooks": [
+                    {
+                        "name": "Ransomware Investigate and Contain",
+                        "id": "fc0edc96-ff2b-48b0-9f6f-63da3783fd63",
+                        "version": 1,
+                        "date": "2018-02-04",
+                        "author": "Philip Royer, Splunk",
+                        "type": "Response",
+                        "description": "This playbook investigates and contains ransomware detected on endpoints.",
+                        "how_to_implement": "This playbook requires the Splunk SOAR apps for Palo Alto Networks Firewalls, Palo Alto Wildfire, LDAP, and Carbon Black Response.",
+                        "playbook": "ransomware_investigate_and_contain",
+                        "references": [],
+                        "app_list": [
+                            "Carbon Black Response",
+                            "LDAP",
+                            "Palo Alto Networks Firewall",
+                            "WildFire",
+                            "Cylance"
+                        ],
+                        "tags": {
+                            "analytic_story": [
+                                "Ransomware"
+                            ],
+                            "detections": [
+                                "Conti Common Exec parameter",
+                                "Attempted Credential Dump From Registry via Reg exe"
+                            ],
+                            "platform_tags": [
+                                "Ransomware",
+                                "Response"
+                            ],
+                            "playbook_fields": [
+                                "ComputerName",
+                                "Username"
+                            ],
+                            "product": [
+                                "Splunk SOAR"
+                            ]
+                        }
+                    }
+                ],
+                "baselines": [],
+                "mappings": {
+                    "mitre_attack": [
+                        "T1003.002",
+                        "T1003"
+                    ],
+                    "kill_chain_phases": [
+                        "Actions on Objectives"
+                    ],
+                    "cis20": [
+                        "CIS 3",
+                        "CIS 5",
+                        "CIS 16"
+                    ],
+                    "nist": [
+                        "DE.CM"
+                    ]
+                },
+                "test": {
+                    "name": "Attempted Credential Dump From Registry via Reg exe Unit Test",
+                    "tests": [
+                        {
+                            "name": "Attempted Credential Dump From Registry via Reg exe",
+                            "file": "endpoint/attempted_credential_dump_from_registry_via_reg_exe.yml",
+                            "pass_condition": "| stats count | where count > 0",
+                            "earliest_time": "-24h",
+                            "latest_time": "now",
+                            "attack_data": [
+                                {
+                                    "file_name": "windows-sysmon.log",
+                                    "data": "https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.002/atomic_red_team/windows-sysmon.log",
+                                    "source": "XmlWinEventLog:Microsoft-Windows-Sysmon/Operational",
+                                    "sourcetype": "xmlwineventlog"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "macros": [
+                    {
+                        "name": "attempted_credential_dump_from_registry_via_reg_exe_filter",
+                        "definition": "search *",
+                        "description": "Update this macro to limit the output results to filter out false positives."
+                    }
+                ]
+            }
+        ],
+        "investigations": [
+            {
+                "name": "Get Parent Process Info",
+                "id": "fecf2918-670d-4f1c-872b-3d7317a41bf9",
+                "version": 2,
+                "date": "2019-02-28",
+                "author": "Bhavin Patel, Splunk",
+                "type": "Investigation",
+                "datamodel": [
+                    "Endpoint"
+                ],
+                "description": "This search queries the Endpoint data model to give you details about the parent process of a process running on a host which is under investigation. Enter the values of the process name in question and the dest",
+                "search": "| tstats `security_content_summariesonly` count values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes by Processes.user Processes.parent_process_name Processes.process_name Processes.dest | `drop_dm_object_name(\"Processes\")` | search  parent_process_name= $parent_process_name$ |search dest = $dest$ | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`",
+                "how_to_implement": "You must be ingesting endpoint data that tracks process activity, including parent-child relationships from your endpoints to populate the Endpoint data model in the Processes node. The command-line arguments are mapped to the \"process\" field in the Endpoint data model.",
+                "known_false_positives": "",
+                "references": [],
+                "tags": {
+                    "analytic_story": [
+                        "Collection and Staging",
+                        "Command and Control",
+                        "DHS Report TA18-074A",
+                        "Disabling Security Tools",
+                        "Emotet Malware  DHS Report TA18-201A ",
+                        "Hidden Cobra Malware",
+                        "Lateral Movement",
+                        "Malicious PowerShell",
+                        "Monitor for Unauthorized Software",
+                        "Netsh Abuse",
+                        "Orangeworm Attack Group",
+                        "Phishing Payloads",
+                        "Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns",
+                        "Prohibited Traffic Allowed or Protocol Mismatch",
+                        "Ransomware",
+                        "SamSam Ransomware",
+                        "Suspicious Command-Line Executions",
+                        "Suspicious DNS Traffic",
+                        "Suspicious MSHTA Activity",
+                        "Suspicious WMI Use",
+                        "Suspicious Windows Registry Activities",
+                        "Unusual Processes",
+                        "Windows Defense Evasion Tactics",
+                        "Windows File Extension and Association Abuse",
+                        "Windows Log Manipulation",
+                        "Windows Persistence Techniques",
+                        "Windows Privilege Escalation",
+                        "Windows Service Abuse",
+                        "DarkSide Ransomware"
+                    ],
+                    "product": [
+                        "Splunk Phantom"
+                    ],
+                    "required_fields": [
+                        "_time",
+                        "Processes.user",
+                        "Processes.parent_process_name",
+                        "Processes.process_name",
+                        "Processes.dest"
+                    ],
+                    "security_domain": "endpoint"
+                },
+                "inputs": [
+                    "parent_process_name",
+                    "dest"
+                ],
+                "lowercase_name": "get_parent_process_info"
+            }
+        ]
+    }
+]

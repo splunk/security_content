@@ -29,6 +29,9 @@ tags:
   cis20:
   - CIS 13
   confidence: 70
+  context:
+  - Source:Cloud Data
+  - Stage:Discovery
   impact: 30
   kill_chain_phases:
   - Actions on Objectives
@@ -41,15 +44,14 @@ tags:
   - PR.AC
   - DE.CM
   observable:
-  - name: image
-    type: System
+  - name: user
+    type: User
     role:
-    - Victim
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Dev Sec Ops Analytics
   required_fields:
   - eventSource
   - eventName

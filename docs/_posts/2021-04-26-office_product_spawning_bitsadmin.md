@@ -1,6 +1,8 @@
 ---
 title: "Office Product Spawning BITSAdmin"
-excerpt: "Phishing, Spearphishing Attachment"
+excerpt: "Phishing
+, Spearphishing Attachment
+"
 categories:
   - Endpoint
 last_modified_at: 2021-04-26
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - Phishing
-  - Initial Access
   - Spearphishing Attachment
+  - Initial Access
   - Initial Access
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -25,7 +27,7 @@ tags:
 
 The following detection identifies the latest behavior utilized by different malware families (including TA551, IcedID). This detection identifies any Windows Office Product spawning `bitsadmin.exe`. In malicious instances, the command-line of `bitsadmin.exe` will contain a URL to a remote destination or similar command-line arguments as transfer, Download, priority, Foreground. In addition, Threat Research has released a detections identifying suspicious use of `bitsadmin.exe`. In this instance, we narrow our detection down to the Office suite as a parent process. During triage, review all file modifications. Capture and analyze any artifacts on disk. The Office Product, or `bitsadmin.exe` will have reached out to a remote destination, capture and block the IPs or domain. Review additional parallel processes for further activity.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-04-26
@@ -97,8 +99,6 @@ No false positives known. Filter as needed.
 | 63.0 | 70 | 90 | office parent process $parent_process_name$ will execute a suspicious child process $process_name$ with process id $process_id$ in host $dest$ |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -110,6 +110,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon_macros.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon_macros.log)
 
