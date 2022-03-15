@@ -1,7 +1,7 @@
 name: Rundll32 with no Command Line Arguments with Network
 id: 35307032-a12d-11eb-835f-acde48001122
-version: 3
-date: '2021-10-13'
+version: 4
+date: '2022-03-15'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
@@ -17,7 +17,7 @@ search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint
   where `process_rundll32` by _time span=1h  Processes.process_guid Processes.process_name
   Processes.dest Processes.process_path Processes.process Processes.parent_process_name
   Processes.original_file_name | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | regex process="(rundll32\.exe.{0,4}$)" |
+  | `security_content_ctime(lastTime)` | regex process="(?i)(rundll32\.exe.{0,4}$)" |
   join  process_guid [| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Ports
   where Ports.dest_port !="0" by Ports.process_guid Ports.dest Ports.dest_port| `drop_dm_object_name(Ports)`
   | rename  dest as connection_to_CNC] | table _time dest parent_process_name process_name

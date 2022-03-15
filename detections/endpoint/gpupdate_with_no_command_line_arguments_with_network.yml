@@ -1,7 +1,7 @@
 name: GPUpdate with no Command Line Arguments with Network
 id: 2c853856-a140-11eb-a5b5-acde48001122
-version: 1
-date: '2021-04-19'
+version: 2
+date: '2022-03-15'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
@@ -17,7 +17,7 @@ search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint
   where Processes.process_name=gpupdate.exe by _time span=1h  Processes.process_guid
   Processes.process_name Processes.dest Processes.process_path Processes.process Processes.parent_process_name
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | regex process="(gpupdate\.exe.{0,4}$)" | join  process_guid [| tstats `security_content_summariesonly`
+  | regex process="(?i)(gpupdate\.exe.{0,4}$)"| join  process_guid [| tstats `security_content_summariesonly`
   count FROM datamodel=Endpoint.Ports where Ports.dest_port !="0" by Ports.process_guid
   Ports.dest Ports.dest_port| `drop_dm_object_name(Ports)` | rename  dest as connection_to_CNC]
   | table _time dest parent_process_name process_name process_path process process_guid
