@@ -104,3 +104,5 @@ tags:
   - Ports.dest_port
   risk_score: 80
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon
