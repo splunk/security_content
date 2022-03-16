@@ -33,6 +33,7 @@ references:
 tags:
   analytic_story:
   - Windows Persistence Techniques
+  - Living Off The Land
   confidence: 90
   context:
   - Source:Endpoint

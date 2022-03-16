@@ -29,6 +29,7 @@ references:
 tags:
   analytic_story:
   - Suspicious WMI Use
+  - Living Off The Land
   asset_type: Endpoint
   cis20:
   - CIS 3
