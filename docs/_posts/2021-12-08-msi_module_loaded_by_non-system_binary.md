@@ -20,6 +20,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - CVE-2021-41379
 ---
 
 
@@ -63,8 +64,8 @@ In addition, `msi.dll` has been abused in DLL side-loading attacks by being load
 
 #### Macros
 The SPL above uses the following Macros:
-* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 
 Note that `msi_module_loaded_by_non-system_binary_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -99,6 +100,12 @@ It is possible some Administrative utilities will load msi.dll outside of normal
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 80 | 70 | The following module $ImageLoaded$ was loaded by $Image$ outside of the normal system paths on endpoint $Computer$, potentally related to DLL side-loading. |
 
+
+#### CVE
+
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+| [CVE-2021-41379](https://nvd.nist.gov/vuln/detail/CVE-2021-41379) | Windows Installer Elevation of Privilege Vulnerability | 4.6 |
 
 
 
