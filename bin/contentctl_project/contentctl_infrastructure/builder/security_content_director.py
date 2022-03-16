@@ -26,6 +26,7 @@ class SecurityContentDirector(Director):
         builder.addMitreAttackEnrichment(attack_enrichment)
         builder.addMacros(macros)
         builder.addLookups(lookups)
+        builder.addCve()
 
 
     def constructStory(self, builder: StoryBuilder, path: str, detections: list, baselines: list, investigations: list) -> None:
