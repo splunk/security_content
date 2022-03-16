@@ -51,7 +51,7 @@ The Content Control tool allows you to manipulate Splunk Security Content via th
 3. **generate** - Generates a deployment package for different platforms (splunk_app)
 
 ### pre-requisites
-Make sure you use python version 3.9 or higher.
+Make sure you use python version 3.9.
 
 ```
 git clone git@github.com:splunk/security_content.git

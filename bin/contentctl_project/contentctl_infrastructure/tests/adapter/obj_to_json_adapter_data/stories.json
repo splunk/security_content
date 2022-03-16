@@ -414,6 +414,7 @@
                     }
                 ],
                 "lookups": [],
+                "cve_enrichment": [],
                 "file_path": "/Users/pbareib/Documents/Projects/security_content/bin/contentctl_project/contentctl_infrastructure/tests/adapter/../builder/test_data/detection/valid.yml",
                 "source": "detection"
             }
