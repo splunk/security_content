@@ -45,3 +45,4 @@ class Validate:
 
             if not found_detection:
                 ValueError("detection doesn't exist for test file: " + test.name)
+
