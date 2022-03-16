@@ -16,6 +16,9 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - CVE-2021-34473
+  - CVE-2021-34523
+  - CVE-2021-31207
   - Endpoint
 ---
 
@@ -56,10 +59,10 @@ This query identifies a shell, PowerShell.exe or Cmd.exe, spawning from W3WP.exe
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
-* [process_cmd](https://github.com/splunk/security_content/blob/develop/macros/process_cmd.yml)
 * [process_powershell](https://github.com/splunk/security_content/blob/develop/macros/process_powershell.yml)
+* [process_cmd](https://github.com/splunk/security_content/blob/develop/macros/process_cmd.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `w3wp_spawning_shell_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -100,6 +103,14 @@ Baseline your environment before production. It is possible build systems using 
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | Possible Web Shell execution on $dest$ |
 
+
+#### CVE
+
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+| [CVE-2021-34473](https://nvd.nist.gov/vuln/detail/CVE-2021-34473) | Microsoft Exchange Server Remote Code Execution Vulnerability This CVE ID is unique from CVE-2021-31196, CVE-2021-31206. | 10.0 |
+| [CVE-2021-34523](https://nvd.nist.gov/vuln/detail/CVE-2021-34523) | Microsoft Exchange Server Elevation of Privilege Vulnerability This CVE ID is unique from CVE-2021-33768, CVE-2021-34470. | 7.5 |
+| [CVE-2021-31207](https://nvd.nist.gov/vuln/detail/CVE-2021-31207) | Microsoft Exchange Server Security Feature Bypass Vulnerability | 6.5 |
 
 
 
