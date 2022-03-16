@@ -29,6 +29,7 @@ tags:
   analytic_story:
   - Trickbot
   - IcedID
+  - Living Off The Land
   confidence: 80
   context:
   - Source:Endpoint

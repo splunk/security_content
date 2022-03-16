@@ -25,6 +25,7 @@ tags:
   analytic_story:
   - Windows Persistence Techniques
   - Cloud Federated Credential Abuse
+  - Living Off The Land
   asset_type: Endpoint
   confidence: 70
   context:

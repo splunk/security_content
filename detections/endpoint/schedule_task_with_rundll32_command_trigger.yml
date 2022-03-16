@@ -36,6 +36,7 @@ tags:
   - Windows Persistence Techniques
   - Trickbot
   - IcedID
+  - Living Off The Land
   confidence: 100
   context:
   - Source:Endpoint
