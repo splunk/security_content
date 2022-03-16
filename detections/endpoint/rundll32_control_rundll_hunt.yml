@@ -37,6 +37,7 @@ tags:
   analytic_story:
   - Suspicious Rundll32 Activity
   - Microsoft MSHTML Remote Code Execution CVE-2021-40444
+  - Living Off The Land
   confidence: 50
   context:
   - Source:Endpoint
