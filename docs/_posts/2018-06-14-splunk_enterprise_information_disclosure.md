@@ -10,6 +10,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - CVE-2018-11409
 ---
 
 
@@ -70,6 +71,12 @@ Retrieving server information may be a legitimate API request. Verify that the a
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
 
+
+#### CVE
+
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+| [CVE-2018-11409](https://nvd.nist.gov/vuln/detail/CVE-2018-11409) | Splunk through 7.0.1 allows information disclosure by appending __raw/services/server/info/server-info?output_mode=json to a query, as demonstrated by discovering a license key. | 5.0 |
 
 
 
