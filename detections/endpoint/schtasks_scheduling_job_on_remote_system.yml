@@ -29,6 +29,7 @@ tags:
   analytic_story:
   - Active Directory Lateral Movement
   - NOBELIUM Group
+  - Living Off The Land
   asset_type: Endpoint
   cis20:
   - CIS 3
