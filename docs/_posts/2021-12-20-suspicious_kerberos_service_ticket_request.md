@@ -22,6 +22,8 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - CVE-2021-42287
+  - CVE-2021-42278
   - Endpoint
 ---
 
@@ -95,6 +97,13 @@ We have tested this detection logic with ~2 million 4769 events and did not iden
 | ----------- | ----------- |--------------|--------------|
 | 60.0 | 100 | 60 | A suspicious Kerberos Service Ticket was requested by $Account_Name$ |
 
+
+#### CVE
+
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+| [CVE-2021-42287](https://nvd.nist.gov/vuln/detail/CVE-2021-42287) | Active Directory Domain Services Elevation of Privilege Vulnerability This CVE ID is unique from CVE-2021-42278, CVE-2021-42282, CVE-2021-42291. | 6.5 |
+| [CVE-2021-42278](https://nvd.nist.gov/vuln/detail/CVE-2021-42278) | Active Directory Domain Services Elevation of Privilege Vulnerability This CVE ID is unique from CVE-2021-42282, CVE-2021-42287, CVE-2021-42291. | 6.5 |
 
 
 

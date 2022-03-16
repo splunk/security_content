@@ -10,6 +10,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - CVE-2017-5753
   - Vulnerabilities
 ---
 
@@ -71,6 +72,12 @@ It is possible that your vulnerability scanner is not detecting that the patches
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
 
+
+#### CVE
+
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+| [CVE-2017-5753](https://nvd.nist.gov/vuln/detail/CVE-2017-5753) | Systems with microprocessors utilizing speculative execution and branch prediction may allow unauthorized disclosure of information to an attacker with local user access via a side-channel analysis. | 4.7 |
 
 
 

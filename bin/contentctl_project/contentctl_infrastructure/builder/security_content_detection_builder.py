@@ -213,8 +213,9 @@ class SecurityContentDetectionBuilder(DetectionBuilder):
 
     def addCve(self) -> None:
         self.security_content_obj.cve_enrichment = []
-        for cve in self.security_content_obj.tags.cve:
-            self.security_content_obj.cve_enrichment.append(CveEnrichment.enrich_cve(cve))
+        if self.security_content_obj.tags.cve:
+            for cve in self.security_content_obj.tags.cve:
+                self.security_content_obj.cve_enrichment.append(CveEnrichment.enrich_cve(cve))
 
 
     def reset(self) -> None:
