@@ -16,6 +16,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - CVE-2021-40444
   - Endpoint
 ---
 
@@ -56,9 +57,9 @@ The following hunting detection identifies rundll32.exe with `control_rundll` wi
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_rundll32](https://github.com/splunk/security_content/blob/develop/macros/process_rundll32.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [process_rundll32](https://github.com/splunk/security_content/blob/develop/macros/process_rundll32.yml)
 
 Note that `rundll32_control_rundll_hunt_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -98,6 +99,12 @@ This is a hunting detection, meant to provide a understanding of how voluminous 
 | ----------- | ----------- |--------------|--------------|
 | 15.0 | 30 | 50 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to load a suspicious file from disk. |
 
+
+#### CVE
+
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+| [CVE-2021-40444](https://nvd.nist.gov/vuln/detail/CVE-2021-40444) | Microsoft MSHTML Remote Code Execution Vulnerability | 6.8 |
 
 
 

@@ -22,6 +22,8 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - CVE-2021-42287
+  - CVE-2021-42278
   - Endpoint
 ---
 
@@ -93,6 +95,13 @@ Renaming a computer account name to a name that not end with '$' is highly unsua
 | ----------- | ----------- |--------------|--------------|
 | 70.0 | 100 | 70 | A computer account $Old_Account_Name$ was renamed with a suspicious computer name |
 
+
+#### CVE
+
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+| [CVE-2021-42287](https://nvd.nist.gov/vuln/detail/CVE-2021-42287) | Active Directory Domain Services Elevation of Privilege Vulnerability This CVE ID is unique from CVE-2021-42278, CVE-2021-42282, CVE-2021-42291. | 6.5 |
+| [CVE-2021-42278](https://nvd.nist.gov/vuln/detail/CVE-2021-42278) | Active Directory Domain Services Elevation of Privilege Vulnerability This CVE ID is unique from CVE-2021-42282, CVE-2021-42287, CVE-2021-42291. | 6.5 |
 
 
 
