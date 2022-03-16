@@ -1,11 +1,11 @@
 ---
-title: "AWS CreateLoginProfile"
+title: "AWS CreateAccessKey"
 excerpt: "Cloud Account
 , Create Account
 "
 categories:
   - Cloud
-last_modified_at: 2021-07-19
+last_modified_at: 2022-03-03
 toc: true
 toc_label: ""
 tags:
@@ -24,14 +24,14 @@ tags:
 
 #### Description
 
-This search looks for AWS CloudTrail events where a user A(victim A) creates a login profile for user B, followed by a AWS Console login event from user B from the same src_ip as user B. This correlated event can be indicative of privilege escalation since both events happened from the same src_ip
+This search looks for AWS CloudTrail events where a user A who has already permission to create access keys, makes an API call to create access keys for another user B. Attackers have been know to use this technique for Privilege Escalation in case new victim(user B) has more permissions than old victim(user B)
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **Last Updated**: 2021-07-19
+- **Last Updated**: 2022-03-03
 - **Author**: Bhavin Patel, Splunk
-- **ID**: 2a9b80d3-6340-4345-11ad-212bf444d111
+- **ID**: 2a9b80d3-6340-4345-11ad-212bf3d0d111
 
 
 #### [ATT&CK](https://attack.mitre.org/)
@@ -45,16 +45,13 @@ This search looks for AWS CloudTrail events where a user A(victim A) creates a l
 #### Search
 
 ```
-`cloudtrail` eventName = CreateLoginProfile 
-| rename requestParameters.userName as new_login_profile 
-| table src_ip eventName new_login_profile userIdentity.userName  
-| join new_login_profile src_ip [
-| search `cloudtrail` eventName = ConsoleLogin 
-| rename userIdentity.userName  as new_login_profile 
-| stats count values(eventName) min(_time) as firstTime max(_time) as lastTime by eventSource aws_account_id errorCode userAgent eventID awsRegion userIdentity.principalId user_arn new_login_profile src_ip 
+`cloudtrail` eventName = CreateAccessKey userAgent !=console.amazonaws.com errorCode = success 
+| eval match=if(match(userIdentity.userName,requestParameters.userName),1,0) 
+| search match=0 
+| stats count min(_time) as firstTime max(_time) as lastTime by requestParameters.userName src eventName eventSource aws_account_id errorCode userAgent eventID awsRegion userIdentity.principalId user_arn 
 | `security_content_ctime(firstTime)` 
-| `security_content_ctime(lastTime)`] 
-| `aws_createloginprofile_filter`
+| `security_content_ctime(lastTime)` 
+|`aws_createaccesskey_filter`
 ```
 
 #### Macros
@@ -62,7 +59,7 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
 
-Note that `aws_createloginprofile_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+Note that `aws_createaccesskey_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -76,7 +73,7 @@ Note that `aws_createloginprofile_filter` is a empty macro by default. It allows
 You must install splunk AWS add on and Splunk App for AWS. This search works with AWS CloudTrail logs.
 
 #### Known False Positives
-While this search has no known false positives, it is possible that an AWS admin has legitimately created a login profile for another user.
+While this search has no known false positives, it is possible that an AWS admin has legitimately created keys for another user.
 
 #### Associated Analytic story
 * [AWS IAM Privilege Escalation](/stories/aws_iam_privilege_escalation)
@@ -91,7 +88,7 @@ While this search has no known false positives, it is possible that an AWS admin
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
-| 72.0 | 90 | 80 | User $user_arn$ is attempting to create a login profile for $requestParameters.userName$ and did a console login from this IP $src_ip$ |
+| 63.0 | 70 | 90 | User $user_arn$ is attempting to create access keys for $requestParameters.userName$ from this IP $src$ |
 
 
 
@@ -108,8 +105,8 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 
-* [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/aws_createloginprofile/aws_cloudtrail_events.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/aws_createloginprofile/aws_cloudtrail_events.json)
+* [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/aws_createaccesskey/aws_cloudtrail_events.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/aws_createaccesskey/aws_cloudtrail_events.json)
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/aws_createloginprofile.yml) \| *version*: **2**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/aws_createaccesskey.yml) \| *version*: **3**
