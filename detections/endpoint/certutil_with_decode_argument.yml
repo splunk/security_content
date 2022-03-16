@@ -35,6 +35,7 @@ references:
 tags:
   analytic_story:
   - Deobfuscate-Decode Files or Information
+  - Living Off The Land
   confidence: 80
   context:
   - Source:Endpoint

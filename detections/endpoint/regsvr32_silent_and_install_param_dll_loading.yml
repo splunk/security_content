@@ -33,6 +33,7 @@ tags:
   - Suspicious Regsvr32 Activity
   - Remcos
   - Hermetic Wiper
+  - Living Off The Land
   automated_detection_testing: passed
   confidence: 60
   context:

@@ -24,6 +24,7 @@ references:
 tags:
   analytic_story:
   - IcedID
+  - Living Off The Land
   confidence: 100
   context:
   - Source:Endpoint
