@@ -33,6 +33,7 @@ tags:
   analytic_story:
   - Unusual Processes
   - Suspicious Rundll32 Activity
+  - Living Off The Land
   asset_type: Endpoint
   cis20:
   - CIS 8
