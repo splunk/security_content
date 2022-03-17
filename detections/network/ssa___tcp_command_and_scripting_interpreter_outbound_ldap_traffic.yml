@@ -13,14 +13,16 @@ description: Malicious actors often abuse misconfigured LDAP servers or applicat
   space.
 search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
   "_time"), "string", null)), dest_port=map_get(input_event, "dest_port"), event_id=ucast(map_get(input_event,
-  "event_id"), "string", null), dest_ip=ucast(map_get(input_event, "dest_device_ips"),
-  "collection<string>", [])[0] | where dest_port=389 OR dest_port=1389 OR dest_port=636
-  | where NOT (cidrmatch(ip: dest_ip, cidr_range: "10.0.0.0/8") OR cidrmatch(ip: dest_ip,
-  cidr_range: "192.168.0.0/16") OR cidrmatch(ip: dest_ip, cidr_range: "172.16.0.0/12"))
+  "event_id"), "string", null), dest_device_ips=ucast(map_get(input_event, "dest_device_ips"),
+  "collection<string>", [])[0], dest_user_id=ucast(map_get(input_event, "dest_user_id"),
+  "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"),
+  "string", null) | where dest_port=389 OR dest_port=1389 OR dest_port=636
+  | where NOT (cidrmatch(ip: dest_device_ips, cidr_range: "10.0.0.0/8") OR cidrmatch(ip: dest_device_ips,
+  cidr_range: "192.168.0.0/16") OR cidrmatch(ip: dest_device_ips, cidr_range: "172.16.0.0/12"))
   | eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event,
   "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
   "string", null)), body=create_map(["event_id", event_id, "dest_port", dest_port,
-  "dest_ip", dest_ip]) | into write_ssa_detected_events();'
+  "dest_device_ips", dest_device_ips]) | into write_ssa_detected_events();'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on network traffic, specifically data that populates the Network_Traffic datamodel.
   To develop this analytic we used specifically Zeek/Bro conn.log and PAN Traffic
@@ -64,10 +66,6 @@ tags:
     type: Hostname
     role:
     - Victim
-  - name: parent_process_name
-    type: Process
-    role:
-    - Parent Process
   product:
   - Splunk Behavioral Analytics
   required_fields:

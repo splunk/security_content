@@ -12,25 +12,24 @@ description: This search is to detect potential DNS exfiltration using nslookup 
   use of nslookup where it tries to use specific record type, TXT, A, AAAA, that are
   commonly used by attacker and also the retry parameter which is designed to query
   C2 DNS multiple tries.
-search: '| from read_ssa_enriched_events() | where "Endpoint_Processes" IN(_datamodels)
+search: '| from read_ssa_enriched_events() 
   | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
-  cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event,
+  process=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event,
   "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"),
   "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"),
-  "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null)
-  | where cmd_line IS NOT NULL AND process_name IS NOT NULL AND process_name="nslookup.exe"
-  AND (like (cmd_line, "%-querytype=%") OR like (cmd_line, "%-qt=%") OR like (cmd_line,
-  "%-q=%") OR like (cmd_line, "%-type=%") OR like (cmd_line, "%-retry=%")) | eval
-  start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event,
-  "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
-  "string", null)) | eval body=create_map(["event_id", event_id, "cmd_line", cmd_line,
-  "process_name", process_name, "parent_process_name", parent_process_name, "process_path",
-  process_path]) | into write_ssa_detected_events();'
+  "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null),
+  dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null),
+  dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null)
+  | where process IS NOT NULL AND process_name IS NOT NULL AND process_name="nslookup.exe"
+  AND (like (process, "%-querytype=%") OR like (process, "%-qt=%") OR like (process,
+  "%-q=%") OR like (process, "%-type=%") OR like (process, "%-retry=%")) 
+  | eval body=--body--
+  | into write_ssa_finding_events();'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint_Processess` datamodel.
 known_false_positives: It is possible for some legitimate administrative utilities
-  to use similar cmd_line parameters. Filter as needed.
+  to use similar process parameters. Filter as needed.
 references:
 - https://www.fireeye.com/blog/threat-research/2017/03/fin7_spear_phishing.html
 - https://www.varonis.com/blog/dns-tunneling/
@@ -84,7 +83,7 @@ tags:
   - process_path
   - dest_user_id
   - process
-  - cmd_line
+  - process
   risk_score: 72
   risk_severity: medium
   security_domain: endpoint

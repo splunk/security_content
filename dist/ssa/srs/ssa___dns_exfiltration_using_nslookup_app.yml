@@ -7,25 +7,32 @@ description: This search is to detect potential DNS exfiltration using nslookup 
   use of nslookup where it tries to use specific record type, TXT, A, AAAA, that are
   commonly used by attacker and also the retry parameter which is designed to query
   C2 DNS multiple tries.
-search: '| from read_ssa_enriched_events() | where "Endpoint_Processes" IN(_datamodels)
-  | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
-  cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event,
-  "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"),
-  "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"),
-  "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null)
-  | where cmd_line IS NOT NULL AND process_name IS NOT NULL AND process_name="nslookup.exe"
-  AND (like (cmd_line, "%-querytype=%") OR like (cmd_line, "%-qt=%") OR like (cmd_line,
-  "%-q=%") OR like (cmd_line, "%-type=%") OR like (cmd_line, "%-retry=%")) | eval
-  start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event,
-  "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
-  "string", null)) | eval body=create_map(["event_id", event_id, "cmd_line", cmd_line,
-  "process_name", process_name, "parent_process_name", parent_process_name, "process_path",
-  process_path]) | into write_ssa_detected_events();'
+search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
+  "_time"), "string", null)), process=ucast(map_get(input_event, "process"), "string",
+  null), process_name=ucast(map_get(input_event, "process_name"), "string", null),
+  process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event,
+  "parent_process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"),
+  "string", null), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string",
+  null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null)
+  | where process IS NOT NULL AND process_name IS NOT NULL AND process_name="nslookup.exe"
+  AND (like (process, "%-querytype=%") OR like (process, "%-qt=%") OR like (process,
+  "%-q=%") OR like (process, "%-type=%") OR like (process, "%-retry=%")) | eval body=create_map("category_id", 101, "class_id", 101000, "detection_start_time", start_time, 
+  "detection_end_time", end_time, "device_entities", [create_map("uid", ucast(map_get(input_event, "enrichments.device_entities.device.uid"), "string", null), "type_id", 0)], 
+  "disposition_id", 1, "end_time", end_time, "event_id", 10100001, "event_time", timestamp, 
+  "finding", create_map("confidence", 80, "confidence_id", 3, 
+  "context_ids", [10, 50], "impact", 90, "impact_id", 5,
+  "kill_chain_phase", Exploitation, "kill_chain_phase_id", 4, 
+  "risk_level", High, "risk_level_id", 3, "type_id", 1, "ref_event_uid", event_id), 
+  "message", An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest_device_id$ by user $dest_user_id$ performing activity related to DNS exfiltration., "metadata", create_map("log_name", Endpoint_Processes, "version",
+  "1.0.0"), "observables", , "origin", create_map("product", create_map("name", "Splunk Behavioral Analytics")), 
+  "rule", create_map("name", "DNS Exfiltration Using Nslookup App", "uid", "2452e632-9e0d-11eb-34ba-acde48001122", "version", "1"), "start_time", start_time, "time", start_time,
+  "user_entities", [create_map("uid", ucast(map_get(input_event, "enrichments.user_entities.user.uid"),"string", null))])
+  | into write_ssa_finding_events();'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint_Processess` datamodel.
 known_false_positives: It is possible for some legitimate administrative utilities
-  to use similar cmd_line parameters. Filter as needed.
+  to use similar process parameters. Filter as needed.
 references:
 - https://www.fireeye.com/blog/threat-research/2017/03/fin7_spear_phishing.html
 - https://www.varonis.com/blog/dns-tunneling/
@@ -34,8 +41,8 @@ tags:
   analytic_story:
   - Suspicious DNS Traffic
   - Dynamic DNS
-  - Command & Control
   - Data Exfiltration
+  - Command and Control
   cis20: []
   kill_chain_phases:
   - Exploitation
@@ -50,7 +57,7 @@ tags:
   - process_path
   - dest_user_id
   - process
-  - cmd_line
+  - process
   security_domain: endpoint
   risk_severity: medium
 test:

@@ -12,27 +12,27 @@ description: This analytic will detect the execution of sdelete.exe attempting t
   to securely delete files on disk. This tool is commonly used to clear tracks and
   artifact on the targeted host.
 search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,"_time"),
-  "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"), "string",
+  "string", null)), process=lower(ucast(map_get(input_event, "process"), "string",
   null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string",
   null)), process_path=ucast(map_get(input_event, "process_path"), "string", null),
   parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string",
-  null), parent_cmd_line=ucast(map_get(input_event, "parent_process"), "string", null),
-  event_id=ucast(map_get(input_event, "event_id"), "string", null) | where cmd_line
-  IS NOT NULL AND process_name IS NOT NULL AND like(process_name, "%sdelete%") AND
-  (like (cmd_line, "%-c %") OR like (cmd_line, "%-f %")OR like (cmd_line, "%-p %")
-  OR like (cmd_line, "%-r %") OR like (cmd_line, "%-q %") OR like (cmd_line, "%-s
-  %") OR like (cmd_line, "%-z %") OR like (cmd_line, "%/accepteula%") OR like (cmd_line,
-  "%-nobanner%")OR like (cmd_line, "%.doc%")OR like (cmd_line, "%.xls%") OR like (cmd_line,
-  "%.ppt%")OR like (cmd_line, "%.rtf%") OR like (cmd_line, "%.pdf%") OR like (cmd_line,
-  "%.key%")OR like (cmd_line, "%.log%") OR like (cmd_line, "%.txt%") OR like (cmd_line,
-  "%.jpg%") OR like (cmd_line, "%.png%") OR like (cmd_line, "%.gif%") OR like (cmd_line,
-  "%.bmp%") OR like (cmd_line, "%.7z%")  OR like (cmd_line, "%.zip%") OR like (cmd_line,
-  "%.rar%") OR like (cmd_line, "%.tar%") OR like (cmd_line, "%.gz%") OR like (cmd_line,
-  "%.xls%")) | eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event,
-  "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
-  "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name",
-  process_name, "process_path", process_path, "parent_process_name", parent_process_name,
-  "parent_cmd_line", parent_cmd_line]) | into write_ssa_detected_events();'
+  null), parent_process=ucast(map_get(input_event, "parent_process"), "string", null),
+  event_id=ucast(map_get(input_event, "event_id"), "string", null), 
+  dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null),
+  dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null)
+  | where process IS NOT NULL AND process_name IS NOT NULL AND like(process_name, "%sdelete%") AND
+  (like (process, "%-c %") OR like (process, "%-f %")OR like (process, "%-p %")
+  OR like (process, "%-r %") OR like (process, "%-q %") OR like (process, "%-s
+  %") OR like (process, "%-z %") OR like (process, "%/accepteula%") OR like (process,
+  "%-nobanner%")OR like (process, "%.doc%")OR like (process, "%.xls%") OR like (process,
+  "%.ppt%")OR like (process, "%.rtf%") OR like (process, "%.pdf%") OR like (process,
+  "%.key%")OR like (process, "%.log%") OR like (process, "%.txt%") OR like (process,
+  "%.jpg%") OR like (process, "%.png%") OR like (process, "%.gif%") OR like (process,
+  "%.bmp%") OR like (process, "%.7z%")  OR like (process, "%.zip%") OR like (process,
+  "%.rar%") OR like (process, "%.tar%") OR like (process, "%.gz%") OR like (process,
+  "%.xls%")) 
+  | eval body=--body--
+  | into write_ssa_finding_events();'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
@@ -91,7 +91,7 @@ tags:
   - process
   - process_id
   - process_path
-  - cmd_line
+  - process
   risk_score: 42
   risk_severity: low
   security_domain: endpoint

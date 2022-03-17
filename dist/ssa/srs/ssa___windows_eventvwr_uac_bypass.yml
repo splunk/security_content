@@ -7,22 +7,28 @@ description: The following search identifies Eventvwr bypass by identifying the 
   upon eventvwr.msc loading. Upon triage, review the parallel processes that have
   executed. Identify any additional registry modifications on the endpoint that may
   look suspicious. Remediate as necessary.
-search: '| from read_ssa_enriched_events() | where "Endpoint_Registry" IN (_datamodels)
-  | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
-  registry_path=lower(ucast(map_get(input_event, "registry_path"), "string", null)),
-  registry_hive=lower(ucast(map_get(input_event, "registry_hive"), "string", null)),
-  registry_value_name=lower(ucast(map_get(input_event, "registry_value_name"), "string",
-  null)), registry_key_name=lower(ucast(map_get(input_event, "parent_process_name"),
+search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
+  "_time"), "string", null)), registry_path=lower(ucast(map_get(input_event, "registry_path"),
+  "string", null)), registry_hive=lower(ucast(map_get(input_event, "registry_hive"),
+  "string", null)), registry_value_name=lower(ucast(map_get(input_event, "registry_value_name"),
+  "string", null)), registry_key_name=lower(ucast(map_get(input_event, "registry_key_name"),
   "string", null)), registry_value_type=lower(ucast(map_get(input_event, "registry_value_type"),
   "string", null)), registry_value_data=lower(ucast(map_get(input_event, "registry_value_data"),
   "string", null)), process_guid=lower(ucast(map_get(input_event, "process_guid"),
-  "string", null)) | where registry_path IS NOT NULL AND (like (registry_path, "%mscfile\\\\shell\\\\open\\\\command%"))
-  | eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event,
-  "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
-  "string", null)) | eval body=create_map(["registry_path", registry_path, "registry_hive",
-  registry_hive, "registry_value_name", registry_value_name, "registry_key_name",
-  registry_key_name, "registry_value_type", registry_value_type, "registry_value_data",
-  registry_value_data, "process_guid", process_guid]) | into write_ssa_detected_events();'
+  "string", null)), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string",
+  null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null)
+  | where registry_path IS NOT NULL AND (like (registry_path, "%mscfile\\\\shell\\\\open\\\\command%"))
+  | eval body=create_map("category_id", 101, "class_id", 101000, "detection_start_time", start_time, 
+  "detection_end_time", end_time, "device_entities", [create_map("uid", ucast(map_get(input_event, "enrichments.device_entities.device.uid"), "string", null), "type_id", 0)], 
+  "disposition_id", 1, "end_time", end_time, "event_id", 10100001, "event_time", timestamp, 
+  "finding", create_map("confidence", 100, "confidence_id", 3, 
+  "context_ids", [10, 44], "impact", 80, "impact_id", 5,
+  "kill_chain_phase", Exploitation, "kill_chain_phase_id", 4, 
+  "risk_level", Critical, "risk_level_id", 4, "type_id", 1, "ref_event_uid", event_id), 
+  "message", Registry values were modified to bypass UAC using Event Viewer on $dest_device_id$, "metadata", create_map("log_name", Endpoint_Registry, "version",
+  "1.0.0"), "observables", , "origin", create_map("product", create_map("name", "Splunk Behavioral Analytics")), 
+  "rule", create_map("name", "Windows Eventvwr UAC Bypass", "uid", "66adff66-90d9-11ec-aba7-acde48001122", "version", "1"), "start_time", start_time, "time", start_time,
+  "user_entities", [create_map("uid", ucast(map_get(input_event, "enrichments.user_entities.user.uid"),"string", null))]) | into write_ssa_finding_events();'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint_Registry` datamodel.

@@ -10,19 +10,18 @@ description: The following analytic identifies the Windows Windows Remote Auto D
   rasautou.exe executing an arbitrary DLL. This technique is used to execute arbitrary
   shellcode or DLLs via the rasautou.exe LOLBin capability. During triage, review
   parent and child process behavior including file and image loads.
-search: '| from read_ssa_enriched_events() | where "Endpoint_Processes" IN(_datamodels)
+search: '| from read_ssa_enriched_events() 
   | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
-  cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event,
+  process=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event,
   "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"),
   "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"),
-  "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null)
-  | where cmd_line IS NOT NULL AND process_name IS NOT NULL AND process_name="rasautou.exe"
-  AND (like (cmd_line, "%-d %") AND like (cmd_line, "%-p %")) | eval start_time=timestamp,
-  end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"),
-  "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null))
-  | eval body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name",
-  process_name, "parent_process_name", parent_process_name, "process_path", process_path])
-  | into write_ssa_detected_events();'
+  "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null),
+  dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null),
+  dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null)
+  | where process IS NOT NULL AND process_name IS NOT NULL AND process_name="rasautou.exe"
+  AND (like (process, "%-d %") AND like (process, "%-p %")) 
+  | eval body=--body--
+  | into write_ssa_finding_events();' 
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
@@ -81,7 +80,7 @@ tags:
   - process_path
   - dest_user_id
   - process
-  - cmd_line
+  - process
   risk_score: 80
   security_domain: endpoint
   asset_type: Endpoint

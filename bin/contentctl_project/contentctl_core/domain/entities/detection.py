@@ -112,32 +112,6 @@ class Detection(BaseModel, SecurityContentObject):
                     raise ValueError('Use source macro instead of eventtype, sourcetype, source or index in detection: ' + values["name"])
         return values
 
-    @root_validator
-    def check_observable_in_search(cls, values):
-        if 'ssa_' in values['file_path']:
-            regex_patterns = [
-                r'(?<parsed_field>[a-z._]+)=lower\(ucast\(map_get\(input_event, "(?<input_field>[a-z._]+)',
-                r'(?<parsed_field>[a-z._]+)=ucast\(map_get\(input_event, "(?<input_field>[a-z._]+)'
-            ]
-            input_fields = list()
-            parsed_fields = list()
-
-            for regex_pattern in regex_patterns:
-                result = re.search(regex_pattern, values['search'])
-                print(result)
-
-
-    # @validator('references')
-    # def references_check(cls, v, values):
-    #     for reference in v:
-    #         try:
-    #             get = requests.get(reference)
-    #             if not get.status_code == 200:
-    #                 raise ValueError('Reference ' + reference + ' is not reachable: ' + values["name"])
-    #         except requests.exceptions.RequestException as e:
-    #             raise ValueError('Reference ' + reference + ' is not reachable: ' + values["name"])
-
-    #     return v
 
     @validator('search')
     def search_validate(cls, v, values):

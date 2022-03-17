@@ -13,23 +13,22 @@ description: This analytic identifies commonly used command-line arguments used 
   is not indicative of malicious behavior. During triage, at this stage of a ransomware
   event, exfiltration is about to occur or has already. Isolate the endpoint and continue
   investigating by review file modifications and parallel processes.
-search: '| from read_ssa_enriched_events() | where "Endpoint_Processes" IN(_datamodels)
+search: '| from read_ssa_enriched_events() 
   | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
-  cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event,
+  process=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event,
   "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"),
   "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"),
-  "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null)
-  | where cmd_line IS NOT NULL AND process_name IS NOT NULL AND process_name="rclone.exe"
-  AND (like (cmd_line, "%copy%") OR like (cmd_line, "%mega%")OR like (cmd_line, "%pcloud%")
-  OR like (cmd_line, "%ftp%") OR like (cmd_line, "%--config%") OR like (cmd_line,
-  "%--progress%") OR like (cmd_line, "%--no-check-certificate%") OR like (cmd_line,
-  "%--ignore-existing%") OR like (cmd_line, "%--auto-confirm%") OR like (cmd_line,
-  "%--transfers%") OR like (cmd_line, "%--multi-thread-streams%")) | eval start_time=timestamp,
-  end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"),
-  "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null))
-  | eval body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name",
-  process_name, "parent_process_name", parent_process_name, "process_path", process_path])
-  | into write_ssa_detected_events();'
+  "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null),
+  dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null),
+  dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null)
+  | where process IS NOT NULL AND process_name IS NOT NULL AND process_name="rclone.exe"
+  AND (like (process, "%copy%") OR like (process, "%mega%")OR like (process, "%pcloud%")
+  OR like (process, "%ftp%") OR like (process, "%--config%") OR like (process,
+  "%--progress%") OR like (process, "%--no-check-certificate%") OR like (process,
+  "%--ignore-existing%") OR like (process, "%--auto-confirm%") OR like (process,
+  "%--transfers%") OR like (process, "%--multi-thread-streams%")) 
+  | eval body=--body--
+  | into write_ssa_finding_events();'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint_Processess` datamodel.
@@ -87,7 +86,7 @@ tags:
   - process_path
   - dest_user_id
   - process
-  - cmd_line
+  - process
   risk_score: 35
   risk_severity: low
   security_domain: endpoint

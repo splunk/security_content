@@ -12,22 +12,21 @@ description: The following search identifies Eventvwr bypass by identifying the 
   upon eventvwr.msc loading. Upon triage, review the parallel processes that have
   executed. Identify any additional registry modifications on the endpoint that may
   look suspicious. Remediate as necessary.
-search: '| from read_ssa_enriched_events() | where "Endpoint_Registry" IN (_datamodels)
+search: '| from read_ssa_enriched_events() 
   | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
   registry_path=lower(ucast(map_get(input_event, "registry_path"), "string", null)),
   registry_hive=lower(ucast(map_get(input_event, "registry_hive"), "string", null)),
   registry_value_name=lower(ucast(map_get(input_event, "registry_value_name"), "string",
-  null)), registry_key_name=lower(ucast(map_get(input_event, "parent_process_name"),
+  null)), registry_key_name=lower(ucast(map_get(input_event, "registry_key_name"),
   "string", null)), registry_value_type=lower(ucast(map_get(input_event, "registry_value_type"),
   "string", null)), registry_value_data=lower(ucast(map_get(input_event, "registry_value_data"),
   "string", null)), process_guid=lower(ucast(map_get(input_event, "process_guid"),
-  "string", null)) | where registry_path IS NOT NULL AND (like (registry_path, "%mscfile\\\\shell\\\\open\\\\command%"))
-  | eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event,
-  "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
-  "string", null)) | eval body=create_map(["registry_path", registry_path, "registry_hive",
-  registry_hive, "registry_value_name", registry_value_name, "registry_key_name",
-  registry_key_name, "registry_value_type", registry_value_type, "registry_value_data",
-  registry_value_data, "process_guid", process_guid]) | into write_ssa_detected_events();'
+  "string", null)),
+  dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null),
+  dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null) 
+  | where registry_path IS NOT NULL AND (like (registry_path, "%mscfile\\\\shell\\\\open\\\\command%"))
+  | eval body=--body--
+  | into write_ssa_finding_events();' 
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint_Registry` datamodel.
