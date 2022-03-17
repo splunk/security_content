@@ -1,32 +1,30 @@
-name: AWS IAM Assume Role Policy Brute Force
-id: f19e09b0-9308-11eb-b7ec-acde48001122
-version: 1
-date: '2021-04-01'
 author: Michael Haag, Splunk
-type: TTP
 datamodel: []
+date: '2021-04-01'
 description: The following detection identifies any malformed policy document exceptions
   with a status of `failure`. A malformed policy document exception occurs in instances
   where roles are attempted to be assumed, or brute forced. In a brute force attempt,
   using a tool like CloudSploit or Pacu, an attempt will look like `arn:aws:iam::111111111111:role/aws-service-role/rds.amazonaws.com/AWSServiceRoleForRDS`.  Meaning,
   when an adversary is attempting to identify a role name, multiple failures will
   occur. This detection focuses on the errors of a remote attempt that is failing.
+how_to_implement: The Splunk AWS Add-on and Splunk App for AWS is required to utilize
+  this data. The search requires AWS Cloudtrail logs. Set the `where count` greater
+  than a value to identify suspicious activity in your environment.
+id: f19e09b0-9308-11eb-b7ec-acde48001122
+known_false_positives: This detection will require tuning to provide high fidelity
+  detection capabilties. Tune based on src addresses (corporate offices, VPN terminations)
+  or by groups of users.
+name: AWS IAM Assume Role Policy Brute Force
+references:
+- https://www.praetorian.com/blog/aws-iam-assume-role-vulnerabilities
+- https://rhinosecuritylabs.com/aws/assume-worst-aws-assume-role-enumeration/
+- https://www.elastic.co/guide/en/security/current/aws-iam-brute-force-of-assume-role-policy.html
 search: '`cloudtrail` (errorCode=MalformedPolicyDocumentException) status=failure
   (userAgent!=*.amazonaws.com) | stats count min(_time) as firstTime max(_time) as
   lastTime values(requestParameters.policyName) as policy_name by src eventName eventSource
   aws_account_id errorCode requestParameters.policyDocument userAgent eventID awsRegion
   userIdentity.principalId user_arn | where count >= 2 | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `aws_iam_assume_role_policy_brute_force_filter`'
-how_to_implement: The Splunk AWS Add-on and Splunk App for AWS is required to utilize
-  this data. The search requires AWS Cloudtrail logs. Set the `where count` greater
-  than a value to identify suspicious activity in your environment.
-known_false_positives: This detection will require tuning to provide high fidelity
-  detection capabilties. Tune based on src addresses (corporate offices, VPN terminations)
-  or by groups of users.
-references:
-- https://www.praetorian.com/blog/aws-iam-assume-role-vulnerabilities
-- https://rhinosecuritylabs.com/aws/assume-worst-aws-assume-role-enumeration/
-- https://www.elastic.co/guide/en/security/current/aws-iam-brute-force-of-assume-role-policy.html
 tags:
   analytic_story:
   - AWS IAM Privilege Escalation
@@ -49,13 +47,13 @@ tags:
   - T1110
   observable:
   - name: src
-    type: IP Address
     role:
     - Attacker
+    type: IP Address
   - name: user_arn
-    type: User
     role:
     - Victim
+    type: User
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -63,9 +61,10 @@ tags:
   - Splunk Security Analytics for AWS
   required_fields:
   - _time
+  - errorCode
   - eventName
   - userAgent
-  - errorCode
-  - requestParameters.policyName
   risk_score: 28
   security_domain: access
+type: TTP
+version: 1

@@ -1,17 +1,24 @@
-name: Suspicious WAV file in Appdata Folder
-id: 5be109e6-1ac5-11ec-b421-acde48001122
-version: 1
-date: '2021-09-21'
 author: Teoderick Contreras, Splunk
-type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Filesystem
+- Endpoint.Processes
+date: '2021-09-21'
 description: This analytic is to detect a suspicious creation of .wav file in appdata
   folder. This behavior was seen in Remcos RAT malware where it put the audio recording
   in the appdata\audio folde as part of data collection. this recording can be send
   to its C2 server as part of its exfiltration to the compromised machine. creation
   of wav files in this folder path is not a ussual disk place used by user to save
   audio format file.
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, file_name, file_path and command-line
+  executions from your endpoints. If you are using Sysmon, you must have at least
+  version 6.0.4 of the Sysmon TA.
+id: 5be109e6-1ac5-11ec-b421-acde48001122
+known_false_positives: unknown
+name: Suspicious WAV file in Appdata Folder
+references:
+- https://success.trendmicro.com/solution/1123281-remcos-malware-information
+- https://blog.malwarebytes.com/threat-intelligence/2021/07/remcos-rat-delivered-via-visual-basic/
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
   where Processes.process_name=*.exe Processes.process_path="*\\appdata\\Roaming\\*"
   by _time span=1h Processes.process_id Processes.process_name Processes.process Processes.dest
@@ -21,14 +28,6 @@ search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint
   by _time span=1h Filesystem.dest Filesystem.file_create_time Filesystem.file_name
   Filesystem.file_path | `drop_dm_object_name(Filesystem)` | fields file_name file_path
   process_name process_path process dest file_create_time _time ] | `suspicious_wav_file_in_appdata_folder_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, file_name, file_path and command-line
-  executions from your endpoints. If you are using Sysmon, you must have at least
-  version 6.0.4 of the Sysmon TA.
-known_false_positives: unknown
-references:
-- https://success.trendmicro.com/solution/1123281-remcos-malware-information
-- https://blog.malwarebytes.com/threat-intelligence/2021/07/remcos-rat-delivered-via-visual-basic/
 tags:
   analytic_story:
   - Remcos
@@ -47,25 +46,36 @@ tags:
   - T1113
   observable:
   - name: Computer
-    type: Hostname
     role:
     - Victim
+    type: Hostname
   - name: process_name
-    type: process name
     role:
     - Attacker
+    type: process name
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - Endpoint.Filesystem.dest
+  - Endpoint.Filesystem.file_create_time
+  - Endpoint.Filesystem.file_name
+  - Endpoint.Filesystem.file_path
+  - Endpoint.Processes.dest
+  - Endpoint.Processes.process
+  - Endpoint.Processes.process_id
+  - Endpoint.Processes.process_name
+  - Endpoint.Processes.process_path
   - _time
   - dest
   - file_create_time
   - file_name
   - file_path
+  - process
   - process_name
   - process_path
-  - process
   risk_score: 49
   security_domain: endpoint
+type: TTP
+version: 1

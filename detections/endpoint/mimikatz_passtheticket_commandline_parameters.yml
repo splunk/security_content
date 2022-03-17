@@ -1,32 +1,30 @@
-name: Mimikatz PassTheTicket CommandLine Parameters
-id: 13bbd574-83ac-11ec-99d4-acde48001122
-version: 1
-date: '2022-02-01'
 author: Mauricio Velazco, Splunk
-type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
+date: '2022-02-01'
 description: The following analytic looks for the use of Mimikatz command line parameters
   leveraged to execute pass the ticket attacks. Red teams and adversaries alike may
   use the pass the ticket technique using stolen Kerberos tickets to move laterally
   within an environment, bypassing normal system access controls. Defenders should
   be aware that adversaries may customize the source code of Mimikatz and modify the
   command line parameters. This would effectively bypass this analytic.
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
+id: 13bbd574-83ac-11ec-99d4-acde48001122
+known_false_positives: Although highly unlikely, legitimate applications may use the
+  same command line parameters as Mimikatz.
+name: Mimikatz PassTheTicket CommandLine Parameters
+references:
+- https://github.com/gentilkiwi/mimikatz
+- https://attack.mitre.org/techniques/T1550/003/
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.process = "*sekurlsa::tickets
   /export*" OR Processes.process = "*kerberos::ptt*") by Processes.dest Processes.user
   Processes.parent_process Processes.process_name Processes.process Processes.process_id
   Processes.parent_process_id Processes.parent_process_name | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `mimikatz_passtheticket_commandline_parameters_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA.
-known_false_positives: Although highly unlikely, legitimate applications may use the
-  same command line parameters as Mimikatz.
-references:
-- https://github.com/gentilkiwi/mimikatz
-- https://attack.mitre.org/techniques/T1550/003/
 tags:
   analytic_story:
   - Active Directory Kerberos Attacks
@@ -46,30 +44,32 @@ tags:
   - T1550.003
   observable:
   - name: user
+    role:
+    - Victim
     type: User
-    role:
-    - Victim
   - name: dest
-    type: Hostname
     role:
     - Victim
+    type: Hostname
   - name: parent_process_name
-    type: Parent Process
     role:
     - Parent Process
+    type: Parent Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - Endpoint.Processes.dest
+  - Endpoint.Processes.parent_process
+  - Endpoint.Processes.parent_process_id
+  - Endpoint.Processes.parent_process_name
+  - Endpoint.Processes.process
+  - Endpoint.Processes.process_id
+  - Endpoint.Processes.process_name
+  - Endpoint.Processes.user
   - _time
-  - Processes.dest
-  - Processes.user
-  - Processes.parent_process
-  - Processes.process_name
-  - Processes.process
-  - Processes.process_id
-  - Processes.parent_process_id
-  - Processes.parent_process_name
   risk_score: 36
   security_domain: endpoint
+type: TTP
+version: 1

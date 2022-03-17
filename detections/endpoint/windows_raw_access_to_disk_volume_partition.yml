@@ -1,29 +1,26 @@
-name: Windows Raw Access To Disk Volume Partition
-id: a85aa37e-9647-11ec-90c5-acde48001122
-version: 1
-date: '2022-02-25'
 author: Teoderick Contreras, Splunk
-type: Anomaly
-datamodel:
-- Endpoint
+datamodel: []
+date: '2022-02-25'
 description: This analytic is to look for suspicious raw access read to device disk
   partition of the host machine. This technique was seen in several attacks by adversaries
   or threat actor to wipe, encrypt or overwrite the boot sector of each partition
   as part of their impact payload for example the "hermeticwiper" malware. This detection
   is a good indicator that there is a process try to read or write on boot sector.
-search: '`sysmon` EventCode=9 Device = \\Device\\HarddiskVolume* NOT (Image IN("*\\Windows\\System32\\*",
-  "*\\Windows\\SysWOW64\\*")) | stats count min(_time) as firstTime max(_time) as
-  lastTime by Image Device ProcessGuid ProcessId EventDescription EventCode Computer
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_raw_access_to_disk_volume_partition_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the raw access read event (like sysmon eventcode 9), process name and
   process guid from your endpoints. If you are using Sysmon, you must have at least
   version 6.0.4 of the Sysmon TA.
+id: a85aa37e-9647-11ec-90c5-acde48001122
 known_false_positives: This event is really notable but we found minimal number of
   normal application from system32 folder like svchost.exe accessing it too. In this
   case we used 'system32' and 'syswow64' path as a filter for this detection.
+name: Windows Raw Access To Disk Volume Partition
 references:
 - https://blog.talosintelligence.com/2022/02/threat-advisory-hermeticwiper.html
+search: '`sysmon` EventCode=9 Device = \\Device\\HarddiskVolume* NOT (Image IN("*\\Windows\\System32\\*",
+  "*\\Windows\\SysWOW64\\*")) | stats count min(_time) as firstTime max(_time) as
+  lastTime by Image Device ProcessGuid ProcessId EventDescription EventCode Computer
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_raw_access_to_disk_volume_partition_filter`'
 tags:
   analytic_story:
   - Data Destruction
@@ -49,9 +46,9 @@ tags:
   - DE.CM
   observable:
   - name: ComputerName
-    type: Hostname
     role:
     - Victim
+    type: Hostname
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -67,3 +64,5 @@ tags:
   - EventCode
   risk_score: 90
   security_domain: endpoint
+type: Anomaly
+version: 1

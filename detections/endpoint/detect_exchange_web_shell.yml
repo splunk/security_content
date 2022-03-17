@@ -1,11 +1,8 @@
-name: Detect Exchange Web Shell
-id: 8c14eeee-2af1-4a4b-bda8-228da0f4862a
-version: 3
-date: '2021-10-05'
 author: Michael Haag, Shannon Davis, David Dorsey, Splunk
-type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Filesystem
+- Endpoint.Processes
+date: '2021-10-05'
 description: 'The following query identifies suspicious .aspx created in 3 paths identified
   by Microsoft as known drop locations for Exchange exploitation related to HAFNIUM
   group and recently disclosed vulnerablity named ProxyShell. Paths include: `\HttpProxy\owa\auth\`,
@@ -25,6 +22,20 @@ description: 'The following query identifies suspicious .aspx created in 3 paths
   untenable. However, using the asset information to limit this analytic to just the
   Exchange servers will reduce the noise allowing the hunter to focus only on the
   systems where this behavioral change is relevant.'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node and `Filesystem`
+  node.
+id: 8c14eeee-2af1-4a4b-bda8-228da0f4862a
+known_false_positives: The query is structured in a way that `action` (read, create)
+  is not defined. Review the results of this query, filter, and tune as necessary.
+  It may be necessary to generate this query specific to your endpoint product.
+name: Detect Exchange Web Shell
+references:
+- https://raw.githubusercontent.com/Azure/Azure-Sentinel/master/Sample%20Data/Feeds/MSTICIoCs-ExchangeServerVulnerabilitiesDisclosedMarch2021.csv
+- https://www.zerodayinitiative.com/blog/2021/8/17/from-pwn2own-2021-a-new-attack-surface-on-microsoft-exchange-proxyshell
+- https://www.youtube.com/watch?v=FC6iHw258RI
+- https://www.huntress.com/blog/rapid-response-microsoft-exchange-servers-still-vulnerable-to-proxyshell-exploit#what-should-you-do
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
   where Processes.process_name=System  by _time span=1h Processes.process_id Processes.process_name
   Processes.dest | `drop_dm_object_name(Processes)` | join process_guid, _time [|
@@ -35,18 +46,6 @@ search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint
   Filesystem.file_path | `drop_dm_object_name(Filesystem)` | fields _time dest file_create_time
   file_name file_path process_name process_path process] | dedup file_create_time
   | table dest file_create_time, file_name, file_path, process_name | `detect_exchange_web_shell_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Processes` node and `Filesystem`
-  node.
-known_false_positives: The query is structured in a way that `action` (read, create)
-  is not defined. Review the results of this query, filter, and tune as necessary.
-  It may be necessary to generate this query specific to your endpoint product.
-references:
-- https://raw.githubusercontent.com/Azure/Azure-Sentinel/master/Sample%20Data/Feeds/MSTICIoCs-ExchangeServerVulnerabilitiesDisclosedMarch2021.csv
-- https://www.zerodayinitiative.com/blog/2021/8/17/from-pwn2own-2021-a-new-attack-surface-on-microsoft-exchange-proxyshell
-- https://www.youtube.com/watch?v=FC6iHw258RI
-- https://www.huntress.com/blog/rapid-response-microsoft-exchange-servers-still-vulnerable-to-proxyshell-exploit#what-should-you-do
 tags:
   analytic_story:
   - HAFNIUM Group
@@ -70,29 +69,33 @@ tags:
   - T1190
   observable:
   - name: user
+    role:
+    - Victim
     type: User
-    role:
-    - Victim
   - name: dest
+    role:
+    - Victim
     type: Hostname
-    role:
-    - Victim
   - name: file_name
-    type: File Name
     role:
     - Victim
+    type: File Name
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - Endpoint.Filesystem.dest
+  - Endpoint.Filesystem.file_create_time
+  - Endpoint.Filesystem.file_name
+  - Endpoint.Filesystem.file_path
+  - Endpoint.Processes.dest
+  - Endpoint.Processes.process_id
+  - Endpoint.Processes.process_name
   - _time
-  - Filesystem.file_path
-  - Filesystem.process_id
-  - Filesystem.file_name
-  - Filesystem.file_hash
-  - Filesystem.user
   risk_score: 81
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_microsoft_sysmon
+type: TTP
+version: 3

@@ -1,11 +1,7 @@
-name: Wmic NonInteractive App Uninstallation
-id: bff0e7a0-317f-11ec-ab4e-acde48001122
-version: 1
-date: '2021-10-20'
 author: Teoderick Contreras, Splunk
-type: Hunting
 datamodel:
-- Endpoint
+- Endpoint.Processes
+date: '2021-10-20'
 description: This analytic is to detect a suspicious wmic commandlined that uninstall
   application non interactively. This technique was seen in IceID to uninstall av
   products to the compromised host to bypassed and evade detections. This Hunting
@@ -13,6 +9,16 @@ description: This analytic is to detect a suspicious wmic commandlined that unin
   wmic which is not a common behavior. This approach may seen in some script or third
   part appication to uninstall their application but it is a good thing to check what
   it uninstall and why.
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
+id: bff0e7a0-317f-11ec-ab4e-acde48001122
+known_false_positives: third party application may use this approach to uninstall
+  there application
+name: Wmic NonInteractive App Uninstallation
+references:
+- https://thedfirreport.com/2021/10/18/icedid-to-xinglocker-ransomware-in-24-hours/
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name=wmic.exe
   Processes.process="* product *" Processes.process="*where name*" Processes.process="*call
@@ -20,14 +26,6 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Processes.parent_process_name Processes.process_name Processes.process Processes.original_file_name
   Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `wmic_noninteractive_app_uninstallation_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA.
-known_false_positives: third party application may use this approach to uninstall
-  there application
-references:
-- https://thedfirreport.com/2021/10/18/icedid-to-xinglocker-ransomware-in-24-hours/
 tags:
   analytic_story:
   - IceID
@@ -47,33 +45,32 @@ tags:
   - T1562
   observable:
   - name: dest
+    role:
+    - Victim
     type: Endpoint
-    role:
-    - Victim
   - name: user
-    type: User
     role:
     - Victim
+    type: User
   - name: process_name
-    type: Process
     role:
     - Target
+    type: Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - Endpoint.Processes.dest
+  - Endpoint.Processes.original_file_name
+  - Endpoint.Processes.parent_process_id
+  - Endpoint.Processes.parent_process_name
+  - Endpoint.Processes.process
+  - Endpoint.Processes.process_id
+  - Endpoint.Processes.process_name
+  - Endpoint.Processes.user
   - _time
-  - Processes.dest
-  - Processes.user
-  - Processes.parent_process_name
-  - Processes.parent_process
-  - Processes.original_file_name
-  - Processes.process_name
-  - Processes.process
-  - Processes.process_id
-  - Processes.parent_process_path
-  - Processes.process_path
-  - Processes.parent_process_id
   risk_score: 25
   security_domain: endpoint
+type: Hunting
+version: 1

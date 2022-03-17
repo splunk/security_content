@@ -1,11 +1,7 @@
-name: Detect Regsvcs Spawning a Process
-id: bc477b57-5c21-4ab6-9c33-668772e7f114
-version: 1
-date: '2021-02-12'
 author: Michael Haag, Splunk
-type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
+date: '2021-02-12'
 description: The following analytic identifies regsvcs.exe spawning a process. This
   particular technique has been used in the wild to bypass application control products.
   Regasm.exe and Regsvcs.exe are signed by Microsoft. Spawning of a child process
@@ -14,21 +10,23 @@ description: The following analytic identifies regsvcs.exe spawning a process. T
   suspicious behavior. Gather any other file modifications and review accordingly.
   regsvcs.exe and regasm.exe are natively found in C:\Windows\Microsoft.NET\Framework\v*\regasm|regsvcs.exe
   and C:\Windows\Microsoft.NET\Framework64\v*\regasm|regsvcs.exe.
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+id: bc477b57-5c21-4ab6-9c33-668772e7f114
+known_false_positives: Although unlikely, limited instances of regasm.exe or regsvcs.exe
+  may cause a false positive. Filter based endpoint usage, command line arguments,
+  or process lineage.
+name: Detect Regsvcs Spawning a Process
+references:
+- https://attack.mitre.org/techniques/T1218/009/
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.009/T1218.009.md
+- https://lolbas-project.github.io/lolbas/Binaries/Regsvcs/
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=regsvcs.exe
   by Processes.dest Processes.user Processes.parent_process Processes.process_name
   Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `detect_regsvcs_spawning_a_process_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Processes` node.
-known_false_positives: Although unlikely, limited instances of regasm.exe or regsvcs.exe
-  may cause a false positive. Filter based endpoint usage, command line arguments,
-  or process lineage.
-references:
-- https://attack.mitre.org/techniques/T1218/009/
-- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.009/T1218.009.md
-- https://lolbas-project.github.io/lolbas/Binaries/Regsvcs/
 tags:
   analytic_story:
   - Suspicious Regsvcs Regasm Activity
@@ -55,36 +53,38 @@ tags:
   - DE.CM
   observable:
   - name: user
+    role:
+    - Victim
     type: User
-    role:
-    - Victim
   - name: dest
-    type: Hostname
     role:
     - Victim
+    type: Hostname
   - name: parent_process_name
-    type: Parent Process
     role:
     - Parent Process
+    type: Parent Process
   - name: process_name
-    type: Process
     role:
     - Child Process
+    type: Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - Endpoint.Processes.dest
+  - Endpoint.Processes.parent_process
+  - Endpoint.Processes.parent_process_id
+  - Endpoint.Processes.parent_process_name
+  - Endpoint.Processes.process
+  - Endpoint.Processes.process_id
+  - Endpoint.Processes.process_name
+  - Endpoint.Processes.user
   - _time
-  - Processes.parent_process_name
-  - Processes.dest
-  - Processes.user
-  - Processes.parent_process
-  - Processes.process_name
-  - Processes.process
-  - Processes.process_id
-  - Processes.parent_process_id
   risk_score: 64
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_microsoft_sysmon
+type: TTP
+version: 1

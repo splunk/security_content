@@ -1,14 +1,16 @@
-name: DNS Query Length With High Standard Deviation
-id: 1a67f15a-f4ff-4170-84e9-08cf6f75d6f5
-version: 4
-date: '2021-10-06'
 author: Bhavin Patel, Splunk
-type: Anomaly
 datamodel:
-- Network_Resolution
+- Network_Resolution.DNS
+date: '2021-10-06'
 description: This search allows you to identify DNS requests and compute the standard
   deviation on the length of the names being resolved, then filter on two times the
   standard deviation to show you those queries that are unusually large for your environment.
+how_to_implement: To successfully implement this search, you will need to ensure that
+  DNS data is populating the Network_Resolution data model.
+id: 1a67f15a-f4ff-4170-84e9-08cf6f75d6f5
+known_false_positives: It's possible there can be long domain names that are legitimate.
+name: DNS Query Length With High Standard Deviation
+references: []
 search: '| tstats `security_content_summariesonly` count from datamodel=Network_Resolution.DNS
   where NOT DNS.message_type IN("Pointer","PTR") by DNS.query | `drop_dm_object_name("DNS")`
   | eval tlds=split(query,".") | eval tld=mvindex(tlds,-1) | eval tld_len=len(tld)
@@ -16,10 +18,6 @@ search: '| tstats `security_content_summariesonly` count from datamodel=Network_
   record_type count | eventstats stdev(query_length) AS stdev avg(query_length) AS
   avg p50(query_length) AS p50| where query_length>(avg+stdev*2) | eval z_score=(query_length-avg)/stdev
   | `dns_query_length_with_high_standard_deviation_filter`'
-how_to_implement: To successfully implement this search, you will need to ensure that
-  DNS data is populating the Network_Resolution data model.
-known_false_positives: It's possible there can be long domain names that are legitimate.
-references: []
 tags:
   analytic_story:
   - Hidden Cobra Malware
@@ -50,21 +48,23 @@ tags:
   - DE.CM
   observable:
   - name: host
-    type: Hostname
     role:
     - Victim
+    type: Hostname
   - name: query
-    type: dnsquery
     role:
     - Attacker
+    type: dnsquery
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - _time
-  - DNS.query
+  - Network_Resolution.DNS.message_type
+  - Network_Resolution.DNS.query
   risk_score: 56
   security_domain: network
   supported_tas:
   - Splunk_TA_microsoft_sysmon
+type: Anomaly
+version: 4

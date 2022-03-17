@@ -1,11 +1,7 @@
-name: Excel Spawning Windows Script Host
-id: 57fe880a-9be3-11eb-9bf3-acde48001122
-version: 1
-date: '2021-04-12'
 author: Michael Haag, Splunk
-type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
+date: '2021-04-12'
 description: The following detection identifies Microsoft Excel spawning Windows Script
   Host - `cscript.exe` or `wscript.exe`. Typically, this is not common behavior and
   not default with Excel.exe. Excel.exe will generally be found in the following path
@@ -16,21 +12,23 @@ description: The following detection identifies Microsoft Excel spawning Windows
   be obfuscated and captured via another detection. During triage, review parallel
   processes and identify any files that may have been written. Review the reputation
   of the remote destination and block accordingly.
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+id: 57fe880a-9be3-11eb-9bf3-acde48001122
+known_false_positives: False positives should be limited, but if any are present,
+  filter as needed. In some instances, `cscript.exe` is used for legitimate business
+  practices.
+name: Excel Spawning Windows Script Host
+references:
+- https://app.any.run/tasks/8ecfbc29-03d0-421c-a5bf-3905d29192a2/
+- https://attack.mitre.org/techniques/T1566/001/
 search: '| tstats `security_content_summariesonly` count values(Processes.process)
   min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
   where Processes.parent_process_name="excel.exe" Processes.process_name IN ("cscript.exe",
   "wscript.exe")  by Processes.parent_process Processes.process_name Processes.user
   Processes.dest | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`
   | `excel_spawning_windows_script_host_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Processes` node.
-known_false_positives: False positives should be limited, but if any are present,
-  filter as needed. In some instances, `cscript.exe` is used for legitimate business
-  practices.
-references:
-- https://app.any.run/tasks/8ecfbc29-03d0-421c-a5bf-3905d29192a2/
-- https://attack.mitre.org/techniques/T1566/001/
 tags:
   analytic_story:
   - Spearphishing Attachments
@@ -51,32 +49,38 @@ tags:
   - T1003
   observable:
   - name: user
+    role:
+    - Victim
     type: User
-    role:
-    - Victim
   - name: dest
-    type: Hostname
     role:
     - Victim
+    type: Hostname
   - name: parent_process_name
-    type: Parent Process
     role:
     - Parent Process
+    type: Parent Process
   - name: process_name
-    type: Process
     role:
     - Child Process
+    type: Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - Endpoint.Processes.dest
+  - Endpoint.Processes.parent_process
+  - Endpoint.Processes.parent_process_name
+  - Endpoint.Processes.process
+  - Endpoint.Processes.process_name
+  - Endpoint.Processes.user
   - _time
-  - process_name
-  - process_id
-  - parent_process_name
   - dest
+  - parent_process_name
+  - process_name
   - user
-  - parent_process_id
   risk_score: 80
   security_domain: endpoint
+type: TTP
+version: 1
