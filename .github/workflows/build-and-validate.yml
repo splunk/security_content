@@ -424,16 +424,14 @@ jobs:
         run: |
           source venv/bin/activate
           python3 contentctl.py -p . docgen -o docs
-
-      # this step is creating some TOKEN issues while tagging a build, commenting this out for now
       
-      # - name: Enrich detections with TAs
-      #   env:
-      #     GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   run: |
-      #     source venv/bin/activate
-      #     python3 -m pip install -r security_content_automation/requirements.txt
-      #     python3 security_content_automation/enrich_detections.py
+      - name: Enrich detections with TAs
+        env:
+          GITHUB_ACCESS_TOKEN: ${{ secrets.GIT_ACCESS_TOKEN }}
+        run: |
+          source venv/bin/activate
+          python3 -m pip install -r security_content_automation/requirements.txt
+          python3 security_content_automation/enrich_detections.py
 
       - name: Update github with new docs and package bits
         run: |
