@@ -61,9 +61,12 @@ def outputResultsJSON(output_filename:str, data:list[dict], baseline:OrderedDict
         fail_list = [os.path.join("security_content/detections",x['detection_file'] ) for x in data_sorted if x['success'] == False]
 
         if len(fail_list) > 0:
-                                    
+            print("FAILURES:")
+            for failed_test in fail_list:
+                print(f"\tfailed_test")
             failures_test_override = copy.deepcopy(summarization_reproduce_failure_config)
-            failures_test_override.update({"detections_list": fail_list, "no_interactive_failure":False, 
+            #Force all tests to be interactive, even if they don't fail (because they failed on this test)
+            failures_test_override.update({"detections_list": fail_list, "no_interactive_failure":False, "interactive": True,
                                     "num_containers":1, "branch": baseline["branch"], "commit_hash":baseline["commit_hash"], 
                                     "mode":"selected", "show_splunk_app_password": True})
             with open(os.path.join(output_folder,failure_manifest_filename),"w") as failures:
