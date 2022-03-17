@@ -37,6 +37,7 @@ references:
 tags:
   analytic_story:
   - Prohibited Traffic Allowed or Protocol Mismatch
+  - Windows Registry Abuse
   confidence: 30
   context:
   - Source:Endpoint

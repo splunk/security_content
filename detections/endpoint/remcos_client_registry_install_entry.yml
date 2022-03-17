@@ -30,6 +30,7 @@ references:
 tags:
   analytic_story:
   - Remcos
+  - Windows Registry Abuse
   confidence: 100
   context:
   - Source:Endpoint
