@@ -1,25 +1,27 @@
-author: Teoderick Contreras, Splunk
-datamodel:
-- Endpoint.Processes
+name: Execute Javascript With Jscript COM CLSID
+id: dc64d064-d346-11eb-8588-acde48001122
+version: 1
 date: '2021-06-22'
+author: Teoderick Contreras, Splunk
+type: TTP
+datamodel:
+- Endpoint
 description: This analytic will identify suspicious process of cscript.exe where it
   tries to execute javascript using jscript.encode CLSID (COM OBJ). This technique
   was seen in ransomware (reddot ransomware) where it execute javascript with this
   com object with combination of amsi disabling technique.
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the Filesystem responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Filesystem` node.
-id: dc64d064-d346-11eb-8588-acde48001122
-known_false_positives: unknown
-name: Execute Javascript With Jscript COM CLSID
-references:
-- https://app.any.run/tasks/c0f98850-af65-4352-9746-fbebadee4f05/
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name = "cscript.exe"
   Processes.process="*-e:{F414C262-6AC0-11CF-B6D1-00AA00BBBB58}*" by Processes.parent_process_name
   Processes.process_name Processes.process Processes.parent_process Processes.process_id
   Processes.dest Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `execute_javascript_with_jscript_com_clsid_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the Filesystem responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Filesystem` node.
+known_false_positives: unknown
+references:
+- https://app.any.run/tasks/c0f98850-af65-4352-9746-fbebadee4f05/
 tags:
   analytic_story:
   - Ransomware
@@ -41,38 +43,36 @@ tags:
   - T1059.005
   observable:
   - name: user
-    role:
-    - Victim
     type: User
-  - name: dest
     role:
     - Victim
+  - name: dest
     type: Endpoint
+    role:
+    - Victim
   - name: process_id
+    type: Process
     role:
     - Attacker
-    type: Process
   - name: parent_process_name
+    type: Process Name
     role:
     - Parent Process
     - Attacker
-    type: Process Name
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.parent_process
-  - Endpoint.Processes.parent_process_name
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_id
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.user
   - _time
+  - Processes.parent_process_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.parent_process
+  - Processes.process_id
+  - Processes.dest
+  - Processes.user
   risk_score: 56
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_microsoft_sysmon
-type: TTP
-version: 1

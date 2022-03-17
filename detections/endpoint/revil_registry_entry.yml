@@ -1,22 +1,16 @@
-author: Teoderick Contreras, Splunk
-datamodel:
-- Endpoint.Processes
-- Endpoint.Registry
+name: Revil Registry Entry
+id: e3d3f57a-c381-11eb-9e35-acde48001122
+version: 2
 date: '2021-01-26'
+author: Teoderick Contreras, Splunk
+type: TTP
+datamodel:
+- Endpoint
 description: This analytic identifies suspicious modification in registry entry to
   keep some malware data during its infection. This technique seen in several apt
   implant, malware and ransomware like REVIL where it keep some information like the
   random generated file extension it uses for all the encrypted files and ransomware
   notes file name in the compromised host.
-how_to_implement: to successfully implement this search, you need to be ingesting
-  logs with the Image, TargetObject registry key, registry Details from your endpoints.
-  If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
-id: e3d3f57a-c381-11eb-9e35-acde48001122
-known_false_positives: unknown
-name: Revil Registry Entry
-references:
-- https://krebsonsecurity.com/2021/05/a-closer-look-at-the-darkside-ransomware-gang/
-- https://www.mcafee.com/blogs/other-blogs/mcafee-labs/mcafee-atr-analyzes-sodinokibi-aka-revil-ransomware-as-a-service-what-the-code-tells-us/
 search: '| tstats `security_content_summariesonly` count  FROM datamodel=Endpoint.Registry
   where (Registry.registry_path="*\\SOFTWARE\\WOW6432Node\\Facebook_Assistant\\*"
   OR Registry.registry_path="*\\SOFTWARE\\WOW6432Node\\BlackLivesMatter*") by _time
@@ -30,6 +24,13 @@ search: '| tstats `security_content_summariesonly` count  FROM datamodel=Endpoin
   process_path process proc_guid registry_path registry_value_name registry_value_data]
   | table _time dest user parent_process_name parent_process process_name process_path
   process proc_guid registry_path registry_value_name registry_value_data | `revil_registry_entry_filter`'
+how_to_implement: to successfully implement this search, you need to be ingesting
+  logs with the Image, TargetObject registry key, registry Details from your endpoints.
+  If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+known_false_positives: unknown
+references:
+- https://krebsonsecurity.com/2021/05/a-closer-look-at-the-darkside-ransomware-gang/
+- https://www.mcafee.com/blogs/other-blogs/mcafee-labs/mcafee-atr-analyzes-sodinokibi-aka-revil-ransomware-as-a-service-what-the-code-tells-us/
 tags:
   analytic_story:
   - Ransomware
@@ -50,35 +51,25 @@ tags:
   - T1112
   observable:
   - name: dest
-    role:
-    - Victim
     type: Hostname
-  - name: user
     role:
     - Victim
+  - name: user
     type: user
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.parent_process
-  - Endpoint.Processes.parent_process_name
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_guid
-  - Endpoint.Processes.process_id
-  - Endpoint.Processes.process_name
-  - Endpoint.Registry.dest
-  - Endpoint.Registry.process_guid
-  - Endpoint.Registry.registry_path
-  - Endpoint.Registry.registry_value_data
-  - Endpoint.Registry.registry_value_name
-  - Endpoint.Registry.user
   - _time
+  - Registry.dest
+  - Registry.user
+  - Registry.registry_value_name
+  - Registry.registry_path
+  - Registry.registry_key_name
   risk_score: 60
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_microsoft_sysmon
-type: TTP
-version: 2

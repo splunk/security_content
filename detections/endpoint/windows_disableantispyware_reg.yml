@@ -1,29 +1,31 @@
-author: Rod Soto, Jose Hernandez, Michael Haag, Splunk
-datamodel:
-- Endpoint.Registry
+name: Windows DisableAntiSpyware Registry
+id: 23150a40-9301-4195-b802-5bb4f43067fb
+version: 2
 date: '2021-03-02'
+author: Rod Soto, Jose Hernandez, Michael Haag, Splunk
+type: TTP
+datamodel:
+- Endpoint
 description: The search looks for the Registry Key DisableAntiSpyware set to disable.
   This is consistent with Ryuk infections across a fleet of endpoints. This particular
   behavior is typically executed when an ransomware actor gains access to an endpoint
   and beings to perform execution. Usually, a batch (.bat) will be executed and multiple
   registry and scheduled task modifications will occur. During triage, review parallel
   processes and identify any further file modifications. Endpoint should be isolated.
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Registry` node.
-id: 23150a40-9301-4195-b802-5bb4f43067fb
-known_false_positives: It is unusual to turn this feature off a Windows system since
-  it is a default security control, although it is not rare for some policies to disable
-  it. Although no false positives have been identified, use the provided filter macro
-  to tune the search.
-name: Windows DisableAntiSpyware Registry
-references:
-- https://blog.malwarebytes.com/malwarebytes-news/2021/02/lazyscripter-from-empire-to-double-rat/
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Registry where Registry.registry_value_name="DisableAntiSpyware"
   AND Registry.registry_value_data="0x00000001" by Registry.dest Registry.user Registry.registry_path
   Registry.registry_value_data | `drop_dm_object_name(Registry)` | `security_content_ctime(lastTime)`
   | `security_content_ctime(firstTime)` | `windows_disableantispyware_registry_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Registry` node.
+known_false_positives: It is unusual to turn this feature off a Windows system since
+  it is a default security control, although it is not rare for some policies to disable
+  it. Although no false positives have been identified, use the provided filter macro
+  to tune the search.
+references:
+- https://blog.malwarebytes.com/malwarebytes-news/2021/02/lazyscripter-from-empire-to-double-rat/
 tags:
   analytic_story:
   - Ryuk Ransomware
@@ -50,23 +52,21 @@ tags:
   - DE.CM
   observable:
   - name: dest
+    type: Endpoint
     role:
     - Victim
-    type: Endpoint
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Registry.dest
-  - Endpoint.Registry.registry_path
-  - Endpoint.Registry.registry_value_data
-  - Endpoint.Registry.registry_value_name
-  - Endpoint.Registry.user
   - _time
+  - Registry.registry_key_name
+  - Registry.registry_value_name
+  - Registry.dest
+  - Registry.user
+  - Registry.registry_path
   risk_score: 24
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_microsoft_sysmon
-type: TTP
-version: 2

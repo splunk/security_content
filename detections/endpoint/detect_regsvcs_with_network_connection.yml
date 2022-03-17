@@ -1,6 +1,10 @@
-author: Michael Haag, Splunk
-datamodel: []
+name: Detect Regsvcs with Network Connection
+id: e3e7a1c0-f2b9-445c-8493-f30a63522d1a
+version: 2
 date: '2022-02-18'
+author: Michael Haag, Splunk
+type: TTP
+datamodel: []
 description: The following analytic identifies Regsvcs.exe with a network connection
   to a public IP address, exluding private IP space. This particular technique has
   been used in the wild to bypass application control products. Regasm.exe and Regsvcs.exe
@@ -11,23 +15,21 @@ description: The following analytic identifies Regsvcs.exe with a network connec
   and review accordingly. Review the reputation of the remote IP or domain and block
   as needed. regsvcs.exe and regasm.exe are natively found in C:\Windows\Microsoft.NET\Framework\v*\regasm|regsvcs.exe
   and C:\Windows\Microsoft.NET\Framework64\v*\regasm|regsvcs.exe.
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA.
-id: e3e7a1c0-f2b9-445c-8493-f30a63522d1a
-known_false_positives: Although unlikely, limited instances of regsvcs.exe may cause
-  a false positive. Filter based endpoint usage, command line arguments, or process
-  lineage.
-name: Detect Regsvcs with Network Connection
-references:
-- https://attack.mitre.org/techniques/T1218/009/
-- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.009/T1218.009.md
-- https://lolbas-project.github.io/lolbas/Binaries/Regsvcs/
 search: '`sysmon` EventID=3 dest_ip!=10.0.0.0/12 dest_ip!=172.16.0.0/12 dest_ip!=192.168.0.0/16
   process_name=regsvcs.exe | rename Computer as dest | stats count min(_time) as firstTime
   max(_time) as lastTime by dest, user, process_name, src_ip, dest_ip | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `detect_regsvcs_with_network_connection_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
+known_false_positives: Although unlikely, limited instances of regsvcs.exe may cause
+  a false positive. Filter based endpoint usage, command line arguments, or process
+  lineage.
+references:
+- https://attack.mitre.org/techniques/T1218/009/
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.009/T1218.009.md
+- https://lolbas-project.github.io/lolbas/Binaries/Regsvcs/
 tags:
   analytic_story:
   - Suspicious Regsvcs Regasm Activity
@@ -54,30 +56,29 @@ tags:
   - DE.CM
   observable:
   - name: user
-    role:
-    - Victim
     type: User
-  - name: dest
     role:
     - Victim
+  - name: dest
     type: Hostname
+    role:
+    - Victim
   - name: process_name
+    type: Process
     role:
     - Child Process
-    type: Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Computer
-  - EventID
   - _time
+  - EventID
   - dest_ip
   - process_name
-  - src_ip
+  - Computer
   - user
+  - src_ip
+  - dest_host
   risk_score: 80
   security_domain: Endpoint
-type: TTP
-version: 2

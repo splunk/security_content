@@ -1,27 +1,29 @@
-author: Teoderick Contreras, Splunk
-datamodel:
-- Endpoint.Processes
+name: Excessive Usage Of Net App
+id: 45e52536-ae42-11eb-b5c6-acde48001122
+version: 2
 date: '2021-05-06'
+author: Teoderick Contreras, Splunk
+type: Anomaly
+datamodel:
+- Endpoint
 description: This analytic identifies excessive usage of `net.exe` or `net1.exe` within
   a bucket of time (1 minute). This behavior was seen in a Monero incident where the
   adversary attempts to create many users, delete and disable users as part of its
   malicious behavior.
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
-  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
-  endpoint product.
-id: 45e52536-ae42-11eb-b5c6-acde48001122
-known_false_positives: unknown. Filter as needed. Modify the time span as needed.
-name: Excessive Usage Of Net App
-references:
-- https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
   values(Processes.process_id) as process_id count min(_time) as firstTime max(_time)
   as lastTime  from datamodel=Endpoint.Processes where `process_net` by Processes.process_name
   Processes.parent_process_name Processes.original_file_name Processes.dest Processes.user
   _time span=1m | where count >=10 | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `excessive_usage_of_net_app_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: unknown. Filter as needed. Modify the time span as needed.
+references:
+- https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
 tags:
   analytic_story:
   - XMRig
@@ -43,34 +45,36 @@ tags:
   - T1531
   observable:
   - name: user
-    role:
-    - Victim
     type: User
-  - name: dest
     role:
     - Victim
+  - name: dest
     type: Endpoint
+    role:
+    - Victim
   - name: process_name
+    type: Process Name
     role:
     - Process
     - Attacker
-    type: Process Name
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.original_file_name
-  - Endpoint.Processes.parent_process_name
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_id
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.user
   - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.parent_process
+  - Processes.original_file_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_path
+  - Processes.process_path
+  - Processes.parent_process_id
   risk_score: 28
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_microsoft_sysmon
-type: Anomaly
-version: 2

@@ -1,6 +1,10 @@
-author: Mauricio Velazco, Splunk
-datamodel: []
+name: Kerberos Pre-Authentication Flag Disabled in UserAccountControl
+id: 0cb847ee-9423-11ec-b2df-acde48001122
+version: 1
 date: '2022-02-22'
+author: Mauricio Velazco, Splunk
+type: TTP
+datamodel: []
 description: The following analytic leverages Windows Security Event 4738, `A user
   account was changed`, to identify a change performed on a domain user object that
   disables Kerberos Pre-Authentication. Disabling the Pre Authentication flag in the
@@ -8,19 +12,17 @@ description: The following analytic leverages Windows Security Event 4738, `A us
   attack against the user's password offline leveraging the ASP REP Roasting technique.
   Red Teams and adversaries alike who have obtained privileges in an Active Directory
   network may use this technique as a backdoor or a way to escalate privileges.
+search: ' `wineventlog_security` EventCode=4738 MSADChangedAttributes="*Don''t Require
+  Preauth'' - Enabled*" | table EventCode, Account_Name, Security_ID, MSADChangedAttributes
+  | `kerberos_pre_authentication_flag_disabled_in_useraccountcontrol_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   Domain Controller events. The Advanced Security Audit policy setting `User Account
   Management` within `Account Management` needs to be enabled.
-id: 0cb847ee-9423-11ec-b2df-acde48001122
 known_false_positives: Unknown.
-name: Kerberos Pre-Authentication Flag Disabled in UserAccountControl
 references:
 - https://docs.microsoft.com/en-us/troubleshoot/windows-server/identity/useraccountcontrol-manipulate-account-properties
 - https://m0chan.github.io/2019/07/31/How-To-Attack-Kerberos-101.html
 - https://stealthbits.com/blog/cracking-active-directory-passwords-with-as-rep-roasting/
-search: ' `wineventlog_security` EventCode=4738 MSADChangedAttributes="*Don''t Require
-  Preauth'' - Enabled*" | table EventCode, Account_Name, Security_ID, MSADChangedAttributes
-  | `kerberos_pre_authentication_flag_disabled_in_useraccountcontrol_filter`'
 tags:
   analytic_story:
   - Active Directory Kerberos Attacks
@@ -41,19 +43,18 @@ tags:
   - T1558.004
   observable:
   - name: dest
+    type: Endpoint
     role:
     - Victim
-    type: Endpoint
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Account_Name
+  - _time
   - EventCode
-  - MSADChangedAttributes
+  - Account_Name
   - Security_ID
+  - MSADChangedAttributes
   risk_score: 45
   security_domain: endpoint
-type: TTP
-version: 1

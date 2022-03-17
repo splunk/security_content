@@ -1,7 +1,11 @@
-author: Michael Haag, Splunk
-datamodel:
-- Web.Web
+name: Hunting for Log4Shell
+id: 158b68fa-5d1a-11ec-aac8-acde48001122
+version: 1
 date: '2021-12-14'
+author: Michael Haag, Splunk
+type: Hunting
+datamodel:
+- Web
 description: 'The following hunting query assists with quickly assessing CVE-2021-44228,
   or Log4Shell, activity mapped to the Web Datamodel. This is a combination query
   attempting to identify, score and dashboard. Because the Log4Shell vulnerability
@@ -39,22 +43,6 @@ description: 'The following hunting query assists with quickly assessing CVE-202
 
   Finally, a simple table is created to show the scoring and the _raw field. Sort
   based on score or columns of interest.'
-how_to_implement: Out of the box, the Web datamodel is required to be pre-filled.
-  However, tested was performed against raw httpd access logs. Change the first line
-  to any dataset to pass the regex's against.
-id: 158b68fa-5d1a-11ec-aac8-acde48001122
-known_false_positives: It is highly possible you will find false positives, however,
-  the base score is set to 2 for _any_ jndi found in raw logs. tune and change as
-  needed, include any filtering.
-name: Hunting for Log4Shell
-references:
-- https://gist.github.com/olafhartong/916ebc673ba066537740164f7e7e1d72
-- https://gist.github.com/Neo23x0/e4c8b03ff8cdf1fa63b7d15db6e3860b#gistcomment-3994449
-- https://regex101.com/r/OSrm0q/1/
-- https://github.com/Neo23x0/signature-base/blob/master/yara/expl_log4j_cve_2021_44228.yar
-- https://news.sophos.com/en-us/2021/12/12/log4shell-hell-anatomy-of-an-exploit-outbreak/
-- https://gist.github.com/MHaggis/1899b8554f38c8692a9fb0ceba60b44c
-- https://twitter.com/sasi2103/status/1469764719850442760?s=20
 search: '| from datamodel Web.Web | eval jndi=if(match(_raw, "(\{|%7B)[jJnNdDiI]{4}:"),4,0)
   | eval jndi_fastmatch=if(match(_raw, "[jJnNdDiI]{4}"),2,0) | eval jndi_proto=if(match(_raw,"(?i)jndi:(ldap[s]?|rmi|dns|nis|iiop|corba|nds|http|https):"),5,0)
   | eval all_match = if(match(_raw, "(?i)(%(25){0,}20|\s)*(%(25){0,}24|\$)(%(25){0,}20|\s)*(%(25){0,}7B|{)(%(25){0,}20|\s)*(%(25){0,}(6A|4A)|J)(%(25){0,}(6E|4E)|N)(%(25){0,}(64|44)|D)(%(25){0,}(69|49)|I)(%(25){0,}20|\s)*(%(25){0,}3A|:)[\w\%]+(%(25){1,}3A|:)(%(25){1,}2F|\/)[^\n]+"),5,0)
@@ -68,6 +56,20 @@ search: '| from datamodel Web.Web | eval jndi=if(match(_raw, "(\{|%7B)[jJnNdDiI]
   jndi, jndi_proto, env_var, uridetect, all_match, jndi_fastmatch, keywords, obf,
   lookups | where Score > 2 | stats values(Score) by  jndi, jndi_proto, env_var, uridetect,
   all_match, jndi_fastmatch, keywords, lookups, obf, _raw | `hunting_for_log4shell_filter`'
+how_to_implement: Out of the box, the Web datamodel is required to be pre-filled.
+  However, tested was performed against raw httpd access logs. Change the first line
+  to any dataset to pass the regex's against.
+known_false_positives: It is highly possible you will find false positives, however,
+  the base score is set to 2 for _any_ jndi found in raw logs. tune and change as
+  needed, include any filtering.
+references:
+- https://gist.github.com/olafhartong/916ebc673ba066537740164f7e7e1d72
+- https://gist.github.com/Neo23x0/e4c8b03ff8cdf1fa63b7d15db6e3860b#gistcomment-3994449
+- https://regex101.com/r/OSrm0q/1/
+- https://github.com/Neo23x0/signature-base/blob/master/yara/expl_log4j_cve_2021_44228.yar
+- https://news.sophos.com/en-us/2021/12/12/log4shell-hell-anatomy-of-an-exploit-outbreak/
+- https://gist.github.com/MHaggis/1899b8554f38c8692a9fb0ceba60b44c
+- https://twitter.com/sasi2103/status/1469764719850442760?s=20
 tags:
   analytic_story:
   - Log4Shell CVE-2021-44228
@@ -88,24 +90,29 @@ tags:
   - T1190
   observable:
   - name: dest
+    type: Hostname
     role:
     - Victim
-    type: Hostname
   - name: http_method
+    type: Other
     role:
     - other
-    type: Other
   - name: src
+    type: Other
     role:
     - other
-    type: Other
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - _time
+  - Web.http_method
+  - Web.url
+  - Web.url_length
+  - Web.src
+  - Web.dest
+  - Web.http_user_agent
   - _raw
   risk_score: 40
   security_domain: network
-type: Hunting
-version: 1

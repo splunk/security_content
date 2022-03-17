@@ -1,20 +1,12 @@
-author: Bhavin Patel, Patrick Bareiss, Teoderick Contreras, Splunk
-datamodel:
-- Endpoint.Processes
-- Endpoint.Registry
+name: Registry Keys for Creating SHIM Databases
+id: f5f6af30-7aa7-4295-bfe9-07fe87c01bbb
+version: 4
 date: '2020-01-28'
+author: Bhavin Patel, Patrick Bareiss, Teoderick Contreras, Splunk
+type: TTP
+datamodel: []
 description: This search looks for registry activity associated with application compatibility
   shims, which can be leveraged by attackers for various nefarious purposes.
-how_to_implement: To successfully implement this search, you must populate the Change_Analysis
-  data model. This is typically populated via endpoint detection and response product,
-  such as Carbon Black or other endpoint data sources such as Sysmon. The data used
-  for this search is typically generated via logs that report reads and writes to
-  the registry.
-id: f5f6af30-7aa7-4295-bfe9-07fe87c01bbb
-known_false_positives: There are many legitimate applications that leverage shim databases
-  for compatibility purposes for legacy applications
-name: Registry Keys for Creating SHIM Databases
-references: []
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   where Registry.registry_path=*CurrentVersion\\AppCompatFlags\\Custom* OR Registry.registry_path=*CurrentVersion\\AppCompatFlags\\InstalledSDB*
   by _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_value_name
@@ -27,6 +19,14 @@ search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint
   process_path process proc_guid registry_path registry_value_name registry_value_data]
   | table _time dest user parent_process_name parent_process process_name process_path
   process proc_guid registry_path registry_value_name registry_value_data | `registry_keys_for_creating_shim_databases_filter`'
+how_to_implement: To successfully implement this search, you must populate the Change_Analysis
+  data model. This is typically populated via endpoint detection and response product,
+  such as Carbon Black or other endpoint data sources such as Sysmon. The data used
+  for this search is typically generated via logs that report reads and writes to
+  the registry.
+known_false_positives: There are many legitimate applications that leverage shim databases
+  for compatibility purposes for legacy applications
+references: []
 tags:
   analytic_story:
   - Suspicious Windows Registry Activities
@@ -55,33 +55,22 @@ tags:
   - DE.CM
   observable:
   - name: dest
-    role:
-    - Victim
     type: Hostname
-  - name: user
     role:
     - Victim
+  - name: user
     type: user
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.parent_process
-  - Endpoint.Processes.parent_process_name
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_guid
-  - Endpoint.Processes.process_id
-  - Endpoint.Processes.process_name
-  - Endpoint.Registry.dest
-  - Endpoint.Registry.process_guid
-  - Endpoint.Registry.registry_path
-  - Endpoint.Registry.registry_value_data
-  - Endpoint.Registry.registry_value_name
-  - Endpoint.Registry.user
   - _time
+  - Registry.registry_key_name
+  - Registry.registry_path
+  - Registry.dest
+  - Registry.user
   risk_score: 56
   security_domain: endpoint
-type: TTP
-version: 4

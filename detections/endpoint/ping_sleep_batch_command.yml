@@ -1,23 +1,17 @@
-author: Teoderick Contreras, Splunk
-datamodel:
-- Endpoint.Processes
+name: Ping Sleep Batch Command
+id: ce058d6c-79f2-11ec-b476-acde48001122
+version: 1
 date: '2022-01-20'
+author: Teoderick Contreras, Splunk
+type: Anomaly
+datamodel:
+- Endpoint
 description: This analytic will identify the possible execution of ping sleep batch
   commands. This technique was seen in several malware samples and is used to trigger
   sleep times without explicitly calling sleep functions or commandlets. The goal
   is to delay the execution of malicious code and bypass detection or sandbox analysis.
   This  detection can be a good indicator of a process delaying its execution for
   malicious purposes.
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA.
-id: ce058d6c-79f2-11ec-b476-acde48001122
-known_false_positives: Administrator or network operator may execute this command.
-  Please update the filter macros to remove false positives.
-name: Ping Sleep Batch Command
-references:
-- https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_ping` (Processes.parent_process
   = "*ping*" Processes.parent_process = *-n* Processes.parent_process="* Nul*"Processes.parent_process="*&gt;*")
@@ -26,6 +20,14 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Processes.original_file_name Processes.process Processes.process_id Processes.process_guid
   Processes.user Processes.dest | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`
   |`security_content_ctime(lastTime)` | `ping_sleep_batch_command_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
+known_false_positives: Administrator or network operator may execute this command.
+  Please update the filter macros to remove false positives.
+references:
+- https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
 tags:
   analytic_story:
   - WhisperGate
@@ -51,31 +53,31 @@ tags:
   - DE.CM
   observable:
   - name: user
-    role:
-    - Victim
     type: User
-  - name: dest
     role:
     - Victim
+  - name: dest
     type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.original_file_name
-  - Endpoint.Processes.parent_process
-  - Endpoint.Processes.parent_process_name
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_guid
-  - Endpoint.Processes.process_id
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.user
   - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.parent_process
+  - Processes.original_file_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_path
+  - Processes.process_path
+  - Processes.parent_process_id
   risk_score: 36
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_microsoft_sysmon
-type: Anomaly
-version: 1

@@ -1,20 +1,22 @@
-author: Patrick Bareiss, Splunk
-datamodel: []
+name: Kubernetes Scanner Image Pulling
+id: 4890cd6b-0112-4974-a272-c5c153aee551
+version: 1
 date: '2021-08-24'
+author: Patrick Bareiss, Splunk
+type: TTP
+datamodel: []
 description: This search uses the Kubernetes logs from Splunk Connect from Kubernetes
   to detect Kubernetes Security Scanner.
-how_to_implement: You must ingest Kubernetes logs through Splunk Connect for Kubernetes.
-id: 4890cd6b-0112-4974-a272-c5c153aee551
-known_false_positives: unknown
-name: Kubernetes Scanner Image Pulling
-references:
-- https://github.com/splunk/splunk-connect-for-kubernetes
 search: '`kube_objects_events` object.message IN ("Pulling image *kube-hunter*", "Pulling
   image *kube-bench*", "Pulling image *kube-recon*", "Pulling image *kube-recon*")
   | rename object.* AS * | rename involvedObject.* AS * | rename source.host AS host
   | eval phase="operate" | eval severity="high" | stats min(_time) as firstTime max(_time)
   as lastTime count by host, name, namespace, kind, reason, message, phase, severity
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `kubernetes_scanner_image_pulling_filter`'
+how_to_implement: You must ingest Kubernetes logs through Splunk Connect for Kubernetes.
+known_false_positives: unknown
+references:
+- https://github.com/splunk/splunk-connect-for-kubernetes
 tags:
   analytic_story:
   - Dev Sec Ops
@@ -45,8 +47,13 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   - Dev Sec Ops Analytics
-  required_fields: []
+  required_fields:
+  - object.message
+  - source.host
+  - object.involvedObject.name
+  - object.involvedObject.namespace
+  - object.involvedObject.kind
+  - object.message
+  - object.reason
   risk_score: 81
   security_domain: network
-type: TTP
-version: 1

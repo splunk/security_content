@@ -1,21 +1,15 @@
-author: Teoderick Contreras, Splunk
-datamodel:
-- Endpoint.Processes
+name: Linux Possible Cronjob Modification With Editor
+id: dcc89bde-5f24-11ec-87ca-acde48001122
+version: 1
 date: '2021-12-17'
+author: Teoderick Contreras, Splunk
+type: Hunting
+datamodel:
+- Endpoint
 description: This analytic looks for possible modification of cronjobs file using
   editor. This event is can be seen in normal user but can also be a good hunting
   indicator for unwanted user modifying cronjobs for possible persistence or privilege
   escalation.
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from
-  Splunkbase.
-id: dcc89bde-5f24-11ec-87ca-acde48001122
-known_false_positives: Administrator or network operator can use this commandline
-  for automation purposes. Please update the filter macros to remove false positives.
-name: Linux Possible Cronjob Modification With Editor
-references:
-- https://attack.mitre.org/techniques/T1053/003/
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.process_name IN("nano","vim.basic")
   OR Processes.process IN ("*nano *", "*vi *", "*vim *")) AND Processes.process IN("*/etc/cron*",
@@ -23,6 +17,14 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `linux_possible_cronjob_modification_with_editor_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from
+  Splunkbase.
+known_false_positives: Administrator or network operator can use this commandline
+  for automation purposes. Please update the filter macros to remove false positives.
+references:
+- https://attack.mitre.org/techniques/T1053/003/
 tags:
   analytic_story:
   - Linux Privilege Escalation
@@ -50,23 +52,21 @@ tags:
   - DE.CM
   observable:
   - name: dest
+    type: Hostname
     role:
     - Victim
-    type: Hostname
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.parent_process_id
-  - Endpoint.Processes.parent_process_name
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_id
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.user
   - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_id
   risk_score: 6
   security_domain: endpoint
-type: Hunting
-version: 1

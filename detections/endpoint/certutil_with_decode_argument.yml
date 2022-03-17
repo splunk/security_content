@@ -1,7 +1,11 @@
-author: Michael Haag, Splunk
-datamodel:
-- Endpoint.Processes
+name: CertUtil With Decode Argument
+id: bfe94226-8c10-11eb-a4b3-acde48001122
+version: 2
 date: '2021-03-23'
+author: Michael Haag, Splunk
+type: TTP
+datamodel:
+- Endpoint
 description: CertUtil.exe may be used to `encode` and `decode` a file, including PE
   and script code. Encoding will convert a file to base64 with `-----BEGIN CERTIFICATE-----`
   and `-----END CERTIFICATE-----` tags. Malicious usage will include decoding a encoded
@@ -10,26 +14,24 @@ description: CertUtil.exe may be used to `encode` and `decode` a file, including
   and `decodehex`. Similarly, the file will be encoded in HEX and later decoded for
   further execution. During triage, identify the source of the file being decoded.
   Review its contents or execution behavior for further analysis.
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
-  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
-  endpoint product.
-id: bfe94226-8c10-11eb-a4b3-acde48001122
-known_false_positives: Typically seen used to `encode` files, but it is possible to
-  see legitimate use of `decode`. Filter based on parent-child relationship, file
-  paths, endpoint or user.
-name: CertUtil With Decode Argument
-references:
-- https://attack.mitre.org/techniques/T1140/
-- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1140/T1140.md
-- https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/certutil
-- https://www.bleepingcomputer.com/news/security/certutilexe-could-allow-attackers-to-download-malware-while-bypassing-av/
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_certutil` Processes.process=*decode*
   by Processes.dest Processes.user Processes.parent_process Processes.process_name
   Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `certutil_with_decode_argument_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: Typically seen used to `encode` files, but it is possible to
+  see legitimate use of `decode`. Filter based on parent-child relationship, file
+  paths, endpoint or user.
+references:
+- https://attack.mitre.org/techniques/T1140/
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1140/T1140.md
+- https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/certutil
+- https://www.bleepingcomputer.com/news/security/certutilexe-could-allow-attackers-to-download-malware-while-bypassing-av/
 tags:
   analytic_story:
   - Deobfuscate-Decode Files or Information
@@ -49,37 +51,39 @@ tags:
   - T1140
   observable:
   - name: user
-    role:
-    - Victim
     type: User
-  - name: dest
     role:
     - Victim
+  - name: dest
     type: Hostname
+    role:
+    - Victim
   - name: parent_process_name
+    type: Parent Process
     role:
     - Parent Process
-    type: Parent Process
   - name: process_name
+    type: Process
     role:
     - Child Process
-    type: Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.parent_process
-  - Endpoint.Processes.parent_process_id
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_id
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.user
   - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.parent_process
+  - Processes.original_file_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_path
+  - Processes.process_path
+  - Processes.parent_process_id
   risk_score: 40
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_microsoft_sysmon
-type: TTP
-version: 2

@@ -1,7 +1,11 @@
-author: Michael Haag, Splunk
-datamodel:
-- Endpoint.Processes
+name: ServicePrincipalNames Discovery with SetSPN
+id: ae8b3efc-2d2e-11ec-8b57-acde48001122
+version: 1
 date: '2021-10-14'
+author: Michael Haag, Splunk
+type: TTP
+datamodel:
+- Endpoint
 description: 'The following analytic identifies `setspn.exe` usage related to querying
   the domain for Service Principle Names. typically, this is a precursor activity
   related to kerberoasting or the silver ticket attack. \
@@ -25,15 +29,20 @@ description: 'The following analytic identifies `setspn.exe` usage related to qu
   existence of SPN \
 
   During triage, review parallel processes for further suspicious activity.'
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where `process_setspn` (Processes.process="*-t*"
+  AND Processes.process="*-f*") OR (Processes.process="*-q*" AND Processes.process="**/**")
+  OR (Processes.process="*-q*") OR (Processes.process="*-s*") by Processes.dest Processes.user
+  Processes.parent_process_name Processes.process_name Processes.original_file_name
+  Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `serviceprincipalnames_discovery_with_setspn_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
   confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
   endpoint product.
-id: ae8b3efc-2d2e-11ec-8b57-acde48001122
 known_false_positives: False positives may be caused by Administrators resetting SPNs
   or querying for SPNs. Filter as needed.
-name: ServicePrincipalNames Discovery with SetSPN
 references:
 - https://docs.microsoft.com/en-us/windows/win32/ad/service-principal-names
 - https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/t1208-kerberoasting
@@ -44,13 +53,6 @@ references:
 - https://blog.zsec.uk/paving-2-da-wholeset/
 - https://msitpros.com/?p=3113
 - https://adsecurity.org/?p=3466
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where `process_setspn` (Processes.process="*-t*"
-  AND Processes.process="*-f*") OR (Processes.process="*-q*" AND Processes.process="**/**")
-  OR (Processes.process="*-q*") OR (Processes.process="*-s*") by Processes.dest Processes.user
-  Processes.parent_process_name Processes.process_name Processes.original_file_name
-  Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `serviceprincipalnames_discovery_with_setspn_filter`'
 tags:
   analytic_story:
   - Active Directory Discovery
@@ -72,38 +74,39 @@ tags:
   - T1558.003
   observable:
   - name: user
-    role:
-    - Victim
     type: User
-  - name: dest
     role:
     - Victim
+  - name: dest
     type: Hostname
+    role:
+    - Victim
   - name: parent_process_name
+    type: Parent Process
     role:
     - Parent Process
-    type: Parent Process
   - name: process_name
+    type: Process
     role:
     - Child Process
-    type: Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.original_file_name
-  - Endpoint.Processes.parent_process_id
-  - Endpoint.Processes.parent_process_name
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_id
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.user
   - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.parent_process
+  - Processes.original_file_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_path
+  - Processes.process_path
+  - Processes.parent_process_id
   risk_score: 80
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_microsoft_sysmon
-type: TTP
-version: 1

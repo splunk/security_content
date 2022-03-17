@@ -1,17 +1,13 @@
-author: Patrick Bareiss, Splunk
-datamodel:
-- Endpoint.Processes
+name: System Information Discovery Detection
+id: 8e99f89e-ae58-4ebc-bf52-ae0b1a277e72
+version: 2
 date: '2021-09-07'
+author: Patrick Bareiss, Splunk
+type: TTP
+datamodel:
+- Endpoint
 description: Detect system information discovery techniques used by attackers to understand
   configurations of the system to further exploit it.
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Processes` node.
-id: 8e99f89e-ae58-4ebc-bf52-ae0b1a277e72
-known_false_positives: Administrators debugging servers
-name: System Information Discovery Detection
-references:
-- https://oscp.infosecsanyam.in/priv-escalation/windows-priv-escalation
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.process="*wmic* qfe*"
   OR Processes.process=*systeminfo* OR Processes.process=*hostname*) by Processes.user
@@ -20,6 +16,12 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   by dest | where dc_processes_by_dest > 2 | stats values(process) as process min(firstTime)
   as firstTime max(lastTime) as lastTime by user, dest parent_process_name | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `system_information_discovery_detection_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+known_false_positives: Administrators debugging servers
+references:
+- https://oscp.infosecsanyam.in/priv-escalation/windows-priv-escalation
 tags:
   analytic_story:
   - Discovery Techniques
@@ -45,27 +47,24 @@ tags:
   - DE.CM
   observable:
   - name: dest
+    type: Endpoint
     role:
     - Victim
-    type: Endpoint
   - name: User
+    type: User
     role:
     - Attacker
-    type: User
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.parent_process_name
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.user
   - _time
+  - Processes.process
+  - Processes.user
+  - Processes.process_name
+  - Processes.dest
   risk_score: 15
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_microsoft_sysmon
-type: TTP
-version: 2

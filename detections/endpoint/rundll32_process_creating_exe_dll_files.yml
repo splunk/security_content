@@ -1,23 +1,26 @@
-author: Teoderick Contreras, Splunk
-datamodel: []
+name: Rundll32 Process Creating Exe Dll Files
+id: 6338266a-ee2a-11eb-bf68-acde48001122
+version: 1
 date: '2021-07-26'
+author: Teoderick Contreras, Splunk
+type: TTP
+datamodel:
+- Endpoint
 description: This search is to detect a suspicious rundll32 process that drops executable
   (.exe or .dll) files. this behavior seen in rundll32 process of IcedID that tries
   to drop copy of itself in temp folder or download executable drop it either appdata
   or programdata as part of its execution.
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, TargetFilename, and eventcode 11 executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
-id: 6338266a-ee2a-11eb-bf68-acde48001122
-known_false_positives: unknown
-name: Rundll32 Process Creating Exe Dll Files
-references:
-- https://any.run/malware-trends/icedid
 search: '`sysmon` EventCode=11 process_name="rundll32.exe" TargetFilename IN ("*.exe",
   "*.dll",) | stats count min(_time) as firstTime max(_time) as lastTime by Image
   TargetFilename ProcessGuid dest user_id | `security_content_ctime(firstTime)` |
   `security_content_ctime(lastTime)` | `rundll32_process_creating_exe_dll_files_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, TargetFilename, and eventcode 11 executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
+known_false_positives: unknown
+references:
+- https://any.run/malware-trends/icedid
 tags:
   analytic_story:
   - IcedID
@@ -37,13 +40,13 @@ tags:
   - T1218.011
   observable:
   - name: Computer
+    type: Hostname
     role:
     - Victim
-    type: Hostname
   - name: process_name
+    type: process name
     role:
     - Attacker
-    type: process name
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -57,5 +60,3 @@ tags:
   - user_id
   risk_score: 80
   security_domain: endpoint
-type: TTP
-version: 1

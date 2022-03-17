@@ -1,7 +1,11 @@
-author: Mauricio Velazco, Splunk
-datamodel:
-- Endpoint.Processes
+name: Possible Lateral Movement PowerShell Spawn
+id: cb909b3e-512b-11ec-aa31-3e22fbd008af
+version: 1
 date: '2021-11-29'
+author: Mauricio Velazco, Splunk
+type: TTP
+datamodel:
+- Endpoint
 description: The following analytic assists with identifying a PowerShell process
   spawned as a child or grand child process of commonly abused processes during lateral
   movement techniques including `services.exe`, `wmiprsve.exe`, `svchost.exe`, `wsmprovhost.exe`
@@ -11,19 +15,6 @@ description: The following analytic assists with identifying a PowerShell proces
   for PowerShell spawned out of this processes may reveal a lateral movement attack.
   Red Teams and adversaries alike may abuse these services during a breach for lateral
   movement and remote code execution.
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints.
-id: cb909b3e-512b-11ec-aa31-3e22fbd008af
-known_false_positives: Legitimate applications may spawn PowerShell as a child process
-  of the the identified processes. Filter as needed.
-name: Possible Lateral Movement PowerShell Spawn
-references:
-- https://attack.mitre.org/techniques/T1021/003
-- https://attack.mitre.org/techniques/T1021/006/
-- https://attack.mitre.org/techniques/T1047/
-- https://attack.mitre.org/techniques/T1053.005/
-- https://attack.mitre.org/techniques/T1543/003/
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.parent_process_name=wmiprvse.exe
   OR Processes.parent_process_name=services.exe OR Processes.parent_process_name=svchost.exe
@@ -33,6 +24,17 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   by Processes.dest Processes.user Processes.parent_process Processes.process_name
   Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `possible_lateral_movement_powershell_spawn_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints.
+known_false_positives: Legitimate applications may spawn PowerShell as a child process
+  of the the identified processes. Filter as needed.
+references:
+- https://attack.mitre.org/techniques/T1021/003
+- https://attack.mitre.org/techniques/T1021/006/
+- https://attack.mitre.org/techniques/T1047/
+- https://attack.mitre.org/techniques/T1053.005/
+- https://attack.mitre.org/techniques/T1543/003/
 tags:
   analytic_story:
   - Active Directory Lateral Movement
@@ -60,26 +62,27 @@ tags:
   - T1059.001
   observable:
   - name: dest
+    type: Endpoint
     role:
     - Victim
-    type: Endpoint
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.parent_process
-  - Endpoint.Processes.parent_process_id
-  - Endpoint.Processes.parent_process_name
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_id
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.user
   - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.parent_process
+  - Processes.original_file_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_path
+  - Processes.process_path
+  - Processes.parent_process_id
   risk_score: 45
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_microsoft_sysmon
-type: TTP
-version: 1

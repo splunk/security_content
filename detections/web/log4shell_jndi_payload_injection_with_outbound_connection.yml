@@ -1,8 +1,12 @@
-author: Jose Hernandez
-datamodel:
-- Network_Traffic.All_Traffic
-- Web.Web
+name: Log4Shell JNDI Payload Injection with Outbound Connection
+id: 69afee44-5c91-11ec-bf1f-497c9a704a72
+version: 1
 date: '2021-12-13'
+author: Jose Hernandez
+type: Anomaly
+datamodel:
+- Network_Traffic
+- Web
 description: CVE-2021-44228 Log4Shell payloads can be injected via various methods,
   but on of the most common vectors injection is via Web calls. Many of the vulnerable
   java web applications that are using log4j have a web component to them are specially
@@ -13,14 +17,6 @@ description: CVE-2021-44228 Log4Shell payloads can be injected via various metho
   Specifically it has been successfully exploited via headers like X-Forwarded-For,
   User-Agent, Referer, and X-Api-Version. In this detection we match the invocation
   function with a network connection to a malicious ip address.
-how_to_implement: This detection requires the Web datamodel to be populated from a
-  supported Technology Add-On like Splunk for Apache or Splunk for Nginx.
-id: 69afee44-5c91-11ec-bf1f-497c9a704a72
-known_false_positives: If there is a vulnerablility scannner looking for log4shells
-  this will trigger, otherwise likely to have low false positives.
-name: Log4Shell JNDI Payload Injection with Outbound Connection
-references:
-- https://www.lunasec.io/docs/blog/log4j-zero-day/
 search: '| from datamodel Web.Web | rex field=_raw max_match=0 "[jJnNdDiI]{4}(\:|\%3A|\/|\%2F)(?<proto>\w+)(\:\/\/|\%3A\%2F\%2F)(\$\{.*?\}(\.)?)?(?<affected_host>[a-zA-Z0-9\.\-\_\$]+)"
   | join affected_host type=inner [| tstats `security_content_summariesonly` count
   min(_time) as firstTime max(_time) as lastTime from datamodel=Network_Traffic.All_Traffic
@@ -28,6 +24,12 @@ search: '| from datamodel Web.Web | rex field=_raw max_match=0 "[jJnNdDiI]{4}(\:
   | `security_content_ctime(lastTime)` | rename dest AS affected_host] | fillnull
   | stats count by action, category, dest, dest_port, http_content_type, http_method,
   http_referrer, http_user_agent, site, src, url, url_domain, user | `log4shell_jndi_payload_injection_with_outbound_connection_filter`'
+how_to_implement: This detection requires the Web datamodel to be populated from a
+  supported Technology Add-On like Splunk for Apache or Splunk for Nginx.
+known_false_positives: If there is a vulnerablility scannner looking for log4shells
+  this will trigger, otherwise likely to have low false positives.
+references:
+- https://www.lunasec.io/docs/blog/log4j-zero-day/
 tags:
   analytic_story:
   - Log4Shell CVE-2021-44228
@@ -55,19 +57,18 @@ tags:
   - DE.CM
   observable:
   - name: user
-    role:
-    - Victim
     type: User
-  - name: dest
     role:
     - Victim
+  - name: dest
     type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Network_Traffic.All_Traffic.dest
   - action
   - category
   - dest
@@ -83,5 +84,3 @@ tags:
   - user
   risk_score: 15
   security_domain: threat
-type: Anomaly
-version: 1

@@ -1,16 +1,13 @@
-author: Patrick Bareiss, Splunk
-datamodel: []
+name: AWS ECR Container Scanning Findings Low Informational Unknown
+id: cbc95e44-7c22-443f-88fd-0424478f5589
+version: 1
 date: '2021-08-17'
+author: Patrick Bareiss, Splunk
+type: Hunting
+datamodel: []
 description: This search looks for AWS CloudTrail events from AWS Elastic Container
   Service (ECR). You need to activate image scanning in order to get the event DescribeImageScanFindings
   with the results.
-how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
-  search works with AWS CloudTrail logs.
-id: cbc95e44-7c22-443f-88fd-0424478f5589
-known_false_positives: unknown
-name: AWS ECR Container Scanning Findings Low Informational Unknown
-references:
-- https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-scanning.html
 search: '`cloudtrail` eventSource=ecr.amazonaws.com eventName=DescribeImageScanFindings
   | spath path=responseElements.imageScanFindings.findings{} output=findings | mvexpand
   findings | spath input=findings| search severity IN (LOW, INFORMATIONAL, UNKNWON)
@@ -21,6 +18,11 @@ search: '`cloudtrail` eventSource=ecr.amazonaws.com eventName=DescribeImageScanF
   eventSource, imageDigest, repositoryName, user, userName, src_ip, finding, phase,
   severity | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `aws_ecr_container_scanning_findings_low_informational_unknown_filter`'
+how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
+  search works with AWS CloudTrail logs.
+known_false_positives: unknown
+references:
+- https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-scanning.html
 tags:
   analytic_story:
   - Dev Sec Ops
@@ -43,22 +45,23 @@ tags:
   - DE.CM
   observable:
   - name: repositoryName
+    type: System
     role:
     - Victim
-    type: System
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Dev Sec Ops Analytics
   required_fields:
-  - awsRegion
-  - eventName
   - eventSource
-  - src_ip
+  - eventName
+  - responseElements.imageScanFindings.findings{}
+  - awsRegion
+  - requestParameters.imageId.imageDigest
+  - requestParameters.repositoryName
   - user
   - userName
+  - src_ip
   risk_score: 7
   security_domain: network
-type: Hunting
-version: 1

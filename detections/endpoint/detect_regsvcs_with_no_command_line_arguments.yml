@@ -1,32 +1,34 @@
-author: Michael Haag, Splunk
-datamodel:
-- Endpoint.Processes
+name: Detect Regsvcs with No Command Line Arguments
+id: 6b74d578-a02e-4e94-a0d1-39440d0bf254
+version: 2
 date: '2021-09-20'
+author: Michael Haag, Splunk
+type: TTP
+datamodel:
+- Endpoint
 description: The following analytic identifies regsvcs.exe with no command line arguments.
   This particular behavior occurs when another process injects into regsvcs.exe, no
   command line arguments will be present. During investigation, identify any network
   connections and parallel processes. Identify any suspicious module loads related
   to credential dumping or file writes. Regasm.exe are natively found in C:\Windows\Microsoft.NET\Framework\v*\regasm|regsvcs.exe
   and C:\Windows\Microsoft.NET\Framework64\v*\regasm|regsvcs.exe.
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
-  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
-  endpoint product.
-id: 6b74d578-a02e-4e94-a0d1-39440d0bf254
-known_false_positives: Although unlikely, limited instances of regsvcs.exe may cause
-  a false positive. Filter based endpoint usage, command line arguments, or process
-  lineage.
-name: Detect Regsvcs with No Command Line Arguments
-references:
-- https://attack.mitre.org/techniques/T1218/009/
-- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.009/T1218.009.md
-- https://lolbas-project.github.io/lolbas/Binaries/Regsvcs/
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
   where `process_regsvcs` by _time span=1h  Processes.process_id Processes.process_name
   Processes.dest Processes.process_path Processes.process Processes.parent_process_name
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | regex process="(regsvcs\.exe.{0,4}$)"| `detect_regsvcs_with_no_command_line_arguments_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: Although unlikely, limited instances of regsvcs.exe may cause
+  a false positive. Filter based endpoint usage, command line arguments, or process
+  lineage.
+references:
+- https://attack.mitre.org/techniques/T1218/009/
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.009/T1218.009.md
+- https://lolbas-project.github.io/lolbas/Binaries/Regsvcs/
 tags:
   analytic_story:
   - Suspicious Regsvcs Regasm Activity
@@ -53,36 +55,39 @@ tags:
   - DE.CM
   observable:
   - name: user
-    role:
-    - Victim
     type: User
-  - name: dest
     role:
     - Victim
+  - name: dest
     type: Hostname
+    role:
+    - Victim
   - name: parent_process_name
+    type: Parent Process
     role:
     - Parent Process
-    type: Parent Process
   - name: process_name
+    type: Process
     role:
     - Child Process
-    type: Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.parent_process_name
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_id
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.process_path
   - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.parent_process
+  - Processes.original_file_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_path
+  - Processes.process_path
+  - Processes.parent_process_id
   risk_score: 49
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_microsoft_sysmon
-type: TTP
-version: 2

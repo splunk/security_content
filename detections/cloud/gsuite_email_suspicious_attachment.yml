@@ -1,21 +1,15 @@
-author: Teoderick Contreras, Splunk
-datamodel: []
+name: GSuite Email Suspicious Attachment
+id: 6d663014-fe92-11eb-ab07-acde48001122
+version: 1
 date: '2021-08-16'
+author: Teoderick Contreras, Splunk
+type: Anomaly
+datamodel: []
 description: This search is to detect a suspicious attachment file extension in Gsuite
   email that may related to spear phishing attack. This file type is commonly used
   by malware to lure user to click on it to execute malicious code to compromised
   targetted machine. But this search can also catch some normal files related to this
   file type that maybe send by employee or network admin.
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs related to gsuite having the file attachment metadata like file type, file
-  extension, source email, destination email, num of attachment and etc.
-id: 6d663014-fe92-11eb-ab07-acde48001122
-known_false_positives: network admin and normal user may send this file attachment
-  as part of their day to day work. having a good protocol in attaching this file
-  type to an e-mail may reduce the risk of having a spear phishing attack.
-name: GSuite Email Suspicious Attachment
-references:
-- https://www.redhat.com/en/topics/devops/what-is-devsecops
 search: '`gsuite_gmail` "attachment{}.file_extension_type" IN ("pl", "py", "rb", "sh",
   "bat", "exe", "dll", "cpl", "com", "js", "vbs", "ps1", "reg","swf", "cmd", "go")
   | eval phase="plan" | eval severity="medium" | stats count min(_time) as firstTime
@@ -24,6 +18,14 @@ search: '`gsuite_gmail` "attachment{}.file_extension_type" IN ("pl", "py", "rb",
   by destination{}.service num_message_attachments  subject destination{}.address
   source.address phase severity | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `gsuite_email_suspicious_attachment_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs related to gsuite having the file attachment metadata like file type, file
+  extension, source email, destination email, num of attachment and etc.
+known_false_positives: network admin and normal user may send this file attachment
+  as part of their day to day work. having a good protocol in attaching this file
+  type to an e-mail may reduce the risk of having a spear phishing attack.
+references:
+- https://www.redhat.com/en/topics/devops/what-is-devsecops
 tags:
   analytic_story:
   - Dev Sec Ops
@@ -42,13 +44,13 @@ tags:
   - T1566
   observable:
   - name: source.address
+    type: User
     role:
     - attacker
-    type: User
   - name: destination{}.address
+    type: User
     role:
     - Victim
-    type: User
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -56,10 +58,13 @@ tags:
   - Dev Sec Ops Analytics
   required_fields:
   - _time
+  - attachment{}.file_extension_type
+  - attachment{}.sha256
+  - destination{}.service
   - num_message_attachments
   - payload_size
   - subject
+  - destination{}.address
+  - source.address
   risk_score: 49
   security_domain: endpoint
-type: Anomaly
-version: 1

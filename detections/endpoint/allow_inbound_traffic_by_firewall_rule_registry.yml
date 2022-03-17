@@ -1,22 +1,15 @@
-author: Teoderick Contreras, Splunk
-datamodel:
-- Endpoint.Processes
-- Endpoint.Registry
+name: Allow Inbound Traffic By Firewall Rule Registry
+id: 0a46537c-be02-11eb-92ca-acde48001122
+version: 2
 date: '2022-01-26'
+author: Teoderick Contreras, Splunk
+type: TTP
+datamodel:
+- Endpoint
 description: This analytic detects a potential suspicious modification of firewall
   rule registry allowing inbound traffic in specific port with public profile. This
   technique was identified when an adversary wants to grant remote access to a machine
   by allowing the traffic in a firewall rule.
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure
-  that this registry was included in your config files ex. sysmon config to be monitored.
-id: 0a46537c-be02-11eb-92ca-acde48001122
-known_false_positives: network admin may add/remove/modify public inbound firewall
-  rule that may cause this rule to be triggered.
-name: Allow Inbound Traffic By Firewall Rule Registry
-references:
-- https://docs.microsoft.com/en-us/powershell/module/netsecurity/new-netfirewallrule?view=windowsserver2019-ps
 search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Registry
   where Registry.registry_path= "*\\System\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\FirewallRules\\*"
   Registry.registry_value_data = "*|Action=Allow|*" Registry.registry_value_data =
@@ -33,6 +26,14 @@ search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint
   _time dest user parent_process_name parent_process process_name process_path process
   proc_guid registry_path registry_value_name registry_value_data registry_key_name
   | `allow_inbound_traffic_by_firewall_rule_registry_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure
+  that this registry was included in your config files ex. sysmon config to be monitored.
+known_false_positives: network admin may add/remove/modify public inbound firewall
+  rule that may cause this rule to be triggered.
+references:
+- https://docs.microsoft.com/en-us/powershell/module/netsecurity/new-netfirewallrule?view=windowsserver2019-ps
 tags:
   analytic_story:
   - Prohibited Traffic Allowed or Protocol Mismatch
@@ -53,36 +54,25 @@ tags:
   - T1021
   observable:
   - name: user
-    role:
-    - Victim
     type: User
-  - name: dest
     role:
     - Victim
+  - name: dest
     type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.parent_process
-  - Endpoint.Processes.parent_process_name
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_guid
-  - Endpoint.Processes.process_id
-  - Endpoint.Processes.process_name
-  - Endpoint.Registry.dest
-  - Endpoint.Registry.process_guid
-  - Endpoint.Registry.registry_key_name
-  - Endpoint.Registry.registry_path
-  - Endpoint.Registry.registry_value_data
-  - Endpoint.Registry.registry_value_name
-  - Endpoint.Registry.user
   - _time
+  - Registry.registry_path
+  - Registry.registry_value_name
+  - Registry.registry_key_name
+  - Registry.dest
+  - Registry.user
   risk_score: 3
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_microsoft_sysmon
-type: TTP
-version: 2

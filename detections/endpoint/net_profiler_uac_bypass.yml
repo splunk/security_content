@@ -1,28 +1,30 @@
-author: Teoderick Contreras, Splunk
-datamodel:
-- Endpoint.Registry
+name: NET Profiler UAC bypass
+id: 0252ca80-e30d-11eb-8aa3-acde48001122
+version: 2
 date: '2022-02-18'
+author: Teoderick Contreras, Splunk
+type: TTP
+datamodel:
+- Endpoint
 description: This search is to detect modification of registry to bypass UAC windows
   feature. This technique is to add a payload dll path on .NET COR file path that
   will be loaded by mmc.exe as soon it was executed. This detection rely on monitoring
   the registry key and values in the detection area. It may happened that windows
   update some dll related to mmc.exe and add dll path in this registry. In this case
   filtering is needed.
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure
-  that this registry was included in your config files ex. sysmon config to be monitored.
-id: 0252ca80-e30d-11eb-8aa3-acde48001122
-known_false_positives: limited false positive. It may trigger by some windows update
-  that will modify this registry.
-name: NET Profiler UAC bypass
-references:
-- https://offsec.almond.consulting/UAC-bypass-dotnet.html
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= "*\\Environment\\COR_PROFILER_PATH"
   Registry.registry_value_data = "*.dll" by Registry.registry_path Registry.registry_key_name
   Registry.registry_value_data Registry.dest | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `net_profiler_uac_bypass_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure
+  that this registry was included in your config files ex. sysmon config to be monitored.
+known_false_positives: limited false positive. It may trigger by some windows update
+  that will modify this registry.
+references:
+- https://offsec.almond.consulting/UAC-bypass-dotnet.html
 tags:
   analytic_story:
   - Windows Defense Evasion Tactics
@@ -45,22 +47,20 @@ tags:
   - T1548
   observable:
   - name: dest
+    type: Hostname
     role:
     - Victim
-    type: Hostname
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Registry.dest
-  - Endpoint.Registry.registry_key_name
-  - Endpoint.Registry.registry_path
-  - Endpoint.Registry.registry_value_data
   - _time
+  - Registry.registry_path
+  - Registry.registry_key_name
+  - Registry.registry_value_name
+  - Registry.dest
   risk_score: 63
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_microsoft_sysmon
-type: TTP
-version: 2
