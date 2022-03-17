@@ -31,6 +31,7 @@ tags:
   - Ransomware
   - Ryuk Ransomware
   - Windows Persistence Techniques
+  - Living Off The Land
   confidence: 50
   context:
   - Source:Endpoint
