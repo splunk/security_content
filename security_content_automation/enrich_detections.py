@@ -4,7 +4,6 @@ import io
 import json
 import logging
 import os
-import re
 import shutil
 import sys
 import time
@@ -13,7 +12,6 @@ from pathlib import Path
 import git
 import yaml
 from github import Github
-
 
 TIMESTAMP_FORMAT = "%(asctime)s %(levelname)s - %(message)s"
 
@@ -41,54 +39,33 @@ def load_file(file_path):
 def map_required_fields(cim_summary, datamodel, required_fields):
     datasets_fields = {}
     add_addon = False
-    flag = 0
     time_fields = ["_time", "_times"]
     if len(required_fields) > 0:
-
-        # Only required field with valid format will be mapped
-        # if re.match("^[A-Za-z0-9_.]*$", item):
-        #     if item == "_time" or item == "_times":
-        #         continue
-        # else:
         for required_field in required_fields:
             dataset_field = required_field.split(".")
             length = len(dataset_field)
-            if length == 3:
-                detection_datamodel, detection_dataset, detection_field = dataset_field
 
-                if not datasets_fields.get(
-                    f"{detection_datamodel}:{detection_dataset}"
-                ):
-                    datasets_fields[
-                        f"{detection_datamodel}:{detection_dataset}"
-                    ] = list()
-
-                datasets_fields[f"{detection_datamodel}:{detection_dataset}"].append(
-                    detection_field
-                )
+            if length == 1 and required_field in time_fields:
+                continue
 
             elif length == 2:
-                detection_datamodel = datamodel
+                detection_datamodel = datamodel[0]
                 detection_dataset, detection_field = dataset_field
 
-                if not datasets_fields.get(
-                    f"{detection_datamodel}:{detection_dataset}"
-                ):
-                    datasets_fields[
-                        f"{detection_datamodel}:{detection_dataset}"
-                    ] = list()
-
-                datasets_fields[f"{detection_datamodel}:{detection_dataset}"].append(
-                    detection_field
-                )
+            elif length == 3:
+                detection_datamodel, detection_dataset, detection_field = dataset_field
 
             else:
-                if length == 1 and required_field in time_fields:
+                with open("unsupported_fields.txt", "a") as file_obj:
+                    file_obj.write(str(required_field))
+                    file_obj.write("\n")
                     continue
-                else:
-                    with open("unsupported_fields.txt", "a") as file_obj:
-                        file_obj.write(str(required_field))
-                        file_obj.write("\n")
+
+            datamodel_dataset = f"{detection_datamodel}:{detection_dataset}"
+            if not datasets_fields.get(datamodel_dataset):
+                datasets_fields[datamodel_dataset] = list()
+
+            datasets_fields[datamodel_dataset].append(detection_field)
 
         for mapping_set, fields in datasets_fields.items():
             if mapping_set in cim_summary.keys():
@@ -101,29 +78,6 @@ def map_required_fields(cim_summary, datamodel, required_fields):
                 return False
 
         return add_addon
-
-        # if length == 1:
-        #     dataset = datamodel[0]
-        #     field = dataset_field[0]
-        # else:
-        #     dataset = dataset_field[length - 2]
-        #     field = dataset_field[length - 1]
-        # if dataset not in datasets_fields:
-        #     datasets_fields[dataset] = []
-        # datasets_fields[dataset].append(field)
-
-    # for dataset in datasets_fields:
-    #     add_addon = False
-    #     mapping_set = datamodel[0] + ":" + dataset
-    #     for item in cim_summary:
-    #         if mapping_set in item:
-    #             for eventtype in cim_summary[item].values():
-    #                 for e_type in eventtype:
-    #                     cim_fields = e_type.get("fields", [])
-    #                     if set(datasets_fields[dataset]).issubset(set(cim_fields)):
-    #                         add_addon = True
-    #     if add_addon == False:
-    #         return add_addon
 
 
 def is_valid_detection_file(filepath):
@@ -153,7 +107,7 @@ def enrich_detection_file(file, ta_list, keyname):
 def main():
 
     security_content_repo = "splunk/security_content"
-    security_content_branch = "MoreDatamodelUpdates"
+    security_content_branch = "FixDatamodelFormat"
 
     ta_cim_field_reports_repo = "splunk/ta-cim-field-reports"
     ta_cim_field_reports_branch = "test/custom-ms-sysmon-report"
@@ -169,7 +123,6 @@ def main():
         "ta_cim_mapping_reports/ta_cim_mapping/cim_mapping_reports/latest/"
     )
     detection_ta_mapping = {}
-
 
     try:
         # clone security content repository
@@ -224,9 +177,9 @@ def main():
                     detection_obj.get("tests")[0].get("file").rsplit("/", 1)[1]
                 )
                 detection_file_name = Path(detection_file_name_path).stem
-                filepath = "security_content/detections/" + detection_obj.get(
-                    "tests"
-                )[0].get("file")
+                filepath = "security_content/detections/" + detection_obj.get("tests")[
+                    0
+                ].get("file")
                 if not os.path.isfile(filepath):
                     continue
 
@@ -357,7 +310,7 @@ def main():
         )
 
         epoch_time = str(int(time.time()))
-        branch_name = "enrich_detection_MoreDatamodelUpdates"
+        branch_name = f"enrich_detection_{security_content_branch}"
         security_content_repo_obj.git.checkout("-b", branch_name)
         security_content_repo_obj.git.push("--set-upstream", "origin", branch_name)
         repo = git_token.get_repo("splunk/security_content")
