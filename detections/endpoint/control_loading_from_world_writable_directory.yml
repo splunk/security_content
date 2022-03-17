@@ -34,6 +34,7 @@ references:
 tags:
   analytic_story:
   - Microsoft MSHTML Remote Code Execution CVE-2021-40444
+  - Living Off The Land
   confidence: 100
   context:
   - Source:Endpoint

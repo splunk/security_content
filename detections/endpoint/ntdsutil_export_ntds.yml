@@ -38,6 +38,7 @@ tags:
   analytic_story:
   - Credential Dumping
   - HAFNIUM Group
+  - Living Off The Land
   asset_type: Endpoint
   cis20:
   - CIS 8
