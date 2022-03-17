@@ -5,7 +5,7 @@ date: '2020-12-21'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This search looks for flags passed to bcdedit.exe modifications to the
   built-in Windows error recovery boot configurations. This is typically used by ransomware
   to prevent recovery.
@@ -67,12 +67,12 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - Endpoint.Processes.dest
+  - Endpoint.Processes.parent_process_name
+  - Endpoint.Processes.process
+  - Endpoint.Processes.process_name
+  - Endpoint.Processes.user
   - _time
-  - Processes.process_name
-  - Processes.process
-  - Processes.parent_process_name
-  - Processes.dest
-  - Processes.user
   risk_score: 80
   security_domain: endpoint
   supported_tas:

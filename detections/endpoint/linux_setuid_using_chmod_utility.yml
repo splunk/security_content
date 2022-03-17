@@ -5,7 +5,7 @@ date: '2021-12-21'
 author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic looks for suspicious chmod utility execution to enable
   SUID bit. This allows a user to temporarily gain root access, usually in order to
   run a program. For example, only the root account is allowed to change the password
@@ -65,13 +65,14 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - Endpoint.Processes.dest
+  - Endpoint.Processes.parent_process_id
+  - Endpoint.Processes.parent_process_name
+  - Endpoint.Processes.process
+  - Endpoint.Processes.process_guid
+  - Endpoint.Processes.process_id
+  - Endpoint.Processes.process_name
+  - Endpoint.Processes.user
   - _time
-  - Processes.dest
-  - Processes.user
-  - Processes.parent_process_name
-  - Processes.process_name
-  - Processes.process
-  - Processes.process_id
-  - Processes.parent_process_id
   risk_score: 49
   security_domain: endpoint

@@ -5,7 +5,7 @@ date: '2021-09-20'
 author: Michael Haag, Splunk
 type: Hunting
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: The following analytic identifies a renamed instance of microsoft.workflow.compiler.exe.
   Microsoft.workflow.compiler.exe is natively found in C:\Windows\Microsoft.NET\Framework64\v4.0.30319
   and is rarely utilized. When investigating, identify the executed code on disk and
@@ -71,17 +71,14 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - Endpoint.Processes.dest
+  - Endpoint.Processes.original_file_name
+  - Endpoint.Processes.parent_process_id
+  - Endpoint.Processes.parent_process_name
+  - Endpoint.Processes.process
+  - Endpoint.Processes.process_id
+  - Endpoint.Processes.process_name
+  - Endpoint.Processes.user
   - _time
-  - Processes.dest
-  - Processes.user
-  - Processes.parent_process_name
-  - Processes.parent_process
-  - Processes.original_file_name
-  - Processes.process_name
-  - Processes.process
-  - Processes.process_id
-  - Processes.parent_process_path
-  - Processes.process_path
-  - Processes.parent_process_id
   risk_score: 63
   security_domain: endpoint

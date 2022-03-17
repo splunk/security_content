@@ -5,7 +5,7 @@ date: '2021-01-25'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This search looks for the execution of `nltest.exe` with command-line
   arguments utilized to query for Domain Trust information. Two arguments `/domain
   trusts`, returns a list of trusted domains, and `/all_trusts`, returns all trusted
@@ -65,14 +65,14 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - Endpoint.Processes.dest
+  - Endpoint.Processes.parent_process
+  - Endpoint.Processes.parent_process_id
+  - Endpoint.Processes.process
+  - Endpoint.Processes.process_id
+  - Endpoint.Processes.process_name
+  - Endpoint.Processes.user
   - _time
-  - Processes.process_name
-  - Processes.process
-  - Processes.dest
-  - Processes.user
-  - Processes.parent_process
-  - Processes.process_id
-  - Processes.parent_process_id
   risk_score: 15
   security_domain: endpoint
   supported_tas:

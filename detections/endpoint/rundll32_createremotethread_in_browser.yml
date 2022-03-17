@@ -4,8 +4,7 @@ version: 1
 date: '2021-07-26'
 author: Teoderick Contreras, Splunk
 type: TTP
-datamodel:
-- Endpoint
+datamodel: []
 description: This analytic identifies the suspicious Remote Thread execution of rundll32.exe
   process to "firefox.exe" and "chrome.exe" browser. This technique was seen in IcedID
   malware where it hooks the browser to parse banking information as user used the

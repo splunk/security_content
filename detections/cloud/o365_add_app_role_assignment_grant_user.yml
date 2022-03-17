@@ -61,13 +61,11 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - _time
-  - Workload
-  - Operation
-  - Actor{}.ID
-  - Actor{}.Type
   - ActorIpAddress
-  - dest
+  - Operation
   - ResultStatus
+  - Workload
+  - _time
+  - dest
   risk_score: 18
   security_domain: threat

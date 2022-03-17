@@ -4,8 +4,7 @@ version: 2
 date: '2022-02-18'
 author: Teoderick Contreras
 type: TTP
-datamodel:
-- Endpoint
+datamodel: []
 description: This detection is to identify a suspicious process that tries to delete
   the process file path related to its process. This technique is known to be defense
   evasion once a certain condition of malware is satisfied or not. Clop ransomware
@@ -60,15 +59,14 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - EventCode
   - Computer
-  - user
-  - ParentImage
-  - ParentCommandLine
+  - EventCode
   - Image
-  - cmdline
+  - ParentCommandLine
+  - ParentImage
   - ProcessID
-  - result
   - _time
+  - result
+  - user
   risk_score: 60
   security_domain: endpoint

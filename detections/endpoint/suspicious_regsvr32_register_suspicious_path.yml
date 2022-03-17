@@ -5,7 +5,7 @@ date: '2021-01-28'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: Adversaries may abuse Regsvr32.exe to proxy execution of malicious code
   by using non-standard file extensions to load malciious DLLs. Upon investigating,
   look for network connections to remote destinations (internal or external). Review
@@ -74,18 +74,15 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - Endpoint.Processes.dest
+  - Endpoint.Processes.original_file_name
+  - Endpoint.Processes.parent_process
+  - Endpoint.Processes.parent_process_id
+  - Endpoint.Processes.process
+  - Endpoint.Processes.process_id
+  - Endpoint.Processes.process_name
+  - Endpoint.Processes.user
   - _time
-  - Processes.dest
-  - Processes.user
-  - Processes.parent_process_name
-  - Processes.parent_process
-  - Processes.original_file_name
-  - Processes.process_name
-  - Processes.process
-  - Processes.process_id
-  - Processes.parent_process_path
-  - Processes.process_path
-  - Processes.parent_process_id
   risk_score: 35
   security_domain: endpoint
   supported_tas:

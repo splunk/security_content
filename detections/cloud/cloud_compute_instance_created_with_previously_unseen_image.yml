@@ -4,8 +4,7 @@ version: 1
 date: '2018-10-12'
 author: David Dorsey, Splunk
 type: Anomaly
-datamodel:
-- Change
+datamodel: []
 description: This search looks for cloud compute instances being created with previously
   unseen image IDs.
 search: '| tstats count earliest(_time) as firstTime, latest(_time) as lastTime values(All_Changes.object_id)
@@ -63,10 +62,6 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - All_Changes.object_id
-  - All_Changes.action
-  - All_Changes.Instance_Changes.image_id
-  - All_Changes.user
   risk_score: 36
   security_domain: threat
   supported_tas:

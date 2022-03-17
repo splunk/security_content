@@ -4,8 +4,7 @@ version: 1
 date: '2021-06-02'
 author: Teoderick Contreras, Splunk
 type: TTP
-datamodel:
-- Endpoint
+datamodel: []
 description: This analytic identifies suspicious modification of registry to deface
   or change the wallpaper of a compromised machines as part of its payload. This technique
   was commonly seen in ransomware like REVIL where it create a bitmap file contain

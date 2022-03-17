@@ -5,7 +5,7 @@ date: '2021-05-06'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Filesystem
 description: This analytic will identify suspicious executable or scripts (known file
   extensions) in list of suspicious file path in Windows. This technique is used by
   adversaries to evade detection. The suspicious file path are known paths used in
@@ -72,12 +72,12 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - Endpoint.Filesystem.file_create_time
+  - Endpoint.Filesystem.file_name
+  - Endpoint.Filesystem.file_path
+  - Endpoint.Filesystem.process_id
+  - Endpoint.Filesystem.user
   - _time
-  - Filesystem.file_path
-  - Filesystem.file_create_time
-  - Filesystem.process_id
-  - Filesystem.file_name
-  - Filesystem.user
   risk_score: 56
   security_domain: endpoint
   supported_tas:

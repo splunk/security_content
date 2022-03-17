@@ -5,7 +5,7 @@ date: '2021-08-24'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic looks for the execution of `powershell.exe` with command-line
   arguments utilized to query for domain users. The `Get-WmiObject` commandlet combined
   with the `-class ds_user` parameter can be used to return the full list of users
@@ -62,15 +62,15 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - Endpoint.Processes.dest
+  - Endpoint.Processes.parent_process
+  - Endpoint.Processes.parent_process_id
+  - Endpoint.Processes.parent_process_name
+  - Endpoint.Processes.process
+  - Endpoint.Processes.process_id
+  - Endpoint.Processes.process_name
+  - Endpoint.Processes.user
   - _time
-  - Processes.dest
-  - Processes.user
-  - Processes.parent_process
-  - Processes.process_name
-  - Processes.process
-  - Processes.process_id
-  - Processes.parent_process_id
-  - Processes.parent_process_name
   risk_score: 25
   security_domain: endpoint
   supported_tas:

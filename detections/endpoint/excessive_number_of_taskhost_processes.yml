@@ -5,7 +5,7 @@ date: '2021-06-07'
 author: Michael Hart
 type: Anomaly
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This detection targets behaviors observed in post exploit kits like Meterpreter
   and Koadic that are run in memory.  We have observed that these tools must invoke
   an excessive number of taskhost.exe and taskhostex.exe processes to complete various
@@ -60,11 +60,10 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - Endpoint.Processes.dest
+  - Endpoint.Processes.process_id
+  - Endpoint.Processes.process_name
   - _time
-  - Processes.process_id
-  - Processes.process_name
-  - Processes.dest
-  - Processes.user
   risk_score: 56
   security_domain: endpoint
   supported_tas:

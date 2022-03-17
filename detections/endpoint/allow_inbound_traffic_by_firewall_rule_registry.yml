@@ -5,7 +5,8 @@ date: '2022-01-26'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
+- Endpoint.Registry
 description: This analytic detects a potential suspicious modification of firewall
   rule registry allowing inbound traffic in specific port with public profile. This
   technique was identified when an adversary wants to grant remote access to a machine
@@ -66,12 +67,21 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - Endpoint.Processes.dest
+  - Endpoint.Processes.parent_process
+  - Endpoint.Processes.parent_process_name
+  - Endpoint.Processes.process
+  - Endpoint.Processes.process_guid
+  - Endpoint.Processes.process_id
+  - Endpoint.Processes.process_name
+  - Endpoint.Registry.dest
+  - Endpoint.Registry.process_guid
+  - Endpoint.Registry.registry_key_name
+  - Endpoint.Registry.registry_path
+  - Endpoint.Registry.registry_value_data
+  - Endpoint.Registry.registry_value_name
+  - Endpoint.Registry.user
   - _time
-  - Registry.registry_path
-  - Registry.registry_value_name
-  - Registry.registry_key_name
-  - Registry.dest
-  - Registry.user
   risk_score: 3
   security_domain: endpoint
   supported_tas:

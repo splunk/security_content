@@ -5,7 +5,7 @@ date: '2022-02-23'
 author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic is to look for process commandline that contains named
   pipe. This technique was seen in some adversaries, threat actor and malware like
   olympic destroyer to communicate to its other child processes after process injection
@@ -60,18 +60,18 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - Endpoint.Processes.dest
+  - Endpoint.Processes.original_file_name
+  - Endpoint.Processes.parent_process
+  - Endpoint.Processes.parent_process_id
+  - Endpoint.Processes.parent_process_name
+  - Endpoint.Processes.parent_process_path
+  - Endpoint.Processes.process
+  - Endpoint.Processes.process_guid
+  - Endpoint.Processes.process_id
+  - Endpoint.Processes.process_name
+  - Endpoint.Processes.process_path
+  - Endpoint.Processes.user
   - _time
-  - Processes.dest
-  - Processes.user
-  - Processes.parent_process_name
-  - Processes.parent_process
-  - Processes.original_file_name
-  - Processes.process_name
-  - Processes.process
-  - Processes.process_id
-  - Processes.parent_process_path
-  - Processes.process_path
-  - Processes.parent_process_id
-  - Processes.process_guid
   risk_score: 49
   security_domain: endpoint

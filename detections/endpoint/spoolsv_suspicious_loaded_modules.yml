@@ -4,8 +4,7 @@ version: 1
 date: '2021-07-01'
 author: Mauricio Velazco, Michael Haag, Teoderick Contreras, Splunk
 type: TTP
-datamodel:
-- Endpoint
+datamodel: []
 description: This search is to detect suspicious loading of dll in specific path relative
   to printnightmare exploitation. In this search we try to detect the loaded modules
   made by spoolsv.exe after the exploitation.

@@ -5,7 +5,7 @@ date: '2021-07-26'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This search is to detect a suspicious rundll32.exe commandline to execute
   dll file. This technique was seen in IcedID malware to load its payload dll with
   the following parameter to load encrypted dll payload which is the license.dat.
@@ -55,18 +55,15 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - Endpoint.Processes.dest
+  - Endpoint.Processes.parent_process
+  - Endpoint.Processes.parent_process_id
+  - Endpoint.Processes.parent_process_name
+  - Endpoint.Processes.process
+  - Endpoint.Processes.process_id
+  - Endpoint.Processes.process_name
+  - Endpoint.Processes.user
   - _time
-  - Processes.dest
-  - Processes.user
-  - Processes.parent_process_name
-  - Processes.parent_process
-  - Processes.original_file_name
-  - Processes.process_name
-  - Processes.process
-  - Processes.process_id
-  - Processes.parent_process_path
-  - Processes.process_path
-  - Processes.parent_process_id
   risk_score: 56
   security_domain: endpoint
   supported_tas:

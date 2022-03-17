@@ -55,11 +55,7 @@ tags:
   required_fields:
   - _time
   - eventName
-  - requestParameters.x-amz-server-side-encryption
-  - requestParameters.bucketName
-  - requestParameters.x-amz-copy-source
-  - requestParameters.key
-  - userAgent
   - region
+  - userAgent
   risk_score: 15
   security_domain: threat

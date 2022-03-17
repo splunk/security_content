@@ -5,7 +5,7 @@ date: '2021-09-27'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Registry
 description: This search is to detect a suspicious modification of registry entry
   to persist and gain privilege escalation upon booting up of compromised host. This
   technique was seen in several APT and malware where it modify UserInitMprLogonScript
@@ -56,12 +56,12 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - Endpoint.Registry.dest
+  - Endpoint.Registry.registry_key_name
+  - Endpoint.Registry.registry_path
+  - Endpoint.Registry.registry_value_name
+  - Endpoint.Registry.user
   - _time
-  - Registry.dest
-  - Registry.user
-  - Registry.registry_path
-  - Registry.registry_key_name
-  - Registry.registry_value_name
   risk_score: 80
   security_domain: endpoint
   supported_tas:

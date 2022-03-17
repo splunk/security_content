@@ -5,7 +5,7 @@ date: '2021-04-12'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: The following detection identifies Microsoft Winword.exe spawning Windows
   Script Host - `cscript.exe` or `wscript.exe`. Typically, this is not common behavior
   and not default with Winword.exe. Winword.exe will generally be found in the following
@@ -64,12 +64,20 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - Endpoint.Processes.dest
+  - Endpoint.Processes.parent_process
+  - Endpoint.Processes.parent_process_id
+  - Endpoint.Processes.parent_process_name
+  - Endpoint.Processes.process
+  - Endpoint.Processes.process_id
+  - Endpoint.Processes.process_name
+  - Endpoint.Processes.user
   - _time
-  - process_name
-  - process_id
-  - parent_process_name
   - dest
-  - user
   - parent_process_id
+  - parent_process_name
+  - process_id
+  - process_name
+  - user
   risk_score: 70
   security_domain: endpoint

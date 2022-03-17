@@ -5,7 +5,7 @@ date: '2021-12-20'
 author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
-- Endpoint
+- Endpoint.Filesystem
 description: This analytic looks for suspicious file creation on init system directories
   for automatic execution of script or file upon boot up. This technique is commonly
   abuse by adversaries, malware author and red teamer to persist on the targeted or
@@ -59,11 +59,10 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - Endpoint.Filesystem.dest
+  - Endpoint.Filesystem.file_name
+  - Endpoint.Filesystem.file_path
+  - Endpoint.Filesystem.process_guid
   - _time
-  - Filesystem.dest
-  - Filesystem.file_create_time
-  - Filesystem.file_name
-  - Filesystem.process_guid
-  - Filesystem.file_path
   risk_score: 49
   security_domain: endpoint

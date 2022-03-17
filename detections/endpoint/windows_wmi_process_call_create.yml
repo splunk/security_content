@@ -5,7 +5,7 @@ date: '2022-02-22'
 author: Teoderick Contreras, Splunk
 type: Hunting
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic is to look for wmi commandlines to execute or create process.
   This technique was used by adversaries or threat actor to execute their malicious
   payload in local or remote host. This hunting query is a good pivot to start to
@@ -62,18 +62,18 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - Endpoint.Processes.dest
+  - Endpoint.Processes.original_file_name
+  - Endpoint.Processes.parent_process
+  - Endpoint.Processes.parent_process_id
+  - Endpoint.Processes.parent_process_name
+  - Endpoint.Processes.parent_process_path
+  - Endpoint.Processes.process
+  - Endpoint.Processes.process_guid
+  - Endpoint.Processes.process_id
+  - Endpoint.Processes.process_name
+  - Endpoint.Processes.process_path
+  - Endpoint.Processes.user
   - _time
-  - Processes.dest
-  - Processes.user
-  - Processes.parent_process_name
-  - Processes.parent_process
-  - Processes.original_file_name
-  - Processes.process_name
-  - Processes.process
-  - Processes.process_id
-  - Processes.parent_process_path
-  - Processes.process_path
-  - Processes.parent_process_id
-  - Processes.process_guid
   risk_score: 25
   security_domain: endpoint

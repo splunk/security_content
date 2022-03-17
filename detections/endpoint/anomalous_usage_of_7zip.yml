@@ -5,7 +5,7 @@ date: '2021-04-22'
 author: Michael Haag, Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: The following detection identifies a 7z.exe spawned from `Rundll32.exe`
   or `Dllhost.exe`. It is assumed that the adversary has brought in `7z.exe` and `7z.dll`.
   It has been observed where an adversary will rename `7z.exe`. Additional coverage
@@ -70,16 +70,15 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - Endpoint.Processes.dest
+  - Endpoint.Processes.parent_process
+  - Endpoint.Processes.parent_process_id
+  - Endpoint.Processes.parent_process_name
+  - Endpoint.Processes.process
+  - Endpoint.Processes.process_id
+  - Endpoint.Processes.process_name
+  - Endpoint.Processes.user
   - _time
-  - Processes.process_name
-  - Processes.process
-  - Processes.dest
-  - Processes.user
-  - Processes.parent_process_name
-  - Processes.process_name
-  - Processes.parent_process
-  - Processes.process_id
-  - Processes.parent_process_id
   risk_score: 64
   security_domain: endpoint
   supported_tas:

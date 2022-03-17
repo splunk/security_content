@@ -60,14 +60,13 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - _time
-  - Workload
-  - Operation
-  - Parameters{}.Value
   - ObjectId
+  - Operation
   - OrganizationName
   - OriginatingServer
   - UserId
   - UserKey
+  - Workload
+  - _time
   risk_score: 64
   security_domain: threat

@@ -4,8 +4,7 @@ version: 1
 date: '2021-04-14'
 author: Teoderick Contreras, Splunk
 type: TTP
-datamodel:
-- Endpoint
+datamodel: []
 description: this search detects a potential malicious office document that create
   schedule task entry through macro VBA api or through loading taskschd.dll. This
   technique was seen in so many malicious macro malware that create persistence ,

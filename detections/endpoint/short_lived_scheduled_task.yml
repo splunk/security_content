@@ -56,12 +56,10 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - _time
-  - dest
-  - ComputerName
   - Account_Name
-  - Task_Name
-  - Description
   - Command
+  - ComputerName
+  - Task_Name
+  - _time
   risk_score: 81
   security_domain: endpoint

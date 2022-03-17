@@ -74,11 +74,10 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - _time
+  - Computer
   - EventCode
+  - Image
   - ImageLoaded
   - ProcessId
-  - Computer
-  - Image
   risk_score: 64
   security_domain: endpoint

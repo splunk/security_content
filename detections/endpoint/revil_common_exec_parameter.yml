@@ -5,7 +5,7 @@ date: '2021-06-02'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic identifies suspicious commandline parameter that are commonly
   used by REVIL ransomware to encrypts the compromise machine.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -56,15 +56,15 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - Endpoint.Processes.dest
+  - Endpoint.Processes.parent_process
+  - Endpoint.Processes.parent_process_name
+  - Endpoint.Processes.process
+  - Endpoint.Processes.process_guid
+  - Endpoint.Processes.process_id
+  - Endpoint.Processes.process_name
+  - Endpoint.Processes.user
   - _time
-  - Processes.process_name
-  - Processes.process
-  - Processes.parent_process_name
-  - Processes.parent_process
-  - Processes.dest
-  - Processes.user
-  - Processes.process_id
-  - Processes.process_guid
   risk_score: 54
   security_domain: endpoint
   supported_tas:

@@ -5,7 +5,7 @@ date: '2021-10-11'
 author: David Dorsey, Michael Haag, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: The wevtutil.exe application is the windows event log utility. This searches
   for wevtutil.exe with parameters for clearing the application, security, setup,
   trace or system event logs.
@@ -69,12 +69,12 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - Endpoint.Processes.dest
+  - Endpoint.Processes.parent_process_name
+  - Endpoint.Processes.process
+  - Endpoint.Processes.process_name
+  - Endpoint.Processes.user
   - _time
-  - Processes.process
-  - Processes.process_name
-  - Processes.parent_process_name
-  - Processes.dest
-  - Processes.user
   risk_score: 28
   security_domain: endpoint
   supported_tas:

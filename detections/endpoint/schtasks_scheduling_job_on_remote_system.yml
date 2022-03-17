@@ -5,7 +5,7 @@ date: '2021-11-11'
 author: David Dorsey, Mauricio Velazco, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic looks for the execution of `schtasks.exe` with command-line
   arguments utilized to create a Scheduled Task on a remote endpoint. Red Teams and
   adversaries alike may abuse the Task Scheduler for lateral movement and remote code
@@ -65,12 +65,13 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - Endpoint.Processes.dest
+  - Endpoint.Processes.original_file_name
+  - Endpoint.Processes.parent_process_name
+  - Endpoint.Processes.process
+  - Endpoint.Processes.process_name
+  - Endpoint.Processes.user
   - _time
-  - Processes.process_name
-  - Processes.process
-  - Processes.parent_process_name
-  - Processes.dest
-  - Processes.user
   risk_score: 63
   security_domain: endpoint
   supported_tas:

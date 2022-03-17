@@ -5,7 +5,8 @@ date: '2020-07-22'
 author: David Dorsey, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
+- Endpoint.Processes
 description: This search looks for reg.exe being launched from a command prompt not
   started by the user. When a user launches cmd.exe, the parent process is usually
   explorer.exe. This search filters out those instances.
@@ -68,14 +69,13 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - Endpoint.Processes.dest
+  - Endpoint.Processes.parent_process_id
+  - Endpoint.Processes.parent_process_name
+  - Endpoint.Processes.process_id
+  - Endpoint.Processes.process_name
+  - Endpoint.Processes.user
   - _time
-  - Processes.parent_process_name
-  - Processes.process_name
-  - Processes.user
-  - Processes.parent_process_name
-  - Processes.dest
-  - Processes.process_id
-  - Processes.parent_process_id
   risk_score: 35
   security_domain: endpoint
   supported_tas:

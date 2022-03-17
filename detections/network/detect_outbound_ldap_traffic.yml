@@ -5,7 +5,7 @@ date: '2021-12-13'
 author: Bhavin Patel, Johan Bjerke, Splunk
 type: Hunting
 datamodel:
-- Network_Traffic
+- Network_Traffic.All_Traffic
 description: Malicious actors often abuse misconfigured LDAP servers or applications
   that use the LDAP servers in organizations. Outbound LDAP traffic should not be
   allowed outbound through your perimeter firewall.  This search will help determine
@@ -70,9 +70,9 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - Network_Traffic.All_Traffic.dest_ip
+  - Network_Traffic.All_Traffic.dest_port
+  - Network_Traffic.All_Traffic.src_ip
   - _time
-  - All_Traffic.dest_ip
-  - All_Traffic.dest_port
-  - All_Traffic.src_ip
   risk_score: 56
   security_domain: network

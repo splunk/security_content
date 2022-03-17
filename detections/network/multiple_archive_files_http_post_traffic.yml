@@ -4,8 +4,7 @@ version: 1
 date: '2021-04-21'
 author: Teoderick Contreras, Splunk
 type: TTP
-datamodel:
-- Network_Traffic
+datamodel: []
 description: This search is designed to detect high frequency of archive files data
   exfiltration through HTTP POST method protocol. This are one of the common techniques
   used by APT or trojan spy after doing the data collection like screenshot, recording,

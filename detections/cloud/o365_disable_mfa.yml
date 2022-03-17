@@ -53,13 +53,9 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - _time
   - Operation
-  - UserType
-  - user
-  - status
-  - signature
-  - dest
   - ResultStatus
+  - UserType
+  - _time
   risk_score: 64
   security_domain: threat

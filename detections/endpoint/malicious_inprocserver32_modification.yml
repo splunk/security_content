@@ -5,7 +5,8 @@ date: '2021-10-05'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
+- Endpoint.Registry
 description: The following analytic identifies a process modifying the registry with
   a known malicious CLSID under InProcServer32. Most COM classes are registered with
   the operating system and are identified by a GUID that represents the Class Identifier
@@ -75,11 +76,22 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - Endpoint.Processes.dest
+  - Endpoint.Processes.process_guid
+  - Endpoint.Processes.process_id
+  - Endpoint.Processes.process_name
+  - Endpoint.Processes.user
+  - Endpoint.Registry.dest
+  - Endpoint.Registry.process_guid
+  - Endpoint.Registry.registry_key_name
+  - Endpoint.Registry.registry_path
+  - Endpoint.Registry.registry_value_name
+  - Endpoint.Registry.user
   - _time
   - dest
   - process_name
-  - registry_path
   - registry_key_name
+  - registry_path
   - registry_value_name
   - user
   risk_score: 80

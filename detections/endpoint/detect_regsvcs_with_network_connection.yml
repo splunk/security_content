@@ -72,13 +72,12 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - _time
+  - Computer
   - EventID
+  - _time
   - dest_ip
   - process_name
-  - Computer
-  - user
   - src_ip
-  - dest_host
+  - user
   risk_score: 80
   security_domain: Endpoint

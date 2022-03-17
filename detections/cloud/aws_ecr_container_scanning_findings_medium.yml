@@ -53,14 +53,11 @@ tags:
   - Splunk Cloud
   - Dev Sec Ops Analytics
   required_fields:
-  - eventSource
-  - eventName
-  - responseElements.imageScanFindings.findings{}
   - awsRegion
-  - requestParameters.imageId.imageDigest
-  - requestParameters.repositoryName
+  - eventName
+  - eventSource
+  - src_ip
   - user
   - userName
-  - src_ip
   risk_score: 21
   security_domain: network

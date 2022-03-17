@@ -5,7 +5,8 @@ date: '2021-11-12'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Ports
+- Endpoint.Processes
 description: 'The following analytic identifies the Windows InstallUtil.exe binary
   making a remote network connection. This technique may be used to download and execute
   code while bypassing application control. \
@@ -80,20 +81,16 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - Endpoint.Ports.dest
+  - Endpoint.Ports.dest_port
+  - Endpoint.Ports.process_guid
+  - Endpoint.Processes.dest
+  - Endpoint.Processes.original_file_name
+  - Endpoint.Processes.parent_process_name
+  - Endpoint.Processes.process
+  - Endpoint.Processes.process_guid
+  - Endpoint.Processes.process_name
+  - Endpoint.Processes.process_path
   - _time
-  - Processes.dest
-  - Processes.user
-  - Processes.parent_process_name
-  - Processes.parent_process
-  - Processes.original_file_name
-  - Processes.process_name
-  - Processes.process
-  - Processes.process_id
-  - Processes.parent_process_path
-  - Processes.process_path
-  - Processes.parent_process_id
-  - Ports.process_guid
-  - Ports.dest
-  - Ports.dest_port
   risk_score: 80
   security_domain: endpoint

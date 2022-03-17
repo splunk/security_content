@@ -5,7 +5,7 @@ date: '2021-09-16'
 author: Michael Haag, Splunk
 type: Hunting
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: The following analytic identifies renamed 7-Zip usage using Sysmon. At
   this stage of an attack, review parallel processes and file modifications for data
   that is staged or potentially have been exfiltrated. This analytic utilizes the
@@ -65,17 +65,14 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - Endpoint.Processes.dest
+  - Endpoint.Processes.original_file_name
+  - Endpoint.Processes.parent_process_id
+  - Endpoint.Processes.parent_process_name
+  - Endpoint.Processes.process
+  - Endpoint.Processes.process_id
+  - Endpoint.Processes.process_name
+  - Endpoint.Processes.user
   - _time
-  - Processes.dest
-  - Processes.user
-  - Processes.parent_process_name
-  - Processes.parent_process
-  - Processes.original_file_name
-  - Processes.process_name
-  - Processes.process
-  - Processes.process_id
-  - Processes.parent_process_path
-  - Processes.process_path
-  - Processes.parent_process_id
   risk_score: 27
   security_domain: endpoint

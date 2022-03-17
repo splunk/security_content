@@ -71,14 +71,7 @@ tags:
   required_fields:
   - _time
   - eventName
-  - requestParameters.ruleAction
-  - requestParameters.egress
-  - requestParameters.aclProtocol
-  - requestParameters.portRange.to
-  - requestParameters.portRange.from
-  - requestParameters.cidrBlock
-  - userName
-  - userIdentity.principalId
   - userAgent
+  - userName
   risk_score: 48
   security_domain: network

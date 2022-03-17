@@ -4,8 +4,7 @@ version: 1
 date: '2021-11-16'
 author: Teoderick Contreras, Splunk
 type: Anomaly
-datamodel:
-- Endpoint
+datamodel: []
 description: This analytic is to detect a suspicious high frequency copying/moving
   of files in network share as part of information sabotage. This anomaly event can
   be a good indicator of insider trying to sabotage data by transfering classified

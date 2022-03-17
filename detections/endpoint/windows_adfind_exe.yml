@@ -5,7 +5,7 @@ date: '2021-11-03'
 author: Jose Hernandez, Bhavin Patel, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: 'This search looks for the execution of `adfind.exe` with command-line
   arguments that it uses by default. Specifically the filter or search functions.
   It also considers the arguments necessary like objectcategory, see readme for more
@@ -49,14 +49,14 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - Endpoint.Processes.dest
+  - Endpoint.Processes.parent_process
+  - Endpoint.Processes.parent_process_id
+  - Endpoint.Processes.process
+  - Endpoint.Processes.process_id
+  - Endpoint.Processes.process_name
+  - Endpoint.Processes.user
   - _time
-  - Processes.process
-  - Processes.dest
-  - Processes.user
-  - Processes.process_name
-  - Processes.parent_process
-  - Processes.process_id
-  - Processes.parent_process_id
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_microsoft_sysmon

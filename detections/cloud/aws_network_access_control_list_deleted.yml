@@ -62,10 +62,8 @@ tags:
   required_fields:
   - _time
   - eventName
-  - requestParameters.egress
-  - userName
-  - userIdentity.principalId
   - src
   - userAgent
+  - userName
   risk_score: 5
   security_domain: network
