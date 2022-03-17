@@ -63,7 +63,7 @@ def outputResultsJSON(output_filename:str, data:list[dict], baseline:OrderedDict
         if len(fail_list) > 0:
             print("FAILURES:")
             for failed_test in fail_list:
-                print(f"\tfailed_test")
+                print(f"\t{failed_test}")
             failures_test_override = copy.deepcopy(summarization_reproduce_failure_config)
             #Force all tests to be interactive, even if they don't fail (because they failed on this test)
             failures_test_override.update({"detections_list": fail_list, "no_interactive_failure":False, "interactive": True,
