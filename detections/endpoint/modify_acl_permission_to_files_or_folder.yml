@@ -1,9 +1,9 @@
 name: Modify ACL permission To Files Or Folder
 id: 7e8458cc-acca-11eb-9e3f-acde48001122
-version: 1
-date: '2021-05-04'
+version: 2
+date: '2022-03-17'
 author: Teoderick Contreras, Splunk
-type: TTP
+type: Anomaly
 datamodel:
 - Endpoint
 description: This analytic identifies suspicious modification of ACL permission to
@@ -14,9 +14,9 @@ description: This analytic identifies suspicious modification of ACL permission 
   no permission to do so.
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
   values(Processes.process_id) as process_id count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.process_name = "cacls.exe"
-  OR Processes.process_name = "icacls.exe" OR Processes.process_name = "xcacls.exe"
-  AND (Processes.process = "*/G everyone:*"  OR Processes.process = "*/G SYSTEM:*")
+  as lastTime from datamodel=Endpoint.Processes where (Processes.process_name = "cacls.exe"
+  OR Processes.process_name = "icacls.exe" OR Processes.process_name = "xcacls.exe")
+  AND Processes.process = "*/G*" AND (Processes.process = "* everyone:*"  OR Processes.process = "* SYSTEM:*" OR Processes.process = "* S-1-1-0:*")
   by Processes.parent_process_name Processes.process_name Processes.dest Processes.user
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `modify_acl_permission_to_files_or_folder_filter`'
