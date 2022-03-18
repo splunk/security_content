@@ -47,6 +47,7 @@ class ObjToYmlAdapter(Adapter):
                                 "kill_chain_phases": True,
                                 "mitre_attack_id": True,
                                 "risk_severity": True,
+                                "risk_score": True,
                                 "security_domain": True,
                                 "required_fields": True
                             },
