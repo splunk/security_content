@@ -52,11 +52,11 @@ class Detection(BaseModel, SecurityContentObject):
     source: str = None
 
 
-    @validator('name')
-    def name_max_length(cls, v):
-        if len(v) > 75:
-            raise ValueError('name is longer then 75 chars: ' + v)
-        return v
+    # @validator('name')
+    # def name_max_length(cls, v, values):      
+    #     if len(v) > 67:
+    #         raise ValueError('name is longer then 67 chars: ' + v)
+    #     return v
 
     @validator('name')
     def name_invalid_chars(cls, v):
@@ -110,6 +110,14 @@ class Detection(BaseModel, SecurityContentObject):
             if any(x in values['search'] for x in ['eventtype=', 'sourcetype=', ' source=', 'index=']):
                 if not 'index=_internal' in values['search']:
                     raise ValueError('Use source macro instead of eventtype, sourcetype, source or index in detection: ' + values["name"])
+        return values
+
+    @root_validator
+    def name_max_length(cls, values):
+        # Check max length only for ESCU searches, SSA does not have that constraint
+        if 'ssa_' not in values['file_path']:
+            if len(values["name"]) > 67:
+                raise ValueError('name is longer then 67 chars: ' + values["name"])
         return values
 
 
