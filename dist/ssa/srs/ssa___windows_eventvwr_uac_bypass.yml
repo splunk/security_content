@@ -56,6 +56,7 @@ tags:
   - registry_value_type
   - registry_value_data
   - process_guid
+  risk_score: 80
   security_domain: endpoint
   risk_severity: high
 test:
