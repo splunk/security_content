@@ -59,9 +59,7 @@ class Factory():
           self.createSecurityContent(SecurityContentType.deployments)
           self.createSecurityContent(SecurityContentType.baselines)
           self.createSecurityContent(SecurityContentType.investigations)
-          self.createSecurityContent(SecurityContentType.detections) # execution only for playbook enrichment
           self.createSecurityContent(SecurityContentType.playbooks)
-          self.output_dto.detections = []
           self.createSecurityContent(SecurityContentType.detections)
           self.createSecurityContent(SecurityContentType.stories)
 
@@ -90,7 +88,7 @@ class Factory():
                          self.output_dto.deployments.append(self.input_dto.basic_builder.getObject())
                     
                     elif type == SecurityContentType.playbooks:
-                         self.input_dto.director.constructPlaybook(self.input_dto.playbook_builder, file, self.output_dto.detections)
+                         self.input_dto.director.constructPlaybook(self.input_dto.playbook_builder, file)
                          self.output_dto.playbooks.append(self.input_dto.playbook_builder.getObject())                    
                     
                     elif type == SecurityContentType.baselines:

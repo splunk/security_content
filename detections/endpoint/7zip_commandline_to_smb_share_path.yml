@@ -32,7 +32,7 @@ tags:
   - Ransomware
   confidence: 50
   context:
-  - Source:Endpoint
+  - Source:EndpointASDS
   - Stage:Execution
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/conti/conti_leak/windows-sysmon_7z.log

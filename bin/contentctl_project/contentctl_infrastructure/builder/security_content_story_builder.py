@@ -37,19 +37,20 @@ class SecurityContentStoryBuilder(StoryBuilder):
         kill_chain_phases = set()
 
         for detection in detections:
-            for detection_analytic_story in detection.tags.analytic_story:
-                if detection_analytic_story == self.story.name:
-                    matched_detection_names.append(str('ESCU - ' + detection.name + ' - Rule'))
-                    matched_detections.append(detection)
-                    datamodels.update(detection.datamodel)
-                    if detection.tags.kill_chain_phases:
-                        kill_chain_phases.update(detection.tags.kill_chain_phases)
+            if detection:
+                for detection_analytic_story in detection.tags.analytic_story:
+                    if detection_analytic_story == self.story.name:
+                        matched_detection_names.append(str('ESCU - ' + detection.name + ' - Rule'))
+                        matched_detections.append(detection)
+                        datamodels.update(detection.datamodel)
+                        if detection.tags.kill_chain_phases:
+                            kill_chain_phases.update(detection.tags.kill_chain_phases)
 
-                    if detection.tags.mitre_attack_enrichments:
-                        for attack_enrichment in detection.tags.mitre_attack_enrichments:
-                            mitre_attack_tactics.update(attack_enrichment.mitre_attack_tactics)
-                            if attack_enrichment.mitre_attack_id not in [attack.mitre_attack_id for attack in mitre_attack_enrichments]:
-                                mitre_attack_enrichments.append(attack_enrichment)
+                        if detection.tags.mitre_attack_enrichments:
+                            for attack_enrichment in detection.tags.mitre_attack_enrichments:
+                                mitre_attack_tactics.update(attack_enrichment.mitre_attack_tactics)
+                                if attack_enrichment.mitre_attack_id not in [attack.mitre_attack_id for attack in mitre_attack_enrichments]:
+                                    mitre_attack_enrichments.append(attack_enrichment)
 
         self.story.detection_names = matched_detection_names
         self.story.detections = matched_detections
