@@ -63,6 +63,7 @@ tags:
   - dest_device_id
   - _time
   - process_name
+  risk_score: 25
   security_domain: endpoint
   risk_severity: low
 test:

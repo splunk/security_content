@@ -44,6 +44,7 @@ tags:
   - dest_user_id
   - process
   - cmd_line
+  risk_score: 80
   security_domain: endpoint
   risk_severity: high
 test:
