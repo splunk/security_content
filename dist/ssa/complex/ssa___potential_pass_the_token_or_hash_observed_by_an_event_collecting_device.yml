@@ -66,6 +66,7 @@ tags:
   - dest_user_id
   - origin_device_id
   - authentication_method
+  risk_score: 64
   security_domain: endpoint
   risk_severity: medium
 test:

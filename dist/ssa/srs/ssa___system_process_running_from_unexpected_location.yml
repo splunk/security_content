@@ -246,6 +246,7 @@ tags:
   - _time
   - dest_user_id
   - process_path
+  risk_score: 56
   security_domain: endpoint
   risk_severity: medium
 test:
