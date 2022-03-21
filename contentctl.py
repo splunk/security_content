@@ -33,7 +33,7 @@ from bin.contentctl_project.contentctl_infrastructure.builder.attack_enrichment 
 from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import SecurityContentType
 
 
-def init(args):
+def init():
 
     print("""
 Running Splunk Security Content Control Tool (contentctl) 
@@ -64,16 +64,6 @@ starting program loaded for TIE Fighter...
      l_i                                          l_j -Row
 
     """)
-
-    # parse config
-    security_content_path = os.path(args.path).resolve()
-    if security_content_path.is_dir():
-        print("contentctl is reading from path {0}".format(
-            security_content_path))
-    else:
-        print("ERROR: contentctl failed to find security_content project")
-        sys.exit(1)
-    return str(security_content_path)
 
 
 def content_changer(args) -> None:
@@ -155,8 +145,8 @@ def validate(args) -> None:
         print("ERROR: missing parameter -p/--product .")
         sys.exit(1)     
 
-    if args.product not in ['ESCU', 'SSA']:
-        print("ERROR: invalid product. valid products are ESCU, SSA or API.")
+    if args.product not in ['ESCU', 'SSA', 'all']:
+        print("ERROR: invalid product. valid products are all, ESCU or SSA.")
         sys.exit(1)
 
     factory_input_dto = FactoryInputDto(
@@ -178,21 +168,24 @@ def validate(args) -> None:
         SecurityContentDirector()
     )
 
-    if args.product == "ESCU":
+    if args.product == "ESCU" or args.product == "all":
         validate_input_dto = ValidateInputDto(
             factory_input_dto,
             ba_factory_input_dto,
             SecurityContentProduct.ESCU
         )
-    elif args.product == "SSA":
+        validate = Validate()
+        validate.execute(validate_input_dto)
+
+    if args.product == "SSA" or args.product == "all":
         validate_input_dto = ValidateInputDto(
             factory_input_dto,
             ba_factory_input_dto,
             SecurityContentProduct.SSA
         )
+        validate = Validate()
+        validate.execute(validate_input_dto)
 
-    validate = Validate()
-    validate.execute(validate_input_dto)
 
 
 def doc_gen(args) -> None:
@@ -258,6 +251,8 @@ def reporting(args) -> None:
 
 def main(args):
 
+    init()
+
     # grab arguments
     parser = argparse.ArgumentParser(
         description="Use `contentctl.py action -h` to get help with any Splunk Security Content action")
@@ -281,8 +276,8 @@ def main(args):
     #                              help="Generates an example content UPDATE on the fields that need updating. Use `git status` to see what specific files are added. Skips new content wizard prompts.")
     # new_parser.set_defaults(func=new)
 
-    validate_parser.add_argument("-pr", "--product", required=True, type=str,
-        help="Type of package to create, choose between `ESCU` or `SSA`.")
+    validate_parser.add_argument("-pr", "--product", required=True, type=str, default='all', 
+        help="Type of package to create, choose between all, `ESCU` or `SSA`.")
     validate_parser.set_defaults(func=validate, epilog="""
                 Validates security manifest for correctness, adhering to spec and other common items.""")
 
