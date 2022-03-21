@@ -147,7 +147,7 @@ class GithubService:
                          summary_file: str = None) -> list[str]:
         pruned_tests = []
         csvlines = []
-        
+        found_error = False
         for detection in detections_to_prune:
             if os.path.basename(detection).startswith("ssa") and exclude_ssa:
                 continue
@@ -164,6 +164,7 @@ class GithubService:
                     if not os.path.exists(test_filepath):
                         print("Detection [%s] references [%s], but it does not exist" % (
                             detection, test_filepath))
+                        found_error = True
                         #raise(Exception("Detection [%s] references [%s], but it does not exist"%(detection, test_filepath)))
                     elif test_filepath_without_security_content in previously_successful_tests:
                         print(
@@ -201,7 +202,10 @@ class GithubService:
                 for r in csvlines:
                     writer.writerow(r)
 
-        return pruned_tests
+        if found_error == False:
+            return pruned_tests
+        else:
+            raise(Exception("Error(s) in processing getting detections to test: see output above for specific error information."))
 
     def get_test_files(self, mode: str, folders: list[str],   types: list[str],
                        detections_list: Union[list[str], None],
