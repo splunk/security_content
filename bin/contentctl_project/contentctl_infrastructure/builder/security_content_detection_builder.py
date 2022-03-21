@@ -20,13 +20,8 @@ class SecurityContentDetectionBuilder(DetectionBuilder):
     def setObject(self, path: str) -> None:
         yml_dict = YmlReader.load_file(path)
         yml_dict["tags"]["name"] = yml_dict["name"]
-        try:
-            self.security_content_obj = Detection.parse_obj(yml_dict)
-            self.security_content_obj.source = os.path.split(os.path.dirname(self.security_content_obj.file_path))[-1]      
-        except ValidationError as e:
-            print('Validation Error for file ' + path)
-            print(e)
-            sys.exit(1)     
+        self.security_content_obj = Detection.parse_obj(yml_dict)
+        self.security_content_obj.source = os.path.split(os.path.dirname(self.security_content_obj.file_path))[-1]      
 
 
     def addDeployment(self, deployments: list) -> None:
