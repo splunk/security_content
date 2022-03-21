@@ -14,15 +14,11 @@ def test_read_playbook():
 
 
 def test_enrich_detections():
-    security_content_builder = SecurityContentDetectionBuilder()
-    security_content_builder.setObject(os.path.join(os.path.dirname(__file__), 
-        'test_data/detection/valid.yml'))
-    detection = security_content_builder.getObject()
 
     playbook_builder = SecurityContentPlaybookBuilder()
     playbook_builder.setObject(os.path.join(os.path.dirname(__file__), 
         'test_data/playbook/example_playbook.yml'))
-    playbook_builder.addDetections([detection])
+    playbook_builder.addDetections()
     playbook = playbook_builder.getObject()
 
-    assert playbook.tags.detection_objects[0].name == "Attempted Credential Dump From Registry via Reg exe"
+    assert playbook.tags.detection_objects[0]['path'] == "detections/endpoint/attempted_credential_dump_from_registry_via_reg_exe.yml"
