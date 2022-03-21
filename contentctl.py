@@ -219,8 +219,9 @@ def doc_gen(args) -> None:
 
 
 def new_content(args) -> None:
-    if args.type == 'detection':
+    if args.type == 'detection' and args.product=='ESCU':
         type = SecurityContentType.detections
+        type = SecurityContentProduct.ESCU
     elif args.type == 'story':
         type = SecurityContentType.stories
     else:
@@ -302,6 +303,8 @@ def main(args):
 
     new_content_parser.add_argument("-t", "--type", required=True, type=str,
         help="Type of security content object, choose between `detection`, `story`")
+    new_content_parser.add_argument("-pr", "--product", required=True, type=str,
+        help="Type of content to create, choose between `ESCU` or `SSA`.")
     new_content_parser.set_defaults(func=new_content)
 
     reporting_parser.set_defaults(func=reporting)

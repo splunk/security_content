@@ -7,6 +7,16 @@ class NewContentQuestions():
         questions = [
             {
                 'type': 'select',
+                'message': 'what product is this for',
+                'name': 'detection_product',
+                'choices': [
+                    'ESCU',
+                    'SSA'
+                ],
+                'default': 'ESCU'
+            },
+            {
+                'type': 'select',
                 'message': 'what kind of detection is this',
                 'name': 'detection_kind',
                 'choices': [
