@@ -1,7 +1,7 @@
 name: Delete A Net User
 id: 8776d79c-d26e-11eb-9a56-acde48001122
 version: 4
-date: '2022-03-17'
+date: '2022-03-21'
 author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
