@@ -1,7 +1,7 @@
 name: Modify ACLs Permission Of Files Or Folders
 id: 9ae9a48a-cdbe-11eb-875a-acde48001122
-version: 2
-date: '2021-11-30'
+version: 3
+date: '2022-03-17'
 author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
@@ -12,19 +12,21 @@ description: This analytic identifies suspicious modification of ACL permission 
   is commonly configured by the file or directory owner with appropriate permission.
   This behavior raises suspicion if this command is seen on an endpoint utilized by
   an account with no permission to do so.
-search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
-  "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string",
-  null), process_name=ucast(map_get(input_event, "process_name"), "string", null),
-  process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event,
-  "parent_process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"),
-  "string", null) | where cmd_line IS NOT NULL AND like(cmd_line, "%/G%") AND (match_regex(cmd_line,
-  /(?i)everyone:/)=true OR match_regex(cmd_line, /(?i)SYSTEM:/)=true) AND (process_name="cacls.exe"
-  OR process_name="xcacls.exe" OR process_name="icacls.exe") | eval start_time=timestamp,
-  end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"),
+search: '| from read_ssa_enriched_events() 
+  | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), 
+  process=ucast(map_get(input_event, "process"), "string", null), 
+  process_name=ucast(map_get(input_event, "process_name"), "string", null),
+  process_path=ucast(map_get(input_event, "process_path"), "string", null), 
+  parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null), 
+  event_id=ucast(map_get(input_event, "event_id"), "string", null) 
+  | where process IS NOT NULL AND NOT like(process, "%:\\Windows\\QG\\ServiceNow%") AND like(process, "%/g%") 
+  | where (match_regex(process, /(?i)everyone:/)=true OR match_regex(process, /(?i)SYSTEM:/)=true OR match_regex(process, /(?i)S-1-1-0:/)=true) 
+  | where (process_name="cacls.exe" OR process_name="xcacls.exe" OR process_name="icacls.exe")
+  | eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"),
   "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)),
-  body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name,
-  "parent_process_name", parent_process_name, "process_path", process_path]) | into
-  write_ssa_detected_events();'
+  body=create_map(["event_id", event_id, "process", process, "process_name", process_name,
+  "parent_process_name", parent_process_name, "process_path", process_path]) 
+  | into write_ssa_detected_events();'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
