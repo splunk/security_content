@@ -21,3 +21,5 @@ class DocGen:
         factory.execute(input_dto.factory_input_dto)
 
         input_dto.adapter.writeObjects([factory_output_dto.stories, factory_output_dto.detections, factory_output_dto.playbooks], input_dto.output_path)
+
+        print('Documentation generation of security content successful.')
