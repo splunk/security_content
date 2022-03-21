@@ -50,7 +50,7 @@ def test_construct_playbooks():
     director = SecurityContentDirector()
     playbook_builder = SecurityContentPlaybookBuilder()
     director.constructPlaybook(playbook_builder, os.path.join(os.path.dirname(__file__), 
-        'test_data/playbook/example_playbook.yml'), [])
+        'test_data/playbook/example_playbook.yml'))
     playbook = playbook_builder.getObject()     
 
     assert playbook.name == "Ransomware Investigate and Contain"
@@ -120,7 +120,7 @@ def test_construct_detections():
 
     playbook_builder = SecurityContentPlaybookBuilder()
     director.constructPlaybook(playbook_builder, os.path.join(os.path.dirname(__file__), 
-        'test_data/playbook/example_playbook.yml'), [])
+        'test_data/playbook/example_playbook.yml'))
     playbook = playbook_builder.getObject()    
 
     baseline_builder = SecurityContentBaselineBuilder()
@@ -188,7 +188,7 @@ def test_construct_stories():
 
     playbook_builder = SecurityContentPlaybookBuilder()
     director.constructPlaybook(playbook_builder, os.path.join(os.path.dirname(__file__), 
-        'test_data/playbook/example_playbook.yml'), [])
+        'test_data/playbook/example_playbook.yml'))
     playbook = playbook_builder.getObject()    
 
     baseline_builder = SecurityContentBaselineBuilder()
