@@ -32,7 +32,7 @@ tags:
 #### Associated Detections
 {% if object.tags.detection_objects %}
 {% for detection in object.tags.detection_objects -%}
-* [{{ detection.name }}](/{{ detection.soure }}/{{detection.name|lower|replace(" ", "_")}}/)
+* [{{ detection.name }}](/detection/{{ detection.lowercase_name }}/)
 {% endfor %}
 {% endif %}
 
