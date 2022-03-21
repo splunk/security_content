@@ -30,7 +30,7 @@ This playbook investigates and contains ransomware detected on endpoints.
 
 #### Associated Detections
 
-* [Attempted Credential Dump From Registry via Reg exe](//attempted_credential_dump_from_registry_via_reg_exe/)
+* [Attempted Credential Dump From Registry via Reg exe](/detection/attempted_credential_dump_from_registry_via_reg_exe/)
 
 
 
