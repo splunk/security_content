@@ -48,7 +48,7 @@ def test_svg_writer():
 
     playbook_builder = SecurityContentPlaybookBuilder()
     director.constructPlaybook(playbook_builder, os.path.join(os.path.dirname(__file__), 
-        '../builder/test_data/playbook/example_playbook.yml'), [])
+        '../builder/test_data/playbook/example_playbook.yml'))
     playbook = playbook_builder.getObject()
 
     detection_builder = SecurityContentDetectionBuilder()
