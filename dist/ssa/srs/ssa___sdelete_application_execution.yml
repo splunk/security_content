@@ -66,6 +66,7 @@ tags:
   - process_id
   - process_path
   - process
+  risk_score: 42
   security_domain: endpoint
   risk_severity: low
 test:

@@ -59,6 +59,7 @@ tags:
   - process_path
   - dest_user_id
   - process
+  risk_score: 36
   security_domain: endpoint
   risk_severity: low
 test:

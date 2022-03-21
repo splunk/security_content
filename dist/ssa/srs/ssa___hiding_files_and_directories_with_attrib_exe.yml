@@ -51,6 +51,7 @@ tags:
   - PR.IP
   required_fields:
   - _time
+  risk_score: 72
   security_domain: endpoint
   risk_severity: medium
 test:

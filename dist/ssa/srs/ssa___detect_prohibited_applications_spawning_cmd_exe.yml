@@ -56,6 +56,7 @@ tags:
   - dest_device_id
   - dest_user_id
   - process
+  risk_score: 35
   security_domain: endpoint
   risk_severity: low
 test:

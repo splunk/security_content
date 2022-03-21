@@ -41,6 +41,7 @@ tags:
   - Ingress Tool Transfer
   - BITS Jobs
   - DarkSide Ransomware
+  - Living Off The Land
   confidence: 70
   context:
   - Source:Endpoint
