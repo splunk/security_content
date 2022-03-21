@@ -1,5 +1,7 @@
 import os
+import sys
 
+from pydantic import ValidationError
 from dataclasses import dataclass
 
 from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import SecurityContentType
@@ -44,15 +46,25 @@ class BAFactory():
         else:
             files = Utils.get_all_yml_files_from_directory(os.path.join(self.input_dto.input_path, str(type.name)))
 
+        validation_error_found = False
+
         for file in files:
             if 'ssa__' in file:
-                if type == SecurityContentType.detections:
-                    self.input_dto.director.constructDetection(self.input_dto.detection_builder, file, [], [], [], self.output_dto.tests, {}, [], [])
-                    detection = self.input_dto.detection_builder.getObject()
-                    if not detection.deprecated and not detection.experimental:
-                        self.output_dto.detections.append(detection)
-                elif type == SecurityContentType.unit_tests:
-                    self.input_dto.director.constructTest(self.input_dto.basic_builder, file)
-                    test = self.input_dto.basic_builder.getObject()
-                    self.output_dto.tests.append(test)
+                try:
+                    if type == SecurityContentType.detections:
+                        self.input_dto.director.constructDetection(self.input_dto.detection_builder, file, [], [], [], self.output_dto.tests, {}, [], [])
+                        detection = self.input_dto.detection_builder.getObject()
+                        if not detection.deprecated and not detection.experimental:
+                            self.output_dto.detections.append(detection)
+                    elif type == SecurityContentType.unit_tests:
+                        self.input_dto.director.constructTest(self.input_dto.basic_builder, file)
+                        test = self.input_dto.basic_builder.getObject()
+                        self.output_dto.tests.append(test)
                     
+                except ValidationError as e:
+                    print('\nValidation Error for file ' + file)
+                    print(e)
+                    validation_error_found = True
+
+        if validation_error_found:
+            sys.exit(1)
