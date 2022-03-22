@@ -22,3 +22,5 @@ class Reporting:
 
         input_dto.adapter_svg.writeObjects(factory_output_dto.detections, os.path.join(os.path.dirname(__file__), '../../../../reporting'))
         input_dto.adapter_attack.writeObjects(factory_output_dto.detections, os.path.join(os.path.dirname(__file__), '../../../../../docs/mitre-map'))
+
+        print('Reporting of security content successful.')
