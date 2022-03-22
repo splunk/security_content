@@ -16,6 +16,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - CVE-2021-34527
   - Endpoint
 ---
 
@@ -62,9 +63,9 @@ The following analytic identifies rundll32.exe with no command line arguments an
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_rundll32](https://github.com/splunk/security_content/blob/develop/macros/process_rundll32.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [process_rundll32](https://github.com/splunk/security_content/blob/develop/macros/process_rundll32.yml)
 
 Note that `rundll32_with_no_command_line_arguments_with_network_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -106,6 +107,12 @@ Although unlikely, some legitimate applications may use a moved copy of rundll32
 | ----------- | ----------- |--------------|--------------|
 | 70.0 | 70 | 100 | A rundll32 process $process_name$ with no commandline argument like this process commandline $process$ in host $dest$ |
 
+
+#### CVE
+
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+| [CVE-2021-34527](https://nvd.nist.gov/vuln/detail/CVE-2021-34527) | Windows Print Spooler Remote Code Execution Vulnerability | 9.0 |
 
 
 

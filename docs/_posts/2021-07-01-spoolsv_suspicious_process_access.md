@@ -13,6 +13,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - CVE-2021-34527
   - Endpoint
 ---
 
@@ -50,8 +51,8 @@ This analytic identifies a suspicious behavior related to PrintNightmare, or CVE
 
 #### Macros
 The SPL above uses the following Macros:
-* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 
 Note that `spoolsv_suspicious_process_access_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -85,6 +86,12 @@ Unknown. Filter as needed.
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 80 | 90 | $SourceImage$ was GrantedAccess open access to $TargetImage$ on endpoint $Computer$. This behavior is suspicious and related to PrintNightmare. |
 
+
+#### CVE
+
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+| [CVE-2021-34527](https://nvd.nist.gov/vuln/detail/CVE-2021-34527) | Windows Print Spooler Remote Code Execution Vulnerability | 9.0 |
 
 
 

@@ -34,6 +34,7 @@ tags:
   analytic_story:
   - Ingress Tool Transfer
   - DarkSide Ransomware
+  - Living Off The Land
   confidence: 100
   context:
   - Source:Endpoint

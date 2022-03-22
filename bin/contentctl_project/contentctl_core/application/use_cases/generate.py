@@ -56,3 +56,5 @@ class Generate:
             input_dto.adapter.writeObjects(factory_output_dto.lookups, input_dto.output_path, SecurityContentType.lookups)
             input_dto.adapter.writeObjects(factory_output_dto.macros, input_dto.output_path, SecurityContentType.macros)
             input_dto.adapter.writeObjects(factory_output_dto.deployments, input_dto.output_path, SecurityContentType.deployments)
+
+        print('Generate of security content successful.')

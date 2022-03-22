@@ -33,6 +33,7 @@ references:
 tags:
   analytic_story:
   - Suspicious MSHTA Activity
+  - Living Off The Land
   asset_type: Endpoint
   cis20:
   - CIS 8

@@ -1,8 +1,8 @@
 import os
 import uuid
+import questionary
 
 from dataclasses import dataclass
-from PyInquirer import prompt
 from datetime import datetime
 
 from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import SecurityContentType
@@ -29,7 +29,7 @@ class NewContentFactory():
     def execute(self, input_dto: NewContentFactoryInputDto) -> None:
         if input_dto.type == SecurityContentType.detections:
             questions = NewContentQuestions.get_questions_detection()
-            answers = prompt(questions)
+            answers = questionary.prompt(questions)
             self.output_dto.obj['name'] = answers['detection_name']
             self.output_dto.obj['id'] = str(uuid.uuid4())
             self.output_dto.obj['version'] = 1
@@ -64,7 +64,7 @@ class NewContentFactory():
 
         elif input_dto.type == SecurityContentType.stories:
             questions = NewContentQuestions.get_questions_story()
-            answers = prompt(questions)
+            answers = questionary.prompt(questions)
             self.output_dto.obj['name'] = answers['story_name']
             self.output_dto.obj['id'] = str(uuid.uuid4())
             self.output_dto.obj['version'] = 1
@@ -73,6 +73,7 @@ class NewContentFactory():
             self.output_dto.obj['description'] = 'UPDATE_DESCRIPTION'
             self.output_dto.obj['narrative'] = 'UPDATE_NARRATIVE'
             self.output_dto.obj['references'] = []
+            self.output_dto.obj['tags'] = dict()
             self.output_dto.obj['tags']['analytic_story'] = self.output_dto.obj['name']
             self.output_dto.obj['tags']['category'] = answers['category']
             self.output_dto.obj['tags']['product'] = ['Splunk Enterprise','Splunk Enterprise Security','Splunk Cloud']

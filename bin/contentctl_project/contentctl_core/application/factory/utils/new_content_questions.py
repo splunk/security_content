@@ -6,67 +6,41 @@ class NewContentQuestions():
     def get_questions_detection(self) -> list:
         questions = [
             {
-                'type': 'list',
+                'type': 'select',
                 'message': 'what kind of detection is this',
                 'name': 'detection_kind',
                 'choices': [
-                    {
-                        'name': 'endpoint'
-                    },
-                    {
-                        'name': 'cloud'
-                    },
-                    {
-                        'name': 'application'
-                    },
-                    {
-                        'name': 'network'
-                    },
-                    {
-                        'name': 'web'
-                    },
-                    {
-                        'name': 'experimental'
-                    },
-
+                    'endpoint',
+                    'cloud',
+                    'application',
+                    'network',
+                    'web',
+                    'experimental'
                 ],
                 'default': 'endpoint'
             },
             {
-                'type': 'input',
+                'type': 'text',
                 'message': 'enter detection name',
                 'name': 'detection_name',
                 'default': 'Powershell Encoded Command',
             },
             {
-                'type': 'input',
+                'type': 'text',
                 'message': 'enter author name',
                 'name': 'detection_author',
             },
             {
-                'type': 'list',
+                'type': 'select',
                 'message': 'select a detection type',
                 'name': 'detection_type',
                 'choices': [
-                    {
-                        'name': 'TTP'
-                    },
-                    {
-                        'name': 'Anomaly'
-                    },
-                    {
-                        'name': 'Hunting'
-                    },
-                    {
-                        'name': 'Baseline'
-                    },
-                    {
-                        'name': 'Investigation'
-                    },
-                    {
-                        'name': 'Correlation'
-                    }
-
+                    'TTP',
+                    'Anomaly',
+                    'Hunting',
+                    'Baseline',
+                    'Investigation',
+                    'Correlation'
                 ],
                 'default': 'TTP'
             },
@@ -75,50 +49,27 @@ class NewContentQuestions():
                 'message': 'select the datamodels used in the detection',
                 'name': 'datamodels',
                 'choices': [
-                    {
-                        'name': 'Endpoint',
-                        'checked': True
-                    },
-                    {
-                        'name': 'Authentication'
-                    },
-                    {
-                        'name': 'Change'
-                    },
-                    {
-                        'name': 'Email'
-                    },
-                    {
-                        'name': 'Network_Resolution'
-                    },
-                    {
-                        'name': 'Network_Traffic'
-                    },
-                    {
-                        'name': 'Network_Sessions'
-                    },
-                    {
-                        'name': 'Updates'
-                    },
-                    {
-                        'name': 'Vulnerabilities'
-                    },
-                    {
-                        'name': 'Web'
-                    },
-                    {
-                        'name': 'Risk'
-                    },
+                    'Endpoint',
+                    'Authentication',
+                    'Change',
+                    'Email',
+                    'Network_Resolution',
+                    'Network_Traffic',
+                    'Network_Sessions',
+                    'Updates',
+                    'Vulnerabilities',
+                    'Web',
+                    'Risk'
                 ],
             },
             {
-                'type': 'input',
+                'type': 'text',
                 'message': 'enter search (spl)',
                 'name': 'detection_search',
                 'default': '| UPDATE_SPL'
             },
             {
-                'type': 'input',
+                'type': 'text',
                 'message': 'enter MITRE ATT&CK Technique IDs related to the detection, comma delimited for multiple',
                 'name': 'mitre_attack_ids',
                 'default': 'T1003.002'
@@ -128,58 +79,27 @@ class NewContentQuestions():
                 'message': 'select kill chain phases related to the detection',
                 'name': 'kill_chain_phases',
                 'choices': [
-
-                    {
-                        'name': 'Reconnaissance'
-                    },
-                    {
-                        'name': 'Intrusion'
-                    },
-                    {
-                        'name': 'Exploitation',
-                        'checked': True
-                    },
-                    {
-                        'name': 'Privilege Escalation'
-                    },
-                    {
-                        'name': 'Lateral Movement'
-                    },
-                    {
-                        'name': 'Obfuscation'
-                    },
-                    {
-                        'name': 'Denial of Service'
-                    },
-                    {
-                        'name': 'Exfiltration'
-                    },
+                    'Reconnaissance',
+                    'Weaponization',
+                    'Delivery',
+                    'Exploitation',
+                    'Installation',
+                    'Command & Control',
+                    'Actions on Objectives',
+                    'Denial of Service'
                 ],
             },
             {
-                'type': 'list',
+                'type': 'select',
                 'message': 'security_domain for detection',
                 'name': 'security_domain',
                 'choices': [
-                    {
-                        'name': 'access'
-                    },
-                    {
-                        'name': 'endpoint'
-                    },
-                    {
-                        'name': 'network'
-                    },
-                    {
-                        'name': 'threat'
-                    },
-                    {
-                        'name': 'identity'
-                    },
-                    {
-                        'name': 'audit'
-                    },
-
+                    'access',
+                    'endpoint',
+                    'network',
+                    'threat',
+                    'identity',
+                    'audit'
                 ],
                 'default': 'endpoint'
             },
@@ -191,13 +111,13 @@ class NewContentQuestions():
     def get_questions_story(self) -> list:
         questions = [
             {
-                'type': 'input',
+                'type': 'text',
                 'message': 'enter story name',
                 'name': 'story_name',
                 'default': 'Suspicious Powershell Behavior',
             },
             {
-                'type': 'input',
+                'type': 'text',
                 'message': 'enter author name',
                 'name': 'story_author',
             },
@@ -206,60 +126,28 @@ class NewContentQuestions():
                 'message': 'select a category',
                 'name': 'category',
                 'choices': [
-                    {
-                        'name': 'Adversary Tactics',
-                        'checked': True
-                    },
-                    {
-                        'name': 'Account Compromise'
-                    },
-                    {
-                        'name': 'Unauthorized Software'
-                    },
-                    {
-                        'name': 'Best Practices'
-                    },
-                    {
-                        'name': 'Cloud Security'
-                    },
-                    {
-                        'name': 'Command and Control'
-                    },
-                    {
-                        'name': 'Lateral Movement'
-                    },
-                    {
-                        'name': 'Ransomware'
-                    },
-                    {
-                        'name': 'Privilege Escalation'
-                    },
-                    ],
+                    'Adversary Tactics',
+                    'Account Compromise',
+                    'Unauthorized Software',
+                    'Best Practices',
+                    'Cloud Security',
+                    'Command and Control',
+                    'Lateral Movement',
+                    'Ransomware',
+                    'Privilege Escalation'
+                ]
                 },
                 {
-                    'type': 'list',
+                    'type': 'select',
                     'message': 'select a use case',
                     'name': 'usecase',
                     'choices': [
-                        {
-                            'name': 'Advanced Threat Detection',
-                            'checked': True
-                        },
-                        {
-                            'name': 'Security Monitoring'
-                        },
-                        {
-                            'name': 'Compliance'
-                        },
-                        {
-                            'name': 'Insider Threat'
-                        },
-                        {
-                            'name': 'Application Security'
-                        },
-                        {
-                            'name': 'Other'
-                        },
+                        'Advanced Threat Detection',
+                        'Security Monitoring',
+                        'Compliance',
+                        'Insider Threat',
+                        'Application Security',
+                        'Other'
                 ],
             },
         ]

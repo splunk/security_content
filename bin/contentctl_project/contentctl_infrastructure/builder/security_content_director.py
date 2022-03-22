@@ -26,6 +26,7 @@ class SecurityContentDirector(Director):
         builder.addMitreAttackEnrichment(attack_enrichment)
         builder.addMacros(macros)
         builder.addLookups(lookups)
+        builder.addCve()
 
 
     def constructStory(self, builder: StoryBuilder, path: str, detections: list, baselines: list, investigations: list) -> None:
@@ -58,10 +59,10 @@ class SecurityContentDirector(Director):
         builder.setObject(os.path.join(os.path.dirname(__file__), path), SecurityContentType.macros)
 
 
-    def constructPlaybook(self, builder: PlaybookBuilder, path: str, detections: list) -> None:
+    def constructPlaybook(self, builder: PlaybookBuilder, path: str) -> None:
         builder.reset()
         builder.setObject(os.path.join(os.path.dirname(__file__), path))
-        builder.addDetections(detections)
+        builder.addDetections()
 
 
     def constructTest(self, builder: BasicBuilder, path: str) -> None:
