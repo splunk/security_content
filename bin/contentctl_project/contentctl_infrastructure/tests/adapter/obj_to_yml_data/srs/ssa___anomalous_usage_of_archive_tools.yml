@@ -50,6 +50,7 @@ tags:
   - Processes.user
   - Processes.parent_process_name
   - Processes.parent_process
+  risk_score: 42
   security_domain: endpoint
   risk_severity: low
 test:

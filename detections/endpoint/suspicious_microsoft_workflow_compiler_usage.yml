@@ -28,6 +28,7 @@ references:
 tags:
   analytic_story:
   - Trusted Developer Utilities Proxy Execution
+  - Living Off The Land
   asset_type: Endpoint
   cis20:
   - CIS 8

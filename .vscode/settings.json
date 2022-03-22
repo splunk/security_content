@@ -1,0 +1,10 @@
+{
+    "python.testing.pytestArgs": [
+        "bin/contentctl_project"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true,
+    "python.terminal.activateEnvironment": true,
+    "python.envFile": "${workspaceFolder}/.env",
+    "python.testing.cwd": "${workspaceFolder}"
+}

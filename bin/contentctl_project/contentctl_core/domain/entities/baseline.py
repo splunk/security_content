@@ -34,8 +34,8 @@ class Baseline(BaseModel, SecurityContentObject):
 
     @validator('name')
     def name_max_length(cls, v):
-        if len(v) > 75:
-            raise ValueError('name is longer then 75 chars: ' + v)
+        if len(v) > 67:
+            raise ValueError('name is longer then 67 chars: ' + v)
         return v
 
     @validator('name')

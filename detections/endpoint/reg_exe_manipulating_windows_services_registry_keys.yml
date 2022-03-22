@@ -29,6 +29,7 @@ tags:
   analytic_story:
   - Windows Service Abuse
   - Windows Persistence Techniques
+  - Living Off The Land
   asset_type: Endpoint
   cis20:
   - CIS 3
