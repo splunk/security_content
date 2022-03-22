@@ -26,6 +26,7 @@ references:
 - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4769
 - https://adsecurity.org/?p=1515
 - https://gist.github.com/TarlogicSecurity/2f221924fef8c14a1d8e29f3cb5c5c4a 
+- https://en.hackndo.com/kerberos-silver-golden-tickets/
 tags:
   analytic_story:
   - Active Directory Kerberos Attacks

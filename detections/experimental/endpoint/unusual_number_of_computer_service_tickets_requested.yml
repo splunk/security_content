@@ -36,6 +36,7 @@ references:
 tags:
   analytic_story:
   - Active Directory Lateral Movement
+  - Active Directory Kerberos Attacks
   asset_type: Endpoint
   confidence: 60
   context:
