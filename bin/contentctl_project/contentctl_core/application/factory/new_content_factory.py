@@ -44,21 +44,9 @@ class NewContentFactory():
                 self.output_dto.obj['datamodel'] = answers['datamodels']
             if answers['detection_product'] == 'ESCU':
                 self.output_dto.obj['datamodel'] = answers['datamodels']
-            self.output_dto.obj['description'] = 'UPDATE_DESCRIPTION'
-            # if answers['detection_product'] == 'ESCU':
-            #     file_name = self.output_dto.obj['name'].replace(' ', '_').replace('-','_').replace('.','_').replace('/','_').lower()
-            # if answers['detection_product'] == 'SSA':
-            #     file_name = "ssa___" + self.output_dto.obj['name'].replace(' ', '_').replace('-','_').replace('.','_').replace('/','_').lower()
-                # ssa_file_name = 'ssa___' + str(answers['detection_name'].replace(' ', '_').replace('-','_').replace('.','_').replace('/','_').lower())
-                # file_name = self.output_dto.obj['name'].replace(' ', '_').replace('-','_').replace('.','_').replace('/','_').lower().join(('ssa___',answers['detection_name']))
- 
-                # self.output_dto.obj['name'] = ssa_file
-                # file_name = self.output_dto.obj['name'].replace(' ', '_').replace('-','_').replace('.','_').replace('/','_').lower())
-                # file_name = ssa_file
-                # print (ssa_file)
-                # file_name = 'ssa___' + str(self.output_dto.obj['name'].replace(' ', '_').replace('-','_').replace('.','_').replace('/','_').lower())
-               
+            self.output_dto.obj['description'] = 'UPDATE_DESCRIPTION'   
             if answers['detection_product'] == 'ESCU':
+                file_name = self.output_dto.obj['name'].replace(' ', '_').replace('-','_').replace('.','_').replace('/','_').lower()
                 self.output_dto.obj['search'] = answers['detection_search'] + ' | `' + file_name + '_filter`'
             self.output_dto.obj['how_to_implement'] = 'UPDATE_HOW_TO_IMPLEMENT'
             self.output_dto.obj['known_false_positives'] = 'UPDATE_KNOWN_FALSE_POSITIVES'            
