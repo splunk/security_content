@@ -1,7 +1,9 @@
 
 import sys
+import os
 
 from pydantic import ValidationError
+from pathlib import Path
 
 from bin.contentctl_project.contentctl_core.application.builder.playbook_builder import PlaybookBuilder
 from bin.contentctl_project.contentctl_core.domain.entities.playbook import Playbook
@@ -22,13 +24,16 @@ class SecurityContentPlaybookBuilder(PlaybookBuilder):
             sys.exit(1)
 
 
-    def addDetections(self, detections : list) -> None:
-        if detections:
-            if self.playbook.tags.detections:
-                self.playbook.tags.detection_objects = []
-                for detection in detections:
-                    if detection.name in self.playbook.tags.detections:
-                        self.playbook.tags.detection_objects.append(detection)
+    def addDetections(self) -> None:
+        if self.playbook.tags.detections:
+            self.playbook.tags.detection_objects = []
+            for detection in self.playbook.tags.detections:
+                detection_object = {
+                    "name": detection,
+                    "lowercase_name": self.convertNameToFileName(detection),
+                    "path": self.findDetectionPath(detection)
+                }
+                self.playbook.tags.detection_objects.append(detection_object)
 
 
     def reset(self) -> None:
@@ -37,3 +42,21 @@ class SecurityContentPlaybookBuilder(PlaybookBuilder):
 
     def getObject(self) -> Playbook:
         return self.playbook
+
+
+    def convertNameToFileName(self, name: str):
+        file_name = name \
+            .replace(' ', '_') \
+            .replace('-','_') \
+            .replace('.','_') \
+            .replace('/','_') \
+            .lower()
+        return file_name
+
+
+    def findDetectionPath(self, detection_name: str) -> str:
+        for path in Path(os.path.join(os.path.dirname(__file__), '../../../../detections')).rglob(self.convertNameToFileName(detection_name) + '.yml'):
+            normalized_path = os.path.normpath(path)
+            path_components = normalized_path.split(os.sep)
+            value_index = path_components.index('detections')
+            return "/".join(path_components[value_index:])

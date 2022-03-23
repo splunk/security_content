@@ -36,6 +36,8 @@ class Validate:
         # validate tests
         self.validate_detection_exist_for_test(factory_output_dto.tests, factory_output_dto.detections)
         
+        print('Validation of security content successful.')
+        
 
     def validate_detection_exist_for_test(self, tests : list, detections: list) -> None:
         for test in tests:
