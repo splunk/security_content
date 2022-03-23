@@ -27,6 +27,7 @@ This detection looks for emails that are suspicious because of their sender, dom
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [UEBA](https://docs.splunk.com/Documentation/CIM/latest/User/UEBA)
+- **Datasources**: 
 - **Last Updated**: 2020-07-22
 - **Author**: Bhavin Patel, Splunk
 - **ID**: 56e877a6-1455-4479-ad16-0550dc1e33f8
@@ -56,9 +57,6 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `suspicious_email_-_uba_anomaly_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

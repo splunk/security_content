@@ -30,6 +30,7 @@ This search is to identifies suspicious firewall disabling using netsh applicati
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasources**: 
 - **Last Updated**: 2021-03-31
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: 6860a62c-9203-11eb-9e05-acde48001122
@@ -56,14 +57,11 @@ This search is to identifies suspicious firewall disabling using netsh applicati
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [process_netsh](https://github.com/splunk/security_content/blob/develop/macros/process_netsh.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `disabling_firewall_with_netsh_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

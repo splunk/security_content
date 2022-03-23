@@ -23,6 +23,7 @@ This search provides information on Kubernetes RBAC authorizations by accounts, 
 - **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2020-06-23
 - **Author**: Rod Soto, Splunk
 - **ID**: de7264ed-3ed9-4fef-bb01-6eefc87cefe8
@@ -42,9 +43,6 @@ The SPL above uses the following Macros:
 * [aws_cloudwatchlogs_eks](https://github.com/splunk/security_content/blob/develop/macros/aws_cloudwatchlogs_eks.yml)
 
 Note that `kubernetes_aws_detect_rbac_authorization_by_account_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

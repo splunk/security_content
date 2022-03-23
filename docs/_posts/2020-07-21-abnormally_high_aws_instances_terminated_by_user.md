@@ -29,6 +29,7 @@ This search looks for AWS CloudTrail events where an abnormally high number of i
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2020-07-21
 - **Author**: Bhavin Patel, Splunk
 - **ID**: 8d301246-fccf-45e2-a8e7-3655fd14379c
@@ -60,9 +61,6 @@ The SPL above uses the following Macros:
 * [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
 
 Note that `abnormally_high_aws_instances_terminated_by_user_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

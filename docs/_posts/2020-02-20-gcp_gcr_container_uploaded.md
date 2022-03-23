@@ -26,6 +26,7 @@ This search show information on uploaded containers including source user, accou
 - **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2020-02-20
 - **Author**: Rod Soto, Rico Valdez, Splunk
 - **ID**: 4f00ca88-e766-4605-ac65-ae51c9fd185b
@@ -50,9 +51,6 @@ This search show information on uploaded containers including source user, accou
 The SPL above uses the following Macros:
 
 Note that `gcp_gcr_container_uploaded_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

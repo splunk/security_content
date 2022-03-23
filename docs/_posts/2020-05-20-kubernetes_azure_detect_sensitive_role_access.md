@@ -23,6 +23,7 @@ This search provides information on Kubernetes accounts accessing sensitve objec
 - **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2020-05-20
 - **Author**: Rod Soto, Splunk
 - **ID**: f27349e5-1641-4f6a-9e68-30402be0ad4c
@@ -43,9 +44,6 @@ The SPL above uses the following Macros:
 * [kubernetes_azure](https://github.com/splunk/security_content/blob/develop/macros/kubernetes_azure.yml)
 
 Note that `kubernetes_azure_detect_sensitive_role_access_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

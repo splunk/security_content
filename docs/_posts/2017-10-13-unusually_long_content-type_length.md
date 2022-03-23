@@ -25,6 +25,7 @@ This search looks for unusually long strings in the Content-Type http header tha
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2017-10-13
 - **Author**: Bhavin Patel, Splunk
 - **ID**: 57a0a2bf-353f-40c1-84dc-29293f3c35b7
@@ -44,9 +45,6 @@ The SPL above uses the following Macros:
 * [stream_http](https://github.com/splunk/security_content/blob/develop/macros/stream_http.yml)
 
 Note that `unusually_long_content-type_length_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

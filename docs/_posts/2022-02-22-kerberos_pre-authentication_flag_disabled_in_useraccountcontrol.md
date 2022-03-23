@@ -29,6 +29,7 @@ The following analytic leverages Windows Security Event 4738, `A user account wa
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2022-02-22
 - **Author**: Mauricio Velazco, Splunk
 - **ID**: 0cb847ee-9423-11ec-b2df-acde48001122
@@ -55,9 +56,6 @@ The SPL above uses the following Macros:
 * [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 
 Note that `kerberos_pre-authentication_flag_disabled_in_useraccountcontrol_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

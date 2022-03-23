@@ -26,6 +26,7 @@ This search looks for AWS CloudTrail events where a user has created an open/pub
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2021-07-19
 - **Author**: Bhavin Patel, Patrick Bareiss, Splunk
 - **ID**: 2a9b80d3-6340-4345-b5ad-290bf3d0dac4
@@ -62,9 +63,6 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `detect_new_open_s3_buckets_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

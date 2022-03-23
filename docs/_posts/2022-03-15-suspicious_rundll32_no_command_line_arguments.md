@@ -31,6 +31,7 @@ The following analytic identifies rundll32.exe with no command line arguments. I
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasources**: 
 - **Last Updated**: 2022-03-15
 - **Author**: Michael Haag, Splunk
 - **ID**: e451bd16-e4c5-4109-8eb1-c4c6ecf048b4
@@ -59,13 +60,10 @@ The following analytic identifies rundll32.exe with no command line arguments. I
 #### Macros
 The SPL above uses the following Macros:
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [process_rundll32](https://github.com/splunk/security_content/blob/develop/macros/process_rundll32.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `suspicious_rundll32_no_command_line_arguments_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

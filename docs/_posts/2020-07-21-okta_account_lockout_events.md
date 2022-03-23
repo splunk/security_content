@@ -37,6 +37,7 @@ Detect Okta user lockout events
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2020-07-21
 - **Author**: Rico Valdez, Splunk
 - **ID**: 62b70968-a0a5-4724-8ac4-67871e6f544d
@@ -64,9 +65,6 @@ The SPL above uses the following Macros:
 * [okta](https://github.com/splunk/security_content/blob/develop/macros/okta.yml)
 
 Note that `okta_account_lockout_events_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

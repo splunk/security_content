@@ -26,6 +26,7 @@ This search looks for disable security job in CircleCI pipeline.
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2021-09-02
 - **Author**: Patrick Bareiss, Splunk
 - **ID**: 4a2fdd41-c578-4cd4-9ef7-980e352517f2
@@ -65,9 +66,6 @@ Note that `circle_ci_disable_security_job_filter` is a empty macro by default. I
 The SPL above uses the following Lookups:
 
 * [mandatory_job_for_workflow](https://github.com/splunk/security_content/blob/develop/lookups/mandatory_job_for_workflow.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/mandatory_job_for_workflow.csv)
-
-#### Supported Datasources
-
 
 #### Required field
 * _times

@@ -31,6 +31,7 @@ This search looks for registry activity associated with application compatibilit
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2020-01-28
 - **Author**: Bhavin Patel, Patrick Bareiss, Teoderick Contreras, Splunk
 - **ID**: f5f6af30-7aa7-4295-bfe9-07fe87c01bbb
@@ -65,9 +66,6 @@ The SPL above uses the following Macros:
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `registry_keys_for_creating_shim_databases_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

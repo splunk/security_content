@@ -24,6 +24,7 @@ This search looks for AssumeRole events where an IAM role in a different account
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Authentication](https://docs.splunk.com/Documentation/CIM/latest/User/Authentication)
+- **Datasources**: 
 - **Last Updated**: 2020-05-28
 - **Author**: Rico Valdez, Splunk
 - **ID**: 21193641-cb96-4a2c-a707-d9b9a7f7792b
@@ -55,9 +56,6 @@ Note that `aws_cross_account_activity_from_previously_unseen_account_filter` is 
 The SPL above uses the following Lookups:
 
 * [previously_seen_aws_cross_account_activity](https://github.com/splunk/security_content/blob/develop/lookups/previously_seen_aws_cross_account_activity.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/previously_seen_aws_cross_account_activity.csv)
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

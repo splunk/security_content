@@ -31,6 +31,7 @@ During triage, review parallel processes using an EDR product or 4688 events. It
 - **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2021-09-14
 - **Author**: Michael Haag, Splunk
 - **ID**: 69df7f7c-155d-11ec-a055-acde48001122
@@ -60,9 +61,6 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `get_wmiobject_group_discovery_with_script_block_logging_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

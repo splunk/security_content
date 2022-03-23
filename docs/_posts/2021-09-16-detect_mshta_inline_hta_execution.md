@@ -30,6 +30,7 @@ The following analytic identifies "mshta.exe" execution with inline protocol han
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasources**: 
 - **Last Updated**: 2021-09-16
 - **Author**: Bhavin Patel, Michael Haag, Splunk
 - **ID**: a0873b32-5b68-11eb-ae93-0242ac130002
@@ -56,14 +57,11 @@ The following analytic identifies "mshta.exe" execution with inline protocol han
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_mshta](https://github.com/splunk/security_content/blob/develop/macros/process_mshta.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [process_mshta](https://github.com/splunk/security_content/blob/develop/macros/process_mshta.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `detect_mshta_inline_hta_execution_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

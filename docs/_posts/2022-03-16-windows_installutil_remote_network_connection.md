@@ -33,6 +33,7 @@ During triage review resulting network connections, file modifications, and para
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasources**: 
 - **Last Updated**: 2022-03-16
 - **Author**: Michael Haag, Splunk
 - **ID**: 4fbf9270-43da-11ec-9486-acde48001122
@@ -69,9 +70,6 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `windows_installutil_remote_network_connection_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

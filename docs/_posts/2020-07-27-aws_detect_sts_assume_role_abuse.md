@@ -31,6 +31,7 @@ This search provides detection of suspicious use of sts:AssumeRole. These tokens
 - **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2020-07-27
 - **Author**: Rod Soto, Splunk
 - **ID**: 8e565314-b6a2-46d8-9f05-1a34a176a662
@@ -55,9 +56,6 @@ The SPL above uses the following Macros:
 * [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
 
 Note that `aws_detect_sts_assume_role_abuse_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

@@ -29,6 +29,7 @@ This search aims to detect the Supernova webshell used in the SUNBURST attack.
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Web](https://docs.splunk.com/Documentation/CIM/latest/User/Web)
+- **Datasources**: 
 - **Last Updated**: 2021-01-06
 - **Author**: John Stoner, Splunk
 - **ID**: 2ec08a09-9ff1-4dac-b59f-1efd57972ec1
@@ -53,9 +54,6 @@ The SPL above uses the following Macros:
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `supernova_webshell_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

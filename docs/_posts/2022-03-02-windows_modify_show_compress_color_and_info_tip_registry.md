@@ -27,6 +27,7 @@ This analytic is to look for suspicious registry modification related to file co
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasources**: 
 - **Last Updated**: 2022-03-02
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: b7548c2e-9a10-11ec-99e3-acde48001122
@@ -59,9 +60,6 @@ The SPL above uses the following Macros:
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `windows_modify_show_compress_color_and_info_tip_registry_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

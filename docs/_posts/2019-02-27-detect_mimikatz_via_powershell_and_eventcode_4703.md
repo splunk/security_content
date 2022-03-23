@@ -26,6 +26,7 @@ This search looks for PowerShell requesting privileges consistent with credentia
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2019-02-27
 - **Author**: Rico Valdez, Splunk
 - **ID**: 98917be2-bfc8-475a-8618-a9bb06575188
@@ -57,9 +58,6 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `detect_mimikatz_via_powershell_and_eventcode_4703_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

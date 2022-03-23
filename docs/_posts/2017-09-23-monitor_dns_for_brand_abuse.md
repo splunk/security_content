@@ -24,6 +24,7 @@ This search looks for DNS requests for faux domains similar to the domains that 
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Resolution](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution)
+- **Datasources**: 
 - **Last Updated**: 2017-09-23
 - **Author**: David Dorsey, Splunk
 - **ID**: 24dd17b1-e2fb-4c31-878c-d4f746595bfa
@@ -41,14 +42,11 @@ This search looks for DNS requests for faux domains similar to the domains that 
 
 #### Macros
 The SPL above uses the following Macros:
-* [brand_abuse_dns](https://github.com/splunk/security_content/blob/develop/macros/brand_abuse_dns.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [brand_abuse_dns](https://github.com/splunk/security_content/blob/develop/macros/brand_abuse_dns.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `monitor_dns_for_brand_abuse_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

@@ -32,6 +32,7 @@ The analytics returned fields allow analysts to investigate the event further by
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2021-04-13
 - **Author**: Mauricio Velazco, Splunk
 - **ID**: e61918fa-9ca4-11eb-836c-acde48001122
@@ -66,9 +67,6 @@ The SPL above uses the following Macros:
 * [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 
 Note that `windows_users_authenticate_using_explicit_credentials_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

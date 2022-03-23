@@ -25,6 +25,7 @@ The search looks for a sharp increase in the number of files written to a partic
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2020-03-16
 - **Author**: David Dorsey, Splunk
 - **ID**: fdb0f805-74e4-4539-8c00-618927333aae
@@ -47,9 +48,6 @@ The SPL above uses the following Macros:
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `spike_in_file_writes_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

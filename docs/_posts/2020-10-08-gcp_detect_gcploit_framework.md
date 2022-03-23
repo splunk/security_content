@@ -31,6 +31,7 @@ This search provides detection of GCPloit exploitation framework. This framework
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2020-10-08
 - **Author**: Rod Soto, Splunk
 - **ID**: a1c5a85e-a162-410c-a5d9-99ff639e5a52
@@ -55,9 +56,6 @@ The SPL above uses the following Macros:
 * [google_gcp_pubsub_message](https://github.com/splunk/security_content/blob/develop/macros/google_gcp_pubsub_message.yml)
 
 Note that `gcp_detect_gcploit_framework_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

@@ -28,6 +28,7 @@ This searches show information on uploaded containers including source user, ima
 - **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2020-02-20
 - **Author**: Rod Soto, Rico Valdez, Splunk
 - **ID**: f0f70b40-f7ad-489d-9905-23d149da8099
@@ -52,9 +53,6 @@ This searches show information on uploaded containers including source user, ima
 The SPL above uses the following Macros:
 
 Note that `new_container_uploaded_to_aws_ecr_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

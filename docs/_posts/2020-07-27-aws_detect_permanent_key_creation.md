@@ -31,6 +31,7 @@ This search provides detection of accounts creating permanent keys. Permanent ke
 - **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2020-07-27
 - **Author**: Rod Soto, Splunk
 - **ID**: 12d6d713-3cb4-4ffc-a064-1dca3d1cca01
@@ -57,9 +58,6 @@ The SPL above uses the following Macros:
 * [aws_cloudwatchlogs_eks](https://github.com/splunk/security_content/blob/develop/macros/aws_cloudwatchlogs_eks.yml)
 
 Note that `aws_detect_permanent_key_creation_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

@@ -25,6 +25,7 @@ This search looks for processes in an MacOS system that is tapping keyboard even
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2019-01-25
 - **Author**: Jose Hernandez, Splunk
 - **ID**: 2a371608-331d-4034-ae2c-21dda8f1d0ec
@@ -45,9 +46,6 @@ This search looks for processes in an MacOS system that is tapping keyboard even
 The SPL above uses the following Macros:
 
 Note that `processes_tapping_keyboard_events_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

@@ -32,6 +32,7 @@ This search looks for network traffic on TCP/3389, the default port used by remo
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
+- **Datasources**: 
 - **Last Updated**: 2020-07-07
 - **Author**: David Dorsey, Splunk
 - **ID**: 272b8407-842d-4b3d-bead-a704584003d3
@@ -62,9 +63,6 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `remote_desktop_network_traffic_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

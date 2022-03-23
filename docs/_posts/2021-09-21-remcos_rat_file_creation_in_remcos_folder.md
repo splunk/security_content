@@ -27,6 +27,7 @@ This search is to detect file creation in remcos folder in appdata which is the 
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasources**: 
 - **Last Updated**: 2021-09-21
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: 25ae862a-1ac3-11ec-94a1-acde48001122
@@ -55,9 +56,6 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `remcos_rat_file_creation_in_remcos_folder_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

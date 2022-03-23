@@ -32,6 +32,7 @@ This analytic will identify the possible execution of ping sleep batch commands.
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasources**: 
 - **Last Updated**: 2022-01-20
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: ce058d6c-79f2-11ec-b476-acde48001122
@@ -58,14 +59,11 @@ This analytic will identify the possible execution of ping sleep batch commands.
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_ping](https://github.com/splunk/security_content/blob/develop/macros/process_ping.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [process_ping](https://github.com/splunk/security_content/blob/develop/macros/process_ping.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `ping_sleep_batch_command_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

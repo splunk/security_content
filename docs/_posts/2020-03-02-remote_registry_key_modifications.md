@@ -23,6 +23,7 @@ This search monitors for remote modifications to registry keys.
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2020-03-02
 - **Author**: Bhavin Patel, Splunk
 - **ID**: c9f4b923-f8af-4155-b697-1354f5dcbc5e
@@ -44,9 +45,6 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `remote_registry_key_modifications_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

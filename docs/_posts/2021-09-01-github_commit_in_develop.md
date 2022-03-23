@@ -26,6 +26,7 @@ This search is to detect a pushed or commit to develop branch. This is to avoid 
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2021-09-01
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: f3030cb6-0b02-11ec-8f22-acde48001122
@@ -50,13 +51,10 @@ This search is to detect a pushed or commit to develop branch. This is to avoid 
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [github](https://github.com/splunk/security_content/blob/develop/macros/github.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `github_commit_in_develop_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

@@ -25,6 +25,7 @@ This search looks for a spike in number of of AWS security Hub alerts for an AWS
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2021-01-26
 - **Author**: Bhavin Patel, Splunk
 - **ID**: 2a9b80d3-6220-4345-b5ad-290bf5d0d222
@@ -49,9 +50,6 @@ The SPL above uses the following Macros:
 * [aws_securityhub_finding](https://github.com/splunk/security_content/blob/develop/macros/aws_securityhub_finding.yml)
 
 Note that `detect_spike_in_aws_security_hub_alerts_for_user_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

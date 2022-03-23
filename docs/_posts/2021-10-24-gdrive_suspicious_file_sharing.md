@@ -28,6 +28,7 @@ This search can help the detection of compromised accounts or internal users sha
 - **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2021-10-24
 - **Author**: Rod Soto, Teoderick Contreras
 - **ID**: a7131dae-34e3-11ec-a2de-acde48001122
@@ -55,9 +56,6 @@ The SPL above uses the following Macros:
 * [gsuite_drive](https://github.com/splunk/security_content/blob/develop/macros/gsuite_drive.yml)
 
 Note that `gdrive_suspicious_file_sharing_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

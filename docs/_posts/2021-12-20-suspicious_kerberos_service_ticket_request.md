@@ -38,6 +38,7 @@ As part of the sAMAccountName Spoofing (CVE-2021-42278) and Domain Controller Im
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasources**: 
 - **Last Updated**: 2021-12-20
 - **Author**: Mauricio Velazco, Splunk
 - **ID**: 8b1297bc-6204-11ec-b7c4-acde48001122
@@ -66,9 +67,6 @@ The SPL above uses the following Macros:
 * [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 
 Note that `suspicious_kerberos_service_ticket_request_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

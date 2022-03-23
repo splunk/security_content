@@ -23,6 +23,7 @@ This search provides information on Kubernetes service accounts with failure or 
 - **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2020-05-20
 - **Author**: Rod Soto, Splunk
 - **ID**: 019690d7-420f-4da0-b320-f27b09961514
@@ -42,9 +43,6 @@ The SPL above uses the following Macros:
 * [kubernetes_azure](https://github.com/splunk/security_content/blob/develop/macros/kubernetes_azure.yml)
 
 Note that `kubernetes_azure_detect_service_accounts_forbidden_failure_access_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

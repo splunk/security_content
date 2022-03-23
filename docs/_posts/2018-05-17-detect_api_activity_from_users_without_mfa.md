@@ -23,6 +23,7 @@ This search looks for AWS CloudTrail events where a user logged into the AWS acc
 - **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2018-05-17
 - **Author**: Bhavin Patel, Splunk
 - **ID**: 4d46e8bd-4072-48e4-92db-0325889ef894
@@ -52,9 +53,6 @@ Note that `detect_api_activity_from_users_without_mfa_filter` is a empty macro b
 The SPL above uses the following Lookups:
 
 * [aws_service_accounts](https://github.com/splunk/security_content/blob/develop/lookups/aws_service_accounts.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/aws_service_accounts.csv)
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

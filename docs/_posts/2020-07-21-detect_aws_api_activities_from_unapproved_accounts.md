@@ -29,6 +29,7 @@ This search looks for successful AWS CloudTrail activity by user accounts that a
 - **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2020-07-21
 - **Author**: Bhavin Patel, Splunk
 - **ID**: ada0f478-84a8-4641-a3f1-d82362d4bd55
@@ -69,9 +70,6 @@ Note that `detect_aws_api_activities_from_unapproved_accounts_filter` is a empty
 The SPL above uses the following Lookups:
 
 * [aws_service_accounts](https://github.com/splunk/security_content/blob/develop/lookups/aws_service_accounts.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/aws_service_accounts.csv)
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

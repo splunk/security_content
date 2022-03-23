@@ -30,6 +30,7 @@ This search is to detect an anomaly event of non-firefox process accessing the f
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasources**: 
 - **Last Updated**: 2021-09-15
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: e6fc13b0-1609-11ec-b533-acde48001122
@@ -59,9 +60,6 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `non_firefox_process_access_firefox_profile_dir_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

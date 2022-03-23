@@ -27,6 +27,7 @@ This analytic identifies wmic.exe being launched with parameters to spawn a proc
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasources**: 
 - **Last Updated**: 2021-11-12
 - **Author**: Rico Valdez, Mauricio Velazco, Splunk
 - **ID**: d25d2c3d-d9d8-40ec-8fdf-e86fe155a3da
@@ -51,14 +52,11 @@ This analytic identifies wmic.exe being launched with parameters to spawn a proc
 
 #### Macros
 The SPL above uses the following Macros:
+* [process_wmic](https://github.com/splunk/security_content/blob/develop/macros/process_wmic.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
-* [process_wmic](https://github.com/splunk/security_content/blob/develop/macros/process_wmic.yml)
 
 Note that `remote_process_instantiation_via_wmi_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

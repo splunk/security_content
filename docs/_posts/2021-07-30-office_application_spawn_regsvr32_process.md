@@ -30,6 +30,7 @@ this detection was designed to identifies suspicious spawned process of known MS
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasources**: 
 - **Last Updated**: 2021-07-30
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: 2d9fc90c-f11f-11eb-9300-acde48001122
@@ -61,9 +62,6 @@ The SPL above uses the following Macros:
 * [process_regsvr32](https://github.com/splunk/security_content/blob/develop/macros/process_regsvr32.yml)
 
 Note that `office_application_spawn_regsvr32_process_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

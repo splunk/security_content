@@ -29,6 +29,7 @@ Detect remote thread creation into LSASS consistent with credential dumping.
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2019-12-06
 - **Author**: Patrick Bareiss, Splunk
 - **ID**: 67d4dbef-9564-4699-8da8-03a151529edc
@@ -59,9 +60,6 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `create_remote_thread_into_lsass_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

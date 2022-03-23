@@ -30,6 +30,7 @@ This search looks for cloud provisioning activities from previously unseen count
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
+- **Datasources**: 
 - **Last Updated**: 2020-10-09
 - **Author**: Rico Valdez, Bhavin Patel, Splunk
 - **ID**: 94994255-3acf-4213-9b3f-0494df03bb31
@@ -69,9 +70,6 @@ Note that `cloud_provisioning_activity_from_previously_unseen_country_filter` is
 The SPL above uses the following Lookups:
 
 * [previously_seen_cloud_provisioning_activity_sources](https://github.com/splunk/security_content/blob/develop/lookups/previously_seen_cloud_provisioning_activity_sources.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/previously_seen_cloud_provisioning_activity_sources.csv)
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

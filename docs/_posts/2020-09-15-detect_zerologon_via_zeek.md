@@ -29,6 +29,7 @@ This search detects attempts to run exploits for the Zerologon CVE-2020-1472 vul
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2020-09-15
 - **Author**: Shannon Davis, Splunk
 - **ID**: bf7a06ec-f703-11ea-adc1-0242ac120002
@@ -55,9 +56,6 @@ The SPL above uses the following Macros:
 * [zeek_rpc](https://github.com/splunk/security_content/blob/develop/macros/zeek_rpc.yml)
 
 Note that `detect_zerologon_via_zeek_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

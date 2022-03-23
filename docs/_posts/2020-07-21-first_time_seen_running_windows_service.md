@@ -31,6 +31,7 @@ This search looks for the first and last time a Windows service is seen running 
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2020-07-21
 - **Author**: David Dorsey, Splunk
 - **ID**: 823136f2-d755-4b6d-ae04-372b486a5808
@@ -67,9 +68,6 @@ Note that `first_time_seen_running_windows_service_filter` is a empty macro by d
 The SPL above uses the following Lookups:
 
 * [previously_seen_running_windows_services](https://github.com/splunk/security_content/blob/develop/lookups/previously_seen_running_windows_services.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/previously_seen_running_windows_services.csv)
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

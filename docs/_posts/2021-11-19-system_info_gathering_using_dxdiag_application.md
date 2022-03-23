@@ -27,6 +27,7 @@ This analytic is to detect a suspicious dxdiag.exe process command-line executio
 - **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasources**: 
 - **Last Updated**: 2021-11-19
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: f92d74f2-4921-11ec-b685-acde48001122
@@ -51,14 +52,11 @@ This analytic is to detect a suspicious dxdiag.exe process command-line executio
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [process_dxdiag](https://github.com/splunk/security_content/blob/develop/macros/process_dxdiag.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `system_info_gathering_using_dxdiag_application_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

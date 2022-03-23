@@ -26,6 +26,7 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2021-09-02
 - **Author**: Mauricio Velazco, Splunk
 - **ID**: f64da023-b988-4775-8d57-38e512beb56e
@@ -52,9 +53,6 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `getdomaincomputer_with_powershell_script_block_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

@@ -28,6 +28,7 @@ This search looks for commands that the SNICat tool uses in the TLS SNI field.
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2020-10-21
 - **Author**: Shannon Davis, Splunk
 - **ID**: 82d06410-134c-11eb-adc1-0242ac120002
@@ -65,9 +66,6 @@ The SPL above uses the following Macros:
 * [zeek_ssl](https://github.com/splunk/security_content/blob/develop/macros/zeek_ssl.yml)
 
 Note that `detect_snicat_sni_exfiltration_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

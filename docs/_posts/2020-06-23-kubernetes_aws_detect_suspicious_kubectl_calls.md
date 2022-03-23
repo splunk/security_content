@@ -25,6 +25,7 @@ This search provides information on anonymous Kubectl calls with IP, verb namesp
 - **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2020-06-23
 - **Author**: Rod Soto, Splunk
 - **ID**: 042a3d32-8318-4763-9679-09db2644a8f2
@@ -43,9 +44,6 @@ The SPL above uses the following Macros:
 * [aws_cloudwatchlogs_eks](https://github.com/splunk/security_content/blob/develop/macros/aws_cloudwatchlogs_eks.yml)
 
 Note that `kubernetes_aws_detect_suspicious_kubectl_calls_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

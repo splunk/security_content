@@ -36,6 +36,7 @@ This search looks for execution of commonly used attacker tools on an endpoint.
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasources**: 
 - **Last Updated**: 2021-11-04
 - **Author**: Bhavin Patel, Splunk
 - **ID**: a51bfe1a-94f0-48cc-b4e4-16a110145893
@@ -77,9 +78,6 @@ Note that `attacker_tools_on_endpoint_filter` is a empty macro by default. It al
 The SPL above uses the following Lookups:
 
 * [attacker_tools](https://github.com/splunk/security_content/blob/develop/lookups/attacker_tools.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/attacker_tools.csv)
-
-#### Supported Datasources
-
 
 #### Required field
 * Processes.dest

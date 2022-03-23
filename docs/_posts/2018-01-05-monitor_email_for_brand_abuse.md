@@ -26,6 +26,7 @@ This search looks for emails claiming to be sent from a domain similar to one th
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Email](https://docs.splunk.com/Documentation/CIM/latest/User/Email)
+- **Datasources**: 
 - **Last Updated**: 2018-01-05
 - **Author**: David Dorsey, Splunk
 - **ID**: b2ea1f38-3a3e-4b8a-9cf1-82760d86a6b8
@@ -57,9 +58,6 @@ Note that `monitor_email_for_brand_abuse_filter` is a empty macro by default. It
 The SPL above uses the following Lookups:
 
 * [brandMonitoring_lookup](https://github.com/splunk/security_content/blob/develop/lookups/brandMonitoring_lookup.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/brandMonitoring_lookup.csv)
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

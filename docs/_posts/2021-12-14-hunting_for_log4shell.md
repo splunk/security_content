@@ -38,6 +38,7 @@ Finally, a simple table is created to show the scoring and the _raw field. Sort 
 - **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Web](https://docs.splunk.com/Documentation/CIM/latest/User/Web)
+- **Datasources**: 
 - **Last Updated**: 2021-12-14
 - **Author**: Michael Haag, Splunk
 - **ID**: 158b68fa-5d1a-11ec-aac8-acde48001122
@@ -177,9 +178,6 @@ Finally, a simple table is created to show the scoring and the _raw field. Sort 
 The SPL above uses the following Macros:
 
 Note that `hunting_for_log4shell_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

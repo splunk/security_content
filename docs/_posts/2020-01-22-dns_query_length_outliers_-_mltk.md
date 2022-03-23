@@ -32,6 +32,7 @@ This search allows you to identify DNS requests that are unusually large for the
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Resolution](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution)
+- **Datasources**: 
 - **Last Updated**: 2020-01-22
 - **Author**: Rico Valdez, Splunk
 - **ID**: 85fbcfe8-9718-4911-adf6-7000d077a3a9
@@ -69,9 +70,6 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `dns_query_length_outliers_-_mltk_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

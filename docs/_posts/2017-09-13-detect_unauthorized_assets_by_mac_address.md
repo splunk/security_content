@@ -26,6 +26,7 @@ By populating the organization's assets within the assets_by_str.csv, we will be
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Sessions](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkSessions)
+- **Datasources**: 
 - **Last Updated**: 2017-09-13
 - **Author**: Bhavin Patel, Splunk
 - **ID**: dcfd6b40-42f9-469d-a433-2e53f7489ff4
@@ -50,9 +51,6 @@ The SPL above uses the following Macros:
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `detect_unauthorized_assets_by_mac_address_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

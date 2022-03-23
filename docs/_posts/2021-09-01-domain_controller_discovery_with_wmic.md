@@ -27,6 +27,7 @@ This analytic looks for the execution of `wmic.exe` with command-line arguments 
 - **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasources**: 
 - **Last Updated**: 2021-09-01
 - **Author**: Mauricio Velazco, Splunk
 - **ID**: 64c7adaa-48ee-483c-b0d6-7175bc65e6cc
@@ -55,9 +56,6 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `domain_controller_discovery_with_wmic_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * Processes.dest

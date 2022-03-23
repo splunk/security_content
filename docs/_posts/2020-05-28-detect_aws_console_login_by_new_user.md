@@ -24,6 +24,7 @@ This search looks for AWS CloudTrail events wherein a console login event by a u
 - **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Authentication](https://docs.splunk.com/Documentation/CIM/latest/User/Authentication)
+- **Datasources**: 
 - **Last Updated**: 2020-05-28
 - **Author**: Rico Valdez, Splunk
 - **ID**: bc91a8cd-35e7-4bb2-6140-e756cc46fd71
@@ -53,9 +54,6 @@ Note that `detect_aws_console_login_by_new_user_filter` is a empty macro by defa
 The SPL above uses the following Lookups:
 
 * [previously_seen_users_console_logins](https://github.com/splunk/security_content/blob/develop/lookups/previously_seen_users_console_logins.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/previously_seen_users_console_logins.csv)
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

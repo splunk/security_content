@@ -26,6 +26,7 @@ The following analytic identifies cleartext protocols at risk of leaking sensiti
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
+- **Datasources**: 
 - **Last Updated**: 2021-08-19
 - **Author**: Rico Valdez, Splunk
 - **ID**: 6923cd64-17a0-453c-b945-81ac2d8c6db9
@@ -47,9 +48,6 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `protocols_passing_authentication_in_cleartext_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

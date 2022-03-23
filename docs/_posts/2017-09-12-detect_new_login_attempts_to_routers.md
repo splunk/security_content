@@ -26,6 +26,7 @@ The search queries the authentication logs for assets that are categorized as ro
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Authentication](https://docs.splunk.com/Documentation/CIM/latest/User/Authentication)
+- **Datasources**: 
 - **Last Updated**: 2017-09-12
 - **Author**: Bhavin Patel, Splunk
 - **ID**: bce3ed7c-9b1f-42a0-abdf-d8b123a34836
@@ -49,9 +50,6 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `detect_new_login_attempts_to_routers_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

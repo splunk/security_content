@@ -25,6 +25,7 @@ This search will detect spike in blocked outbound network connections originatin
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2018-05-07
 - **Author**: Bhavin Patel, Splunk
 - **ID**: d3fffa37-492f-487b-a35d-c60fcb2acf01
@@ -62,9 +63,6 @@ The SPL above uses the following Lookups:
 
 * [baseline_blocked_outbound_connections](https://github.com/splunk/security_content/blob/develop/lookups/baseline_blocked_outbound_connections.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/baseline_blocked_outbound_connections.csv)
 * [baseline_blocked_outbound_connections](https://github.com/splunk/security_content/blob/develop/lookups/baseline_blocked_outbound_connections.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/baseline_blocked_outbound_connections.csv)
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

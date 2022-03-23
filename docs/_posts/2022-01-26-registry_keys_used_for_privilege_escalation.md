@@ -31,6 +31,7 @@ This search looks for modifications to registry keys that can be used to elevate
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2022-01-26
 - **Author**: David Dorsey, Teoderick Contreras, Splunk
 - **ID**: c9f4b923-f8af-4155-b697-1354f5bcbc5e
@@ -65,9 +66,6 @@ The SPL above uses the following Macros:
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `registry_keys_used_for_privilege_escalation_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

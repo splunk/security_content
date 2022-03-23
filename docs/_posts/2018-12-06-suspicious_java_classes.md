@@ -25,6 +25,7 @@ This search looks for suspicious Java classes that are often used to exploit rem
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2018-12-06
 - **Author**: Jose Hernandez, Splunk
 - **ID**: 6ed33786-5e87-4f55-b62c-cb5f1168b831
@@ -48,9 +49,6 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `suspicious_java_classes_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

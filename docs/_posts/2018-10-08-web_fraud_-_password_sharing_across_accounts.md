@@ -23,6 +23,7 @@ This search is used to identify user accounts that share a common password.
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2018-10-08
 - **Author**: Jim Apger, Splunk
 - **ID**: 31337a1a-53b9-4e05-96e9-55c934cb71d3
@@ -45,9 +46,6 @@ The SPL above uses the following Macros:
 * [stream_http](https://github.com/splunk/security_content/blob/develop/macros/stream_http.yml)
 
 Note that `web_fraud_-_password_sharing_across_accounts_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

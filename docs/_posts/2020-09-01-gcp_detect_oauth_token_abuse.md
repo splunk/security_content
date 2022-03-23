@@ -29,6 +29,7 @@ This search provides detection of possible GCP Oauth token abuse. GCP Oauth toke
 - **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2020-09-01
 - **Author**: Rod Soto, Splunk
 - **ID**: a7e9f7bb-8901-4ad0-8d88-0a4ab07b1972
@@ -53,9 +54,6 @@ The SPL above uses the following Macros:
 * [google_gcp_pubsub_message](https://github.com/splunk/security_content/blob/develop/macros/google_gcp_pubsub_message.yml)
 
 Note that `gcp_detect_oauth_token_abuse_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

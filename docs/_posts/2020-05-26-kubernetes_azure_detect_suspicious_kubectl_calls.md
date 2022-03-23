@@ -23,6 +23,7 @@ This search provides information on rare Kubectl calls with IP, verb namespace a
 - **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2020-05-26
 - **Author**: Rod Soto, Splunk
 - **ID**: 4b6d1ba8-0000-4cec-87e6-6cbbd71651b5
@@ -44,9 +45,6 @@ The SPL above uses the following Macros:
 * [kubernetes_azure](https://github.com/splunk/security_content/blob/develop/macros/kubernetes_azure.yml)
 
 Note that `kubernetes_azure_detect_suspicious_kubectl_calls_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

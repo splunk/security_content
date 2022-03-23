@@ -36,6 +36,7 @@ The following analytic is to identify a modification in the Windows registry to 
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasources**: 
 - **Last Updated**: 2022-01-27
 - **Author**: Teoderick Contreras, Mauricio Velazco, Splunk
 - **ID**: 6f3ccfa2-91fe-11eb-8f9b-acde48001122
@@ -74,9 +75,6 @@ The SPL above uses the following Macros:
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `disable_show_hidden_files_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

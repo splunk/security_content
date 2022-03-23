@@ -27,6 +27,7 @@ This analytic looks for the execution of `net.exe` or `net1.exe` with command-li
 - **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasources**: 
 - **Last Updated**: 2021-08-30
 - **Author**: Mauricio Velazco, Splunk
 - **ID**: 9df16706-04a2-41e2-bbfe-9b38b34409d3
@@ -55,9 +56,6 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `remote_system_discovery_with_net_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * Processes.dest

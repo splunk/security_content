@@ -26,6 +26,7 @@ This search looks for disable security step in CircleCI pipeline.
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2021-09-01
 - **Author**: Patrick Bareiss, Splunk
 - **ID**: 72cb9de9-e98b-4ac9-80b2-5331bba6ea97
@@ -69,9 +70,6 @@ Note that `circle_ci_disable_security_step_filter` is a empty macro by default. 
 The SPL above uses the following Lookups:
 
 * [mandatory_step_for_job](https://github.com/splunk/security_content/blob/develop/lookups/mandatory_step_for_job.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/mandatory_step_for_job.csv)
-
-#### Supported Datasources
-
 
 #### Required field
 * _times

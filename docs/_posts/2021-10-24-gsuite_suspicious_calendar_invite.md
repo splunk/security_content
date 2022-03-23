@@ -28,6 +28,7 @@ This search can help the detection of compromised accounts or internal users sen
 - **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2021-10-24
 - **Author**: Rod Soto, Teoderick Contreras
 - **ID**: 03cdd68a-34fb-11ec-9bd3-acde48001122
@@ -56,9 +57,6 @@ The SPL above uses the following Macros:
 * [gsuite_calendar](https://github.com/splunk/security_content/blob/develop/macros/gsuite_calendar.yml)
 
 Note that `gsuite_suspicious_calendar_invite_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

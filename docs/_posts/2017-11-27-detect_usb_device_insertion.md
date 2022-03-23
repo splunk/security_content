@@ -24,6 +24,7 @@ The search is used to detect hosts that generate Windows Event ID 4663 for succe
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change_Analysis](https://docs.splunk.com/Documentation/CIM/latest/User/ChangeAnalysis)
+- **Datasources**: 
 - **Last Updated**: 2017-11-27
 - **Author**: Bhavin Patel, Splunk
 - **ID**: 104658f4-afdc-499f-9719-17a43f9826f5
@@ -45,9 +46,6 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `detect_usb_device_insertion_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

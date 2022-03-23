@@ -28,6 +28,7 @@ The following analytic identifies DLLHost.exe with no command line arguments. It
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasources**: 
 - **Last Updated**: 2022-03-15
 - **Author**: Michael Haag, Splunk
 - **ID**: ff61e98c-0337-4593-a78f-72a676c56f26
@@ -53,14 +54,11 @@ The following analytic identifies DLLHost.exe with no command line arguments. It
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_dllhost](https://github.com/splunk/security_content/blob/develop/macros/process_dllhost.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [process_dllhost](https://github.com/splunk/security_content/blob/develop/macros/process_dllhost.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `suspicious_dllhost_no_command_line_arguments_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

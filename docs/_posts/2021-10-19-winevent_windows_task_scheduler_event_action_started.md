@@ -29,6 +29,7 @@ The following hunting analytic assists with identifying suspicious tasks that ha
 - **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasources**: 
 - **Last Updated**: 2021-10-19
 - **Author**: Michael Haag, Splunk
 - **ID**: b3632472-310b-11ec-9aab-acde48001122
@@ -53,13 +54,10 @@ The following hunting analytic assists with identifying suspicious tasks that ha
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [wineventlog_task_scheduler](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_task_scheduler.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `winevent_windows_task_scheduler_event_action_started_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

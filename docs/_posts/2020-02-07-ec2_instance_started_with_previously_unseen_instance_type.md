@@ -23,6 +23,7 @@ This search looks for EC2 instances being created with previously unseen instanc
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2020-02-07
 - **Author**: David Dorsey, Splunk
 - **ID**: 65541c80-03c7-4e05-83c8-1dcd57a2e1ad
@@ -55,9 +56,6 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `ec2_instance_started_with_previously_unseen_instance_type_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

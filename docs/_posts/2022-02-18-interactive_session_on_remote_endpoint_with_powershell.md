@@ -29,6 +29,7 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2022-02-18
 - **Author**: Mauricio Velazco, Splunk
 - **ID**: a4e8f3a4-48b2-11ec-bcfc-3e22fbd008af
@@ -57,9 +58,6 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `interactive_session_on_remote_endpoint_with_powershell_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

@@ -28,6 +28,7 @@ The following analytic identifies gpupdate.exe with no command line arguments. I
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasources**: 
 - **Last Updated**: 2022-03-15
 - **Author**: Michael Haag, Splunk
 - **ID**: f308490a-473a-40ef-ae64-dd7a6eba284a
@@ -54,13 +55,10 @@ The following analytic identifies gpupdate.exe with no command line arguments. I
 #### Macros
 The SPL above uses the following Macros:
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [process_gpupdate](https://github.com/splunk/security_content/blob/develop/macros/process_gpupdate.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `suspicious_gpupdate_no_command_line_arguments_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

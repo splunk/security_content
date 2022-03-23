@@ -26,6 +26,7 @@ Attackers often use spaces as a means to obfuscate an attachment's file extensio
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Email](https://docs.splunk.com/Documentation/CIM/latest/User/Email)
+- **Datasources**: 
 - **Last Updated**: 2017-09-19
 - **Author**: David Dorsey, Splunk
 - **ID**: 56e877a6-1455-4479-ada6-0550dc1e22f8
@@ -50,9 +51,6 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `email_attachments_with_lots_of_spaces_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

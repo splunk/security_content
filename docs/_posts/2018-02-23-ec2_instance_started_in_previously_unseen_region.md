@@ -26,6 +26,7 @@ This search looks for AWS CloudTrail events where an instance is started in a pa
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2018-02-23
 - **Author**: Bhavin Patel, Splunk
 - **ID**: ada0f478-84a8-4641-a3f3-d82362d6fd75
@@ -58,9 +59,6 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `ec2_instance_started_in_previously_unseen_region_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

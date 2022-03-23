@@ -28,6 +28,7 @@ This search looks at S3 bucket-access logs and detects new or previously unseen 
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2018-06-28
 - **Author**: Bhavin Patel, Splunk
 - **ID**: e6f1bb1b-f441-492b-9126-902acda217da
@@ -64,9 +65,6 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `detect_s3_access_from_a_new_ip_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

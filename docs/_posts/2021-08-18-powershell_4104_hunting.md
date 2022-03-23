@@ -29,6 +29,7 @@ The following Hunting analytic assists with identifying suspicious PowerShell ex
 - **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2021-08-18
 - **Author**: Michael Haag, Splunk
 - **ID**: d6f2b006-0041-11ec-8885-acde48001122
@@ -231,9 +232,6 @@ The SPL above uses the following Macros:
 * [powershell](https://github.com/splunk/security_content/blob/develop/macros/powershell.yml)
 
 Note that `powershell_4104_hunting_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

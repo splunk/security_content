@@ -34,6 +34,7 @@ This analytic looks for the execution of `schtasks.exe` with command-line argume
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasources**: 
 - **Last Updated**: 2021-11-11
 - **Author**: David Dorsey, Mauricio Velazco, Splunk
 - **ID**: 1297fb80-f42a-4b4a-9c8a-88c066237cf6
@@ -64,9 +65,6 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `schtasks_scheduling_job_on_remote_system_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

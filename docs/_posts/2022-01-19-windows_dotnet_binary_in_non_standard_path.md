@@ -36,6 +36,7 @@ The following analytic identifies native .net binaries within the Windows operat
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasources**: 
 - **Last Updated**: 2022-01-19
 - **Author**: Michael Haag, Splunk
 - **ID**: fddf3b56-7933-11ec-98a6-acde48001122
@@ -67,14 +68,11 @@ The following analytic identifies native .net binaries within the Windows operat
 
 #### Macros
 The SPL above uses the following Macros:
-* [is_net_windows_file](https://github.com/splunk/security_content/blob/develop/macros/is_net_windows_file.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [is_net_windows_file](https://github.com/splunk/security_content/blob/develop/macros/is_net_windows_file.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `windows_dotnet_binary_in_non_standard_path_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

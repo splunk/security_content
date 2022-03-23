@@ -27,6 +27,7 @@ This search is to detect potential DNS exfiltration using nslookup application. 
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasources**: 
 - **Last Updated**: 2021-04-21
 - **Author**: Teoderick Contreras, Stanislav Miskovic, Splunk
 - **ID**: 0a69fdaa-a2b8-11eb-b16d-acde48001122
@@ -59,9 +60,6 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `excessive_usage_of_nslookup_app_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

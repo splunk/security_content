@@ -26,6 +26,7 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2021-09-01
 - **Author**: Mauricio Velazco, Splunk
 - **ID**: 70803451-0047-4e12-9d63-77fa7eb8649c
@@ -52,9 +53,6 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `remote_system_discovery_with_adsisearcher_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

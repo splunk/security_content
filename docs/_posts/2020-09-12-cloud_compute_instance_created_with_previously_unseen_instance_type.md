@@ -24,6 +24,7 @@ Find EC2 instances being created with previously unseen instance types.
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
+- **Datasources**: 
 - **Last Updated**: 2020-09-12
 - **Author**: David Dorsey, Splunk
 - **ID**: c6ddbf53-9715-49f3-bb4c-fb2e8a309cda
@@ -56,9 +57,6 @@ Note that `cloud_compute_instance_created_with_previously_unseen_instance_type_f
 The SPL above uses the following Lookups:
 
 * [previously_seen_cloud_compute_instance_types](https://github.com/splunk/security_content/blob/develop/lookups/previously_seen_cloud_compute_instance_types.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/previously_seen_cloud_compute_instance_types.csv)
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

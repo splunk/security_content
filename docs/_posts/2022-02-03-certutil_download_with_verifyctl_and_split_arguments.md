@@ -27,6 +27,7 @@ Certutil.exe may download a file from a remote destination using `-VerifyCtl`. T
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasources**: 
 - **Last Updated**: 2022-02-03
 - **Author**: Michael Haag, Splunk
 - **ID**: 801ad9e4-8bfb-11eb-8b31-acde48001122
@@ -51,14 +52,11 @@ Certutil.exe may download a file from a remote destination using `-VerifyCtl`. T
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [process_certutil](https://github.com/splunk/security_content/blob/develop/macros/process_certutil.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `certutil_download_with_verifyctl_and_split_arguments_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

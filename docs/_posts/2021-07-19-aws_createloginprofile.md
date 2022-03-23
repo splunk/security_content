@@ -29,6 +29,7 @@ This search looks for AWS CloudTrail events where a user A(victim A) creates a l
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2021-07-19
 - **Author**: Bhavin Patel, Splunk
 - **ID**: 2a9b80d3-6340-4345-11ad-212bf444d111
@@ -63,9 +64,6 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `aws_createloginprofile_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

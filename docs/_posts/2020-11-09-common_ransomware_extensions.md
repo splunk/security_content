@@ -27,6 +27,7 @@ The search looks for file modifications with extensions commonly used by Ransomw
 - **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasources**: 
 - **Last Updated**: 2020-11-09
 - **Author**: David Dorsey, Splunk
 - **ID**: a9e5c5db-db11-43ca-86a8-c852d1b2c0ec
@@ -53,14 +54,11 @@ The search looks for file modifications with extensions commonly used by Ransomw
 
 #### Macros
 The SPL above uses the following Macros:
-* [ransomware_extensions](https://github.com/splunk/security_content/blob/develop/macros/ransomware_extensions.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [ransomware_extensions](https://github.com/splunk/security_content/blob/develop/macros/ransomware_extensions.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `common_ransomware_extensions_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

@@ -36,6 +36,7 @@ This search will detect a spike in the number of API calls made to your cloud in
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
+- **Datasources**: 
 - **Last Updated**: 2020-09-07
 - **Author**: David Dorsey, Splunk
 - **ID**: 0840ddf1-8c89-46ff-b730-c8d6722478c0
@@ -75,9 +76,6 @@ This search will detect a spike in the number of API calls made to your cloud in
 The SPL above uses the following Macros:
 
 Note that `abnormally_high_number_of_cloud_infrastructure_api_calls_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

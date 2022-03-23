@@ -23,6 +23,7 @@ This search returns a list of hosts that have not successfully completed a backu
 - **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2017-09-12
 - **Author**: David Dorsey, Splunk
 - **ID**: a34aae96-ccf8-4aef-952c-3ea214444440
@@ -46,9 +47,6 @@ The SPL above uses the following Macros:
 * [netbackup](https://github.com/splunk/security_content/blob/develop/macros/netbackup.yml)
 
 Note that `extended_period_without_successful_netbackup_backups_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

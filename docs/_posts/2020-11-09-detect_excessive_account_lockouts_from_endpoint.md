@@ -36,6 +36,7 @@ This search identifies endpoints that have caused a relatively high number of ac
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
+- **Datasources**: 
 - **Last Updated**: 2020-11-09
 - **Author**: David Dorsey, Splunk
 - **ID**: c026e3dd-7e18-4abb-8f41-929e836efe74
@@ -68,9 +69,6 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `detect_excessive_account_lockouts_from_endpoint_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

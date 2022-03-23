@@ -29,6 +29,7 @@ This search looks for EC2 instances being modified by users who have not previou
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2020-07-21
 - **Author**: David Dorsey, Splunk
 - **ID**: 56f91724-cf3f-4666-84e1-e3712fb41e76
@@ -63,9 +64,9 @@ This search looks for EC2 instances being modified by users who have not previou
 
 #### Macros
 The SPL above uses the following Macros:
+* [ec2_modification_api_calls](https://github.com/splunk/security_content/blob/develop/macros/ec2_modification_api_calls.yml)
 * [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
-* [ec2_modification_api_calls](https://github.com/splunk/security_content/blob/develop/macros/ec2_modification_api_calls.yml)
 
 Note that `ec2_instance_modified_with_previously_unseen_user_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -74,9 +75,6 @@ The SPL above uses the following Lookups:
 
 * [previously_seen_ec2_modifications_by_user](https://github.com/splunk/security_content/blob/develop/lookups/previously_seen_ec2_modifications_by_user.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/previously_seen_ec2_modifications_by_user.csv)
 * [previously_seen_ec2_modifications_by_user](https://github.com/splunk/security_content/blob/develop/lookups/previously_seen_ec2_modifications_by_user.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/previously_seen_ec2_modifications_by_user.csv)
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

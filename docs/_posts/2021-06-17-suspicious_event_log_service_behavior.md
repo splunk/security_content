@@ -29,6 +29,7 @@ The following analytic utilizes Windows Event ID 1100 to identify when Windows e
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2021-06-17
 - **Author**: Mauricio Velazco, Splunk
 - **ID**: 2b85aa3d-f5f6-4c2e-a081-a09f6e1c2e40
@@ -58,9 +59,6 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `suspicious_event_log_service_behavior_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

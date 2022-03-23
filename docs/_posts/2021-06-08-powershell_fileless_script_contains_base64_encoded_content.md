@@ -35,6 +35,7 @@ During triage, review parallel processes using an EDR product or 4688 events. It
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2021-06-08
 - **Author**: Michael Haag, Splunk
 - **ID**: 8acbc04c-c882-11eb-b060-acde48001122
@@ -66,9 +67,6 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `powershell_fileless_script_contains_base64_encoded_content_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

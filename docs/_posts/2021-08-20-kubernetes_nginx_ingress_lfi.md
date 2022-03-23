@@ -26,6 +26,7 @@ This search uses the Kubernetes logs from a nginx ingress controller to detect l
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2021-08-20
 - **Author**: Patrick Bareiss, Splunk
 - **ID**: 0f83244b-425b-4528-83db-7a88c5f66e48
@@ -65,9 +66,6 @@ Note that `kubernetes_nginx_ingress_lfi_filter` is a empty macro by default. It 
 The SPL above uses the following Lookups:
 
 * [local_file_inclusion_paths](https://github.com/splunk/security_content/blob/develop/lookups/local_file_inclusion_paths.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/local_file_inclusion_paths.csv)
-
-#### Supported Datasources
-
 
 #### Required field
 * raw

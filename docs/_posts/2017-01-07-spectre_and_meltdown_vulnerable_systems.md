@@ -25,6 +25,7 @@ The search is used to detect systems that are still vulnerable to the Spectre an
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Vulnerabilities](https://docs.splunk.com/Documentation/CIM/latest/User/Vulnerabilities)
+- **Datasources**: 
 - **Last Updated**: 2017-01-07
 - **Author**: David Dorsey, Splunk
 - **ID**: 354be8e0-32cd-4da0-8c47-796de13b60ea
@@ -46,9 +47,6 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `spectre_and_meltdown_vulnerable_systems_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

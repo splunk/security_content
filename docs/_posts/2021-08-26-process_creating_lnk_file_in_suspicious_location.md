@@ -30,6 +30,7 @@ This search looks for a process launching an `*.lnk` file under `C:\User*` or `*
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasources**: 
 - **Last Updated**: 2021-08-26
 - **Author**: Jose Hernandez, Splunk
 - **ID**: 5d814af1-1041-47b5-a9ac-d754e82e9a26
@@ -67,9 +68,6 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `process_creating_lnk_file_in_suspicious_location_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

@@ -35,6 +35,7 @@ The following hunting analytic leverages Event ID 4698, `A scheduled task was cr
 - **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2021-11-29
 - **Author**: Mauricio Velazco, Splunk
 - **ID**: 9d22a780-5165-11ec-ad4f-3e22fbd008af
@@ -64,9 +65,6 @@ The SPL above uses the following Macros:
 * [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 
 Note that `randomly_generated_scheduled_task_name_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

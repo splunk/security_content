@@ -23,6 +23,7 @@ Enforcing network-access controls is one of the defensive mechanisms used by clo
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2020-09-08
 - **Author**: Peter Gael, Splunk
 - **ID**: 021abc51-1862-41dd-ad43-43c739c0a983
@@ -44,9 +45,6 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `cloud_network_access_control_list_deleted_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

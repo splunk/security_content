@@ -26,6 +26,7 @@ This search detects writes to the recycle bin by a process other than explorer.e
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2020-07-22
 - **Author**: Rico Valdez, Splunk
 - **ID**: b5541828-8ffd-4070-9d95-b3da4de924cb
@@ -55,9 +56,6 @@ The SPL above uses the following Macros:
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `suspicious_writes_to_windows_recycle_bin_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

@@ -28,6 +28,7 @@ This search detects users creating spikes in API activity related to deletion of
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2018-11-27
 - **Author**: Bhavin Patel, Splunk
 - **ID**: e733a326-59d2-446d-b8db-14a17151aa68
@@ -76,9 +77,6 @@ The SPL above uses the following Lookups:
 
 * [s3_deletion_baseline](https://github.com/splunk/security_content/blob/develop/lookups/s3_deletion_baseline.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/s3_deletion_baseline.csv)
 * [s3_deletion_baseline](https://github.com/splunk/security_content/blob/develop/lookups/s3_deletion_baseline.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/s3_deletion_baseline.csv)
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

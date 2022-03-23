@@ -27,6 +27,7 @@ This analytic identifies commonly used command-line arguments used by `rclone.ex
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasources**: 
 - **Last Updated**: 2021-11-29
 - **Author**: Michael Haag, Splunk
 - **ID**: 32e0baea-b3f1-11eb-a2ce-acde48001122
@@ -56,9 +57,6 @@ The SPL above uses the following Macros:
 * [process_rclone](https://github.com/splunk/security_content/blob/develop/macros/process_rclone.yml)
 
 Note that `detect_rclone_command-line_usage_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

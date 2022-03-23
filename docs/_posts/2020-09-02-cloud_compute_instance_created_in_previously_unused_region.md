@@ -27,6 +27,7 @@ This search looks at cloud-infrastructure events where an instance is created in
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
+- **Datasources**: 
 - **Last Updated**: 2020-09-02
 - **Author**: David Dorsey, Splunk
 - **ID**: fa4089e2-50e3-40f7-8469-d2cc1564ca59
@@ -64,9 +65,6 @@ Note that `cloud_compute_instance_created_in_previously_unused_region_filter` is
 The SPL above uses the following Lookups:
 
 * [previously_seen_cloud_regions](https://github.com/splunk/security_content/blob/develop/lookups/previously_seen_cloud_regions.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/previously_seen_cloud_regions.csv)
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

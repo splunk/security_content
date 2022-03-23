@@ -35,6 +35,7 @@ By enabling DHCP Snooping as a Layer 2 Security measure on the organization's ne
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2020-08-11
 - **Author**: Mikael Bjerkeland, Splunk
 - **ID**: 6e1ada88-7a0d-4ac1-92c6-03d354686079
@@ -66,9 +67,6 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `detect_rogue_dhcp_server_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

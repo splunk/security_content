@@ -27,6 +27,7 @@ The search looks for command-line arguments used to hide a file or directory usi
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasources**: 
 - **Last Updated**: 2019-02-27
 - **Author**: Bhavin Patel, Splunk
 - **ID**: 61a7d1e6-f5d4-41d9-a9be-39a1ffe69459
@@ -56,9 +57,6 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `reg_exe_used_to_hide_files_directories_via_registry_keys_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

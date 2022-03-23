@@ -31,6 +31,7 @@ This search looks for registry activity associated with modifications to the reg
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2020-01-28
 - **Author**: Bhavin Patel, Teoderick Contreras, Splunk
 - **ID**: f5f6af30-7ba7-4295-bfe9-07de87c01bbc
@@ -65,9 +66,6 @@ The SPL above uses the following Macros:
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `monitor_registry_keys_for_print_monitors_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

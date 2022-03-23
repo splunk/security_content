@@ -29,6 +29,7 @@ This search will detect users creating spikes in API activity related to securit
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2018-04-18
 - **Author**: Bhavin Patel, Splunk
 - **ID**: ada0f478-84a8-4641-a3f1-e32372d4bd53
@@ -77,9 +78,6 @@ The SPL above uses the following Lookups:
 
 * [security_group_activity_baseline](https://github.com/splunk/security_content/blob/develop/lookups/security_group_activity_baseline.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/security_group_activity_baseline.csv)
 * [security_group_activity_baseline](https://github.com/splunk/security_content/blob/develop/lookups/security_group_activity_baseline.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/security_group_activity_baseline.csv)
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

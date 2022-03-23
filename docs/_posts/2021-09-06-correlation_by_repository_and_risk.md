@@ -29,6 +29,7 @@ This search correlations detections by repository and risk_score
 - **Type**: [Correlation](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2021-09-06
 - **Author**: Patrick Bareiss, Splunk
 - **ID**: 8da9fdd9-6a1b-4ae0-8a34-8c25e6be9687
@@ -58,9 +59,6 @@ The SPL above uses the following Macros:
 * [signals](https://github.com/splunk/security_content/blob/develop/macros/signals.yml)
 
 Note that `correlation_by_repository_and_risk_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

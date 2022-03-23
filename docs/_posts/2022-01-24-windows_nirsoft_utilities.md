@@ -27,6 +27,7 @@ The following hunting analytic assists with identifying the proces execution of 
 - **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasources**: 
 - **Last Updated**: 2022-01-24
 - **Author**: Michael Haag, Splunk
 - **ID**: 5b2f4596-7d4c-11ec-88a7-acde48001122
@@ -52,14 +53,11 @@ The following hunting analytic assists with identifying the proces execution of 
 
 #### Macros
 The SPL above uses the following Macros:
-* [is_nirsoft_software](https://github.com/splunk/security_content/blob/develop/macros/is_nirsoft_software.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [is_nirsoft_software](https://github.com/splunk/security_content/blob/develop/macros/is_nirsoft_software.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `windows_nirsoft_utilities_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

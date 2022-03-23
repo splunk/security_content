@@ -33,6 +33,7 @@ The following hunting analytic leverages Event ID 7045, `A new service was insta
 - **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2021-11-29
 - **Author**: Mauricio Velazco, Splunk
 - **ID**: 2032a95a-5165-11ec-a2c3-3e22fbd008af
@@ -61,9 +62,6 @@ The SPL above uses the following Macros:
 * [wineventlog_system](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_system.yml)
 
 Note that `randomly_generated_windows_service_name_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

@@ -23,6 +23,7 @@ This search provides information on Kubernetes service accounts,accessing pods b
 - **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2020-07-10
 - **Author**: Rod Soto, Splunk
 - **ID**: 7f5c2779-88a0-4824-9caa-0f606c8f260f
@@ -41,9 +42,6 @@ The SPL above uses the following Macros:
 * [google_gcp_pubsub_message](https://github.com/splunk/security_content/blob/develop/macros/google_gcp_pubsub_message.yml)
 
 Note that `kubernetes_gcp_detect_most_active_service_accounts_by_pod_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

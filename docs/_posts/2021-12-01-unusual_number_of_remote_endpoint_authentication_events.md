@@ -32,6 +32,7 @@ The detection calculates the standard deviation for each host and leverages the 
 - **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2021-12-01
 - **Author**: Mauricio Velazco, Splunk
 - **ID**: acb5dc74-5324-11ec-a36d-acde48001122
@@ -61,9 +62,6 @@ The SPL above uses the following Macros:
 * [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 
 Note that `unusual_number_of_remote_endpoint_authentication_events_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

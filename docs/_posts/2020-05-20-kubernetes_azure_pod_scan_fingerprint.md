@@ -23,6 +23,7 @@ This search provides information of unauthenticated requests via source IP user 
 - **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2020-05-20
 - **Author**: Rod Soto, Splunk
 - **ID**: 86aad3e0-732f-4f66-bbbc-70df448e461d
@@ -42,9 +43,6 @@ The SPL above uses the following Macros:
 * [kubernetes_azure](https://github.com/splunk/security_content/blob/develop/macros/kubernetes_azure.yml)
 
 Note that `kubernetes_azure_pod_scan_fingerprint_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

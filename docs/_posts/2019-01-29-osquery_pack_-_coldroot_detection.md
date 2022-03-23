@@ -23,6 +23,7 @@ This search looks for ColdRoot events from the osx-attacks osquery pack.
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2019-01-29
 - **Author**: Rico Valdez, Splunk
 - **ID**: a6fffe5e-05c3-4c04-badc-887607fbb8dc
@@ -43,9 +44,6 @@ This search looks for ColdRoot events from the osx-attacks osquery pack.
 The SPL above uses the following Macros:
 
 Note that `osquery_pack_-_coldroot_detection_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

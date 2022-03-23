@@ -36,6 +36,7 @@ This search looks for cloud instances being modified by users who have not previ
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
+- **Datasources**: 
 - **Last Updated**: 2020-07-29
 - **Author**: Rico Valdez, Splunk
 - **ID**: 7fb15084-b14e-405a-bd61-a6de15a40722
@@ -76,9 +77,6 @@ Note that `cloud_instance_modified_by_previously_unseen_user_filter` is a empty 
 The SPL above uses the following Lookups:
 
 * [previously_seen_cloud_instance_modifications_by_user](https://github.com/splunk/security_content/blob/develop/lookups/previously_seen_cloud_instance_modifications_by_user.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/previously_seen_cloud_instance_modifications_by_user.csv)
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

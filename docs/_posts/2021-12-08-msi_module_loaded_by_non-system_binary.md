@@ -39,6 +39,7 @@ In addition, `msi.dll` has been abused in DLL side-loading attacks by being load
 - **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2021-12-08
 - **Author**: Michael Haag, Splunk
 - **ID**: ccb98a66-5851-11ec-b91c-acde48001122
@@ -68,9 +69,6 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `msi_module_loaded_by_non-system_binary_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

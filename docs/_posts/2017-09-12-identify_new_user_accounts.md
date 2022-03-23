@@ -29,6 +29,7 @@ This detection search will help profile user accounts in your environment by ide
 - **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2017-09-12
 - **Author**: Bhavin Patel, Splunk
 - **ID**: 475b9e27-17e4-46e2-b7e2-648221be3b89
@@ -58,9 +59,6 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `identify_new_user_accounts_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

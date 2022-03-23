@@ -30,6 +30,7 @@ Adversaries may abuse Regsvr32.exe to proxy execution of malicious code by using
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasources**: 
 - **Last Updated**: 2021-01-28
 - **Author**: Michael Haag, Splunk
 - **ID**: 62732736-6250-11eb-ae93-0242ac130002
@@ -61,9 +62,6 @@ The SPL above uses the following Macros:
 * [process_regsvr32](https://github.com/splunk/security_content/blob/develop/macros/process_regsvr32.yml)
 
 Note that `suspicious_regsvr32_register_suspicious_path_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

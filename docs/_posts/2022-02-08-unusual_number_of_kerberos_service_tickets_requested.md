@@ -30,6 +30,7 @@ The detection calculates the standard deviation for each host and leverages the 
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2022-02-08
 - **Author**: Mauricio Velazco, Splunk
 - **ID**: eb3e6702-8936-11ec-98fe-acde48001122
@@ -61,9 +62,6 @@ The SPL above uses the following Macros:
 * [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 
 Note that `unusual_number_of_kerberos_service_tickets_requested_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

@@ -23,6 +23,7 @@ This search looks for EC2 instances being created with previously unseen AMIs.  
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2018-03-12
 - **Author**: David Dorsey, Splunk
 - **ID**: 347ec301-601b-48b9-81aa-9ddf9c829dd3
@@ -53,9 +54,6 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `ec2_instance_started_with_previously_unseen_ami_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

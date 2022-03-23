@@ -29,6 +29,7 @@ The following analytic leverages Kerberos Event 4769, A Kerberos service ticket 
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2022-02-09
 - **Author**: Jose Hernandez, Patrick Bareiss, Mauricio Velazco, Splunk
 - **ID**: 5cc67381-44fa-4111-8a37-7a230943f027
@@ -58,9 +59,6 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `kerberoasting_spn_request_with_rc4_encryption_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

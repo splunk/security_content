@@ -29,6 +29,7 @@ This search detects newly added IP addresses/CIDR blocks to the list of MFA Trus
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2022-02-03
 - **Author**: Bhavin Patel, Splunk
 - **ID**: c783dd98-c703-4252-9e8a-f19d9f66949e
@@ -59,13 +60,10 @@ This search detects newly added IP addresses/CIDR blocks to the list of MFA Trus
 
 #### Macros
 The SPL above uses the following Macros:
-* [o365_management_activity](https://github.com/splunk/security_content/blob/develop/macros/o365_management_activity.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [o365_management_activity](https://github.com/splunk/security_content/blob/develop/macros/o365_management_activity.yml)
 
 Note that `o365_bypass_mfa_via_trusted_ip_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

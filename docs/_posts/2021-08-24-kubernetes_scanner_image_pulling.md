@@ -26,6 +26,7 @@ This search uses the Kubernetes logs from Splunk Connect from Kubernetes to dete
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2021-08-24
 - **Author**: Patrick Bareiss, Splunk
 - **ID**: 4890cd6b-0112-4974-a272-c5c153aee551
@@ -58,9 +59,6 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `kubernetes_scanner_image_pulling_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * object.message

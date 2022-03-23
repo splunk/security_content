@@ -29,6 +29,7 @@ This search provides detection of accounts with high risk roles by projects. Com
 - **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2020-10-09
 - **Author**: Rod Soto, Splunk
 - **ID**: 27af8c15-38b0-4408-b339-920170724adb
@@ -53,9 +54,6 @@ The SPL above uses the following Macros:
 * [google_gcp_pubsub_message](https://github.com/splunk/security_content/blob/develop/macros/google_gcp_pubsub_message.yml)
 
 Note that `gcp_detect_accounts_with_high_risk_roles_by_project_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

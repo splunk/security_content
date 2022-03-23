@@ -29,6 +29,7 @@ This search looks for AWS CloudTrail events where a user successfully terminates
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2020-07-21
 - **Author**: Jason Brewer, Splunk
 - **ID**: 1c02b86a-cd85-473e-a50b-014a9ac8fe3e
@@ -56,9 +57,6 @@ The SPL above uses the following Macros:
 * [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
 
 Note that `abnormally_high_aws_instances_terminated_by_user_-_mltk_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

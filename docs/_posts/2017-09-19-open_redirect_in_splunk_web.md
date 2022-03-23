@@ -24,6 +24,7 @@ This search allows you to look for evidence of exploitation for CVE-2016-4859, t
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2017-09-19
 - **Author**: Bhavin Patel, Splunk
 - **ID**: d199fb99-2312-451a-9daa-e5efa6ed76a7
@@ -39,9 +40,6 @@ index=_internal sourcetype=splunk_web_access return_to="/%09/*"
 The SPL above uses the following Macros:
 
 Note that `open_redirect_in_splunk_web_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

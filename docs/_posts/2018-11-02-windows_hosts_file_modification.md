@@ -23,6 +23,7 @@ The search looks for modifications to the hosts file on all Windows endpoints ac
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2018-11-02
 - **Author**: Rico Valdez, Splunk
 - **ID**: 06a6fc63-a72d-41dc-8736-7e3dd9612116
@@ -45,9 +46,6 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `windows_hosts_file_modification_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

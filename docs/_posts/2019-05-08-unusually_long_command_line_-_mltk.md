@@ -25,6 +25,7 @@ Command lines that are extremely long may be indicative of malicious activity on
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2019-05-08
 - **Author**: Rico Valdez, Splunk
 - **ID**: 57edaefa-a73b-45e5-bbae-f39c1473f941
@@ -52,9 +53,6 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `unusually_long_command_line_-_mltk_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

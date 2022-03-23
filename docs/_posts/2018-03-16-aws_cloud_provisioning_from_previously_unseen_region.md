@@ -26,6 +26,7 @@ This search looks for AWS provisioning activities from previously unseen regions
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2018-03-16
 - **Author**: David Dorsey, Splunk
 - **ID**: 7971d3df-da82-4648-a6e5-b5637bea5253
@@ -64,9 +65,6 @@ The SPL above uses the following Macros:
 * [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
 
 Note that `aws_cloud_provisioning_from_previously_unseen_region_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

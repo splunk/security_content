@@ -34,6 +34,7 @@ The following analytic identifies the creation or deletion of a scheduled task u
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasources**: 
 - **Last Updated**: 2022-02-22
 - **Author**: Bhavin Patel, Splunk
 - **ID**: d5af132c-7c17-439c-9d31-13d55340f36c
@@ -64,9 +65,6 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `scheduled_task_deleted_or_created_via_cmd_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

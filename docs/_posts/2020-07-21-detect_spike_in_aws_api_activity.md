@@ -29,6 +29,7 @@ This search will detect users creating spikes of API activity in your AWS enviro
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2020-07-21
 - **Author**: David Dorsey, Splunk
 - **ID**: ada0f478-84a8-4641-a3f1-d32362d4bd55
@@ -76,9 +77,6 @@ The SPL above uses the following Lookups:
 
 * [api_call_by_user_baseline](https://github.com/splunk/security_content/blob/develop/lookups/api_call_by_user_baseline.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/api_call_by_user_baseline.csv)
 * [api_call_by_user_baseline](https://github.com/splunk/security_content/blob/develop/lookups/api_call_by_user_baseline.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/api_call_by_user_baseline.csv)
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

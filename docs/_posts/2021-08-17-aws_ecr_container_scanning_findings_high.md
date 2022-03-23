@@ -29,6 +29,7 @@ This search looks for AWS CloudTrail events from AWS Elastic Container Service (
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2021-08-17
 - **Author**: Patrick Bareiss, Splunk
 - **ID**: 62721bd2-1d82-4623-b6e6-aac170014423
@@ -66,9 +67,6 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `aws_ecr_container_scanning_findings_high_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * eventSource

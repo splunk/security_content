@@ -23,6 +23,7 @@ This search provides information on Kubernetes service accounts,accessing pods b
 - **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2020-06-23
 - **Author**: Rod Soto, Splunk
 - **ID**: 5b30b25d-7d32-42d8-95ca-64dfcd9076e6
@@ -41,9 +42,6 @@ The SPL above uses the following Macros:
 * [aws_cloudwatchlogs_eks](https://github.com/splunk/security_content/blob/develop/macros/aws_cloudwatchlogs_eks.yml)
 
 Note that `kubernetes_aws_detect_most_active_service_accounts_by_pod_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

@@ -30,6 +30,7 @@ Monitor for execution of reg.exe with parameters specifying an export of keys th
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasources**: 
 - **Last Updated**: 2021-09-16
 - **Author**: Patrick Bareiss, Splunk
 - **ID**: e9fb4a59-c5fb-440a-9f24-191fbc6b2911
@@ -58,13 +59,10 @@ Monitor for execution of reg.exe with parameters specifying an export of keys th
 The SPL above uses the following Macros:
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [process_reg](https://github.com/splunk/security_content/blob/develop/macros/process_reg.yml)
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [process_cmd](https://github.com/splunk/security_content/blob/develop/macros/process_cmd.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `attempted_credential_dump_from_registry_via_reg_exe_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

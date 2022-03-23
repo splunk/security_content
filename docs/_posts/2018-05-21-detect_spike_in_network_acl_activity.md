@@ -26,6 +26,7 @@ This search will detect users creating spikes in API activity related to network
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2018-05-21
 - **Author**: Bhavin Patel, Splunk
 - **ID**: ada0f478-84a8-4641-a1f1-e32372d4bd53
@@ -74,9 +75,6 @@ The SPL above uses the following Lookups:
 
 * [network_acl_activity_baseline](https://github.com/splunk/security_content/blob/develop/lookups/network_acl_activity_baseline.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/network_acl_activity_baseline.csv)
 * [network_acl_activity_baseline](https://github.com/splunk/security_content/blob/develop/lookups/network_acl_activity_baseline.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/network_acl_activity_baseline.csv)
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

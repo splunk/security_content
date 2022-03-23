@@ -26,6 +26,7 @@ This search looks for Web requests to faux domains similar to the one that you w
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Web](https://docs.splunk.com/Documentation/CIM/latest/User/Web)
+- **Datasources**: 
 - **Last Updated**: 2017-09-23
 - **Author**: David Dorsey, Splunk
 - **ID**: 134da869-e264-4a8f-8d7e-fcd0ec88f301
@@ -43,14 +44,11 @@ This search looks for Web requests to faux domains similar to the one that you w
 
 #### Macros
 The SPL above uses the following Macros:
-* [brand_abuse_web](https://github.com/splunk/security_content/blob/develop/macros/brand_abuse_web.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [brand_abuse_web](https://github.com/splunk/security_content/blob/develop/macros/brand_abuse_web.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `monitor_web_traffic_for_brand_abuse_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

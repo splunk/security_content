@@ -30,6 +30,7 @@ This search detects SIGRed via Zeek DNS and Zeek Conn data.
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Resolution](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution)
+- **Datasources**: 
 - **Last Updated**: 2020-07-28
 - **Author**: Shannon Davis, Splunk
 - **ID**: c5c622e4-d073-11ea-87d0-0242ac130003
@@ -61,9 +62,6 @@ The SPL above uses the following Macros:
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `detect_windows_dns_sigred_via_zeek_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

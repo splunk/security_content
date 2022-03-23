@@ -32,6 +32,7 @@ The search is used to identify attempts to use your DNS Infrastructure for DDoS 
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Resolution](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution)
+- **Datasources**: 
 - **Last Updated**: 2017-09-20
 - **Author**: Bhavin Patel, Splunk
 - **ID**: 8fa891f7-a533-4b3c-af85-5aa2e7c1f1eb
@@ -60,9 +61,6 @@ The SPL above uses the following Macros:
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `large_volume_of_dns_any_queries_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

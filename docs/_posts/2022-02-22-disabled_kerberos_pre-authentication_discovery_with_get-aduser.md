@@ -29,6 +29,7 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2022-02-22
 - **Author**: Mauricio Velazco, Splunk
 - **ID**: 114c6bfe-9406-11ec-bcce-acde48001122
@@ -57,9 +58,6 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `disabled_kerberos_pre-authentication_discovery_with_get-aduser_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

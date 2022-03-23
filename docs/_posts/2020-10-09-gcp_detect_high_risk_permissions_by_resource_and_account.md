@@ -29,6 +29,7 @@ This search provides detection of high risk permissions by resource and accounts
 - **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2020-10-09
 - **Author**: Rod Soto, Splunk
 - **ID**: 2e70ef35-2187-431f-aedc-4503dc9b06ba
@@ -53,9 +54,6 @@ The SPL above uses the following Macros:
 * [google_gcp_pubsub_message](https://github.com/splunk/security_content/blob/develop/macros/google_gcp_pubsub_message.yml)
 
 Note that `gcp_detect_high_risk_permissions_by_resource_and_account_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

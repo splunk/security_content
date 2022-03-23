@@ -38,6 +38,7 @@ This search finds for the number successfully created cloud instances for every 
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
+- **Datasources**: 
 - **Last Updated**: 2020-08-21
 - **Author**: David Dorsey, Splunk
 - **ID**: f2361e9f-3928-496c-a556-120cd4223a65
@@ -76,9 +77,6 @@ This search finds for the number successfully created cloud instances for every 
 The SPL above uses the following Macros:
 
 Note that `abnormally_high_number_of_cloud_instances_launched_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

@@ -31,6 +31,7 @@ This search will detect more than 5 login failures in Office365 Azure Active Dir
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2020-12-16
 - **Author**: Bhavin Patel, Splunk
 - **ID**: 7f398cfb-918d-41f4-8db8-2e2474e02222
@@ -58,9 +59,6 @@ The SPL above uses the following Macros:
 * [o365_management_activity](https://github.com/splunk/security_content/blob/develop/macros/o365_management_activity.yml)
 
 Note that `high_number_of_login_failures_from_a_single_source_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

@@ -27,6 +27,7 @@ The following analytic uses a pretrained machine learning text classifier to det
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasources**: 
 - **Last Updated**: 2022-01-14
 - **Author**: Michael Hart, Splunk
 - **ID**: 9c53c446-757e-11ec-871d-acde48001122
@@ -57,14 +58,11 @@ The following analytic uses a pretrained machine learning text classifier to det
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [potentially_malicious_code_on_cmdline_tokenize_score](https://github.com/splunk/security_content/blob/develop/macros/potentially_malicious_code_on_cmdline_tokenize_score.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `potentially_malicious_code_on_commandline_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

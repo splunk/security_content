@@ -29,6 +29,7 @@ This search is used to examine web sessions to identify those where the clicks a
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2018-10-08
 - **Author**: Jim Apger, Splunk
 - **ID**: 31337bbb-bc22-4752-b599-ef192df2dc7a
@@ -57,9 +58,6 @@ The SPL above uses the following Macros:
 * [stream_http](https://github.com/splunk/security_content/blob/develop/macros/stream_http.yml)
 
 Note that `web_fraud_-_anomalous_user_clickspeed_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

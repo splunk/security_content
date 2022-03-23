@@ -26,6 +26,7 @@ This detection identifies failure attempts to delete groups. We want to identify
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2021-04-01
 - **Author**: Michael Haag, Splunk
 - **ID**: 723b861a-92eb-11eb-93b8-acde48001122
@@ -53,9 +54,6 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `aws_iam_failure_group_deletion_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

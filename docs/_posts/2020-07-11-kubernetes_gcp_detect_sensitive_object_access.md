@@ -23,6 +23,7 @@ This search provides information on Kubernetes accounts accessing sensitve objec
 - **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
+- **Datasources**: 
 - **Last Updated**: 2020-07-11
 - **Author**: Rod Soto, Splunk
 - **ID**: bdb6d596-86a0-4aba-8369-418ae8b9963a
@@ -41,9 +42,6 @@ The SPL above uses the following Macros:
 * [google_gcp_pubsub_message](https://github.com/splunk/security_content/blob/develop/macros/google_gcp_pubsub_message.yml)
 
 Note that `kubernetes_gcp_detect_sensitive_object_access_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

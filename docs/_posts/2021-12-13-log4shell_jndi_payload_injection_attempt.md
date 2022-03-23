@@ -28,6 +28,7 @@ CVE-2021-44228 Log4Shell payloads can be injected via various methods, but on of
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Web](https://docs.splunk.com/Documentation/CIM/latest/User/Web)
+- **Datasources**: 
 - **Last Updated**: 2021-12-13
 - **Author**: Jose Hernandez
 - **ID**: c184f12e-5c90-11ec-bf1f-497c9a704a72
@@ -58,9 +59,6 @@ CVE-2021-44228 Log4Shell payloads can be injected via various methods, but on of
 The SPL above uses the following Macros:
 
 Note that `log4shell_jndi_payload_injection_attempt_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Supported Datasources
-
 
 #### Required field
 * action

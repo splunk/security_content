@@ -30,6 +30,7 @@ This search looks for new commands from each user role.
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
+- **Datasources**: 
 - **Last Updated**: 2020-09-04
 - **Author**: David Dorsey, Splunk
 - **ID**: 2181ad1f-1e73-4d0c-9780-e8880482a08f
@@ -68,9 +69,6 @@ Note that `cloud_api_calls_from_previously_unseen_user_roles_filter` is a empty 
 The SPL above uses the following Lookups:
 
 * [previously_seen_cloud_api_calls_per_user_role](https://github.com/splunk/security_content/blob/develop/lookups/previously_seen_cloud_api_calls_per_user_role.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/previously_seen_cloud_api_calls_per_user_role.csv)
-
-#### Supported Datasources
-
 
 #### Required field
 * _time

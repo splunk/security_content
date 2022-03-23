@@ -30,6 +30,7 @@ This search looks for attempts to stop security-related services on the endpoint
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasources**: 
 - **Last Updated**: 2020-07-21
 - **Author**: Rico Valdez, Splunk
 - **ID**: c8e349c6-b97c-486e-8949-bd7bcd1f3910
@@ -59,8 +60,8 @@ This search looks for attempts to stop security-related services on the endpoint
 #### Macros
 The SPL above uses the following Macros:
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [process_net](https://github.com/splunk/security_content/blob/develop/macros/process_net.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `attempt_to_stop_security_service_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -68,9 +69,6 @@ Note that `attempt_to_stop_security_service_filter` is a empty macro by default.
 The SPL above uses the following Lookups:
 
 * [security_services_lookup](https://github.com/splunk/security_content/blob/develop/lookups/security_services_lookup.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/security_services_lookup.csv)
-
-#### Supported Datasources
-
 
 #### Required field
 * _time
