@@ -79,7 +79,6 @@
   "branch": "BRANCH_DOES_NOT_EXIST_USE_CLI_ARGUMENT",
   "commit_hash": null,
   "container_tag": "latest",
-  "detections_file": null,
   "detections_list": null,
   "folders": [
       "endpoint",
