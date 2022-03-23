@@ -18,8 +18,8 @@ class ObjToYmlAdapter(Adapter):
 
 
     def writeObjects(self, objects: list, output_path: str, type: SecurityContentType = None) -> None:
-        for obj in objects:
-            file_name = "ssa___" + self.convertNameToFileName(obj.name)
+        for obj in objects: 
+            file_name = "ssa___" + self.convertNameToFileName(obj.name, obj.tags)
             if self.isComplexBARule(obj.search):
                 file_path = os.path.join(output_path, 'complex', file_name)
             else:
