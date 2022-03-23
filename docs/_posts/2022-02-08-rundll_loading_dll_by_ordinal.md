@@ -57,11 +57,14 @@ The following analytic identifies rundll32.exe loading an export function by ord
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [process_rundll32](https://github.com/splunk/security_content/blob/develop/macros/process_rundll32.yml)
 
 Note that `rundll_loading_dll_by_ordinal_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+
+#### Supported Datasources
+
 
 #### Required field
 * _time
@@ -87,6 +90,7 @@ False positives are possible with native utilities and third party applications.
 #### Associated Analytic story
 * [Unusual Processes](/stories/unusual_processes)
 * [Suspicious Rundll32 Activity](/stories/suspicious_rundll32_activity)
+* [Living Off The Land](/stories/living_off_the_land)
 
 
 #### Kill Chain Phase

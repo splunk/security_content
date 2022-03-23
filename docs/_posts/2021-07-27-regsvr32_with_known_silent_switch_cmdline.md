@@ -64,6 +64,9 @@ The SPL above uses the following Macros:
 
 Note that `regsvr32_with_known_silent_switch_cmdline_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
+#### Supported Datasources
+
+
 #### Required field
 * _time
 * Processes.dest
@@ -89,6 +92,7 @@ minimal. but network operator can use this application to load dll.
 * [IcedID](/stories/icedid)
 * [Suspicious Regsvr32 Activity](/stories/suspicious_regsvr32_activity)
 * [Remcos](/stories/remcos)
+* [Living Off The Land](/stories/living_off_the_land)
 
 
 #### Kill Chain Phase

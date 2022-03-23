@@ -54,10 +54,13 @@ This search detects the creation of a new Federation setting by alerting about a
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [o365_management_activity](https://github.com/splunk/security_content/blob/develop/macros/o365_management_activity.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `o365_add_app_role_assignment_grant_user_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+
+#### Supported Datasources
+
 
 #### Required field
 * _time

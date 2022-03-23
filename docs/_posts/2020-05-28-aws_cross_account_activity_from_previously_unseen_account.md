@@ -56,6 +56,9 @@ The SPL above uses the following Lookups:
 
 * [previously_seen_aws_cross_account_activity](https://github.com/splunk/security_content/blob/develop/lookups/previously_seen_aws_cross_account_activity.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/previously_seen_aws_cross_account_activity.csv)
 
+#### Supported Datasources
+
+
 #### Required field
 * _time
 * Authentication.signature

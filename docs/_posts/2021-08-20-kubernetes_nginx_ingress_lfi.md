@@ -56,8 +56,8 @@ This search uses the Kubernetes logs from a nginx ingress controller to detect l
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [kubernetes_container_controller](https://github.com/splunk/security_content/blob/develop/macros/kubernetes_container_controller.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `kubernetes_nginx_ingress_lfi_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -65,6 +65,9 @@ Note that `kubernetes_nginx_ingress_lfi_filter` is a empty macro by default. It 
 The SPL above uses the following Lookups:
 
 * [local_file_inclusion_paths](https://github.com/splunk/security_content/blob/develop/lookups/local_file_inclusion_paths.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/local_file_inclusion_paths.csv)
+
+#### Supported Datasources
+
 
 #### Required field
 * raw

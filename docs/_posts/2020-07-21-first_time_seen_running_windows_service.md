@@ -68,6 +68,9 @@ The SPL above uses the following Lookups:
 
 * [previously_seen_running_windows_services](https://github.com/splunk/security_content/blob/develop/lookups/previously_seen_running_windows_services.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/previously_seen_running_windows_services.csv)
 
+#### Supported Datasources
+
+
 #### Required field
 * _time
 * EventCode

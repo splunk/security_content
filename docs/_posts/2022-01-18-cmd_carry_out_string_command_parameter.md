@@ -57,11 +57,14 @@ The following analytic identifies command-line arguments where `cmd.exe /c` is u
 
 #### Macros
 The SPL above uses the following Macros:
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [process_cmd](https://github.com/splunk/security_content/blob/develop/macros/process_cmd.yml)
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `cmd_carry_out_string_command_parameter_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+
+#### Supported Datasources
+
 
 #### Required field
 * _time
@@ -87,6 +90,7 @@ False positives may be high based on legitimate scripted code in any environment
 * [Log4Shell CVE-2021-44228](/stories/log4shell_cve-2021-44228)
 * [WhisperGate](/stories/whispergate)
 * [Hermetic Wiper](/stories/hermetic_wiper)
+* [Living Off The Land](/stories/living_off_the_land)
 
 
 #### Kill Chain Phase

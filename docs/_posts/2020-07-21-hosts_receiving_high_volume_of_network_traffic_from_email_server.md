@@ -66,6 +66,9 @@ The SPL above uses the following Macros:
 
 Note that `hosts_receiving_high_volume_of_network_traffic_from_email_server_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
+#### Supported Datasources
+
+
 #### Required field
 * _time
 * All_Traffic.bytes_in

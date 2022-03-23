@@ -52,11 +52,14 @@ The following query identifies Microsoft Background Intelligent Transfer Service
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [process_bitsadmin](https://github.com/splunk/security_content/blob/develop/macros/process_bitsadmin.yml)
 
 Note that `bits_job_persistence_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+
+#### Supported Datasources
+
 
 #### Required field
 * _time
@@ -81,6 +84,7 @@ Limited false positives will be present. Typically, applications will use `BitsA
 
 #### Associated Analytic story
 * [BITS Jobs](/stories/bits_jobs)
+* [Living Off The Land](/stories/living_off_the_land)
 
 
 #### Kill Chain Phase

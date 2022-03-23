@@ -47,7 +47,7 @@ The following search identifies the modification of registry related in disablin
 
 ```
 
-| tstats `security_content_summariesonly` count from datamodel=Endpoint.Registry where Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SystemRestore\\DisableSR" OR Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SystemRestore\\DisableConfig" Registry.registry_value_data = "0x00000001" by _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_value_name Registry.registry_key_name Registry.process_guid Registry.registry_value_data 
+| tstats `security_content_summariesonly` count from datamodel=Endpoint.Registry where Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SystemRestore\\DisableSR" OR Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SystemRestore\\DisableConfig" OR Registry.registry_path= "*\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\SystemRestore\\DisableSR" OR Registry.registry_path= "*\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\SystemRestore\\DisableConfig" Registry.registry_value_data = "0x00000001" by _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_value_name Registry.registry_key_name Registry.process_guid Registry.registry_value_data 
 | `drop_dm_object_name(Registry)` 
 |rename process_guid as proc_guid 
 |join proc_guid, _time [
@@ -64,6 +64,9 @@ The SPL above uses the following Macros:
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `disabling_systemrestore_in_registry_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+
+#### Supported Datasources
+
 
 #### Required field
 * _time

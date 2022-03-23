@@ -56,12 +56,15 @@ This search detects the use of wmic and Powershell to create a shadow copy.
 
 #### Macros
 The SPL above uses the following Macros:
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [process_powershell](https://github.com/splunk/security_content/blob/develop/macros/process_powershell.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [process_wmic](https://github.com/splunk/security_content/blob/develop/macros/process_wmic.yml)
 
 Note that `creation_of_shadow_copy_with_wmic_and_powershell_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+
+#### Supported Datasources
+
 
 #### Required field
 * _time
@@ -86,6 +89,7 @@ Legtimate administrator usage of wmic to create a shadow copy.
 
 #### Associated Analytic story
 * [Credential Dumping](/stories/credential_dumping)
+* [Living Off The Land](/stories/living_off_the_land)
 
 
 #### Kill Chain Phase

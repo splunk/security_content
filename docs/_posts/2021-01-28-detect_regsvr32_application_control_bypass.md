@@ -63,6 +63,9 @@ The SPL above uses the following Macros:
 
 Note that `detect_regsvr32_application_control_bypass_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
+#### Supported Datasources
+
+
 #### Required field
 * _time
 * Processes.dest
@@ -87,6 +90,7 @@ Limited false positives related to third party software registering .DLL's.
 #### Associated Analytic story
 * [Suspicious Regsvr32 Activity](/stories/suspicious_regsvr32_activity)
 * [Cobalt Strike](/stories/cobalt_strike)
+* [Living Off The Land](/stories/living_off_the_land)
 
 
 #### Kill Chain Phase

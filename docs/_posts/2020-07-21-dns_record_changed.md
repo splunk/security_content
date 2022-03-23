@@ -73,6 +73,9 @@ The SPL above uses the following Lookups:
 
 * [discovered_dns_records](https://github.com/splunk/security_content/blob/develop/lookups/discovered_dns_records.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/discovered_dns_records.csv)
 
+#### Supported Datasources
+
+
 #### Required field
 * _time
 * DNS.record_type

@@ -70,6 +70,9 @@ The SPL above uses the following Lookups:
 
 * [mandatory_step_for_job](https://github.com/splunk/security_content/blob/develop/lookups/mandatory_step_for_job.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/mandatory_step_for_job.csv)
 
+#### Supported Datasources
+
+
 #### Required field
 * _times
 

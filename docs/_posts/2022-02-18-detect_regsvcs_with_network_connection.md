@@ -55,10 +55,13 @@ The following analytic identifies Regsvcs.exe with a network connection to a pub
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `detect_regsvcs_with_network_connection_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+
+#### Supported Datasources
+
 
 #### Required field
 * _time
@@ -79,6 +82,7 @@ Although unlikely, limited instances of regsvcs.exe may cause a false positive. 
 
 #### Associated Analytic story
 * [Suspicious Regsvcs Regasm Activity](/stories/suspicious_regsvcs_regasm_activity)
+* [Living Off The Land](/stories/living_off_the_land)
 
 
 #### Kill Chain Phase

@@ -47,6 +47,9 @@ The SPL above uses the following Macros:
 
 Note that `detect_spike_in_aws_security_hub_alerts_for_ec2_instance_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
+#### Supported Datasources
+
+
 #### Required field
 * _time
 * Resources{}.Type

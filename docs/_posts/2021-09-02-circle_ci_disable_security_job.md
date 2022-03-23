@@ -66,6 +66,9 @@ The SPL above uses the following Lookups:
 
 * [mandatory_job_for_workflow](https://github.com/splunk/security_content/blob/develop/lookups/mandatory_job_for_workflow.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/mandatory_job_for_workflow.csv)
 
+#### Supported Datasources
+
+
 #### Required field
 * _times
 

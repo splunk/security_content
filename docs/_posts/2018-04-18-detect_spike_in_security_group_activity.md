@@ -67,8 +67,8 @@ This search will detect users creating spikes in API activity related to securit
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_group_api_calls](https://github.com/splunk/security_content/blob/develop/macros/security_group_api_calls.yml)
 * [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
+* [security_group_api_calls](https://github.com/splunk/security_content/blob/develop/macros/security_group_api_calls.yml)
 
 Note that `detect_spike_in_security_group_activity_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -77,6 +77,9 @@ The SPL above uses the following Lookups:
 
 * [security_group_activity_baseline](https://github.com/splunk/security_content/blob/develop/lookups/security_group_activity_baseline.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/security_group_activity_baseline.csv)
 * [security_group_activity_baseline](https://github.com/splunk/security_content/blob/develop/lookups/security_group_activity_baseline.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/security_group_activity_baseline.csv)
+
+#### Supported Datasources
+
 
 #### Required field
 * _time

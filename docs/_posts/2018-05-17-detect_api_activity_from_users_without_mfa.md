@@ -43,8 +43,8 @@ This search looks for AWS CloudTrail events where a user logged into the AWS acc
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `detect_api_activity_from_users_without_mfa_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -52,6 +52,9 @@ Note that `detect_api_activity_from_users_without_mfa_filter` is a empty macro b
 The SPL above uses the following Lookups:
 
 * [aws_service_accounts](https://github.com/splunk/security_content/blob/develop/lookups/aws_service_accounts.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/aws_service_accounts.csv)
+
+#### Supported Datasources
+
 
 #### Required field
 * _time

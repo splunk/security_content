@@ -63,6 +63,9 @@ The SPL above uses the following Lookups:
 * [baseline_blocked_outbound_connections](https://github.com/splunk/security_content/blob/develop/lookups/baseline_blocked_outbound_connections.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/baseline_blocked_outbound_connections.csv)
 * [baseline_blocked_outbound_connections](https://github.com/splunk/security_content/blob/develop/lookups/baseline_blocked_outbound_connections.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/baseline_blocked_outbound_connections.csv)
 
+#### Supported Datasources
+
+
 #### Required field
 * _time
 * action

@@ -40,10 +40,13 @@ This search looks for arguments to certutil.exe indicating the manipulation or e
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `certutil_exe_certificate_extraction_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+
+#### Supported Datasources
+
 
 #### Required field
 * _time
@@ -69,6 +72,7 @@ Unless there are specific use cases, manipulating or exporting certificates usin
 #### Associated Analytic story
 * [Windows Persistence Techniques](/stories/windows_persistence_techniques)
 * [Cloud Federated Credential Abuse](/stories/cloud_federated_credential_abuse)
+* [Living Off The Land](/stories/living_off_the_land)
 
 
 #### Kill Chain Phase

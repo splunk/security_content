@@ -56,11 +56,14 @@ The following analytic identifies wmiprvse.exe spawning msbuild.exe. This behavi
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [process_msbuild](https://github.com/splunk/security_content/blob/develop/macros/process_msbuild.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `suspicious_msbuild_spawn_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+
+#### Supported Datasources
+
 
 #### Required field
 * _time
@@ -85,6 +88,7 @@ Although unlikely, some legitimate applications may exhibit this behavior, trigg
 
 #### Associated Analytic story
 * [Trusted Developer Utilities Proxy Execution MSBuild](/stories/trusted_developer_utilities_proxy_execution_msbuild)
+* [Living Off The Land](/stories/living_off_the_land)
 
 
 #### Kill Chain Phase

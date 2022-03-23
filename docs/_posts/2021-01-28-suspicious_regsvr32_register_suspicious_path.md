@@ -62,6 +62,9 @@ The SPL above uses the following Macros:
 
 Note that `suspicious_regsvr32_register_suspicious_path_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
+#### Supported Datasources
+
+
 #### Required field
 * _time
 * Processes.dest
@@ -86,6 +89,7 @@ Limited false positives with the query restricted to specified paths. Add more w
 #### Associated Analytic story
 * [Suspicious Regsvr32 Activity](/stories/suspicious_regsvr32_activity)
 * [Iceid](/stories/iceid)
+* [Living Off The Land](/stories/living_off_the_land)
 
 
 #### Kill Chain Phase

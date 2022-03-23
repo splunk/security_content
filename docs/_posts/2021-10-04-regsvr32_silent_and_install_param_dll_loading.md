@@ -64,6 +64,9 @@ The SPL above uses the following Macros:
 
 Note that `regsvr32_silent_and_install_param_dll_loading_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
+#### Supported Datasources
+
+
 #### Required field
 * _time
 * Processes.dest
@@ -89,6 +92,7 @@ Other third part application may used this parameter but not so common in base w
 * [Suspicious Regsvr32 Activity](/stories/suspicious_regsvr32_activity)
 * [Remcos](/stories/remcos)
 * [Hermetic Wiper](/stories/hermetic_wiper)
+* [Living Off The Land](/stories/living_off_the_land)
 
 
 #### Kill Chain Phase

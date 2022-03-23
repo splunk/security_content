@@ -42,6 +42,9 @@ The SPL above uses the following Macros:
 
 Note that `kubernetes_gcp_detect_sensitive_object_access_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
+#### Supported Datasources
+
+
 #### Required field
 * _time
 

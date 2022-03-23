@@ -77,6 +77,9 @@ The SPL above uses the following Lookups:
 * [s3_deletion_baseline](https://github.com/splunk/security_content/blob/develop/lookups/s3_deletion_baseline.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/s3_deletion_baseline.csv)
 * [s3_deletion_baseline](https://github.com/splunk/security_content/blob/develop/lookups/s3_deletion_baseline.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/s3_deletion_baseline.csv)
 
+#### Supported Datasources
+
+
 #### Required field
 * _time
 * eventName

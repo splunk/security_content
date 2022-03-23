@@ -77,6 +77,9 @@ The SPL above uses the following Lookups:
 * [api_call_by_user_baseline](https://github.com/splunk/security_content/blob/develop/lookups/api_call_by_user_baseline.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/api_call_by_user_baseline.csv)
 * [api_call_by_user_baseline](https://github.com/splunk/security_content/blob/develop/lookups/api_call_by_user_baseline.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/api_call_by_user_baseline.csv)
 
+#### Supported Datasources
+
+
 #### Required field
 * _time
 * eventType

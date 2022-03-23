@@ -57,11 +57,14 @@ The following detection identifies rundll32.exe with `control_rundll` within the
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [process_rundll32](https://github.com/splunk/security_content/blob/develop/macros/process_rundll32.yml)
 
 Note that `rundll32_control_rundll_world_writable_directory_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+
+#### Supported Datasources
+
 
 #### Required field
 * Processes.dest
@@ -86,6 +89,7 @@ This may be tuned, or a new one related, by adding .cpl to command-line. However
 #### Associated Analytic story
 * [Suspicious Rundll32 Activity](/stories/suspicious_rundll32_activity)
 * [Microsoft MSHTML Remote Code Execution CVE-2021-40444](/stories/microsoft_mshtml_remote_code_execution_cve-2021-40444)
+* [Living Off The Land](/stories/living_off_the_land)
 
 
 #### Kill Chain Phase

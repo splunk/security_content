@@ -60,10 +60,13 @@ This analytic looks for the execution of `schtasks.exe` with command-line argume
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `schtasks_scheduling_job_on_remote_system_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+
+#### Supported Datasources
+
 
 #### Required field
 * _time
@@ -83,6 +86,7 @@ Administrators may create scheduled tasks on remote systems, but this activity i
 #### Associated Analytic story
 * [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
 * [NOBELIUM Group](/stories/nobelium_group)
+* [Living Off The Land](/stories/living_off_the_land)
 
 
 #### Kill Chain Phase

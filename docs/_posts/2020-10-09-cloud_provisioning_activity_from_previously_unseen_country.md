@@ -70,6 +70,9 @@ The SPL above uses the following Lookups:
 
 * [previously_seen_cloud_provisioning_activity_sources](https://github.com/splunk/security_content/blob/develop/lookups/previously_seen_cloud_provisioning_activity_sources.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/previously_seen_cloud_provisioning_activity_sources.csv)
 
+#### Supported Datasources
+
+
 #### Required field
 * _time
 * All_Changes.action

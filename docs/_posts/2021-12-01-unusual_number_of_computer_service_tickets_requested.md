@@ -61,6 +61,9 @@ The SPL above uses the following Macros:
 
 Note that `unusual_number_of_computer_service_tickets_requested_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
+#### Supported Datasources
+
+
 #### Required field
 * _time
 * EventCode

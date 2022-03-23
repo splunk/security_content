@@ -57,6 +57,9 @@ The SPL above uses the following Lookups:
 
 * [previously_seen_cloud_compute_images](https://github.com/splunk/security_content/blob/develop/lookups/previously_seen_cloud_compute_images.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/previously_seen_cloud_compute_images.csv)
 
+#### Supported Datasources
+
+
 #### Required field
 * _time
 * All_Changes.object_id

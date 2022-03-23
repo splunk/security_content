@@ -70,6 +70,9 @@ The SPL above uses the following Lookups:
 
 * [previously_seen_users_console_logins](https://github.com/splunk/security_content/blob/develop/lookups/previously_seen_users_console_logins.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/previously_seen_users_console_logins.csv)
 
+#### Supported Datasources
+
+
 #### Required field
 * _time
 * Authentication.signature

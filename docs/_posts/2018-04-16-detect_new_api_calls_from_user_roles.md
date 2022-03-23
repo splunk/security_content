@@ -62,8 +62,8 @@ This search detects new API calls that have either never been seen before or tha
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `detect_new_api_calls_from_user_roles_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -71,6 +71,9 @@ Note that `detect_new_api_calls_from_user_roles_filter` is a empty macro by defa
 The SPL above uses the following Lookups:
 
 * [previously_seen_api_calls_from_user_roles](https://github.com/splunk/security_content/blob/develop/lookups/previously_seen_api_calls_from_user_roles.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/previously_seen_api_calls_from_user_roles.csv)
+
+#### Supported Datasources
+
 
 #### Required field
 * _time

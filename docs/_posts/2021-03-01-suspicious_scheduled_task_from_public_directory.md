@@ -60,10 +60,13 @@ The following detection identifies Scheduled Tasks registering (creating a new t
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `suspicious_scheduled_task_from_public_directory_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+
+#### Supported Datasources
+
 
 #### Required field
 * _time
@@ -87,6 +90,7 @@ Limited false positives may be present. Filter as needed by parent process or co
 * [Ransomware](/stories/ransomware)
 * [Ryuk Ransomware](/stories/ryuk_ransomware)
 * [Windows Persistence Techniques](/stories/windows_persistence_techniques)
+* [Living Off The Land](/stories/living_off_the_land)
 
 
 #### Kill Chain Phase

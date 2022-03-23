@@ -66,6 +66,9 @@ The SPL above uses the following Macros:
 
 Note that `multiple_users_failing_to_authenticate_from_process_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
+#### Supported Datasources
+
+
 #### Required field
 * _time
 * EventCode

@@ -75,6 +75,9 @@ The SPL above uses the following Lookups:
 * [network_acl_activity_baseline](https://github.com/splunk/security_content/blob/develop/lookups/network_acl_activity_baseline.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/network_acl_activity_baseline.csv)
 * [network_acl_activity_baseline](https://github.com/splunk/security_content/blob/develop/lookups/network_acl_activity_baseline.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/network_acl_activity_baseline.csv)
 
+#### Supported Datasources
+
+
 #### Required field
 * _time
 * userIdentity.arn

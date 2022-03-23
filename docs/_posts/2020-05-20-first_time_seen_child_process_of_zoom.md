@@ -55,8 +55,8 @@ This search looks for child processes spawned by zoom.exe or zoom.us that has no
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [previously_seen_zoom_child_processes_window](https://github.com/splunk/security_content/blob/develop/macros/previously_seen_zoom_child_processes_window.yml)
 
 Note that `first_time_seen_child_process_of_zoom_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -65,6 +65,9 @@ Note that `first_time_seen_child_process_of_zoom_filter` is a empty macro by def
 The SPL above uses the following Lookups:
 
 * [zoom_first_time_child_process](https://github.com/splunk/security_content/blob/develop/lookups/zoom_first_time_child_process.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/zoom_first_time_child_process.csv)
+
+#### Supported Datasources
+
 
 #### Required field
 * _time

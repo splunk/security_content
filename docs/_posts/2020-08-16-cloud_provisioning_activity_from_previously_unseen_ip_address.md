@@ -59,8 +59,8 @@ This search looks for cloud provisioning activities from previously unseen IP ad
 
 #### Macros
 The SPL above uses the following Macros:
-* [previously_unseen_cloud_provisioning_activity_window](https://github.com/splunk/security_content/blob/develop/macros/previously_unseen_cloud_provisioning_activity_window.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [previously_unseen_cloud_provisioning_activity_window](https://github.com/splunk/security_content/blob/develop/macros/previously_unseen_cloud_provisioning_activity_window.yml)
 
 Note that `cloud_provisioning_activity_from_previously_unseen_ip_address_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -68,6 +68,9 @@ Note that `cloud_provisioning_activity_from_previously_unseen_ip_address_filter`
 The SPL above uses the following Lookups:
 
 * [previously_seen_cloud_provisioning_activity_sources](https://github.com/splunk/security_content/blob/develop/lookups/previously_seen_cloud_provisioning_activity_sources.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/previously_seen_cloud_provisioning_activity_sources.csv)
+
+#### Supported Datasources
+
 
 #### Required field
 * _time

@@ -63,6 +63,9 @@ The SPL above uses the following Macros:
 
 Note that `mshta_spawning_rundll32_or_regsvr32_process_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
+#### Supported Datasources
+
+
 #### Required field
 * _time
 * Processes.dest
@@ -87,6 +90,7 @@ limitted. this anomaly behavior is not commonly seen in clean host.
 #### Associated Analytic story
 * [Trickbot](/stories/trickbot)
 * [IcedID](/stories/icedid)
+* [Living Off The Land](/stories/living_off_the_land)
 
 
 #### Kill Chain Phase

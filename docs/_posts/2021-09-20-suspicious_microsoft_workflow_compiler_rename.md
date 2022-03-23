@@ -61,11 +61,14 @@ The following analytic identifies a renamed instance of microsoft.workflow.compi
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [process_microsoftworkflowcompiler](https://github.com/splunk/security_content/blob/develop/macros/process_microsoftworkflowcompiler.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `suspicious_microsoft_workflow_compiler_rename_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+
+#### Supported Datasources
+
 
 #### Required field
 * _time
@@ -92,6 +95,7 @@ Although unlikely, some legitimate applications may use a moved copy of microsof
 * [Trusted Developer Utilities Proxy Execution](/stories/trusted_developer_utilities_proxy_execution)
 * [Cobalt Strike](/stories/cobalt_strike)
 * [Masquerading - Rename System Utilities](/stories/masquerading_-_rename_system_utilities)
+* [Living Off The Land](/stories/living_off_the_land)
 
 
 #### Kill Chain Phase

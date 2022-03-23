@@ -60,6 +60,9 @@ The SPL above uses the following Macros:
 
 Note that `enable_rdp_in_other_port_number_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
+#### Supported Datasources
+
+
 #### Required field
 * _time
 * Registry.registry_path

@@ -55,10 +55,13 @@ This search is to detect a suspicious rundll32 process that drops executable (.e
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `rundll32_process_creating_exe_dll_files_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+
+#### Supported Datasources
+
 
 #### Required field
 * _time
@@ -77,6 +80,7 @@ unknown
 
 #### Associated Analytic story
 * [IcedID](/stories/icedid)
+* [Living Off The Land](/stories/living_off_the_land)
 
 
 #### Kill Chain Phase

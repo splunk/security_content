@@ -56,6 +56,9 @@ The SPL above uses the following Macros:
 
 Note that `suspicious_writes_to_windows_recycle_bin_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
+#### Supported Datasources
+
+
 #### Required field
 * _time
 * Filesystem.file_path

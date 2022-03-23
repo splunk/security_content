@@ -75,6 +75,9 @@ The SPL above uses the following Lookups:
 * [previously_seen_gcp_storage_access_from_remote_ip](https://github.com/splunk/security_content/blob/develop/lookups/previously_seen_gcp_storage_access_from_remote_ip.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/previously_seen_gcp_storage_access_from_remote_ip.csv)
 * [previously_seen_gcp_storage_access_from_remote_ip](https://github.com/splunk/security_content/blob/develop/lookups/previously_seen_gcp_storage_access_from_remote_ip.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/previously_seen_gcp_storage_access_from_remote_ip.csv)
 
+#### Supported Datasources
+
+
 #### Required field
 * _time
 * sc_status_

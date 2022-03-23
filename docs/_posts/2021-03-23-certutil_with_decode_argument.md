@@ -57,6 +57,9 @@ The SPL above uses the following Macros:
 
 Note that `certutil_with_decode_argument_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
+#### Supported Datasources
+
+
 #### Required field
 * _time
 * Processes.dest
@@ -80,6 +83,7 @@ Typically seen used to `encode` files, but it is possible to see legitimate use 
 
 #### Associated Analytic story
 * [Deobfuscate-Decode Files or Information](/stories/deobfuscate-decode_files_or_information)
+* [Living Off The Land](/stories/living_off_the_land)
 
 
 #### Kill Chain Phase
