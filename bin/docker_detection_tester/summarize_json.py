@@ -47,7 +47,7 @@ def outputResultsJSON(output_filename:str, data:list[dict], baseline:OrderedDict
 
         summary={"TOTAL_TESTS": test_count, "TESTS_PASSED": pass_count, 
                  "TOTAL_FAILURES": fail_count, "FAIL_ONLY": fail_without_error_count, 
-                 "PASS_RATE (%)": calculate_pass_rate(pass_count, test_count),
+                 "PASS_RATE": calculate_pass_rate(pass_count, test_count),
                  "FAIL_AND_ERROR":fail_and_error_count }
 
         data_sorted = sorted(data, key = lambda k: (-k['error'], k['success'], k['detection_file']))
