@@ -44,8 +44,10 @@ def outputResultsJSON(output_filename:str, data:list[dict], baseline:OrderedDict
         else:
             result = "PASS for all %d detections"%(pass_count)
 
+
         summary={"TOTAL_TESTS": test_count, "TESTS_PASSED": pass_count, 
                  "TOTAL_FAILURES": fail_count, "FAIL_ONLY": fail_without_error_count, 
+                 "PASS_RATE": calculate_pass_rate(pass_count, test_count),
                  "FAIL_AND_ERROR":fail_and_error_count }
 
         data_sorted = sorted(data, key = lambda k: (-k['error'], k['success'], k['detection_file']))
@@ -81,11 +83,21 @@ def outputResultsJSON(output_filename:str, data:list[dict], baseline:OrderedDict
     #note that total failures is fail_count, fail_and_error count is JUST errors (and every error is also a failure)
     return success, test_count, pass_count, fail_count, fail_and_error_count
 
+def calculate_pass_rate(pass_count:int, test_count:int)->float:
+    if test_count == 0:
+        #Assume this means 100% pass rate to avoid divide by zero
+        pass_rate = 1
+    else:
+        pass_rate = pass_count / test_count
+    return pass_rate
+
 def print_summary(test_count: int, pass_count:int, fail_count:int, error_count:int)->None:
+    
     print("Summary:"\
-            "\n\tTotal Tests: %d"\
-            "\n\tTotal Pass : %d"\
-            "\n\tTotal Fail : %d (%d of these were ERRORS)"%(test_count, pass_count, fail_count, error_count))
+            f"\n\tTotal Tests: {test_count}"\
+            f"\n\tTotal Pass : {pass_count}"\
+            f"\n\tTotal Fail : {fail_count} ({error_count} of these were ERRORS))"\
+            f"\n\tPass  Rate : {calculate_pass_rate(pass_count, test_count):.3f}")
 
 def exit_with_status(test_pass:bool, test_count: int, pass_count:int, fail_count:int, error_count:int)->None:
     if not test_pass:
