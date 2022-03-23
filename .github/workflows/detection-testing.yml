@@ -278,7 +278,7 @@ jobs:
           with:
             name: SummaryTestResults
             path: |
-              bin/docker_detection_tester
+              bin/docker_detection_tester/summary_test_results.json
 
         - name: Upload Failures Manifest on Failure
           uses: actions/upload-artifact@v2
