@@ -4,8 +4,7 @@ version: 1
 date: '2021-09-13'
 author: Mauricio Velazco, Splunk
 type: Hunting
-datamodel:
-- Endpoint
+datamodel: []
 description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
   to identify the execution of the `GetCurrent` method of the WindowsIdentity .NET
   class. This method returns an object that represents the current Windows user. Red
@@ -26,12 +25,10 @@ references:
 tags:
   analytic_story:
   - Active Directory Discovery
-  automated_detection_testing: passed
   confidence: 50
   context:
   - Source:Endpoint
   - Stage:Discovery
-  - Stage:Recon
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1033/AD_discovery/windows-powershell.log
   impact: 30
@@ -59,3 +56,4 @@ tags:
   - EventCode
   risk_score: 15
   security_domain: endpoint
+  asset_type: Endpoint

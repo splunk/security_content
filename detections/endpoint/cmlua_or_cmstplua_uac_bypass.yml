@@ -25,7 +25,6 @@ tags:
   analytic_story:
   - DarkSide Ransomware
   - Ransomware
-  automated_detection_testing: passed
   confidence: 100
   context:
   - Source:Endpoint
@@ -68,3 +67,4 @@ tags:
   - ProcessId
   risk_score: 80
   security_domain: endpoint
+  asset_type: Endpoint

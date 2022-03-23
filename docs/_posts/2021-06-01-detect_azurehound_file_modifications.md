@@ -1,6 +1,13 @@
 ---
 title: "Detect AzureHound File Modifications"
-excerpt: "Domain Account, Local Groups, Domain Trust Discovery, Local Account, Account Discovery, Domain Groups, Permission Groups Discovery"
+excerpt: "Domain Account
+, Local Groups
+, Domain Trust Discovery
+, Local Account
+, Account Discovery
+, Domain Groups
+, Permission Groups Discovery
+"
 categories:
   - Endpoint
 last_modified_at: 2021-06-01
@@ -8,18 +15,18 @@ toc: true
 toc_label: ""
 tags:
   - Domain Account
-  - Discovery
   - Local Groups
-  - Discovery
   - Domain Trust Discovery
-  - Discovery
   - Local Account
-  - Discovery
   - Account Discovery
-  - Discovery
   - Domain Groups
-  - Discovery
   - Permission Groups Discovery
+  - Discovery
+  - Discovery
+  - Discovery
+  - Discovery
+  - Discovery
+  - Discovery
   - Discovery
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -33,9 +40,9 @@ tags:
 
 #### Description
 
-The following analytic is similar to SharpHound file modifications, but this instance covers the use of Invoke-AzureHound. AzureHound is the SharpHound equivilent but for Azure. It&#39;s possible this may never be seen in an environment as most attackers may execute this tool remotely. Once execution is complete, a zip file with a similar name will drop `20210601090751-azurecollection.zip`. In addition to the zip, multiple .json files will be written to disk, which are in the zip.
+The following analytic is similar to SharpHound file modifications, but this instance covers the use of Invoke-AzureHound. AzureHound is the SharpHound equivilent but for Azure. It's possible this may never be seen in an environment as most attackers may execute this tool remotely. Once execution is complete, a zip file with a similar name will drop `20210601090751-azurecollection.zip`. In addition to the zip, multiple .json files will be written to disk, which are in the zip.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-01
@@ -45,8 +52,8 @@ The following analytic is similar to SharpHound file modifications, but this ins
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1087.002](https://attack.mitre.org/techniques/T1087/002/) | Domain Account | Discovery |
 
 | [T1069.001](https://attack.mitre.org/techniques/T1069/001/) | Local Groups | Discovery |
@@ -72,12 +79,12 @@ The following analytic is similar to SharpHound file modifications, but this ins
 | `detect_azurehound_file_modifications_filter`
 ```
 
-#### Associated Analytic Story
-* [Discovery Techniques](/stories/discovery_techniques)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search you need to be ingesting information on file modifications that include the name of the process, and file, responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Filesystem` node.
+Note that `detect_azurehound_file_modifications_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -88,12 +95,19 @@ To successfully implement this search you need to be ingesting information on fi
 * file_create_time
 
 
-#### Kill Chain Phase
-* Reconnaissance
-
+#### How To Implement
+To successfully implement this search you need to be ingesting information on file modifications that include the name of the process, and file, responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Filesystem` node.
 
 #### Known False Positives
 False positives should be limited as the analytic is specific to a filename with extension .zip. Filter as needed.
+
+#### Associated Analytic story
+* [Discovery Techniques](/stories/discovery_techniques)
+
+
+#### Kill Chain Phase
+* Reconnaissance
+
 
 
 #### RBA
@@ -115,6 +129,7 @@ False positives should be limited as the analytic is specific to a filename with
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/sharphound/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/sharphound/windows-sysmon.log)
 

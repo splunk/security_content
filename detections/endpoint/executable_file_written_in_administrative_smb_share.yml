@@ -4,8 +4,7 @@ version: 2
 date: '2021-11-18'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 type: TTP
-datamodel:
-- Endpoint
+datamodel: []
 description: The following analytic identifies executable files (.exe or .dll) being
   written to Windows administrative SMB shares (Admin$, IPC$, C$). This represents
   suspicious behavior as its commonly used by tools like like PsExec/PaExec and others
@@ -33,6 +32,7 @@ tags:
   analytic_story:
   - Active Directory Lateral Movement
   - Trickbot
+  - Hermetic Wiper
   automated_detection_testing: passed
   confidence: 100
   context:
@@ -42,7 +42,7 @@ tags:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/exe_smbshare/windows-security.log
   impact: 70
   kill_chain_phases:
-  - Lateral Movement
+  - Exploitation
   message: $user$ dropped or created an executable file in known sensitive SMB share.  Share
     name=$Share_Name$, Target name=$Relative_Target_Name$, and Access mask=$Access_Mask$
   mitre_attack_id:
@@ -69,3 +69,4 @@ tags:
   - Source_Address
   risk_score: 70
   security_domain: endpoint
+  asset_type: Endpoint

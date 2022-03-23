@@ -1,0 +1,67 @@
+name: Attempt To Delete Services
+id: a0c8c292-d01a-11eb-aa18-acde48001122
+version: 3
+description: The following analytic identifies Windows Service Control, `sc.exe`,
+  attempting to delete a service. This is typically identified in parallel with other
+  instances of service enumeration of attempts to stop a service and then delete it.
+  Adversaries utilize this technique to terminate security services or other related
+  services to continue there objective and evade detections.
+search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
+  "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"),
+  "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"),
+  "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string",
+  null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string",
+  null), event_id=ucast(map_get(input_event, "event_id"), "string", null) | where
+  cmd_line IS NOT NULL AND like(cmd_line, "%delete%") AND process_name = "sc.exe"
+  | eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event,
+  "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
+  "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name",
+  process_name, "parent_process_name", parent_process_name, "process_path", process_path])
+  | into write_ssa_detected_events();'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
+known_false_positives: It is possible administrative scripts may start/stop/delete
+  services. Filter as needed.
+references:
+- https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1543.003/T1543.003.md
+tags:
+  analytic_story:
+  - XMRig
+  - Ransomware
+  cis20:
+  - CIS 8
+  - CIS 13
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1489
+  - T1543
+  - T1543.003
+  nist:
+  - PR.DS
+  - PR.IP
+  required_fields:
+  - _time
+  - dest_device_id
+  - process_name
+  - parent_process_name
+  - process_path
+  - dest_user_id
+  - process
+  - cmd_line
+  risk_score: 36
+  security_domain: endpoint
+  risk_severity: low
+test:
+  name: Attempt To Delete Services Unit Test
+  tests:
+  - name: Attempt To Delete Services
+    file: endpoint/ssa___attempt_to_delete_services.yml
+    pass_condition: '@count_gt(0)'
+    attack_data:
+    - file_name: sc_del.log
+      data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/sc_del.log
+      source: WinEventLog:Security

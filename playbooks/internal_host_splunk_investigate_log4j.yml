@@ -14,8 +14,8 @@ app_list:
 tags:
   analytic_story:
   - Log4Shell CVE-2021-44228
-  platform_tags:
-  - Response
+  platform_tags: []
+  playbook_type: Input
   playbook_fields:
   - hostName
   - destinationAddress

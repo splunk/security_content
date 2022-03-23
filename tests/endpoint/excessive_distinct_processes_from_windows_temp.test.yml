@@ -1,0 +1,13 @@
+name: Excessive distinct processes from Windows Temp Unit Test
+tests:
+- name: Excessive distinct processes from Windows Temp
+  file: endpoint/excessive_distinct_processes_from_windows_temp.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: windows-security.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/meterpreter/windows_temp_processes/logExcessiveWindowsTemp.log
+    source: WinEventLog:Security
+    sourcetype: WinEventLog
+    update_timestamp: true

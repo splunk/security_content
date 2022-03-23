@@ -1,6 +1,7 @@
 ---
 title: "AWS IAM AccessDenied Discovery Events"
-excerpt: "Cloud Infrastructure Discovery"
+excerpt: "Cloud Infrastructure Discovery
+"
 categories:
   - Cloud
 last_modified_at: 2021-11-12
@@ -12,7 +13,6 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Splunk Security Analytics for AWS
 ---
 
 
@@ -23,8 +23,8 @@ tags:
 
 The following detection identifies excessive AccessDenied events within an hour timeframe. It is possible that an access key to AWS may have been stolen and is being misused to perform discovery events. In these instances, the access is not available with the key stolen therefore these events will be generated.
 
-- **Type**: Anomaly
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Splunk Security Analytics for AWS
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-11-12
 - **Author**: Michael Haag, Splunk
@@ -33,8 +33,8 @@ The following detection identifies excessive AccessDenied events within an hour 
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1580](https://attack.mitre.org/techniques/T1580/) | Cloud Infrastructure Discovery | Discovery |
 
 #### Search
@@ -49,12 +49,12 @@ The following detection identifies excessive AccessDenied events within an hour 
 | `aws_iam_accessdenied_discovery_events_filter`
 ```
 
-#### Associated Analytic Story
-* [Suspicious Cloud User Activities](/stories/suspicious_cloud_user_activities)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
 
-
-#### How To Implement
-The Splunk AWS Add-on and Splunk App for AWS is required to utilize this data. The search requires AWS Cloudtrail logs.
+Note that `aws_iam_accessdenied_discovery_events_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -65,12 +65,19 @@ The Splunk AWS Add-on and Splunk App for AWS is required to utilize this data. T
 * userIdentity.type
 
 
-#### Kill Chain Phase
-* Reconnaissance
-
+#### How To Implement
+The Splunk AWS Add-on and Splunk App for AWS is required to utilize this data. The search requires AWS Cloudtrail logs.
 
 #### Known False Positives
 It is possible to start this detection will need to be tuned by source IP or user. In addition, change the count values to an upper threshold to restrict false positives.
+
+#### Associated Analytic story
+* [Suspicious Cloud User Activities](/stories/suspicious_cloud_user_activities)
+
+
+#### Kill Chain Phase
+* Reconnaissance
+
 
 
 #### RBA
@@ -91,6 +98,7 @@ It is possible to start this detection will need to be tuned by source IP or use
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1580/aws_iam_accessdenied_discovery_events/aws_iam_accessdenied_discovery_events.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1580/aws_iam_accessdenied_discovery_events/aws_iam_accessdenied_discovery_events.json)
 

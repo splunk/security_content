@@ -1,6 +1,7 @@
 ---
 title: "AWS SAML Update identity provider"
-excerpt: "Valid Accounts"
+excerpt: "Valid Accounts
+"
 categories:
   - Cloud
 last_modified_at: 2021-01-26
@@ -9,10 +10,9 @@ toc_label: ""
 tags:
   - Valid Accounts
   - Defense Evasion
+  - Initial Access
   - Persistence
   - Privilege Escalation
-  - Initial Access
-  - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -26,8 +26,8 @@ tags:
 
 This search provides detection of updates to SAML provider in AWS. Updates to SAML provider need to be monitored closely as they may indicate possible perimeter compromise of federated credentials, or backdoor access from another cloud provider set by attacker.
 
-- **Type**: TTP
-- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-01-26
 - **Author**: Rod Soto, Splunk
@@ -36,9 +36,9 @@ This search provides detection of updates to SAML provider in AWS. Updates to SA
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-| [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
+| [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
 
 #### Search
 
@@ -50,12 +50,12 @@ This search provides detection of updates to SAML provider in AWS. Updates to SA
 |`aws_saml_update_identity_provider_filter`
 ```
 
-#### Associated Analytic Story
-* [Cloud Federated Credential Abuse](/stories/cloud_federated_credential_abuse)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
 
-
-#### How To Implement
-You must install splunk AWS add on and Splunk App for AWS. This search works with AWS CloudTrail logs.
+Note that `aws_saml_update_identity_provider_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -68,11 +68,19 @@ You must install splunk AWS add on and Splunk App for AWS. This search works wit
 * userIdentity.principalId
 
 
-#### Kill Chain Phase
-
+#### How To Implement
+You must install splunk AWS add on and Splunk App for AWS. This search works with AWS CloudTrail logs.
 
 #### Known False Positives
 Updating a SAML provider or creating a new one may not necessarily be malicious however it needs to be closely monitored.
+
+#### Associated Analytic story
+* [Cloud Federated Credential Abuse](/stories/cloud_federated_credential_abuse)
+
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA
@@ -96,6 +104,7 @@ Updating a SAML provider or creating a new one may not necessarily be malicious 
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/update_saml_provider/update_saml_provider.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/update_saml_provider/update_saml_provider.json)
 

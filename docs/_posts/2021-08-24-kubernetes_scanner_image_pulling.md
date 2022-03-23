@@ -1,6 +1,7 @@
 ---
 title: "Kubernetes Scanner Image Pulling"
-excerpt: "Cloud Service Discovery"
+excerpt: "Cloud Service Discovery
+"
 categories:
   - Cloud
 last_modified_at: 2021-08-24
@@ -12,7 +13,6 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Dev Sec Ops Analytics
 ---
 
 
@@ -23,8 +23,8 @@ tags:
 
 This search uses the Kubernetes logs from Splunk Connect from Kubernetes to detect Kubernetes Security Scanner.
 
-- **Type**: TTP
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Dev Sec Ops Analytics
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-08-24
 - **Author**: Patrick Bareiss, Splunk
@@ -33,8 +33,8 @@ This search uses the Kubernetes logs from Splunk Connect from Kubernetes to dete
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1526](https://attack.mitre.org/techniques/T1526/) | Cloud Service Discovery | Discovery |
 
 #### Search
@@ -52,12 +52,12 @@ This search uses the Kubernetes logs from Splunk Connect from Kubernetes to dete
 | `kubernetes_scanner_image_pulling_filter`
 ```
 
-#### Associated Analytic Story
-* [Dev Sec Ops](/stories/dev_sec_ops)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [kube_objects_events](https://github.com/splunk/security_content/blob/develop/macros/kube_objects_events.yml)
 
-
-#### How To Implement
-You must ingest Kubernetes logs through Splunk Connect for Kubernetes.
+Note that `kubernetes_scanner_image_pulling_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * object.message
@@ -69,12 +69,19 @@ You must ingest Kubernetes logs through Splunk Connect for Kubernetes.
 * object.reason
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+You must ingest Kubernetes logs through Splunk Connect for Kubernetes.
 
 #### Known False Positives
 unknown
+
+#### Associated Analytic story
+* [Dev Sec Ops](/stories/dev_sec_ops)
+
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 #### RBA
@@ -95,6 +102,7 @@ unknown
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1526/kubernetes_kube_hunter/kubernetes_kube_hunter.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1526/kubernetes_kube_hunter/kubernetes_kube_hunter.json)
 

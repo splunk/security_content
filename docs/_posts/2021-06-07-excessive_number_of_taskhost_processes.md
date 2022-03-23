@@ -1,6 +1,7 @@
 ---
 title: "Excessive number of taskhost processes"
-excerpt: "System Owner/User Discovery"
+excerpt: "System Owner/User Discovery
+"
 categories:
   - Endpoint
 last_modified_at: 2021-06-07
@@ -23,7 +24,7 @@ tags:
 
 This detection targets behaviors observed in post exploit kits like Meterpreter and Koadic that are run in memory.  We have observed that these tools must invoke an excessive number of taskhost.exe and taskhostex.exe processes to complete various actions (discovery, lateral movement, etc.).  It is extremely uncommon in the course of normal operations to see so many distinct taskhost and taskhostex processes running concurrently in a short time frame.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-07
@@ -33,8 +34,8 @@ This detection targets behaviors observed in post exploit kits like Meterpreter 
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1033](https://attack.mitre.org/techniques/T1033/) | System Owner/User Discovery | Discovery |
 
 #### Search
@@ -53,12 +54,12 @@ This detection targets behaviors observed in post exploit kits like Meterpreter 
 | `excessive_number_of_taskhost_processes_filter`
 ```
 
-#### Associated Analytic Story
-* [Meterpreter](/stories/meterpreter)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search you need to be ingesting events related to processes on the endpoints that include the name of the process and process id into the `Endpoint` datamodel in the `Processes` node.
+Note that `excessive_number_of_taskhost_processes_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -68,12 +69,19 @@ To successfully implement this search you need to be ingesting events related to
 * Processes.user
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search you need to be ingesting events related to processes on the endpoints that include the name of the process and process id into the `Endpoint` datamodel in the `Processes` node.
 
 #### Known False Positives
 Administrators, administrative actions or certain applications may run many instances of taskhost and taskhostex concurrently.  Filter as needed.
+
+#### Associated Analytic story
+* [Meterpreter](/stories/meterpreter)
+
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA
@@ -94,6 +102,7 @@ Administrators, administrative actions or certain applications may run many inst
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/meterpreter/taskhost_processes/logExcessiveTaskHost.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/meterpreter/taskhost_processes/logExcessiveTaskHost.log)
 

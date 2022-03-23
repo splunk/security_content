@@ -1,6 +1,7 @@
 ---
 title: "Get ADDefaultDomainPasswordPolicy with Powershell"
-excerpt: "Password Policy Discovery"
+excerpt: "Password Policy Discovery
+"
 categories:
   - Endpoint
 last_modified_at: 2021-08-26
@@ -23,7 +24,7 @@ tags:
 
 This analytic looks for the execution of `powershell.exe` executing the Get-ADDefaultDomainPasswordPolicy commandlet used to obtain the password policy in a Windows domain. Red Teams and adversaries alike may use PowerShell to enumerate domain policies for situational awareness and Active Directory Discovery.
 
-- **Type**: Hunting
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-08-26
@@ -33,8 +34,8 @@ This analytic looks for the execution of `powershell.exe` executing the Get-ADDe
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1201](https://attack.mitre.org/techniques/T1201/) | Password Policy Discovery | Discovery |
 
 #### Search
@@ -48,12 +49,12 @@ This analytic looks for the execution of `powershell.exe` executing the Get-ADDe
 | `get_addefaultdomainpasswordpolicy_with_powershell_filter`
 ```
 
-#### Associated Analytic Story
-* [Active Directory Discovery](/stories/active_directory_discovery)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
+Note that `get_addefaultdomainpasswordpolicy_with_powershell_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -67,12 +68,19 @@ To successfully implement this search, you need to be ingesting logs with the pr
 * Processes.parent_process_name
 
 
-#### Kill Chain Phase
-* Reconnaissance
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
 
 #### Known False Positives
 Administrators or power users may use this command for troubleshooting.
+
+#### Associated Analytic story
+* [Active Directory Discovery](/stories/active_directory_discovery)
+
+
+#### Kill Chain Phase
+* Reconnaissance
+
 
 
 #### RBA
@@ -95,6 +103,7 @@ Administrators or power users may use this command for troubleshooting.
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1201/pwd_policy_discovery/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1201/pwd_policy_discovery/windows-sysmon.log)
 

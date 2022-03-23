@@ -1,6 +1,8 @@
 ---
 title: "Gsuite Outbound Email With Attachment To External Domain"
-excerpt: "Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol, Exfiltration Over Alternative Protocol"
+excerpt: "Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol
+, Exfiltration Over Alternative Protocol
+"
 categories:
   - Cloud
 last_modified_at: 2021-08-17
@@ -8,13 +10,12 @@ toc: true
 toc_label: ""
 tags:
   - Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol
-  - Exfiltration
   - Exfiltration Over Alternative Protocol
+  - Exfiltration
   - Exfiltration
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Dev Sec Ops Analytics
 ---
 
 
@@ -23,10 +24,10 @@ tags:
 
 #### Description
 
-This search is to detect a suspicious outbound e-mail from internal email to external email domain. This can be a good hunting query to monitor insider or outbound email traffic for not common domain e-mail. The idea is to parse the domain of destination email check if there is a minimum outbound traffic &lt; 20 with attachment.
+This search is to detect a suspicious outbound e-mail from internal email to external email domain. This can be a good hunting query to monitor insider or outbound email traffic for not common domain e-mail. The idea is to parse the domain of destination email check if there is a minimum outbound traffic < 20 with attachment.
 
-- **Type**: Anomaly
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Dev Sec Ops Analytics
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-08-17
 - **Author**: Teoderick Contreras, Stanislav Miskovic, Splunk
@@ -35,8 +36,8 @@ This search is to detect a suspicious outbound e-mail from internal email to ext
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1048.003](https://attack.mitre.org/techniques/T1048/003/) | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
 
 | [T1048](https://attack.mitre.org/techniques/T1048/) | Exfiltration Over Alternative Protocol | Exfiltration |
@@ -58,23 +59,30 @@ This search is to detect a suspicious outbound e-mail from internal email to ext
 | `gsuite_outbound_email_with_attachment_to_external_domain_filter`
 ```
 
-#### Associated Analytic Story
-* [Dev Sec Ops](/stories/dev_sec_ops)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [gsuite_gmail](https://github.com/splunk/security_content/blob/develop/macros/gsuite_gmail.yml)
 
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs related to gsuite having the file attachment metadata like file type, file extension, source email, destination email, num of attachment and etc.
+Note that `gsuite_outbound_email_with_attachment_to_external_domain_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs related to gsuite having the file attachment metadata like file type, file extension, source email, destination email, num of attachment and etc.
 
 #### Known False Positives
 network admin and normal user may send this file attachment as part of their day to day work. having a good protocol in attaching this file type to an e-mail may reduce the risk of having a spear phishing attack.
+
+#### Associated Analytic story
+* [Dev Sec Ops](/stories/dev_sec_ops)
+
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA
@@ -95,6 +103,7 @@ network admin and normal user may send this file attachment as part of their day
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/gsuite_outbound_email_to_external/gsuite_external_domain.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/gsuite_outbound_email_to_external/gsuite_external_domain.log)
 

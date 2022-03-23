@@ -1,0 +1,40 @@
+
+{% for lookup in objects %}
+[{{ lookup.name }}]
+{% if lookup.filename is defined %}
+filename = {{ lookup.filename }}
+{% else %}
+collection = {{ lookup.collection }}
+external_type = kvstore
+{% endif %}
+{% if lookup.default_match is defined %}
+default_match = {{ lookup.default_match }}
+{% endif %}
+{% if lookup.case_sensitive_match is defined %}
+case_sensitive_match = {{ lookup.case_sensitive_match }}
+{% endif %}
+{% if lookup.description is defined %}
+# description = {{ lookup.description }}
+{% endif %}
+{% if lookup.match_type is defined %}
+match_type = {{ lookup.match_type }}
+{% endif %}
+{% if lookup.max_matches is defined %}
+max_matches = {{ lookup.max_matches }}
+{% endif %}
+{% if lookup.min_matches is defined %}
+min_matches = {{ lookup.min_matches }}
+{% endif %}
+{% if lookup.fields_list is defined %}
+fields_list = {{ lookup.fields_list }}
+{% endif %}
+{% if lookup.filter is defined %}
+filter = {{ lookup.filter }}
+{% endif %}
+
+{% endfor %}
+
+### Default transforms definitions for the lookup files we ship ###
+[mitre_enrichment]
+filename = mitre_enrichment.csv
+# description = A lookup file that is created by generate.py

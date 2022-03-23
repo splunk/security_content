@@ -27,7 +27,6 @@ tags:
   - 'Emotet Malware  DHS Report TA18-201A '
   - Suspicious Command-Line Executions
   asset_type: Endpoint
-  automated_detection_testing: passed
   cis20:
   - CIS 8
   confidence: 50
@@ -67,3 +66,5 @@ tags:
   - Processes.dest
   risk_score: 35
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon

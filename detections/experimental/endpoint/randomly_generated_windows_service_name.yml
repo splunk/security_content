@@ -4,8 +4,7 @@ version: 1
 date: '2021-11-29'
 author: Mauricio Velazco, Splunk
 type: Hunting
-datamodel:
-- Endpoint
+datamodel: []
 description: The following hunting analytic leverages Event ID 7045, `A new service
   was installed in the system`, to identify the installation of a Windows Service
   with a suspicious, high entropy, Service Name. To achieve this, this analytic also
@@ -31,14 +30,14 @@ references:
 tags:
   analytic_story:
   - Active Directory Lateral Movement
+  asset_type: Endpoint
   confidence: 50
   context:
   - Source:Endpoint
   - Stage:Lateral Movement
   impact: 90
   kill_chain_phases:
-  - Privilege Escalation
-  - Lateral Movement
+  - Exploitation
   message: A Windows Service with a suspicious service name was installed on $ComputerName$
   mitre_attack_id:
   - T1543

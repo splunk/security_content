@@ -1,6 +1,7 @@
 ---
 title: "Get-ForestTrust with PowerShell Script Block"
-excerpt: "Domain Trust Discovery"
+excerpt: "Domain Trust Discovery
+"
 categories:
   - Endpoint
 last_modified_at: 2021-09-02
@@ -12,7 +13,6 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Endpoint
 ---
 
 
@@ -25,9 +25,9 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 This analytic identifies Get-ForestTrust from PowerSploit in order to gather domain trust information. \
 During triage, review parallel processes using an EDR product or 4688 events. It will be important to understand the timeline of events around this activity. Review the entire logged PowerShell script block.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: 
 - **Last Updated**: 2021-09-02
 - **Author**: Michael Haag, Splunk
 - **ID**: 70fac80e-0bf1-11ec-9ba0-acde48001122
@@ -35,8 +35,8 @@ During triage, review parallel processes using an EDR product or 4688 events. It
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1482](https://attack.mitre.org/techniques/T1482/) | Domain Trust Discovery | Discovery |
 
 #### Search
@@ -49,12 +49,12 @@ During triage, review parallel processes using an EDR product or 4688 events. It
 | `get_foresttrust_with_powershell_script_block_filter`
 ```
 
-#### Associated Analytic Story
-* [Active Directory Discovery](/stories/active_directory_discovery)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [powershell](https://github.com/splunk/security_content/blob/develop/macros/powershell.yml)
 
-
-#### How To Implement
-To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+Note that `get-foresttrust_with_powershell_script_block_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -66,12 +66,19 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 * User
 
 
-#### Kill Chain Phase
-* Reconnaissance
-
+#### How To Implement
+To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
 
 #### Known False Positives
 UPDATE_KNOWN_FALSE_POSITIVES
+
+#### Associated Analytic story
+* [Active Directory Discovery](/stories/active_directory_discovery)
+
+
+#### Kill Chain Phase
+* Reconnaissance
+
 
 
 #### RBA
@@ -92,6 +99,7 @@ UPDATE_KNOWN_FALSE_POSITIVES
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1482/discovery/windows-powershell.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1482/discovery/windows-powershell.log)
 

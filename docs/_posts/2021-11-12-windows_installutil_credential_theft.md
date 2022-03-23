@@ -1,6 +1,8 @@
 ---
 title: "Windows InstallUtil Credential Theft"
-excerpt: "InstallUtil, Signed Binary Proxy Execution"
+excerpt: "InstallUtil
+, Signed Binary Proxy Execution
+"
 categories:
   - Endpoint
 last_modified_at: 2021-11-12
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - InstallUtil
-  - Defense Evasion
   - Signed Binary Proxy Execution
+  - Defense Evasion
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -28,7 +30,7 @@ When `InstallUtil.exe` is used in a malicous manner, the path to an executable o
 If used by a developer, typically this will be found with multiple command-line switches/arguments and spawn from Visual Studio. \
 During triage review resulting network connections, file modifications, and parallel processes. Capture any artifacts and review further.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-11-12
@@ -38,8 +40,8 @@ During triage review resulting network connections, file modifications, and para
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1218.004](https://attack.mitre.org/techniques/T1218/004/) | InstallUtil | Defense Evasion |
 
 | [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
@@ -55,12 +57,12 @@ During triage review resulting network connections, file modifications, and para
 | `windows_installutil_credential_theft_filter`
 ```
 
-#### Associated Analytic Story
-* [Signed Binary Proxy Execution InstallUtil](/stories/signed_binary_proxy_execution_installutil)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name, parent process, and module loads from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+Note that `windows_installutil_credential_theft_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -77,13 +79,19 @@ To successfully implement this search, you need to be ingesting logs with the pr
 * Processes.parent_process_id
 
 
-#### Kill Chain Phase
-* Exploitation
-* Privilege Escalation
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and module loads from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 
 #### Known False Positives
-Typically this will not trigger as by it&#39;s very nature InstallUtil does not need credentials. Filter as needed.
+Typically this will not trigger as by it's very nature InstallUtil does not need credentials. Filter as needed.
+
+#### Associated Analytic story
+* [Signed Binary Proxy Execution InstallUtil](/stories/signed_binary_proxy_execution_installutil)
+
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA
@@ -104,6 +112,7 @@ Typically this will not trigger as by it&#39;s very nature InstallUtil does not 
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.004/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.004/atomic_red_team/windows-sysmon.log)
 

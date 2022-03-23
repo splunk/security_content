@@ -1,6 +1,8 @@
 ---
 title: "Malicious Powershell Executed As A Service"
-excerpt: "System Services, Service Execution"
+excerpt: "System Services
+, Service Execution
+"
 categories:
   - Endpoint
 last_modified_at: 2021-04-07
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - System Services
-  - Execution
   - Service Execution
+  - Execution
   - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -25,7 +27,7 @@ tags:
 
 This detection is to identify the abuse the Windows SC.exe to execute malicious commands or payloads via PowerShell.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-04-07
@@ -35,8 +37,8 @@ This detection is to identify the abuse the Windows SC.exe to execute malicious 
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1569](https://attack.mitre.org/techniques/T1569/) | System Services | Execution |
 
 | [T1569.002](https://attack.mitre.org/techniques/T1569/002/) | Service Execution | Execution |
@@ -60,12 +62,12 @@ This detection is to identify the abuse the Windows SC.exe to execute malicious 
 | `malicious_powershell_executed_as_a_service_filter`
 ```
 
-#### Associated Analytic Story
-* [Malicious Powershell](/stories/malicious_powershell)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [wineventlog_system](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_system.yml)
 
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting Windows System logs with the Service name, Service File Name Service Start type, and Service Type from your endpoints.
+Note that `malicious_powershell_executed_as_a_service_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * EventCode
@@ -78,12 +80,19 @@ To successfully implement this search, you need to be ingesting Windows System l
 * user
 
 
-#### Kill Chain Phase
-* Privilege Escalation
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting Windows System logs with the Service name, Service File Name Service Start type, and Service Type from your endpoints.
 
 #### Known False Positives
 Creating a hidden powershell service is rare and could key off of those instances.
+
+#### Associated Analytic story
+* [Malicious Powershell](/stories/malicious_powershell)
+
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA
@@ -106,6 +115,7 @@ Creating a hidden powershell service is rare and could key off of those instance
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1569.002/atomic_red_team/windows-system.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1569.002/atomic_red_team/windows-system.log)
 

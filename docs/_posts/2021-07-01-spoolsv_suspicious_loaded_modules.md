@@ -1,6 +1,8 @@
 ---
 title: "Spoolsv Suspicious Loaded Modules"
-excerpt: "Print Processors, Boot or Logon Autostart Execution"
+excerpt: "Print Processors
+, Boot or Logon Autostart Execution
+"
 categories:
   - Endpoint
 last_modified_at: 2021-07-01
@@ -8,9 +10,9 @@ toc: true
 toc_label: ""
 tags:
   - Print Processors
+  - Boot or Logon Autostart Execution
   - Persistence
   - Privilege Escalation
-  - Boot or Logon Autostart Execution
   - Persistence
   - Privilege Escalation
   - Splunk Enterprise
@@ -28,7 +30,7 @@ tags:
 
 This search is to detect suspicious loading of dll in specific path relative to printnightmare exploitation. In this search we try to detect the loaded modules made by spoolsv.exe after the exploitation.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-07-01
@@ -38,8 +40,8 @@ This search is to detect suspicious loading of dll in specific path relative to 
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1547.012](https://attack.mitre.org/techniques/T1547/012/) | Print Processors | Persistence, Privilege Escalation |
 
 | [T1547](https://attack.mitre.org/techniques/T1547/) | Boot or Logon Autostart Execution | Persistence, Privilege Escalation |
@@ -55,12 +57,12 @@ This search is to detect suspicious loading of dll in specific path relative to 
 | `spoolsv_suspicious_loaded_modules_filter`
 ```
 
-#### Associated Analytic Story
-* [PrintNightmare CVE-2021-34527](/stories/printnightmare_cve-2021-34527)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name and imageloaded executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+Note that `spoolsv_suspicious_loaded_modules_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -70,12 +72,19 @@ To successfully implement this search, you need to be ingesting logs with the pr
 * ImageLoaded
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name and imageloaded executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 
 #### Known False Positives
 unknown
+
+#### Associated Analytic story
+* [PrintNightmare CVE-2021-34527](/stories/printnightmare_cve-2021-34527)
+
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA
@@ -83,7 +92,6 @@ unknown
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 80 | 90 | $Image$ with process id $process_id$ has loaded a driver from $ImageLoaded$ on endpoint $Computer$. This behavior is suspicious and related to PrintNightmare. |
-
 
 
 #### CVE
@@ -103,6 +111,7 @@ unknown
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.012/printnightmare/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.012/printnightmare/windows-sysmon.log)
 

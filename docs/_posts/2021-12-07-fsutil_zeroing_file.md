@@ -21,7 +21,7 @@ tags:
 
 This search is to detect a suspicious fsutil process to zeroing a target file. This technique was seen in lockbit ransomware where it tries to zero out its malware path as part of its defense evasion after encrypting the compromised host.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2021-12-07
@@ -31,8 +31,8 @@ This search is to detect a suspicious fsutil process to zeroing a target file. T
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
 
 #### Search
@@ -46,12 +46,10 @@ This search is to detect a suspicious fsutil process to zeroing a target file. T
 | into write_ssa_detected_events();
 ```
 
-#### Associated Analytic Story
-* [Ransomware](/stories/ransomware)
+#### Macros
+The SPL above uses the following Macros:
 
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed net.exe may be used.
+Note that `fsutil_zeroing_file_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -64,12 +62,19 @@ To successfully implement this search, you need to be ingesting logs with the pr
 * cmd_line
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed net.exe may be used.
 
 #### Known False Positives
 System administrators or scripts may delete user accounts via this technique. Filter as needed.
+
+#### Associated Analytic story
+* [Ransomware](/stories/ransomware)
+
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA
@@ -78,6 +83,8 @@ System administrators or scripts may delete user accounts via this technique. Fi
 | ----------- | ----------- |--------------|--------------|
 | 54.0 | 60 | 90 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest_device_id$ by user $dest_user_id$ atempting to perform file deletion. |
 
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 
@@ -92,6 +99,7 @@ System administrators or scripts may delete user accounts via this technique. Fi
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
+* [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070/fsutil_file_zero/windows-security.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070/fsutil_file_zero/windows-security.log)
 
 
 

@@ -1,6 +1,8 @@
 ---
 title: "Wmic NonInteractive App Uninstallation"
-excerpt: "Disable or Modify Tools, Impair Defenses"
+excerpt: "Disable or Modify Tools
+, Impair Defenses
+"
 categories:
   - Endpoint
 last_modified_at: 2021-10-20
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - Disable or Modify Tools
-  - Defense Evasion
   - Impair Defenses
+  - Defense Evasion
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -25,7 +27,7 @@ tags:
 
 This analytic is to detect a suspicious wmic commandlined that uninstall application non interactively. This technique was seen in IceID to uninstall av products to the compromised host to bypassed and evade detections. This Hunting query maybe a good indicator that some process tries to uninstall application using wmic which is not a common behavior. This approach may seen in some script or third part appication to uninstall their application but it is a good thing to check what it uninstall and why.
 
-- **Type**: Hunting
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-10-20
@@ -35,8 +37,8 @@ This analytic is to detect a suspicious wmic commandlined that uninstall applica
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1562.001](https://attack.mitre.org/techniques/T1562/001/) | Disable or Modify Tools | Defense Evasion |
 
 | [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
@@ -52,12 +54,12 @@ This analytic is to detect a suspicious wmic commandlined that uninstall applica
 | `wmic_noninteractive_app_uninstallation_filter`
 ```
 
-#### Associated Analytic Story
-* [IceID](/stories/iceid)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+Note that `wmic_noninteractive_app_uninstallation_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -74,12 +76,19 @@ To successfully implement this search, you need to be ingesting logs with the pr
 * Processes.parent_process_id
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 
 #### Known False Positives
 third party application may use this approach to uninstall there application
+
+#### Associated Analytic story
+* [IceID](/stories/iceid)
+
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA
@@ -100,6 +109,7 @@ third party application may use this approach to uninstall there application
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/disable_av/sysmon2.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/disable_av/sysmon2.log)
 

@@ -1,6 +1,9 @@
 ---
 title: "Sdelete Application Execution"
-excerpt: "Data Destruction, File Deletion, Indicator Removal on Host"
+excerpt: "Data Destruction
+, File Deletion
+, Indicator Removal on Host
+"
 categories:
   - Endpoint
 last_modified_at: 2021-10-06
@@ -8,10 +11,10 @@ toc: true
 toc_label: ""
 tags:
   - Data Destruction
-  - Impact
   - File Deletion
-  - Defense Evasion
   - Indicator Removal on Host
+  - Impact
+  - Defense Evasion
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -27,7 +30,7 @@ tags:
 
 This analytic is to detect the execution of sdelete.exe application sysinternal tools. This tool is one of the most use tool of malware and adversaries to remove or clear their tracks and artifact in the targetted host. This tool is designed to delete securely a file in file system that remove the forensic evidence on the machine. A good TTP query to check why user execute this application which is not a common practice.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-10-06
@@ -37,8 +40,8 @@ This analytic is to detect the execution of sdelete.exe application sysinternal 
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1485](https://attack.mitre.org/techniques/T1485/) | Data Destruction | Impact |
 
 | [T1070.004](https://attack.mitre.org/techniques/T1070/004/) | File Deletion | Defense Evasion |
@@ -56,12 +59,13 @@ This analytic is to detect the execution of sdelete.exe application sysinternal 
 | `sdelete_application_execution_filter`
 ```
 
-#### Associated Analytic Story
-* [Masquerading - Rename System Utilities](/stories/masquerading_-_rename_system_utilities)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [process_sdelete](https://github.com/splunk/security_content/blob/develop/macros/process_sdelete.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
+Note that `sdelete_application_execution_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -78,12 +82,19 @@ To successfully implement this search you need to be ingesting information on pr
 * Processes.parent_process_id
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 
 #### Known False Positives
 user may execute and use this application
+
+#### Associated Analytic story
+* [Masquerading - Rename System Utilities](/stories/masquerading_-_rename_system_utilities)
+
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA
@@ -104,6 +115,7 @@ user may execute and use this application
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/sdelete/sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/sdelete/sysmon.log)
 

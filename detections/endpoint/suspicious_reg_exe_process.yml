@@ -35,7 +35,6 @@ tags:
   - Disabling Security Tools
   - DHS Report TA18-074A
   asset_type: Endpoint
-  automated_detection_testing: passed
   cis20:
   - CIS 8
   confidence: 50
@@ -78,3 +77,5 @@ tags:
   - Processes.parent_process_id
   risk_score: 35
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon

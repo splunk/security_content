@@ -1,6 +1,8 @@
 ---
 title: "O365 New Federated Domain Added"
-excerpt: "Cloud Account, Create Account"
+excerpt: "Cloud Account
+, Create Account
+"
 categories:
   - Cloud
 last_modified_at: 2021-01-26
@@ -8,10 +10,9 @@ toc: true
 toc_label: ""
 tags:
   - Cloud Account
-  - Persistence
   - Create Account
   - Persistence
-  - Splunk Security Analytics for AWS
+  - Persistence
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -25,8 +26,8 @@ tags:
 
 This search detects the addition of a new Federated domain.
 
-- **Type**: TTP
-- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-01-26
 - **Author**: Rod Soto, Splunk
@@ -35,8 +36,8 @@ This search detects the addition of a new Federated domain.
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1136.003](https://attack.mitre.org/techniques/T1136/003/) | Cloud Account | Persistence |
 
 | [T1136](https://attack.mitre.org/techniques/T1136/) | Create Account | Persistence |
@@ -51,13 +52,12 @@ This search detects the addition of a new Federated domain.
 | `o365_new_federated_domain_added_filter`
 ```
 
-#### Associated Analytic Story
-* [Office 365 Detections](/stories/office_365_detections)
-* [Cloud Federated Credential Abuse](/stories/cloud_federated_credential_abuse)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [o365_management_activity](https://github.com/splunk/security_content/blob/develop/macros/o365_management_activity.yml)
 
-
-#### How To Implement
-You must install splunk Microsoft Office 365 add-on. This search works with o365:management:activity.
+Note that `o365_new_federated_domain_added_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -71,12 +71,20 @@ You must install splunk Microsoft Office 365 add-on. This search works with o365
 * UserKey
 
 
-#### Kill Chain Phase
-* Actions on Objective
-
+#### How To Implement
+You must install splunk Microsoft Office 365 add-on. This search works with o365:management:activity.
 
 #### Known False Positives
 The creation of a new Federated domain is not necessarily malicious, however these events need to be followed closely, as it may indicate federated credential abuse or backdoor via federated identities at a similar or different cloud provider.
+
+#### Associated Analytic story
+* [Office 365 Detections](/stories/office_365_detections)
+* [Cloud Federated Credential Abuse](/stories/cloud_federated_credential_abuse)
+
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA
@@ -101,6 +109,7 @@ The creation of a new Federated domain is not necessarily malicious, however the
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.003/o365_new_federated_domain/o365_new_federated_domain.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.003/o365_new_federated_domain/o365_new_federated_domain.json)
 

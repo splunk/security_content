@@ -7,7 +7,6 @@ last_modified_at: 2020-09-12
 toc: true
 toc_label: ""
 tags:
-  - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -22,8 +21,8 @@ tags:
 
 Find EC2 instances being created with previously unseen instance types.
 
-- **Type**: Anomaly
-- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
 - **Last Updated**: 2020-09-12
 - **Author**: David Dorsey, Splunk
@@ -47,12 +46,16 @@ Find EC2 instances being created with previously unseen instance types.
 | `cloud_compute_instance_created_with_previously_unseen_instance_type_filter`
 ```
 
-#### Associated Analytic Story
-* [Cloud Cryptomining](/stories/cloud_cryptomining)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
+Note that `cloud_compute_instance_created_with_previously_unseen_instance_type_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
-#### How To Implement
-You must be ingesting your cloud infrastructure logs from your cloud provider. You should run the baseline search `Previously Seen Cloud Compute Instance Types - Initial` to build the initial table of instance types observed and times. You must also enable the second baseline search `Previously Seen Cloud Compute Instance Types - Update` to keep this table up to date and to age out old data. You can also provide additional filtering for this search by customizing the `cloud_compute_instance_created_with_previously_unseen_instance_type_filter` macro.
+#### Lookups
+The SPL above uses the following Lookups:
+
+* [previously_seen_cloud_compute_instance_types](https://github.com/splunk/security_content/blob/develop/lookups/previously_seen_cloud_compute_instance_types.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/previously_seen_cloud_compute_instance_types.csv)
 
 #### Required field
 * _time
@@ -62,11 +65,19 @@ You must be ingesting your cloud infrastructure logs from your cloud provider. Y
 * All_Changes.user
 
 
-#### Kill Chain Phase
-
+#### How To Implement
+You must be ingesting your cloud infrastructure logs from your cloud provider. You should run the baseline search `Previously Seen Cloud Compute Instance Types - Initial` to build the initial table of instance types observed and times. You must also enable the second baseline search `Previously Seen Cloud Compute Instance Types - Update` to keep this table up to date and to age out old data. You can also provide additional filtering for this search by customizing the `cloud_compute_instance_created_with_previously_unseen_instance_type_filter` macro.
 
 #### Known False Positives
 It is possible that an admin will create a new system using a new instance type that has never been used before. Verify with the creator that they intended to create the system with the new instance type.
+
+#### Associated Analytic story
+* [Cloud Cryptomining](/stories/cloud_cryptomining)
+
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 #### RBA
@@ -84,6 +95,7 @@ It is possible that an admin will create a new system using a new instance type 
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json)
 

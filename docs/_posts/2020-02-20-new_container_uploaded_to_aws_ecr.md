@@ -1,6 +1,7 @@
 ---
 title: "New container uploaded to AWS ECR"
-excerpt: "Implant Internal Image"
+excerpt: "Implant Internal Image
+"
 categories:
   - Cloud
 last_modified_at: 2020-02-20
@@ -14,8 +15,8 @@ tags:
   - Splunk Cloud
 ---
 
-### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
-We have not been able to test, simulate or build datasets for it, use at your own risk!
+###  WARNING THIS IS A EXPERIMENTAL object
+We have not been able to test, simulate, or build datasets for this object. Use at your own risk. This analytic is **NOT** supported.
 
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -24,7 +25,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 This searches show information on uploaded containers including source user, image id, source IP user type, http user agent, region, first time, last time of operation (PutImage). These searches are based on Cloud Infrastructure Data Model.
 
-- **Type**: Hunting
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-02-20
@@ -34,8 +35,8 @@ This searches show information on uploaded containers including source user, ima
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1525](https://attack.mitre.org/techniques/T1525/) | Implant Internal Image | Persistence |
 
 #### Search
@@ -47,23 +48,35 @@ This searches show information on uploaded containers including source user, ima
 | `new_container_uploaded_to_aws_ecr_filter` 
 ```
 
-#### Associated Analytic Story
-* [Container Implantation Monitoring and Investigation](/stories/container_implantation_monitoring_and_investigation)
+#### Macros
+The SPL above uses the following Macros:
 
-
-#### How To Implement
-You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your AWS CloudTrail inputs. You must also install Cloud Infrastructure data model. Please also customize the `container_implant_aws_detection_filter` macro to filter out the false positives.
+Note that `new_container_uploaded_to_aws_ecr_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
 
 
-#### Kill Chain Phase
-
+#### How To Implement
+You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your AWS CloudTrail inputs. You must also install Cloud Infrastructure data model. Please also customize the `container_implant_aws_detection_filter` macro to filter out the false positives.
 
 #### Known False Positives
 Uploading container is a normal behavior from developers or users with access to container registry.
 
+#### Associated Analytic story
+* [Container Implantation Monitoring and Investigation](/stories/container_implantation_monitoring_and_investigation)
+
+
+#### Kill Chain Phase
+* Exploitation
+
+
+
+#### RBA
+
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 25.0 | 50 | 50 | tbd |
 
 
 
@@ -74,7 +87,6 @@ Uploading container is a normal behavior from developers or users with access to
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

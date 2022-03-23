@@ -1,6 +1,7 @@
 ---
 title: "Supernova Webshell"
-excerpt: "Web Shell"
+excerpt: "Web Shell
+"
 categories:
   - Web
 last_modified_at: 2021-01-06
@@ -15,8 +16,8 @@ tags:
   - Web
 ---
 
-### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
-We have not been able to test, simulate or build datasets for it, use at your own risk!
+###  WARNING THIS IS A EXPERIMENTAL object
+We have not been able to test, simulate, or build datasets for this object. Use at your own risk. This analytic is **NOT** supported.
 
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -25,7 +26,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 This search aims to detect the Supernova webshell used in the SUNBURST attack.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Web](https://docs.splunk.com/Documentation/CIM/latest/User/Web)
 - **Last Updated**: 2021-01-06
@@ -35,8 +36,8 @@ This search aims to detect the Supernova webshell used in the SUNBURST attack.
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1505.003](https://attack.mitre.org/techniques/T1505/003/) | Web Shell | Persistence |
 
 #### Search
@@ -47,12 +48,11 @@ This search aims to detect the Supernova webshell used in the SUNBURST attack.
 | `supernova_webshell_filter`
 ```
 
-#### Associated Analytic Story
-* [NOBELIUM Group](/stories/nobelium_group)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search, you need to be monitoring web traffic to your Solarwinds Orion. The logs should be ingested into splunk and populating/mapped to the Web data model.
+Note that `supernova_webshell_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -64,13 +64,26 @@ To successfully implement this search, you need to be monitoring web traffic to 
 * Web.http_user_agent
 
 
-#### Kill Chain Phase
-* Exfiltration
-
+#### How To Implement
+To successfully implement this search, you need to be monitoring web traffic to your Solarwinds Orion. The logs should be ingested into splunk and populating/mapped to the Web data model.
 
 #### Known False Positives
 There might be false positives associted with this detection since items like args as a web argument is pretty generic.
 
+#### Associated Analytic story
+* [NOBELIUM Group](/stories/nobelium_group)
+
+
+#### Kill Chain Phase
+* Exploitation
+
+
+
+#### RBA
+
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 25.0 | 50 | 50 | tbd |
 
 
 
@@ -85,7 +98,6 @@ There might be false positives associted with this detection since items like ar
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

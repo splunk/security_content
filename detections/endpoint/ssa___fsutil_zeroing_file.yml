@@ -33,11 +33,13 @@ references:
 tags:
   analytic_story:
   - Ransomware
+  cis20: []
   confidence: 90
   context:
   - Source:Endpoint
-  - stage:Defense Evasion
-  dataset: []
+  - Stage:Defense Evasion
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070/fsutil_file_zero/windows-security.log
   impact: 60
   kill_chain_phases:
   - Exploitation
@@ -46,9 +48,7 @@ tags:
     deletion.
   mitre_attack_id:
   - T1070
-  nist:
-  - PR.AC
-  - PR.IP
+  nist: []
   observable:
   - name: dest_user_id
     type: User
@@ -59,7 +59,7 @@ tags:
     role:
     - Victim
   - name: parent_process_name
-    type: Parent Process
+    type: Process
     role:
     - Parent Process
   - name: process_name
@@ -78,5 +78,6 @@ tags:
   - process
   - cmd_line
   risk_score: 54
-  risk_severity: high
+  risk_severity: medium
   security_domain: endpoint
+  asset_type: Endpoint

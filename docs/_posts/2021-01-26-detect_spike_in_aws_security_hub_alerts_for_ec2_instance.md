@@ -7,7 +7,6 @@ last_modified_at: 2021-01-26
 toc: true
 toc_label: ""
 tags:
-  - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -21,8 +20,8 @@ tags:
 
 This search looks for a spike in number of of AWS security Hub alerts for an EC2 instance in 4 hours intervals
 
-- **Type**: Anomaly
-- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-01-26
 - **Author**: Bhavin Patel, Splunk
@@ -42,12 +41,11 @@ This search looks for a spike in number of of AWS security Hub alerts for an EC2
 | `detect_spike_in_aws_security_hub_alerts_for_ec2_instance_filter`
 ```
 
-#### Associated Analytic Story
-* [AWS Security Hub Alerts](/stories/aws_security_hub_alerts)
+#### Macros
+The SPL above uses the following Macros:
+* [aws_securityhub_finding](https://github.com/splunk/security_content/blob/develop/macros/aws_securityhub_finding.yml)
 
-
-#### How To Implement
-You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your Security Hub inputs. The threshold_value should be tuned to your environment and schedule these searches according to the bucket span interval.
+Note that `detect_spike_in_aws_security_hub_alerts_for_ec2_instance_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -60,11 +58,19 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 * dest
 
 
-#### Kill Chain Phase
-
+#### How To Implement
+You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your Security Hub inputs. The threshold_value should be tuned to your environment and schedule these searches according to the bucket span interval.
 
 #### Known False Positives
 None
+
+#### Associated Analytic story
+* [AWS Security Hub Alerts](/stories/aws_security_hub_alerts)
+
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA
@@ -82,6 +88,7 @@ None
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/security_hub_ec2_spike/security_hub_ec2_spike.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/security_hub_ec2_spike/security_hub_ec2_spike.json)
 

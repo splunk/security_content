@@ -1,0 +1,19 @@
+---
+title: "Playbooks"
+layout: collection
+author_profile: false
+permalink: /playbooks/
+classes: wide
+sidebar:
+  nav: "playbooks"
+---
+
+| Name    | Detections | Type        |
+| --------| ---------- | ----------- |
+{% for playbook in objects -%}
+{% if playbook.tags.detection_objects -%}
+| [{{ playbook.name }}](/playbooks/{{ playbook.name|lower|replace(' ', '_') }}/)|{% for detection in playbook.tags.detection_objects -%}[{{ detection.name }}]((/detection/{{ detection.lowercase_name }}/) {%- endfor -%} | {{ playbook.type }} |
+{% else -%}
+| [{{ playbook.name }}](/playbooks/{{ playbook.name|lower|replace(' ', '_') }}/)| None | {{ playbook.type }} |
+{% endif -%}
+{%- endfor -%}

@@ -1,6 +1,7 @@
 ---
 title: "Circle CI Disable Security Job"
-excerpt: "Compromise Client Software Binary"
+excerpt: "Compromise Client Software Binary
+"
 categories:
   - Cloud
 last_modified_at: 2021-09-02
@@ -12,7 +13,6 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Dev Sec Ops Analytics
 ---
 
 
@@ -23,8 +23,8 @@ tags:
 
 This search looks for disable security job in CircleCI pipeline.
 
-- **Type**: Anomaly
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Dev Sec Ops Analytics
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-09-02
 - **Author**: Patrick Bareiss, Splunk
@@ -33,8 +33,8 @@ This search looks for disable security job in CircleCI pipeline.
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1554](https://attack.mitre.org/techniques/T1554/) | Compromise Client Software Binary | Persistence |
 
 #### Search
@@ -54,23 +54,35 @@ This search looks for disable security job in CircleCI pipeline.
 | `circle_ci_disable_security_job_filter`
 ```
 
-#### Associated Analytic Story
-* [Dev Sec Ops](/stories/dev_sec_ops)
+#### Macros
+The SPL above uses the following Macros:
+* [circleci](https://github.com/splunk/security_content/blob/develop/macros/circleci.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
+Note that `circle_ci_disable_security_job_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
-#### How To Implement
-You must index CircleCI logs.
+#### Lookups
+The SPL above uses the following Lookups:
+
+* [mandatory_job_for_workflow](https://github.com/splunk/security_content/blob/develop/lookups/mandatory_job_for_workflow.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/mandatory_job_for_workflow.csv)
 
 #### Required field
 * _times
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+You must index CircleCI logs.
 
 #### Known False Positives
 unknown
+
+#### Associated Analytic story
+* [Dev Sec Ops](/stories/dev_sec_ops)
+
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 #### RBA
@@ -88,6 +100,7 @@ unknown
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1554/circle_ci_disable_security_job/circle_ci_disable_security_job.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1554/circle_ci_disable_security_job/circle_ci_disable_security_job.json)
 

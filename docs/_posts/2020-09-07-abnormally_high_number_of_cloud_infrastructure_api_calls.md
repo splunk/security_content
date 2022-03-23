@@ -1,6 +1,8 @@
 ---
 title: "Abnormally High Number Of Cloud Infrastructure API Calls"
-excerpt: "Cloud Accounts, Valid Accounts"
+excerpt: "Cloud Accounts
+, Valid Accounts
+"
 categories:
   - Cloud
 last_modified_at: 2020-09-07
@@ -8,16 +10,15 @@ toc: true
 toc_label: ""
 tags:
   - Cloud Accounts
-  - Defense Evasion
-  - Persistence
-  - Privilege Escalation
-  - Initial Access
   - Valid Accounts
   - Defense Evasion
+  - Initial Access
   - Persistence
   - Privilege Escalation
+  - Defense Evasion
   - Initial Access
-  - Splunk Security Analytics for AWS
+  - Persistence
+  - Privilege Escalation
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -32,8 +33,8 @@ tags:
 
 This search will detect a spike in the number of API calls made to your cloud infrastructure environment by a user.
 
-- **Type**: Anomaly
-- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
 - **Last Updated**: 2020-09-07
 - **Author**: David Dorsey, Splunk
@@ -42,11 +43,11 @@ This search will detect a spike in the number of API calls made to your cloud in
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-| [T1078.004](https://attack.mitre.org/techniques/T1078/004/) | Cloud Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
+| [T1078.004](https://attack.mitre.org/techniques/T1078/004/) | Cloud Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
 
-| [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
+| [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
 
 #### Search
 
@@ -70,12 +71,10 @@ This search will detect a spike in the number of API calls made to your cloud in
 | `abnormally_high_number_of_cloud_infrastructure_api_calls_filter`
 ```
 
-#### Associated Analytic Story
-* [Suspicious Cloud User Activities](/stories/suspicious_cloud_user_activities)
+#### Macros
+The SPL above uses the following Macros:
 
-
-#### How To Implement
-You must be ingesting your cloud infrastructure logs. You also must run the baseline search `Baseline Of Cloud Infrastructure API Calls Per User` to create the probability density function.
+Note that `abnormally_high_number_of_cloud_infrastructure_api_calls_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -84,11 +83,18 @@ You must be ingesting your cloud infrastructure logs. You also must run the base
 * All_Changes.status
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+You must be ingesting your cloud infrastructure logs. You also must run the baseline search `Baseline Of Cloud Infrastructure API Calls Per User` to create the probability density function.
 
 #### Known False Positives
+
+
+#### Associated Analytic story
+* [Suspicious Cloud User Activities](/stories/suspicious_cloud_user_activities)
+
+
+#### Kill Chain Phase
+* Actions on Objectives
 
 
 
@@ -107,6 +113,7 @@ You must be ingesting your cloud infrastructure logs. You also must run the base
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json)
 

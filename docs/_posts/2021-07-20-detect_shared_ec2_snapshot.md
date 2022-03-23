@@ -1,6 +1,7 @@
 ---
 title: "Detect shared ec2 snapshot"
-excerpt: "Transfer Data to Cloud Account"
+excerpt: "Transfer Data to Cloud Account
+"
 categories:
   - Cloud
 last_modified_at: 2021-07-20
@@ -9,7 +10,6 @@ toc_label: ""
 tags:
   - Transfer Data to Cloud Account
   - Exfiltration
-  - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -23,8 +23,8 @@ tags:
 
 The following analytic utilizes AWS CloudTrail events to identify when an EC2 snapshot permissions are modified to be shared with a different AWS account. This method is used by adversaries to exfiltrate the EC2 snapshot.
 
-- **Type**: TTP
-- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-07-20
 - **Author**: Bhavin Patel, Splunk
@@ -33,8 +33,8 @@ The following analytic utilizes AWS CloudTrail events to identify when an EC2 sn
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1537](https://attack.mitre.org/techniques/T1537/) | Transfer Data to Cloud Account | Exfiltration |
 
 #### Search
@@ -49,13 +49,11 @@ The following analytic utilizes AWS CloudTrail events to identify when an EC2 sn
 | `detect_shared_ec2_snapshot_filter` 
 ```
 
-#### Associated Analytic Story
-* [Suspicious Cloud Instance Activities](/stories/suspicious_cloud_instance_activities)
-* [Data Exfiltration](/stories/data_exfiltration)
+#### Macros
+The SPL above uses the following Macros:
+* [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
 
-
-#### How To Implement
-You must install splunk AWS add on and Splunk App for AWS. This search works with AWS CloudTrail logs.
+Note that `detect_shared_ec2_snapshot_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -68,12 +66,20 @@ You must install splunk AWS add on and Splunk App for AWS. This search works wit
 * user_agent
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+You must install splunk AWS add on and Splunk App for AWS. This search works with AWS CloudTrail logs.
 
 #### Known False Positives
 It is possible that an AWS admin has legitimately shared a snapshot with others for  a specific purpose.
+
+#### Associated Analytic story
+* [Suspicious Cloud Instance Activities](/stories/suspicious_cloud_instance_activities)
+* [Data Exfiltration](/stories/data_exfiltration)
+
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 #### RBA
@@ -94,6 +100,7 @@ It is possible that an AWS admin has legitimately shared a snapshot with others 
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1537/aws_snapshot_exfil/aws_cloudtrail_events.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1537/aws_snapshot_exfil/aws_cloudtrail_events.json)
 

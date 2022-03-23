@@ -1,6 +1,8 @@
 ---
 title: "Remote Desktop Network Bruteforce"
-excerpt: "Remote Desktop Protocol, Remote Services"
+excerpt: "Remote Desktop Protocol
+, Remote Services
+"
 categories:
   - Network
 last_modified_at: 2020-07-21
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - Remote Desktop Protocol
-  - Lateral Movement
   - Remote Services
+  - Lateral Movement
   - Lateral Movement
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -17,8 +19,8 @@ tags:
   - Network_Traffic
 ---
 
-### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
-We have not been able to test, simulate or build datasets for it, use at your own risk!
+###  WARNING THIS IS A EXPERIMENTAL object
+We have not been able to test, simulate, or build datasets for this object. Use at your own risk. This analytic is **NOT** supported.
 
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -27,7 +29,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 This search looks for RDP application network traffic and filters any source/destination pair generating more than twice the standard deviation of the average traffic.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
 - **Last Updated**: 2020-07-21
@@ -37,8 +39,8 @@ This search looks for RDP application network traffic and filters any source/des
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1021.001](https://attack.mitre.org/techniques/T1021/001/) | Remote Desktop Protocol | Lateral Movement |
 
 | [T1021](https://attack.mitre.org/techniques/T1021/) | Remote Services | Lateral Movement |
@@ -55,13 +57,11 @@ This search looks for RDP application network traffic and filters any source/des
 | `remote_desktop_network_bruteforce_filter`
 ```
 
-#### Associated Analytic Story
-* [SamSam Ransomware](/stories/samsam_ransomware)
-* [Ryuk Ransomware](/stories/ryuk_ransomware)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-You must ensure that your network traffic data is populating the Network_Traffic data model.
+Note that `remote_desktop_network_bruteforce_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -71,14 +71,28 @@ You must ensure that your network traffic data is populating the Network_Traffic
 * All_Traffic.dest_port
 
 
+#### How To Implement
+You must ensure that your network traffic data is populating the Network_Traffic data model.
+
+#### Known False Positives
+RDP gateways may have unusually high amounts of traffic from all other hosts' RDP applications in the network.
+
+#### Associated Analytic story
+* [SamSam Ransomware](/stories/samsam_ransomware)
+* [Ryuk Ransomware](/stories/ryuk_ransomware)
+
+
 #### Kill Chain Phase
 * Reconnaissance
 * Delivery
 
 
-#### Known False Positives
-RDP gateways may have unusually high amounts of traffic from all other hosts&#39; RDP applications in the network.
 
+#### RBA
+
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 25.0 | 50 | 50 | tbd |
 
 
 
@@ -89,7 +103,6 @@ RDP gateways may have unusually high amounts of traffic from all other hosts&#39
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

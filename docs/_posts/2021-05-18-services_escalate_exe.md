@@ -1,6 +1,7 @@
 ---
 title: "Services Escalate Exe"
-excerpt: "Abuse Elevation Control Mechanism"
+excerpt: "Abuse Elevation Control Mechanism
+"
 categories:
   - Endpoint
 last_modified_at: 2021-05-18
@@ -8,8 +9,8 @@ toc: true
 toc_label: ""
 tags:
   - Abuse Elevation Control Mechanism
-  - Privilege Escalation
   - Defense Evasion
+  - Privilege Escalation
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -24,7 +25,7 @@ tags:
 
 The following analytic identifies the use of `svc-exe` with Cobalt Strike. The behavior typically follows after an adversary has already gained initial access and is escalating privileges. Using `svc-exe`, a randomly named binary will be downloaded from the remote Teamserver and placed on disk within `C:\Windows\400619a.exe`. Following, the binary will be added to the registry under key `HKLM\System\CurrentControlSet\Services\400619a\` with multiple keys and values added to look like a legitimate service. Upon loading, `services.exe` will spawn the randomly named binary from `\\127.0.0.1\ADMIN$\400619a.exe`. The process lineage is completed with `400619a.exe` spawning rundll32.exe, which is the default `spawnto_` value for Cobalt Strike. The `spawnto_` value is arbitrary and may be any process on disk (typically system32/syswow64 binary). The `spawnto_` process will also contain a network connection. During triage, review parallel procesess and identify any additional file modifications.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-05-18
@@ -34,9 +35,9 @@ The following analytic identifies the use of `svc-exe` with Cobalt Strike. The b
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-| [T1548](https://attack.mitre.org/techniques/T1548/) | Abuse Elevation Control Mechanism | Privilege Escalation, Defense Evasion |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
+| [T1548](https://attack.mitre.org/techniques/T1548/) | Abuse Elevation Control Mechanism | Defense Evasion, Privilege Escalation |
 
 #### Search
 
@@ -49,12 +50,12 @@ The following analytic identifies the use of `svc-exe` with Cobalt Strike. The b
 | `services_escalate_exe_filter`
 ```
 
-#### Associated Analytic Story
-* [Cobalt Strike](/stories/cobalt_strike)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search, you will need to ensure that DNS data is populating the Network_Resolution data model.
+Note that `services_escalate_exe_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -67,13 +68,19 @@ To successfully implement this search, you will need to ensure that DNS data is 
 * Processes.parent_process_id
 
 
-#### Kill Chain Phase
-* Exploitation
-* Privilege Escalation
-
+#### How To Implement
+To successfully implement this search, you will need to ensure that DNS data is populating the Network_Resolution data model.
 
 #### Known False Positives
 False positives should be limited as `services.exe` should never spawn a process from `ADMIN$`. Filter as needed.
+
+#### Associated Analytic story
+* [Cobalt Strike](/stories/cobalt_strike)
+
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA
@@ -96,6 +103,7 @@ False positives should be limited as `services.exe` should never spawn a process
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon.log)
 

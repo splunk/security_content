@@ -4,8 +4,7 @@ version: 1
 date: '2021-04-15'
 author: Mauricio Velazco, Splunk
 type: Anomaly
-datamodel:
-- Endpoint
+datamodel: []
 description: 'The following analytic identifies one source endpoint failing to authenticate
   with multiple invalid users using the NTLM protocol. This behavior could represent
   an adversary performing a Password Spraying attack against an Active Directory environment
@@ -49,7 +48,6 @@ references:
 tags:
   analytic_story:
   - Active Directory Password Spraying
-  automated_detection_testing: passed
   confidence: 70
   context:
   - Source:Endpoint
@@ -81,3 +79,4 @@ tags:
   - Source_Workstation
   risk_score: 49
   security_domain: endpoint
+  asset_type: Endpoint

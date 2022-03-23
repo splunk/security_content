@@ -4,8 +4,7 @@ version: 2
 date: '2021-11-22'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 type: TTP
-datamodel:
-- Endpoint
+datamodel: []
 description: The following analytc uses Windows Event Id 7045, `New Service Was Installed`,
   to identify the creation of a Windows Service where the service binary path path
   is located in a non-common Service folder in Windows. Red Teams and adversaries
@@ -29,7 +28,6 @@ tags:
   analytic_story:
   - Clop Ransomware
   - Active Directory Lateral Movement
-  automated_detection_testing: passed
   confidence: 80
   context:
   - Source:Endpoint
@@ -39,8 +37,7 @@ tags:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-system.log
   impact: 70
   kill_chain_phases:
-  - Privilege Escalation
-  - Lateral Movement
+  - Exploitation
   message: A service $Service_File_Name$ was created from a non-standard path using
     $Service_Name$
   mitre_attack_id:
@@ -68,3 +65,4 @@ tags:
   - Service_Start_Type
   risk_score: 56
   security_domain: endpoint
+  asset_type: Endpoint

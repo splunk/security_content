@@ -1,6 +1,10 @@
 ---
 title: "Detect IPv6 Network Infrastructure Threats"
-excerpt: "Hardware Additions, Network Denial of Service, Adversary-in-the-Middle, ARP Cache Poisoning"
+excerpt: "Hardware Additions
+, Network Denial of Service
+, Adversary-in-the-Middle
+, ARP Cache Poisoning
+"
 categories:
   - Network
 last_modified_at: 2020-10-28
@@ -8,31 +12,31 @@ toc: true
 toc_label: ""
 tags:
   - Hardware Additions
-  - Initial Access
   - Network Denial of Service
-  - Impact
   - Adversary-in-the-Middle
-  - Credential Access
-  - Collection
   - ARP Cache Poisoning
+  - Initial Access
+  - Impact
+  - Collection
   - Credential Access
   - Collection
+  - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
 ---
 
-### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
-We have not been able to test, simulate or build datasets for it, use at your own risk!
+###  WARNING THIS IS A EXPERIMENTAL object
+We have not been able to test, simulate, or build datasets for this object. Use at your own risk. This analytic is **NOT** supported.
 
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
-By enabling IPv6 First Hop Security as a Layer 2 Security measure on the organization&#39;s network devices, we will be able to detect various attacks such as packet forging in the Infrastructure.
+By enabling IPv6 First Hop Security as a Layer 2 Security measure on the organization's network devices, we will be able to detect various attacks such as packet forging in the Infrastructure.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-10-28
@@ -42,15 +46,15 @@ By enabling IPv6 First Hop Security as a Layer 2 Security measure on the organiz
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1200](https://attack.mitre.org/techniques/T1200/) | Hardware Additions | Initial Access |
 
 | [T1498](https://attack.mitre.org/techniques/T1498/) | Network Denial of Service | Impact |
 
-| [T1557](https://attack.mitre.org/techniques/T1557/) | Adversary-in-the-Middle | Credential Access, Collection |
+| [T1557](https://attack.mitre.org/techniques/T1557/) | Adversary-in-the-Middle | Collection, Credential Access |
 
-| [T1557.002](https://attack.mitre.org/techniques/T1557/002/) | ARP Cache Poisoning | Credential Access, Collection |
+| [T1557.002](https://attack.mitre.org/techniques/T1557/002/) | ARP Cache Poisoning | Collection, Credential Access |
 
 #### Search
 
@@ -65,12 +69,12 @@ By enabling IPv6 First Hop Security as a Layer 2 Security measure on the organiz
 | `detect_ipv6_network_infrastructure_threats_filter`
 ```
 
-#### Associated Analytic Story
-* [Router and Infrastructure Security](/stories/router_and_infrastructure_security)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [cisco_networks](https://github.com/splunk/security_content/blob/develop/macros/cisco_networks.yml)
 
-
-#### How To Implement
-This search uses a standard SPL query on logs from Cisco Network devices. The network devices must be configured with one or more First Hop Security measures such as RA Guard, DHCP Guard and/or device tracking. See References for more information. The search also requires that the Cisco Networks Add-on for Splunk (https://splunkbase.splunk.com/app/1467) is used to parse the logs from the Cisco network devices.
+Note that `detect_ipv6_network_infrastructure_threats_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -86,15 +90,28 @@ This search uses a standard SPL query on logs from Cisco Network devices. The ne
 * action
 
 
+#### How To Implement
+This search uses a standard SPL query on logs from Cisco Network devices. The network devices must be configured with one or more First Hop Security measures such as RA Guard, DHCP Guard and/or device tracking. See References for more information. The search also requires that the Cisco Networks Add-on for Splunk (https://splunkbase.splunk.com/app/1467) is used to parse the logs from the Cisco network devices.
+
+#### Known False Positives
+None currently known
+
+#### Associated Analytic story
+* [Router and Infrastructure Security](/stories/router_and_infrastructure_security)
+
+
 #### Kill Chain Phase
 * Reconnaissance
 * Delivery
 * Actions on Objectives
 
 
-#### Known False Positives
-None currently known
 
+#### RBA
+
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 25.0 | 50 | 50 | tbd |
 
 
 
@@ -115,7 +132,6 @@ None currently known
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

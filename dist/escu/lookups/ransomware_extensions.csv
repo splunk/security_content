@@ -18,6 +18,9 @@ Extensions,Name
 .locked,ApocalypseVM
 .locky,AutoLocky
 .adr,BaksoCrypt
+.avos,AvosLocker
+.avos2,AvosLocker
+.avoslinux,AvosLocker
 .bart.zip,Bart
 .bart,Bart
 .perl,Bart
@@ -25,7 +28,6 @@ Extensions,Name
 .bitstak,BitStak
 .Silent,BlackShades Crypter
 .blocatto,Blocatto
-.lock,Brazilian
 .cry,Central Security Treatment Organization
 .cerber,Cerber
 .cerber2,Cerber

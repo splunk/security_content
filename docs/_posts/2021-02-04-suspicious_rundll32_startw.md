@@ -1,6 +1,8 @@
 ---
 title: "Suspicious Rundll32 StartW"
-excerpt: "Signed Binary Proxy Execution, Rundll32"
+excerpt: "Signed Binary Proxy Execution
+, Rundll32
+"
 categories:
   - Endpoint
 last_modified_at: 2021-02-04
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - Signed Binary Proxy Execution
-  - Defense Evasion
   - Rundll32
+  - Defense Evasion
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -25,7 +27,7 @@ tags:
 
 The following analytic identifies rundll32.exe executing a DLL function name, Start and StartW, on the command line that is commonly observed with Cobalt Strike x86 and x64 DLL payloads. Rundll32.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64. Typically, the DLL will be written and loaded from a world writeable path or user location. In most instances it will not have a valid certificate (Unsigned). During investigation, review the parent process and other parallel application execution. Capture and triage the DLL in question. In the instance of Cobalt Strike, rundll32.exe is the default process it opens and injects shellcode into. This default process can be changed, but typically is not.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-02-04
@@ -35,8 +37,8 @@ The following analytic identifies rundll32.exe executing a DLL function name, St
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
 
 | [T1218.011](https://attack.mitre.org/techniques/T1218/011/) | Rundll32 | Defense Evasion |
@@ -52,14 +54,13 @@ The following analytic identifies rundll32.exe executing a DLL function name, St
 | `suspicious_rundll32_startw_filter`
 ```
 
-#### Associated Analytic Story
-* [Suspicious Rundll32 Activity](/stories/suspicious_rundll32_activity)
-* [Cobalt Strike](/stories/cobalt_strike)
-* [Trickbot](/stories/trickbot)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [process_rundll32](https://github.com/splunk/security_content/blob/develop/macros/process_rundll32.yml)
 
-
-#### How To Implement
-To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
+Note that `suspicious_rundll32_startw_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -76,12 +77,21 @@ To successfully implement this search you need to be ingesting information on pr
 * Processes.parent_process_id
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 
 #### Known False Positives
 Although unlikely, some legitimate applications may use Start as a function and call it via the command line. Filter as needed.
+
+#### Associated Analytic story
+* [Suspicious Rundll32 Activity](/stories/suspicious_rundll32_activity)
+* [Cobalt Strike](/stories/cobalt_strike)
+* [Trickbot](/stories/trickbot)
+
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 #### RBA
@@ -106,6 +116,7 @@ Although unlikely, some legitimate applications may use Start as a function and 
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.011/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.011/atomic_red_team/windows-sysmon.log)
 

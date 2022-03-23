@@ -1,6 +1,7 @@
 ---
 title: "Remcos RAT File Creation in Remcos Folder"
-excerpt: "Screen Capture"
+excerpt: "Screen Capture
+"
 categories:
   - Endpoint
 last_modified_at: 2021-09-21
@@ -23,7 +24,7 @@ tags:
 
 This search is to detect file creation in remcos folder in appdata which is the keylog and clipboard logs that will be send to its c2 server. This is really a good TTP indicator that there is a remcos rat in the system that do keylogging, clipboard grabbing and audio recording.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-09-21
@@ -33,8 +34,8 @@ This search is to detect file creation in remcos folder in appdata which is the 
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1113](https://attack.mitre.org/techniques/T1113/) | Screen Capture | Collection |
 
 #### Search
@@ -48,12 +49,12 @@ This search is to detect file creation in remcos folder in appdata which is the 
 | `remcos_rat_file_creation_in_remcos_folder_filter`
 ```
 
-#### Associated Analytic Story
-* [Remcos](/stories/remcos)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+Note that `remcos_rat_file_creation_in_remcos_folder_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -63,12 +64,19 @@ To successfully implement this search, you need to be ingesting logs with the pr
 * file_path
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 
 #### Known False Positives
 unknown
+
+#### Associated Analytic story
+* [Remcos](/stories/remcos)
+
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA
@@ -90,6 +98,7 @@ unknown
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos_agent/sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos_agent/sysmon.log)
 

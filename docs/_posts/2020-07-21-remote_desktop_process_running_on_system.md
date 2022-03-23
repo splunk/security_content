@@ -1,6 +1,8 @@
 ---
 title: "Remote Desktop Process Running On System"
-excerpt: "Remote Desktop Protocol, Remote Services"
+excerpt: "Remote Desktop Protocol
+, Remote Services
+"
 categories:
   - Endpoint
 last_modified_at: 2020-07-21
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - Remote Desktop Protocol
-  - Lateral Movement
   - Remote Services
+  - Lateral Movement
   - Lateral Movement
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -17,17 +19,17 @@ tags:
   - Endpoint
 ---
 
-### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
-We have not been able to test, simulate or build datasets for it, use at your own risk!
+###  WARNING THIS IS A EXPERIMENTAL object
+We have not been able to test, simulate, or build datasets for this object. Use at your own risk. This analytic is **NOT** supported.
 
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
-This search looks for the remote desktop process mstsc.exe running on systems upon which it doesn&#39;t typically run. This is accomplished by filtering out all systems that are noted in the `common_rdp_source category` in the Assets and Identity framework.
+This search looks for the remote desktop process mstsc.exe running on systems upon which it doesn't typically run. This is accomplished by filtering out all systems that are noted in the `common_rdp_source category` in the Assets and Identity framework.
 
-- **Type**: Hunting
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-07-21
@@ -37,8 +39,8 @@ This search looks for the remote desktop process mstsc.exe running on systems up
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1021.001](https://attack.mitre.org/techniques/T1021/001/) | Remote Desktop Protocol | Lateral Movement |
 
 | [T1021](https://attack.mitre.org/techniques/T1021/) | Remote Services | Lateral Movement |
@@ -54,13 +56,12 @@ This search looks for the remote desktop process mstsc.exe running on systems up
 | `remote_desktop_process_running_on_system_filter` 
 ```
 
-#### Associated Analytic Story
-* [Hidden Cobra Malware](/stories/hidden_cobra_malware)
-* [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search, you must be ingesting data that records process activity from your hosts to populate the endpoint data model in the processes node. The search requires you to identify systems that do not commonly use remote desktop. You can use the included support search &#34;Identify Systems Using Remote Desktop&#34; to identify these systems. After identifying them, you will need to add the &#34;common_rdp_source&#34; category to that system using the Enterprise Security Assets and Identities framework. This can be done by adding an entry in the assets.csv file located in `SA-IdentityManagement/lookups`.
+Note that `remote_desktop_process_running_on_system_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -70,13 +71,27 @@ To successfully implement this search, you must be ingesting data that records p
 * Processes.user
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+To successfully implement this search, you must be ingesting data that records process activity from your hosts to populate the endpoint data model in the processes node. The search requires you to identify systems that do not commonly use remote desktop. You can use the included support search "Identify Systems Using Remote Desktop" to identify these systems. After identifying them, you will need to add the "common_rdp_source" category to that system using the Enterprise Security Assets and Identities framework. This can be done by adding an entry in the assets.csv file located in `SA-IdentityManagement/lookups`.
 
 #### Known False Positives
 Remote Desktop may be used legitimately by users on the network.
 
+#### Associated Analytic story
+* [Hidden Cobra Malware](/stories/hidden_cobra_malware)
+* [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
+
+
+#### Kill Chain Phase
+* Actions on Objectives
+
+
+
+#### RBA
+
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 25.0 | 50 | 50 | tbd |
 
 
 
@@ -87,7 +102,6 @@ Remote Desktop may be used legitimately by users on the network.
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

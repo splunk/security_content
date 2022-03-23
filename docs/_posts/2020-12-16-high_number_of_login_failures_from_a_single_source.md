@@ -1,6 +1,8 @@
 ---
 title: "High Number of Login Failures from a single source"
-excerpt: "Password Guessing, Brute Force"
+excerpt: "Password Guessing
+, Brute Force
+"
 categories:
   - Cloud
 last_modified_at: 2020-12-16
@@ -8,16 +10,16 @@ toc: true
 toc_label: ""
 tags:
   - Password Guessing
-  - Credential Access
   - Brute Force
+  - Credential Access
   - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
 ---
 
-### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
-We have not been able to test, simulate or build datasets for it, use at your own risk!
+###  WARNING THIS IS A EXPERIMENTAL object
+We have not been able to test, simulate, or build datasets for this object. Use at your own risk. This analytic is **NOT** supported.
 
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -26,7 +28,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 This search will detect more than 5 login failures in Office365 Azure Active Directory from a single source IP address. Please adjust the threshold value of 5 as suited for your environment.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-12-16
@@ -36,8 +38,8 @@ This search will detect more than 5 login failures in Office365 Azure Active Dir
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1110.001](https://attack.mitre.org/techniques/T1110/001/) | Password Guessing | Credential Access |
 
 | [T1110](https://attack.mitre.org/techniques/T1110/) | Brute Force | Credential Access |
@@ -51,12 +53,11 @@ This search will detect more than 5 login failures in Office365 Azure Active Dir
 | `high_number_of_login_failures_from_a_single_source_filter`
 ```
 
-#### Associated Analytic Story
-* [Office 365 Detections](/stories/office_365_detections)
+#### Macros
+The SPL above uses the following Macros:
+* [o365_management_activity](https://github.com/splunk/security_content/blob/develop/macros/o365_management_activity.yml)
 
-
-#### How To Implement
-
+Note that `high_number_of_login_failures_from_a_single_source_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -72,13 +73,26 @@ This search will detect more than 5 login failures in Office365 Azure Active Dir
 * record_type
 
 
-#### Kill Chain Phase
-* Actions on Objectives
+#### How To Implement
 
 
 #### Known False Positives
 unknown
 
+#### Associated Analytic story
+* [Office 365 Detections](/stories/office_365_detections)
+
+
+#### Kill Chain Phase
+* Actions on Objectives
+
+
+
+#### RBA
+
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 25.0 | 50 | 50 | tbd |
 
 
 
@@ -89,7 +103,6 @@ unknown
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

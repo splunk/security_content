@@ -4,8 +4,7 @@ version: 1
 date: '2021-10-14'
 author: Michael Haag, Splunk
 type: TTP
-datamodel:
-- Endpoint
+datamodel: []
 description: 'The following analytic identifies `powershell.exe` usage, using Script
   Block Logging EventCode 4104, related to querying the domain for Service Principle
   Names. typically, this is a precursor activity related to kerberoasting or the silver
@@ -49,6 +48,7 @@ references:
 tags:
   analytic_story:
   - Active Directory Discovery
+  - Active Directory Kerberos Attacks
   automated_detection_testing: passed
   confidence: 100
   context:
@@ -58,7 +58,7 @@ tags:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.003/atomic_red_team/windows-powershell_kerberos.log
   impact: 80
   kill_chain_phases:
-  - Privilege Escalation
+  - Exploitation
   message: An instance of $parent_process_name$ spawning $process_name$ was identified
     on endpoint $dest$ by user $user$ attempting to identify service principle names.
   mitre_attack_id:
@@ -73,7 +73,7 @@ tags:
     role:
     - Victim
   - name: parent_process_name
-    type: Parent Process
+    type: Process
     role:
     - Parent Process
   - name: process_name
@@ -99,3 +99,4 @@ tags:
   - Processes.parent_process_id
   risk_score: 80
   security_domain: endpoint
+  asset_type: Endpoint

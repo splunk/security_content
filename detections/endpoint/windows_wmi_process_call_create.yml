@@ -1,0 +1,80 @@
+name: Windows WMI Process Call Create
+id: 0661c2de-93de-11ec-9833-acde48001122
+version: 1
+date: '2022-02-22'
+author: Teoderick Contreras, Splunk
+type: Hunting
+datamodel:
+- Endpoint
+description: This analytic is to look for wmi commandlines to execute or create process.
+  This technique was used by adversaries or threat actor to execute their malicious
+  payload in local or remote host. This hunting query is a good pivot to start to
+  look further which process trigger the wmi or what process it execute locally or
+  remotely.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where `process_wmic` Processes.process
+  = "* process *" Processes.process = "* call *" Processes.process = "* create *"
+  by Processes.parent_process_name Processes.parent_process Processes.process_name
+  Processes.process Processes.original_file_name Processes.process_id Processes.parent_process_path
+  Processes.process_guid Processes.parent_process_id Processes.dest Processes.user
+  Processes.process_path | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_wmi_process_call_create_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
+known_false_positives: Administrators may execute this command for testing or auditing.
+references:
+- https://github.com/NVISOsecurity/sigma-public/blob/master/rules/windows/process_creation/win_susp_wmi_execution.yml
+- https://github.com/redcanaryco/atomic-red-team/blob/2b804d25418004a5f1ba50e9dc637946ab8733c7/atomics/T1047/T1047.md
+tags:
+  analytic_story:
+  - Suspicious WMI Use
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  confidence: 50
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1047/atomic_red_team/windows-sysmon.log
+  impact: 50
+  kill_chain_phases:
+  - Exploitation
+  message: process with $process$ commandline executed in $dest$
+  mitre_attack_id:
+  - T1047
+  nist:
+  - DE.CM
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.parent_process
+  - Processes.original_file_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_path
+  - Processes.process_path
+  - Processes.parent_process_id
+  - Processes.process_guid
+  risk_score: 25
+  security_domain: endpoint
+  asset_type: Endpoint

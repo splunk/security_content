@@ -1,6 +1,9 @@
 ---
 title: "AWS IAM Successful Group Deletion"
-excerpt: "Cloud Groups, Account Manipulation, Permission Groups Discovery"
+excerpt: "Cloud Groups
+, Account Manipulation
+, Permission Groups Discovery
+"
 categories:
   - Cloud
 last_modified_at: 2021-03-31
@@ -8,15 +11,14 @@ toc: true
 toc_label: ""
 tags:
   - Cloud Groups
-  - Discovery
   - Account Manipulation
-  - Persistence
   - Permission Groups Discovery
+  - Discovery
+  - Persistence
   - Discovery
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Splunk Security Analytics for AWS
 ---
 
 
@@ -27,8 +29,8 @@ tags:
 
 The following query uses IAM events to track the success of a group being deleted on AWS. This is typically not indicative of malicious behavior, but a precurser to additional events thay may unfold. Review parallel IAM events - recently added users, new groups and so forth. Inversely, review failed attempts in a similar manner.
 
-- **Type**: Hunting
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Splunk Security Analytics for AWS
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-03-31
 - **Author**: Michael Haag, Splunk
@@ -37,8 +39,8 @@ The following query uses IAM events to track the success of a group being delete
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1069.003](https://attack.mitre.org/techniques/T1069/003/) | Cloud Groups | Discovery |
 
 | [T1098](https://attack.mitre.org/techniques/T1098/) | Account Manipulation | Persistence |
@@ -55,12 +57,12 @@ The following query uses IAM events to track the success of a group being delete
 | `aws_iam_successful_group_deletion_filter`
 ```
 
-#### Associated Analytic Story
-* [AWS IAM Privilege Escalation](/stories/aws_iam_privilege_escalation)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
 
-
-#### How To Implement
-The Splunk AWS Add-on and Splunk App for AWS is required to utilize this data. The search requires AWS Cloudtrail logs.
+Note that `aws_iam_successful_group_deletion_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -70,12 +72,19 @@ The Splunk AWS Add-on and Splunk App for AWS is required to utilize this data. T
 * requestParameters.groupName
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+The Splunk AWS Add-on and Splunk App for AWS is required to utilize this data. The search requires AWS Cloudtrail logs.
 
 #### Known False Positives
 This detection will require tuning to provide high fidelity detection capabilties. Tune based on src addresses (corporate offices, VPN terminations) or by groups of users. Not every user with AWS access should have permission to delete groups (least privilege).
+
+#### Associated Analytic story
+* [AWS IAM Privilege Escalation](/stories/aws_iam_privilege_escalation)
+
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 #### RBA
@@ -97,6 +106,7 @@ This detection will require tuning to provide high fidelity detection capabiltie
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/aws_iam_successful_group_deletion/aws_iam_successful_group_deletion.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/aws_iam_successful_group_deletion/aws_iam_successful_group_deletion.json)
 

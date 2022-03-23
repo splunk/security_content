@@ -1,9 +1,0 @@
-<panel>
-  <table>
-    <search>
-      <query>| search sourcetype=stream:http session_id  = $session_id$ | stats values(url) values(http_user_agent) by src_ip status</query>
-    </search>
-    <option name="drilldown">cell</option>
-    <option name="wrap">false</option>
-  </table>
-</panel>

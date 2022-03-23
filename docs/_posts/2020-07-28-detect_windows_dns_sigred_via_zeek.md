@@ -1,6 +1,7 @@
 ---
 title: "Detect Windows DNS SIGRed via Zeek"
-excerpt: "Exploitation for Client Execution"
+excerpt: "Exploitation for Client Execution
+"
 categories:
   - Network
 last_modified_at: 2020-07-28
@@ -16,8 +17,8 @@ tags:
   - Network_Resolution
 ---
 
-### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
-We have not been able to test, simulate or build datasets for it, use at your own risk!
+###  WARNING THIS IS A EXPERIMENTAL object
+We have not been able to test, simulate, or build datasets for this object. Use at your own risk. This analytic is **NOT** supported.
 
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -26,7 +27,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 This search detects SIGRed via Zeek DNS and Zeek Conn data.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Resolution](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution)
 - **Last Updated**: 2020-07-28
@@ -36,8 +37,8 @@ This search detects SIGRed via Zeek DNS and Zeek Conn data.
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1203](https://attack.mitre.org/techniques/T1203/) | Exploitation for Client Execution | Execution |
 
 #### Search
@@ -55,12 +56,11 @@ This search detects SIGRed via Zeek DNS and Zeek Conn data.
 | fields - count 
 ```
 
-#### Associated Analytic Story
-* [Windows DNS SIGRed CVE-2020-1350](/stories/windows_dns_sigred_cve-2020-1350)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-You must be ingesting Zeek DNS and Zeek Conn data into Splunk. Zeek data should also be getting ingested in JSON format.  We are detecting SIG and KEY records via bro:dns:json and TCP payload over 65KB in size via bro:conn:json.  The Network Resolution and Network Traffic datamodels are in use for this search.
+Note that `detect_windows_dns_sigred_via_zeek_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -70,34 +70,42 @@ You must be ingesting Zeek DNS and Zeek Conn data into Splunk. Zeek data should 
 * All_Traffic.flow_id
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+You must be ingesting Zeek DNS and Zeek Conn data into Splunk. Zeek data should also be getting ingested in JSON format.  We are detecting SIG and KEY records via bro:dns:json and TCP payload over 65KB in size via bro:conn:json.  The Network Resolution and Network Traffic datamodels are in use for this search.
 
 #### Known False Positives
 unknown
 
+#### Associated Analytic story
+* [Windows DNS SIGRed CVE-2020-1350](/stories/windows_dns_sigred_cve-2020-1350)
 
+
+#### Kill Chain Phase
+* Exploitation
+
+
+
+#### RBA
+
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 25.0 | 50 | 50 | tbd |
 
 
 #### CVE
 
 | ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
 | ----------- | ----------- | -------------- |
-| [CVE-2020-1350](https://nvd.nist.gov/vuln/detail/CVE-2020-1350) | A remote code execution vulnerability exists in Windows Domain Name System servers when they fail to properly handle requests, aka &#39;Windows DNS Server Remote Code Execution Vulnerability&#39;. | 10.0 |
+| [CVE-2020-1350](https://nvd.nist.gov/vuln/detail/CVE-2020-1350) | A remote code execution vulnerability exists in Windows Domain Name System servers when they fail to properly handle requests, aka 'Windows DNS Server Remote Code Execution Vulnerability'. | 10.0 |
 
 
 
 #### Reference
 
-* [https://research.checkpoint.com/2020/resolving-your-way-into-domain-admin-exploiting-a-17-year-old-bug-in-windows-dns-servers/](https://research.checkpoint.com/2020/resolving-your-way-into-domain-admin-exploiting-a-17-year-old-bug-in-windows-dns-servers/)
-
-
 
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

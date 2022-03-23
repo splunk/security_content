@@ -4,8 +4,7 @@ version: 1
 date: '2021-09-01'
 author: Mauricio Velazco, Splunk
 type: TTP
-datamodel:
-- Endpoint
+datamodel: []
 description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
   to identify the `[Adsisearcher]` type accelerator being used to query Active Directory
   for domain computers. Red Teams and adversaries may leverage `[Adsisearcher]` to
@@ -24,7 +23,6 @@ references:
 tags:
   analytic_story:
   - Active Directory Discovery
-  automated_detection_testing: passed
   confidence: 50
   context:
   - Source:Endpoint
@@ -55,3 +53,4 @@ tags:
   - User
   risk_score: 15
   security_domain: endpoint
+  asset_type: Endpoint

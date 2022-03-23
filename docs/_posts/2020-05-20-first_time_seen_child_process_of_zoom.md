@@ -1,6 +1,7 @@
 ---
 title: "First Time Seen Child Process of Zoom"
-excerpt: "Exploitation for Privilege Escalation"
+excerpt: "Exploitation for Privilege Escalation
+"
 categories:
   - Endpoint
 last_modified_at: 2020-05-20
@@ -15,8 +16,8 @@ tags:
   - Endpoint
 ---
 
-### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
-We have not been able to test, simulate or build datasets for it, use at your own risk!
+###  WARNING THIS IS A EXPERIMENTAL object
+We have not been able to test, simulate, or build datasets for this object. Use at your own risk. This analytic is **NOT** supported.
 
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -25,7 +26,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 This search looks for child processes spawned by zoom.exe or zoom.us that has not previously been seen.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-05-20
@@ -35,8 +36,8 @@ This search looks for child processes spawned by zoom.exe or zoom.us that has no
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1068](https://attack.mitre.org/techniques/T1068/) | Exploitation for Privilege Escalation | Privilege Escalation |
 
 #### Search
@@ -52,12 +53,18 @@ This search looks for child processes spawned by zoom.exe or zoom.us that has no
 |`first_time_seen_child_process_of_zoom_filter`
 ```
 
-#### Associated Analytic Story
-* [Suspicious Zoom Child Processes](/stories/suspicious_zoom_child_processes)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [previously_seen_zoom_child_processes_window](https://github.com/splunk/security_content/blob/develop/macros/previously_seen_zoom_child_processes_window.yml)
 
+Note that `first_time_seen_child_process_of_zoom_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
-#### How To Implement
-You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You should run the baseline search `Previously Seen Zoom Child Processes - Initial` to build the initial table of child processes and hostnames for this search to work. You should also schedule at the same interval as this search the second baseline search `Previously Seen Zoom Child Processes - Update` to keep this table up to date and to age out old child processes. Please update the `previously_seen_zoom_child_processes_window` macro to adjust the time window.
+#### Lookups
+The SPL above uses the following Lookups:
+
+* [zoom_first_time_child_process](https://github.com/splunk/security_content/blob/develop/lookups/zoom_first_time_child_process.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/zoom_first_time_child_process.csv)
 
 #### Required field
 * _time
@@ -70,12 +77,19 @@ You must be ingesting data that records process activity from your hosts to popu
 * Processes.dest
 
 
+#### How To Implement
+You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You should run the baseline search `Previously Seen Zoom Child Processes - Initial` to build the initial table of child processes and hostnames for this search to work. You should also schedule at the same interval as this search the second baseline search `Previously Seen Zoom Child Processes - Update` to keep this table up to date and to age out old child processes. Please update the `previously_seen_zoom_child_processes_window` macro to adjust the time window.
+
+#### Known False Positives
+A new child process of zoom isn't malicious by that fact alone. Further investigation of the actions of the child process is needed to verify any malicious behavior is taken.
+
+#### Associated Analytic story
+* [Suspicious Zoom Child Processes](/stories/suspicious_zoom_child_processes)
+
+
 #### Kill Chain Phase
 * Actions on Objectives
 
-
-#### Known False Positives
-A new child process of zoom isn&#39;t malicious by that fact alone. Further investigation of the actions of the child process is needed to verify any malicious behavior is taken.
 
 
 #### RBA
@@ -93,6 +107,7 @@ A new child process of zoom isn&#39;t malicious by that fact alone. Further inve
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/zoom_child_process/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/zoom_child_process/windows-sysmon.log)
 

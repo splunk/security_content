@@ -1,6 +1,8 @@
 ---
 title: "Create Remote Thread into LSASS"
-excerpt: "LSASS Memory, OS Credential Dumping"
+excerpt: "LSASS Memory
+, OS Credential Dumping
+"
 categories:
   - Endpoint
 last_modified_at: 2019-12-06
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - LSASS Memory
-  - Credential Access
   - OS Credential Dumping
+  - Credential Access
   - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -24,7 +26,7 @@ tags:
 
 Detect remote thread creation into LSASS consistent with credential dumping.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2019-12-06
@@ -34,8 +36,8 @@ Detect remote thread creation into LSASS consistent with credential dumping.
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1003.001](https://attack.mitre.org/techniques/T1003/001/) | LSASS Memory | Credential Access |
 
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
@@ -51,12 +53,12 @@ Detect remote thread creation into LSASS consistent with credential dumping.
 | `create_remote_thread_into_lsass_filter`
 ```
 
-#### Associated Analytic Story
-* [Credential Dumping](/stories/credential_dumping)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 
-
-#### How To Implement
-This search needs Sysmon Logs with a Sysmon configuration, which includes EventCode 8 with lsass.exe. This search uses an input macro named `sysmon`. We strongly recommend that you specify your environment-specific configurations (index, source, sourcetype, etc.) for Windows Sysmon logs. Replace the macro definition with configurations for your Splunk environment. The search also uses a post-filter macro designed to filter out known false positives.
+Note that `create_remote_thread_into_lsass_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -69,12 +71,19 @@ This search needs Sysmon Logs with a Sysmon configuration, which includes EventC
 * dest
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+This search needs Sysmon Logs with a Sysmon configuration, which includes EventCode 8 with lsass.exe. This search uses an input macro named `sysmon`. We strongly recommend that you specify your environment-specific configurations (index, source, sourcetype, etc.) for Windows Sysmon logs. Replace the macro definition with configurations for your Splunk environment. The search also uses a post-filter macro designed to filter out known false positives.
 
 #### Known False Positives
 Other tools can access LSASS for legitimate reasons and generate an event. In these cases, tweaking the search may help eliminate noise.
+
+#### Associated Analytic story
+* [Credential Dumping](/stories/credential_dumping)
+
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 #### RBA
@@ -95,6 +104,7 @@ Other tools can access LSASS for legitimate reasons and generate an event. In th
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.001/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.001/atomic_red_team/windows-sysmon.log)
 

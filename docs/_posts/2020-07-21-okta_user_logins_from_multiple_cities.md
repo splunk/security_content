@@ -1,6 +1,8 @@
 ---
 title: "Okta User Logins From Multiple Cities"
-excerpt: "Valid Accounts, Default Accounts"
+excerpt: "Valid Accounts
+, Default Accounts
+"
 categories:
   - Application
 last_modified_at: 2020-07-21
@@ -8,22 +10,22 @@ toc: true
 toc_label: ""
 tags:
   - Valid Accounts
-  - Defense Evasion
-  - Persistence
-  - Privilege Escalation
-  - Initial Access
   - Default Accounts
   - Defense Evasion
+  - Initial Access
   - Persistence
   - Privilege Escalation
+  - Defense Evasion
   - Initial Access
+  - Persistence
+  - Privilege Escalation
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
 ---
 
-### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
-We have not been able to test, simulate or build datasets for it, use at your own risk!
+###  WARNING THIS IS A EXPERIMENTAL object
+We have not been able to test, simulate, or build datasets for this object. Use at your own risk. This analytic is **NOT** supported.
 
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -32,7 +34,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 This search detects logins from the same user from different cities in a 24 hour period.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-07-21
@@ -42,11 +44,11 @@ This search detects logins from the same user from different cities in a 24 hour
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-| [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
+| [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
 
-| [T1078.001](https://attack.mitre.org/techniques/T1078/001/) | Default Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
+| [T1078.001](https://attack.mitre.org/techniques/T1078/001/) | Default Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
 
 #### Search
 
@@ -59,12 +61,12 @@ This search detects logins from the same user from different cities in a 24 hour
 | search locations > 1
 ```
 
-#### Associated Analytic Story
-* [Suspicious Okta Activity](/stories/suspicious_okta_activity)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [okta](https://github.com/splunk/security_content/blob/develop/macros/okta.yml)
 
-
-#### How To Implement
-This search is specific to Okta and requires Okta logs are being ingested in your Splunk deployment.
+Note that `okta_user_logins_from_multiple_cities_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -74,12 +76,26 @@ This search is specific to Okta and requires Okta logs are being ingested in you
 * user
 
 
-#### Kill Chain Phase
-
+#### How To Implement
+This search is specific to Okta and requires Okta logs are being ingested in your Splunk deployment.
 
 #### Known False Positives
 Users in your enviornment may legitmately be travelling and loggin in from different locations. This search is useful for those users that should *not* be travelling for some reason, such as the COVID-19 pandemic. The search also relies on the geographical information being populated in the Okta logs. It is also possible that a connection from another region may be attributed to a login from a remote VPN endpoint.
 
+#### Associated Analytic story
+* [Suspicious Okta Activity](/stories/suspicious_okta_activity)
+
+
+#### Kill Chain Phase
+* Exploitation
+
+
+
+#### RBA
+
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 25.0 | 50 | 50 | tbd |
 
 
 
@@ -90,7 +106,6 @@ Users in your enviornment may legitmately be travelling and loggin in from diffe
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

@@ -1,0 +1,22 @@
+name: TruSTAR Enrich Indicators
+id: fc5adc76-fd2b-48b0-5f6f-63da6423fd63
+version: 1
+date: '2021-11-24'
+author: Philip Royer, Splunk
+type: Investigation
+description: "Use TruSTAR to gather threat information about indicators in a SOAR event. Tag the indicators with the normalized priority score from TruSTAR and summarize the findings in an analyst note. This playbook is meant to be used as a child playbook executed by a parent playbook such as \"threat_intel_investigate\"."
+playbook: trustar_enrich_indicators
+how_to_implement: "To use this playbook as a sub-playbook of \"threat_intel_investigate\", copy it to the local git repository and make sure it has the tags \"investigate\" and \"threat_intel\". To use this playbook as a sub-playbook of \"risk_notable_enrich\", copy it to local and make sure it has the tags \"investigate\" and \"risk_notable\" To control the types of indicators processed by this playbook, change the data types of the \"indicators\" input\""
+references: 
+- https://www.splunk.com/en_us/blog/security/TruSTAR-Enrich-Indicators-soar-in-seconds.html
+app_list:
+- "TruSTAR"
+tags:
+  platform_tags:
+  - threat_intel
+  - risk_notable
+  playbook_type: Input
+  playbook_fields: 
+  - indicators
+  product:
+  - Splunk SOAR

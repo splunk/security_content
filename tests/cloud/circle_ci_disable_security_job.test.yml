@@ -3,8 +3,8 @@ tests:
 - name: Circle CI Disable Security Job
   file: cloud/circle_ci_disable_security_job.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-365d'
-  latest_time: 'now'
+  earliest_time: -365d
+  latest_time: now
   attack_data:
   - file_name: circle_ci_disable_security_job.json
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1554/circle_ci_disable_security_job/circle_ci_disable_security_job.json

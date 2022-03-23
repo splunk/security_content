@@ -1,0 +1,73 @@
+name: Linux Add Files In Known Crontab Directories
+id: 023f3452-5f27-11ec-bf00-acde48001122
+version: 1
+date: '2021-12-17'
+author: Teoderick Contreras, Splunk
+type: Anomaly
+datamodel:
+- Endpoint
+description: The following analytic identifies a suspicious file creation in known
+  cron table directories. This event is commonly abuse by malware, adversaries and
+  red teamers to persist on the target or compromised host. crontab or cronjob is
+  like a schedule task in windows environment where you can create an executable or
+  script on the known crontab directories to run it base on its schedule. This Anomaly
+  query is a good indicator to look further what file is added and who added the file
+  if to consider it legitimate file.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path IN ("*/etc/cron*",
+  "*/var/spool/cron/*") by Filesystem.dest Filesystem.file_create_time Filesystem.file_name
+  Filesystem.process_guid Filesystem.file_path | `drop_dm_object_name(Filesystem)`
+  | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `linux_add_files_in_known_crontab_directories_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the file name, file path, and process_guid executions from your endpoints.
+  If you are using Sysmon, you can use the Add-on for Linux Sysmon from Splunkbase.
+known_false_positives: Administrator or network operator can create file in crontab
+  folders for automation purposes. Please update the filter macros to remove false
+  positives.
+references:
+- https://www.sandflysecurity.com/blog/detecting-cronrat-malware-on-linux-instantly/
+- https://www.cyberciti.biz/faq/how-do-i-add-jobs-to-cron-under-linux-or-unix-oses/
+tags:
+  analytic_story:
+  - Linux Privilege Escalation
+  - Linux Persistence Techniques
+  automated_detection_testing: passed
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  confidence: 50
+  context:
+  - Source:Endpoint
+  - Stage:Privilege Escalation
+  - Stage:Persistence
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.003/cronjobs_entry/sysmon_linux.log
+  impact: 50
+  kill_chain_phases:
+  - Exploitation
+  message: a file $file_name$ is created in $file_path$ on $dest$
+  mitre_attack_id:
+  - T1053.003
+  - T1053
+  nist:
+  - DE.CM
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Filesystem.dest
+  - Filesystem.file_create_time
+  - Filesystem.file_name
+  - Filesystem.process_guid
+  - Filesystem.file_path
+  risk_score: 25
+  security_domain: endpoint
+  asset_type: Endpoint

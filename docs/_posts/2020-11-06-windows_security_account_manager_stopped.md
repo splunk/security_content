@@ -1,6 +1,7 @@
 ---
 title: "Windows Security Account Manager Stopped"
-excerpt: "Service Stop"
+excerpt: "Service Stop
+"
 categories:
   - Endpoint
 last_modified_at: 2020-11-06
@@ -22,7 +23,7 @@ tags:
 
 The search looks for a Windows Security Account Manager (SAM) was stopped via command-line. This is consistent with Ryuk infections across a fleet of endpoints.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-11-06
@@ -32,8 +33,8 @@ The search looks for a Windows Security Account Manager (SAM) was stopped via co
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1489](https://attack.mitre.org/techniques/T1489/) | Service Stop | Impact |
 
 #### Search
@@ -47,12 +48,12 @@ The search looks for a Windows Security Account Manager (SAM) was stopped via co
 | `windows_security_account_manager_stopped_filter`
 ```
 
-#### Associated Analytic Story
-* [Ryuk Ransomware](/stories/ryuk_ransomware)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-You must be ingesting data that records the process-system activity from your hosts to populate the Endpoint Processes data-model object. If you are using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which you want to collect data.
+Note that `windows_security_account_manager_stopped_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -62,12 +63,19 @@ You must be ingesting data that records the process-system activity from your ho
 * Processes.user
 
 
-#### Kill Chain Phase
-* Delivery
-
+#### How To Implement
+You must be ingesting data that records the process-system activity from your hosts to populate the Endpoint Processes data-model object. If you are using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which you want to collect data.
 
 #### Known False Positives
 SAM is a critical windows service, stopping it would cause major issues on an endpoint this makes false positive rare. AlthoughNo false positives have been identified.
+
+#### Associated Analytic story
+* [Ryuk Ransomware](/stories/ryuk_ransomware)
+
+
+#### Kill Chain Phase
+* Delivery
+
 
 
 #### RBA
@@ -85,6 +93,7 @@ SAM is a critical windows service, stopping it would cause major issues on an en
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ryuk/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ryuk/windows-sysmon.log)
 

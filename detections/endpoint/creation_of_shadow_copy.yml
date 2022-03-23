@@ -27,7 +27,6 @@ tags:
   analytic_story:
   - Credential Dumping
   asset_type: Endpoint
-  automated_detection_testing: passed
   cis20:
   - CIS 8
   - CIS 16
@@ -58,7 +57,7 @@ tags:
     role:
     - Victim
   - name: parent_process
-    type: Parent Process
+    type: Process
     role:
     - Parent Process
   - name: process_name
@@ -84,3 +83,5 @@ tags:
   - Processes.parent_process_id
   risk_score: 81
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon

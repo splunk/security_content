@@ -68,7 +68,7 @@ tags:
     role:
     - Victim
   - name: parent_process_name
-    type: Parent Process
+    type: Process
     role:
     - Parent Process
   - name: process_name
@@ -87,5 +87,6 @@ tags:
   - process
   - cmd_line
   risk_score: 36
-  risk_severity: high
+  risk_severity: low
   security_domain: endpoint
+  asset_type: Endpoint

@@ -1,6 +1,10 @@
 ---
 title: "Attacker Tools On Endpoint"
-excerpt: "Match Legitimate Name or Location, Masquerading, OS Credential Dumping, Active Scanning"
+excerpt: "Match Legitimate Name or Location
+, Masquerading
+, OS Credential Dumping
+, Active Scanning
+"
 categories:
   - Endpoint
 last_modified_at: 2021-11-04
@@ -8,12 +12,12 @@ toc: true
 toc_label: ""
 tags:
   - Match Legitimate Name or Location
-  - Defense Evasion
   - Masquerading
-  - Defense Evasion
   - OS Credential Dumping
-  - Credential Access
   - Active Scanning
+  - Defense Evasion
+  - Defense Evasion
+  - Credential Access
   - Reconnaissance
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -29,7 +33,7 @@ tags:
 
 This search looks for execution of commonly used attacker tools on an endpoint.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-11-04
@@ -39,8 +43,8 @@ This search looks for execution of commonly used attacker tools on an endpoint.
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1036.005](https://attack.mitre.org/techniques/T1036/005/) | Match Legitimate Name or Location | Defense Evasion |
 
 | [T1036](https://attack.mitre.org/techniques/T1036/) | Masquerading | Defense Evasion |
@@ -62,15 +66,17 @@ This search looks for execution of commonly used attacker tools on an endpoint.
 | `attacker_tools_on_endpoint_filter`
 ```
 
-#### Associated Analytic Story
-* [Monitor for Unauthorized Software](/stories/monitor_for_unauthorized_software)
-* [XMRig](/stories/xmrig)
-* [SamSam Ransomware](/stories/samsam_ransomware)
-* [Unusual Processes](/stories/unusual_processes)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
+Note that `attacker_tools_on_endpoint_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
-#### How To Implement
-To successfully implement this search, you must be ingesting data that records process activity from your hosts to populate the endpoint data model in the processes node. This is typically populated via endpoint detection-and-response product, such as Carbon Black or endpoint data sources, such as Sysmon. The data used for this search is usually generated via logs that report process tracking in your Windows audit settings.
+#### Lookups
+The SPL above uses the following Lookups:
+
+* [attacker_tools](https://github.com/splunk/security_content/blob/develop/lookups/attacker_tools.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/attacker_tools.csv)
 
 #### Required field
 * Processes.dest
@@ -79,14 +85,24 @@ To successfully implement this search, you must be ingesting data that records p
 * Processes.parent_process
 
 
-#### Kill Chain Phase
-* Installation
-* Command and Control
-* Actions on Objectives
-
+#### How To Implement
+To successfully implement this search, you must be ingesting data that records process activity from your hosts to populate the endpoint data model in the processes node. This is typically populated via endpoint detection-and-response product, such as Carbon Black or endpoint data sources, such as Sysmon. The data used for this search is usually generated via logs that report process tracking in your Windows audit settings.
 
 #### Known False Positives
 Some administrator activity can be potentially triggered, please add those users to the filter macro.
+
+#### Associated Analytic story
+* [Monitor for Unauthorized Software](/stories/monitor_for_unauthorized_software)
+* [XMRig](/stories/xmrig)
+* [SamSam Ransomware](/stories/samsam_ransomware)
+* [Unusual Processes](/stories/unusual_processes)
+
+
+#### Kill Chain Phase
+* Installation
+* Command & Control
+* Actions on Objectives
+
 
 
 #### RBA
@@ -104,6 +120,7 @@ Some administrator activity can be potentially triggered, please add those users
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1595/attacker_scan_tools/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1595/attacker_scan_tools/windows-sysmon.log)
 

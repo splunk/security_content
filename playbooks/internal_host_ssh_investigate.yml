@@ -11,8 +11,8 @@ references: ["https://github.com/Neo23x0/Fenrir/blob/master/fenrir.sh"]
 app_list:
 - "SSH"
 tags:
-  platform_tags:
-  - Response
+  platform_tags: []
+  playbook_type: Input
   playbook_fields: []
   product:
   - Splunk SOAR

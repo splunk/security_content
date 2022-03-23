@@ -4,8 +4,7 @@ version: 1
 date: '2021-08-24'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 type: TTP
-datamodel:
-- Endpoint
+datamodel: []
 description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
   to identify the execution of the `Get-WmiObject` commandlet. The `DS_User` class
   parameter leverages WMI to query for all domain users. Red Teams and adversaries
@@ -25,11 +24,10 @@ references:
 tags:
   analytic_story:
   - Active Directory Discovery
-  automated_detection_testing: passed
   confidence: 50
   context:
-  - source:endpoint
-  - stage:Reconnaissance
+  - Source:Endpoint
+  - Stage:Discovery
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/AD_discovery/windows-powershell.log
   impact: 50
@@ -60,3 +58,4 @@ tags:
   - User
   risk_score: 25
   security_domain: endpoint
+  asset_type: Endpoint

@@ -1,0 +1,69 @@
+name: Detect RClone Command-Line Usage
+id: e8b74268-5454-11ec-a799-acde48001122
+version: 1
+description: This analytic identifies commonly used command-line arguments used by
+  `rclone.exe` to initiate a file transfer. Some arguments were negated as they are
+  specific to the configuration used by adversaries. In particular, an adversary may
+  list the files or directories of the remote file share using `ls` or `lsd`, which
+  is not indicative of malicious behavior. During triage, at this stage of a ransomware
+  event, exfiltration is about to occur or has already. Isolate the endpoint and continue
+  investigating by review file modifications and parallel processes.
+search: '| from read_ssa_enriched_events() | where "Endpoint_Processes" IN(_datamodels)
+  | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
+  cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event,
+  "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"),
+  "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"),
+  "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null)
+  | where cmd_line IS NOT NULL AND process_name IS NOT NULL AND process_name="rclone.exe"
+  AND (like (cmd_line, "%copy%") OR like (cmd_line, "%mega%")OR like (cmd_line, "%pcloud%")
+  OR like (cmd_line, "%ftp%") OR like (cmd_line, "%--config%") OR like (cmd_line,
+  "%--progress%") OR like (cmd_line, "%--no-check-certificate%") OR like (cmd_line,
+  "%--ignore-existing%") OR like (cmd_line, "%--auto-confirm%") OR like (cmd_line,
+  "%--transfers%") OR like (cmd_line, "%--multi-thread-streams%")) | eval start_time=timestamp,
+  end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"),
+  "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null))
+  | eval body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name",
+  process_name, "parent_process_name", parent_process_name, "process_path", process_path])
+  | into write_ssa_detected_events();'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint_Processess` datamodel.
+known_false_positives: False positives should be limited as this is restricted to
+  the Rclone process name. Filter or tune the analytic as needed.
+references:
+- https://redcanary.com/blog/rclone-mega-extortion/
+- https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html
+- https://thedfirreport.com/2021/03/29/sodinokibi-aka-revil-ransomware/
+- https://thedfirreport.com/2021/11/29/continuing-the-bazar-ransomware-story/
+tags:
+  analytic_story:
+  - DarkSide Ransomware
+  - Ransomware
+  cis20: []
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1020
+  nist: []
+  required_fields:
+  - _time
+  - dest_device_id
+  - process_name
+  - parent_process_name
+  - process_path
+  - dest_user_id
+  - process
+  - cmd_line
+  risk_score: 35
+  security_domain: endpoint
+  risk_severity: low
+test:
+  name: Detect RClone Command-Line Usage Unit Test
+  tests:
+  - name: Detect RClone Command-Line Usage
+    file: endpoint/ssa___detect_rclone_command_line_usage.yml
+    pass_condition: '@count_gt(0)'
+    attack_data:
+    - file_name: windows-security.log
+      data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1020/windows-security.log
+      source: WinEventLog:Security

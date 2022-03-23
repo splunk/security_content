@@ -36,11 +36,11 @@ tags:
   - Windows Persistence Techniques
   - Trickbot
   - IcedID
-  automated_detection_testing: passed
+  - Living Off The Land
   confidence: 100
   context:
-  - source:endpoint
-  - stage: Defense Evasion
+  - Source:Endpoint
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/tasksched/windows-security.log
   impact: 70
@@ -55,10 +55,6 @@ tags:
     type: Hostname
     role:
     - Victim
-  - name: Arguments
-    type: Arguments
-    role:
-    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -74,3 +70,4 @@ tags:
   - Arguments
   risk_score: 70
   security_domain: endpoint
+  asset_type: Endpoint

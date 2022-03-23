@@ -23,7 +23,7 @@ tags:
 
 The following detection identifies the usage of archive tools from the command line.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2021-11-22
@@ -33,8 +33,8 @@ The following detection identifies the usage of archive tools from the command l
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1560.001](https://attack.mitre.org/techniques/T1560/001/) | Archive via Utility | Collection |
 
 | [T1560](https://attack.mitre.org/techniques/T1560/) | Archive Collected Data | Collection |
@@ -52,13 +52,10 @@ The following detection identifies the usage of archive tools from the command l
 | into write_ssa_detected_events();
 ```
 
-#### Associated Analytic Story
-* [Cobalt Strike](/stories/cobalt_strike)
-* [NOBELIUM Group](/stories/nobelium_group)
+#### Macros
+The SPL above uses the following Macros:
 
-
-#### How To Implement
-To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
+Note that `anomalous_usage_of_archive_tools_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -70,12 +67,20 @@ To successfully implement this search you need to be ingesting information on pr
 * Processes.parent_process
 
 
-#### Kill Chain Phase
-* Actions on Objective
-
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
 
 #### Known False Positives
 False positives can be ligitmate usage of archive tools from the command line.
+
+#### Associated Analytic story
+* [Cobalt Strike](/stories/cobalt_strike)
+* [NOBELIUM Group](/stories/nobelium_group)
+
+
+#### Kill Chain Phase
+* Actions on Objective
+
 
 
 #### RBA
@@ -84,6 +89,8 @@ False positives can be ligitmate usage of archive tools from the command line.
 | ----------- | ----------- |--------------|--------------|
 | 42.0 | 70 | 60 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$. This behavior is indicative of suspicious loading of 7zip. |
 
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 

@@ -13,17 +13,17 @@ tags:
   - Network_Sessions
 ---
 
-### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
-We have not been able to test, simulate or build datasets for it, use at your own risk!
+###  WARNING THIS IS A EXPERIMENTAL object
+We have not been able to test, simulate, or build datasets for this object. Use at your own risk. This analytic is **NOT** supported.
 
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
-By populating the organization&#39;s assets within the assets_by_str.csv, we will be able to detect unauthorized devices that are trying to connect with the organization&#39;s network by inspecting DHCP request packets, which are issued by devices when they attempt to obtain an IP address from the DHCP server. The MAC address associated with the source of the DHCP request is checked against the list of known devices, and reports on those that are not found.
+By populating the organization's assets within the assets_by_str.csv, we will be able to detect unauthorized devices that are trying to connect with the organization's network by inspecting DHCP request packets, which are issued by devices when they attempt to obtain an IP address from the DHCP server. The MAC address associated with the source of the DHCP request is checked against the list of known devices, and reports on those that are not found.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Sessions](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkSessions)
 - **Last Updated**: 2017-09-13
@@ -45,12 +45,11 @@ By populating the organization&#39;s assets within the assets_by_str.csv, we wil
 | `detect_unauthorized_assets_by_mac_address_filter`
 ```
 
-#### Associated Analytic Story
-* [Asset Tracking](/stories/asset_tracking)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-This search uses the Network_Sessions data model shipped with Enterprise Security. It leverages the Assets and Identity framework to populate the assets_by_str.csv file located in SA-IdentityManagement, which will contain a list of known authorized organizational assets including their MAC addresses. Ensure that all inventoried systems have their MAC address populated.
+Note that `detect_unauthorized_assets_by_mac_address_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -59,15 +58,28 @@ This search uses the Network_Sessions data model shipped with Enterprise Securit
 * All_Sessions.dest_mac
 
 
+#### How To Implement
+This search uses the Network_Sessions data model shipped with Enterprise Security. It leverages the Assets and Identity framework to populate the assets_by_str.csv file located in SA-IdentityManagement, which will contain a list of known authorized organizational assets including their MAC addresses. Ensure that all inventoried systems have their MAC address populated.
+
+#### Known False Positives
+This search might be prone to high false positives. Please consider this when conducting analysis or investigations. Authorized devices may be detected as unauthorized. If this is the case, verify the MAC address of the system responsible for the false positive and add it to the Assets and Identity framework with the proper information.
+
+#### Associated Analytic story
+* [Asset Tracking](/stories/asset_tracking)
+
+
 #### Kill Chain Phase
 * Reconnaissance
 * Delivery
 * Actions on Objectives
 
 
-#### Known False Positives
-This search might be prone to high false positives. Please consider this when conducting analysis or investigations. Authorized devices may be detected as unauthorized. If this is the case, verify the MAC address of the system responsible for the false positive and add it to the Assets and Identity framework with the proper information.
 
+#### RBA
+
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 25.0 | 50 | 50 | tbd |
 
 
 
@@ -78,7 +90,6 @@ This search might be prone to high false positives. Please consider this when co
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

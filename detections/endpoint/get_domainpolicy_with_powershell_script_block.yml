@@ -4,8 +4,7 @@ version: 1
 date: '2021-08-26'
 author: Teoderick Contreras, Splunk
 type: TTP
-datamodel:
-- Endpoint
+datamodel: []
 description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
   to identify the execution of the `Get DomainPolicy` commandlet used to obtain the
   password policy in a Windows domain. Red Teams and adversaries alike may use PowerShell
@@ -24,11 +23,10 @@ references:
 tags:
   analytic_story:
   - Active Directory Discovery
-  automated_detection_testing: passed
   confidence: 60
   context:
-  - source:endpoint
-  - stage:Reconnaissance
+  - Source:Endpoint
+  - Stage:Discovery
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1201/pwd_policy_discovery/windows-powershell.log
   impact: 50
@@ -58,3 +56,4 @@ tags:
   - User
   risk_score: 30
   security_domain: endpoint
+  asset_type: Endpoint

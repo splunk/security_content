@@ -1,0 +1,13 @@
+name: Unusual Volume of Data Download from Internal Server Per Entity - SSA Unit Test
+tests:
+- name: Unusual Volume of Data Download from Internal Server Per Entity
+  file: experimental/network/ssa___unusual_volume_download_from_internal_server.yml
+  pass_condition: '| stats count | where count > 0'
+  description: Test unusual volume of data download from internal server per entity
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: unusual_volume_data_download.txt
+    data: https://github.com/splunk/attack_data/blob/master/datasets/suspicious_behaviour/unusual_data_download/unusual_volume_data_download.txt
+    source: PAN Traffic Log
+    sourcetype: 'pan:traffic'

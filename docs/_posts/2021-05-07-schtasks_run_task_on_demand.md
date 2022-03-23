@@ -1,6 +1,7 @@
 ---
 title: "Schtasks Run Task On Demand"
-excerpt: "Scheduled Task/Job"
+excerpt: "Scheduled Task/Job
+"
 categories:
   - Endpoint
 last_modified_at: 2021-05-07
@@ -25,7 +26,7 @@ tags:
 
 This analytic identifies an on demand run of a Windows Schedule Task through shell or command-line. This technique has been used by adversaries that force to run their created Schedule Task as their persistence mechanism or for lateral movement as part of their malicious attack to the compromised machine.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-05-07
@@ -35,8 +36,8 @@ This analytic identifies an on demand run of a Windows Schedule Task through she
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1053](https://attack.mitre.org/techniques/T1053/) | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
 
 #### Search
@@ -50,12 +51,12 @@ This analytic identifies an on demand run of a Windows Schedule Task through she
 | `schtasks_run_task_on_demand_filter`
 ```
 
-#### Associated Analytic Story
-* [XMRig](/stories/xmrig)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed schtasks.exe may be used.
+Note that `schtasks_run_task_on_demand_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -67,19 +68,26 @@ To successfully implement this search, you need to be ingesting logs with the pr
 * Processes.user
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed schtasks.exe may be used.
 
 #### Known False Positives
 Administrators may use to debug Schedule Task entries. Filter as needed.
+
+#### Associated Analytic story
+* [XMRig](/stories/xmrig)
+
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
-| 48.0 | 60 | 80 | A &#34;on demand&#34; execution of schedule task process $process_name$  using commandline $process$ in host $dest$ |
+| 48.0 | 60 | 80 | A "on demand" execution of schedule task process $process_name$  using commandline $process$ in host $dest$ |
 
 
 
@@ -93,6 +101,7 @@ Administrators may use to debug Schedule Task entries. Filter as needed.
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log)
 

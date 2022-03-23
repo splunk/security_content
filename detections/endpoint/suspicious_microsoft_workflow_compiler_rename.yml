@@ -33,8 +33,8 @@ tags:
   - Trusted Developer Utilities Proxy Execution
   - Cobalt Strike
   - Masquerading - Rename System Utilities
+  - Living Off The Land
   asset_type: Endpoint
-  automated_detection_testing: passed
   cis20:
   - CIS 8
   confidence: 90

@@ -3,7 +3,7 @@ id: 32fd9db5-5201-4b2f-b2c2-9299c7b3495d
 version: 1
 date: '2021-12-14'
 author: Kelby Shelton, Splunk
-type: Investigation
+type: Response
 description: Published in response to CVE-2021-44228, this playbook accepts a list of hosts and filenames to remediate on the endpoint. If filenames are provided, the endpoints will be searched and then the user can approve deletion. Then the user is prompted to quarantine the endpoint.
 playbook: internal_host_winrm_log4j_respond
 how_to_implement: The winrm asset requires Administrator access to gather certain files.
@@ -11,8 +11,8 @@ references: []
 app_list:
 - "Windows Remote Management"
 tags:
-  platform_tags:
-  - Response
+  platform_tags: []
+  playbook_type: Input
   playbook_fields: []
   product:
   - Splunk SOAR

@@ -4,8 +4,7 @@ version: 1
 date: '2021-08-25'
 author: Mauricio Velazco, Splunk
 type: Hunting
-datamodel:
-- Endpoint
+datamodel: []
 description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
   to identify the execution of the `Get-DomainGroupMember` commandlet. `Get-DomainGroupMember`
   is part of PowerView, a PowerShell tool used to perform enumeration on Windows domains.
@@ -30,7 +29,6 @@ references:
 tags:
   analytic_story:
   - Active Directory Discovery
-  automated_detection_testing: passed
   confidence: 70
   context:
   - Source:Endpoint
@@ -62,3 +60,4 @@ tags:
   - User
   risk_score: 21
   security_domain: endpoint
+  asset_type: Endpoint

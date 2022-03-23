@@ -1,6 +1,8 @@
 ---
 title: "Print Spooler Failed to Load a Plug-in"
-excerpt: "Print Processors, Boot or Logon Autostart Execution"
+excerpt: "Print Processors
+, Boot or Logon Autostart Execution
+"
 categories:
   - Endpoint
 last_modified_at: 2021-07-01
@@ -8,9 +10,9 @@ toc: true
 toc_label: ""
 tags:
   - Print Processors
+  - Boot or Logon Autostart Execution
   - Persistence
   - Privilege Escalation
-  - Boot or Logon Autostart Execution
   - Persistence
   - Privilege Escalation
   - Splunk Enterprise
@@ -28,11 +30,11 @@ tags:
 #### Description
 
 The following analytic identifies driver load errors utilizing the Windows PrintService Admin logs. This was identified during our testing of CVE-2021-34527 previously (CVE-2021-1675) or PrintNightmare. \
-Within the proof of concept code, the following error will occur - &#34;The print spooler failed to load a plug-in module C:\Windows\system32\spool\DRIVERS\x64\3\meterpreter.dll, error code 0x45A. See the event user data for context information.&#34; \
+Within the proof of concept code, the following error will occur - "The print spooler failed to load a plug-in module C:\Windows\system32\spool\DRIVERS\x64\3\meterpreter.dll, error code 0x45A. See the event user data for context information." \
 The analytic is based on file path and failure to load the plug-in. \
 During triage, isolate the endpoint and review for source of exploitation. Capture any additional file modification events.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-07-01
@@ -42,8 +44,8 @@ During triage, isolate the endpoint and review for source of exploitation. Captu
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1547.012](https://attack.mitre.org/techniques/T1547/012/) | Print Processors | Persistence, Privilege Escalation |
 
 | [T1547](https://attack.mitre.org/techniques/T1547/) | Boot or Logon Autostart Execution | Persistence, Privilege Escalation |
@@ -58,12 +60,12 @@ During triage, isolate the endpoint and review for source of exploitation. Captu
 | `print_spooler_failed_to_load_a_plug_in_filter`
 ```
 
-#### Associated Analytic Story
-* [PrintNightmare CVE-2021-34527](/stories/printnightmare_cve-2021-34527)
+#### Macros
+The SPL above uses the following Macros:
+* [printservice](https://github.com/splunk/security_content/blob/develop/macros/printservice.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-
-#### How To Implement
-You will need to ensure PrintService Admin and Operational logs are being logged to Splunk from critical or all systems.
+Note that `print_spooler_failed_to_load_a_plug-in_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -73,12 +75,19 @@ You will need to ensure PrintService Admin and Operational logs are being logged
 * Message
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+You will need to ensure PrintService Admin and Operational logs are being logged to Splunk from critical or all systems.
 
 #### Known False Positives
 False positives are unknown and filtering may be required.
+
+#### Associated Analytic story
+* [PrintNightmare CVE-2021-34527](/stories/printnightmare_cve-2021-34527)
+
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA
@@ -86,7 +95,6 @@ False positives are unknown and filtering may be required.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 80 | 90 | Suspicious printer spooler errors have occured on endpoint $ComputerName$ with EventCode $EventCode$. |
-
 
 
 #### CVE
@@ -109,7 +117,6 @@ False positives are unknown and filtering may be required.
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

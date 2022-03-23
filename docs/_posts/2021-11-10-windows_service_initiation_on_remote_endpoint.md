@@ -1,6 +1,8 @@
 ---
 title: "Windows Service Initiation on Remote Endpoint"
-excerpt: "Create or Modify System Process, Windows Service"
+excerpt: "Create or Modify System Process
+, Windows Service
+"
 categories:
   - Endpoint
 last_modified_at: 2021-11-10
@@ -8,9 +10,9 @@ toc: true
 toc_label: ""
 tags:
   - Create or Modify System Process
+  - Windows Service
   - Persistence
   - Privilege Escalation
-  - Windows Service
   - Persistence
   - Privilege Escalation
   - Splunk Enterprise
@@ -27,7 +29,7 @@ tags:
 
 This analytic looks for the execution of `sc.exe` with command-line arguments utilized to start a Windows Service on a remote endpoint. Red Teams and adversaries alike may abuse the Service Control Manager for lateral movement and remote code execution.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-11-10
@@ -37,8 +39,8 @@ This analytic looks for the execution of `sc.exe` with command-line arguments ut
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1543](https://attack.mitre.org/techniques/T1543/) | Create or Modify System Process | Persistence, Privilege Escalation |
 
 | [T1543.003](https://attack.mitre.org/techniques/T1543/003/) | Windows Service | Persistence, Privilege Escalation |
@@ -54,12 +56,12 @@ This analytic looks for the execution of `sc.exe` with command-line arguments ut
 | `windows_service_initiation_on_remote_endpoint_filter`
 ```
 
-#### Associated Analytic Story
-* [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints.
+Note that `windows_service_initiation_on_remote_endpoint_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -76,12 +78,19 @@ To successfully implement this search, you need to be ingesting logs with the pr
 * Processes.parent_process_id
 
 
-#### Kill Chain Phase
-* Lateral Movement
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints.
 
 #### Known False Positives
 Administrators may start Windows Services on remote systems, but this activity is usually limited to a small set of hosts or users.
+
+#### Associated Analytic story
+* [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
+
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA
@@ -103,6 +112,7 @@ Administrators may start Windows Services on remote systems, but this activity i
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1543.003/lateral_movement/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1543.003/lateral_movement/windows-sysmon.log)
 

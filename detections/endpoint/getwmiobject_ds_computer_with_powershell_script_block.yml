@@ -4,15 +4,14 @@ version: 1
 date: '2021-09-01'
 author: Mauricio Velazco, Splunk
 type: TTP
-datamodel:
-- Endpoint
+datamodel: []
 description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
   to identify the execution of the `Get-WmiObject` commandlet. The `DS_Computer` class
   parameter leverages WMI to query for all domain computers. Red Teams and adversaries
   may leverage this commandlet to enumerate domain computers for situational awareness
   and Active Directory Discovery.
-search: '`powershell` EventCode=4104 (Message=*Get-WmiObject* AND Message=*"namespace
-  root\\directory\\ldap"* AND Message=*"class ds_computer"*) | stats count min(_time)
+search: '`powershell` EventCode=4104 (Message=*Get-WmiObject* AND Message="*namespace
+  root\\directory\\ldap*" AND Message="*class ds_computer*") | stats count min(_time)
   as firstTime max(_time) as lastTime by EventCode Message ComputerName User | `security_content_ctime(firstTime)`
   | `getwmiobject_ds_computer_with_powershell_script_block_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
@@ -26,12 +25,10 @@ references:
 tags:
   analytic_story:
   - Active Directory Discovery
-  automated_detection_testing: passed
   confidence: 50
   context:
   - Source:Endpoint
   - Stage:Discovery
-  - Stage:Recon
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1018/AD_discovery/windows-powershell.log
   impact: 30
@@ -57,3 +54,4 @@ tags:
   - User
   risk_score: 15
   security_domain: endpoint
+  asset_type: Endpoint

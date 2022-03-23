@@ -1,0 +1,92 @@
+name: Windows MSHTA Inline HTA Execution
+id: 24962154-9524-11ec-9333-acde48001122
+version: 1
+date: '2022-02-23'
+author: Michael Haag, Splunk
+type: TTP
+datamodel:
+- Endpoint_Processes
+description: The following analytic identifies "mshta.exe" execution with inline protocol
+  handlers. "JavaScript", "VBScript", and "About" are the only supported options when
+  invoking HTA content directly on the command-line. The search will return the first
+  time and last time these command-line arguments were used for these executions,
+  as well as the target system, the user, process "mshta.exe" and its parent process.
+search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
+  "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"),
+  "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"),
+  "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string",
+  null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string",
+  null), event_id=ucast(map_get(input_event, "event_id"), "string", null) | where
+  cmd_line IS NOT NULL AND process_name IS NOT NULL | where process_name="mshta.exe"
+  AND (like (cmd_line, "%vbscript%") OR like (cmd_line, "%javascript%") OR like (cmd_line,
+  "%about%")) | eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event,
+  "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
+  "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name",
+  process_name, "parent_process_name", parent_process_name, "process_path", process_path])
+  | into write_ssa_detected_events();'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: Although unlikely, some legitimate applications may exhibit
+  this behavior, triggering a false positive.
+references:
+- https://github.com/redcanaryco/AtomicTestHarnesses
+- https://redcanary.com/blog/introducing-atomictestharnesses/
+- https://docs.microsoft.com/en-us/windows/win32/search/-search-3x-wds-extidx-prot-implementing
+tags:
+  analytic_story:
+  - Suspicious MSHTA Activity
+  - Living Off The Land
+  cis20:
+  - CIS 8
+  confidence: 100
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.005/atomic_red_team/windows-security.log
+  impact: 80
+  kill_chain_phases:
+  - Exploitation
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified
+    on endpoint $dest_device_id$ by user $dest_user_id$ executing with inline HTA,
+    indicative of defense evasion.
+  mitre_attack_id:
+  - T1218.005
+  - T1218
+  nist:
+  - PR.PT
+  - DE.CM
+  observable:
+  - name: dest_user_id
+    type: User
+    role:
+    - Victim
+  - name: dest_device_id
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Process
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
+  product:
+  - Splunk Behavioral Analytics
+  required_fields:
+  - _time
+  - dest_device_id
+  - process_name
+  - parent_process_name
+  - process_path
+  - dest_user_id
+  - process
+  - cmd_line
+  risk_score: 80
+  security_domain: endpoint
+  asset_type: Endpoint

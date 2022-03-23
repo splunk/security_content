@@ -5,9 +5,11 @@ date: '2021-09-23'
 author: Teoderick Contreras, Splunk
 description: Leverage searches that allow you to detect and investigate unusual activities
   that might relate to the Remcos RAT trojan, including looking for file writes associated
-  with its payload, screencapture, registry modification, UAC bypassed, persistence and data collection..
-narrative: Remcos or Remote Control and Surveillance, marketed as a legitimate software for 
-  remotely managing Windows systems is now widely used in multiple malicious campaigns both APT and commodity malware by threat actors.
+  with its payload, screencapture, registry modification, UAC bypassed, persistence
+  and data collection..
+narrative: Remcos or Remote Control and Surveillance, marketed as a legitimate software
+  for remotely managing Windows systems is now widely used in multiple malicious campaigns
+  both APT and commodity malware by threat actors.
 references:
 - https://success.trendmicro.com/solution/1123281-remcos-malware-information
 - https://attack.mitre.org/software/S0332/

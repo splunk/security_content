@@ -1,6 +1,7 @@
 ---
 title: "GetNetTcpconnection with PowerShell Script Block"
-excerpt: "System Network Connections Discovery"
+excerpt: "System Network Connections Discovery
+"
 categories:
   - Endpoint
 last_modified_at: 2021-09-10
@@ -12,7 +13,6 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Endpoint
 ---
 
 
@@ -23,9 +23,9 @@ tags:
 
 The following analytic utilizes PowerShell Script Block Logging (EventCode=4104) to identify the execution of the `Get-NetTcpconnection ` commandlet. This commandlet is used to return a listing of network connections on a compromised system. Red Teams and adversaries alike may use this commandlet for situational awareness and Active Directory Discovery.
 
-- **Type**: Hunting
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: 
 - **Last Updated**: 2021-09-10
 - **Author**: Mauricio Velazco, Splunk
 - **ID**: 091712ff-b02a-4d43-82ed-34765515d95d
@@ -33,8 +33,8 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1049](https://attack.mitre.org/techniques/T1049/) | System Network Connections Discovery | Discovery |
 
 #### Search
@@ -46,12 +46,12 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 | `getnettcpconnection_with_powershell_script_block_filter`
 ```
 
-#### Associated Analytic Story
-* [Active Directory Discovery](/stories/active_directory_discovery)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [powershell](https://github.com/splunk/security_content/blob/develop/macros/powershell.yml)
 
-
-#### How To Implement
-To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+Note that `getnettcpconnection_with_powershell_script_block_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -61,12 +61,19 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 * User
 
 
-#### Kill Chain Phase
-* Reconnaissance
-
+#### How To Implement
+To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
 
 #### Known False Positives
 Administrators or power users may use this PowerShell commandlet for troubleshooting.
+
+#### Associated Analytic story
+* [Active Directory Discovery](/stories/active_directory_discovery)
+
+
+#### Kill Chain Phase
+* Reconnaissance
+
 
 
 #### RBA
@@ -88,6 +95,7 @@ Administrators or power users may use this PowerShell commandlet for troubleshoo
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1049/AD_discovery/windows-powershell.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1049/AD_discovery/windows-powershell.log)
 

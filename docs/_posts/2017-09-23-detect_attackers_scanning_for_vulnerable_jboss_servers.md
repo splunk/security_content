@@ -1,6 +1,7 @@
 ---
 title: "Detect attackers scanning for vulnerable JBoss servers"
-excerpt: "System Information Discovery"
+excerpt: "System Information Discovery
+"
 categories:
   - Web
 last_modified_at: 2017-09-23
@@ -15,8 +16,8 @@ tags:
   - Web
 ---
 
-### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
-We have not been able to test, simulate or build datasets for it, use at your own risk!
+###  WARNING THIS IS A EXPERIMENTAL object
+We have not been able to test, simulate, or build datasets for this object. Use at your own risk. This analytic is **NOT** supported.
 
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -25,7 +26,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 This search looks for specific GET or HEAD requests to web servers that are indicative of reconnaissance attempts to identify vulnerable JBoss servers. JexBoss is described as the exploit tool of choice for this malicious activity.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Web](https://docs.splunk.com/Documentation/CIM/latest/User/Web)
 - **Last Updated**: 2017-09-23
@@ -35,8 +36,8 @@ This search looks for specific GET or HEAD requests to web servers that are indi
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1082](https://attack.mitre.org/techniques/T1082/) | System Information Discovery | Discovery |
 
 #### Search
@@ -50,13 +51,12 @@ This search looks for specific GET or HEAD requests to web servers that are indi
 | `detect_attackers_scanning_for_vulnerable_jboss_servers_filter`
 ```
 
-#### Associated Analytic Story
-* [JBoss Vulnerability](/stories/jboss_vulnerability)
-* [SamSam Ransomware](/stories/samsam_ransomware)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-You must be ingesting data from the web server or network traffic that contains web specific information, and populating the Web data model.
+Note that `detect_attackers_scanning_for_vulnerable_jboss_servers_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -66,13 +66,27 @@ You must be ingesting data from the web server or network traffic that contains 
 * Web.dest
 
 
+#### How To Implement
+You must be ingesting data from the web server or network traffic that contains web specific information, and populating the Web data model.
+
+#### Known False Positives
+It's possible for legitimate HTTP requests to be made to URLs containing the suspicious paths.
+
+#### Associated Analytic story
+* [JBoss Vulnerability](/stories/jboss_vulnerability)
+* [SamSam Ransomware](/stories/samsam_ransomware)
+
+
 #### Kill Chain Phase
 * Reconnaissance
 
 
-#### Known False Positives
-It&#39;s possible for legitimate HTTP requests to be made to URLs containing the suspicious paths.
 
+#### RBA
+
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 25.0 | 50 | 50 | tbd |
 
 
 
@@ -83,7 +97,6 @@ It&#39;s possible for legitimate HTTP requests to be made to URLs containing the
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 
