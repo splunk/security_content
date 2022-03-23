@@ -17,17 +17,17 @@ search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map
   "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"),
   "string", null) | where process IS NOT NULL AND process_name IS NOT NULL | where
   process_name="rundll32.exe" AND (like (process, "%vbscript%") OR like (process,
-  "%javascript%") OR like (process, "%about%")) | eval body=create_map("category_id", 101, "class_id", 101000, "detection_start_time", start_time, 
-  "detection_end_time", end_time, "device_entities", [create_map("uid", ucast(map_get(input_event, "enrichments.device_entities.device.uid"), "string", null), "type_id", 0)], 
-  "disposition_id", 1, "end_time", end_time, "event_id", 10100001, "event_time", timestamp, 
+  "%javascript%") OR like (process, "%about%")) | eval body=create_map("category_id", 101, "class_id", 101000, "detection_start_time", timestamp, 
+  "detection_end_time", timestamp, "device_entities", [create_map("uid", ucast(map_get(input_event, "tbd"), "string", null), "type_id", 0)], 
+  "disposition_id", 1, "end_time", timestamp, "event_id", 10100001, "event_time", timestamp, 
   "finding", create_map("confidence", 80, "confidence_id", 3, 
   "context_ids", [10, 41, 42, 45], "impact", 70, "impact_id", 4,
-  "kill_chain_phase", Exploitation, "kill_chain_phase_id", 4, 
-  "risk_level", Medium, "risk_level_id", 2, "type_id", 1, "ref_event_uid", event_id), 
-  "message", Suspicious $process_name$ inline HTA execution on $dest_device_id$., "metadata", create_map("log_name", Endpoint_Processes, "version",
-  "1.0.0"), "observables", , "origin", create_map("product", create_map("name", "Splunk Behavioral Analytics")), 
-  "rule", create_map("name", "Windows Rundll32 Inline HTA Execution", "uid", "0caa1dd6-94f5-11ec-9786-acde48001122", "version", "1"), "start_time", start_time, "time", start_time,
-  "user_entities", [create_map("uid", ucast(map_get(input_event, "enrichments.user_entities.user.uid"),"string", null))]) | into write_ssa_finding_events();'
+  "kill_chain_phase", "Exploitation", "kill_chain_phase_id", 4, 
+  "risk_level", "Medium", "risk_level_id", 2, "type_id", 1, "ref_event_uid", event_id), 
+  "message", "Suspicious $process_name$ inline HTA execution on $dest_device_id$.", "metadata", create_map("log_name", "Endpoint_Processes", "version",
+  "1.0.0"), "observables", [create_map("name", "dest_user_id", "role_ids", [4], "type_id", 6, "value", dest_user_id), create_map("name", "dest_device_id", "role_ids", [4], "type_id", 4, "value", dest_device_id), create_map("name", "parent_process_name", "role_ids", [5], "type_id", 15, "value", parent_process_name), create_map("name", "process_name", "role_ids", [6], "type_id", 15, "value", process_name)], "origin", create_map("product", create_map("name", "Splunk Behavioral Analytics")), 
+  "rule", create_map("name", "Windows Rundll32 Inline HTA Execution"), "start_time", timestamp, "time", timestamp,
+  "user_entities", [create_map("uid", "tbd")]) | into write_ssa_finding_events();'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,

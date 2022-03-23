@@ -14,6 +14,7 @@ description: The following search identifies Eventvwr bypass by identifying the 
   look suspicious. Remediate as necessary.
 search: '| from read_ssa_enriched_events() 
   | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
+  event_id=ucast(map_get(input_event, "event_id"), "string", null),
   registry_path=lower(ucast(map_get(input_event, "registry_path"), "string", null)),
   registry_hive=lower(ucast(map_get(input_event, "registry_hive"), "string", null)),
   registry_value_name=lower(ucast(map_get(input_event, "registry_value_name"), "string",

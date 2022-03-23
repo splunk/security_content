@@ -51,8 +51,8 @@ class Validate:
         for detection in detections:
             if 'ssa_' in detection.file_path:
                 regex_patterns = [
-                    r'([a-z._]+)=lower\(ucast\(map_get\(input_event, \"([a-z._]+)',
-                    r'([a-z._]+)=ucast\(map_get\(input_event, \"([a-z._]+)'
+                    r'([a-z._]+)=lower\(ucast\(map_get\(input_event,\s?\"([a-z._]+)',
+                    r'([a-z._]+)=ucast\(map_get\(input_event,\s?"([a-z._]+)'
                 ]
                 parsed_fields = list()
 

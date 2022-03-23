@@ -14,10 +14,17 @@ search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map
   null) | where dest_port=389 OR dest_port=1389 OR dest_port=636 | where NOT (cidrmatch(ip:
   dest_device_ips, cidr_range: "10.0.0.0/8") OR cidrmatch(ip: dest_device_ips, cidr_range:
   "192.168.0.0/16") OR cidrmatch(ip: dest_device_ips, cidr_range: "172.16.0.0/12"))
-  | eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event,
-  "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
-  "string", null)), body=create_map(["event_id", event_id, "dest_port", dest_port,
-  "dest_device_ips", dest_device_ips]) | into write_ssa_detected_events();'
+  | eval body=create_map("category_id", 101, "class_id", 101000, "detection_start_time", timestamp, 
+  "detection_end_time", timestamp, "device_entities", [create_map("uid", ucast(map_get(input_event, "tbd"), "string", null), "type_id", 0)], 
+  "disposition_id", 1, "end_time", timestamp, "event_id", 10100001, "event_time", timestamp, 
+  "finding", create_map("confidence", 70, "confidence_id", 3, 
+  "context_ids", [23, 10, 42], "impact", 50, "impact_id", 3,
+  "kill_chain_phase", "Exploitation", "kill_chain_phase_id", 4, 
+  "risk_level", "Low", "risk_level_id", 1, "type_id", 1, "ref_event_uid", event_id), 
+  "message", "An outbound LDAP connection from $src_ip$ in your infrastructure connecting to dest ip $dest_ip$", "metadata", create_map("log_name", "Endpoint_Processes", "version",
+  "1.0.0"), "observables", [create_map("name", "dest_user_id", "role_ids", [4], "type_id", 6, "value", dest_user_id), create_map("name", "dest_device_id", "role_ids", [4], "type_id", 4, "value", dest_device_id)], "origin", create_map("product", create_map("name", "Splunk Behavioral Analytics")), 
+  "rule", create_map("name", "TCP Command and Scripting Interpreter Outbound LDAP Traffic"), "start_time", timestamp, "time", timestamp,
+  "user_entities", [create_map("uid", "tbd")]) | into write_ssa_finding_events();'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on network traffic, specifically data that populates the Network_Traffic datamodel.
   To develop this analytic we used specifically Zeek/Bro conn.log and PAN Traffic

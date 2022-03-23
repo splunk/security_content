@@ -59,7 +59,7 @@ class FindingReportObject():
                 role_list.append(str(SES_OBSERVABLE_ROLE_MAPPING[role]))
             
             observable_str = observable_str + 'create_map("name", "' + detection.tags.observable[i]["name"] + '", "role_ids", [' + ",".join(role_list) + '], "type_id", ' + str(SES_OBSERVABLE_TYPE_MAPPING[detection.tags.observable[i]["type"]]) + ', "value", ' + detection.tags.observable[i]["name"] + ')'
-            if not i == len(detection.tags.observable):
+            if not i == (len(detection.tags.observable)-1):
                 observable_str = observable_str + ', '
         observable_str = observable_str + ']'
 

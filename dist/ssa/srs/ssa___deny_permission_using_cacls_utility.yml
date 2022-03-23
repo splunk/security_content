@@ -13,17 +13,17 @@ search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map
   "string", null), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string",
   null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null)
   | where process IS NOT NULL AND match_regex(process, /(?i)deny/)=true AND (process_name="cacls.exe"
-  OR process_name="xcacls.exe" OR process_name="icacls.exe") | eval body=create_map("category_id", 101, "class_id", 101000, "detection_start_time", start_time, 
-  "detection_end_time", end_time, "device_entities", [create_map("uid", ucast(map_get(input_event, "enrichments.device_entities.device.uid"), "string", null), "type_id", 0)], 
-  "disposition_id", 1, "end_time", end_time, "event_id", 10100001, "event_time", timestamp, 
+  OR process_name="xcacls.exe" OR process_name="icacls.exe") | eval body=create_map("category_id", 101, "class_id", 101000, "detection_start_time", timestamp, 
+  "detection_end_time", timestamp, "device_entities", [create_map("uid", ucast(map_get(input_event, "tbd"), "string", null), "type_id", 0)], 
+  "disposition_id", 1, "end_time", timestamp, "event_id", 10100001, "event_time", timestamp, 
   "finding", create_map("confidence", 70, "confidence_id", 3, 
   "context_ids", [10, 45], "impact", 50, "impact_id", 3,
-  "kill_chain_phase", Exploitation, "kill_chain_phase_id", 4, 
-  "risk_level", Low, "risk_level_id", 1, "type_id", 1, "ref_event_uid", event_id), 
-  "message", A cacls process $process_name$ with commandline $process$ try to deny a permission of a file or directory in host $dest_device_id$, "metadata", create_map("log_name", Endpoint_Processes, "version",
-  "1.0.0"), "observables", , "origin", create_map("product", create_map("name", "Splunk Behavioral Analytics")), 
-  "rule", create_map("name", "Deny Permission using Cacls Utility", "uid", "b76eae28-cd25-11eb-9c92-acde48001122", "version", "1"), "start_time", start_time, "time", start_time,
-  "user_entities", [create_map("uid", ucast(map_get(input_event, "enrichments.user_entities.user.uid"),"string", null))])
+  "kill_chain_phase", "Exploitation", "kill_chain_phase_id", 4, 
+  "risk_level", "Low", "risk_level_id", 1, "type_id", 1, "ref_event_uid", event_id), 
+  "message", "A cacls process $process_name$ with commandline $process$ try to deny a permission of a file or directory in host $dest_device_id$", "metadata", create_map("log_name", "Endpoint_Processes", "version",
+  "1.0.0"), "observables", [create_map("name", "dest_device_id", "role_ids", [4], "type_id", 4, "value", dest_device_id), create_map("name", "dest_user_id", "role_ids", [4], "type_id", 6, "value", dest_user_id)], "origin", create_map("product", create_map("name", "Splunk Behavioral Analytics")), 
+  "rule", create_map("name", "Deny Permission using Cacls Utility"), "start_time", timestamp, "time", timestamp,
+  "user_entities", [create_map("uid", "tbd")])
   | into write_ssa_finding_events();'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your

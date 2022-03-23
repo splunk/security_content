@@ -9,7 +9,8 @@ datamodel:
 description: The following analytic identifies credential dumping using comsvcs.dll
   with `regsvr32.exe`. This technique is common with adversaries who would like to
   dump the memory of lsass.exe and perform offline password cracking.
-search: '| from read_ssa_enriched_events() | eval dest_device_id=ucast(map_get(input_event, "dest_device_id"),
+search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
+  "_time"), "string", null)) | eval dest_device_id=ucast(map_get(input_event, "dest_device_id"),
   "string", null), process_name=lower(ucast(map_get(input_event, "process_name"),
   "string", null)), _time=parse_long(ucast(map_get(input_event, "_time"), "string",
   null)), process=lower(ucast(map_get(input_event, "process"), "string", null)), event_id=ucast(map_get(input_event,
