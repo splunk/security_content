@@ -21,7 +21,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -30,6 +30,7 @@ The following analytic identifies hh.exe (HTML Help) execution of a Compiled HTM
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2021-02-11
 - **Author**: Michael Haag, Splunk
 - **ID**: 723716de-ee55-4cd4-9759-c44e7e55ba4b
@@ -84,6 +85,7 @@ Although unlikely, some legitimate applications (ex. web browsers) may spawn a c
 
 #### Associated Analytic story
 * [Suspicious Compiled HTML Activity](/stories/suspicious_compiled_html_activity)
+* [Living Off The Land](/stories/living_off_the_land)
 
 
 #### Kill Chain Phase

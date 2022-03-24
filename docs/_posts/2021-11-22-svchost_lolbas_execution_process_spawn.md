@@ -25,7 +25,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -34,6 +34,7 @@ The following analytic identifies `svchost.exe` spawning a LOLBAS execution proc
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+
 - **Last Updated**: 2021-11-22
 - **Author**: Mauricio Velazco, Splunk
 - **ID**: 09e5c72a-4c0d-11ec-aa29-3e22fbd008af
@@ -88,6 +89,7 @@ Legitimate applications may trigger this behavior, filter as needed.
 
 #### Associated Analytic story
 * [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
+* [Living Off The Land](/stories/living_off_the_land)
 
 
 #### Kill Chain Phase

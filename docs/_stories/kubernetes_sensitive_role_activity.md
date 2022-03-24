@@ -33,7 +33,7 @@ Kubernetes is the most used container orchestration platform, this orchestration
 | [Kubernetes AWS detect most active service accounts by pod](/deprecated/kubernetes_aws_detect_most_active_service_accounts_by_pod/) | None| Hunting |
 | [Kubernetes AWS detect RBAC authorization by account](/deprecated/kubernetes_aws_detect_rbac_authorization_by_account/) | None| Hunting |
 | [Kubernetes AWS detect sensitive role access](/deprecated/kubernetes_aws_detect_sensitive_role_access/) | None| Hunting |
-| [Kubernetes Azure detect most active service accounts by pod namespace](/deprecated/kubernetes_azure_detect_most_active_service_accounts_by_pod_namespace/) | None| Hunting |
+| [Kubernetes Azure active service accounts by pod namespace](/deprecated/kubernetes_azure_active_service_accounts_by_pod_namespace/) | None| Hunting |
 | [Kubernetes Azure detect RBAC authorization by account](/deprecated/kubernetes_azure_detect_rbac_authorization_by_account/) | None| Hunting |
 | [Kubernetes Azure detect sensitive role access](/deprecated/kubernetes_azure_detect_sensitive_role_access/) | None| Hunting |
 | [Kubernetes GCP detect RBAC authorizations by account](/deprecated/kubernetes_gcp_detect_rbac_authorizations_by_account/) | None| Hunting |

@@ -25,7 +25,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -34,6 +34,7 @@ The following detection identifies Scheduled Tasks registering (creating a new t
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2021-03-01
 - **Author**: Michael Haag, Splunk
 - **ID**: 7feb7972-7ac3-11eb-bac8-acde48001122
@@ -87,6 +88,7 @@ Limited false positives may be present. Filter as needed by parent process or co
 * [Ransomware](/stories/ransomware)
 * [Ryuk Ransomware](/stories/ryuk_ransomware)
 * [Windows Persistence Techniques](/stories/windows_persistence_techniques)
+* [Living Off The Land](/stories/living_off_the_land)
 
 
 #### Kill Chain Phase
