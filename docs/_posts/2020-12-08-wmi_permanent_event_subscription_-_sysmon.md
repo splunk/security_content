@@ -22,7 +22,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -35,7 +35,8 @@ Monitor for the creation of new WMI EventFilter, EventConsumer, and FilterToCons
 
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+
+
 - **Last Updated**: 2020-12-08
 - **Author**: Rico Valdez, Michael Haag, Splunk
 - **ID**: ad05aae6-3b2a-4f73-af97-57bd26cee3b9

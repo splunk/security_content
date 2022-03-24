@@ -22,7 +22,7 @@ tags:
 We have not been able to test, simulate, or build datasets for this object. Use at your own risk. This analytic is **NOT** supported.
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -30,7 +30,8 @@ This search looks for the first and last time a Windows service is seen running 
 
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+
+
 - **Last Updated**: 2020-07-21
 - **Author**: David Dorsey, Splunk
 - **ID**: 823136f2-d755-4b6d-ae04-372b486a5808
@@ -58,8 +59,8 @@ This search looks for the first and last time a Windows service is seen running 
 
 #### Macros
 The SPL above uses the following Macros:
-* [previously_seen_windows_services_window](https://github.com/splunk/security_content/blob/develop/macros/previously_seen_windows_services_window.yml)
 * [wineventlog_system](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_system.yml)
+* [previously_seen_windows_services_window](https://github.com/splunk/security_content/blob/develop/macros/previously_seen_windows_services_window.yml)
 
 Note that `first_time_seen_running_windows_service_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 

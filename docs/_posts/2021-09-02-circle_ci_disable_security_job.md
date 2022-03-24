@@ -17,7 +17,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -25,7 +25,8 @@ This search looks for disable security job in CircleCI pipeline.
 
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+
+
 - **Last Updated**: 2021-09-02
 - **Author**: Patrick Bareiss, Splunk
 - **ID**: 4a2fdd41-c578-4cd4-9ef7-980e352517f2
@@ -56,8 +57,8 @@ This search looks for disable security job in CircleCI pipeline.
 
 #### Macros
 The SPL above uses the following Macros:
-* [circleci](https://github.com/splunk/security_content/blob/develop/macros/circleci.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [circleci](https://github.com/splunk/security_content/blob/develop/macros/circleci.yml)
 
 Note that `circle_ci_disable_security_job_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 

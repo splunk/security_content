@@ -18,7 +18,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -27,6 +27,7 @@ This following analytic detects PowerShell command to delete shadow copy using t
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+
 - **Last Updated**: 2021-05-12
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: 5ee2bcd0-b2ff-11eb-bb34-acde48001122
@@ -50,8 +51,8 @@ This following analytic detects PowerShell command to delete shadow copy using t
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [powershell](https://github.com/splunk/security_content/blob/develop/macros/powershell.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `delete_shadowcopy_with_powershell_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 

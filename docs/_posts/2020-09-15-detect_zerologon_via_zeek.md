@@ -20,7 +20,7 @@ tags:
 We have not been able to test, simulate, or build datasets for this object. Use at your own risk. This analytic is **NOT** supported.
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -28,7 +28,8 @@ This search detects attempts to run exploits for the Zerologon CVE-2020-1472 vul
 
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+
+
 - **Last Updated**: 2020-09-15
 - **Author**: Shannon Davis, Splunk
 - **ID**: bf7a06ec-f703-11ea-adc1-0242ac120002

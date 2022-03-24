@@ -21,7 +21,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -30,6 +30,7 @@ This search is to detect a suspicious file creation namely passff.tar and cookie
 - **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+
 - **Last Updated**: 2021-07-30
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: 0db4da70-f14b-11eb-8043-acde48001122

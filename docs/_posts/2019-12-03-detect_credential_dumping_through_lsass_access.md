@@ -20,7 +20,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -28,7 +28,8 @@ This search looks for reading lsass memory consistent with credential dumping.
 
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+
+
 - **Last Updated**: 2019-12-03
 - **Author**: Patrick Bareiss, Splunk
 - **ID**: 2c365e57-4414-4540-8dc0-73ab10729996

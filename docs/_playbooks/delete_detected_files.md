@@ -24,7 +24,7 @@ This playbook acts upon events where a file has been determined to be malicious 
 
 #### Associated Detections
 
-* [Executable File Written in Administrative SMB Share](//executable_file_written_in_administrative_smb_share/)
+* [Executable File Written in Administrative SMB Share](/detection/executable_file_written_in_administrative_smb_share/)
 
 
 
