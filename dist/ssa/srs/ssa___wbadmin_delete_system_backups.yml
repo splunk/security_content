@@ -12,8 +12,8 @@ search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map
   null), event_id=ucast(map_get(input_event, "event_id"), "string", null), dest_user_id=ucast(map_get(input_event,
   "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"),
   "string", null) | where (process IS NOT NULL AND process_name IS NOT NULL) AND (process_name="wbadmin.exe"
-  AND like (process, "%delete%") OR like (process, "%catalog%") OR like (process,
-  "%systemstatebackup%")) | eval body=create_map("category_id", 101, "class_id", 101000, "detection_start_time", timestamp, 
+  OR process_name="mmc.exe" AND like (process, "%delete%") OR like (process, "%catalog%")
+  OR like (process, "%systemstatebackup%")) | eval body=create_map("category_id", 101, "class_id", 101000, "detection_start_time", timestamp, 
   "detection_end_time", timestamp, "device_entities", [create_map("uid", ucast(map_get(input_event, "tbd"), "string", null), "type_id", 0)], 
   "disposition_id", 1, "end_time", timestamp, "event_id", 10100001, "event_time", timestamp, 
   "finding", create_map("confidence", 50, "confidence_id", 2, 
@@ -65,6 +65,6 @@ test:
     file: endpoint/ssa___wbadmin_delete_system_backups.yml
     pass_condition: '@count_gt(0)'
     attack_data:
-    - file_name: windows-sysmon.log
-      data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1490/atomic_red_team/windows-sysmon.log
-      source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    - file_name: windows-security-2.log
+      data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1490/atomic_red_team/windows-security-2.log
+      source: WinEventLog:Security
