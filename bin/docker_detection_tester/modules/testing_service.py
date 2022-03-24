@@ -118,7 +118,7 @@ def load_splunk_for_fp_testing(splunk_ip:str, splunk_port:int, splunk_password:s
             #with open(target_file, 'wb') as target:
             #    target.write(r.content)
             #print(target_file)
-            dat_file = url.replace("https://media.githubusercontent.com/media/splunk/attack_data/master/","./attack_data/")
+            dat_file = url.replace("https://media.githubusercontent.com/media/splunk/attack_data/master/","../../../attack_data/")
             shutil.copyfile(dat_file, target_file)
             
             # Update timestamps before replay

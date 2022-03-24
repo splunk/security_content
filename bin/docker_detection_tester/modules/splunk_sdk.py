@@ -301,6 +301,12 @@ def test_detection_search(splunk_host:str, splunk_port:int, splunk_password:str,
 
 
 def delete_attack_data(splunk_host:str, splunk_password:str, splunk_port:int, wait_on_delete:Union[dict,None], search_string:str, detection_filename:str, index:str="main")->bool:
+    if wait_on_delete:
+        print(wait_on_delete['message'])
+        print("FILENAME : [%s]"%(detection_filename))
+        print("SEARCH   :\n%s"%(search_string))
+        _ = input("****************Press ENTER to Complete Test and DELETE data****************\n\n\n")
+        
     return True
     try:
         service = client.connect(
