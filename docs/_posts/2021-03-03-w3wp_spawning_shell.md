@@ -24,7 +24,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -33,6 +33,7 @@ This query identifies a shell, PowerShell.exe or Cmd.exe, spawning from W3WP.exe
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2021-03-03
 - **Author**: Michael Haag, Splunk
 - **ID**: 0f03423c-7c6a-11eb-bc47-acde48001122
@@ -59,10 +60,10 @@ This query identifies a shell, PowerShell.exe or Cmd.exe, spawning from W3WP.exe
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_powershell](https://github.com/splunk/security_content/blob/develop/macros/process_powershell.yml)
 * [process_cmd](https://github.com/splunk/security_content/blob/develop/macros/process_cmd.yml)
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [process_powershell](https://github.com/splunk/security_content/blob/develop/macros/process_powershell.yml)
 
 Note that `w3wp_spawning_shell_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 

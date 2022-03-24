@@ -19,7 +19,7 @@ tags:
 We have not been able to test, simulate, or build datasets for this object. Use at your own risk. This analytic is **NOT** supported.
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -27,7 +27,8 @@ This search provides detection information on unauthenticated requests against K
 
 - **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+
+
 - **Last Updated**: 2020-04-15
 - **Author**: Rod Soto, Splunk
 - **ID**: dbfca1dd-b8e5-4ba4-be0e-e565e5d62002

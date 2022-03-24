@@ -14,7 +14,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -22,7 +22,8 @@ This search looks for AWS CloudTrail events where a user logged into the AWS acc
 
 - **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+
+
 - **Last Updated**: 2018-05-17
 - **Author**: Bhavin Patel, Splunk
 - **ID**: 4d46e8bd-4072-48e4-92db-0325889ef894

@@ -18,7 +18,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -27,6 +27,7 @@ The following analytic identifies usage of `wmic.exe` spawning a local or remote
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2018-12-03
 - **Author**: Rico Valdez, Michael Haag, Splunk
 - **ID**: 272df6de-61f1-4784-877c-1fbc3e2d0838
@@ -76,6 +77,7 @@ Administrators may use this legitimately to gather info from remote systems. Fil
 
 #### Associated Analytic story
 * [Suspicious WMI Use](/stories/suspicious_wmi_use)
+* [Living Off The Land](/stories/living_off_the_land)
 
 
 #### Kill Chain Phase

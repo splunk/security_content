@@ -15,7 +15,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -23,7 +23,8 @@ This search allows you to look for evidence of exploitation for CVE-2016-4859, t
 
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+
+
 - **Last Updated**: 2017-09-19
 - **Author**: Bhavin Patel, Splunk
 - **ID**: d199fb99-2312-451a-9daa-e5efa6ed76a7

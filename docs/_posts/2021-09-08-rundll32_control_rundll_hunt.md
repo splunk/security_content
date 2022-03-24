@@ -22,7 +22,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -31,6 +31,7 @@ The following hunting detection identifies rundll32.exe with `control_rundll` wi
 - **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+
 - **Last Updated**: 2021-09-08
 - **Author**: Michael Haag, Splunk
 - **ID**: c8e7ced0-10c5-11ec-8b03-acde48001122
@@ -57,9 +58,9 @@ The following hunting detection identifies rundll32.exe with `control_rundll` wi
 
 #### Macros
 The SPL above uses the following Macros:
+* [process_rundll32](https://github.com/splunk/security_content/blob/develop/macros/process_rundll32.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
-* [process_rundll32](https://github.com/splunk/security_content/blob/develop/macros/process_rundll32.yml)
 
 Note that `rundll32_control_rundll_hunt_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -86,6 +87,7 @@ This is a hunting detection, meant to provide a understanding of how voluminous 
 #### Associated Analytic story
 * [Suspicious Rundll32 Activity](/stories/suspicious_rundll32_activity)
 * [Microsoft MSHTML Remote Code Execution CVE-2021-40444](/stories/microsoft_mshtml_remote_code_execution_cve-2021-40444)
+* [Living Off The Land](/stories/living_off_the_land)
 
 
 #### Kill Chain Phase

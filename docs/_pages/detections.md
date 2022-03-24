@@ -300,7 +300,7 @@ sidebar:
 | [Excessive Usage Of SC Service Utility](/endpoint/excessive_usage_of_sc_service_utility/) | [System Services](/tags/#system-services), [Service Execution](/tags/#service-execution) | Anomaly |
 | [Excessive Usage Of Taskkill](/endpoint/excessive_usage_of_taskkill/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Impair Defenses](/tags/#impair-defenses) | Anomaly |
 | [Excessive Usage of NSLOOKUP App](/endpoint/excessive_usage_of_nslookup_app/) | [Exfiltration Over Alternative Protocol](/tags/#exfiltration-over-alternative-protocol) | Anomaly |
-| [Excessive number of distinct processes created in Windows Temp folder](/endpoint/excessive_number_of_distinct_processes_created_in_windows_temp_folder/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter) | Anomaly |
+| [Excessive distinct processes from Windows Temp](/endpoint/excessive_distinct_processes_from_windows_temp/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter) | Anomaly |
 | [Excessive number of service control start as disabled](/endpoint/excessive_number_of_service_control_start_as_disabled/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Impair Defenses](/tags/#impair-defenses) | Anomaly |
 | [Excessive number of taskhost processes](/endpoint/excessive_number_of_taskhost_processes/) | [System Owner/User Discovery](/tags/#system-owner/user-discovery) | Anomaly |
 | [Exchange PowerShell Abuse via SSRF](/endpoint/exchange_powershell_abuse_via_ssrf/) | [Exploit Public-Facing Application](/tags/#exploit-public-facing-application) | TTP |
@@ -402,8 +402,8 @@ sidebar:
 | [Kubernetes AWS detect sensitive role access]() | None | Hunting |
 | [Kubernetes AWS detect service accounts forbidden failure access]() | None | Hunting |
 | [Kubernetes AWS detect suspicious kubectl calls]() | None | Hunting |
+| [Kubernetes Azure active service accounts by pod namespace]() | None | Hunting |
 | [Kubernetes Azure detect RBAC authorization by account]() | None | Hunting |
-| [Kubernetes Azure detect most active service accounts by pod namespace]() | None | Hunting |
 | [Kubernetes Azure detect sensitive object access]() | None | Hunting |
 | [Kubernetes Azure detect sensitive role access]() | None | Hunting |
 | [Kubernetes Azure detect service accounts forbidden failure access]() | None | Hunting |
@@ -463,20 +463,20 @@ sidebar:
 | [Log4Shell JNDI Payload Injection Attempt](/web/log4shell_jndi_payload_injection_attempt/) | [Exploit Public-Facing Application](/tags/#exploit-public-facing-application) | Anomaly |
 | [Log4Shell JNDI Payload Injection with Outbound Connection](/web/log4shell_jndi_payload_injection_with_outbound_connection/) | [Exploit Public-Facing Application](/tags/#exploit-public-facing-application) | Anomaly |
 | [Logon Script Event Trigger Execution](/endpoint/logon_script_event_trigger_execution/) | [Boot or Logon Initialization Scripts](/tags/#boot-or-logon-initialization-scripts), [Logon Script (Windows)](/tags/#logon-script-(windows)) | TTP |
+| [MS Exchange Mailbox Replication service writing Active Server Pages](/endpoint/ms_exchange_mailbox_replication_service_writing_active_server_pages/) | [Server Software Component](/tags/#server-software-component), [Web Shell](/tags/#web-shell), [Exploit Public-Facing Application](/tags/#exploit-public-facing-application) | TTP |
 | [MS Scripting Process Loading Ldap Module](/endpoint/ms_scripting_process_loading_ldap_module/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [JavaScript](/tags/#javascript) | Anomaly |
 | [MS Scripting Process Loading WMI Module](/endpoint/ms_scripting_process_loading_wmi_module/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [JavaScript](/tags/#javascript) | Anomaly |
 | [MSBuild Suspicious Spawned By Script Process](/endpoint/msbuild_suspicious_spawned_by_script_process/) | [MSBuild](/tags/#msbuild), [Trusted Developer Utilities Proxy Execution](/tags/#trusted-developer-utilities-proxy-execution) | TTP |
 | [MSHTML Module Load in Office Product](/endpoint/mshtml_module_load_in_office_product/) | [Phishing](/tags/#phishing), [Spearphishing Attachment](/tags/#spearphishing-attachment) | TTP |
 | [MSI Module Loaded by Non-System Binary](/endpoint/msi_module_loaded_by_non-system_binary/) | [DLL Side-Loading](/tags/#dll-side-loading), [Hijack Execution Flow](/tags/#hijack-execution-flow) | Hunting |
 | [MacOS - Re-opened Applications]() | None | TTP |
+| [MacOS LOLbin](/endpoint/macos_lolbin/) | [Unix Shell](/tags/#unix-shell), [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter) | TTP |
 | [Mailsniper Invoke functions](/endpoint/mailsniper_invoke_functions/) | [Email Collection](/tags/#email-collection), [Local Email Collection](/tags/#local-email-collection) | TTP |
 | [Malicious InProcServer32 Modification](/endpoint/malicious_inprocserver32_modification/) | [Regsvr32](/tags/#regsvr32), [Modify Registry](/tags/#modify-registry) | TTP |
 | [Malicious PowerShell Process - Encoded Command](/endpoint/malicious_powershell_process_-_encoded_command/) | [Obfuscated Files or Information](/tags/#obfuscated-files-or-information) | Hunting |
 | [Malicious PowerShell Process - Execution Policy Bypass](/endpoint/malicious_powershell_process_-_execution_policy_bypass/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [PowerShell](/tags/#powershell) | TTP |
-| [Malicious PowerShell Process - Multiple Suspicious Command-Line Arguments](/deprecated/malicious_powershell_process_-_multiple_suspicious_command-line_arguments/) | [PowerShell](/tags/#powershell) | TTP |
 | [Malicious PowerShell Process With Obfuscation Techniques](/endpoint/malicious_powershell_process_with_obfuscation_techniques/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [PowerShell](/tags/#powershell) | TTP |
 | [Malicious Powershell Executed As A Service](/endpoint/malicious_powershell_executed_as_a_service/) | [System Services](/tags/#system-services), [Service Execution](/tags/#service-execution) | TTP |
-| [Microsoft Exchange Mailbox Replication service writing Active Server Pages](/endpoint/microsoft_exchange_mailbox_replication_service_writing_active_server_pages/) | [Server Software Component](/tags/#server-software-component), [Web Shell](/tags/#web-shell), [Exploit Public-Facing Application](/tags/#exploit-public-facing-application) | TTP |
 | [Mimikatz PassTheTicket CommandLine Parameters](/endpoint/mimikatz_passtheticket_commandline_parameters/) | [Use Alternate Authentication Material](/tags/#use-alternate-authentication-material), [Pass the Ticket](/tags/#pass-the-ticket) | TTP |
 | [Mmc LOLBAS Execution Process Spawn](/endpoint/mmc_lolbas_execution_process_spawn/) | [Remote Services](/tags/#remote-services), [Distributed Component Object Model](/tags/#distributed-component-object-model) | TTP |
 | [Modification Of Wallpaper](/endpoint/modification_of_wallpaper/) | [Defacement](/tags/#defacement) | TTP |
@@ -488,11 +488,8 @@ sidebar:
 | [Mshta spawning Rundll32 OR Regsvr32 Process](/endpoint/mshta_spawning_rundll32_or_regsvr32_process/) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Mshta](/tags/#mshta) | TTP |
 | [Msmpeng Application DLL Side Loading](/endpoint/msmpeng_application_dll_side_loading/) | [DLL Side-Loading](/tags/#dll-side-loading), [Hijack Execution Flow](/tags/#hijack-execution-flow) | TTP |
 | [Multiple Archive Files Http Post Traffic](/network/multiple_archive_files_http_post_traffic/) | [Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol](/tags/#exfiltration-over-unencrypted/obfuscated-non-c2-protocol), [Exfiltration Over Alternative Protocol](/tags/#exfiltration-over-alternative-protocol) | TTP |
-| [Multiple Disabled Users Failing To Authenticate From Host Using Kerberos](/endpoint/multiple_disabled_users_failing_to_authenticate_from_host_using_kerberos/) | [Password Spraying](/tags/#password-spraying), [Brute Force](/tags/#brute-force) | Anomaly |
-| [Multiple Invalid Users Failing To Authenticate From Host Using Kerberos](/endpoint/multiple_invalid_users_failing_to_authenticate_from_host_using_kerberos/) | [Password Spraying](/tags/#password-spraying), [Brute Force](/tags/#brute-force) | Anomaly |
 | [Multiple Invalid Users Failing To Authenticate From Host Using NTLM](/endpoint/multiple_invalid_users_failing_to_authenticate_from_host_using_ntlm/) | [Password Spraying](/tags/#password-spraying), [Brute Force](/tags/#brute-force) | Anomaly |
 | [Multiple Okta Users With Invalid Credentials From The Same IP](/application/multiple_okta_users_with_invalid_credentials_from_the_same_ip/) | [Valid Accounts](/tags/#valid-accounts), [Default Accounts](/tags/#default-accounts) | TTP |
-| [Multiple Users Attempting To Authenticate Using Explicit Credentials](/endpoint/multiple_users_attempting_to_authenticate_using_explicit_credentials/) | [Password Spraying](/tags/#password-spraying), [Brute Force](/tags/#brute-force) | Anomaly |
 | [Multiple Users Failing To Authenticate From Host Using Kerberos](/endpoint/multiple_users_failing_to_authenticate_from_host_using_kerberos/) | [Password Spraying](/tags/#password-spraying), [Brute Force](/tags/#brute-force) | Anomaly |
 | [Multiple Users Failing To Authenticate From Host Using NTLM](/endpoint/multiple_users_failing_to_authenticate_from_host_using_ntlm/) | [Password Spraying](/tags/#password-spraying), [Brute Force](/tags/#brute-force) | Anomaly |
 | [Multiple Users Failing To Authenticate From Process](/endpoint/multiple_users_failing_to_authenticate_from_process/) | [Password Spraying](/tags/#password-spraying), [Brute Force](/tags/#brute-force) | Anomaly |
@@ -555,7 +552,7 @@ sidebar:
 | [PowerShell 4104 Hunting](/endpoint/powershell_4104_hunting/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [PowerShell](/tags/#powershell) | Hunting |
 | [PowerShell Domain Enumeration](/endpoint/powershell_domain_enumeration/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [PowerShell](/tags/#powershell) | TTP |
 | [PowerShell Get LocalGroup Discovery](/endpoint/powershell_get_localgroup_discovery/) | [Permission Groups Discovery](/tags/#permission-groups-discovery), [Local Groups](/tags/#local-groups) | Hunting |
-| [PowerShell Loading DotNET into Memory via System Reflection Assembly](/endpoint/powershell_loading_dotnet_into_memory_via_system_reflection_assembly/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [PowerShell](/tags/#powershell) | TTP |
+| [PowerShell Loading DotNET into Memory via Reflection](/endpoint/powershell_loading_dotnet_into_memory_via_reflection/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [PowerShell](/tags/#powershell) | TTP |
 | [PowerShell Start-BitsTransfer](/endpoint/powershell_start-bitstransfer/) | [BITS Jobs](/tags/#bits-jobs) | TTP |
 | [Powershell Creating Thread Mutex](/endpoint/powershell_creating_thread_mutex/) | [Obfuscated Files or Information](/tags/#obfuscated-files-or-information), [Indicator Removal from Tools](/tags/#indicator-removal-from-tools) | TTP |
 | [Powershell Disable Security Monitoring](/endpoint/powershell_disable_security_monitoring/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Impair Defenses](/tags/#impair-defenses) | TTP |
@@ -701,6 +698,7 @@ sidebar:
 | [Suspicious MSBuild Spawn](/endpoint/suspicious_msbuild_spawn/) | [Trusted Developer Utilities Proxy Execution](/tags/#trusted-developer-utilities-proxy-execution), [MSBuild](/tags/#msbuild) | TTP |
 | [Suspicious PlistBuddy Usage](/endpoint/suspicious_plistbuddy_usage/) | [Launch Agent](/tags/#launch-agent), [Create or Modify System Process](/tags/#create-or-modify-system-process) | TTP |
 | [Suspicious PlistBuddy Usage via OSquery](/endpoint/suspicious_plistbuddy_usage_via_osquery/) | [Launch Agent](/tags/#launch-agent), [Create or Modify System Process](/tags/#create-or-modify-system-process) | TTP |
+| [Suspicious Powershell Command-Line Arguments](/deprecated/suspicious_powershell_command-line_arguments/) | [PowerShell](/tags/#powershell) | TTP |
 | [Suspicious Process DNS Query Known Abuse Web Services](/endpoint/suspicious_process_dns_query_known_abuse_web_services/) | [Visual Basic](/tags/#visual-basic), [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter) | TTP |
 | [Suspicious Process File Path](/endpoint/suspicious_process_file_path/) | [Create or Modify System Process](/tags/#create-or-modify-system-process) | TTP |
 | [Suspicious Process With Discord DNS Query](/endpoint/suspicious_process_with_discord_dns_query/) | [Visual Basic](/tags/#visual-basic), [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter) | Anomaly |
@@ -779,8 +777,15 @@ sidebar:
 | [Windows Curl Upload to Remote Destination](/endpoint/windows_curl_upload_to_remote_destination/) | [Ingress Tool Transfer](/tags/#ingress-tool-transfer) | TTP |
 | [Windows DISM Remove Defender](/endpoint/windows_dism_remove_defender/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Impair Defenses](/tags/#impair-defenses) | TTP |
 | [Windows Defender Exclusion Registry Entry](/endpoint/windows_defender_exclusion_registry_entry/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Impair Defenses](/tags/#impair-defenses) | TTP |
+| [Windows Disable Change Password Through Registry](/endpoint/windows_disable_change_password_through_registry/) | [Modify Registry](/tags/#modify-registry) | Anomaly |
+| [Windows Disable Lock Workstation Feature Through Registry](/endpoint/windows_disable_lock_workstation_feature_through_registry/) | [Modify Registry](/tags/#modify-registry) | Anomaly |
+| [Windows Disable LogOff Button Through Registry](/endpoint/windows_disable_logoff_button_through_registry/) | [Modify Registry](/tags/#modify-registry) | Anomaly |
 | [Windows Disable Memory Crash Dump](/endpoint/windows_disable_memory_crash_dump/) | [Data Destruction](/tags/#data-destruction) | TTP |
+| [Windows Disable Notification Center](/endpoint/windows_disable_notification_center/) | [Modify Registry](/tags/#modify-registry) | Anomaly |
+| [Windows Disable Shutdown Button Through Registry](/endpoint/windows_disable_shutdown_button_through_registry/) | [Modify Registry](/tags/#modify-registry) | Anomaly |
+| [Windows Disable Windows Group Policy Features Through Registry](/endpoint/windows_disable_windows_group_policy_features_through_registry/) | [Modify Registry](/tags/#modify-registry) | Anomaly |
 | [Windows DisableAntiSpyware Registry](/endpoint/windows_disableantispyware_registry/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Impair Defenses](/tags/#impair-defenses) | TTP |
+| [Windows Disabled Users Failing To Authenticate Kerberos](/endpoint/windows_disabled_users_failing_to_authenticate_kerberos/) | [Password Spraying](/tags/#password-spraying), [Brute Force](/tags/#brute-force) | Anomaly |
 | [Windows DiskCryptor Usage](/endpoint/windows_diskcryptor_usage/) | [Data Encrypted for Impact](/tags/#data-encrypted-for-impact) | Hunting |
 | [Windows Diskshadow Proxy Execution](/endpoint/windows_diskshadow_proxy_execution/) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution) | TTP |
 | [Windows DotNet Binary in Non Standard Path](/endpoint/windows_dotnet_binary_in_non_standard_path/) | [Masquerading](/tags/#masquerading), [Rename System Utilities](/tags/#rename-system-utilities), [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [InstallUtil](/tags/#installutil) | TTP |
@@ -788,6 +793,7 @@ sidebar:
 | [Windows Event Log Cleared](/endpoint/windows_event_log_cleared/) | [Indicator Removal on Host](/tags/#indicator-removal-on-host), [Clear Windows Event Logs](/tags/#clear-windows-event-logs) | TTP |
 | [Windows Excessive Disabled Services Event](/endpoint/windows_excessive_disabled_services_event/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Impair Defenses](/tags/#impair-defenses) | TTP |
 | [Windows File Without Extension In Critical Folder](/endpoint/windows_file_without_extension_in_critical_folder/) | [Data Destruction](/tags/#data-destruction) | TTP |
+| [Windows Hide Notification Features Through Registry](/endpoint/windows_hide_notification_features_through_registry/) | [Modify Registry](/tags/#modify-registry) | Anomaly |
 | [Windows High File Deletion Frequency](/endpoint/windows_high_file_deletion_frequency/) | [Data Destruction](/tags/#data-destruction) | Anomaly |
 | [Windows Hunting System Account Targeting Lsass](/endpoint/windows_hunting_system_account_targeting_lsass/) | [LSASS Memory](/tags/#lsass-memory), [OS Credential Dumping](/tags/#os-credential-dumping) | Hunting |
 | [Windows InstallUtil Credential Theft](/endpoint/windows_installutil_credential_theft/) | [InstallUtil](/tags/#installutil), [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution) | TTP |
@@ -796,6 +802,7 @@ sidebar:
 | [Windows InstallUtil Uninstall Option](/endpoint/windows_installutil_uninstall_option/) | [InstallUtil](/tags/#installutil), [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution) | TTP |
 | [Windows InstallUtil Uninstall Option with Network](/endpoint/windows_installutil_uninstall_option_with_network/) | [InstallUtil](/tags/#installutil), [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution) | TTP |
 | [Windows InstallUtil in Non Standard Path](/endpoint/windows_installutil_in_non_standard_path/) | [Masquerading](/tags/#masquerading), [Rename System Utilities](/tags/#rename-system-utilities), [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [InstallUtil](/tags/#installutil) | TTP |
+| [Windows Invalid Users Failed Authentication via Kerberos](/endpoint/windows_invalid_users_failed_authentication_via_kerberos/) | [Password Spraying](/tags/#password-spraying), [Brute Force](/tags/#brute-force) | Anomaly |
 | [Windows Java Spawning Shells](/endpoint/windows_java_spawning_shells/) | [Exploit Public-Facing Application](/tags/#exploit-public-facing-application) | TTP |
 | [Windows Modify Show Compress Color And Info Tip Registry](/endpoint/windows_modify_show_compress_color_and_info_tip_registry/) | [Modify Registry](/tags/#modify-registry) | TTP |
 | [Windows NirSoft AdvancedRun](/endpoint/windows_nirsoft_advancedrun/) | [Tool](/tags/#tool) | TTP |
@@ -815,6 +822,7 @@ sidebar:
 | [Windows Service Creation Using Registry Entry](/endpoint/windows_service_creation_using_registry_entry/) | [Services Registry Permissions Weakness](/tags/#services-registry-permissions-weakness) | TTP |
 | [Windows Service Creation on Remote Endpoint](/endpoint/windows_service_creation_on_remote_endpoint/) | [Create or Modify System Process](/tags/#create-or-modify-system-process), [Windows Service](/tags/#windows-service) | TTP |
 | [Windows Service Initiation on Remote Endpoint](/endpoint/windows_service_initiation_on_remote_endpoint/) | [Create or Modify System Process](/tags/#create-or-modify-system-process), [Windows Service](/tags/#windows-service) | TTP |
+| [Windows Users Authenticate Using Explicit Credentials](/endpoint/windows_users_authenticate_using_explicit_credentials/) | [Password Spraying](/tags/#password-spraying), [Brute Force](/tags/#brute-force) | Anomaly |
 | [Windows WMI Process Call Create](/endpoint/windows_wmi_process_call_create/) | [Windows Management Instrumentation](/tags/#windows-management-instrumentation) | Hunting |
 | [Windows connhost exe started forcefully](/deprecated/windows_connhost_exe_started_forcefully/) | [Windows Command Shell](/tags/#windows-command-shell) | TTP |
 | [Windows hosts file modification]() | None | TTP |

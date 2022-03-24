@@ -184,6 +184,9 @@
                     "risk_score": 90,
                     "security_domain": "endpoint",
                     "risk_severity": "high",
+                    "supported_tas": [
+                        "Splunk_TA_microsoft_sysmon"
+                    ],
                     "mitre_attack_enrichments": [
                         {
                             "mitre_attack_id": "T1003.002",
@@ -422,6 +425,12 @@
                 ],
                 "lookups": [],
                 "cve_enrichment": [],
+                "splunk_app_enrichment": [
+                    {
+                        "name": "Splunk Add-on for Sysmon",
+                        "url": "https://splunkbase.splunk.com/app/5709"
+                    }
+                ],
                 "file_path": "/Users/pbareib/Documents/Projects/security_content/bin/contentctl_project/contentctl_infrastructure/tests/adapter/../builder/test_data/detection/valid.yml",
                 "source": "detection"
             }

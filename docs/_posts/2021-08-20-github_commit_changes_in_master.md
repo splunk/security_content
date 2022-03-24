@@ -17,7 +17,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -25,7 +25,8 @@ This search is to detect a pushed or commit to master or main branch. This is to
 
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+
+
 - **Last Updated**: 2021-08-20
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: c9d2bfe2-019f-11ec-a8eb-acde48001122
