@@ -21,7 +21,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -30,6 +30,7 @@ Adversaries may abuse Regsvr32.exe to proxy execution of malicious code by using
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2021-01-28
 - **Author**: Michael Haag, Splunk
 - **ID**: 62732736-6250-11eb-ae93-0242ac130002
@@ -86,6 +87,7 @@ Limited false positives with the query restricted to specified paths. Add more w
 #### Associated Analytic story
 * [Suspicious Regsvr32 Activity](/stories/suspicious_regsvr32_activity)
 * [Iceid](/stories/iceid)
+* [Living Off The Land](/stories/living_off_the_land)
 
 
 #### Kill Chain Phase

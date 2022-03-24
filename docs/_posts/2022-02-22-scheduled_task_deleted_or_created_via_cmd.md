@@ -25,7 +25,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -34,6 +34,7 @@ The following analytic identifies the creation or deletion of a scheduled task u
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2022-02-22
 - **Author**: Bhavin Patel, Splunk
 - **ID**: d5af132c-7c17-439c-9d31-13d55340f36c
@@ -85,6 +86,7 @@ It is possible scripts or administrators may trigger this analytic. Filter as ne
 * [DHS Report TA18-074A](/stories/dhs_report_ta18-074a)
 * [NOBELIUM Group](/stories/nobelium_group)
 * [Windows Persistence Techniques](/stories/windows_persistence_techniques)
+* [Living Off The Land](/stories/living_off_the_land)
 
 
 #### Kill Chain Phase
