@@ -411,6 +411,28 @@ class SplunkContainer:
         # Sleep for a small random time so that containers drift apart and don't synchronize their testing
         time.sleep(random.randint(1, 30))
         self.test_start_time = timeit.default_timer()
+        
+        #empty all the detections
+        all_detections: list[str] = []
+        self.synchronization_object.testing_queue.put(detection_to_test)
+        print("Empty out the queue")
+
+        while True:
+            d = self.synchronization_object.getTest()
+            if d is None:
+                break
+            else:
+                all_detections.append(d)
+        print(f"got {len(all_detections)} detections off the queue")
+        #now put all these back on the queue
+        for single in all_detections:
+            self.synchronization_object.testing_queue.put(single)
+        print(f"put all the detections back on the queue")
+        
+        detection_to_test = self.synchronization_object.getTest()
+
+
+
         while detection_to_test is not None:
             if self.synchronization_object.checkContainerFailure():
                 self.container.stop()
@@ -427,6 +449,7 @@ class SplunkContainer:
             print("Container [%s]--->[%s]" %
                   (self.container_name, detection_to_test))
             try:
+                testing_service.load_splunk_for_fp_testing(self.splunk_ip, self.management_port, self.container_password, detection_to_test, all_detections,  self.synchronization_object.attack_data_root_folder)
                 result = testing_service.test_detection_wrapper(
                     self.container_name,
                     self.splunk_ip,

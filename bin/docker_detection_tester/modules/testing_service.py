@@ -16,7 +16,7 @@ from os.path import relpath
 from tempfile import mkdtemp
 import datetime
 import http.client
-
+import shutil
 
 def test_detection_wrapper(container_name:str, splunk_ip:str, splunk_password:str, splunk_port:int, 
                            test_file:str, attack_data_root_folder, wait_on_failure:bool=False, wait_on_completion:bool=False)->dict:
@@ -66,6 +66,81 @@ def get_service(splunk_ip:str, splunk_port:int, splunk_password:str):
         raise(Exception("Unable to connect to Splunk instance: " + str(e)))
     return service
 
+def load_splunk_for_fp_testing(splunk_ip:str, splunk_port:int, splunk_password:str, test_file:str, fp_test_files:list[str], attack_data_root_folder)->Union[dict,None]:
+    datasets_in_real_test = []
+
+    real_test_file_obj = load_file(os.path.join("security_content/", test_file))
+
+    if not real_test_file_obj:
+        print("Not test_file_obj!")
+        raise(Exception("No test file object found for [%s]"%(test_file)))
+    
+    
+
+    real_abs_folder_path = mkdtemp(prefix="DATA_REAL_", dir=attack_data_root_folder)
+    #We want the relative path, so we convert it as required
+    real_folder_name = relpath(real_abs_folder_path, os.getcwd())
+
+    for attack_data in real_test_file_obj['tests'][0]['attack_data']:
+        datasets_in_real_test.append(attack_data['data'])
+    
+
+    #now do everything for the FP data
+    datasets_in_fp_data = []
+    for fp_test_file in enumerate(fp_test_files):
+        fp_test_file_obj = load_file(os.path.join("security_content/", fp_test_file[1]))
+
+        if not fp_test_file_obj:
+            print("Not test_file_obj!")
+            raise(Exception("No test file object found for [%s]"%(fp_test_file[1])))
+
+
+
+        fp_abs_folder_path = mkdtemp(prefix="DATA_FP_", dir=attack_data_root_folder)
+        #We want the relative path, so we convert it as required
+        fp_folder_name = relpath(fp_abs_folder_path, os.getcwd())
+
+        for attack_data in fp_test_file_obj['tests'][0]['attack_data']:
+            url = attack_data['data']
+            if url in datasets_in_real_test:
+                print(f"FP datset {url} also in real dataset! Ignoring...")
+                continue
+            r = requests.get(url, allow_redirects=True)
+            target_file = os.path.join(fp_folder_name, attack_data['file_name'])
+            with open(target_file, 'wb') as target:
+                target.write(r.content)
+            #print(target_file)
+
+
+            # Update timestamps before replay
+            if 'update_timestamp' in attack_data:
+                if attack_data['update_timestamp'] == True:
+                    data_manipulation = DataManipulation()
+                    data_manipulation.manipulate_timestamp(target_file, attack_data['sourcetype'], attack_data['source'])
+            #replay_attack_dataset(container_name, splunk_password, folder_name, "test0", attack_data['sourcetype'], attack_data['source'], attack_data['file_name'])
+            
+            try:
+                service = get_service(splunk_ip, splunk_port, splunk_password)
+                test_index = service.indexes["main"]
+                
+                with open(target_file, 'rb') as target:
+                    test_index.submit(target.read(), sourcetype=attack_data['sourcetype'], source=attack_data['source'])
+            
+            except http.client.HTTPException as e:
+                raise(Exception(f"Failed to submit detection file {target_file} to Splunk Server: {str(e)}"))
+                
+            except Exception as e:
+                raise(Exception(f"Failed to submit detection file {target_file} to Splunk Server: {str(e)}"))
+        print(f"Loaded fp data {fp_test_file[0]:>5} of {len(fp_test_files):>5}")
+    
+    input("All datasets loaded!  Hit enter to run the real test")
+
+
+
+
+            
+
+
 def test_detection(splunk_ip:str, splunk_port:int, container_name:str, splunk_password:str, test_file:str, uuid_var, attack_data_root_folder)->Union[dict,None]:
     
     test_file_obj = load_file(os.path.join("security_content/", test_file))
@@ -92,10 +167,14 @@ def test_detection(splunk_ip:str, splunk_port:int, container_name:str, splunk_pa
 
     for attack_data in test_file_obj['tests'][0]['attack_data']:
         url = attack_data['data']
-        r = requests.get(url, allow_redirects=True)
+        dat_file = url.replace("https://media.githubusercontent.com/media/splunk/attack_data/master/","./attack_data/")
+        
+        
+        #r = requests.get(url, allow_redirects=True)
         target_file = os.path.join(folder_name, attack_data['file_name'])
-        with open(target_file, 'wb') as target:
-            target.write(r.content)
+        shutil.copyfile(dat_file, target_file)
+        #with open(target_file, 'wb') as target:
+        #    target.write(r.content)
         #print(target_file)
 
 
