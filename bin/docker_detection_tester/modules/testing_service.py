@@ -91,6 +91,7 @@ def load_splunk_for_fp_testing(splunk_ip:str, splunk_port:int, splunk_password:s
     fp_datasets_already_loaded = set()
     counter = 0
     for fp_test_file in enumerate(fp_test_files):
+        print(f"{fp_test_file[0]} of {len(fp_test_files)}")
         fp_test_file_obj = load_file(os.path.join("security_content/", fp_test_file[1]))
 
         if not fp_test_file_obj:
