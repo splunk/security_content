@@ -17,7 +17,7 @@ tags:
 We have not been able to test, simulate, or build datasets for this object. Use at your own risk. This analytic is **NOT** supported.
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -26,6 +26,7 @@ This search looks for emails claiming to be sent from a domain similar to one th
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Email](https://docs.splunk.com/Documentation/CIM/latest/User/Email)
+
 - **Last Updated**: 2018-01-05
 - **Author**: David Dorsey, Splunk
 - **ID**: b2ea1f38-3a3e-4b8a-9cf1-82760d86a6b8

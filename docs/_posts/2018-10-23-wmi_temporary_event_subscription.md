@@ -19,7 +19,7 @@ tags:
 We have not been able to test, simulate, or build datasets for this object. Use at your own risk. This analytic is **NOT** supported.
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -27,7 +27,8 @@ This search looks for the creation of WMI temporary event subscriptions.
 
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+
+
 - **Last Updated**: 2018-10-23
 - **Author**: Rico Valdez, Splunk
 - **ID**: 38cbd42c-1098-41bb-99cf-9d6d2b296d83
@@ -54,8 +55,8 @@ This search looks for the creation of WMI temporary event subscriptions.
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [wmi](https://github.com/splunk/security_content/blob/develop/macros/wmi.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `wmi_temporary_event_subscription_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 

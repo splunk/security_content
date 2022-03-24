@@ -33,7 +33,7 @@ While investigating a detection related to this analytic story, please bear in m
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Excessive number of distinct processes created in Windows Temp folder](/endpoint/excessive_number_of_distinct_processes_created_in_windows_temp_folder/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter)| Anomaly |
+| [Excessive distinct processes from Windows Temp](/endpoint/excessive_distinct_processes_from_windows_temp/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter)| Anomaly |
 | [Excessive number of taskhost processes](/endpoint/excessive_number_of_taskhost_processes/) | [System Owner/User Discovery](/tags/#system-owner/user-discovery)| Anomaly |
 
 #### Reference

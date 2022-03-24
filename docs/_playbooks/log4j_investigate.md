@@ -24,14 +24,15 @@ Published in response to CVE-2021-44228, this playbook and its sub-playbooks can
 
 #### Associated Detections
 
-* [Curl Download and Bash Execution](//curl_download_and_bash_execution/)
-* [Java Class File download by Java User Agent](//java_class_file_download_by_java_user_agent/)
-* [Linux Java Spawning Shell](//linux_java_spawning_shell/)
-* [Outbound Network Connection from Java Using Default Ports](//outbound_network_connection_from_java_using_default_ports/)
-* [Wget Download and Bash Execution](//wget_download_and_bash_execution/)
-* [Detect Outbound LDAP Traffic](//detect_outbound_ldap_traffic/)
-* [Log4Shell JNDI Payload Injection Attempt](//log4shell_jndi_payload_injection_attempt/)
-* [Log4Shell JNDI Payload Injection with Outbound Connection](//log4shell_jndi_payload_injection_with_outbound_connection/)
+* [Curl Download and Bash Execution](/detection/curl_download_and_bash_execution/)
+* [Wget Download and Bash Execution](/detection/wget_download_and_bash_execution/)
+* [Linux Java Spawning Shell](/detection/linux_java_spawning_shell/)
+* [Windows Java Spawning Shell](/detection/windows_java_spawning_shell/)
+* [Java Class File download by Java User Agent](/detection/java_class_file_download_by_java_user_agent/)
+* [Outbound Network Connection from Java Using Default Ports](/detection/outbound_network_connection_from_java_using_default_ports/)
+* [Log4Shell JNDI Payload Injection Attempt](/detection/log4shell_jndi_payload_injection_attempt/)
+* [Log4Shell JNDI Payload Injection with Outbound Connection](/detection/log4shell_jndi_payload_injection_with_outbound_connection/)
+* [Detect Outbound LDAP Traffic](/detection/detect_outbound_ldap_traffic/)
 
 
 

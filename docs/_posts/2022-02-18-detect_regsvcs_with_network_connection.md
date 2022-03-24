@@ -20,7 +20,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -28,7 +28,8 @@ The following analytic identifies Regsvcs.exe with a network connection to a pub
 
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+
+
 - **Last Updated**: 2022-02-18
 - **Author**: Michael Haag, Splunk
 - **ID**: e3e7a1c0-f2b9-445c-8493-f30a63522d1a
@@ -79,6 +80,7 @@ Although unlikely, limited instances of regsvcs.exe may cause a false positive. 
 
 #### Associated Analytic story
 * [Suspicious Regsvcs Regasm Activity](/stories/suspicious_regsvcs_regasm_activity)
+* [Living Off The Land](/stories/living_off_the_land)
 
 
 #### Kill Chain Phase
