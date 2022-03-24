@@ -1,0 +1,91 @@
+name: Windows LOLBin Binary in Non Standard Path
+id: 25689101-012a-324a-94d3-08301e6c065a
+version: 1
+date: '2022-03-18'
+author: Michael Haag, Splunk
+type: Anomaly
+datamodel:
+- Endpoint_Processes
+description: The following analytic identifies native living off the land binaries within the Windows
+  operating system that may be abused by adversaries by moving it to a new directory.
+  The list of binaries was derived from the https://lolbas-project.github.io site, and excluded common process names (cmd.exe) and DotNet binaries. It also does not include the category of OtherMSBinaries.
+search: ' $ssa_input = | from read_ssa_enriched_events() | eval device=ucast(map_get(input_event,
+  "dest_device_id"), "string", null), user=ucast(map_get(input_event, "dest_user_id"),
+  "string", null), timestamp=parse_long(ucast(map_get(input_event, "_time"), "string",
+  null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string",
+  null)), process_path=lower(ucast(map_get(input_event, "process_path"), "string",
+  null)), event_id=ucast(map_get(input_event, "event_id"), "string", null);
+
+  $cond_1 = | from $ssa_input | where process_name="appinstaller.exe" OR process_name="aspnet_compiler.exe" OR process_name="at.exe" OR process_name="atbroker.exe" OR process_name="bash.exe" OR process_name="bitsadmin.exe" OR process_name="certoc.exe" OR process_name="certreq.exe" OR process_name="certutil.exe" OR process_name="cmd.exe" OR 
+  process_name="cmdkey.exe" OR process_name="cmdl32.exe" OR process_name="cmstp.exe" OR process_name="configsecuritypolicy.exe" OR process_name="control.exe" OR process_name="csc.exe" OR process_name="cscript.exe" OR process_name="datasvcutil.exe" OR process_name="desktopimgdownldr.exe" OR process_name="dfsvc.exe" OR process_name="diantz.exe" OR 
+  process_name="diskshadow.exe" OR process_name="dllhost.exe" OR process_name="dnscmd.exe" OR process_name="esentutl.exe" OR process_name="eventvwr.exe" OR process_name="expand.exe" OR process_name="explorer.exe" OR process_name="extexport.exe" OR process_name="extrac32.exe" OR process_name="findstr.exe" OR process_name="finger.exe" OR process_name="fltmc.exe" OR 
+  process_name="forfiles.exe" OR process_name="ftp.exe" OR process_name="gfxdownloadwrapper.exe" OR process_name="gpscript.exe" OR process_name="hh.exe" OR process_name="imewdbld.exe" OR process_name="ie4uinit.exe" OR process_name="ieexec.exe" OR process_name="ilasm.exe" OR process_name="infdefaultinstall.exe" OR process_name="makecab.exe" OR process_name="mavinject.exe" OR process_name="microsoft.workflow.compiler.exe" OR process_name="mmc.exe" OR process_name="mpcmdrun.exe" OR 
+  process_name="msconfig.exe" OR process_name="msdt.exe" OR process_name="mshta.exe" OR 
+  process_name="msiexec.exe" OR process_name="netsh.exe" OR process_name="odbcconf.exe" OR process_name="offlinescannershell.exe" OR process_name="onedrivestandaloneupdater.exe" OR process_name="pcalua.exe" OR process_name="pcwrun.exe" OR process_name="pktmon.exe" OR process_name="pnputil.exe" OR process_name="presentationhost.exe" OR process_name="print.exe" OR process_name="printbrm.exe" OR process_name="psr.exe" OR process_name="rasautou.exe" OR 
+  process_name="reg.exe" OR process_name="regedit.exe" OR process_name="regini.exe" OR process_name="register-cimprovider.exe" OR process_name="regsvr32.exe" OR process_name="replace.exe" OR process_name="rpcping.exe" OR process_name="rundll32.exe" OR process_name="runonce.exe" OR process_name="runscripthelper.exe" OR process_name="sc.exe" OR process_name="schtasks.exe" OR process_name="scriptrunner.exe" OR 
+  process_name="settingsynchost.exe" OR process_name="syncappvpublishingserver.exe" OR process_name="ttdinject.exe" OR process_name="tttracer.exe" OR process_name="vbc.exe" OR process_name="verclsid.exe" OR process_name="wab.exe" OR process_name="wlrmdr.exe" OR process_name="wmic.exe" OR process_name="workfolders.exe" OR process_name="wscript.exe" OR process_name="wsreset.exe" OR process_name="wuauclt.exe" OR process_name="xwizard.exe";
+
+  | from $cond_1 | where match_regex(process_path, /(?i)\\windows\\system32/)=false
+  AND match_regex(process_path, /(?i)\\windows\\syswow64/)=false AND 
+  match_regex(process_path, /(?i)\\windows\\adws/)=false AND match_regex(process_path, /(?i)\\windows\\networkcontroller/)=false
+  AND match_regex(process_path, /(?i)\\windows\\systemapps/)=false AND match_regex(process_path, /(?i)\\winsxs/)=false
+  AND match_regex(process_path, /(?i)\\microsoft.net/)=false | eval start_time=timestamp,
+  end_time=timestamp, entities=mvappend(device, user), body=create_map(["event_id",
+  event_id, "process_path", process_path, "process_name", process_name]) | into write_ssa_detected_events();'
+how_to_implement: Collect endpoint data such as sysmon or 4688 events.
+known_false_positives: False positives may be present and filtering may be required.
+  Certain utilities will run from non-standard paths based on the third-party application
+  in use.
+references:
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1036.003/T1036.003.yaml
+  - https://attack.mitre.org/techniques/T1036/003/
+  - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.004/T1218.004.md
+tags:
+  analytic_story:
+  - Unusual Processes
+  - Ransomware
+  - WhisperGate
+  cis20:
+  - CIS 8
+  confidence: 70
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/system_process_running_unexpected_location/dotnet_lolbin-windows-security.log
+  impact: 70
+  kill_chain_phases:
+  - Actions on Objectives
+  message: A system process $process_name$ with commandline $cmd_line$ spawn in non-default
+    folder path on host $dest_device_id$
+  mitre_attack_id:
+  - T1036
+  - T1036.003
+  - T1218
+  - T1218.004
+  nist:
+  - PR.PT
+  - DE.CM
+  observable:
+  - name: dest_device_id
+    type: Hostname
+    role:
+    - Victim
+  - name: dest_user_id
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Behavioral Analytics
+  required_fields:
+  - dest_device_id
+  - process_name
+  - _time
+  - dest_user_id
+  - process_path
+  - cmd_line
+  risk_score: 49
+  risk_severity: medium
+  security_domain: endpoint
+  asset_type: Endpoint
