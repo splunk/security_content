@@ -61,6 +61,11 @@ class NewContentQuestions():
                 'choices': [
                     'Endpoint',
                     'Endpoint_Processes (SSA)',
+                    'Endpoint_Registry (SSA)',
+                    'Endpoint_Filesystem (SSA)',
+                    'Endpoint_ResourceAccess (SSA)',
+                    'Endpoint_AccountManagement (SSA)',
+                    'Intrusion_Detection (SSA)',
                     'Authentication',
                     'Change',
                     'Email',
