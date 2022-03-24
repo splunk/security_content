@@ -23,7 +23,53 @@
                 "Splunk Enterprise Security",
                 "Splunk Cloud"
             ],
-            "usecase": "Advanced Threat Detection"
+            "usecase": "Advanced Threat Detection",
+            "mitre_attack_enrichments": [
+                {
+                    "mitre_attack_id": "T1003.002",
+                    "mitre_attack_technique": "Security Account Manager",
+                    "mitre_attack_tactics": [
+                        "Credential Access"
+                    ],
+                    "mitre_attack_groups": [
+                        "Dragonfly 2.0",
+                        "GALLIUM",
+                        "Ke3chang",
+                        "Night Dragon",
+                        "Threat Group-3390",
+                        "Wizard Spider",
+                        "menuPass"
+                    ]
+                },
+                {
+                    "mitre_attack_id": "T1003",
+                    "mitre_attack_technique": "OS Credential Dumping",
+                    "mitre_attack_tactics": [
+                        "Credential Access"
+                    ],
+                    "mitre_attack_groups": [
+                        "APT28",
+                        "APT32",
+                        "APT39",
+                        "Axiom",
+                        "Frankenstein",
+                        "Leviathan",
+                        "Poseidon Group",
+                        "Sowbug",
+                        "Suckfly",
+                        "Tonto Team"
+                    ]
+                }
+            ],
+            "mitre_attack_tactics": [
+                "Credential Access"
+            ],
+            "datamodels": [
+                "Endpoint"
+            ],
+            "kill_chain_phases": [
+                "Actions on Objectives"
+            ]
         },
         "detection_names": [
             "ESCU - Attempted Credential Dump From Registry via Reg exe - Rule"
@@ -139,31 +185,45 @@
                     "risk_score": 90,
                     "security_domain": "endpoint",
                     "risk_severity": "high",
-                    "mitre_attack_techniques": [
-                        "Security Account Manager",
-                        "OS Credential Dumping"
+                    "supported_tas": [
+                        "Splunk_TA_microsoft_sysmon"
                     ],
-                    "mitre_attack_tactics": [
-                        "Credential Access"
-                    ],
-                    "mitre_attack_groups": [
-                        "Wizard Spider",
-                        "Threat Group-3390",
-                        "Ke3chang",
-                        "GALLIUM",
-                        "Night Dragon",
-                        "Dragonfly 2.0",
-                        "menuPass",
-                        "Tonto Team",
-                        "APT39",
-                        "Frankenstein",
-                        "APT32",
-                        "APT28",
-                        "Leviathan",
-                        "Sowbug",
-                        "Suckfly",
-                        "Poseidon Group",
-                        "Axiom"
+                    "mitre_attack_enrichments": [
+                        {
+                            "mitre_attack_id": "T1003.002",
+                            "mitre_attack_technique": "Security Account Manager",
+                            "mitre_attack_tactics": [
+                                "Credential Access"
+                            ],
+                            "mitre_attack_groups": [
+                                "Dragonfly 2.0",
+                                "GALLIUM",
+                                "Ke3chang",
+                                "Night Dragon",
+                                "Threat Group-3390",
+                                "Wizard Spider",
+                                "menuPass"
+                            ]
+                        },
+                        {
+                            "mitre_attack_id": "T1003",
+                            "mitre_attack_technique": "OS Credential Dumping",
+                            "mitre_attack_tactics": [
+                                "Credential Access"
+                            ],
+                            "mitre_attack_groups": [
+                                "APT28",
+                                "APT32",
+                                "APT39",
+                                "Axiom",
+                                "Frankenstein",
+                                "Leviathan",
+                                "Poseidon Group",
+                                "Sowbug",
+                                "Suckfly",
+                                "Tonto Team"
+                            ]
+                        }
                     ]
                 },
                 "deprecated": false,
@@ -296,7 +356,6 @@
                                 "Ransomware"
                             ],
                             "detections": [
-                                "Conti Common Exec parameter",
                                 "Attempted Credential Dump From Registry via Reg exe"
                             ],
                             "platform_tags": [
@@ -309,6 +368,13 @@
                             ],
                             "product": [
                                 "Splunk SOAR"
+                            ],
+                            "detection_objects": [
+                                {
+                                    "name": "Attempted Credential Dump From Registry via Reg exe",
+                                    "lowercase_name": "attempted_credential_dump_from_registry_via_reg_exe",
+                                    "path": "detections/endpoint/attempted_credential_dump_from_registry_via_reg_exe.yml"
+                                }
                             ]
                         }
                     }
@@ -357,7 +423,16 @@
                         "definition": "search *",
                         "description": "Update this macro to limit the output results to filter out false positives."
                     }
-                ]
+                ],
+                "lookups": [],
+                "cve_enrichment": [],
+                "splunk_app_enrichment": [
+                    {
+                        "name": "Splunk Add-on for Sysmon",
+                        "url": "https://splunkbase.splunk.com/app/5709"
+                    }
+                ],
+                "source": "detection"
             }
         ],
         "investigations": [
@@ -376,6 +451,10 @@
                 "how_to_implement": "You must be ingesting endpoint data that tracks process activity, including parent-child relationships from your endpoints to populate the Endpoint data model in the Processes node. The command-line arguments are mapped to the \"process\" field in the Endpoint data model.",
                 "known_false_positives": "",
                 "references": [],
+                "inputs": [
+                    "parent_process_name",
+                    "dest"
+                ],
                 "tags": {
                     "analytic_story": [
                         "Collection and Staging",
@@ -420,10 +499,6 @@
                     ],
                     "security_domain": "endpoint"
                 },
-                "inputs": [
-                    "parent_process_name",
-                    "dest"
-                ],
                 "lowercase_name": "get_parent_process_info"
             }
         ]
