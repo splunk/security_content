@@ -443,7 +443,8 @@ def main(args: list[str]):
         #we are running on GitHub Actions against multiple machines.  Hopefully, this
         #will reduce that chnaces the some machines run and complete quickly while
         #others take a long time.
-        random.shuffle(all_test_files)        
+        all_test_files.sort()
+        #random.shuffle(all_test_files)        
 
     except Exception as e:
         print("Error getting test files:\n%s"%(str(e)), file=sys.stderr)

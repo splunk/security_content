@@ -432,7 +432,8 @@ class SplunkContainer:
         detection_to_test = self.synchronization_object.getTest()
 
 
-
+        testing_service.load_splunk_for_fp_testing(self.splunk_ip, self.management_port, self.container_password, "", all_detections,  self.synchronization_object.attack_data_root_folder)
+        
         while detection_to_test is not None:
             if self.synchronization_object.checkContainerFailure():
                 self.container.stop()
@@ -449,7 +450,7 @@ class SplunkContainer:
             print("Container [%s]--->[%s]" %
                   (self.container_name, detection_to_test))
             try:
-                testing_service.load_splunk_for_fp_testing(self.splunk_ip, self.management_port, self.container_password, detection_to_test, all_detections,  self.synchronization_object.attack_data_root_folder)
+                
                 result = testing_service.test_detection_wrapper(
                     self.container_name,
                     self.splunk_ip,

@@ -69,20 +69,21 @@ def get_service(splunk_ip:str, splunk_port:int, splunk_password:str):
 def load_splunk_for_fp_testing(splunk_ip:str, splunk_port:int, splunk_password:str, test_file:str, fp_test_files:list[str], attack_data_root_folder)->Union[dict,None]:
     datasets_in_real_test = []
 
-    real_test_file_obj = load_file(os.path.join("security_content/", test_file))
+    if test_file != "":
+        real_test_file_obj = load_file(os.path.join("security_content/", test_file))
 
-    if not real_test_file_obj:
-        print("Not test_file_obj!")
-        raise(Exception("No test file object found for [%s]"%(test_file)))
+        if not real_test_file_obj:
+            print("Not test_file_obj!")
+            raise(Exception("No test file object found for [%s]"%(test_file)))
+
     
-    
 
-    real_abs_folder_path = mkdtemp(prefix="DATA_REAL_", dir=attack_data_root_folder)
-    #We want the relative path, so we convert it as required
-    real_folder_name = relpath(real_abs_folder_path, os.getcwd())
+        real_abs_folder_path = mkdtemp(prefix="DATA_REAL_", dir=attack_data_root_folder)
+        #We want the relative path, so we convert it as required
+        real_folder_name = relpath(real_abs_folder_path, os.getcwd())
 
-    for attack_data in real_test_file_obj['tests'][0]['attack_data']:
-        datasets_in_real_test.append(attack_data['data'])
+        for attack_data in real_test_file_obj['tests'][0]['attack_data']:
+            datasets_in_real_test.append(attack_data['data'])
     
 
     #now do everything for the FP data
