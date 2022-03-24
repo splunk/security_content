@@ -21,7 +21,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -31,6 +31,7 @@ Upon investigating, look for network connections to remote destinations (interna
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2021-01-28
 - **Author**: Michael Haag, Splunk
 - **ID**: 070e9b80-6252-11eb-ae93-0242ac130002
@@ -87,6 +88,7 @@ Limited false positives related to third party software registering .DLL's.
 #### Associated Analytic story
 * [Suspicious Regsvr32 Activity](/stories/suspicious_regsvr32_activity)
 * [Cobalt Strike](/stories/cobalt_strike)
+* [Living Off The Land](/stories/living_off_the_land)
 
 
 #### Kill Chain Phase
