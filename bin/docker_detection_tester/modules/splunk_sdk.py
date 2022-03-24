@@ -301,7 +301,7 @@ def test_detection_search(splunk_host:str, splunk_port:int, splunk_password:str,
 
 
 def delete_attack_data(splunk_host:str, splunk_password:str, splunk_port:int, wait_on_delete:Union[dict,None], search_string:str, detection_filename:str, index:str="main")->bool:
-    
+    return True
     try:
         service = client.connect(
             host=splunk_host,

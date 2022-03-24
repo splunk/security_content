@@ -106,13 +106,15 @@ def load_splunk_for_fp_testing(splunk_ip:str, splunk_port:int, splunk_password:s
             if url in datasets_in_real_test:
                 print(f"FP datset {url} also in real dataset! Ignoring...")
                 continue
-            r = requests.get(url, allow_redirects=True)
+            #r = requests.get(url, allow_redirects=True)
+
             target_file = os.path.join(fp_folder_name, attack_data['file_name'])
-            with open(target_file, 'wb') as target:
-                target.write(r.content)
+            #with open(target_file, 'wb') as target:
+            #    target.write(r.content)
             #print(target_file)
-
-
+            dat_file = url.replace("https://media.githubusercontent.com/media/splunk/attack_data/master/","./attack_data/")
+            shutil.copyfile(dat_file, target_file)
+            
             # Update timestamps before replay
             if 'update_timestamp' in attack_data:
                 if attack_data['update_timestamp'] == True:
@@ -160,30 +162,30 @@ def test_detection(splunk_ip:str, splunk_port:int, container_name:str, splunk_pa
 
     abs_folder_path = mkdtemp(prefix="DATA_", dir=attack_data_root_folder)
     #We want the relative path, so we convert it as required
-    folder_name = relpath(abs_folder_path, os.getcwd())
+    #folder_name = relpath(abs_folder_path, os.getcwd())
 
 
     
 
-
+    '''
     for attack_data in test_file_obj['tests'][0]['attack_data']:
-        url = attack_data['data']
-        dat_file = url.replace("https://media.githubusercontent.com/media/splunk/attack_data/master/","./attack_data/")
+        #url = attack_data['data']
+        #dat_file = url.replace("https://media.githubusercontent.com/media/splunk/attack_data/master/","./attack_data/")
         
         
         #r = requests.get(url, allow_redirects=True)
-        target_file = os.path.join(folder_name, attack_data['file_name'])
-        shutil.copyfile(dat_file, target_file)
+        #target_file = os.path.join(folder_name, attack_data['file_name'])
+        #shutil.copyfile(dat_file, target_file)
         #with open(target_file, 'wb') as target:
         #    target.write(r.content)
         #print(target_file)
 
 
         # Update timestamps before replay
-        if 'update_timestamp' in attack_data:
-            if attack_data['update_timestamp'] == True:
-                data_manipulation = DataManipulation()
-                data_manipulation.manipulate_timestamp(target_file, attack_data['sourcetype'], attack_data['source'])
+        #if 'update_timestamp' in attack_data:
+        #    if attack_data['update_timestamp'] == True:
+        #        data_manipulation = DataManipulation()
+        #        data_manipulation.manipulate_timestamp(target_file, attack_data['sourcetype'], attack_data['source'])
         #replay_attack_dataset(container_name, splunk_password, folder_name, "test0", attack_data['sourcetype'], attack_data['source'], attack_data['file_name'])
         
         try:
@@ -211,7 +213,7 @@ def test_detection(splunk_ip:str, splunk_port:int, container_name:str, splunk_pa
 
     
     #print("end sleep 30")
-    
+    '''
     result_test = {}
     test = test_file_obj['tests'][0]
     
