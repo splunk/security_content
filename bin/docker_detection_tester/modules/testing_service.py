@@ -88,6 +88,8 @@ def load_splunk_for_fp_testing(splunk_ip:str, splunk_port:int, splunk_password:s
 
     #now do everything for the FP data
     datasets_in_fp_data = []
+    fp_datasets_already_loaded = set()
+    counter = 0
     for fp_test_file in enumerate(fp_test_files):
         fp_test_file_obj = load_file(os.path.join("security_content/", fp_test_file[1]))
 
@@ -103,6 +105,9 @@ def load_splunk_for_fp_testing(splunk_ip:str, splunk_port:int, splunk_password:s
 
         for attack_data in fp_test_file_obj['tests'][0]['attack_data']:
             url = attack_data['data']
+            if url in fp_datasets_already_loaded:
+                print(f"ALREADY_LOADED - {url}")
+                continue
             if url in datasets_in_real_test:
                 print(f"FP datset {url} also in real dataset! Ignoring...")
                 continue
@@ -127,7 +132,9 @@ def load_splunk_for_fp_testing(splunk_ip:str, splunk_port:int, splunk_password:s
                 test_index = service.indexes["main"]
                 
                 with open(target_file, 'rb') as target:
+                    print(f"       LOADING - {url}")
                     test_index.submit(target.read(), sourcetype=attack_data['sourcetype'], source=attack_data['source'])
+                    fp_datasets_already_loaded.add(url)
             
             except http.client.HTTPException as e:
                 raise(Exception(f"Failed to submit detection file {target_file} to Splunk Server: {str(e)}"))
