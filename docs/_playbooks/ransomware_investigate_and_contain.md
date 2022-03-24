@@ -29,7 +29,7 @@ This playbook investigates and contains ransomware detected on endpoints.
 
 #### Associated Detections
 
-* [Conti Common Exec parameter](//conti_common_exec_parameter/)
+* [Conti Common Exec parameter](/detection/conti_common_exec_parameter/)
 
 
 

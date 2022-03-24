@@ -15,7 +15,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -24,6 +24,7 @@ The search is used to detect hosts that generate Windows Event ID 4663 for succe
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change_Analysis](https://docs.splunk.com/Documentation/CIM/latest/User/ChangeAnalysis)
+
 - **Last Updated**: 2017-11-27
 - **Author**: Bhavin Patel, Splunk
 - **ID**: 104658f4-afdc-499f-9719-17a43f9826f5
