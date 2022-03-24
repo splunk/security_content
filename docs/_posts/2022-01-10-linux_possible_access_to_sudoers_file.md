@@ -23,7 +23,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -32,6 +32,7 @@ This analytic is to detect a possible access or modification of /etc/sudoers fil
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+
 - **Last Updated**: 2022-01-10
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: 4479539c-71fc-11ec-b2e2-acde48001122

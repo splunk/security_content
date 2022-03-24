@@ -23,7 +23,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -32,6 +32,7 @@ This analytic is to look for suspicious command lines that may add entry to /etc
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+
 - **Last Updated**: 2021-12-21
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: ab1e0d52-624a-11ec-8e0b-acde48001122

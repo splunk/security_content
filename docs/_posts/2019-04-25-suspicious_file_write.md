@@ -14,7 +14,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -22,7 +22,8 @@ The search looks for files created with names that have been linked to malicious
 
 - **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+
+
 - **Last Updated**: 2019-04-25
 - **Author**: Rico Valdez, Splunk
 - **ID**: 57f76b8a-32f0-42ed-b358-d9fa3ca7bac8
@@ -41,9 +42,9 @@ The search looks for files created with names that have been linked to malicious
 
 #### Macros
 The SPL above uses the following Macros:
+* [suspicious_writes](https://github.com/splunk/security_content/blob/develop/macros/suspicious_writes.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
-* [suspicious_writes](https://github.com/splunk/security_content/blob/develop/macros/suspicious_writes.yml)
 
 Note that `suspicious_file_write_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 

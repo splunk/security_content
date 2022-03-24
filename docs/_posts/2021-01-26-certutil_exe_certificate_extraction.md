@@ -15,7 +15,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -24,6 +24,7 @@ This search looks for arguments to certutil.exe indicating the manipulation or e
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2021-01-26
 - **Author**: Rod Soto, Splunk
 - **ID**: 337a46be-600f-11eb-ae93-0242ac130002
@@ -69,6 +70,7 @@ Unless there are specific use cases, manipulating or exporting certificates usin
 #### Associated Analytic story
 * [Windows Persistence Techniques](/stories/windows_persistence_techniques)
 * [Cloud Federated Credential Abuse](/stories/cloud_federated_credential_abuse)
+* [Living Off The Land](/stories/living_off_the_land)
 
 
 #### Kill Chain Phase

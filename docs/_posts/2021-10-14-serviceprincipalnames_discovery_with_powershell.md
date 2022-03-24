@@ -17,7 +17,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -29,7 +29,8 @@ During triage, review parallel processes for further suspicious activity.
 
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+
+
 - **Last Updated**: 2021-10-14
 - **Author**: Michael Haag, Splunk
 - **ID**: 13243068-2d38-11ec-8908-acde48001122
@@ -53,8 +54,8 @@ During triage, review parallel processes for further suspicious activity.
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [powershell](https://github.com/splunk/security_content/blob/develop/macros/powershell.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `serviceprincipalnames_discovery_with_powershell_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 

@@ -19,7 +19,7 @@ tags:
 We have not been able to test, simulate, or build datasets for this object. Use at your own risk. This analytic is **NOT** supported.
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -27,7 +27,8 @@ The malware sunburst will load the malicious dll by SolarWinds.BusinessLayerHost
 
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+
+
 - **Last Updated**: 2020-12-14
 - **Author**: Patrick Bareiss, Splunk
 - **ID**: 701a8740-e8db-40df-9190-5516d3819787

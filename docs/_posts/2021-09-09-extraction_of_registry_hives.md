@@ -21,7 +21,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -30,6 +30,7 @@ The following analytic identifies the use of `reg.exe` exporting Windows Registr
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2021-09-09
 - **Author**: Michael Haag, Splunk
 - **ID**: 8bbb7d58-b360-11eb-ba21-acde48001122
@@ -56,9 +57,9 @@ The following analytic identifies the use of `reg.exe` exporting Windows Registr
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [process_reg](https://github.com/splunk/security_content/blob/develop/macros/process_reg.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `extraction_of_registry_hives_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 

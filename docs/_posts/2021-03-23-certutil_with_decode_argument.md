@@ -18,7 +18,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -27,6 +27,7 @@ CertUtil.exe may be used to `encode` and `decode` a file, including PE and scrip
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2021-03-23
 - **Author**: Michael Haag, Splunk
 - **ID**: bfe94226-8c10-11eb-a4b3-acde48001122
@@ -80,6 +81,7 @@ Typically seen used to `encode` files, but it is possible to see legitimate use 
 
 #### Associated Analytic story
 * [Deobfuscate-Decode Files or Information](/stories/deobfuscate-decode_files_or_information)
+* [Living Off The Land](/stories/living_off_the_land)
 
 
 #### Kill Chain Phase
