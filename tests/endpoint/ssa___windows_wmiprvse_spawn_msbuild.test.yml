@@ -1,0 +1,9 @@
+name: Windows WMIPrvse Spawn MSBuild Unit Test
+tests:
+- name: Windows WMIPrvse Spawn MSBuild
+  file: endpoint/ssa___windows_wmiprvse_spawn_msbuild.yml
+  pass_condition: '@count_gt(0)'
+  attack_data:
+  - file_name: msbuild-windows-security.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127.001/msbuild-windows-security.log
+    source: WinEventLog:Security
