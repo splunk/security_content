@@ -9,7 +9,7 @@ from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import S
 class ObjToJsonAdapter(Adapter):
 
 
-    def writeObjects(self, objects: list, output_path: str, type: SecurityContentType = None) -> None:
+    def writeObjects(self, objects: dict, output_path: str, type: SecurityContentType = None) -> None:
         if type == SecurityContentType.detections:
             obj_array = []
             for detection in objects:
