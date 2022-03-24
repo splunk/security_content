@@ -23,7 +23,7 @@ tags:
 We have not been able to test, simulate, or build datasets for this object. Use at your own risk. This analytic is **NOT** supported.
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -32,7 +32,7 @@ This search looks for emails that have attachments with suspicious file extensio
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Email](https://docs.splunk.com/Documentation/CIM/latest/User/Email)
-- **Datasources**: 
+
 - **Last Updated**: 2020-07-22
 - **Author**: David Dorsey, Splunk
 - **ID**: 473bd65f-06ca-4dfe-a2b8-ba04ab4a0084
@@ -61,8 +61,8 @@ This search looks for emails that have attachments with suspicious file extensio
 #### Macros
 The SPL above uses the following Macros:
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
-* [suspicious_email_attachments](https://github.com/splunk/security_content/blob/develop/macros/suspicious_email_attachments.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [suspicious_email_attachments](https://github.com/splunk/security_content/blob/develop/macros/suspicious_email_attachments.yml)
 
 Note that `suspicious_email_attachment_extensions_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 

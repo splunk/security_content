@@ -20,7 +20,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -28,8 +28,8 @@ This search is to detect a gsuite email contains suspicious subject having known
 
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
-- **Datasources**: 
+
+
 - **Last Updated**: 2021-08-19
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: 8ef3971e-00f2-11ec-b54f-acde48001122

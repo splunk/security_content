@@ -17,7 +17,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -25,8 +25,8 @@ This search detects when an excessive number of authentication failures occur th
 
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
-- **Datasources**: 
+
+
 - **Last Updated**: 2022-02-18
 - **Author**: Rod Soto, Splunk
 - **ID**: d441364c-349c-453b-b55f-12eccab67cf9

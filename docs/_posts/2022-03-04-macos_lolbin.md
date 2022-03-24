@@ -21,7 +21,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -30,7 +30,7 @@ Detect multiple executions of Living off the Land (LOLbin) binaries in a short p
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
-- **Datasources**: 
+
 - **Last Updated**: 2022-03-04
 - **Author**: Patrick Bareiss, Splunk
 - **ID**: 58d270fb-5b39-418e-a855-4b8ac046805e
@@ -58,8 +58,8 @@ Detect multiple executions of Living off the Land (LOLbin) binaries in a short p
 
 #### Macros
 The SPL above uses the following Macros:
-* [osquery](https://github.com/splunk/security_content/blob/develop/macros/osquery.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [osquery](https://github.com/splunk/security_content/blob/develop/macros/osquery.yml)
 
 Note that `macos_lolbin_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 

@@ -20,7 +20,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -28,8 +28,8 @@ This search detects newly added IP addresses/CIDR blocks to the list of MFA Trus
 
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
-- **Datasources**: 
+
+
 - **Last Updated**: 2022-02-03
 - **Author**: Bhavin Patel, Splunk
 - **ID**: c783dd98-c703-4252-9e8a-f19d9f66949e

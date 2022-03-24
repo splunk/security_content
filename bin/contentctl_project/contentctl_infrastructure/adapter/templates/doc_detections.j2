@@ -38,7 +38,7 @@ tags:
 We have not been able to test, simulate, or build datasets for this object. Use at your own risk. This analytic is **NOT** supported.
 {% endif %}
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -46,8 +46,8 @@ We have not been able to test, simulate, or build datasets for this object. Use 
 
 - **Type**: [{{ object.type }}](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: {{ object.tags.product|join(', ') }}
-- **Datamodel**: {% for datamodel in object.datamodel %}[{{ datamodel }}](https://docs.splunk.com/Documentation/CIM/latest/User/{{ datamodel|replace("_", "")}}){% if not loop.last %}, {% endif %}{%-endfor %}
-- **Datasources**: {% for splunk_app in object.splunk_app_enrichment %}{{ splunk_app.name }}{% if not loop.last %}, {% endif %}{%-endfor %}
+{% if object.datamodel -%}- **Datamodel**: {% for datamodel in object.datamodel %}[{{ datamodel }}](https://docs.splunk.com/Documentation/CIM/latest/User/{{ datamodel|replace("_", "")}}){% if not loop.last %}, {% endif %}{%-endfor %}{% endif %}
+{% if object.splunk_app_enrichment -%}- **Datasource**: {% for splunk_app in object.splunk_app_enrichment %}[{{ splunk_app.name }}]({{splunk_app.url}}){% if not loop.last %}, {% endif %}{%-endfor %}{% endif %}
 - **Last Updated**: {{ object.date }}
 - **Author**: {{object.author}}
 - **ID**: {{ object.id }}

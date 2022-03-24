@@ -20,7 +20,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -28,8 +28,8 @@ The following analytic identifies executable files (.exe or .dll) being written 
 
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
-- **Datasources**: 
+
+
 - **Last Updated**: 2021-11-18
 - **Author**: Teoderick Contreras, Mauricio Velazco, Splunk
 - **ID**: f63c34fe-a435-11eb-935a-acde48001122
@@ -55,8 +55,8 @@ The following analytic identifies executable files (.exe or .dll) being written 
 
 #### Macros
 The SPL above uses the following Macros:
-* [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 
 Note that `executable_file_written_in_administrative_smb_share_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 

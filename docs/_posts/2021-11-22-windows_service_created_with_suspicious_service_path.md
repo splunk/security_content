@@ -20,7 +20,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -28,8 +28,8 @@ The following analytc uses Windows Event Id 7045, `New Service Was Installed`, t
 
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
-- **Datasources**: 
+
+
 - **Last Updated**: 2021-11-22
 - **Author**: Teoderick Contreras, Mauricio Velazco, Splunk
 - **ID**: 429141be-8311-11eb-adb6-acde48001122
@@ -55,8 +55,8 @@ The following analytc uses Windows Event Id 7045, `New Service Was Installed`, t
 
 #### Macros
 The SPL above uses the following Macros:
-* [wineventlog_system](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_system.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [wineventlog_system](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_system.yml)
 
 Note that `windows_service_created_with_suspicious_service_path_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 

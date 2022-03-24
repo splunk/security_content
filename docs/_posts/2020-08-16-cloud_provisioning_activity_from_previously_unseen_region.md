@@ -21,7 +21,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -30,7 +30,7 @@ This search looks for cloud provisioning activities from previously unseen regio
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
-- **Datasources**: 
+- **Datasource**: [Splunk Add-on for Amazon Kinesis Firehose](https://splunkbase.splunk.com/api/apps/entriesbyid/Splunk_TA_aws-kinesis-firehose/1.3.2)
 - **Last Updated**: 2020-08-16
 - **Author**: Rico Valdez, Bhavin Patel, Splunk
 - **ID**: 5aba1860-9617-4af9-b19d-aecac16fe4f2

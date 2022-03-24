@@ -19,7 +19,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -28,7 +28,7 @@ The following analytic identifies the use of Microsoft Remote Assistance, msra.e
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
-- **Datasources**: 
+
 - **Last Updated**: 2022-02-07
 - **Author**: Michael Haag, Splunk
 - **ID**: ced50492-8849-11ec-9f68-acde48001122
@@ -53,9 +53,9 @@ The following analytic identifies the use of Microsoft Remote Assistance, msra.e
 
 #### Macros
 The SPL above uses the following Macros:
-* [windows_shells](https://github.com/splunk/security_content/blob/develop/macros/windows_shells.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [windows_shells](https://github.com/splunk/security_content/blob/develop/macros/windows_shells.yml)
 
 Note that `windows_remote_assistance_spawning_process_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 

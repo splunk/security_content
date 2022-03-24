@@ -18,7 +18,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -27,7 +27,7 @@ This analytic will identify suspicious series of process executions.  We have ob
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
-- **Datasources**: 
+- **Datasource**: [Splunk Add-on for Microsoft Windows](https://splunkbase.splunk.com/api/apps/entriesbyid/Splunk_TA_windows/8.4.0)
 - **Last Updated**: 2022-02-28
 - **Author**: Michael Hart, Mauricio Velazco, Splunk
 - **ID**: 23587b6a-c479-11eb-b671-acde48001122

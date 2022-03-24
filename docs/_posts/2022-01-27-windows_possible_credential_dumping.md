@@ -20,7 +20,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -32,8 +32,8 @@ The idea behind using ntdll.dll is to blend in by using native api of ntdll.dll.
 
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
-- **Datasources**: 
+
+
 - **Last Updated**: 2022-01-27
 - **Author**: Michael Haag, Splunk
 - **ID**: e4723b92-7266-11ec-af45-acde48001122
@@ -60,8 +60,8 @@ The idea behind using ntdll.dll is to blend in by using native api of ntdll.dll.
 
 #### Macros
 The SPL above uses the following Macros:
-* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 
 Note that `windows_possible_credential_dumping_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 

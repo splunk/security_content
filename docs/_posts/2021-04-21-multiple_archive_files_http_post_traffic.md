@@ -21,7 +21,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -30,7 +30,7 @@ This search is designed to detect high frequency of archive files data exfiltrat
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
-- **Datasources**: 
+
 - **Last Updated**: 2021-04-21
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: 4477f3ea-a28f-11eb-b762-acde48001122
@@ -59,8 +59,8 @@ This search is designed to detect high frequency of archive files data exfiltrat
 
 #### Macros
 The SPL above uses the following Macros:
-* [stream_http](https://github.com/splunk/security_content/blob/develop/macros/stream_http.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [stream_http](https://github.com/splunk/security_content/blob/develop/macros/stream_http.yml)
 
 Note that `multiple_archive_files_http_post_traffic_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 

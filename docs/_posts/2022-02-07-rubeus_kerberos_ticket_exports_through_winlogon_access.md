@@ -22,7 +22,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -30,8 +30,8 @@ The following analytic looks for a process accessing the winlogon.exe system pro
 
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
-- **Datasources**: 
+
+
 - **Last Updated**: 2022-02-07
 - **Author**: Mauricio Velazco, Splunk
 - **ID**: 5ed8c50a-8869-11ec-876f-acde48001122
@@ -58,8 +58,8 @@ The following analytic looks for a process accessing the winlogon.exe system pro
 
 #### Macros
 The SPL above uses the following Macros:
-* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 
 Note that `rubeus_kerberos_ticket_exports_through_winlogon_access_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
