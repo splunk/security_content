@@ -20,7 +20,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -28,7 +28,8 @@ The following analytic identifies regasm.exe with a network connection to a publ
 
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+
+
 - **Last Updated**: 2022-02-18
 - **Author**: Michael Haag, Splunk
 - **ID**: 07921114-6db4-4e2e-ae58-3ea8a52ae93f
@@ -80,6 +81,7 @@ Although unlikely, limited instances of regasm.exe with a network connection may
 
 #### Associated Analytic story
 * [Suspicious Regsvcs Regasm Activity](/stories/suspicious_regsvcs_regasm_activity)
+* [Living Off The Land](/stories/living_off_the_land)
 
 
 #### Kill Chain Phase

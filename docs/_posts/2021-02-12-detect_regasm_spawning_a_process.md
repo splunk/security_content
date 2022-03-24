@@ -21,7 +21,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -30,6 +30,7 @@ The following analytic identifies regasm.exe spawning a process. This particular
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2021-02-12
 - **Author**: Michael Haag, Splunk
 - **ID**: 72170ec5-f7d2-42f5-aefb-2b8be6aad15f
@@ -80,6 +81,7 @@ Although unlikely, limited instances of regasm.exe or regsvcs.exe may cause a fa
 
 #### Associated Analytic story
 * [Suspicious Regsvcs Regasm Activity](/stories/suspicious_regsvcs_regasm_activity)
+* [Living Off The Land](/stories/living_off_the_land)
 
 
 #### Kill Chain Phase
