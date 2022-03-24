@@ -24,7 +24,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -33,6 +33,7 @@ The following analytic identifies a renamed instance of microsoft.workflow.compi
 - **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+
 - **Last Updated**: 2021-09-20
 - **Author**: Michael Haag, Splunk
 - **ID**: f0db4464-55d9-11eb-ae93-0242ac130002
@@ -61,9 +62,9 @@ The following analytic identifies a renamed instance of microsoft.workflow.compi
 
 #### Macros
 The SPL above uses the following Macros:
+* [process_microsoftworkflowcompiler](https://github.com/splunk/security_content/blob/develop/macros/process_microsoftworkflowcompiler.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
-* [process_microsoftworkflowcompiler](https://github.com/splunk/security_content/blob/develop/macros/process_microsoftworkflowcompiler.yml)
 
 Note that `suspicious_microsoft_workflow_compiler_rename_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -92,6 +93,7 @@ Although unlikely, some legitimate applications may use a moved copy of microsof
 * [Trusted Developer Utilities Proxy Execution](/stories/trusted_developer_utilities_proxy_execution)
 * [Cobalt Strike](/stories/cobalt_strike)
 * [Masquerading - Rename System Utilities](/stories/masquerading_-_rename_system_utilities)
+* [Living Off The Land](/stories/living_off_the_land)
 
 
 #### Kill Chain Phase

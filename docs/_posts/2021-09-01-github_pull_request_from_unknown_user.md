@@ -20,7 +20,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -28,7 +28,8 @@ This search looks for Pull Request from unknown user.
 
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+
+
 - **Last Updated**: 2021-09-01
 - **Author**: Patrick Bareiss, Splunk
 - **ID**: 9d7b9100-8878-4404-914e-ca5e551a641e
@@ -58,8 +59,8 @@ This search looks for Pull Request from unknown user.
 #### Macros
 The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
-* [github](https://github.com/splunk/security_content/blob/develop/macros/github.yml)
 * [github_known_users](https://github.com/splunk/security_content/blob/develop/macros/github_known_users.yml)
+* [github](https://github.com/splunk/security_content/blob/develop/macros/github.yml)
 
 Note that `github_pull_request_from_unknown_user_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 

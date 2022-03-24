@@ -19,7 +19,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -28,6 +28,7 @@ The following query identifies Microsoft Background Intelligent Transfer Service
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2021-09-16
 - **Author**: Michael Haag, Splunk
 - **ID**: e97a5ffe-90bf-11eb-928a-acde48001122
@@ -81,6 +82,7 @@ Limited false positives will be present. Typically, applications will use `BitsA
 
 #### Associated Analytic story
 * [BITS Jobs](/stories/bits_jobs)
+* [Living Off The Land](/stories/living_off_the_land)
 
 
 #### Kill Chain Phase

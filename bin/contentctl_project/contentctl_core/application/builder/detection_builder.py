@@ -57,6 +57,10 @@ class DetectionBuilder(abc.ABC):
         pass
 
     @abc.abstractmethod
+    def addSplunkApp(self) -> None:
+        pass
+
+    @abc.abstractmethod
     def setObject(self, path: str) -> None:
         pass
 

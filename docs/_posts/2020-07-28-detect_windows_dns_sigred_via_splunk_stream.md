@@ -20,7 +20,7 @@ tags:
 We have not been able to test, simulate, or build datasets for this object. Use at your own risk. This analytic is **NOT** supported.
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -28,7 +28,8 @@ This search detects SIGRed via Splunk Stream.
 
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+
+
 - **Last Updated**: 2020-07-28
 - **Author**: Shannon Davis, Splunk
 - **ID**: babd8d10-d073-11ea-87d0-0242ac130003
@@ -57,8 +58,8 @@ This search detects SIGRed via Splunk Stream.
 
 #### Macros
 The SPL above uses the following Macros:
-* [stream_dns](https://github.com/splunk/security_content/blob/develop/macros/stream_dns.yml)
 * [stream_tcp](https://github.com/splunk/security_content/blob/develop/macros/stream_tcp.yml)
+* [stream_dns](https://github.com/splunk/security_content/blob/develop/macros/stream_dns.yml)
 
 Note that `detect_windows_dns_sigred_via_splunk_stream_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 

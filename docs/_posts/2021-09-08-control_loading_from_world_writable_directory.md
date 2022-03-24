@@ -22,7 +22,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -31,6 +31,7 @@ The following detection identifies control.exe loading either a .cpl or .inf fro
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2021-09-08
 - **Author**: Michael Haag, Splunk
 - **ID**: 10423ac4-10c9-11ec-8dc4-acde48001122
@@ -84,6 +85,7 @@ Limited false positives will be present as control.exe does not natively load fr
 
 #### Associated Analytic story
 * [Microsoft MSHTML Remote Code Execution CVE-2021-40444](/stories/microsoft_mshtml_remote_code_execution_cve-2021-40444)
+* [Living Off The Land](/stories/living_off_the_land)
 
 
 #### Kill Chain Phase
