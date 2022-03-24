@@ -18,7 +18,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -27,6 +27,7 @@ This detection looks for emails that are suspicious because of their sender, dom
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [UEBA](https://docs.splunk.com/Documentation/CIM/latest/User/UEBA)
+
 - **Last Updated**: 2020-07-22
 - **Author**: Bhavin Patel, Splunk
 - **ID**: 56e877a6-1455-4479-ad16-0550dc1e33f8

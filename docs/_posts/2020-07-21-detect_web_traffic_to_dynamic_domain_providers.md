@@ -18,7 +18,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -27,6 +27,7 @@ This search looks for web connections to dynamic DNS providers.
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Web](https://docs.splunk.com/Documentation/CIM/latest/User/Web)
+
 - **Last Updated**: 2020-07-21
 - **Author**: Bhavin Patel, Splunk
 - **ID**: 134da869-e264-4a8f-8d7e-fcd01c18f301
@@ -51,9 +52,9 @@ This search looks for web connections to dynamic DNS providers.
 
 #### Macros
 The SPL above uses the following Macros:
+* [dynamic_dns_web_traffic](https://github.com/splunk/security_content/blob/develop/macros/dynamic_dns_web_traffic.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
-* [dynamic_dns_web_traffic](https://github.com/splunk/security_content/blob/develop/macros/dynamic_dns_web_traffic.yml)
 
 Note that `detect_web_traffic_to_dynamic_domain_providers_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
