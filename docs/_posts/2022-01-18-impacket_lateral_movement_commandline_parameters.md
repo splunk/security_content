@@ -40,7 +40,7 @@ This analytic looks for the presence of suspicious commandline parameters typica
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
-- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/api/apps/entriesbyid/Splunk_TA_microsoft_sysmon/2.0.0)
+- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2022-01-18
 - **Author**: Mauricio Velazco, Splunk
 - **ID**: 8ce07472-496f-11ec-ab3b-3e22fbd008af
@@ -73,8 +73,8 @@ This analytic looks for the presence of suspicious commandline parameters typica
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `impacket_lateral_movement_commandline_parameters_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 

@@ -32,7 +32,7 @@ Microsoft Windows contains accessibility features that can be launched with a ke
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
-- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/api/apps/entriesbyid/Splunk_TA_microsoft_sysmon/2.0.0)
+- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2020-07-21
 - **Author**: David Dorsey, Splunk
 - **ID**: 13c2f6c3-10c5-4deb-9ba1-7c4460ebe4ae
@@ -59,8 +59,8 @@ Microsoft Windows contains accessibility features that can be launched with a ke
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `overwriting_accessibility_binaries_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 

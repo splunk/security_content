@@ -34,7 +34,7 @@ The detection Detect Path Interception By Creation Of program exe is detecting t
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
-- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/api/apps/entriesbyid/Splunk_TA_microsoft_sysmon/2.0.0)
+- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2020-07-03
 - **Author**: Patrick Bareiss, Splunk
 - **ID**: cbef820c-e1ff-407f-887f-0a9240a2d477
@@ -68,8 +68,8 @@ The detection Detect Path Interception By Creation Of program exe is detecting t
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `detect_path_interception_by_creation_of_program_exe_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 

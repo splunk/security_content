@@ -29,7 +29,7 @@ During triage, review parallel processes for further behavior. In addition, iden
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
-- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/api/apps/entriesbyid/Splunk_TA_microsoft_sysmon/2.0.0)
+- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2021-10-19
 - **Author**: Michael Haag, Splunk
 - **ID**: c32f091e-30db-11ec-8738-acde48001122
@@ -54,9 +54,9 @@ During triage, review parallel processes for further behavior. In addition, iden
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_curl](https://github.com/splunk/security_content/blob/develop/macros/process_curl.yml)
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [process_curl](https://github.com/splunk/security_content/blob/develop/macros/process_curl.yml)
 
 Note that `windows_curl_download_to_suspicious_path_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 

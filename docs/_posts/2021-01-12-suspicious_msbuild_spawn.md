@@ -30,7 +30,7 @@ The following analytic identifies wmiprvse.exe spawning msbuild.exe. This behavi
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
-- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/api/apps/entriesbyid/Splunk_TA_microsoft_sysmon/2.0.0)
+- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2021-01-12
 - **Author**: Michael Haag, Splunk
 - **ID**: a115fba6-5514-11eb-ae93-0242ac130002
@@ -58,8 +58,8 @@ The following analytic identifies wmiprvse.exe spawning msbuild.exe. This behavi
 #### Macros
 The SPL above uses the following Macros:
 * [process_msbuild](https://github.com/splunk/security_content/blob/develop/macros/process_msbuild.yml)
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `suspicious_msbuild_spawn_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 

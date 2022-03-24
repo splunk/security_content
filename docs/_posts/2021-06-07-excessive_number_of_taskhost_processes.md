@@ -27,7 +27,7 @@ This detection targets behaviors observed in post exploit kits like Meterpreter 
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
-- **Datasource**: [Splunk Add-on for Microsoft Windows](https://splunkbase.splunk.com/api/apps/entriesbyid/Splunk_TA_windows/8.4.0)
+- **Datasource**: [Splunk Add-on for Microsoft Windows](https://splunkbase.splunk.com/app/742)
 - **Last Updated**: 2021-06-07
 - **Author**: Michael Hart
 - **ID**: f443dac2-c7cf-11eb-ab51-acde48001122
@@ -57,8 +57,8 @@ This detection targets behaviors observed in post exploit kits like Meterpreter 
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `excessive_number_of_taskhost_processes_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 

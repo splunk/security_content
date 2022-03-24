@@ -30,7 +30,7 @@ Attempt To Add Certificate To Untrusted Store
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
-- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/api/apps/entriesbyid/Splunk_TA_microsoft_sysmon/2.0.0)
+- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2021-09-16
 - **Author**: Patrick Bareiss, Rico Valdez, Splunk
 - **ID**: 6bc5243e-ef36-45dc-9b12-f4a6be131159
@@ -57,9 +57,9 @@ Attempt To Add Certificate To Untrusted Store
 
 #### Macros
 The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [process_certutil](https://github.com/splunk/security_content/blob/develop/macros/process_certutil.yml)
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `attempt_to_add_certificate_to_untrusted_store_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 

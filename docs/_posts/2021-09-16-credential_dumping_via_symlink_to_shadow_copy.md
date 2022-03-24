@@ -30,7 +30,7 @@ This search detects the creation of a symlink to a shadow copy.
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
-- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/api/apps/entriesbyid/Splunk_TA_microsoft_sysmon/2.0.0)
+- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2021-09-16
 - **Author**: Patrick Bareiss, Splunk
 - **ID**: c5eac648-fae0-4263-91a6-773df1f4c903
@@ -58,8 +58,8 @@ This search detects the creation of a symlink to a shadow copy.
 #### Macros
 The SPL above uses the following Macros:
 * [process_cmd](https://github.com/splunk/security_content/blob/develop/macros/process_cmd.yml)
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `credential_dumping_via_symlink_to_shadow_copy_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 

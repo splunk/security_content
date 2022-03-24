@@ -30,7 +30,7 @@ this search is to detect a potential account discovery series of command used by
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
-- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/api/apps/entriesbyid/Splunk_TA_microsoft_sysmon/2.0.0)
+- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2021-09-16
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: 339805ce-ac30-11eb-b87d-acde48001122
@@ -59,8 +59,8 @@ this search is to detect a potential account discovery series of command used by
 #### Macros
 The SPL above uses the following Macros:
 * [process_net](https://github.com/splunk/security_content/blob/develop/macros/process_net.yml)
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `account_discovery_with_net_app_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 

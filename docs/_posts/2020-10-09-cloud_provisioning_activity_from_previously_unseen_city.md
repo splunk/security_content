@@ -30,7 +30,7 @@ This search looks for cloud provisioning activities from previously unseen citie
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
-- **Datasource**: [Splunk Add-on for Amazon Kinesis Firehose](https://splunkbase.splunk.com/api/apps/entriesbyid/Splunk_TA_aws-kinesis-firehose/1.3.2)
+- **Datasource**: [Splunk Add-on for Amazon Kinesis Firehose](https://splunkbase.splunk.com/app/3719)
 - **Last Updated**: 2020-10-09
 - **Author**: Rico Valdez, Bhavin Patel, Splunk
 - **ID**: e7ecc5e0-88df-48b9-91af-51104c68f02f

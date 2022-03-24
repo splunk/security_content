@@ -36,7 +36,7 @@ This search will detect a spike in the number of API calls made to your cloud in
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
-- **Datasource**: [Splunk Add-on for Amazon Kinesis Firehose](https://splunkbase.splunk.com/api/apps/entriesbyid/Splunk_TA_aws-kinesis-firehose/1.3.2)
+- **Datasource**: [Splunk Add-on for Amazon Kinesis Firehose](https://splunkbase.splunk.com/app/3719)
 - **Last Updated**: 2020-09-07
 - **Author**: David Dorsey, Splunk
 - **ID**: d4dfb7f3-7a37-498a-b5df-f19334e871af

@@ -30,7 +30,7 @@ This search looks for the creation or deletion of hidden shares using net.exe.
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
-- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/api/apps/entriesbyid/Splunk_TA_microsoft_sysmon/2.0.0)
+- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2020-09-16
 - **Author**: Bhavin Patel, Splunk
 - **ID**: 743a322c-9a68-4a0f-9c17-85d9cce2a27c
@@ -59,8 +59,8 @@ This search looks for the creation or deletion of hidden shares using net.exe.
 #### Macros
 The SPL above uses the following Macros:
 * [process_net](https://github.com/splunk/security_content/blob/develop/macros/process_net.yml)
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `create_or_delete_windows_shares_using_net_exe_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
