@@ -1,4 +1,5 @@
-[
+{
+    "deployments":[
     {
         "name": "ESCU Default Configuration Baseline",
         "id": "0f7ee854-1aad-4bef-89c5-5c402b488510",
@@ -16,3 +17,4 @@
         }
     }
 ]
+}

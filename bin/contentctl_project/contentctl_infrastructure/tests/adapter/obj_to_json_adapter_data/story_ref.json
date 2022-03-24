@@ -1,4 +1,5 @@
-[
+{
+    "stories":[
     {
         "name": "DarkSide Ransomware",
         "id": "507edc74-13d5-4339-878e-b9114ded1f35",
@@ -428,3 +429,4 @@
         ]
     }
 ]
+}

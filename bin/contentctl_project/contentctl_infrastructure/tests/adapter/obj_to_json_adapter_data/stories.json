@@ -1,4 +1,5 @@
-[
+{
+    "stories":[
     {
         "name": "DarkSide Ransomware",
         "id": "507edc74-13d5-4339-878e-b9114ded1f35",
@@ -431,7 +432,6 @@
                         "url": "https://splunkbase.splunk.com/app/5709"
                     }
                 ],
-                "file_path": "/Users/pbareib/Documents/Projects/security_content/bin/contentctl_project/contentctl_infrastructure/tests/adapter/../builder/test_data/detection/valid.yml",
                 "source": "detection"
             }
         ],
@@ -504,3 +504,4 @@
         ]
     }
 ]
+}

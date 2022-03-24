@@ -1,4 +1,5 @@
-[
+{
+    "lookups":[
     {
         "name": "previously_seen_aws_regions",
         "description": "A place holder for a list of used AWS regions",
@@ -7,3 +8,4 @@
         "min_matches": 1
     }
 ]
+}

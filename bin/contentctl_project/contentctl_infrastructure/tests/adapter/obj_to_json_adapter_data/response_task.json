@@ -1,4 +1,5 @@
-[
+{
+    "response_tasks":[
     {
         "name": "Get Parent Process Info",
         "id": "fecf2918-670d-4f1c-872b-3d7317a41bf9",
@@ -65,3 +66,4 @@
         "lowercase_name": "get_parent_process_info"
     }
 ]
+}

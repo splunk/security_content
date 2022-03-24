@@ -1,4 +1,5 @@
-[
+{
+    "detections":[
     {
         "name": "Attempted Credential Dump From Registry via Reg exe",
         "id": "e9fb4a59-c5fb-440a-9f24-191fbc6b2911",
@@ -162,7 +163,6 @@
                 "url": "https://splunkbase.splunk.com/app/5709"
             }
         ],
-        "file_path": "/Users/pbareib/Documents/Projects/security_content/bin/contentctl_project/contentctl_infrastructure/tests/adapter/../builder/test_data/detection/valid.yml",
         "source": "detection"
     }
-]
+]}
