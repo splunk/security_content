@@ -8,5 +8,5 @@ tests:
   attack_data:
   - file_name: UPDATE
     data: UPDATE
-    source: UPDATE
-    sourcetype: UPDATE
+    source: /opt/splunk/var/log/splunk/splunkd.log
+    sourcetype: splunkd

@@ -6,11 +6,11 @@ author: Lou Stella, Splunk
 type: TTP
 datamodel: []
 description: UPDATE_DESCRIPTION
-search: '| UPDATE_SPL | `splunk_dos_via_malformed_s2s_request_filter`'
+search: 'index=_internal sourcetype=splunkd log_level=ERROR component=TcpInputProc thread_name=FwdDataReceiverThread | `splunk_dos_via_malformed_s2s_request_filter`'
 how_to_implement: UPDATE_HOW_TO_IMPLEMENT
 known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
 references:
-- REFERENCE
+- https://www.splunk.com/en_us/product-security/announcements/svd-2022-0301.html
 tags:
   analytic_story:
   - UPDATE_STORY_NAME
@@ -19,15 +19,16 @@ tags:
   - CIS 3
   - CIS 5
   - CIS 16
-  confidence: UPDATE value between 1-100
+  confidence: 100
   context:
   - Update context
+  cve: CVE-2021-3422
   dataset:
   - UPDATE_DATASET_URL
-  impact: UPDATE value between 1-100
+  impact: 50
   kill_chain_phases:
   - Denial of Service
-  message: UPDATE message
+  message: An attempt to exploit CVE-2021-3422 was detected from $src$
   mitre_attack_id:
   - T1498
   nist:
@@ -43,5 +44,5 @@ tags:
   - Splunk Cloud
   required_fields:
   - UPDATE
-  risk_score: UPDATE (impact * confidence)/100
+  risk_score: 50
   security_domain: threat
