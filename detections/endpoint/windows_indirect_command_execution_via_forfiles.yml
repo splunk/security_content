@@ -1,4 +1,4 @@
-name: Windows Indirect Command Execution Via pcalua
+name: Windows Indirect Command Execution Via forfiles
 id: 59e54602-9680-11ec-a8a6-aaaaaaaaaaaa
 version: 1
 date: '2022-03-09'
@@ -9,11 +9,11 @@ datamodel:
 description: The following analytic detection programs that have been started by pcalua.exe, forfiles, forfiles.exe, or conhost.exe.  
   While these tools can be used to start legitimate programs, they have been observed being evade protections on command line execution.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-    as lastTime from datamodel=Endpoint.Processes where Processes.parent_process="*pcalua* -a*"  
+    as lastTime from datamodel=Endpoint.Processes where Processes.parent_process="*forfiles* /c *"  
     by Processes.dest Processes.user Processes.parent_process Processes.parent_process_name Processes.process_name Processes.process Processes.process_id Processes.parent_process_id Processes.process_path
   | `drop_dm_object_name(Processes)` 
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `windows_indirect_command_execution_via_pcaluafilter`'
+  | `windows_indirect_command_execution_via_forfiles_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the full process path in the process field of CIM's Process data model.
   If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
