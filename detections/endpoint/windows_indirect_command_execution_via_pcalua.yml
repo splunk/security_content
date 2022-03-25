@@ -53,7 +53,7 @@ tags:
   impact: 50
   confidence: 50 
   # (impact * confidence)/100
-  risk_score: 50
+  risk_score: 25
   context: 
   - Source:Endpoint
   - Stage:Defense Evasion
@@ -68,3 +68,4 @@ tags:
   cis20:
   - CIS 8
   - CIS 10 
+  asset_type: Endpoint
