@@ -13,7 +13,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
     by Processes.dest Processes.user Processes.parent_process Processes.parent_process_name Processes.process_name Processes.process Processes.process_id Processes.parent_process_id Processes.process_path
   | `drop_dm_object_name(Processes)` 
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `windows_indirect_command_execution_via_pcaluafilter`'
+  | `windows_indirect_command_execution_via_pcalua_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the full process path in the process field of CIM's Process data model.
   If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
