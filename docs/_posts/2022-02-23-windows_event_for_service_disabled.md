@@ -1,6 +1,8 @@
 ---
 title: "Windows Event For Service Disabled"
-excerpt: "Disable or Modify Tools, Impair Defenses"
+excerpt: "Disable or Modify Tools
+, Impair Defenses
+"
 categories:
   - Endpoint
 last_modified_at: 2022-02-23
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - Disable or Modify Tools
-  - Defense Evasion
   - Impair Defenses
+  - Defense Evasion
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -19,15 +21,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This analytic will identify suspicious system event of services that was modified from start to disabled. This technique is seen where the adversary attempts to disable security app services, other malware services to evade the defense systems on the compromised host
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+
 - **Last Updated**: 2022-02-23
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: 9c2620a8-94a1-11ec-b40c-acde48001122
@@ -89,8 +92,6 @@ Windows service update may cause this event. In that scenario, filtering is need
 | 36.0 | 60 | 60 | Service was disabled on $Computer$ |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -102,6 +103,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/olympic_destroyer/system.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/olympic_destroyer/system.log)
 

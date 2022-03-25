@@ -1,6 +1,8 @@
 ---
 title: "Detect Regsvcs Spawning a Process"
-excerpt: "Signed Binary Proxy Execution, Regsvcs/Regasm"
+excerpt: "Signed Binary Proxy Execution
+, Regsvcs/Regasm
+"
 categories:
   - Endpoint
 last_modified_at: 2021-02-12
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - Signed Binary Proxy Execution
-  - Defense Evasion
   - Regsvcs/Regasm
+  - Defense Evasion
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -19,15 +21,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following analytic identifies regsvcs.exe spawning a process. This particular technique has been used in the wild to bypass application control products. Regasm.exe and Regsvcs.exe are signed by Microsoft. Spawning of a child process is rare from either process and should be investigated further. During investigation, identify and retrieve the content being loaded. Review parallel processes for additional suspicious behavior. Gather any other file modifications and review accordingly. regsvcs.exe and regasm.exe are natively found in C:\Windows\Microsoft.NET\Framework\v*\regasm|regsvcs.exe and C:\Windows\Microsoft.NET\Framework64\v*\regasm|regsvcs.exe.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2021-02-12
 - **Author**: Michael Haag, Splunk
 - **ID**: bc477b57-5c21-4ab6-9c33-668772e7f114
@@ -79,6 +82,7 @@ Although unlikely, limited instances of regasm.exe or regsvcs.exe may cause a fa
 
 #### Associated Analytic story
 * [Suspicious Regsvcs Regasm Activity](/stories/suspicious_regsvcs_regasm_activity)
+* [Living Off The Land](/stories/living_off_the_land)
 
 
 #### Kill Chain Phase
@@ -93,8 +97,6 @@ Although unlikely, limited instances of regasm.exe or regsvcs.exe may cause a fa
 | 64.0 | 80 | 80 | An instance of $parent_process_name$ spawning $process_name$  was identified on endpoint $dest$ by user $user$ typically not normal for this process. |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -108,6 +110,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.009/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.009/atomic_red_team/windows-sysmon.log)
 

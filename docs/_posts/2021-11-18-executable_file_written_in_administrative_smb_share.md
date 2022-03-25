@@ -1,6 +1,8 @@
 ---
 title: "Executable File Written in Administrative SMB Share"
-excerpt: "Remote Services, SMB/Windows Admin Shares"
+excerpt: "Remote Services
+, SMB/Windows Admin Shares
+"
 categories:
   - Endpoint
 last_modified_at: 2021-11-18
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - Remote Services
-  - Lateral Movement
   - SMB/Windows Admin Shares
+  - Lateral Movement
   - Lateral Movement
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -18,15 +20,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following analytic identifies executable files (.exe or .dll) being written to Windows administrative SMB shares (Admin$, IPC$, C$). This represents suspicious behavior as its commonly used by tools like like PsExec/PaExec and others to stage service binaries before creating and starting a Windows service on remote endpoints. Red Teams and adversaries alike may abuse administrative shares for lateral movement and remote code execution. The Trickbot malware family also implements this behavior to try to infect other machines in the infected network.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+
+
 - **Last Updated**: 2021-11-18
 - **Author**: Teoderick Contreras, Mauricio Velazco, Splunk
 - **ID**: f63c34fe-a435-11eb-935a-acde48001122
@@ -52,8 +55,8 @@ The following analytic identifies executable files (.exe or .dll) being written 
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `executable_file_written_in_administrative_smb_share_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -82,7 +85,7 @@ System Administrators may use looks like PsExec for troubleshooting or administr
 
 
 #### Kill Chain Phase
-* Lateral Movement
+* Exploitation
 
 
 
@@ -92,8 +95,6 @@ System Administrators may use looks like PsExec for troubleshooting or administr
 | ----------- | ----------- |--------------|--------------|
 | 70.0 | 70 | 100 | $user$ dropped or created an executable file in known sensitive SMB share.  Share name=$Share_Name$, Target name=$Relative_Target_Name$, and Access mask=$Access_Mask$ |
 
-
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 
@@ -109,6 +110,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/exe_smbshare/windows-security.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/exe_smbshare/windows-security.log)
 

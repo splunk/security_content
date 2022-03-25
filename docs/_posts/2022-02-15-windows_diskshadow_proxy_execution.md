@@ -1,6 +1,7 @@
 ---
 title: "Windows Diskshadow Proxy Execution"
-excerpt: "Signed Binary Proxy Execution"
+excerpt: "Signed Binary Proxy Execution
+"
 categories:
   - Endpoint
 last_modified_at: 2022-02-15
@@ -17,15 +18,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 DiskShadow.exe is a Microsoft Signed binary present on Windows Server. It has a scripting mode intended for complex scripted backup operations. This feature also allows for execution of arbitrary unsigned code. This analytic looks for the usage of the scripting mode flags in executions of DiskShadow. During triage, compare to known backup behavior in your environment and then review the scripts called by diskshadow.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+
 - **Last Updated**: 2022-02-15
 - **Author**: Lou Stella, Splunk
 - **ID**: 58adae9e-8ea3-11ec-90f6-acde48001122
@@ -90,8 +92,6 @@ Administrators using the DiskShadow tool in their infrastructure as a main backu
 | 49.0 | 70 | 70 | Possible Signed Binary Proxy Execution on $dest$ |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -103,6 +103,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218/diskshadow/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218/diskshadow/windows-sysmon.log)
 

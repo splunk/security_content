@@ -1,6 +1,8 @@
 ---
 title: "Large Volume of DNS ANY Queries"
-excerpt: "Network Denial of Service, Reflection Amplification"
+excerpt: "Network Denial of Service
+, Reflection Amplification
+"
 categories:
   - Network
 last_modified_at: 2017-09-20
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - Network Denial of Service
-  - Impact
   - Reflection Amplification
+  - Impact
   - Impact
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -17,19 +19,20 @@ tags:
   - Network_Resolution
 ---
 
-### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
-We have not been able to test, simulate, or build datasets for this detection. Use at your own risk. This analytic is **NOT** supported.
+###  WARNING THIS IS A EXPERIMENTAL object
+We have not been able to test, simulate, or build datasets for this object. Use at your own risk. This analytic is **NOT** supported.
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The search is used to identify attempts to use your DNS Infrastructure for DDoS purposes via a DNS amplification attack leveraging ANY queries.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Resolution](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution)
+
 - **Last Updated**: 2017-09-20
 - **Author**: Bhavin Patel, Splunk
 - **ID**: 8fa891f7-a533-4b3c-af85-5aa2e7c1f1eb
@@ -81,8 +84,12 @@ Legitimate ANY requests may trigger this search, however it is unusual to see a 
 
 
 
+#### RBA
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 25.0 | 50 | 50 | tbd |
+
 
 
 
@@ -92,7 +99,6 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

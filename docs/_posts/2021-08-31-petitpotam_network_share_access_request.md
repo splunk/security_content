@@ -1,6 +1,7 @@
 ---
 title: "PetitPotam Network Share Access Request"
-excerpt: "Forced Authentication"
+excerpt: "Forced Authentication
+"
 categories:
   - Endpoint
 last_modified_at: 2021-08-31
@@ -17,18 +18,19 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
-The following analytic utilizes Windows Event Code 5145, &#34;A network share object was checked to see whether client can be granted desired access&#34;. During our research into PetitPotam, CVE-2021-36942, we identified the ocurrence of this event on the target host with specific values. \
-To enable 5145 events via Group Policy - Computer Configuration-&gt;Polices-&gt;Windows Settings-&gt;Security Settings-&gt;Advanced Audit Policy Configuration. Expand this node, go to Object Access (Audit Polices-&gt;Object Access), then select the Setting Audit Detailed File Share Audit \
+The following analytic utilizes Windows Event Code 5145, "A network share object was checked to see whether client can be granted desired access". During our research into PetitPotam, CVE-2021-36942, we identified the ocurrence of this event on the target host with specific values. \
+To enable 5145 events via Group Policy - Computer Configuration->Polices->Windows Settings->Security Settings->Advanced Audit Policy Configuration. Expand this node, go to Object Access (Audit Polices->Object Access), then select the Setting Audit Detailed File Share Audit \
 It is possible this is not enabled by default and may need to be reviewed and enabled. \
 During triage, review parallel security events to identify further suspicious activity.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+
+
 - **Last Updated**: 2021-08-31
 - **Author**: Michael Haag, Mauricio Velazco, Splunk
 - **ID**: 95b8061a-0a67-11ec-85ec-acde48001122
@@ -52,8 +54,8 @@ During triage, review parallel security events to identify further suspicious ac
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `petitpotam_network_share_access_request_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -79,7 +81,6 @@ False positives have been limited when the Anonymous Logon is used for Account N
 
 #### Kill Chain Phase
 * Exploitation
-* Lateral Movement
 
 
 
@@ -88,9 +89,6 @@ False positives have been limited when the Anonymous Logon is used for Account N
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 80 | 70 | A remote host is enumerating a $dest$ to identify permissions. This is a precursor event to CVE-2021-36942, PetitPotam. |
-
-
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 #### CVE
@@ -112,6 +110,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1187/petitpotam/windows-security.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1187/petitpotam/windows-security.log)
 

@@ -1,6 +1,8 @@
 ---
 title: "CMD Carry Out String Command Parameter"
-excerpt: "Windows Command Shell, Command and Scripting Interpreter"
+excerpt: "Windows Command Shell
+, Command and Scripting Interpreter
+"
 categories:
   - Endpoint
 last_modified_at: 2022-01-18
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - Windows Command Shell
-  - Execution
   - Command and Scripting Interpreter
+  - Execution
   - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -20,15 +22,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following analytic identifies command-line arguments where `cmd.exe /c` is used to execute a program. `cmd /c` is used to run commands in MS-DOS and terminate after command or process completion. This technique is commonly seen in adversaries and malware to execute batch command using different shell like PowerShell or different process other than `cmd.exe`. This is a good hunting query for suspicious command-line made by a script or relative process execute it.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+
 - **Last Updated**: 2022-01-18
 - **Author**: Teoderick Contreras, Bhavin Patel, Splunk
 - **ID**: 54a6ed00-3256-11ec-b031-acde48001122
@@ -85,6 +88,7 @@ False positives may be high based on legitimate scripted code in any environment
 * [Log4Shell CVE-2021-44228](/stories/log4shell_cve-2021-44228)
 * [WhisperGate](/stories/whispergate)
 * [Hermetic Wiper](/stories/hermetic_wiper)
+* [Living Off The Land](/stories/living_off_the_land)
 
 
 #### Kill Chain Phase
@@ -97,9 +101,6 @@ False positives may be high based on legitimate scripted code in any environment
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 30.0 | 60 | 50 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting spawn a new process. |
-
-
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 #### CVE
@@ -120,6 +121,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/cmd_carry_str_param/sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/cmd_carry_str_param/sysmon.log)
 

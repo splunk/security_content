@@ -1,6 +1,8 @@
 ---
 title: "Anomalous usage of 7zip"
-excerpt: "Archive via Utility, Archive Collected Data"
+excerpt: "Archive via Utility
+, Archive Collected Data
+"
 categories:
   - Endpoint
 last_modified_at: 2021-04-22
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - Archive via Utility
-  - Collection
   - Archive Collected Data
+  - Collection
   - Collection
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -19,15 +21,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following detection identifies a 7z.exe spawned from `Rundll32.exe` or `Dllhost.exe`. It is assumed that the adversary has brought in `7z.exe` and `7z.dll`. It has been observed where an adversary will rename `7z.exe`. Additional coverage may be required to identify the behavior of renamed instances of `7z.exe`. During triage, identify the source of injection into `Rundll32.exe` or `Dllhost.exe`. Capture any files written to disk and analyze as needed. Review parallel processes for additional behaviors. Typically, archiving files will result in exfiltration.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2021-04-22
 - **Author**: Michael Haag, Teoderick Contreras, Splunk
 - **ID**: 9364ee8e-a39a-11eb-8f1d-acde48001122
@@ -84,7 +87,7 @@ False positives should be limited as this behavior is not normal for `rundll32.e
 
 
 #### Kill Chain Phase
-* Actions on Objective
+* Exploitation
 
 
 
@@ -94,8 +97,6 @@ False positives should be limited as this behavior is not normal for `rundll32.e
 | ----------- | ----------- |--------------|--------------|
 | 64.0 | 80 | 80 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$. This behavior is indicative of suspicious loading of 7zip. |
 
-
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 
@@ -110,6 +111,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1560.001/archive_utility/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1560.001/archive_utility/windows-sysmon.log)
 

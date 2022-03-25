@@ -40,7 +40,7 @@ references:
 tags:
   analytic_story:
   - Active Directory Lateral Movement
-  automated_detection_testing: passed
+  - Living Off The Land
   confidence: 60
   context:
   - Source:Endpoint
@@ -49,7 +49,7 @@ tags:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/lateral_movement_lolbas/windows-security.log
   impact: 90
   kill_chain_phases:
-  - Lateral Movement
+  - Exploitation
   message: Svchost.exe spawned a LOLBAS process on $dest
   mitre_attack_id:
   - T1053
@@ -78,3 +78,4 @@ tags:
   - Processes.parent_process_id
   risk_score: 54
   security_domain: endpoint
+  asset_type: Endpoint

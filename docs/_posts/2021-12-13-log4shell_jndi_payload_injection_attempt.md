@@ -1,6 +1,7 @@
 ---
 title: "Log4Shell JNDI Payload Injection Attempt"
-excerpt: "Exploit Public-Facing Application"
+excerpt: "Exploit Public-Facing Application
+"
 categories:
   - Web
 last_modified_at: 2021-12-13
@@ -18,15 +19,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 CVE-2021-44228 Log4Shell payloads can be injected via various methods, but on of the most common vectors injection is via Web calls. Many of the vulnerable java web applications that are using log4j have a web component to them are specially targets of this injection, specifically projects like Apache Struts, Flink, Druid, and Solr. The exploit is triggered by a LDAP lookup function in the log4j package, its invocation is similar to `${jndi:ldap://PAYLOAD_INJECTED}`, when executed against vulnerable web applications the invocation can be seen in various part of web logs. Specifically it has been successfully exploited via headers like X-Forwarded-For, User-Agent, Referer, and X-Api-Version. In this detection we first limit the scope of our search to the Web Datamodel and use the `| from datamodel` function to benefit from schema accelerated searching capabilities, mainly because the second part of the detection is pretty heavy, it runs a regex across all _raw events that looks for `${jndi:ldap://` pattern across all potential web fields available to the raw data, like http headers for example. If you see results for this detection, it means that there was a attempt at a injection, which could be a reconnaissance activity or a valid expliotation attempt, but this does not exactly mean that the host was indeed successfully exploited.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Web](https://docs.splunk.com/Documentation/CIM/latest/User/Web)
+
 - **Last Updated**: 2021-12-13
 - **Author**: Jose Hernandez
 - **ID**: c184f12e-5c90-11ec-bf1f-497c9a704a72
@@ -97,9 +99,6 @@ If there is a vulnerablility scannner looking for log4shells this will trigger, 
 | 15.0 | 50 | 30 | CVE-2021-44228 Log4Shell triggered for host $dest$ |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
-
 #### CVE
 
 | ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
@@ -117,6 +116,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/log4j_proxy_logs/log4j_proxy_logs.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/log4j_proxy_logs/log4j_proxy_logs.log)
 

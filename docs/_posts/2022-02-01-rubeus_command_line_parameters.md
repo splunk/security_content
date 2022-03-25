@@ -1,6 +1,11 @@
 ---
 title: "Rubeus Command Line Parameters"
-excerpt: "Use Alternate Authentication Material, Pass the Ticket, Steal or Forge Kerberos Tickets, Kerberoasting, AS-REP Roasting"
+excerpt: "Use Alternate Authentication Material
+, Pass the Ticket
+, Steal or Forge Kerberos Tickets
+, Kerberoasting
+, AS-REP Roasting
+"
 categories:
   - Endpoint
 last_modified_at: 2022-02-01
@@ -8,16 +13,16 @@ toc: true
 toc_label: ""
 tags:
   - Use Alternate Authentication Material
-  - Defense Evasion
-  - Lateral Movement
   - Pass the Ticket
+  - Steal or Forge Kerberos Tickets
+  - Kerberoasting
+  - AS-REP Roasting
   - Defense Evasion
   - Lateral Movement
-  - Steal or Forge Kerberos Tickets
+  - Defense Evasion
+  - Lateral Movement
   - Credential Access
-  - Kerberoasting
   - Credential Access
-  - AS-REP Roasting
   - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -27,15 +32,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 Rubeus is a C# toolset for raw Kerberos interaction and abuses. It is heavily adapted from Benjamin Delpys Kekeo project and Vincent LE TOUXs MakeMeEnterpriseAdmin project. This analytic looks for the use of Rubeus command line arguments utilized in common Kerberos attacks like exporting and importing tickets, forging silver and golden tickets, requesting a TGT or TGS, kerberoasting, password spraying, etc. Red teams and adversaries alike use Rubeus for Kerberos attacks within Active Directory networks. Defenders should be aware that adversaries may customize the source code of Rubeus and modify the command line parameters. This would effectively bypass this analytic.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+
 - **Last Updated**: 2022-02-01
 - **Author**: Mauricio Velazco, Splunk
 - **ID**: cca37478-8377-11ec-b59a-acde48001122
@@ -96,7 +102,7 @@ Although unlikely, legitimate applications may use the same command line paramet
 
 
 #### Kill Chain Phase
-* Privilege Escalation
+* Exploitation
 
 
 
@@ -106,8 +112,6 @@ Although unlikely, legitimate applications may use the same command line paramet
 | ----------- | ----------- |--------------|--------------|
 | 36.0 | 60 | 60 | Rubeus command line parameters were used on $dest$ |
 
-
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 
@@ -122,6 +126,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1550.003/rubeus/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1550.003/rubeus/windows-sysmon.log)
 

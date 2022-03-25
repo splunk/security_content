@@ -1,6 +1,8 @@
 ---
 title: "GetDomainGroup with PowerShell Script Block"
-excerpt: "Permission Groups Discovery, Domain Groups"
+excerpt: "Permission Groups Discovery
+, Domain Groups
+"
 categories:
   - Endpoint
 last_modified_at: 2021-08-26
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - Permission Groups Discovery
-  - Discovery
   - Domain Groups
+  - Discovery
   - Discovery
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -18,15 +20,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following analytic utilizes PowerShell Script Block Logging (EventCode=4104) to identify the execution of the `Get-DomainGroup` commandlet. `Get-DomainGroup` is part of PowerView, a PowerShell tool used to perform enumeration on Windows domains. As the name suggests, `Get-DomainGroup` is used to query domain groups. Red Teams and adversaries may leverage this function to enumerate domain groups for situational awareness and Active Directory Discovery.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+
+
 - **Last Updated**: 2021-08-26
 - **Author**: Mauricio Velazco, Splunk
 - **ID**: 09725404-a44f-4ed3-9efa-8ed5d69e4c53
@@ -86,8 +89,6 @@ Administrators or power users may use this PowerView functions for troubleshooti
 | 15.0 | 30 | 50 | Domain group discovery enumeration using PowerView on $dest$ by $user$ |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -100,6 +101,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.002/AD_discovery/windows-powershell.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.002/AD_discovery/windows-powershell.log)
 

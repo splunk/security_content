@@ -1,7 +1,7 @@
 name: Windows InstallUtil Remote Network Connection
 id: 4fbf9270-43da-11ec-9486-acde48001122
-version: 1
-date: '2021-11-12'
+version: 2
+date: '2022-03-16'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
@@ -21,14 +21,14 @@ description: 'The following analytic identifies the Windows InstallUtil.exe bina
   During triage review resulting network connections, file modifications, and parallel
   processes. Capture any artifacts and review further.'
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
-  where `process_installutil` by _time span=1h  Processes.process_guid Processes.process_name
+  where `process_installutil` by _time span=1h  Processes.process_id Processes.process_name
   Processes.dest Processes.process_path Processes.process Processes.parent_process_name
   Processes.original_file_name | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | join  process_guid [ | tstats `security_content_summariesonly`
-  count FROM datamodel=Endpoint.Ports where Ports.dest_port !="0" by Ports.process_guid
-  Ports.dest Ports.dest_port | `drop_dm_object_name(Ports)` | rename  dest as connection_to_CNC]
-  | table _time dest parent_process_name process_name process_path process process_guid
-  connection_to_CNC dest_port | `windows_installutil_remote_network_connection_filter`'
+  | `security_content_ctime(lastTime)` | join  process_id [| tstats `security_content_summariesonly`
+  count FROM datamodel=Network_Traffic.All_Traffic where All_Traffic.dest_port != 0 by All_Traffic.process_id
+  All_Traffic.dest All_Traffic.dest_port | `drop_dm_object_name(All_Traffic)` | rename dest as C2 ]
+  | table _time dest parent_process_name process_name process_path process process_id dest_port C2 
+  | `windows_installutil_remote_network_connection_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` and `Ports` node.
@@ -42,7 +42,7 @@ references:
 tags:
   analytic_story:
   - Signed Binary Proxy Execution InstallUtil
-  automated_detection_testing: passed
+  - Living Off The Land
   confidence: 100
   context:
   - Source:Endpoint
@@ -52,7 +52,6 @@ tags:
   impact: 80
   kill_chain_phases:
   - Exploitation
-  - Privilege Escalation
   message: An instance of $parent_process_name$ spawning $process_name$ was identified
     on endpoint $dest$ by user $user$ generating a remote download.
   mitre_attack_id:
@@ -68,7 +67,7 @@ tags:
     role:
     - Victim
   - name: parent_process_name
-    type: Parent Process
+    type: Process
     role:
     - Parent Process
   - name: process_name
@@ -97,3 +96,4 @@ tags:
   - Ports.dest_port
   risk_score: 80
   security_domain: endpoint
+  asset_type: Endpoint

@@ -15,8 +15,7 @@ how_to_implement: You must be ingesting Splunk Stream DNS and Splunk Stream TCP.
   via stream:tcp.  Replace the macro definitions ('stream:dns' and 'stream:tcp') with
   configurations for your Splunk environment.
 known_false_positives: unknown
-references:
-- https://research.checkpoint.com/2020/resolving-your-way-into-domain-admin-exploiting-a-17-year-old-bug-in-windows-dns-servers/
+references: []
 tags:
   analytic_story:
   - Windows DNS SIGRed CVE-2020-1350
@@ -39,3 +38,13 @@ tags:
   required_fields:
   - _time
   security_domain: network
+  confidence: 50
+  impact: 50
+  risk_score: 25
+  context: []
+  message: tbd
+  observable:
+  - name: dest
+    type: Other
+    role:
+    - Other

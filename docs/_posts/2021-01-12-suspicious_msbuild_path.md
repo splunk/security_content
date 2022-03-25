@@ -1,6 +1,10 @@
 ---
 title: "Suspicious msbuild path"
-excerpt: "Masquerading, Trusted Developer Utilities Proxy Execution, Rename System Utilities, MSBuild"
+excerpt: "Masquerading
+, Trusted Developer Utilities Proxy Execution
+, Rename System Utilities
+, MSBuild
+"
 categories:
   - Endpoint
 last_modified_at: 2021-01-12
@@ -8,12 +12,12 @@ toc: true
 toc_label: ""
 tags:
   - Masquerading
-  - Defense Evasion
   - Trusted Developer Utilities Proxy Execution
-  - Defense Evasion
   - Rename System Utilities
-  - Defense Evasion
   - MSBuild
+  - Defense Evasion
+  - Defense Evasion
+  - Defense Evasion
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -23,15 +27,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following analytic identifies msbuild.exe executing from a non-standard path. Msbuild.exe is natively found in C:\Windows\Microsoft.NET\Framework\v4.0.30319 and C:\Windows\Microsoft.NET\Framework64\v4.0.30319. Instances of Visual Studio will run a copy of msbuild.exe. A moved instance of MSBuild is suspicious, however there are instances of build applications that will move or use a copy of MSBuild.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2021-01-12
 - **Author**: Michael Haag, Splunk
 - **ID**: f5198224-551c-11eb-ae93-0242ac130002
@@ -87,12 +92,13 @@ Note that `suspicious_msbuild_path_filter` is a empty macro by default. It allow
 To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 
 #### Known False Positives
-Some legitimate applications may use a moved copy of msbuild.exe, triggering a false positive. Baselining of MSBuild.exe usage is recommended to better understand it&#39;s path usage. Visual Studio runs an instance out of a path that will need to be filtered on.
+Some legitimate applications may use a moved copy of msbuild.exe, triggering a false positive. Baselining of MSBuild.exe usage is recommended to better understand it's path usage. Visual Studio runs an instance out of a path that will need to be filtered on.
 
 #### Associated Analytic story
 * [Trusted Developer Utilities Proxy Execution MSBuild](/stories/trusted_developer_utilities_proxy_execution_msbuild)
 * [Cobalt Strike](/stories/cobalt_strike)
 * [Masquerading - Rename System Utilities](/stories/masquerading_-_rename_system_utilities)
+* [Living Off The Land](/stories/living_off_the_land)
 
 
 #### Kill Chain Phase
@@ -107,8 +113,6 @@ Some legitimate applications may use a moved copy of msbuild.exe, triggering a f
 | 49.0 | 70 | 70 | Msbuild.exe ran from an uncommon path on $dest$ execyted by $user$ |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -121,6 +125,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127.001/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127.001/windows-sysmon.log)
 

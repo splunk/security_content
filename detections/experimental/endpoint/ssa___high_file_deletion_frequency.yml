@@ -69,3 +69,4 @@ tags:
   risk_score: 72
   risk_severity: medium
   security_domain: endpoint
+  asset_type: Endpoint

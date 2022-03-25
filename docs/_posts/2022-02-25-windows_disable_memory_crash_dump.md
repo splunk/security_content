@@ -1,6 +1,7 @@
 ---
 title: "Windows Disable Memory Crash Dump"
-excerpt: "Data Destruction"
+excerpt: "Data Destruction
+"
 categories:
   - Endpoint
 last_modified_at: 2022-02-25
@@ -17,15 +18,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following analytic identifies a process that is attempting to disable the ability on Windows to generate a memory crash dump. This was recently identified being utilized by HermeticWiper. To disable crash dumps, the value must be set to 0. This feature is typically modified to perform a memory crash dump when a computer stops unexpectedly because of a Stop error (also known as a blue screen, system crash, or bug check).
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+
 - **Last Updated**: 2022-02-25
 - **Author**: Michael Haag, Splunk
 - **ID**: 59e54602-9680-11ec-a8a6-acde48001122
@@ -98,8 +100,6 @@ unknown
 | 90.0 | 90 | 100 | A process $process_name$ was identified attempting to disable memory crash dumps on $dest$. |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -112,6 +112,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/hermetic_wiper/sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/hermetic_wiper/sysmon.log)
 

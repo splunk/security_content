@@ -1,6 +1,8 @@
 ---
 title: "Windows Service Created With Suspicious Service Path"
-excerpt: "System Services, Service Execution"
+excerpt: "System Services
+, Service Execution
+"
 categories:
   - Endpoint
 last_modified_at: 2021-11-22
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - System Services
-  - Execution
   - Service Execution
+  - Execution
   - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -18,15 +20,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following analytc uses Windows Event Id 7045, `New Service Was Installed`, to identify the creation of a Windows Service where the service binary path path is located in a non-common Service folder in Windows. Red Teams and adversaries alike may create malicious Services for lateral movement or remote code execution as well as persistence and execution. The Clop ransomware has also been seen in the wild abusing Windows services.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+
+
 - **Last Updated**: 2021-11-22
 - **Author**: Teoderick Contreras, Mauricio Velazco, Splunk
 - **ID**: 429141be-8311-11eb-adb6-acde48001122
@@ -78,8 +81,7 @@ Legitimate applications may install services with uncommon services paths.
 
 
 #### Kill Chain Phase
-* Privilege Escalation
-* Lateral Movement
+* Exploitation
 
 
 
@@ -89,8 +91,6 @@ Legitimate applications may install services with uncommon services paths.
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | A service $Service_File_Name$ was created from a non-standard path using $Service_Name$ |
 
-
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 
@@ -104,6 +104,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-system.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-system.log)
 

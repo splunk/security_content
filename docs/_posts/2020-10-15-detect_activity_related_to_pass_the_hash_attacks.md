@@ -1,6 +1,8 @@
 ---
 title: "Detect Activity Related to Pass the Hash Attacks"
-excerpt: "Use Alternate Authentication Material, Pass the Hash"
+excerpt: "Use Alternate Authentication Material
+, Pass the Hash
+"
 categories:
   - Endpoint
 last_modified_at: 2020-10-15
@@ -8,9 +10,9 @@ toc: true
 toc_label: ""
 tags:
   - Use Alternate Authentication Material
+  - Pass the Hash
   - Defense Evasion
   - Lateral Movement
-  - Pass the Hash
   - Defense Evasion
   - Lateral Movement
   - Splunk Enterprise
@@ -20,15 +22,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for specific authentication events from the Windows Security Event logs to detect potential attempts at using the Pass-the-Hash technique.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+
+
 - **Last Updated**: 2020-10-15
 - **Author**: Bhavin Patel, Patrick Bareiss, Splunk
 - **ID**: f5939373-8054-40ad-8c64-cec478a22a4b
@@ -55,8 +58,8 @@ This search looks for specific authentication events from the Windows Security E
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `detect_activity_related_to_pass_the_hash_attacks_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -92,8 +95,6 @@ Legitimate logon activity by authorized NTLM systems may be detected by this sea
 | 49.0 | 70 | 70 | The following $EventCode$ occurred on $dest$ by $user$ with Logon Type 3, which may be indicative of the pass the hash technique. |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -102,6 +103,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1550.002/atomic_red_team/windows-security.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1550.002/atomic_red_team/windows-security.log)
 

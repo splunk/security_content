@@ -1,6 +1,8 @@
 ---
 title: "Set Default PowerShell Execution Policy To Unrestricted or Bypass"
-excerpt: "Command and Scripting Interpreter, PowerShell"
+excerpt: "Command and Scripting Interpreter
+, PowerShell
+"
 categories:
   - Endpoint
 last_modified_at: 2022-02-18
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - Command and Scripting Interpreter
-  - Execution
   - PowerShell
+  - Execution
   - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -19,15 +21,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
-Monitor for changes of the ExecutionPolicy in the registry to the values &#34;unrestricted&#34; or &#34;bypass,&#34; which allows the execution of malicious scripts.
+Monitor for changes of the ExecutionPolicy in the registry to the values "unrestricted" or "bypass," which allows the execution of malicious scripts.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2022-02-18
 - **Author**: Patrick Bareiss, Splunk
 - **ID**: c2590137-0b08-4985-9ec5-6ae23d92f63d
@@ -71,7 +74,7 @@ Note that `set_default_powershell_execution_policy_to_unrestricted_or_bypass_fil
 You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Registry node. You must also be ingesting logs with the fields registry_path, registry_key_name, and registry_value_name from your endpoints.
 
 #### Known False Positives
-Administrators may attempt to change the default execution policy on a system for a variety of reasons. However, setting the policy to &#34;unrestricted&#34; or &#34;bypass&#34; as this search is designed to identify, would be unusual. Hits should be reviewed and investigated as appropriate.
+Administrators may attempt to change the default execution policy on a system for a variety of reasons. However, setting the policy to "unrestricted" or "bypass" as this search is designed to identify, would be unusual. Hits should be reviewed and investigated as appropriate.
 
 #### Associated Analytic story
 * [Malicious PowerShell](/stories/malicious_powershell)
@@ -92,8 +95,6 @@ Administrators may attempt to change the default execution policy on a system fo
 | 48.0 | 60 | 80 | A registry modification in $registry_path$ with reg key $registry_key_name$ and reg value $registry_value_name$ in host $dest$ |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -102,6 +103,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_execution_policy/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_execution_policy/windows-sysmon.log)
 

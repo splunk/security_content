@@ -24,7 +24,7 @@ references:
 tags:
   analytic_story:
   - IcedID
-  automated_detection_testing: passed
+  - Living Off The Land
   confidence: 80
   context:
   - Source:Endpoint
@@ -45,7 +45,7 @@ tags:
     role:
     - Victim
   - name: process_name
-    type: process name
+    type: Process
     role:
     - Attacker
   product:
@@ -61,3 +61,4 @@ tags:
   - Computer
   risk_score: 56
   security_domain: endpoint
+  asset_type: Endpoint

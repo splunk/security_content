@@ -1,6 +1,8 @@
 ---
 title: "Detect Rundll32 Inline HTA Execution"
-excerpt: "Signed Binary Proxy Execution, Mshta"
+excerpt: "Signed Binary Proxy Execution
+, Mshta
+"
 categories:
   - Endpoint
 last_modified_at: 2021-01-20
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - Signed Binary Proxy Execution
-  - Defense Evasion
   - Mshta
+  - Defense Evasion
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -19,15 +21,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
-The following analytic identifies &#34;rundll32.exe&#34; execution with inline protocol handlers. &#34;JavaScript&#34;, &#34;VBScript&#34;, and &#34;About&#34; are the only supported options when invoking HTA content directly on the command-line. This type of behavior is commonly observed with fileless malware or application whitelisting bypass techniques. The search will return the first time and last time these command-line arguments were used for these executions, as well as the target system, the user, process &#34;rundll32.exe&#34; and its parent process.
+The following analytic identifies "rundll32.exe" execution with inline protocol handlers. "JavaScript", "VBScript", and "About" are the only supported options when invoking HTA content directly on the command-line. This type of behavior is commonly observed with fileless malware or application whitelisting bypass techniques. The search will return the first time and last time these command-line arguments were used for these executions, as well as the target system, the user, process "rundll32.exe" and its parent process.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2021-01-20
 - **Author**: Michael Haag, Splunk
 - **ID**: 91c79f14-5b41-11eb-ae93-0242ac130002
@@ -84,6 +87,7 @@ Although unlikely, some legitimate applications may exhibit this behavior, trigg
 #### Associated Analytic story
 * [Suspicious MSHTA Activity](/stories/suspicious_mshta_activity)
 * [NOBELIUM Group](/stories/nobelium_group)
+* [Living Off The Land](/stories/living_off_the_land)
 
 
 #### Kill Chain Phase
@@ -98,8 +102,6 @@ Although unlikely, some legitimate applications may exhibit this behavior, trigg
 | 56.0 | 70 | 80 | Suspicious rundll32.exe inline HTA execution on $dest$ |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -113,6 +115,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.005/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.005/atomic_red_team/windows-sysmon.log)
 

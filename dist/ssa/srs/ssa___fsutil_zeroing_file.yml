@@ -1,25 +1,9 @@
-author: Michael Haag, Splunk
-datamodel:
-- Endpoint_Processes
-date: '2021-12-07'
+name: Fsutil Zeroing File
+id: f792cdc9-43ee-4429-a3c0-ffce4fed1a85
+version: 1
 description: This search is to detect a suspicious fsutil process to zeroing a target
   file. This technique was seen in lockbit ransomware where it tries to zero out its
   malware path as part of its defense evasion after encrypting the compromised host.
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA. Tune and filter known instances where renamed net.exe may be used.
-id: f792cdc9-43ee-4429-a3c0-ffce4fed1a85
-known_false_positives: System administrators or scripts may delete user accounts via
-  this technique. Filter as needed.
-name: Fsutil Zeroing File
-product:
-- Splunk Behavioral Analytics
-references:
-- https://app.any.run/tasks/e0ac072d-58c9-4f53-8a3b-3e491c7ac5db/
-- https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/fsutil-file
-risk_message: An instance of $parent_process_name$ spawning $process_name$ was identified
-  on endpoint $dest_device_id$ by user $dest_user_id$ atempting to perform file deletion.
 search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
   "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"),
   "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"),
@@ -32,44 +16,24 @@ search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map
   "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line",
   cmd_line, "process_name", process_name, "parent_process_name", parent_process_name,
   "process_path", process_path]) | into write_ssa_detected_events();'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA. Tune and filter known instances where renamed net.exe may be used.
+known_false_positives: System administrators or scripts may delete user accounts via
+  this technique. Filter as needed.
+references:
+- https://app.any.run/tasks/e0ac072d-58c9-4f53-8a3b-3e491c7ac5db/
+- https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/fsutil-file
 tags:
   analytic_story:
   - Ransomware
   cis20: []
-  confidence: 90
-  context:
-  - Source:Endpoint
-  - stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070/fsutil_file_zero/windows-security.log
-  impact: 60
   kill_chain_phases:
   - Exploitation
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified
-    on endpoint $dest_device_id$ by user $dest_user_id$ atempting to perform file
-    deletion.
   mitre_attack_id:
   - T1070
   nist: []
-  observable:
-  - name: dest_user_id
-    role:
-    - Victim
-    type: User
-  - name: dest_device_id
-    role:
-    - Victim
-    type: Hostname
-  - name: parent_process_name
-    role:
-    - Parent Process
-    type: Parent Process
-  - name: process_name
-    role:
-    - Child Process
-    type: Process
-  product:
-  - Splunk Behavioral Analytics
   required_fields:
   - _time
   - dest_device_id
@@ -80,18 +44,15 @@ tags:
   - process
   - cmd_line
   risk_score: 54
-  risk_severity: medium
   security_domain: endpoint
+  risk_severity: medium
 test:
-  name: FSUtil Zeroing File - SSA Unit Test
+  name: Fsutil Zeroing File Unit Test
   tests:
-  - attack_data:
-    - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070/fsutil_file_zero/windows-security.log
-      file_name: windows-security.log
-      source: WinEventLog:Security
-    description: Test detection of FSUtil Zeroing File
+  - name: Fsutil Zeroing File
     file: endpoint/ssa___fsutil_zeroing_file.yml
-    name: FSUtil Zeroing File
     pass_condition: '@count_gt(0)'
-type: TTP
-version: 1
+    attack_data:
+    - file_name: windows-sysmon.log
+      data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070/fsutil_file_zero/windows-sysmon.log
+      source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational

@@ -1,6 +1,7 @@
 ---
 title: "Suspicious Linux Discovery Commands"
-excerpt: "Unix Shell"
+excerpt: "Unix Shell
+"
 categories:
   - Endpoint
 last_modified_at: 2021-12-06
@@ -17,16 +18,17 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search, detects execution of suspicious bash commands from various commonly leveraged bash scripts like (AutoSUID, LinEnum, LinPeas) to perform discovery of possible paths of privilege execution, password files, vulnerable directories, executables and file permissions on a Linux host.\
 The search logic specifically looks for high number of distinct commands run in a short period of time.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+
 - **Last Updated**: 2021-12-06
 - **Author**: Bhavin Patel, Splunk
 - **ID**: 0edd5112-56c9-11ec-b990-acde48001122
@@ -90,8 +92,6 @@ Unless an administrator is using these commands to troubleshoot or audit a syste
 | 81.0 | 90 | 90 | Suspicious Linux Discovery Commands detected on $dest$ |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -107,6 +107,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.004/linux_discovery_tools/sysmon_linux.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.004/linux_discovery_tools/sysmon_linux.log)
 

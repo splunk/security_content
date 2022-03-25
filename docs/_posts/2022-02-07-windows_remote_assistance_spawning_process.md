@@ -1,6 +1,7 @@
 ---
 title: "Windows Remote Assistance Spawning Process"
-excerpt: "Process Injection"
+excerpt: "Process Injection
+"
 categories:
   - Endpoint
 last_modified_at: 2022-02-07
@@ -18,15 +19,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following analytic identifies the use of Microsoft Remote Assistance, msra.exe, spawning PowerShell.exe or cmd.exe as a child process. Msra.exe by default has no command-line arguments and typically spawns itself. It will generate a network connection to the remote system that is connected. This behavior is indicative of another process injected into msra.exe. Review the parent process or cross process events to identify source.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+
 - **Last Updated**: 2022-02-07
 - **Author**: Michael Haag, Splunk
 - **ID**: ced50492-8849-11ec-9f68-acde48001122
@@ -51,9 +53,9 @@ The following analytic identifies the use of Microsoft Remote Assistance, msra.e
 
 #### Macros
 The SPL above uses the following Macros:
+* [windows_shells](https://github.com/splunk/security_content/blob/develop/macros/windows_shells.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
-* [windows_shells](https://github.com/splunk/security_content/blob/develop/macros/windows_shells.yml)
 
 Note that `windows_remote_assistance_spawning_process_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -94,8 +96,6 @@ False positives should be limited, filter as needed. Add additional shells as ne
 | 80.0 | 80 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$, generating behavior not common with msra.exe. |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -107,6 +107,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/msra/msra-windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/msra/msra-windows-sysmon.log)
 

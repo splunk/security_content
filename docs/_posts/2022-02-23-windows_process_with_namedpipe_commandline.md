@@ -1,6 +1,7 @@
 ---
 title: "Windows Process With NamedPipe CommandLine"
-excerpt: "Process Injection"
+excerpt: "Process Injection
+"
 categories:
   - Endpoint
 last_modified_at: 2022-02-23
@@ -18,15 +19,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
-This analytic is to look for process commandline that contains named pipe. This technique was seen in some adversaries, threat actor and malware like olympic destroyer to communicate to its other child processes after process injection that serve as defense evasion and privilege escalation. On the other hand this analytic may catch some normal process that using this technique for example browser application. In that scenario we include common process path we&#39;ve seen during testing that cause false positive which is the program files. False positive may still be arise if the normal application is in other folder path.
+This analytic is to look for process commandline that contains named pipe. This technique was seen in some adversaries, threat actor and malware like olympic destroyer to communicate to its other child processes after process injection that serve as defense evasion and privilege escalation. On the other hand this analytic may catch some normal process that using this technique for example browser application. In that scenario we include common process path we've seen during testing that cause false positive which is the program files. False positive may still be arise if the normal application is in other folder path.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+
 - **Last Updated**: 2022-02-23
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: e64399d4-94a8-11ec-a9da-acde48001122
@@ -94,8 +96,6 @@ Normal browser application may use this technique. Please update the filter macr
 | 49.0 | 70 | 70 | Process with named pipe in $process$ on $dest$ |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -107,6 +107,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/olympic_destroyer/sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/olympic_destroyer/sysmon.log)
 

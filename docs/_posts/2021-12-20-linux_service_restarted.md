@@ -1,6 +1,8 @@
 ---
 title: "Linux Service Restarted"
-excerpt: "Systemd Timers, Scheduled Task/Job"
+excerpt: "Systemd Timers
+, Scheduled Task/Job
+"
 categories:
   - Endpoint
 last_modified_at: 2021-12-20
@@ -8,10 +10,10 @@ toc: true
 toc_label: ""
 tags:
   - Systemd Timers
+  - Scheduled Task/Job
   - Execution
   - Persistence
   - Privilege Escalation
-  - Scheduled Task/Job
   - Execution
   - Persistence
   - Privilege Escalation
@@ -23,15 +25,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This analytic looks for restarted or re-enable services in linux platform. This technique can be executed or performed using systemctl or service tool application. Adversaries may create or modify Windows services to repeatedly execute malicious payloads as part of persistence. When Windows boots up, it starts programs or applications called services that perform background system functions. Administrator may also create a legitimated service for a specific tool or normal application as part of task or automation, in this scenario it is suggested to look for the service path of the actual script or executable that register as service and who created the service for further verification.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+
 - **Last Updated**: 2021-12-20
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: 084275ba-61b8-11ec-8d64-acde48001122
@@ -86,7 +89,7 @@ Administrator or network operator can use this commandline for automation purpos
 
 
 #### Kill Chain Phase
-* Privilege Escalation
+* Exploitation
 
 
 
@@ -96,8 +99,6 @@ Administrator or network operator can use this commandline for automation purpos
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | A commandline $process$ that may create or start a service on $dest$ |
 
-
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 
@@ -110,6 +111,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.006/service_systemd/sysmon_linux.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.006/service_systemd/sysmon_linux.log)
 

@@ -1,7 +1,6 @@
-author: Michael Haag, Splunk
-datamodel:
-- Endpoint_Processes
-date: '2022-02-16'
+name: Windows CertUtil Decode File
+id: b06983f4-8f72-11ec-ab50-acde48001122
+version: 1
 description: CertUtil.exe may be used to `encode` and `decode` a file, including PE
   and script code. Encoding will convert a file to base64 with `-----BEGIN CERTIFICATE-----`
   and `-----END CERTIFICATE-----` tags. Malicious usage will include decoding a encoded
@@ -10,26 +9,6 @@ description: CertUtil.exe may be used to `encode` and `decode` a file, including
   and `decodehex`. Similarly, the file will be encoded in HEX and later decoded for
   further execution. During triage, identify the source of the file being decoded.
   Review its contents or execution behavior for further analysis.
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
-  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
-  endpoint product.
-id: b06983f4-8f72-11ec-ab50-acde48001122
-known_false_positives: Typically seen used to `encode` files, but it is possible to
-  see legitimate use of `decode`. Filter based on parent-child relationship, file
-  paths, endpoint or user.
-name: Windows CertUtil Decode File
-product:
-- Splunk Behavioral Analytics
-references:
-- https://attack.mitre.org/techniques/T1140/
-- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1140/T1140.md
-- https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/certutil
-- https://www.bleepingcomputer.com/news/security/certutilexe-could-allow-attackers-to-download-malware-while-bypassing-av/
-risk_message: An instance of $parent_process_name$ spawning $process_name$ was identified
-  on endpoint $dest_device_id$ by user $dest_user_id$ attempting to decode a file
-  on disk.
 search: '| from read_ssa_enriched_events() | where "Endpoint_Processes" IN(_datamodels)
   | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
   cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event,
@@ -42,44 +21,29 @@ search: '| from read_ssa_enriched_events() | where "Endpoint_Processes" IN(_data
   "dest_device_id"), "string", null)) | eval body=create_map(["event_id", event_id,
   "cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name,
   "process_path", process_path]) | into write_ssa_detected_events();'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: Typically seen used to `encode` files, but it is possible to
+  see legitimate use of `decode`. Filter based on parent-child relationship, file
+  paths, endpoint or user.
+references:
+- https://attack.mitre.org/techniques/T1140/
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1140/T1140.md
+- https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/certutil
+- https://www.bleepingcomputer.com/news/security/certutilexe-could-allow-attackers-to-download-malware-while-bypassing-av/
 tags:
   analytic_story:
   - Deobfuscate-Decode Files or Information
   - Living Off The Land
-  automated_detection_testing: passed
-  confidence: 80
-  context:
-  - Source:Endpoint
-  - Stage:Execution
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/ master/datasets/attack_techniques/T1140/atomic_red_team/encode-windows-security.log
-  impact: 50
+  cis20: null
   kill_chain_phases:
   - Exploitation
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified
-    on endpoint $dest_device_id$ by user $dest_user_id$ attempting to decode a file
-    on disk.
   mitre_attack_id:
   - T1140
-  observable:
-  - name: dest_user_id
-    role:
-    - Victim
-    type: User
-  - name: dest_device_id
-    role:
-    - Victim
-    type: Hostname
-  - name: parent_process_name
-    role:
-    - Parent Process
-    type: Parent Process
-  - name: process_name
-    role:
-    - Child Process
-    type: Process
-  product:
-  - Splunk Behavioral Analytics
+  nist: null
   required_fields:
   - _time
   - dest_device_id
@@ -90,17 +54,15 @@ tags:
   - process
   - cmd_line
   risk_score: 40
-  risk_severity: low
   security_domain: endpoint
+  risk_severity: low
 test:
   name: Windows CertUtil Decode File Unit Test
   tests:
-  - attack_data:
-    - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1140/atomic_red_team/encode-windows-security.log
-      file_name: windows-security.log
-      source: WinEventLog:Security
+  - name: Windows CertUtil Decode File
     file: endpoint/ssa___windows_certutil_decode_file.yml
-    name: Windows CertUtil Decode File
     pass_condition: '@count_gt(0)'
-type: TTP
-version: 1
+    attack_data:
+    - file_name: windows-security.log
+      data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1140/atomic_red_team/encode-windows-security.log
+      source: WinEventLog:Security

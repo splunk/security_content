@@ -1,9 +1,8 @@
 name: TCP Command and Scripting Interpreter Outbound LDAP Traffic Unit Test
 tests:
-- name: PAN Traffic Logs 
+- name: TCP Command and Scripting Interpreter Outbound LDAP Traffic
   file: network/ssa___tcp_command_and_scripting_interpreter_outbound_ldap_traffic.yml
   pass_condition: '@count_gt(0)'
-  description: Test PAN Traffic Logs LDAP outbound connection
   attack_data:
     - file_name: pantraffic.txt
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/log4shell_ldap_traffic/pantraffic.log

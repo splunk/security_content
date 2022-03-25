@@ -33,6 +33,7 @@ tags:
   - Suspicious Regsvr32 Activity
   - Remcos
   - Hermetic Wiper
+  - Living Off The Land
   automated_detection_testing: passed
   confidence: 60
   context:
@@ -59,7 +60,7 @@ tags:
     role:
     - Victim
   - name: parent_process_name
-    type: Parent Process
+    type: Process
     role:
     - Parent Process
   - name: process_name
@@ -87,3 +88,4 @@ tags:
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_microsoft_sysmon
+  asset_type: Endpoint

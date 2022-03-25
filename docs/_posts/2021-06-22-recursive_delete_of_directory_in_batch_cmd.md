@@ -1,6 +1,8 @@
 ---
 title: "Recursive Delete of Directory In Batch CMD"
-excerpt: "File Deletion, Indicator Removal on Host"
+excerpt: "File Deletion
+, Indicator Removal on Host
+"
 categories:
   - Endpoint
 last_modified_at: 2021-06-22
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - File Deletion
-  - Defense Evasion
   - Indicator Removal on Host
+  - Defense Evasion
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -19,15 +21,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search is to detect a suspicious commandline designed to delete files or directory recursive using batch command. This technique was seen in ransomware (reddot) where it it tries to delete the files in recycle bin to impaire user from recovering deleted files.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2021-06-22
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: ba570b3a-d356-11eb-8358-acde48001122
@@ -90,8 +93,12 @@ network operator may use this batch command to delete recursively a directory or
 
 
 
+#### RBA
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 25.0 | 50 | 50 | Recursive Delete of Directory In Batch CMD |
+
 
 
 
@@ -104,6 +111,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data2/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data2/windows-sysmon.log)
 

@@ -1,6 +1,8 @@
 ---
 title: "Linux Add User Account"
-excerpt: "Local Account, Create Account"
+excerpt: "Local Account
+, Create Account
+"
 categories:
   - Endpoint
 last_modified_at: 2021-12-21
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - Local Account
-  - Persistence
   - Create Account
+  - Persistence
   - Persistence
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -19,15 +21,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This analytic looks for commands to create user accounts on the linux platform. This technique is commonly abuse by adversaries, malware author and red teamers to persist on the targeted or compromised host by creating new user with an elevated privilege. This Hunting query may catch normal creation of user by administrator so filter is needed.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+
 - **Last Updated**: 2021-12-21
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: 51fbcaf2-6259-11ec-b0f3-acde48001122
@@ -82,7 +85,7 @@ Administrator or network operator can execute this command. Please update the fi
 
 
 #### Kill Chain Phase
-* Privilege Escalation
+* Exploitation
 
 
 
@@ -92,8 +95,6 @@ Administrator or network operator can execute this command. Please update the fi
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | A commandline $process$ that may create user account on $dest$ |
 
-
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 
@@ -106,6 +107,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.003/linux_adduser/sysmon_linux.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.003/linux_adduser/sysmon_linux.log)
 

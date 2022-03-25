@@ -1,7 +1,6 @@
-author: Jose Hernandez, David Dorsey, Michael Haag Splunk
-datamodel:
-- Endpoint_Processes
-date: '2022-02-11'
+name: Windows Powershell Connect to Internet With Hidden Window
+id: 477e068e-8b6d-11ec-b6c1-81af21670352
+version: 1
 description: The following hunting analytic identifies PowerShell commands utilizing
   the WindowStyle parameter to hide the window on the compromised endpoint. This combination
   of command-line options is suspicious because it is overriding the default PowerShell
@@ -11,26 +10,6 @@ description: The following hunting analytic identifies PowerShell commands utili
   For example w, win, windowsty and so forth. In addition, through our research it
   was identified that PowerShell will interpret different command switch types beyond
   the hyphen. We have added endash, emdash, horizontal bar, and forward slash.
-how_to_implement: You must be ingesting data that records process activity from your
-  hosts to populate the Endpoint data model in the Processes node. You must also be
-  ingesting logs with both the process name and command line from your endpoints.
-  The command-line arguments are mapped to the "process" field in the Endpoint data
-  model.
-id: 477e068e-8b6d-11ec-b6c1-81af21670352
-known_false_positives: Legitimate process can have this combination of command-line
-  options, but it's not common.
-name: Windows Powershell Connect to Internet With Hidden Window
-product:
-- Splunk Behavioral Analytics
-references:
-- https://regexr.com/663rr
-- https://github.com/redcanaryco/AtomicTestHarnesses/blob/master/TestHarnesses/T1059.001_PowerShell/OutPowerShellCommandLineParameter.ps1
-- https://ss64.com/ps/powershell.html
-- https://twitter.com/M_haggis/status/1440758396534214658?s=20
-- https://blog.netlab.360.com/ten-families-of-malicious-samples-are-spreading-using-the-log4j2-vulnerability-now/
-risk_message: PowerShell processes $process$ started with parameters to modify the
-  execution policy of the run, run in a hidden window, and connect to the Internet
-  on host $dest$ executed by user $user$.
 search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
   "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"),
   "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"),
@@ -46,51 +25,34 @@ search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map
   "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name",
   process_name, "parent_process_name", parent_process_name, "process_path", process_path])
   | into write_ssa_detected_events();'
+how_to_implement: You must be ingesting data that records process activity from your
+  hosts to populate the Endpoint data model in the Processes node. You must also be
+  ingesting logs with both the process name and command line from your endpoints.
+  The command-line arguments are mapped to the "process" field in the Endpoint data
+  model.
+known_false_positives: Legitimate process can have this combination of command-line
+  options, but it's not common.
+references:
+- https://regexr.com/663rr
+- https://github.com/redcanaryco/AtomicTestHarnesses/blob/master/TestHarnesses/T1059.001_PowerShell/OutPowerShellCommandLineParameter.ps1
+- https://ss64.com/ps/powershell.html
+- https://twitter.com/M_haggis/status/1440758396534214658?s=20
+- https://blog.netlab.360.com/ten-families-of-malicious-samples-are-spreading-using-the-log4j2-vulnerability-now/
 tags:
   analytic_story:
   - Malicious PowerShell
   - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
   - HAFNIUM Group
   - Log4Shell CVE-2021-44228
-  automated_detection_testing: passed
   cis20:
   - CIS 8
-  confidence: 70
-  context:
-  - Source:Endpoint
-  - Stage:Exfiltration
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/hidden_powershell/hidden_windows-security.log
-  impact: 50
   kill_chain_phases:
-  - Exfiltration
-  message: PowerShell processes $process$ started with parameters to modify the execution
-    policy of the run, run in a hidden window, and connect to the Internet on host
-    $dest$ executed by user $user$.
+  - Exploitation
   mitre_attack_id:
   - T1020
   nist:
   - PR.PT
   - DE.CM
-  observable:
-  - name: dest_user_id
-    role:
-    - Victim
-    type: User
-  - name: dest_device_id
-    role:
-    - Victim
-    type: Hostname
-  - name: parent_process_name
-    role:
-    - Parent Process
-    type: Parent Process
-  - name: process_name
-    role:
-    - Child Process
-    type: Process
-  product:
-  - Splunk Behavioral Analytics
   required_fields:
   - _time
   - dest_device_id
@@ -101,18 +63,15 @@ tags:
   - process
   - cmd_line
   risk_score: 35
-  risk_severity: low
   security_domain: endpoint
+  risk_severity: low
 test:
   name: Windows Powershell Connect to Internet With Hidden Window Unit Test
   tests:
-  - attack_data:
-    - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/hidden_powershell/hidden_windows-security.log
-      file_name: hidden_windows-security.log
-      source: WinEventLog:Security
-    description: Test Windows Powershell Connect to Internet With Hidden Window detections
+  - name: Windows Powershell Connect to Internet With Hidden Window
     file: endpoint/ssa___windows_powershell_connect_to_internet_with_hidden_window.yml
-    name: Windows Powershell Connect to Internet With Hidden Window
     pass_condition: '@count_gt(0)'
-type: Anomaly
-version: 1
+    attack_data:
+    - file_name: hidden_windows-security.log
+      data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/hidden_powershell/hidden_windows-security.log
+      source: WinEventLog:Security

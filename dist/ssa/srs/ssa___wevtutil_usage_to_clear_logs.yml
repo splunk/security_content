@@ -1,25 +1,9 @@
-author: Teoderick Contreras, Splunk
-datamodel:
-- Endpoint_Processes
-date: '2021-06-15'
+name: WevtUtil Usage To Clear Logs
+id: 5438113c-cdd9-11eb-93b8-acde48001122
+version: 2
 description: The wevtutil.exe application is the windows event log utility. This searches
   for wevtutil.exe with parameters for clearing the application, security, setup,
   powershell, sysmon, or system event logs.
-how_to_implement: You must be ingesting data that records process activity from your
-  hosts to populate the Endpoint data model in the Processes node. You must also be
-  ingesting logs with both the process name and command line from your endpoints.
-  The command-line arguments are mapped to the "process" field in the Endpoint data
-  model.
-id: 5438113c-cdd9-11eb-93b8-acde48001122
-known_false_positives: The wevtutil.exe application is a legitimate Windows event
-  log utility. Administrators may use it to manage Windows event logs.
-name: WevtUtil Usage To Clear Logs
-product:
-- Splunk Behavioral Analytics
-references:
-- https://www.splunk.com/en_us/blog/security/detecting-clop-ransomware.html
-risk_message: A wevtutil process $process_name$ with commandline $cmd_line$ to clear
-  event logs in host $dest_device_id$
 search: '| from read_ssa_enriched_events() | where "Endpoint_Processes" IN(_datamodels)
   | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
   cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event,
@@ -35,6 +19,15 @@ search: '| from read_ssa_enriched_events() | where "Endpoint_Processes" IN(_data
   "string", null)) | eval body=create_map(["event_id", event_id, "cmd_line", cmd_line,
   "process_name", process_name, "parent_process_name", parent_process_name, "process_path",
   process_path]) | into write_ssa_detected_events();'
+how_to_implement: You must be ingesting data that records process activity from your
+  hosts to populate the Endpoint data model in the Processes node. You must also be
+  ingesting logs with both the process name and command line from your endpoints.
+  The command-line arguments are mapped to the "process" field in the Endpoint data
+  model.
+known_false_positives: The wevtutil.exe application is a legitimate Windows event
+  log utility. Administrators may use it to manage Windows event logs.
+references:
+- https://www.splunk.com/en_us/blog/security/detecting-clop-ransomware.html
 tags:
   analytic_story:
   - Windows Log Manipulation
@@ -43,34 +36,14 @@ tags:
   cis20:
   - CIS 8
   - CIS 13
-  confidence: 90
-  context:
-  - source:endpoint
-  - stage: Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/ssa_wevtutil/clear_evt.log
-  impact: 70
   kill_chain_phases:
   - Exploitation
-  message: A wevtutil process $process_name$ with commandline $cmd_line$ to clear
-    event logs in host $dest_device_id$
   mitre_attack_id:
   - T1070
   - T1070.001
   nist:
   - PR.DS
   - PR.IP
-  observable:
-  - name: dest_device_id
-    role:
-    - Victim
-    type: Hostname
-  - name: dest_user_id
-    role:
-    - Victim
-    type: user
-  product:
-  - Splunk Behavioral Analytics
   required_fields:
   - _time
   - dest_device_id
@@ -80,18 +53,15 @@ tags:
   - dest_user_id
   - process
   risk_score: 63
-  risk_severity: medium
   security_domain: endpoint
+  risk_severity: medium
 test:
   name: WevtUtil Usage To Clear Logs Unit Test
   tests:
-  - attack_data:
-    - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/ssa_wevtutil/clear_evt.log
-      file_name: clear_evt.log
-      source: WinEventLog:Security
-    description: Test for wevtutil clear logs command
+  - name: WevtUtil Usage To Clear Logs
     file: endpoint/ssa___wevtutil_usage_to_clear_logs.yml
-    name: WevtUtil Usage To Clear Logs
     pass_condition: '@count_gt(0)'
-type: TTP
-version: 2
+    attack_data:
+    - file_name: clear_evt.log
+      data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/ssa_wevtutil/clear_evt.log
+      source: WinEventLog:Security

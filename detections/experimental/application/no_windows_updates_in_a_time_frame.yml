@@ -45,3 +45,15 @@ tags:
   - Updates.vendor_product
   - Updates.dest
   security_domain: endpoint
+  confidence: 50
+  impact: 50
+  risk_score: 25
+  context: []
+  message: tbd
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  kill_chain_phases:
+  - Exploitation

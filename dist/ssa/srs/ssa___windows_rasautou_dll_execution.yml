@@ -1,29 +1,10 @@
-author: Michael Haag, Splunk
-datamodel:
-- Endpoint_Processes
-date: '2022-02-15'
+name: Windows Rasautou DLL Execution
+id: 6f42b8ce-1e15-11ec-ad5a-acde48001122
+version: 1
 description: The following analytic identifies the Windows Windows Remote Auto Dialer,
   rasautou.exe executing an arbitrary DLL. This technique is used to execute arbitrary
   shellcode or DLLs via the rasautou.exe LOLBin capability. During triage, review
   parent and child process behavior including file and image loads.
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
-  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
-  endpoint product.
-id: 6f42b8ce-1e15-11ec-ad5a-acde48001122
-known_false_positives: False positives will be limited to applications that require
-  Rasautou.exe to load a DLL from disk. Filter as needed.
-name: Windows Rasautou DLL Execution
-product:
-- Splunk Behavioral Analytics
-references:
-- https://github.com/mandiant/DueDLLigence
-- https://github.com/MHaggis/notes/blob/master/utilities/Invoke-SPLDLLigence.ps1
-- https://gist.github.com/NickTyrer/c6043e4b302d5424f701f15baf136513
-- https://www.fireeye.com/blog/threat-research/2019/10/staying-hidden-on-the-endpoint-evading-detection-with-shellcode.html
-risk_message: An instance of $parent_process_name$ spawning $process_name$ was identified
-  on endpoint $dest$ attempting to load a DLL in a suspicious manner.
 search: '| from read_ssa_enriched_events() | where "Endpoint_Processes" IN(_datamodels)
   | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
   cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event,
@@ -37,44 +18,30 @@ search: '| from read_ssa_enriched_events() | where "Endpoint_Processes" IN(_data
   | eval body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name",
   process_name, "parent_process_name", parent_process_name, "process_path", process_path])
   | into write_ssa_detected_events();'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: False positives will be limited to applications that require
+  Rasautou.exe to load a DLL from disk. Filter as needed.
+references:
+- https://github.com/mandiant/DueDLLigence
+- https://github.com/MHaggis/notes/blob/master/utilities/Invoke-SPLDLLigence.ps1
+- https://gist.github.com/NickTyrer/c6043e4b302d5424f701f15baf136513
+- https://www.fireeye.com/blog/threat-research/2019/10/staying-hidden-on-the-endpoint-evading-detection-with-shellcode.html
 tags:
   analytic_story:
   - Windows Defense Evasion Tactics
   - Living Off The Land
-  confidence: 100
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055.001/rasautou/windows-security.log
-  impact: 80
+  cis20: null
   kill_chain_phases:
   - Exploitation
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified
-    on endpoint $dest$ attempting to load a DLL in a suspicious manner.
   mitre_attack_id:
   - T1055.001
   - T1218
   - T1055
-  observable:
-  - name: dest_user_id
-    role:
-    - Victim
-    type: User
-  - name: dest_device_id
-    role:
-    - Victim
-    type: Hostname
-  - name: parent_process_name
-    role:
-    - Parent Process
-    type: Parent Process
-  - name: process_name
-    role:
-    - Child Process
-    type: Process
-  product:
-  - Splunk Behavioral Analytics
+  nist: null
   required_fields:
   - _time
   - dest_device_id
@@ -85,17 +52,15 @@ tags:
   - process
   - cmd_line
   risk_score: 80
-  risk_severity: high
   security_domain: endpoint
+  risk_severity: high
 test:
   name: Windows Rasautou DLL Execution Unit Test
   tests:
-  - attack_data:
-    - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055.001/rasautou/windows-security.log
-      file_name: windows-security.log
-      source: WinEventLog:Security
+  - name: Windows Rasautou DLL Execution
     file: endpoint/ssa___windows_rasautou_dll_execution.yml
-    name: Windows Rasautou DLL Execution
     pass_condition: '@count_gt(0)'
-type: TTP
-version: 1
+    attack_data:
+    - file_name: windows-security.log
+      data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055.001/rasautou/windows-security.log
+      source: WinEventLog:Security

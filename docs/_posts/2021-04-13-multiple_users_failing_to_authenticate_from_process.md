@@ -1,6 +1,8 @@
 ---
 title: "Multiple Users Failing To Authenticate From Process"
-excerpt: "Password Spraying, Brute Force"
+excerpt: "Password Spraying
+, Brute Force
+"
 categories:
   - Endpoint
 last_modified_at: 2021-04-13
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - Password Spraying
-  - Credential Access
   - Brute Force
+  - Credential Access
   - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -18,7 +20,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -27,9 +29,10 @@ The detection calculates the standard deviation for each host and leverages the 
 This detection will trigger on the potenfially malicious host, perhaps controlled via a trojan or operated by an insider threat, from where a password spraying attack is being executed. This could be a domain controller as well as a member server or workstation.\
 The analytics returned fields allow analysts to investigate the event further by providing fields like source process name, source account and attempted user accounts.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+
+
 - **Last Updated**: 2021-04-13
 - **Author**: Mauricio Velazco, Splunk
 - **ID**: 9015385a-9c84-11eb-bef2-acde48001122
@@ -96,8 +99,6 @@ A process failing to authenticate with multiple users is not a common behavior f
 | 49.0 | 70 | 70 | Potential password spraying attack from $ComputerName$ |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -112,6 +113,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_multiple_users_from_process/windows-security.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_multiple_users_from_process/windows-security.log)
 

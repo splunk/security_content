@@ -3,26 +3,25 @@ id: f7aba570-7d59-11eb-825e-acde48001122
 version: 1
 date: '2021-03-04'
 author: Michael Hart, Splunk
-description: Monitors for behaviors associated with adversaries discovering objects in the
-  environment that can be leveraged in the progression of the attack.
+description: Monitors for behaviors associated with adversaries discovering objects
+  in the environment that can be leveraged in the progression of the attack.
 narrative: Attackers may not have much if any insight into their target's environment
-  before the initial compromise.  Once a foothold has been established, attackers will
-  start enumerating objects in the environment (accounts, services, network shares, etc.)
-  that can be used to achieve their objectives.  This Analytic Story provides searches to
-  help identify activities consistent with adversaries gaining knowledge of compromised
-  Windows environments.
+  before the initial compromise.  Once a foothold has been established, attackers
+  will start enumerating objects in the environment (accounts, services, network shares,
+  etc.) that can be used to achieve their objectives.  This Analytic Story provides
+  searches to help identify activities consistent with adversaries gaining knowledge
+  of compromised Windows environments.
 references:
-  - https://attack.mitre.org/tactics/TA0007/
-  - https://cyberd.us/penetration-testing
-  - https://attack.mitre.org/software/S0521/
+- https://attack.mitre.org/tactics/TA0007/
+- https://cyberd.us/penetration-testing
+- https://attack.mitre.org/software/S0521/
 tags:
-  analytic_story:
-    - Windows Discovery Techniques
+  analytic_story: Windows Discovery Techniques
   category:
-    - Adversary Tactics
+  - Adversary Tactics
   product:
-    - Splunk Behavioral Analytics
-    - Splunk Enterprise
-    - Splunk Enterprise Security
-    - Splunk Cloud
+  - Splunk Behavioral Analytics
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   usecase: Advanced Threat Detection

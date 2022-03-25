@@ -1,7 +1,6 @@
-author: Michael Haag, Splunk
-datamodel:
-- Endpoint_Processes
-date: '2022-02-16'
+name: Windows CertUtil VerifyCtl Download
+id: 9ac29c40-8f6b-11ec-b19a-acde48001122
+version: 1
 description: 'Certutil.exe may download a file from a remote destination using `-VerifyCtl`.
   This behavior does require a URL to be passed on the command-line. In addition,
   `-f` (force) and `-split` (Split embedded ASN.1 elements, and save to files) will
@@ -9,22 +8,6 @@ description: 'Certutil.exe may download a file from a remote destination using `
   \ During triage, capture any files on disk and review. Review the reputation of
   the remote IP or domain in question. Using `-VerifyCtl`, the file will either be
   written to the current working directory or `%APPDATA%\..\LocalLow\Microsoft\CryptnetUrlCache\Content\<hash>`. '
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Processes` node.
-id: 9ac29c40-8f6b-11ec-b19a-acde48001122
-known_false_positives: Limited false positives in most environments, however tune
-  as needed based on parent-child relationship or network connection.
-name: Windows CertUtil VerifyCtl Download
-product:
-- Splunk Behavioral Analytics
-references:
-- https://attack.mitre.org/techniques/T1105/
-- https://www.hexacorn.com/blog/2020/08/23/certutil-one-more-gui-lolbin/
-- https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/cc732443(v=ws.11)#-verifyctl
-- https://www.avira.com/en/blog/certutil-abused-by-attackers-to-spread-threats
-risk_message: An instance of $parent_process_name$ spawning $process_name$ was identified
-  on endpoint $dest_device_id$ by user $dest_user_id$ attempting to download a file.
 search: '| from read_ssa_enriched_events() | where "Endpoint_Processes" IN(_datamodels)
   | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
   cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event,
@@ -38,44 +21,27 @@ search: '| from read_ssa_enriched_events() | where "Endpoint_Processes" IN(_data
   "string", null)) | eval body=create_map(["event_id", event_id, "cmd_line", cmd_line,
   "process_name", process_name, "parent_process_name", parent_process_name, "process_path",
   process_path]) | into write_ssa_detected_events();'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+known_false_positives: Limited false positives in most environments, however tune
+  as needed based on parent-child relationship or network connection.
+references:
+- https://attack.mitre.org/techniques/T1105/
+- https://www.hexacorn.com/blog/2020/08/23/certutil-one-more-gui-lolbin/
+- https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/cc732443(v=ws.11)#-verifyctl
+- https://www.avira.com/en/blog/certutil-abused-by-attackers-to-spread-threats
 tags:
   analytic_story:
   - Ingress Tool Transfer
   - DarkSide Ransomware
   - Living Off The Land
-  automated_detection_testing: passed
-  confidence: 100
-  context:
-  - Source:Endpoint
-  - Stage:Command and Control
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1105/atomic_red_team/T1105-windows-security.log
-  impact: 90
+  cis20: null
   kill_chain_phases:
   - Exploitation
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified
-    on endpoint $dest_device_id$ by user $dest_user_id$ attempting to download a file.
   mitre_attack_id:
   - T1105
-  observable:
-  - name: dest_user_id
-    role:
-    - Victim
-    type: User
-  - name: dest_device_id
-    role:
-    - Victim
-    type: Hostname
-  - name: parent_process_name
-    role:
-    - Parent Process
-    type: Parent Process
-  - name: process_name
-    role:
-    - Child Process
-    type: Process
-  product:
-  - Splunk Behavioral Analytics
+  nist: null
   required_fields:
   - _time
   - dest_device_id
@@ -86,17 +52,15 @@ tags:
   - process
   - cmd_line
   risk_score: 90
-  risk_severity: high
   security_domain: endpoint
+  risk_severity: high
 test:
   name: Windows CertUtil VerifyCtl Download  Unit Test
   tests:
-  - attack_data:
-    - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1105/atomic_red_team/T1105-windows-security.log
-      file_name: T1105-windows-security.log
-      source: WinEventLog:Security
+  - name: Windows CertUtil VerifyCtl Download
     file: endpoint/ssa___windows_certutil_verifyctl_download_.yml
-    name: Windows CertUtil VerifyCtl Download
     pass_condition: '@count_gt(0)'
-type: TTP
-version: 1
+    attack_data:
+    - file_name: T1105-windows-security.log
+      data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1105/atomic_red_team/T1105-windows-security.log
+      source: WinEventLog:Security

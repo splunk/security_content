@@ -1,6 +1,8 @@
 ---
 title: "GSuite Email Suspicious Attachment"
-excerpt: "Spearphishing Attachment, Phishing"
+excerpt: "Spearphishing Attachment
+, Phishing
+"
 categories:
   - Cloud
 last_modified_at: 2021-08-16
@@ -8,26 +10,26 @@ toc: true
 toc_label: ""
 tags:
   - Spearphishing Attachment
-  - Initial Access
   - Phishing
+  - Initial Access
   - Initial Access
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Dev Sec Ops Analytics
 ---
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search is to detect a suspicious attachment file extension in Gsuite email that may related to spear phishing attack. This file type is commonly used by malware to lure user to click on it to execute malicious code to compromised targetted machine. But this search can also catch some normal files related to this file type that maybe send by employee or network admin.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Dev Sec Ops Analytics
-- **Datamodel**: 
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+
+
 - **Last Updated**: 2021-08-16
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: 6d663014-fe92-11eb-ab07-acde48001122
@@ -55,8 +57,8 @@ This search is to detect a suspicious attachment file extension in Gsuite email 
 
 #### Macros
 The SPL above uses the following Macros:
-* [gsuite_gmail](https://github.com/splunk/security_content/blob/develop/macros/gsuite_gmail.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [gsuite_gmail](https://github.com/splunk/security_content/blob/develop/macros/gsuite_gmail.yml)
 
 Note that `gsuite_email_suspicious_attachment_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -94,8 +96,6 @@ network admin and normal user may send this file attachment as part of their day
 | 49.0 | 70 | 70 | suspicious email from $source.address$ to $destination{}.address$ |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -107,6 +107,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/gsuite_susp_attachment_ext/gsuite_gmail_file_ext.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/gsuite_susp_attachment_ext/gsuite_gmail_file_ext.log)
 

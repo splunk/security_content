@@ -46,11 +46,12 @@ curl -s https://content.splunkresearch.com | jq
 ### contentctl.py 
 The Content Control tool allows you to manipulate Splunk Security Content via the following actions: 
 
-1. **new** - Creates new content (detection, story, baseline)
+1. **new_content** - Creates new content (detection, story, baseline)
 2. **validate** - Validates written content
 3. **generate** - Generates a deployment package for different platforms (splunk_app)
 
 ### pre-requisites
+Make sure you use python version 3.9.
 
 ```
 git clone git@github.com:splunk/security_content.git
@@ -60,19 +61,19 @@ virtualenv venv
 source venv/bin/activate
 pip install -r requirements.txt
 ```
+### Architecture details for the tooling
+- [WIKI](https://github.com/splunk/security_content/wiki/Security-Content-Code)
+
 ### create a new detection 
-`python contentctl.py new` 
+`python contentctl.py -p . new_content -t detection` 
 
 for a more indepth write up on how to write content see our [guide](https://github.com/splunk/security_content/wiki/Developing-Content).
 
-### create a new analytic story 
-`python contentctl.py new -t story` 
-
-### validate written content a new analytic story 
-`python contentctl.py --verbose validate` 
+### validate security content 
+`python contentctl.py -p . validate -pr ESCU` 
 
 ### generate a splunk app from current content
-`python contentctl.py --path . --verbose generate --output package` 
+`python contentctl.py -p . generate -o dist/escu -pr ESCU` 
 
 # MITRE ATT&CK ⚔️
 ### Detection Coverage
@@ -91,9 +92,9 @@ A complete use case, specifically built to detect, investigate, and respond to a
 * [detections/](detections/): Contains all 209 detection searches to-date and growing.
 * [stories/](stories/): All Analytic Stories that are group detections or also known as Use Cases
 * [deployments/](deployments/): Configuration for the schedule and alert action for all content
-* [responses/](responses/): Incident Response Playbooks/Workflow for responding to a specific Use Case or Threat.
-* [response_tasks/](response_tasks/): Individual steps in responses that help the user investigate via a Splunk search, automate via a phantom playbook, and visualize via dashboards threats.
+* [playbooks/](playbooks/): Incident Response Playbooks/Workflow for responding to a specific Use Case or Threat.
 * [baselines/](baselines/): Searches that must be executed before a detection runs. It is specifically useful for collecting data on a system before running your detection on the collected data.
+* [investigations/](investigations/): Investigations to further analysis the output from detections.
 * [dashboards/](dashboards/): JSON definitions of Mission Control dashboards, to be used as a response task. Currently not used.
 * [macros/](macros/): Implements Splunk’s search macros, shortcuts to commonly used search patterns like sysmon source type. More on how macros are used to customize content below.
 * [lookups/](lookups/): Implements Splunk’s lookup, usually to provide a list of static values like commonly used ransomware extensions.
@@ -115,7 +116,7 @@ If you have questions or need support, you can:
 
 
 ## License
-Copyright 2020 Splunk Inc.
+Copyright 2022 Splunk Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

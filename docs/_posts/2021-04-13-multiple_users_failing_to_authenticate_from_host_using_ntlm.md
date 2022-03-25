@@ -1,6 +1,8 @@
 ---
 title: "Multiple Users Failing To Authenticate From Host Using NTLM"
-excerpt: "Password Spraying, Brute Force"
+excerpt: "Password Spraying
+, Brute Force
+"
 categories:
   - Endpoint
 last_modified_at: 2021-04-13
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - Password Spraying
-  - Credential Access
   - Brute Force
+  - Credential Access
   - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -18,7 +20,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -27,9 +29,10 @@ The detection calculates the standard deviation for each host and leverages the 
 This detection will only trigger on domain controllers, not on member servers or workstations.\
 The analytics returned fields allow analysts to investigate the event further by providing fields like source workstation name and attempted user accounts.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+
+
 - **Last Updated**: 2021-04-13
 - **Author**: Mauricio Velazco, Splunk
 - **ID**: 7ed272a4-9c77-11eb-af22-acde48001122
@@ -74,7 +77,7 @@ Note that `multiple_users_failing_to_authenticate_from_host_using_ntlm_filter` i
 To successfully implement this search, you need to be ingesting Domain Controller events. The Advanced Security Audit policy setting `Audit Credential Validation` within `Account Logon` needs to be enabled.
 
 #### Known False Positives
-A host failing to authenticate with multiple valid domain users is not a common behavior for legitimate systems. Possible false positive scenarios include but are not limited to vulnerability scanners and missconfigured systems. If this detection triggers on a host other than a Domain Controller, the behavior could represent a password spraying attack against the host&#39;s local accounts.
+A host failing to authenticate with multiple valid domain users is not a common behavior for legitimate systems. Possible false positive scenarios include but are not limited to vulnerability scanners and missconfigured systems. If this detection triggers on a host other than a Domain Controller, the behavior could represent a password spraying attack against the host's local accounts.
 
 #### Associated Analytic story
 * [Active Directory Password Spraying](/stories/active_directory_password_spraying)
@@ -92,8 +95,6 @@ A host failing to authenticate with multiple valid domain users is not a common 
 | 49.0 | 70 | 70 | Potential NTLM based password spraying attack from $Source_Workstation$ |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -107,6 +108,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_valid_users_ntlm/windows-security.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_valid_users_ntlm/windows-security.log)
 

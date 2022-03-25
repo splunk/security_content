@@ -1,6 +1,7 @@
 ---
 title: "Remote WMI Command Attempt"
-excerpt: "Windows Management Instrumentation"
+excerpt: "Windows Management Instrumentation
+"
 categories:
   - Endpoint
 last_modified_at: 2018-12-03
@@ -17,15 +18,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following analytic identifies usage of `wmic.exe` spawning a local or remote process, identified by the `node` switch. During triage, review parallel processes for additional commands executed. Look for any file modifications before and after `wmic.exe` execution. In addition, identify the remote endpoint and confirm execution or file modifications. Contain and isolate the endpoint as needed.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2018-12-03
 - **Author**: Rico Valdez, Michael Haag, Splunk
 - **ID**: 272df6de-61f1-4784-877c-1fbc3e2d0838
@@ -50,9 +52,9 @@ The following analytic identifies usage of `wmic.exe` spawning a local or remote
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_wmic](https://github.com/splunk/security_content/blob/develop/macros/process_wmic.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [process_wmic](https://github.com/splunk/security_content/blob/develop/macros/process_wmic.yml)
 
 Note that `remote_wmi_command_attempt_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -75,6 +77,7 @@ Administrators may use this legitimately to gather info from remote systems. Fil
 
 #### Associated Analytic story
 * [Suspicious WMI Use](/stories/suspicious_wmi_use)
+* [Living Off The Land](/stories/living_off_the_land)
 
 
 #### Kill Chain Phase
@@ -89,8 +92,6 @@ Administrators may use this legitimately to gather info from remote systems. Fil
 | 36.0 | 60 | 60 | A wmic.exe process $process$ contain node commandline $process$ in host $dest$ |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -102,6 +103,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1047/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1047/atomic_red_team/windows-sysmon.log)
 

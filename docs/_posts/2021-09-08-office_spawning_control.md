@@ -1,6 +1,8 @@
 ---
 title: "Office Spawning Control"
-excerpt: "Phishing, Spearphishing Attachment"
+excerpt: "Phishing
+, Spearphishing Attachment
+"
 categories:
   - Endpoint
 last_modified_at: 2021-09-08
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - Phishing
-  - Initial Access
   - Spearphishing Attachment
+  - Initial Access
   - Initial Access
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -20,15 +22,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following detection identifies control.exe spawning from an office product. This detection identifies any Windows Office Product spawning `control.exe`. In malicious instances, the command-line of `control.exe` will contain a file path to a .cpl or .inf, related to CVE-2021-40444. In this instance, we narrow our detection down to the Office suite as a parent process. During triage, review all file modifications. Capture and analyze any artifacts on disk. review parallel and child processes to identify further suspicious behavior
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2021-09-08
 - **Author**: Michael Haag, Splunk
 - **ID**: 053e027c-10c7-11ec-8437-acde48001122
@@ -97,9 +100,6 @@ Limited false positives should be present.
 | 80.0 | 80 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ clicking a suspicious attachment. |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
-
 #### CVE
 
 | ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
@@ -122,6 +122,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon_control.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon_control.log)
 

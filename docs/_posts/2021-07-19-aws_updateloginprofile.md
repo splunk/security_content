@@ -1,6 +1,8 @@
 ---
 title: "AWS UpdateLoginProfile"
-excerpt: "Cloud Account, Create Account"
+excerpt: "Cloud Account
+, Create Account
+"
 categories:
   - Cloud
 last_modified_at: 2021-07-19
@@ -8,10 +10,9 @@ toc: true
 toc_label: ""
 tags:
   - Cloud Account
-  - Persistence
   - Create Account
   - Persistence
-  - Splunk Security Analytics for AWS
+  - Persistence
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -25,8 +26,8 @@ tags:
 
 This search looks for AWS CloudTrail events where a user A who has already permission to update login profile, makes an API call to update login profile for another user B . Attackers have been know to use this technique for Privilege Escalation in case new victim(user B) has more permissions than old victim(user B)
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
-- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-07-19
 - **Author**: Bhavin Patel, Splunk
@@ -89,8 +90,6 @@ While this search has no known false positives, it is possible that an AWS admin
 | 30.0 | 50 | 60 | From IP address $sourceIPAddress$, user agent $userAgent$ has trigged an event $eventName$ for updating the existing login profile, potentially giving user $user_arn$ more access privilleges |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -103,6 +102,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/aws_updateloginprofile/aws_cloudtrail_events.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/aws_updateloginprofile/aws_cloudtrail_events.json)
 

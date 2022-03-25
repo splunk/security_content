@@ -1,6 +1,7 @@
 ---
 title: "Unusual Number of Remote Endpoint Authentication Events"
-excerpt: "Valid Accounts"
+excerpt: "Valid Accounts
+"
 categories:
   - Endpoint
 last_modified_at: 2021-12-01
@@ -9,28 +10,29 @@ toc_label: ""
 tags:
   - Valid Accounts
   - Defense Evasion
+  - Initial Access
   - Persistence
   - Privilege Escalation
-  - Initial Access
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
 ---
 
-### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
-We have not been able to test, simulate, or build datasets for this detection. Use at your own risk. This analytic is **NOT** supported.
+###  WARNING THIS IS A EXPERIMENTAL object
+We have not been able to test, simulate, or build datasets for this object. Use at your own risk. This analytic is **NOT** supported.
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following hunting analytic leverages Event ID 4624, `An account was successfully logged on`, to identify an unusual number of remote authentication attempts coming from one source. An endpoint authenticating to a large number of remote endpoints could represent malicious behavior like lateral movement, malware staging, reconnaissance, etc.\
 The detection calculates the standard deviation for each host and leverages the 3-sigma statistical rule to identify an unusual high number of authentication events. To customize this analytic, users can try different combinations of the `bucket` span time,  the calculation of the `upperBound` field as well as the Outlier calculation. This logic can be used for real time security monitoring as well as threat hunting exercises.\
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+
+
 - **Last Updated**: 2021-12-01
 - **Author**: Mauricio Velazco, Splunk
 - **ID**: acb5dc74-5324-11ec-a36d-acde48001122
@@ -40,7 +42,7 @@ The detection calculates the standard deviation for each host and leverages the 
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
-| [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
+| [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
 
 #### Search
 
@@ -83,7 +85,6 @@ An single endpoint authenticating to a large number of hosts is not common behav
 
 #### Kill Chain Phase
 * Reconnaissance
-* Lateral Movement
 
 
 
@@ -91,10 +92,8 @@ An single endpoint authenticating to a large number of hosts is not common behav
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
-| 42.0 | 70 | 60 | None |
+| 42.0 | 70 | 60 |  |
 
-
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 
@@ -107,7 +106,6 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

@@ -1,6 +1,8 @@
 ---
 title: "Suspicious Driver Loaded Path"
-excerpt: "Windows Service, Create or Modify System Process"
+excerpt: "Windows Service
+, Create or Modify System Process
+"
 categories:
   - Endpoint
 last_modified_at: 2021-04-29
@@ -8,9 +10,9 @@ toc: true
 toc_label: ""
 tags:
   - Windows Service
+  - Create or Modify System Process
   - Persistence
   - Privilege Escalation
-  - Create or Modify System Process
   - Persistence
   - Privilege Escalation
   - Splunk Enterprise
@@ -21,15 +23,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This analytic will detect suspicious driver loaded paths. This technique is commonly used by malicious software like coin miners (xmrig) to register its malicious driver from notable directories where executable or drivers do not commonly exist. During triage, validate this driver is for legitimate business use. Review the metadata and certificate information. Unsigned drivers from non-standard paths is not normal, but occurs. In addition, review driver loads into `ntoskrnl.exe` for possible other drivers of interest. Long tail analyze drivers by path (outside of default, and in default) for further review.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+
 - **Last Updated**: 2021-04-29
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: f880acd4-a8f1-11eb-a53b-acde48001122
@@ -92,8 +95,6 @@ Limited false positives will be present. Some applications do load drivers
 | 63.0 | 70 | 90 | Suspicious driver $ImageLoaded$ on $Computer$ |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -106,6 +107,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log)
 

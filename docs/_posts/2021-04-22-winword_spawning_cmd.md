@@ -1,6 +1,8 @@
 ---
 title: "Winword Spawning Cmd"
-excerpt: "Phishing, Spearphishing Attachment"
+excerpt: "Phishing
+, Spearphishing Attachment
+"
 categories:
   - Endpoint
 last_modified_at: 2021-04-22
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - Phishing
-  - Initial Access
   - Spearphishing Attachment
+  - Initial Access
   - Initial Access
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -19,15 +21,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following detection identifies Microsoft Word spawning `cmd.exe`. Typically, this is not common behavior and not default with winword.exe. Winword.exe will generally be found in the following path `C:\Program Files\Microsoft Office\root\Office16` (version will vary). Cmd.exe spawning from winword.exe is common for a spearphishing attachment and is actively used. Albeit, the command-line will indicate what is being executed. During triage, review parallel processes and identify any files that may have been written. It is possible that COM is utilized to trampoline the child process to `explorer.exe` or `wmiprvse.exe`.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2021-04-22
 - **Author**: Michael Haag, Splunk
 - **ID**: 6fcbaedc-a37b-11eb-956b-acde48001122
@@ -97,8 +100,6 @@ False positives should be limited, but if any are present, filter as needed.
 | 70.0 | 70 | 100 | $parent_process_name$ on $dest$ by $user$ launched command: $process_name$ which is very common in spearphishing attacks. |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -110,6 +111,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon.log)
 

@@ -29,16 +29,14 @@ tags:
   analytic_story:
   - Active Directory Lateral Movement
   - NOBELIUM Group
+  - Living Off The Land
   asset_type: Endpoint
-  automated_detection_testing: passed
   cis20:
   - CIS 3
   confidence: 90
   context:
-  - source:endpoint
-  - stage: Execution
-  - Persistence
-  - Privilege Escalation
+  - Source:Endpoint
+  - Stage:Execution
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/atomic_red_team/windows-sysmon.log
   impact: 70
@@ -57,7 +55,7 @@ tags:
     role:
     - Victim
   - name: Processes.user
-    type: user
+    type: User
     role:
     - Victim
   product:

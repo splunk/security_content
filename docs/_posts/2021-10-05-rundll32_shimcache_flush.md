@@ -1,6 +1,7 @@
 ---
 title: "Rundll32 Shimcache Flush"
-excerpt: "Modify Registry"
+excerpt: "Modify Registry
+"
 categories:
   - Endpoint
 last_modified_at: 2021-10-05
@@ -17,15 +18,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This analytic is to detect a suspicious rundll32 commandline to clear shim cache. This technique is a anti-forensic technique to clear the cache taht are one important artifacts in terms of digital forensic during attacks or incident. This TTP is a good indicator that someone tries to evade some tools and clear foothold on the machine.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2021-10-05
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: a913718a-25b6-11ec-96d3-acde48001122
@@ -79,6 +81,7 @@ unknown
 
 #### Associated Analytic story
 * [Unusual Processes](/stories/unusual_processes)
+* [Living Off The Land](/stories/living_off_the_land)
 
 
 #### Kill Chain Phase
@@ -93,8 +96,6 @@ unknown
 | 80.0 | 80 | 100 | rundll32 process execute $process$ to clear shim cache in $dest$ |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -106,6 +107,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/shimcache_flush/sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/shimcache_flush/sysmon.log)
 

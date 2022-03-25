@@ -1,6 +1,7 @@
 ---
 title: "Cloud API Calls From Previously Unseen User Roles"
-excerpt: "Valid Accounts"
+excerpt: "Valid Accounts
+"
 categories:
   - Cloud
 last_modified_at: 2020-09-04
@@ -9,10 +10,9 @@ toc_label: ""
 tags:
   - Valid Accounts
   - Defense Evasion
+  - Initial Access
   - Persistence
   - Privilege Escalation
-  - Initial Access
-  - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -21,15 +21,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for new commands from each user role.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
-- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
+- **Datasource**: [Splunk Add-on for Amazon Kinesis Firehose](https://splunkbase.splunk.com/app/3719)
 - **Last Updated**: 2020-09-04
 - **Author**: David Dorsey, Splunk
 - **ID**: 2181ad1f-1e73-4d0c-9780-e8880482a08f
@@ -39,7 +40,7 @@ This search looks for new commands from each user role.
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
-| [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
+| [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
 
 #### Search
 
@@ -67,7 +68,7 @@ Note that `cloud_api_calls_from_previously_unseen_user_roles_filter` is a empty 
 #### Lookups
 The SPL above uses the following Lookups:
 
-* [previously_seen_cloud_api_calls_per_user_role](https://github.com/splunk/security_content/blob/develop/lookups/previously_seen_cloud_api_calls_per_user_role.yml) with [data]()
+* [previously_seen_cloud_api_calls_per_user_role](https://github.com/splunk/security_content/blob/develop/lookups/previously_seen_cloud_api_calls_per_user_role.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/previously_seen_cloud_api_calls_per_user_role.csv)
 
 #### Required field
 * _time
@@ -89,6 +90,7 @@ You must be ingesting your cloud infrastructure logs from your cloud provider.  
 
 
 #### Kill Chain Phase
+* Actions on Objectives
 
 
 
@@ -99,8 +101,6 @@ You must be ingesting your cloud infrastructure logs from your cloud provider.  
 | 36.0 | 60 | 60 | User $user$ of type AssumedRole attempting to execute new API calls $command$ that have not been seen before |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -109,6 +109,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json)
 

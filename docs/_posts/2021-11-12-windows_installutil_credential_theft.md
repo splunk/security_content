@@ -1,6 +1,8 @@
 ---
 title: "Windows InstallUtil Credential Theft"
-excerpt: "InstallUtil, Signed Binary Proxy Execution"
+excerpt: "InstallUtil
+, Signed Binary Proxy Execution
+"
 categories:
   - Endpoint
 last_modified_at: 2021-11-12
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - InstallUtil
-  - Defense Evasion
   - Signed Binary Proxy Execution
+  - Defense Evasion
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -19,7 +21,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -28,9 +30,10 @@ When `InstallUtil.exe` is used in a malicous manner, the path to an executable o
 If used by a developer, typically this will be found with multiple command-line switches/arguments and spawn from Visual Studio. \
 During triage review resulting network connections, file modifications, and parallel processes. Capture any artifacts and review further.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2021-11-12
 - **Author**: Michael Haag, Splunk
 - **ID**: ccfeddec-43ec-11ec-b494-acde48001122
@@ -81,7 +84,7 @@ Note that `windows_installutil_credential_theft_filter` is a empty macro by defa
 To successfully implement this search, you need to be ingesting logs with the process name, parent process, and module loads from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 
 #### Known False Positives
-Typically this will not trigger as by it&#39;s very nature InstallUtil does not need credentials. Filter as needed.
+Typically this will not trigger as by it's very nature InstallUtil does not need credentials. Filter as needed.
 
 #### Associated Analytic story
 * [Signed Binary Proxy Execution InstallUtil](/stories/signed_binary_proxy_execution_installutil)
@@ -89,7 +92,6 @@ Typically this will not trigger as by it&#39;s very nature InstallUtil does not 
 
 #### Kill Chain Phase
 * Exploitation
-* Privilege Escalation
 
 
 
@@ -99,8 +101,6 @@ Typically this will not trigger as by it&#39;s very nature InstallUtil does not 
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ loading samlib.dll and vaultcli.dll to potentially capture credentials in memory. |
 
-
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 
@@ -113,6 +113,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.004/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.004/atomic_red_team/windows-sysmon.log)
 

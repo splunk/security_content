@@ -34,6 +34,7 @@ tags:
   - Log4Shell CVE-2021-44228
   - WhisperGate
   - Hermetic Wiper
+  - Living Off The Land
   automated_detection_testing: passed
   confidence: 50
   context:
@@ -77,3 +78,4 @@ tags:
   - Processes.parent_process_id
   risk_score: 30
   security_domain: endpoint
+  asset_type: Endpoint

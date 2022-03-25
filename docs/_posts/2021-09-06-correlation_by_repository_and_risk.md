@@ -1,6 +1,8 @@
 ---
 title: "Correlation by Repository and Risk"
-excerpt: "Malicious Image, User Execution"
+excerpt: "Malicious Image
+, User Execution
+"
 categories:
   - Cloud
 last_modified_at: 2021-09-06
@@ -8,26 +10,26 @@ toc: true
 toc_label: ""
 tags:
   - Malicious Image
-  - Execution
   - User Execution
+  - Execution
   - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Dev Sec Ops Analytics
 ---
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search correlations detections by repository and risk_score
 
-- **Type**: [Correlation](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Dev Sec Ops Analytics
-- **Datamodel**: 
+- **Type**: [Correlation](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+
+
 - **Last Updated**: 2021-09-06
 - **Author**: Patrick Bareiss, Splunk
 - **ID**: 8da9fdd9-6a1b-4ae0-8a34-8c25e6be9687
@@ -84,8 +86,6 @@ unknown
 | 70.0 | 70 | 100 | Correlation triggered for user $user$ |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -94,7 +94,6 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

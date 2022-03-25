@@ -1,6 +1,8 @@
 ---
 title: "Suspicious Rundll32 StartW"
-excerpt: "Signed Binary Proxy Execution, Rundll32"
+excerpt: "Signed Binary Proxy Execution
+, Rundll32
+"
 categories:
   - Endpoint
 last_modified_at: 2021-02-04
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - Signed Binary Proxy Execution
-  - Defense Evasion
   - Rundll32
+  - Defense Evasion
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -19,15 +21,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following analytic identifies rundll32.exe executing a DLL function name, Start and StartW, on the command line that is commonly observed with Cobalt Strike x86 and x64 DLL payloads. Rundll32.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64. Typically, the DLL will be written and loaded from a world writeable path or user location. In most instances it will not have a valid certificate (Unsigned). During investigation, review the parent process and other parallel application execution. Capture and triage the DLL in question. In the instance of Cobalt Strike, rundll32.exe is the default process it opens and injects shellcode into. This default process can be changed, but typically is not.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2021-02-04
 - **Author**: Michael Haag, Splunk
 - **ID**: 9319dda5-73f2-4d43-a85a-67ce961bddb7
@@ -99,8 +102,6 @@ Although unlikely, some legitimate applications may use Start as a function and 
 | 35.0 | 70 | 50 | rundll32.exe running with suspicious parameters on $dest$ |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -116,6 +117,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.011/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.011/atomic_red_team/windows-sysmon.log)
 

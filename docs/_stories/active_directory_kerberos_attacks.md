@@ -8,6 +8,7 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
+  - Exploitation
 ---
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -30,20 +31,20 @@ Kerberos, initially named after Cerberus, the three-headed dog in Greek mytholog
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Disabled Kerberos Pre-Authentication Discovery With Get-ADUser](/endpoint/disabled_kerberos_pre-authentication_discovery_with_get-aduser/) | [Steal or Forge Kerberos Tickets](/tags/#steal-or-forge-kerberos-tickets), [AS-REP Roasting](/tags/#as-rep-roasting) | TTP |
-| [Disabled Kerberos Pre-Authentication Discovery With PowerView](/endpoint/disabled_kerberos_pre-authentication_discovery_with_powerview/) | [Steal or Forge Kerberos Tickets](/tags/#steal-or-forge-kerberos-tickets), [AS-REP Roasting](/tags/#as-rep-roasting) | TTP |
-| [Kerberoasting spn request with RC4 encryption](/endpoint/kerberoasting_spn_request_with_rc4_encryption/) | [Steal or Forge Kerberos Tickets](/tags/#steal-or-forge-kerberos-tickets), [Kerberoasting](/tags/#kerberoasting) | TTP |
-| [Kerberos Pre-Authentication Flag Disabled in UserAccountControl](/endpoint/kerberos_pre-authentication_flag_disabled_in_useraccountcontrol/) | [Steal or Forge Kerberos Tickets](/tags/#steal-or-forge-kerberos-tickets), [AS-REP Roasting](/tags/#as-rep-roasting) | TTP |
-| [Kerberos Pre-Authentication Flag Disabled with PowerShell](/endpoint/kerberos_pre-authentication_flag_disabled_with_powershell/) | [Steal or Forge Kerberos Tickets](/tags/#steal-or-forge-kerberos-tickets), [AS-REP Roasting](/tags/#as-rep-roasting) | TTP |
-| [Mimikatz PassTheTicket CommandLine Parameters](/endpoint/mimikatz_passtheticket_commandline_parameters/) | [Use Alternate Authentication Material](/tags/#use-alternate-authentication-material), [Pass the Ticket](/tags/#pass-the-ticket) | TTP |
-| [Multiple Disabled Users Failing To Authenticate From Host Using Kerberos](/endpoint/multiple_disabled_users_failing_to_authenticate_from_host_using_kerberos/) | [Password Spraying](/tags/#password-spraying), [Brute Force](/tags/#brute-force) | Anomaly |
-| [Multiple Invalid Users Failing To Authenticate From Host Using Kerberos](/endpoint/multiple_invalid_users_failing_to_authenticate_from_host_using_kerberos/) | [Password Spraying](/tags/#password-spraying), [Brute Force](/tags/#brute-force) | Anomaly |
-| [Multiple Users Failing To Authenticate From Host Using Kerberos](/endpoint/multiple_users_failing_to_authenticate_from_host_using_kerberos/) | [Password Spraying](/tags/#password-spraying), [Brute Force](/tags/#brute-force) | Anomaly |
-| [Rubeus Command Line Parameters](/endpoint/rubeus_command_line_parameters/) | [Use Alternate Authentication Material](/tags/#use-alternate-authentication-material), [Pass the Ticket](/tags/#pass-the-ticket), [Steal or Forge Kerberos Tickets](/tags/#steal-or-forge-kerberos-tickets), [Kerberoasting](/tags/#kerberoasting), [AS-REP Roasting](/tags/#as-rep-roasting) | TTP |
-| [Rubeus Kerberos Ticket Exports Through Winlogon Access](/endpoint/rubeus_kerberos_ticket_exports_through_winlogon_access/) | [Use Alternate Authentication Material](/tags/#use-alternate-authentication-material), [Pass the Ticket](/tags/#pass-the-ticket) | TTP |
-| [ServicePrincipalNames Discovery with PowerShell](/endpoint/serviceprincipalnames_discovery_with_powershell/) | [Kerberoasting](/tags/#kerberoasting) | TTP |
-| [ServicePrincipalNames Discovery with SetSPN](/endpoint/serviceprincipalnames_discovery_with_setspn/) | [Kerberoasting](/tags/#kerberoasting) | TTP |
-| [Unusual Number of Kerberos Service Tickets Requested](/endpoint/unusual_number_of_kerberos_service_tickets_requested/) | [Steal or Forge Kerberos Tickets](/tags/#steal-or-forge-kerberos-tickets), [Kerberoasting](/tags/#kerberoasting) | Anomaly |
+| [Disabled Kerberos Pre-Authentication Discovery With Get-ADUser](/endpoint/disabled_kerberos_pre-authentication_discovery_with_get-aduser/) | [Steal or Forge Kerberos Tickets](/tags/#steal-or-forge-kerberos-tickets), [AS-REP Roasting](/tags/#as-rep-roasting)| TTP |
+| [Disabled Kerberos Pre-Authentication Discovery With PowerView](/endpoint/disabled_kerberos_pre-authentication_discovery_with_powerview/) | [Steal or Forge Kerberos Tickets](/tags/#steal-or-forge-kerberos-tickets), [AS-REP Roasting](/tags/#as-rep-roasting)| TTP |
+| [Kerberoasting spn request with RC4 encryption](/endpoint/kerberoasting_spn_request_with_rc4_encryption/) | [Steal or Forge Kerberos Tickets](/tags/#steal-or-forge-kerberos-tickets), [Kerberoasting](/tags/#kerberoasting)| TTP |
+| [Kerberos Pre-Authentication Flag Disabled in UserAccountControl](/endpoint/kerberos_pre-authentication_flag_disabled_in_useraccountcontrol/) | [Steal or Forge Kerberos Tickets](/tags/#steal-or-forge-kerberos-tickets), [AS-REP Roasting](/tags/#as-rep-roasting)| TTP |
+| [Kerberos Pre-Authentication Flag Disabled with PowerShell](/endpoint/kerberos_pre-authentication_flag_disabled_with_powershell/) | [Steal or Forge Kerberos Tickets](/tags/#steal-or-forge-kerberos-tickets), [AS-REP Roasting](/tags/#as-rep-roasting)| TTP |
+| [Mimikatz PassTheTicket CommandLine Parameters](/endpoint/mimikatz_passtheticket_commandline_parameters/) | [Use Alternate Authentication Material](/tags/#use-alternate-authentication-material), [Pass the Ticket](/tags/#pass-the-ticket)| TTP |
+| [Multiple Users Failing To Authenticate From Host Using Kerberos](/endpoint/multiple_users_failing_to_authenticate_from_host_using_kerberos/) | [Password Spraying](/tags/#password-spraying), [Brute Force](/tags/#brute-force)| Anomaly |
+| [Rubeus Command Line Parameters](/endpoint/rubeus_command_line_parameters/) | [Use Alternate Authentication Material](/tags/#use-alternate-authentication-material), [Pass the Ticket](/tags/#pass-the-ticket), [Steal or Forge Kerberos Tickets](/tags/#steal-or-forge-kerberos-tickets), [Kerberoasting](/tags/#kerberoasting), [AS-REP Roasting](/tags/#as-rep-roasting)| TTP |
+| [Rubeus Kerberos Ticket Exports Through Winlogon Access](/endpoint/rubeus_kerberos_ticket_exports_through_winlogon_access/) | [Use Alternate Authentication Material](/tags/#use-alternate-authentication-material), [Pass the Ticket](/tags/#pass-the-ticket)| TTP |
+| [ServicePrincipalNames Discovery with PowerShell](/endpoint/serviceprincipalnames_discovery_with_powershell/) | [Kerberoasting](/tags/#kerberoasting)| TTP |
+| [ServicePrincipalNames Discovery with SetSPN](/endpoint/serviceprincipalnames_discovery_with_setspn/) | [Kerberoasting](/tags/#kerberoasting)| TTP |
+| [Unusual Number of Kerberos Service Tickets Requested](/endpoint/unusual_number_of_kerberos_service_tickets_requested/) | [Steal or Forge Kerberos Tickets](/tags/#steal-or-forge-kerberos-tickets), [Kerberoasting](/tags/#kerberoasting)| Anomaly |
+| [Windows Disabled Users Failing To Authenticate Kerberos](/endpoint/windows_disabled_users_failing_to_authenticate_kerberos/) | [Password Spraying](/tags/#password-spraying), [Brute Force](/tags/#brute-force)| Anomaly |
+| [Windows Invalid Users Failed Authentication via Kerberos](/endpoint/windows_invalid_users_failed_authentication_via_kerberos/) | [Password Spraying](/tags/#password-spraying), [Brute Force](/tags/#brute-force)| Anomaly |
 
 #### Reference
 

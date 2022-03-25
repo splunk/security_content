@@ -1,6 +1,8 @@
 ---
 title: "Linux Change File Owner To Root"
-excerpt: "Linux and Mac File and Directory Permissions Modification, File and Directory Permissions Modification"
+excerpt: "Linux and Mac File and Directory Permissions Modification
+, File and Directory Permissions Modification
+"
 categories:
   - Endpoint
 last_modified_at: 2021-12-21
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - Linux and Mac File and Directory Permissions Modification
-  - Defense Evasion
   - File and Directory Permissions Modification
+  - Defense Evasion
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -19,15 +21,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This analytic looks for a commandline that change the file owner to root using chown utility tool. This technique is commonly abuse by adversaries, malware author and red teamers to escalate privilege to the targeted or compromised host by changing the owner of their malicious file to root. This event is not so common in corporate network except from the administrator doing normal task that needs high privilege.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+
 - **Last Updated**: 2021-12-21
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: c1400ea2-6257-11ec-ad49-acde48001122
@@ -82,7 +85,7 @@ Administrator or network operator can execute this command. Please update the fi
 
 
 #### Kill Chain Phase
-* Privilege Escalation
+* Exploitation
 
 
 
@@ -92,8 +95,6 @@ Administrator or network operator can execute this command. Please update the fi
 | ----------- | ----------- |--------------|--------------|
 | 64.0 | 80 | 80 | A commandline $process$ that may change ownership to root on $dest$ |
 
-
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 
@@ -107,6 +108,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.001/chmod_uid/sysmon_linux.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.001/chmod_uid/sysmon_linux.log)
 

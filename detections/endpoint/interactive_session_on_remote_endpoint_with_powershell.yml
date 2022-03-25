@@ -33,7 +33,7 @@ tags:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.006/lateral_movement_pssession/windows-powershell.log
   impact: 90
   kill_chain_phases:
-  - Lateral Movement
+  - Exploitation
   message: An interactive session was opened on a remote endpoint from $ComputerName
   mitre_attack_id:
   - T1021
@@ -55,3 +55,4 @@ tags:
   - User
   risk_score: 45
   security_domain: endpoint
+  asset_type: Endpoint

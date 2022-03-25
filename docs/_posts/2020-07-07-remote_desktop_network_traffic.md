@@ -1,6 +1,8 @@
 ---
 title: "Remote Desktop Network Traffic"
-excerpt: "Remote Desktop Protocol, Remote Services"
+excerpt: "Remote Desktop Protocol
+, Remote Services
+"
 categories:
   - Network
 last_modified_at: 2020-07-07
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - Remote Desktop Protocol
-  - Lateral Movement
   - Remote Services
+  - Lateral Movement
   - Lateral Movement
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -17,19 +19,20 @@ tags:
   - Network_Traffic
 ---
 
-### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
-We have not been able to test, simulate, or build datasets for this detection. Use at your own risk. This analytic is **NOT** supported.
+###  WARNING THIS IS A EXPERIMENTAL object
+We have not been able to test, simulate, or build datasets for this object. Use at your own risk. This analytic is **NOT** supported.
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for network traffic on TCP/3389, the default port used by remote desktop. While remote desktop traffic is not uncommon on a network, it is usually associated with known hosts. This search will ignore common RDP sources and common RDP destinations so you can focus on the uncommon uses of remote desktop on your network.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
+
 - **Last Updated**: 2020-07-07
 - **Author**: David Dorsey, Splunk
 - **ID**: 272b8407-842d-4b3d-bead-a704584003d3
@@ -72,7 +75,7 @@ Note that `remote_desktop_network_traffic_filter` is a empty macro by default. I
 
 
 #### How To Implement
-To successfully implement this search you need to identify systems that commonly originate remote desktop traffic and that commonly receive remote desktop traffic. You can use the included support search &#34;Identify Systems Creating Remote Desktop Traffic&#34; to identify systems that originate the traffic and the search &#34;Identify Systems Receiving Remote Desktop Traffic&#34; to identify systems that receive a lot of remote desktop traffic. After identifying these systems, you will need to add the &#34;common_rdp_source&#34; or &#34;common_rdp_destination&#34; category to that system depending on the usage, using the Enterprise Security Assets and Identities framework.  This can be done by adding an entry in the assets.csv file located in SA-IdentityManagement/lookups.
+To successfully implement this search you need to identify systems that commonly originate remote desktop traffic and that commonly receive remote desktop traffic. You can use the included support search "Identify Systems Creating Remote Desktop Traffic" to identify systems that originate the traffic and the search "Identify Systems Receiving Remote Desktop Traffic" to identify systems that receive a lot of remote desktop traffic. After identifying these systems, you will need to add the "common_rdp_source" or "common_rdp_destination" category to that system depending on the usage, using the Enterprise Security Assets and Identities framework.  This can be done by adding an entry in the assets.csv file located in SA-IdentityManagement/lookups.
 
 #### Known False Positives
 Remote Desktop may be used legitimately by users on the network.
@@ -89,8 +92,12 @@ Remote Desktop may be used legitimately by users on the network.
 
 
 
+#### RBA
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 25.0 | 50 | 50 | tbd |
+
 
 
 
@@ -100,7 +107,6 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

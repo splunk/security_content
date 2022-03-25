@@ -1,24 +1,9 @@
-author: Ignacio Bermudez Corrales, Splunk
-datamodel:
-- Endpoint_Processes
-date: '2020-08-25'
+name: Unusual LOLBAS in short period of time
+id: 59c0dd70-169c-4900-9a1f-bfcf13302f93
+version: 2
 description: Attacker activity may compromise executing several LOLBAS applications
   in conjunction to accomplish their objectives. We are looking for more than usual
   LOLBAS applications over a window of time, by building profiles per machine.
-how_to_implement: Collect endpoint data such as sysmon or 4688 events.
-id: 59c0dd70-169c-4900-9a1f-bfcf13302f93
-known_false_positives: 'Some administrative tasks may involve multiple use of LOLBAS
-  applications in a short period of time. This might trigger false positives at the
-  beginning when it hasn''t collected yet enough data to construct the baseline.
-
-  '
-name: Unusual LOLBAS in short period of time
-product:
-- Splunk Behavioral Analytics
-references:
-- https://github.com/LOLBAS-Project/LOLBAS/tree/master/yml/OSBinaries
-risk_message: A system process $process_name$ with commandline $cmd_line$ spawn iin
-  short period of time in host $dest_device_id$
 search: ' | from read_ssa_enriched_events() | eval device=ucast(map_get(input_event,
   "dest_device_id"), "string", null), process_name=lower(ucast(map_get(input_event,
   "process_name"), "string", null)), timestamp=parse_long(ucast(map_get(input_event,
@@ -53,53 +38,41 @@ search: ' | from read_ssa_enriched_events() | eval device=ucast(map_get(input_ev
   window=2419200000L | where label AND quantile>0.99 | eval start_time = window_start,
   end_time = timestamp, entities = mvappend(device), body=create_map(["lolbas_counter",
   lolbas_counter, "quantile", quantile, "device", device]) | into write_ssa_detected_events();'
+how_to_implement: Collect endpoint data such as sysmon or 4688 events.
+known_false_positives: 'Some administrative tasks may involve multiple use of LOLBAS
+  applications in a short period of time. This might trigger false positives at the
+  beginning when it hasn''t collected yet enough data to construct the baseline.
+
+  '
+references:
+- https://github.com/LOLBAS-Project/LOLBAS/tree/master/yml/OSBinaries
 tags:
   analytic_story:
   - Unusual Processes
   cis20:
   - CIS 8
-  confidence: 50
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  impact: 50
   kill_chain_phases:
   - Exploitation
-  message: A system process $process_name$ with commandline $cmd_line$ spawn iin short
-    period of time in host $dest_device_id$
   mitre_attack_id:
   - T1059
   - T1053
   nist:
   - PR.PT
   - DE.CM
-  observable:
-  - name: dest_device_id
-    role:
-    - Victim
-    type: Hostname
-  - name: process_name
-    role:
-    - Others
-    type: processname
-  product:
-  - Splunk Behavioral Analytics
   required_fields:
   - dest_device_id
   - _time
   - process_name
   risk_score: 25
-  risk_severity: low
   security_domain: endpoint
+  risk_severity: low
 test:
-  name: Unusual LOLBAS in short period of time - SSA Unit Test
+  name: Unusual LOLBAS in short period of time Unit Test
   tests:
-  - attack_data:
-    - data: https://ssa-test-dataset.s3-us-west-2.amazonaws.com/T1059.all.labeled.lolbas-test.json
-      file_name: T1059.all.labeled.lolbas-test.json
-    description: Test more than usual lolbas being executed in a short period of time
+  - name: Unusual LOLBAS in short period of time
     file: endpoint/ssa___unusual_lolbas_in_short_period_of_time.yml
-    name: Unusual LOLBAS in short period of time
     pass_condition: '@count_gt(0)'
-type: Anomaly
-version: 2
+    attack_data:
+    - file_name: T1059.all.labeled.lolbas-test.json
+      data: https://ssa-test-dataset.s3-us-west-2.amazonaws.com/T1059.all.labeled.lolbas-test.json
+      source: WinEventLog:Security

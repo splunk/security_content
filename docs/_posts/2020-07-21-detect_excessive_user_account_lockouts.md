@@ -1,6 +1,8 @@
 ---
 title: "Detect Excessive User Account Lockouts"
-excerpt: "Valid Accounts, Local Accounts"
+excerpt: "Valid Accounts
+, Local Accounts
+"
 categories:
   - Endpoint
 last_modified_at: 2020-07-21
@@ -8,15 +10,15 @@ toc: true
 toc_label: ""
 tags:
   - Valid Accounts
-  - Defense Evasion
-  - Persistence
-  - Privilege Escalation
-  - Initial Access
   - Local Accounts
   - Defense Evasion
+  - Initial Access
   - Persistence
   - Privilege Escalation
+  - Defense Evasion
   - Initial Access
+  - Persistence
+  - Privilege Escalation
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -25,15 +27,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search detects user accounts that have been locked out a relatively high number of times in a short period.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
+
 - **Last Updated**: 2020-07-21
 - **Author**: David Dorsey, Splunk
 - **ID**: 95a7f9a5-6096-437e-a19e-86f42ac609bd
@@ -43,9 +46,9 @@ This search detects user accounts that have been locked out a relatively high nu
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
-| [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
+| [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
 
-| [T1078.003](https://attack.mitre.org/techniques/T1078/003/) | Local Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
+| [T1078.003](https://attack.mitre.org/techniques/T1078/003/) | Local Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
 
 #### Search
 
@@ -85,6 +88,7 @@ It is possible that a legitimate user is experiencing an issue causing multiple 
 
 
 #### Kill Chain Phase
+* Exploitation
 
 
 
@@ -95,8 +99,6 @@ It is possible that a legitimate user is experiencing an issue causing multiple 
 | 36.0 | 60 | 60 | Multiple accounts have been locked out. Review $nodename$ and $result$ related to $user$. |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -105,6 +107,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/account_lockout/windows-security.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/account_lockout/windows-security.log)
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/account_lockout/windows-system.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/account_lockout/windows-system.log)

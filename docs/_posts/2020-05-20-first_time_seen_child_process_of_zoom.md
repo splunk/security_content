@@ -1,6 +1,7 @@
 ---
 title: "First Time Seen Child Process of Zoom"
-excerpt: "Exploitation for Privilege Escalation"
+excerpt: "Exploitation for Privilege Escalation
+"
 categories:
   - Endpoint
 last_modified_at: 2020-05-20
@@ -15,19 +16,20 @@ tags:
   - Endpoint
 ---
 
-### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
-We have not been able to test, simulate, or build datasets for this detection. Use at your own risk. This analytic is **NOT** supported.
+###  WARNING THIS IS A EXPERIMENTAL object
+We have not been able to test, simulate, or build datasets for this object. Use at your own risk. This analytic is **NOT** supported.
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for child processes spawned by zoom.exe or zoom.us that has not previously been seen.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+
 - **Last Updated**: 2020-05-20
 - **Author**: David Dorsey, Splunk
 - **ID**: e91bd102-d630-4e76-ab73-7e3ba22c5961
@@ -63,7 +65,7 @@ Note that `first_time_seen_child_process_of_zoom_filter` is a empty macro by def
 #### Lookups
 The SPL above uses the following Lookups:
 
-* [zoom_first_time_child_process](https://github.com/splunk/security_content/blob/develop/lookups/zoom_first_time_child_process.yml) with [data]()
+* [zoom_first_time_child_process](https://github.com/splunk/security_content/blob/develop/lookups/zoom_first_time_child_process.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/zoom_first_time_child_process.csv)
 
 #### Required field
 * _time
@@ -80,7 +82,7 @@ The SPL above uses the following Lookups:
 You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You should run the baseline search `Previously Seen Zoom Child Processes - Initial` to build the initial table of child processes and hostnames for this search to work. You should also schedule at the same interval as this search the second baseline search `Previously Seen Zoom Child Processes - Update` to keep this table up to date and to age out old child processes. Please update the `previously_seen_zoom_child_processes_window` macro to adjust the time window.
 
 #### Known False Positives
-A new child process of zoom isn&#39;t malicious by that fact alone. Further investigation of the actions of the child process is needed to verify any malicious behavior is taken.
+A new child process of zoom isn't malicious by that fact alone. Further investigation of the actions of the child process is needed to verify any malicious behavior is taken.
 
 #### Associated Analytic story
 * [Suspicious Zoom Child Processes](/stories/suspicious_zoom_child_processes)
@@ -98,8 +100,6 @@ A new child process of zoom isn&#39;t malicious by that fact alone. Further inve
 | 64.0 | 80 | 80 | Child process $process_name$ with $process_id$ spawned by zoom.exe or zoom.us which has not been previously on host $dest$ |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -108,6 +108,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/zoom_child_process/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/zoom_child_process/windows-sysmon.log)
 

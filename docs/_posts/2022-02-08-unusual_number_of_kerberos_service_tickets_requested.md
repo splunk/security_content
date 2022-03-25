@@ -1,6 +1,8 @@
 ---
 title: "Unusual Number of Kerberos Service Tickets Requested"
-excerpt: "Steal or Forge Kerberos Tickets, Kerberoasting"
+excerpt: "Steal or Forge Kerberos Tickets
+, Kerberoasting
+"
 categories:
   - Endpoint
 last_modified_at: 2022-02-08
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - Steal or Forge Kerberos Tickets
-  - Credential Access
   - Kerberoasting
+  - Credential Access
   - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -18,16 +20,17 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following hunting analytic leverages Kerberos Event 4769, A Kerberos service ticket was requested, to identify a potential kerberoasting attack against Active Directory networks. Kerberoasting allows an adversary to request kerberos tickets for domain accounts typically used as service accounts and attempt to crack them offline allowing them to obtain privileged access to the domain.\
 The detection calculates the standard deviation for each host and leverages the 3-sigma statistical rule to identify an unusual number service ticket requests. To customize this analytic, users can try different combinations of the `bucket` span time and the calculation of the `upperBound` field.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+
+
 - **Last Updated**: 2022-02-08
 - **Author**: Mauricio Velazco, Splunk
 - **ID**: eb3e6702-8936-11ec-98fe-acde48001122
@@ -82,7 +85,7 @@ An single endpoint requesting a large number of kerberos service tickets is not 
 
 
 #### Kill Chain Phase
-* Privilege Escalation
+* Exploitation
 
 
 
@@ -90,10 +93,8 @@ An single endpoint requesting a large number of kerberos service tickets is not 
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
-| 36.0 | 60 | 60 | None |
+| 36.0 | 60 | 60 | tbd |
 
-
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 
@@ -107,6 +108,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.003/rubeus/windows-security.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.003/rubeus/windows-security.log)
 

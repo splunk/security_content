@@ -1,29 +1,12 @@
-author: Michael Haag, Splunk
-datamodel:
-- Endpoint_Processes
-date: '2021-12-07'
+name: DNS Exfiltration Using Nslookup App
+id: 2452e632-9e0d-11eb-34ba-acde48001122
+version: 1
 description: This search is to detect potential DNS exfiltration using nslookup application.
   This technique are seen in couple of malware and APT group to exfiltrated collected
   data in a infected machine or infected network. This detection is looking for unique
   use of nslookup where it tries to use specific record type, TXT, A, AAAA, that are
   commonly used by attacker and also the retry parameter which is designed to query
   C2 DNS multiple tries.
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint_Processess` datamodel.
-id: 2452e632-9e0d-11eb-34ba-acde48001122
-known_false_positives: It is possible for some legitimate administrative utilities
-  to use similar cmd_line parameters. Filter as needed.
-name: DNS Exfiltration Using Nslookup App
-product:
-- Splunk Behavioral Analytics
-references:
-- https://www.fireeye.com/blog/threat-research/2017/03/fin7_spear_phishing.html
-- https://www.varonis.com/blog/dns-tunneling/
-- https://www.microsoft.com/security/blog/2021/01/20/deep-dive-into-the-solorigate-second-stage-activation-from-sunburst-to-teardrop-and-raindrop/
-risk_message: An instance of $parent_process_name$ spawning $process_name$ was identified
-  on endpoint $dest_device_id$ by user $dest_user_id$ performing activity related
-  to DNS exfiltration.
 search: '| from read_ssa_enriched_events() | where "Endpoint_Processes" IN(_datamodels)
   | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
   cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event,
@@ -38,48 +21,27 @@ search: '| from read_ssa_enriched_events() | where "Endpoint_Processes" IN(_data
   "string", null)) | eval body=create_map(["event_id", event_id, "cmd_line", cmd_line,
   "process_name", process_name, "parent_process_name", parent_process_name, "process_path",
   process_path]) | into write_ssa_detected_events();'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint_Processess` datamodel.
+known_false_positives: It is possible for some legitimate administrative utilities
+  to use similar cmd_line parameters. Filter as needed.
+references:
+- https://www.fireeye.com/blog/threat-research/2017/03/fin7_spear_phishing.html
+- https://www.varonis.com/blog/dns-tunneling/
+- https://www.microsoft.com/security/blog/2021/01/20/deep-dive-into-the-solorigate-second-stage-activation-from-sunburst-to-teardrop-and-raindrop/
 tags:
   analytic_story:
   - Suspicious DNS Traffic
   - Dynamic DNS
-  - Command and Control
   - Data Exfiltration
-  automated_detection_testing: passed
+  - Command and Control
   cis20: []
-  confidence: 80
-  context:
-  - Source:Endpoint
-  - Stage:Exfiltration
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/nslookup_exfil/windows-security.log
-  impact: 90
   kill_chain_phases:
   - Exploitation
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified
-    on endpoint $dest_device_id$ by user $dest_user_id$ performing activity related
-    to DNS exfiltration.
   mitre_attack_id:
   - T1048
   nist: []
-  observable:
-  - name: dest_user_id
-    role:
-    - Victim
-    type: User
-  - name: dest_device_id
-    role:
-    - Victim
-    type: Hostname
-  - name: parent_process_name
-    role:
-    - Parent Process
-    type: Parent Process
-  - name: process_name
-    role:
-    - Child Process
-    type: Process
-  product:
-  - Splunk Behavioral Analytics
   required_fields:
   - _time
   - dest_device_id
@@ -90,17 +52,15 @@ tags:
   - process
   - cmd_line
   risk_score: 72
-  risk_severity: medium
   security_domain: endpoint
+  risk_severity: medium
 test:
   name: DNS Exfiltration Using Nslookup App Unit Test
   tests:
-  - attack_data:
-    - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/nslookup_exfil/windows-security.log
-      file_name: windows-security.log
-      source: WinEventLog:Security
+  - name: DNS Exfiltration Using Nslookup App
     file: endpoint/ssa_dns_exfiltration_using_nslookup_app.yml
-    name: DNS Exfiltration Using Nslookup App
     pass_condition: '@count_gt(0)'
-type: TTP
-version: 1
+    attack_data:
+    - file_name: windows-security.log
+      data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/nslookup_exfil/windows-security.log
+      source: WinEventLog:Security

@@ -1,7 +1,6 @@
-author: Michael Haag, Splunk
-datamodel:
-- Endpoint_Processes
-date: '2022-02-15'
+name: Windows Bits Job Persistence
+id: 1e25e97a-8ea4-11ec-9767-acde48001122
+version: 1
 description: The following query identifies Microsoft Background Intelligent Transfer
   Service utility `bitsadmin.exe` scheduling a BITS job to persist on an endpoint.
   The query identifies the parameters used to create, resume or add a file to a BITS
@@ -9,25 +8,6 @@ description: The following query identifies Microsoft Background Intelligent Tra
   the BITS job created and capture any files written to disk. It is possible for BITS
   to be used to upload files and this may require further network data analysis to
   identify. You can use `bitsadmin /list /verbose` to list out the jobs during investigation.
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
-  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
-  endpoint product.
-id: 1e25e97a-8ea4-11ec-9767-acde48001122
-known_false_positives: Limited false positives will be present. Typically, applications
-  will use `BitsAdmin.exe`. Any filtering should be done based on command-line arguments
-  (legitimate applications) or parent process.
-name: Windows Bits Job Persistence
-product:
-- Splunk Behavioral Analytics
-references:
-- https://attack.mitre.org/techniques/T1197/
-- https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/bitsadmin
-- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1197/T1197.md#atomic-test-3---persist-download--execute
-- https://lolbas-project.github.io/lolbas/Binaries/Bitsadmin/
-risk_message: An instance of $parent_process_name$ spawning $process_name$ was identified
-  on endpoint $dest$ by user $dest_user_id$ attempting to persist using BITS.
 search: '| from read_ssa_enriched_events() | where "Endpoint_Processes" IN(_datamodels)
   | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
   cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event,
@@ -43,43 +23,29 @@ search: '| from read_ssa_enriched_events() | where "Endpoint_Processes" IN(_data
   "string", null)) | eval body=create_map(["event_id", event_id, "cmd_line", cmd_line,
   "process_name", process_name, "parent_process_name", parent_process_name, "process_path",
   process_path]) | into write_ssa_detected_events();'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: Limited false positives will be present. Typically, applications
+  will use `BitsAdmin.exe`. Any filtering should be done based on command-line arguments
+  (legitimate applications) or parent process.
+references:
+- https://attack.mitre.org/techniques/T1197/
+- https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/bitsadmin
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1197/T1197.md#atomic-test-3---persist-download--execute
+- https://lolbas-project.github.io/lolbas/Binaries/Bitsadmin/
 tags:
   analytic_story:
   - BITS Jobs
   - Living Off The Land
-  automated_detection_testing: passed
-  confidence: 80
-  context:
-  - Source:Endpoint
-  - Stage:Persistence
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1197/atomic_red_team/bits-windows-security.log
-  impact: 70
+  cis20: null
   kill_chain_phases:
   - Exploitation
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified
-    on endpoint $dest$ by user $dest_user_id$ attempting to persist using BITS.
   mitre_attack_id:
   - T1197
-  observable:
-  - name: dest_user_id
-    role:
-    - Victim
-    type: User
-  - name: dest_device_id
-    role:
-    - Victim
-    type: Hostname
-  - name: parent_process_name
-    role:
-    - Parent Process
-    type: Parent Process
-  - name: process_name
-    role:
-    - Child Process
-    type: Process
-  product:
-  - Splunk Behavioral Analytics
+  nist: null
   required_fields:
   - _time
   - dest_device_id
@@ -90,17 +56,15 @@ tags:
   - process
   - cmd_line
   risk_score: 56
-  risk_severity: medium
   security_domain: endpoint
+  risk_severity: medium
 test:
   name: Windows Bits Job Persistence Unit Test
   tests:
-  - attack_data:
-    - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1197/atomic_red_team/bits-windows-security.log
-      file_name: bits-windows-security.log
-      source: WinEventLog:Security
+  - name: Windows Bits Job Persistence
     file: endpoint/ssa___windows_bits_job_persistence.yml
-    name: Windows Bits Job Persistence
     pass_condition: '@count_gt(0)'
-type: TTP
-version: 1
+    attack_data:
+    - file_name: bits-windows-security.log
+      data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1197/atomic_red_team/bits-windows-security.log
+      source: WinEventLog:Security

@@ -1,6 +1,7 @@
 ---
 title: "Linux DD File Overwrite"
-excerpt: "Data Destruction"
+excerpt: "Data Destruction
+"
 categories:
   - Endpoint
 last_modified_at: 2022-02-14
@@ -17,15 +18,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This analytic is to look for dd command to overwrite file. This technique was abused by adversaries or threat actor to destroy files or data on specific system or in a large number of host within network to interrupt host avilability, services and many more. This is also used to destroy data where it make the file irrecoverable by forensic techniques through overwriting files, data or local and remote drives.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+
 - **Last Updated**: 2022-02-14
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: 9b6aae5e-8d85-11ec-b2ae-acde48001122
@@ -88,8 +90,6 @@ Administrator or network operator can execute this command. Please update the fi
 | 64.0 | 80 | 80 | A commandline $process$ executed on $dest$ |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -102,6 +102,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/linux_dd_file_overwrite/sysmon_linux.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/linux_dd_file_overwrite/sysmon_linux.log)
 

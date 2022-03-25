@@ -1,6 +1,7 @@
 ---
 title: "Malicious PowerShell Process - Encoded Command"
-excerpt: "Obfuscated Files or Information"
+excerpt: "Obfuscated Files or Information
+"
 categories:
   - Endpoint
 last_modified_at: 2022-01-18
@@ -17,7 +18,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -26,9 +27,10 @@ The analytic identifies all variations of EncodedCommand, as PowerShell allows t
 During triage, review parallel events to determine legitimacy. Tune as needed based on admin scripts in use. \
 Alternatively, may use regex per matching here https://regexr.com/662ov.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+
 - **Last Updated**: 2022-01-18
 - **Author**: David Dorsey, Michael Haag, Splunk
 - **ID**: c4db14d9-7909-48b4-a054-aa14d89dbb19
@@ -50,17 +52,17 @@ Alternatively, may use regex per matching here https://regexr.com/662ov.
 | `security_content_ctime(lastTime)` 
 | where match(process,"(?i)[\-
 |\/
-|–
-|—
-|―]e(nc*o*d*e*d*c*o*m*m*a*n*d*)*\s+[^-]") 
+|
+|
+|]e(nc*o*d*e*d*c*o*m*m*a*n*d*)*\s+[^-]") 
 | `malicious_powershell_process___encoded_command_filter`
 ```
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_powershell](https://github.com/splunk/security_content/blob/develop/macros/process_powershell.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [process_powershell](https://github.com/splunk/security_content/blob/develop/macros/process_powershell.yml)
 
 Note that `malicious_powershell_process_-_encoded_command_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -78,7 +80,7 @@ Note that `malicious_powershell_process_-_encoded_command_filter` is a empty mac
 To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 
 #### Known False Positives
-System administrators may use this option, but it&#39;s not common.
+System administrators may use this option, but it's not common.
 
 #### Associated Analytic story
 * [Malicious PowerShell](/stories/malicious_powershell)
@@ -87,7 +89,7 @@ System administrators may use this option, but it&#39;s not common.
 
 
 #### Kill Chain Phase
-* Command and Control
+* Command & Control
 * Actions on Objectives
 
 
@@ -98,8 +100,6 @@ System administrators may use this option, but it&#39;s not common.
 | ----------- | ----------- |--------------|--------------|
 | 35.0 | 70 | 50 | Powershell.exe running potentially malicious encodede commands on $dest$ |
 
-
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 
@@ -116,6 +116,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1027/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1027/atomic_red_team/windows-sysmon.log)
 

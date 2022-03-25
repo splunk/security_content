@@ -1,6 +1,8 @@
 ---
 title: "Disabled Kerberos Pre-Authentication Discovery With Get-ADUser"
-excerpt: "Steal or Forge Kerberos Tickets, AS-REP Roasting"
+excerpt: "Steal or Forge Kerberos Tickets
+, AS-REP Roasting
+"
 categories:
   - Endpoint
 last_modified_at: 2022-02-22
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - Steal or Forge Kerberos Tickets
-  - Credential Access
   - AS-REP Roasting
+  - Credential Access
   - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -18,15 +20,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following analytic utilizes PowerShell Script Block Logging (EventCode=4104) to identify the execution of the `Get-ADUser` commandlet with specific parameters. `Get-ADUser` is part of the Active Directory PowerShell module used to manage Windows Active Directory networks. As the name suggests, `Get-ADUser` is used to query for domain users. With the appropiate parameters, Get-ADUser allows adversaries to discover domain accounts with Kerberos Pre Authentication disabled.\ Red Teams and adversaries alike use may abuse Get-ADUSer to enumerate these accounts and attempt to crack their passwords offline.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+
+
 - **Last Updated**: 2022-02-22
 - **Author**: Mauricio Velazco, Splunk
 - **ID**: 114c6bfe-9406-11ec-bcce-acde48001122
@@ -75,7 +78,7 @@ Administrators or power users may use search for accounts with Kerberos Pre Auth
 
 
 #### Kill Chain Phase
-* Privilege Escalation
+* Exploitation
 
 
 
@@ -85,8 +88,6 @@ Administrators or power users may use search for accounts with Kerberos Pre Auth
 | ----------- | ----------- |--------------|--------------|
 | 54.0 | 60 | 90 | Disabled Kerberos Pre-Authentication Discovery With Get-ADUser from $dest$ |
 
-
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 
@@ -101,6 +102,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.004/getaduser/windows-powershell.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.004/getaduser/windows-powershell.log)
 

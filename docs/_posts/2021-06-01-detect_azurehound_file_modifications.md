@@ -1,6 +1,13 @@
 ---
 title: "Detect AzureHound File Modifications"
-excerpt: "Domain Account, Local Groups, Domain Trust Discovery, Local Account, Account Discovery, Domain Groups, Permission Groups Discovery"
+excerpt: "Domain Account
+, Local Groups
+, Domain Trust Discovery
+, Local Account
+, Account Discovery
+, Domain Groups
+, Permission Groups Discovery
+"
 categories:
   - Endpoint
 last_modified_at: 2021-06-01
@@ -8,18 +15,18 @@ toc: true
 toc_label: ""
 tags:
   - Domain Account
-  - Discovery
   - Local Groups
-  - Discovery
   - Domain Trust Discovery
-  - Discovery
   - Local Account
-  - Discovery
   - Account Discovery
-  - Discovery
   - Domain Groups
-  - Discovery
   - Permission Groups Discovery
+  - Discovery
+  - Discovery
+  - Discovery
+  - Discovery
+  - Discovery
+  - Discovery
   - Discovery
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -29,15 +36,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
-The following analytic is similar to SharpHound file modifications, but this instance covers the use of Invoke-AzureHound. AzureHound is the SharpHound equivilent but for Azure. It&#39;s possible this may never be seen in an environment as most attackers may execute this tool remotely. Once execution is complete, a zip file with a similar name will drop `20210601090751-azurecollection.zip`. In addition to the zip, multiple .json files will be written to disk, which are in the zip.
+The following analytic is similar to SharpHound file modifications, but this instance covers the use of Invoke-AzureHound. AzureHound is the SharpHound equivilent but for Azure. It's possible this may never be seen in an environment as most attackers may execute this tool remotely. Once execution is complete, a zip file with a similar name will drop `20210601090751-azurecollection.zip`. In addition to the zip, multiple .json files will be written to disk, which are in the zip.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+
 - **Last Updated**: 2021-06-01
 - **Author**: Michael Haag, Splunk
 - **ID**: 1c34549e-c31b-11eb-996b-acde48001122
@@ -110,8 +118,6 @@ False positives should be limited as the analytic is specific to a filename with
 | 63.0 | 70 | 90 | A file - $file_name$ was written to disk that is related to AzureHound, a AzureAD enumeration utility, has occurred on endpoint $dest$ by user $user$. |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -124,6 +130,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/sharphound/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/sharphound/windows-sysmon.log)
 

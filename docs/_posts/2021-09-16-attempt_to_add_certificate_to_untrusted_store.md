@@ -1,6 +1,8 @@
 ---
 title: "Attempt To Add Certificate To Untrusted Store"
-excerpt: "Install Root Certificate, Subvert Trust Controls"
+excerpt: "Install Root Certificate
+, Subvert Trust Controls
+"
 categories:
   - Endpoint
 last_modified_at: 2021-09-16
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - Install Root Certificate
-  - Defense Evasion
   - Subvert Trust Controls
+  - Defense Evasion
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -19,15 +21,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 Attempt To Add Certificate To Untrusted Store
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2021-09-16
 - **Author**: Patrick Bareiss, Rico Valdez, Splunk
 - **ID**: 6bc5243e-ef36-45dc-9b12-f4a6be131159
@@ -54,9 +57,9 @@ Attempt To Add Certificate To Untrusted Store
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_certutil](https://github.com/splunk/security_content/blob/develop/macros/process_certutil.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [process_certutil](https://github.com/splunk/security_content/blob/develop/macros/process_certutil.yml)
 
 Note that `attempt_to_add_certificate_to_untrusted_store_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -73,7 +76,7 @@ Note that `attempt_to_add_certificate_to_untrusted_store_filter` is a empty macr
 
 
 #### How To Implement
-You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the &#34;process&#34; field in the Endpoint data model.
+You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the "process" field in the Endpoint data model.
 
 #### Known False Positives
 There may be legitimate reasons for administrators to add a certificate to the untrusted certificate store. In such cases, this will typically be done on a large number of systems.
@@ -95,8 +98,6 @@ There may be legitimate reasons for administrators to add a certificate to the u
 | 35.0 | 70 | 50 | An instance of $parent_process_name$ spawning $process_name$ was identified attempting to add a certificate to the store on endpoint $dest$ by user $user$. |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -108,6 +109,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1553.004/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1553.004/atomic_red_team/windows-sysmon.log)
 

@@ -1,6 +1,8 @@
 ---
 title: "Vbscript Execution Using Wscript App"
-excerpt: "Visual Basic, Command and Scripting Interpreter"
+excerpt: "Visual Basic
+, Command and Scripting Interpreter
+"
 categories:
   - Endpoint
 last_modified_at: 2021-10-01
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - Visual Basic
-  - Execution
   - Command and Scripting Interpreter
+  - Execution
   - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -19,15 +21,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This analytic is to detect a suspicious wscript commandline to execute vbscript. This technique was seen in several malware to execute malicious vbs file using wscript application. commonly vbs script is associated to cscript process and this can be a technique to evade process parent child detections or even some av script emulation system.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2021-10-01
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: 35159940-228f-11ec-8a49-acde48001122
@@ -97,8 +100,6 @@ unknown
 | 49.0 | 70 | 70 | Process name $process_name$ with commandline $process$ to execute vbsscript |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -110,6 +111,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.005/vbs_wscript/sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.005/vbs_wscript/sysmon.log)
 

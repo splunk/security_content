@@ -1,6 +1,8 @@
 ---
 title: "Svchost LOLBAS Execution Process Spawn"
-excerpt: "Scheduled Task/Job, Scheduled Task"
+excerpt: "Scheduled Task/Job
+, Scheduled Task
+"
 categories:
   - Endpoint
 last_modified_at: 2021-11-22
@@ -8,10 +10,10 @@ toc: true
 toc_label: ""
 tags:
   - Scheduled Task/Job
+  - Scheduled Task
   - Execution
   - Persistence
   - Privilege Escalation
-  - Scheduled Task
   - Execution
   - Persistence
   - Privilege Escalation
@@ -23,15 +25,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following analytic identifies `svchost.exe` spawning a LOLBAS execution process. When adversaries execute code on remote endpoints abusing the Task Scheduler and creating a malicious remote scheduled task, the executed command is spawned as a child process of `svchost.exe`. The LOLBAS project documents Windows native binaries that can be abused by threat actors to perform tasks like executing malicious code. Looking for child processes of svchost.exe that are part of the LOLBAS project can help defenders identify lateral movement activity.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+
 - **Last Updated**: 2021-11-22
 - **Author**: Mauricio Velazco, Splunk
 - **ID**: 09e5c72a-4c0d-11ec-aa29-3e22fbd008af
@@ -86,10 +89,11 @@ Legitimate applications may trigger this behavior, filter as needed.
 
 #### Associated Analytic story
 * [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
+* [Living Off The Land](/stories/living_off_the_land)
 
 
 #### Kill Chain Phase
-* Lateral Movement
+* Exploitation
 
 
 
@@ -99,8 +103,6 @@ Legitimate applications may trigger this behavior, filter as needed.
 | ----------- | ----------- |--------------|--------------|
 | 54.0 | 90 | 60 | Svchost.exe spawned a LOLBAS process on $dest |
 
-
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 
@@ -115,6 +117,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/lateral_movement_lolbas/windows-security.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/lateral_movement_lolbas/windows-security.log)
 

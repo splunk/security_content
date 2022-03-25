@@ -1,6 +1,7 @@
 ---
 title: "Remcos client registry install entry"
-excerpt: "Modify Registry"
+excerpt: "Modify Registry
+"
 categories:
   - Endpoint
 last_modified_at: 2022-01-26
@@ -17,15 +18,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search detects registry key license at host where Remcos RAT agent is installed.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2022-01-26
 - **Author**: Bhavin Patel, Rod Soto, Teoderick Contreras, Splunk
 - **ID**: f2a1615a-1d63-11ec-97d2-acde48001122
@@ -90,8 +92,6 @@ unknown
 | 90.0 | 90 | 100 | A registry entry $registry_path$ with registry keyname $registry_key_name$ related to Remcos RAT in host $dest$ |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -103,6 +103,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos_panel_client/remcos_registry_entry.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos_panel_client/remcos_registry_entry.log)
 

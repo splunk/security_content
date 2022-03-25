@@ -1,0 +1,12 @@
+name: Print Processor Registry Autostart Unit Test
+tests:
+- name: Print Processor Registry Autostart
+  file: experimental/endpoint/print_processor_registry_autostart.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -365d
+  latest_time: now
+  attack_data:
+  - file_name: sysmon_print.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.012/print_reg/sysmon_print.log
+    source: WinEventLog:Microsoft-Windows-PrintService/Operational
+    sourcetype: WinEventLog

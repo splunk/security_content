@@ -1,81 +1,47 @@
-author: Ignacio Bermudez Corrales, Splunk
-datamodel:
-- Endpoint_Processes
-date: '2020-11-10'
+name: Detect Prohibited Applications Spawning cmd exe
+id: c10a18cb-fd80-4ffa-a844-25026e0a0c94
+version: 3
 description: The following analytic identifies parent processes, browsers, Windows
   terminal applications, Office Products and Java spawning cmd.exe. By its very nature,
   many applications spawn cmd.exe natively or built into macros. Much of this will
   need to be tuned to further enhance the risk.
-how_to_implement: In order to successfully implement this analytic, you will need
-  endpoint process data from a EDR product or Sysmon. This search has been modified
-  to process raw sysmon data from attack_range's nxlogs on DSP.
-id: c10a18cb-fd80-4ffa-a844-25026e0a0c94
-known_false_positives: There are circumstances where an application may legitimately
-  execute and interact with the Windows command-line interface.
-name: Detect Prohibited Applications Spawning cmd exe
-product:
-- Splunk Behavioral Analytics
-references:
-- https://attack.mitre.org/techniques/T1059/
-risk_message: An instance of $parent_process_name$ spawning $process_name$ was identified
-  on endpoint $dest_device_id$ by user $dest_user_id$, producing a suspicious event
-  that warrants investigating.
 search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
-  "_time"), "string", null)) | eval process_name=ucast(map_get(input_event, "process_name"),
-  "string", null), parent_process=lower(ucast(map_get(input_event, "parent_process_name"),
-  "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"),"string",
+  "_time"), "string", null)) | eval process_name = ucast(map_get(input_event, "process_name"),
+  "string", null), parent_process_name = lower(ucast(input_event.parent_process_name,
+  "string", null)), cmd_line = lower(ucast(map_get(input_event, "process"),"string",
   null)), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null),
   dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null), event_id=ucast(map_get(input_event,"event_id"),
-  "string", null) | where process_name="cmd.exe" | rex field=parent_process "(?<ParentBaseFileName>[^\\\\]+)$"
+  "string", null) | where process_name="cmd.exe" | rex field=parent_process_name "(?<ParentBaseFileName>[^\\\\]+)$"
   | where ParentBaseFileName="winword.exe" OR ParentBaseFileName="excel.exe" OR ParentBaseFileName="outlook.exe"
   OR ParentBaseFileName="powerpnt.exe" OR ParentBaseFileName="visio.exe" OR ParentBaseFileName="mspub.exe"
   OR ParentBaseFileName="acrobat.exe" OR ParentBaseFileName="acrord32.exe" OR ParentBaseFileName="iexplore.exe"
   OR ParentBaseFileName="opera.exe" OR ParentBaseFileName="firefox.exe" OR (ParentBaseFileName="java.exe"
-  AND (cmd_line IS NULL OR (cmd_line IS NOT NULL AND match_regex(cmd_line, /(?i)patch1-Hotfix1a/)=false)))
+  AND (parent_process_name IS NOT NULL AND match_regex(parent_process_name, /(?i)patch1-Hotfix1a/)=false))
   OR ParentBaseFileName="powershell.exe" OR (ParentBaseFileName="chrome.exe" AND (cmd_line
-  IS NULL OR (cmd_line IS NOT NULL AND NOT like(cmd_line, "%chrome-extension%"))))
+  IS NULL OR (cmd_line IS NOT NULL AND match_regex(cmd_line, /(?i)chrome-extension/)=false)))
   | eval start_time=timestamp, end_time=timestamp, entities=mvappend(dest_device_id,
   dest_user_id), body=create_map(["event_id", event_id,  "process_name", process_name,
-  "parent_process_name", parent_process, "cmd_line", cmd_line]) | into write_ssa_detected_events();'
+  "parent_process_name", parent_process_name, "cmd_line", cmd_line, "ParentBaseFileName",
+  ParentBaseFileName]) | into write_ssa_detected_events()'
+how_to_implement: In order to successfully implement this analytic, you will need
+  endpoint process data from a EDR product or Sysmon. This search has been modified
+  to process raw sysmon data from attack_range's nxlogs on DSP.
+known_false_positives: There are circumstances where an application may legitimately
+  execute and interact with the Windows command-line interface.
+references:
+- https://attack.mitre.org/techniques/T1059/
 tags:
   analytic_story:
   - Suspicious Command-Line Executions
   cis20:
   - CIS 8
-  confidence: 50
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  impact: 70
   kill_chain_phases:
   - Exploitation
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified
-    on endpoint $dest_device_id$ by user $dest_user_id$, producing a suspicious event
-    that warrants investigating.
   mitre_attack_id:
   - T1059
   nist:
   - PR.PT
   - DE.CM
-  observable:
-  - name: dest_user_id
-    role:
-    - Actor
-    type: User
-  - name: dest_device_id
-    role:
-    - Victim
-    type: Hostname
-  - name: parent_process_name
-    role:
-    - Parent Process
-    type: Parent Process
-  - name: process_name
-    role:
-    - Child Process
-    type: Process
-  product:
-  - Splunk Behavioral Analytics
   required_fields:
   - process_name
   - parent_process_name
@@ -84,18 +50,15 @@ tags:
   - dest_user_id
   - cmd_line
   risk_score: 35
-  risk_severity: low
   security_domain: endpoint
+  risk_severity: low
 test:
   name: Detect Prohibited Applications Spawning cmd exe Unit Test
   tests:
-  - attack_data:
-    - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.003/powershell_spawn_cmd/windows-security.log
-      file_name: windows-security.log
-      source: WinEventLog:Security
-    description: Detect Prohibited Applications Spawning cmd exe
+  - name: Detect Prohibited Applications Spawning cmd exe
     file: endpoint/ssa___prohibited_apps_spawning_cmdprompt.yml
-    name: Detect Prohibited Applications Spawning cmd exe
     pass_condition: '@count_gt(0)'
-type: Anomaly
-version: 2
+    attack_data:
+    - file_name: windows-security.log
+      data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.003/powershell_spawn_cmd/windows-security.log
+      source: WinEventLog:Security

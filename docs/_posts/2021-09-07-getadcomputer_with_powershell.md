@@ -1,6 +1,7 @@
 ---
 title: "GetAdComputer with PowerShell"
-excerpt: "Remote System Discovery"
+excerpt: "Remote System Discovery
+"
 categories:
   - Endpoint
 last_modified_at: 2021-09-07
@@ -17,15 +18,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
-This analytic looks for the execution of `powershell.exe` with command-line arguments utilized to discover remote systems. The `Get-AdComputer&#39; commandlet returns a list of all domain computers. Red Teams and adversaries alike may use this commandlet to identify remote systems for situational awareness and Active Directory Discovery.
+This analytic looks for the execution of `powershell.exe` with command-line arguments utilized to discover remote systems. The `Get-AdComputer' commandlet returns a list of all domain computers. Red Teams and adversaries alike may use this commandlet to identify remote systems for situational awareness and Active Directory Discovery.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+
 - **Last Updated**: 2021-09-07
 - **Author**: Mauricio Velazco, Splunk
 - **ID**: c5a31f80-5888-4d81-9f78-1cc65026316e
@@ -91,8 +93,6 @@ Administrators or power users may use this command for troubleshooting.
 | 15.0 | 30 | 50 | Remote system discovery enumeration on $dest$ by $user$ |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -104,6 +104,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1018/AD_discovery/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1018/AD_discovery/windows-sysmon.log)
 

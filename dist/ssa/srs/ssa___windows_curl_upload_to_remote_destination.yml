@@ -1,7 +1,6 @@
-author: Michael Haag, Splunk
-datamodel:
-- Endpoint_Processes
-date: '2021-12-03'
+name: Windows Curl Upload to Remote Destination
+id: cc8d046a-543b-11ec-b864-acde48001122
+version: 1
 description: 'The following analytic identifies the use of Windows Curl.exe uploading
   a file to a remote destination. \
 
@@ -20,22 +19,6 @@ description: 'The following analytic identifies the use of Windows Curl.exe uplo
   what they are attempting to upload (zip vs txt). During triage, review parallel
   processes for further behavior. In addition, identify if the upload was successful
   in network logs. If a file was uploaded, isolate the endpoint and review.'
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint_Processess` datamodel.
-id: cc8d046a-543b-11ec-b864-acde48001122
-known_false_positives: False positives may be limited to source control applications
-  and may be required to be filtered out.
-name: Windows Curl Upload to Remote Destination
-product:
-- Splunk Behavioral Analytics
-references:
-- https://everything.curl.dev/usingcurl/uploads
-- https://techcommunity.microsoft.com/t5/containers/tar-and-curl-come-to-windows/ba-p/382409
-- https://twitter.com/d1r4c/status/1279042657508081664?s=20
-risk_message: An instance of $parent_process_name$ spawning $process_name$ was identified
-  on endpoint $dest_device_id$ by user $dest_user_id$ uploading a file to a remote
-  destination.
 search: '| from read_ssa_enriched_events() | where "Endpoint_Processes" IN(_datamodels)
   | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
   cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event,
@@ -52,45 +35,24 @@ search: '| from read_ssa_enriched_events() | where "Endpoint_Processes" IN(_data
   "string", null)) | eval body=create_map(["event_id", event_id, "cmd_line", cmd_line,
   "process_name", process_name, "parent_process_name", parent_process_name, "process_path",
   process_path]) | into write_ssa_detected_events();'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint_Processess` datamodel.
+known_false_positives: False positives may be limited to source control applications
+  and may be required to be filtered out.
+references:
+- https://everything.curl.dev/usingcurl/uploads
+- https://techcommunity.microsoft.com/t5/containers/tar-and-curl-come-to-windows/ba-p/382409
+- https://twitter.com/d1r4c/status/1279042657508081664?s=20
 tags:
   analytic_story:
   - Ingress Tool Transfer
-  automated_detection_testing: passed
   cis20: []
-  confidence: 100
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1105/atomic_red_team/windows-security.log
-  impact: 80
   kill_chain_phases:
-  - Exfiltration
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified
-    on endpoint $dest_device_id$ by user $dest_user_id$ uploading a file to a remote
-    destination.
+  - Exploitation
   mitre_attack_id:
   - T1105
   nist: []
-  observable:
-  - name: dest_user_id
-    role:
-    - Victim
-    type: User
-  - name: dest_device_id
-    role:
-    - Victim
-    type: Hostname
-  - name: parent_process_name
-    role:
-    - Parent Process
-    type: Parent Process
-  - name: process_name
-    role:
-    - Child Process
-    type: Process
-  product:
-  - Splunk Behavioral Analytics
   required_fields:
   - _time
   - dest_device_id
@@ -101,17 +63,15 @@ tags:
   - process
   - cmd_line
   risk_score: 80
-  risk_severity: high
   security_domain: endpoint
+  risk_severity: high
 test:
   name: Windows Curl Upload to Remote Destination Unit Test
   tests:
-  - attack_data:
-    - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1105/atomic_red_team/windows-security.log
-      file_name: windows-security.log
-      source: WinEventLog:Security
+  - name: Windows Curl Upload to Remote Destination
     file: endpoint/ssa___windows_curl_upload_to_remote_destination.yml
-    name: Windows Curl Upload to Remote Destination
     pass_condition: '@count_gt(0)'
-type: TTP
-version: 1
+    attack_data:
+    - file_name: windows-security.log
+      data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1105/atomic_red_team/windows-security.log
+      source: WinEventLog:Security

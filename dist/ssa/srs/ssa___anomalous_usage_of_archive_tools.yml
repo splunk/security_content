@@ -1,23 +1,8 @@
-author: Patrick Bareiss, Splunk
-datamodel:
-- Endpoint_Processes
-date: '2021-11-22'
+name: Anomalous usage of Archive Tools
+id: 63614a58-10e2-4c6c-ae81-ea1113681439
+version: 1
 description: The following detection identifies the usage of archive tools from the
   command line.
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Processes` node.
-id: 63614a58-10e2-4c6c-ae81-ea1113681439
-known_false_positives: False positives can be ligitmate usage of archive tools from
-  the command line.
-name: Anomalous usage of Archive Tools
-product:
-- Splunk Behavioral Analytics
-references:
-- https://attack.mitre.org/techniques/T1560/001/
-risk_message: An instance of $parent_process_name$ spawning $process_name$ was identified
-  on endpoint $dest$ by user $user$. This behavior is indicative of suspicious loading
-  of 7zip.
 search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,"_time"),
   "string", null)), process=lower(ucast(map_get(input_event, "process"), "string",
   null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string",
@@ -32,46 +17,24 @@ search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map
   "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)),
   body=create_map(["event_id", event_id, "process_name", process_name, "parent_process_name",
   parent_process_name, "process_path", process_path]) | into write_ssa_detected_events();'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+known_false_positives: False positives can be ligitmate usage of archive tools from
+  the command line.
+references:
+- https://attack.mitre.org/techniques/T1560/001/
 tags:
   analytic_story:
   - Cobalt Strike
   - NOBELIUM Group
   cis20: []
-  confidence: 60
-  context:
-  - Source:Endpoint
-  - Stage:Collection
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1560.001/archive_tools/windows-security.log
-  impact: 70
   kill_chain_phases:
-  - Actions on Objective
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified
-    on endpoint $dest$ by user $user$. This behavior is indicative of suspicious loading
-    of 7zip.
+  - Exploitation
   mitre_attack_id:
   - T1560.001
   - T1560
   nist: []
-  observable:
-  - name: user
-    role:
-    - Victim
-    type: User
-  - name: dest
-    role:
-    - Victim
-    type: Hostname
-  - name: parent_process_name
-    role:
-    - Parent Process
-    type: Parent Process
-  - name: process_name
-    role:
-    - Child Process
-    type: Process
-  product:
-  - Splunk Behavioral Analytics
   required_fields:
   - _time
   - Processes.process_name
@@ -81,18 +44,15 @@ tags:
   - Processes.parent_process_name
   - Processes.parent_process
   risk_score: 42
-  risk_severity: low
   security_domain: endpoint
+  risk_severity: low
 test:
   name: Anomalous usage of Archive Tools Unit Test
   tests:
-  - attack_data:
-    - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1560.001/archive_tools/windows-security.log
-      file_name: security.log
-      source: WinEventLog:Security
-    description: Test for Anomalous usage of Archive Tools
+  - name: Anomalous usage of Archive Tools
     file: endpoint/ssa___anomalous_usage_of_archive_tools.yml
-    name: Anomalous usage of Archive Tools
     pass_condition: '@count_gt(0)'
-type: Anomaly
-version: 1
+    attack_data:
+    - file_name: security.log
+      data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1560.001/archive_tools/windows-security.log
+      source: WinEventLog:Security

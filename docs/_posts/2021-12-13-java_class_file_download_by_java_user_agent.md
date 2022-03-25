@@ -1,6 +1,7 @@
 ---
 title: "Java Class File download by Java User Agent"
-excerpt: "Exploit Public-Facing Application"
+excerpt: "Exploit Public-Facing Application
+"
 categories:
   - Endpoint
 last_modified_at: 2021-12-13
@@ -18,15 +19,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following analytic identifies a Java user agent performing a GET request for a .class file from the remote site. This is potentially indicative of exploitation of the Java application and may be related to current event CVE-2021-44228 (Log4Shell).
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Web](https://docs.splunk.com/Documentation/CIM/latest/User/Web)
+
 - **Last Updated**: 2021-12-13
 - **Author**: Michael Haag, Splunk
 - **ID**: 8281ce42-5c50-11ec-82d2-acde48001122
@@ -87,9 +89,6 @@ Filtering may be required in some instances, filter as needed.
 | 40.0 | 80 | 50 | A Java user agent $http_user_agent$ was performing a $http_method$ to retrieve a remote class file. |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
-
 #### CVE
 
 | ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
@@ -107,6 +106,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/java/java.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/java/java.log)
 

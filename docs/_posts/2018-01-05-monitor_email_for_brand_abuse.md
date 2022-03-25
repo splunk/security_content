@@ -13,19 +13,20 @@ tags:
   - Email
 ---
 
-### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
-We have not been able to test, simulate, or build datasets for this detection. Use at your own risk. This analytic is **NOT** supported.
+###  WARNING THIS IS A EXPERIMENTAL object
+We have not been able to test, simulate, or build datasets for this object. Use at your own risk. This analytic is **NOT** supported.
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for emails claiming to be sent from a domain similar to one that you want to have monitored for abuse.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Email](https://docs.splunk.com/Documentation/CIM/latest/User/Email)
+
 - **Last Updated**: 2018-01-05
 - **Author**: David Dorsey, Splunk
 - **ID**: b2ea1f38-3a3e-4b8a-9cf1-82760d86a6b8
@@ -56,7 +57,7 @@ Note that `monitor_email_for_brand_abuse_filter` is a empty macro by default. It
 #### Lookups
 The SPL above uses the following Lookups:
 
-* [brandMonitoring_lookup](https://github.com/splunk/security_content/blob/develop/lookups/brandMonitoring_lookup.yml) with [data](https://github.com/splunk/security_content/blob/develop/lookups/brand_monitoring.csv)
+* [brandMonitoring_lookup](https://github.com/splunk/security_content/blob/develop/lookups/brandMonitoring_lookup.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/brandMonitoring_lookup.csv)
 
 #### Required field
 * _time
@@ -66,7 +67,7 @@ The SPL above uses the following Lookups:
 
 
 #### How To Implement
-You need to ingest email header data. Specifically the sender&#39;s address (src_user) must be populated.  You also need to have run the search &#34;ESCU - DNSTwist Domain Names&#34;, which creates the permutations of the domain that will be checked for.
+You need to ingest email header data. Specifically the sender's address (src_user) must be populated.  You also need to have run the search "ESCU - DNSTwist Domain Names", which creates the permutations of the domain that will be checked for.
 
 #### Known False Positives
 None at this time
@@ -81,8 +82,12 @@ None at this time
 
 
 
+#### RBA
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 25.0 | 50 | 50 | tbd |
+
 
 
 
@@ -92,7 +97,6 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

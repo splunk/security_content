@@ -1,7 +1,7 @@
 name: Suspicious GPUpdate no Command Line Arguments
 id: f308490a-473a-40ef-ae64-dd7a6eba284a
-version: 2
-date: '2021-09-20'
+version: 3
+date: '2022-03-15'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
@@ -16,7 +16,7 @@ search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint
   where `process_gpupdate` by _time span=1h  Processes.process_id Processes.process_name
   Processes.dest Processes.process_path Processes.process Processes.parent_process_name
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | regex process="(gpupdate\.exe.{0,4}$)"  | `suspicious_gpupdate_no_command_line_arguments_filter`'
+  | regex process="(?i)(gpupdate\.exe.{0,4}$)" | `suspicious_gpupdate_no_command_line_arguments_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
@@ -29,7 +29,6 @@ references:
 tags:
   analytic_story:
   - Cobalt Strike
-  automated_detection_testing: passed
   confidence: 70
   context:
   - Source:Endpoint
@@ -75,3 +74,4 @@ tags:
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_microsoft_sysmon
+  asset_type: Endpoint

@@ -1,6 +1,8 @@
 ---
 title: "Suspicious Copy on System32"
-excerpt: "Rename System Utilities, Masquerading"
+excerpt: "Rename System Utilities
+, Masquerading
+"
 categories:
   - Endpoint
 last_modified_at: 2021-10-05
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - Rename System Utilities
-  - Defense Evasion
   - Masquerading
+  - Defense Evasion
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -19,15 +21,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This analytic is to detect a suspicious copy of file from systemroot folder of the windows OS. This technique is commonly used by APT or other malware as part of execution (LOLBIN) to run its malicious code using the available legitimate tool in OS. this type of event may seen or may execute of normal user in some instance but this is really a anomaly that needs to be check within the network.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2021-10-05
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: ce633e56-25b2-11ec-9e76-acde48001122
@@ -97,8 +100,6 @@ every user may do this event but very un-ussual.
 | 63.0 | 70 | 90 | execution of copy exe to copy file from $process$ in $dest$ |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -110,6 +111,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.003/copy_sysmon/sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.003/copy_sysmon/sysmon.log)
 

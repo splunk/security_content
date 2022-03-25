@@ -1,6 +1,8 @@
 ---
 title: "Monitor Registry Keys for Print Monitors"
-excerpt: "Port Monitors, Boot or Logon Autostart Execution"
+excerpt: "Port Monitors
+, Boot or Logon Autostart Execution
+"
 categories:
   - Endpoint
 last_modified_at: 2020-01-28
@@ -8,9 +10,9 @@ toc: true
 toc_label: ""
 tags:
   - Port Monitors
+  - Boot or Logon Autostart Execution
   - Persistence
   - Privilege Escalation
-  - Boot or Logon Autostart Execution
   - Persistence
   - Privilege Escalation
   - Splunk Enterprise
@@ -20,15 +22,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for registry activity associated with modifications to the registry key `HKLM\SYSTEM\CurrentControlSet\Control\Print\Monitors`. In this scenario, an attacker can load an arbitrary .dll into the print-monitor registry by giving the full path name to the after.dll. The system will execute the .dll with elevated (SYSTEM) permissions and will persist after reboot.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+
+
 - **Last Updated**: 2020-01-28
 - **Author**: Bhavin Patel, Teoderick Contreras, Splunk
 - **ID**: f5f6af30-7ba7-4295-bfe9-07de87c01bbc
@@ -97,8 +100,6 @@ You will encounter noise from legitimate print-monitor registry entries.
 | 64.0 | 80 | 80 | New print monitor added on $dest$ |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -107,6 +108,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.010/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.010/atomic_red_team/windows-sysmon.log)
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.010/atomic_red_team/sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.010/atomic_red_team/sysmon.log)

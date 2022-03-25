@@ -1,6 +1,8 @@
 ---
 title: "CSC Net On The Fly Compilation"
-excerpt: "Compile After Delivery, Obfuscated Files or Information"
+excerpt: "Compile After Delivery
+, Obfuscated Files or Information
+"
 categories:
   - Endpoint
 last_modified_at: 2021-11-12
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - Compile After Delivery
-  - Defense Evasion
   - Obfuscated Files or Information
+  - Defense Evasion
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -19,15 +21,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 this analytic is to detect a suspicious compile before delivery approach of .net compiler csc.exe. This technique was seen in several adversaries, malware and even in red teams to take advantage the csc.exe .net compiler tool to compile on the fly a malicious .net code to evade detection from security product. This is a good hunting query to check further the file or process created after this event and check the file path that passed to csc.exe which is the .net code. Aside from that, powershell is capable of using this compiler in executing .net code in a powershell script so filter on that case is needed.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+
 - **Last Updated**: 2021-11-12
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: ea73128a-43ab-11ec-9753-acde48001122
@@ -94,8 +97,6 @@ A network operator or systems administrator may utilize an automated powershell 
 | 25.0 | 50 | 50 | csc.exe with commandline $process$ to compile .net code on $dest$ by $user$ |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -108,6 +109,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/vilsel/sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/vilsel/sysmon.log)
 

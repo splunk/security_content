@@ -12,22 +12,23 @@ tags:
   - Splunk Cloud
 ---
 
-### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
-We have not been able to test, simulate, or build datasets for this detection. Use at your own risk. This analytic is **NOT** supported.
+###  WARNING THIS IS A EXPERIMENTAL object
+We have not been able to test, simulate, or build datasets for this object. Use at your own risk. This analytic is **NOT** supported.
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search will detect spike in blocked outbound network connections originating from within your AWS environment.  It will also update the cache file that factors in the latest data.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+
+
 - **Last Updated**: 2018-05-07
 - **Author**: Bhavin Patel, Splunk
-- **ID**: ada0f278-84a8-46w1-a3f1-w32372d4bd53
+- **ID**: d3fffa37-492f-487b-a35d-c60fcb2acf01
 
 #### Search
 
@@ -60,7 +61,8 @@ Note that `detect_spike_in_blocked_outbound_traffic_from_your_aws_filter` is a e
 #### Lookups
 The SPL above uses the following Lookups:
 
-* [baseline_blocked_outbound_connections](https://github.com/splunk/security_content/blob/develop/lookups/baseline_blocked_outbound_connections.yml) with [data](https://github.com/splunk/security_content/blob/develop/lookups/baseline_blocked_outbound_connections.csv)
+* [baseline_blocked_outbound_connections](https://github.com/splunk/security_content/blob/develop/lookups/baseline_blocked_outbound_connections.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/baseline_blocked_outbound_connections.csv)
+* [baseline_blocked_outbound_connections](https://github.com/splunk/security_content/blob/develop/lookups/baseline_blocked_outbound_connections.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/baseline_blocked_outbound_connections.csv)
 
 #### Required field
 * _time
@@ -70,7 +72,7 @@ The SPL above uses the following Lookups:
 
 
 #### How To Implement
-You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your VPC Flow logs. You can modify `dataPointThreshold` and `deviationThreshold` to better fit your environment. The `dataPointThreshold` variable is the number of data points required to meet the definition of &#34;spike.&#34; The `deviationThreshold` variable is the number of standard deviations away from the mean that the value must be to be considered a spike. This search works best when you run the &#34;Baseline of Blocked Outbound Connection&#34; support search once to create a history of previously seen blocked outbound connections.
+You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your VPC Flow logs. You can modify `dataPointThreshold` and `deviationThreshold` to better fit your environment. The `dataPointThreshold` variable is the number of data points required to meet the definition of "spike." The `deviationThreshold` variable is the number of standard deviations away from the mean that the value must be to be considered a spike. This search works best when you run the "Baseline of Blocked Outbound Connection" support search once to create a history of previously seen blocked outbound connections.
 
 #### Known False Positives
 The false-positive rate may vary based on the values of`dataPointThreshold` and `deviationThreshold`. Additionally, false positives may result when AWS administrators roll out policies enforcing network blocks, causing sudden increases in the number of blocked outbound connections.
@@ -83,12 +85,16 @@ The false-positive rate may vary based on the values of`dataPointThreshold` and 
 
 #### Kill Chain Phase
 * Actions on Objectives
-* Command and Control
+* Command & Control
 
 
 
+#### RBA
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 25.0 | 50 | 50 | tbd |
+
 
 
 
@@ -98,7 +104,6 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

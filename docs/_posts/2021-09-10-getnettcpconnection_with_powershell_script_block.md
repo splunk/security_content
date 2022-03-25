@@ -1,6 +1,7 @@
 ---
 title: "GetNetTcpconnection with PowerShell Script Block"
-excerpt: "System Network Connections Discovery"
+excerpt: "System Network Connections Discovery
+"
 categories:
   - Endpoint
 last_modified_at: 2021-09-10
@@ -16,15 +17,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following analytic utilizes PowerShell Script Block Logging (EventCode=4104) to identify the execution of the `Get-NetTcpconnection ` commandlet. This commandlet is used to return a listing of network connections on a compromised system. Red Teams and adversaries alike may use this commandlet for situational awareness and Active Directory Discovery.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+
+
 - **Last Updated**: 2021-09-10
 - **Author**: Mauricio Velazco, Splunk
 - **ID**: 091712ff-b02a-4d43-82ed-34765515d95d
@@ -82,8 +84,6 @@ Administrators or power users may use this PowerShell commandlet for troubleshoo
 | 15.0 | 30 | 50 | Network Connection discovery on $dest$ by $user$ |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -96,6 +96,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1049/AD_discovery/windows-powershell.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1049/AD_discovery/windows-powershell.log)
 

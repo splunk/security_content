@@ -1,7 +1,6 @@
-author: Michael Haag, Splunk
-datamodel:
-- Endpoint_Processes
-date: '2022-02-16'
+name: Windows Bitsadmin Download File
+id: d76e8188-8f5a-11ec-ace4-acde48001122
+version: 1
 description: The following query identifies Microsoft Background Intelligent Transfer
   Service utility `bitsadmin.exe` using the `transfer` parameter to download a remote
   object. In addition, look for `download` or `upload` on the command-line, the switches
@@ -14,24 +13,6 @@ description: The following query identifies Microsoft Background Intelligent Tra
   and child processes to capture any behaviors and artifacts. In some suspicious and
   malicious instances, BITS jobs will be created. You can use `bitsadmin /list /verbose`
   to list out the jobs during investigation.
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
-  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
-  endpoint product.
-id: d76e8188-8f5a-11ec-ace4-acde48001122
-known_false_positives: Limited false positives, however it may be required to filter
-  based on parent process name or network connection.
-name: Windows Bitsadmin Download File
-product:
-- Splunk Behavioral Analytics
-references:
-- https://github.com/redcanaryco/atomic-red-team/blob/8eb52117b748d378325f7719554a896e37bccec7/atomics/T1105/T1105.md#atomic-test-9---windows---bitsadmin-bits-download
-- https://github.com/redcanaryco/atomic-red-team/blob/bc705cb7aaa5f26f2d96585fac8e4c7052df0ff9/atomics/T1197/T1197.md
-- https://docs.microsoft.com/en-us/windows/win32/bits/bitsadmin-tool
-- https://thedfirreport.com/2021/03/29/sodinokibi-aka-revil-ransomware/
-risk_message: An instance of $parent_process_name$ spawning $process_name$ was identified
-  on endpoint $dest$ by user $dest_user_id$ attempting to download a file.
 search: '| from read_ssa_enriched_events() | where "Endpoint_Processes" IN(_datamodels)
   | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
   cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event,
@@ -44,46 +25,31 @@ search: '| from read_ssa_enriched_events() | where "Endpoint_Processes" IN(_data
   "dest_device_id"), "string", null)) | eval body=create_map(["event_id", event_id,
   "cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name,
   "process_path", process_path]) | into write_ssa_detected_events();'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: Limited false positives, however it may be required to filter
+  based on parent process name or network connection.
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/8eb52117b748d378325f7719554a896e37bccec7/atomics/T1105/T1105.md#atomic-test-9---windows---bitsadmin-bits-download
+- https://github.com/redcanaryco/atomic-red-team/blob/bc705cb7aaa5f26f2d96585fac8e4c7052df0ff9/atomics/T1197/T1197.md
+- https://docs.microsoft.com/en-us/windows/win32/bits/bitsadmin-tool
+- https://thedfirreport.com/2021/03/29/sodinokibi-aka-revil-ransomware/
 tags:
   analytic_story:
   - Ingress Tool Transfer
   - BITS Jobs
   - DarkSide Ransomware
   - Living Off The Land
-  automated_detection_testing: passed
-  confidence: 70
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1197/atomic_red_team/bits-windows-security.log
-  impact: 70
+  cis20: null
   kill_chain_phases:
   - Exploitation
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified
-    on endpoint $dest$ by user $dest_user_id$ attempting to download a file.
   mitre_attack_id:
   - T1197
   - T1105
-  observable:
-  - name: dest_user_id
-    role:
-    - Victim
-    type: User
-  - name: dest_device_id
-    role:
-    - Victim
-    type: Hostname
-  - name: parent_process_name
-    role:
-    - Parent Process
-    type: Parent Process
-  - name: process_name
-    role:
-    - Child Process
-    type: Process
-  product:
-  - Splunk Behavioral Analytics
+  nist: null
   required_fields:
   - _time
   - dest_device_id
@@ -94,17 +60,15 @@ tags:
   - process
   - cmd_line
   risk_score: 49
-  risk_severity: low
   security_domain: endpoint
+  risk_severity: low
 test:
   name: Windows Bitsadmin Download File Unit Test
   tests:
-  - attack_data:
-    - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1197/atomic_red_team/bits-windows-security.log
-      file_name: bits-windows-security.log
-      source: WinEventLog:Security
+  - name: Windows Bitsadmin Download File
     file: endpoint/ssa___windows_bitsadmin_download_file.yml
-    name: Windows Bitsadmin Download File
     pass_condition: '@count_gt(0)'
-type: TTP
-version: 1
+    attack_data:
+    - file_name: bits-windows-security.log
+      data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1197/atomic_red_team/bits-windows-security.log
+      source: WinEventLog:Security

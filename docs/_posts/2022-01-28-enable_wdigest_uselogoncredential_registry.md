@@ -1,6 +1,8 @@
 ---
 title: "Enable WDigest UseLogonCredential Registry"
-excerpt: "Modify Registry, OS Credential Dumping"
+excerpt: "Modify Registry
+, OS Credential Dumping
+"
 categories:
   - Endpoint
 last_modified_at: 2022-01-28
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - Modify Registry
-  - Defense Evasion
   - OS Credential Dumping
+  - Defense Evasion
   - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -19,15 +21,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This analytic is to detect a suspicious registry modification to enable plain text credential feature of windows. This technique was used by several malware and also by mimikatz to be able to dumpe the a plain text credential to the compromised or target host. This TTP is really a good indicator that someone wants to dump the crendential of the host so it must be a good pivot for credential dumping techniques.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2022-01-28
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: 0c7d8ffe-25b1-11ec-9f39-acde48001122
@@ -95,8 +98,6 @@ unknown
 | 80.0 | 80 | 100 | wdigest registry $registry_path$ was modified in $dest$ |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -108,6 +109,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003/wdigest_enable/sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003/wdigest_enable/sysmon.log)
 

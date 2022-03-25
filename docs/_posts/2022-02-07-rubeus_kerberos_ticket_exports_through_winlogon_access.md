@@ -1,6 +1,8 @@
 ---
 title: "Rubeus Kerberos Ticket Exports Through Winlogon Access"
-excerpt: "Use Alternate Authentication Material, Pass the Ticket"
+excerpt: "Use Alternate Authentication Material
+, Pass the Ticket
+"
 categories:
   - Endpoint
 last_modified_at: 2022-02-07
@@ -8,9 +10,9 @@ toc: true
 toc_label: ""
 tags:
   - Use Alternate Authentication Material
+  - Pass the Ticket
   - Defense Evasion
   - Lateral Movement
-  - Pass the Ticket
   - Defense Evasion
   - Lateral Movement
   - Splunk Enterprise
@@ -20,15 +22,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following analytic looks for a process accessing the winlogon.exe system process. The Splunk Threat Research team identified this behavior when using the Rubeus tool to monitor for and export kerberos tickets from memory. Before being able to export tickets. Rubeus will try to escalate privileges to SYSTEM by obtaining a handle to winlogon.exe before trying to monitor for kerberos tickets. Exporting tickets from memory is typically the first step for pass the ticket attacks. Red teams and adversaries alike may use the pass the ticket technique using stolen Kerberos tickets to move laterally within an environment, bypassing normal system access controls. Defenders should be aware that adversaries may customize the source code of Rubeus to potentially bypass this analytic.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+
+
 - **Last Updated**: 2022-02-07
 - **Author**: Mauricio Velazco, Splunk
 - **ID**: 5ed8c50a-8869-11ec-876f-acde48001122
@@ -82,8 +85,7 @@ Legitimate applications may obtain a handle for winlogon.exe. Filter as needed
 
 
 #### Kill Chain Phase
-* Privilege Escalation
-* Lateral Movement
+* Exploitation
 
 
 
@@ -93,8 +95,6 @@ Legitimate applications may obtain a handle for winlogon.exe. Filter as needed
 | ----------- | ----------- |--------------|--------------|
 | 36.0 | 60 | 60 | Winlogon.exe was accessed by $SourceImage$ on $dest$ |
 
-
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 
@@ -109,6 +109,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1550.003/rubeus/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1550.003/rubeus/windows-sysmon.log)
 

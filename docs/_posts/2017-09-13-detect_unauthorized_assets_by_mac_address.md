@@ -13,19 +13,20 @@ tags:
   - Network_Sessions
 ---
 
-### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
-We have not been able to test, simulate, or build datasets for this detection. Use at your own risk. This analytic is **NOT** supported.
+###  WARNING THIS IS A EXPERIMENTAL object
+We have not been able to test, simulate, or build datasets for this object. Use at your own risk. This analytic is **NOT** supported.
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
-By populating the organization&#39;s assets within the assets_by_str.csv, we will be able to detect unauthorized devices that are trying to connect with the organization&#39;s network by inspecting DHCP request packets, which are issued by devices when they attempt to obtain an IP address from the DHCP server. The MAC address associated with the source of the DHCP request is checked against the list of known devices, and reports on those that are not found.
+By populating the organization's assets within the assets_by_str.csv, we will be able to detect unauthorized devices that are trying to connect with the organization's network by inspecting DHCP request packets, which are issued by devices when they attempt to obtain an IP address from the DHCP server. The MAC address associated with the source of the DHCP request is checked against the list of known devices, and reports on those that are not found.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Sessions](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkSessions)
+
 - **Last Updated**: 2017-09-13
 - **Author**: Bhavin Patel, Splunk
 - **ID**: dcfd6b40-42f9-469d-a433-2e53f7489ff4
@@ -75,8 +76,12 @@ This search might be prone to high false positives. Please consider this when co
 
 
 
+#### RBA
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 25.0 | 50 | 50 | tbd |
+
 
 
 
@@ -86,7 +91,6 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

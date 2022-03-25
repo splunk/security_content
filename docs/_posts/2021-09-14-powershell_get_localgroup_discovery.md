@@ -1,6 +1,8 @@
 ---
 title: "PowerShell Get LocalGroup Discovery"
-excerpt: "Permission Groups Discovery, Local Groups"
+excerpt: "Permission Groups Discovery
+, Local Groups
+"
 categories:
   - Endpoint
 last_modified_at: 2021-09-14
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - Permission Groups Discovery
-  - Discovery
   - Local Groups
+  - Discovery
   - Discovery
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -19,15 +21,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following hunting analytic identifies the use of `get-localgroup` being used with PowerShell to identify local groups on the endpoint. During triage, review parallel processes and identify any further suspicious behavior.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+
 - **Last Updated**: 2021-09-14
 - **Author**: Michael Haag, Splunk
 - **ID**: b71adfcc-155b-11ec-9413-acde48001122
@@ -96,8 +99,6 @@ False positives may be present. Tune as needed.
 | 15.0 | 30 | 50 | Local group discovery on $dest$ by $user$. |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -110,6 +111,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.001/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.001/atomic_red_team/windows-sysmon.log)
 

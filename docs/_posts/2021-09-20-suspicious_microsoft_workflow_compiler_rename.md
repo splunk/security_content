@@ -1,6 +1,9 @@
 ---
 title: "Suspicious microsoft workflow compiler rename"
-excerpt: "Masquerading, Trusted Developer Utilities Proxy Execution, Rename System Utilities"
+excerpt: "Masquerading
+, Trusted Developer Utilities Proxy Execution
+, Rename System Utilities
+"
 categories:
   - Endpoint
 last_modified_at: 2021-09-20
@@ -8,10 +11,10 @@ toc: true
 toc_label: ""
 tags:
   - Masquerading
-  - Defense Evasion
   - Trusted Developer Utilities Proxy Execution
-  - Defense Evasion
   - Rename System Utilities
+  - Defense Evasion
+  - Defense Evasion
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -21,15 +24,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following analytic identifies a renamed instance of microsoft.workflow.compiler.exe. Microsoft.workflow.compiler.exe is natively found in C:\Windows\Microsoft.NET\Framework64\v4.0.30319 and is rarely utilized. When investigating, identify the executed code on disk and review. A spawned child process from microsoft.workflow.compiler.exe is uncommon. In any instance, microsoft.workflow.compiler.exe spawning from an Office product or any living off the land binary is highly suspect.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+
 - **Last Updated**: 2021-09-20
 - **Author**: Michael Haag, Splunk
 - **ID**: f0db4464-55d9-11eb-ae93-0242ac130002
@@ -89,6 +93,7 @@ Although unlikely, some legitimate applications may use a moved copy of microsof
 * [Trusted Developer Utilities Proxy Execution](/stories/trusted_developer_utilities_proxy_execution)
 * [Cobalt Strike](/stories/cobalt_strike)
 * [Masquerading - Rename System Utilities](/stories/masquerading_-_rename_system_utilities)
+* [Living Off The Land](/stories/living_off_the_land)
 
 
 #### Kill Chain Phase
@@ -103,8 +108,6 @@ Although unlikely, some legitimate applications may use a moved copy of microsof
 | 63.0 | 70 | 90 | Suspicious renamed microsoft.workflow.compiler.exe binary ran on $dest$ by $user$ |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -117,6 +120,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127/atomic_red_team/windows-sysmon.log)
 

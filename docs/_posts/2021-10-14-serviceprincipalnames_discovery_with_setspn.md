@@ -1,6 +1,7 @@
 ---
 title: "ServicePrincipalNames Discovery with SetSPN"
-excerpt: "Kerberoasting"
+excerpt: "Kerberoasting
+"
 categories:
   - Endpoint
 last_modified_at: 2021-10-14
@@ -17,7 +18,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -25,14 +26,15 @@ The following analytic identifies `setspn.exe` usage related to querying the dom
 What is a ServicePrincipleName? \
 A service principal name (SPN) is a unique identifier of a service instance. SPNs are used by Kerberos authentication to associate a service instance with a service logon account. This allows a client application to request that the service authenticate an account even if the client does not have the account name.\
 Example usage includes the following \
-1. setspn -T offense -Q */* 1. setspn -T attackrange.local -F -Q MSSQLSvc/* 1. setspn -Q */* &gt; allspns.txt 1. setspn -q \
+1. setspn -T offense -Q */* 1. setspn -T attackrange.local -F -Q MSSQLSvc/* 1. setspn -Q */* > allspns.txt 1. setspn -q \
 Values \
 1. -F = perform queries at the forest, rather than domain level 1. -T = perform query on the specified domain or forest (when -F is also used) 1. -Q = query for existence of SPN \
 During triage, review parallel processes for further suspicious activity.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2021-10-14
 - **Author**: Michael Haag, Splunk
 - **ID**: ae8b3efc-2d2e-11ec-8b57-acde48001122
@@ -90,8 +92,7 @@ False positives may be caused by Administrators resetting SPNs or querying for S
 
 
 #### Kill Chain Phase
-* Privilege Escalation
-* Active Directory Kerberos Attacks
+* Exploitation
 
 
 
@@ -101,8 +102,6 @@ False positives may be caused by Administrators resetting SPNs or querying for S
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to identify service principle names. |
 
-
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 
@@ -123,6 +122,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.003/atomic_red_team/windows-sysmon_setspn.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.003/atomic_red_team/windows-sysmon_setspn.log)
 

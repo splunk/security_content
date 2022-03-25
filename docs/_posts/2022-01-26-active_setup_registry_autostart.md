@@ -1,6 +1,8 @@
 ---
 title: "Active Setup Registry Autostart"
-excerpt: "Active Setup, Boot or Logon Autostart Execution"
+excerpt: "Active Setup
+, Boot or Logon Autostart Execution
+"
 categories:
   - Endpoint
 last_modified_at: 2022-01-26
@@ -8,9 +10,9 @@ toc: true
 toc_label: ""
 tags:
   - Active Setup
+  - Boot or Logon Autostart Execution
   - Persistence
   - Privilege Escalation
-  - Boot or Logon Autostart Execution
   - Persistence
   - Privilege Escalation
   - Splunk Enterprise
@@ -21,15 +23,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This analytic is to detect a suspicious modification of the active setup registry for persistence and privilege escalation. This technique was seen in several malware (poisonIvy), adware and APT to gain persistence to the compromised machine upon boot up. This TTP is a good indicator to further check the process id that do the modification since modification of this registry is not commonly done. check the legitimacy of the file and process involve in this rules to check if it is a valid setup installer that creating or modifying this registry.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2022-01-26
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: f64579c0-203f-11ec-abcc-acde48001122
@@ -97,8 +100,6 @@ Active setup installer may add or modify this registry.
 | 64.0 | 80 | 80 | modified/added/deleted registry entry $Registry.registry_path$ in $dest$ |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -111,6 +112,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/t1547.014/active_setup_stubpath/sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/t1547.014/active_setup_stubpath/sysmon.log)
 

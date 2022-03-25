@@ -1,6 +1,7 @@
 ---
 title: "Outbound Network Connection from Java Using Default Ports"
-excerpt: "Exploit Public-Facing Application"
+excerpt: "Exploit Public-Facing Application
+"
 categories:
   - Endpoint
 last_modified_at: 2021-12-13
@@ -17,15 +18,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 A required step while exploiting the CVE-2021-44228-Log4j vulnerability is that the victim server will perform outbound connections to attacker-controlled infrastructure. This is required as part of the JNDI lookup as well as for retrieving the second stage .class payload. The following analytic identifies the Java process reaching out to default ports used by the LDAP and RMI protocols. This behavior could represent successfull exploitation. Note that adversaries can easily decide to use arbitrary ports for these protocols and potentially bypass this detection.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+
+
 - **Last Updated**: 2021-12-13
 - **Author**: Mauricio Velazco, Splunk
 - **ID**: d2c14d28-5c47-11ec-9892-acde48001122
@@ -95,9 +97,6 @@ Legitimate Java applications may use perform outbound connections to these ports
 | 54.0 | 90 | 60 | Java performed outbound connections to default ports of LDAP or RMI on $dest$ |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
-
 #### CVE
 
 | ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
@@ -116,6 +115,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/outbound_java/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/outbound_java/windows-sysmon.log)
 

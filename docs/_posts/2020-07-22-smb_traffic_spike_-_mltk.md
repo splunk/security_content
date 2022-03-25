@@ -1,6 +1,8 @@
 ---
 title: "SMB Traffic Spike - MLTK"
-excerpt: "SMB/Windows Admin Shares, Remote Services"
+excerpt: "SMB/Windows Admin Shares
+, Remote Services
+"
 categories:
   - Network
 last_modified_at: 2020-07-22
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - SMB/Windows Admin Shares
-  - Lateral Movement
   - Remote Services
+  - Lateral Movement
   - Lateral Movement
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -17,19 +19,20 @@ tags:
   - Network_Traffic
 ---
 
-### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
-We have not been able to test, simulate, or build datasets for this detection. Use at your own risk. This analytic is **NOT** supported.
+###  WARNING THIS IS A EXPERIMENTAL object
+We have not been able to test, simulate, or build datasets for this object. Use at your own risk. This analytic is **NOT** supported.
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search uses the Machine Learning Toolkit (MLTK) to identify spikes in the number of Server Message Block (SMB) connections.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
+
 - **Last Updated**: 2020-07-22
 - **Author**: Rico Valdez, Splunk
 - **ID**: d25773ba-9ad8-48d1-858e-07ad0bbeb828
@@ -74,8 +77,8 @@ Note that `smb_traffic_spike_-_mltk_filter` is a empty macro by default. It allo
 
 
 #### How To Implement
-To successfully implement this search, you will need to ensure that DNS data is populating the Network_Resolution data model. In addition, the Machine Learning Toolkit (MLTK) version 4.2 or greater must be installed on your search heads, along with any required dependencies. Finally, the support search &#34;Baseline of SMB Traffic - MLTK&#34; must be executed before this detection search, because it builds a machine-learning (ML) model over the historical data used by this search. It is important that this search is run in the same app context as the associated support search, so that the model created by the support search is available for use. You should periodically re-run the support search to rebuild the model with the latest data available in your environment.\
-This search produces a field (Number of events,count) that are not yet supported by ES Incident Review and therefore cannot be viewed when a notable event is raised. This field contributes additional context to the notable. To see the additional metadata, add the following field, if not already present, to Incident Review - Event Attributes (Configure &gt; Incident Management &gt; Incident Review Settings &gt; Add New Entry): \
+To successfully implement this search, you will need to ensure that DNS data is populating the Network_Resolution data model. In addition, the Machine Learning Toolkit (MLTK) version 4.2 or greater must be installed on your search heads, along with any required dependencies. Finally, the support search "Baseline of SMB Traffic - MLTK" must be executed before this detection search, because it builds a machine-learning (ML) model over the historical data used by this search. It is important that this search is run in the same app context as the associated support search, so that the model created by the support search is available for use. You should periodically re-run the support search to rebuild the model with the latest data available in your environment.\
+This search produces a field (Number of events,count) that are not yet supported by ES Incident Review and therefore cannot be viewed when a notable event is raised. This field contributes additional context to the notable. To see the additional metadata, add the following field, if not already present, to Incident Review - Event Attributes (Configure > Incident Management > Incident Review Settings > Add New Entry): \
 1. **Label:** Number of events, **Field:** count\
 Detailed documentation on how to create a new field within Incident Review is found here: `https://docs.splunk.com/Documentation/ES/5.3.0/Admin/Customizenotables#Add_a_field_to_the_notable_event_details`
 
@@ -94,8 +97,12 @@ If you are seeing more results than desired, you may consider reducing the value
 
 
 
+#### RBA
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 25.0 | 50 | 50 | tbd |
+
 
 
 
@@ -105,7 +112,6 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

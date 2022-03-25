@@ -33,8 +33,8 @@ references:
 tags:
   analytic_story:
   - Suspicious Regsvcs Regasm Activity
+  - Living Off The Land
   asset_type: Endpoint
-  automated_detection_testing: passed
   cis20:
   - CIS 8
   confidence: 80
@@ -65,7 +65,7 @@ tags:
     role:
     - Victim
   - name: parent_process_name
-    type: Parent Process
+    type: Process
     role:
     - Parent Process
   - name: process_name

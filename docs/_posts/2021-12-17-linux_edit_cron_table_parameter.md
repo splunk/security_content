@@ -1,6 +1,8 @@
 ---
 title: "Linux Edit Cron Table Parameter"
-excerpt: "Cron, Scheduled Task/Job"
+excerpt: "Cron
+, Scheduled Task/Job
+"
 categories:
   - Endpoint
 last_modified_at: 2021-12-17
@@ -8,10 +10,10 @@ toc: true
 toc_label: ""
 tags:
   - Cron
+  - Scheduled Task/Job
   - Execution
   - Persistence
   - Privilege Escalation
-  - Scheduled Task/Job
   - Execution
   - Persistence
   - Privilege Escalation
@@ -23,15 +25,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following analytic identifies a suspicious cronjobs modification using crontab edit parameter. This commandline parameter can be abuse by malware author, adversaries, and red red teamers to add cronjob entry to their malicious code to execute to the schedule they want. This event can also be executed by administrator or normal user for automation purposes so filter is needed.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+
 - **Last Updated**: 2021-12-17
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: 0d370304-5f26-11ec-a4bb-acde48001122
@@ -86,7 +89,7 @@ Administrator or network operator can use this application for automation purpos
 
 
 #### Kill Chain Phase
-* Privilege Escalation
+* Exploitation
 
 
 
@@ -96,8 +99,6 @@ Administrator or network operator can use this application for automation purpos
 | ----------- | ----------- |--------------|--------------|
 | 9.0 | 30 | 30 | A possible crontab edit command $process$ executed on $dest$ |
 
-
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 
@@ -110,6 +111,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.003/crontab_edit_parameter/sysmon_linux.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.003/crontab_edit_parameter/sysmon_linux.log)
 

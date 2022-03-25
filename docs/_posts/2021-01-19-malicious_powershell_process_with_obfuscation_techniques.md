@@ -1,6 +1,8 @@
 ---
 title: "Malicious PowerShell Process With Obfuscation Techniques"
-excerpt: "Command and Scripting Interpreter, PowerShell"
+excerpt: "Command and Scripting Interpreter
+, PowerShell
+"
 categories:
   - Endpoint
 last_modified_at: 2021-01-19
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - Command and Scripting Interpreter
-  - Execution
   - PowerShell
+  - Execution
   - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -19,15 +21,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for PowerShell processes launched with arguments that have characters indicative of obfuscation on the command-line.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2021-01-19
 - **Author**: David Dorsey, Splunk
 - **ID**: cde75cf6-3c7a-4dd6-af01-27cdb4511fd4
@@ -56,9 +59,9 @@ This search looks for PowerShell processes launched with arguments that have cha
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_powershell](https://github.com/splunk/security_content/blob/develop/macros/process_powershell.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [process_powershell](https://github.com/splunk/security_content/blob/develop/macros/process_powershell.yml)
 
 Note that `malicious_powershell_process_with_obfuscation_techniques_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -88,7 +91,7 @@ These characters might be legitimately on the command-line, but it is not common
 
 
 #### Kill Chain Phase
-* Command and Control
+* Command & Control
 * Actions on Objectives
 
 
@@ -100,8 +103,6 @@ These characters might be legitimately on the command-line, but it is not common
 | 42.0 | 70 | 60 | Powershell.exe running with potential obfuscated arguments on $dest$ |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -110,6 +111,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/obfuscated_powershell/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/obfuscated_powershell/windows-sysmon.log)
 

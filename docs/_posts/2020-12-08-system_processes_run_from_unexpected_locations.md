@@ -1,6 +1,8 @@
 ---
 title: "System Processes Run From Unexpected Locations"
-excerpt: "Masquerading, Rename System Utilities"
+excerpt: "Masquerading
+, Rename System Utilities
+"
 categories:
   - Endpoint
 last_modified_at: 2020-12-08
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - Masquerading
-  - Defense Evasion
   - Rename System Utilities
+  - Defense Evasion
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -19,7 +21,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -27,9 +29,10 @@ This search looks for system processes that typically execute from `C:\Windows\S
 This detection utilizes a lookup that is deduped `system32` and `syswow64` directories from Server 2016 and Windows 10.\
 During triage, review the parallel processes - what process moved the native Windows binary? identify any artifacts on disk and review. If a remote destination is contacted, what is the reputation?
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2020-12-08
 - **Author**: David Dorsey, Michael Haag, Splunk
 - **ID**: a34aae96-ccf8-4aef-952c-3ea21444444d
@@ -57,16 +60,11 @@ During triage, review the parallel processes - what process moved the native Win
 
 #### Macros
 The SPL above uses the following Macros:
-* [is_windows_system_file](https://github.com/splunk/security_content/blob/develop/macros/is_windows_system_file.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [is_windows_system_file](https://github.com/splunk/security_content/blob/develop/macros/is_windows_system_file.yml)
 
 Note that `system_processes_run_from_unexpected_locations_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
-
-#### Lookups
-The SPL above uses the following Lookups:
-
-* [is_windows_system_file](https://github.com/splunk/security_content/blob/develop/lookups/is_windows_system_file.yml) with [data](https://github.com/splunk/security_content/blob/develop/lookups/is_windows_system_file.csv)
 
 #### Required field
 * _time
@@ -104,8 +102,6 @@ This detection may require tuning based on third party applications utilizing na
 | 49.0 | 70 | 70 | System process running from unexpected location on $dest$ |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -118,6 +114,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.003/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.003/atomic_red_team/windows-sysmon.log)
 

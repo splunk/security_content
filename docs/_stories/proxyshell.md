@@ -8,6 +8,8 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
+  - Exploitation
+  - Reconnaissance
 ---
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -24,21 +26,17 @@ ProxyShell is a chain of exploits targeting on-premise Microsoft Exchange Server
 
 #### Narrative
 
-During Pwn2Own April 2021, a security researcher demonstrated an attack chain targeting on-premise Microsoft Exchange Server. August 5th, the same researcher publicly released further details and demonstrated the attack chain. \
-1. CVE-2021-34473 - Pre-auth path confusion leads to ACL Bypass (Patched in April by KB5001779) \
-1. CVE-2021-34523 - Elevation of privilege on Exchange PowerShell backend (Patched in April by KB5001779) \
-1. CVE-2021-31207 - Post-auth Arbitrary-File-Write leads to RCE (Patched in May by KB5003435) \
-Upon successful exploitation, the remote attacker will have `SYSTEM` privileges on the Exchange Server. In addition to remote access/execution, the adversary may be able to run Exchange PowerShell Cmdlets to perform further actions.
+During Pwn2Own April 2021, a security researcher demonstrated an attack  chain targeting on-premise Microsoft Exchange Server. August 5th, the same researcher  publicly released further details and demonstrated the attack chain. CVE-2021-34473  Pre-auth path confusion leads to ACL Bypass (Patched in April by KB5001779)  CVE-2021-34523 - Elevation of privilege on Exchange PowerShell backend (Patched in April by KB5001779) . CVE-2021-31207 - Post-auth Arbitrary-File-Write  leads to RCE (Patched in May by KB5003435) Upon successful exploitation,  the remote attacker will have SYSTEM privileges on the Exchange Server. In addition    to remote access/execution, the adversary may be able to run Exchange PowerShell  Cmdlets to perform further actions.
 
 #### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Detect Exchange Web Shell](/endpoint/detect_exchange_web_shell/) | [Server Software Component](/tags/#server-software-component), [Web Shell](/tags/#web-shell), [Exploit Public-Facing Application](/tags/#exploit-public-facing-application) | TTP |
-| [Exchange PowerShell Abuse via SSRF](/endpoint/exchange_powershell_abuse_via_ssrf/) | [Exploit Public-Facing Application](/tags/#exploit-public-facing-application) | TTP |
-| [Exchange PowerShell Module Usage](/endpoint/exchange_powershell_module_usage/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [PowerShell](/tags/#powershell) | TTP |
-| [Microsoft Exchange Mailbox Replication service writing Active Server Pages](/endpoint/microsoft_exchange_mailbox_replication_service_writing_active_server_pages/) | [Server Software Component](/tags/#server-software-component), [Web Shell](/tags/#web-shell), [Exploit Public-Facing Application](/tags/#exploit-public-facing-application) | TTP |
-| [W3WP Spawning Shell](/endpoint/w3wp_spawning_shell/) | [Server Software Component](/tags/#server-software-component), [Web Shell](/tags/#web-shell) | TTP |
+| [Detect Exchange Web Shell](/endpoint/detect_exchange_web_shell/) | [Server Software Component](/tags/#server-software-component), [Web Shell](/tags/#web-shell), [Exploit Public-Facing Application](/tags/#exploit-public-facing-application)| TTP |
+| [W3WP Spawning Shell](/endpoint/w3wp_spawning_shell/) | [Server Software Component](/tags/#server-software-component), [Web Shell](/tags/#web-shell)| TTP |
+| [Exchange PowerShell Abuse via SSRF](/endpoint/exchange_powershell_abuse_via_ssrf/) | [Exploit Public-Facing Application](/tags/#exploit-public-facing-application)| TTP |
+| [Exchange PowerShell Module Usage](/endpoint/exchange_powershell_module_usage/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [PowerShell](/tags/#powershell)| TTP |
+| [MS Exchange Mailbox Replication service writing Active Server Pages](/endpoint/ms_exchange_mailbox_replication_service_writing_active_server_pages/) | [Server Software Component](/tags/#server-software-component), [Web Shell](/tags/#web-shell), [Exploit Public-Facing Application](/tags/#exploit-public-facing-application)| TTP |
 
 #### Reference
 

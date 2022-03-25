@@ -1,6 +1,8 @@
 ---
 title: "Windows Raw Access To Master Boot Record Drive"
-excerpt: "Disk Structure Wipe, Disk Wipe"
+excerpt: "Disk Structure Wipe
+, Disk Wipe
+"
 categories:
   - Endpoint
 last_modified_at: 2022-02-17
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - Disk Structure Wipe
-  - Impact
   - Disk Wipe
+  - Impact
   - Impact
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -19,15 +21,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This analytic is to look for suspicious raw access read to drive where the master boot record is placed. This technique was seen in several attacks by adversaries or threat actor to wipe, encrypt or overwrite the master boot record code as part of their impact payload. This detection is a good indicator that there is a process try to read or write on MBR sector.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+
 - **Last Updated**: 2022-02-17
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: 7b83f666-900c-11ec-a2d9-acde48001122
@@ -73,7 +76,7 @@ Note that `windows_raw_access_to_master_boot_record_drive_filter` is a empty mac
 To successfully implement this search, you need to be ingesting logs with the raw access read event (like sysmon eventcode 9), process name and process guid from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 
 #### Known False Positives
-This event is really notable but we found minimal number of normal application from system32 folder like svchost.exe accessing it too. In this case we used &#39;system32&#39; and &#39;syswow64&#39; path as a filter for this detection.
+This event is really notable but we found minimal number of normal application from system32 folder like svchost.exe accessing it too. In this case we used 'system32' and 'syswow64' path as a filter for this detection.
 
 #### Associated Analytic story
 * [WhisperGate](/stories/whispergate)
@@ -92,8 +95,6 @@ This event is really notable but we found minimal number of normal application f
 | 90.0 | 90 | 100 | process accessing MBR $device$ in $dest$ |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -107,6 +108,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1561.002/mbr_raw_access/sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1561.002/mbr_raw_access/sysmon.log)
 

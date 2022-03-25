@@ -1,27 +1,11 @@
-author: Stanislav Miskovic, Splunk
-datamodel:
-- Authentication
-date: '2021-11-05'
+name: Potential Pass the Token or Hash Observed by an Event Collecting Device
+id: 1058ba3e-a698-49bc-a1e5-7cedece4ea87
+version: 2
 description: This detection identifies potential Pass the Token or Pass the Hash credential
   stealing. We detect the main side effect of these attacks, which is a transition
   from the dominant Kerberos logins to rare NTLM logins for a given user, as reported
   by an event-collecting device (i.e., a specific domain controller or an endpoint
   destination).
-how_to_implement: You must be ingesting Windows Security logs from devices of interest
-  - at least from domain controllers. Please make sure that event ID 4624 is being
-  logged.
-id: 1058ba3e-a698-49bc-a1e5-7cedece4ea87
-known_false_positives: Environments in which NTLM is used extremely rarely and for
-  benign purposes (such as a rare use of SMB shares).
-name: Potential Pass the Token or Hash Observed by an Event Collecting Device
-product:
-- Splunk Behavioral Analytics
-references:
-- https://attack.mitre.org/techniques/T1550/002/
-- https://www.offensive-security.com/metasploit-unleashed/psexec-pass-hash/
-risk_message: Potential lateral movement and credential stealing via Pass the Token
-  or Pass the Hash techniques. Operation is performed via credentials of the account
-  $dest_user_id$ and observed by the logging device $origin_device_id$
 search: '| from read_ssa_enriched_events() | where "Authentication" IN(_datamodels)
 
   | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
@@ -51,25 +35,22 @@ search: '| from read_ssa_enriched_events() | where "Authentication" IN(_datamode
   endTime, "detection_start_time", startNTLMTime, "detection_end_time", endNTLMTime])
 
   | into write_ssa_detected_events();'
+how_to_implement: You must be ingesting Windows Security logs from devices of interest
+  - at least from domain controllers. Please make sure that event ID 4624 is being
+  logged.
+known_false_positives: Environments in which NTLM is used extremely rarely and for
+  benign purposes (such as a rare use of SMB shares).
+references:
+- https://attack.mitre.org/techniques/T1550/002/
+- https://www.offensive-security.com/metasploit-unleashed/psexec-pass-hash/
 tags:
   analytic_story:
   - Active Directory Lateral Movement
-  asset_type: Windows
   cis20:
   - CIS 16
   - CIS 20
-  confidence: 80
-  context:
-  - Source:AD
-  - Source:Endpoint
-  - Stage:Credential Access
-  - Stage:Lateral Movement
-  impact: 80
   kill_chain_phases:
-  - Lateral Movement
-  message: Potential lateral movement and credential stealing via Pass the Token or
-    Pass the Hash techniques. Operation is performed via credentials of the account
-    $dest_user_id$ and observed by the logging device $origin_device_id$
+  - Exploitation
   mitre_attack_id:
   - T1550
   - T1550.002
@@ -78,17 +59,6 @@ tags:
   - PR.AT
   - PR.AC
   - PR.IP
-  observable:
-  - name: dest_user_id
-    role:
-    - Actor
-    type: User
-  - name: origin_device_id
-    role:
-    - Other
-    type: Hostname
-  product:
-  - Splunk Behavioral Analytics
   required_fields:
   - _time
   - signature_id
@@ -97,20 +67,16 @@ tags:
   - origin_device_id
   - authentication_method
   risk_score: 64
-  risk_severity: medium
   security_domain: endpoint
+  risk_severity: medium
 test:
-  name: Potential Pass the Token or Hash Observed by an Event Collecting Device -
-    SSA Unit test
+  name: Potential Pass the Token or Hash Observed by an Event Collecting Device Unit
+    Test
   tests:
-  - attack_data:
-    - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1550.002/extracts_from_real_data/ptt_pth_kerb_ntlm_anon_DC_dataset.log
-      file_name: ptt_pth_kerb_ntlm_anon_DC_dataset.log
-      source: WinEventLog:Security
-    description: Test Pass the Hash or Pass the Token Detection Observed by an Event
-      Collecting Device
-    file: endpoint/ssa___potential_pass_the_token_or_hash_observed_by_an_event_collecting_device.yml
-    name: Potential Pass the Token or Hash Observed by an Event Collecting Device
+  - name: Potential Pass the Token or Hash Observed by an Event Collecting Device
+    file: endpoint/ssa___ptt_pth_kerb_ntlm_origin_device.yml
     pass_condition: '@count_gt(0)'
-type: TTP
-version: 2
+    attack_data:
+    - file_name: ptt_pth_kerb_ntlm_anon_DC_dataset.log
+      data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1550.002/extracts_from_real_data/ptt_pth_kerb_ntlm_anon_DC_dataset.log
+      source: WinEventLog:Security

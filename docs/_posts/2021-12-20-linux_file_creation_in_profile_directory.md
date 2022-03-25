@@ -1,6 +1,8 @@
 ---
 title: "Linux File Creation In Profile Directory"
-excerpt: "Unix Shell Configuration Modification, Event Triggered Execution"
+excerpt: "Unix Shell Configuration Modification
+, Event Triggered Execution
+"
 categories:
   - Endpoint
 last_modified_at: 2021-12-20
@@ -8,11 +10,11 @@ toc: true
 toc_label: ""
 tags:
   - Unix Shell Configuration Modification
-  - Privilege Escalation
-  - Persistence
   - Event Triggered Execution
+  - Persistence
   - Privilege Escalation
   - Persistence
+  - Privilege Escalation
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -21,15 +23,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This analytic looks for suspicious file creation in /etc/profile.d directory to automatically execute scripts by shell upon boot up of a linux machine. This technique is commonly abused by adversaries, malware and red teamers as a persistence mechanism to the targeted or compromised host. This Anomaly detection is a good indicator that someone wants to run a code after boot up which can be done also by the administrator or network operator for automation purposes.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+
 - **Last Updated**: 2021-12-20
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: 46ba0082-61af-11ec-9826-acde48001122
@@ -39,9 +42,9 @@ This analytic looks for suspicious file creation in /etc/profile.d directory to 
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
-| [T1546.004](https://attack.mitre.org/techniques/T1546/004/) | Unix Shell Configuration Modification | Privilege Escalation, Persistence |
+| [T1546.004](https://attack.mitre.org/techniques/T1546/004/) | Unix Shell Configuration Modification | Persistence, Privilege Escalation |
 
-| [T1546](https://attack.mitre.org/techniques/T1546/) | Event Triggered Execution | Privilege Escalation, Persistence |
+| [T1546](https://attack.mitre.org/techniques/T1546/) | Event Triggered Execution | Persistence, Privilege Escalation |
 
 #### Search
 
@@ -82,7 +85,7 @@ Administrator or network operator can create file in profile.d folders for autom
 
 
 #### Kill Chain Phase
-* Privilege Escalation
+* Exploitation
 
 
 
@@ -92,8 +95,6 @@ Administrator or network operator can create file in profile.d folders for autom
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | A file $file_name$ is created in $file_path$ on $dest$ |
 
-
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 
@@ -107,6 +108,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.004/linux_init_profile/sysmon_linux.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.004/linux_init_profile/sysmon_linux.log)
 

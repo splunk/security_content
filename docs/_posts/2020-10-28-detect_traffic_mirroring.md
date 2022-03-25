@@ -1,6 +1,10 @@
 ---
 title: "Detect Traffic Mirroring"
-excerpt: "Hardware Additions, Automated Exfiltration, Network Denial of Service, Traffic Duplication"
+excerpt: "Hardware Additions
+, Automated Exfiltration
+, Network Denial of Service
+, Traffic Duplication
+"
 categories:
   - Network
 last_modified_at: 2020-10-28
@@ -8,31 +12,32 @@ toc: true
 toc_label: ""
 tags:
   - Hardware Additions
-  - Initial Access
   - Automated Exfiltration
-  - Exfiltration
   - Network Denial of Service
-  - Impact
   - Traffic Duplication
+  - Initial Access
+  - Exfiltration
+  - Impact
   - Exfiltration
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
 ---
 
-### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
-We have not been able to test, simulate, or build datasets for this detection. Use at your own risk. This analytic is **NOT** supported.
+###  WARNING THIS IS A EXPERIMENTAL object
+We have not been able to test, simulate, or build datasets for this object. Use at your own risk. This analytic is **NOT** supported.
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 Adversaries may leverage traffic mirroring in order to automate data exfiltration over compromised network infrastructure. Traffic mirroring is a native feature for some network devices and used for network analysis and may be configured to duplicate traffic and forward to one or more destinations for analysis by a network analyzer or other monitoring device.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+
+
 - **Last Updated**: 2020-10-28
 - **Author**: Mikael Bjerkeland, Splunk
 - **ID**: 42b3b753-5925-49c5-9742-36fa40a73990
@@ -75,7 +80,7 @@ Note that `detect_traffic_mirroring_filter` is a empty macro by default. It allo
 
 
 #### How To Implement
-This search uses a standard SPL query on logs from Cisco Network devices. The network devices must log with a severity level of minimum &#34;5 - notification&#34;. The search also requires that the Cisco Networks Add-on for Splunk (https://splunkbase.splunk.com/app/1467) is used to parse the logs from the Cisco network devices and that the devices have been configured according to the documentation of the Cisco Networks Add-on. Also note that an attacker may disable logging from the device prior to enabling traffic mirroring.
+This search uses a standard SPL query on logs from Cisco Network devices. The network devices must log with a severity level of minimum "5 - notification". The search also requires that the Cisco Networks Add-on for Splunk (https://splunkbase.splunk.com/app/1467) is used to parse the logs from the Cisco network devices and that the devices have been configured according to the documentation of the Cisco Networks Add-on. Also note that an attacker may disable logging from the device prior to enabling traffic mirroring.
 
 #### Known False Positives
 This search will return false positives for any legitimate traffic captures by network administrators.
@@ -90,8 +95,12 @@ This search will return false positives for any legitimate traffic captures by n
 
 
 
+#### RBA
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 25.0 | 50 | 50 | tbd |
+
 
 
 
@@ -101,7 +110,6 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

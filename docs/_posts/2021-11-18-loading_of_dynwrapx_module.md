@@ -1,6 +1,8 @@
 ---
 title: "Loading Of Dynwrapx Module"
-excerpt: "Process Injection, Dynamic-link Library Injection"
+excerpt: "Process Injection
+, Dynamic-link Library Injection
+"
 categories:
   - Endpoint
 last_modified_at: 2021-11-18
@@ -8,9 +10,9 @@ toc: true
 toc_label: ""
 tags:
   - Process Injection
+  - Dynamic-link Library Injection
   - Defense Evasion
   - Privilege Escalation
-  - Dynamic-link Library Injection
   - Defense Evasion
   - Privilege Escalation
   - Splunk Enterprise
@@ -21,15 +23,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 DynamicWrapperX is an ActiveX component that can be used in a script to call Windows API functions, but it requires the dynwrapx.dll to be installed and registered. With that, registering or loading dynwrapx.dll to a host is highly suspicious. In most instances when it is used maliciously, the best way to triage is to review parallel processes and pivot on the process_guid. Review the registry for any suspicious modifications meant to load dynwrapx.dll. Identify any suspicious module loads of dynwrapx.dll. This detection will return and identify the processes that invoke vbs/wscript/cscript.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+
 - **Last Updated**: 2021-11-18
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: eac5e8ba-4857-11ec-9371-acde48001122
@@ -95,8 +98,6 @@ False positives should be limited, however it is possible to filter by Processes
 | 80.0 | 80 | 100 | dynwrapx.dll loaded by process $process_name$ on $Computer$ |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -112,6 +113,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos_dynwrapx/sysmon_dynwraper.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos_dynwrapx/sysmon_dynwraper.log)
 

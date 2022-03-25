@@ -31,7 +31,6 @@ references:
 tags:
   analytic_story:
   - Ransomware
-  automated_detection_testing: passed
   confidence: 50
   context:
   - Source:Endpoint
@@ -55,7 +54,7 @@ tags:
     role:
     - Victim
   - name: parent_process_name
-    type: Parent Process
+    type: Process
     role:
     - Parent Process
   - name: process_name
@@ -81,3 +80,4 @@ tags:
   - Processes.parent_process_id
   risk_score: 35
   security_domain: endpoint
+  asset_type: Endpoint

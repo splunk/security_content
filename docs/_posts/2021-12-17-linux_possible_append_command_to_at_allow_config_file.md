@@ -1,6 +1,8 @@
 ---
 title: "Linux Possible Append Command To At Allow Config File"
-excerpt: "At (Linux), Scheduled Task/Job"
+excerpt: "At (Linux)
+, Scheduled Task/Job
+"
 categories:
   - Endpoint
 last_modified_at: 2021-12-17
@@ -8,10 +10,10 @@ toc: true
 toc_label: ""
 tags:
   - At (Linux)
+  - Scheduled Task/Job
   - Execution
   - Persistence
   - Privilege Escalation
-  - Scheduled Task/Job
   - Execution
   - Persistence
   - Privilege Escalation
@@ -23,15 +25,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This analytic looks for suspicious commandline that may use to append user entry to /etc/at.allow or /etc/at.deny. These 2 files are commonly abused by malware, adversaries or red teamers to persist on the targeted or compromised host. These config file can restrict user that can only execute at application (another schedule task application in linux). attacker can create a user or add the compromised username to that config file to execute at to schedule it malicious code. This anomaly detection can be a good indicator to investigate further the entry in created config file and who created it to verify if it is a false positive.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+
 - **Last Updated**: 2021-12-17
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: 7bc20606-5f40-11ec-a586-acde48001122
@@ -86,7 +89,7 @@ Administrator or network operator can use this commandline for automation purpos
 
 
 #### Kill Chain Phase
-* Privilege Escalation
+* Exploitation
 
 
 
@@ -96,8 +99,6 @@ Administrator or network operator can use this commandline for automation purpos
 | ----------- | ----------- |--------------|--------------|
 | 9.0 | 30 | 30 | A commandline $process$ that may modify at allow config file in $dest$ |
 
-
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 
@@ -111,6 +112,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.001/at_execution/sysmon_linux.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.001/at_execution/sysmon_linux.log)
 

@@ -1,7 +1,7 @@
 name: SearchProtocolHost with no Command Line with Network
 id: b690df8c-a145-11eb-a38b-acde48001122
-version: 2
-date: '2021-10-13'
+version: 3
+date: '2022-03-15'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
@@ -14,14 +14,14 @@ description: The following analytic identifies searchprotocolhost.exe with no co
   related to credential dumping or file writes. searchprotocolhost.exe is natively
   found in C:\Windows\system32 and C:\Windows\syswow64.
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
-  where Processes.process_name=searchprotocolhost.exe by _time span=1h  Processes.process_guid
+  where Processes.process_name=searchprotocolhost.exe by _time span=1h  Processes.process_id
   Processes.process_name Processes.dest Processes.process_path Processes.process Processes.parent_process_name
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | regex process="(searchprotocolhost\.exe.{0,4}$)" | join  process_guid [| tstats
-  `security_content_summariesonly` count FROM datamodel=Endpoint.Ports where Ports.dest_port
-  !="0" by Ports.process_guid Ports.dest Ports.dest_port | `drop_dm_object_name(Ports)`
-  | rename  dest as connection_to_CNC] | table _time dest parent_process_name process_name
-  process_path process process_guid connection_to_CNC dest_port | `searchprotocolhost_with_no_command_line_with_network_filter`'
+  | regex process="(?i)(searchprotocolhost\.exe.{0,4}$)" | join  process_id [| tstats `security_content_summariesonly`
+  count FROM datamodel=Network_Traffic.All_Traffic where All_Traffic.dest_port != 0 by All_Traffic.process_id
+  All_Traffic.dest All_Traffic.dest_port | `drop_dm_object_name(All_Traffic)` | rename dest as C2 ]
+  | table _time dest parent_process_name process_name process_path process process_id dest_port C2 
+  | `searchprotocolhost_with_no_command_line_with_network_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` and `ports` node.
@@ -32,12 +32,10 @@ references:
 tags:
   analytic_story:
   - Cobalt Strike
-  automated_detection_testing: passed
   confidence: 100
   context:
-  - source:endpoint
-  - stage: Defense Evasion
-  - Privilege Escalation
+  - Source:Endpoint
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon_searchprotocolhost.log
   impact: 70
@@ -53,7 +51,7 @@ tags:
     role:
     - Victim
   - name: process_name
-    type: processname
+    type: Process Name
     role:
     - Attacker
   product:
@@ -69,3 +67,4 @@ tags:
   - process_path
   risk_score: 70
   security_domain: endpoint
+  asset_type: Endpoint

@@ -1,6 +1,7 @@
 ---
 title: "Suspicious GPUpdate no Command Line Arguments"
-excerpt: "Process Injection"
+excerpt: "Process Injection
+"
 categories:
   - Endpoint
 last_modified_at: 2021-09-20
@@ -24,7 +25,7 @@ tags:
 
 The following analytic identifies gpupdate.exe with no command line arguments. It is unusual for gpupdate.exe to execute with no command line arguments present. This particular behavior is common with malicious software, including Cobalt Strike. During investigation, identify any network connections and parallel processes. Identify any suspicious module loads related to credential dumping or file writes. gpupdate.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-09-20
@@ -52,8 +53,8 @@ The following analytic identifies gpupdate.exe with no command line arguments. I
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_gpupdate](https://github.com/splunk/security_content/blob/develop/macros/process_gpupdate.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [process_gpupdate](https://github.com/splunk/security_content/blob/develop/macros/process_gpupdate.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `suspicious_gpupdate_no_command_line_arguments_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -95,8 +96,6 @@ Limited false positives may be present in small environments. Tuning may be requ
 | 49.0 | 70 | 70 | Suspicious gpupdate.exe process with no command line arguments executed on $dest$ by $user$ |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -109,6 +108,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon.log)
 

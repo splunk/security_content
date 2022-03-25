@@ -1,6 +1,8 @@
 ---
 title: "Detect Empire with PowerShell Script Block Logging"
-excerpt: "Command and Scripting Interpreter, PowerShell"
+excerpt: "Command and Scripting Interpreter
+, PowerShell
+"
 categories:
   - Endpoint
 last_modified_at: 2021-06-09
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - Command and Scripting Interpreter
-  - Execution
   - PowerShell
+  - Execution
   - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -18,7 +20,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -26,9 +28,10 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 This analytic identifies the common PowerShell stager used by PowerShell-Empire. Each stager that may use PowerShell all uses the same pattern. The initial HTTP will be base64 encoded and use `system.net.webclient`. Note that some obfuscation may evade the analytic. \
 During triage, review parallel processes using an EDR product or 4688 events. It will be important to understand the timeline of events around this activity. Review the entire logged PowerShell script block.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+
+
 - **Last Updated**: 2021-06-09
 - **Author**: Michael Haag, Splunk
 - **ID**: bc1dc6b8-c954-11eb-bade-acde48001122
@@ -90,8 +93,6 @@ False positives may only pertain to it not being related to Empire, but another 
 | 81.0 | 90 | 90 | The following behavior was identified and typically related to PowerShell-Empire on $ComputerName$ by $User$. |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -107,6 +108,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/windows-powershell.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/windows-powershell.log)
 

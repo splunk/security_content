@@ -1,6 +1,7 @@
 ---
 title: "O365 Excessive Authentication Failures Alert"
-excerpt: "Brute Force"
+excerpt: "Brute Force
+"
 categories:
   - Cloud
 last_modified_at: 2022-02-18
@@ -9,7 +10,6 @@ toc_label: ""
 tags:
   - Brute Force
   - Credential Access
-  - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -17,15 +17,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search detects when an excessive number of authentication failures occur this search also includes attempts against MFA prompt codes
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
-- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+
+
 - **Last Updated**: 2022-02-18
 - **Author**: Rod Soto, Splunk
 - **ID**: d441364c-349c-453b-b55f-12eccab67cf9
@@ -76,7 +77,7 @@ The threshold for alert is above 10 attempts and this should reduce the number o
 
 
 #### Kill Chain Phase
-* Not Applicable
+* Exploitation
 
 
 
@@ -86,8 +87,6 @@ The threshold for alert is above 10 attempts and this should reduce the number o
 | ----------- | ----------- |--------------|--------------|
 | 64.0 | 80 | 80 | User $user$ has caused excessive number of authentication failures from $src_ip$ using UserAgent $UserAgent$. |
 
-
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 
@@ -100,6 +99,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110/o365_brute_force_login/o365_brute_force_login.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110/o365_brute_force_login/o365_brute_force_login.json)
 

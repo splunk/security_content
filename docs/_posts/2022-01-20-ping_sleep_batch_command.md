@@ -1,6 +1,8 @@
 ---
 title: "Ping Sleep Batch Command"
-excerpt: "Virtualization/Sandbox Evasion, Time Based Evasion"
+excerpt: "Virtualization/Sandbox Evasion
+, Time Based Evasion
+"
 categories:
   - Endpoint
 last_modified_at: 2022-01-20
@@ -8,9 +10,9 @@ toc: true
 toc_label: ""
 tags:
   - Virtualization/Sandbox Evasion
+  - Time Based Evasion
   - Defense Evasion
   - Discovery
-  - Time Based Evasion
   - Defense Evasion
   - Discovery
   - Splunk Enterprise
@@ -21,15 +23,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This analytic will identify the possible execution of ping sleep batch commands. This technique was seen in several malware samples and is used to trigger sleep times without explicitly calling sleep functions or commandlets. The goal is to delay the execution of malicious code and bypass detection or sandbox analysis. This  detection can be a good indicator of a process delaying its execution for malicious purposes.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2022-01-20
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: ce058d6c-79f2-11ec-b476-acde48001122
@@ -56,9 +59,9 @@ This analytic will identify the possible execution of ping sleep batch commands.
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_ping](https://github.com/splunk/security_content/blob/develop/macros/process_ping.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [process_ping](https://github.com/splunk/security_content/blob/develop/macros/process_ping.yml)
 
 Note that `ping_sleep_batch_command_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -99,8 +102,6 @@ Administrator or network operator may execute this command. Please update the fi
 | 36.0 | 60 | 60 | suspicious $process$ commandline run in $dest$ |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -112,6 +113,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1497.003/ping_sleep/sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1497.003/ping_sleep/sysmon.log)
 

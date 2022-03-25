@@ -1,6 +1,8 @@
 ---
 title: "Windows Possible Credential Dumping"
-excerpt: "LSASS Memory, OS Credential Dumping"
+excerpt: "LSASS Memory
+, OS Credential Dumping
+"
 categories:
   - Endpoint
 last_modified_at: 2022-01-27
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - LSASS Memory
-  - Credential Access
   - OS Credential Dumping
+  - Credential Access
   - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -18,7 +20,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -28,9 +30,10 @@ CallTrace Stack trace of where open process is called. Included is the DLL and t
 dbgcore.dll or dbghelp.dll  are two core Windows debug DLLs that have minidump functions which provide a way for applications to produce crashdump files that contain a useful subset of the entire process context. \
 The idea behind using ntdll.dll is to blend in by using native api of ntdll.dll. For example in sekurlsa module there are many ntdll exported api, like RtlCopyMemory, used to execute this module which is related to lsass dumping.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+
+
 - **Last Updated**: 2022-01-27
 - **Author**: Michael Haag, Splunk
 - **ID**: e4723b92-7266-11ec-af45-acde48001122
@@ -97,8 +100,6 @@ False positives will occur based on GrantedAccess 0x1010 and 0x1400, filter base
 | 64.0 | 80 | 80 | A process, $SourceImage$, has loaded $ImageLoaded$ that are typically related to credential dumping on $dest$. Review for further details. |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -114,6 +115,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.001/atomic_red_team/windows-sysmon_creddump.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.001/atomic_red_team/windows-sysmon_creddump.log)
 

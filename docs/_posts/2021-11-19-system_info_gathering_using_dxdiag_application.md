@@ -1,6 +1,7 @@
 ---
 title: "System Info Gathering Using Dxdiag Application"
-excerpt: "Gather Victim Host Information"
+excerpt: "Gather Victim Host Information
+"
 categories:
   - Endpoint
 last_modified_at: 2021-11-19
@@ -17,15 +18,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This analytic is to detect a suspicious dxdiag.exe process command-line execution. Dxdiag is used to collect the system info of the target host. This technique has been used by Remcos RATS, various actors, and other malware to collect information as part of the recon or collection phase of an attack. This behavior should rarely be seen in a corporate network, but this command line can be used by a network administrator to audit host machine specifications. Thus in some rare cases, this detection will contain false positives in its results. To triage further, analyze what commands were passed after it pipes out the result to a file for further processing.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+
 - **Last Updated**: 2021-11-19
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: f92d74f2-4921-11ec-b685-acde48001122
@@ -93,8 +95,6 @@ This commandline can be used by a network administrator to audit host machine sp
 | 25.0 | 50 | 50 | dxdiag.exe process with commandline $process$ on $dest$ |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -106,6 +106,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/t1592/host_info_dxdiag/sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/t1592/host_info_dxdiag/sysmon.log)
 

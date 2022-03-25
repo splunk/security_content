@@ -1,6 +1,8 @@
 ---
 title: "Gsuite Outbound Email With Attachment To External Domain"
-excerpt: "Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol, Exfiltration Over Alternative Protocol"
+excerpt: "Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol
+, Exfiltration Over Alternative Protocol
+"
 categories:
   - Cloud
 last_modified_at: 2021-08-17
@@ -8,26 +10,26 @@ toc: true
 toc_label: ""
 tags:
   - Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol
-  - Exfiltration
   - Exfiltration Over Alternative Protocol
+  - Exfiltration
   - Exfiltration
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Dev Sec Ops Analytics
 ---
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
-This search is to detect a suspicious outbound e-mail from internal email to external email domain. This can be a good hunting query to monitor insider or outbound email traffic for not common domain e-mail. The idea is to parse the domain of destination email check if there is a minimum outbound traffic &lt; 20 with attachment.
+This search is to detect a suspicious outbound e-mail from internal email to external email domain. This can be a good hunting query to monitor insider or outbound email traffic for not common domain e-mail. The idea is to parse the domain of destination email check if there is a minimum outbound traffic < 20 with attachment.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Dev Sec Ops Analytics
-- **Datamodel**: 
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+
+
 - **Last Updated**: 2021-08-17
 - **Author**: Teoderick Contreras, Stanislav Miskovic, Splunk
 - **ID**: dc4dc3a8-ff54-11eb-8bf7-acde48001122
@@ -60,8 +62,8 @@ This search is to detect a suspicious outbound e-mail from internal email to ext
 
 #### Macros
 The SPL above uses the following Macros:
-* [gsuite_gmail](https://github.com/splunk/security_content/blob/develop/macros/gsuite_gmail.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [gsuite_gmail](https://github.com/splunk/security_content/blob/develop/macros/gsuite_gmail.yml)
 
 Note that `gsuite_outbound_email_with_attachment_to_external_domain_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -91,8 +93,6 @@ network admin and normal user may send this file attachment as part of their day
 | 9.0 | 30 | 30 | suspicious email from $source.address$ to $destination{}.address$ |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -104,6 +104,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/gsuite_outbound_email_to_external/gsuite_external_domain.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/gsuite_outbound_email_to_external/gsuite_external_domain.log)
 

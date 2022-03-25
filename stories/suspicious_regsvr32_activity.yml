@@ -27,7 +27,7 @@ references:
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.010/T1218.010.md
 - https://lolbas-project.github.io/lolbas/Binaries/Regsvr32/
 tags:
-  analytics_story: Suspicious Regsvr32 Activity
+  analytic_story: Suspicious Regsvr32 Activity
   category:
   - Adversary Tactics
   usecase: Advanced Threat Detection

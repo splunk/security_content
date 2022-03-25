@@ -1,26 +1,10 @@
-author: Teoderick Contreras, Splunk
-datamodel:
-- Endpoint_Processes
-date: '2021-11-30'
+name: Disable Net User Account
+id: ba858b08-d26c-11eb-af9b-acde48001122
+version: 3
 description: This analytic will identify a suspicious command-line that disables a
   user account using the native `net.exe` or `net1.exe` utility to Windows. This technique
   may used by the adversaries to interrupt availability of accounts and continue the
   impact against the organization.
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA. Tune and filter known instances where renamed net.exe/net1.exe may be
-  used.
-id: ba858b08-d26c-11eb-af9b-acde48001122
-known_false_positives: System administrators or automated scripts may disable an account
-  but not a common practice. Filter as needed.
-name: Disable Net User Account
-product:
-- Splunk Behavioral Analytics
-references:
-- https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
-risk_message: An instance of $parent_process_name$ spawning $process_name$ was identified
-  on endpoint $dest_device_id$ by user $dest_user_id$ attempting to disable accounts.
 search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
   "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"),
   "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"),
@@ -34,6 +18,15 @@ search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map
   body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name,
   "parent_process_name", parent_process_name, "process_path", process_path]) | into
   write_ssa_detected_events();'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA. Tune and filter known instances where renamed net.exe/net1.exe may be
+  used.
+known_false_positives: System administrators or automated scripts may disable an account
+  but not a common practice. Filter as needed.
+references:
+- https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
 tags:
   analytic_story:
   - XMRig
@@ -41,42 +34,14 @@ tags:
   cis20:
   - CIS 4
   - CIS 16
-  confidence: 70
-  context:
-  - Source:Endpoint
-  - stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/net_user_dis.log
-  impact: 70
   kill_chain_phases:
   - Exploitation
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified
-    on endpoint $dest_device_id$ by user $dest_user_id$ attempting to disable accounts.
   mitre_attack_id:
   - T1489
   - T1078
   nist:
   - PR.AC
   - PR.IP
-  observable:
-  - name: user
-    role:
-    - Victim
-    type: User
-  - name: dest_device_id
-    role:
-    - Victim
-    type: Hostname
-  - name: parent_process_name
-    role:
-    - Parent Process
-    type: Parent Process
-  - name: process_name
-    role:
-    - Child Process
-    type: Process
-  product:
-  - Splunk Behavioral Analytics
   required_fields:
   - _time
   - dest_device_id
@@ -87,18 +52,15 @@ tags:
   - process
   - cmd_line
   risk_score: 49
-  risk_severity: low
   security_domain: endpoint
+  risk_severity: low
 test:
   name: Disable Net User Account Unit Test
   tests:
-  - attack_data:
-    - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/net_user_dis.log
-      file_name: net_user_dis.log
-      source: WinEventLog:Security
-    description: Test for usage of net.exe or net1.exe to disable net user
+  - name: Disable Net User Account
     file: endpoint/ssa___disable_net_user_account.yml
-    name: Disable Net User Account
     pass_condition: '@count_gt(0)'
-type: TTP
-version: 3
+    attack_data:
+    - file_name: net_user_dis.log
+      data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/net_user_dis.log
+      source: WinEventLog:Security

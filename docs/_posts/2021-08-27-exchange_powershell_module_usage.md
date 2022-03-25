@@ -1,6 +1,8 @@
 ---
 title: "Exchange PowerShell Module Usage"
-excerpt: "Command and Scripting Interpreter, PowerShell"
+excerpt: "Command and Scripting Interpreter
+, PowerShell
+"
 categories:
   - Endpoint
 last_modified_at: 2021-08-27
@@ -8,19 +10,19 @@ toc: true
 toc_label: ""
 tags:
   - Command and Scripting Interpreter
-  - Execution
   - PowerShell
+  - Execution
   - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
 ---
 
-### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
-We have not been able to test, simulate, or build datasets for this detection. Use at your own risk. This analytic is **NOT** supported.
+###  WARNING THIS IS A EXPERIMENTAL object
+We have not been able to test, simulate, or build datasets for this object. Use at your own risk. This analytic is **NOT** supported.
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -29,9 +31,10 @@ Inherently, the usage of the modules is not malicious, but reviewing parallel pr
 Module - New-MailboxExportRequest will begin the process of exporting contents of a primary mailbox or archive to a .pst file. \
 Module - New-managementroleassignment can assign a management role to a management role group, management role assignment policy, user, or universal security group (USG).
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+
+
 - **Last Updated**: 2021-08-27
 - **Author**: Michael Haag
 - **ID**: 2d10095e-05ae-11ec-8fdf-acde48001122
@@ -95,8 +98,6 @@ Administrators or power users may use this PowerShell commandlet for troubleshoo
 | 15.0 | 30 | 50 | Local user discovery enumeration using PowerShell on $dest$ by $user$ |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -112,7 +113,6 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

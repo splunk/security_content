@@ -1,29 +1,11 @@
-author: Jose Hernandez, Michael Haag, Splunk
-datamodel:
-- Endpoint_Processes
-date: '2022-02-17'
+name: TCP Command and Scripting Interpreter Outbound LDAP Traffic
+id: 4d16a90c-d1a9-4d17-8156-d0db0c73c449
+version: 1
 description: Malicious actors often abuse misconfigured LDAP servers or applications
   that use the LDAP servers in organizations. Outbound LDAP traffic should not be
   allowed outbound through your perimeter firewall. This search will help determine
   if you have any LDAP connections to IP addresses outside of private (RFC1918) address
   space.
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on network traffic, specifically data that populates the Network_Traffic datamodel.
-  To develop this analytic we used specifically Zeek/Bro conn.log and PAN Traffic
-  events.
-id: 4d16a90c-d1a9-4d17-8156-d0db0c73c449
-known_false_positives: Unknown at this moment. Outbound LDAP traffic should not be
-  allowed outbound through your perimeter firewall. Please check those servers to
-  verify if the activity is legitimate.
-name: TCP Command and Scripting Interpreter Outbound LDAP Traffic
-product:
-- Splunk Behavioral Analytics
-references:
-- https://www.govcert.ch/blog/zero-day-exploit-targeting-popular-java-library-log4j/
-- https://www.splunk.com/en_us/blog/security/simulating-detecting-and-responding-to-log4shell-with-splunk.html
-- https://www.cisa.gov/uscert/ncas/alerts/aa21-356a
-risk_message: An outbound LDAP connection from $src_ip$ in your infrastructure connecting
-  to dest ip $dest_ip$
 search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
   "_time"), "string", null)), dest_port=map_get(input_event, "dest_port"), event_id=ucast(map_get(input_event,
   "event_id"), "string", null), dest_ip=ucast(map_get(input_event, "dest_device_ips"),
@@ -34,43 +16,29 @@ search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map
   "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
   "string", null)), body=create_map(["event_id", event_id, "dest_port", dest_port,
   "dest_ip", dest_ip]) | into write_ssa_detected_events();'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on network traffic, specifically data that populates the Network_Traffic datamodel.
+  To develop this analytic we used specifically Zeek/Bro conn.log and PAN Traffic
+  events.
+known_false_positives: Unknown at this moment. Outbound LDAP traffic should not be
+  allowed outbound through your perimeter firewall. Please check those servers to
+  verify if the activity is legitimate.
+references:
+- https://www.govcert.ch/blog/zero-day-exploit-targeting-popular-java-library-log4j/
+- https://www.splunk.com/en_us/blog/security/simulating-detecting-and-responding-to-log4shell-with-splunk.html
+- https://www.cisa.gov/uscert/ncas/alerts/aa21-356a
 tags:
   analytic_story:
   - Log4Shell CVE-2021-44228
   cis20:
   - CIS 13
-  confidence: 70
-  context:
-  - Scope:Outbound
-  - Source:Endpoint
-  - Stage:Execution
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/log4shell_ldap_traffic/pantraffic.log
-  impact: 50
   kill_chain_phases:
-  - Execution
-  message: An outbound LDAP connection from $src_ip$ in your infrastructure connecting
-    to dest ip $dest_ip$
+  - Exploitation
   mitre_attack_id:
   - T1059
   nist:
   - PR.PT
   - DE.CM
-  observable:
-  - name: dest_user_id
-    role:
-    - Victim
-    type: User
-  - name: dest_device_id
-    role:
-    - Victim
-    type: Hostname
-  - name: parent_process_name
-    role:
-    - Parent Process
-    type: Parent Process
-  product:
-  - Splunk Behavioral Analytics
   required_fields:
   - _time
   - dest_device_id
@@ -81,19 +49,15 @@ tags:
   - process
   - cmd_line
   risk_score: 35
-  risk_severity: low
   security_domain: network
+  risk_severity: low
 test:
   name: TCP Command and Scripting Interpreter Outbound LDAP Traffic Unit Test
   tests:
-  - attack_data:
-    - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/log4shell_ldap_traffic/pantraffic.log
-      file_name: pantraffic.txt
-      source: pan:traffic
-      sourcetype: pan:traffic
-    description: Test PAN Traffic Logs LDAP outbound connection
+  - name: TCP Command and Scripting Interpreter Outbound LDAP Traffic
     file: network/ssa___tcp_command_and_scripting_interpreter_outbound_ldap_traffic.yml
-    name: PAN Traffic Logs
     pass_condition: '@count_gt(0)'
-type: Anomaly
-version: 1
+    attack_data:
+    - file_name: pantraffic.txt
+      data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/log4shell_ldap_traffic/pantraffic.log
+      source: pan:traffic

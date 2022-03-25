@@ -1,6 +1,7 @@
 ---
 title: "Kubernetes Nginx Ingress LFI"
-excerpt: "Exploitation for Credential Access"
+excerpt: "Exploitation for Credential Access
+"
 categories:
   - Cloud
 last_modified_at: 2021-08-20
@@ -12,20 +13,20 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Dev Sec Ops Analytics
 ---
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search uses the Kubernetes logs from a nginx ingress controller to detect local file inclusion attacks.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Dev Sec Ops Analytics
-- **Datamodel**: 
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+
+
 - **Last Updated**: 2021-08-20
 - **Author**: Patrick Bareiss, Splunk
 - **ID**: 0f83244b-425b-4528-83db-7a88c5f66e48
@@ -64,7 +65,7 @@ Note that `kubernetes_nginx_ingress_lfi_filter` is a empty macro by default. It 
 #### Lookups
 The SPL above uses the following Lookups:
 
-* [local_file_inclusion_paths](https://github.com/splunk/security_content/blob/develop/lookups/local_file_inclusion_paths.yml) with [data](https://github.com/splunk/security_content/blob/develop/lookups/local_file_inclusion_paths.csv)
+* [local_file_inclusion_paths](https://github.com/splunk/security_content/blob/develop/lookups/local_file_inclusion_paths.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/local_file_inclusion_paths.csv)
 
 #### Required field
 * raw
@@ -92,8 +93,6 @@ unknown
 | 49.0 | 70 | 70 | Local File Inclusion Attack detected on $host$ |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -106,6 +105,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1212/kubernetes_nginx_lfi_attack/kubernetes_nginx_lfi_attack.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1212/kubernetes_nginx_lfi_attack/kubernetes_nginx_lfi_attack.log)
 

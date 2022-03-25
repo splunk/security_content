@@ -1,6 +1,7 @@
 ---
 title: "Common Ransomware Notes"
-excerpt: "Data Destruction"
+excerpt: "Data Destruction
+"
 categories:
   - Endpoint
 last_modified_at: 2020-11-09
@@ -17,15 +18,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The search looks for files created with names matching those typically used in ransomware notes that tell the victim how to get their data back.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+
 - **Last Updated**: 2020-11-09
 - **Author**: David Dorsey, Splunk
 - **ID**: ada0f478-84a8-4641-a3f1-d82362d6bd71
@@ -57,11 +59,6 @@ The SPL above uses the following Macros:
 
 Note that `common_ransomware_notes_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
-#### Lookups
-The SPL above uses the following Lookups:
-
-* [ransomware_notes_lookup](https://github.com/splunk/security_content/blob/develop/lookups/ransomware_notes_lookup.yml) with [data](https://github.com/splunk/security_content/blob/develop/lookups/ransomware_notes.csv)
-
 #### Required field
 * _time
 * Filesystem.user
@@ -74,7 +71,7 @@ The SPL above uses the following Lookups:
 You must be ingesting data that records file-system activity from your hosts to populate the Endpoint Filesystem data-model node. This is typically populated via endpoint detection-and-response product, such as Carbon Black, or via other endpoint data sources, such as Sysmon. The data used for this search is typically generated via logs that report file-system reads and writes.
 
 #### Known False Positives
-It&#39;s possible that a legitimate file could be created with the same name used by ransomware note files.
+It's possible that a legitimate file could be created with the same name used by ransomware note files.
 
 #### Associated Analytic story
 * [SamSam Ransomware](/stories/samsam_ransomware)
@@ -95,8 +92,6 @@ It&#39;s possible that a legitimate file could be created with the same name use
 | 90.0 | 90 | 100 | A file - $file_name$ was written to disk on endpoint $dest$ by user $user$, this is indicative of a known ransomware note file and should be reviewed immediately. |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -105,6 +100,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/ransomware_notes/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/ransomware_notes/windows-sysmon.log)
 

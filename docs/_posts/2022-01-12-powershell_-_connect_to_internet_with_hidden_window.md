@@ -1,6 +1,8 @@
 ---
 title: "PowerShell - Connect To Internet With Hidden Window"
-excerpt: "PowerShell, Command and Scripting Interpreter"
+excerpt: "PowerShell
+, Command and Scripting Interpreter
+"
 categories:
   - Endpoint
 last_modified_at: 2022-01-12
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - PowerShell
-  - Execution
   - Command and Scripting Interpreter
+  - Execution
   - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -20,15 +22,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following hunting analytic identifies PowerShell commands utilizing the WindowStyle parameter to hide the window on the compromised endpoint. This combination of command-line options is suspicious because it is overriding the default PowerShell execution policy, attempts to hide its activity from the user, and connects to the Internet. Removed in this version of the query is New-Object. The analytic identifies all variations of WindowStyle, as PowerShell allows the ability to shorten the parameter. For example w, win, windowsty and so forth. In addition, through our research it was identified that PowerShell will interpret different command switch types beyond the hyphen. We have added endash, emdash, horizontal bar, and forward slash.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+
 - **Last Updated**: 2022-01-12
 - **Author**: David Dorsey, Michael Haag Splunk
 - **ID**: ee18ed37-0802-4268-9435-b3b91aaa18db
@@ -52,17 +55,17 @@ The following hunting analytic identifies PowerShell commands utilizing the Wind
 | `security_content_ctime(lastTime)` 
 | where match(process,"(?i)[\-
 |\/
-|–
-|—
-|―]w(in*d*o*w*s*t*y*l*e*)*\s+[^-]") 
+|
+|
+|]w(in*d*o*w*s*t*y*l*e*)*\s+[^-]") 
 | `powershell___connect_to_internet_with_hidden_window_filter`
 ```
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_powershell](https://github.com/splunk/security_content/blob/develop/macros/process_powershell.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [process_powershell](https://github.com/splunk/security_content/blob/develop/macros/process_powershell.yml)
 
 Note that `powershell_-_connect_to_internet_with_hidden_window_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -76,10 +79,10 @@ Note that `powershell_-_connect_to_internet_with_hidden_window_filter` is a empt
 
 
 #### How To Implement
-You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the &#34;process&#34; field in the Endpoint data model.
+You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the "process" field in the Endpoint data model.
 
 #### Known False Positives
-Legitimate process can have this combination of command-line options, but it&#39;s not common.
+Legitimate process can have this combination of command-line options, but it's not common.
 
 #### Associated Analytic story
 * [Malicious PowerShell](/stories/malicious_powershell)
@@ -89,7 +92,7 @@ Legitimate process can have this combination of command-line options, but it&#39
 
 
 #### Kill Chain Phase
-* Command and Control
+* Command & Control
 * Actions on Objectives
 
 
@@ -99,9 +102,6 @@ Legitimate process can have this combination of command-line options, but it&#39
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 81.0 | 90 | 90 | PowerShell processes $process$ started with parameters to modify the execution policy of the run, run in a hidden window, and connect to the Internet on host $dest$ executed by user $user$. |
-
-
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 #### CVE
@@ -125,6 +125,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/hidden_powershell/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/hidden_powershell/windows-sysmon.log)
 

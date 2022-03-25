@@ -1,6 +1,8 @@
 ---
 title: "Office Product Spawning Wmic"
-excerpt: "Phishing, Spearphishing Attachment"
+excerpt: "Phishing
+, Spearphishing Attachment
+"
 categories:
   - Endpoint
 last_modified_at: 2021-09-16
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - Phishing
-  - Initial Access
   - Spearphishing Attachment
+  - Initial Access
   - Initial Access
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -19,15 +21,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following detection identifies the latest behavior utilized by Ursnif malware family. This detection identifies any Windows Office Product spawning `wmic.exe`. In malicious instances, the command-line of `wmic.exe` will contain `wmic process call create`. In addition, Threat Research has released a detection identifying the use of `wmic process call create` on the command-line of `wmic.exe`. In this instance, we narrow our detection down to the Office suite as a parent process. During triage, review all file modifications. Capture and analyze any artifacts on disk. The Office Product, or `wmic.exe` will have reached out to a remote destination, capture and block the IPs or domain. Review additional parallel processes for further activity.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2021-09-16
 - **Author**: Michael Haag, Splunk
 - **ID**: ffc236d6-a6c9-11eb-95f1-acde48001122
@@ -54,9 +57,9 @@ The following detection identifies the latest behavior utilized by Ursnif malwar
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_wmic](https://github.com/splunk/security_content/blob/develop/macros/process_wmic.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [process_wmic](https://github.com/splunk/security_content/blob/develop/macros/process_wmic.yml)
 
 Note that `office_product_spawning_wmic_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -98,8 +101,6 @@ No false positives known. Filter as needed.
 | 63.0 | 70 | 90 | office parent process $parent_process_name$ will execute a suspicious child process $process_name$ with process id $process_id$ in host $dest$ |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -113,6 +114,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon_macros.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon_macros.log)
 

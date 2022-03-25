@@ -1,6 +1,8 @@
 ---
 title: "Office Product Writing cab or inf"
-excerpt: "Phishing, Spearphishing Attachment"
+excerpt: "Phishing
+, Spearphishing Attachment
+"
 categories:
   - Endpoint
 last_modified_at: 2021-09-10
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - Phishing
-  - Initial Access
   - Spearphishing Attachment
+  - Initial Access
   - Initial Access
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -20,15 +22,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following analytic identifies behavior related to CVE-2021-40444. Whereas the malicious document will load ActiveX and download the remote payload (.inf, .cab). During triage, review parallel processes and further activity on endpoint to identify additional patterns. Retrieve the file modifications and analyze further.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+
 - **Last Updated**: 2021-09-10
 - **Author**: Michael Haag, Splunk
 - **ID**: f48cd1d4-125a-11ec-a447-acde48001122
@@ -96,9 +99,6 @@ The query is structured in a way that `action` (read, create) is not defined. Re
 | 80.0 | 80 | 100 | An instance of $process_name$ was identified on $dest$ writing an inf or cab file to this. This is not typical of $process_name$. |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
-
 #### CVE
 
 | ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
@@ -119,6 +119,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon_cabinf.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon_cabinf.log)
 

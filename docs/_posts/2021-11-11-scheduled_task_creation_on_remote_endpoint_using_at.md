@@ -1,6 +1,8 @@
 ---
 title: "Scheduled Task Creation on Remote Endpoint using At"
-excerpt: "Scheduled Task/Job, At (Windows)"
+excerpt: "Scheduled Task/Job
+, At (Windows)
+"
 categories:
   - Endpoint
 last_modified_at: 2021-11-11
@@ -8,10 +10,10 @@ toc: true
 toc_label: ""
 tags:
   - Scheduled Task/Job
+  - At (Windows)
   - Execution
   - Persistence
   - Privilege Escalation
-  - At (Windows)
   - Execution
   - Persistence
   - Privilege Escalation
@@ -23,15 +25,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This analytic looks for the execution of `at.exe` with command-line arguments utilized to create a Scheduled Task on a remote endpoint. Red Teams and adversaries alike may abuse the Task Scheduler for lateral movement and remote code execution. The `at.exe` binary internally leverages the AT protocol which was deprecated starting with Windows 8 and Windows Server 2012 but may still work on previous versions of Windows. Furthermore, attackers may enable this protocol on demand by changing a sytem registry key.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2021-11-11
 - **Author**: Mauricio Velazco, Splunk
 - **ID**: 4be54858-432f-11ec-8209-3e22fbd008af
@@ -86,10 +89,11 @@ Administrators may create scheduled tasks on remote systems, but this activity i
 
 #### Associated Analytic story
 * [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
+* [Living Off The Land](/stories/living_off_the_land)
 
 
 #### Kill Chain Phase
-* Lateral Movement
+* Exploitation
 
 
 
@@ -99,8 +103,6 @@ Administrators may create scheduled tasks on remote systems, but this activity i
 | ----------- | ----------- |--------------|--------------|
 | 54.0 | 90 | 60 | A Windows Scheduled Task was created on a remote endpoint from $dest |
 
-
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 
@@ -114,6 +116,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.002/lateral_movement/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.002/lateral_movement/windows-sysmon.log)
 

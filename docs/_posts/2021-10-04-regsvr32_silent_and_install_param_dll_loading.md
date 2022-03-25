@@ -1,6 +1,8 @@
 ---
 title: "Regsvr32 Silent and Install Param Dll Loading"
-excerpt: "Signed Binary Proxy Execution, Regsvr32"
+excerpt: "Signed Binary Proxy Execution
+, Regsvr32
+"
 categories:
   - Endpoint
 last_modified_at: 2021-10-04
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - Signed Binary Proxy Execution
-  - Defense Evasion
   - Regsvr32
+  - Defense Evasion
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -19,15 +21,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This analytic is to detect a loading of dll using regsvr32 application with silent parameter and dllinstall execution. This technique was seen in several RAT malware similar to remcos, njrat and adversaries to load their malicious DLL on the compromised machine. This TTP may executed by normal 3rd party application so it is better to pivot by the parent process, parent command-line and command-line of the file that execute this regsvr32.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2021-10-04
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: f421c250-24e7-11ec-bc43-acde48001122
@@ -56,9 +59,9 @@ This analytic is to detect a loading of dll using regsvr32 application with sile
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_regsvr32](https://github.com/splunk/security_content/blob/develop/macros/process_regsvr32.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [process_regsvr32](https://github.com/splunk/security_content/blob/develop/macros/process_regsvr32.yml)
 
 Note that `regsvr32_silent_and_install_param_dll_loading_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -87,6 +90,7 @@ Other third part application may used this parameter but not so common in base w
 * [Suspicious Regsvr32 Activity](/stories/suspicious_regsvr32_activity)
 * [Remcos](/stories/remcos)
 * [Hermetic Wiper](/stories/hermetic_wiper)
+* [Living Off The Land](/stories/living_off_the_land)
 
 
 #### Kill Chain Phase
@@ -101,8 +105,6 @@ Other third part application may used this parameter but not so common in base w
 | 36.0 | 60 | 60 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to load a DLL using the silent and dllinstall parameter. |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -115,6 +117,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.005/vbs_wscript/sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.005/vbs_wscript/sysmon.log)
 
