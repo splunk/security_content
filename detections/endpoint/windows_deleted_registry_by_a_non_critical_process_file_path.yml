@@ -33,7 +33,7 @@ references:
 - https://blog.talosintelligence.com/2022/03/threat-advisory-doublezero.html
 tags:
   analytic_story:
-  - https://blog.talosintelligence.com/2022/03/threat-advisory-doublezero.html
+  - Double Zero Destructor
   asset_type: Endpoint
   cis20:
   - CIS 3
