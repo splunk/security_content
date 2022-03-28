@@ -38,12 +38,15 @@ tags:
   analytic_story:
   - Deobfuscate-Decode Files or Information
   - Living Off The Land
-  cis20: null
+  cis20:
+  - CIS 8
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
   - T1140
-  nist: null
+  nist:
+  - PR.PT
+  - DE.CM
   required_fields:
   - _time
   - dest_device_id
