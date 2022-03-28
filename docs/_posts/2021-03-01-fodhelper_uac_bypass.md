@@ -1,7 +1,7 @@
 ---
 title: "FodHelper UAC Bypass"
 excerpt: "Modify Registry
-, Bypass User Account Control
+, Bypass User Access Control
 , Abuse Elevation Control Mechanism
 "
 categories:
@@ -11,7 +11,7 @@ toc: true
 toc_label: ""
 tags:
   - Modify Registry
-  - Bypass User Account Control
+  - Bypass User Access Control
   - Abuse Elevation Control Mechanism
   - Defense Evasion
   - Defense Evasion
@@ -51,7 +51,7 @@ Upon triage, fodhelper.exe will have a child process and read access will occur 
 | -------------- | ---------------- |-------------------- |
 | [T1112](https://attack.mitre.org/techniques/T1112/) | Modify Registry | Defense Evasion |
 
-| [T1548.002](https://attack.mitre.org/techniques/T1548/002/) | Bypass User Account Control | Defense Evasion, Privilege Escalation |
+| [T1548.002](https://attack.mitre.org/techniques/T1548/002/) | Bypass User Access Control | Defense Evasion, Privilege Escalation |
 
 | [T1548](https://attack.mitre.org/techniques/T1548/) | Abuse Elevation Control Mechanism | Defense Evasion, Privilege Escalation |
 
@@ -68,8 +68,8 @@ Upon triage, fodhelper.exe will have a child process and read access will occur 
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `fodhelper_uac_bypass_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
