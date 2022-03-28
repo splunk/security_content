@@ -6,7 +6,8 @@ tests:
   earliest_time: -24h
   latest_time: now
   attack_data:
-  - file_name: UPDATE
-    data: UPDATE
+  - file_name: splunkd.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1498/splunk_indexer_dos/splunkd.log
     source: /opt/splunk/var/log/splunk/splunkd.log
     sourcetype: splunkd
+    update_timestamp: true
