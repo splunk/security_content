@@ -1,6 +1,6 @@
 ---
 title: "GCP GCR container uploaded"
-excerpt: "Implant Internal Image
+excerpt: "Implant Container Image
 "
 categories:
   - Deprecated
@@ -8,7 +8,7 @@ last_modified_at: 2020-02-20
 toc: true
 toc_label: ""
 tags:
-  - Implant Internal Image
+  - Implant Container Image
   - Persistence
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -36,7 +36,7 @@ This search show information on uploaded containers including source user, accou
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
-| [T1525](https://attack.mitre.org/techniques/T1525/) | Implant Internal Image | Persistence |
+| [T1525](https://attack.mitre.org/techniques/T1525/) | Implant Container Image | Persistence |
 
 #### Search
 

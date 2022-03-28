@@ -1,6 +1,6 @@
 ---
 title: "NET Profiler UAC bypass"
-excerpt: "Bypass User Account Control
+excerpt: "Bypass User Access Control
 , Abuse Elevation Control Mechanism
 "
 categories:
@@ -9,7 +9,7 @@ last_modified_at: 2022-02-18
 toc: true
 toc_label: ""
 tags:
-  - Bypass User Account Control
+  - Bypass User Access Control
   - Abuse Elevation Control Mechanism
   - Defense Evasion
   - Privilege Escalation
@@ -42,7 +42,7 @@ This search is to detect modification of registry to bypass UAC windows feature.
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
-| [T1548.002](https://attack.mitre.org/techniques/T1548/002/) | Bypass User Account Control | Defense Evasion, Privilege Escalation |
+| [T1548.002](https://attack.mitre.org/techniques/T1548/002/) | Bypass User Access Control | Defense Evasion, Privilege Escalation |
 
 | [T1548](https://attack.mitre.org/techniques/T1548/) | Abuse Elevation Control Mechanism | Defense Evasion, Privilege Escalation |
 
@@ -59,8 +59,8 @@ This search is to detect modification of registry to bypass UAC windows feature.
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `net_profiler_uac_bypass_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 

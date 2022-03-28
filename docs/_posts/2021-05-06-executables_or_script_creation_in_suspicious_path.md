@@ -52,8 +52,8 @@ This analytic will identify suspicious executable or scripts (known file extensi
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `executables_or_script_creation_in_suspicious_path_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -73,6 +73,8 @@ To successfully implement this search you need to be ingesting information on pr
 Administrators may allow creation of script or exe in the paths specified. Filter as needed.
 
 #### Associated Analytic story
+* [Double Zero Destructor](/stories/double_zero_destructor)
+* [Data Destruction](/stories/data_destruction)
 * [XMRig](/stories/xmrig)
 * [Remcos](/stories/remcos)
 * [WhisperGate](/stories/whispergate)

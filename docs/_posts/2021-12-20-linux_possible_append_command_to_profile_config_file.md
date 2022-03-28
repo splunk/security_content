@@ -1,6 +1,6 @@
 ---
 title: "Linux Possible Append Command To Profile Config File"
-excerpt: "Unix Shell Configuration Modification
+excerpt: ".bash_profile and .bashrc
 , Event Triggered Execution
 "
 categories:
@@ -9,7 +9,7 @@ last_modified_at: 2021-12-20
 toc: true
 toc_label: ""
 tags:
-  - Unix Shell Configuration Modification
+  - .bash_profile and .bashrc
   - Event Triggered Execution
   - Persistence
   - Privilege Escalation
@@ -42,7 +42,7 @@ This analytic looks for suspicious command-lines that can be possibly used to mo
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
-| [T1546.004](https://attack.mitre.org/techniques/T1546/004/) | Unix Shell Configuration Modification | Persistence, Privilege Escalation |
+| [T1546.004](https://attack.mitre.org/techniques/T1546/004/) | .bash_profile and .bashrc | Persistence, Privilege Escalation |
 
 | [T1546](https://attack.mitre.org/techniques/T1546/) | Event Triggered Execution | Persistence, Privilege Escalation |
 
@@ -59,8 +59,8 @@ This analytic looks for suspicious command-lines that can be possibly used to mo
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `linux_possible_append_command_to_profile_config_file_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 

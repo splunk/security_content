@@ -86,6 +86,7 @@ unknown
 * [Data Destruction](/stories/data_destruction)
 * [Ransomware](/stories/ransomware)
 * [Hermetic Wiper](/stories/hermetic_wiper)
+* [Windows Registry Abuse](/stories/windows_registry_abuse)
 
 
 #### Kill Chain Phase

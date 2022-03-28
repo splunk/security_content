@@ -11,7 +11,6 @@ tags:
   - Modify Authentication Process
   - Credential Access
   - Defense Evasion
-  - Persistence
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -38,7 +37,7 @@ This search detects accounts with high number of Single Sign ON (SSO) logon erro
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
-| [T1556](https://attack.mitre.org/techniques/T1556/) | Modify Authentication Process | Credential Access, Defense Evasion, Persistence |
+| [T1556](https://attack.mitre.org/techniques/T1556/) | Modify Authentication Process | Credential Access, Defense Evasion |
 
 #### Search
 

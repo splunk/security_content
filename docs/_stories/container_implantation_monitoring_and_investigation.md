@@ -30,8 +30,8 @@ Container Registrys provide a way for organizations to keep customized images of
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [GCP GCR container uploaded](/deprecated/gcp_gcr_container_uploaded/) | [Implant Internal Image](/tags/#implant-internal-image)| Hunting |
-| [New container uploaded to AWS ECR](/cloud/new_container_uploaded_to_aws_ecr/) | [Implant Internal Image](/tags/#implant-internal-image)| Hunting |
+| [GCP GCR container uploaded](/deprecated/gcp_gcr_container_uploaded/) | [Implant Container Image](/tags/#implant-container-image)| Hunting |
+| [New container uploaded to AWS ECR](/cloud/new_container_uploaded_to_aws_ecr/) | [Implant Container Image](/tags/#implant-container-image)| Hunting |
 
 #### Reference
 

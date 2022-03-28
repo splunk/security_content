@@ -56,8 +56,8 @@ This analytic is to look for suspicious raw access read to device disk partition
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `windows_raw_access_to_disk_volume_partition_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -79,6 +79,7 @@ To successfully implement this search, you need to be ingesting logs with the ra
 This event is really notable but we found minimal number of normal application from system32 folder like svchost.exe accessing it too. In this case we used 'system32' and 'syswow64' path as a filter for this detection.
 
 #### Associated Analytic story
+* [Caddy Wiper](/stories/caddy_wiper)
 * [Data Destruction](/stories/data_destruction)
 * [Hermetic Wiper](/stories/hermetic_wiper)
 
