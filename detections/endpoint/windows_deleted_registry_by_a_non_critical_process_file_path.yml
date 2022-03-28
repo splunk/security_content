@@ -1,0 +1,81 @@
+name: Windows Deleted Registry By A Non Critical Process File Path
+id: 15e70689-f55b-489e-8a80-6d0cd6d8aad2
+version: 1
+date: '2022-03-28'
+author: Teoderick Contreras, Splunk
+type: Anomaly
+datamodel: []
+description: This analytic is to detect deletion of registry with suspicious process file path. This technique was seen in Double Zero wiper malware 
+  where it will delete all the subkey in HKLM, HKCU and HKU registry hive as part of its destructive payload to the targeted hosts. This anomaly detections 
+  can catch possible malware or advesaries deleting registry as part of defense evasion or even payload impact but can also catch for third party application 
+  updates or installation. In this scenario false positive filter is needed.
+search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Registry
+  where Registry.action=deleted by _time span=1h Registry.dest Registry.user
+  Registry.registry_path Registry.registry_value_name Registry.registry_key_name Registry.process_guid
+  Registry.registry_value_data Registry.action | `drop_dm_object_name(Registry)` |rename process_guid
+  as proc_guid |join proc_guid, _time [| tstats `security_content_summariesonly` count
+  FROM datamodel=Endpoint.Processes where NOT (Processes.process_path IN ("*\\windows\\*", "*\\program files*")) by _time span=1h Processes.process_id Processes.process_name
+  Processes.process Processes.dest Processes.parent_process_name Processes.parent_process Processes.process_path
+  Processes.process_guid | `drop_dm_object_name(Processes)` |rename process_guid as
+  proc_guid | fields _time dest user parent_process_name parent_process process_name
+  process_path process proc_guid registry_path registry_value_name registry_value_data
+  registry_key_name action] | table _time parent_process_name parent_process process_name
+  process_path process proc_guid registry_path registry_value_name registry_value_data
+  registry_key_name action dest user 
+  | `windows_deleted_registry_by_a_non_critical_process_file_path_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the registry value name, registry path, and registry value data from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
+known_false_positives: This detection can catch for third party application 
+  updates or installation. In this scenario false positive filter is needed.
+references:
+- https://blog.talosintelligence.com/2022/03/threat-advisory-doublezero.html
+tags:
+  analytic_story:
+  - Double Zero Destructor
+  asset_type: Endpoint
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  confidence: 60
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/doublezero_wiper/sysmon.log
+  impact: 60
+  kill_chain_phases: []
+  message: registry was deleted by a suspicious $process_name$ with proces path $process_path in $dest$
+  mitre_attack_id:
+  - T1112
+  nist:
+  - DE.CM
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Registry.registry_key_name
+  - Registry.registry_path
+  - Registry.registry_value_name
+  - Registry.dest 
+  - Registry.user
+  - Registry.action
+  - Processes.process_id 
+  - Processes.process_name
+  - Processes.process 
+  - Processes.dest 
+  - Processes.parent_process_name 
+  - Processes.parent_process
+  - Processes.process_guid
+  - Processes.process_path
+  risk_score: 36
+  security_domain: endpoint
