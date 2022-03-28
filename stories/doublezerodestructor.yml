@@ -1,0 +1,21 @@
+name: Double Zero Destructor
+id: f56e8c00-3224-4955-9a6e-924ec7da1df7
+version: 1
+date: '2022-03-25'
+author: Teoderick Contreras, Rod Soto, Splunk
+description: Double Zero Destructor is a destructive payload that enumerates Domain Controllers and executes killswitch if detected. Overwrites files with Zero blocks or using MS Windows API calls such as NtFileOpen, NtFSControlFile. This payload also deletes registry hives HKCU,HKLM, HKU, HKLM BCD.
+narrative: Double zero destructor enumerates domain controllers, delete registry hives and overwrites files using zero blocks and API calls.
+references:
+- https://cert.gov.ua/article/38088
+- https://blog.talosintelligence.com/2022/03/threat-advisory-doublezero.html
+tags:
+  analytic_story: Double Zero Destructor
+  category:
+  - Data Destruction
+  - Malware
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
