@@ -2,7 +2,7 @@
 title: "Detect Port Security Violation"
 excerpt: "Hardware Additions
 , Network Denial of Service
-, Adversary-in-the-Middle
+, Man-in-the-Middle
 , ARP Cache Poisoning
 "
 categories:
@@ -13,7 +13,7 @@ toc_label: ""
 tags:
   - Hardware Additions
   - Network Denial of Service
-  - Adversary-in-the-Middle
+  - Man-in-the-Middle
   - ARP Cache Poisoning
   - Initial Access
   - Impact
@@ -30,7 +30,7 @@ tags:
 We have not been able to test, simulate, or build datasets for this object. Use at your own risk. This analytic is **NOT** supported.
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -38,7 +38,8 @@ By enabling Port Security on a Cisco switch you can restrict input to an interfa
 
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+
+
 - **Last Updated**: 2020-10-28
 - **Author**: Mikael Bjerkeland, Splunk
 - **ID**: 2de3d5b8-a4fa-45c5-8540-6d071c194d24
@@ -52,7 +53,7 @@ By enabling Port Security on a Cisco switch you can restrict input to an interfa
 
 | [T1498](https://attack.mitre.org/techniques/T1498/) | Network Denial of Service | Impact |
 
-| [T1557](https://attack.mitre.org/techniques/T1557/) | Adversary-in-the-Middle | Collection, Credential Access |
+| [T1557](https://attack.mitre.org/techniques/T1557/) | Man-in-the-Middle | Collection, Credential Access |
 
 | [T1557.002](https://attack.mitre.org/techniques/T1557/002/) | ARP Cache Poisoning | Collection, Credential Access |
 

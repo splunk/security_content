@@ -62,7 +62,7 @@ jobs:
         
         - name: Install Python Dependencies
           run: |
-            cd bin/automated_detection_testing/ci/detection_testing_batch
+            cd bin/docker_detection_tester
             python3 -m venv .venv
             source .venv/bin/activate
             python3 -m pip install wheel
@@ -70,7 +70,7 @@ jobs:
         
         - name: Run the CI
           run: |
-            cd bin/automated_detection_testing/ci/detection_testing_batch
+            cd bin/docker_detection_tester
             source .venv/bin/activate
             echo "github.event.issue.pull_request    : [${{ github.event.issue.pull_request }}]"
             echo "github.event.pull_request.number   : [${{ github.event.pull_request.number }}]"
@@ -97,24 +97,24 @@ jobs:
           with:
             name: testing-results-config
             path: |
-              bin/automated_detection_testing/ci/detection_testing_batch/prior_config/apps/DA-ESS-ContentUpdate-latest.tar.gz
-              bin/automated_detection_testing/ci/detection_testing_batch/prior_config/config_tests_0.json
-              bin/automated_detection_testing/ci/detection_testing_batch/prior_config/config_tests_1.json
-              bin/automated_detection_testing/ci/detection_testing_batch/prior_config/config_tests_2.json
-              bin/automated_detection_testing/ci/detection_testing_batch/prior_config/config_tests_3.json
-              bin/automated_detection_testing/ci/detection_testing_batch/prior_config/config_tests_4.json
-              bin/automated_detection_testing/ci/detection_testing_batch/prior_config/config_tests_5.json
-              bin/automated_detection_testing/ci/detection_testing_batch/prior_config/config_tests_6.json
-              bin/automated_detection_testing/ci/detection_testing_batch/prior_config/config_tests_7.json
-              bin/automated_detection_testing/ci/detection_testing_batch/prior_config/config_tests_8.json
-              bin/automated_detection_testing/ci/detection_testing_batch/prior_config/config_tests_9.json
+              bin/docker_detection_tester/prior_config/apps/DA-ESS-ContentUpdate-latest.tar.gz
+              bin/docker_detection_tester/prior_config/config_tests_0.json
+              bin/docker_detection_tester/prior_config/config_tests_1.json
+              bin/docker_detection_tester/prior_config/config_tests_2.json
+              bin/docker_detection_tester/prior_config/config_tests_3.json
+              bin/docker_detection_tester/prior_config/config_tests_4.json
+              bin/docker_detection_tester/prior_config/config_tests_5.json
+              bin/docker_detection_tester/prior_config/config_tests_6.json
+              bin/docker_detection_tester/prior_config/config_tests_7.json
+              bin/docker_detection_tester/prior_config/config_tests_8.json
+              bin/docker_detection_tester/prior_config/config_tests_9.json
 
         - name: Upload File to Enable Replication of the Test at a Different Time or Place
           uses: actions/upload-artifact@v2
           with:
             name: replicate_test
             path: |
-              bin/automated_detection_testing/ci/detection_testing_batch/replicate_test.json
+              bin/docker_detection_tester/replicate_test.json
 
   docker-detection-testing-execution:
     runs-on: ubuntu-latest
@@ -146,7 +146,7 @@ jobs:
           uses: actions/download-artifact@v2
           with:
             name: testing-results-config
-            path: bin/automated_detection_testing/ci/detection_testing_batch/prior_config
+            path: bin/docker_detection_tester/prior_config
         
 
         - uses: actions/setup-python@v2
@@ -156,7 +156,7 @@ jobs:
         
         - name: Install Python Dependencies
           run: |
-            cd bin/automated_detection_testing/ci/detection_testing_batch
+            cd bin/docker_detection_tester
             python3 -m venv .venv
             source .venv/bin/activate
             python3 -m pip install wheel
@@ -164,7 +164,7 @@ jobs:
         
         - name: Run the CI
           run: |
-            cd bin/automated_detection_testing/ci/detection_testing_batch
+            cd bin/docker_detection_tester
             source .venv/bin/activate
             
             python3 detection_testing_execution.py run -c prior_config/${{ matrix.manifest_filename}} 
@@ -175,16 +175,16 @@ jobs:
           with:
             name: ${{ matrix.manifest_filename}}.results
             path: |
-              bin/automated_detection_testing/ci/detection_testing_batch/test_results/success.csv
-              bin/automated_detection_testing/ci/detection_testing_batch/test_results/error.csv
-              bin/automated_detection_testing/ci/detection_testing_batch/test_results/failure.csv
-              bin/automated_detection_testing/ci/detection_testing_batch/test_results/combined.csv
-              bin/automated_detection_testing/ci/detection_testing_batch/test_results/success.json
-              bin/automated_detection_testing/ci/detection_testing_batch/test_results/error.json
-              bin/automated_detection_testing/ci/detection_testing_batch/test_results/failure.json
-              bin/automated_detection_testing/ci/detection_testing_batch/test_results/combined.json
+              bin/docker_detection_tester/test_results/success.csv
+              bin/docker_detection_tester/test_results/error.csv
+              bin/docker_detection_tester/test_results/failure.csv
+              bin/docker_detection_tester/test_results/combined.csv
+              bin/docker_detection_tester/test_results/success.json
+              bin/docker_detection_tester/test_results/error.json
+              bin/docker_detection_tester/test_results/failure.json
+              bin/docker_detection_tester/test_results/combined.json
 
-              bin/automated_detection_testing/ci/detection_testing_batch/test_results/summary.json
+              bin/docker_detection_tester/test_results/summary.json
           
   docker-detection-testing-execution-merge-results:
     runs-on: ubuntu-latest
@@ -205,52 +205,52 @@ jobs:
           uses: actions/download-artifact@v2
           with:
             name: config_tests_0.json.results
-            path: bin/automated_detection_testing/ci/detection_testing_batch/results_0
+            path: bin/docker_detection_tester/results_0
         - name: Download artifacts
           uses: actions/download-artifact@v2
           with:
             name: config_tests_1.json.results
-            path: bin/automated_detection_testing/ci/detection_testing_batch/results_1
+            path: bin/docker_detection_tester/results_1
         - name: Download artifacts
           uses: actions/download-artifact@v2
           with:
             name: config_tests_2.json.results
-            path: bin/automated_detection_testing/ci/detection_testing_batch/results_2
+            path: bin/docker_detection_tester/results_2
         - name: Download artifacts
           uses: actions/download-artifact@v2
           with:
             name: config_tests_3.json.results
-            path: bin/automated_detection_testing/ci/detection_testing_batch/results_3
+            path: bin/docker_detection_tester/results_3
         - name: Download artifacts
           uses: actions/download-artifact@v2
           with:
             name: config_tests_4.json.results
-            path: bin/automated_detection_testing/ci/detection_testing_batch/results_4
+            path: bin/docker_detection_tester/results_4
         - name: Download artifacts
           uses: actions/download-artifact@v2
           with:
             name: config_tests_5.json.results
-            path: bin/automated_detection_testing/ci/detection_testing_batch/results_5
+            path: bin/docker_detection_tester/results_5
         - name: Download artifacts
           uses: actions/download-artifact@v2
           with:
             name: config_tests_6.json.results
-            path: bin/automated_detection_testing/ci/detection_testing_batch/results_6
+            path: bin/docker_detection_tester/results_6
         - name: Download artifacts
           uses: actions/download-artifact@v2
           with:
             name: config_tests_7.json.results
-            path: bin/automated_detection_testing/ci/detection_testing_batch/results_7
+            path: bin/docker_detection_tester/results_7
         - name: Download artifacts
           uses: actions/download-artifact@v2
           with:
             name: config_tests_8.json.results
-            path: bin/automated_detection_testing/ci/detection_testing_batch/results_8
+            path: bin/docker_detection_tester/results_8
         - name: Download artifacts
           uses: actions/download-artifact@v2
           with:
             name: config_tests_9.json.results
-            path: bin/automated_detection_testing/ci/detection_testing_batch/results_9
+            path: bin/docker_detection_tester/results_9
         
         - uses: actions/setup-python@v2
           with:
@@ -259,7 +259,7 @@ jobs:
         
         - name: Install Python Dependencies
           run: |
-            cd bin/automated_detection_testing/ci/detection_testing_batch
+            cd bin/docker_detection_tester
             python3 -m venv .venv
             source .venv/bin/activate
             python3 -m pip install wheel
@@ -267,7 +267,7 @@ jobs:
 
         - name: Merge Detections into single File
           run: |
-            cd bin/automated_detection_testing/ci/detection_testing_batch
+            cd bin/docker_detection_tester
             source .venv/bin/activate
             python summarize_json.py --files results_*/summary.json --output_filename summary_test_results.json
             
@@ -278,7 +278,7 @@ jobs:
           with:
             name: SummaryTestResults
             path: |
-              bin/automated_detection_testing/ci/detection_testing_batch/summary_test_results.json
+              bin/docker_detection_tester/summary_test_results.json
 
         - name: Upload Failures Manifest on Failure
           uses: actions/upload-artifact@v2
@@ -286,7 +286,7 @@ jobs:
           with:
             name: DetectionFailureManifest
             path: |
-              bin/automated_detection_testing/ci/detection_testing_batch/detection_failure_manifest.json
+              bin/docker_detection_tester/detection_failure_manifest.json
             
         
         #Always clean these up, they make the output messy

@@ -21,7 +21,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -30,6 +30,7 @@ This analytic is to look for suspicious raw access read to drive where the maste
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+
 - **Last Updated**: 2022-02-17
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: 7b83f666-900c-11ec-a2d9-acde48001122
@@ -78,6 +79,8 @@ To successfully implement this search, you need to be ingesting logs with the ra
 This event is really notable but we found minimal number of normal application from system32 folder like svchost.exe accessing it too. In this case we used 'system32' and 'syswow64' path as a filter for this detection.
 
 #### Associated Analytic story
+* [Data Destruction](/stories/data_destruction)
+* [Caddy Wiper](/stories/caddy_wiper)
 * [WhisperGate](/stories/whispergate)
 * [Hermetic Wiper](/stories/hermetic_wiper)
 

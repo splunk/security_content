@@ -37,6 +37,7 @@ references:
 tags:
   analytic_story:
   - Windows Defense Evasion Tactics
+  - Windows Registry Abuse
   confidence: 70
   context:
   - Source:Endpoint
@@ -51,8 +52,7 @@ tags:
   message: The Windows registry was modified to disable system restore on $dest$ by
     $user$.
   mitre_attack_id:
-  - T1562.001
-  - T1562
+  - T1490
   observable:
   - name: user
     type: User

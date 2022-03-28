@@ -1,6 +1,6 @@
 ---
 title: "Linux Possible Append Command To Profile Config File"
-excerpt: "Unix Shell Configuration Modification
+excerpt: ".bash_profile and .bashrc
 , Event Triggered Execution
 "
 categories:
@@ -9,7 +9,7 @@ last_modified_at: 2021-12-20
 toc: true
 toc_label: ""
 tags:
-  - Unix Shell Configuration Modification
+  - .bash_profile and .bashrc
   - Event Triggered Execution
   - Persistence
   - Privilege Escalation
@@ -23,7 +23,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -32,6 +32,7 @@ This analytic looks for suspicious command-lines that can be possibly used to mo
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+
 - **Last Updated**: 2021-12-20
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: 9c94732a-61af-11ec-91e3-acde48001122
@@ -41,7 +42,7 @@ This analytic looks for suspicious command-lines that can be possibly used to mo
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
-| [T1546.004](https://attack.mitre.org/techniques/T1546/004/) | Unix Shell Configuration Modification | Persistence, Privilege Escalation |
+| [T1546.004](https://attack.mitre.org/techniques/T1546/004/) | .bash_profile and .bashrc | Persistence, Privilege Escalation |
 
 | [T1546](https://attack.mitre.org/techniques/T1546/) | Event Triggered Execution | Persistence, Privilege Escalation |
 

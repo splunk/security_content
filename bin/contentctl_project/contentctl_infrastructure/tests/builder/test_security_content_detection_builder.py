@@ -163,17 +163,9 @@ def test_attack_enrichment():
     security_content_builder.addMitreAttackEnrichment(AttackEnrichment.get_attack_lookup())
     detection = security_content_builder.getObject()
 
-    assert detection.tags.mitre_attack_enrichments[0].dict() == {
-        'mitre_attack_id': 'T1003.002', 
-        'mitre_attack_technique': 'Security Account Manager', 
-        'mitre_attack_tactics': ['Credential Access'], 
-        'mitre_attack_groups': ['Dragonfly 2.0', 'GALLIUM', 'Ke3chang', 'Night Dragon', 'Threat Group-3390', 'Wizard Spider', 'menuPass']
-    }
-    assert detection.tags.mitre_attack_enrichments[1].dict() == {
-        'mitre_attack_id': 'T1003', 
-        'mitre_attack_technique': 'OS Credential Dumping', 
-        'mitre_attack_tactics': ['Credential Access'], 'mitre_attack_groups': ['APT28', 'APT32', 'APT39', 'Axiom', 'Frankenstein', 'Leviathan', 'Poseidon Group', 'Sowbug', 'Suckfly', 'Tonto Team']
-    }
+    assert detection.tags.mitre_attack_enrichments[0].dict()['mitre_attack_id'] == 'T1003.002'
+    assert detection.tags.mitre_attack_enrichments[0].dict()['mitre_attack_technique'] == 'Security Account Manager'
+    assert detection.tags.mitre_attack_enrichments[0].dict()['mitre_attack_tactics'] == ['Credential Access']
 
 
 def test_macros_enrichment():

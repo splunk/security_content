@@ -41,6 +41,7 @@ tags:
   - Windows Defense Evasion Tactics
   - IcedID
   - Living Off The Land
+  - Windows Registry Abuse
   automated_detection_testing: passed
   confidence: 100
   context:

@@ -21,7 +21,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -30,6 +30,7 @@ This analytic is to look for suspicious raw access read to device disk partition
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+
 - **Last Updated**: 2022-02-25
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: a85aa37e-9647-11ec-90c5-acde48001122
@@ -78,6 +79,7 @@ To successfully implement this search, you need to be ingesting logs with the ra
 This event is really notable but we found minimal number of normal application from system32 folder like svchost.exe accessing it too. In this case we used 'system32' and 'syswow64' path as a filter for this detection.
 
 #### Associated Analytic story
+* [Caddy Wiper](/stories/caddy_wiper)
 * [Data Destruction](/stories/data_destruction)
 * [Hermetic Wiper](/stories/hermetic_wiper)
 

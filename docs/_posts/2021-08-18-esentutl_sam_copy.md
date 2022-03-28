@@ -21,7 +21,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -30,6 +30,7 @@ The following analytic identifies the process - `esentutl.exe` - being used to c
 - **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+
 - **Last Updated**: 2021-08-18
 - **Author**: Michael Haag, Splunk
 - **ID**: d372f928-ce4f-11eb-a762-acde48001122
@@ -56,9 +57,9 @@ The following analytic identifies the process - `esentutl.exe` - being used to c
 
 #### Macros
 The SPL above uses the following Macros:
+* [process_esentutl](https://github.com/splunk/security_content/blob/develop/macros/process_esentutl.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
-* [process_esentutl](https://github.com/splunk/security_content/blob/develop/macros/process_esentutl.yml)
 
 Note that `esentutl_sam_copy_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -85,6 +86,7 @@ False positives should be limited. Filter as needed.
 
 #### Associated Analytic story
 * [Credential Dumping](/stories/credential_dumping)
+* [Living Off The Land](/stories/living_off_the_land)
 
 
 #### Kill Chain Phase

@@ -1,6 +1,6 @@
 ---
 title: "SLUI Spawning a Process"
-excerpt: "Bypass User Account Control
+excerpt: "Bypass User Access Control
 , Abuse Elevation Control Mechanism
 "
 categories:
@@ -9,7 +9,7 @@ last_modified_at: 2021-05-13
 toc: true
 toc_label: ""
 tags:
-  - Bypass User Account Control
+  - Bypass User Access Control
   - Abuse Elevation Control Mechanism
   - Defense Evasion
   - Privilege Escalation
@@ -23,7 +23,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -32,6 +32,7 @@ The following analytic identifies the Microsoft Software Licensing User Interfac
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2021-05-13
 - **Author**: Michael Haag, Splunk
 - **ID**: 879c4330-b3e0-11eb-b1b1-acde48001122
@@ -41,7 +42,7 @@ The following analytic identifies the Microsoft Software Licensing User Interfac
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
-| [T1548.002](https://attack.mitre.org/techniques/T1548/002/) | Bypass User Account Control | Defense Evasion, Privilege Escalation |
+| [T1548.002](https://attack.mitre.org/techniques/T1548/002/) | Bypass User Access Control | Defense Evasion, Privilege Escalation |
 
 | [T1548](https://attack.mitre.org/techniques/T1548/) | Abuse Elevation Control Mechanism | Defense Evasion, Privilege Escalation |
 

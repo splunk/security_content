@@ -20,7 +20,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -28,7 +28,8 @@ The following analytic identifies executable files (.exe or .dll) being written 
 
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+
+
 - **Last Updated**: 2021-11-18
 - **Author**: Teoderick Contreras, Mauricio Velazco, Splunk
 - **ID**: f63c34fe-a435-11eb-935a-acde48001122
@@ -78,6 +79,7 @@ To successfully implement this search, you need to be ingesting Windows Security
 System Administrators may use looks like PsExec for troubleshooting or administrations tasks. However, this will typically come only from certain users and certain systems that can be added to an allow list.
 
 #### Associated Analytic story
+* [Data Destruction](/stories/data_destruction)
 * [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
 * [Trickbot](/stories/trickbot)
 * [Hermetic Wiper](/stories/hermetic_wiper)

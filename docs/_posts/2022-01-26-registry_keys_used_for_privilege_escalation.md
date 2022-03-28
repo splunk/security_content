@@ -22,7 +22,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -30,7 +30,8 @@ This search looks for modifications to registry keys that can be used to elevate
 
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+
+
 - **Last Updated**: 2022-01-26
 - **Author**: David Dorsey, Teoderick Contreras, Splunk
 - **ID**: c9f4b923-f8af-4155-b697-1354f5bcbc5e
@@ -84,6 +85,7 @@ There are many legitimate applications that must execute upon system startup and
 * [Windows Privilege Escalation](/stories/windows_privilege_escalation)
 * [Suspicious Windows Registry Activities](/stories/suspicious_windows_registry_activities)
 * [Cloud Federated Credential Abuse](/stories/cloud_federated_credential_abuse)
+* [Windows Registry Abuse](/stories/windows_registry_abuse)
 
 
 #### Kill Chain Phase

@@ -21,7 +21,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -30,6 +30,7 @@ The following analytic identifies wmiprvse.exe spawning mshta.exe. This behavior
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2021-01-20
 - **Author**: Michael Haag, Splunk
 - **ID**: 4d33a488-5b5f-11eb-ae93-0242ac130002
@@ -56,9 +57,9 @@ The following analytic identifies wmiprvse.exe spawning mshta.exe. This behavior
 
 #### Macros
 The SPL above uses the following Macros:
+* [process_mshta](https://github.com/splunk/security_content/blob/develop/macros/process_mshta.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
-* [process_mshta](https://github.com/splunk/security_content/blob/develop/macros/process_mshta.yml)
 
 Note that `suspicious_mshta_spawn_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -85,6 +86,7 @@ Although unlikely, some legitimate applications may exhibit this behavior, trigg
 
 #### Associated Analytic story
 * [Suspicious MSHTA Activity](/stories/suspicious_mshta_activity)
+* [Living Off The Land](/stories/living_off_the_land)
 
 
 #### Kill Chain Phase

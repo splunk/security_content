@@ -1,6 +1,6 @@
 ---
 title: "Linux Preload Hijack Library Calls"
-excerpt: "Dynamic Linker Hijacking
+excerpt: "LD_PRELOAD
 , Hijack Execution Flow
 "
 categories:
@@ -9,7 +9,7 @@ last_modified_at: 2021-12-22
 toc: true
 toc_label: ""
 tags:
-  - Dynamic Linker Hijacking
+  - LD_PRELOAD
   - Hijack Execution Flow
   - Defense Evasion
   - Persistence
@@ -25,7 +25,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -34,6 +34,7 @@ This analytic is to detect a suspicious command that may hijack a library functi
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+
 - **Last Updated**: 2021-12-22
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: cbe2ca30-631e-11ec-8670-acde48001122
@@ -43,7 +44,7 @@ This analytic is to detect a suspicious command that may hijack a library functi
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
-| [T1574.006](https://attack.mitre.org/techniques/T1574/006/) | Dynamic Linker Hijacking | Defense Evasion, Persistence, Privilege Escalation |
+| [T1574.006](https://attack.mitre.org/techniques/T1574/006/) | LD_PRELOAD | Defense Evasion, Persistence, Privilege Escalation |
 
 | [T1574](https://attack.mitre.org/techniques/T1574/) | Hijack Execution Flow | Defense Evasion, Persistence, Privilege Escalation |
 

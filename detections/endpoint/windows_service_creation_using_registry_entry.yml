@@ -38,6 +38,7 @@ tags:
   - Active Directory Lateral Movement
   - Suspicious Windows Registry Activities
   - Windows Persistence Techniques
+  - Windows Registry Abuse
   cis20:
   - CIS 3
   - CIS 5

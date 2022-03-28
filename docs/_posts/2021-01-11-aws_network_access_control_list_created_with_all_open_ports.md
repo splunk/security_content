@@ -20,7 +20,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -28,7 +28,8 @@ The search looks for AWS CloudTrail events to detect if any network ACLs were cr
 
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+
+
 - **Last Updated**: 2021-01-11
 - **Author**: Bhavin Patel, Patrick Bareiss, Splunk
 - **ID**: ada0f478-84a8-4641-a3f1-d82362d6bd75
@@ -58,8 +59,8 @@ The search looks for AWS CloudTrail events to detect if any network ACLs were cr
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `aws_network_access_control_list_created_with_all_open_ports_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 

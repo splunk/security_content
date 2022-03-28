@@ -23,7 +23,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -32,6 +32,7 @@ This analytic look for a spawned runas.exe process with a administrator user opt
 - **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+
 - **Last Updated**: 2021-11-12
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: 4807e716-43a4-11ec-a0e7-acde48001122
@@ -58,8 +59,8 @@ This analytic look for a spawned runas.exe process with a administrator user opt
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_runas](https://github.com/splunk/security_content/blob/develop/macros/process_runas.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [process_runas](https://github.com/splunk/security_content/blob/develop/macros/process_runas.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `runas_execution_in_commandline_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.

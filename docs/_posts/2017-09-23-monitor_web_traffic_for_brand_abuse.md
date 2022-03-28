@@ -17,7 +17,7 @@ tags:
 We have not been able to test, simulate, or build datasets for this object. Use at your own risk. This analytic is **NOT** supported.
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -26,6 +26,7 @@ This search looks for Web requests to faux domains similar to the one that you w
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Web](https://docs.splunk.com/Documentation/CIM/latest/User/Web)
+
 - **Last Updated**: 2017-09-23
 - **Author**: David Dorsey, Splunk
 - **ID**: 134da869-e264-4a8f-8d7e-fcd0ec88f301
@@ -43,9 +44,9 @@ This search looks for Web requests to faux domains similar to the one that you w
 
 #### Macros
 The SPL above uses the following Macros:
+* [brand_abuse_web](https://github.com/splunk/security_content/blob/develop/macros/brand_abuse_web.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
-* [brand_abuse_web](https://github.com/splunk/security_content/blob/develop/macros/brand_abuse_web.yml)
 
 Note that `monitor_web_traffic_for_brand_abuse_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 

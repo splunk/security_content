@@ -41,6 +41,7 @@ tags:
   - Windows Defense Evasion Tactics
   - Ransomware
   - Revil Ransomware
+  - Windows Registry Abuse
   confidence: 100
   context:
   - Source:Endpoint

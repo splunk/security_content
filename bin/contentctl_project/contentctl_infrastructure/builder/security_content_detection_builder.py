@@ -11,6 +11,7 @@ from bin.contentctl_project.contentctl_core.domain.entities.security_content_obj
 from bin.contentctl_project.contentctl_core.domain.entities.macro import Macro
 from bin.contentctl_project.contentctl_core.domain.entities.mitre_attack_enrichment import MitreAttackEnrichment
 from bin.contentctl_project.contentctl_infrastructure.builder.cve_enrichment import CveEnrichment
+from bin.contentctl_project.contentctl_infrastructure.builder.splunk_app_enrichment import SplunkAppEnrichment
 
 
 class SecurityContentDetectionBuilder(DetectionBuilder):
@@ -177,6 +178,7 @@ class SecurityContentDetectionBuilder(DetectionBuilder):
                             )
                             self.security_content_obj.tags.mitre_attack_enrichments.append(mitre_attack_enrichment)
                         else:
+                            #print("mitre_attack_id " + mitre_attack_id + " doesn't exist for detecction " + self.security_content_obj.name)
                             raise ValueError("mitre_attack_id " + mitre_attack_id + " doesn't exist for detecction " + self.security_content_obj.name)
 
 
@@ -222,6 +224,12 @@ class SecurityContentDetectionBuilder(DetectionBuilder):
                 for cve in self.security_content_obj.tags.cve:
                     self.security_content_obj.cve_enrichment.append(CveEnrichment.enrich_cve(cve))
 
+    def addSplunkApp(self) -> None:
+        if self.security_content_obj:
+            self.security_content_obj.splunk_app_enrichment = []
+            if self.security_content_obj.tags.supported_tas:
+                for splunk_app in self.security_content_obj.tags.supported_tas:
+                    self.security_content_obj.splunk_app_enrichment.append(SplunkAppEnrichment.enrich_splunk_app(splunk_app))
 
     def reset(self) -> None:
         self.security_content_obj = None

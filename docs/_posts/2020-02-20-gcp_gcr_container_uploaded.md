@@ -1,6 +1,6 @@
 ---
 title: "GCP GCR container uploaded"
-excerpt: "Implant Internal Image
+excerpt: "Implant Container Image
 "
 categories:
   - Deprecated
@@ -8,7 +8,7 @@ last_modified_at: 2020-02-20
 toc: true
 toc_label: ""
 tags:
-  - Implant Internal Image
+  - Implant Container Image
   - Persistence
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -17,7 +17,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -25,7 +25,8 @@ This search show information on uploaded containers including source user, accou
 
 - **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+
+
 - **Last Updated**: 2020-02-20
 - **Author**: Rod Soto, Rico Valdez, Splunk
 - **ID**: 4f00ca88-e766-4605-ac65-ae51c9fd185b
@@ -35,7 +36,7 @@ This search show information on uploaded containers including source user, accou
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
-| [T1525](https://attack.mitre.org/techniques/T1525/) | Implant Internal Image | Persistence |
+| [T1525](https://attack.mitre.org/techniques/T1525/) | Implant Container Image | Persistence |
 
 #### Search
 

@@ -25,7 +25,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -34,6 +34,7 @@ The search looks for reg.exe modifying registry keys that define Windows service
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2020-11-26
 - **Author**: Rico Valdez, Splunk
 - **ID**: 8470d755-0c13-45b3-bd63-387a373c10cf
@@ -84,6 +85,7 @@ It is unusual for a service to be created or modified by directly manipulating t
 #### Associated Analytic story
 * [Windows Service Abuse](/stories/windows_service_abuse)
 * [Windows Persistence Techniques](/stories/windows_persistence_techniques)
+* [Living Off The Land](/stories/living_off_the_land)
 
 
 #### Kill Chain Phase

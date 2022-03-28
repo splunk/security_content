@@ -1,6 +1,6 @@
 ---
 title: "Linux File Creation In Init Boot Directory"
-excerpt: "RC Scripts
+excerpt: "Rc.common
 , Boot or Logon Initialization Scripts
 "
 categories:
@@ -9,7 +9,7 @@ last_modified_at: 2021-12-20
 toc: true
 toc_label: ""
 tags:
-  - RC Scripts
+  - Rc.common
   - Boot or Logon Initialization Scripts
   - Persistence
   - Privilege Escalation
@@ -23,7 +23,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -32,6 +32,7 @@ This analytic looks for suspicious file creation on init system directories for 
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+
 - **Last Updated**: 2021-12-20
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: 97d9cfb2-61ad-11ec-bb2d-acde48001122
@@ -41,7 +42,7 @@ This analytic looks for suspicious file creation on init system directories for 
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
-| [T1037.004](https://attack.mitre.org/techniques/T1037/004/) | RC Scripts | Persistence, Privilege Escalation |
+| [T1037.004](https://attack.mitre.org/techniques/T1037/004/) | Rc.common | Persistence, Privilege Escalation |
 
 | [T1037](https://attack.mitre.org/techniques/T1037/) | Boot or Logon Initialization Scripts | Persistence, Privilege Escalation |
 

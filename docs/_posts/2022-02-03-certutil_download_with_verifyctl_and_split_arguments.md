@@ -18,7 +18,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -27,6 +27,7 @@ Certutil.exe may download a file from a remote destination using `-VerifyCtl`. T
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2022-02-03
 - **Author**: Michael Haag, Splunk
 - **ID**: 801ad9e4-8bfb-11eb-8b31-acde48001122
@@ -51,9 +52,9 @@ Certutil.exe may download a file from a remote destination using `-VerifyCtl`. T
 
 #### Macros
 The SPL above uses the following Macros:
+* [process_certutil](https://github.com/splunk/security_content/blob/develop/macros/process_certutil.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
-* [process_certutil](https://github.com/splunk/security_content/blob/develop/macros/process_certutil.yml)
 
 Note that `certutil_download_with_verifyctl_and_split_arguments_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -81,6 +82,7 @@ Limited false positives in most environments, however tune as needed based on pa
 #### Associated Analytic story
 * [Ingress Tool Transfer](/stories/ingress_tool_transfer)
 * [DarkSide Ransomware](/stories/darkside_ransomware)
+* [Living Off The Land](/stories/living_off_the_land)
 
 
 #### Kill Chain Phase

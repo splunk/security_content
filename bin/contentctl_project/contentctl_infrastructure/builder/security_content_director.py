@@ -27,6 +27,7 @@ class SecurityContentDirector(Director):
         builder.addMacros(macros)
         builder.addLookups(lookups)
         builder.addCve()
+        builder.addSplunkApp()
 
 
     def constructStory(self, builder: StoryBuilder, path: str, detections: list, baselines: list, investigations: list) -> None:
