@@ -30,6 +30,7 @@ references:
 - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
 tags:
   analytic_story:
+  - Data Destruction
   - IcedID
   - Log4Shell CVE-2021-44228
   - WhisperGate
