@@ -40,12 +40,12 @@ tags:
   analytic_story:
   - BITS Jobs
   - Living Off The Land
-  cis20: null
+  cis20: []
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
   - T1197
-  nist: null
+  nist: []
   required_fields:
   - _time
   - dest_device_id

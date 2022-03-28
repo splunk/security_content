@@ -1,6 +1,6 @@
 name: System Process Running from Unexpected Location
 id: 28179107-099a-464a-94d3-08301e6c055f
-version: 3
+version: 4
 description: An attacker tries might try to use different version of a system command
   without overriding original, or they might try to avoid some detection running the
   process from a different folder. This detection checks that a list of system processes
@@ -64,12 +64,12 @@ search: ' $ssa_input = | from read_ssa_enriched_events() | eval device=ucast(map
   OR process_name="rdpsauachelper.exe" OR process_name="reagentc.exe" OR process_name="recoverydrive.exe"
   OR process_name="register-cimprovider.exe" OR process_name="registeriepkeys.exe"
   OR process_name="relpost.exe" OR process_name="remoteposworker.exe" OR process_name="rmclient.exe"
-  OR process_name="robocopy.exe" OR process_name="rpcping.exe" OR process_name="runlegacycplelevated.exe"
-  OR process_name="runtimebroker.exe" OR process_name="sihclient.exe" OR process_name="searchfilterhost.exe"
-  OR process_name="searchindexer.exe" OR process_name="searchprotocolhost.exe" OR
-  process_name="secedit.exe" OR process_name="sensordataservice.exe" OR process_name="setieinstalleddate.exe"
-  OR process_name="settingsynchost.exe" OR process_name="slidetoshutdown.exe" OR process_name="smartscreensettings.exe"
-  OR process_name="sndvol.exe" OR process_name="snippingtool.exe" OR process_name="soundrecorder.exe"
+  OR process_name="rpcping.exe" OR process_name="runlegacycplelevated.exe" OR process_name="runtimebroker.exe"
+  OR process_name="sihclient.exe" OR process_name="searchfilterhost.exe" OR process_name="searchindexer.exe"
+  OR process_name="searchprotocolhost.exe" OR process_name="secedit.exe" OR process_name="sensordataservice.exe"
+  OR process_name="setieinstalleddate.exe" OR process_name="settingsynchost.exe" OR
+  process_name="slidetoshutdown.exe" OR process_name="smartscreensettings.exe" OR
+  process_name="sndvol.exe" OR process_name="snippingtool.exe" OR process_name="soundrecorder.exe"
   OR process_name="spaceagent.exe" OR process_name="sppextcomobj.exe" OR process_name="srtasks.exe"
   OR process_name="stikynot.exe" OR process_name="synchost.exe" OR process_name="sysreseterr.exe"
   OR process_name="systempropertiesadvanced.exe" OR process_name="systempropertiescomputername.exe"
