@@ -1,7 +1,7 @@
 {
-    "create_time": "2021-11-30T14:20:41.840902+00:00",
+    "create_time": "2022-03-24T16:00:50.097247+00:00",
     "custom_function_id": "5febf154c78c6815119c08f9dfaba9a661a992d6",
-    "description": "Collect all indicators in a container and separate them by data type. Additional output data paths are created for each data type. Artifact scope is ignored. ",
+    "description": "Collect all indicators in a container and separate them by data type. Additional output data paths are created for each data type. Artifact scope is ignored.",
     "draft_mode": false,
     "inputs": [
         {
@@ -12,6 +12,43 @@
             "input_type": "item",
             "name": "container",
             "placeholder": "container:id"
+        },
+        {
+            "contains_type": [
+                "phantom artifact id"
+            ],
+            "description": "Optional parameter to only look for indicator values that occur in the artifacts with these IDs. Must be one of: json serializable list, comma separated integers, or a single integer.",
+            "input_type": "list",
+            "name": "artifact_ids_include",
+            "placeholder": "artifact:*.id"
+        },
+        {
+            "contains_type": [],
+            "description": "Optional parameter to only include indicators with at least one of the provided types in the output. If left empty, all indicator types will be included except those that are explicitly excluded. Accepts a comma-separated list.",
+            "input_type": "list",
+            "name": "indicator_types_include",
+            "placeholder": "ip, domain"
+        },
+        {
+            "contains_type": [],
+            "description": "Optional parameter to exclude indicators with any of the provided types from the output. Accepts a comma-separated list.",
+            "input_type": "list",
+            "name": "indicator_types_exclude",
+            "placeholder": "ip, domain"
+        },
+        {
+            "contains_type": [],
+            "description": "Optional parameter to only include indicators with at least one of the provided tags in the output. If left empty, tags will be ignored except when they are excluded. Accepts a comma-separated list.",
+            "input_type": "list",
+            "name": "indicator_tags_include",
+            "placeholder": "not_contained, malware"
+        },
+        {
+            "contains_type": [],
+            "description": "Optional parameter to exclude indicators with any of the provided tags from the output. Accepts a comma-separated list.",
+            "input_type": "list",
+            "name": "indicator_tags_exclude",
+            "placeholder": "contained, not_malware"
         }
     ],
     "outputs": [
@@ -72,6 +109,6 @@
             "description": ""
         }
     ],
-    "platform_version": "5.1.0.70187",
+    "platform_version": "5.2.1.78411",
     "python_version": "3"
 }
