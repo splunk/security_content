@@ -7,6 +7,6 @@ tests:
   latest_time: now
   attack_data:
   - file_name: remcos_registry_entry.log
-    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos_panel_client/remcos_registry_entry.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos_registry/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

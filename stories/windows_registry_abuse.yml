@@ -1,0 +1,27 @@
+name: Windows Registry Abuse
+id: 78df1df1-25f1-4387-90f9-c4ea31ce6b75
+version: 1
+date: '2022-03-17'
+author: Teoderick Contreras, Splunk
+description: Windows services are often used by attackers for persistence, privilege escalation,  
+  lateral movement, defense evasion, collection of data, a tool for recon, credential dumping and 
+  payload impact. This Analytic Story helps you monitor your environment for indications 
+  that Windows registry are being modified or created in a suspicious manner.
+narrative: Windows Registry is one of the powerful and yet still mysterious Windows features 
+  that can tweak or manipulate Windows policies and low-level configuration settings. 
+  Because of this capability,  most malware, adversaries or threat actors abuse this 
+  hierarchical database to do their malicious intent on a targeted host or network environment. 
+  In these cases, attackers often use tools to create or modify registry in ways that are not 
+  typical for most environments, providing opportunities for detection.
+references:
+- https://attack.mitre.org/techniques/T1112/
+- https://redcanary.com/blog/windows-registry-attacks-threat-detection/
+tags:
+  analytic_story: Windows Registry Abuse
+  category:
+  - Malware
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
