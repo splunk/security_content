@@ -1,0 +1,57 @@
+name: Splunk DoS via Malformed S2S Request
+id: fc246e56-953b-40c1-8634-868f9e474cbd
+version: 1
+date: '2022-03-24'
+author: Lou Stella, Splunk
+type: TTP
+datamodel: []
+description: On March 24th, 2022, Splunk published a security advisory for a possible Denial of Service stemming from the lack of validation in a specific key-value field in the Splunk-to-Splunk (S2S) protocol. This detection will alert on attempted exploitation in patched versions of Splunk. 
+search: '`splunkd` log_level=ERROR component=TcpInputProc thread_name=FwdDataReceiverThread | table host, src | `splunk_dos_via_malformed_s2s_request_filter`'
+how_to_implement: This detection does not require you to ingest any new data. The detection does require the ability to search the _internal index. This detection will only find attempted exploitation on versions of Splunk already patched for CVE-2021-3422.
+known_false_positives: None.
+references:
+- https://www.splunk.com/en_us/product-security/announcements/svd-2022-0301.html
+tags:
+  analytic_story:
+  - Splunk Vulnerabilities
+  cve: 
+  - CVE-2021-3422
+  asset_type: Endpoint
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  confidence: 100
+  context:
+  - Source:Endpoint
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1498/splunk_indexer_dos/splunkd.log
+  impact: 50
+  kill_chain_phases:
+  - Exploitation
+  message: An attempt to exploit CVE-2021-3422 was detected from $src$ against $host$
+  mitre_attack_id:
+  - T1498
+  nist:
+  - DE.CM
+  observable:
+  - name: host
+    type: Hostname
+    role:
+    - Victim
+  - name: src 
+    type: IP Address
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - host
+  - src
+  - log_level
+  - component
+  - thread_name
+  risk_score: 50
+  security_domain: threat
