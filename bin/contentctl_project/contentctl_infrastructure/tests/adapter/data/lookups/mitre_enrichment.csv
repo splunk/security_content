@@ -438,3 +438,19 @@ T1006,Direct Volume Access,Defense Evasion,no
 T1005,Data from Local System,Collection,Gamaredon Group|APT39|Frankenstein|Inception|Kimsuky|Soft Cell|Turla|menuPass|Dark Caracal|Dragonfly 2.0|Honeybee|APT37|APT28|APT3|BRONZE BUTLER|Patchwork|Stealth Falcon|Lazarus Group|Dust Storm|Threat Group-3390|APT1|Ke3chang
 T1003,OS Credential Dumping,Credential Access,APT39|Frankenstein|APT32|APT28|Leviathan|Sowbug|Suckfly|Poseidon Group|Axiom
 T1001,Data Obfuscation,Command And Control,Axiom
+T1204.003,Malicious Image,Execution,no
+T1580,Cloud Infrastructure Discovery,Discovery,no
+T1547.014,Active Setup,Persistence|Privilege Escalation,no
+T1595,Active Scanning,Reconnaissance,no
+T1558.004,AS-REP Roasting,Credential Access,no
+T1053.006,Systemd Timers,Execution|Persistence|Privilege Escalation,no
+T1016.001,Internet Connection Discovery,Discovery,no
+T1547.012,Print Processors,Persistence|Privilege Escalation,no
+T1592,Gather Victim Host Information,Reconnaissance,no
+T1218.012,Verclsid,Defense Evasion,no
+T1590,Gather Victim Network Information,Reconnaissance,no
+T1590.005,IP Addresses,Reconnaissance,no
+T1588.002,Tool,Resource Development,no
+T1557.002,ARP Cache Poisoning,Credential Access|Collection,no
+T1542.005,TFTP Boot,Defense Evasion|Persistence,no
+T1020.001,Traffic Duplication,Exfiltration,no
