@@ -30,6 +30,7 @@ tags:
   analytic_story:
   - Ryuk Ransomware
   - Windows Defense Evasion Tactics
+  - Windows Registry Abuse
   asset_type: Endpoint
   cis20:
   - CIS 8

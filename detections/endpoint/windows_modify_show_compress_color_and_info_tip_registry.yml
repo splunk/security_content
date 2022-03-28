@@ -36,6 +36,7 @@ tags:
   analytic_story:
   - Windows Defense Evasion Tactics
   - Hermetic Wiper
+  - Windows Registry Abuse
   cis20:
   - CIS 3
   - CIS 5

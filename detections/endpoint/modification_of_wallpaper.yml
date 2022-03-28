@@ -28,6 +28,7 @@ tags:
   - Ransomware
   - Revil Ransomware
   - BlackMatter Ransomware
+  - Windows Registry Abuse
   confidence: 90
   context:
   - Source:Endpoint
