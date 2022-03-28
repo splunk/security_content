@@ -66,7 +66,8 @@ Note that `windows_disable_change_password_through_registry_filter` is a empty m
 * Registry.registry_key_name
 * Registry.registry_path
 * Registry.registry_value_name
-* Registry.dest Registry.user
+* Registry.dest
+* Registry.user
 * Processes.process_id
 * Processes.process_name
 * Processes.process

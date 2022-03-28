@@ -57,8 +57,8 @@ The search looks for the Registry Key DisableAntiSpyware set to disable. This is
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `windows_disableantispyware_registry_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -80,6 +80,7 @@ It is unusual to turn this feature off a Windows system since it is a default se
 #### Associated Analytic story
 * [Ryuk Ransomware](/stories/ryuk_ransomware)
 * [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
+* [Windows Registry Abuse](/stories/windows_registry_abuse)
 
 
 #### Kill Chain Phase
