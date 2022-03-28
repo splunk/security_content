@@ -1,7 +1,7 @@
 name: Windows Indirect Command Execution Via pcalua Unit Test
 tests:
 - name: Windows Indirect Command Excecution via pcalua
-  file: endpoint/windows_indirect_command_execution.yml
+  file: endpoint/windows_indirect_command_execution_via_pcalua.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'
