@@ -22,7 +22,8 @@ tags:
   confidence: 100
   context:
   - Source:Endpoint
-  cve: CVE-2021-3422
+  cve: 
+  - CVE-2021-3422
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1498/splunk_indexer_dos/splunkd.log
   impact: 50
