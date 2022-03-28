@@ -27,7 +27,7 @@ tags:
 
 DynamicWrapperX is an ActiveX component that can be used in a script to call Windows API functions, but it requires the dynwrapx.dll to be installed and registered. With that, a binary writing dynwrapx.dll to disk and registering it into the registry is highly suspect. Why is it needed? In most malicious instances, it will be written to disk at a non-standard location. During triage, review parallel processes and pivot on the process_guid. Review the registry for any suspicious modifications meant to load dynwrapx.dll. Identify any suspicious module loads of dynwrapx.dll. This will identify the process that will invoke vbs/wscript/cscript.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -36,13 +36,50 @@ DynamicWrapperX is an ActiveX component that can be used in a script to call Win
 - **ID**: b0a078e4-2601-11ec-9aec-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 
 | [T1559.001](https://attack.mitre.org/techniques/T1559/001/) | Component Object Model | Execution |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -87,9 +124,6 @@ False positives should be limited, however it is possible to filter by Processes
 * [Remcos](/stories/remcos)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -97,8 +131,6 @@ False positives should be limited, however it is possible to filter by Processes
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | An instance of $process_name$ was identified on endpoint $dest$ downloading the DynamicWrapperX dll. |
-
-
 
 
 #### Reference

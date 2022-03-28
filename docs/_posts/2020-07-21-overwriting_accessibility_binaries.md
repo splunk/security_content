@@ -29,7 +29,7 @@ tags:
 
 Microsoft Windows contains accessibility features that can be launched with a key combination before a user has logged in. An adversary can modify or replace these programs so they can get a command prompt or backdoor without logging in to the system. This search looks for modifications to these binaries.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -38,13 +38,55 @@ Microsoft Windows contains accessibility features that can be launched with a ke
 - **ID**: 13c2f6c3-10c5-4deb-9ba1-7c4460ebe4ae
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1546](https://attack.mitre.org/techniques/T1546/) | Event Triggered Execution | Persistence, Privilege Escalation |
 
 | [T1546.008](https://attack.mitre.org/techniques/T1546/008/) | Accessibility Features | Persistence, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.PT
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 8
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -82,9 +124,6 @@ Microsoft may provide updates to these binaries. Verify that these changes do no
 * [Windows Privilege Escalation](/stories/windows_privilege_escalation)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -92,8 +131,6 @@ Microsoft may provide updates to these binaries. Verify that these changes do no
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 80 | 90 | A suspicious file modification or replace in $file_path$  in host $dest$ |
-
-
 
 
 #### Reference

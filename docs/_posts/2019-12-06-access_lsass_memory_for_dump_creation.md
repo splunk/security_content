@@ -26,7 +26,7 @@ tags:
 
 Detect memory dumping of the LSASS process.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -35,13 +35,55 @@ Detect memory dumping of the LSASS process.
 - **ID**: fb4c31b0-13e8-4155-8aa5-24de4b8d6717
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1003.001](https://attack.mitre.org/techniques/T1003/001/) | LSASS Memory | Credential Access |
 
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 6
+* CIS 8
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -82,9 +124,6 @@ Administrators can create memory dumps for debugging purposes, but memory dumps 
 * [Credential Dumping](/stories/credential_dumping)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -92,8 +131,6 @@ Administrators can create memory dumps for debugging purposes, but memory dumps 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | process $SourceImage$ injected into $TargetImage$ and was attempted dump LSASS on $dest$. Adversaries tend to do this when trying to accesss credential material stored in the process memory of the Local Security Authority Subsystem Service (LSASS). |
-
-
 
 
 #### Reference

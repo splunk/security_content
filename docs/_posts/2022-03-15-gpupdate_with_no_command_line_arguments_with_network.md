@@ -25,7 +25,7 @@ tags:
 
 The following analytic identifies gpupdate.exe with no command line arguments and with a network connection. It is unusual for gpupdate.exe to execute with no command line arguments present. This particular behavior is common with malicious software, including Cobalt Strike. During investigation, triage any network connections and parallel processes. Identify any suspicious module loads related to credential dumping or file writes. gpupdate.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -34,11 +34,48 @@ The following analytic identifies gpupdate.exe with no command line arguments an
 - **ID**: 2c853856-a140-11eb-a5b5-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -84,9 +121,6 @@ Limited false positives may be present in small environments. Tuning may be requ
 * [Cobalt Strike](/stories/cobalt_strike)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -94,8 +128,6 @@ Limited false positives may be present in small environments. Tuning may be requ
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 81.0 | 90 | 90 | Process gpupdate.exe  with parent_process $parent_process_name$ is executed on $dest$ by user $user$, followed by an outbound network connection to $connection_to_CNC$ on port $dest_port$. This behaviour is seen with cobaltstrike. |
-
-
 
 
 #### Reference

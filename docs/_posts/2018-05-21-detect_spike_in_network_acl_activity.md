@@ -23,7 +23,7 @@ tags:
 
 This search will detect users creating spikes in API activity related to network access-control lists (ACLs)in your AWS environment. This search is deprecated and have been translated to use the latest Change Datamodel.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -32,11 +32,55 @@ This search will detect users creating spikes in API activity related to network
 - **ID**: ada0f478-84a8-4641-a1f1-e32372d4bd53
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1562.007](https://attack.mitre.org/techniques/T1562/007/) | Disable or Modify Cloud Firewall | Defense Evasion |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.DP
+* DE.CM
+* PR.AC
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 12
+* CIS 11
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -91,9 +135,6 @@ The false-positive rate may vary based on the values of`dataPointThreshold` and 
 * [AWS Network ACL Activity](/stories/aws_network_acl_activity)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -101,8 +142,6 @@ The false-positive rate may vary based on the values of`dataPointThreshold` and 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

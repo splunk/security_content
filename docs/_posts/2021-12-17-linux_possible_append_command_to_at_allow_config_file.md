@@ -31,7 +31,7 @@ tags:
 
 This analytic looks for suspicious commandline that may use to append user entry to /etc/at.allow or /etc/at.deny. These 2 files are commonly abused by malware, adversaries or red teamers to persist on the targeted or compromised host. These config file can restrict user that can only execute at application (another schedule task application in linux). attacker can create a user or add the compromised username to that config file to execute at to schedule it malicious code. This anomaly detection can be a good indicator to investigate further the entry in created config file and who created it to verify if it is a false positive.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -40,13 +40,56 @@ This analytic looks for suspicious commandline that may use to append user entry
 - **ID**: 7bc20606-5f40-11ec-a586-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1053.001](https://attack.mitre.org/techniques/T1053/001/) | At (Linux) | Execution, Persistence, Privilege Escalation |
 
 | [T1053](https://attack.mitre.org/techniques/T1053/) | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 3
+* CIS 5
+* CIS 16
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -88,9 +131,6 @@ Administrator or network operator can use this commandline for automation purpos
 * [Linux Persistence Techniques](/stories/linux_persistence_techniques)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -98,8 +138,6 @@ Administrator or network operator can use this commandline for automation purpos
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 9.0 | 30 | 30 | A commandline $process$ that may modify at allow config file in $dest$ |
-
-
 
 
 #### Reference

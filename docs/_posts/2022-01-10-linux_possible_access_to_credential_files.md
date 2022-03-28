@@ -27,7 +27,7 @@ tags:
 
 This analytic is to detect a possible attempt to dump or access the content of /etc/passwd and /etc/shadow to enable offline credential cracking. "etc/passwd" store user information within linux OS while "etc/shadow" contain the user passwords hash. Adversaries and threat actors may attempt to access this to gain persistence and/or privilege escalation. This anomaly detection can be a good indicator of possible credential dumping technique but it might catch some normal administrator automation scripts or during credential auditing. In this scenario filter is needed.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -36,13 +36,56 @@ This analytic is to detect a possible attempt to dump or access the content of /
 - **ID**: 16107e0e-71fc-11ec-b862-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1003.008](https://attack.mitre.org/techniques/T1003/008/) | /etc/passwd and /etc/shadow | Credential Access |
 
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 3
+* CIS 5
+* CIS 16
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -84,9 +127,6 @@ Administrator or network operator can execute this command. Please update the fi
 * [Linux Persistence Techniques](/stories/linux_persistence_techniques)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -94,8 +134,6 @@ Administrator or network operator can execute this command. Please update the fi
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | A commandline $process$ executed on $dest$ |
-
-
 
 
 #### Reference

@@ -27,7 +27,7 @@ tags:
 
 This search is to identifies suspicious firewall disabling using netsh application. this technique is commonly seen in malware that tries to communicate or download its component or other payload to its C2 server.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -36,13 +36,50 @@ This search is to identifies suspicious firewall disabling using netsh applicati
 - **ID**: 6860a62c-9203-11eb-9e05-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1562.001](https://attack.mitre.org/techniques/T1562/001/) | Disable or Modify Tools | Defense Evasion |
 
 | [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -57,9 +94,9 @@ This search is to identifies suspicious firewall disabling using netsh applicati
 
 #### Macros
 The SPL above uses the following Macros:
+* [process_netsh](https://github.com/splunk/security_content/blob/develop/macros/process_netsh.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
-* [process_netsh](https://github.com/splunk/security_content/blob/develop/macros/process_netsh.yml)
 
 Note that `disabling_firewall_with_netsh_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -88,9 +125,6 @@ admin may disable firewall during testing or fixing network problem.
 * [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -98,8 +132,6 @@ admin may disable firewall during testing or fixing network problem.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | The Windows Firewall was disabled on $dest$ by $user$. |
-
-
 
 
 #### Reference

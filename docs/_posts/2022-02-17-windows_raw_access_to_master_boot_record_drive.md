@@ -27,7 +27,7 @@ tags:
 
 This analytic is to look for suspicious raw access read to drive where the master boot record is placed. This technique was seen in several attacks by adversaries or threat actor to wipe, encrypt or overwrite the master boot record code as part of their impact payload. This detection is a good indicator that there is a process try to read or write on MBR sector.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -36,13 +36,56 @@ This analytic is to look for suspicious raw access read to drive where the maste
 - **ID**: 7b83f666-900c-11ec-a2d9-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1561.002](https://attack.mitre.org/techniques/T1561/002/) | Disk Structure Wipe | Impact |
 
 | [T1561](https://attack.mitre.org/techniques/T1561/) | Disk Wipe | Impact |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 3
+* CIS 5
+* CIS 16
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -83,9 +126,6 @@ This event is really notable but we found minimal number of normal application f
 * [Hermetic Wiper](/stories/hermetic_wiper)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -93,8 +133,6 @@ This event is really notable but we found minimal number of normal application f
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 90.0 | 90 | 100 | process accessing MBR $device$ in $dest$ |
-
-
 
 
 #### Reference

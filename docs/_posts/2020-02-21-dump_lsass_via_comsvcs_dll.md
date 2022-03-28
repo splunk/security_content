@@ -27,7 +27,7 @@ tags:
 
 Detect the usage of comsvcs.dll for dumping the lsass process.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -36,13 +36,56 @@ Detect the usage of comsvcs.dll for dumping the lsass process.
 - **ID**: 8943b567-f14d-4ee8-a0bb-2121d4ce3184
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1003.001](https://attack.mitre.org/techniques/T1003/001/) | LSASS Memory | Credential Access |
 
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 3
+* CIS 5
+* CIS 16
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -91,9 +134,6 @@ None identified.
 * [Living Off The Land](/stories/living_off_the_land)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -101,8 +141,6 @@ None identified.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified accessing credentials using comsvcs.dll on endpoint $dest$ by user $user$. |
-
-
 
 
 #### Reference

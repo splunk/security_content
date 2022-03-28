@@ -27,7 +27,7 @@ tags:
 
 This analytic detects a potential usage of secretsdump.py tool for dumping credentials (ntlm hash) from a copy of ntds.dit and SAM.Security,SYSTEM registrry hive. This technique was seen in some attacker that dump ntlm hashes offline after having a copy of ntds.dit and SAM/SYSTEM/SECURITY registry hive.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -36,13 +36,50 @@ This analytic detects a potential usage of secretsdump.py tool for dumping crede
 - **ID**: 5672819c-be09-11eb-bbfb-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1003.003](https://attack.mitre.org/techniques/T1003/003/) | NTDS | Credential Access |
 
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -84,9 +121,6 @@ unknown
 * [Credential Dumping](/stories/credential_dumping)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -94,8 +128,6 @@ unknown
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | A secretdump process $process_name$ with secretdump commandline $process$ to dump credentials in host $dest$ |
-
-
 
 
 #### Reference

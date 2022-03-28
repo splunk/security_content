@@ -27,7 +27,7 @@ tags:
 
 This search is to detect a suspicious rundll32.exe process having a http connection and do a dns query in some web domain. This technique was seen in IcedID malware where the rundll32 that execute its payload will contact amazon.com to check internet connect and to communicate to its C&C server to download config and other file component.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -36,13 +36,50 @@ This search is to detect a suspicious rundll32.exe process having a http connect
 - **ID**: f1483f5e-ee29-11eb-9d23-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
 
 | [T1218.011](https://attack.mitre.org/techniques/T1218/011/) | Rundll32 | Defense Evasion |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -81,9 +118,6 @@ unknown
 * [Living Off The Land](/stories/living_off_the_land)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -91,8 +125,6 @@ unknown
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | rundll32 process $process_name$ having a dns query to $QueryName$ in host $Computer$ |
-
-
 
 
 #### Reference

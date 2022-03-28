@@ -25,7 +25,7 @@ We have not been able to test, simulate, or build datasets for this object. Use 
 
 The malware sunburst will load the malicious dll by SolarWinds.BusinessLayerHost.exe. After a period of 12-14 days, the malware will attempt to resolve a subdomain of avsvmcloud.com. This detections will correlate both events.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -34,11 +34,53 @@ The malware sunburst will load the malicious dll by SolarWinds.BusinessLayerHost
 - **ID**: 701a8740-e8db-40df-9190-5516d3819787
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1203](https://attack.mitre.org/techniques/T1203/) | Exploitation for Client Execution | Execution |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 6
+* CIS 8
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -77,9 +119,6 @@ unknown
 * [NOBELIUM Group](/stories/nobelium_group)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -87,8 +126,6 @@ unknown
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

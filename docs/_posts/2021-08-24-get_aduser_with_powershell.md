@@ -27,7 +27,7 @@ tags:
 
 This analytic looks for the execution of `powershell.exe` with command-line arguments utilized to enumerate domain users. The `Get-AdUser' commandlet returns a list of all domain users. Red Teams and adversaries alike may use this commandlet to identify remote systems for situational awareness and Active Directory Discovery.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -36,13 +36,50 @@ This analytic looks for the execution of `powershell.exe` with command-line argu
 - **ID**: 0b6ee3f4-04e3-11ec-a87d-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1087.002](https://attack.mitre.org/techniques/T1087/002/) | Domain Account | Discovery |
 
 | [T1087](https://attack.mitre.org/techniques/T1087/) | Account Discovery | Discovery |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Reconnaissance
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -84,9 +121,6 @@ Administrators or power users may use this command for troubleshooting.
 * [Active Directory Discovery](/stories/active_directory_discovery)
 
 
-#### Kill Chain Phase
-* Reconnaissance
-
 
 
 #### RBA
@@ -94,8 +128,6 @@ Administrators or power users may use this command for troubleshooting.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | an instance of process $process_name$ with commandline $process$ in $dest$ |
-
-
 
 
 #### Reference

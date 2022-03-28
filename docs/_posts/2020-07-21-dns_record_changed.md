@@ -24,7 +24,7 @@ tags:
 
 The search takes the DNS records and their answers results of the discovered_dns_records lookup and finds if any records have changed by searching DNS response from the Network_Resolution datamodel across the last day.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Resolution](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution)
 
@@ -33,11 +33,59 @@ The search takes the DNS records and their answers results of the discovered_dns
 - **ID**: 44d3a43e-dcd5-49f7-8356-5209bb369065
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1071.004](https://attack.mitre.org/techniques/T1071/004/) | DNS | Command And Control |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Command & Control
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* ID.AM
+* PR.DS
+* PR.IP
+* DE.AE
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 1
+* CIS 3
+* CIS 8
+* CIS 12
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -97,9 +145,6 @@ Legitimate DNS changes can be detected in this search. Investigate, verify and u
 * [DNS Hijacking](/stories/dns_hijacking)
 
 
-#### Kill Chain Phase
-* Command & Control
-
 
 
 #### RBA
@@ -107,8 +152,6 @@ Legitimate DNS changes can be detected in this search. Investigate, verify and u
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

@@ -24,7 +24,7 @@ tags:
 Detect a renamed instance of procdump.exe dumping the lsass process. This query looks for both -mm and -ma usage. -mm will produce a mini dump file and -ma will write a dump file with all process memory. Both are highly suspect and should be reviewed. Modify the query as needed.\
 During triage, confirm this is procdump.exe executing. If it is the first time a Sysinternals utility has been ran, it is possible there will be a -accepteula on the command line. Review other endpoint data sources for cross process (injection) into lsass.exe.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -33,11 +33,54 @@ During triage, confirm this is procdump.exe executing. If it is the first time a
 - **ID**: 21276daa-663d-11eb-ae93-0242ac130002
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1003.001](https://attack.mitre.org/techniques/T1003/001/) | LSASS Memory | Credential Access |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 3
+* CIS 5
+* CIS 16
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -78,9 +121,6 @@ None identified.
 * [HAFNIUM Group](/stories/hafnium_group)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -88,8 +128,6 @@ None identified.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | The following $process_name$ has been identified as renamed, spawning from $parent_process_name$ on $dest$, attempting to dump lsass.exe. |
-
-
 
 
 #### Reference

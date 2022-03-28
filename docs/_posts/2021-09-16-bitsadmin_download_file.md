@@ -28,7 +28,7 @@ tags:
 
 The following query identifies Microsoft Background Intelligent Transfer Service utility `bitsadmin.exe` using the `transfer` parameter to download a remote object. In addition, look for `download` or `upload` on the command-line, the switches are not required to perform a transfer. Capture any files downloaded. Review the reputation of the IP or domain used. Typically once executed, a follow on command will be used to execute the dropped file. Note that the network connection or file modification events related will not spawn or create from `bitsadmin.exe`, but the artifacts will appear in a parallel process of `svchost.exe` with a command-line similar to `svchost.exe -k netsvcs -s BITS`. It's important to review all parallel and child processes to capture any behaviors and artifacts. In some suspicious and malicious instances, BITS jobs will be created. You can use `bitsadmin /list /verbose` to list out the jobs during investigation.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -37,13 +37,50 @@ The following query identifies Microsoft Background Intelligent Transfer Service
 - **ID**: 80630ff4-8e4c-11eb-aab5-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1197](https://attack.mitre.org/techniques/T1197/) | BITS Jobs | Defense Evasion, Persistence |
 
 | [T1105](https://attack.mitre.org/techniques/T1105/) | Ingress Tool Transfer | Command And Control |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -59,8 +96,8 @@ The following query identifies Microsoft Background Intelligent Transfer Service
 #### Macros
 The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [process_bitsadmin](https://github.com/splunk/security_content/blob/develop/macros/process_bitsadmin.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `bitsadmin_download_file_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -92,9 +129,6 @@ Limited false positives, however it may be required to filter based on parent pr
 * [Living Off The Land](/stories/living_off_the_land)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -102,8 +136,6 @@ Limited false positives, however it may be required to filter based on parent pr
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to download a file. |
-
-
 
 
 #### Reference

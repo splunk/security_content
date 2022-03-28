@@ -45,7 +45,7 @@ tags:
 
 The following analytic assists with identifying a PowerShell process spawned as a child or grand child process of commonly abused processes during lateral movement techniques including `services.exe`, `wmiprsve.exe`, `svchost.exe`, `wsmprovhost.exe` and `mmc.exe`. Legitimate Windows features such as the Service Control Manager, Windows Management Instrumentation, Task Scheduler, Windows Remote Management and the DCOM protocol can be abused to start a process on a remote endpoint. Looking for PowerShell spawned out of this processes may reveal a lateral movement attack. Red Teams and adversaries alike may abuse these services during a breach for lateral movement and remote code execution.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -54,7 +54,11 @@ The following analytic assists with identifying a PowerShell process spawned as 
 - **ID**: cb909b3e-512b-11ec-aa31-3e22fbd008af
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
@@ -71,6 +75,39 @@ The following analytic assists with identifying a PowerShell process spawned as 
 | [T1543.003](https://attack.mitre.org/techniques/T1543/003/) | Windows Service | Persistence, Privilege Escalation |
 
 | [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -116,9 +153,6 @@ Legitimate applications may spawn PowerShell as a child process of the the ident
 * [Malicious PowerShell](/stories/malicious_powershell)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -126,8 +160,6 @@ Legitimate applications may spawn PowerShell as a child process of the the ident
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 45.0 | 90 | 50 | A PowerShell process was spawned as a child process of typically abused processes on $dest$ |
-
-
 
 
 #### Reference

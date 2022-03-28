@@ -29,7 +29,7 @@ tags:
 
 This analytic is to looks for file creation of sudoers.tmp file cause by editing /etc/sudoers using visudo or editor in linux platform. This technique may abuse by adversaries, malware author and red teamers to gain elevated privilege to targeted or compromised host. /etc/sudoers file controls who can run what commands as what users on what machines and can also control special things such as whether you need a password for particular commands. The file is composed of aliases (basically variables) and user specifications (which control who can run what).
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -38,13 +38,56 @@ This analytic is to looks for file creation of sudoers.tmp file cause by editing
 - **ID**: be254a5c-63e7-11ec-89da-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1548.003](https://attack.mitre.org/techniques/T1548/003/) | Sudo and Sudo Caching | Defense Evasion, Privilege Escalation |
 
 | [T1548](https://attack.mitre.org/techniques/T1548/) | Abuse Elevation Control Mechanism | Defense Evasion, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 3
+* CIS 5
+* CIS 16
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -84,9 +127,6 @@ administrator or network operator can execute this command. Please update the fi
 * [Linux Persistence Techniques](/stories/linux_persistence_techniques)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -94,8 +134,6 @@ administrator or network operator can execute this command. Please update the fi
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 80 | 90 | A file $file_name$ is created in $file_path$ on $dest$ |
-
-
 
 
 #### Reference

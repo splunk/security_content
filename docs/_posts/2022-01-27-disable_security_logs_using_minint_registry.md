@@ -24,7 +24,7 @@ tags:
 
 This analytic is to detect a suspicious registry modification to disable security audit logs. This technique was shared by a researcher to disable Security logs of windows by adding this registry. The Windows will think it is WinPE and will not log any event to the Security Log
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -33,11 +33,48 @@ This analytic is to detect a suspicious registry modification to disable securit
 - **ID**: 39ebdc68-25b9-11ec-aec7-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1112](https://attack.mitre.org/techniques/T1112/) | Modify Registry | Defense Evasion |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -81,9 +118,6 @@ Unknown.
 * [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -91,8 +125,6 @@ Unknown.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | modified/added/deleted registry entry $Registry.registry_path$ in $dest$ |
-
-
 
 
 #### Reference

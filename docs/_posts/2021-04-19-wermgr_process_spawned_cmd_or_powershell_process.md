@@ -24,7 +24,7 @@ tags:
 
 This search is designed to detect suspicious cmd and powershell process spawned by wermgr.exe process. This suspicious behavior are commonly seen in code injection technique technique like trickbot to execute a shellcode, dll modules to run malicious behavior.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -33,11 +33,48 @@ This search is designed to detect suspicious cmd and powershell process spawned 
 - **ID**: e8fc95bc-a107-11eb-a978-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -52,10 +89,10 @@ This search is designed to detect suspicious cmd and powershell process spawned 
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_cmd](https://github.com/splunk/security_content/blob/develop/macros/process_cmd.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [process_powershell](https://github.com/splunk/security_content/blob/develop/macros/process_powershell.yml)
+* [process_cmd](https://github.com/splunk/security_content/blob/develop/macros/process_cmd.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `wermgr_process_spawned_cmd_or_powershell_process_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -84,9 +121,6 @@ unknown
 * [Trickbot](/stories/trickbot)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -94,8 +128,6 @@ unknown
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | Wermgr.exe spawning suspicious processes on $dest$ |
-
-
 
 
 #### Reference

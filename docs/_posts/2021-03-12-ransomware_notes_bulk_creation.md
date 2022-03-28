@@ -24,7 +24,7 @@ tags:
 
 The following analytics identifies a big number of instance of ransomware notes (filetype e.g .txt, .html, .hta) file creation to the infected machine. This behavior is a good sensor if the ransomware note filename is quite new for security industry or the ransomware note filename is not in your ransomware lookup table list for monitoring.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -33,11 +33,48 @@ The following analytics identifies a big number of instance of ransomware notes 
 - **ID**: eff7919a-8330-11eb-83f8-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1486](https://attack.mitre.org/techniques/T1486/) | Data Encrypted for Impact | Impact |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -80,9 +117,6 @@ unknown
 * [BlackMatter Ransomware](/stories/blackmatter_ransomware)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -90,8 +124,6 @@ unknown
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 81.0 | 90 | 90 | A high frequency file creation of $file_name$ in different file path in host $Computer$ |
-
-
 
 
 #### Reference

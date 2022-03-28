@@ -31,7 +31,7 @@ tags:
 
 The following analytic identifies the creation or deletion of a scheduled task using schtasks.exe with flags - create or delete being passed on the command-line. This has been associated with the Dragonfly threat actor, and the SUNBURST attack against Solarwinds. This analytic replaces "Scheduled Task used in BadRabbit Ransomware".
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -40,13 +40,54 @@ The following analytic identifies the creation or deletion of a scheduled task u
 - **ID**: d5af132c-7c17-439c-9d31-13d55340f36c
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1053.005](https://attack.mitre.org/techniques/T1053/005/) | Scheduled Task | Execution, Persistence, Privilege Escalation |
 
 | [T1053](https://attack.mitre.org/techniques/T1053/) | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.IP
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 3
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -89,9 +130,6 @@ It is possible scripts or administrators may trigger this analytic. Filter as ne
 * [Living Off The Land](/stories/living_off_the_land)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -99,8 +137,6 @@ It is possible scripts or administrators may trigger this analytic. Filter as ne
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | A schedule task process $process_name$ with create or delete commandline $process$ in host $dest$ |
-
-
 
 
 #### Reference

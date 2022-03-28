@@ -44,7 +44,7 @@ We have not been able to test, simulate, or build datasets for this object. Use 
 
 {{ object.description }}
 
-- **Type**: [{{ object.type }}](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [{{ object.type }}](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: {{ object.tags.product|join(', ') }}
 {% if object.datamodel -%}- **Datamodel**: {% for datamodel in object.datamodel %}[{{ datamodel }}](https://docs.splunk.com/Documentation/CIM/latest/User/{{ datamodel|replace("_", "")}}){% if not loop.last %}, {% endif %}{%-endfor %}{% endif %}
 {% if object.splunk_app_enrichment -%}- **Datasource**: {% for splunk_app in object.splunk_app_enrichment %}[{{ splunk_app.name }}]({{splunk_app.url}}){% if not loop.last %}, {% endif %}{%-endfor %}{% endif %}
@@ -52,9 +52,13 @@ We have not been able to test, simulate, or build datasets for this object. Use 
 - **Author**: {{object.author}}
 - **ID**: {{ object.id }}
 
-{% if object.tags.mitre_attack_id %}
-#### [ATT&CK](https://attack.mitre.org/)
 
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
+{% if object.tags.mitre_attack_id %}
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 {%- for attack in object.tags.mitre_attack_enrichments %}
@@ -67,6 +71,53 @@ We have not been able to test, simulate, or build datasets for this object. Use 
 {% endif -%}
 {% endfor %}
 {% endif -%}
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+{% for phase in object.annotations.kill_chain_phases -%}
+* {{ phase }}
+{% endfor %}
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+{% if object.annotations.nist -%}
+{% for nist in object.annotations.nist -%}
+* {{ nist }}
+{% endfor %}
+{% endif %}
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+{% if object.annotations.cis20 -%}
+{% for cis in object.annotations.cis20 -%}
+* {{ cis }}
+{% endfor %}
+{% endif %}
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+{% if object.cve_enrichment -%}
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+{% for cve in object.cve_enrichment -%}
+| [{{ cve.id }}](https://nvd.nist.gov/vuln/detail/{{cve.id}}) | {{ cve.summary }} | {{ cve.cvss }} |
+{% endfor %}
+{% endif %}
+
+</details>
 
 #### Search
 
@@ -111,10 +162,6 @@ The SPL above uses the following Lookups:
 * [{{ story }}](/stories/{{story|lower|replace(" ", "_")}})
 {% endfor %}
 
-#### Kill Chain Phase
-{% for phase in object.tags.kill_chain_phases -%}
-* {{ phase }}
-{% endfor %}
 
 {% if object.tags.observable %}
 #### RBA
@@ -122,16 +169,6 @@ The SPL above uses the following Lookups:
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | {{(object.tags.impact * object.tags.confidence)/100}} | {{ object.tags.impact }} | {{ object.tags.confidence }} | {{object.tags.message}} |
-{% endif %}
-
-{% if object.cve_enrichment -%}
-#### CVE
-
-| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
-| ----------- | ----------- | -------------- |
-{% for cve in object.cve_enrichment -%}
-| [{{ cve.id }}](https://nvd.nist.gov/vuln/detail/{{cve.id}}) | {{ cve.summary }} | {{ cve.cvss }} |
-{% endfor %}
 {% endif %}
 
 #### Reference

@@ -27,7 +27,7 @@ tags:
 
 The following detection identifies a 7z.exe spawned from `Rundll32.exe` or `Dllhost.exe`. It is assumed that the adversary has brought in `7z.exe` and `7z.dll`. It has been observed where an adversary will rename `7z.exe`. Additional coverage may be required to identify the behavior of renamed instances of `7z.exe`. During triage, identify the source of injection into `Rundll32.exe` or `Dllhost.exe`. Capture any files written to disk and analyze as needed. Review parallel processes for additional behaviors. Typically, archiving files will result in exfiltration.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -36,13 +36,50 @@ The following detection identifies a 7z.exe spawned from `Rundll32.exe` or `Dllh
 - **ID**: 9364ee8e-a39a-11eb-8f1d-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1560.001](https://attack.mitre.org/techniques/T1560/001/) | Archive via Utility | Collection |
 
 | [T1560](https://attack.mitre.org/techniques/T1560/) | Archive Collected Data | Collection |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -86,9 +123,6 @@ False positives should be limited as this behavior is not normal for `rundll32.e
 * [NOBELIUM Group](/stories/nobelium_group)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -96,8 +130,6 @@ False positives should be limited as this behavior is not normal for `rundll32.e
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 64.0 | 80 | 80 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$. This behavior is indicative of suspicious loading of 7zip. |
-
-
 
 
 #### Reference

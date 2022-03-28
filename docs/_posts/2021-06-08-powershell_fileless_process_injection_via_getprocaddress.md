@@ -33,7 +33,7 @@ This analytic identifies `GetProcAddress` in the script block. This is not norma
 In use, `$var_gpa = $var_unsafe_native_methods.GetMethod(GetProcAddress` and later referenced/executed elsewhere. \
 During triage, review parallel processes using an EDR product or 4688 events. It will be important to understand the timeline of events around this activity. Review the entire logged PowerShell script block.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -42,7 +42,11 @@ During triage, review parallel processes using an EDR product or 4688 events. It
 - **ID**: a26d9db4-c883-11eb-9d75-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
@@ -51,6 +55,39 @@ During triage, review parallel processes using an EDR product or 4688 events. It
 | [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation |
 
 | [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -88,9 +125,6 @@ Limited false positives. Filter as needed.
 * [Malicious PowerShell](/stories/malicious_powershell)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -98,8 +132,6 @@ Limited false positives. Filter as needed.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 48.0 | 60 | 80 | A suspicious powershell script contains GetProcAddress API in $Message$ with EventCode $EventCode$ in host $ComputerName$ |
-
-
 
 
 #### Reference

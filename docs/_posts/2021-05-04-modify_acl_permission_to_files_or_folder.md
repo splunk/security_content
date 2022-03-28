@@ -24,7 +24,7 @@ tags:
 
 This analytic identifies suspicious modification of ACL permission to a files or folder to make it available to everyone. This technique may be used by the adversary to evade ACLs or protected files access. This changes is commonly configured by the file or directory owner with appropriate permission. This behavior is a good indicator if this command seen on a machine utilized by an account with no permission to do so.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -33,11 +33,48 @@ This analytic identifies suspicious modification of ACL permission to a files or
 - **ID**: 7e8458cc-acca-11eb-9e3f-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1222](https://attack.mitre.org/techniques/T1222/) | File and Directory Permissions Modification | Defense Evasion |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -77,9 +114,6 @@ administrators may use this command. Filter as needed.
 * [XMRig](/stories/xmrig)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -87,8 +121,6 @@ administrators may use this command. Filter as needed.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 32.0 | 40 | 80 | Suspicious ACL permission modification on $dest$ |
-
-
 
 
 #### Reference

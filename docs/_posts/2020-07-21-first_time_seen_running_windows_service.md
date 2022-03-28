@@ -28,7 +28,7 @@ We have not been able to test, simulate, or build datasets for this object. Use 
 
 This search looks for the first and last time a Windows service is seen running in your environment. This table is then cached.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -37,13 +37,59 @@ This search looks for the first and last time a Windows service is seen running 
 - **ID**: 823136f2-d755-4b6d-ae04-372b486a5808
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1569](https://attack.mitre.org/techniques/T1569/) | System Services | Execution |
 
 | [T1569.002](https://attack.mitre.org/techniques/T1569/002/) | Service Execution | Execution |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Installation
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* ID.AM
+* PR.DS
+* PR.AC
+* DE.AE
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 2
+* CIS 9
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -88,10 +134,6 @@ A previously unseen service is not necessarily malicious. Verify that the servic
 * [NOBELIUM Group](/stories/nobelium_group)
 
 
-#### Kill Chain Phase
-* Installation
-* Actions on Objectives
-
 
 
 #### RBA
@@ -99,8 +141,6 @@ A previously unseen service is not necessarily malicious. Verify that the servic
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

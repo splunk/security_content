@@ -27,7 +27,7 @@ We have not been able to test, simulate, or build datasets for this object. Use 
 
 This search detects SIGRed via Zeek DNS and Zeek Conn data.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Resolution](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution)
 
@@ -36,11 +36,57 @@ This search detects SIGRed via Zeek DNS and Zeek Conn data.
 - **ID**: c5c622e4-d073-11ea-87d0-0242ac130003
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1203](https://attack.mitre.org/techniques/T1203/) | Exploitation for Client Execution | Execution |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 8
+* CIS 16
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+| [CVE-2020-1350](https://nvd.nist.gov/vuln/detail/CVE-2020-1350) | A remote code execution vulnerability exists in Windows Domain Name System servers when they fail to properly handle requests, aka 'Windows DNS Server Remote Code Execution Vulnerability'. | 10.0 |
+
+
+
+</details>
 
 #### Search
 
@@ -81,9 +127,6 @@ unknown
 * [Windows DNS SIGRed CVE-2020-1350](/stories/windows_dns_sigred_cve-2020-1350)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -91,14 +134,6 @@ unknown
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
-#### CVE
-
-| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
-| ----------- | ----------- | -------------- |
-| [CVE-2020-1350](https://nvd.nist.gov/vuln/detail/CVE-2020-1350) | A remote code execution vulnerability exists in Windows Domain Name System servers when they fail to properly handle requests, aka 'Windows DNS Server Remote Code Execution Vulnerability'. | 10.0 |
-
 
 
 #### Reference

@@ -27,7 +27,7 @@ tags:
 
 This analytic will identify a suspicious PowerShell command used to delete the Windows Defender folder. This technique was seen used by the WhisperGate malware campaign where it used Nirsofts advancedrun.exe to gain administrative privileges to then execute a PowerShell command to delete the Windows Defender folder. This is a good indicator the offending process is trying corrupt a Windows Defender installation.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -36,13 +36,56 @@ This analytic will identify a suspicious PowerShell command used to delete the W
 - **ID**: adf47620-79fa-11ec-b248-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1562.001](https://attack.mitre.org/techniques/T1562/001/) | Disable or Modify Tools | Defense Evasion |
 
 | [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 3
+* CIS 5
+* CIS 16
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -79,9 +122,6 @@ unknown
 * [WhisperGate](/stories/whispergate)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -89,8 +129,6 @@ unknown
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 90.0 | 100 | 90 | suspicious powershell script $Message$ was executed on the $ComputerName$ |
-
-
 
 
 #### Reference

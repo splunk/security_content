@@ -27,7 +27,7 @@ We have not been able to test, simulate, or build datasets for this object. Use 
 
 This search looks for specific command-line arguments that may indicate the execution of tools made by Nirsoft, which are legitimate, but may be abused by attackers.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -36,11 +36,53 @@ This search looks for specific command-line arguments that may indicate the exec
 - **ID**: 3d8d201c-aa03-422d-b0ee-2e5ecf9718c0
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1072](https://attack.mitre.org/techniques/T1072/) | Software Deployment Tools | Execution, Lateral Movement |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Installation
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.IP
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 3
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -78,10 +120,6 @@ While legitimate, these NirSoft tools are prone to abuse. You should verfiy that
 * [Emotet Malware  DHS Report TA18-201A ](/stories/emotet_malware__dhs_report_ta18-201a_)
 
 
-#### Kill Chain Phase
-* Installation
-* Actions on Objectives
-
 
 
 #### RBA
@@ -89,8 +127,6 @@ While legitimate, these NirSoft tools are prone to abuse. You should verfiy that
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

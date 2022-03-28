@@ -27,7 +27,7 @@ tags:
 
 This analytic is to detect a possible abuse of verclsid to execute malicious file through generate CLSID. This process is a normal application of windows to verify the CLSID COM object before it is instantiated by Windows Explorer. This hunting query can be a good pivot point to analyze what is he CLSID or COM object pointing too to check if it is a valid application or not.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -36,13 +36,50 @@ This analytic is to detect a possible abuse of verclsid to execute malicious fil
 - **ID**: 61e9a56a-20fa-11ec-8ba3-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1218.012](https://attack.mitre.org/techniques/T1218/012/) | Verclsid | Defense Evasion |
 
 | [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -57,9 +94,9 @@ This analytic is to detect a possible abuse of verclsid to execute malicious fil
 
 #### Macros
 The SPL above uses the following Macros:
+* [process_verclsid](https://github.com/splunk/security_content/blob/develop/macros/process_verclsid.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
-* [process_verclsid](https://github.com/splunk/security_content/blob/develop/macros/process_verclsid.yml)
 
 Note that `verclsid_clsid_execution_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -88,9 +125,6 @@ windows can used this application for its normal COM object validation.
 * [Unusual Processes](/stories/unusual_processes)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -98,8 +132,6 @@ windows can used this application for its normal COM object validation.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | process $process_name$ to execute possible clsid commandline $process$ in $dest$ |
-
-
 
 
 #### Reference

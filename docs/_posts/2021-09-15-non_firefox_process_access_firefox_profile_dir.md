@@ -27,7 +27,7 @@ tags:
 
 This search is to detect an anomaly event of non-firefox process accessing the files in  profile folder. This folder contains all the sqlite database of the firefox browser related to users login, history, cookies and etc. Most of the RAT, trojan spy as well as FIN7 jssloader try to parse the those sqlite database to collect information on the compromised host. This SACL Event (4663) need to be enabled to tthe firefox profile directory to be eable to use this. Since you monitoring this access to the folder a noise coming from firefox need to be filter and also sqlite db browser and explorer .exe to make this detection more stable.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -36,13 +36,50 @@ This search is to detect an anomaly event of non-firefox process accessing the f
 - **ID**: e6fc13b0-1609-11ec-b533-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1555](https://attack.mitre.org/techniques/T1555/) | Credentials from Password Stores | Credential Access |
 
 | [T1555.003](https://attack.mitre.org/techniques/T1555/003/) | Credentials from Web Browsers | Credential Access |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -56,8 +93,8 @@ This search is to detect an anomaly event of non-firefox process accessing the f
 
 #### Macros
 The SPL above uses the following Macros:
-* [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 
 Note that `non_firefox_process_access_firefox_profile_dir_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -85,9 +122,6 @@ other browser not listed related to firefox may catch by this rule.
 * [Remcos](/stories/remcos)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -95,8 +129,6 @@ other browser not listed related to firefox may catch by this rule.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 35.0 | 50 | 70 | a non firefox browser process $process_name$ accessing $Object_Name$ |
-
-
 
 
 #### Reference

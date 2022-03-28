@@ -28,7 +28,7 @@ tags:
 
 This search looks for modifications to registry keys that can be used to elevate privileges. The registry keys under "Image File Execution Options" are used to intercept calls to an executable and can be used to attach malicious binaries to benign system binaries.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -37,13 +37,55 @@ This search looks for modifications to registry keys that can be used to elevate
 - **ID**: c9f4b923-f8af-4155-b697-1354f5bcbc5e
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1546.012](https://attack.mitre.org/techniques/T1546/012/) | Image File Execution Options Injection | Persistence, Privilege Escalation |
 
 | [T1546](https://attack.mitre.org/techniques/T1546/) | Event Triggered Execution | Persistence, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.PT
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 8
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -87,9 +129,6 @@ There are many legitimate applications that must execute upon system startup and
 * [Cloud Federated Credential Abuse](/stories/cloud_federated_credential_abuse)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -97,8 +136,6 @@ There are many legitimate applications that must execute upon system startup and
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 76.0 | 80 | 95 | A registry activity in $registry_path$ related to privilege escalation in host $dest$ |
-
-
 
 
 #### Reference

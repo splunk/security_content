@@ -28,7 +28,7 @@ tags:
 
 The following detection identifies the module load of mshtml.dll into an Office product. This behavior has been related to CVE-2021-40444, whereas the malicious document will load ActiveX, which activates the MSHTML component. The vulnerability resides in the MSHTML component. During triage, identify parallel processes and capture any file modifications for analysis.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -37,13 +37,54 @@ The following detection identifies the module load of mshtml.dll into an Office 
 - **ID**: 5f1c168e-118b-11ec-84ff-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1566](https://attack.mitre.org/techniques/T1566/) | Phishing | Initial Access |
 
 | [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+| [CVE-2021-40444](https://nvd.nist.gov/vuln/detail/CVE-2021-40444) | Microsoft MSHTML Remote Code Execution Vulnerability | 6.8 |
+
+
+
+</details>
 
 #### Search
 
@@ -83,9 +124,6 @@ Limited false positives will be present, however, tune as necessary.
 * [Microsoft MSHTML Remote Code Execution CVE-2021-40444](/stories/microsoft_mshtml_remote_code_execution_cve-2021-40444)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -93,14 +131,6 @@ Limited false positives will be present, however, tune as necessary.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | An instance of $process_name$ was identified on endpoint $dest$ loading mshtml.dll. |
-
-
-#### CVE
-
-| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
-| ----------- | ----------- | -------------- |
-| [CVE-2021-40444](https://nvd.nist.gov/vuln/detail/CVE-2021-40444) | Microsoft MSHTML Remote Code Execution Vulnerability | 6.8 |
-
 
 
 #### Reference

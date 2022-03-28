@@ -20,13 +20,56 @@ tags:
 
 This search is used to identify user accounts that share a common password.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
 - **Last Updated**: 2018-10-08
 - **Author**: Jim Apger, Splunk
 - **ID**: 31337a1a-53b9-4e05-96e9-55c934cb71d3
+
+
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.DP
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 16
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -63,9 +106,6 @@ As is common with many fraud-related searches, we are usually looking to attribu
 * [Web Fraud Detection](/stories/web_fraud_detection)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -73,8 +113,6 @@ As is common with many fraud-related searches, we are usually looking to attribu
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

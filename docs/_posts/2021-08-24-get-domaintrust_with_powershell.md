@@ -24,7 +24,7 @@ tags:
 
 This analytic identifies Get-DomainTrust from PowerView in order to gather domain trust information. Typically, this is utilized within a script being executed and used to enumerate the domain trust information. This grants the adversary an understanding of how large or small the domain is. During triage, review parallel processes using an EDR product or 4688 events. It will be important to understand the timeline of events around this activity.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -33,11 +33,48 @@ This analytic identifies Get-DomainTrust from PowerView in order to gather domai
 - **ID**: 4fa7f846-054a-11ec-a836-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1482](https://attack.mitre.org/techniques/T1482/) | Domain Trust Discovery | Discovery |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Reconnaissance
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -82,9 +119,6 @@ Limited false positives as this requires an active Administrator or adversary to
 * [Active Directory Discovery](/stories/active_directory_discovery)
 
 
-#### Kill Chain Phase
-* Reconnaissance
-
 
 
 #### RBA
@@ -92,8 +126,6 @@ Limited false positives as this requires an active Administrator or adversary to
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 12.0 | 30 | 40 | Suspicious PowerShell Get-DomainTrust was identified on endpoint $dest$ by user $user$. |
-
-
 
 
 #### Reference

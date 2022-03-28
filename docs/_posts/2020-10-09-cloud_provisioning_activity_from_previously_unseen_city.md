@@ -27,7 +27,7 @@ tags:
 
 This search looks for cloud provisioning activities from previously unseen cities. Provisioning activities are defined broadly as any event that runs or creates something.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
 - **Datasource**: [Splunk Add-on for Amazon Kinesis Firehose](https://splunkbase.splunk.com/app/3719)
@@ -36,11 +36,52 @@ This search looks for cloud provisioning activities from previously unseen citie
 - **ID**: e7ecc5e0-88df-48b9-91af-51104c68f02f
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* ID.AM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 1
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -93,9 +134,6 @@ This is a strictly behavioral search, so we define "false positive" slightly dif
 * [Suspicious Cloud Provisioning Activities](/stories/suspicious_cloud_provisioning_activities)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -103,8 +141,6 @@ This is a strictly behavioral search, so we define "false positive" slightly dif
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 18.0 | 30 | 60 | User $user$ is starting or creating an instance $dest$ for the first time in City $City$ from IP address $src$ |
-
-
 
 
 #### Reference

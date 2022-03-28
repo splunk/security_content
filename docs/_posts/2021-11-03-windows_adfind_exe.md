@@ -24,7 +24,7 @@ tags:
 
 This search looks for the execution of `adfind.exe` with command-line arguments that it uses by default. Specifically the filter or search functions. It also considers the arguments necessary like objectcategory, see readme for more details: https://www.joeware.net/freetools/tools/adfind/usage.htm. This has been seen used before by Wizard Spider, FIN6 and actors whom also launched SUNBURST. AdFind.exe is usually used a recon tool to enumare a domain controller.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -33,11 +33,53 @@ This search looks for the execution of `adfind.exe` with command-line arguments 
 - **ID**: bd3b0187-189b-46c0-be45-f52da2bae67f
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1018](https://attack.mitre.org/techniques/T1018/) | Remote System Discovery | Discovery |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.PT
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 8
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -79,9 +121,6 @@ administrators rarely use adfind, usually not used for legitimate reasons
 * [Domain Trust Discovery](/stories/domain_trust_discovery)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -89,8 +128,6 @@ administrators rarely use adfind, usually not used for legitimate reasons
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | Windows AdFind Exe |
-
-
 
 
 #### Reference

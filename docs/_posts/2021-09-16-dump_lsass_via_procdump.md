@@ -28,7 +28,7 @@ tags:
 Detect procdump.exe dumping the lsass process. This query looks for both -mm and -ma usage. -mm will produce a mini dump file and -ma will write a dump file with all process memory. Both are highly suspect and should be reviewed. This query does not monitor for the internal name (original_file_name=procdump) of the PE or look for procdump64.exe. Modify the query as needed.\
 During triage, confirm this is procdump.exe executing. If it is the first time a Sysinternals utility has been ran, it is possible there will be a -accepteula on the command line. Review other endpoint data sources for cross process (injection) into lsass.exe.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -37,13 +37,56 @@ During triage, confirm this is procdump.exe executing. If it is the first time a
 - **ID**: 3742ebfe-64c2-11eb-ae93-0242ac130002
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1003.001](https://attack.mitre.org/techniques/T1003/001/) | LSASS Memory | Credential Access |
 
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 3
+* CIS 5
+* CIS 16
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -58,9 +101,9 @@ During triage, confirm this is procdump.exe executing. If it is the first time a
 
 #### Macros
 The SPL above uses the following Macros:
+* [process_procdump](https://github.com/splunk/security_content/blob/develop/macros/process_procdump.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
-* [process_procdump](https://github.com/splunk/security_content/blob/develop/macros/process_procdump.yml)
 
 Note that `dump_lsass_via_procdump_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -86,9 +129,6 @@ None identified.
 * [HAFNIUM Group](/stories/hafnium_group)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -96,8 +136,6 @@ None identified.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified attempting to dump lsass.exe on endpoint $dest$ by user $user$. |
-
-
 
 
 #### Reference

@@ -29,7 +29,7 @@ We have not been able to test, simulate, or build datasets for this object. Use 
 
 This search looks for emails that have attachments with suspicious file extensions.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Email](https://docs.splunk.com/Documentation/CIM/latest/User/Email)
 
@@ -38,13 +38,57 @@ This search looks for emails that have attachments with suspicious file extensio
 - **ID**: 473bd65f-06ca-4dfe-a2b8-ba04ab4a0084
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
 
 | [T1566](https://attack.mitre.org/techniques/T1566/) | Phishing | Initial Access |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Delivery
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.AE
+* PR.IP
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 3
+* CIS 7
+* CIS 12
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -86,9 +130,6 @@ None identified
 * [Suspicious Emails](/stories/suspicious_emails)
 
 
-#### Kill Chain Phase
-* Delivery
-
 
 
 #### RBA
@@ -96,8 +137,6 @@ None identified
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

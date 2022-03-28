@@ -29,7 +29,7 @@ tags:
 
 This analytic is to detect the execution of sudo or su command in linux operating system. The "sudo" command allows a system administrator to delegate authority to give certain users (or groups of users) the ability to run some (or all) commands as root or another user while providing an audit trail of the commands and their arguments. This command is commonly abused by adversaries, malware author and red teamers to elevate privileges to the targeted host. This command can be executed by administrator for legitimate purposes or to execute process that need admin privileges, In this scenario filter is needed.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -38,13 +38,56 @@ This analytic is to detect the execution of sudo or su command in linux operatin
 - **ID**: 4b00f134-6d6a-11ec-a90c-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1548.003](https://attack.mitre.org/techniques/T1548/003/) | Sudo and Sudo Caching | Defense Evasion, Privilege Escalation |
 
 | [T1548](https://attack.mitre.org/techniques/T1548/) | Abuse Elevation Control Mechanism | Defense Evasion, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 3
+* CIS 5
+* CIS 16
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -86,9 +129,6 @@ Administrator or network operator can execute this command. Please update the fi
 * [Linux Persistence Techniques](/stories/linux_persistence_techniques)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -96,8 +136,6 @@ Administrator or network operator can execute this command. Please update the fi
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 9.0 | 30 | 30 | A commandline $process$ that execute sudo or su in $dest$ |
-
-
 
 
 #### Reference

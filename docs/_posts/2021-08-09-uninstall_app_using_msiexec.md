@@ -27,7 +27,7 @@ tags:
 
 This search is to detect a suspicious un-installation of application using msiexec. This technique was seen in conti leak tool and script where it tries to uninstall AV product using this commandline. This commandline to uninstall product is not a common practice in enterprise network.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -36,13 +36,50 @@ This search is to detect a suspicious un-installation of application using msiex
 - **ID**: 1fca2b28-f922-11eb-b2dd-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1218.007](https://attack.mitre.org/techniques/T1218/007/) | Msiexec | Defense Evasion |
 
 | [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -84,9 +121,6 @@ unknown.
 * [Ransomware](/stories/ransomware)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -94,8 +128,6 @@ unknown.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 30.0 | 50 | 60 | process $process_name$ with a cmdline $process$ in host $dest$ |
-
-
 
 
 #### Reference

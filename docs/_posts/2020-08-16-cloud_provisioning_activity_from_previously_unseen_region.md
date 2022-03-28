@@ -27,7 +27,7 @@ tags:
 
 This search looks for cloud provisioning activities from previously unseen regions. Provisioning activities are defined broadly as any event that runs or creates something.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
 - **Datasource**: [Splunk Add-on for Amazon Kinesis Firehose](https://splunkbase.splunk.com/app/3719)
@@ -36,11 +36,52 @@ This search looks for cloud provisioning activities from previously unseen regio
 - **ID**: 5aba1860-9617-4af9-b19d-aecac16fe4f2
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* ID.AM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 1
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -93,9 +134,6 @@ This is a strictly behavioral search, so we define "false positive" slightly dif
 * [Suspicious Cloud Provisioning Activities](/stories/suspicious_cloud_provisioning_activities)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -103,8 +141,6 @@ This is a strictly behavioral search, so we define "false positive" slightly dif
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 42.0 | 70 | 60 | User $user$ is starting or creating an instance $object$ for the first time in region $Region$ from IP address $src$ |
-
-
 
 
 #### Reference

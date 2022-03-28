@@ -30,7 +30,7 @@ tags:
 
 This query identifies a shell, PowerShell.exe or Cmd.exe, spawning from W3WP.exe, or IIS. In addition to IIS logs, this behavior with an EDR product will capture potential webshell activity, similar to the HAFNIUM Group abusing CVEs, on publicly available Exchange mail servers. During triage, review the parent process and child process of the shell being spawned. Review the command-line arguments and any file modifications that may occur. Identify additional parallel process, child processes, that may highlight further commands executed. After triaging, work to contain the threat and patch the system that is vulnerable.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -39,13 +39,56 @@ This query identifies a shell, PowerShell.exe or Cmd.exe, spawning from W3WP.exe
 - **ID**: 0f03423c-7c6a-11eb-bc47-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1505](https://attack.mitre.org/techniques/T1505/) | Server Software Component | Persistence |
 
 | [T1505.003](https://attack.mitre.org/techniques/T1505/003/) | Web Shell | Persistence |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+| [CVE-2021-34473](https://nvd.nist.gov/vuln/detail/CVE-2021-34473) | Microsoft Exchange Server Remote Code Execution Vulnerability This CVE ID is unique from CVE-2021-31196, CVE-2021-31206. | 10.0 |
+| [CVE-2021-34523](https://nvd.nist.gov/vuln/detail/CVE-2021-34523) | Microsoft Exchange Server Elevation of Privilege Vulnerability This CVE ID is unique from CVE-2021-33768, CVE-2021-34470. | 7.5 |
+| [CVE-2021-31207](https://nvd.nist.gov/vuln/detail/CVE-2021-31207) | Microsoft Exchange Server Security Feature Bypass Vulnerability | 6.5 |
+
+
+
+</details>
 
 #### Search
 
@@ -60,10 +103,10 @@ This query identifies a shell, PowerShell.exe or Cmd.exe, spawning from W3WP.exe
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_cmd](https://github.com/splunk/security_content/blob/develop/macros/process_cmd.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [process_powershell](https://github.com/splunk/security_content/blob/develop/macros/process_powershell.yml)
+* [process_cmd](https://github.com/splunk/security_content/blob/develop/macros/process_cmd.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `w3wp_spawning_shell_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -93,9 +136,6 @@ Baseline your environment before production. It is possible build systems using 
 * [ProxyShell](/stories/proxyshell)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -103,16 +143,6 @@ Baseline your environment before production. It is possible build systems using 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | Possible Web Shell execution on $dest$ |
-
-
-#### CVE
-
-| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
-| ----------- | ----------- | -------------- |
-| [CVE-2021-34473](https://nvd.nist.gov/vuln/detail/CVE-2021-34473) | Microsoft Exchange Server Remote Code Execution Vulnerability This CVE ID is unique from CVE-2021-31196, CVE-2021-31206. | 10.0 |
-| [CVE-2021-34523](https://nvd.nist.gov/vuln/detail/CVE-2021-34523) | Microsoft Exchange Server Elevation of Privilege Vulnerability This CVE ID is unique from CVE-2021-33768, CVE-2021-34470. | 7.5 |
-| [CVE-2021-31207](https://nvd.nist.gov/vuln/detail/CVE-2021-31207) | Microsoft Exchange Server Security Feature Bypass Vulnerability | 6.5 |
-
 
 
 #### Reference

@@ -26,7 +26,7 @@ tags:
 
 This search looks for successful AWS CloudTrail activity by user accounts that are not listed in the identity table or `aws_service_accounts.csv`. It returns event names and count, as well as the first and last time a specific user or service is detected, grouped by users. Deprecated because managing this list can be quite hard.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -35,11 +35,55 @@ This search looks for successful AWS CloudTrail activity by user accounts that a
 - **ID**: ada0f478-84a8-4641-a3f1-d82362d4bd55
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1078.004](https://attack.mitre.org/techniques/T1078/004/) | Cloud Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.DP
+* DE.CM
+* PR.AC
+* ID.AM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 16
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -61,8 +105,8 @@ This search looks for successful AWS CloudTrail activity by user accounts that a
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `detect_aws_api_activities_from_unapproved_accounts_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -95,9 +139,6 @@ It's likely that you'll find activity detected by users/service accounts that ar
 * [AWS User Monitoring](/stories/aws_user_monitoring)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -105,8 +146,6 @@ It's likely that you'll find activity detected by users/service accounts that ar
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

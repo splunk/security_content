@@ -24,7 +24,7 @@ tags:
 
 This analytic will detect a suspicious Telegram process enumerating all network users in a local group. This technique was seen in a Monero infected honeypot to mapped all the users on the compromised system. EventCode 4798 is generated when a process enumerates a user's security-enabled local groups on a computer or device.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -33,11 +33,48 @@ This analytic will detect a suspicious Telegram process enumerating all network 
 - **ID**: fcd74532-ae54-11eb-a5ab-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1087](https://attack.mitre.org/techniques/T1087/) | Account Discovery | Discovery |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -51,8 +88,8 @@ This analytic will detect a suspicious Telegram process enumerating all network 
 
 #### Macros
 The SPL above uses the following Macros:
-* [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 
 Note that `enumerate_users_local_group_using_telegram_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -79,9 +116,6 @@ unknown
 * [XMRig](/stories/xmrig)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -89,8 +123,6 @@ unknown
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | The Telegram application has been identified enumerating local groups on $ComputerName$ by $user$. |
-
-
 
 
 #### Reference

@@ -23,13 +23,56 @@ We have not been able to test, simulate, or build datasets for this object. Use 
 
 Attackers often use spaces as a means to obfuscate an attachment's file extension. This search looks for messages with email attachments that have many spaces within the file names.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Email](https://docs.splunk.com/Documentation/CIM/latest/User/Email)
 
 - **Last Updated**: 2017-09-19
 - **Author**: David Dorsey, Splunk
 - **ID**: 56e877a6-1455-4479-ada6-0550dc1e22f8
+
+
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Delivery
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.IP
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 7
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -74,9 +117,6 @@ None at this time
 * [Suspicious Emails](/stories/suspicious_emails)
 
 
-#### Kill Chain Phase
-* Delivery
-
 
 
 #### RBA
@@ -84,8 +124,6 @@ None at this time
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

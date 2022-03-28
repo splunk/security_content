@@ -26,7 +26,7 @@ tags:
 
 This search correlations detections by user and risk_score
 
-- **Type**: [Correlation](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Correlation](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -35,13 +35,56 @@ This search correlations detections by user and risk_score
 - **ID**: 610e12dc-b6fa-4541-825e-4a0b3b6f6773
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1204.003](https://attack.mitre.org/techniques/T1204/003/) | Malicious Image | Execution |
 
 | [T1204](https://attack.mitre.org/techniques/T1204/) | User Execution | Execution |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.DS
+* PR.AC
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 13
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -74,9 +117,6 @@ unknown
 * [Dev Sec Ops](/stories/dev_sec_ops)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -84,8 +124,6 @@ unknown
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 70.0 | 70 | 100 | Correlation triggered for user $user$ |
-
-
 
 
 #### Reference

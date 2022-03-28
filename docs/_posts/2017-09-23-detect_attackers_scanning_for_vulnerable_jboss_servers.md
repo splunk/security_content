@@ -26,7 +26,7 @@ We have not been able to test, simulate, or build datasets for this object. Use 
 
 This search looks for specific GET or HEAD requests to web servers that are indicative of reconnaissance attempts to identify vulnerable JBoss servers. JexBoss is described as the exploit tool of choice for this malicious activity.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Web](https://docs.splunk.com/Documentation/CIM/latest/User/Web)
 
@@ -35,11 +35,48 @@ This search looks for specific GET or HEAD requests to web servers that are indi
 - **ID**: 104658f4-afdc-499e-9719-17243f982681
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1082](https://attack.mitre.org/techniques/T1082/) | System Information Discovery | Discovery |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Reconnaissance
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -78,9 +115,6 @@ It's possible for legitimate HTTP requests to be made to URLs containing the sus
 * [SamSam Ransomware](/stories/samsam_ransomware)
 
 
-#### Kill Chain Phase
-* Reconnaissance
-
 
 
 #### RBA
@@ -88,8 +122,6 @@ It's possible for legitimate HTTP requests to be made to URLs containing the sus
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

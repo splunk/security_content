@@ -28,7 +28,7 @@ tags:
 
 The following analytic identifies access to SAM, SYSTEM or SECURITY databases' within the file path of `windows\system32\config` using Windows Security EventCode 4663. This particular behavior is related to credential access, an attempt to either use a Shadow Copy or recent CVE-2021-36934 to access the SAM database. The Security Account Manager (SAM) is a database file in Windows XP, Windows Vista, Windows 7, 8.1 and 10 that stores users' passwords.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -37,13 +37,54 @@ The following analytic identifies access to SAM, SYSTEM or SECURITY databases' w
 - **ID**: 57551656-ebdb-11eb-afdf-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1003.002](https://attack.mitre.org/techniques/T1003/002/) | Security Account Manager | Credential Access |
 
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+| [CVE-2021-36934](https://nvd.nist.gov/vuln/detail/CVE-2021-36934) | Windows Elevation of Privilege Vulnerability | 4.6 |
+
+
+
+</details>
 
 #### Search
 
@@ -77,9 +118,6 @@ Natively, `dllhost.exe` will access the files. Every environment will have addit
 * [Credential Dumping](/stories/credential_dumping)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -87,14 +125,6 @@ Natively, `dllhost.exe` will access the files. Every environment will have addit
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | The following process $process_name$ accessed the object $Object_Name$ attempting to gain access to credentials on $dest$ by user $user$. |
-
-
-#### CVE
-
-| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
-| ----------- | ----------- | -------------- |
-| [CVE-2021-36934](https://nvd.nist.gov/vuln/detail/CVE-2021-36934) | Windows Elevation of Privilege Vulnerability | 4.6 |
-
 
 
 #### Reference

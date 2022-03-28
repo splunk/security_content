@@ -27,7 +27,7 @@ tags:
 
 This detection is to identify the abuse the Windows SC.exe to execute malicious commands or payloads via PowerShell.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -36,13 +36,50 @@ This detection is to identify the abuse the Windows SC.exe to execute malicious 
 - **ID**: 8e204dfd-cae0-4ea8-a61d-e972a1ff2ff8
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1569](https://attack.mitre.org/techniques/T1569/) | System Services | Execution |
 
 | [T1569.002](https://attack.mitre.org/techniques/T1569/002/) | Service Execution | Execution |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -65,8 +102,8 @@ This detection is to identify the abuse the Windows SC.exe to execute malicious 
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [wineventlog_system](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_system.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `malicious_powershell_executed_as_a_service_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -91,9 +128,6 @@ Creating a hidden powershell service is rare and could key off of those instance
 * [Malicious Powershell](/stories/malicious_powershell)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -101,8 +135,6 @@ Creating a hidden powershell service is rare and could key off of those instance
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 90 | 80 | Identifies the abuse the Windows SC.exe to execute malicious powerShell as a service $Service_File_Name$ by $user$ on $dest$ |
-
-
 
 
 #### Reference

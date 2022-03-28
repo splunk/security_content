@@ -22,13 +22,59 @@ We have not been able to test, simulate, or build datasets for this object. Use 
 
 This search will detect spike in blocked outbound network connections originating from within your AWS environment.  It will also update the cache file that factors in the latest data.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
 - **Last Updated**: 2018-05-07
 - **Author**: Bhavin Patel, Splunk
 - **ID**: d3fffa37-492f-487b-a35d-c60fcb2acf01
+
+
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+* Command & Control
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.AE
+* DE.CM
+* PR.AC
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 11
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -83,10 +129,6 @@ The false-positive rate may vary based on the values of`dataPointThreshold` and 
 * [Command and Control](/stories/command_and_control)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-* Command & Control
-
 
 
 #### RBA
@@ -94,8 +136,6 @@ The false-positive rate may vary based on the values of`dataPointThreshold` and 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

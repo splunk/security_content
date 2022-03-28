@@ -27,7 +27,7 @@ tags:
 
 This search is to detect known mailsniper.ps1 functions executed in a machine. This technique was seen in some attacker to harvest some sensitive e-mail in a compromised exchange server.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -36,13 +36,50 @@ This search is to detect known mailsniper.ps1 functions executed in a machine. T
 - **ID**: a36972c8-b894-11eb-9f78-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1114](https://attack.mitre.org/techniques/T1114/) | Email Collection | Collection |
 
 | [T1114.001](https://attack.mitre.org/techniques/T1114/001/) | Local Email Collection | Collection |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -79,9 +116,6 @@ unknown
 * [Data Exfiltration](/stories/data_exfiltration)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -89,8 +123,6 @@ unknown
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 90 | 80 | mailsniper.ps1 functions $Message$ executed on a $ComputerName$ by user $user$. |
-
-
 
 
 #### Reference

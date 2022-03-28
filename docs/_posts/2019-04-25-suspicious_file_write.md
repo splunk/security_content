@@ -20,13 +20,57 @@ tags:
 
 The search looks for files created with names that have been linked to malicious activity.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
 - **Last Updated**: 2019-04-25
 - **Author**: Rico Valdez, Splunk
 - **ID**: 57f76b8a-32f0-42ed-b358-d9fa3ca7bac8
+
+
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.PT
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 8
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -62,9 +106,6 @@ It's possible for a legitimate file to be created with the same name as one note
 * [Hidden Cobra Malware](/stories/hidden_cobra_malware)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -72,8 +113,6 @@ It's possible for a legitimate file to be created with the same name as one note
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

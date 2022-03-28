@@ -31,7 +31,7 @@ tags:
 
 The following analytic identifies `svchost.exe` spawning a LOLBAS execution process. When adversaries execute code on remote endpoints abusing the Task Scheduler and creating a malicious remote scheduled task, the executed command is spawned as a child process of `svchost.exe`. The LOLBAS project documents Windows native binaries that can be abused by threat actors to perform tasks like executing malicious code. Looking for child processes of svchost.exe that are part of the LOLBAS project can help defenders identify lateral movement activity.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -40,13 +40,50 @@ The following analytic identifies `svchost.exe` spawning a LOLBAS execution proc
 - **ID**: 09e5c72a-4c0d-11ec-aa29-3e22fbd008af
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1053](https://attack.mitre.org/techniques/T1053/) | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
 
 | [T1053.005](https://attack.mitre.org/techniques/T1053/005/) | Scheduled Task | Execution, Persistence, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -92,9 +129,6 @@ Legitimate applications may trigger this behavior, filter as needed.
 * [Living Off The Land](/stories/living_off_the_land)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -102,8 +136,6 @@ Legitimate applications may trigger this behavior, filter as needed.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 54.0 | 90 | 60 | Svchost.exe spawned a LOLBAS process on $dest |
-
-
 
 
 #### Reference

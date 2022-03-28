@@ -27,7 +27,7 @@ tags:
 
 The following analytic identifies `mmc.exe` spawning a LOLBAS execution process. When adversaries execute code on remote endpoints abusing the DCOM protocol and the MMC20 COM object, the executed command is spawned as a child processs of `mmc.exe`. The LOLBAS project documents Windows native binaries that can be abused by threat actors to perform tasks like executing malicious code. Looking for child processes of mmc.exe that are part of the LOLBAS project can help defenders identify lateral movement activity.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -36,13 +36,50 @@ The following analytic identifies `mmc.exe` spawning a LOLBAS execution process.
 - **ID**: f6601940-4c74-11ec-b9b7-3e22fbd008af
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1021](https://attack.mitre.org/techniques/T1021/) | Remote Services | Lateral Movement |
 
 | [T1021.003](https://attack.mitre.org/techniques/T1021/003/) | Distributed Component Object Model | Lateral Movement |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -88,9 +125,6 @@ Legitimate applications may trigger this behavior, filter as needed.
 * [Living Off The Land](/stories/living_off_the_land)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -98,8 +132,6 @@ Legitimate applications may trigger this behavior, filter as needed.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 54.0 | 90 | 60 | Mmc.exe spawned a LOLBAS process on $dest |
-
-
 
 
 #### Reference

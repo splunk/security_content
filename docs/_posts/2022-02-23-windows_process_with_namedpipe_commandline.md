@@ -25,7 +25,7 @@ tags:
 
 This analytic is to look for process commandline that contains named pipe. This technique was seen in some adversaries, threat actor and malware like olympic destroyer to communicate to its other child processes after process injection that serve as defense evasion and privilege escalation. On the other hand this analytic may catch some normal process that using this technique for example browser application. In that scenario we include common process path we've seen during testing that cause false positive which is the program files. False positive may still be arise if the normal application is in other folder path.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -34,11 +34,54 @@ This analytic is to look for process commandline that contains named pipe. This 
 - **ID**: e64399d4-94a8-11ec-a9da-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 3
+* CIS 5
+* CIS 16
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -84,9 +127,6 @@ Normal browser application may use this technique. Please update the filter macr
 * [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -94,8 +134,6 @@ Normal browser application may use this technique. Please update the filter macr
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | Process with named pipe in $process$ on $dest$ |
-
-
 
 
 #### Reference

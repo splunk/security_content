@@ -29,7 +29,7 @@ tags:
 
 This search is to detect a suspicious sdclt.exe registry modification. This technique is commonly seen when attacker try to bypassed UAC by using sdclt.exe application by modifying some registry that sdclt.exe tries to open or query with payload file path on it to be executed.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -38,13 +38,50 @@ This search is to detect a suspicious sdclt.exe registry modification. This tech
 - **ID**: d71efbf6-da63-11eb-8c6e-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1548.002](https://attack.mitre.org/techniques/T1548/002/) | Bypass User Account Control | Defense Evasion, Privilege Escalation |
 
 | [T1548](https://attack.mitre.org/techniques/T1548/) | Abuse Elevation Control Mechanism | Defense Evasion, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -86,9 +123,6 @@ Limited to no false positives are expected.
 * [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -96,8 +130,6 @@ Limited to no false positives are expected.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | Suspicious modification of registry $registry_path$ with possible payload path $registry_value_name$ in $dest$ |
-
-
 
 
 #### Reference

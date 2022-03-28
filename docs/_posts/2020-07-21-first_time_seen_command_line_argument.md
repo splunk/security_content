@@ -27,7 +27,7 @@ tags:
 
 This search looks for command-line arguments that use a `/c` parameter to execute a command that has not previously been seen.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -36,13 +36,58 @@ This search looks for command-line arguments that use a `/c` parameter to execut
 - **ID**: a1b6e73f-98d5-470f-99ac-77aacd578473
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
 
 | [T1059.003](https://attack.mitre.org/techniques/T1059/003/) | Windows Command Shell | Execution |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Command & Control
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.PT
+* DE.CM
+* PR.IP
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 3
+* CIS 8
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -101,10 +146,6 @@ Legitimate programs can also use command-line arguments to execute. Please verif
 * [Hidden Cobra Malware](/stories/hidden_cobra_malware)
 
 
-#### Kill Chain Phase
-* Command & Control
-* Actions on Objectives
-
 
 
 #### RBA
@@ -112,8 +153,6 @@ Legitimate programs can also use command-line arguments to execute. Please verif
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

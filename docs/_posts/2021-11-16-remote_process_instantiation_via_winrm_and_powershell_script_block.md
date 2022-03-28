@@ -26,7 +26,7 @@ tags:
 
 The following analytic utilizes PowerShell Script Block Logging (EventCode=4104) to identify the execution of PowerShell with arguments utilized to start a process on a remote endpoint by abusing the WinRM protocol. Specifically, this search looks for the abuse of the `Invoke-Command` commandlet. Red Teams and adversaries alike may abuse WinRM for lateral movement and remote code execution.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -35,13 +35,50 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 - **ID**: 7d4c618e-4716-11ec-951c-3e22fbd008af
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1021](https://attack.mitre.org/techniques/T1021/) | Remote Services | Lateral Movement |
 
 | [T1021.006](https://attack.mitre.org/techniques/T1021/006/) | Windows Remote Management | Lateral Movement |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -77,9 +114,6 @@ Administrators may leverage WinRM and `Invoke-Command` to start a process on rem
 * [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -87,8 +121,6 @@ Administrators may leverage WinRM and `Invoke-Command` to start a process on rem
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 45.0 | 90 | 50 | A process was started on a remote endpoint from $ComputerName by abusing WinRM using PowerShell.exe |
-
-
 
 
 #### Reference

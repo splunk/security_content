@@ -31,7 +31,7 @@ tags:
 
 This analytic looks for created or enable services in linux platform. This technique can be executed or performed using systemctl or service tool application. Adversaries may create or modify Windows services to repeatedly execute malicious payloads as part of persistence. When Windows boots up, it starts programs or applications called services that perform background system functions. Administrator may also create a legitimated service for a specific tool or normal application as part of task or automation, in this scenario it is suggested to look for the service path of the actual script or executable that register as service and who created the service for further verification.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -40,13 +40,56 @@ This analytic looks for created or enable services in linux platform. This techn
 - **ID**: e0428212-61b7-11ec-88a3-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1053.006](https://attack.mitre.org/techniques/T1053/006/) | Systemd Timers | Execution, Persistence, Privilege Escalation |
 
 | [T1053](https://attack.mitre.org/techniques/T1053/) | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 3
+* CIS 5
+* CIS 16
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -88,9 +131,6 @@ Administrator or network operator can use this commandline for automation purpos
 * [Linux Persistence Techniques](/stories/linux_persistence_techniques)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -98,8 +138,6 @@ Administrator or network operator can use this commandline for automation purpos
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 42.0 | 60 | 70 | a commandline $process$ that may create or start a service on $dest |
-
-
 
 
 #### Reference

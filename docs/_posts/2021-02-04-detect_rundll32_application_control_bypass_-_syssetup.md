@@ -27,7 +27,7 @@ tags:
 
 The following analytic identifies rundll32.exe loading syssetup.dll by calling the LaunchINFSection function on the command line. This particular technique will load script code from a file. Upon a successful execution, the following module loads may occur - clr.dll, jscript.dll and scrobj.dll. During investigation, identify script content origination. Generally, a child process will spawn from rundll32.exe, but that may be bypassed based on script code contents. Rundll32.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64. During investigation, review any network connections and obtain the script content executed. It's possible other files are on disk.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -36,13 +36,55 @@ The following analytic identifies rundll32.exe loading syssetup.dll by calling t
 - **ID**: 71b9bf37-cde1-45fb-b899-1b0aa6fa1183
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
 
 | [T1218.011](https://attack.mitre.org/techniques/T1218/011/) | Rundll32 | Defense Evasion |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.PT
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 8
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -89,9 +131,6 @@ Although unlikely, some legitimate applications may use syssetup.dll, triggering
 * [Living Off The Land](/stories/living_off_the_land)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -99,8 +138,6 @@ Although unlikely, some legitimate applications may use syssetup.dll, triggering
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | An instance of $parent_process_name$ spawning $process_name$ loading syssetup.dll by calling the LaunchINFSection function on the command line was identified on endpoint $dest$ by user $user$. |
-
-
 
 
 #### Reference

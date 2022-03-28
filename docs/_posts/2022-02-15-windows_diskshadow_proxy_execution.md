@@ -24,7 +24,7 @@ tags:
 
 DiskShadow.exe is a Microsoft Signed binary present on Windows Server. It has a scripting mode intended for complex scripted backup operations. This feature also allows for execution of arbitrary unsigned code. This analytic looks for the usage of the scripting mode flags in executions of DiskShadow. During triage, compare to known backup behavior in your environment and then review the scripts called by diskshadow.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -33,11 +33,52 @@ DiskShadow.exe is a Microsoft Signed binary present on Windows Server. It has a 
 - **ID**: 58adae9e-8ea3-11ec-90f6-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 8
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -52,8 +93,8 @@ DiskShadow.exe is a Microsoft Signed binary present on Windows Server. It has a 
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_diskshadow](https://github.com/splunk/security_content/blob/develop/macros/process_diskshadow.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [process_diskshadow](https://github.com/splunk/security_content/blob/develop/macros/process_diskshadow.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `windows_diskshadow_proxy_execution_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -80,9 +121,6 @@ Administrators using the DiskShadow tool in their infrastructure as a main backu
 * [Living Off The Land](/stories/living_off_the_land)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -90,8 +128,6 @@ Administrators using the DiskShadow tool in their infrastructure as a main backu
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | Possible Signed Binary Proxy Execution on $dest$ |
-
-
 
 
 #### Reference

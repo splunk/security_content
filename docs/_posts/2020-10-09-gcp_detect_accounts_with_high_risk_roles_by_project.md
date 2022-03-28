@@ -26,7 +26,7 @@ tags:
 
 This search provides detection of accounts with high risk roles by projects. Compromised accounts with high risk roles can move laterally or even scalate privileges at different projects depending on organization schema.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -35,11 +35,48 @@ This search provides detection of accounts with high risk roles by projects. Com
 - **ID**: 27af8c15-38b0-4408-b339-920170724adb
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -75,9 +112,6 @@ Accounts with high risk roles should be reduced to the minimum number needed, ho
 * [GCP Cross Account Activity](/stories/gcp_cross_account_activity)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -85,8 +119,6 @@ Accounts with high risk roles should be reduced to the minimum number needed, ho
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

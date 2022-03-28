@@ -27,7 +27,7 @@ tags:
 
 The following analtyic identifies renamed instances of `WinRAR.exe`. In most cases, it is not common for WinRAR to be used renamed, however it is common to be installed by a third party application and executed from a non-standard path. During triage, validate additional metadata from the binary that this is `WinRAR`. Review parallel processes and file modifications.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -36,13 +36,50 @@ The following analtyic identifies renamed instances of `WinRAR.exe`. In most cas
 - **ID**: 1b7bfb2c-b8e6-11eb-99ac-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1560.001](https://attack.mitre.org/techniques/T1560/001/) | Archive via Utility | Collection |
 
 | [T1560](https://attack.mitre.org/techniques/T1560/) | Archive Collected Data | Collection |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -87,9 +124,6 @@ Unknown. It is possible third party applications use renamed instances of WinRAR
 * [Collection and Staging](/stories/collection_and_staging)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -97,8 +131,6 @@ Unknown. It is possible third party applications use renamed instances of WinRAR
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 27.0 | 30 | 90 | The following $process_name$ has been identified as renamed, spawning from $parent_process_name$ on $dest$ by $user$. |
-
-
 
 
 #### Reference

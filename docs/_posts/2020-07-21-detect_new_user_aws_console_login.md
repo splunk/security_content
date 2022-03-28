@@ -26,7 +26,7 @@ tags:
 
 This search looks for AWS CloudTrail events wherein a console login event by a user was recorded within the last hour, then compares the event to a lookup file of previously seen users (by ARN values) who have logged into the console. The alert is fired if the user has logged into the console for the first time within the last hour. Deprecated now this search is updated to use the Authentication datamodel.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -35,11 +35,53 @@ This search looks for AWS CloudTrail events wherein a console login event by a u
 - **ID**: ada0f478-84a8-4641-a3f3-d82362dffd75
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1078.004](https://attack.mitre.org/techniques/T1078/004/) | Cloud Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.DP
+* DE.AE
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 16
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -58,8 +100,8 @@ This search looks for AWS CloudTrail events wherein a console login event by a u
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `detect_new_user_aws_console_login_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -79,9 +121,6 @@ When a legitimate new user logins for the first time, this activity will be dete
 * [Suspicious AWS Login Activities](/stories/suspicious_aws_login_activities)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -89,8 +128,6 @@ When a legitimate new user logins for the first time, this activity will be dete
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

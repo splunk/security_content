@@ -37,7 +37,7 @@ tags:
 
 This analytic looks for the presence of suspicious commandline parameters typically present when using Impacket tools. Impacket is a collection of python classes meant to be used with Microsoft network protocols. There are multiple scripts that leverage impacket libraries like `wmiexec.py`, `smbexec.py`, `dcomexec.py` and `atexec.py` used to execute commands on remote endpoints. By default, these scripts leverage administrative shares and hardcoded parameters that can be used as a signature to detect its use. Red Teams and adversaries alike may leverage Impackets tools for lateral movement and remote code execution.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -46,7 +46,11 @@ This analytic looks for the presence of suspicious commandline parameters typica
 - **ID**: 8ce07472-496f-11ec-ab3b-3e22fbd008af
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
@@ -59,6 +63,39 @@ This analytic looks for the presence of suspicious commandline parameters typica
 | [T1047](https://attack.mitre.org/techniques/T1047/) | Windows Management Instrumentation | Execution |
 
 | [T1543.003](https://attack.mitre.org/techniques/T1543/003/) | Windows Service | Persistence, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -104,9 +141,6 @@ Although uncommon, Administrators may leverage Impackets tools to start a proces
 * [WhisperGate](/stories/whispergate)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -114,8 +148,6 @@ Although uncommon, Administrators may leverage Impackets tools to start a proces
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 90 | 70 | Suspicious command line parameters on $dest may represent a lateral movement attack with Impackets tools |
-
-
 
 
 #### Reference

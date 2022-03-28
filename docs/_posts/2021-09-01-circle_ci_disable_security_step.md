@@ -23,7 +23,7 @@ tags:
 
 This search looks for disable security step in CircleCI pipeline.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -32,11 +32,54 @@ This search looks for disable security step in CircleCI pipeline.
 - **ID**: 72cb9de9-e98b-4ac9-80b2-5331bba6ea97
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1554](https://attack.mitre.org/techniques/T1554/) | Compromise Client Software Binary | Persistence |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.DS
+* PR.AC
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 13
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -85,9 +128,6 @@ unknown
 * [Dev Sec Ops](/stories/dev_sec_ops)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -95,8 +135,6 @@ unknown
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 80 | 90 | disable security step $mandatory_step$ in job $job_name$ from user $user$ |
-
-
 
 
 #### Reference

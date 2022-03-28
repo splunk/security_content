@@ -28,7 +28,7 @@ We have not been able to test, simulate, or build datasets for this object. Use 
 
 This search provides detection of suspicious use of sts:AssumeRole. These tokens can be created on the go and used by attackers to move laterally and escalate privileges.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -37,11 +37,48 @@ This search provides detection of suspicious use of sts:AssumeRole. These tokens
 - **ID**: 8e565314-b6a2-46d8-9f05-1a34a176a662
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -82,9 +119,6 @@ Sts:AssumeRole can be very noisy as it is a standard mechanism to provide cross 
 * [AWS Cross Account Activity](/stories/aws_cross_account_activity)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -92,8 +126,6 @@ Sts:AssumeRole can be very noisy as it is a standard mechanism to provide cross 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

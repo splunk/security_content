@@ -24,7 +24,7 @@ tags:
 
 This analytic is to look for possible enumeration of local network configuration. This technique is commonly used as part of recon of adversaries or threat actor to know some network information for its next or further attack. This anomaly detections may capture normal event made by administrator during auditing or testing network connection of specific host or network to network.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -33,11 +33,54 @@ This analytic is to look for possible enumeration of local network configuration
 - **ID**: 535cb214-8b47-11ec-a2c7-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1016](https://attack.mitre.org/techniques/T1016/) | System Network Configuration Discovery | Discovery |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Reconnaissance
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 3
+* CIS 5
+* CIS 16
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -76,9 +119,6 @@ Administrator or network operator can execute this command. Please update the fi
 * [Network Discovery](/stories/network_discovery)
 
 
-#### Kill Chain Phase
-* Reconnaissance
-
 
 
 #### RBA
@@ -86,8 +126,6 @@ Administrator or network operator can execute this command. Please update the fi
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 9.0 | 30 | 30 | A commandline $process$ executed on $dest$ |
-
-
 
 
 #### Reference

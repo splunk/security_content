@@ -25,7 +25,7 @@ We have not been able to test, simulate, or build datasets for this object. Use 
 
 This search looks at GCP Storage bucket-access logs and detects new or previously unseen remote IP addresses that have successfully accessed a GCP Storage bucket.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -34,11 +34,55 @@ This search looks at GCP Storage bucket-access logs and detects new or previousl
 - **ID**: ccc3246a-daa1-11ea-87d0-0242ac130022
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1530](https://attack.mitre.org/techniques/T1530/) | Data from Cloud Storage Object | Collection |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.DS
+* PR.AC
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 13
+* CIS 14
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -95,9 +139,6 @@ GCP Storage buckets can be accessed from any IP (if the ACLs are open to allow i
 * [Suspicious GCP Storage Activities](/stories/suspicious_gcp_storage_activities)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -105,8 +146,6 @@ GCP Storage buckets can be accessed from any IP (if the ACLs are open to allow i
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

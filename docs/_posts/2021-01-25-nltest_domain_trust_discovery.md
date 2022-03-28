@@ -24,7 +24,7 @@ tags:
 
 This search looks for the execution of `nltest.exe` with command-line arguments utilized to query for Domain Trust information. Two arguments `/domain trusts`, returns a list of trusted domains, and `/all_trusts`, returns all trusted domains. Red Teams and adversaries alike use NLTest.exe to enumerate the current domain to assist with further understanding where to pivot next.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -33,11 +33,53 @@ This search looks for the execution of `nltest.exe` with command-line arguments 
 - **ID**: c3e05466-5f22-11eb-ae93-0242ac130002
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1482](https://attack.mitre.org/techniques/T1482/) | Domain Trust Discovery | Discovery |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.PT
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 8
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -81,9 +123,6 @@ Administrators may use nltest for troubleshooting purposes, otherwise, rarely us
 * [Active Directory Discovery](/stories/active_directory_discovery)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -91,8 +130,6 @@ Administrators may use nltest for troubleshooting purposes, otherwise, rarely us
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 15.0 | 30 | 50 | Domain trust discovery execution on $dest$ |
-
-
 
 
 #### Reference

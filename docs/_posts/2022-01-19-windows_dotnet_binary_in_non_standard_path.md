@@ -33,7 +33,7 @@ tags:
 
 The following analytic identifies native .net binaries within the Windows operating system that may be abused by adversaries by moving it to a new directory. The analytic identifies the .net binary by using a lookup and compares the process name and original file name (internal name). The analytic utilizes a lookup with the is_net_windows_file macro to identify the binary process name and original file name. if one or the other matches an alert will be generated. Adversaries abuse these binaries as they are native to windows and native DotNet. Note that not all SDK (post install of Windows) are captured in the lookup.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -42,7 +42,11 @@ The following analytic identifies native .net binaries within the Windows operat
 - **ID**: fddf3b56-7933-11ec-98a6-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
@@ -53,6 +57,39 @@ The following analytic identifies native .net binaries within the Windows operat
 | [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
 
 | [T1218.004](https://attack.mitre.org/techniques/T1218/004/) | InstallUtil | Defense Evasion |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -68,8 +105,8 @@ The following analytic identifies native .net binaries within the Windows operat
 
 #### Macros
 The SPL above uses the following Macros:
-* [is_net_windows_file](https://github.com/splunk/security_content/blob/develop/macros/is_net_windows_file.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [is_net_windows_file](https://github.com/splunk/security_content/blob/develop/macros/is_net_windows_file.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `windows_dotnet_binary_in_non_standard_path_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -103,9 +140,6 @@ False positives may be present and filtering may be required. Certain utilities 
 * [WhisperGate](/stories/whispergate)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -113,8 +147,6 @@ False positives may be present and filtering may be required. Certain utilities 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | An instance of $parent_process_name$ spawning $process_name$ from a non-standard path was identified on endpoint $dest$ by user $user$. |
-
-
 
 
 #### Reference

@@ -24,7 +24,7 @@ tags:
 
 This search is to detect a suspicious bcdedit.exe execution to ignore all failures. This technique was used by ransomware to prevent the compromise machine automatically boot in repair mode.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -33,11 +33,48 @@ This search is to detect a suspicious bcdedit.exe execution to ignore all failur
 - **ID**: 7742aa92-c9d9-11eb-bbfc-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1490](https://attack.mitre.org/techniques/T1490/) | Inhibit System Recovery | Impact |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -79,9 +116,6 @@ Administrators may modify the boot configuration ignore failure during testing a
 * [Ransomware](/stories/ransomware)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -89,8 +123,6 @@ Administrators may modify the boot configuration ignore failure during testing a
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | A suspicious process $process_name$ with process id $process_id$ contains commandline $process$ to ignore all bcdedit execution failure in host $dest$ |
-
-
 
 
 #### Reference

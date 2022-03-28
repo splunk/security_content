@@ -27,7 +27,7 @@ tags:
 
 The following search identifies the modification of registry related in disabling the system restore of a machine. This event or behavior are seen in some RAT malware to make the restore of the infected machine  difficult and keep their infection on the box.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -36,13 +36,50 @@ The following search identifies the modification of registry related in disablin
 - **ID**: f4f837e2-91fb-11eb-8bf6-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1562.001](https://attack.mitre.org/techniques/T1562/001/) | Disable or Modify Tools | Defense Evasion |
 
 | [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -85,9 +122,6 @@ in some cases admin can disable systemrestore on a machine.
 * [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -95,8 +129,6 @@ in some cases admin can disable systemrestore on a machine.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | The Windows registry was modified to disable system restore on $dest$ by $user$. |
-
-
 
 
 #### Reference

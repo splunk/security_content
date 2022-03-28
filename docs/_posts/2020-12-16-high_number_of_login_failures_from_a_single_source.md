@@ -28,7 +28,7 @@ We have not been able to test, simulate, or build datasets for this object. Use 
 
 This search will detect more than 5 login failures in Office365 Azure Active Directory from a single source IP address. Please adjust the threshold value of 5 as suited for your environment.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -37,13 +37,55 @@ This search will detect more than 5 login failures in Office365 Azure Active Dir
 - **ID**: 7f398cfb-918d-41f4-8db8-2e2474e02222
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1110.001](https://attack.mitre.org/techniques/T1110/001/) | Password Guessing | Credential Access |
 
 | [T1110](https://attack.mitre.org/techniques/T1110/) | Brute Force | Credential Access |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.DP
+* DE.AE
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 16
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -84,9 +126,6 @@ unknown
 * [Office 365 Detections](/stories/office_365_detections)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -94,8 +133,6 @@ unknown
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

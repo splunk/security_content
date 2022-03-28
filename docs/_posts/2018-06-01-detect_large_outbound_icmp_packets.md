@@ -26,7 +26,7 @@ We have not been able to test, simulate, or build datasets for this object. Use 
 
 This search looks for outbound ICMP packets with a packet size larger than 1,000 bytes. Various threat actors have been known to use ICMP as a command and control channel for their attack infrastructure. Large ICMP packets from an endpoint to a remote host may be indicative of this activity.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
 
@@ -35,11 +35,53 @@ This search looks for outbound ICMP packets with a packet size larger than 1,000
 - **ID**: e9c102de-4d43-42a7-b1c8-8062ea297419
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1095](https://attack.mitre.org/techniques/T1095/) | Non-Application Layer Protocol | Command And Control |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Command & Control
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.AE
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 9
+* CIS 12
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -81,9 +123,6 @@ ICMP packets are used in a variety of ways to help troubleshoot networking issue
 * [Command and Control](/stories/command_and_control)
 
 
-#### Kill Chain Phase
-* Command & Control
-
 
 
 #### RBA
@@ -91,8 +130,6 @@ ICMP packets are used in a variety of ways to help troubleshoot networking issue
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

@@ -26,7 +26,7 @@ tags:
 
 This search looks for reading lsass memory consistent with credential dumping.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -35,13 +35,58 @@ This search looks for reading lsass memory consistent with credential dumping.
 - **ID**: 2c365e57-4414-4540-8dc0-73ab10729996
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1003.001](https://attack.mitre.org/techniques/T1003/001/) | LSASS Memory | Credential Access |
 
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.IP
+* PR.AC
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 3
+* CIS 5
+* CIS 16
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -84,9 +129,6 @@ The activity may be legitimate. Other tools can access lsass for legitimate reas
 * [Detect Zerologon Attack](/stories/detect_zerologon_attack)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -94,8 +136,6 @@ The activity may be legitimate. Other tools can access lsass for legitimate reas
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | The $source_image$ has attempted access to read $TargetImage$ was identified on endpoint $Computer$, this is indicative of credential dumping and should be investigated. |
-
-
 
 
 #### Reference

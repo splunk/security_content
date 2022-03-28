@@ -20,13 +20,56 @@ tags:
 
 This search gives you the hosts where a backup was attempted and then failed.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
 - **Last Updated**: 2017-09-12
 - **Author**: David Dorsey, Splunk
 - **ID**: a34aae96-ccf8-4aaa-952c-3ea21444444f
+
+
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.IP
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 10
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -61,9 +104,6 @@ None identified
 * [Monitor Backup Solution](/stories/monitor_backup_solution)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -71,8 +111,6 @@ None identified
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

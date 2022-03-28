@@ -27,7 +27,7 @@ tags:
 
 Monitor for changes of the ExecutionPolicy in the registry to the values "unrestricted" or "bypass," which allows the execution of malicious scripts.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -36,13 +36,56 @@ Monitor for changes of the ExecutionPolicy in the registry to the values "unrest
 - **ID**: c2590137-0b08-4985-9ec5-6ae23d92f63d
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 
 | [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Installation
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 3
+* CIS 8
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -82,10 +125,6 @@ Administrators may attempt to change the default execution policy on a system fo
 * [HAFNIUM Group](/stories/hafnium_group)
 
 
-#### Kill Chain Phase
-* Installation
-* Actions on Objectives
-
 
 
 #### RBA
@@ -93,8 +132,6 @@ Administrators may attempt to change the default execution policy on a system fo
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 48.0 | 60 | 80 | A registry modification in $registry_path$ with reg key $registry_key_name$ and reg value $registry_value_name$ in host $dest$ |
-
-
 
 
 #### Reference

@@ -27,7 +27,7 @@ tags:
 
 This analytic is to detect a suspicious wmic commandlined that uninstall application non interactively. This technique was seen in IceID to uninstall av products to the compromised host to bypassed and evade detections. This Hunting query maybe a good indicator that some process tries to uninstall application using wmic which is not a common behavior. This approach may seen in some script or third part appication to uninstall their application but it is a good thing to check what it uninstall and why.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -36,13 +36,50 @@ This analytic is to detect a suspicious wmic commandlined that uninstall applica
 - **ID**: bff0e7a0-317f-11ec-ab4e-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1562.001](https://attack.mitre.org/techniques/T1562/001/) | Disable or Modify Tools | Defense Evasion |
 
 | [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -87,9 +124,6 @@ third party application may use this approach to uninstall there application
 * [IceID](/stories/iceid)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -97,8 +131,6 @@ third party application may use this approach to uninstall there application
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | wmic $process$ with commandline $process$ in $dest$ |
-
-
 
 
 #### Reference

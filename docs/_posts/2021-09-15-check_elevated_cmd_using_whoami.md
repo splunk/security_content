@@ -24,7 +24,7 @@ tags:
 
 This search is to detect a suspicious whoami execution to check if the cmd or shell instance process is with elevated privileges. This technique was seen in FIN7 js implant where it execute this as part of its data collection to the infected machine to check if the running shell cmd process is elevated or not. This TTP is really a good alert for known attacker that recon on the targetted host. This command is not so commonly executed by a normal user or even an admin to check if a process is elevated.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -33,11 +33,48 @@ This search is to detect a suspicious whoami execution to check if the cmd or sh
 - **ID**: a9079b18-1633-11ec-859c-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1033](https://attack.mitre.org/techniques/T1033/) | System Owner/User Discovery | Discovery |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -78,9 +115,6 @@ unknown
 * [FIN7](/stories/fin7)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -88,8 +122,6 @@ unknown
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | Process name $process_name$ with commandline $process$ in $dest$ |
-
-
 
 
 #### Reference

@@ -26,7 +26,7 @@ We have not been able to test, simulate, or build datasets for this object. Use 
 
 This search looks for long URLs that have several SQL commands visible within them.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Web](https://docs.splunk.com/Documentation/CIM/latest/User/Web)
 
@@ -35,11 +35,58 @@ This search looks for long URLs that have several SQL commands visible within th
 - **ID**: e0aad4cf-0790-423b-8328-7564d0d938f9
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1190](https://attack.mitre.org/techniques/T1190/) | Exploit Public-Facing Application | Initial Access |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Delivery
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.DS
+* ID.RA
+* PR.PT
+* PR.IP
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 4
+* CIS 13
+* CIS 18
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -79,9 +126,6 @@ It's possible that legitimate traffic will have long URLs or long user agent str
 * [SQL Injection](/stories/sql_injection)
 
 
-#### Kill Chain Phase
-* Delivery
-
 
 
 #### RBA
@@ -89,8 +133,6 @@ It's possible that legitimate traffic will have long URLs or long user agent str
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

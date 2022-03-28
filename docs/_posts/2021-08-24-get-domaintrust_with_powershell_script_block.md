@@ -25,7 +25,7 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 This analytic identifies Get-DomainTrust from PowerView in order to gather domain trust information. \
 During triage, review parallel processes using an EDR product or 4688 events. It will be important to understand the timeline of events around this activity. Review the entire logged PowerShell script block.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -34,11 +34,48 @@ During triage, review parallel processes using an EDR product or 4688 events. It
 - **ID**: 89275e7e-0548-11ec-bf75-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1482](https://attack.mitre.org/techniques/T1482/) | Domain Trust Discovery | Discovery |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Reconnaissance
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -77,9 +114,6 @@ It is possible certain system management frameworks utilize this command to gath
 * [Active Directory Discovery](/stories/active_directory_discovery)
 
 
-#### Kill Chain Phase
-* Reconnaissance
-
 
 
 #### RBA
@@ -87,8 +121,6 @@ It is possible certain system management frameworks utilize this command to gath
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 12.0 | 30 | 40 | Suspicious PowerShell Get-DomainTrust was identified on endpoint $ComputerName$ by user $user$. |
-
-
 
 
 #### Reference

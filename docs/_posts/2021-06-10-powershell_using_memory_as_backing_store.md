@@ -23,7 +23,7 @@ tags:
 
 The following analytic identifies suspicious PowerShell script execution via EventCode 4104 that is using memory stream as new object backstore. The malicious PowerShell script will contain stream flate data and will be decompressed in memory to run or drop the actual payload. During triage, review parallel processes within the same timeframe. Review the full script block to identify other related artifacts.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -32,11 +32,48 @@ The following analytic identifies suspicious PowerShell script execution via Eve
 - **ID**: c396a0c4-c9f2-11eb-b4f5-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1140](https://attack.mitre.org/techniques/T1140/) | Deobfuscate/Decode Files or Information | Defense Evasion |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -73,9 +110,6 @@ powershell may used this function to store out object into memory.
 * [Malicious PowerShell](/stories/malicious_powershell)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -83,8 +117,6 @@ powershell may used this function to store out object into memory.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 40.0 | 50 | 80 | A suspicious powershell script contains memorystream command in $Message$ as new object backstore with EventCode $EventCode$ in host $ComputerName$ |
-
-
 
 
 #### Reference

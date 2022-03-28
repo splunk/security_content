@@ -27,7 +27,7 @@ tags:
 
 This search looks for a process launching an `*.lnk` file under `C:\User*` or `*\Local\Temp\*`. This is common behavior used by various spear phishing tools.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -36,13 +36,57 @@ This search looks for a process launching an `*.lnk` file under `C:\User*` or `*
 - **ID**: 5d814af1-1041-47b5-a9ac-d754e82e9a26
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1566](https://attack.mitre.org/techniques/T1566/) | Phishing | Initial Access |
 
 | [T1566.002](https://attack.mitre.org/techniques/T1566/002/) | Spearphishing Link | Initial Access |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Installation
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* ID.AM
+* PR.DS
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 7
+* CIS 8
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -90,10 +134,6 @@ This detection should yield little or no false positive results. It is uncommon 
 * [Spearphishing Attachments](/stories/spearphishing_attachments)
 
 
-#### Kill Chain Phase
-* Installation
-* Actions on Objectives
-
 
 
 #### RBA
@@ -101,8 +141,6 @@ This detection should yield little or no false positive results. It is uncommon 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | A process $process_name$ that launching .lnk file in $file_path$ in host $dest$ |
-
-
 
 
 #### Reference

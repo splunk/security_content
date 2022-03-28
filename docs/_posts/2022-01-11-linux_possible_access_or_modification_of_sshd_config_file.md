@@ -27,7 +27,7 @@ tags:
 
 This analytic is to look for suspicious process command-line that might be accessing or modifying sshd_config. This file is the ssh configuration file that might be modify by threat actors or adversaries to redirect port connection, allow user using authorized key generated during attack. This anomaly detection might catch noise from administrator auditing or modifying ssh configuration file. In this scenario filter is needed
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -36,13 +36,56 @@ This analytic is to look for suspicious process command-line that might be acces
 - **ID**: 7a85eb24-72da-11ec-ac76-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1098.004](https://attack.mitre.org/techniques/T1098/004/) | SSH Authorized Keys | Persistence |
 
 | [T1098](https://attack.mitre.org/techniques/T1098/) | Account Manipulation | Persistence |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 3
+* CIS 5
+* CIS 16
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -84,9 +127,6 @@ Administrator or network operator can use this commandline for automation purpos
 * [Linux Persistence Techniques](/stories/linux_persistence_techniques)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -94,8 +134,6 @@ Administrator or network operator can use this commandline for automation purpos
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | a commandline $process$ executed on $dest$ |
-
-
 
 
 #### Reference

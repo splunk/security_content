@@ -24,7 +24,7 @@ tags:
 
 This analytic identifies a potential adversary that changes the security permission of a specific file or directory. This technique is commonly seen in APT tradecraft or coinminer scripts. This behavior is meant to evade detection and prevent access to their component files.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -33,11 +33,48 @@ This analytic identifies a potential adversary that changes the security permiss
 - **ID**: cf8d753e-a8fe-11eb-8f58-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1222](https://attack.mitre.org/techniques/T1222/) | File and Directory Permissions Modification | Defense Evasion |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -77,9 +114,6 @@ Unknown. It is possible some administrative scripts use ICacls. Filter as needed
 * [XMRig](/stories/xmrig)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -87,8 +121,6 @@ Unknown. It is possible some administrative scripts use ICacls. Filter as needed
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 90 | 80 | Process name $process_name$ with deny argument executed by $user$ to change security permission of a specific file or directory on host $dest$ |
-
-
 
 
 #### Reference

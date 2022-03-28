@@ -26,7 +26,7 @@ We have not been able to test, simulate, or build datasets for this object. Use 
 
 This search detects attempts to run exploits for the Zerologon CVE-2020-1472 vulnerability via Zeek RPC
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -35,11 +35,57 @@ This search detects attempts to run exploits for the Zerologon CVE-2020-1472 vul
 - **ID**: bf7a06ec-f703-11ea-adc1-0242ac120002
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1190](https://attack.mitre.org/techniques/T1190/) | Exploit Public-Facing Application | Initial Access |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 8
+* CIS 11
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+| [CVE-2020-1472](https://nvd.nist.gov/vuln/detail/CVE-2020-1472) | An elevation of privilege vulnerability exists when an attacker establishes a vulnerable Netlogon secure channel connection to a domain controller, using the Netlogon Remote Protocol (MS-NRPC), aka 'Netlogon Elevation of Privilege Vulnerability'. | 9.3 |
+
+
+
+</details>
 
 #### Search
 
@@ -72,9 +118,6 @@ unknown
 * [Detect Zerologon Attack](/stories/detect_zerologon_attack)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -82,14 +125,6 @@ unknown
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
-#### CVE
-
-| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
-| ----------- | ----------- | -------------- |
-| [CVE-2020-1472](https://nvd.nist.gov/vuln/detail/CVE-2020-1472) | An elevation of privilege vulnerability exists when an attacker establishes a vulnerable Netlogon secure channel connection to a domain controller, using the Netlogon Remote Protocol (MS-NRPC), aka 'Netlogon Elevation of Privilege Vulnerability'. | 9.3 |
-
 
 
 #### Reference

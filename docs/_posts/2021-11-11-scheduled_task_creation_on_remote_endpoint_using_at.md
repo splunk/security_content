@@ -31,7 +31,7 @@ tags:
 
 This analytic looks for the execution of `at.exe` with command-line arguments utilized to create a Scheduled Task on a remote endpoint. Red Teams and adversaries alike may abuse the Task Scheduler for lateral movement and remote code execution. The `at.exe` binary internally leverages the AT protocol which was deprecated starting with Windows 8 and Windows Server 2012 but may still work on previous versions of Windows. Furthermore, attackers may enable this protocol on demand by changing a sytem registry key.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -40,13 +40,50 @@ This analytic looks for the execution of `at.exe` with command-line arguments ut
 - **ID**: 4be54858-432f-11ec-8209-3e22fbd008af
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1053](https://attack.mitre.org/techniques/T1053/) | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
 
 | [T1053.002](https://attack.mitre.org/techniques/T1053/002/) | At (Windows) | Execution, Persistence, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -92,9 +129,6 @@ Administrators may create scheduled tasks on remote systems, but this activity i
 * [Living Off The Land](/stories/living_off_the_land)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -102,8 +136,6 @@ Administrators may create scheduled tasks on remote systems, but this activity i
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 54.0 | 90 | 60 | A Windows Scheduled Task was created on a remote endpoint from $dest |
-
-
 
 
 #### Reference

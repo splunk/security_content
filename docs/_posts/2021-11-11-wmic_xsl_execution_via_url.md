@@ -24,7 +24,7 @@ tags:
 
 The following analytic identifies `wmic.exe` loading a remote XSL (eXtensible Stylesheet Language) script. This originally was identified by Casey Smith, dubbed Squiblytwo, as an application control bypass. Many adversaries will utilize this technique to invoke JScript or VBScript within an XSL file. This technique can also execute local/remote scripts and, similar to its Regsvr32 "Squiblydoo" counterpart, leverages a trusted, built-in Windows tool. Adversaries may abuse any alias in Windows Management Instrumentation provided they utilize the /FORMAT switch. Upon identifying a suspicious execution, review for confirmed network connnection and script download.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -33,11 +33,48 @@ The following analytic identifies `wmic.exe` loading a remote XSL (eXtensible St
 - **ID**: 787e9dd0-4328-11ec-a029-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1220](https://attack.mitre.org/techniques/T1220/) | XSL Script Processing | Defense Evasion |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -53,8 +90,8 @@ The following analytic identifies `wmic.exe` loading a remote XSL (eXtensible St
 #### Macros
 The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [process_wmic](https://github.com/splunk/security_content/blob/develop/macros/process_wmic.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `wmic_xsl_execution_via_url_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -83,9 +120,6 @@ False positives are limited as legitimate applications typically do not download
 * [Suspicious WMI Use](/stories/suspicious_wmi_use)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -93,8 +127,6 @@ False positives are limited as legitimate applications typically do not download
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ utilizing wmic to download a remote XSL script. |
-
-
 
 
 #### Reference

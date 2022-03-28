@@ -24,7 +24,7 @@ tags:
 
 This analytic is to look for wmi commandlines to execute or create process. This technique was used by adversaries or threat actor to execute their malicious payload in local or remote host. This hunting query is a good pivot to start to look further which process trigger the wmi or what process it execute locally or remotely.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -33,11 +33,54 @@ This analytic is to look for wmi commandlines to execute or create process. This
 - **ID**: 0661c2de-93de-11ec-9833-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1047](https://attack.mitre.org/techniques/T1047/) | Windows Management Instrumentation | Execution |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 3
+* CIS 5
+* CIS 16
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -53,8 +96,8 @@ This analytic is to look for wmi commandlines to execute or create process. This
 #### Macros
 The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [process_wmic](https://github.com/splunk/security_content/blob/develop/macros/process_wmic.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `windows_wmi_process_call_create_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -84,9 +127,6 @@ Administrators may execute this command for testing or auditing.
 * [Suspicious WMI Use](/stories/suspicious_wmi_use)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -94,8 +134,6 @@ Administrators may execute this command for testing or auditing.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | process with $process$ commandline executed in $dest$ |
-
-
 
 
 #### Reference

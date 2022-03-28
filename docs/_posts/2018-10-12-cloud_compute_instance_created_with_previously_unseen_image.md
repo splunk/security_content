@@ -21,13 +21,56 @@ tags:
 
 This search looks for cloud compute instances being created with previously unseen image IDs.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
 - **Datasource**: [Splunk Add-on for Amazon Kinesis Firehose](https://splunkbase.splunk.com/app/3719)
 - **Last Updated**: 2018-10-12
 - **Author**: David Dorsey, Splunk
 - **ID**: bc24922d-987c-4645-b288-f8c73ec194c4
+
+
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* ID.AM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 1
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -76,9 +119,6 @@ After a new image is created, the first systems created with that image will cau
 * [Cloud Cryptomining](/stories/cloud_cryptomining)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -86,8 +126,6 @@ After a new image is created, the first systems created with that image will cau
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 36.0 | 60 | 60 | User $user$ is creating an instance $dest$ with an image that has not been previously seen. |
-
-
 
 
 #### Reference

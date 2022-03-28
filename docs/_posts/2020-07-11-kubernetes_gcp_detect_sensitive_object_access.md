@@ -20,13 +20,52 @@ tags:
 
 This search provides information on Kubernetes accounts accessing sensitve objects such as configmaps or secrets
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
 - **Last Updated**: 2020-07-11
 - **Author**: Rod Soto, Splunk
 - **ID**: bdb6d596-86a0-4aba-8369-418ae8b9963a
+
+
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -57,9 +96,6 @@ Sensitive object access is not necessarily malicious but user and object context
 * [Kubernetes Sensitive Object Access Activity](/stories/kubernetes_sensitive_object_access_activity)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -67,8 +103,6 @@ Sensitive object access is not necessarily malicious but user and object context
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

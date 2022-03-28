@@ -28,7 +28,7 @@ tags:
 
 This search looks for specific authentication events from the Windows Security Event logs to detect potential attempts at using the Pass-the-Hash technique.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -37,13 +37,59 @@ This search looks for specific authentication events from the Windows Security E
 - **ID**: f5939373-8054-40ad-8c64-cec478a22a4b
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1550](https://attack.mitre.org/techniques/T1550/) | Use Alternate Authentication Material | Defense Evasion, Lateral Movement |
 
 | [T1550.002](https://attack.mitre.org/techniques/T1550/002/) | Pass the Hash | Defense Evasion, Lateral Movement |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.PT
+* PR.AT
+* PR.AC
+* PR.IP
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 3
+* CIS 5
+* CIS 16
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -58,8 +104,8 @@ This search looks for specific authentication events from the Windows Security E
 
 #### Macros
 The SPL above uses the following Macros:
-* [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 
 Note that `detect_activity_related_to_pass_the_hash_attacks_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -83,9 +129,6 @@ Legitimate logon activity by authorized NTLM systems may be detected by this sea
 * [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -93,8 +136,6 @@ Legitimate logon activity by authorized NTLM systems may be detected by this sea
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | The following $EventCode$ occurred on $dest$ by $user$ with Logon Type 3, which may be indicative of the pass the hash technique. |
-
-
 
 
 #### Reference

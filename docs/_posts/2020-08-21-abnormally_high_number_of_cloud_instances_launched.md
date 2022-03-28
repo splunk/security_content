@@ -35,7 +35,7 @@ We have not been able to test, simulate, or build datasets for this object. Use 
 
 This search finds for the number successfully created cloud instances for every 4 hour block. This is split up between weekdays and the weekend. It then applies the probability densitiy model previously created and alerts on any outliers.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
 
@@ -44,13 +44,55 @@ This search finds for the number successfully created cloud instances for every 
 - **ID**: f2361e9f-3928-496c-a556-120cd4223a65
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1078.004](https://attack.mitre.org/techniques/T1078/004/) | Cloud Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
 
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.DP
+* DE.AE
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 13
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -98,9 +140,6 @@ Many service accounts configured within an AWS infrastructure are known to exhib
 * [Suspicious Cloud Instance Activities](/stories/suspicious_cloud_instance_activities)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -108,8 +147,6 @@ Many service accounts configured within an AWS infrastructure are known to exhib
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

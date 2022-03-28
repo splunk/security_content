@@ -27,7 +27,7 @@ tags:
 
 This search is to detect a suspicious excessive usage of sc.exe in a host machine. This technique was seen in several ransomware , xmrig and other malware to create, modify, delete or disable a service may related to security application or to gain privilege escalation.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -36,13 +36,50 @@ This search is to detect a suspicious excessive usage of sc.exe in a host machin
 - **ID**: cb6b339e-d4c6-11eb-a026-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1569](https://attack.mitre.org/techniques/T1569/) | System Services | Execution |
 
 | [T1569.002](https://attack.mitre.org/techniques/T1569/002/) | Service Execution | Execution |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -83,9 +120,6 @@ excessive execution of sc.exe is quite suspicious since it can modify or execute
 * [Ransomware](/stories/ransomware)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -93,8 +127,6 @@ excessive execution of sc.exe is quite suspicious since it can modify or execute
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | Excessive Usage Of SC Service Utility |
-
-
 
 
 #### Reference

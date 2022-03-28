@@ -26,7 +26,7 @@ tags:
 
 This analytic is to look for suspicious modification or creation of registry to have service entry. This technique is abused by adversaries or threat actor to persist, gain privileges in the machine or even lateral movement. This technique can be executed using reg.exe application or using windows API like for example the CrashOveride malware. This detection is a good indicator that a process is trying to create a service entry using registry ImagePath.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -35,11 +35,54 @@ This analytic is to look for suspicious modification or creation of registry to 
 - **ID**: 25212358-948e-11ec-ad47-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1574.011](https://attack.mitre.org/techniques/T1574/011/) | Services Registry Permissions Weakness | Defense Evasion, Persistence, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 3
+* CIS 5
+* CIS 16
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -91,9 +134,6 @@ Third party tools may used this technique to create services but not so common.
 * [Windows Persistence Techniques](/stories/windows_persistence_techniques)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -101,8 +141,6 @@ Third party tools may used this technique to create services but not so common.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 64.0 | 80 | 80 | A Windows Service was created on a endpoint from $dest$ |
-
-
 
 
 #### Reference

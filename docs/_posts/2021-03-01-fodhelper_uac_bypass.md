@@ -36,7 +36,7 @@ Fodhelper.exe has a known UAC bypass as it attempts to look for specific registr
 1. `HKCU:\Software\Classes\ms-settings\shell\open\command\(default)`\
 Upon triage, fodhelper.exe will have a child process and read access will occur on the registry keys. Isolate the endpoint and review parallel processes for additional behavior.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -45,7 +45,11 @@ Upon triage, fodhelper.exe will have a child process and read access will occur 
 - **ID**: 909f8fd8-7ac8-11eb-a1f3-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
@@ -54,6 +58,39 @@ Upon triage, fodhelper.exe will have a child process and read access will occur 
 | [T1548.002](https://attack.mitre.org/techniques/T1548/002/) | Bypass User Account Control | Defense Evasion, Privilege Escalation |
 
 | [T1548](https://attack.mitre.org/techniques/T1548/) | Abuse Elevation Control Mechanism | Defense Evasion, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -96,9 +133,6 @@ Limited to no false positives are expected.
 * [IcedID](/stories/icedid)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -106,8 +140,6 @@ Limited to no false positives are expected.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 81.0 | 90 | 90 | Suspcious registy keys added by process fodhelper.exe (process_id- $process_id), with a parent_process of $parent_process_name$ that has been executed on $dest$ by $user$. |
-
-
 
 
 #### Reference

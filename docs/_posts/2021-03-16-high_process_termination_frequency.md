@@ -24,7 +24,7 @@ tags:
 
 This analytics are designed to indentify a high frequency of process termination on a machine which is a common behavior of ransomware malware before encrypting files. This technique is designed to avoid an exception error while accessing (docs, images, database and etc..) in the infected machine for encryption.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -33,11 +33,48 @@ This analytics are designed to indentify a high frequency of process termination
 - **ID**: 17cd75b2-8666-11eb-9ab4-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1486](https://attack.mitre.org/techniques/T1486/) | Data Encrypted for Impact | Impact |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -76,9 +113,6 @@ admin or user tool that can terminate multiple process.
 * [Clop Ransomware](/stories/clop_ransomware)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -86,8 +120,6 @@ admin or user tool that can terminate multiple process.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 90 | 80 | High frequency process termination (more than 15 processes within 3s) detected on host $Computer$ |
-
-
 
 
 #### Reference

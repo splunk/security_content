@@ -29,7 +29,7 @@ tags:
 
 This analytic is to look for possible elevation control access using a common known process in linux platform to change the attribute and file ownership. This technique is commonly abused by adversaries, malware author and red teamers to gain persistence or privilege escalation on the target or compromised host. Tis common process is used to modify file attribute, file ownership or SUID. This tools can be used in legitimate purposes so filter is needed.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -38,13 +38,56 @@ This analytic is to look for possible elevation control access using a common kn
 - **ID**: 66ab15c0-63d0-11ec-9e70-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1548.001](https://attack.mitre.org/techniques/T1548/001/) | Setuid and Setgid | Defense Evasion, Privilege Escalation |
 
 | [T1548](https://attack.mitre.org/techniques/T1548/) | Abuse Elevation Control Mechanism | Defense Evasion, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 3
+* CIS 5
+* CIS 16
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -86,9 +129,6 @@ Administrator or network operator can execute this command. Please update the fi
 * [Linux Persistence Techniques](/stories/linux_persistence_techniques)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -96,8 +136,6 @@ Administrator or network operator can execute this command. Please update the fi
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 9.0 | 30 | 30 | A commandline $process$ with process $process_name$ on $dest$ |
-
-
 
 
 #### Reference

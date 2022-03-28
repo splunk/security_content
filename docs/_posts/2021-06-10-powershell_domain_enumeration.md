@@ -28,7 +28,7 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 This analytic identifies specific PowerShell modules typically used to enumerate an organizations domain or users. \
 During triage, review parallel processes using an EDR product or 4688 events. It will be important to understand the timeline of events around this activity. Review the entire logged PowerShell script block.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -37,13 +37,50 @@ During triage, review parallel processes using an EDR product or 4688 events. It
 - **ID**: e1866ce2-ca22-11eb-8e44-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 
 | [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Reconnaissance
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -79,9 +116,6 @@ It is possible there will be false positives, filter as needed.
 * [Malicious PowerShell](/stories/malicious_powershell)
 
 
-#### Kill Chain Phase
-* Reconnaissance
-
 
 
 #### RBA
@@ -89,8 +123,6 @@ It is possible there will be false positives, filter as needed.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 42.0 | 60 | 70 | A suspicious powershell script contains domain enumeration command in $Message$ with EventCode $EventCode$ in host $ComputerName$ |
-
-
 
 
 #### Reference

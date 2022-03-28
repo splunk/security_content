@@ -24,7 +24,7 @@ tags:
 
 This analytic is to look for dd command to overwrite file. This technique was abused by adversaries or threat actor to destroy files or data on specific system or in a large number of host within network to interrupt host avilability, services and many more. This is also used to destroy data where it make the file irrecoverable by forensic techniques through overwriting files, data or local and remote drives.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -33,11 +33,54 @@ This analytic is to look for dd command to overwrite file. This technique was ab
 - **ID**: 9b6aae5e-8d85-11ec-b2ae-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1485](https://attack.mitre.org/techniques/T1485/) | Data Destruction | Impact |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 3
+* CIS 5
+* CIS 16
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -78,9 +121,6 @@ Administrator or network operator can execute this command. Please update the fi
 * [Data Destruction](/stories/data_destruction)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -88,8 +128,6 @@ Administrator or network operator can execute this command. Please update the fi
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 64.0 | 80 | 80 | A commandline $process$ executed on $dest$ |
-
-
 
 
 #### Reference

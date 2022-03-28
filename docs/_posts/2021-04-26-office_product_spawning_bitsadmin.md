@@ -27,7 +27,7 @@ tags:
 
 The following detection identifies the latest behavior utilized by different malware families (including TA551, IcedID). This detection identifies any Windows Office Product spawning `bitsadmin.exe`. In malicious instances, the command-line of `bitsadmin.exe` will contain a URL to a remote destination or similar command-line arguments as transfer, Download, priority, Foreground. In addition, Threat Research has released a detections identifying suspicious use of `bitsadmin.exe`. In this instance, we narrow our detection down to the Office suite as a parent process. During triage, review all file modifications. Capture and analyze any artifacts on disk. The Office Product, or `bitsadmin.exe` will have reached out to a remote destination, capture and block the IPs or domain. Review additional parallel processes for further activity.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -36,13 +36,50 @@ The following detection identifies the latest behavior utilized by different mal
 - **ID**: e8c591f4-a6d7-11eb-8cf7-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1566](https://attack.mitre.org/techniques/T1566/) | Phishing | Initial Access |
 
 | [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -58,8 +95,8 @@ The following detection identifies the latest behavior utilized by different mal
 #### Macros
 The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [process_bitsadmin](https://github.com/splunk/security_content/blob/develop/macros/process_bitsadmin.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `office_product_spawning_bitsadmin_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -88,9 +125,6 @@ No false positives known. Filter as needed.
 * [Spearphishing Attachments](/stories/spearphishing_attachments)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -98,8 +132,6 @@ No false positives known. Filter as needed.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | office parent process $parent_process_name$ will execute a suspicious child process $process_name$ with process id $process_id$ in host $dest$ |
-
-
 
 
 #### Reference

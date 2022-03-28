@@ -26,7 +26,7 @@ tags:
 
 This search looks for AWS CloudTrail events from AWS Elastic Container Service (ECR). You need to activate image scanning in order to get the event DescribeImageScanFindings with the results.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -35,13 +35,56 @@ This search looks for AWS CloudTrail events from AWS Elastic Container Service (
 - **ID**: cbc95e44-7c22-443f-88fd-0424478f5589
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1204.003](https://attack.mitre.org/techniques/T1204/003/) | Malicious Image | Execution |
 
 | [T1204](https://attack.mitre.org/techniques/T1204/) | User Execution | Execution |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.DS
+* PR.AC
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 13
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -63,8 +106,8 @@ This search looks for AWS CloudTrail events from AWS Elastic Container Service (
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `aws_ecr_container_scanning_findings_low_informational_unknown_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -90,9 +133,6 @@ unknown
 * [Dev Sec Ops](/stories/dev_sec_ops)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -100,8 +140,6 @@ unknown
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 7.0 | 10 | 70 | Vulnerabilities with severity high found in repository $repositoryName$ |
-
-
 
 
 #### Reference

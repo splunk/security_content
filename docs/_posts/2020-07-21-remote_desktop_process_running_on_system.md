@@ -29,7 +29,7 @@ We have not been able to test, simulate, or build datasets for this object. Use 
 
 This search looks for the remote desktop process mstsc.exe running on systems upon which it doesn't typically run. This is accomplished by filtering out all systems that are noted in the `common_rdp_source category` in the Assets and Identity framework.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -38,13 +38,58 @@ This search looks for the remote desktop process mstsc.exe running on systems up
 - **ID**: f5939373-8054-40ad-8c64-cec478a22a4a
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1021.001](https://attack.mitre.org/techniques/T1021/001/) | Remote Desktop Protocol | Lateral Movement |
 
 | [T1021](https://attack.mitre.org/techniques/T1021/) | Remote Services | Lateral Movement |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.AE
+* PR.AC
+* PR.IP
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 3
+* CIS 9
+* CIS 16
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -83,9 +128,6 @@ Remote Desktop may be used legitimately by users on the network.
 * [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -93,8 +135,6 @@ Remote Desktop may be used legitimately by users on the network.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

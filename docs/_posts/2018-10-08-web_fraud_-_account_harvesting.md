@@ -23,7 +23,7 @@ tags:
 
 This search is used to identify the creation of multiple user accounts using the same email domain name.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -32,11 +32,53 @@ This search is used to identify the creation of multiple user accounts using the
 - **ID**: bf1d7b5c-df2f-4249-a401-c09fdc221ddf
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1136](https://attack.mitre.org/techniques/T1136/) | Create Account | Persistence |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.CM
+* DE.DP
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 16
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -75,9 +117,6 @@ As is common with many fraud-related searches, we are usually looking to attribu
 * [Web Fraud Detection](/stories/web_fraud_detection)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -85,8 +124,6 @@ As is common with many fraud-related searches, we are usually looking to attribu
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

@@ -26,7 +26,7 @@ tags:
 
 The following analytic identifies suspicious PowerShell script execution via EventCode 4104 that is using the `mutex` function. This function is commonly seen in some obfuscated PowerShell scripts to make sure that only one instance of there process is running on a compromise machine. During triage, review parallel processes within the same timeframe. Review the full script block to identify other related artifacts.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -35,13 +35,50 @@ The following analytic identifies suspicious PowerShell script execution via Eve
 - **ID**: 637557ec-ca08-11eb-bd0a-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1027](https://attack.mitre.org/techniques/T1027/) | Obfuscated Files or Information | Defense Evasion |
 
 | [T1027.005](https://attack.mitre.org/techniques/T1027/005/) | Indicator Removal from Tools | Defense Evasion |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -78,9 +115,6 @@ powershell developer may used this function in their script for instance checkin
 * [Malicious PowerShell](/stories/malicious_powershell)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -88,8 +122,6 @@ powershell developer may used this function in their script for instance checkin
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 40.0 | 50 | 80 | A suspicious powershell script contains Thread Mutex in $Message$ with EventCode $EventCode$ in host $ComputerName$ |
-
-
 
 
 #### Reference

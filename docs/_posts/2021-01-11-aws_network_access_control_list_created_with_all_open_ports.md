@@ -26,7 +26,7 @@ tags:
 
 The search looks for AWS CloudTrail events to detect if any network ACLs were created with all the ports open to a specified CIDR.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -35,13 +35,55 @@ The search looks for AWS CloudTrail events to detect if any network ACLs were cr
 - **ID**: ada0f478-84a8-4641-a3f1-d82362d6bd75
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1562.007](https://attack.mitre.org/techniques/T1562/007/) | Disable or Modify Cloud Firewall | Defense Evasion |
 
 | [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.DP
+* DE.AE
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 11
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -59,8 +101,8 @@ The search looks for AWS CloudTrail events to detect if any network ACLs were cr
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `aws_network_access_control_list_created_with_all_open_ports_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -88,9 +130,6 @@ It's possible that an admin has created this ACL with all ports open for some le
 * [AWS Network ACL Activity](/stories/aws_network_acl_activity)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -98,8 +137,6 @@ It's possible that an admin has created this ACL with all ports open for some le
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 48.0 | 60 | 80 | User $user_arn$ has created network ACLs with all the ports open to a specified CIDR $requestParameters.cidrBlock$ |
-
-
 
 
 #### Reference

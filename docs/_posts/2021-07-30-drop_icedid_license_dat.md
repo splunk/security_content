@@ -27,7 +27,7 @@ tags:
 
 This search is to detect dropping a suspicious file named as "license.dat" in %appdata%. This behavior seen in latest IcedID malware that contain the actual core bot that will be injected in other process to do banking stealing.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -36,13 +36,50 @@ This search is to detect dropping a suspicious file named as "license.dat" in %a
 - **ID**: b7a045fc-f14a-11eb-8e79-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1204](https://attack.mitre.org/techniques/T1204/) | User Execution | Execution |
 
 | [T1204.002](https://attack.mitre.org/techniques/T1204/002/) | Malicious File | Execution |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -75,9 +112,6 @@ unknown
 * [IcedID](/stories/icedid)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -85,8 +119,6 @@ unknown
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | process $SourceImage$ create a file $TargetImage$ in host $Computer$ |
-
-
 
 
 #### Reference

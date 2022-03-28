@@ -33,7 +33,7 @@ tags:
 
 The following hunting analytic identifies renamed instances of rundll32.exe executing. rundll32.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64. During investigation, validate it is the legitimate rundll32.exe executing and what script content it is loading. This query relies on the original filename or internal name from the PE meta data. Expand the query as needed by looking for specific command line arguments outlined in other analytics.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -42,7 +42,11 @@ The following hunting analytic identifies renamed instances of rundll32.exe exec
 - **ID**: 7360137f-abad-473e-8189-acbdaa34d114
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
@@ -53,6 +57,44 @@ The following hunting analytic identifies renamed instances of rundll32.exe exec
 | [T1218.011](https://attack.mitre.org/techniques/T1218/011/) | Rundll32 | Defense Evasion |
 
 | [T1036.003](https://attack.mitre.org/techniques/T1036/003/) | Rename System Utilities | Defense Evasion |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.PT
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 8
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -99,9 +141,6 @@ Although unlikely, some legitimate applications may use a moved copy of rundll32
 * [Masquerading - Rename System Utilities](/stories/masquerading_-_rename_system_utilities)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -109,8 +148,6 @@ Although unlikely, some legitimate applications may use a moved copy of rundll32
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | Suspicious renamed rundll32.exe binary ran on $dest$ by $user$ |
-
-
 
 
 #### Reference

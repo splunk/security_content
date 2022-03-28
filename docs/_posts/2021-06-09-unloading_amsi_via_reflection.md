@@ -25,7 +25,7 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 This analytic identifies the behavior of AMSI being tampered with. Implemented natively in many frameworks, the command will look similar to `SEtValuE($Null,(New-OBJEct COLlECtionS.GenerIC.HAshSEt{[StrINg]))}$ReF=[ReF].AsSeMbLY.GeTTyPe("System.Management.Automation.Amsi"+"Utils")` taken from Powershell-Empire. \
 During triage, review parallel processes using an EDR product or 4688 events. It will be important to understand the timeline of events around this activity. Review the entire logged PowerShell script block.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -34,11 +34,48 @@ During triage, review parallel processes using an EDR product or 4688 events. It
 - **ID**: a21e3484-c94d-11eb-b55b-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -76,9 +113,6 @@ Potential for some third party applications to disable AMSI upon invocation. Fil
 * [Malicious PowerShell](/stories/malicious_powershell)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -86,8 +120,6 @@ Potential for some third party applications to disable AMSI upon invocation. Fil
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | Possible AMSI Unloading via Reflection using PowerShell on $ComputerName$ |
-
-
 
 
 #### Reference

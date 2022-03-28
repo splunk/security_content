@@ -26,7 +26,7 @@ tags:
 
 This search detects new API calls that have either never been seen before or that have not been seen in the previous hour, where the identity type is `AssumedRole`.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -35,11 +35,52 @@ This search detects new API calls that have either never been seen before or tha
 - **ID**: 22773e84-bac0-4595-b086-20d3f335b4f1
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1078.004](https://attack.mitre.org/techniques/T1078/004/) | Cloud Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* ID.AM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 1
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -63,8 +104,8 @@ This search detects new API calls that have either never been seen before or tha
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `detect_new_api_calls_from_user_roles_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -92,9 +133,6 @@ It is possible that there are legitimate user roles making new or infrequently u
 * [AWS User Monitoring](/stories/aws_user_monitoring)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -102,8 +140,6 @@ It is possible that there are legitimate user roles making new or infrequently u
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

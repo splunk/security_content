@@ -26,7 +26,7 @@ tags:
 
 The following analytic utilizes PowerShell Script Block Logging (EventCode=4104) to identify the execution of the `Get-WmiObject` commandlet used with specific parameters. The `Win32_UserAccount` parameter is used to return a list of all local users. Red Teams and adversaries may leverage this commandlet to enumerate users for situational awareness and Active Directory Discovery.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -35,13 +35,50 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 - **ID**: 640b0eda-0429-11ec-accd-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1087](https://attack.mitre.org/techniques/T1087/) | Account Discovery | Discovery |
 
 | [T1087.001](https://attack.mitre.org/techniques/T1087/001/) | Local Account | Discovery |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Reconnaissance
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -73,9 +110,6 @@ Administrators or power users may use this PowerShell commandlet for troubleshoo
 * [Active Directory Discovery](/stories/active_directory_discovery)
 
 
-#### Kill Chain Phase
-* Reconnaissance
-
 
 
 #### RBA
@@ -83,8 +117,6 @@ Administrators or power users may use this PowerShell commandlet for troubleshoo
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 15.0 | 30 | 50 | Local user discovery enumeration using PowerShell on $dest$ by $user$ |
-
-
 
 
 #### Reference

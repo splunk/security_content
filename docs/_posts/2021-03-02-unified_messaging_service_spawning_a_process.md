@@ -25,7 +25,7 @@ tags:
 
 This detection identifies Microsoft Exchange Server's Unified Messaging services, umworkerprocess.exe and umservice.exe, spawning a child process, indicating possible exploitation of CVE-2021-26857 vulnerability. The query filters out werfault.exe and wermgr.exe mostly due to potential false positives, however, if there is an excessive amount of "wermgr.exe" or "WerFault.exe" failures, it may be due to the active exploitation. During triage, identify any additional suspicious parallel processes. Identify any recent out of place file modifications. Review Exchange logs following Microsofts guide. To contain, perform egress filtering or restrict public access to Exchange. In final, patch the vulnerablity and monitor.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -34,11 +34,52 @@ This detection identifies Microsoft Exchange Server's Unified Messaging services
 - **ID**: f1126df0-7bd5-11eb-988f-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1190](https://attack.mitre.org/techniques/T1190/) | Exploit Public-Facing Application | Initial Access |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+| [CVE-2021-26857](https://nvd.nist.gov/vuln/detail/CVE-2021-26857) | Microsoft Exchange Server Remote Code Execution Vulnerability This CVE ID is unique from CVE-2021-26412, CVE-2021-26854, CVE-2021-26855, CVE-2021-26858, CVE-2021-27065, CVE-2021-27078. | 6.8 |
+
+
+
+</details>
 
 #### Search
 
@@ -79,9 +120,6 @@ Unknown. Tune out child processes as needed to limit volume of false positives.
 * [HAFNIUM Group](/stories/hafnium_group)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -89,14 +127,6 @@ Unknown. Tune out child processes as needed to limit volume of false positives.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | Possible CVE-2021-26857 exploitation on $dest$ |
-
-
-#### CVE
-
-| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
-| ----------- | ----------- | -------------- |
-| [CVE-2021-26857](https://nvd.nist.gov/vuln/detail/CVE-2021-26857) | Microsoft Exchange Server Remote Code Execution Vulnerability This CVE ID is unique from CVE-2021-26412, CVE-2021-26854, CVE-2021-26855, CVE-2021-26858, CVE-2021-27065, CVE-2021-27078. | 6.8 |
-
 
 
 #### Reference

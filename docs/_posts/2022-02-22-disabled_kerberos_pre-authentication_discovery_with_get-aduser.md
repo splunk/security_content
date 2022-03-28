@@ -26,7 +26,7 @@ tags:
 
 The following analytic utilizes PowerShell Script Block Logging (EventCode=4104) to identify the execution of the `Get-ADUser` commandlet with specific parameters. `Get-ADUser` is part of the Active Directory PowerShell module used to manage Windows Active Directory networks. As the name suggests, `Get-ADUser` is used to query for domain users. With the appropiate parameters, Get-ADUser allows adversaries to discover domain accounts with Kerberos Pre Authentication disabled.\ Red Teams and adversaries alike use may abuse Get-ADUSer to enumerate these accounts and attempt to crack their passwords offline.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -35,13 +35,50 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 - **ID**: 114c6bfe-9406-11ec-bcce-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1558](https://attack.mitre.org/techniques/T1558/) | Steal or Forge Kerberos Tickets | Credential Access |
 
 | [T1558.004](https://attack.mitre.org/techniques/T1558/004/) | AS-REP Roasting | Credential Access |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -77,9 +114,6 @@ Administrators or power users may use search for accounts with Kerberos Pre Auth
 * [Active Directory Kerberos Attacks](/stories/active_directory_kerberos_attacks)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -87,8 +121,6 @@ Administrators or power users may use search for accounts with Kerberos Pre Auth
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 54.0 | 60 | 90 | Disabled Kerberos Pre-Authentication Discovery With Get-ADUser from $dest$ |
-
-
 
 
 #### Reference

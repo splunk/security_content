@@ -26,7 +26,7 @@ tags:
 
 The following analytic utilizes PowerShell Script Block Logging (EventCode=4104) to identify the usage of the `Enter-PSSession`. This commandlet can be used to open an interactive session on a remote endpoint leveraging the WinRM protocol. Red Teams and adversaries alike may abuse WinRM and `Enter-PSSession` for lateral movement and remote code execution.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -35,13 +35,50 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 - **ID**: a4e8f3a4-48b2-11ec-bcfc-3e22fbd008af
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1021](https://attack.mitre.org/techniques/T1021/) | Remote Services | Lateral Movement |
 
 | [T1021.006](https://attack.mitre.org/techniques/T1021/006/) | Windows Remote Management | Lateral Movement |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -77,9 +114,6 @@ Administrators may leverage WinRM and `Enter-PSSession` for administrative and t
 * [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -87,8 +121,6 @@ Administrators may leverage WinRM and `Enter-PSSession` for administrative and t
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 45.0 | 90 | 50 | An interactive session was opened on a remote endpoint from $ComputerName |
-
-
 
 
 #### Reference

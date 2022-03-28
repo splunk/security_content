@@ -27,7 +27,7 @@ tags:
 
 The following analytic identifies wmiprvse.exe spawning msbuild.exe. This behavior is indicative of a COM object being utilized to spawn msbuild from wmiprvse.exe. It is common for MSBuild.exe to be spawned from devenv.exe while using Visual Studio. In this instance, there will be command line arguments and file paths. In a malicious instance, MSBuild.exe will spawn from non-standard processes and have no command line arguments. For example, MSBuild.exe spawning from explorer.exe, powershell.exe is far less common and should be investigated.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -36,13 +36,55 @@ The following analytic identifies wmiprvse.exe spawning msbuild.exe. This behavi
 - **ID**: a115fba6-5514-11eb-ae93-0242ac130002
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1127](https://attack.mitre.org/techniques/T1127/) | Trusted Developer Utilities Proxy Execution | Defense Evasion |
 
 | [T1127.001](https://attack.mitre.org/techniques/T1127/001/) | MSBuild | Defense Evasion |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.PT
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 8
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -57,8 +99,8 @@ The following analytic identifies wmiprvse.exe spawning msbuild.exe. This behavi
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_msbuild](https://github.com/splunk/security_content/blob/develop/macros/process_msbuild.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [process_msbuild](https://github.com/splunk/security_content/blob/develop/macros/process_msbuild.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `suspicious_msbuild_spawn_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -89,9 +131,6 @@ Although unlikely, some legitimate applications may exhibit this behavior, trigg
 * [Living Off The Land](/stories/living_off_the_land)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -99,8 +138,6 @@ Although unlikely, some legitimate applications may exhibit this behavior, trigg
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 42.0 | 70 | 60 | Suspicious msbuild.exe process executed on $dest$ by $user$ |
-
-
 
 
 #### Reference

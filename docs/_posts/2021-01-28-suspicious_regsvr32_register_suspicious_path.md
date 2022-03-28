@@ -27,7 +27,7 @@ tags:
 
 Adversaries may abuse Regsvr32.exe to proxy execution of malicious code by using non-standard file extensions to load malciious DLLs. Upon investigating, look for network connections to remote destinations (internal or external). Review additional parrallel processes and child processes for additional activity.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -36,13 +36,55 @@ Adversaries may abuse Regsvr32.exe to proxy execution of malicious code by using
 - **ID**: 62732736-6250-11eb-ae93-0242ac130002
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
 
 | [T1218.010](https://attack.mitre.org/techniques/T1218/010/) | Regsvr32 | Defense Evasion |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 8
+* CIS 16
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -58,8 +100,8 @@ Adversaries may abuse Regsvr32.exe to proxy execution of malicious code by using
 #### Macros
 The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [process_regsvr32](https://github.com/splunk/security_content/blob/develop/macros/process_regsvr32.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `suspicious_regsvr32_register_suspicious_path_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -90,9 +132,6 @@ Limited false positives with the query restricted to specified paths. Add more w
 * [Living Off The Land](/stories/living_off_the_land)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -100,8 +139,6 @@ Limited false positives with the query restricted to specified paths. Add more w
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 35.0 | 70 | 50 | Suspicious $Processes.process_path.file_path$ process potentially loading malicious code |
-
-
 
 
 #### Reference

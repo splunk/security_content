@@ -20,13 +20,52 @@ tags:
 
 This search provides information on Kubernetes accounts accessing sensitve objects such as configmpas or secrets
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
 - **Last Updated**: 2020-05-20
 - **Author**: Rod Soto, Splunk
 - **ID**: f27349e5-1641-4f6a-9e68-30402be0ad4c
+
+
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -59,9 +98,6 @@ Sensitive role resource access is necessary for cluster operation, however sourc
 * [Kubernetes Sensitive Role Activity](/stories/kubernetes_sensitive_role_activity)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -69,8 +105,6 @@ Sensitive role resource access is necessary for cluster operation, however sourc
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

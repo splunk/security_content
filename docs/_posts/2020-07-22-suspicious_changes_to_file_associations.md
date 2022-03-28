@@ -24,7 +24,7 @@ tags:
 
 This search looks for changes to registry values that control Windows file associations, executed by a process that is not typical for legitimate, routine changes to this area.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -33,11 +33,55 @@ This search looks for changes to registry values that control Windows file assoc
 - **ID**: 1b989a0e-0129-4446-a695-f193a5b746fc
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1546.001](https://attack.mitre.org/techniques/T1546/001/) | Change Default File Association | Persistence, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.CM
+* PR.PT
+* PR.IP
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 3
+* CIS 8
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -76,9 +120,6 @@ There may be other processes in your environment that users may legitimately use
 * [Windows File Extension and Association Abuse](/stories/windows_file_extension_and_association_abuse)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -86,8 +127,6 @@ There may be other processes in your environment that users may legitimately use
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

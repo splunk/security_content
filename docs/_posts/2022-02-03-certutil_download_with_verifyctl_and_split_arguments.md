@@ -24,7 +24,7 @@ tags:
 
 Certutil.exe may download a file from a remote destination using `-VerifyCtl`. This behavior does require a URL to be passed on the command-line. In addition, `-f` (force) and `-split` (Split embedded ASN.1 elements, and save to files) will be used. It is not entirely common for `certutil.exe` to contact public IP space. \ During triage, capture any files on disk and review. Review the reputation of the remote IP or domain in question. Using `-VerifyCtl`, the file will either be written to the current working directory or `%APPDATA%\..\LocalLow\Microsoft\CryptnetUrlCache\Content\<hash>`. 
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -33,11 +33,48 @@ Certutil.exe may download a file from a remote destination using `-VerifyCtl`. T
 - **ID**: 801ad9e4-8bfb-11eb-8b31-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1105](https://attack.mitre.org/techniques/T1105/) | Ingress Tool Transfer | Command And Control |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -52,9 +89,9 @@ Certutil.exe may download a file from a remote destination using `-VerifyCtl`. T
 
 #### Macros
 The SPL above uses the following Macros:
+* [process_certutil](https://github.com/splunk/security_content/blob/develop/macros/process_certutil.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
-* [process_certutil](https://github.com/splunk/security_content/blob/develop/macros/process_certutil.yml)
 
 Note that `certutil_download_with_verifyctl_and_split_arguments_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -85,9 +122,6 @@ Limited false positives in most environments, however tune as needed based on pa
 * [Living Off The Land](/stories/living_off_the_land)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -95,8 +129,6 @@ Limited false positives in most environments, however tune as needed based on pa
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 90.0 | 90 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to download a file. |
-
-
 
 
 #### Reference

@@ -23,7 +23,7 @@ tags:
 
 This search looks for AWS CloudTrail events where a user has created an open/public S3 bucket.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -32,11 +32,54 @@ This search looks for AWS CloudTrail events where a user has created an open/pub
 - **ID**: 2a9b80d3-6340-4345-b5ad-290bf3d0dac4
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1530](https://attack.mitre.org/techniques/T1530/) | Data from Cloud Storage Object | Collection |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.DS
+* PR.AC
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 13
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -59,8 +102,8 @@ This search looks for AWS CloudTrail events where a user has created an open/pub
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `detect_new_open_s3_buckets_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -86,9 +129,6 @@ While this search has no known false positives, it is possible that an AWS admin
 * [Suspicious AWS S3 Activities](/stories/suspicious_aws_s3_activities)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -96,8 +136,6 @@ While this search has no known false positives, it is possible that an AWS admin
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 48.0 | 60 | 80 | User $user_arn$ has created an open/public bucket $bucketName$ with the following permissions $permission$ |
-
-
 
 
 #### Reference

@@ -26,7 +26,7 @@ tags:
 
 The following Hunting analytic assists with identifying suspicious PowerShell execution using Script Block Logging, or EventCode 4104. This analytic is not meant to be ran hourly, but occasionally to identify malicious or suspicious PowerShell. This analytic is a combination of work completed by Alex Teixeira and Splunk Threat Research Team.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -35,13 +35,50 @@ The following Hunting analytic assists with identifying suspicious PowerShell ex
 - **ID**: d6f2b006-0041-11ec-8885-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 
 | [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -248,9 +285,6 @@ Limited false positives. May filter as needed.
 * [Malicious PowerShell](/stories/malicious_powershell)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -258,8 +292,6 @@ Limited false positives. May filter as needed.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ executing suspicious commands. |
-
-
 
 
 #### Reference

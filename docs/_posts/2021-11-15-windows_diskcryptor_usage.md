@@ -24,7 +24,7 @@ tags:
 
 The following analytic identifies DiskCryptor  process name of dcrypt.exe or internal name dcinst.exe. This utility has been utilized by adversaries to encrypt disks manually during an operation. In addition, during install, a dcrypt.sys driver is installed and requires a reboot in order to take effect. There are no command-line arguments used.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -33,11 +33,48 @@ The following analytic identifies DiskCryptor  process name of dcrypt.exe or int
 - **ID**: d56fe0c8-4650-11ec-a8fa-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1486](https://attack.mitre.org/techniques/T1486/) | Data Encrypted for Impact | Impact |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -82,9 +119,6 @@ It is possible false positives may be present based on the internal name dcinst.
 * [Ransomware](/stories/ransomware)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -92,8 +126,6 @@ It is possible false positives may be present based on the internal name dcinst.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 35.0 | 70 | 50 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to encrypt disks. |
-
-
 
 
 #### Reference

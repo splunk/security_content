@@ -24,7 +24,7 @@ tags:
 
 This search allows you to identify the endpoints that have connected to more than five DNS servers and made DNS Queries over the time frame of the search.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Resolution](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution)
 
@@ -33,11 +33,56 @@ This search allows you to identify the endpoints that have connected to more tha
 - **ID**: 74ec6f18-604b-4202-a567-86b2066be3ce
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1048.003](https://attack.mitre.org/techniques/T1048/003/) | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Command & Control
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.PT
+* DE.AE
+* PR.DS
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 9
+* CIS 12
+* CIS 13
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -77,9 +122,6 @@ It's possible that an enterprise has more than five DNS servers that are configu
 * [Command and Control](/stories/command_and_control)
 
 
-#### Kill Chain Phase
-* Command & Control
-
 
 
 #### RBA
@@ -87,8 +129,6 @@ It's possible that an enterprise has more than five DNS servers that are configu
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

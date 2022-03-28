@@ -37,7 +37,7 @@ tags:
 
 This analytic identifies a suspicious spawned process by WScript or CScript process. This technique was a common technique used by adversaries and malware to execute different LOLBIN, other scripts like PowerShell or spawn a suspended process to inject its code as a defense evasion. This TTP may detect some normal script that using several application tool that are in the list of the child process it detects but a good pivot and indicator that a script is may execute suspicious code.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -46,7 +46,11 @@ This analytic identifies a suspicious spawned process by WScript or CScript proc
 - **ID**: 1f35e1da-267b-11ec-90a9-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
@@ -57,6 +61,39 @@ This analytic identifies a suspicious spawned process by WScript or CScript proc
 | [T1134.004](https://attack.mitre.org/techniques/T1134/004/) | Parent PID Spoofing | Defense Evasion, Privilege Escalation |
 
 | [T1134](https://attack.mitre.org/techniques/T1134/) | Access Token Manipulation | Defense Evasion, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -104,9 +141,6 @@ Administrators may create vbs or js script that use several tool as part of its 
 * [WhisperGate](/stories/whispergate)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -114,8 +148,6 @@ Administrators may create vbs or js script that use several tool as part of its 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | wscript or cscript parent process spawned $process_name$ in $dest$ |
-
-
 
 
 #### Reference

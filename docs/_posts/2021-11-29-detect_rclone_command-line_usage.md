@@ -24,7 +24,7 @@ tags:
 
 This analytic identifies commonly used command-line arguments used by `rclone.exe` to initiate a file transfer. Some arguments were negated as they are specific to the configuration used by adversaries. In particular, an adversary may list the files or directories of the remote file share using `ls` or `lsd`, which is not indicative of malicious behavior. During triage, at this stage of a ransomware event, exfiltration is about to occur or has already. Isolate the endpoint and continue investigating by review file modifications and parallel processes.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -33,11 +33,48 @@ This analytic identifies commonly used command-line arguments used by `rclone.ex
 - **ID**: 32e0baea-b3f1-11eb-a2ce-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1020](https://attack.mitre.org/techniques/T1020/) | Automated Exfiltration | Exfiltration |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -52,9 +89,9 @@ This analytic identifies commonly used command-line arguments used by `rclone.ex
 
 #### Macros
 The SPL above uses the following Macros:
+* [process_rclone](https://github.com/splunk/security_content/blob/develop/macros/process_rclone.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
-* [process_rclone](https://github.com/splunk/security_content/blob/develop/macros/process_rclone.yml)
 
 Note that `detect_rclone_command-line_usage_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -81,9 +118,6 @@ False positives should be limited as this is restricted to the Rclone process na
 * [Ransomware](/stories/ransomware)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -91,8 +125,6 @@ False positives should be limited as this is restricted to the Rclone process na
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 35.0 | 50 | 70 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to connect to a remote cloud service to move files or folders. |
-
-
 
 
 #### Reference

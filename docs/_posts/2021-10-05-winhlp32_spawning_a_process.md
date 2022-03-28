@@ -25,7 +25,7 @@ tags:
 
 The following analytic identifies winhlp32.exe, found natively in `c:\windows\`, spawning a child process that loads a file out of appdata, programdata, or temp. Winhlp32.exe has a rocky past in that multiple vulnerabilities were found and added to MetaSploit. WinHlp32.exe is required to display 32-bit Help files that have the ".hlp" file name extension. This particular instance is related to a Remcos sample where dynwrapx.dll is added to the registry under inprocserver32, and later module loaded by winhlp32.exe to spawn wscript.exe and load a vbs or file from disk. During triage, review parallel processes to identify further suspicious behavior. Review module loads for unsuspecting unsigned modules. Capture any file modifications and analyze.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -34,11 +34,48 @@ The following analytic identifies winhlp32.exe, found natively in `c:\windows\`,
 - **ID**: d17dae9e-2618-11ec-b9f5-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -83,9 +120,6 @@ False positives should be limited as winhlp32.exe is typically not used with the
 * [Remcos](/stories/remcos)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -93,8 +127,6 @@ False positives should be limited as winhlp32.exe is typically not used with the
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$, and is not typical activity for this process. |
-
-
 
 
 #### Reference

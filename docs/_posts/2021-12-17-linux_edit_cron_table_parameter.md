@@ -31,7 +31,7 @@ tags:
 
 The following analytic identifies a suspicious cronjobs modification using crontab edit parameter. This commandline parameter can be abuse by malware author, adversaries, and red red teamers to add cronjob entry to their malicious code to execute to the schedule they want. This event can also be executed by administrator or normal user for automation purposes so filter is needed.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -40,13 +40,56 @@ The following analytic identifies a suspicious cronjobs modification using cront
 - **ID**: 0d370304-5f26-11ec-a4bb-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1053.003](https://attack.mitre.org/techniques/T1053/003/) | Cron | Execution, Persistence, Privilege Escalation |
 
 | [T1053](https://attack.mitre.org/techniques/T1053/) | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 3
+* CIS 5
+* CIS 16
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -88,9 +131,6 @@ Administrator or network operator can use this application for automation purpos
 * [Linux Persistence Techniques](/stories/linux_persistence_techniques)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -98,8 +138,6 @@ Administrator or network operator can use this application for automation purpos
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 9.0 | 30 | 30 | A possible crontab edit command $process$ executed on $dest$ |
-
-
 
 
 #### Reference

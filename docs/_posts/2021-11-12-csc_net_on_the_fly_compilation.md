@@ -27,7 +27,7 @@ tags:
 
 this analytic is to detect a suspicious compile before delivery approach of .net compiler csc.exe. This technique was seen in several adversaries, malware and even in red teams to take advantage the csc.exe .net compiler tool to compile on the fly a malicious .net code to evade detection from security product. This is a good hunting query to check further the file or process created after this event and check the file path that passed to csc.exe which is the .net code. Aside from that, powershell is capable of using this compiler in executing .net code in a powershell script so filter on that case is needed.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -36,13 +36,50 @@ this analytic is to detect a suspicious compile before delivery approach of .net
 - **ID**: ea73128a-43ab-11ec-9753-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1027.004](https://attack.mitre.org/techniques/T1027/004/) | Compile After Delivery | Defense Evasion |
 
 | [T1027](https://attack.mitre.org/techniques/T1027/) | Obfuscated Files or Information | Defense Evasion |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -85,9 +122,6 @@ A network operator or systems administrator may utilize an automated powershell 
 * [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -95,8 +129,6 @@ A network operator or systems administrator may utilize an automated powershell 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | csc.exe with commandline $process$ to compile .net code on $dest$ by $user$ |
-
-
 
 
 #### Reference

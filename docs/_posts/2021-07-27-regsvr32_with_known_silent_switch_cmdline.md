@@ -27,7 +27,7 @@ tags:
 
 The following analytic identifies Regsvr32.exe utilizing the silent switch to load DLLs. This technique has most recently been seen in IcedID campaigns to load its initial dll that will download the 2nd stage loader that will download and decrypt the config payload. The switch type may be either a hyphen `-` or forward slash `/`. This behavior is typically found with `-s`, and it is possible there are more switch types that may be used. \ During triage, review parallel processes and capture any artifacts that may have landed on disk. Isolate and contain the endpoint as necessary.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -36,13 +36,50 @@ The following analytic identifies Regsvr32.exe utilizing the silent switch to lo
 - **ID**: c9ef7dc4-eeaf-11eb-b2b6-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
 
 | [T1218.010](https://attack.mitre.org/techniques/T1218/010/) | Regsvr32 | Defense Evasion |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -60,8 +97,8 @@ The following analytic identifies Regsvr32.exe utilizing the silent switch to lo
 #### Macros
 The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [process_regsvr32](https://github.com/splunk/security_content/blob/develop/macros/process_regsvr32.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `regsvr32_with_known_silent_switch_cmdline_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -93,9 +130,6 @@ minimal. but network operator can use this application to load dll.
 * [Living Off The Land](/stories/living_off_the_land)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -103,8 +137,6 @@ minimal. but network operator can use this application to load dll.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to load a DLL using the silent parameter. |
-
-
 
 
 #### Reference

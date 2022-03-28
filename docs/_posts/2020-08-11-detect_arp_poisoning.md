@@ -36,7 +36,7 @@ We have not been able to test, simulate, or build datasets for this object. Use 
 
 By enabling Dynamic ARP Inspection as a Layer 2 Security measure on the organization's network devices, we will be able to detect ARP Poisoning attacks in the Infrastructure.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -45,7 +45,11 @@ By enabling Dynamic ARP Inspection as a Layer 2 Security measure on the organiza
 - **ID**: b44bebd6-bd39-467b-9321-73971bcd7aac
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
@@ -56,6 +60,47 @@ By enabling Dynamic ARP Inspection as a Layer 2 Security measure on the organiza
 | [T1557](https://attack.mitre.org/techniques/T1557/) | Adversary-in-the-Middle | Collection, Credential Access |
 
 | [T1557.002](https://attack.mitre.org/techniques/T1557/002/) | ARP Cache Poisoning | Collection, Credential Access |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Reconnaissance
+* Delivery
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* ID.AM
+* PR.DS
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 1
+* CIS 11
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -96,11 +141,6 @@ This search might be prone to high false positives if DHCP Snooping or ARP inspe
 * [Router and Infrastructure Security](/stories/router_and_infrastructure_security)
 
 
-#### Kill Chain Phase
-* Reconnaissance
-* Delivery
-* Actions on Objectives
-
 
 
 #### RBA
@@ -108,8 +148,6 @@ This search might be prone to high false positives if DHCP Snooping or ARP inspe
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

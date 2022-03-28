@@ -29,7 +29,7 @@ tags:
 
 The following analytic identifies the Microsoft Software Licensing User Interface Tool, `slui.exe`, elevating access using the `-verb runas` function. This particular bypass utilizes a registry key/value. Identified by two sources, the registry keys are `HKCU\Software\Classes\exefile\shell` and `HKCU\Software\Classes\launcher.Systemsettings\Shell\open\command`. To simulate this behavior, multiple POC are available. The analytic identifies the use of `runas` by `slui.exe`.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -38,13 +38,50 @@ The following analytic identifies the Microsoft Software Licensing User Interfac
 - **ID**: 8d124810-b3e4-11eb-96c7-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1548.002](https://attack.mitre.org/techniques/T1548/002/) | Bypass User Account Control | Defense Evasion, Privilege Escalation |
 
 | [T1548](https://attack.mitre.org/techniques/T1548/) | Abuse Elevation Control Mechanism | Defense Evasion, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -86,9 +123,6 @@ Limited false positives should be present as this is not commonly used by legiti
 * [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -96,8 +130,6 @@ Limited false positives should be present as this is not commonly used by legiti
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | A slui process $process_name$ with elevated commandline $process$ in host $dest$ |
-
-
 
 
 #### Reference

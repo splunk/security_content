@@ -27,7 +27,7 @@ tags:
 
 This analytic looks for the execution of `wmic.exe` with command-line arguments utilized to query for local users. The argument `useraccount` is used to leverage WMI to return a list of all local users. Red Teams and adversaries alike use net.exe to enumerate users for situational awareness and Active Directory Discovery.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -36,13 +36,50 @@ This analytic looks for the execution of `wmic.exe` with command-line arguments 
 - **ID**: 4902d7aa-0134-11ec-9d65-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1087](https://attack.mitre.org/techniques/T1087/) | Account Discovery | Discovery |
 
 | [T1087.001](https://attack.mitre.org/techniques/T1087/001/) | Local Account | Discovery |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Reconnaissance
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -58,8 +95,8 @@ This analytic looks for the execution of `wmic.exe` with command-line arguments 
 #### Macros
 The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [process_wmic](https://github.com/splunk/security_content/blob/develop/macros/process_wmic.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `local_account_discovery_with_wmic_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -77,9 +114,6 @@ Administrators or power users may use this command for troubleshooting.
 * [Active Directory Discovery](/stories/active_directory_discovery)
 
 
-#### Kill Chain Phase
-* Reconnaissance
-
 
 
 #### RBA
@@ -87,8 +121,6 @@ Administrators or power users may use this command for troubleshooting.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 15.0 | 30 | 50 | Local user discovery enumeration on $dest$ by $user$ |
-
-
 
 
 #### Reference

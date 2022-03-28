@@ -27,7 +27,7 @@ tags:
 
 The following analytic identifies the use of `reg.exe` exporting Windows Registry hives containing credentials. Adversaries may use this technique to export registry hives for offline credential access attacks. Typically found executed from a untrusted process or script. Upon execution, a file will be written to disk.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -36,13 +36,50 @@ The following analytic identifies the use of `reg.exe` exporting Windows Registr
 - **ID**: 8bbb7d58-b360-11eb-ba21-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1003.002](https://attack.mitre.org/techniques/T1003/002/) | Security Account Manager | Credential Access |
 
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -58,8 +95,8 @@ The following analytic identifies the use of `reg.exe` exporting Windows Registr
 #### Macros
 The SPL above uses the following Macros:
 * [process_reg](https://github.com/splunk/security_content/blob/develop/macros/process_reg.yml)
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `extraction_of_registry_hives_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -89,9 +126,6 @@ It is possible some agent based products will generate false positives. Filter a
 * [Credential Dumping](/stories/credential_dumping)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -99,8 +133,6 @@ It is possible some agent based products will generate false positives. Filter a
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 80 | 70 | Suspicious use of `reg.exe` exporting Windows Registry hives containing credentials executed on $dest$ by user $user$, with a parent process of $parent_process_id$ |
-
-
 
 
 #### Reference

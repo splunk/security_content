@@ -29,7 +29,7 @@ We have not been able to test, simulate, or build datasets for this object. Use 
 
 This search allows you to identify DNS requests that are unusually large for the record type being requested in your environment.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Resolution](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution)
 
@@ -38,13 +38,57 @@ This search allows you to identify DNS requests that are unusually large for the
 - **ID**: 85fbcfe8-9718-4911-adf6-7000d077a3a9
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1071.004](https://attack.mitre.org/techniques/T1071/004/) | DNS | Command And Control |
 
 | [T1071](https://attack.mitre.org/techniques/T1071/) | Application Layer Protocol | Command And Control |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Command & Control
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.PT
+* DE.AE
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 8
+* CIS 12
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -97,9 +141,6 @@ If you are seeing more results than desired, you may consider reducing the value
 * [Command and Control](/stories/command_and_control)
 
 
-#### Kill Chain Phase
-* Command & Control
-
 
 
 #### RBA
@@ -107,8 +148,6 @@ If you are seeing more results than desired, you may consider reducing the value
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

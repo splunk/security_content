@@ -29,7 +29,7 @@ tags:
 
 This analytic looks for suspicious file creation in /etc/profile.d directory to automatically execute scripts by shell upon boot up of a linux machine. This technique is commonly abused by adversaries, malware and red teamers as a persistence mechanism to the targeted or compromised host. This Anomaly detection is a good indicator that someone wants to run a code after boot up which can be done also by the administrator or network operator for automation purposes.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -38,13 +38,56 @@ This analytic looks for suspicious file creation in /etc/profile.d directory to 
 - **ID**: 46ba0082-61af-11ec-9826-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1546.004](https://attack.mitre.org/techniques/T1546/004/) | Unix Shell Configuration Modification | Persistence, Privilege Escalation |
 
 | [T1546](https://attack.mitre.org/techniques/T1546/) | Event Triggered Execution | Persistence, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 3
+* CIS 5
+* CIS 16
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -84,9 +127,6 @@ Administrator or network operator can create file in profile.d folders for autom
 * [Linux Persistence Techniques](/stories/linux_persistence_techniques)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -94,8 +134,6 @@ Administrator or network operator can create file in profile.d folders for autom
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | A file $file_name$ is created in $file_path$ on $dest$ |
-
-
 
 
 #### Reference

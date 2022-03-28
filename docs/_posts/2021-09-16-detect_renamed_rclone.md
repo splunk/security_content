@@ -23,7 +23,7 @@ tags:
 
 The following analytic identifies the usage of `rclone.exe`, renamed, being used to exfiltrate data to a remote destination. RClone has been used by multiple ransomware groups to exfiltrate data. In many instances, it will be downloaded from the legitimate site and executed accordingly. During triage, isolate the endpoint and begin to review parallel processes for additional behavior. At this stage, the adversary may have staged data to be exfiltrated.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -32,11 +32,48 @@ The following analytic identifies the usage of `rclone.exe`, renamed, being used
 - **ID**: 6dca1124-b3ec-11eb-9328-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1020](https://attack.mitre.org/techniques/T1020/) | Automated Exfiltration | Exfiltration |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -82,9 +119,6 @@ False positives should be limited as this analytic identifies renamed instances 
 * [Ransomware](/stories/ransomware)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -92,8 +126,6 @@ False positives should be limited as this analytic identifies renamed instances 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 27.0 | 30 | 90 | The following $process_name$ has been identified as renamed, spawning from $parent_process_name$ on $dest$ by $user$. |
-
-
 
 
 #### Reference

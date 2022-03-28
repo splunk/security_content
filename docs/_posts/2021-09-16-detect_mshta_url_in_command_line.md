@@ -27,7 +27,7 @@ tags:
 
 This analytic identifies when Microsoft HTML Application Host (mshta.exe) utility is used to make remote http connections. Adversaries may use mshta.exe to proxy the download and execution of remote .hta files. The analytic identifies command line arguments of http and https being used. This technique is commonly used by malicious software to bypass preventative controls. The search will return the first time and last time these command-line arguments were used for these executions, as well as the target system, the user, process "rundll32.exe" and its parent process.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -36,13 +36,55 @@ This analytic identifies when Microsoft HTML Application Host (mshta.exe) utilit
 - **ID**: 9b3af1e6-5b68-11eb-ae93-0242ac130002
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
 
 | [T1218.005](https://attack.mitre.org/techniques/T1218/005/) | Mshta | Defense Evasion |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.PT
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 8
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -57,9 +99,9 @@ This analytic identifies when Microsoft HTML Application Host (mshta.exe) utilit
 
 #### Macros
 The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [process_mshta](https://github.com/splunk/security_content/blob/develop/macros/process_mshta.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `detect_mshta_url_in_command_line_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -89,9 +131,6 @@ It is possible legitimate applications may perform this behavior and will need t
 * [Living Off The Land](/stories/living_off_the_land)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -99,8 +138,6 @@ It is possible legitimate applications may perform this behavior and will need t
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $est$ by user $user$ attempting to access a remote destination to download an additional payload. |
-
-
 
 
 #### Reference

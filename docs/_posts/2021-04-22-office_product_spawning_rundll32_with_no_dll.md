@@ -27,7 +27,7 @@ tags:
 
 The following detection identifies the latest behavior utilized by IcedID malware family. This detection identifies any Windows Office Product spawning `rundll32.exe` without a `.dll` file extension. In malicious instances, the command-line of `rundll32.exe` will look like `rundll32 ..\oepddl.igk2,DllRegisterServer`. In addition, Threat Research has released a detection identifying the use of `DllRegisterServer` on the command-line of `rundll32.exe`. In this instance, we narrow our detection down to the Office suite as a parent process. During triage, review all file modifications. Capture and analyze the `DLL` that was dropped to disk. The Office Product will have reached out to a remote destination, capture and block the IPs or domain. Review additional parallel processes for further activity.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -36,13 +36,50 @@ The following detection identifies the latest behavior utilized by IcedID malwar
 - **ID**: c661f6be-a38c-11eb-be57-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1566](https://attack.mitre.org/techniques/T1566/) | Phishing | Initial Access |
 
 | [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -88,9 +125,6 @@ False positives should be limited, but if any are present, filter as needed.
 * [Spearphishing Attachments](/stories/spearphishing_attachments)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -98,8 +132,6 @@ False positives should be limited, but if any are present, filter as needed.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | office parent process $parent_process_name$ will execute a suspicious child process $process_name$ with process id $process_id$ and no dll commandline $process$ in host $dest$ |
-
-
 
 
 #### Reference

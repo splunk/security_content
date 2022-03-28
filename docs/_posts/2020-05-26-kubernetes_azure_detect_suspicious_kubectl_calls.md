@@ -20,13 +20,52 @@ tags:
 
 This search provides information on rare Kubectl calls with IP, verb namespace and object access context
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
 - **Last Updated**: 2020-05-26
 - **Author**: Rod Soto, Splunk
 - **ID**: 4b6d1ba8-0000-4cec-87e6-6cbbd71651b5
+
+
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -60,9 +99,6 @@ Kubectl calls are not malicious by nature. However source IP, verb and Object ca
 * [Kubernetes Sensitive Object Access Activity](/stories/kubernetes_sensitive_object_access_activity)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -70,8 +106,6 @@ Kubectl calls are not malicious by nature. However source IP, verb and Object ca
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

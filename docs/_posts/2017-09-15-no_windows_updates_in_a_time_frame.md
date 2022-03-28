@@ -23,13 +23,57 @@ We have not been able to test, simulate, or build datasets for this object. Use 
 
 This search looks for Windows endpoints that have not generated an event indicating a successful Windows update in the last 60 days. Windows updates are typically released monthly and applied shortly thereafter. An endpoint that has not successfully applied an update in this time frame indicates the endpoint is not regularly being patched for some reason.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Updates](https://docs.splunk.com/Documentation/CIM/latest/User/Updates)
 
 - **Last Updated**: 2017-09-15
 - **Author**: Bhavin Patel, Splunk
 - **ID**: 1a77c08c-2f56-409c-a2d3-7d64617edd4f
+
+
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.PT
+* PR.MA
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 18
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -71,9 +115,6 @@ None identified
 * [Monitor for Updates](/stories/monitor_for_updates)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -81,8 +122,6 @@ None identified
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

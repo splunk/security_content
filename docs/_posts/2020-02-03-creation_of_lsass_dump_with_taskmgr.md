@@ -26,7 +26,7 @@ tags:
 
 Detect the hands on keyboard behavior of Windows Task Manager creating a process dump of lsass.exe. Upon this behavior occurring, a file write/modification will occur in the users profile under \AppData\Local\Temp. The dump file, lsass.dmp, cannot be renamed, however if the dump occurs more than once, it will be named lsass (2).dmp.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -35,13 +35,55 @@ Detect the hands on keyboard behavior of Windows Task Manager creating a process
 - **ID**: b2fbe95a-9c62-4c12-8a29-24b97e84c0cd
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1003.001](https://attack.mitre.org/techniques/T1003/001/) | LSASS Memory | Credential Access |
 
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 6
+* CIS 8
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -80,9 +122,6 @@ Administrators can create memory dumps for debugging purposes, but memory dumps 
 * [Credential Dumping](/stories/credential_dumping)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -90,8 +129,6 @@ Administrators can create memory dumps for debugging purposes, but memory dumps 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | $process_name$ was identified on endpoint $Computer$ writing $TargetFilename$ to disk. This behavior is related to dumping credentials via Task Manager. |
-
-
 
 
 #### Reference

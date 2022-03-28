@@ -24,7 +24,7 @@ tags:
 
 The following analytic will identify a suspicious download by the Telegram application on a Windows system. This behavior was identified on a honeypot where the adversary gained access, installed Telegram and followed through with downloading different network scanners (port, bruteforcer, masscan) to the system and later used to mapped the whole network and further move laterally.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -33,11 +33,48 @@ The following analytic will identify a suspicious download by the Telegram appli
 - **ID**: 58194e28-ae5e-11eb-8912-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1105](https://attack.mitre.org/techniques/T1105/) | Ingress Tool Transfer | Command And Control |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -76,9 +113,6 @@ normal download of file in telegram app. (if it was a common app in network)
 * [XMRig](/stories/xmrig)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -86,8 +120,6 @@ normal download of file in telegram app. (if it was a common app in network)
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | Suspicious files were downloaded with the Telegram application on $dest$ by $user$. |
-
-
 
 
 #### Reference

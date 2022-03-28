@@ -26,7 +26,7 @@ tags:
 
 This search is to detect a suspicious outbound e-mail from internal email to external email domain. This can be a good hunting query to monitor insider or outbound email traffic for not common domain e-mail. The idea is to parse the domain of destination email check if there is a minimum outbound traffic < 20 with attachment.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -35,13 +35,50 @@ This search is to detect a suspicious outbound e-mail from internal email to ext
 - **ID**: dc4dc3a8-ff54-11eb-8bf7-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1048.003](https://attack.mitre.org/techniques/T1048/003/) | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
 
 | [T1048](https://attack.mitre.org/techniques/T1048/) | Exfiltration Over Alternative Protocol | Exfiltration |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -81,9 +118,6 @@ network admin and normal user may send this file attachment as part of their day
 * [Dev Sec Ops](/stories/dev_sec_ops)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -91,8 +125,6 @@ network admin and normal user may send this file attachment as part of their day
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 9.0 | 30 | 30 | suspicious email from $source.address$ to $destination{}.address$ |
-
-
 
 
 #### Reference

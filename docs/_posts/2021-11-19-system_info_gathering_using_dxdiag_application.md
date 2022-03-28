@@ -24,7 +24,7 @@ tags:
 
 This analytic is to detect a suspicious dxdiag.exe process command-line execution. Dxdiag is used to collect the system info of the target host. This technique has been used by Remcos RATS, various actors, and other malware to collect information as part of the recon or collection phase of an attack. This behavior should rarely be seen in a corporate network, but this command line can be used by a network administrator to audit host machine specifications. Thus in some rare cases, this detection will contain false positives in its results. To triage further, analyze what commands were passed after it pipes out the result to a file for further processing.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -33,11 +33,48 @@ This analytic is to detect a suspicious dxdiag.exe process command-line executio
 - **ID**: f92d74f2-4921-11ec-b685-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1592](https://attack.mitre.org/techniques/T1592/) | Gather Victim Host Information | Reconnaissance |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Reconnaissance
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -83,9 +120,6 @@ This commandline can be used by a network administrator to audit host machine sp
 * [Remcos](/stories/remcos)
 
 
-#### Kill Chain Phase
-* Reconnaissance
-
 
 
 #### RBA
@@ -93,8 +127,6 @@ This commandline can be used by a network administrator to audit host machine sp
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | dxdiag.exe process with commandline $process$ on $dest$ |
-
-
 
 
 #### Reference

@@ -33,7 +33,7 @@ tags:
 
 The following analytic identifies renamed instances of msbuild.exe executing. Msbuild.exe is natively found in C:\Windows\Microsoft.NET\Framework\v4.0.30319 and C:\Windows\Microsoft.NET\Framework64\v4.0.30319. During investigation, identify the code executed and what is executing a renamed instance of MSBuild.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -42,7 +42,11 @@ The following analytic identifies renamed instances of msbuild.exe executing. Ms
 - **ID**: 4006adac-5937-11eb-ae93-0242ac130002
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
@@ -53,6 +57,44 @@ The following analytic identifies renamed instances of msbuild.exe executing. Ms
 | [T1036.003](https://attack.mitre.org/techniques/T1036/003/) | Rename System Utilities | Defense Evasion |
 
 | [T1127.001](https://attack.mitre.org/techniques/T1127/001/) | MSBuild | Defense Evasion |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.PT
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 8
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -67,8 +109,8 @@ The following analytic identifies renamed instances of msbuild.exe executing. Ms
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_msbuild](https://github.com/splunk/security_content/blob/develop/macros/process_msbuild.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [process_msbuild](https://github.com/splunk/security_content/blob/develop/macros/process_msbuild.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `suspicious_msbuild_rename_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -101,9 +143,6 @@ Although unlikely, some legitimate applications may use a moved copy of msbuild,
 * [Living Off The Land](/stories/living_off_the_land)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -111,8 +150,6 @@ Although unlikely, some legitimate applications may use a moved copy of msbuild,
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | Suspicious renamed msbuild.exe binary ran on $dest$ by $user$ |
-
-
 
 
 #### Reference

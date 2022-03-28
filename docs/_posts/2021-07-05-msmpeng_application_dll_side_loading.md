@@ -31,7 +31,7 @@ tags:
 
 This search is to detect a suspicious creation of msmpeng.exe or mpsvc.dll in non default windows defender folder. This technique was seen couple days ago with revil ransomware in Kaseya Supply chain. The approach is to drop an old version of msmpeng.exe to load the actual payload name as mspvc.dll which will load the revil ransomware to the compromise machine
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -40,13 +40,50 @@ This search is to detect a suspicious creation of msmpeng.exe or mpsvc.dll in no
 - **ID**: 8bb3f280-dd9b-11eb-84d5-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1574.002](https://attack.mitre.org/techniques/T1574/002/) | DLL Side-Loading | Defense Evasion, Persistence, Privilege Escalation |
 
 | [T1574](https://attack.mitre.org/techniques/T1574/) | Hijack Execution Flow | Defense Evasion, Persistence, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -86,9 +123,6 @@ quite minimal false positive expected.
 * [Revil Ransomware](/stories/revil_ransomware)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -96,8 +130,6 @@ quite minimal false positive expected.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 |  |
-
-
 
 
 #### Reference

@@ -24,7 +24,7 @@ tags:
 
 This analytic identifies suspicious modification of registry to deface or change the wallpaper of a compromised machines as part of its payload. This technique was commonly seen in ransomware like REVIL where it create a bitmap file contain a note that the machine was compromised and make it as a wallpaper.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -33,11 +33,48 @@ This analytic identifies suspicious modification of registry to deface or change
 - **ID**: accb0712-c381-11eb-8e5b-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1491](https://attack.mitre.org/techniques/T1491/) | Defacement | Impact |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -80,9 +117,6 @@ To successfully implement this search, you need to be ingesting logs with the Im
 * [BlackMatter Ransomware](/stories/blackmatter_ransomware)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -90,8 +124,6 @@ To successfully implement this search, you need to be ingesting logs with the Im
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 54.0 | 60 | 90 | Wallpaper modification on $dest$ |
-
-
 
 
 #### Reference

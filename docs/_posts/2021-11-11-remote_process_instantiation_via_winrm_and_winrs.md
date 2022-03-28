@@ -27,7 +27,7 @@ tags:
 
 This analytic looks for the execution of `winrs.exe` with command-line arguments utilized to start a process on a remote endpoint. Red Teams and adversaries alike may abuse the WinRM protocol and this binary for lateral movement and remote code execution.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -36,13 +36,50 @@ This analytic looks for the execution of `winrs.exe` with command-line arguments
 - **ID**: 0dd296a2-4338-11ec-ba02-3e22fbd008af
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1021](https://attack.mitre.org/techniques/T1021/) | Remote Services | Lateral Movement |
 
 | [T1021.006](https://attack.mitre.org/techniques/T1021/006/) | Windows Remote Management | Lateral Movement |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -87,9 +124,6 @@ Administrators may leverage WinRM and WinRs to start a process on remote systems
 * [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -97,8 +131,6 @@ Administrators may leverage WinRM and WinRs to start a process on remote systems
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 54.0 | 90 | 60 | A process was started on a remote endpoint from $dest |
-
-
 
 
 #### Reference

@@ -23,13 +23,62 @@ We have not been able to test, simulate, or build datasets for this object. Use 
 
 This search will return a table of rare processes, the names of the systems running them, and the users who initiated each process.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
 - **Last Updated**: 2020-03-16
 - **Author**: Bhavin Patel, Splunk
 - **ID**: 44fddcb2-8d3b-454c-874e-7c6de5a4f7ac
+
+
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Installation
+* Command & Control
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* ID.AM
+* PR.PT
+* PR.DS
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 2
+* CIS 8
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -51,8 +100,8 @@ This search will return a table of rare processes, the names of the systems runn
 
 #### Macros
 The SPL above uses the following Macros:
-* [filter_rare_process_allow_list](https://github.com/splunk/security_content/blob/develop/macros/filter_rare_process_allow_list.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [filter_rare_process_allow_list](https://github.com/splunk/security_content/blob/develop/macros/filter_rare_process_allow_list.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `detect_rare_executables_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -76,11 +125,6 @@ Some legitimate processes may be only rarely executed in your environment. As th
 * [Cloud Federated Credential Abuse](/stories/cloud_federated_credential_abuse)
 
 
-#### Kill Chain Phase
-* Installation
-* Command & Control
-* Actions on Objectives
-
 
 
 #### RBA
@@ -88,8 +132,6 @@ Some legitimate processes may be only rarely executed in your environment. As th
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

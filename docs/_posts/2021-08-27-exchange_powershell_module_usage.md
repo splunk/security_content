@@ -31,7 +31,7 @@ Inherently, the usage of the modules is not malicious, but reviewing parallel pr
 Module - New-MailboxExportRequest will begin the process of exporting contents of a primary mailbox or archive to a .pst file. \
 Module - New-managementroleassignment can assign a management role to a management role group, management role assignment policy, user, or universal security group (USG).
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -40,13 +40,51 @@ Module - New-managementroleassignment can assign a management role to a manageme
 - **ID**: 2d10095e-05ae-11ec-8fdf-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 
 | [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Reconnaissance
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -85,10 +123,6 @@ Administrators or power users may use this PowerShell commandlet for troubleshoo
 * [ProxyShell](/stories/proxyshell)
 
 
-#### Kill Chain Phase
-* Reconnaissance
-* Exploitation
-
 
 
 #### RBA
@@ -96,8 +130,6 @@ Administrators or power users may use this PowerShell commandlet for troubleshoo
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 15.0 | 30 | 50 | Local user discovery enumeration using PowerShell on $dest$ by $user$ |
-
-
 
 
 #### Reference

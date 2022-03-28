@@ -22,13 +22,57 @@ We have not been able to test, simulate, or build datasets for this object. Use 
 
 This search looks for suspicious Java classes that are often used to exploit remote command execution in common Java frameworks, such as Apache Struts.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
 - **Last Updated**: 2018-12-06
 - **Author**: Jose Hernandez, Splunk
 - **ID**: 6ed33786-5e87-4f55-b62c-cb5f1168b831
+
+
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.AE
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 7
+* CIS 12
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -45,8 +89,8 @@ This search looks for suspicious Java classes that are often used to exploit rem
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [stream_http](https://github.com/splunk/security_content/blob/develop/macros/stream_http.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `suspicious_java_classes_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -72,9 +116,6 @@ There are no known false positives.
 * [Apache Struts Vulnerability](/stories/apache_struts_vulnerability)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -82,8 +123,6 @@ There are no known false positives.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

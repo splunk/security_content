@@ -30,7 +30,7 @@ tags:
 
 The following analytic identifies a renamed instance of microsoft.workflow.compiler.exe. Microsoft.workflow.compiler.exe is natively found in C:\Windows\Microsoft.NET\Framework64\v4.0.30319 and is rarely utilized. When investigating, identify the executed code on disk and review. A spawned child process from microsoft.workflow.compiler.exe is uncommon. In any instance, microsoft.workflow.compiler.exe spawning from an Office product or any living off the land binary is highly suspect.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -39,7 +39,11 @@ The following analytic identifies a renamed instance of microsoft.workflow.compi
 - **ID**: f0db4464-55d9-11eb-ae93-0242ac130002
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
@@ -48,6 +52,44 @@ The following analytic identifies a renamed instance of microsoft.workflow.compi
 | [T1127](https://attack.mitre.org/techniques/T1127/) | Trusted Developer Utilities Proxy Execution | Defense Evasion |
 
 | [T1036.003](https://attack.mitre.org/techniques/T1036/003/) | Rename System Utilities | Defense Evasion |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.PT
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 8
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -62,8 +104,8 @@ The following analytic identifies a renamed instance of microsoft.workflow.compi
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_microsoftworkflowcompiler](https://github.com/splunk/security_content/blob/develop/macros/process_microsoftworkflowcompiler.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [process_microsoftworkflowcompiler](https://github.com/splunk/security_content/blob/develop/macros/process_microsoftworkflowcompiler.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `suspicious_microsoft_workflow_compiler_rename_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -96,9 +138,6 @@ Although unlikely, some legitimate applications may use a moved copy of microsof
 * [Living Off The Land](/stories/living_off_the_land)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -106,8 +145,6 @@ Although unlikely, some legitimate applications may use a moved copy of microsof
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | Suspicious renamed microsoft.workflow.compiler.exe binary ran on $dest$ by $user$ |
-
-
 
 
 #### Reference

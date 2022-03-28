@@ -20,13 +20,57 @@ tags:
 
 Enforcing network-access controls is one of the defensive mechanisms used by cloud administrators to restrict access to a cloud instance. After the attacker has gained control of the console by compromising an admin account, they can delete a network ACL and gain access to the instance from anywhere. This search will query the Change datamodel to detect users deleting network ACLs. Deprecated because it's a duplicate
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
 - **Last Updated**: 2020-09-08
 - **Author**: Peter Gael, Splunk
 - **ID**: 021abc51-1862-41dd-ad43-43c739c0a983
+
+
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.DP
+* DE.AE
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 11
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -41,8 +85,8 @@ Enforcing network-access controls is one of the defensive mechanisms used by clo
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `cloud_network_access_control_list_deleted_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -68,9 +112,6 @@ It's possible that a user has legitimately deleted a network ACL.
 * [Cloud Network ACL Activity](/stories/cloud_network_acl_activity)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -78,8 +119,6 @@ It's possible that a user has legitimately deleted a network ACL.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

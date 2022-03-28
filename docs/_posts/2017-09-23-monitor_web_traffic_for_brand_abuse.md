@@ -23,13 +23,56 @@ We have not been able to test, simulate, or build datasets for this object. Use 
 
 This search looks for Web requests to faux domains similar to the one that you want to have monitored for abuse.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Web](https://docs.splunk.com/Documentation/CIM/latest/User/Web)
 
 - **Last Updated**: 2017-09-23
 - **Author**: David Dorsey, Splunk
 - **ID**: 134da869-e264-4a8f-8d7e-fcd0ec88f301
+
+
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Delivery
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.IP
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 7
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -66,9 +109,6 @@ None at this time
 * [Brand Monitoring](/stories/brand_monitoring)
 
 
-#### Kill Chain Phase
-* Delivery
-
 
 
 #### RBA
@@ -76,8 +116,6 @@ None at this time
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

@@ -33,7 +33,7 @@ tags:
 
 This search will detect a spike in the number of API calls made to your cloud infrastructure environment about security groups by a user.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
 - **Datasource**: [Splunk Add-on for Amazon Kinesis Firehose](https://splunkbase.splunk.com/app/3719)
@@ -42,13 +42,56 @@ This search will detect a spike in the number of API calls made to your cloud in
 - **ID**: d4dfb7f3-7a37-498a-b5df-f19334e871af
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1078.004](https://attack.mitre.org/techniques/T1078/004/) | Cloud Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
 
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.DP
+* DE.CM
+* PR.AC
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 16
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -95,9 +138,6 @@ You must be ingesting your cloud infrastructure logs. You also must run the base
 * [Suspicious Cloud User Activities](/stories/suspicious_cloud_user_activities)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -105,8 +145,6 @@ You must be ingesting your cloud infrastructure logs. You also must run the base
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 15.0 | 30 | 50 | user $user$ has made $api_calls$ api calls related to security groups, violating the dynamic threshold of $expected_upper_threshold$ with the following command $command$. |
-
-
 
 
 #### Reference

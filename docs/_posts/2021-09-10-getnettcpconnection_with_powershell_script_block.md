@@ -23,7 +23,7 @@ tags:
 
 The following analytic utilizes PowerShell Script Block Logging (EventCode=4104) to identify the execution of the `Get-NetTcpconnection ` commandlet. This commandlet is used to return a listing of network connections on a compromised system. Red Teams and adversaries alike may use this commandlet for situational awareness and Active Directory Discovery.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -32,11 +32,48 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 - **ID**: 091712ff-b02a-4d43-82ed-34765515d95d
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1049](https://attack.mitre.org/techniques/T1049/) | System Network Connections Discovery | Discovery |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Reconnaissance
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -72,9 +109,6 @@ Administrators or power users may use this PowerShell commandlet for troubleshoo
 * [Active Directory Discovery](/stories/active_directory_discovery)
 
 
-#### Kill Chain Phase
-* Reconnaissance
-
 
 
 #### RBA
@@ -82,8 +116,6 @@ Administrators or power users may use this PowerShell commandlet for troubleshoo
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 15.0 | 30 | 50 | Network Connection discovery on $dest$ by $user$ |
-
-
 
 
 #### Reference

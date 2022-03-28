@@ -23,13 +23,58 @@ We have not been able to test, simulate, or build datasets for this object. Use 
 
 The search queries the authentication logs for assets that are categorized as routers in the ES Assets and Identity Framework, to identify connections that have not been seen before in the last 30 days.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Authentication](https://docs.splunk.com/Documentation/CIM/latest/User/Authentication)
 
 - **Last Updated**: 2017-09-12
 - **Author**: Bhavin Patel, Splunk
 - **ID**: bce3ed7c-9b1f-42a0-abdf-d8b123a34836
+
+
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.PT
+* PR.AC
+* PR.IP
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 11
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -68,9 +113,6 @@ Legitimate router connections may appear as new connections
 * [Router and Infrastructure Security](/stories/router_and_infrastructure_security)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -78,8 +120,6 @@ Legitimate router connections may appear as new connections
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

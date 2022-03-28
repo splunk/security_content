@@ -27,7 +27,7 @@ tags:
 
 The following analytic identifies rundll32.exe executing a DLL function name, Start and StartW, on the command line that is commonly observed with Cobalt Strike x86 and x64 DLL payloads. Rundll32.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64. Typically, the DLL will be written and loaded from a world writeable path or user location. In most instances it will not have a valid certificate (Unsigned). During investigation, review the parent process and other parallel application execution. Capture and triage the DLL in question. In the instance of Cobalt Strike, rundll32.exe is the default process it opens and injects shellcode into. This default process can be changed, but typically is not.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -36,13 +36,55 @@ The following analytic identifies rundll32.exe executing a DLL function name, St
 - **ID**: 9319dda5-73f2-4d43-a85a-67ce961bddb7
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
 
 | [T1218.011](https://attack.mitre.org/techniques/T1218/011/) | Rundll32 | Defense Evasion |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.PT
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 8
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -90,9 +132,6 @@ Although unlikely, some legitimate applications may use Start as a function and 
 * [Trickbot](/stories/trickbot)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -100,8 +139,6 @@ Although unlikely, some legitimate applications may use Start as a function and 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 35.0 | 70 | 50 | rundll32.exe running with suspicious parameters on $dest$ |
-
-
 
 
 #### Reference

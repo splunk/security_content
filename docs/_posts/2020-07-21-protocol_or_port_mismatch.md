@@ -29,7 +29,7 @@ We have not been able to test, simulate, or build datasets for this object. Use 
 
 This search looks for network traffic on common ports where a higher layer protocol does not match the port that is being used. For example, this search should identify cases where protocols other than HTTP are running on TCP port 80. This can be used by attackers to circumvent firewall restrictions, or as an attempt to hide malicious communications over ports and protocols that are typically allowed and not well inspected.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
 
@@ -38,13 +38,56 @@ This search looks for network traffic on common ports where a higher layer proto
 - **ID**: 54dc1265-2f74-4b6d-b30d-49eb506a31b3
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1048.003](https://attack.mitre.org/techniques/T1048/003/) | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
 
 | [T1048](https://attack.mitre.org/techniques/T1048/) | Exfiltration Over Alternative Protocol | Exfiltration |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Command & Control
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.AE
+* PR.AC
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 9
+* CIS 12
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -83,9 +126,6 @@ None identified
 * [Command and Control](/stories/command_and_control)
 
 
-#### Kill Chain Phase
-* Command & Control
-
 
 
 #### RBA
@@ -93,8 +133,6 @@ None identified
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

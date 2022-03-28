@@ -28,7 +28,7 @@ tags:
 
 This search looks for shim database files being written to default directories. The sdbinst.exe application is used to install shim database files (.sdb). According to Microsoft, a shim is a small library that transparently intercepts an API, changes the parameters passed, handles the operation itself, or redirects the operation elsewhere.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -37,13 +37,54 @@ This search looks for shim database files being written to default directories. 
 - **ID**: 6e4c4588-ba2f-42fa-97e6-9f6f548eaa33
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1546.011](https://attack.mitre.org/techniques/T1546/011/) | Application Shimming | Persistence, Privilege Escalation |
 
 | [T1546](https://attack.mitre.org/techniques/T1546/) | Event Triggered Execution | Persistence, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 8
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -81,9 +122,6 @@ Because legitimate shim files are created and used all the time, this event, in 
 * [Windows Persistence Techniques](/stories/windows_persistence_techniques)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -91,8 +129,6 @@ Because legitimate shim files are created and used all the time, this event, in 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | A process that possibly write shim database in $file_path$ in host $dest$ |
-
-
 
 
 #### Reference

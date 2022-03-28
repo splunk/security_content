@@ -26,7 +26,7 @@ tags:
 
 This search looks for Pull Request from unknown user.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -35,13 +35,56 @@ This search looks for Pull Request from unknown user.
 - **ID**: 9d7b9100-8878-4404-914e-ca5e551a641e
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1195.001](https://attack.mitre.org/techniques/T1195/001/) | Compromise Software Dependencies and Development Tools | Initial Access |
 
 | [T1195](https://attack.mitre.org/techniques/T1195/) | Supply Chain Compromise | Initial Access |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.DS
+* PR.AC
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 13
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -58,8 +101,8 @@ This search looks for Pull Request from unknown user.
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [github_known_users](https://github.com/splunk/security_content/blob/develop/macros/github_known_users.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [github](https://github.com/splunk/security_content/blob/develop/macros/github.yml)
 
 Note that `github_pull_request_from_unknown_user_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -89,9 +132,6 @@ unknown
 * [Dev Sec Ops](/stories/dev_sec_ops)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -99,8 +139,6 @@ unknown
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 27.0 | 30 | 90 | Vulnerabilities found in packages used by GitHub repository $repository$ |
-
-
 
 
 #### Reference

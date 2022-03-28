@@ -20,13 +20,56 @@ tags:
 
 This search looks for AWS provisioning activities from previously unseen IP addresses. Provisioning activities are defined broadly as any event that begins with "Run" or "Create." This search is deprecated and have been translated to use the latest Change Datamodel. 
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
 - **Last Updated**: 2018-03-16
 - **Author**: David Dorsey, Splunk
 - **ID**: 42e15012-ac14-4801-94f4-f1acbe64880b
+
+
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* ID.AM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 1
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -71,9 +114,6 @@ This is a strictly behavioral search, so we define "false positive" slightly dif
 * [AWS Suspicious Provisioning Activities](/stories/aws_suspicious_provisioning_activities)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -81,8 +121,6 @@ This is a strictly behavioral search, so we define "false positive" slightly dif
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

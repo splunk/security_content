@@ -23,7 +23,7 @@ tags:
 
 The following analytic identifies suspicious PowerShell via EventCode 4104, where WMI is performing an event query looking for running processes or running services. This technique is commonly found where the adversary will identify services and system information on the compromised machine. During triage, review parallel processes within the same timeframe. Review the full script block to identify other related artifacts.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -32,11 +32,48 @@ The following analytic identifies suspicious PowerShell via EventCode 4104, wher
 - **ID**: 018c1972-ca07-11eb-9473-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1592](https://attack.mitre.org/techniques/T1592/) | Gather Victim Host Information | Reconnaissance |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Reconnaissance
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -73,9 +110,6 @@ network administrator may used this command for checking purposes
 * [Malicious PowerShell](/stories/malicious_powershell)
 
 
-#### Kill Chain Phase
-* Reconnaissance
-
 
 
 #### RBA
@@ -83,8 +117,6 @@ network administrator may used this command for checking purposes
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 60.0 | 75 | 80 | A suspicious powershell script contains host recon command in $Message$ with EventCode $EventCode$ in host $ComputerName$ |
-
-
 
 
 #### Reference

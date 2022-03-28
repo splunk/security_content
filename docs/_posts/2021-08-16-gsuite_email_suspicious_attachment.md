@@ -26,7 +26,7 @@ tags:
 
 This search is to detect a suspicious attachment file extension in Gsuite email that may related to spear phishing attack. This file type is commonly used by malware to lure user to click on it to execute malicious code to compromised targetted machine. But this search can also catch some normal files related to this file type that maybe send by employee or network admin.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -35,13 +35,50 @@ This search is to detect a suspicious attachment file extension in Gsuite email 
 - **ID**: 6d663014-fe92-11eb-ab07-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
 
 | [T1566](https://attack.mitre.org/techniques/T1566/) | Phishing | Initial Access |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -84,9 +121,6 @@ network admin and normal user may send this file attachment as part of their day
 * [Dev Sec Ops](/stories/dev_sec_ops)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -94,8 +128,6 @@ network admin and normal user may send this file attachment as part of their day
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | suspicious email from $source.address$ to $destination{}.address$ |
-
-
 
 
 #### Reference

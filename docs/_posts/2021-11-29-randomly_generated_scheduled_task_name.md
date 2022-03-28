@@ -32,7 +32,7 @@ We have not been able to test, simulate, or build datasets for this object. Use 
 
 The following hunting analytic leverages Event ID 4698, `A scheduled task was created`, to identify the creation of a Scheduled Task with a suspicious, high entropy, Task Name. To achieve this, this analytic also leverages the `ut_shannon` function from the URL ToolBox Splunk application. Red teams and adversaries alike may abuse the Task Scheduler to create and start a remote Scheduled Task and obtain remote code execution. To achieve this goal, tools like Impacket or Crapmapexec, typically create a Scheduled Task with a random task name on the victim host. This hunting analytic may help defenders identify Scheduled Tasks created as part of a lateral movement attack. The entropy threshold `ut_shannon > 3` should be customized by users. The Command field can be used to determine if the task has malicious intent or not.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -41,13 +41,50 @@ The following hunting analytic leverages Event ID 4698, `A scheduled task was cr
 - **ID**: 9d22a780-5165-11ec-ad4f-3e22fbd008af
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1053](https://attack.mitre.org/techniques/T1053/) | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
 
 | [T1053.005](https://attack.mitre.org/techniques/T1053/005/) | Scheduled Task | Execution, Persistence, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -84,9 +121,6 @@ Legitimate applications may use random Scheduled Task names.
 * [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -94,8 +128,6 @@ Legitimate applications may use random Scheduled Task names.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 45.0 | 90 | 50 | A windows scheduled task with a suspicious task name was created on $dest$ |
-
-
 
 
 #### Reference

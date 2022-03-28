@@ -29,7 +29,7 @@ A suspicious event will have `PowerShell`, the method `POST` and `autodiscover.j
 An event will look similar to `POST /autodiscover/autodiscover.json a=dsxvu@fnsso.flq/powershell/?X-Rps-CAT=VgEAVAdXaW5kb3d...` (abbreviated) \
 Review the source attempting to perform this activity against your environment. In addition, review PowerShell logs and access recently granted to Exchange roles.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -38,11 +38,48 @@ Review the source attempting to perform this activity against your environment. 
 - **ID**: 29228ab4-0762-11ec-94aa-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1190](https://attack.mitre.org/techniques/T1190/) | Exploit Public-Facing Application | Initial Access |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -80,9 +117,6 @@ Limited false positives, however, tune as needed.
 * [ProxyShell](/stories/proxyshell)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -90,8 +124,6 @@ Limited false positives, however, tune as needed.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | Activity related to ProxyShell has been identified on $dest$. Review events and take action accordingly. |
-
-
 
 
 #### Reference

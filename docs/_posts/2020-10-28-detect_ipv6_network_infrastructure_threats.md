@@ -36,7 +36,7 @@ We have not been able to test, simulate, or build datasets for this object. Use 
 
 By enabling IPv6 First Hop Security as a Layer 2 Security measure on the organization's network devices, we will be able to detect various attacks such as packet forging in the Infrastructure.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -45,7 +45,11 @@ By enabling IPv6 First Hop Security as a Layer 2 Security measure on the organiz
 - **ID**: c3be767e-7959-44c5-8976-0e9c12a91ad2
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
@@ -56,6 +60,47 @@ By enabling IPv6 First Hop Security as a Layer 2 Security measure on the organiz
 | [T1557](https://attack.mitre.org/techniques/T1557/) | Adversary-in-the-Middle | Collection, Credential Access |
 
 | [T1557.002](https://attack.mitre.org/techniques/T1557/002/) | ARP Cache Poisoning | Collection, Credential Access |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Reconnaissance
+* Delivery
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* ID.AM
+* PR.DS
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 1
+* CIS 11
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -101,11 +146,6 @@ None currently known
 * [Router and Infrastructure Security](/stories/router_and_infrastructure_security)
 
 
-#### Kill Chain Phase
-* Reconnaissance
-* Delivery
-* Actions on Objectives
-
 
 
 #### RBA
@@ -113,8 +153,6 @@ None currently known
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

@@ -29,7 +29,7 @@ We have not been able to test, simulate, or build datasets for this object. Use 
 
 This search uses the Machine Learning Toolkit (MLTK) to identify spikes in the number of Server Message Block (SMB) connections.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
 
@@ -38,13 +38,54 @@ This search uses the Machine Learning Toolkit (MLTK) to identify spikes in the n
 - **ID**: d25773ba-9ad8-48d1-858e-07ad0bbeb828
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1021.002](https://attack.mitre.org/techniques/T1021/002/) | SMB/Windows Admin Shares | Lateral Movement |
 
 | [T1021](https://attack.mitre.org/techniques/T1021/) | Remote Services | Lateral Movement |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 8
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -92,9 +133,6 @@ If you are seeing more results than desired, you may consider reducing the value
 * [DHS Report TA18-074A](/stories/dhs_report_ta18-074a)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -102,8 +140,6 @@ If you are seeing more results than desired, you may consider reducing the value
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

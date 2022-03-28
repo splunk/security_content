@@ -26,7 +26,7 @@ tags:
 
 The following hunting analytic assists with identifying suspicious tasks that have been registered and ran in Windows using EventID 200 (action run) and 201 (action completed). It is recommended to filter based on ActionName by specifying specific paths not used in your environment. After some basic tuning, this may be effective in capturing evasive ways to register tasks on Windows. Review parallel events related to tasks being scheduled. EventID 106 will generate when a new task is generated, however, that does not mean it ran. Capture any files on disk and analyze.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -35,11 +35,48 @@ The following hunting analytic assists with identifying suspicious tasks that ha
 - **ID**: b3632472-310b-11ec-9aab-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1053.005](https://attack.mitre.org/techniques/T1053/005/) | Scheduled Task | Execution, Persistence, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -54,8 +91,8 @@ The following hunting analytic assists with identifying suspicious tasks that ha
 
 #### Macros
 The SPL above uses the following Macros:
-* [wineventlog_task_scheduler](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_task_scheduler.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [wineventlog_task_scheduler](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_task_scheduler.yml)
 
 Note that `winevent_windows_task_scheduler_event_action_started_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -79,9 +116,6 @@ False positives will be present. Filter based on ActionName paths or specify key
 * [Windows Persistence Techniques](/stories/windows_persistence_techniques)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -89,8 +123,6 @@ False positives will be present. Filter based on ActionName paths or specify key
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | A Scheduled Task was scheduled and ran on $dest$. |
-
-
 
 
 #### Reference

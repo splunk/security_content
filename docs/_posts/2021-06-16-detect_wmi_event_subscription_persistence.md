@@ -33,7 +33,7 @@ All event subscriptions have three components \
 1. Binding - Registers a filter to a consumer. EventID equals 21 \
 Monitor for the creation of new WMI EventFilter, EventConsumer, and FilterToConsumerBinding. It may be pertinent to review all 3 to identify the flow of execution. In addition, EventCode 4104 may assist with any other PowerShell script usage that registered the subscription.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -42,13 +42,50 @@ Monitor for the creation of new WMI EventFilter, EventConsumer, and FilterToCons
 - **ID**: 01d9a0c2-cece-11eb-ab46-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1546.003](https://attack.mitre.org/techniques/T1546/003/) | Windows Management Instrumentation Event Subscription | Persistence, Privilege Escalation |
 
 | [T1546](https://attack.mitre.org/techniques/T1546/) | Event Triggered Execution | Persistence, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -84,9 +121,6 @@ It is possible some applications will create a consumer and may be required to b
 * [Suspicious WMI Use](/stories/suspicious_wmi_use)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -94,8 +128,6 @@ It is possible some applications will create a consumer and may be required to b
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | Possible malicious WMI Subscription created on $dest$ |
-
-
 
 
 #### Reference

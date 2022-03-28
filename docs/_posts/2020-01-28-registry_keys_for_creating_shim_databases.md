@@ -28,7 +28,7 @@ tags:
 
 This search looks for registry activity associated with application compatibility shims, which can be leveraged by attackers for various nefarious purposes.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -37,13 +37,55 @@ This search looks for registry activity associated with application compatibilit
 - **ID**: f5f6af30-7aa7-4295-bfe9-07fe87c01bbb
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1546.011](https://attack.mitre.org/techniques/T1546/011/) | Application Shimming | Persistence, Privilege Escalation |
 
 | [T1546](https://attack.mitre.org/techniques/T1546/) | Event Triggered Execution | Persistence, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.PT
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 8
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -86,9 +128,6 @@ There are many legitimate applications that leverage shim databases for compatib
 * [Windows Persistence Techniques](/stories/windows_persistence_techniques)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -96,8 +135,6 @@ There are many legitimate applications that leverage shim databases for compatib
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | A registry activity in $registry_path$ related to shim modication in host $dest$ |
-
-
 
 
 #### Reference

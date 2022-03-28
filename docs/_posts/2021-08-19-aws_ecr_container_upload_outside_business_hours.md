@@ -26,7 +26,7 @@ tags:
 
 This search looks for AWS CloudTrail events from AWS Elastic Container Service (ECR). A upload of a new container is normally done during business hours. When done outside business hours, we want to take a look into it.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -35,13 +35,56 @@ This search looks for AWS CloudTrail events from AWS Elastic Container Service (
 - **ID**: d4c4d4eb-3994-41ca-a25e-a82d64e125bb
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1204.003](https://attack.mitre.org/techniques/T1204/003/) | Malicious Image | Execution |
 
 | [T1204](https://attack.mitre.org/techniques/T1204/) | User Execution | Execution |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.DS
+* PR.AC
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 13
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -59,8 +102,8 @@ This search looks for AWS CloudTrail events from AWS Elastic Container Service (
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `aws_ecr_container_upload_outside_business_hours_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -86,9 +129,6 @@ When your development is spreaded in different time zones, applying this rule ca
 * [Dev Sec Ops](/stories/dev_sec_ops)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -96,8 +136,6 @@ When your development is spreaded in different time zones, applying this rule ca
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | Container uploaded outside business hours from $user$ |
-
-
 
 
 #### Reference

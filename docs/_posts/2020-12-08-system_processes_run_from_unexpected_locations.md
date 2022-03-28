@@ -29,7 +29,7 @@ This search looks for system processes that typically execute from `C:\Windows\S
 This detection utilizes a lookup that is deduped `system32` and `syswow64` directories from Server 2016 and Windows 10.\
 During triage, review the parallel processes - what process moved the native Windows binary? identify any artifacts on disk and review. If a remote destination is contacted, what is the reputation?
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -38,13 +38,55 @@ During triage, review the parallel processes - what process moved the native Win
 - **ID**: a34aae96-ccf8-4aef-952c-3ea21444444d
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1036](https://attack.mitre.org/techniques/T1036/) | Masquerading | Defense Evasion |
 
 | [T1036.003](https://attack.mitre.org/techniques/T1036/003/) | Rename System Utilities | Defense Evasion |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.PT
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 8
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -60,9 +102,9 @@ During triage, review the parallel processes - what process moved the native Win
 
 #### Macros
 The SPL above uses the following Macros:
+* [is_windows_system_file](https://github.com/splunk/security_content/blob/develop/macros/is_windows_system_file.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
-* [is_windows_system_file](https://github.com/splunk/security_content/blob/develop/macros/is_windows_system_file.yml)
 
 Note that `system_processes_run_from_unexpected_locations_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -90,9 +132,6 @@ This detection may require tuning based on third party applications utilizing na
 * [Masquerading - Rename System Utilities](/stories/masquerading_-_rename_system_utilities)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -100,8 +139,6 @@ This detection may require tuning based on third party applications utilizing na
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | System process running from unexpected location on $dest$ |
-
-
 
 
 #### Reference

@@ -23,7 +23,7 @@ tags:
 
 The following analytic identifies suspicious PowerShell script execution via EventCode 4104 performing checks to identify anti-virus products installed on the endpoint. This technique is commonly found in malware and APT events where the adversary will map all running security applications or services. During triage, review parallel processes within the same timeframe. Review the full script block to identify other related artifacts.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -32,11 +32,48 @@ The following analytic identifies suspicious PowerShell script execution via Eve
 - **ID**: 28077620-c9f6-11eb-8785-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1592](https://attack.mitre.org/techniques/T1592/) | Gather Victim Host Information | Reconnaissance |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Reconnaissance
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -74,9 +111,6 @@ network administrator may used this command for checking purposes
 * [Malicious PowerShell](/stories/malicious_powershell)
 
 
-#### Kill Chain Phase
-* Reconnaissance
-
 
 
 #### RBA
@@ -84,8 +118,6 @@ network administrator may used this command for checking purposes
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | A suspicious powershell script contains AV recon command in $Message$ with EventCode $EventCode$ in host $ComputerName$ |
-
-
 
 
 #### Reference

@@ -25,7 +25,7 @@ We have not been able to test, simulate, or build datasets for this object. Use 
 
 This search detects users creating spikes in API activity related to deletion of S3 buckets in your AWS environment. It will also update the cache file that factors in the latest data.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -34,11 +34,54 @@ This search detects users creating spikes in API activity related to deletion of
 - **ID**: e733a326-59d2-446d-b8db-14a17151aa68
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1530](https://attack.mitre.org/techniques/T1530/) | Data from Cloud Storage Object | Collection |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.DP
+* DE.CM
+* PR.AC
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 13
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -94,9 +137,6 @@ Based on the values of`dataPointThreshold` and `deviationThreshold`, the false p
 * [Suspicious AWS S3 Activities](/stories/suspicious_aws_s3_activities)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -104,8 +144,6 @@ Based on the values of`dataPointThreshold` and `deviationThreshold`, the false p
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

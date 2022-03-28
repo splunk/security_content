@@ -27,7 +27,7 @@ tags:
 
 The search looks for a batch file (.bat) written to the Windows system directory tree.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -36,13 +36,55 @@ The search looks for a batch file (.bat) written to the Windows system directory
 - **ID**: 503d17cb-9eab-4cf8-a20e-01d5c6987ae3
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1204](https://attack.mitre.org/techniques/T1204/) | User Execution | Execution |
 
 | [T1204.002](https://attack.mitre.org/techniques/T1204/002/) | Malicious File | Execution |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Delivery
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.PT
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 8
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -86,9 +128,6 @@ It is possible for this search to generate a notable event for a batch file writ
 * [SamSam Ransomware](/stories/samsam_ransomware)
 
 
-#### Kill Chain Phase
-* Delivery
-
 
 
 #### RBA
@@ -96,8 +135,6 @@ It is possible for this search to generate a notable event for a batch file writ
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | A file - $file_name$ was written to system32 has occurred on endpoint $dest$ by user $user$. |
-
-
 
 
 #### Reference

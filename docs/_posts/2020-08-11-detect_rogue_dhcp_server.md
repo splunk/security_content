@@ -32,7 +32,7 @@ We have not been able to test, simulate, or build datasets for this object. Use 
 
 By enabling DHCP Snooping as a Layer 2 Security measure on the organization's network devices, we will be able to detect unauthorized DHCP servers handing out DHCP leases to devices on the network (Man in the Middle attack).
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -41,7 +41,11 @@ By enabling DHCP Snooping as a Layer 2 Security measure on the organization's ne
 - **ID**: 6e1ada88-7a0d-4ac1-92c6-03d354686079
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
@@ -50,6 +54,47 @@ By enabling DHCP Snooping as a Layer 2 Security measure on the organization's ne
 | [T1498](https://attack.mitre.org/techniques/T1498/) | Network Denial of Service | Impact |
 
 | [T1557](https://attack.mitre.org/techniques/T1557/) | Adversary-in-the-Middle | Collection, Credential Access |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Reconnaissance
+* Delivery
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* ID.AM
+* PR.DS
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 1
+* CIS 11
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -87,11 +132,6 @@ This search might be prone to high false positives if DHCP Snooping has been inc
 * [Router and Infrastructure Security](/stories/router_and_infrastructure_security)
 
 
-#### Kill Chain Phase
-* Reconnaissance
-* Delivery
-* Actions on Objectives
-
 
 
 #### RBA
@@ -99,8 +139,6 @@ This search might be prone to high false positives if DHCP Snooping has been inc
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

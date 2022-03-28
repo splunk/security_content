@@ -23,7 +23,7 @@ tags:
 
 The following analytic utilizes PowerShell Script Block Logging (EventCode=4104) to identify the execution of the `Invoke-WmiMethod` commandlet with arguments utilized to start a process on a remote endpoint by abusing WMI. Red Teams and adversaries alike may abuse WMI and this commandlet for lateral movement and remote code execution.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -32,11 +32,48 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 - **ID**: 2a048c14-4634-11ec-a618-3e22fbd008af
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1047](https://attack.mitre.org/techniques/T1047/) | Windows Management Instrumentation | Execution |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -72,9 +109,6 @@ Administrators may leverage WWMI and powershell.exe to start a process on remote
 * [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -82,8 +116,6 @@ Administrators may leverage WWMI and powershell.exe to start a process on remote
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 90 | 70 | A process was started on a remote endpoint from $ComputerName by abusing WMI using PowerShell.exe |
-
-
 
 
 #### Reference

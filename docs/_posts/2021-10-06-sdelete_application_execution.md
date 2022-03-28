@@ -30,7 +30,7 @@ tags:
 
 This analytic is to detect the execution of sdelete.exe application sysinternal tools. This tool is one of the most use tool of malware and adversaries to remove or clear their tracks and artifact in the targetted host. This tool is designed to delete securely a file in file system that remove the forensic evidence on the machine. A good TTP query to check why user execute this application which is not a common practice.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -39,7 +39,11 @@ This analytic is to detect the execution of sdelete.exe application sysinternal 
 - **ID**: 31702fc0-2682-11ec-85c3-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
@@ -48,6 +52,39 @@ This analytic is to detect the execution of sdelete.exe application sysinternal 
 | [T1070.004](https://attack.mitre.org/techniques/T1070/004/) | File Deletion | Defense Evasion |
 
 | [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -62,9 +99,9 @@ This analytic is to detect the execution of sdelete.exe application sysinternal 
 
 #### Macros
 The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [process_sdelete](https://github.com/splunk/security_content/blob/develop/macros/process_sdelete.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `sdelete_application_execution_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -93,9 +130,6 @@ user may execute and use this application
 * [Masquerading - Rename System Utilities](/stories/masquerading_-_rename_system_utilities)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -103,8 +137,6 @@ user may execute and use this application
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | sdelete process $process_name$ executed in $dest$ |
-
-
 
 
 #### Reference

@@ -29,7 +29,7 @@ tags:
 
 This search looks for arguments to sc.exe indicating the creation or modification of a Windows service.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -38,13 +38,60 @@ This search looks for arguments to sc.exe indicating the creation or modificatio
 - **ID**: f0c693d8-2a89-4ce7-80b4-98fea4c3ea6d
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1543.003](https://attack.mitre.org/techniques/T1543/003/) | Windows Service | Persistence, Privilege Escalation |
 
 | [T1543](https://attack.mitre.org/techniques/T1543/) | Create or Modify System Process | Persistence, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Installation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.IP
+* PR.PT
+* PR.AC
+* PR.AT
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 3
+* CIS 5
+* CIS 8
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -88,9 +135,6 @@ Using sc.exe to manipulate Windows services is uncommon. However, there may be l
 * [NOBELIUM Group](/stories/nobelium_group)
 
 
-#### Kill Chain Phase
-* Installation
-
 
 
 #### RBA
@@ -98,8 +142,6 @@ Using sc.exe to manipulate Windows services is uncommon. However, there may be l
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | A sc process $process_name$ with commandline $process$ to create of configure services in host $dest$ |
-
-
 
 
 #### Reference

@@ -33,7 +33,7 @@ tags:
 
 This search identifies endpoints that have caused a relatively high number of account lockouts in a short period.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
 
@@ -42,13 +42,54 @@ This search identifies endpoints that have caused a relatively high number of ac
 - **ID**: c026e3dd-7e18-4abb-8f41-929e836efe74
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
 
 | [T1078.002](https://attack.mitre.org/techniques/T1078/002/) | Domain Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.IP
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 16
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -92,9 +133,6 @@ It's possible that a widely used system, such as a kiosk, could cause a large nu
 * [Account Monitoring and Controls](/stories/account_monitoring_and_controls)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -102,8 +140,6 @@ It's possible that a widely used system, such as a kiosk, could cause a large nu
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 36.0 | 60 | 60 | Multiple accounts have been locked out. Review $dest$ and results related to $user$. |
-
-
 
 
 #### Reference

@@ -33,7 +33,7 @@ tags:
 
 As part of the sAMAccountName Spoofing (CVE-2021-42278) and Domain Controller Impersonation (CVE-2021-42287) exploitation chain, adversaries will need to request a Kerberos Ticket Granting Ticket (TGT) on behalf of the newly created and renamed computer account. The TGT request will be preceded by a computer account name event. This analytic leverages Event Id 4781, `The name of an account was changed` and event Id 4768 `A Kerberos authentication ticket (TGT) was requested` to correlate a sequence of events where the new computer account on event id 4781 matches the request account on event id 4768. This behavior could represent an exploitation attempt of CVE-2021-42278 and CVE-2021-42287 for privilege escalation.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -42,13 +42,50 @@ As part of the sAMAccountName Spoofing (CVE-2021-42278) and Domain Controller Im
 - **ID**: d77d349e-6269-11ec-9cfe-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
 
 | [T1078.002](https://attack.mitre.org/techniques/T1078/002/) | Domain Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -87,9 +124,6 @@ A computer account name change event inmediately followed by a kerberos TGT requ
 * [sAMAccountName Spoofing and Domain Controller Impersonation](/stories/samaccountname_spoofing_and_domain_controller_impersonation)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -97,8 +131,6 @@ A computer account name change event inmediately followed by a kerberos TGT requ
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 60.0 | 100 | 60 | A suspicious TGT was requested was requested |
-
-
 
 
 #### Reference

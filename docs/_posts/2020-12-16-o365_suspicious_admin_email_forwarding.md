@@ -26,7 +26,7 @@ tags:
 
 This search detects when an admin configured a forwarding rule for multiple mailboxes to the same destination.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -35,13 +35,55 @@ This search detects when an admin configured a forwarding rule for multiple mail
 - **ID**: 7f398cfb-918d-41f4-8db8-2e2474e02c28
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1114.003](https://attack.mitre.org/techniques/T1114/003/) | Email Forwarding Rule | Collection |
 
 | [T1114](https://attack.mitre.org/techniques/T1114/) | Email Collection | Collection |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.DP
+* DE.AE
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 16
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -59,8 +101,8 @@ This search detects when an admin configured a forwarding rule for multiple mail
 
 #### Macros
 The SPL above uses the following Macros:
-* [o365_management_activity](https://github.com/splunk/security_content/blob/develop/macros/o365_management_activity.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [o365_management_activity](https://github.com/splunk/security_content/blob/develop/macros/o365_management_activity.yml)
 
 Note that `o365_suspicious_admin_email_forwarding_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -81,9 +123,6 @@ unknown
 * [Data Exfiltration](/stories/data_exfiltration)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -91,8 +130,6 @@ unknown
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 48.0 | 80 | 60 | User $user$ has configured a forwarding rule for multiple mailboxes to the same destination $ForwardingAddress$ |
-
-
 
 
 #### Reference

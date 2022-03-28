@@ -34,7 +34,7 @@ We have not been able to test, simulate, or build datasets for this object. Use 
 
 Adversaries may leverage traffic mirroring in order to automate data exfiltration over compromised network infrastructure. Traffic mirroring is a native feature for some network devices and used for network analysis and may be configured to duplicate traffic and forward to one or more destinations for analysis by a network analyzer or other monitoring device.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -43,7 +43,11 @@ Adversaries may leverage traffic mirroring in order to automate data exfiltratio
 - **ID**: 42b3b753-5925-49c5-9742-36fa40a73990
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
@@ -54,6 +58,46 @@ Adversaries may leverage traffic mirroring in order to automate data exfiltratio
 | [T1498](https://attack.mitre.org/techniques/T1498/) | Network Denial of Service | Impact |
 
 | [T1020.001](https://attack.mitre.org/techniques/T1020/001/) | Traffic Duplication | Exfiltration |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Delivery
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* ID.AM
+* PR.DS
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 1
+* CIS 11
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -89,10 +133,6 @@ This search will return false positives for any legitimate traffic captures by n
 * [Router and Infrastructure Security](/stories/router_and_infrastructure_security)
 
 
-#### Kill Chain Phase
-* Delivery
-* Actions on Objectives
-
 
 
 #### RBA
@@ -100,8 +140,6 @@ This search will return false positives for any legitimate traffic captures by n
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

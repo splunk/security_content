@@ -24,7 +24,7 @@ tags:
 
 The following analytics are designed to identifies some CLOP ransomware variant that using arguments to execute its main code or feature of its code. In this variant if the parameter is "runrun", CLOP ransomware will try to encrypt files in network shares and if it is "temp.dat", it will try to read from some stream pipe or file start encrypting files within the infected local machines. This technique can be also identified as an anti-sandbox technique to make its code non-responsive since it is waiting for some parameter to execute properly.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -33,11 +33,48 @@ The following analytics are designed to identifies some CLOP ransomware variant 
 - **ID**: 5a8a2a72-8322-11eb-9ee9-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1204](https://attack.mitre.org/techniques/T1204/) | User Execution | Execution |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -82,9 +119,6 @@ Operators can execute third party tools using these parameters.
 * [Clop Ransomware](/stories/clop_ransomware)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -92,8 +126,6 @@ Operators can execute third party tools using these parameters.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 100.0 | 100 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting using arguments to execute its main code or feature of its code related to Clop ransomware. |
-
-
 
 
 #### Reference

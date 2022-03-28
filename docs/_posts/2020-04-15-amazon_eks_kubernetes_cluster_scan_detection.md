@@ -25,7 +25,7 @@ We have not been able to test, simulate, or build datasets for this object. Use 
 
 This search provides information of unauthenticated requests via user agent, and authentication data against Kubernetes cluster in AWS
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -34,11 +34,48 @@ This search provides information of unauthenticated requests via user agent, and
 - **ID**: 294c4686-63dd-4fe6-93a2-ca807626704a
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1526](https://attack.mitre.org/techniques/T1526/) | Cloud Service Discovery | Discovery |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Reconnaissance
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -82,9 +119,6 @@ Not all unauthenticated requests are malicious, but frequency, UA and source IPs
 * [Kubernetes Scanning Activity](/stories/kubernetes_scanning_activity)
 
 
-#### Kill Chain Phase
-* Reconnaissance
-
 
 
 #### RBA
@@ -92,8 +126,6 @@ Not all unauthenticated requests are malicious, but frequency, UA and source IPs
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

@@ -29,7 +29,7 @@ tags:
 
 The following analytic identifies the Microsoft Software Licensing User Interface Tool, `slui.exe`, spawning a child process. This behavior is associated with publicly known UAC bypass. `slui.exe` is commonly associated with software updates and is most often spawned by `svchost.exe`. The `slui.exe` process should not have child processes, and any processes spawning from it will be running with elevated privileges. During triage, review the child process and additional parallel processes. Identify any file modifications that may have lead to the bypass.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -38,13 +38,50 @@ The following analytic identifies the Microsoft Software Licensing User Interfac
 - **ID**: 879c4330-b3e0-11eb-b1b1-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1548.002](https://attack.mitre.org/techniques/T1548/002/) | Bypass User Account Control | Defense Evasion, Privilege Escalation |
 
 | [T1548](https://attack.mitre.org/techniques/T1548/) | Abuse Elevation Control Mechanism | Defense Evasion, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -86,9 +123,6 @@ Certain applications may spawn from `slui.exe` that are legitimate. Filtering wi
 * [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -96,8 +130,6 @@ Certain applications may spawn from `slui.exe` that are legitimate. Filtering wi
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | A slui process $parent_process_name$ spawning child process $process_name$ in host $dest$ |
-
-
 
 
 #### Reference

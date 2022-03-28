@@ -24,7 +24,7 @@ tags:
 
 This analytic identifies excessive usage of `net.exe` or `net1.exe` within a bucket of time (1 minute). This behavior was seen in a Monero incident where the adversary attempts to create many users, delete and disable users as part of its malicious behavior.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -33,11 +33,48 @@ This analytic identifies excessive usage of `net.exe` or `net1.exe` within a buc
 - **ID**: 45e52536-ae42-11eb-b5c6-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1531](https://attack.mitre.org/techniques/T1531/) | Account Access Removal | Impact |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -85,9 +122,6 @@ unknown. Filter as needed. Modify the time span as needed.
 * [Ransomware](/stories/ransomware)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -95,8 +129,6 @@ unknown. Filter as needed. Modify the time span as needed.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 28.0 | 40 | 70 | Excessive usage of net1.exe or net.exe within 1m, with command line $process$ has been detected on $dest$ by $user$ |
-
-
 
 
 #### Reference

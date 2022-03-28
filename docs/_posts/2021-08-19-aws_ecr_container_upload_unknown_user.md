@@ -26,7 +26,7 @@ tags:
 
 This search looks for AWS CloudTrail events from AWS Elastic Container Service (ECR). A upload of a new container is normally done from only a few known users. When the user was never seen before, we should have a closer look into the event.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -35,13 +35,56 @@ This search looks for AWS CloudTrail events from AWS Elastic Container Service (
 - **ID**: 300688e4-365c-4486-a065-7c884462b31d
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1204.003](https://attack.mitre.org/techniques/T1204/003/) | Malicious Image | Execution |
 
 | [T1204](https://attack.mitre.org/techniques/T1204/) | User Execution | Execution |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.DS
+* PR.AC
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 13
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -59,9 +102,9 @@ This search looks for AWS CloudTrail events from AWS Elastic Container Service (
 
 #### Macros
 The SPL above uses the following Macros:
-* [aws_ecr_users](https://github.com/splunk/security_content/blob/develop/macros/aws_ecr_users.yml)
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [aws_ecr_users](https://github.com/splunk/security_content/blob/develop/macros/aws_ecr_users.yml)
 
 Note that `aws_ecr_container_upload_unknown_user_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -87,9 +130,6 @@ unknown
 * [Dev Sec Ops](/stories/dev_sec_ops)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -97,8 +137,6 @@ unknown
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | Container uploaded from unknown user $user$ |
-
-
 
 
 #### Reference

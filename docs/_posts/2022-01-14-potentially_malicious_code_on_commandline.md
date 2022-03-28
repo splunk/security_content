@@ -24,7 +24,7 @@ tags:
 
 The following analytic uses a pretrained machine learning text classifier to detect potentially malicious commandlines.  The model identifies unusual combinations of keywords found in samples of commandlines where adversaries executed powershell code, primarily for C2 communication.  For example, adversaries will leverage IO capabilities such as "streamreader" and "webclient", threading capabilties such as "mutex" locks, programmatic constructs like "function" and "catch", and cryptographic operations like "computehash".  Although observing one of these keywords in a commandline script is possible, combinations of keywords observed in attack data are not typically found in normal usage of the commandline.  The model will output a score where all values above zero are suspicious, anything greater than one particularly so.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -33,11 +33,48 @@ The following analytic uses a pretrained machine learning text classifier to det
 - **ID**: 9c53c446-757e-11ec-871d-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1059.003](https://attack.mitre.org/techniques/T1059/003/) | Windows Command Shell | Execution |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -84,9 +121,6 @@ This model is an anomaly detector that identifies usage of APIs and scripting co
 * [Suspicious Command-Line Executions](/stories/suspicious_command-line_executions)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -94,8 +128,6 @@ This model is an anomaly detector that identifies usage of APIs and scripting co
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 12.0 | 60 | 20 | Unusual command-line execution with hallmarks of malicious activity run by $user$ found on $dest$ with commandline $process$ |
-
-
 
 
 #### Reference

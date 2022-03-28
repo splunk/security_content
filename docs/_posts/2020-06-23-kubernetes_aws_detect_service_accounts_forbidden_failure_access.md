@@ -20,13 +20,52 @@ tags:
 
 This search provides information on Kubernetes service accounts with failure or forbidden access status, this search can be extended by using top or rare operators to find trends or rarities in failure status, user agents, source IPs and request URI
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
 - **Last Updated**: 2020-06-23
 - **Author**: Rod Soto, Splunk
 - **ID**: a6959c57-fa8f-4277-bb86-7c32fba579d5
+
+
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -56,9 +95,6 @@ This search can give false positives as there might be inherent issues with auth
 * [Kubernetes Sensitive Object Access Activity](/stories/kubernetes_sensitive_object_access_activity)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -66,8 +102,6 @@ This search can give false positives as there might be inherent issues with auth
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

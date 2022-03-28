@@ -22,13 +22,63 @@ tags:
 
 The search is used to detect systems that are still vulnerable to the Spectre and Meltdown vulnerabilities.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Vulnerabilities](https://docs.splunk.com/Documentation/CIM/latest/User/Vulnerabilities)
 
 - **Last Updated**: 2017-01-07
 - **Author**: David Dorsey, Splunk
 - **ID**: 354be8e0-32cd-4da0-8c47-796de13b60ea
+
+
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* ID.RA
+* RS.MI
+* PR.IP
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 4
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+| [CVE-2017-5753](https://nvd.nist.gov/vuln/detail/CVE-2017-5753) | Systems with microprocessors utilizing speculative execution and branch prediction may allow unauthorized disclosure of information to an attacker with local user access via a side-channel analysis. | 4.7 |
+
+
+
+</details>
 
 #### Search
 
@@ -62,9 +112,6 @@ It is possible that your vulnerability scanner is not detecting that the patches
 * [Spectre And Meltdown Vulnerabilities](/stories/spectre_and_meltdown_vulnerabilities)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -72,14 +119,6 @@ It is possible that your vulnerability scanner is not detecting that the patches
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
-#### CVE
-
-| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
-| ----------- | ----------- | -------------- |
-| [CVE-2017-5753](https://nvd.nist.gov/vuln/detail/CVE-2017-5753) | Systems with microprocessors utilizing speculative execution and branch prediction may allow unauthorized disclosure of information to an attacker with local user access via a side-channel analysis. | 4.7 |
-
 
 
 #### Reference

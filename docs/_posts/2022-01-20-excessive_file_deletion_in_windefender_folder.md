@@ -24,7 +24,7 @@ tags:
 
 This analytic will identify excessive file deletion events in the Windows Defender folder. This technique was seen in the WhisperGate malware campaign in which adversaries abused Nirsofts advancedrun.exe to gain administrative privilege to then execute PowerShell commands to delete files within the Windows Defender application folder. This behavior is a good indicator the offending process is trying to corrupt a Windows Defender installation.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -33,11 +33,54 @@ This analytic will identify excessive file deletion events in the Windows Defend
 - **ID**: b5baa09a-7a05-11ec-8da4-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1485](https://attack.mitre.org/techniques/T1485/) | Data Destruction | Impact |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 3
+* CIS 5
+* CIS 16
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -77,9 +120,6 @@ Windows Defender AV updates may cause this alert. Please update the filter macro
 * [WhisperGate](/stories/whispergate)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -87,8 +127,6 @@ Windows Defender AV updates may cause this alert. Please update the filter macro
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | High frequency file deletion activity detected on host $Computer$ |
-
-
 
 
 #### Reference

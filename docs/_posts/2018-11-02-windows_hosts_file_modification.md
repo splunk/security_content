@@ -20,13 +20,62 @@ tags:
 
 The search looks for modifications to the hosts file on all Windows endpoints across your environment.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
 - **Last Updated**: 2018-11-02
 - **Author**: Rico Valdez, Splunk
 - **ID**: 06a6fc63-a72d-41dc-8736-7e3dd9612116
+
+
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Command & Control
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 3
+* CIS 8
+* CIS 12
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -61,9 +110,6 @@ There may be legitimate reasons for system administrators to add entries to this
 * [Host Redirection](/stories/host_redirection)
 
 
-#### Kill Chain Phase
-* Command & Control
-
 
 
 #### RBA
@@ -71,8 +117,6 @@ There may be legitimate reasons for system administrators to add entries to this
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

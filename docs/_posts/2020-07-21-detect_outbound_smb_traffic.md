@@ -29,7 +29,7 @@ We have not been able to test, simulate, or build datasets for this object. Use 
 
 This search looks for outbound SMB connections made by hosts within your network to the Internet. SMB traffic is used for Windows file-sharing activity. One of the techniques often used by attackers involves retrieving the credential hash using an SMB request made to a compromised server controlled by the threat actor.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
 
@@ -38,13 +38,55 @@ This search looks for outbound SMB connections made by hosts within your network
 - **ID**: 1bed7774-304a-4e8f-9d72-d80e45ff492b
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1071.002](https://attack.mitre.org/techniques/T1071/002/) | File Transfer Protocols | Command And Control |
 
 | [T1071](https://attack.mitre.org/techniques/T1071/) | Application Layer Protocol | Command And Control |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+* Command & Control
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 12
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -87,10 +129,6 @@ It is likely that the outbound Server Message Block (SMB) traffic is legitimate,
 * [NOBELIUM Group](/stories/nobelium_group)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-* Command & Control
-
 
 
 #### RBA
@@ -98,8 +136,6 @@ It is likely that the outbound Server Message Block (SMB) traffic is legitimate,
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

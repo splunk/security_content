@@ -22,13 +22,57 @@ We have not been able to test, simulate, or build datasets for this object. Use 
 
 This search looks for processes in an MacOS system that is tapping keyboard events in MacOS, and essentially monitoring all keystrokes made by a user. This is a common technique used by RATs to log keystrokes from a victim, although it can also be used by legitimate processes like Siri to react on human input
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
 - **Last Updated**: 2019-01-25
 - **Author**: Jose Hernandez, Splunk
 - **ID**: 2a371608-331d-4034-ae2c-21dda8f1d0ec
+
+
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Command & Control
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.DP
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 4
+* CIS 8
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -67,9 +111,6 @@ There might be some false positives as keyboard event taps are used by processes
 * [ColdRoot MacOS RAT](/stories/coldroot_macos_rat)
 
 
-#### Kill Chain Phase
-* Command & Control
-
 
 
 #### RBA
@@ -77,8 +118,6 @@ There might be some false positives as keyboard event taps are used by processes
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

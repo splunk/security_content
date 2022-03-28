@@ -23,7 +23,7 @@ tags:
 
 This analytic is designed to detect IAM users attempting to update/modify AWS lambda code via the AWS CLI to gain persistence, futher access into your AWS environment and to facilitate planting backdoors. In this instance, an attacker may upload malicious code/binary to a lambda function which will be executed automatically when the funnction is triggered.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -32,11 +32,54 @@ This analytic is designed to detect IAM users attempting to update/modify AWS la
 - **ID**: 211b80d3-6340-4345-11ad-212bf3d0d111
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1204](https://attack.mitre.org/techniques/T1204/) | User Execution | Execution |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.DS
+* PR.AC
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 13
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -69,9 +112,6 @@ While this search has no known false positives, it is possible that an AWS admin
 * [Suspicious Cloud User Activities](/stories/suspicious_cloud_user_activities)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -79,8 +119,6 @@ While this search has no known false positives, it is possible that an AWS admin
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | User $user_arn$ is attempting to update the lambda function code of $function_updated$ from this IP $src_ip$ |
-
-
 
 
 #### Reference

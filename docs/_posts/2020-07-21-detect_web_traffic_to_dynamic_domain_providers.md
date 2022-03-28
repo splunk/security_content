@@ -24,7 +24,7 @@ tags:
 
 This search looks for web connections to dynamic DNS providers.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Web](https://docs.splunk.com/Documentation/CIM/latest/User/Web)
 
@@ -33,11 +33,55 @@ This search looks for web connections to dynamic DNS providers.
 - **ID**: 134da869-e264-4a8f-8d7e-fcd01c18f301
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1071.001](https://attack.mitre.org/techniques/T1071/001/) | Web Protocols | Command And Control |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Command & Control
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.IP
+* DE.DP
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 7
+* CIS 8
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -52,8 +96,8 @@ This search looks for web connections to dynamic DNS providers.
 
 #### Macros
 The SPL above uses the following Macros:
-* [dynamic_dns_web_traffic](https://github.com/splunk/security_content/blob/develop/macros/dynamic_dns_web_traffic.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [dynamic_dns_web_traffic](https://github.com/splunk/security_content/blob/develop/macros/dynamic_dns_web_traffic.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `detect_web_traffic_to_dynamic_domain_providers_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -78,10 +122,6 @@ It is possible that list of dynamic DNS providers is outdated and/or that the UR
 * [Dynamic DNS](/stories/dynamic_dns)
 
 
-#### Kill Chain Phase
-* Command & Control
-* Actions on Objectives
-
 
 
 #### RBA
@@ -89,8 +129,6 @@ It is possible that list of dynamic DNS providers is outdated and/or that the UR
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

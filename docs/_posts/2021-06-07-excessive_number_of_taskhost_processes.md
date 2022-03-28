@@ -24,7 +24,7 @@ tags:
 
 This detection targets behaviors observed in post exploit kits like Meterpreter and Koadic that are run in memory.  We have observed that these tools must invoke an excessive number of taskhost.exe and taskhostex.exe processes to complete various actions (discovery, lateral movement, etc.).  It is extremely uncommon in the course of normal operations to see so many distinct taskhost and taskhostex processes running concurrently in a short time frame.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Microsoft Windows](https://splunkbase.splunk.com/app/742)
@@ -33,11 +33,48 @@ This detection targets behaviors observed in post exploit kits like Meterpreter 
 - **ID**: f443dac2-c7cf-11eb-ab51-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1033](https://attack.mitre.org/techniques/T1033/) | System Owner/User Discovery | Discovery |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -80,9 +117,6 @@ Administrators, administrative actions or certain applications may run many inst
 * [Meterpreter](/stories/meterpreter)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -90,8 +124,6 @@ Administrators, administrative actions or certain applications may run many inst
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 80 | 70 | An excessive amount of $process_name$ was executed on $dest$ indicative of suspicious behavior. |
-
-
 
 
 #### Reference

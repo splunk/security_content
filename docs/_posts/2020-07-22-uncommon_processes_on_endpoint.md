@@ -24,7 +24,7 @@ tags:
 
 This search looks for applications on the endpoint that you have marked as uncommon.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -33,11 +33,53 @@ This search looks for applications on the endpoint that you have marked as uncom
 - **ID**: 29ccce64-a10c-4389-a45f-337cb29ba1f7
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1204.002](https://attack.mitre.org/techniques/T1204/002/) | Malicious File | Execution |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* ID.AM
+* PR.DS
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 2
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -53,8 +95,8 @@ This search looks for applications on the endpoint that you have marked as uncom
 
 #### Macros
 The SPL above uses the following Macros:
-* [uncommon_processes](https://github.com/splunk/security_content/blob/develop/macros/uncommon_processes.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [uncommon_processes](https://github.com/splunk/security_content/blob/develop/macros/uncommon_processes.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `uncommon_processes_on_endpoint_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -74,9 +116,6 @@ None identified
 * [Unusual Processes](/stories/unusual_processes)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -84,8 +123,6 @@ None identified
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

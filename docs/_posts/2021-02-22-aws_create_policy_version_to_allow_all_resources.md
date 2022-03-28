@@ -32,7 +32,7 @@ tags:
 
 This search looks for AWS CloudTrail events where a user created a policy version that allows them to access any resource in their account
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -41,13 +41,56 @@ This search looks for AWS CloudTrail events where a user created a policy versio
 - **ID**: 2a9b80d3-6340-4345-b5ad-212bf3d0dac4
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1078.004](https://attack.mitre.org/techniques/T1078/004/) | Cloud Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
 
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.DS
+* PR.AC
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 13
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -65,8 +108,8 @@ This search looks for AWS CloudTrail events where a user created a policy versio
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `aws_create_policy_version_to_allow_all_resources_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -88,9 +131,6 @@ While this search has no known false positives, it is possible that an AWS admin
 * [AWS IAM Privilege Escalation](/stories/aws_iam_privilege_escalation)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -98,8 +138,6 @@ While this search has no known false positives, it is possible that an AWS admin
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | User $user$ created a policy version that allows them to access any resource in their account |
-
-
 
 
 #### Reference

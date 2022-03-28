@@ -29,7 +29,7 @@ We have not been able to test, simulate, or build datasets for this object. Use 
 
 The search is used to identify attempts to use your DNS Infrastructure for DDoS purposes via a DNS amplification attack leveraging ANY queries.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Resolution](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution)
 
@@ -38,13 +38,57 @@ The search is used to identify attempts to use your DNS Infrastructure for DDoS 
 - **ID**: 8fa891f7-a533-4b3c-af85-5aa2e7c1f1eb
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1498](https://attack.mitre.org/techniques/T1498/) | Network Denial of Service | Impact |
 
 | [T1498.002](https://attack.mitre.org/techniques/T1498/002/) | Reflection Amplification | Impact |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.PT
+* DE.AE
+* PR.IP
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 11
+* CIS 12
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -79,9 +123,6 @@ Legitimate ANY requests may trigger this search, however it is unusual to see a 
 * [DNS Amplification Attacks](/stories/dns_amplification_attacks)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -89,8 +130,6 @@ Legitimate ANY requests may trigger this search, however it is unusual to see a 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

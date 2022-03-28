@@ -30,7 +30,7 @@ We have not been able to test, simulate, or build datasets for this object. Use 
 
 The following hunting analytic leverages Event ID 7045, `A new service was installed in the system`, to identify the installation of a Windows Service with a suspicious, high entropy, Service Name. To achieve this, this analytic also leverages the `ut_shannon` function from the URL ToolBox Splunk application. Red teams and adversaries alike may abuse the Service Control Manager to create and start a remote Windows Service and obtain remote code execution. To achieve this goal, some tools like Metasploit, Cobalt Strike and Impacket, typically create a Windows Service with a random service name on the victim host. This hunting analytic may help defenders identify Windows Services installed as part of a lateral movement attack. The entropy threshold `ut_shannon > 3` should be customized by users. The Service_File_Name field can be used to determine if the Windows Service has malicious intent or not.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -39,13 +39,50 @@ The following hunting analytic leverages Event ID 7045, `A new service was insta
 - **ID**: 2032a95a-5165-11ec-a2c3-3e22fbd008af
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1543](https://attack.mitre.org/techniques/T1543/) | Create or Modify System Process | Persistence, Privilege Escalation |
 
 | [T1543.003](https://attack.mitre.org/techniques/T1543/003/) | Windows Service | Persistence, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -83,9 +120,6 @@ Legitimate applications may use random Windows Service names.
 * [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -93,8 +127,6 @@ Legitimate applications may use random Windows Service names.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 45.0 | 90 | 50 | A Windows Service with a suspicious service name was installed on $ComputerName$ |
-
-
 
 
 #### Reference

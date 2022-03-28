@@ -29,7 +29,7 @@ We have not been able to test, simulate, or build datasets for this object. Use 
 
 This search identifies DNS query failures by counting the number of DNS responses that do not indicate success, and trigger on more than 50 occurrences.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Resolution](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution)
 
@@ -38,13 +38,58 @@ This search identifies DNS query failures by counting the number of DNS response
 - **ID**: 104658f4-afdc-499e-9719-17243f9826f1
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1071.004](https://attack.mitre.org/techniques/T1071/004/) | DNS | Command And Control |
 
 | [T1071](https://attack.mitre.org/techniques/T1071/) | Application Layer Protocol | Command And Control |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Command & Control
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.PT
+* DE.AE
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 8
+* CIS 9
+* CIS 12
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -86,9 +131,6 @@ It is possible legitimate traffic can trigger this rule. Please investigate as a
 * [Command and Control](/stories/command_and_control)
 
 
-#### Kill Chain Phase
-* Command & Control
-
 
 
 #### RBA
@@ -96,8 +138,6 @@ It is possible legitimate traffic can trigger this rule. Please investigate as a
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

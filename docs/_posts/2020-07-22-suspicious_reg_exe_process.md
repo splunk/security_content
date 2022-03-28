@@ -24,7 +24,7 @@ tags:
 
 This search looks for reg.exe being launched from a command prompt not started by the user. When a user launches cmd.exe, the parent process is usually explorer.exe. This search filters out those instances.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -33,11 +33,52 @@ This search looks for reg.exe being launched from a command prompt not started b
 - **ID**: a6b3ab4e-dd77-4213-95fa-fc94701995e0
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1112](https://attack.mitre.org/techniques/T1112/) | Modify Registry | Defense Evasion |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 8
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -88,9 +129,6 @@ It's possible for system administrators to write scripts that exhibit this behav
 * [DHS Report TA18-074A](/stories/dhs_report_ta18-074a)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -98,8 +136,6 @@ It's possible for system administrators to write scripts that exhibit this behav
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 35.0 | 70 | 50 | Suspicious $Processes.process_path.file_path$ process running with an uncommon parent process $Processes.parent_process_name$ |
-
-
 
 
 #### Reference

@@ -30,7 +30,7 @@ tags:
 
 The following analytic identifies a suspicious child process, `rundll32.exe`, with no command-line arguments being spawned from `spoolsv.exe`. This was identified during our testing of CVE-2021-34527 previously (CVE-2021-1675) or PrintNightmare. Typically, this is not normal behavior for `spoolsv.exe` to spawn a process. During triage, isolate the endpoint and review for source of exploitation. Capture any additional file modification events.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -39,13 +39,54 @@ The following analytic identifies a suspicious child process, `rundll32.exe`, wi
 - **ID**: 15d905f6-da6b-11eb-ab82-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1547.012](https://attack.mitre.org/techniques/T1547/012/) | Print Processors | Persistence, Privilege Escalation |
 
 | [T1547](https://attack.mitre.org/techniques/T1547/) | Boot or Logon Autostart Execution | Persistence, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+| [CVE-2021-34527](https://nvd.nist.gov/vuln/detail/CVE-2021-34527) | Windows Print Spooler Remote Code Execution Vulnerability | 9.0 |
+
+
+
+</details>
 
 #### Search
 
@@ -91,9 +132,6 @@ Limited false positives have been identified. There are limited instances where 
 * [PrintNightmare CVE-2021-34527](/stories/printnightmare_cve-2021-34527)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -101,14 +139,6 @@ Limited false positives have been identified. There are limited instances where 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 80 | 90 | $parent_process$ has spawned $process_name$ on endpoint $ComputerName$. This behavior is suspicious and related to PrintNightmare. |
-
-
-#### CVE
-
-| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
-| ----------- | ----------- | -------------- |
-| [CVE-2021-34527](https://nvd.nist.gov/vuln/detail/CVE-2021-34527) | Windows Print Spooler Remote Code Execution Vulnerability | 9.0 |
-
 
 
 #### Reference

@@ -26,7 +26,7 @@ tags:
 
 The following analytc uses Windows Event Id 7045, `New Service Was Installed`, to identify the creation of a Windows Service where the service binary path path is located in a non-common Service folder in Windows. Red Teams and adversaries alike may create malicious Services for lateral movement or remote code execution as well as persistence and execution. The Clop ransomware has also been seen in the wild abusing Windows services.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -35,13 +35,50 @@ The following analytc uses Windows Event Id 7045, `New Service Was Installed`, t
 - **ID**: 429141be-8311-11eb-adb6-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1569](https://attack.mitre.org/techniques/T1569/) | System Services | Execution |
 
 | [T1569.002](https://attack.mitre.org/techniques/T1569/002/) | Service Execution | Execution |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -55,8 +92,8 @@ The following analytc uses Windows Event Id 7045, `New Service Was Installed`, t
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [wineventlog_system](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_system.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `windows_service_created_with_suspicious_service_path_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -80,9 +117,6 @@ Legitimate applications may install services with uncommon services paths.
 * [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -90,8 +124,6 @@ Legitimate applications may install services with uncommon services paths.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | A service $Service_File_Name$ was created from a non-standard path using $Service_Name$ |
-
-
 
 
 #### Reference

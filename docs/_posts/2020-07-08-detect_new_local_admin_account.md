@@ -26,7 +26,7 @@ tags:
 
 This search looks for newly created accounts that have been elevated to local administrators.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -35,13 +35,56 @@ This search looks for newly created accounts that have been elevated to local ad
 - **ID**: b25f6f62-0712-43c1-b203-083231ffd97d
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1136.001](https://attack.mitre.org/techniques/T1136/001/) | Local Account | Persistence |
 
 | [T1136](https://attack.mitre.org/techniques/T1136/) | Create Account | Persistence |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+* Command & Control
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.AC
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 16
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -57,8 +100,8 @@ This search looks for newly created accounts that have been elevated to local ad
 
 #### Macros
 The SPL above uses the following Macros:
-* [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 
 Note that `detect_new_local_admin_account_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -82,10 +125,6 @@ The activity may be legitimate. For this reason, it's best to verify the account
 * [HAFNIUM Group](/stories/hafnium_group)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-* Command & Control
-
 
 
 #### RBA
@@ -93,8 +132,6 @@ The activity may be legitimate. For this reason, it's best to verify the account
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 42.0 | 60 | 70 | A $user$ on $dest$ was added recently. Identify if this was legitimate behavior or not. |
-
-
 
 
 #### Reference

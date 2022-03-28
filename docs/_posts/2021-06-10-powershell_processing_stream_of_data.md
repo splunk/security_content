@@ -26,7 +26,7 @@ tags:
 
 The following analytic identifies suspicious PowerShell script execution via EventCode 4104 that is processing compressed stream data. This is typically found in obfuscated PowerShell or PowerShell executing embedded .NET or binary files that are stream flattened and will be deflated durnig execution. During triage, review parallel processes within the same timeframe. Review the full script block to identify other related artifacts.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -35,13 +35,50 @@ The following analytic identifies suspicious PowerShell script execution via Eve
 - **ID**: 0d718b52-c9f1-11eb-bc61-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 
 | [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -79,9 +116,6 @@ powershell may used this function to process compressed data.
 * [Malicious PowerShell](/stories/malicious_powershell)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -89,8 +123,6 @@ powershell may used this function to process compressed data.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 40.0 | 50 | 80 | A suspicious powershell script contains stream command in $Message$ commonly for processing compressed or to decompressed binary file with EventCode $EventCode$ in host $ComputerName$ |
-
-
 
 
 #### Reference

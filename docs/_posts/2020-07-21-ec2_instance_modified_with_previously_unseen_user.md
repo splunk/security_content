@@ -26,7 +26,7 @@ tags:
 
 This search looks for EC2 instances being modified by users who have not previously modified them. This search is deprecated and have been translated to use the latest Change Datamodel.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -35,11 +35,52 @@ This search looks for EC2 instances being modified by users who have not previou
 - **ID**: 56f91724-cf3f-4666-84e1-e3712fb41e76
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1078.004](https://attack.mitre.org/techniques/T1078/004/) | Cloud Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* ID.AM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 1
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -64,9 +105,9 @@ This search looks for EC2 instances being modified by users who have not previou
 
 #### Macros
 The SPL above uses the following Macros:
-* [ec2_modification_api_calls](https://github.com/splunk/security_content/blob/develop/macros/ec2_modification_api_calls.yml)
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [ec2_modification_api_calls](https://github.com/splunk/security_content/blob/develop/macros/ec2_modification_api_calls.yml)
 
 Note that `ec2_instance_modified_with_previously_unseen_user_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -92,9 +133,6 @@ It's possible that a new user will start to modify EC2 instances when they haven
 * [Unusual AWS EC2 Modifications](/stories/unusual_aws_ec2_modifications)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -102,8 +140,6 @@ It's possible that a new user will start to modify EC2 instances when they haven
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

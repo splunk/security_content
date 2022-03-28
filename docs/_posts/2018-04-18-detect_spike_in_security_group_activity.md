@@ -26,7 +26,7 @@ tags:
 
 This search will detect users creating spikes in API activity related to security groups in your AWS environment.  It will also update the cache file that factors in the latest data.  This search is deprecated and have been translated to use the latest Change Datamodel.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -35,11 +35,54 @@ This search will detect users creating spikes in API activity related to securit
 - **ID**: ada0f478-84a8-4641-a3f1-e32372d4bd53
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1078.004](https://attack.mitre.org/techniques/T1078/004/) | Cloud Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.DP
+* DE.CM
+* PR.AC
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 16
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -68,8 +111,8 @@ This search will detect users creating spikes in API activity related to securit
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_group_api_calls](https://github.com/splunk/security_content/blob/develop/macros/security_group_api_calls.yml)
 * [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
+* [security_group_api_calls](https://github.com/splunk/security_content/blob/develop/macros/security_group_api_calls.yml)
 
 Note that `detect_spike_in_security_group_activity_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -94,9 +137,6 @@ Based on the values of`dataPointThreshold` and `deviationThreshold`, the false p
 * [AWS User Monitoring](/stories/aws_user_monitoring)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -104,8 +144,6 @@ Based on the values of`dataPointThreshold` and `deviationThreshold`, the false p
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

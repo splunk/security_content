@@ -27,7 +27,7 @@ tags:
 
 This search is to detect a suspicious mshta.exe process that spawn rundll32 or regsvr32 child process. This technique was seen in several malware nowadays like trickbot to load its initial .dll stage loader to execute and download the the actual trickbot payload.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -36,13 +36,50 @@ This search is to detect a suspicious mshta.exe process that spawn rundll32 or r
 - **ID**: 4aa5d062-e893-11eb-9eb2-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
 
 | [T1218.005](https://attack.mitre.org/techniques/T1218/005/) | Mshta | Defense Evasion |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -59,8 +96,8 @@ This search is to detect a suspicious mshta.exe process that spawn rundll32 or r
 The SPL above uses the following Macros:
 * [process_rundll32](https://github.com/splunk/security_content/blob/develop/macros/process_rundll32.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [process_regsvr32](https://github.com/splunk/security_content/blob/develop/macros/process_regsvr32.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `mshta_spawning_rundll32_or_regsvr32_process_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -91,9 +128,6 @@ limitted. this anomaly behavior is not commonly seen in clean host.
 * [Living Off The Land](/stories/living_off_the_land)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -101,8 +135,6 @@ limitted. this anomaly behavior is not commonly seen in clean host.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | a mshta parent process $parent_process_name$ spawn child process $process_name$ in host $dest$ |
-
-
 
 
 #### Reference

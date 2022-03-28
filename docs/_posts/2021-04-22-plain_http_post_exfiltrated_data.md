@@ -27,7 +27,7 @@ tags:
 
 This search is to detect potential plain HTTP POST method data exfiltration. This network traffic is commonly used by trickbot, trojanspy, keylogger or APT adversary where arguments or commands are sent in plain text to the remote C2 server using HTTP POST method as part of data exfiltration.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
 
@@ -36,13 +36,50 @@ This search is to detect potential plain HTTP POST method data exfiltration. Thi
 - **ID**: e2b36208-a364-11eb-8909-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1048.003](https://attack.mitre.org/techniques/T1048/003/) | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
 
 | [T1048](https://attack.mitre.org/techniques/T1048/) | Exfiltration Over Alternative Protocol | Exfiltration |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -56,8 +93,8 @@ This search is to detect potential plain HTTP POST method data exfiltration. Thi
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [stream_http](https://github.com/splunk/security_content/blob/develop/macros/stream_http.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `plain_http_post_exfiltrated_data_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -82,9 +119,6 @@ unknown
 * [Command and Control](/stories/command_and_control)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -92,8 +126,6 @@ unknown
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | A http post $http_method$ sending packet with plain text of information $form_data$ in uri path $uri_path$ |
-
-
 
 
 #### Reference

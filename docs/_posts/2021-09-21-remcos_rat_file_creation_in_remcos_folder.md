@@ -24,7 +24,7 @@ tags:
 
 This search is to detect file creation in remcos folder in appdata which is the keylog and clipboard logs that will be send to its c2 server. This is really a good TTP indicator that there is a remcos rat in the system that do keylogging, clipboard grabbing and audio recording.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -33,11 +33,48 @@ This search is to detect file creation in remcos folder in appdata which is the 
 - **ID**: 25ae862a-1ac3-11ec-94a1-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1113](https://attack.mitre.org/techniques/T1113/) | Screen Capture | Collection |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -75,9 +112,6 @@ unknown
 * [Remcos](/stories/remcos)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -85,8 +119,6 @@ unknown
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 100.0 | 100 | 100 | file $file_name$ created in $file_path$ of $dest$ |
-
-
 
 
 #### Reference

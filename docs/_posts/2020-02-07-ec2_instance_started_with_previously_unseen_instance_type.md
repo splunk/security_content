@@ -20,13 +20,56 @@ tags:
 
 This search looks for EC2 instances being created with previously unseen instance types.  This search is deprecated and have been translated to use the latest Change Datamodel.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
 - **Last Updated**: 2020-02-07
 - **Author**: David Dorsey, Splunk
 - **ID**: 65541c80-03c7-4e05-83c8-1dcd57a2e1ad
+
+
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* ID.AM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 1
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -52,8 +95,8 @@ This search looks for EC2 instances being created with previously unseen instanc
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `ec2_instance_started_with_previously_unseen_instance_type_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -74,9 +117,6 @@ It is possible that an admin will create a new system using a new instance type 
 * [AWS Cryptomining](/stories/aws_cryptomining)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -84,8 +124,6 @@ It is possible that an admin will create a new system using a new instance type 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

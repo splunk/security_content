@@ -23,7 +23,7 @@ tags:
 
 The following detection identifies excessive AccessDenied events within an hour timeframe. It is possible that an access key to AWS may have been stolen and is being misused to perform discovery events. In these instances, the access is not available with the key stolen therefore these events will be generated.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -32,11 +32,48 @@ The following detection identifies excessive AccessDenied events within an hour 
 - **ID**: 3e1f1568-9633-11eb-a69c-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1580](https://attack.mitre.org/techniques/T1580/) | Cloud Infrastructure Discovery | Discovery |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Reconnaissance
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -52,8 +89,8 @@ The following detection identifies excessive AccessDenied events within an hour 
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `aws_iam_accessdenied_discovery_events_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -76,9 +113,6 @@ It is possible to start this detection will need to be tuned by source IP or use
 * [Suspicious Cloud User Activities](/stories/suspicious_cloud_user_activities)
 
 
-#### Kill Chain Phase
-* Reconnaissance
-
 
 
 #### RBA
@@ -86,8 +120,6 @@ It is possible to start this detection will need to be tuned by source IP or use
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 10.0 | 20 | 50 | User $userIdentity.arn$ is seen to perform excessive number of discovery related api calls- $failures$, within an hour where the access was denied. |
-
-
 
 
 #### Reference

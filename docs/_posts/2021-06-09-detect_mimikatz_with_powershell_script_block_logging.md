@@ -25,7 +25,7 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 This analytic identifies common Mimikatz functions that may be identified in the script block, including `mimikatz`. This will catch the most basic use cases for Pass the Ticket, Pass the Hash and `-DumprCreds`. \
 During triage, review parallel processes using an EDR product or 4688 events. It will be important to understand the timeline of events around this activity. Review the entire logged PowerShell script block.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -34,11 +34,48 @@ During triage, review parallel processes using an EDR product or 4688 events. It
 - **ID**: 8148c29c-c952-11eb-9255-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -76,9 +113,6 @@ False positives should be limited as the commands being identifies are quite spe
 * [Malicious PowerShell](/stories/malicious_powershell)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -86,8 +120,6 @@ False positives should be limited as the commands being identifies are quite spe
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 90.0 | 90 | 100 | The following behavior was identified and typically related to MimiKatz being loaded within the context of PowerShell on $ComputerName$ by $User$. |
-
-
 
 
 #### Reference

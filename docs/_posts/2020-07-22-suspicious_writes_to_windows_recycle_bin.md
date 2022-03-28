@@ -23,7 +23,7 @@ tags:
 
 This search detects writes to the recycle bin by a process other than explorer.exe.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -32,11 +32,52 @@ This search detects writes to the recycle bin by a process other than explorer.e
 - **ID**: b5541828-8ffd-4070-9d95-b3da4de924cb
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1036](https://attack.mitre.org/techniques/T1036/) | Masquerading | Defense Evasion |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 8
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -80,9 +121,6 @@ Because the Recycle Bin is a hidden folder in modern versions of Windows, it wou
 * [Collection and Staging](/stories/collection_and_staging)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -90,8 +128,6 @@ Because the Recycle Bin is a hidden folder in modern versions of Windows, it wou
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 28.0 | 40 | 70 | Suspicious writes to windows Recycle Bin process $Processes.process_name$ |
-
-
 
 
 #### Reference

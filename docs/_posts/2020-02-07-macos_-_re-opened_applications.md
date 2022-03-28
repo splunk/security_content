@@ -23,13 +23,58 @@ We have not been able to test, simulate, or build datasets for this object. Use 
 
 This search looks for processes referencing the plist files that determine which applications are re-opened when a user reboots their machine.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
 - **Last Updated**: 2020-02-07
 - **Author**: Jamie Windley, Splunk
 - **ID**: 40bb64f9-f619-4e3d-8732-328d40377c4b
+
+
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Installation
+* Command & Control
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.DP
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 8
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -69,10 +114,6 @@ At this stage, there are no known false positives. During testing, no process ev
 * [ColdRoot MacOS RAT](/stories/coldroot_macos_rat)
 
 
-#### Kill Chain Phase
-* Installation
-* Command & Control
-
 
 
 #### RBA
@@ -80,8 +121,6 @@ At this stage, there are no known false positives. During testing, no process ev
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

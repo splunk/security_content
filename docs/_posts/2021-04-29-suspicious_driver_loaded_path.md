@@ -29,7 +29,7 @@ tags:
 
 This analytic will detect suspicious driver loaded paths. This technique is commonly used by malicious software like coin miners (xmrig) to register its malicious driver from notable directories where executable or drivers do not commonly exist. During triage, validate this driver is for legitimate business use. Review the metadata and certificate information. Unsigned drivers from non-standard paths is not normal, but occurs. In addition, review driver loads into `ntoskrnl.exe` for possible other drivers of interest. Long tail analyze drivers by path (outside of default, and in default) for further review.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -38,13 +38,50 @@ This analytic will detect suspicious driver loaded paths. This technique is comm
 - **ID**: f880acd4-a8f1-11eb-a53b-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1543.003](https://attack.mitre.org/techniques/T1543/003/) | Windows Service | Persistence, Privilege Escalation |
 
 | [T1543](https://attack.mitre.org/techniques/T1543/) | Create or Modify System Process | Persistence, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -83,9 +120,6 @@ Limited false positives will be present. Some applications do load drivers
 * [XMRig](/stories/xmrig)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -93,8 +127,6 @@ Limited false positives will be present. Some applications do load drivers
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | Suspicious driver $ImageLoaded$ on $Computer$ |
-
-
 
 
 #### Reference

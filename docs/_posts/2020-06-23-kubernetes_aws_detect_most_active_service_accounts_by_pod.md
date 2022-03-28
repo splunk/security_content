@@ -20,13 +20,52 @@ tags:
 
 This search provides information on Kubernetes service accounts,accessing pods by IP address, verb and decision
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
 - **Last Updated**: 2020-06-23
 - **Author**: Rod Soto, Splunk
 - **ID**: 5b30b25d-7d32-42d8-95ca-64dfcd9076e6
+
+
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -57,9 +96,6 @@ Not all service accounts interactions are malicious. Analyst must consider IP, v
 * [Kubernetes Sensitive Role Activity](/stories/kubernetes_sensitive_role_activity)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -67,8 +103,6 @@ Not all service accounts interactions are malicious. Analyst must consider IP, v
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

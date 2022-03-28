@@ -27,7 +27,7 @@ tags:
 
 This analytic is to detect a suspicious copy of file from systemroot folder of the windows OS. This technique is commonly used by APT or other malware as part of execution (LOLBIN) to run its malicious code using the available legitimate tool in OS. this type of event may seen or may execute of normal user in some instance but this is really a anomaly that needs to be check within the network.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -36,13 +36,50 @@ This analytic is to detect a suspicious copy of file from systemroot folder of t
 - **ID**: ce633e56-25b2-11ec-9e76-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1036.003](https://attack.mitre.org/techniques/T1036/003/) | Rename System Utilities | Defense Evasion |
 
 | [T1036](https://attack.mitre.org/techniques/T1036/) | Masquerading | Defense Evasion |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -88,9 +125,6 @@ every user may do this event but very un-ussual.
 * [Unusual Processes](/stories/unusual_processes)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -98,8 +132,6 @@ every user may do this event but very un-ussual.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | execution of copy exe to copy file from $process$ in $dest$ |
-
-
 
 
 #### Reference

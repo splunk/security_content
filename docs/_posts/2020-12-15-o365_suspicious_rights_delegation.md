@@ -26,7 +26,7 @@ tags:
 
 This search detects the assignment of rights to accesss content from another mailbox. This is usually only assigned to a service account.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -35,13 +35,55 @@ This search detects the assignment of rights to accesss content from another mai
 - **ID**: b25d2973-303e-47c8-bacd-52b61604c6a7
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1114.002](https://attack.mitre.org/techniques/T1114/002/) | Remote Email Collection | Collection |
 
 | [T1114](https://attack.mitre.org/techniques/T1114/) | Email Collection | Collection |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.DP
+* DE.AE
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 16
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -58,8 +100,8 @@ This search detects the assignment of rights to accesss content from another mai
 
 #### Macros
 The SPL above uses the following Macros:
-* [o365_management_activity](https://github.com/splunk/security_content/blob/develop/macros/o365_management_activity.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [o365_management_activity](https://github.com/splunk/security_content/blob/develop/macros/o365_management_activity.yml)
 
 Note that `o365_suspicious_rights_delegation_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -79,9 +121,6 @@ Service Accounts
 * [Office 365 Detections](/stories/office_365_detections)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -89,8 +128,6 @@ Service Accounts
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 48.0 | 80 | 60 | User $user$ has delegated suspicious rights $AccessRights$ to user $dest_user$ that allow access to sensitive |
-
-
 
 
 #### Reference

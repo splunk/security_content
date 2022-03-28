@@ -23,7 +23,7 @@ tags:
 
 This search provides detection of KMS keys where action kms:Encrypt is accessible for everyone (also outside of your organization). This is an indicator that your account is compromised and the attacker uses the encryption key to compromise another company.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -32,11 +32,48 @@ This search provides detection of KMS keys where action kms:Encrypt is accessibl
 - **ID**: c79c164f-4b21-4847-98f9-cf6a9f49179e
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1486](https://attack.mitre.org/techniques/T1486/) | Data Encrypted for Impact | Impact |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -57,8 +94,8 @@ This search provides detection of KMS keys where action kms:Encrypt is accessibl
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `aws_detect_users_creating_keys_with_encrypt_policy_without_mfa_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -82,9 +119,6 @@ unknown
 * [Ransomware Cloud](/stories/ransomware_cloud)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -92,8 +126,6 @@ unknown
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | AWS account is potentially compromised and user $userIdentity.principalId$ is trying to compromise other accounts. |
-
-
 
 
 #### Reference

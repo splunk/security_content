@@ -31,7 +31,7 @@ tags:
 
 This analytic looks for suspicious file creation in systemd timer directory in linux platform. systemd is a system and service manager for Linux distributions. From the Windows perspective, this process fulfills the duties of wininit.exe and services.exe combined. At the risk of simplifying the functionality of systemd, it initializes a Linux system and starts relevant services that are defined in service unit files. Adversaries, malware and red teamers may abuse this this feature by stashing systemd service file to persist on the targetted or compromised host.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -40,13 +40,56 @@ This analytic looks for suspicious file creation in systemd timer directory in l
 - **ID**: c7495048-61b6-11ec-9a37-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1053.006](https://attack.mitre.org/techniques/T1053/006/) | Systemd Timers | Execution, Persistence, Privilege Escalation |
 
 | [T1053](https://attack.mitre.org/techniques/T1053/) | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 3
+* CIS 5
+* CIS 16
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -86,9 +129,6 @@ Administrator or network operator can create file in systemd folders for automat
 * [Linux Persistence Techniques](/stories/linux_persistence_techniques)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -96,8 +136,6 @@ Administrator or network operator can create file in systemd folders for automat
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 64.0 | 80 | 80 | A service file named as $file_path$ is created in systemd folder on $dest$ |
-
-
 
 
 #### Reference

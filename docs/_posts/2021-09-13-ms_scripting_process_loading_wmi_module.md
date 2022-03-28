@@ -27,7 +27,7 @@ tags:
 
 This search is to detect a suspicious MS scripting process such as wscript.exe or cscript.exe that loading wmi module to process wmi query. This behavior was seen in FIN7 implant where it uses javascript to execute wmi query to parse host information that will send to its C2 server. this anomaly detections is a good initial step to hunt further a suspicious wmi query or wmi related events to the host that may give you good information regarding process that are commonly using wmi query or modules or might be an attacker using this technique.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -36,13 +36,50 @@ This search is to detect a suspicious MS scripting process such as wscript.exe o
 - **ID**: 2eba3d36-14a6-11ec-a682-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 
 | [T1059.007](https://attack.mitre.org/techniques/T1059/007/) | JavaScript | Execution |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -82,9 +119,6 @@ automation scripting language may used by network operator to do ldap query.
 * [FIN7](/stories/fin7)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -92,8 +126,6 @@ automation scripting language may used by network operator to do ldap query.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 9.0 | 30 | 30 | $process_name$ loading wmi modules $ImageLoaded$ in $dest$ |
-
-
 
 
 #### Reference

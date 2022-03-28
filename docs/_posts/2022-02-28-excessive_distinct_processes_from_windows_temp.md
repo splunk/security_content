@@ -24,7 +24,7 @@ tags:
 
 This analytic will identify suspicious series of process executions.  We have observed that post exploit framework tools like Koadic and Meterpreter will launch an excessive number of processes with distinct file paths from Windows\Temp to execute actions on objective.  This behavior is extremely anomalous compared to typical application behaviors that use Windows\Temp.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Microsoft Windows](https://splunkbase.splunk.com/app/742)
@@ -33,11 +33,48 @@ This analytic will identify suspicious series of process executions.  We have ob
 - **ID**: 23587b6a-c479-11eb-b671-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -75,9 +112,6 @@ Many benign applications will create processes from executables in Windows\Temp,
 * [Meterpreter](/stories/meterpreter)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -85,8 +119,6 @@ Many benign applications will create processes from executables in Windows\Temp,
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | Multiple processes were executed out of windows\temp within a short amount of time on $dest$. |
-
-
 
 
 #### Reference

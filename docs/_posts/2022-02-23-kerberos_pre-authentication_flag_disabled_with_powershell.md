@@ -26,7 +26,7 @@ tags:
 
 The following analytic utilizes PowerShell Script Block Logging (EventCode=4104) to identify the execution of the `Set-ADAccountControl` commandlet with specific parameters. `Set-ADAccountControl` is part of the Active Directory PowerShell module used to manage Windows Active Directory networks. As the name suggests, `Set-ADAccountControl` is used to modify User Account Control values for an Active Directory domain account. With the appropiate parameters, Set-ADAccountControl allows adversaries to disable Kerberos Pre-Authentication for an account to to easily perform a brute force attack against the user's password offline leveraging the ASP REP Roasting technique. Red Teams and adversaries alike who have obtained privileges in an Active Directory network may use this technique as a backdoor or a way to escalate privileges.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -35,13 +35,50 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 - **ID**: 59b51620-94c9-11ec-b3d5-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1558](https://attack.mitre.org/techniques/T1558/) | Steal or Forge Kerberos Tickets | Credential Access |
 
 | [T1558.004](https://attack.mitre.org/techniques/T1558/004/) | AS-REP Roasting | Credential Access |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -73,9 +110,6 @@ Although unlikely, Administrators may need to set this flag for legitimate purpo
 * [Active Directory Kerberos Attacks](/stories/active_directory_kerberos_attacks)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -83,8 +117,6 @@ Although unlikely, Administrators may need to set this flag for legitimate purpo
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 45.0 | 50 | 90 | Kerberos Pre Authentication was Disabled using PowerShell on $dest$ |
-
-
 
 
 #### Reference

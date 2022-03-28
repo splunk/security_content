@@ -24,7 +24,7 @@ tags:
 
 This analytic is to look for suspicious file creation in the critical folder like "System32\Drivers" folder without file extension. This artifacts was seen in latest hermeticwiper where it drops its driver component in Driver Directory both the compressed(without file extension) and the actual driver component (with .sys file extension). This TTP is really a good indication that a host might be compromised by this destructive malware that wipes the boot sector of the system.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -33,11 +33,54 @@ This analytic is to look for suspicious file creation in the critical folder lik
 - **ID**: 0dbcac64-963c-11ec-bf04-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1485](https://attack.mitre.org/techniques/T1485/) | Data Destruction | Impact |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 3
+* CIS 5
+* CIS 16
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -88,9 +131,6 @@ Unknown at this point
 * [Hermetic Wiper](/stories/hermetic_wiper)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -98,8 +138,6 @@ Unknown at this point
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 90.0 | 90 | 100 | Driver file with out file extension drop in $file_path$ in $dest$ |
-
-
 
 
 #### Reference

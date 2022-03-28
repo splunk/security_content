@@ -22,13 +22,57 @@ We have not been able to test, simulate, or build datasets for this object. Use 
 
 Command lines that are extremely long may be indicative of malicious activity on your hosts. This search leverages the Machine Learning Toolkit (MLTK) to help identify command lines with lengths that are unusual for a given user.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
 - **Last Updated**: 2019-05-08
 - **Author**: Rico Valdez, Splunk
 - **ID**: 57edaefa-a73b-45e5-bbae-f39c1473f941
+
+
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.PT
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 8
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -75,9 +119,6 @@ Some legitimate applications use long command lines for installs or updates. You
 * [Ransomware](/stories/ransomware)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -85,8 +126,6 @@ Some legitimate applications use long command lines for installs or updates. You
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

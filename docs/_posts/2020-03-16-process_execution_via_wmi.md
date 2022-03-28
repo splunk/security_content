@@ -24,7 +24,7 @@ tags:
 
 The following analytic identifies `WmiPrvSE.exe` spawning a process. This typically occurs when a process is instantiated from a local or remote process using `wmic.exe`. During triage, review parallel processes for suspicious behavior or commands executed. Review the process and command-line spawning from `wmiprvse.exe`. Contain and remediate the endpoint as necessary.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -33,11 +33,56 @@ The following analytic identifies `WmiPrvSE.exe` spawning a process. This typica
 - **ID**: 24869767-8579-485d-9a4f-d9ddfd8f0cac
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1047](https://attack.mitre.org/techniques/T1047/) | Windows Management Instrumentation | Execution |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.PT
+* PR.AT
+* PR.AC
+* PR.IP
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 3
+* CIS 5
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -76,9 +121,6 @@ Although unlikely, administrators may use wmi to execute commands for legitimate
 * [Suspicious WMI Use](/stories/suspicious_wmi_use)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -86,8 +128,6 @@ Although unlikely, administrators may use wmi to execute commands for legitimate
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | A remote instance execution of wmic.exe that will spawn $parent_process_name$ in host $dest$ |
-
-
 
 
 #### Reference

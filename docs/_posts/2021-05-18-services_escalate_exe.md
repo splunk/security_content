@@ -25,7 +25,7 @@ tags:
 
 The following analytic identifies the use of `svc-exe` with Cobalt Strike. The behavior typically follows after an adversary has already gained initial access and is escalating privileges. Using `svc-exe`, a randomly named binary will be downloaded from the remote Teamserver and placed on disk within `C:\Windows\400619a.exe`. Following, the binary will be added to the registry under key `HKLM\System\CurrentControlSet\Services\400619a\` with multiple keys and values added to look like a legitimate service. Upon loading, `services.exe` will spawn the randomly named binary from `\\127.0.0.1\ADMIN$\400619a.exe`. The process lineage is completed with `400619a.exe` spawning rundll32.exe, which is the default `spawnto_` value for Cobalt Strike. The `spawnto_` value is arbitrary and may be any process on disk (typically system32/syswow64 binary). The `spawnto_` process will also contain a network connection. During triage, review parallel procesess and identify any additional file modifications.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -34,11 +34,48 @@ The following analytic identifies the use of `svc-exe` with Cobalt Strike. The b
 - **ID**: c448488c-b7ec-11eb-8253-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1548](https://attack.mitre.org/techniques/T1548/) | Abuse Elevation Control Mechanism | Defense Evasion, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -79,9 +116,6 @@ False positives should be limited as `services.exe` should never spawn a process
 * [Cobalt Strike](/stories/cobalt_strike)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -89,8 +123,6 @@ False positives should be limited as `services.exe` should never spawn a process
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 76.0 | 80 | 95 | A service process $parent_process_name$ with process path $process_path$ in host $dest$ |
-
-
 
 
 #### Reference

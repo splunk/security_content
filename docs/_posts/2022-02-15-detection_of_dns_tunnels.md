@@ -25,7 +25,7 @@ tags:
 This search is used to detect DNS tunneling, by calculating the sum of the length of DNS queries and DNS answers. The search also filters out potential false positives by filtering out queries made to internal systems and the queries originating from internal DNS, Web, and Email servers. Endpoints using DNS as a method of transmission for data exfiltration, command and control, or evasion of security controls can often be detected by noting an unusually large volume of DNS traffic. \
 NOTE:Deprecated because existing detection is doing the same. This detection is replaced with two other variations, if you are using MLTK then you can use this search `ESCU - DNS Query Length Outliers - MLTK - Rule` or use the standard deviation version `ESCU - DNS Query Length With High Standard Deviation - Rule`, as an alternantive.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Resolution](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution)
 
@@ -34,11 +34,54 @@ NOTE:Deprecated because existing detection is doing the same. This detection is 
 - **ID**: 104658f4-afdc-499f-9719-17a43f9826f4
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1048.003](https://attack.mitre.org/techniques/T1048/003/) | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Command & Control
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.PT
+* PR.DS
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 13
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -84,10 +127,6 @@ It's possible that normal DNS traffic will exhibit this behavior. If an alert is
 * [Command and Control](/stories/command_and_control)
 
 
-#### Kill Chain Phase
-* Command & Control
-* Actions on Objectives
-
 
 
 #### RBA
@@ -95,8 +134,6 @@ It's possible that normal DNS traffic will exhibit this behavior. If an alert is
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

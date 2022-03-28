@@ -31,7 +31,7 @@ tags:
 
 The search looks for reg.exe modifying registry keys that define Windows services and their configurations.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -40,13 +40,60 @@ The search looks for reg.exe modifying registry keys that define Windows service
 - **ID**: 8470d755-0c13-45b3-bd63-387a373c10cf
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1574.011](https://attack.mitre.org/techniques/T1574/011/) | Services Registry Permissions Weakness | Defense Evasion, Persistence, Privilege Escalation |
 
 | [T1574](https://attack.mitre.org/techniques/T1574/) | Hijack Execution Flow | Defense Evasion, Persistence, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Installation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.IP
+* PR.PT
+* PR.AC
+* PR.AT
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 3
+* CIS 5
+* CIS 8
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -88,9 +135,6 @@ It is unusual for a service to be created or modified by directly manipulating t
 * [Living Off The Land](/stories/living_off_the_land)
 
 
-#### Kill Chain Phase
-* Installation
-
 
 
 #### RBA
@@ -98,8 +142,6 @@ It is unusual for a service to be created or modified by directly manipulating t
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 45.0 | 75 | 60 | A reg.exe process $process_name$ with commandline $process$ in host $dest$ |
-
-
 
 
 #### Reference

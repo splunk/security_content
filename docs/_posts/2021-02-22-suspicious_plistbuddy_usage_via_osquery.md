@@ -37,7 +37,7 @@ The following analytic identifies the use of a native MacOS utility, PlistBuddy,
 - PlistBuddy -c "Add :ProgramArguments:1 string -c" ~/Library/Launchagents/init_verx.plist \
 Upon triage, capture the property list file being written to disk and review for further indicators. Contain the endpoint and triage further.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -46,13 +46,50 @@ Upon triage, capture the property list file being written to disk and review for
 - **ID**: 20ba6c32-c733-4a32-b64e-2688cf231399
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1543.001](https://attack.mitre.org/techniques/T1543/001/) | Launch Agent | Persistence, Privilege Escalation |
 
 | [T1543](https://attack.mitre.org/techniques/T1543/) | Create or Modify System Process | Persistence, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -82,9 +119,6 @@ Some legitimate applications may use PlistBuddy to create or modify property lis
 * [Silver Sparrow](/stories/silver_sparrow)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -92,8 +126,6 @@ Some legitimate applications may use PlistBuddy to create or modify property lis
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

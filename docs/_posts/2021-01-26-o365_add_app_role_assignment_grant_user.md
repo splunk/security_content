@@ -26,7 +26,7 @@ tags:
 
 This search detects the creation of a new Federation setting by alerting about an specific event related to its creation.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -35,13 +35,50 @@ This search detects the creation of a new Federation setting by alerting about a
 - **ID**: b2c81cc6-6040-11eb-ae93-0242ac130002
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1136.003](https://attack.mitre.org/techniques/T1136/003/) | Cloud Account | Persistence |
 
 | [T1136](https://attack.mitre.org/techniques/T1136/) | Create Account | Persistence |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -55,8 +92,8 @@ This search detects the creation of a new Federation setting by alerting about a
 
 #### Macros
 The SPL above uses the following Macros:
-* [o365_management_activity](https://github.com/splunk/security_content/blob/develop/macros/o365_management_activity.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [o365_management_activity](https://github.com/splunk/security_content/blob/develop/macros/o365_management_activity.yml)
 
 Note that `o365_add_app_role_assignment_grant_user_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -82,9 +119,6 @@ The creation of a new Federation is not necessarily malicious, however this even
 * [Cloud Federated Credential Abuse](/stories/cloud_federated_credential_abuse)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -92,8 +126,6 @@ The creation of a new Federation is not necessarily malicious, however this even
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 18.0 | 30 | 60 | User $Actor.ID$ has created a new federation setting on $dest$ from IP Address $ActorIpAddress$ |
-
-
 
 
 #### Reference

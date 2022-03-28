@@ -23,7 +23,7 @@ tags:
 
 This search uses the Kubernetes logs from a nginx ingress controller to detect remote file inclusion attacks.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -32,11 +32,54 @@ This search uses the Kubernetes logs from a nginx ingress controller to detect r
 - **ID**: fc5531ae-62fd-4de6-9c36-b4afdae8ca95
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1212](https://attack.mitre.org/techniques/T1212/) | Exploitation for Credential Access | Credential Access |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.DS
+* PR.AC
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 13
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -57,8 +100,8 @@ This search uses the Kubernetes logs from a nginx ingress controller to detect r
 
 #### Macros
 The SPL above uses the following Macros:
-* [kubernetes_container_controller](https://github.com/splunk/security_content/blob/develop/macros/kubernetes_container_controller.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [kubernetes_container_controller](https://github.com/splunk/security_content/blob/develop/macros/kubernetes_container_controller.yml)
 
 Note that `kubernetes_nginx_ingress_rfi_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -76,9 +119,6 @@ unknown
 * [Dev Sec Ops](/stories/dev_sec_ops)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -86,8 +126,6 @@ unknown
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | Remote File Inclusion Attack detected on $host$ |
-
-
 
 
 #### Reference

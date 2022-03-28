@@ -24,7 +24,7 @@ tags:
 
 This search looks for PowerShell processes started with a base64 encoded command-line passed to it, with parameters to modify the execution policy for the process, and those that prevent the display of an interactive prompt to the user. This combination of command-line options is suspicious because it overrides the default PowerShell execution policy, attempts to hide itself from the user, and passes an encoded script to be run on the command-line. Deprecated because almost the same as Malicious PowerShell Process - Encoded Command
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -33,11 +33,57 @@ This search looks for PowerShell processes started with a base64 encoded command
 - **ID**: 2cdb91d2-542c-497f-b252-be495e71f38c
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Command & Control
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.PT
+* DE.CM
+* PR.IP
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 3
+* CIS 7
+* CIS 8
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -72,10 +118,6 @@ Legitimate process can have this combination of command-line options, but it's n
 * [Malicious PowerShell](/stories/malicious_powershell)
 
 
-#### Kill Chain Phase
-* Command & Control
-* Actions on Objectives
-
 
 
 #### RBA
@@ -83,8 +125,6 @@ Legitimate process can have this combination of command-line options, but it's n
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

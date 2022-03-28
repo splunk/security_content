@@ -27,7 +27,7 @@ tags:
 
 This analytic is to detect an application try to connect and create ADSI Object to do LDAP query. Every time an application connects to the directory and attempts to create an ADSI object, the Active Directory Schema is checked for changes. If it has changed since the last connection, the schema is downloaded and stored in a cache on the local computer either in %LOCALAPPDATA%\Microsoft\Windows\SchCache or %systemroot%\SchCache. We found this a good anomaly use case to detect suspicious application like blackmatter ransomware that use ADS object api to execute ldap query. having a good list of ldap or normal AD query tool used within the network is a good start to reduce the noise.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -36,13 +36,50 @@ This analytic is to detect an application try to connect and create ADSI Object 
 - **ID**: 991eb510-0fc6-11ec-82d3-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1087.002](https://attack.mitre.org/techniques/T1087/002/) | Domain Account | Discovery |
 
 | [T1087](https://attack.mitre.org/techniques/T1087/) | Account Discovery | Discovery |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -81,9 +118,6 @@ normal application like mmc.exe and other ldap query tool may trigger this detec
 * [blackMatter ransomware](/stories/blackmatter_ransomware)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -91,8 +125,6 @@ normal application like mmc.exe and other ldap query tool may trigger this detec
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | process $Image$ create a file $TargetFilename$ in host $Computer$ |
-
-
 
 
 #### Reference

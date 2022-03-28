@@ -23,7 +23,7 @@ tags:
 
 This search looks for PowerShell requesting privileges consistent with credential dumping. Deprecated, looks like things changed from a logging perspective.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -32,11 +32,56 @@ This search looks for PowerShell requesting privileges consistent with credentia
 - **ID**: 98917be2-bfc8-475a-8618-a9bb06575188
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1003.001](https://attack.mitre.org/techniques/T1003/001/) | LSASS Memory | Credential Access |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.IP
+* PR.AC
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 3
+* CIS 5
+* CIS 16
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -54,8 +99,8 @@ This search looks for PowerShell requesting privileges consistent with credentia
 
 #### Macros
 The SPL above uses the following Macros:
-* [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 
 Note that `detect_mimikatz_via_powershell_and_eventcode_4703_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -78,9 +123,6 @@ The activity may be legitimate. PowerShell is often used by administrators to pe
 * [Cloud Federated Credential Abuse](/stories/cloud_federated_credential_abuse)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -88,8 +130,6 @@ The activity may be legitimate. PowerShell is often used by administrators to pe
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

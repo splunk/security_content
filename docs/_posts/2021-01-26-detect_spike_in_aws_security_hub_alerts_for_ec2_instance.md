@@ -20,13 +20,56 @@ tags:
 
 This search looks for a spike in number of of AWS security Hub alerts for an EC2 instance in 4 hours intervals
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
 - **Last Updated**: 2021-01-26
 - **Author**: Bhavin Patel, Splunk
 - **ID**: 2a9b80d3-6340-4345-b5ad-290bf5d0d222
+
+
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.DP
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 13
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -69,9 +112,6 @@ None
 * [AWS Security Hub Alerts](/stories/aws_security_hub_alerts)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -79,8 +119,6 @@ None
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 15.0 | 30 | 50 | Spike in AWS security Hub alerts with title $Title$ for EC2 instance $dest$ |
-
-
 
 
 #### Reference

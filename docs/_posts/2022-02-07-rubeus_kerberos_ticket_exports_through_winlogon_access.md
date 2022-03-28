@@ -28,7 +28,7 @@ tags:
 
 The following analytic looks for a process accessing the winlogon.exe system process. The Splunk Threat Research team identified this behavior when using the Rubeus tool to monitor for and export kerberos tickets from memory. Before being able to export tickets. Rubeus will try to escalate privileges to SYSTEM by obtaining a handle to winlogon.exe before trying to monitor for kerberos tickets. Exporting tickets from memory is typically the first step for pass the ticket attacks. Red teams and adversaries alike may use the pass the ticket technique using stolen Kerberos tickets to move laterally within an environment, bypassing normal system access controls. Defenders should be aware that adversaries may customize the source code of Rubeus to potentially bypass this analytic.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -37,13 +37,50 @@ The following analytic looks for a process accessing the winlogon.exe system pro
 - **ID**: 5ed8c50a-8869-11ec-876f-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1550](https://attack.mitre.org/techniques/T1550/) | Use Alternate Authentication Material | Defense Evasion, Lateral Movement |
 
 | [T1550.003](https://attack.mitre.org/techniques/T1550/003/) | Pass the Ticket | Defense Evasion, Lateral Movement |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -84,9 +121,6 @@ Legitimate applications may obtain a handle for winlogon.exe. Filter as needed
 * [Active Directory Kerberos Attacks](/stories/active_directory_kerberos_attacks)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -94,8 +128,6 @@ Legitimate applications may obtain a handle for winlogon.exe. Filter as needed
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 36.0 | 60 | 60 | Winlogon.exe was accessed by $SourceImage$ on $dest$ |
-
-
 
 
 #### Reference

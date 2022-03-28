@@ -27,7 +27,7 @@ tags:
 
 The following analytic identifies a process modifying the registry with a known malicious CLSID under InProcServer32. Most COM classes are registered with the operating system and are identified by a GUID that represents the Class Identifier (CLSID) within the registry (usually under HKLM\\Software\\Classes\\CLSID or HKCU\\Software\\Classes\\CLSID).  Behind the implementation of a COM class is the server (some binary) that is referenced within registry keys under the CLSID.  The LocalServer32 key represents a path to an executable (exe) implementation, and the InprocServer32 key represents a path to a dynamic link library (DLL) implementation (Bohops). During triage, review parallel processes for suspicious activity. Pivot on the process GUID to see the full timeline of events. Analyze the value and look for file modifications. Being this is looking for inprocserver32, a DLL found in the value will most likely be loaded by a parallel process.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -36,13 +36,50 @@ The following analytic identifies a process modifying the registry with a known 
 - **ID**: 127c8d08-25ff-11ec-9223-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1218.010](https://attack.mitre.org/techniques/T1218/010/) | Regsvr32 | Defense Evasion |
 
 | [T1112](https://attack.mitre.org/techniques/T1112/) | Modify Registry | Defense Evasion |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -88,9 +125,6 @@ False positives should be limited, filter as needed. In our test case, Remcos us
 * [Remcos](/stories/remcos)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -98,8 +132,6 @@ False positives should be limited, filter as needed. In our test case, Remcos us
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | The $process_name$ was identified on endpoint $dest$ modifying the registry with a known malicious clsid under InProcServer32. |
-
-
 
 
 #### Reference

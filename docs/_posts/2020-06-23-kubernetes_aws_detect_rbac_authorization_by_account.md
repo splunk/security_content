@@ -20,13 +20,52 @@ tags:
 
 This search provides information on Kubernetes RBAC authorizations by accounts, this search can be modified by adding top to see both extremes of RBAC by accounts occurrences
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
 - **Last Updated**: 2020-06-23
 - **Author**: Rod Soto, Splunk
 - **ID**: de7264ed-3ed9-4fef-bb01-6eefc87cefe8
+
+
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -58,9 +97,6 @@ Not all RBAC Authorications are malicious. RBAC authorizations can uncover malic
 * [Kubernetes Sensitive Role Activity](/stories/kubernetes_sensitive_role_activity)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -68,8 +104,6 @@ Not all RBAC Authorications are malicious. RBAC authorizations can uncover malic
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

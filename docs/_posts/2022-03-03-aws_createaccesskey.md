@@ -26,7 +26,7 @@ tags:
 
 This search looks for AWS CloudTrail events where a user A who has already permission to create access keys, makes an API call to create access keys for another user B. Attackers have been know to use this technique for Privilege Escalation in case new victim(user B) has more permissions than old victim(user B)
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -35,13 +35,56 @@ This search looks for AWS CloudTrail events where a user A who has already permi
 - **ID**: 2a9b80d3-6340-4345-11ad-212bf3d0d111
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1136.003](https://attack.mitre.org/techniques/T1136/003/) | Cloud Account | Persistence |
 
 | [T1136](https://attack.mitre.org/techniques/T1136/) | Create Account | Persistence |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.DS
+* PR.AC
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 13
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -57,8 +100,8 @@ This search looks for AWS CloudTrail events where a user A who has already permi
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `aws_createaccesskey_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -80,9 +123,6 @@ While this search has no known false positives, it is possible that an AWS admin
 * [AWS IAM Privilege Escalation](/stories/aws_iam_privilege_escalation)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -90,8 +130,6 @@ While this search has no known false positives, it is possible that an AWS admin
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | User $user_arn$ is attempting to create access keys for $requestParameters.userName$ from this IP $src$ |
-
-
 
 
 #### Reference

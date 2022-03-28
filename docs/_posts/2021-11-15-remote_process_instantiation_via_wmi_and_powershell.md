@@ -24,7 +24,7 @@ tags:
 
 This analytic looks for the execution of `powershell.exe` leveraging the `Invoke-WmiMethod` commandlet complemented with arguments utilized to start a process on a remote endpoint by abusing WMI. Red Teams and adversaries alike may abuse WMI and `powershell.exe` for lateral movement and remote code execution.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -33,11 +33,48 @@ This analytic looks for the execution of `powershell.exe` leveraging the `Invoke
 - **ID**: 112638b4-4634-11ec-b9ab-3e22fbd008af
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1047](https://attack.mitre.org/techniques/T1047/) | Windows Management Instrumentation | Execution |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -53,8 +90,8 @@ This analytic looks for the execution of `powershell.exe` leveraging the `Invoke
 #### Macros
 The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [process_powershell](https://github.com/splunk/security_content/blob/develop/macros/process_powershell.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `remote_process_instantiation_via_wmi_and_powershell_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -83,9 +120,6 @@ Administrators may leverage WWMI and powershell.exe to start a process on remote
 * [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -93,8 +127,6 @@ Administrators may leverage WWMI and powershell.exe to start a process on remote
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 90 | 70 | A process was started on a remote endpoint from $dest by abusing WMI using PowerShell.exe |
-
-
 
 
 #### Reference

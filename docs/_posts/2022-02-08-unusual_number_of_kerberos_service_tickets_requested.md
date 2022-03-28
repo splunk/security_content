@@ -27,7 +27,7 @@ tags:
 The following hunting analytic leverages Kerberos Event 4769, A Kerberos service ticket was requested, to identify a potential kerberoasting attack against Active Directory networks. Kerberoasting allows an adversary to request kerberos tickets for domain accounts typically used as service accounts and attempt to crack them offline allowing them to obtain privileged access to the domain.\
 The detection calculates the standard deviation for each host and leverages the 3-sigma statistical rule to identify an unusual number service ticket requests. To customize this analytic, users can try different combinations of the `bucket` span time and the calculation of the `upperBound` field.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -36,13 +36,50 @@ The detection calculates the standard deviation for each host and leverages the 
 - **ID**: eb3e6702-8936-11ec-98fe-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1558](https://attack.mitre.org/techniques/T1558/) | Steal or Forge Kerberos Tickets | Credential Access |
 
 | [T1558.003](https://attack.mitre.org/techniques/T1558/003/) | Kerberoasting | Credential Access |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -84,9 +121,6 @@ An single endpoint requesting a large number of kerberos service tickets is not 
 * [Active Directory Kerberos Attacks](/stories/active_directory_kerberos_attacks)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -94,8 +128,6 @@ An single endpoint requesting a large number of kerberos service tickets is not 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 36.0 | 60 | 60 | tbd |
-
-
 
 
 #### Reference

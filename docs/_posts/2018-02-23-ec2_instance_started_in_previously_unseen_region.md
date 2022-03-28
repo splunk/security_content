@@ -23,7 +23,7 @@ tags:
 
 This search looks for AWS CloudTrail events where an instance is started in a particular region in the last one hour and then compares it to a lookup file of previously seen regions where an instance was started
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -32,11 +32,53 @@ This search looks for AWS CloudTrail events where an instance is started in a pa
 - **ID**: ada0f478-84a8-4641-a3f3-d82362d6fd75
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1535](https://attack.mitre.org/techniques/T1535/) | Unused/Unsupported Cloud Regions | Defense Evasion |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.DP
+* DE.AE
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 12
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -55,8 +97,8 @@ This search looks for AWS CloudTrail events where an instance is started in a pa
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `ec2_instance_started_in_previously_unseen_region_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -76,9 +118,6 @@ It's possible that a user has unknowingly started an instance in a new region. P
 * [Suspicious AWS EC2 Activities](/stories/suspicious_aws_ec2_activities)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -86,8 +125,6 @@ It's possible that a user has unknowingly started an instance in a new region. P
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

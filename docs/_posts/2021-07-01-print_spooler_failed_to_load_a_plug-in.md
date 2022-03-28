@@ -34,7 +34,7 @@ Within the proof of concept code, the following error will occur - "The print sp
 The analytic is based on file path and failure to load the plug-in. \
 During triage, isolate the endpoint and review for source of exploitation. Capture any additional file modification events.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -43,13 +43,55 @@ During triage, isolate the endpoint and review for source of exploitation. Captu
 - **ID**: 1adc9548-da7c-11eb-8f13-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1547.012](https://attack.mitre.org/techniques/T1547/012/) | Print Processors | Persistence, Privilege Escalation |
 
 | [T1547](https://attack.mitre.org/techniques/T1547/) | Boot or Logon Autostart Execution | Persistence, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+| [CVE-2021-34527](https://nvd.nist.gov/vuln/detail/CVE-2021-34527) | Windows Print Spooler Remote Code Execution Vulnerability | 9.0 |
+| [CVE-2021-1675](https://nvd.nist.gov/vuln/detail/CVE-2021-1675) | Windows Print Spooler Elevation of Privilege Vulnerability | 9.3 |
+
+
+
+</details>
 
 #### Search
 
@@ -86,9 +128,6 @@ False positives are unknown and filtering may be required.
 * [PrintNightmare CVE-2021-34527](/stories/printnightmare_cve-2021-34527)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -96,15 +135,6 @@ False positives are unknown and filtering may be required.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 80 | 90 | Suspicious printer spooler errors have occured on endpoint $ComputerName$ with EventCode $EventCode$. |
-
-
-#### CVE
-
-| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
-| ----------- | ----------- | -------------- |
-| [CVE-2021-34527](https://nvd.nist.gov/vuln/detail/CVE-2021-34527) | Windows Print Spooler Remote Code Execution Vulnerability | 9.0 |
-| [CVE-2021-1675](https://nvd.nist.gov/vuln/detail/CVE-2021-1675) | Windows Print Spooler Elevation of Privilege Vulnerability | 9.3 |
-
 
 
 #### Reference

@@ -26,7 +26,7 @@ tags:
 
 The following hunting analytic identifies all processes requesting access into Lsass.exe. his behavior may be related to credential dumping or applications requiring access to credentials. Triaging this event will require understanding the GrantedAccess from the SourceImage. In addition, whether the account is privileged or not. Review the process requesting permissions and review parallel processes.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -35,13 +35,53 @@ The following hunting analytic identifies all processes requesting access into L
 - **ID**: 1c6abb08-73d1-11ec-9ca0-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1003.001](https://attack.mitre.org/techniques/T1003/001/) | LSASS Memory | Credential Access |
 
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.AE
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -82,9 +122,6 @@ False positives will occur based on GrantedAccess and SourceUser, filter based o
 * [Credential Dumping](/stories/credential_dumping)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -92,8 +129,6 @@ False positives will occur based on GrantedAccess and SourceUser, filter based o
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 64.0 | 80 | 80 | A process, $SourceImage$, has loaded $ImageLoaded$ that are typically related to credential dumping on $dest$. Review for further details. |
-
-
 
 
 #### Reference

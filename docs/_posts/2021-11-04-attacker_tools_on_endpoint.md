@@ -33,7 +33,7 @@ tags:
 
 This search looks for execution of commonly used attacker tools on an endpoint.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -42,7 +42,11 @@ This search looks for execution of commonly used attacker tools on an endpoint.
 - **ID**: a51bfe1a-94f0-48cc-b4e4-16a110145893
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
@@ -53,6 +57,46 @@ This search looks for execution of commonly used attacker tools on an endpoint.
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
 
 | [T1595](https://attack.mitre.org/techniques/T1595/) | Active Scanning | Reconnaissance |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Installation
+* Command & Control
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* ID.AM
+* PR.DS
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 2
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -99,11 +143,6 @@ Some administrator activity can be potentially triggered, please add those users
 * [Unusual Processes](/stories/unusual_processes)
 
 
-#### Kill Chain Phase
-* Installation
-* Command & Control
-* Actions on Objectives
-
 
 
 #### RBA
@@ -111,8 +150,6 @@ Some administrator activity can be potentially triggered, please add those users
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 64.0 | 80 | 80 | An attacker tool $process_name$,listed in attacker_tools.csv is executed on host $dest$ by User $user$. This process $process_name$ is known to do- $description$ |
-
-
 
 
 #### Reference

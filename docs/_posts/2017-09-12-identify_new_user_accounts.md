@@ -26,7 +26,7 @@ tags:
 
 This detection search will help profile user accounts in your environment by identifying newly created accounts that have been added to your network in the past week.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -35,11 +35,52 @@ This detection search will help profile user accounts in your environment by ide
 - **ID**: 475b9e27-17e4-46e2-b7e2-648221be3b89
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1078.002](https://attack.mitre.org/techniques/T1078/002/) | Domain Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.IP
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 16
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -74,9 +115,6 @@ If the Identity_Management data model is not updated regularly, this search coul
 * [Account Monitoring and Controls](/stories/account_monitoring_and_controls)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -84,8 +122,6 @@ If the Identity_Management data model is not updated regularly, this search coul
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

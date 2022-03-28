@@ -24,7 +24,7 @@ tags:
 
 The following analytic identifies usage of `wmic.exe` spawning a local or remote process, identified by the `node` switch. During triage, review parallel processes for additional commands executed. Look for any file modifications before and after `wmic.exe` execution. In addition, identify the remote endpoint and confirm execution or file modifications. Contain and isolate the endpoint as needed.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -33,11 +33,56 @@ The following analytic identifies usage of `wmic.exe` spawning a local or remote
 - **ID**: 272df6de-61f1-4784-877c-1fbc3e2d0838
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1047](https://attack.mitre.org/techniques/T1047/) | Windows Management Instrumentation | Execution |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.PT
+* PR.AT
+* PR.AC
+* PR.IP
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 3
+* CIS 5
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -53,8 +98,8 @@ The following analytic identifies usage of `wmic.exe` spawning a local or remote
 #### Macros
 The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [process_wmic](https://github.com/splunk/security_content/blob/develop/macros/process_wmic.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `remote_wmi_command_attempt_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -80,9 +125,6 @@ Administrators may use this legitimately to gather info from remote systems. Fil
 * [Living Off The Land](/stories/living_off_the_land)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -90,8 +132,6 @@ Administrators may use this legitimately to gather info from remote systems. Fil
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 36.0 | 60 | 60 | A wmic.exe process $process$ contain node commandline $process$ in host $dest$ |
-
-
 
 
 #### Reference

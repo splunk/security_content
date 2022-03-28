@@ -28,7 +28,7 @@ tags:
 
 This search looks for registry activity associated with modifications to the registry key `HKLM\SYSTEM\CurrentControlSet\Control\Print\Monitors`. In this scenario, an attacker can load an arbitrary .dll into the print-monitor registry by giving the full path name to the after.dll. The system will execute the .dll with elevated (SYSTEM) permissions and will persist after reboot.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -37,13 +37,57 @@ This search looks for registry activity associated with modifications to the reg
 - **ID**: f5f6af30-7ba7-4295-bfe9-07de87c01bbc
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1547.010](https://attack.mitre.org/techniques/T1547/010/) | Port Monitors | Persistence, Privilege Escalation |
 
 | [T1547](https://attack.mitre.org/techniques/T1547/) | Boot or Logon Autostart Execution | Persistence, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.PT
+* DE.CM
+* PR.AC
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 8
+* CIS 5
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -88,9 +132,6 @@ You will encounter noise from legitimate print-monitor registry entries.
 * [Windows Persistence Techniques](/stories/windows_persistence_techniques)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -98,8 +139,6 @@ You will encounter noise from legitimate print-monitor registry entries.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 64.0 | 80 | 80 | New print monitor added on $dest$ |
-
-
 
 
 #### Reference

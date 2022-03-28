@@ -27,7 +27,7 @@ tags:
 
 This Splunk query identifies the use of Wake-on-LAN utilized by Ryuk ransomware. The Ryuk Ransomware uses the Wake-on-Lan feature to turn on powered off devices on a compromised network to have greater success encrypting them. This is a high fidelity indicator of Ryuk ransomware executing on an endpoint. Upon triage, isolate the endpoint. Additional file modification events will be within the users profile (\appdata\roaming) and in public directories (users\public\). Review all Scheduled Tasks on the isolated endpoint and across the fleet. Suspicious Scheduled Tasks will include a path to a unknown binary and those endpoints should be isolated until triaged.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -36,13 +36,50 @@ This Splunk query identifies the use of Wake-on-LAN utilized by Ryuk ransomware.
 - **ID**: 538d0152-7aaa-11eb-beaa-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 
 | [T1059.003](https://attack.mitre.org/techniques/T1059/003/) | Windows Command Shell | Execution |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -84,9 +121,6 @@ Limited to no known false positives.
 * [Ryuk Ransomware](/stories/ryuk_ransomware)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -94,8 +128,6 @@ Limited to no known false positives.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | A process $process_name$ with wake on LAN commandline $process$ in host $dest$ |
-
-
 
 
 #### Reference

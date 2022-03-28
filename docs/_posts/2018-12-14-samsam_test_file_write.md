@@ -24,7 +24,7 @@ tags:
 
 The search looks for a file named "test.txt" written to the windows system directory tree, which is consistent with Samsam propagation.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -33,11 +33,53 @@ The search looks for a file named "test.txt" written to the windows system direc
 - **ID**: 493a879d-519d-428f-8f57-a06a0fdc107e
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1486](https://attack.mitre.org/techniques/T1486/) | Data Encrypted for Impact | Impact |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Delivery
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.PT
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 8
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -75,9 +117,6 @@ No false positives have been identified.
 * [SamSam Ransomware](/stories/samsam_ransomware)
 
 
-#### Kill Chain Phase
-* Delivery
-
 
 
 #### RBA
@@ -85,8 +124,6 @@ No false positives have been identified.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 12.0 | 60 | 20 | A samsam ransomware test file creation in $file_path$ in host $dest$ |
-
-
 
 
 #### Reference

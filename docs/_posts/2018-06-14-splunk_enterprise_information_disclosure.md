@@ -21,13 +21,67 @@ tags:
 
 This search allows you to look for evidence of exploitation for CVE-2018-11409, a Splunk Enterprise Information Disclosure Bug.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
 - **Last Updated**: 2018-06-14
 - **Author**: David Dorsey, Splunk
 - **ID**: f6a26b7b-7e80-4963-a9a8-d836e7534ebd
+
+
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Delivery
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* ID.RA
+* RS.MI
+* PR.PT
+* PR.AC
+* PR.IP
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 3
+* CIS 4
+* CIS 18
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+| [CVE-2018-11409](https://nvd.nist.gov/vuln/detail/CVE-2018-11409) | Splunk through 7.0.1 allows information disclosure by appending __raw/services/server/info/server-info?output_mode=json to a query, as demonstrated by discovering a license key. | 5.0 |
+
+
+
+</details>
 
 #### Search
 
@@ -61,9 +115,6 @@ Retrieving server information may be a legitimate API request. Verify that the a
 * [Splunk Enterprise Vulnerability CVE-2018-11409](/stories/splunk_enterprise_vulnerability_cve-2018-11409)
 
 
-#### Kill Chain Phase
-* Delivery
-
 
 
 #### RBA
@@ -71,14 +122,6 @@ Retrieving server information may be a legitimate API request. Verify that the a
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
-#### CVE
-
-| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
-| ----------- | ----------- | -------------- |
-| [CVE-2018-11409](https://nvd.nist.gov/vuln/detail/CVE-2018-11409) | Splunk through 7.0.1 allows information disclosure by appending __raw/services/server/info/server-info?output_mode=json to a query, as demonstrated by discovering a license key. | 5.0 |
-
 
 
 #### Reference

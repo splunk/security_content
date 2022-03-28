@@ -42,7 +42,7 @@ tags:
 
 The following analytic identifies SharpHound binary usage by using the original filena,e. In addition to renaming the PE, other coverage is available to detect command-line arguments. This particular analytic looks for the original_file_name of `SharpHound.exe` and the process name. It is possible older instances of SharpHound.exe have different original filenames. Dependent upon the operator, the code may be re-compiled and the attributes removed or changed to anything else. During triage, review the metadata of the binary in question. Review parallel processes for suspicious behavior. Identify the source of this binary.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -51,7 +51,11 @@ The following analytic identifies SharpHound binary usage by using the original 
 - **ID**: dd04b29a-beed-11eb-87bc-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
@@ -68,6 +72,39 @@ The following analytic identifies SharpHound binary usage by using the original 
 | [T1069.002](https://attack.mitre.org/techniques/T1069/002/) | Domain Groups | Discovery |
 
 | [T1069](https://attack.mitre.org/techniques/T1069/) | Permission Groups Discovery | Discovery |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Reconnaissance
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -113,9 +150,6 @@ False positives should be limited as this is specific to a file attribute not us
 * [Ransomware](/stories/ransomware)
 
 
-#### Kill Chain Phase
-* Reconnaissance
-
 
 
 #### RBA
@@ -123,8 +157,6 @@ False positives should be limited as this is specific to a file attribute not us
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 24.0 | 30 | 80 | Potential SharpHound binary identified on $dest$ |
-
-
 
 
 #### Reference

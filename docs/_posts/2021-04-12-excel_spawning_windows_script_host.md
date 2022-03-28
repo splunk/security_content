@@ -27,7 +27,7 @@ tags:
 
 The following detection identifies Microsoft Excel spawning Windows Script Host - `cscript.exe` or `wscript.exe`. Typically, this is not common behavior and not default with Excel.exe. Excel.exe will generally be found in the following path `C:\Program Files\Microsoft Office\root\Office16` (version will vary). `cscript.exe` or `wscript.exe` default location is `c:\windows\system32\` or c:windows\syswow64`. `cscript.exe` or `wscript.exe` spawning from Excel.exe is common for a spearphishing attachment and is actively used. Albeit, the command-line executed will most likely be obfuscated and captured via another detection. During triage, review parallel processes and identify any files that may have been written. Review the reputation of the remote destination and block accordingly.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -36,13 +36,50 @@ The following detection identifies Microsoft Excel spawning Windows Script Host 
 - **ID**: 57fe880a-9be3-11eb-9bf3-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1003.002](https://attack.mitre.org/techniques/T1003/002/) | Security Account Manager | Credential Access |
 
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -82,9 +119,6 @@ False positives should be limited, but if any are present, filter as needed. In 
 * [Spearphishing Attachments](/stories/spearphishing_attachments)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -92,8 +126,6 @@ False positives should be limited, but if any are present, filter as needed. In 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$, indicating potential suspicious macro execution. |
-
-
 
 
 #### Reference

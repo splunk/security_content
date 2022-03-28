@@ -29,7 +29,7 @@ We have not been able to test, simulate, or build datasets for this object. Use 
 The following hunting analytic leverages Event ID 4624, `An account was successfully logged on`, to identify an unusual number of remote authentication attempts coming from one source. An endpoint authenticating to a large number of remote endpoints could represent malicious behavior like lateral movement, malware staging, reconnaissance, etc.\
 The detection calculates the standard deviation for each host and leverages the 3-sigma statistical rule to identify an unusual high number of authentication events. To customize this analytic, users can try different combinations of the `bucket` span time,  the calculation of the `upperBound` field as well as the Outlier calculation. This logic can be used for real time security monitoring as well as threat hunting exercises.\
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -38,11 +38,48 @@ The detection calculates the standard deviation for each host and leverages the 
 - **ID**: acb5dc74-5324-11ec-a36d-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Reconnaissance
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -83,9 +120,6 @@ An single endpoint authenticating to a large number of hosts is not common behav
 * [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
 
 
-#### Kill Chain Phase
-* Reconnaissance
-
 
 
 #### RBA
@@ -93,8 +127,6 @@ An single endpoint authenticating to a large number of hosts is not common behav
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 42.0 | 70 | 60 |  |
-
-
 
 
 #### Reference

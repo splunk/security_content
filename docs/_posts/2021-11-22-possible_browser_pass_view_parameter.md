@@ -27,7 +27,7 @@ tags:
 
 This analytic will detect if a suspicious process contains a commandline parameter related to a web browser credential dumper. This technique is used by Remcos RAT malware which uses the Nirsoft webbrowserpassview.exe application to dump web browser credentials. Remcos uses the "/stext" command line to dump the credentials in text format. This Hunting query is a good indicator of hosts suffering from possible Remcos RAT infection. Since the hunting query is based on the parameter command and the possible path where it will save the text credential information, it may catch normal tools that are using the same command and behavior.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -36,13 +36,50 @@ This analytic will detect if a suspicious process contains a commandline paramet
 - **ID**: 8ba484e8-4b97-11ec-b19a-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1555.003](https://attack.mitre.org/techniques/T1555/003/) | Credentials from Web Browsers | Credential Access |
 
 | [T1555](https://attack.mitre.org/techniques/T1555/) | Credentials from Password Stores | Credential Access |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -87,9 +124,6 @@ False positive is quite limited. Filter is needed
 * [Remcos](/stories/remcos)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -97,8 +131,6 @@ False positive is quite limited. Filter is needed
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 16.0 | 40 | 40 | suspicious process $process_name$ contains commandline $process$ on $dest$ |
-
-
 
 
 #### Reference

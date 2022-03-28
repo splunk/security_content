@@ -29,7 +29,7 @@ The detection calculates the standard deviation for each host and leverages the 
 This detection will only trigger on domain controllers, not on member servers or workstations.\
 The analytics returned fields allow analysts to investigate the event further by providing fields like source ip and attempted user accounts.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -38,13 +38,50 @@ The analytics returned fields allow analysts to investigate the event further by
 - **ID**: 001266a6-9d5b-11eb-829b-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1110.003](https://attack.mitre.org/techniques/T1110/003/) | Password Spraying | Credential Access |
 
 | [T1110](https://attack.mitre.org/techniques/T1110/) | Brute Force | Credential Access |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -84,9 +121,6 @@ A host failing to authenticate with multiple invalid domain users is not a commo
 * [Active Directory Kerberos Attacks](/stories/active_directory_kerberos_attacks)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -94,8 +128,6 @@ A host failing to authenticate with multiple invalid domain users is not a commo
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | Potential Kerberos based password spraying attack from $Client_Address$ |
-
-
 
 
 #### Reference

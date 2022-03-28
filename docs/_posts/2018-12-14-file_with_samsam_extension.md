@@ -21,13 +21,57 @@ tags:
 
 The search looks for file writes with extensions consistent with a SamSam ransomware attack.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2018-12-14
 - **Author**: Rico Valdez, Splunk
 - **ID**: 02c6cfc2-ae66-4735-bfc7-6291da834cbf
+
+
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Installation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.PT
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 8
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -67,9 +111,6 @@ Because these extensions are not typically used in normal operations, you should
 * [SamSam Ransomware](/stories/samsam_ransomware)
 
 
-#### Kill Chain Phase
-* Installation
-
 
 
 #### RBA
@@ -77,8 +118,6 @@ Because these extensions are not typically used in normal operations, you should
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 90.0 | 100 | 90 | File writes $file_name$ with extensions consistent with a SamSam ransomware attack seen on $dest$ |
-
-
 
 
 #### Reference

@@ -23,7 +23,7 @@ tags:
 
 This search detects writes to the 'System Volume Information' folder by something other than the System process.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -32,11 +32,52 @@ This search detects writes to the 'System Volume Information' folder by somethin
 - **ID**: cd6297cd-2bdd-4aa1-84aa-5d2f84228fac
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1036](https://attack.mitre.org/techniques/T1036/) | Masquerading | Defense Evasion |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 8
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -69,9 +110,6 @@ It is possible that other utilities or system processes may legitimately write t
 * [Collection and Staging](/stories/collection_and_staging)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -79,8 +117,6 @@ It is possible that other utilities or system processes may legitimately write t
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

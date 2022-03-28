@@ -33,7 +33,7 @@ The following analytic identifies new printer drivers being load by utilizing th
 Within the proof of concept code, the following event will occur - "Printer driver 1234 for Windows x64 Version-3 was added or updated. Files:- UNIDRV.DLL, kernelbase.dll, evil.dll. No user action is required." \
 During triage, isolate the endpoint and review for source of exploitation. Capture any additional file modification events and review the source of where the exploitation began.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -42,13 +42,55 @@ During triage, isolate the endpoint and review for source of exploitation. Captu
 - **ID**: 313681a2-da8e-11eb-adad-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1547.012](https://attack.mitre.org/techniques/T1547/012/) | Print Processors | Persistence, Privilege Escalation |
 
 | [T1547](https://attack.mitre.org/techniques/T1547/) | Boot or Logon Autostart Execution | Persistence, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+| [CVE-2021-34527](https://nvd.nist.gov/vuln/detail/CVE-2021-34527) | Windows Print Spooler Remote Code Execution Vulnerability | 9.0 |
+| [CVE-2021-1675](https://nvd.nist.gov/vuln/detail/CVE-2021-1675) | Windows Print Spooler Elevation of Privilege Vulnerability | 9.3 |
+
+
+
+</details>
 
 #### Search
 
@@ -85,9 +127,6 @@ Unknown. This may require filtering.
 * [PrintNightmare CVE-2021-34527](/stories/printnightmare_cve-2021-34527)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -95,15 +134,6 @@ Unknown. This may require filtering.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 80 | 90 | Suspicious print driver was loaded on endpoint $ComputerName$. |
-
-
-#### CVE
-
-| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
-| ----------- | ----------- | -------------- |
-| [CVE-2021-34527](https://nvd.nist.gov/vuln/detail/CVE-2021-34527) | Windows Print Spooler Remote Code Execution Vulnerability | 9.0 |
-| [CVE-2021-1675](https://nvd.nist.gov/vuln/detail/CVE-2021-1675) | Windows Print Spooler Elevation of Privilege Vulnerability | 9.3 |
-
 
 
 #### Reference

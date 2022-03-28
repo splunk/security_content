@@ -27,7 +27,7 @@ tags:
 
 this search is to detect a potential account discovery series of command used by several malware or attack to recon the target machine. This technique is also seen in some note worthy malware like trickbot where it runs a cmd process, or even drop its module that will execute the said series of net command. This series of command are good correlation search and indicator of attacker recon if seen in the machines within a none technical user or department (HR, finance, ceo and etc) network.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -36,13 +36,50 @@ this search is to detect a potential account discovery series of command used by
 - **ID**: 339805ce-ac30-11eb-b87d-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1087.002](https://attack.mitre.org/techniques/T1087/002/) | Domain Account | Discovery |
 
 | [T1087](https://attack.mitre.org/techniques/T1087/) | Account Discovery | Discovery |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Reconnaissance
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -90,9 +127,6 @@ admin or power user may used this series of command.
 * [IcedID](/stories/icedid)
 
 
-#### Kill Chain Phase
-* Reconnaissance
-
 
 
 #### RBA
@@ -100,8 +134,6 @@ admin or power user may used this series of command.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 5.0 | 10 | 50 | Suspicious $process_name$ usage detected on endpoint $dest$ by user $user$. |
-
-
 
 
 #### Reference

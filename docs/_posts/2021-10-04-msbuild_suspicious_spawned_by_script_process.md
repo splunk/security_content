@@ -27,7 +27,7 @@ tags:
 
 This analytic is to detect a suspicious child process of MSBuild spawned by Windows Script Host - cscript or wscript. This behavior or event are commonly seen and used by malware or adversaries to execute malicious msbuild process using malicious script in the compromised host. During triage, review parallel processes and identify any file modifications. MSBuild may load a script from the same path without having command-line arguments.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -36,13 +36,50 @@ This analytic is to detect a suspicious child process of MSBuild spawned by Wind
 - **ID**: 213b3148-24ea-11ec-93a2-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1127.001](https://attack.mitre.org/techniques/T1127/001/) | MSBuild | Defense Evasion |
 
 | [T1127](https://attack.mitre.org/techniques/T1127/) | Trusted Developer Utilities Proxy Execution | Defense Evasion |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -57,8 +94,8 @@ This analytic is to detect a suspicious child process of MSBuild spawned by Wind
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_msbuild](https://github.com/splunk/security_content/blob/develop/macros/process_msbuild.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [process_msbuild](https://github.com/splunk/security_content/blob/develop/macros/process_msbuild.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `msbuild_suspicious_spawned_by_script_process_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -83,9 +120,6 @@ False positives should be limited as developers do not spawn MSBuild via a WSH.
 * [Trusted Developer Utilities Proxy Execution MSBuild](/stories/trusted_developer_utilities_proxy_execution_msbuild)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -93,8 +127,6 @@ False positives should be limited as developers do not spawn MSBuild via a WSH.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | Msbuild.exe process spawned by $parent_process_name$ on $dest$ executed by $user$ |
-
-
 
 
 #### Reference

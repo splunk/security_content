@@ -23,7 +23,7 @@ tags:
 
 This search detects when a user has performed an Ediscovery search or exported a PST file from the search. This PST file usually has sensitive information including email body content
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -32,11 +32,48 @@ This search detects when a user has performed an Ediscovery search or exported a
 - **ID**: 5f694cc4-a678-4a60-9410-bffca1b647dc
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1114](https://attack.mitre.org/techniques/T1114/) | Email Collection | Collection |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -50,8 +87,8 @@ This search detects when a user has performed an Ediscovery search or exported a
 
 #### Macros
 The SPL above uses the following Macros:
-* [o365_management_activity](https://github.com/splunk/security_content/blob/develop/macros/o365_management_activity.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [o365_management_activity](https://github.com/splunk/security_content/blob/develop/macros/o365_management_activity.yml)
 
 Note that `o365_pst_export_alert_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -76,9 +113,6 @@ PST export can be done for legitimate purposes but due to the sensitive nature o
 * [Data Exfiltration](/stories/data_exfiltration)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -86,8 +120,6 @@ PST export can be done for legitimate purposes but due to the sensitive nature o
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 48.0 | 80 | 60 | User $Source$ has exported a PST file from the search using this operation- $Operation$ with a severity of $Severity$ |
-
-
 
 
 #### Reference

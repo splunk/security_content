@@ -27,7 +27,7 @@ A service principal name (SPN) is a unique identifier of a service instance. SPN
 The following analytic identifies the use of KerberosRequestorSecurityToken class within the script block. Using .NET System.IdentityModel.Tokens.KerberosRequestorSecurityToken class in PowerShell is the equivelant of using setspn.exe. \
 During triage, review parallel processes for further suspicious activity.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -36,11 +36,48 @@ During triage, review parallel processes for further suspicious activity.
 - **ID**: 13243068-2d38-11ec-8908-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1558.003](https://attack.mitre.org/techniques/T1558/003/) | Kerberoasting | Credential Access |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -85,9 +122,6 @@ False positives should be limited, however filter as needed.
 * [Active Directory Kerberos Attacks](/stories/active_directory_kerberos_attacks)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -95,8 +129,6 @@ False positives should be limited, however filter as needed.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to identify service principle names. |
-
-
 
 
 #### Reference

@@ -36,7 +36,7 @@ The following hunting analytic identifies `msi.dll` being loaded by a binary not
 1. Racing to introduce a junction and a symlink to trick msiexec.exe to modify the attacker specified file. \
 In addition, `msi.dll` has been abused in DLL side-loading attacks by being loaded by non-system binaries.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -45,13 +45,54 @@ In addition, `msi.dll` has been abused in DLL side-loading attacks by being load
 - **ID**: ccb98a66-5851-11ec-b91c-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1574.002](https://attack.mitre.org/techniques/T1574/002/) | DLL Side-Loading | Defense Evasion, Persistence, Privilege Escalation |
 
 | [T1574](https://attack.mitre.org/techniques/T1574/) | Hijack Execution Flow | Defense Evasion, Persistence, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+| [CVE-2021-41379](https://nvd.nist.gov/vuln/detail/CVE-2021-41379) | Windows Installer Elevation of Privilege Vulnerability | 4.6 |
+
+
+
+</details>
 
 #### Search
 
@@ -90,9 +131,6 @@ It is possible some Administrative utilities will load msi.dll outside of normal
 * [Windows Privilege Escalation](/stories/windows_privilege_escalation)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -100,14 +138,6 @@ It is possible some Administrative utilities will load msi.dll outside of normal
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 80 | 70 | The following module $ImageLoaded$ was loaded by $Image$ outside of the normal system paths on endpoint $Computer$, potentally related to DLL side-loading. |
-
-
-#### CVE
-
-| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
-| ----------- | ----------- | -------------- |
-| [CVE-2021-41379](https://nvd.nist.gov/vuln/detail/CVE-2021-41379) | Windows Installer Elevation of Privilege Vulnerability | 4.6 |
-
 
 
 #### Reference

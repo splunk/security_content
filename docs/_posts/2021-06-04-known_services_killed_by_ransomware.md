@@ -24,7 +24,7 @@ tags:
 
 This search detects a suspicioous termination of known services killed by ransomware before encrypting files in a compromised machine. This technique is commonly seen in most of ransomware now a days to avoid exception error while accessing the targetted files it wants to encrypts because of the open handle of those services to the targetted file.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -33,11 +33,48 @@ This search detects a suspicioous termination of known services killed by ransom
 - **ID**: 3070f8e0-c528-11eb-b2a0-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1490](https://attack.mitre.org/techniques/T1490/) | Inhibit System Recovery | Impact |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -51,8 +88,8 @@ This search detects a suspicioous termination of known services killed by ransom
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [wineventlog_system](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_system.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `known_services_killed_by_ransomware_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -75,9 +112,6 @@ Admin activities or installing related updates may do a sudden stop to list of s
 * [BlackMatter Ransomware](/stories/blackmatter_ransomware)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -85,8 +119,6 @@ Admin activities or installing related updates may do a sudden stop to list of s
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 90 | 80 | Known services $Message$ terminated by a potential ransomware on $dest$ |
-
-
 
 
 #### Reference

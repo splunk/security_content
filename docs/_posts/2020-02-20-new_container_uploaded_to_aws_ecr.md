@@ -25,7 +25,7 @@ We have not been able to test, simulate, or build datasets for this object. Use 
 
 This searches show information on uploaded containers including source user, image id, source IP user type, http user agent, region, first time, last time of operation (PutImage). These searches are based on Cloud Infrastructure Data Model.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -34,11 +34,48 @@ This searches show information on uploaded containers including source user, ima
 - **ID**: f0f70b40-f7ad-489d-9905-23d149da8099
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1525](https://attack.mitre.org/techniques/T1525/) | Implant Internal Image | Persistence |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -68,9 +105,6 @@ Uploading container is a normal behavior from developers or users with access to
 * [Container Implantation Monitoring and Investigation](/stories/container_implantation_monitoring_and_investigation)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -78,8 +112,6 @@ Uploading container is a normal behavior from developers or users with access to
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

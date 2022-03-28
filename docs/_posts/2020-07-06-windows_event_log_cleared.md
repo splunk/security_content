@@ -26,7 +26,7 @@ tags:
 
 The following analytic utilizes Windows Security Event ID 1102 or System log event 104 to identify when a Windows event log is cleared. Note that this analytic will require tuning or restricted to specific endpoints based on criticality. During triage, based on time of day and user, determine if this was planned. If not planned, follow through with reviewing parallel alerts and other data sources to determine what else may have occurred.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -35,13 +35,60 @@ The following analytic utilizes Windows Security Event ID 1102 or System log eve
 - **ID**: ad517544-aff9-4c96-bd99-d6eb43bfbb6a
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
 
 | [T1070.001](https://attack.mitre.org/techniques/T1070/001/) | Clear Windows Event Logs | Defense Evasion |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.DP
+* PR.IP
+* PR.AC
+* PR.AT
+* DE.AE
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 3
+* CIS 5
+* CIS 6
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -55,9 +102,9 @@ The following analytic utilizes Windows Security Event ID 1102 or System log eve
 
 #### Macros
 The SPL above uses the following Macros:
-* [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 * [wineventlog_system](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_system.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 
 Note that `windows_event_log_cleared_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -79,9 +126,6 @@ It is possible that these logs may be legitimately cleared by Administrators. Fi
 * [Clop Ransomware](/stories/clop_ransomware)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -89,8 +133,6 @@ It is possible that these logs may be legitimately cleared by Administrators. Fi
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 70.0 | 70 | 100 | Windows event logs cleared on $dest$ via EventCode $EventCode$ |
-
-
 
 
 #### Reference

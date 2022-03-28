@@ -25,7 +25,7 @@ tags:
 This search, detects execution of suspicious bash commands from various commonly leveraged bash scripts like (AutoSUID, LinEnum, LinPeas) to perform discovery of possible paths of privilege execution, password files, vulnerable directories, executables and file permissions on a Linux host.\
 The search logic specifically looks for high number of distinct commands run in a short period of time.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -34,11 +34,48 @@ The search logic specifically looks for high number of distinct commands run in 
 - **ID**: 0edd5112-56c9-11ec-b990-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1059.004](https://attack.mitre.org/techniques/T1059/004/) | Unix Shell | Execution |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -80,9 +117,6 @@ Unless an administrator is using these commands to troubleshoot or audit a syste
 * [Linux Post-Exploitation](/stories/linux_post-exploitation)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -90,8 +124,6 @@ Unless an administrator is using these commands to troubleshoot or audit a syste
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 81.0 | 90 | 90 | Suspicious Linux Discovery Commands detected on $dest$ |
-
-
 
 
 #### Reference

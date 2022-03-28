@@ -24,7 +24,7 @@ tags:
 
 This analytic is to detect a suspicious high frequency copying/moving of files in network share as part of information sabotage. This anomaly event can be a good indicator of insider trying to sabotage data by transfering classified or internal files within network share to exfitrate it after or to lure evidence of insider attack to other user. This behavior may catch several noise if network share is a common place for classified or internal document processing.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -33,11 +33,48 @@ This analytic is to detect a suspicious high frequency copying/moving of files i
 - **ID**: 40925f12-4709-11ec-bb43-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1537](https://attack.mitre.org/techniques/T1537/) | Transfer Data to Cloud Account | Exfiltration |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -80,9 +117,6 @@ this behavior may seen in normal transfer of file within network if network shar
 * [Information Sabotage](/stories/information_sabotage)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -90,8 +124,6 @@ this behavior may seen in normal transfer of file within network if network shar
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 9.0 | 30 | 30 | high frequency copy of document in network share $Share_Name$ from $Source_Address$ by $user$ |
-
-
 
 
 #### Reference

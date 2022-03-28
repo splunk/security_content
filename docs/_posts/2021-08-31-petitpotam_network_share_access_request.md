@@ -27,7 +27,7 @@ To enable 5145 events via Group Policy - Computer Configuration->Polices->Window
 It is possible this is not enabled by default and may need to be reviewed and enabled. \
 During triage, review parallel security events to identify further suspicious activity.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -36,11 +36,52 @@ During triage, review parallel security events to identify further suspicious ac
 - **ID**: 95b8061a-0a67-11ec-85ec-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1187](https://attack.mitre.org/techniques/T1187/) | Forced Authentication | Credential Access |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+| [CVE-2021-36942](https://nvd.nist.gov/vuln/detail/CVE-2021-36942) | Windows LSA Spoofing Vulnerability | 5.0 |
+
+
+
+</details>
 
 #### Search
 
@@ -54,8 +95,8 @@ During triage, review parallel security events to identify further suspicious ac
 
 #### Macros
 The SPL above uses the following Macros:
-* [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 
 Note that `petitpotam_network_share_access_request_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -79,9 +120,6 @@ False positives have been limited when the Anonymous Logon is used for Account N
 * [PetitPotam NTLM Relay on Active Directory Certificate Services](/stories/petitpotam_ntlm_relay_on_active_directory_certificate_services)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -89,14 +127,6 @@ False positives have been limited when the Anonymous Logon is used for Account N
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 80 | 70 | A remote host is enumerating a $dest$ to identify permissions. This is a precursor event to CVE-2021-36942, PetitPotam. |
-
-
-#### CVE
-
-| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
-| ----------- | ----------- | -------------- |
-| [CVE-2021-36942](https://nvd.nist.gov/vuln/detail/CVE-2021-36942) | Windows LSA Spoofing Vulnerability | 5.0 |
-
 
 
 #### Reference

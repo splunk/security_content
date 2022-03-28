@@ -29,7 +29,7 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 This analytic identifies `copy` or `[System.IO.File]::Copy` being used to capture the SAM, SYSTEM or SECURITY hives identified in script block. This will catch the most basic use cases for credentials being taken for offline cracking. \
 During triage, review parallel processes using an EDR product or 4688 events. It will be important to understand the timeline of events around this activity. Review the entire logged PowerShell script block.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -38,13 +38,54 @@ During triage, review parallel processes using an EDR product or 4688 events. It
 - **ID**: 9251299c-ea5b-11eb-a8de-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1003.002](https://attack.mitre.org/techniques/T1003/002/) | Security Account Manager | Credential Access |
 
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+| [CVE-2021-36934](https://nvd.nist.gov/vuln/detail/CVE-2021-36934) | Windows Elevation of Privilege Vulnerability | 4.6 |
+
+
+
+</details>
 
 #### Search
 
@@ -82,9 +123,6 @@ Limited false positives as the scope is limited to SAM, SYSTEM and SECURITY hive
 * [Credential Dumping](/stories/credential_dumping)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -92,14 +130,6 @@ Limited false positives as the scope is limited to SAM, SYSTEM and SECURITY hive
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | PowerShell was identified running a script to capture the SAM hive on endpoint $ComputerName$ by user $user$. |
-
-
-#### CVE
-
-| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
-| ----------- | ----------- | -------------- |
-| [CVE-2021-36934](https://nvd.nist.gov/vuln/detail/CVE-2021-36934) | Windows Elevation of Privilege Vulnerability | 4.6 |
-
 
 
 #### Reference

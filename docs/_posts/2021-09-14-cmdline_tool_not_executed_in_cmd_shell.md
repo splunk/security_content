@@ -27,7 +27,7 @@ tags:
 
 The following analytic identifies a non-standard parent process (not matching CMD, PowerShell, or Explorer) spawning `ipconfig.exe` or `systeminfo.exe`. This particular behavior was seen in FIN7's JSSLoader .NET payload. This is also typically seen when an adversary is injected into another process performing different discovery techniques. This event stands out as a TTP since these tools are commonly executed with a shell application or Explorer parent, and not by another application. This TTP is a good indicator for an adversary gathering host information, but one possible false positive might be an automated tool used by a system administator.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -36,13 +36,50 @@ The following analytic identifies a non-standard parent process (not matching CM
 - **ID**: 6c3f7dd8-153c-11ec-ac2d-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 
 | [T1059.007](https://attack.mitre.org/techniques/T1059/007/) | JavaScript | Execution |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -87,9 +124,6 @@ A network operator or systems administrator may utilize an automated host discov
 * [FIN7](/stories/fin7)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -97,8 +131,6 @@ A network operator or systems administrator may utilize an automated host discov
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | A non-standard parent process $parent_process_name$ spawned child process $process_name$ to execute command-line tool on $dest$. |
-
-
 
 
 #### Reference

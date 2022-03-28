@@ -27,7 +27,7 @@ tags:
 
 Attempt To Add Certificate To Untrusted Store
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -36,13 +36,59 @@ Attempt To Add Certificate To Untrusted Store
 - **ID**: 6bc5243e-ef36-45dc-9b12-f4a6be131159
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1553.004](https://attack.mitre.org/techniques/T1553/004/) | Install Root Certificate | Defense Evasion |
 
 | [T1553](https://attack.mitre.org/techniques/T1553/) | Subvert Trust Controls | Defense Evasion |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Installation
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.PT
+* DE.CM
+* PR.IP
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 3
+* CIS 5
+* CIS 8
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -57,9 +103,9 @@ Attempt To Add Certificate To Untrusted Store
 
 #### Macros
 The SPL above uses the following Macros:
+* [process_certutil](https://github.com/splunk/security_content/blob/develop/macros/process_certutil.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
-* [process_certutil](https://github.com/splunk/security_content/blob/develop/macros/process_certutil.yml)
 
 Note that `attempt_to_add_certificate_to_untrusted_store_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -85,10 +131,6 @@ There may be legitimate reasons for administrators to add a certificate to the u
 * [Disabling Security Tools](/stories/disabling_security_tools)
 
 
-#### Kill Chain Phase
-* Installation
-* Actions on Objectives
-
 
 
 #### RBA
@@ -96,8 +138,6 @@ There may be legitimate reasons for administrators to add a certificate to the u
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 35.0 | 70 | 50 | An instance of $parent_process_name$ spawning $process_name$ was identified attempting to add a certificate to the store on endpoint $dest$ by user $user$. |
-
-
 
 
 #### Reference

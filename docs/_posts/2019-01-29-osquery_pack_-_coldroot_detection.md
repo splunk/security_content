@@ -20,13 +20,60 @@ tags:
 
 This search looks for ColdRoot events from the osx-attacks osquery pack.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
 - **Last Updated**: 2019-01-29
 - **Author**: Rico Valdez, Splunk
 - **ID**: a6fffe5e-05c3-4c04-badc-887607fbb8dc
+
+
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Installation
+* Command & Control
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.DP
+* DE.CM
+* PR.PT
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 4
+* CIS 8
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -59,10 +106,6 @@ There are no known false positives.
 * [ColdRoot MacOS RAT](/stories/coldroot_macos_rat)
 
 
-#### Kill Chain Phase
-* Installation
-* Command & Control
-
 
 
 #### RBA
@@ -70,8 +113,6 @@ There are no known false positives.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

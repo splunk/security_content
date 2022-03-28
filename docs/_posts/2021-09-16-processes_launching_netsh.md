@@ -27,7 +27,7 @@ tags:
 
 This search looks for processes launching netsh.exe. Netsh is a command-line scripting utility that allows you to, either locally or remotely, display or modify the network configuration of a computer that is currently running. Netsh can be used as a persistence proxy technique to execute a helper DLL when netsh.exe is executed. In this search, we are looking for processes spawned by netsh.exe and executing commands via the command line.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -36,13 +36,55 @@ This search looks for processes launching netsh.exe. Netsh is a command-line scr
 - **ID**: b89919ed-fe5f-492c-b139-95dbb162040e
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1562.004](https://attack.mitre.org/techniques/T1562/004/) | Disable or Modify System Firewall | Defense Evasion |
 
 | [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.PT
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 8
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -57,9 +99,9 @@ This search looks for processes launching netsh.exe. Netsh is a command-line scr
 
 #### Macros
 The SPL above uses the following Macros:
+* [process_netsh](https://github.com/splunk/security_content/blob/develop/macros/process_netsh.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
-* [process_netsh](https://github.com/splunk/security_content/blob/develop/macros/process_netsh.yml)
 
 Note that `processes_launching_netsh_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -85,9 +127,6 @@ Some VPN applications are known to launch netsh.exe. Outside of these instances,
 * [DHS Report TA18-074A](/stories/dhs_report_ta18-074a)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -95,8 +134,6 @@ Some VPN applications are known to launch netsh.exe. Outside of these instances,
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 42.0 | 60 | 70 | A process $process_name$ that tries to execute netsh commandline $process$ in host $dest$ |
-
-
 
 
 #### Reference

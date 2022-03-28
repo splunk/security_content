@@ -20,13 +20,52 @@ tags:
 
 This search provides information of unauthenticated requests via source IP user agent, request URI and response status data against Kubernetes cluster pod in Azure
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
 - **Last Updated**: 2020-05-20
 - **Author**: Rod Soto, Splunk
 - **ID**: 86aad3e0-732f-4f66-bbbc-70df448e461d
+
+
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Reconnaissance
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -58,9 +97,6 @@ Not all unauthenticated requests are malicious, but source IPs, userAgent, verb,
 * [Kubernetes Scanning Activity](/stories/kubernetes_scanning_activity)
 
 
-#### Kill Chain Phase
-* Reconnaissance
-
 
 
 #### RBA
@@ -68,8 +104,6 @@ Not all unauthenticated requests are malicious, but source IPs, userAgent, verb,
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

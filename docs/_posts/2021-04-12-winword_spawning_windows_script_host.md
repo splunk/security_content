@@ -27,7 +27,7 @@ tags:
 
 The following detection identifies Microsoft Winword.exe spawning Windows Script Host - `cscript.exe` or `wscript.exe`. Typically, this is not common behavior and not default with Winword.exe. Winword.exe will generally be found in the following path `C:\Program Files\Microsoft Office\root\Office16` (version will vary). `cscript.exe` or `wscript.exe` default location is `c:\windows\system32\` or c:windows\syswow64\`. `cscript.exe` or `wscript.exe` spawning from Winword.exe is common for a spearphishing attachment and is actively used. Albeit, the command-line executed will most likely be obfuscated and captured via another detection. During triage, review parallel processes and identify any files that may have been written. Review the reputation of the remote destination and block accordingly.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -36,13 +36,50 @@ The following detection identifies Microsoft Winword.exe spawning Windows Script
 - **ID**: 637e1b5c-9be1-11eb-9c32-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1566](https://attack.mitre.org/techniques/T1566/) | Phishing | Initial Access |
 
 | [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -82,9 +119,6 @@ There will be limited false positives and it will be different for every environ
 * [Spearphishing Attachment](/stories/spearphishing_attachment)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -92,8 +126,6 @@ There will be limited false positives and it will be different for every environ
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 70.0 | 70 | 100 | User $user$ on $dest$ spawned Windows Script Host from Winword.exe |
-
-
 
 
 #### Reference

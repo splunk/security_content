@@ -29,7 +29,7 @@ tags:
 
 This analytic is to detect a suspicious modification of the active setup registry for persistence and privilege escalation. This technique was seen in several malware (poisonIvy), adware and APT to gain persistence to the compromised machine upon boot up. This TTP is a good indicator to further check the process id that do the modification since modification of this registry is not commonly done. check the legitimacy of the file and process involve in this rules to check if it is a valid setup installer that creating or modifying this registry.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -38,13 +38,50 @@ This analytic is to detect a suspicious modification of the active setup registr
 - **ID**: f64579c0-203f-11ec-abcc-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1547.014](https://attack.mitre.org/techniques/T1547/014/) | Active Setup | Persistence, Privilege Escalation |
 
 | [T1547](https://attack.mitre.org/techniques/T1547/) | Boot or Logon Autostart Execution | Persistence, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -88,9 +125,6 @@ Active setup installer may add or modify this registry.
 * [Windows Privilege Escalation](/stories/windows_privilege_escalation)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -98,8 +132,6 @@ Active setup installer may add or modify this registry.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 64.0 | 80 | 80 | modified/added/deleted registry entry $Registry.registry_path$ in $dest$ |
-
-
 
 
 #### Reference

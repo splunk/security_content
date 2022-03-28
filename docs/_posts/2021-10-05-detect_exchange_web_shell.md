@@ -30,7 +30,7 @@ tags:
 
 The following query identifies suspicious .aspx created in 3 paths identified by Microsoft as known drop locations for Exchange exploitation related to HAFNIUM group and recently disclosed vulnerablity named ProxyShell. Paths include: `\HttpProxy\owa\auth\`, `\inetpub\wwwroot\aspnet_client\`, and `\HttpProxy\OAB\`. Upon triage, the suspicious .aspx file will likely look obvious on the surface. inspect the contents for script code inside. Identify additional log sources, IIS included, to review source and other potential exploitation. It is often the case that a particular threat is only applicable to a specific subset of systems in your environment. Typically analytics to detect those threats are written without the benefit of being able to only target those systems as well. Writing analytics against all systems when those behaviors are limited to identifiable subsets of those systems is suboptimal. Consider the case ProxyShell vulnerability on Microsoft Exchange Servers. With asset information, a hunter can limit their analytics to systems that have been identified as Exchange servers. A hunter may start with the theory that the exchange server is communicating with new systems that it has not previously. If this theory is run against all publicly facing systems, the amount of noise it will generate will likely render this theory untenable. However, using the asset information to limit this analytic to just the Exchange servers will reduce the noise allowing the hunter to focus only on the systems where this behavioral change is relevant.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -39,7 +39,11 @@ The following query identifies suspicious .aspx created in 3 paths identified by
 - **ID**: 8c14eeee-2af1-4a4b-bda8-228da0f4862a
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
@@ -48,6 +52,39 @@ The following query identifies suspicious .aspx created in 3 paths identified by
 | [T1505.003](https://attack.mitre.org/techniques/T1505/003/) | Web Shell | Persistence |
 
 | [T1190](https://attack.mitre.org/techniques/T1190/) | Exploit Public-Facing Application | Initial Access |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -90,9 +127,6 @@ The query is structured in a way that `action` (read, create) is not defined. Re
 * [ProxyShell](/stories/proxyshell)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -100,8 +134,6 @@ The query is structured in a way that `action` (read, create) is not defined. Re
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 81.0 | 90 | 90 | A file - $file_name$ was written to disk that is related to IIS exploitation previously performed by HAFNIUM. Review further file modifications on endpoint $dest$ by user $user$. |
-
-
 
 
 #### Reference

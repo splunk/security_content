@@ -33,7 +33,7 @@ tags:
 
 The following analytic identifies the Windows binary InstallUtil.exe running from a non-standard location. The analytic utilizes a macro for InstallUtil and identifies both the process_name and original_file_name.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -42,7 +42,11 @@ The following analytic identifies the Windows binary InstallUtil.exe running fro
 - **ID**: dcf74b22-7933-11ec-857c-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
@@ -53,6 +57,39 @@ The following analytic identifies the Windows binary InstallUtil.exe running fro
 | [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
 
 | [T1218.004](https://attack.mitre.org/techniques/T1218/004/) | InstallUtil | Defense Evasion |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -67,8 +104,8 @@ The following analytic identifies the Windows binary InstallUtil.exe running fro
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_installutil](https://github.com/splunk/security_content/blob/develop/macros/process_installutil.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [process_installutil](https://github.com/splunk/security_content/blob/develop/macros/process_installutil.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `windows_installutil_in_non_standard_path_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -103,9 +140,6 @@ False positives may be present and filtering may be required. Certain utilities 
 * [Living Off The Land](/stories/living_off_the_land)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -113,8 +147,6 @@ False positives may be present and filtering may be required. Certain utilities 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | An instance of $parent_process_name$ spawning $process_name$ from a non-standard path was identified on endpoint $dest$ by user $user$. |
-
-
 
 
 #### Reference

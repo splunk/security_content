@@ -21,13 +21,56 @@ tags:
 
 Find EC2 instances being created with previously unseen instance types.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
 - **Datasource**: [Splunk Add-on for Amazon Kinesis Firehose](https://splunkbase.splunk.com/app/3719)
 - **Last Updated**: 2020-09-12
 - **Author**: David Dorsey, Splunk
 - **ID**: c6ddbf53-9715-49f3-bb4c-fb2e8a309cda
+
+
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* ID.AM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 1
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -76,9 +119,6 @@ It is possible that an admin will create a new system using a new instance type 
 * [Cloud Cryptomining](/stories/cloud_cryptomining)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -86,8 +126,6 @@ It is possible that an admin will create a new system using a new instance type 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 30.0 | 50 | 60 | User $user$ is creating an instance $dest$ with an instance type $instance_type$ that has not been previously seen. |
-
-
 
 
 #### Reference

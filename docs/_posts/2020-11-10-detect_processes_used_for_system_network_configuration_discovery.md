@@ -24,7 +24,7 @@ tags:
 
 This search looks for fast execution of processes used for system network configuration discovery on the endpoint.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -33,11 +33,55 @@ This search looks for fast execution of processes used for system network config
 - **ID**: a51bfe1a-94f0-48cc-b1e4-16ae10145893
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1016](https://attack.mitre.org/techniques/T1016/) | System Network Configuration Discovery | Discovery |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Installation
+* Command & Control
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* ID.AM
+* PR.DS
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 2
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -87,11 +131,6 @@ It is uncommon for normal users to execute a series of commands used for network
 * [Unusual Processes](/stories/unusual_processes)
 
 
-#### Kill Chain Phase
-* Installation
-* Command & Control
-* Actions on Objectives
-
 
 
 #### RBA
@@ -99,8 +138,6 @@ It is uncommon for normal users to execute a series of commands used for network
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 32.0 | 40 | 80 | An instance of $parent_process_name$ spawning multiple $process_name$ was identified on endpoint $dest$ by user $user$ typically not a normal behavior of the process. |
-
-
 
 
 #### Reference

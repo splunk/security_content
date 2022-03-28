@@ -25,7 +25,7 @@ tags:
 
 CVE-2021-44228 Log4Shell payloads can be injected via various methods, but on of the most common vectors injection is via Web calls. Many of the vulnerable java web applications that are using log4j have a web component to them are specially targets of this injection, specifically projects like Apache Struts, Flink, Druid, and Solr. The exploit is triggered by a LDAP lookup function in the log4j package, its invocation is similar to `${jndi:ldap://PAYLOAD_INJECTED}`, when executed against vulnerable web applications the invocation can be seen in various part of web logs. Specifically it has been successfully exploited via headers like X-Forwarded-For, User-Agent, Referer, and X-Api-Version. In this detection we first limit the scope of our search to the Web Datamodel and use the `| from datamodel` function to benefit from schema accelerated searching capabilities, mainly because the second part of the detection is pretty heavy, it runs a regex across all _raw events that looks for `${jndi:ldap://` pattern across all potential web fields available to the raw data, like http headers for example. If you see results for this detection, it means that there was a attempt at a injection, which could be a reconnaissance activity or a valid expliotation attempt, but this does not exactly mean that the host was indeed successfully exploited.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Web](https://docs.splunk.com/Documentation/CIM/latest/User/Web)
 
@@ -34,11 +34,59 @@ CVE-2021-44228 Log4Shell payloads can be injected via various methods, but on of
 - **ID**: c184f12e-5c90-11ec-bf1f-497c9a704a72
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1190](https://attack.mitre.org/techniques/T1190/) | Exploit Public-Facing Application | Initial Access |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Reconnaissance
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 3
+* CIS 5
+* CIS 16
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+| [CVE-2021-44228](https://nvd.nist.gov/vuln/detail/CVE-2021-44228) | Apache Log4j2 2.0-beta9 through 2.15.0 (excluding security releases 2.12.2, 2.12.3, and 2.3.1) JNDI features used in configuration, log messages, and parameters do not protect against attacker controlled LDAP and other JNDI related endpoints. An attacker who can control log messages or log message parameters can execute arbitrary code loaded from LDAP servers when message lookup substitution is enabled. From log4j 2.15.0, this behavior has been disabled by default. From version 2.16.0 (along with 2.12.2, 2.12.3, and 2.3.1), this functionality has been completely removed. Note that this vulnerability is specific to log4j-core and does not affect log4net, log4cxx, or other Apache Logging Services projects. | 9.3 |
+
+
+
+</details>
 
 #### Search
 
@@ -86,10 +134,6 @@ If there is a vulnerablility scannner looking for log4shells this will trigger, 
 * [Log4Shell CVE-2021-44228](/stories/log4shell_cve-2021-44228)
 
 
-#### Kill Chain Phase
-* Reconnaissance
-* Exploitation
-
 
 
 #### RBA
@@ -97,14 +141,6 @@ If there is a vulnerablility scannner looking for log4shells this will trigger, 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 15.0 | 50 | 30 | CVE-2021-44228 Log4Shell triggered for host $dest$ |
-
-
-#### CVE
-
-| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
-| ----------- | ----------- | -------------- |
-| [CVE-2021-44228](https://nvd.nist.gov/vuln/detail/CVE-2021-44228) | Apache Log4j2 2.0-beta9 through 2.15.0 (excluding security releases 2.12.2, 2.12.3, and 2.3.1) JNDI features used in configuration, log messages, and parameters do not protect against attacker controlled LDAP and other JNDI related endpoints. An attacker who can control log messages or log message parameters can execute arbitrary code loaded from LDAP servers when message lookup substitution is enabled. From log4j 2.15.0, this behavior has been disabled by default. From version 2.16.0 (along with 2.12.2, 2.12.3, and 2.3.1), this functionality has been completely removed. Note that this vulnerability is specific to log4j-core and does not affect log4net, log4cxx, or other Apache Logging Services projects. | 9.3 |
-
 
 
 #### Reference

@@ -23,7 +23,7 @@ tags:
 
 The search looks for a Windows Security Account Manager (SAM) was stopped via command-line. This is consistent with Ryuk infections across a fleet of endpoints.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -32,11 +32,53 @@ The search looks for a Windows Security Account Manager (SAM) was stopped via co
 - **ID**: 69c12d59-d951-431e-ab77-ec426b8d65e6
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1489](https://attack.mitre.org/techniques/T1489/) | Service Stop | Impact |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Delivery
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.PT
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 8
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -74,9 +116,6 @@ SAM is a critical windows service, stopping it would cause major issues on an en
 * [Ryuk Ransomware](/stories/ryuk_ransomware)
 
 
-#### Kill Chain Phase
-* Delivery
-
 
 
 #### RBA
@@ -84,8 +123,6 @@ SAM is a critical windows service, stopping it would cause major issues on an en
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 70.0 | 70 | 100 | The Windows Security Account Manager (SAM) was stopped via cli by $user$ on $dest$ by this command: $processs$ |
-
-
 
 
 #### Reference

@@ -28,7 +28,7 @@ tags:
 
 The following analytc uses Windows Event Id 7045, `New Service Was Installed`, to identify the creation of a Windows Service where the service binary path is located in public paths. This behavior could represent the installation of a malicious service. Red Teams and adversaries alike may create malicious Services for lateral movement or remote code execution
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -37,13 +37,50 @@ The following analytc uses Windows Event Id 7045, `New Service Was Installed`, t
 - **ID**: 3abb2eda-4bb8-11ec-9ae4-3e22fbd008af
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1543](https://attack.mitre.org/techniques/T1543/) | Create or Modify System Process | Persistence, Privilege Escalation |
 
 | [T1543.003](https://attack.mitre.org/techniques/T1543/003/) | Windows Service | Persistence, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -57,8 +94,8 @@ The following analytc uses Windows Event Id 7045, `New Service Was Installed`, t
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [wineventlog_system](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_system.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `windows_service_created_within_public_path_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -81,9 +118,6 @@ Legitimate applications may install services with uncommon services paths.
 * [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -91,8 +125,6 @@ Legitimate applications may install services with uncommon services paths.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 54.0 | 90 | 60 | A Windows Service $Service_File_Name$ with a public path was created on $ComputerName |
-
-
 
 
 #### Reference

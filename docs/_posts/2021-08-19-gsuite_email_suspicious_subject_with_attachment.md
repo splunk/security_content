@@ -26,7 +26,7 @@ tags:
 
 This search is to detect a gsuite email contains suspicious subject having known file type used in spear phishing. This technique is a common and effective entry vector of attacker to compromise a network by luring the user to click or execute the suspicious attachment send from external email account because of the effective social engineering of subject related to delivery, bank and so on. On the other hand this detection may catch a normal email traffic related to legitimate transaction so better to check the email sender, spelling and etc. avoid click link or opening the attachment if you are not expecting this type of e-mail.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -35,13 +35,50 @@ This search is to detect a gsuite email contains suspicious subject having known
 - **ID**: 8ef3971e-00f2-11ec-b54f-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
 
 | [T1566](https://attack.mitre.org/techniques/T1566/) | Phishing | Initial Access |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -79,9 +116,6 @@ normal user or normal transaction may contain the subject and file type attachme
 * [Dev Sec Ops](/stories/dev_sec_ops)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -89,8 +123,6 @@ normal user or normal transaction may contain the subject and file type attachme
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | suspicious email from $source.address$ to $destination{}.address$ |
-
-
 
 
 #### Reference

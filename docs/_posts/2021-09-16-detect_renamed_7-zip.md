@@ -27,7 +27,7 @@ tags:
 
 The following analytic identifies renamed 7-Zip usage using Sysmon. At this stage of an attack, review parallel processes and file modifications for data that is staged or potentially have been exfiltrated. This analytic utilizes the OriginalFileName to capture the renamed process. During triage, validate this is the legitimate version of `7zip` by reviewing the PE metadata. In addition, review parallel processes for further suspicious behavior.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -36,13 +36,50 @@ The following analytic identifies renamed 7-Zip usage using Sysmon. At this stag
 - **ID**: 4057291a-b8cf-11eb-95fe-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1560.001](https://attack.mitre.org/techniques/T1560/001/) | Archive via Utility | Collection |
 
 | [T1560](https://attack.mitre.org/techniques/T1560/) | Archive Collected Data | Collection |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -87,9 +124,6 @@ Limited false positives, however this analytic will need to be modified for each
 * [Collection and Staging](/stories/collection_and_staging)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -97,8 +131,6 @@ Limited false positives, however this analytic will need to be modified for each
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 27.0 | 30 | 90 | The following $process_name$ has been identified as renamed, spawning from $parent_process_name$ on $dest$ by $user$. |
-
-
 
 
 #### Reference

@@ -26,7 +26,7 @@ tags:
 
 This search provides detection of possible GCP Oauth token abuse. GCP Oauth token without time limit can be exfiltrated and reused for keeping access sessions alive without further control of authentication, allowing attackers to access and move laterally.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -35,11 +35,48 @@ This search provides detection of possible GCP Oauth token abuse. GCP Oauth toke
 - **ID**: a7e9f7bb-8901-4ad0-8d88-0a4ab07b1972
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -69,9 +106,6 @@ GCP Oauth token abuse detection will only work if there are access policies in p
 * [GCP Cross Account Activity](/stories/gcp_cross_account_activity)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -79,8 +113,6 @@ GCP Oauth token abuse detection will only work if there are access policies in p
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

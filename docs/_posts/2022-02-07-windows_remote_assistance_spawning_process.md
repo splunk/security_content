@@ -25,7 +25,7 @@ tags:
 
 The following analytic identifies the use of Microsoft Remote Assistance, msra.exe, spawning PowerShell.exe or cmd.exe as a child process. Msra.exe by default has no command-line arguments and typically spawns itself. It will generate a network connection to the remote system that is connected. This behavior is indicative of another process injected into msra.exe. Review the parent process or cross process events to identify source.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -34,11 +34,48 @@ The following analytic identifies the use of Microsoft Remote Assistance, msra.e
 - **ID**: ced50492-8849-11ec-9f68-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -53,8 +90,8 @@ The following analytic identifies the use of Microsoft Remote Assistance, msra.e
 
 #### Macros
 The SPL above uses the following Macros:
-* [windows_shells](https://github.com/splunk/security_content/blob/develop/macros/windows_shells.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [windows_shells](https://github.com/splunk/security_content/blob/develop/macros/windows_shells.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `windows_remote_assistance_spawning_process_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -84,9 +121,6 @@ False positives should be limited, filter as needed. Add additional shells as ne
 * [Unusual Processes](/stories/unusual_processes)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -94,8 +128,6 @@ False positives should be limited, filter as needed. Add additional shells as ne
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$, generating behavior not common with msra.exe. |
-
-
 
 
 #### Reference

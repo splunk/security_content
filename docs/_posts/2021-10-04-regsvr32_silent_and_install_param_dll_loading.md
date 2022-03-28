@@ -27,7 +27,7 @@ tags:
 
 This analytic is to detect a loading of dll using regsvr32 application with silent parameter and dllinstall execution. This technique was seen in several RAT malware similar to remcos, njrat and adversaries to load their malicious DLL on the compromised machine. This TTP may executed by normal 3rd party application so it is better to pivot by the parent process, parent command-line and command-line of the file that execute this regsvr32.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -36,13 +36,50 @@ This analytic is to detect a loading of dll using regsvr32 application with sile
 - **ID**: f421c250-24e7-11ec-bc43-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
 
 | [T1218.010](https://attack.mitre.org/techniques/T1218/010/) | Regsvr32 | Defense Evasion |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -60,8 +97,8 @@ This analytic is to detect a loading of dll using regsvr32 application with sile
 #### Macros
 The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [process_regsvr32](https://github.com/splunk/security_content/blob/develop/macros/process_regsvr32.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `regsvr32_silent_and_install_param_dll_loading_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -93,9 +130,6 @@ Other third part application may used this parameter but not so common in base w
 * [Living Off The Land](/stories/living_off_the_land)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -103,8 +137,6 @@ Other third part application may used this parameter but not so common in base w
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 36.0 | 60 | 60 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to load a DLL using the silent and dllinstall parameter. |
-
-
 
 
 #### Reference

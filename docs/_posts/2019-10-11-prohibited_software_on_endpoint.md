@@ -21,13 +21,59 @@ tags:
 
 This search looks for applications on the endpoint that you have marked as prohibited.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
 - **Last Updated**: 2019-10-11
 - **Author**: David Dorsey, Splunk
 - **ID**: a51bfe1a-94f0-48cc-b4e4-b6ae50145893
+
+
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Installation
+* Command & Control
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* ID.AM
+* PR.DS
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 2
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -44,8 +90,8 @@ This search looks for applications on the endpoint that you have marked as prohi
 #### Macros
 The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [prohibited_softwares](https://github.com/splunk/security_content/blob/develop/macros/prohibited_softwares.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `prohibited_software_on_endpoint_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -65,11 +111,6 @@ None identified
 * [SamSam Ransomware](/stories/samsam_ransomware)
 
 
-#### Kill Chain Phase
-* Installation
-* Command & Control
-* Actions on Objectives
-
 
 
 #### RBA
@@ -77,8 +118,6 @@ None identified
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

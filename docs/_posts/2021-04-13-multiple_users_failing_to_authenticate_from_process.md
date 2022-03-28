@@ -29,7 +29,7 @@ The detection calculates the standard deviation for each host and leverages the 
 This detection will trigger on the potenfially malicious host, perhaps controlled via a trojan or operated by an insider threat, from where a password spraying attack is being executed. This could be a domain controller as well as a member server or workstation.\
 The analytics returned fields allow analysts to investigate the event further by providing fields like source process name, source account and attempted user accounts.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -38,13 +38,50 @@ The analytics returned fields allow analysts to investigate the event further by
 - **ID**: 9015385a-9c84-11eb-bef2-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1110.003](https://attack.mitre.org/techniques/T1110/003/) | Password Spraying | Credential Access |
 
 | [T1110](https://attack.mitre.org/techniques/T1110/) | Brute Force | Credential Access |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -87,9 +124,6 @@ A process failing to authenticate with multiple users is not a common behavior f
 * [Active Directory Password Spraying](/stories/active_directory_password_spraying)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -97,8 +131,6 @@ A process failing to authenticate with multiple users is not a common behavior f
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | Potential password spraying attack from $ComputerName$ |
-
-
 
 
 #### Reference

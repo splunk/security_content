@@ -21,13 +21,58 @@ tags:
 
 The search is used to detect hosts that generate Windows Event ID 4663 for successful attempts to write to or read from a removable storage and Event ID 4656 for failures, which occurs when a USB drive is plugged in. In this scenario we are querying the Change_Analysis data model to look for Windows Event ID 4656 or 4663 where the priority of the affected host is marked as high in the ES Assets and Identity Framework.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change_Analysis](https://docs.splunk.com/Documentation/CIM/latest/User/ChangeAnalysis)
 
 - **Last Updated**: 2017-11-27
 - **Author**: Bhavin Patel, Splunk
 - **ID**: 104658f4-afdc-499f-9719-17a43f9826f5
+
+
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Installation
+* Actions on Objectives
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.PT
+* PR.DS
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 13
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -65,10 +110,6 @@ Legitimate USB activity will also be detected. Please verify and investigate as 
 * [Data Protection](/stories/data_protection)
 
 
-#### Kill Chain Phase
-* Installation
-* Actions on Objectives
-
 
 
 #### RBA
@@ -76,8 +117,6 @@ Legitimate USB activity will also be detected. Please verify and investigate as 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

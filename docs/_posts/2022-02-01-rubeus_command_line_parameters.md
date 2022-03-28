@@ -38,7 +38,7 @@ tags:
 
 Rubeus is a C# toolset for raw Kerberos interaction and abuses. It is heavily adapted from Benjamin Delpys Kekeo project and Vincent LE TOUXs MakeMeEnterpriseAdmin project. This analytic looks for the use of Rubeus command line arguments utilized in common Kerberos attacks like exporting and importing tickets, forging silver and golden tickets, requesting a TGT or TGS, kerberoasting, password spraying, etc. Red teams and adversaries alike use Rubeus for Kerberos attacks within Active Directory networks. Defenders should be aware that adversaries may customize the source code of Rubeus and modify the command line parameters. This would effectively bypass this analytic.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -47,7 +47,11 @@ Rubeus is a C# toolset for raw Kerberos interaction and abuses. It is heavily ad
 - **ID**: cca37478-8377-11ec-b59a-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
@@ -60,6 +64,39 @@ Rubeus is a C# toolset for raw Kerberos interaction and abuses. It is heavily ad
 | [T1558.003](https://attack.mitre.org/techniques/T1558/003/) | Kerberoasting | Credential Access |
 
 | [T1558.004](https://attack.mitre.org/techniques/T1558/004/) | AS-REP Roasting | Credential Access |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -101,9 +138,6 @@ Although unlikely, legitimate applications may use the same command line paramet
 * [Active Directory Kerberos Attacks](/stories/active_directory_kerberos_attacks)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -111,8 +145,6 @@ Although unlikely, legitimate applications may use the same command line paramet
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 36.0 | 60 | 60 | Rubeus command line parameters were used on $dest$ |
-
-
 
 
 #### Reference

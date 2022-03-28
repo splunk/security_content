@@ -23,7 +23,7 @@ tags:
 
 This search show information on uploaded containers including source user, account, action, bucket name event name, http user agent, message and destination path.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -32,11 +32,48 @@ This search show information on uploaded containers including source user, accou
 - **ID**: 4f00ca88-e766-4605-ac65-ae51c9fd185b
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1525](https://attack.mitre.org/techniques/T1525/) | Implant Internal Image | Persistence |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -66,9 +103,6 @@ Uploading container is a normal behavior from developers or users with access to
 * [Container Implantation Monitoring and Investigation](/stories/container_implantation_monitoring_and_investigation)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -76,8 +110,6 @@ Uploading container is a normal behavior from developers or users with access to
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

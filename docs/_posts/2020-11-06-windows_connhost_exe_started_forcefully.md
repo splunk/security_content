@@ -23,7 +23,7 @@ tags:
 
 The search looks for the Console Window Host process (connhost.exe) executed using the force flag -ForceV1. This is not regular behavior in the Windows OS and is often seen executed by the Ryuk Ransomware. DEPRECATED This event is actually seen in the windows 10 client of attack_range_local. After further testing we realized this is not specific to Ryuk. 
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -32,11 +32,53 @@ The search looks for the Console Window Host process (connhost.exe) executed usi
 - **ID**: c114aaca-68ee-41c2-ad8c-32bf21db8769
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1059.003](https://attack.mitre.org/techniques/T1059/003/) | Windows Command Shell | Execution |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Delivery
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.PT
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 8
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -70,9 +112,6 @@ This process should not be ran forcefully, we have not see any false positives f
 * [Ryuk Ransomware](/stories/ryuk_ransomware)
 
 
-#### Kill Chain Phase
-* Delivery
-
 
 
 #### RBA
@@ -80,8 +119,6 @@ This process should not be ran forcefully, we have not see any false positives f
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

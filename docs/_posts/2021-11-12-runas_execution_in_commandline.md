@@ -29,7 +29,7 @@ tags:
 
 This analytic look for a spawned runas.exe process with a administrator user option parameter. This parameter was abused by adversaries, malware author or even red teams to gain elevated privileges in target host. This is a good hunting query to figure out privilege escalation tactics that may used for different stages like lateral movement but take note that administrator may use this command in purpose so its better to see other event context before and after this analytic.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -38,13 +38,50 @@ This analytic look for a spawned runas.exe process with a administrator user opt
 - **ID**: 4807e716-43a4-11ec-a0e7-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1134](https://attack.mitre.org/techniques/T1134/) | Access Token Manipulation | Defense Evasion, Privilege Escalation |
 
 | [T1134.001](https://attack.mitre.org/techniques/T1134/001/) | Token Impersonation/Theft | Defense Evasion, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -59,9 +96,9 @@ This analytic look for a spawned runas.exe process with a administrator user opt
 
 #### Macros
 The SPL above uses the following Macros:
+* [process_runas](https://github.com/splunk/security_content/blob/develop/macros/process_runas.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
-* [process_runas](https://github.com/splunk/security_content/blob/develop/macros/process_runas.yml)
 
 Note that `runas_execution_in_commandline_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -87,9 +124,6 @@ A network operator or systems administrator may utilize an automated or manual e
 * [Windows Privilege Escalation](/stories/windows_privilege_escalation)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -97,8 +131,6 @@ A network operator or systems administrator may utilize an automated or manual e
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | elevated process using runas on $dest$ by $user$ |
-
-
 
 
 #### Reference

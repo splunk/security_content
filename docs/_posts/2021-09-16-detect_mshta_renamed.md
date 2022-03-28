@@ -27,7 +27,7 @@ tags:
 
 The following analytic identifies renamed instances of mshta.exe executing. Mshta.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64. This analytic utilizes the internal name of the PE to identify if is the legitimate mshta binary. Further analysis should be performed to review the executed content and validation it is the real mshta.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -36,13 +36,55 @@ The following analytic identifies renamed instances of mshta.exe executing. Msht
 - **ID**: 8f45fcf0-5b68-11eb-ae93-0242ac130002
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
 
 | [T1218.005](https://attack.mitre.org/techniques/T1218/005/) | Mshta | Defense Evasion |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* PR.PT
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 8
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -57,9 +99,9 @@ The following analytic identifies renamed instances of mshta.exe executing. Msht
 
 #### Macros
 The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [process_mshta](https://github.com/splunk/security_content/blob/develop/macros/process_mshta.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `detect_mshta_renamed_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -89,9 +131,6 @@ Although unlikely, some legitimate applications may use a moved copy of mshta.ex
 * [Living Off The Land](/stories/living_off_the_land)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -99,8 +138,6 @@ Although unlikely, some legitimate applications may use a moved copy of mshta.ex
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | The following $process_name$ has been identified as renamed, spawning from $parent_process_name$. |
-
-
 
 
 #### Reference

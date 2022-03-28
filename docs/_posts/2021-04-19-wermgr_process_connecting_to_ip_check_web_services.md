@@ -27,7 +27,7 @@ tags:
 
 this search is designed to detect suspicious wermgr.exe process that tries to connect to known IP web services. This technique is know for trickbot and other trojan spy malware to recon the infected machine and look for its ip address without so much finger print on the commandline process. Since wermgr.exe is designed for error handling process of windows it is really suspicious that this process is trying to connect to this IP web services cause that maybe cause of some malicious code injection.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 
@@ -36,13 +36,50 @@ this search is designed to detect suspicious wermgr.exe process that tries to co
 - **ID**: ed313326-a0f9-11eb-a89c-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1590](https://attack.mitre.org/techniques/T1590/) | Gather Victim Network Information | Reconnaissance |
 
 | [T1590.005](https://attack.mitre.org/techniques/T1590/005/) | IP Addresses | Reconnaissance |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -83,9 +120,6 @@ unknown
 * [Trickbot](/stories/trickbot)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -93,8 +127,6 @@ unknown
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | Wermgr.exe process connecting IP location web services on $ComputerName$ |
-
-
 
 
 #### Reference

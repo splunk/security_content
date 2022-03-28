@@ -29,7 +29,7 @@ DSQuery.exe is natively found in `C:\Windows\system32` and `C:\Windows\syswow64`
 The following DLL(s) are loaded when DSQuery.exe is launched `dsquery.dll`. If found loaded by another process, it is possible dsquery is running within that process context in memory.\
 In addition to trust discovery, review parallel processes for additional behaviors performed. Identify the parent process and capture any files (batch files, for example) being used.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -38,11 +38,48 @@ In addition to trust discovery, review parallel processes for additional behavio
 - **ID**: cc316032-924a-11eb-91a2-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1482](https://attack.mitre.org/techniques/T1482/) | Domain Trust Discovery | Discovery |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -84,9 +121,6 @@ Limited false positives. If there is a true false positive, filter based on comm
 * [Active Directory Discovery](/stories/active_directory_discovery)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -94,8 +128,6 @@ Limited false positives. If there is a true false positive, filter based on comm
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 80 | 90 | An instance of $parent_process_name$ spawning $process_name$ was identified performing domain discovery on endpoint $dest$ by user $user$. |
-
-
 
 
 #### Reference

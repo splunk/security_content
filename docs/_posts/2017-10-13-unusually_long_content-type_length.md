@@ -22,13 +22,65 @@ We have not been able to test, simulate, or build datasets for this object. Use 
 
 This search looks for unusually long strings in the Content-Type http header that the client sends the server.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
 - **Last Updated**: 2017-10-13
 - **Author**: Bhavin Patel, Splunk
 - **ID**: 57a0a2bf-353f-40c1-84dc-29293f3c35b7
+
+
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Delivery
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+* ID.RA
+* RS.MI
+* PR.PT
+* PR.IP
+* DE.AE
+* PR.MA
+* DE.CM
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+* CIS 3
+* CIS 4
+* CIS 18
+* CIS 12
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -65,9 +117,6 @@ Very few legitimate Content-Type fields will have a length greater than 100 char
 * [Apache Struts Vulnerability](/stories/apache_struts_vulnerability)
 
 
-#### Kill Chain Phase
-* Delivery
-
 
 
 #### RBA
@@ -75,8 +124,6 @@ Very few legitimate Content-Type fields will have a length greater than 100 char
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
-
-
 
 
 #### Reference

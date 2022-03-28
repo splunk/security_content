@@ -42,7 +42,7 @@ tags:
 
 The following analytic identifies common command-line arguments used by SharpHound `-collectionMethod` and `invoke-bloodhound`. Being the script is FOSS, function names may be modified, but these changes are dependent upon the operator. In most instances the defaults are used. This analytic works to identify the common command-line attributes used. It does not cover the entirety of every argument in order to avoid false positives.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
@@ -51,7 +51,11 @@ The following analytic identifies common command-line arguments used by SharpHou
 - **ID**: a0bdd2f6-c2ff-11eb-b918-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
@@ -68,6 +72,39 @@ The following analytic identifies common command-line arguments used by SharpHou
 | [T1069.002](https://attack.mitre.org/techniques/T1069/002/) | Domain Groups | Discovery |
 
 | [T1069](https://attack.mitre.org/techniques/T1069/) | Permission Groups Discovery | Discovery |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Reconnaissance
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -109,9 +146,6 @@ False positives should be limited as the arguments used are specific to SharpHou
 * [Ransomware](/stories/ransomware)
 
 
-#### Kill Chain Phase
-* Reconnaissance
-
 
 
 #### RBA
@@ -119,8 +153,6 @@ False positives should be limited as the arguments used are specific to SharpHou
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 24.0 | 30 | 80 | Possible SharpHound command-Line arguments identified on $dest$ |
-
-
 
 
 #### Reference

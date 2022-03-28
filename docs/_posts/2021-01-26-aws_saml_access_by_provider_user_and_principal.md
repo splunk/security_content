@@ -26,7 +26,7 @@ tags:
 
 This search provides specific SAML access from specific Service Provider, user and targeted principal at AWS. This search provides specific information to detect abnormal access or potential credential hijack or forgery, specially in federated environments using SAML protocol inside the perimeter or cloud provider.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 
@@ -35,11 +35,48 @@ This search provides specific SAML access from specific Service Provider, user a
 - **ID**: bbe23980-6019-11eb-ae93-0242ac130002
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Metadata
+
+<details>
+  <summary>ATT&CK</summary>
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+* Exploitation
+
+
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+
+
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+
+
+</details>
 
 #### Search
 
@@ -53,8 +90,8 @@ This search provides specific SAML access from specific Service Provider, user a
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `aws_saml_access_by_provider_user_and_principal_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -80,9 +117,6 @@ Attacks using a Golden SAML or SAML assertion hijacks or forgeries are very diff
 * [Cloud Federated Credential Abuse](/stories/cloud_federated_credential_abuse)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -90,8 +124,6 @@ Attacks using a Golden SAML or SAML assertion hijacks or forgeries are very diff
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 64.0 | 80 | 80 | From IP address $sourceIPAddress$, user agent $userAgent$ has trigged an event $eventName$ for account ID $recipientAccountId$ |
-
-
 
 
 #### Reference
