@@ -1,7 +1,7 @@
 ---
 title: "MS Scripting Process Loading WMI Module"
 excerpt: "Command and Scripting Interpreter
-, JavaScript
+, JavaScript/JScript
 "
 categories:
   - Endpoint
@@ -10,7 +10,7 @@ toc: true
 toc_label: ""
 tags:
   - Command and Scripting Interpreter
-  - JavaScript
+  - JavaScript/JScript
   - Execution
   - Execution
   - Splunk Enterprise
@@ -42,7 +42,7 @@ This search is to detect a suspicious MS scripting process such as wscript.exe o
 | -------------- | ---------------- |-------------------- |
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 
-| [T1059.007](https://attack.mitre.org/techniques/T1059/007/) | JavaScript | Execution |
+| [T1059.007](https://attack.mitre.org/techniques/T1059/007/) | JavaScript/JScript | Execution |
 
 #### Search
 
@@ -56,8 +56,8 @@ This search is to detect a suspicious MS scripting process such as wscript.exe o
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `ms_scripting_process_loading_wmi_module_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 

@@ -1,6 +1,6 @@
 ---
 title: "Linux File Creation In Init Boot Directory"
-excerpt: "RC Scripts
+excerpt: "Rc.common
 , Boot or Logon Initialization Scripts
 "
 categories:
@@ -9,7 +9,7 @@ last_modified_at: 2021-12-20
 toc: true
 toc_label: ""
 tags:
-  - RC Scripts
+  - Rc.common
   - Boot or Logon Initialization Scripts
   - Persistence
   - Privilege Escalation
@@ -42,7 +42,7 @@ This analytic looks for suspicious file creation on init system directories for 
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
-| [T1037.004](https://attack.mitre.org/techniques/T1037/004/) | RC Scripts | Persistence, Privilege Escalation |
+| [T1037.004](https://attack.mitre.org/techniques/T1037/004/) | Rc.common | Persistence, Privilege Escalation |
 
 | [T1037](https://attack.mitre.org/techniques/T1037/) | Boot or Logon Initialization Scripts | Persistence, Privilege Escalation |
 
@@ -59,8 +59,8 @@ This analytic looks for suspicious file creation on init system directories for 
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `linux_file_creation_in_init_boot_directory_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
