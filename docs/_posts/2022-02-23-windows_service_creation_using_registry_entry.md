@@ -89,6 +89,7 @@ Third party tools may used this technique to create services but not so common.
 * [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
 * [Suspicious Windows Registry Activities](/stories/suspicious_windows_registry_activities)
 * [Windows Persistence Techniques](/stories/windows_persistence_techniques)
+* [Windows Registry Abuse](/stories/windows_registry_abuse)
 
 
 #### Kill Chain Phase

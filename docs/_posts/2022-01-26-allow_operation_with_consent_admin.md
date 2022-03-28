@@ -78,6 +78,7 @@ unknown
 
 #### Associated Analytic story
 * [Ransomware](/stories/ransomware)
+* [Windows Registry Abuse](/stories/windows_registry_abuse)
 
 
 #### Kill Chain Phase

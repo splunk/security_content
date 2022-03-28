@@ -63,7 +63,7 @@ Living Off The Land refers to an adversary methodology of using native applicati
 | [Disable Schedule Task](/endpoint/disable_schedule_task/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Impair Defenses](/tags/#impair-defenses)| TTP |
 | [Dump LSASS via comsvcs DLL](/endpoint/dump_lsass_via_comsvcs_dll/) | [LSASS Memory](/tags/#lsass-memory), [OS Credential Dumping](/tags/#os-credential-dumping)| TTP |
 | [Esentutl SAM Copy](/endpoint/esentutl_sam_copy/) | [Security Account Manager](/tags/#security-account-manager), [OS Credential Dumping](/tags/#os-credential-dumping)| Hunting |
-| [Eventvwr UAC Bypass](/endpoint/eventvwr_uac_bypass/) | [Bypass User Account Control](/tags/#bypass-user-account-control), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism)| TTP |
+| [Eventvwr UAC Bypass](/endpoint/eventvwr_uac_bypass/) | [Bypass User Access Control](/tags/#bypass-user-access-control), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism)| TTP |
 | [MacOS LOLbin](/endpoint/macos_lolbin/) | [Unix Shell](/tags/#unix-shell), [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter)| TTP |
 | [Mmc LOLBAS Execution Process Spawn](/endpoint/mmc_lolbas_execution_process_spawn/) | [Remote Services](/tags/#remote-services), [Distributed Component Object Model](/tags/#distributed-component-object-model)| TTP |
 | [Mshta spawning Rundll32 OR Regsvr32 Process](/endpoint/mshta_spawning_rundll32_or_regsvr32_process/) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Mshta](/tags/#mshta)| TTP |
@@ -105,7 +105,7 @@ Living Off The Land refers to an adversary methodology of using native applicati
 | [Windows InstallUtil Uninstall Option](/endpoint/windows_installutil_uninstall_option/) | [InstallUtil](/tags/#installutil), [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution)| TTP |
 | [Windows InstallUtil Uninstall Option with Network](/endpoint/windows_installutil_uninstall_option_with_network/) | [InstallUtil](/tags/#installutil), [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution)| TTP |
 | [Windows InstallUtil URL in Command Line](/endpoint/windows_installutil_url_in_command_line/) | [InstallUtil](/tags/#installutil), [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution)| TTP |
-| [WSReset UAC Bypass](/endpoint/wsreset_uac_bypass/) | [Bypass User Account Control](/tags/#bypass-user-account-control), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism)| TTP |
+| [WSReset UAC Bypass](/endpoint/wsreset_uac_bypass/) | [Bypass User Access Control](/tags/#bypass-user-access-control), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism)| TTP |
 
 #### Reference
 
