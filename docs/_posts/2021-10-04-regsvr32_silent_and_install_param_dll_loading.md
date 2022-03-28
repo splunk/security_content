@@ -59,9 +59,9 @@ This analytic is to detect a loading of dll using regsvr32 application with sile
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [process_regsvr32](https://github.com/splunk/security_content/blob/develop/macros/process_regsvr32.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `regsvr32_silent_and_install_param_dll_loading_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -87,6 +87,7 @@ To successfully implement this search you need to be ingesting information on pr
 Other third part application may used this parameter but not so common in base windows environment.
 
 #### Associated Analytic story
+* [Data Destruction](/stories/data_destruction)
 * [Suspicious Regsvr32 Activity](/stories/suspicious_regsvr32_activity)
 * [Remcos](/stories/remcos)
 * [Hermetic Wiper](/stories/hermetic_wiper)

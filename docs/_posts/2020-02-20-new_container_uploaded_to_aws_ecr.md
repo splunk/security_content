@@ -1,6 +1,6 @@
 ---
 title: "New container uploaded to AWS ECR"
-excerpt: "Implant Internal Image
+excerpt: "Implant Container Image
 "
 categories:
   - Cloud
@@ -8,7 +8,7 @@ last_modified_at: 2020-02-20
 toc: true
 toc_label: ""
 tags:
-  - Implant Internal Image
+  - Implant Container Image
   - Persistence
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -38,7 +38,7 @@ This searches show information on uploaded containers including source user, ima
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
-| [T1525](https://attack.mitre.org/techniques/T1525/) | Implant Internal Image | Persistence |
+| [T1525](https://attack.mitre.org/techniques/T1525/) | Implant Container Image | Persistence |
 
 #### Search
 

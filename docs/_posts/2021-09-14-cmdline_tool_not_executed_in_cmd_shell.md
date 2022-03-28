@@ -1,7 +1,7 @@
 ---
 title: "Cmdline Tool Not Executed In CMD Shell"
 excerpt: "Command and Scripting Interpreter
-, JavaScript
+, JavaScript/JScript
 "
 categories:
   - Endpoint
@@ -10,7 +10,7 @@ toc: true
 toc_label: ""
 tags:
   - Command and Scripting Interpreter
-  - JavaScript
+  - JavaScript/JScript
   - Execution
   - Execution
   - Splunk Enterprise
@@ -42,7 +42,7 @@ The following analytic identifies a non-standard parent process (not matching CM
 | -------------- | ---------------- |-------------------- |
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 
-| [T1059.007](https://attack.mitre.org/techniques/T1059/007/) | JavaScript | Execution |
+| [T1059.007](https://attack.mitre.org/techniques/T1059/007/) | JavaScript/JScript | Execution |
 
 #### Search
 
@@ -57,8 +57,8 @@ The following analytic identifies a non-standard parent process (not matching CM
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `cmdline_tool_not_executed_in_cmd_shell_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
