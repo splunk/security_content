@@ -1,6 +1,6 @@
 name: Delete A Net User
 id: 8776d79c-d26e-11eb-9a56-acde48001122
-version: 3
+version: 4
 description: This analytic will detect a suspicious net.exe/net1.exe command-line
   to delete a user on a system. This technique may be use by an administrator for
   legitimate purposes, however this behavior has been used in the wild to impair some
@@ -8,15 +8,15 @@ description: This analytic will detect a suspicious net.exe/net1.exe command-lin
   systems. During triage, review parallel processes for additional behavior. Identify
   any other user accounts created before or after.
 search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
-  "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"),
+  "_time"), "string", null)), process=lower(ucast(map_get(input_event, "process"),
   "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"),
-  "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string",
-  null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string",
-  null), event_id=ucast(map_get(input_event, "event_id"), "string", null) | where
-  cmd_line IS NOT NULL AND like(cmd_line, "%/delete%") AND (process_name="net1.exe"
+  "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string",null),
+  parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string",null),
+  event_id=ucast(map_get(input_event, "event_id"), "string", null) | where process
+  IS NOT NULL AND like(process, "%/delete%") AND like(process, "%user%") AND (process_name="net1.exe"
   OR process_name="net.exe") | eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event,
   "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
-  "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name",
+  "string", null)), body=create_map(["event_id", event_id, "process", process, "process_name",
   process_name, "parent_process_name", parent_process_name, "process_path", process_path])
   | into write_ssa_detected_events();'
 how_to_implement: To successfully implement this search, you need to be ingesting
