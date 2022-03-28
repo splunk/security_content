@@ -13,7 +13,7 @@ known_false_positives: None identified
 references: []
 tags:
   analytic_story:
-  - Splunk Enterprise Vulnerability
+  - Splunk Vulnerabilities
   asset_type: Splunk Server
   cis20:
   - CIS 3
