@@ -36,6 +36,7 @@ references:
 tags:
   analytic_story:
   - Ransomware
+  - Windows Registry Abuse
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/ransomware_disable_reg/sysmon.log
   kill_chain_phases:
