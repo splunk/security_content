@@ -1,7 +1,7 @@
 name: SQL Injection with Long URLs
 id: e0aad4cf-0790-423b-8328-7564d0d938f9
-version: 2
-date: '2020-07-21'
+version: 3
+date: '2022-03-28'
 author: Bhavin Patel, Splunk
 type: TTP
 datamodel:
@@ -10,7 +10,7 @@ description: This search looks for long URLs that have several SQL commands visi
   within them.
 search: '| tstats `security_content_summariesonly` count from datamodel=Web where
   Web.dest_category=web_server AND (Web.url_length > 1024 OR Web.http_user_agent_length
-  > 200) by Web.src Web.dest Web.url Web.url_length Web.http_user_agent | `drop_dm_object_name("Web")`
+  > 200) by Web.src Web.dest Web.url Web.url_length Web.http_user_agent | `drop_dm_object_name("Web")` | eval url=lower(url)
   | eval num_sql_cmds=mvcount(split(url, "alter%20table")) + mvcount(split(url, "between"))
   + mvcount(split(url, "create%20table")) + mvcount(split(url, "create%20database"))
   + mvcount(split(url, "create%20index")) + mvcount(split(url, "create%20view")) +
@@ -48,6 +48,18 @@ tags:
   - PR.PT
   - PR.IP
   - DE.CM
+  confidence: 50
+  impact: 50
+  risk_score: 25
+  message: SQL injection attempt with url $url$ detected on $dest$
+  context:
+  - Source:Endpoint
+  - Stage:Discovery
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -62,17 +74,4 @@ tags:
   - Web.url
   - Web.http_user_agent
   security_domain: network
-  confidence: 50
-  impact: 50
-  risk_score: 25
-  context: []
-  message: tbd
-  observable:
-  - name: user
-    type: User
-    role:
-    - Victim
-  - name: dest
-    type: Hostname
-    role:
-    - Victim
+  assest_type: Endpoint
