@@ -1,0 +1,12 @@
+name: Windows Registry Deleted By The Suspicious Process Unit Test
+tests:
+- name: Windows Registry Deleted By The Suspicious Process
+  file: endpoint/windows_registry_deleted_by_the_suspicious_process.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: sysmon.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/doublezero_wiper/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
