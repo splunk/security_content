@@ -38,6 +38,7 @@ references:
 tags:
   analytic_story:
   - XMRig
+  - Windows Registry Abuse
   confidence: 80
   context:
   - Source:Endpoint
