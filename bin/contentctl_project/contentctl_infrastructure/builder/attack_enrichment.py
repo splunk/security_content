@@ -1,4 +1,8 @@
 
+import csv
+import os
+from posixpath import split
+
 from attackcti import attack_client
 
 import logging
@@ -35,6 +39,12 @@ class AttackEnrichment():
         
         except Exception as err:
             print('Warning: ' + str(err))
-
+            print('Use local copy lookups/mitre_enrichment.csv')
+            dict_from_csv = {}
+            file_path = os.path.join(os.path.dirname(__file__), '../../../../lookups/mitre_enrichment.csv')
+            with open(file_path, mode='r') as inp:
+                reader = csv.reader(inp)
+                attack_lookup = {rows[0]:{'technique': rows[1], 'tactics': rows[2].split('|'), 'groups': rows[3].split('|')} for rows in reader}
+            attack_lookup.pop('mitre_id')
 
         return attack_lookup
