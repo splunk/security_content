@@ -53,8 +53,8 @@ The following analytic will detect a suspicious process running in a file path w
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `suspicious_process_file_path_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -76,6 +76,8 @@ To successfully implement this search you need to be ingesting information on pr
 Administrators may allow execution of specific binaries in non-standard paths. Filter as needed.
 
 #### Associated Analytic story
+* [Data Destruction](/stories/data_destruction)
+* [Double Zero Destructor](/stories/double_zero_destructor)
 * [XMRig](/stories/xmrig)
 * [Remcos](/stories/remcos)
 * [WhisperGate](/stories/whispergate)

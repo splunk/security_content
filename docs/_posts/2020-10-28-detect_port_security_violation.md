@@ -2,7 +2,7 @@
 title: "Detect Port Security Violation"
 excerpt: "Hardware Additions
 , Network Denial of Service
-, Adversary-in-the-Middle
+, Man-in-the-Middle
 , ARP Cache Poisoning
 "
 categories:
@@ -13,7 +13,7 @@ toc_label: ""
 tags:
   - Hardware Additions
   - Network Denial of Service
-  - Adversary-in-the-Middle
+  - Man-in-the-Middle
   - ARP Cache Poisoning
   - Initial Access
   - Impact
@@ -53,7 +53,7 @@ By enabling Port Security on a Cisco switch you can restrict input to an interfa
 
 | [T1498](https://attack.mitre.org/techniques/T1498/) | Network Denial of Service | Impact |
 
-| [T1557](https://attack.mitre.org/techniques/T1557/) | Adversary-in-the-Middle | Collection, Credential Access |
+| [T1557](https://attack.mitre.org/techniques/T1557/) | Man-in-the-Middle | Collection, Credential Access |
 
 | [T1557.002](https://attack.mitre.org/techniques/T1557/002/) | ARP Cache Poisoning | Collection, Credential Access |
 
@@ -70,8 +70,8 @@ By enabling Port Security on a Cisco switch you can restrict input to an interfa
 
 #### Macros
 The SPL above uses the following Macros:
-* [cisco_networks](https://github.com/splunk/security_content/blob/develop/macros/cisco_networks.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [cisco_networks](https://github.com/splunk/security_content/blob/develop/macros/cisco_networks.yml)
 
 Note that `detect_port_security_violation_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 

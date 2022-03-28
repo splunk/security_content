@@ -93,6 +93,7 @@ unknown
 
 #### Associated Analytic story
 * [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
+* [Windows Registry Abuse](/stories/windows_registry_abuse)
 
 
 #### Kill Chain Phase
