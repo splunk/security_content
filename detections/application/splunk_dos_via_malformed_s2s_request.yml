@@ -14,7 +14,8 @@ references:
 tags:
   analytic_story:
   - Splunk Vulnerabilities
-  cve: CVE-2021-3422
+  cve: 
+  - CVE-2021-3422
   asset_type: Endpoint
   cis20:
   - CIS 3
