@@ -30,6 +30,7 @@ references:
 - https://attack.mitre.org/techniques/T1218/010/
 tags:
   analytic_story:
+  - Data Destruction
   - Suspicious Regsvr32 Activity
   - Remcos
   - Hermetic Wiper
