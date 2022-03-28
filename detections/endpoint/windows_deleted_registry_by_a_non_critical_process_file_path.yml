@@ -30,7 +30,7 @@ how_to_implement: To successfully implement this search, you need to be ingestin
 known_false_positives: This detection can catch for third party application 
   updates or installation. In this scenario false positive filter is needed.
 references:
-- REFERENCE
+- https://blog.talosintelligence.com/2022/03/threat-advisory-doublezero.html
 tags:
   analytic_story:
   - https://blog.talosintelligence.com/2022/03/threat-advisory-doublezero.html
