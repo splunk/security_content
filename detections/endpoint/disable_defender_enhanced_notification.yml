@@ -33,6 +33,7 @@ references:
 tags:
   analytic_story:
   - IceID
+  - Windows Registry Abuse
   confidence: 70
   context:
   - Source:Endpoint

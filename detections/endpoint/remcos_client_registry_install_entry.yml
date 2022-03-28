@@ -30,10 +30,12 @@ references:
 tags:
   analytic_story:
   - Remcos
+  - Windows Registry Abuse
   confidence: 100
   context:
   - Source:Endpoint
   dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos_registry/sysmon.log
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos_panel_client/remcos_registry_entry.log
   impact: 90
   kill_chain_phases:
