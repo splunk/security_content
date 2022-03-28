@@ -61,8 +61,8 @@ This search is to detect a suspicious excessive usage of sc.exe in a host machin
 
 #### Macros
 The SPL above uses the following Macros:
-* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 
 Note that `excessive_usage_of_sc_service_utility_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
