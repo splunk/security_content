@@ -35,6 +35,7 @@ references:
 tags:
   analytic_story:
   - Windows Defense Evasion Tactics
+  - Windows Registry Abuse
   confidence: 90
   context:
   - Source:Endpoint

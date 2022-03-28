@@ -38,6 +38,7 @@ tags:
   - Data Destruction
   - Ransomware
   - Hermetic Wiper
+  - Windows Registry Abuse
   cis20:
   - CIS 3
   - CIS 5

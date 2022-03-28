@@ -37,6 +37,7 @@ references:
 tags:
   analytic_story:
   - BlackMatter Ransomware
+  - Windows Registry Abuse
   confidence: 90
   context:
   - Source:Endpoint

@@ -4,10 +4,10 @@ version: 1
 date: '2022-01-19'
 author: Teoderick Contreras, Splunk
 description: This analytic story contains detections that allow security analysts to detect and investigate unusual activities
-  that might relate to the destructive malware targeting Ukrainian organizations also known as "WhisperGate". This analytic 
+  that might relate to the destructive malware targeting Ukrainian organizations also known as "WhisperGate". This analytic
   story looks for suspicious process execution, command-line activity, downloads, DNS queries and more.
-narrative: WhisperGate/DEV-0586 is destructive malware operation found by MSTIC (Microsoft Threat Inteligence Center) targeting 
-  multiple organizations in Ukraine. This operation campaign consist of several malware component like the downloader that abuses discord platform, 
+narrative: WhisperGate/DEV-0586 is destructive malware operation found by MSTIC (Microsoft Threat Inteligence Center) targeting
+  multiple organizations in Ukraine. This operation campaign consist of several malware component like the downloader that abuses discord platform,
   overwrite or destroy master boot record (MBR) of the targeted host, wiper and also windows defender evasion techniques.
 references:
 - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
@@ -15,6 +15,7 @@ references:
 tags:
   analytic_story: WhisperGate
   category:
+  - Data Destruction
   - Malware
   - Adversary Tactics
   product:

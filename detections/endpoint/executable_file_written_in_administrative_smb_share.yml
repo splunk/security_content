@@ -30,6 +30,7 @@ references:
 - https://blog.whitehat.eu/2019/05/incident-trickbot-ryuk-2.html
 tags:
   analytic_story:
+  - Data Destruction
   - Active Directory Lateral Movement
   - Trickbot
   - Hermetic Wiper
