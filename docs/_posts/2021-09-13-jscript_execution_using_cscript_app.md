@@ -1,7 +1,7 @@
 ---
 title: "Jscript Execution Using Cscript App"
 excerpt: "Command and Scripting Interpreter
-, JavaScript
+, JavaScript/JScript
 "
 categories:
   - Endpoint
@@ -10,7 +10,7 @@ toc: true
 toc_label: ""
 tags:
   - Command and Scripting Interpreter
-  - JavaScript
+  - JavaScript/JScript
   - Execution
   - Execution
   - Splunk Enterprise
@@ -42,7 +42,7 @@ This search is to detect a execution of jscript using cscript process. Commonly 
 | -------------- | ---------------- |-------------------- |
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 
-| [T1059.007](https://attack.mitre.org/techniques/T1059/007/) | JavaScript | Execution |
+| [T1059.007](https://attack.mitre.org/techniques/T1059/007/) | JavaScript/JScript | Execution |
 
 #### Search
 
@@ -57,8 +57,8 @@ This search is to detect a execution of jscript using cscript process. Commonly 
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `jscript_execution_using_cscript_app_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 

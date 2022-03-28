@@ -85,6 +85,7 @@ There are many legitimate applications that must execute upon system startup and
 * [Windows Privilege Escalation](/stories/windows_privilege_escalation)
 * [Suspicious Windows Registry Activities](/stories/suspicious_windows_registry_activities)
 * [Cloud Federated Credential Abuse](/stories/cloud_federated_credential_abuse)
+* [Windows Registry Abuse](/stories/windows_registry_abuse)
 
 
 #### Kill Chain Phase

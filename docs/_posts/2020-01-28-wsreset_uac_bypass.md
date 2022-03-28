@@ -1,6 +1,6 @@
 ---
 title: "WSReset UAC Bypass"
-excerpt: "Bypass User Account Control
+excerpt: "Bypass User Access Control
 , Abuse Elevation Control Mechanism
 "
 categories:
@@ -9,7 +9,7 @@ last_modified_at: 2020-01-28
 toc: true
 toc_label: ""
 tags:
-  - Bypass User Account Control
+  - Bypass User Access Control
   - Abuse Elevation Control Mechanism
   - Defense Evasion
   - Privilege Escalation
@@ -42,7 +42,7 @@ This search is to detect a suspicious modification of registry related to UAC by
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
-| [T1548.002](https://attack.mitre.org/techniques/T1548/002/) | Bypass User Account Control | Defense Evasion, Privilege Escalation |
+| [T1548.002](https://attack.mitre.org/techniques/T1548/002/) | Bypass User Access Control | Defense Evasion, Privilege Escalation |
 
 | [T1548](https://attack.mitre.org/techniques/T1548/) | Abuse Elevation Control Mechanism | Defense Evasion, Privilege Escalation |
 
@@ -85,6 +85,7 @@ unknown
 #### Associated Analytic story
 * [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
 * [Living Off The Land](/stories/living_off_the_land)
+* [Windows Registry Abuse](/stories/windows_registry_abuse)
 
 
 #### Kill Chain Phase

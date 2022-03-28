@@ -1,6 +1,6 @@
 ---
 title: "Linux Preload Hijack Library Calls"
-excerpt: "Dynamic Linker Hijacking
+excerpt: "LD_PRELOAD
 , Hijack Execution Flow
 "
 categories:
@@ -9,7 +9,7 @@ last_modified_at: 2021-12-22
 toc: true
 toc_label: ""
 tags:
-  - Dynamic Linker Hijacking
+  - LD_PRELOAD
   - Hijack Execution Flow
   - Defense Evasion
   - Persistence
@@ -44,7 +44,7 @@ This analytic is to detect a suspicious command that may hijack a library functi
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
-| [T1574.006](https://attack.mitre.org/techniques/T1574/006/) | Dynamic Linker Hijacking | Defense Evasion, Persistence, Privilege Escalation |
+| [T1574.006](https://attack.mitre.org/techniques/T1574/006/) | LD_PRELOAD | Defense Evasion, Persistence, Privilege Escalation |
 
 | [T1574](https://attack.mitre.org/techniques/T1574/) | Hijack Execution Flow | Defense Evasion, Persistence, Privilege Escalation |
 
@@ -61,8 +61,8 @@ This analytic is to detect a suspicious command that may hijack a library functi
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that `linux_preload_hijack_library_calls_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 

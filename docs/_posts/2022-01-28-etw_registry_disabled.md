@@ -90,6 +90,7 @@ unknown
 #### Associated Analytic story
 * [Windows Persistence Techniques](/stories/windows_persistence_techniques)
 * [Windows Privilege Escalation](/stories/windows_privilege_escalation)
+* [Windows Registry Abuse](/stories/windows_registry_abuse)
 
 
 #### Kill Chain Phase
