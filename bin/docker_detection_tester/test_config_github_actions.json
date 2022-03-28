@@ -84,7 +84,8 @@
       "endpoint",
       "cloud",
       "network",
-      "web"
+      "web", 
+      "application"
   ],
   "interactive": false,
   "local_base_container_name": "splunk_test_%d",
