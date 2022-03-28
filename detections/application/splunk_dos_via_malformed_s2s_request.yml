@@ -28,7 +28,7 @@ tags:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1498/splunk_indexer_dos/splunkd.log
   impact: 50
   kill_chain_phases:
-  - Denial of Service
+  - Exploitation
   message: An attempt to exploit CVE-2021-3422 was detected from $src$ against $host$
   mitre_attack_id:
   - T1498
