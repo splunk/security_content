@@ -1,0 +1,21 @@
+name: Caddy Wiper
+id: 435a156a-8ef1-4184-bd52-22328fb65d3a
+version: 1
+date: '2022-03-25'
+author: Teoderick Contreras, Rod Soto, Splunk
+description: Caddy Wiper is a destructive payload that detects if its running on a Domain Controller and executes killswitch if detected. If not in a DC it destroys Users and subsequent mapped drives. This wiper also destroys drive partitions inculding boot partitions.
+narrative: Caddy Wiper is destructive malware operation found by ESET multiple organizations in Ukraine. This malicious payload destroys user files, avoids executing on Dnomain Controllers and destroys boot and drive partitions.
+references:
+- https://twitter.com/ESETresearch/status/1503436420886712321
+- https://www.welivesecurity.com/2022/03/15/caddywiper-new-wiper-malware-discovered-ukraine/
+tags:
+  analytic_story: Caddy Wiper
+  category:
+  - Data Destruction
+  - Malware
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

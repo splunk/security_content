@@ -26,6 +26,7 @@ references:
 - https://blog.talosintelligence.com/2022/02/threat-advisory-hermeticwiper.html
 tags:
   analytic_story:
+  - Caddy Wiper
   - Data Destruction
   - Hermetic Wiper
   cis20:
