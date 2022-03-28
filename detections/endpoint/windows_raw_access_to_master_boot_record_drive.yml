@@ -28,6 +28,8 @@ references:
 - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
 tags:
   analytic_story:
+  - Data Destruction 
+  - Caddy Wiper
   - WhisperGate
   - Hermetic Wiper
   cis20:
