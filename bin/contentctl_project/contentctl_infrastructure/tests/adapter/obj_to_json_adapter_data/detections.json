@@ -114,10 +114,11 @@
                         ],
                         "mitre_attack_groups": [
                             "Dragonfly 2.0",
+                            "GALLIUM",
                             "Ke3chang",
                             "Night Dragon",
-                            "Soft Cell",
                             "Threat Group-3390",
+                            "Wizard Spider",
                             "menuPass"
                         ]
                     },
@@ -136,7 +137,8 @@
                             "Leviathan",
                             "Poseidon Group",
                             "Sowbug",
-                            "Suckfly"
+                            "Suckfly",
+                            "Tonto Team"
                         ]
                     }
                 ]
