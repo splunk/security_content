@@ -2,7 +2,7 @@
 title: "Detect Rogue DHCP Server"
 excerpt: "Hardware Additions
 , Network Denial of Service
-, Man-in-the-Middle
+, Adversary-in-the-Middle
 "
 categories:
   - Network
@@ -12,7 +12,7 @@ toc_label: ""
 tags:
   - Hardware Additions
   - Network Denial of Service
-  - Man-in-the-Middle
+  - Adversary-in-the-Middle
   - Initial Access
   - Impact
   - Collection
@@ -49,7 +49,7 @@ By enabling DHCP Snooping as a Layer 2 Security measure on the organization's ne
 
 | [T1498](https://attack.mitre.org/techniques/T1498/) | Network Denial of Service | Impact |
 
-| [T1557](https://attack.mitre.org/techniques/T1557/) | Man-in-the-Middle | Collection, Credential Access |
+| [T1557](https://attack.mitre.org/techniques/T1557/) | Adversary-in-the-Middle | Collection, Credential Access |
 
 #### Search
 
