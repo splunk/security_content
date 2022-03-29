@@ -59,8 +59,8 @@ class ObjToConfAdapter(Adapter):
                     workbench_panels.append(investigation)
                     investigation.search = investigation.search.replace(">","&gt;")
                     investigation.search = investigation.search.replace("<","&lt;")
-                    ConfWriter.writeConfFileHeader(os.path.join(output_path, 
-                        'default/data/ui/panels/', str("workbench_panel_" + response_file_name_xml)))
+                    # ConfWriter.writeConfFileHeader(os.path.join(output_path, 
+                    #     'default/data/ui/panels/', str("workbench_panel_" + response_file_name_xml)))
                     ConfWriter.writeConfFile('panel.j2', 
                         os.path.join(output_path, 
                         'default/data/ui/panels/', str("workbench_panel_" + response_file_name_xml)),
