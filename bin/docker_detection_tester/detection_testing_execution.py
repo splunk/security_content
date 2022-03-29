@@ -451,6 +451,7 @@ def main(args: list[str]):
         print("\tQuitting...", file=sys.stderr)
         sys.exit(1)
 
+    all_test_files = all_test_files
     print("***This run will test [%d] detections!***"%(len(all_test_files)))
     
 
