@@ -101,7 +101,7 @@ def generate(args) -> None:
         SecurityContentInvestigationBuilder(),
         SecurityContentPlaybookBuilder(),
         SecurityContentDirector(),
-        AttackEnrichment.get_attack_lookup()
+        AttackEnrichment.get_attack_lookup(store_csv=True)
     )
 
     ba_factory_input_dto = BAFactoryInputDto(
