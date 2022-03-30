@@ -29,7 +29,6 @@ tags:
   - CIS 16
   context:
   - Source:Endpoint
-  - Stage:Delivery
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556.001/atomic_red_team/iso_windows-sysmon.log
   kill_chain_phases:
