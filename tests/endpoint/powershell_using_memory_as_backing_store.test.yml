@@ -7,6 +7,6 @@ tests:
   latest_time: now
   attack_data:
   - file_name: windows-powershell.log
-    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/honeypots/pwsh/windows-powershell.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/honeypots/pwsh/windows-powershell-xml.log
     source: WinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: WinEventLog
