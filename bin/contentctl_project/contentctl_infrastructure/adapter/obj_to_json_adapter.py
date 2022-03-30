@@ -33,7 +33,13 @@ class ObjToJsonAdapter(Adapter):
         elif type == SecurityContentType.stories:
             obj_array = []
             for story in objects:
-                obj_array.append(story.dict(exclude_none=True))
+                obj_array.append(story.dict(exclude_none=True,
+                    exclude =
+                    {
+                        "detections": True,
+                        "investigations": True
+                    }
+                ))
 
             JsonWriter.writeJsonObject(os.path.join(output_path, 'stories.json'), {'stories': obj_array })
 
