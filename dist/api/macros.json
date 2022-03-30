@@ -609,6 +609,11 @@
             "description": "customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environmnent."
         },
         {
+            "name": "splunkd",
+            "definition": "index=_internal sourcetype=splunkd",
+            "description": "customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environmnent."
+        },
+        {
             "name": "stream_dns",
             "definition": "sourcetype=stream:dns",
             "description": "customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environmnent."
