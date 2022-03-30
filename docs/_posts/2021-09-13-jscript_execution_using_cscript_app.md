@@ -1,7 +1,7 @@
 ---
 title: "Jscript Execution Using Cscript App"
 excerpt: "Command and Scripting Interpreter
-, JavaScript/JScript
+, JavaScript
 "
 categories:
   - Endpoint
@@ -10,7 +10,7 @@ toc: true
 toc_label: ""
 tags:
   - Command and Scripting Interpreter
-  - JavaScript/JScript
+  - JavaScript
   - Execution
   - Execution
   - Splunk Enterprise
@@ -42,7 +42,7 @@ This search is to detect a execution of jscript using cscript process. Commonly 
 | -------------- | ---------------- |-------------------- |
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 
-| [T1059.007](https://attack.mitre.org/techniques/T1059/007/) | JavaScript/JScript | Execution |
+| [T1059.007](https://attack.mitre.org/techniques/T1059/007/) | JavaScript | Execution |
 
 #### Search
 

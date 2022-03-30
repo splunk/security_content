@@ -67,8 +67,8 @@ The following analytic identifies msbuild.exe executing from a non-standard path
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_msbuild](https://github.com/splunk/security_content/blob/develop/macros/process_msbuild.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [process_msbuild](https://github.com/splunk/security_content/blob/develop/macros/process_msbuild.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that `suspicious_msbuild_path_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.

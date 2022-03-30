@@ -1,7 +1,7 @@
 ---
 title: "Cmdline Tool Not Executed In CMD Shell"
 excerpt: "Command and Scripting Interpreter
-, JavaScript/JScript
+, JavaScript
 "
 categories:
   - Endpoint
@@ -10,7 +10,7 @@ toc: true
 toc_label: ""
 tags:
   - Command and Scripting Interpreter
-  - JavaScript/JScript
+  - JavaScript
   - Execution
   - Execution
   - Splunk Enterprise
@@ -42,7 +42,7 @@ The following analytic identifies a non-standard parent process (not matching CM
 | -------------- | ---------------- |-------------------- |
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 
-| [T1059.007](https://attack.mitre.org/techniques/T1059/007/) | JavaScript/JScript | Execution |
+| [T1059.007](https://attack.mitre.org/techniques/T1059/007/) | JavaScript | Execution |
 
 #### Search
 
