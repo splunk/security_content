@@ -1,7 +1,7 @@
 ---
 title: "FodHelper UAC Bypass"
 excerpt: "Modify Registry
-, Bypass User Access Control
+, Bypass User Account Control
 , Abuse Elevation Control Mechanism
 "
 categories:
@@ -11,7 +11,7 @@ toc: true
 toc_label: ""
 tags:
   - Modify Registry
-  - Bypass User Access Control
+  - Bypass User Account Control
   - Abuse Elevation Control Mechanism
   - Defense Evasion
   - Defense Evasion
@@ -51,7 +51,7 @@ Upon triage, fodhelper.exe will have a child process and read access will occur 
 | -------------- | ---------------- |-------------------- |
 | [T1112](https://attack.mitre.org/techniques/T1112/) | Modify Registry | Defense Evasion |
 
-| [T1548.002](https://attack.mitre.org/techniques/T1548/002/) | Bypass User Access Control | Defense Evasion, Privilege Escalation |
+| [T1548.002](https://attack.mitre.org/techniques/T1548/002/) | Bypass User Account Control | Defense Evasion, Privilege Escalation |
 
 | [T1548](https://attack.mitre.org/techniques/T1548/) | Abuse Elevation Control Mechanism | Defense Evasion, Privilege Escalation |
 

@@ -1,6 +1,6 @@
 ---
 title: "Linux File Creation In Init Boot Directory"
-excerpt: "Rc.common
+excerpt: "RC Scripts
 , Boot or Logon Initialization Scripts
 "
 categories:
@@ -9,7 +9,7 @@ last_modified_at: 2021-12-20
 toc: true
 toc_label: ""
 tags:
-  - Rc.common
+  - RC Scripts
   - Boot or Logon Initialization Scripts
   - Persistence
   - Privilege Escalation
@@ -42,7 +42,7 @@ This analytic looks for suspicious file creation on init system directories for 
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
-| [T1037.004](https://attack.mitre.org/techniques/T1037/004/) | Rc.common | Persistence, Privilege Escalation |
+| [T1037.004](https://attack.mitre.org/techniques/T1037/004/) | RC Scripts | Persistence, Privilege Escalation |
 
 | [T1037](https://attack.mitre.org/techniques/T1037/) | Boot or Logon Initialization Scripts | Persistence, Privilege Escalation |
 

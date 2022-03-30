@@ -21,6 +21,12 @@ class ConfWriter():
 
 
     @staticmethod
+    def writeConfFileHeaderEmpty(output_path : str) -> None:
+        with open(output_path, 'w') as f:
+            f.write('')
+
+
+    @staticmethod
     def writeConfFile(template_name : str, output_path : str, objects : list) -> None:
 
         def custom_jinja2_enrichment_filter(string, object):
