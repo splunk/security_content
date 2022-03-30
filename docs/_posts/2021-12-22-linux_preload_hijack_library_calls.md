@@ -1,6 +1,6 @@
 ---
 title: "Linux Preload Hijack Library Calls"
-excerpt: "LD_PRELOAD
+excerpt: "Dynamic Linker Hijacking
 , Hijack Execution Flow
 "
 categories:
@@ -9,7 +9,7 @@ last_modified_at: 2021-12-22
 toc: true
 toc_label: ""
 tags:
-  - LD_PRELOAD
+  - Dynamic Linker Hijacking
   - Hijack Execution Flow
   - Defense Evasion
   - Persistence
@@ -44,7 +44,7 @@ This analytic is to detect a suspicious command that may hijack a library functi
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
-| [T1574.006](https://attack.mitre.org/techniques/T1574/006/) | LD_PRELOAD | Defense Evasion, Persistence, Privilege Escalation |
+| [T1574.006](https://attack.mitre.org/techniques/T1574/006/) | Dynamic Linker Hijacking | Defense Evasion, Persistence, Privilege Escalation |
 
 | [T1574](https://attack.mitre.org/techniques/T1574/) | Hijack Execution Flow | Defense Evasion, Persistence, Privilege Escalation |
 
