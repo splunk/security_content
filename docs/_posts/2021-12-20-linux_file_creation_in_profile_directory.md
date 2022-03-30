@@ -1,6 +1,6 @@
 ---
 title: "Linux File Creation In Profile Directory"
-excerpt: ".bash_profile and .bashrc
+excerpt: "Unix Shell Configuration Modification
 , Event Triggered Execution
 "
 categories:
@@ -9,7 +9,7 @@ last_modified_at: 2021-12-20
 toc: true
 toc_label: ""
 tags:
-  - .bash_profile and .bashrc
+  - Unix Shell Configuration Modification
   - Event Triggered Execution
   - Persistence
   - Privilege Escalation
@@ -42,7 +42,7 @@ This analytic looks for suspicious file creation in /etc/profile.d directory to 
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
-| [T1546.004](https://attack.mitre.org/techniques/T1546/004/) | .bash_profile and .bashrc | Persistence, Privilege Escalation |
+| [T1546.004](https://attack.mitre.org/techniques/T1546/004/) | Unix Shell Configuration Modification | Persistence, Privilege Escalation |
 
 | [T1546](https://attack.mitre.org/techniques/T1546/) | Event Triggered Execution | Persistence, Privilege Escalation |
 

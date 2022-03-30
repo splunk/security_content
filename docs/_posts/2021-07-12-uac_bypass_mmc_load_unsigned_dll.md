@@ -1,6 +1,6 @@
 ---
 title: "UAC Bypass MMC Load Unsigned Dll"
-excerpt: "Bypass User Access Control
+excerpt: "Bypass User Account Control
 , Abuse Elevation Control Mechanism
 "
 categories:
@@ -9,7 +9,7 @@ last_modified_at: 2021-07-12
 toc: true
 toc_label: ""
 tags:
-  - Bypass User Access Control
+  - Bypass User Account Control
   - Abuse Elevation Control Mechanism
   - Defense Evasion
   - Privilege Escalation
@@ -42,7 +42,7 @@ This search is to detect a suspicious loaded unsigned dll by MMC.exe application
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
-| [T1548.002](https://attack.mitre.org/techniques/T1548/002/) | Bypass User Access Control | Defense Evasion, Privilege Escalation |
+| [T1548.002](https://attack.mitre.org/techniques/T1548/002/) | Bypass User Account Control | Defense Evasion, Privilege Escalation |
 
 | [T1548](https://attack.mitre.org/techniques/T1548/) | Abuse Elevation Control Mechanism | Defense Evasion, Privilege Escalation |
 

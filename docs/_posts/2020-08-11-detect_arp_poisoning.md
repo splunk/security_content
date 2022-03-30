@@ -2,7 +2,7 @@
 title: "Detect ARP Poisoning"
 excerpt: "Hardware Additions
 , Network Denial of Service
-, Man-in-the-Middle
+, Adversary-in-the-Middle
 , ARP Cache Poisoning
 "
 categories:
@@ -13,7 +13,7 @@ toc_label: ""
 tags:
   - Hardware Additions
   - Network Denial of Service
-  - Man-in-the-Middle
+  - Adversary-in-the-Middle
   - ARP Cache Poisoning
   - Initial Access
   - Impact
@@ -53,7 +53,7 @@ By enabling Dynamic ARP Inspection as a Layer 2 Security measure on the organiza
 
 | [T1498](https://attack.mitre.org/techniques/T1498/) | Network Denial of Service | Impact |
 
-| [T1557](https://attack.mitre.org/techniques/T1557/) | Man-in-the-Middle | Collection, Credential Access |
+| [T1557](https://attack.mitre.org/techniques/T1557/) | Adversary-in-the-Middle | Collection, Credential Access |
 
 | [T1557.002](https://attack.mitre.org/techniques/T1557/002/) | ARP Cache Poisoning | Collection, Credential Access |
 
