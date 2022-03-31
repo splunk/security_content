@@ -6,14 +6,9 @@ author: Michael Haag, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: 'The following analytic identifies installation of a root CA certificate by monitoring the registry. The base paths may be found [here](https://gist.github.com/mattifestation/75d6117707bcf8c26845b3cbb6ad2b6b/raw/ae65ef15c706140ffc2e165615204e20f2903028/RootCAInstallationDetection.xml). In short, there are specific certificate registry paths that will be written to (SetValue) when a new certificate is added. \
-  
-  The high-fidelity events to pay attention to are SetValue events where the TargetObject property ends with “<THUMBPRINT_VALUE>\Blob” as this indicates the direct installation or modification of a root certificate binary blob. To further drill down if a certificate is malicious, PowerShell may be ran \
-
-  `Get-ChildItem -Path Cert:\ -Recurse | Where-Object { $_.Thumbprint -eq ''0022882F61DA349DE9FE5CD1C9EBA96AD7BDF266'' } | Format-List *` 
-  
+description: 'The following analytic identifies installation of a root CA certificate by monitoring the registry. The base paths may be found [here](https://gist.github.com/mattifestation/75d6117707bcf8c26845b3cbb6ad2b6b/raw/ae65ef15c706140ffc2e165615204e20f2903028/RootCAInstallationDetection.xml). In short, there are specific certificate registry paths that will be written to (SetValue) when a new certificate is added.
+  The high-fidelity events to pay attention to are SetValue events where the TargetObject property ends with "<THUMBPRINT_VALUE>\Blob" as this indicates the direct installation or modification of a root certificate binary blob.
   The other high fidelity reference will be which process is making the registry modifications. There are very few processes that modify these day to day, therefore monitoring for all to start (hunting) provides a great beginning.'
-
 search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Registry
   where Registry.registry_path IN ("*\\Certificates\\*") AND Registry.registry_value_name="Blob"
   by _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_value_name Registry.process_guid Registry.registry_key_name Registry.registry_value_data 
