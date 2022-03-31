@@ -1,17 +1,17 @@
-name: Windows PowerView Unconstrained Delegation Discovery
-id: fbf9e47f-e531-4fea-942d-5c95af7ed4d6
+name: Windows PowerView Constrained Delegation Discovery
+id: 86dc8176-6e6c-42d6-9684-5444c6557ab3
 version: 1
-date: '2022-03-28'
+date: '2022-03-31'
 author: Mauricio Velazco, Splunk
 type: TTP
 datamodel: []
 description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
-  to identify commandlets used by the PowerView hacking tool leveraged to discover Windows endpoints with Kerberos Unconstrained Delegation.
+  to identify commandlets used by the PowerView hacking tool leveraged to discover Windows endpoints with Kerberos Constrained Delegation.
   Red Teams and adversaries alike may leverage use this technique for situational awareness and Active Directory Discovery.
 search: '`powershell` EventCode=4104 (Message = "*Get-DomainComputer*" OR Message = "*Get-NetComputer*")
-  AND (Message = "*-Unconstrained*") | stats count min(_time) as firstTime max(_time) as lastTime
+  AND (Message = "*-TrustedToAuth*") | stats count min(_time) as firstTime max(_time) as lastTime
   by EventCode Message ComputerName User | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `windows_powerview_unconstrained_delegation_discovery_filter`'
+  | `windows_powerview_constrained_delegation_discovery_filter`'
 how_to_implement: The following  analytic requires PowerShell operational logs
   to be imported. Modify the powershell macro as needed to match the sourcetype or
   add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
@@ -20,7 +20,8 @@ references:
 - https://attack.mitre.org/techniques/T1018/
 - https://adsecurity.org/?p=1667
 - https://docs.microsoft.com/en-us/defender-for-identity/cas-isp-unconstrained-kerberos
-- https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/domain-compromise-via-unrestricted-kerberos-delegation
+- https://www.guidepointsecurity.com/blog/delegating-like-a-boss-abusing-kerberos-delegation-in-active-directory/
+- https://book.hacktricks.xyz/windows/active-directory-methodology/constrained-delegation
 tags:
   analytic_story:
   - Active Directory Kerberos Attacks
@@ -34,7 +35,7 @@ tags:
   - Source:Endpoint
   - Stage:Discovery
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1018/unconstrained/windows-powershell.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1018/constrained/windows-powershell.log
   impact: 50
   kill_chain_phases:
   - Reconnaissance
