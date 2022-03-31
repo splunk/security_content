@@ -10,7 +10,7 @@ description: 'The following analytic identifies installation of a root CA certif
   
   The high-fidelity events to pay attention to are SetValue events where the TargetObject property ends with “<THUMBPRINT_VALUE>\Blob” as this indicates the direct installation or modification of a root certificate binary blob. To further drill down if a certificate is malicious, PowerShell may be ran \
 
-  `Get-ChildItem -Path Cert:\ -Recurse | Where-Object { $_.Thumbprint -eq '0022882F61DA349DE9FE5CD1C9EBA96AD7BDF266' } | Format-List *` 
+  `Get-ChildItem -Path Cert:\ -Recurse | Where-Object { $_.Thumbprint -eq ''0022882F61DA349DE9FE5CD1C9EBA96AD7BDF266'' } | Format-List *` 
   
   The other high fidelity reference will be which process is making the registry modifications. There are very few processes that modify these day to day, therefore monitoring for all to start (hunting) provides a great beginning.'
 
