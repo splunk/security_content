@@ -28,53 +28,66 @@ During triage, review parallel processes using an EDR product or 4688 events. It
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
-
 - **Last Updated**: 2021-06-09
 - **Author**: Michael Haag, Splunk
 - **ID**: a21e3484-c94d-11eb-b55b-acde48001122
 
 
-#### Metadata
+#### Annotations
 
 <details>
   <summary>ATT&CK</summary>
+
+<div markdown="1">
 
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
 
+</div>
 </details>
 
 
 <details>
   <summary>Kill Chain Phase</summary>
 
+<div markdown="1">
+
 * Exploitation
 
 
+</div>
 </details>
 
 
 <details>
   <summary>NIST</summary>
 
+<div markdown="1">
 
 
+
+</div>
 </details>
 
 <details>
   <summary>CIS20</summary>
 
+<div markdown="1">
 
 
+
+</div>
 </details>
 
 <details>
   <summary>CVE</summary>
 
+<div markdown="1">
 
 
+</div>
 </details>
 
 #### Search
@@ -89,10 +102,10 @@ During triage, review parallel processes using an EDR product or 4688 events. It
 
 #### Macros
 The SPL above uses the following Macros:
-* [powershell](https://github.com/splunk/security_content/blob/develop/macros/powershell.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [powershell](https://github.com/splunk/security_content/blob/develop/macros/powershell.yml)
 
-Note that `unloading_amsi_via_reflection_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+Note that **unloading_amsi_via_reflection_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -132,7 +145,7 @@ Potential for some third party applications to disable AMSI upon invocation. Fil
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 

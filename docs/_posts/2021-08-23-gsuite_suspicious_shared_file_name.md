@@ -29,16 +29,17 @@ This search is to detect a shared file in google drive with suspicious file name
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
-
 - **Last Updated**: 2021-08-23
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: 07eed200-03f5-11ec-98fb-acde48001122
 
 
-#### Metadata
+#### Annotations
 
 <details>
   <summary>ATT&CK</summary>
+
+<div markdown="1">
 
 
 | ID             | Technique        |  Tactic             |
@@ -47,37 +48,49 @@ This search is to detect a shared file in google drive with suspicious file name
 
 | [T1566](https://attack.mitre.org/techniques/T1566/) | Phishing | Initial Access |
 
+</div>
 </details>
 
 
 <details>
   <summary>Kill Chain Phase</summary>
 
+<div markdown="1">
+
 * Exploitation
 
 
+</div>
 </details>
 
 
 <details>
   <summary>NIST</summary>
 
+<div markdown="1">
 
 
+
+</div>
 </details>
 
 <details>
   <summary>CIS20</summary>
 
+<div markdown="1">
 
 
+
+</div>
 </details>
 
 <details>
   <summary>CVE</summary>
 
+<div markdown="1">
 
 
+</div>
 </details>
 
 #### Search
@@ -101,7 +114,7 @@ The SPL above uses the following Macros:
 * [gsuite_drive](https://github.com/splunk/security_content/blob/develop/macros/gsuite_drive.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that `gsuite_suspicious_shared_file_name_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+Note that **gsuite_suspicious_shared_file_name_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -141,7 +154,7 @@ normal user or normal transaction may contain the subject and file type attachme
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 

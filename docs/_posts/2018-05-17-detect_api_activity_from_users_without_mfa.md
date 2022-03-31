@@ -23,53 +23,66 @@ This search looks for AWS CloudTrail events where a user logged into the AWS acc
 - **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
-
 - **Last Updated**: 2018-05-17
 - **Author**: Bhavin Patel, Splunk
 - **ID**: 4d46e8bd-4072-48e4-92db-0325889ef894
 
 
-#### Metadata
+#### Annotations
 
 <details>
   <summary>ATT&CK</summary>
 
+<div markdown="1">
+
+</div>
 </details>
 
 
 <details>
   <summary>Kill Chain Phase</summary>
 
+<div markdown="1">
+
 * Exploitation
 
 
+</div>
 </details>
 
 
 <details>
   <summary>NIST</summary>
 
+<div markdown="1">
+
 * DE.DP
 * PR.AC
 
 
 
+</div>
 </details>
 
 <details>
   <summary>CIS20</summary>
 
+<div markdown="1">
+
 * CIS 16
 
 
 
+</div>
 </details>
 
 <details>
   <summary>CVE</summary>
 
+<div markdown="1">
 
 
+</div>
 </details>
 
 #### Search
@@ -91,7 +104,7 @@ The SPL above uses the following Macros:
 * [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that `detect_api_activity_from_users_without_mfa_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+Note that **detect_api_activity_from_users_without_mfa_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Lookups
 The SPL above uses the following Lookups:
@@ -136,7 +149,7 @@ Many service accounts configured within an AWS infrastructure do not have multi 
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 

@@ -29,16 +29,17 @@ Detect memory dumping of the LSASS process.
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
-
 - **Last Updated**: 2019-12-06
 - **Author**: Patrick Bareiss, Splunk
 - **ID**: fb4c31b0-13e8-4155-8aa5-24de4b8d6717
 
 
-#### Metadata
+#### Annotations
 
 <details>
   <summary>ATT&CK</summary>
+
+<div markdown="1">
 
 
 | ID             | Technique        |  Tactic             |
@@ -47,42 +48,54 @@ Detect memory dumping of the LSASS process.
 
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
 
+</div>
 </details>
 
 
 <details>
   <summary>Kill Chain Phase</summary>
 
+<div markdown="1">
+
 * Actions on Objectives
 
 
+</div>
 </details>
 
 
 <details>
   <summary>NIST</summary>
 
+<div markdown="1">
+
 * DE.CM
 
 
 
+</div>
 </details>
 
 <details>
   <summary>CIS20</summary>
+
+<div markdown="1">
 
 * CIS 6
 * CIS 8
 
 
 
+</div>
 </details>
 
 <details>
   <summary>CVE</summary>
 
+<div markdown="1">
 
 
+</div>
 </details>
 
 #### Search
@@ -98,10 +111,10 @@ Detect memory dumping of the LSASS process.
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that `access_lsass_memory_for_dump_creation_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+Note that **access_lsass_memory_for_dump_creation_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -140,7 +153,7 @@ Administrators can create memory dumps for debugging purposes, but memory dumps 
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 

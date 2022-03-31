@@ -27,37 +27,44 @@ This search looks for DNS requests for phishing domains that are leveraging Evil
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Resolution](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution)
-
 - **Last Updated**: 2020-07-21
 - **Author**: Bhavin Patel, Splunk
 - **ID**: 24dd17b1-e2fb-4c31-878c-d4f226595bfa
 
 
-#### Metadata
+#### Annotations
 
 <details>
   <summary>ATT&CK</summary>
+
+<div markdown="1">
 
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1566.003](https://attack.mitre.org/techniques/T1566/003/) | Spearphishing via Service | Initial Access |
 
+</div>
 </details>
 
 
 <details>
   <summary>Kill Chain Phase</summary>
 
+<div markdown="1">
+
 * Delivery
 * Command & Control
 
 
+</div>
 </details>
 
 
 <details>
   <summary>NIST</summary>
+
+<div markdown="1">
 
 * ID.AM
 * PR.DS
@@ -67,23 +74,29 @@ This search looks for DNS requests for phishing domains that are leveraging Evil
 
 
 
+</div>
 </details>
 
 <details>
   <summary>CIS20</summary>
+
+<div markdown="1">
 
 * CIS 8
 * CIS 7
 
 
 
+</div>
 </details>
 
 <details>
   <summary>CVE</summary>
 
+<div markdown="1">
 
 
+</div>
 </details>
 
 #### Search
@@ -110,16 +123,16 @@ This search looks for DNS requests for phishing domains that are leveraging Evil
 
 #### Macros
 The SPL above uses the following Macros:
+* [evilginx_phishlets_outlook](https://github.com/splunk/security_content/blob/develop/macros/evilginx_phishlets_outlook.yml)
 * [evilginx_phishlets_amazon](https://github.com/splunk/security_content/blob/develop/macros/evilginx_phishlets_amazon.yml)
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [evilginx_phishlets_aws](https://github.com/splunk/security_content/blob/develop/macros/evilginx_phishlets_aws.yml)
+* [evilginx_phishlets_0365](https://github.com/splunk/security_content/blob/develop/macros/evilginx_phishlets_0365.yml)
 * [evilginx_phishlets_github](https://github.com/splunk/security_content/blob/develop/macros/evilginx_phishlets_github.yml)
 * [evilginx_phishlets_facebook](https://github.com/splunk/security_content/blob/develop/macros/evilginx_phishlets_facebook.yml)
-* [evilginx_phishlets_aws](https://github.com/splunk/security_content/blob/develop/macros/evilginx_phishlets_aws.yml)
-* [evilginx_phishlets_outlook](https://github.com/splunk/security_content/blob/develop/macros/evilginx_phishlets_outlook.yml)
-* [evilginx_phishlets_0365](https://github.com/splunk/security_content/blob/develop/macros/evilginx_phishlets_0365.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [evilginx_phishlets_google](https://github.com/splunk/security_content/blob/develop/macros/evilginx_phishlets_google.yml)
 
-Note that `detect_dns_requests_to_phishing_sites_leveraging_evilginx2_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+Note that **detect_dns_requests_to_phishing_sites_leveraging_evilginx2_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -157,7 +170,7 @@ If a known good domain is not listed in the legit_domains.csv file, then the sea
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 

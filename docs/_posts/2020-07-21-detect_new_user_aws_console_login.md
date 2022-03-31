@@ -29,58 +29,71 @@ This search looks for AWS CloudTrail events wherein a console login event by a u
 - **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
-
 - **Last Updated**: 2020-07-21
 - **Author**: Bhavin Patel, Splunk
 - **ID**: ada0f478-84a8-4641-a3f3-d82362dffd75
 
 
-#### Metadata
+#### Annotations
 
 <details>
   <summary>ATT&CK</summary>
+
+<div markdown="1">
 
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1078.004](https://attack.mitre.org/techniques/T1078/004/) | Cloud Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
 
+</div>
 </details>
 
 
 <details>
   <summary>Kill Chain Phase</summary>
 
+<div markdown="1">
+
 * Actions on Objectives
 
 
+</div>
 </details>
 
 
 <details>
   <summary>NIST</summary>
 
+<div markdown="1">
+
 * DE.DP
 * DE.AE
 
 
 
+</div>
 </details>
 
 <details>
   <summary>CIS20</summary>
 
+<div markdown="1">
+
 * CIS 16
 
 
 
+</div>
 </details>
 
 <details>
   <summary>CVE</summary>
 
+<div markdown="1">
 
 
+</div>
 </details>
 
 #### Search
@@ -103,7 +116,7 @@ The SPL above uses the following Macros:
 * [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that `detect_new_user_aws_console_login_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+Note that **detect_new_user_aws_console_login_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -134,7 +147,7 @@ When a legitimate new user logins for the first time, this activity will be dete
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 

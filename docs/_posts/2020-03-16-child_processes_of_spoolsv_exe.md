@@ -30,36 +30,43 @@ This search looks for child processes of spoolsv.exe. This activity is associate
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
-
 - **Last Updated**: 2020-03-16
 - **Author**: Rico Valdez, Splunk
 - **ID**: aa0c4aeb-5b18-41c4-8c07-f1442d7599df
 
 
-#### Metadata
+#### Annotations
 
 <details>
   <summary>ATT&CK</summary>
+
+<div markdown="1">
 
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1068](https://attack.mitre.org/techniques/T1068/) | Exploitation for Privilege Escalation | Privilege Escalation |
 
+</div>
 </details>
 
 
 <details>
   <summary>Kill Chain Phase</summary>
 
+<div markdown="1">
+
 * Exploitation
 
 
+</div>
 </details>
 
 
 <details>
   <summary>NIST</summary>
+
+<div markdown="1">
 
 * PR.AC
 * PR.PT
@@ -67,27 +74,33 @@ This search looks for child processes of spoolsv.exe. This activity is associate
 
 
 
+</div>
 </details>
 
 <details>
   <summary>CIS20</summary>
+
+<div markdown="1">
 
 * CIS 5
 * CIS 8
 
 
 
+</div>
 </details>
 
 <details>
   <summary>CVE</summary>
 
+<div markdown="1">
 | ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
 | ----------- | ----------- | -------------- |
 | [CVE-2018-8440](https://nvd.nist.gov/vuln/detail/CVE-2018-8440) | An elevation of privilege vulnerability exists when Windows improperly handles calls to Advanced Local Procedure Call (ALPC), aka "Windows ALPC Elevation of Privilege Vulnerability." This affects Windows 7, Windows Server 2012 R2, Windows RT 8.1, Windows Server 2008, Windows Server 2012, Windows 8.1, Windows Server 2016, Windows Server 2008 R2, Windows 10, Windows 10 Servers. | 7.2 |
 
 
 
+</div>
 </details>
 
 #### Search
@@ -103,10 +116,10 @@ This search looks for child processes of spoolsv.exe. This activity is associate
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that `child_processes_of_spoolsv_exe_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+Note that **child_processes_of_spoolsv_exe_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -142,7 +155,7 @@ Some legitimate printer-related processes may show up as children of spoolsv.exe
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 

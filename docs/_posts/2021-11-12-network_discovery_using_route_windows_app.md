@@ -30,16 +30,17 @@ This analytic look for a spawned process of route.exe windows application. Adver
 - **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
-
 - **Last Updated**: 2021-11-12
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: dd83407e-439f-11ec-ab8e-acde48001122
 
 
-#### Metadata
+#### Annotations
 
 <details>
   <summary>ATT&CK</summary>
+
+<div markdown="1">
 
 
 | ID             | Technique        |  Tactic             |
@@ -48,37 +49,49 @@ This analytic look for a spawned process of route.exe windows application. Adver
 
 | [T1016.001](https://attack.mitre.org/techniques/T1016/001/) | Internet Connection Discovery | Discovery |
 
+</div>
 </details>
 
 
 <details>
   <summary>Kill Chain Phase</summary>
 
+<div markdown="1">
+
 * Reconnaissance
 
 
+</div>
 </details>
 
 
 <details>
   <summary>NIST</summary>
 
+<div markdown="1">
 
 
+
+</div>
 </details>
 
 <details>
   <summary>CIS20</summary>
 
+<div markdown="1">
 
 
+
+</div>
 </details>
 
 <details>
   <summary>CVE</summary>
 
+<div markdown="1">
 
 
+</div>
 </details>
 
 #### Search
@@ -95,10 +108,10 @@ This analytic look for a spawned process of route.exe windows application. Adver
 #### Macros
 The SPL above uses the following Macros:
 * [process_route](https://github.com/splunk/security_content/blob/develop/macros/process_route.yml)
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that `network_discovery_using_route_windows_app_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+Note that **network_discovery_using_route_windows_app_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -138,7 +151,7 @@ A network operator or systems administrator may utilize an automated host discov
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 

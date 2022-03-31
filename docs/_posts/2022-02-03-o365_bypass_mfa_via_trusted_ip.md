@@ -29,16 +29,17 @@ This search detects newly added IP addresses/CIDR blocks to the list of MFA Trus
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
-
 - **Last Updated**: 2022-02-03
 - **Author**: Bhavin Patel, Splunk
 - **ID**: c783dd98-c703-4252-9e8a-f19d9f66949e
 
 
-#### Metadata
+#### Annotations
 
 <details>
   <summary>ATT&CK</summary>
+
+<div markdown="1">
 
 
 | ID             | Technique        |  Tactic             |
@@ -47,37 +48,49 @@ This search detects newly added IP addresses/CIDR blocks to the list of MFA Trus
 
 | [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
 
+</div>
 </details>
 
 
 <details>
   <summary>Kill Chain Phase</summary>
 
+<div markdown="1">
+
 * Exploitation
 
 
+</div>
 </details>
 
 
 <details>
   <summary>NIST</summary>
 
+<div markdown="1">
 
 
+
+</div>
 </details>
 
 <details>
   <summary>CIS20</summary>
 
+<div markdown="1">
 
 
+
+</div>
 </details>
 
 <details>
   <summary>CVE</summary>
 
+<div markdown="1">
 
 
+</div>
 </details>
 
 #### Search
@@ -97,10 +110,10 @@ This search detects newly added IP addresses/CIDR blocks to the list of MFA Trus
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [o365_management_activity](https://github.com/splunk/security_content/blob/develop/macros/o365_management_activity.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that `o365_bypass_mfa_via_trusted_ip_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+Note that **o365_bypass_mfa_via_trusted_ip_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -142,7 +155,7 @@ Unless it is a special case, it is uncommon to continually update Trusted IPs to
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 

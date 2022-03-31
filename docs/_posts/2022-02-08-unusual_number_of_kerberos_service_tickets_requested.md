@@ -30,16 +30,17 @@ The detection calculates the standard deviation for each host and leverages the 
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
-
 - **Last Updated**: 2022-02-08
 - **Author**: Mauricio Velazco, Splunk
 - **ID**: eb3e6702-8936-11ec-98fe-acde48001122
 
 
-#### Metadata
+#### Annotations
 
 <details>
   <summary>ATT&CK</summary>
+
+<div markdown="1">
 
 
 | ID             | Technique        |  Tactic             |
@@ -48,37 +49,49 @@ The detection calculates the standard deviation for each host and leverages the 
 
 | [T1558.003](https://attack.mitre.org/techniques/T1558/003/) | Kerberoasting | Credential Access |
 
+</div>
 </details>
 
 
 <details>
   <summary>Kill Chain Phase</summary>
 
+<div markdown="1">
+
 * Exploitation
 
 
+</div>
 </details>
 
 
 <details>
   <summary>NIST</summary>
 
+<div markdown="1">
 
 
+
+</div>
 </details>
 
 <details>
   <summary>CIS20</summary>
 
+<div markdown="1">
 
 
+
+</div>
 </details>
 
 <details>
   <summary>CVE</summary>
 
+<div markdown="1">
 
 
+</div>
 </details>
 
 #### Search
@@ -98,7 +111,7 @@ The detection calculates the standard deviation for each host and leverages the 
 The SPL above uses the following Macros:
 * [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 
-Note that `unusual_number_of_kerberos_service_tickets_requested_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+Note that **unusual_number_of_kerberos_service_tickets_requested_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -138,7 +151,7 @@ An single endpoint requesting a large number of kerberos service tickets is not 
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 

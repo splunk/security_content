@@ -26,36 +26,43 @@ This search uses the Kubernetes logs from Splunk Connect from Kubernetes to dete
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
-
 - **Last Updated**: 2021-08-24
 - **Author**: Patrick Bareiss, Splunk
 - **ID**: 4890cd6b-0112-4974-a272-c5c153aee551
 
 
-#### Metadata
+#### Annotations
 
 <details>
   <summary>ATT&CK</summary>
+
+<div markdown="1">
 
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1526](https://attack.mitre.org/techniques/T1526/) | Cloud Service Discovery | Discovery |
 
+</div>
 </details>
 
 
 <details>
   <summary>Kill Chain Phase</summary>
 
+<div markdown="1">
+
 * Actions on Objectives
 
 
+</div>
 </details>
 
 
 <details>
   <summary>NIST</summary>
+
+<div markdown="1">
 
 * PR.DS
 * PR.AC
@@ -63,22 +70,28 @@ This search uses the Kubernetes logs from Splunk Connect from Kubernetes to dete
 
 
 
+</div>
 </details>
 
 <details>
   <summary>CIS20</summary>
 
+<div markdown="1">
+
 * CIS 13
 
 
 
+</div>
 </details>
 
 <details>
   <summary>CVE</summary>
 
+<div markdown="1">
 
 
+</div>
 </details>
 
 #### Search
@@ -98,10 +111,10 @@ This search uses the Kubernetes logs from Splunk Connect from Kubernetes to dete
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [kube_objects_events](https://github.com/splunk/security_content/blob/develop/macros/kube_objects_events.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that `kubernetes_scanner_image_pulling_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+Note that **kubernetes_scanner_image_pulling_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * object.message
@@ -139,7 +152,7 @@ unknown
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 

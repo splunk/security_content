@@ -31,16 +31,17 @@ This search looks for modifications to registry keys that can be used to elevate
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
-
 - **Last Updated**: 2022-01-26
 - **Author**: David Dorsey, Teoderick Contreras, Splunk
 - **ID**: c9f4b923-f8af-4155-b697-1354f5bcbc5e
 
 
-#### Metadata
+#### Annotations
 
 <details>
   <summary>ATT&CK</summary>
+
+<div markdown="1">
 
 
 | ID             | Technique        |  Tactic             |
@@ -49,42 +50,54 @@ This search looks for modifications to registry keys that can be used to elevate
 
 | [T1546](https://attack.mitre.org/techniques/T1546/) | Event Triggered Execution | Persistence, Privilege Escalation |
 
+</div>
 </details>
 
 
 <details>
   <summary>Kill Chain Phase</summary>
 
+<div markdown="1">
+
 * Actions on Objectives
 
 
+</div>
 </details>
 
 
 <details>
   <summary>NIST</summary>
 
+<div markdown="1">
+
 * PR.PT
 * DE.CM
 
 
 
+</div>
 </details>
 
 <details>
   <summary>CIS20</summary>
 
+<div markdown="1">
+
 * CIS 8
 
 
 
+</div>
 </details>
 
 <details>
   <summary>CVE</summary>
 
+<div markdown="1">
 
 
+</div>
 </details>
 
 #### Search
@@ -107,7 +120,7 @@ This search looks for modifications to registry keys that can be used to elevate
 The SPL above uses the following Macros:
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that `registry_keys_used_for_privilege_escalation_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+Note that **registry_keys_used_for_privilege_escalation_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -145,7 +158,7 @@ There are many legitimate applications that must execute upon system startup and
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 

@@ -32,16 +32,17 @@ This search identifies DNS query failures by counting the number of DNS response
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Resolution](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution)
-
 - **Last Updated**: 2020-07-21
 - **Author**: Bhavin Patel, Splunk
 - **ID**: 104658f4-afdc-499e-9719-17243f9826f1
 
 
-#### Metadata
+#### Annotations
 
 <details>
   <summary>ATT&CK</summary>
+
+<div markdown="1">
 
 
 | ID             | Technique        |  Tactic             |
@@ -50,20 +51,26 @@ This search identifies DNS query failures by counting the number of DNS response
 
 | [T1071](https://attack.mitre.org/techniques/T1071/) | Application Layer Protocol | Command And Control |
 
+</div>
 </details>
 
 
 <details>
   <summary>Kill Chain Phase</summary>
 
+<div markdown="1">
+
 * Command & Control
 
 
+</div>
 </details>
 
 
 <details>
   <summary>NIST</summary>
+
+<div markdown="1">
 
 * PR.PT
 * DE.AE
@@ -71,10 +78,13 @@ This search identifies DNS query failures by counting the number of DNS response
 
 
 
+</div>
 </details>
 
 <details>
   <summary>CIS20</summary>
+
+<div markdown="1">
 
 * CIS 8
 * CIS 9
@@ -82,13 +92,16 @@ This search identifies DNS query failures by counting the number of DNS response
 
 
 
+</div>
 </details>
 
 <details>
   <summary>CVE</summary>
 
+<div markdown="1">
 
 
+</div>
 </details>
 
 #### Search
@@ -111,7 +124,7 @@ This search identifies DNS query failures by counting the number of DNS response
 The SPL above uses the following Macros:
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that `excessive_dns_failures_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+Note that **excessive_dns_failures_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -144,7 +157,7 @@ It is possible legitimate traffic can trigger this rule. Please investigate as a
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 

@@ -28,36 +28,43 @@ This search detects users creating spikes in API activity related to deletion of
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
-
 - **Last Updated**: 2018-11-27
 - **Author**: Bhavin Patel, Splunk
 - **ID**: e733a326-59d2-446d-b8db-14a17151aa68
 
 
-#### Metadata
+#### Annotations
 
 <details>
   <summary>ATT&CK</summary>
+
+<div markdown="1">
 
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1530](https://attack.mitre.org/techniques/T1530/) | Data from Cloud Storage Object | Collection |
 
+</div>
 </details>
 
 
 <details>
   <summary>Kill Chain Phase</summary>
 
+<div markdown="1">
+
 * Actions on Objectives
 
 
+</div>
 </details>
 
 
 <details>
   <summary>NIST</summary>
+
+<div markdown="1">
 
 * DE.DP
 * DE.CM
@@ -65,22 +72,28 @@ This search detects users creating spikes in API activity related to deletion of
 
 
 
+</div>
 </details>
 
 <details>
   <summary>CIS20</summary>
 
+<div markdown="1">
+
 * CIS 13
 
 
 
+</div>
 </details>
 
 <details>
   <summary>CVE</summary>
 
+<div markdown="1">
 
 
+</div>
 </details>
 
 #### Search
@@ -113,7 +126,7 @@ This search detects users creating spikes in API activity related to deletion of
 The SPL above uses the following Macros:
 * [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
 
-Note that `detect_spike_in_s3_bucket_deletion_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+Note that **detect_spike_in_s3_bucket_deletion_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Lookups
 The SPL above uses the following Lookups:
@@ -150,7 +163,7 @@ Based on the values of`dataPointThreshold` and `deviationThreshold`, the false p
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 

@@ -29,16 +29,17 @@ The following analytic utilizes Windows Event ID 1100 to identify when Windows e
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
-
 - **Last Updated**: 2021-06-17
 - **Author**: Mauricio Velazco, Splunk
 - **ID**: 2b85aa3d-f5f6-4c2e-a081-a09f6e1c2e40
 
 
-#### Metadata
+#### Annotations
 
 <details>
   <summary>ATT&CK</summary>
+
+<div markdown="1">
 
 
 | ID             | Technique        |  Tactic             |
@@ -47,20 +48,26 @@ The following analytic utilizes Windows Event ID 1100 to identify when Windows e
 
 | [T1070.001](https://attack.mitre.org/techniques/T1070/001/) | Clear Windows Event Logs | Defense Evasion |
 
+</div>
 </details>
 
 
 <details>
   <summary>Kill Chain Phase</summary>
 
+<div markdown="1">
+
 * Actions on Objectives
 
 
+</div>
 </details>
 
 
 <details>
   <summary>NIST</summary>
+
+<div markdown="1">
 
 * DE.DP
 * PR.IP
@@ -70,10 +77,13 @@ The following analytic utilizes Windows Event ID 1100 to identify when Windows e
 
 
 
+</div>
 </details>
 
 <details>
   <summary>CIS20</summary>
+
+<div markdown="1">
 
 * CIS 3
 * CIS 5
@@ -81,13 +91,16 @@ The following analytic utilizes Windows Event ID 1100 to identify when Windows e
 
 
 
+</div>
 </details>
 
 <details>
   <summary>CVE</summary>
 
+<div markdown="1">
 
 
+</div>
 </details>
 
 #### Search
@@ -102,10 +115,10 @@ The following analytic utilizes Windows Event ID 1100 to identify when Windows e
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that `suspicious_event_log_service_behavior_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+Note that **suspicious_event_log_service_behavior_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -144,7 +157,7 @@ It is possible the Event Logging service gets shut down due to system errors or 
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 

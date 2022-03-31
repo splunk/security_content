@@ -32,17 +32,18 @@ This query identifies a shell, PowerShell.exe or Cmd.exe, spawning from W3WP.exe
 
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
-- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2021-03-03
 - **Author**: Michael Haag, Splunk
 - **ID**: 0f03423c-7c6a-11eb-bc47-acde48001122
 
 
-#### Metadata
+#### Annotations
 
 <details>
   <summary>ATT&CK</summary>
+
+<div markdown="1">
 
 
 | ID             | Technique        |  Tactic             |
@@ -51,35 +52,46 @@ This query identifies a shell, PowerShell.exe or Cmd.exe, spawning from W3WP.exe
 
 | [T1505.003](https://attack.mitre.org/techniques/T1505/003/) | Web Shell | Persistence |
 
+</div>
 </details>
 
 
 <details>
   <summary>Kill Chain Phase</summary>
 
+<div markdown="1">
+
 * Exploitation
 
 
+</div>
 </details>
 
 
 <details>
   <summary>NIST</summary>
 
+<div markdown="1">
 
 
+
+</div>
 </details>
 
 <details>
   <summary>CIS20</summary>
 
+<div markdown="1">
 
 
+
+</div>
 </details>
 
 <details>
   <summary>CVE</summary>
 
+<div markdown="1">
 | ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
 | ----------- | ----------- | -------------- |
 | [CVE-2021-34473](https://nvd.nist.gov/vuln/detail/CVE-2021-34473) | Microsoft Exchange Server Remote Code Execution Vulnerability This CVE ID is unique from CVE-2021-31196, CVE-2021-31206. | 10.0 |
@@ -88,6 +100,7 @@ This query identifies a shell, PowerShell.exe or Cmd.exe, spawning from W3WP.exe
 
 
 
+</div>
 </details>
 
 #### Search
@@ -103,12 +116,12 @@ This query identifies a shell, PowerShell.exe or Cmd.exe, spawning from W3WP.exe
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
-* [process_powershell](https://github.com/splunk/security_content/blob/develop/macros/process_powershell.yml)
 * [process_cmd](https://github.com/splunk/security_content/blob/develop/macros/process_cmd.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [process_powershell](https://github.com/splunk/security_content/blob/develop/macros/process_powershell.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that `w3wp_spawning_shell_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+Note that **w3wp_spawning_shell_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -155,7 +168,7 @@ Baseline your environment before production. It is possible build systems using 
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 

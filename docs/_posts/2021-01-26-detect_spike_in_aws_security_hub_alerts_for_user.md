@@ -25,53 +25,66 @@ This search looks for a spike in number of of AWS security Hub alerts for an AWS
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
-
 - **Last Updated**: 2021-01-26
 - **Author**: Bhavin Patel, Splunk
 - **ID**: 2a9b80d3-6220-4345-b5ad-290bf5d0d222
 
 
-#### Metadata
+#### Annotations
 
 <details>
   <summary>ATT&CK</summary>
 
+<div markdown="1">
+
+</div>
 </details>
 
 
 <details>
   <summary>Kill Chain Phase</summary>
 
+<div markdown="1">
+
 * Exploitation
 
 
+</div>
 </details>
 
 
 <details>
   <summary>NIST</summary>
 
+<div markdown="1">
+
 * DE.DP
 * DE.AE
 
 
 
+</div>
 </details>
 
 <details>
   <summary>CIS20</summary>
 
+<div markdown="1">
+
 * CIS 13
 
 
 
+</div>
 </details>
 
 <details>
   <summary>CVE</summary>
 
+<div markdown="1">
 
 
+</div>
 </details>
 
 #### Search
@@ -93,7 +106,7 @@ This search looks for a spike in number of of AWS security Hub alerts for an AWS
 The SPL above uses the following Macros:
 * [aws_securityhub_finding](https://github.com/splunk/security_content/blob/develop/macros/aws_securityhub_finding.yml)
 
-Note that `detect_spike_in_aws_security_hub_alerts_for_user_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+Note that **detect_spike_in_aws_security_hub_alerts_for_user_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -125,7 +138,7 @@ None
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 

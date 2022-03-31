@@ -25,31 +25,38 @@ This search looks for unusually long strings in the Content-Type http header tha
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
-
 - **Last Updated**: 2017-10-13
 - **Author**: Bhavin Patel, Splunk
 - **ID**: 57a0a2bf-353f-40c1-84dc-29293f3c35b7
 
 
-#### Metadata
+#### Annotations
 
 <details>
   <summary>ATT&CK</summary>
 
+<div markdown="1">
+
+</div>
 </details>
 
 
 <details>
   <summary>Kill Chain Phase</summary>
 
+<div markdown="1">
+
 * Delivery
 
 
+</div>
 </details>
 
 
 <details>
   <summary>NIST</summary>
+
+<div markdown="1">
 
 * ID.RA
 * RS.MI
@@ -61,10 +68,13 @@ This search looks for unusually long strings in the Content-Type http header tha
 
 
 
+</div>
 </details>
 
 <details>
   <summary>CIS20</summary>
+
+<div markdown="1">
 
 * CIS 3
 * CIS 4
@@ -73,13 +83,16 @@ This search looks for unusually long strings in the Content-Type http header tha
 
 
 
+</div>
 </details>
 
 <details>
   <summary>CVE</summary>
 
+<div markdown="1">
 
 
+</div>
 </details>
 
 #### Search
@@ -96,7 +109,7 @@ This search looks for unusually long strings in the Content-Type http header tha
 The SPL above uses the following Macros:
 * [stream_http](https://github.com/splunk/security_content/blob/develop/macros/stream_http.yml)
 
-Note that `unusually_long_content-type_length_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+Note that **unusually_long_content-type_length_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -130,7 +143,7 @@ Very few legitimate Content-Type fields will have a length greater than 100 char
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 

@@ -29,16 +29,17 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 - **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
-
 - **Last Updated**: 2021-08-25
 - **Author**: Mauricio Velazco, Splunk
 - **ID**: 10d62950-0de5-4199-a710-cff9ea79b413
 
 
-#### Metadata
+#### Annotations
 
 <details>
   <summary>ATT&CK</summary>
+
+<div markdown="1">
 
 
 | ID             | Technique        |  Tactic             |
@@ -47,37 +48,49 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 
 | [T1069.002](https://attack.mitre.org/techniques/T1069/002/) | Domain Groups | Discovery |
 
+</div>
 </details>
 
 
 <details>
   <summary>Kill Chain Phase</summary>
 
+<div markdown="1">
+
 * Reconnaissance
 
 
+</div>
 </details>
 
 
 <details>
   <summary>NIST</summary>
 
+<div markdown="1">
 
 
+
+</div>
 </details>
 
 <details>
   <summary>CIS20</summary>
 
+<div markdown="1">
 
 
+
+</div>
 </details>
 
 <details>
   <summary>CVE</summary>
 
+<div markdown="1">
 
 
+</div>
 </details>
 
 #### Search
@@ -91,10 +104,10 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 
 #### Macros
 The SPL above uses the following Macros:
-* [powershell](https://github.com/splunk/security_content/blob/develop/macros/powershell.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [powershell](https://github.com/splunk/security_content/blob/develop/macros/powershell.yml)
 
-Note that `elevated_group_discovery_with_powerview_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+Note that **elevated_group_discovery_with_powerview_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -133,7 +146,7 @@ Administrators or power users may use this PowerView for troubleshooting.
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 

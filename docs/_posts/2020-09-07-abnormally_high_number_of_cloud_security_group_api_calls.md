@@ -35,17 +35,18 @@ This search will detect a spike in the number of API calls made to your cloud in
 
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
-- **Datasource**: [Splunk Add-on for Amazon Kinesis Firehose](https://splunkbase.splunk.com/app/3719)
+- **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)- **Datasource**: [Splunk Add-on for Amazon Kinesis Firehose](https://splunkbase.splunk.com/app/3719)
 - **Last Updated**: 2020-09-07
 - **Author**: David Dorsey, Splunk
 - **ID**: d4dfb7f3-7a37-498a-b5df-f19334e871af
 
 
-#### Metadata
+#### Annotations
 
 <details>
   <summary>ATT&CK</summary>
+
+<div markdown="1">
 
 
 | ID             | Technique        |  Tactic             |
@@ -54,20 +55,26 @@ This search will detect a spike in the number of API calls made to your cloud in
 
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
 
+</div>
 </details>
 
 
 <details>
   <summary>Kill Chain Phase</summary>
 
+<div markdown="1">
+
 * Actions on Objectives
 
 
+</div>
 </details>
 
 
 <details>
   <summary>NIST</summary>
+
+<div markdown="1">
 
 * DE.DP
 * DE.CM
@@ -75,22 +82,28 @@ This search will detect a spike in the number of API calls made to your cloud in
 
 
 
+</div>
 </details>
 
 <details>
   <summary>CIS20</summary>
 
+<div markdown="1">
+
 * CIS 16
 
 
 
+</div>
 </details>
 
 <details>
   <summary>CVE</summary>
 
+<div markdown="1">
 
 
+</div>
 </details>
 
 #### Search
@@ -118,7 +131,7 @@ This search will detect a spike in the number of API calls made to your cloud in
 #### Macros
 The SPL above uses the following Macros:
 
-Note that `abnormally_high_number_of_cloud_security_group_api_calls_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+Note that **abnormally_high_number_of_cloud_security_group_api_calls_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -151,7 +164,7 @@ You must be ingesting your cloud infrastructure logs. You also must run the base
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 

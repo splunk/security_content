@@ -32,16 +32,17 @@ The search is used to identify attempts to use your DNS Infrastructure for DDoS 
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Resolution](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution)
-
 - **Last Updated**: 2017-09-20
 - **Author**: Bhavin Patel, Splunk
 - **ID**: 8fa891f7-a533-4b3c-af85-5aa2e7c1f1eb
 
 
-#### Metadata
+#### Annotations
 
 <details>
   <summary>ATT&CK</summary>
+
+<div markdown="1">
 
 
 | ID             | Technique        |  Tactic             |
@@ -50,20 +51,26 @@ The search is used to identify attempts to use your DNS Infrastructure for DDoS 
 
 | [T1498.002](https://attack.mitre.org/techniques/T1498/002/) | Reflection Amplification | Impact |
 
+</div>
 </details>
 
 
 <details>
   <summary>Kill Chain Phase</summary>
 
+<div markdown="1">
+
 * Actions on Objectives
 
 
+</div>
 </details>
 
 
 <details>
   <summary>NIST</summary>
+
+<div markdown="1">
 
 * PR.PT
 * DE.AE
@@ -71,23 +78,29 @@ The search is used to identify attempts to use your DNS Infrastructure for DDoS 
 
 
 
+</div>
 </details>
 
 <details>
   <summary>CIS20</summary>
+
+<div markdown="1">
 
 * CIS 11
 * CIS 12
 
 
 
+</div>
 </details>
 
 <details>
   <summary>CVE</summary>
 
+<div markdown="1">
 
 
+</div>
 </details>
 
 #### Search
@@ -104,7 +117,7 @@ The search is used to identify attempts to use your DNS Infrastructure for DDoS 
 The SPL above uses the following Macros:
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that `large_volume_of_dns_any_queries_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+Note that **large_volume_of_dns_any_queries_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -136,7 +149,7 @@ Legitimate ANY requests may trigger this search, however it is unusual to see a 
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 

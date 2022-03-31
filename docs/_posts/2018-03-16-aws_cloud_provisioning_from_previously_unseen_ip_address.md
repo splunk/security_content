@@ -23,52 +23,65 @@ This search looks for AWS provisioning activities from previously unseen IP addr
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
-
 - **Last Updated**: 2018-03-16
 - **Author**: David Dorsey, Splunk
 - **ID**: 42e15012-ac14-4801-94f4-f1acbe64880b
 
 
-#### Metadata
+#### Annotations
 
 <details>
   <summary>ATT&CK</summary>
 
+<div markdown="1">
+
+</div>
 </details>
 
 
 <details>
   <summary>Kill Chain Phase</summary>
 
+<div markdown="1">
+
 * Exploitation
 
 
+</div>
 </details>
 
 
 <details>
   <summary>NIST</summary>
 
+<div markdown="1">
+
 * ID.AM
 
 
 
+</div>
 </details>
 
 <details>
   <summary>CIS20</summary>
 
+<div markdown="1">
+
 * CIS 1
 
 
 
+</div>
 </details>
 
 <details>
   <summary>CVE</summary>
 
+<div markdown="1">
 
 
+</div>
 </details>
 
 #### Search
@@ -95,7 +108,7 @@ This search looks for AWS provisioning activities from previously unseen IP addr
 The SPL above uses the following Macros:
 * [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
 
-Note that `aws_cloud_provisioning_from_previously_unseen_ip_address_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+Note that **aws_cloud_provisioning_from_previously_unseen_ip_address_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -127,7 +140,7 @@ This is a strictly behavioral search, so we define "false positive" slightly dif
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 

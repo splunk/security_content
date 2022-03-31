@@ -23,31 +23,38 @@ The search looks for modifications to the hosts file on all Windows endpoints ac
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
-
 - **Last Updated**: 2018-11-02
 - **Author**: Rico Valdez, Splunk
 - **ID**: 06a6fc63-a72d-41dc-8736-7e3dd9612116
 
 
-#### Metadata
+#### Annotations
 
 <details>
   <summary>ATT&CK</summary>
 
+<div markdown="1">
+
+</div>
 </details>
 
 
 <details>
   <summary>Kill Chain Phase</summary>
 
+<div markdown="1">
+
 * Command & Control
 
 
+</div>
 </details>
 
 
 <details>
   <summary>NIST</summary>
+
+<div markdown="1">
 
 * PR.IP
 * PR.PT
@@ -57,10 +64,13 @@ The search looks for modifications to the hosts file on all Windows endpoints ac
 
 
 
+</div>
 </details>
 
 <details>
   <summary>CIS20</summary>
+
+<div markdown="1">
 
 * CIS 3
 * CIS 8
@@ -68,13 +78,16 @@ The search looks for modifications to the hosts file on all Windows endpoints ac
 
 
 
+</div>
 </details>
 
 <details>
   <summary>CVE</summary>
 
+<div markdown="1">
 
 
+</div>
 </details>
 
 #### Search
@@ -91,10 +104,10 @@ The search looks for modifications to the hosts file on all Windows endpoints ac
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that `windows_hosts_file_modification_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+Note that **windows_hosts_file_modification_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -123,7 +136,7 @@ There may be legitimate reasons for system administrators to add entries to this
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 
