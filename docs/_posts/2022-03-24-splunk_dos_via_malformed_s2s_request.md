@@ -13,7 +13,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - 
+  - CVE-2021-3422
 ---
 
 
@@ -87,7 +87,7 @@ None.
 
 | ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
 | ----------- | ----------- | -------------- |
-| [](https://nvd.nist.gov/vuln/detail/) |  |  |
+| [CVE-2021-3422](https://nvd.nist.gov/vuln/detail/CVE-2021-3422) | The lack of validation of a key-value field in the Splunk-to-Splunk protocol results in a denial-of-service in Splunk Enterprise instances configured to index Universal Forwarder traffic. The vulnerability impacts Splunk Enterprise versions before 7.3.9, 8.0 versions before 8.0.9, and 8.1 versions before 8.1.3. It does not impact Universal Forwarders. When Splunk forwarding is secured using TLS or a Token, the attack requires compromising the certificate or token, or both. Implementation of either or both reduces the severity to Medium. | None |
 
 
 
