@@ -26,22 +26,72 @@ tags:
 
 The following analytic utilizes PowerShell Script Block Logging (EventCode=4104) to identify the execution of the `Set-ADAccountControl` commandlet with specific parameters. `Set-ADAccountControl` is part of the Active Directory PowerShell module used to manage Windows Active Directory networks. As the name suggests, `Set-ADAccountControl` is used to modify User Account Control values for an Active Directory domain account. With the appropiate parameters, Set-ADAccountControl allows adversaries to disable Kerberos Pre-Authentication for an account to to easily perform a brute force attack against the user's password offline leveraging the ASP REP Roasting technique. Red Teams and adversaries alike who have obtained privileges in an Active Directory network may use this technique as a backdoor or a way to escalate privileges.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-
 
 - **Last Updated**: 2022-02-23
 - **Author**: Mauricio Velazco, Splunk
 - **ID**: 59b51620-94c9-11ec-b3d5-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Annotations
+
+<details>
+  <summary>ATT&CK</summary>
+
+<div markdown="1">
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1558](https://attack.mitre.org/techniques/T1558/) | Steal or Forge Kerberos Tickets | Credential Access |
 
 | [T1558.004](https://attack.mitre.org/techniques/T1558/004/) | AS-REP Roasting | Credential Access |
+
+</div>
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+<div markdown="1">
+
+* Exploitation
+
+
+</div>
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+<div markdown="1">
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+<div markdown="1">
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+<div markdown="1">
+
+
+</div>
+</details>
 
 #### Search
 
@@ -57,7 +107,7 @@ The SPL above uses the following Macros:
 * [powershell](https://github.com/splunk/security_content/blob/develop/macros/powershell.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that `kerberos_pre-authentication_flag_disabled_with_powershell_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+Note that **kerberos_pre-authentication_flag_disabled_with_powershell_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -73,9 +123,6 @@ Although unlikely, Administrators may need to set this flag for legitimate purpo
 * [Active Directory Kerberos Attacks](/stories/active_directory_kerberos_attacks)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -83,8 +130,6 @@ Although unlikely, Administrators may need to set this flag for legitimate purpo
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 45.0 | 50 | 90 | Kerberos Pre Authentication was Disabled using PowerShell on $dest$ |
-
-
 
 
 #### Reference
@@ -96,7 +141,7 @@ Although unlikely, Administrators may need to set this flag for legitimate purpo
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 
