@@ -36,22 +36,76 @@ The following hunting analytic identifies `msi.dll` being loaded by a binary not
 1. Racing to introduce a junction and a symlink to trick msiexec.exe to modify the attacker specified file. \
 In addition, `msi.dll` has been abused in DLL side-loading attacks by being loaded by non-system binaries.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-
 
 - **Last Updated**: 2021-12-08
 - **Author**: Michael Haag, Splunk
 - **ID**: ccb98a66-5851-11ec-b91c-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Annotations
+
+<details>
+  <summary>ATT&CK</summary>
+
+<div markdown="1">
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1574.002](https://attack.mitre.org/techniques/T1574/002/) | DLL Side-Loading | Defense Evasion, Persistence, Privilege Escalation |
 
 | [T1574](https://attack.mitre.org/techniques/T1574/) | Hijack Execution Flow | Defense Evasion, Persistence, Privilege Escalation |
+
+</div>
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+<div markdown="1">
+
+* Exploitation
+
+
+</div>
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+<div markdown="1">
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+<div markdown="1">
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+<div markdown="1">
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+| [CVE-2021-41379](https://nvd.nist.gov/vuln/detail/CVE-2021-41379) | Windows Installer Elevation of Privilege Vulnerability | 4.6 |
+
+
+
+</div>
+</details>
 
 #### Search
 
@@ -65,10 +119,10 @@ In addition, `msi.dll` has been abused in DLL side-loading attacks by being load
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that `msi_module_loaded_by_non-system_binary_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+Note that **msi_module_loaded_by_non-system_binary_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -90,9 +144,6 @@ It is possible some Administrative utilities will load msi.dll outside of normal
 * [Windows Privilege Escalation](/stories/windows_privilege_escalation)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -100,14 +151,6 @@ It is possible some Administrative utilities will load msi.dll outside of normal
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 80 | 70 | The following module $ImageLoaded$ was loaded by $Image$ outside of the normal system paths on endpoint $Computer$, potentally related to DLL side-loading. |
-
-
-#### CVE
-
-| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
-| ----------- | ----------- | -------------- |
-| [CVE-2021-41379](https://nvd.nist.gov/vuln/detail/CVE-2021-41379) | Windows Installer Elevation of Privilege Vulnerability | 4.6 |
-
 
 
 #### Reference
@@ -119,7 +162,7 @@ It is possible some Administrative utilities will load msi.dll outside of normal
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 
