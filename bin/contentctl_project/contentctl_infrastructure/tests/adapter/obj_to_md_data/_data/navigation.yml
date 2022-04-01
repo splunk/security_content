@@ -5,8 +5,8 @@ main:
     url: /stories/
   - title: "Playbooks"
     url: /playbooks/
-  - title: "Tags"
-    url: /tags/
+  - title: "Blog"
+    url: https://www.splunk.com/en_us/blog/author/secmrkt-research.html
   - title: "About"
     url: https://www.splunk.com/en_us/cyber-security/threat-research.html
 detections:
