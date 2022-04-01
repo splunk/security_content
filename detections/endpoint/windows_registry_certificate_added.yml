@@ -24,7 +24,7 @@ how_to_implement: To successfully implement this search you need to be ingesting
 known_false_positives: False positives will be limited to a legitimate business applicating consistently adding new root certificates to the endpoint. Filter by user, process, or thumbprint.
 references:
 - https://posts.specterops.io/code-signing-certificate-cloning-attacks-and-defenses-6f98657fc6ec
-- https://github.com/redcanaryco/atomic-red-team/tree/master/atomics/T1587.002
+- https://github.com/redcanaryco/atomic-red-team/tree/master/atomics/T1553.004
 tags:
   analytic_story:
   - Windows Rootkits
@@ -44,8 +44,8 @@ tags:
   - Exploitation
   message: A root certificate was added on $dest$. 
   mitre_attack_id:
-  - T1587.002
-  - T1587
+  - T1553.004
+  - T1553
   nist:
   - DE.CM
   observable:
