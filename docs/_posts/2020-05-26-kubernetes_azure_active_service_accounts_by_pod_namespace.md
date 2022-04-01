@@ -20,13 +20,65 @@ tags:
 
 This search provides information on Kubernetes service accounts,accessing pods and namespaces by IP address and verb
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-
 
 - **Last Updated**: 2020-05-26
 - **Author**: Rod Soto, Splunk
 - **ID**: 55a2264a-b7f0-45e5-addd-1e5ab3415c72
+
+
+#### Annotations
+
+<details>
+  <summary>ATT&CK</summary>
+
+<div markdown="1">
+
+</div>
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+<div markdown="1">
+
+* Exploitation
+
+
+</div>
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+<div markdown="1">
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+<div markdown="1">
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+<div markdown="1">
+
+
+</div>
+</details>
 
 #### Search
 
@@ -43,7 +95,7 @@ This search provides information on Kubernetes service accounts,accessing pods a
 The SPL above uses the following Macros:
 * [kubernetes_azure](https://github.com/splunk/security_content/blob/develop/macros/kubernetes_azure.yml)
 
-Note that `kubernetes_azure_active_service_accounts_by_pod_namespace_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+Note that **kubernetes_azure_active_service_accounts_by_pod_namespace_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -59,9 +111,6 @@ Not all service accounts interactions are malicious. Analyst must consider IP an
 * [Kubernetes Sensitive Role Activity](/stories/kubernetes_sensitive_role_activity)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -71,13 +120,11 @@ Not all service accounts interactions are malicious. Analyst must consider IP an
 | 25.0 | 50 | 50 | tbd |
 
 
-
-
 #### Reference
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 

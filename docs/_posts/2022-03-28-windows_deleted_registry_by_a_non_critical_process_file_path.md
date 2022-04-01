@@ -23,20 +23,75 @@ tags:
 
 This analytic is to detect deletion of registry with suspicious process file path. This technique was seen in Double Zero wiper malware where it will delete all the subkey in HKLM, HKCU and HKU registry hive as part of its destructive payload to the targeted hosts. This anomaly detections can catch possible malware or advesaries deleting registry as part of defense evasion or even payload impact but can also catch for third party application updates or installation. In this scenario false positive filter is needed.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-
 
 - **Last Updated**: 2022-03-28
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: 15e70689-f55b-489e-8a80-6d0cd6d8aad2
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Annotations
+
+<details>
+  <summary>ATT&CK</summary>
+
+<div markdown="1">
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1112](https://attack.mitre.org/techniques/T1112/) | Modify Registry | Defense Evasion |
+
+</div>
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+<div markdown="1">
+
+
+
+</div>
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+<div markdown="1">
+
+* DE.CM
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+<div markdown="1">
+
+* CIS 3
+* CIS 5
+* CIS 16
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+<div markdown="1">
+
+
+</div>
+</details>
 
 #### Search
 
@@ -58,7 +113,7 @@ This analytic is to detect deletion of registry with suspicious process file pat
 The SPL above uses the following Macros:
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that `windows_deleted_registry_by_a_non_critical_process_file_path_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+Note that **windows_deleted_registry_by_a_non_critical_process_file_path_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -88,8 +143,6 @@ This detection can catch for third party application updates or installation. In
 * [Double Zero Destructor](/stories/double_zero_destructor)
 
 
-#### Kill Chain Phase
-
 
 
 #### RBA
@@ -99,8 +152,6 @@ This detection can catch for third party application updates or installation. In
 | 36.0 | 60 | 60 | registry was deleted by a suspicious $process_name$ with proces path $process_path in $dest$ |
 
 
-
-
 #### Reference
 
 * [https://blog.talosintelligence.com/2022/03/threat-advisory-doublezero.html](https://blog.talosintelligence.com/2022/03/threat-advisory-doublezero.html)
@@ -108,7 +159,7 @@ This detection can catch for third party application updates or installation. In
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 
