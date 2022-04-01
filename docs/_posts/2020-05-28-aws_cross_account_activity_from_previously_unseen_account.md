@@ -21,13 +21,71 @@ tags:
 
 This search looks for AssumeRole events where an IAM role in a different account is requested for the first time.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Authentication](https://docs.splunk.com/Documentation/CIM/latest/User/Authentication)
-
 - **Last Updated**: 2020-05-28
 - **Author**: Rico Valdez, Splunk
 - **ID**: 21193641-cb96-4a2c-a707-d9b9a7f7792b
+
+
+#### Annotations
+
+<details>
+  <summary>ATT&CK</summary>
+
+<div markdown="1">
+
+</div>
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+<div markdown="1">
+
+* Actions on Objectives
+
+
+</div>
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+<div markdown="1">
+
+* PR.AC
+* PR.DS
+* DE.AE
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+<div markdown="1">
+
+* CIS 16
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+<div markdown="1">
+
+
+</div>
+</details>
 
 #### Search
 
@@ -50,7 +108,7 @@ This search looks for AssumeRole events where an IAM role in a different account
 The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that `aws_cross_account_activity_from_previously_unseen_account_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+Note that **aws_cross_account_activity_from_previously_unseen_account_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Lookups
 The SPL above uses the following Lookups:
@@ -76,9 +134,6 @@ Using multiple AWS accounts and roles is perfectly valid behavior. It's suspicio
 * [Suspicious Cloud Authentication Activities](/stories/suspicious_cloud_authentication_activities)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -88,13 +143,11 @@ Using multiple AWS accounts and roles is perfectly valid behavior. It's suspicio
 | 15.0 | 30 | 50 | AWS account $requestingAccountId$ is trying to access resource from some other account $requestedAccountId$, for the first time. |
 
 
-
-
 #### Reference
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 
