@@ -107,8 +107,6 @@ this analytic is to detect a suspicious compile before delivery approach of .net
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
-* [process_csc](https://github.com/splunk/security_content/blob/develop/macros/process_csc.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [process_csc](https://github.com/splunk/security_content/blob/develop/macros/process_csc.yml)
