@@ -135,6 +135,7 @@ It is unusual to turn this feature off a Windows system since it is a default se
 #### Associated Analytic story
 * [Ryuk Ransomware](/stories/ryuk_ransomware)
 * [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
+* [Windows Registry Abuse](/stories/windows_registry_abuse)
 
 
 

@@ -134,6 +134,7 @@ unknown
 
 #### Associated Analytic story
 * [Credential Dumping](/stories/credential_dumping)
+* [Windows Registry Abuse](/stories/windows_registry_abuse)
 
 
 

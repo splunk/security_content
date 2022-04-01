@@ -132,6 +132,7 @@ unknown
 
 #### Associated Analytic story
 * [BlackMatter Ransomware](/stories/blackmatter_ransomware)
+* [Windows Registry Abuse](/stories/windows_registry_abuse)
 
 
 

@@ -55,6 +55,7 @@ tags:
   - 'Emotet Malware  DHS Report TA18-201A '
   - IcedID
   - Remcos
+  - Windows Registry Abuse
   asset_type: Endpoint
   cis20:
   - CIS 8

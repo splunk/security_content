@@ -139,6 +139,7 @@ There are many legitimate applications that leverage shim databases for compatib
 #### Associated Analytic story
 * [Suspicious Windows Registry Activities](/stories/suspicious_windows_registry_activities)
 * [Windows Persistence Techniques](/stories/windows_persistence_techniques)
+* [Windows Registry Abuse](/stories/windows_registry_abuse)
 
 
 

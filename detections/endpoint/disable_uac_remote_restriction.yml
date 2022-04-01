@@ -37,6 +37,7 @@ tags:
   analytic_story:
   - Windows Defense Evasion Tactics
   - Suspicious Windows Registry Activities
+  - Windows Registry Abuse
   confidence: 100
   context:
   - Source:Endpoint

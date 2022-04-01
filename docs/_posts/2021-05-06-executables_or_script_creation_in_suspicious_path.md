@@ -123,6 +123,8 @@ To successfully implement this search you need to be ingesting information on pr
 Administrators may allow creation of script or exe in the paths specified. Filter as needed.
 
 #### Associated Analytic story
+* [Double Zero Destructor](/stories/double_zero_destructor)
+* [Data Destruction](/stories/data_destruction)
 * [XMRig](/stories/xmrig)
 * [Remcos](/stories/remcos)
 * [WhisperGate](/stories/whispergate)

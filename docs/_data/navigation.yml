@@ -91,6 +91,8 @@ stories:
         url: /stories/best_practices/
       - title: Cloud Security
         url: /stories/cloud_security/
+      - title: Data Destruction
+        url: /stories/data_destruction/
       - title: Lateral Movement
         url: /stories/lateral_movement/
       - title: Malware

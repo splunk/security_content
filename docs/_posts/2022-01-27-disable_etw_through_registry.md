@@ -133,6 +133,7 @@ network operator may disable this feature of windows but not so common.
 
 #### Associated Analytic story
 * [Ransomware](/stories/ransomware)
+* [Windows Registry Abuse](/stories/windows_registry_abuse)
 
 
 

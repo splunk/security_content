@@ -119,7 +119,7 @@ No extra steps needed to implement this search.
 None identified
 
 #### Associated Analytic story
-* [Splunk Enterprise Vulnerability](/stories/splunk_enterprise_vulnerability)
+* [Splunk Vulnerabilities](/stories/splunk_vulnerabilities)
 
 
 

@@ -137,6 +137,7 @@ admin may set this policy for non-critical machine.
 #### Associated Analytic story
 * [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
 * [Suspicious Windows Registry Activities](/stories/suspicious_windows_registry_activities)
+* [Windows Registry Abuse](/stories/windows_registry_abuse)
 
 
 

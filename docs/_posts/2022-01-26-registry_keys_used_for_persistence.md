@@ -148,6 +148,7 @@ There are many legitimate applications that must execute on system startup and w
 * [Emotet Malware  DHS Report TA18-201A ](/stories/emotet_malware__dhs_report_ta18-201a_)
 * [IcedID](/stories/icedid)
 * [Remcos](/stories/remcos)
+* [Windows Registry Abuse](/stories/windows_registry_abuse)
 
 
 

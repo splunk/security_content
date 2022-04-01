@@ -126,6 +126,8 @@ To successfully implement this search you need to be ingesting information on pr
 Administrators may allow execution of specific binaries in non-standard paths. Filter as needed.
 
 #### Associated Analytic story
+* [Data Destruction](/stories/data_destruction)
+* [Double Zero Destructor](/stories/double_zero_destructor)
 * [XMRig](/stories/xmrig)
 * [Remcos](/stories/remcos)
 * [WhisperGate](/stories/whispergate)

@@ -1,7 +1,6 @@
 ---
 title: "Disabling SystemRestore In Registry"
-excerpt: "Disable or Modify Tools
-, Impair Defenses
+excerpt: "Inhibit System Recovery
 "
 categories:
   - Endpoint
@@ -9,10 +8,8 @@ last_modified_at: 2022-01-28
 toc: true
 toc_label: ""
 tags:
-  - Disable or Modify Tools
-  - Impair Defenses
-  - Defense Evasion
-  - Defense Evasion
+  - Inhibit System Recovery
+  - Impact
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -45,9 +42,7 @@ The following search identifies the modification of registry related in disablin
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
-| [T1562.001](https://attack.mitre.org/techniques/T1562/001/) | Disable or Modify Tools | Defense Evasion |
-
-| [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
+| [T1490](https://attack.mitre.org/techniques/T1490/) | Inhibit System Recovery | Impact |
 
 </div>
 </details>
@@ -133,6 +128,7 @@ in some cases admin can disable systemrestore on a machine.
 
 #### Associated Analytic story
 * [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
+* [Windows Registry Abuse](/stories/windows_registry_abuse)
 
 
 

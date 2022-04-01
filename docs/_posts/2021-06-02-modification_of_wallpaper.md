@@ -128,6 +128,7 @@ To successfully implement this search, you need to be ingesting logs with the Im
 * [Ransomware](/stories/ransomware)
 * [Revil Ransomware](/stories/revil_ransomware)
 * [BlackMatter Ransomware](/stories/blackmatter_ransomware)
+* [Windows Registry Abuse](/stories/windows_registry_abuse)
 
 
 

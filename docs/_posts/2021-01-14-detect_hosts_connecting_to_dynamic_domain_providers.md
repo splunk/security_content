@@ -112,6 +112,7 @@ Malicious actors often abuse legitimate Dynamic DNS services to host malicious p
 
 #### Macros
 The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [dynamic_dns_providers](https://github.com/splunk/security_content/blob/develop/macros/dynamic_dns_providers.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)

@@ -7,6 +7,16 @@ class NewContentQuestions():
         questions = [
             {
                 'type': 'select',
+                'message': 'what product is this for',
+                'name': 'detection_product',
+                'choices': [
+                    'ESCU',
+                    'SSA'
+                ],
+                'default': 'ESCU'
+            },
+            {
+                'type': 'select',
                 'message': 'what kind of detection is this',
                 'name': 'detection_kind',
                 'choices': [
@@ -50,6 +60,12 @@ class NewContentQuestions():
                 'name': 'datamodels',
                 'choices': [
                     'Endpoint',
+                    'Endpoint_Processes (SSA)',
+                    'Endpoint_Registry (SSA)',
+                    'Endpoint_Filesystem (SSA)',
+                    'Endpoint_ResourceAccess (SSA)',
+                    'Endpoint_AccountManagement (SSA)',
+                    'Intrusion_Detection (SSA)',
                     'Authentication',
                     'Change',
                     'Email',
@@ -61,6 +77,7 @@ class NewContentQuestions():
                     'Web',
                     'Risk'
                 ],
+                'default': 'Endpoint'
             },
             {
                 'type': 'text',
@@ -88,6 +105,7 @@ class NewContentQuestions():
                     'Actions on Objectives',
                     'Denial of Service'
                 ],
+                'default': 'Exploitation'
             },
             {
                 'type': 'select',

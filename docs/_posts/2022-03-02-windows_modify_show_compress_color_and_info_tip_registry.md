@@ -132,8 +132,10 @@ To successfully implement this search you need to be ingesting information on pr
 unknown
 
 #### Associated Analytic story
+* [Data Destruction](/stories/data_destruction)
 * [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
 * [Hermetic Wiper](/stories/hermetic_wiper)
+* [Windows Registry Abuse](/stories/windows_registry_abuse)
 
 
 

@@ -129,6 +129,7 @@ unknown
 #### Associated Analytic story
 * [Ransomware](/stories/ransomware)
 * [Revil Ransomware](/stories/revil_ransomware)
+* [Windows Registry Abuse](/stories/windows_registry_abuse)
 
 
 

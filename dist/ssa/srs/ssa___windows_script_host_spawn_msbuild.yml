@@ -1,0 +1,68 @@
+name: Windows Script Host Spawn MSBuild
+id: 92886f1c-9b11-11ec-848a-acde48001122
+version: 1
+description: This analytic is to detect a suspicious child process of MSBuild spawned
+  by Windows Script Host - cscript or wscript. This behavior or event are commonly
+  seen and used by malware or adversaries to execute malicious msbuild process using
+  malicious script in the compromised host. During triage, review parallel processes
+  and identify any file modifications. MSBuild may load a script from the same path
+  without having command-line arguments.
+search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
+  "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"),
+  "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"),
+  "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string",
+  null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string",
+  null), event_id=ucast(map_get(input_event, "event_id"), "string", null) | where
+  cmd_line IS NOT NULL AND process_name IS NOT NULL AND parent_process_name IS NOT
+  NULL | where (parent_process_name LIKE "%wscript.exe" OR parent_process_name LIKE
+  "%cscript.exe%") AND process_name="msbuild.exe" | eval start_time=timestamp, end_time=timestamp,
+  entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event,
+  "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line",
+  cmd_line, "process_name", process_name, "parent_process_name", parent_process_name,
+  "process_path", process_path]) | into write_ssa_detected_events();'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: False positives should be limited as developers do not spawn
+  MSBuild via a WSH.
+references:
+- https://app.any.run/tasks/dc93ee63-050c-4ff8-b07e-8277af9ab939/#
+- https://github.com/redcanaryco/AtomicTestHarnesses/blob/master/TestHarnesses/T1127.001_MSBuild/InvokeMSBuild.ps1
+tags:
+  analytic_story:
+  - Trusted Developer Utilities Proxy Execution MSBuild
+  - Living Off The Land
+  cis20:
+  - CIS 8
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1127.001
+  - T1127
+  nist:
+  - PR.PT
+  - DE.CM
+  required_fields:
+  - _time
+  - dest_device_id
+  - process_name
+  - parent_process_name
+  - process_path
+  - dest_user_id
+  - process
+  - cmd_line
+  risk_score: 80
+  security_domain: endpoint
+  risk_severity: high
+test:
+  name: Windows Script Host Spawn MSBuild Unit Test
+  tests:
+  - name: Windows Script Host Spawn MSBuild
+    file: endpoint/ssa___windows_script_host_spawn_msbuild.yml
+    pass_condition: '@count_gt(0)'
+    attack_data:
+    - file_name: msbuild-windows-security.log
+      data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127.001/msbuild-windows-security.log
+      source: WinEventLog:Security

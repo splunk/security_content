@@ -125,7 +125,7 @@ The REST endpoint that exposes system information is also necessary for the prop
 Retrieving server information may be a legitimate API request. Verify that the attempt is a valid request for information.
 
 #### Associated Analytic story
-* [Splunk Enterprise Vulnerability CVE-2018-11409](/stories/splunk_enterprise_vulnerability_cve-2018-11409)
+* [Splunk Vulnerabilities](/stories/splunk_vulnerabilities)
 
 
 

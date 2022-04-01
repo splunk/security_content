@@ -132,6 +132,7 @@ Unknown. Filter as needed.
 
 #### Associated Analytic story
 * [XMRig](/stories/xmrig)
+* [Windows Registry Abuse](/stories/windows_registry_abuse)
 
 
 

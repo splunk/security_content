@@ -26,6 +26,7 @@ tags:
   - Windows Defense Evasion Tactics
   - Suspicious Windows Registry Activities
   - Remcos
+  - Windows Registry Abuse
   asset_type: Endpoint
   cis20:
   - CIS 8

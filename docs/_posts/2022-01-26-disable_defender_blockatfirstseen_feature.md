@@ -134,6 +134,7 @@ admin or user may choose to disable windows defender product
 
 #### Associated Analytic story
 * [IceID](/stories/iceid)
+* [Windows Registry Abuse](/stories/windows_registry_abuse)
 
 
 

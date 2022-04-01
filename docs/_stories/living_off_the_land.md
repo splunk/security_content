@@ -27,7 +27,7 @@ Leverage analytics that allow you to identify the presence of an adversary lever
 
 #### Narrative
 
-Living Off The Land refers to an adversary methodology of using native applications already installed on the target operating system to achieve their objective. native utilities provide the adversary with reduced chances of detection by antivirus software or EDR tools. This allows the adversary to blend in with native process behavior.
+Living Off The Land refers to an adversary methodology of using native applications already installed on the target operating system to achieve their objective. Native utilities provide the adversary with reduced chances of detection by antivirus software or EDR tools. This allows the adversary to blend in with native process behavior.
 
 #### Detections
 
