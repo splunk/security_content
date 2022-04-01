@@ -22,13 +22,72 @@ We have not been able to test, simulate, or build datasets for this object. Use 
 
 This search will detect spike in blocked outbound network connections originating from within your AWS environment.  It will also update the cache file that factors in the latest data.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-
 
 - **Last Updated**: 2018-05-07
 - **Author**: Bhavin Patel, Splunk
 - **ID**: d3fffa37-492f-487b-a35d-c60fcb2acf01
+
+
+#### Annotations
+
+<details>
+  <summary>ATT&CK</summary>
+
+<div markdown="1">
+
+</div>
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+<div markdown="1">
+
+* Actions on Objectives
+* Command & Control
+
+
+</div>
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+<div markdown="1">
+
+* DE.AE
+* DE.CM
+* PR.AC
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+<div markdown="1">
+
+* CIS 11
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+<div markdown="1">
+
+
+</div>
+</details>
 
 #### Search
 
@@ -56,7 +115,7 @@ This search will detect spike in blocked outbound network connections originatin
 The SPL above uses the following Macros:
 * [cloudwatchlogs_vpcflow](https://github.com/splunk/security_content/blob/develop/macros/cloudwatchlogs_vpcflow.yml)
 
-Note that `detect_spike_in_blocked_outbound_traffic_from_your_aws_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+Note that **detect_spike_in_blocked_outbound_traffic_from_your_aws_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Lookups
 The SPL above uses the following Lookups:
@@ -83,10 +142,6 @@ The false-positive rate may vary based on the values of`dataPointThreshold` and 
 * [Command and Control](/stories/command_and_control)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-* Command & Control
-
 
 
 #### RBA
@@ -96,13 +151,11 @@ The false-positive rate may vary based on the values of`dataPointThreshold` and 
 | 25.0 | 50 | 50 | tbd |
 
 
-
-
 #### Reference
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 
