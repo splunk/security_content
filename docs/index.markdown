@@ -32,27 +32,10 @@ feature_row:
     url: "/playbooks"
     btn_class: "btn--primary"
     btn_label: "Explore"
-feature_row2:
-  - image_path: /static/feature_detection.png
-    alt: "customizable"
-    title: "Security Content Repository"
-    excerpt: "Look under 🚙 the hood ."
-    url: "https://github.com/splunk/security_content"
-  - image_path: /static/attack_range.png
-    alt: "fully responsive"
-    title: "Attack Range"
-    excerpt: "🪛 to create a isolated environment to launch attacks and test/build detections."
-    url: "https://github.com/splunk/attack_range/"
-  - image_path: /static/feature_playbooks.png
-    alt: "100% free"
-    title: "Attack Data"
-    excerpt: "A catalog 📑 of attack data sets in their raw form."
-    url: "https://github.com/splunk/attack_data/"
 ---
 
 
 {% include feature_row %}
-{% include feature_row id="feature_row2" %}
 
 # Welcome to Splunk Security Content
 
