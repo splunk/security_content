@@ -1,7 +1,7 @@
 name: Windows Event For Service Disabled
 id: 9c2620a8-94a1-11ec-b40c-acde48001122
-version: 1
-date: '2022-02-23'
+version: 2
+date: '2022-04-04'
 author: Teoderick Contreras, Splunk
 type: Hunting
 datamodel:
