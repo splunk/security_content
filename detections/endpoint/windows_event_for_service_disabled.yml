@@ -1,7 +1,7 @@
 name: Windows Event For Service Disabled
 id: 9c2620a8-94a1-11ec-b40c-acde48001122
-version: 1
-date: '2022-02-23'
+version: 2
+date: '2022-04-04'
 author: Teoderick Contreras, Splunk
 type: Hunting
 datamodel:
@@ -10,10 +10,11 @@ description: This analytic will identify suspicious system event of services tha
   was modified from start to disabled. This technique is seen where the adversary
   attempts to disable security app services, other malware services to evade the defense
   systems on the compromised host
-search: '`wineventlog_system` EventCode=7040 Message = "*service was changed from
-  demand start to disabled." | stats count min(_time) as firstTime max(_time) as lastTime
-  by ComputerName EventCode Message User Sid | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `windows_event_for_service_disabled_filter`'
+search: '`wineventlog_system` EventCode=7040  Message = "*service was changed from demand start to disabled." 
+  | stats count min(_time) as firstTime max(_time) as lastTime by ComputerName EventCode Message User Sid service service_name
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` 
+  | `windows_event_for_service_disabled_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the Service name, Service File Name Service Start type, and Service Type
   from your endpoints.
