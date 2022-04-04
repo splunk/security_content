@@ -191,6 +191,15 @@ jobs:
             tar -czf content-pack-build-escu.tar.gz dist/escu/*
             # update build number and version for ssa
             tar -czf content-pack-build-ssa.tar.gz dist/ssa/*
+
+            # create version.json for dist/api
+            # example:   {"version":{"name":"v3.37.1","published_at":"2022-04-04T18:15:38Z"}}
+            VERSION_TS=$(git log -n 1 --pretty=format:%ci -- dist/escu/default/content-version.conf | sed 's/ /_/g')
+            echo "{\"version\":{\"name\":\"$CONTENT_VERSION\",\"published_at\":\"$VERSION_TS\"}}" > dist/api/version.json
+
+            #test
+            cat dist/api/version.json
+
       
       - name: Persist to Workspace
         uses: actions/upload-artifact@v2
