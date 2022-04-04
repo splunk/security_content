@@ -320,17 +320,19 @@ jobs:
             
 
             #Upload artifact (summary test results)
-            aws s3 cp summary_test_results.json s3://security_content/reporting/summary_test_results.json
+            aws s3 cp summary_test_results.json s3://security-content/reporting/summary_test_results.json
 
+            #Since these reside in a public bucket, no need to explicitly mark as public
             # make the file public since it is not by default
-            aws s3api put-object-acl --bucket security-content --key summary_test_results.json --acl public-read
+            #aws s3api put-object-acl --bucket security-content --key reporting/summary_test_results.json --acl public-read
             
             
             #Upload artifact (test results coverage badge)
-            aws s3 cp detection_coverage.svg s3://security_content/reporting/detection_coverage.svg
-
+            aws s3 cp detection_coverage.svg s3://security-content/reporting/detection_coverage.svg
+            
+            #Since these reside in a public bucket, no need to explicitly mark as public
             # make the file public since it is not by default
-            aws s3api put-object-acl --bucket security-content --key detection_coverage.svg --acl public-read
+            #aws s3api put-object-acl --bucket security-content --key reporting/detection_coverage.svg --acl public-read
 
 
 
