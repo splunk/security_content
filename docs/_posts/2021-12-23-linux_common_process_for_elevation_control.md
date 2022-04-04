@@ -27,7 +27,7 @@ tags:
 
 #### Description
 
-This analytic is to look for possible elevation control access using a common known process in linux platform to change the attribute and file ownership. This technique is commonly abused by adversaries, malware author and red teamers to gain persistence or privilege escalation on the target or compromised host. Tis common process is used to modify file attribute, file ownership or SUID. This tools can be used in legitimate purposes so filter is needed.
+This analytic is to look for possible elevation control access using a common known process in linux platform to change the attribute and file ownership. This technique is commonly abused by adversaries, malware author and red teamers to gain persistence or privilege escalation on the target or compromised host. This common process is used to modify file attribute, file ownership or SUID. This tools can be used in legitimate purposes so filter is needed.
 
 - **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
@@ -115,8 +115,8 @@ This analytic is to look for possible elevation control access using a common kn
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that **linux_common_process_for_elevation_control_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 

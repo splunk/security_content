@@ -1,0 +1,65 @@
+name: Kerberos User Enumeration
+id: d82d4af4-a0bd-11ec-9445-3e22fbd008af
+version: 1
+date: '2022-03-10'
+author: Mauricio Velazco, Splunk
+type: Anomaly
+datamodel: []
+description: The following analytic leverages Event Id 4768, A Kerberos authentication ticket (TGT) was requested, to identify 
+  one source endpoint trying to obtain an unusual number Kerberos TGT ticket for non existing users. This behavior could represent an adversary 
+  abusing the Kerberos protocol to perform a user enumeration attack against an Active Directory environment. When Kerberos is sent a TGT request
+  with no preauthentication for an invalid username, it responds with KRB5KDC_ERR_C_PRINCIPAL_UNKNOWN or 0x6. Red teams and adversaries alike
+  may abuse the Kerberos protocol to validate a list of users use them to perform further attacks.\
+  The detection calculates the standard deviation for each host and leverages the
+  3-sigma statistical rule to identify an unusual number requests. To customize this
+  analytic, users can try different combinations of the `bucket` span time and the
+  calculation of the `upperBound` field.
+search: ' `wineventlog_security` EventCode=4768 Result_Code=0x6 Account_Name!="*$"
+  | bucket span=2m _time | stats dc(Account_Name) AS unique_accounts values(Account_Name)
+  as tried_accounts by _time, Client_Address | eventstats avg(unique_accounts) as
+  comp_avg , stdev(unique_accounts) as comp_std by Client_Address | eval upperBound=(comp_avg+comp_std*3)
+  | eval isOutlier=if(unique_accounts > 10 and unique_accounts >= upperBound, 1, 0)
+  | search isOutlier=1
+  | `kerberos_user_enumeration_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  Domain Controller and Kerberos events. The Advanced Security Audit policy setting
+  `Audit Kerberos Authentication Service` within `Account Logon` needs to be enabled.
+known_false_positives: Possible false positive scenarios include but are not limited to vulnerability scanners and missconfigured systems.
+references:
+- https://github.com/ropnop/kerbrute
+- https://attack.mitre.org/techniques/T1589/002/ 
+- https://www.redsiege.com/blog/2020/04/user-enumeration-part-3-windows/
+tags:
+  analytic_story:
+  - Active Directory Kerberos Attacks
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1589.002/kerbrute/windows-security.log
+  kill_chain_phases:
+  - Reconnaissance
+  mitre_attack_id:
+  - T1589
+  - T1589.002
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - Result_Code
+  - Account_Name
+  - Client_Address
+  security_domain: endpoint
+  impact: 30
+  confidence: 80 
+  risk_score: 24
+  context:
+  - Source:Endpoint
+  - Stage:Recon
+  message: Potential Kerberos based user enumeration attack $Client_Address$
+  observable:
+  - name: Client_Address
+    type: Endpoint
+    role:
+    - Victim
+  asset_type: Endpoint
