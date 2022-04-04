@@ -1,0 +1,12 @@
+name: GitHub Actions Disable Security Workflow Unit Test
+tests:
+- name: GitHub Actions Disable Security Workflow
+  file: cloud/github_actions_disable_security_workflow.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -30d
+  latest_time: now
+  attack_data:
+  - file_name: github_actions_disable_security_workflow.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1195.002/github_actions_disable_security_workflow/github_actions_disable_security_workflow.log
+    source: github
+    sourcetype: aws:firehose:json
