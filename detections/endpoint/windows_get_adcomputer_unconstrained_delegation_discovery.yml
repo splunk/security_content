@@ -1,0 +1,67 @@
+name: Windows Get-AdComputer Unconstrained Delegation Discovery
+id: c8640777-469f-4638-ab44-c34a3233ffac
+version: 1
+date: '2022-03-28'
+author: Mauricio Velazco, Splunk
+type: TTP
+datamodel: []
+description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
+  to identify the Get-ADComputer commandlet used with specific parameters to discover Windows endpoints with Kerberos Unconstrained Delegation.
+  Red Teams and adversaries alike may leverage use this technique for situational awareness and Active Directory Discovery.
+search: ' `powershell` EventCode=4104 (Message = "*Get-ADComputer*" AND Message = "*TrustedForDelegation*")
+  | stats count min(_time) as firstTime max(_time) as lastTime
+  by EventCode Message ComputerName User | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `windows_get_adcomputer_unconstrained_delegation_discovery_filter`'
+how_to_implement: The following  analytic requires PowerShell operational logs
+  to be imported. Modify the powershell macro as needed to match the sourcetype or
+  add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
+known_false_positives: Administrators or power users may leverage PowerView for system management or troubleshooting.
+references:
+- https://attack.mitre.org/techniques/T1018/
+- https://adsecurity.org/?p=1667
+- https://docs.microsoft.com/en-us/defender-for-identity/cas-isp-unconstrained-kerberos
+- https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/domain-compromise-via-unrestricted-kerberos-delegation
+- https://www.cyberark.com/resources/threat-research-blog/weakness-within-kerberos-delegation
+tags:
+  analytic_story:
+  - Active Directory Kerberos Attacks
+  asset_type: Endpoint
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  confidence: 70
+  context:
+  - Source:Endpoint
+  - Stage:Discovery
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1018/unconstrained2/windows-powershell.log
+  impact: 50
+  kill_chain_phases:
+  - Reconnaissance
+  message: Suspicious PowerShell Get-ADComputer was identified on endpoint $ComputerName$
+  mitre_attack_id:
+  - T1018
+  nist:
+  - DE.CM
+  observable:
+  - name: ComputerName
+    type: Hostname
+    role:
+    - Victim
+  - name: User
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - Message
+  - ComputerName
+  - User
+  risk_score: 35
+  security_domain: endpoint
