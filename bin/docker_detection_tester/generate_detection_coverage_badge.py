@@ -60,6 +60,6 @@ except Exception as e:
    sys.exit(1)
 
 
-print("Badge {results.output_badge_file.name} successfully generated!")
+print(f"Badge {results.output_badge_file.name} successfully generated!")
 sys.exit(0)
 
