@@ -4,8 +4,7 @@ version: 1
 date: '2022-03-04'
 author: Mauricio Velazco, Splunk
 type: TTP
-datamodel:
-- Endpoint
+datamodel: []
 description: The following analytic leverages Event 4768, A Kerberos authentication ticket (TGT) was requested, to identify a TGT request with encryption type 0x17, or 
   RC4-HMAC. This encryption type is no longer utilized by newer systems and could represent evidence of an OverPass The Hash attack. Similar to Pass The Hash, OverPass The Hash
   is a form of credential theft that allows adversaries to move laterally or consume resources in a target network. Leveraging this attack, an adversary who has stolen the NTLM
