@@ -108,8 +108,8 @@ The following analytic identifies the use of `reg.exe` exporting Windows Registr
 #### Macros
 The SPL above uses the following Macros:
 * [process_reg](https://github.com/splunk/security_content/blob/develop/macros/process_reg.yml)
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that **extraction_of_registry_hives_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
