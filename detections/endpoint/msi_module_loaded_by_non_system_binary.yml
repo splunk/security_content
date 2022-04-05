@@ -39,6 +39,7 @@ references:
 tags:
   analytic_story:
   - Windows Privilege Escalation
+  - Hermetic Wiper 
   confidence: 70
   context:
   - Source:Endpoint

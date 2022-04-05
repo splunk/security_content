@@ -26,6 +26,7 @@ tags:
   analytic_story:
   - Windows Privilege Escalation
   - Unusual Processes
+  - Hermetic Wiper 
   asset_type: Endpoint
   cis20:
   - CIS 2

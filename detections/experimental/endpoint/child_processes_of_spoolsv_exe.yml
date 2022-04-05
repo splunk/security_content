@@ -28,6 +28,7 @@ references: []
 tags:
   analytic_story:
   - Windows Privilege Escalation
+  - Hermetic Wiper 
   asset_type: Endpoint
   cis20:
   - CIS 5
