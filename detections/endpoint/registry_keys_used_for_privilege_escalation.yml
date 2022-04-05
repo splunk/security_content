@@ -40,6 +40,7 @@ tags:
   - Suspicious Windows Registry Activities
   - Cloud Federated Credential Abuse
   - Windows Registry Abuse
+  - Hermetic Wiper 
   cis20:
   - CIS 8
   confidence: 95

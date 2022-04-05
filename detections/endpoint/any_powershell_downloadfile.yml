@@ -31,6 +31,7 @@ references:
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.001/T1059.001.md
 tags:
   analytic_story:
+  - Hermetic Wiper
   - Malicious PowerShell
   - Ingress Tool Transfer
   - Log4Shell CVE-2021-44228

@@ -37,6 +37,7 @@ references:
 - https://github.com/BC-SECURITY/Empire
 tags:
   analytic_story:
+  - Hermetic Wiper 
   - Malicious PowerShell
   confidence: 90
   context:
