@@ -1,0 +1,12 @@
+name: MacOS plutil Unit Test
+tests:
+- name: MacOS plutil
+  file: endpoint/macos_plutil.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: osquery.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.011/atomic_red_team/osquery.log
+    source: osquery
+    sourcetype: osquery:results
