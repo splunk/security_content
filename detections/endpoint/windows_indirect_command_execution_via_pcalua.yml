@@ -23,7 +23,7 @@ how_to_implement: To successfully implement this search, you need to be ingestin
 known_false_positives: Some legacy applications may be run using pcalua.exe.  Filter these results as needed.  
 references:
   - https://twitter.com/KyleHanslovan/status/912659279806640128
-  - REF2 - FIND ANOTHER REFERENCE
+  - https://lolbas-project.github.io/lolbas/Binaries/Pcalua/
 tags:
   analytic_story:
   - Living Off The Land
