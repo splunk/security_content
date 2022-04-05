@@ -28,6 +28,7 @@ references:
 - https://www.crowdstrike.com/blog/investigating-powershell-command-and-script-logging/
 tags:
   analytic_story:
+  - Hermetic Wiper 
   - Ransomware
   - Malicious PowerShell
   confidence: 80

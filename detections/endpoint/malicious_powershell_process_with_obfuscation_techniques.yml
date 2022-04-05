@@ -26,6 +26,7 @@ known_false_positives: These characters might be legitimately on the command-lin
 references: []
 tags:
   analytic_story:
+  - Hermetic Wiper
   - Malicious PowerShell
   asset_type: Endpoint
   cis20:
