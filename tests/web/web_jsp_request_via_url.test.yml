@@ -1,6 +1,6 @@
 name: Web JSP Request via URL Unit Test
 tests:
-- name: Web JSP Injection via URL
+- name: Web JSP Request via URL
   file: web/web_jsp_request_via_url.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h
