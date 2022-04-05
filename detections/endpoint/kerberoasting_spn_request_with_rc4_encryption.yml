@@ -30,6 +30,7 @@ tags:
   analytic_story:
   - Windows Privilege Escalation
   - Active Directory Kerberos Attacks
+  - Hermetic Wiper 
   asset_type: Endpoint
   cis20:
   - CIS 8
