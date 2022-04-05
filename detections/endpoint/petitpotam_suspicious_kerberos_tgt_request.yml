@@ -28,6 +28,7 @@ references:
 tags:
   analytic_story:
   - PetitPotam NTLM Relay on Active Directory Certificate Services
+  - Active Directory Kerberos Attacks
   confidence: 70
   context:
   - Source:Endpoint

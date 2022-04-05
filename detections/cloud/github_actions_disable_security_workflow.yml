@@ -1,0 +1,72 @@
+name: GitHub Actions Disable Security Workflow
+id: 0459f1a5-c0ac-4987-82d6-65081209f854
+version: 1
+date: '2022-04-04'
+author: Patrick Bareiss, Splunk
+type: Anomaly
+datamodel: []
+description: This search detects a disabled security workflow in GitHub Actions. 
+  An attacker can disable a security workflow in GitHub actions to hide malicious code in it.
+search: '`github` workflow_run.event=push OR workflow_run.event=pull_request
+  | stats values(workflow_run.name) as workflow_run.name by workflow_run.head_commit.id workflow_run.event workflow_run.head_branch workflow_run.head_commit.author.email 
+  workflow_run.head_commit.author.name workflow_run.head_commit.message workflow_run.head_commit.timestamp 	
+  workflow_run.head_repository.full_name workflow_run.head_repository.owner.id workflow_run.head_repository.owner.login 	
+  workflow_run.head_repository.owner.type
+  | rename workflow_run.head_commit.author.name as user, workflow_run.head_commit.author.email as user_email, workflow_run.head_repository.full_name as repository, 
+  workflow_run.head_branch as branch
+  | search NOT workflow_run.name=*security-testing* 
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` 
+  | `github_actions_disable_security_workflow_filter`'
+how_to_implement: You must index GitHub logs. You can follow the url in reference
+  to onboard GitHub logs. Sometimes GitHub logs are truncated, make sure to disable it in props.conf.
+  Replace *security-testing* with the name of your security testing workflow in GitHub Actions.
+known_false_positives: unknown
+references:
+- https://www.splunk.com/en_us/blog/tips-and-tricks/getting-github-data-with-webhooks.html
+tags:
+  analytic_story:
+  - Dev Sec Ops
+  asset_type: GitHub
+  cis20:
+  - CIS 13
+  confidence: 90
+  context:
+  - Source:Application Log
+  - Stage:Discovery
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1195.002/github_actions_disable_security_workflow/github_actions_disable_security_workflow.log
+  impact: 30
+  kill_chain_phases:
+  - Actions on Objectives
+  message: Security Workflow is disabled in branch $branch$ for repository $repository$
+  mitre_attack_id:
+  - T1195.002
+  - T1195
+  nist:
+  - PR.DS
+  - PR.AC
+  - DE.CM
+  observable:
+  - name: repository
+    type: Unknown
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - workflow_run.event
+  - workflow_run.name
+  - workflow_run.head_commit.id
+  - workflow_run.event workflow_run.head_branch
+  - workflow_run.head_commit.author.email
+  - workflow_run.head_commit.author.name
+  - workflow_run.head_commit.message
+  - workflow_run.head_commit.timestamp
+  - workflow_run.head_repository.full_name
+  - workflow_run.head_repository.owner.id
+  - workflow_run.head_repository.owner.login
+  - workflow_run.head_repository.owner.type
+  risk_score: 27
+  security_domain: network
