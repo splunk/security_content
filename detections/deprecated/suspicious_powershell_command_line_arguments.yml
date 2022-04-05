@@ -30,6 +30,7 @@ references: []
 tags:
   analytic_story:
   - Malicious PowerShell
+  - Hermetic Wiper 
   asset_type: Endpoint
   cis20:
   - CIS 3
