@@ -6,7 +6,7 @@ author: Michael Haag, Splunk
 type: TTP
 datamodel:
 - Web
-description: The following analytic identifies the common URL requests used by a recent CVE - CVE-2022-22963, or Spring4Shell, to access a webshell on the remote webserver.
+description: The following analytic identifies the common URL requests used by a recent CVE - CVE-2022-22965, or Spring4Shell, to access a webshell on the remote webserver.
   The filename and cmd are arbitrary in this exploitation. Java will write a JSP to disk and a process will spawn from Java based on the cmd passed. This is indicative of typical web shell activity.
 search: '| tstats count from datamodel=Web where Web.http_method IN ("GET")
   Web.url IN ("*.jsp?cmd=*","*j&cmd=*")
@@ -24,9 +24,9 @@ references:
 - https://www.tenable.com/blog/spring4shell-faq-spring-framework-remote-code-execution-vulnerability
 tags:
   analytic_story:
-  - Spring4Shell CVE-2022-22963
+  - Spring4Shell CVE-2022-22965
   cve:
-  - CVE-2022-22963
+  - CVE-2022-22965
   asset_type: Web Server
   cis20:
   - CIS 3

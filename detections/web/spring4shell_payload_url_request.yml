@@ -24,9 +24,9 @@ references:
 - https://www.tenable.com/blog/spring4shell-faq-spring-framework-remote-code-execution-vulnerability
 tags:
   analytic_story:
-  - Spring4Shell CVE-2022-22963
+  - Spring4Shell CVE-2022-22965
   cve:
-  - CVE-2022-22963
+  - CVE-2022-22965
   asset_type: Web Server
   cis20:
   - CIS 3

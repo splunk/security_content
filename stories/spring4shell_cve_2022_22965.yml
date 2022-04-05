@@ -1,4 +1,4 @@
-name: Spring4Shell CVE-2022-22963
+name: Spring4Shell CVE-2022-22965
 id: dcc19913-6918-4ed2-bbba-a6b484c10ef4
 version: 1
 date: '2022-04-05'
@@ -20,7 +20,7 @@ According to Spring, the following requirements were included in the vulnerabili
 references:
 - https://www.tenable.com/blog/spring4shell-faq-spring-framework-remote-code-execution-vulnerability
 tags:
-  analytic_story: Spring4Shell CVE-2022-22963
+  analytic_story: Spring4Shell CVE-2022-22965
   category:
   - Adversary Tactics
   product:
