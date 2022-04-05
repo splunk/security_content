@@ -28,7 +28,7 @@ tags:
   analytic_story:
   - Living Off The Land
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/InDirectToVideo/datasets/attack_techniques/T1202/atomic_red_team/windows-sysmon.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1202/atomic_red_team/windows-sysmon.log
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
@@ -39,17 +39,17 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.user
-  - Endpoint.Processes.dest 
-  - Endpoint.Processes.user 
-  - Endpoint.Processes.parent_process 
-  - Endpoint.Processes.parent_process_name 
-  - Endpoint.Processes.process_name 
-  - Endpoint.Processes.process 
-  - Endpoint.Processes.process_id 
-  - Endpoint.Processes.parent_process_id 
-  - Endpoint.Processes.process_path
+  - Processes.dest
+  - Processes.user
+  - Processes.dest 
+  - Processes.user 
+  - Processes.parent_process 
+  - Processes.parent_process_name 
+  - Processes.process_name 
+  - Processes.process 
+  - Processes.process_id 
+  - Processes.parent_process_id 
+  - Processes.process_path
   security_domain: endpoint
   impact: 50
   confidence: 50 
