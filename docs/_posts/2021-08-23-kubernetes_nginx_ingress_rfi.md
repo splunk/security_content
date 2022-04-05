@@ -23,20 +23,76 @@ tags:
 
 This search uses the Kubernetes logs from a nginx ingress controller to detect remote file inclusion attacks.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-
 
 - **Last Updated**: 2021-08-23
 - **Author**: Patrick Bareiss, Splunk
 - **ID**: fc5531ae-62fd-4de6-9c36-b4afdae8ca95
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Annotations
+
+<details>
+  <summary>ATT&CK</summary>
+
+<div markdown="1">
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1212](https://attack.mitre.org/techniques/T1212/) | Exploitation for Credential Access | Credential Access |
+
+</div>
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+<div markdown="1">
+
+* Actions on Objectives
+
+
+</div>
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+<div markdown="1">
+
+* PR.DS
+* PR.AC
+* DE.CM
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+<div markdown="1">
+
+* CIS 13
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+<div markdown="1">
+
+
+</div>
+</details>
 
 #### Search
 
@@ -60,7 +116,7 @@ The SPL above uses the following Macros:
 * [kubernetes_container_controller](https://github.com/splunk/security_content/blob/develop/macros/kubernetes_container_controller.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that `kubernetes_nginx_ingress_rfi_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+Note that **kubernetes_nginx_ingress_rfi_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * raw
@@ -76,9 +132,6 @@ unknown
 * [Dev Sec Ops](/stories/dev_sec_ops)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -86,8 +139,6 @@ unknown
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | Remote File Inclusion Attack detected on $host$ |
-
-
 
 
 #### Reference
@@ -98,7 +149,7 @@ unknown
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 

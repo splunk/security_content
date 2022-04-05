@@ -24,20 +24,76 @@ tags:
 Detect a renamed instance of procdump.exe dumping the lsass process. This query looks for both -mm and -ma usage. -mm will produce a mini dump file and -ma will write a dump file with all process memory. Both are highly suspect and should be reviewed. Modify the query as needed.\
 During triage, confirm this is procdump.exe executing. If it is the first time a Sysinternals utility has been ran, it is possible there will be a -accepteula on the command line. Review other endpoint data sources for cross process (injection) into lsass.exe.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-
 
 - **Last Updated**: 2021-02-01
 - **Author**: Michael Haag, Splunk
 - **ID**: 21276daa-663d-11eb-ae93-0242ac130002
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Annotations
+
+<details>
+  <summary>ATT&CK</summary>
+
+<div markdown="1">
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1003.001](https://attack.mitre.org/techniques/T1003/001/) | LSASS Memory | Credential Access |
+
+</div>
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+<div markdown="1">
+
+* Actions on Objectives
+
+
+</div>
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+<div markdown="1">
+
+* DE.CM
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+<div markdown="1">
+
+* CIS 3
+* CIS 5
+* CIS 16
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+<div markdown="1">
+
+
+</div>
+</details>
 
 #### Search
 
@@ -52,10 +108,10 @@ During triage, confirm this is procdump.exe executing. If it is the first time a
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that `dump_lsass_via_procdump_rename_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+Note that **dump_lsass_via_procdump_rename_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -78,9 +134,6 @@ None identified.
 * [HAFNIUM Group](/stories/hafnium_group)
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
 
 
 #### RBA
@@ -88,8 +141,6 @@ None identified.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | The following $process_name$ has been identified as renamed, spawning from $parent_process_name$ on $dest$, attempting to dump lsass.exe. |
-
-
 
 
 #### Reference
@@ -101,7 +152,7 @@ None identified.
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 

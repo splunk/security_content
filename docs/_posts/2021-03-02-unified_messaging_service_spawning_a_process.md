@@ -25,20 +25,74 @@ tags:
 
 This detection identifies Microsoft Exchange Server's Unified Messaging services, umworkerprocess.exe and umservice.exe, spawning a child process, indicating possible exploitation of CVE-2021-26857 vulnerability. The query filters out werfault.exe and wermgr.exe mostly due to potential false positives, however, if there is an excessive amount of "wermgr.exe" or "WerFault.exe" failures, it may be due to the active exploitation. During triage, identify any additional suspicious parallel processes. Identify any recent out of place file modifications. Review Exchange logs following Microsofts guide. To contain, perform egress filtering or restrict public access to Exchange. In final, patch the vulnerablity and monitor.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
-- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2021-03-02
 - **Author**: Michael Haag, Splunk
 - **ID**: f1126df0-7bd5-11eb-988f-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Annotations
+
+<details>
+  <summary>ATT&CK</summary>
+
+<div markdown="1">
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1190](https://attack.mitre.org/techniques/T1190/) | Exploit Public-Facing Application | Initial Access |
+
+</div>
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+<div markdown="1">
+
+* Exploitation
+
+
+</div>
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+<div markdown="1">
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+<div markdown="1">
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+<div markdown="1">
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+| [CVE-2021-26857](https://nvd.nist.gov/vuln/detail/CVE-2021-26857) | Microsoft Exchange Server Remote Code Execution Vulnerability This CVE ID is unique from CVE-2021-26412, CVE-2021-26854, CVE-2021-26855, CVE-2021-26858, CVE-2021-27065, CVE-2021-27078. | 6.8 |
+
+
+
+</div>
+</details>
 
 #### Search
 
@@ -53,10 +107,10 @@ This detection identifies Microsoft Exchange Server's Unified Messaging services
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that `unified_messaging_service_spawning_a_process_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+Note that **unified_messaging_service_spawning_a_process_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -79,9 +133,6 @@ Unknown. Tune out child processes as needed to limit volume of false positives.
 * [HAFNIUM Group](/stories/hafnium_group)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -89,14 +140,6 @@ Unknown. Tune out child processes as needed to limit volume of false positives.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | Possible CVE-2021-26857 exploitation on $dest$ |
-
-
-#### CVE
-
-| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
-| ----------- | ----------- | -------------- |
-| [CVE-2021-26857](https://nvd.nist.gov/vuln/detail/CVE-2021-26857) | Microsoft Exchange Server Remote Code Execution Vulnerability This CVE ID is unique from CVE-2021-26412, CVE-2021-26854, CVE-2021-26855, CVE-2021-26858, CVE-2021-27065, CVE-2021-27078. | 6.8 |
-
 
 
 #### Reference
@@ -108,7 +151,7 @@ Unknown. Tune out child processes as needed to limit volume of false positives.
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 

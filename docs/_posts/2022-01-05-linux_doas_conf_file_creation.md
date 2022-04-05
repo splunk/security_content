@@ -29,22 +29,78 @@ tags:
 
 This analytic is to detect the creation of doas.conf file in linux host platform. This configuration file can be use by doas utility tool to allow or permit standard users to perform tasks as root, the same way sudo does. This tool is developed as a minimalistic alternative to sudo application. This tool can be abused advesaries, attacker or malware to gain elevated privileges to the targeted or compromised host. On the other hand this can also be executed by administrator for a certain task that needs admin rights. In this case filter is needed.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
-
 - **Last Updated**: 2022-01-05
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: f6343e86-6e09-11ec-9376-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Annotations
+
+<details>
+  <summary>ATT&CK</summary>
+
+<div markdown="1">
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1548.003](https://attack.mitre.org/techniques/T1548/003/) | Sudo and Sudo Caching | Defense Evasion, Privilege Escalation |
 
 | [T1548](https://attack.mitre.org/techniques/T1548/) | Abuse Elevation Control Mechanism | Defense Evasion, Privilege Escalation |
+
+</div>
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+<div markdown="1">
+
+* Exploitation
+
+
+</div>
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+<div markdown="1">
+
+* DE.CM
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+<div markdown="1">
+
+* CIS 3
+* CIS 5
+* CIS 16
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+<div markdown="1">
+
+
+</div>
+</details>
 
 #### Search
 
@@ -59,10 +115,10 @@ This analytic is to detect the creation of doas.conf file in linux host platform
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that `linux_doas_conf_file_creation_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+Note that **linux_doas_conf_file_creation_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -84,9 +140,6 @@ Administrator or network operator can execute this command. Please update the fi
 * [Linux Persistence Techniques](/stories/linux_persistence_techniques)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -94,8 +147,6 @@ Administrator or network operator can execute this command. Please update the fi
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | A file $file_name$ is created in $file_path$ on $dest$ |
-
-
 
 
 #### Reference
@@ -106,7 +157,7 @@ Administrator or network operator can execute this command. Please update the fi
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 

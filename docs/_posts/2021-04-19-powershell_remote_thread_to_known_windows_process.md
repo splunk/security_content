@@ -25,20 +25,70 @@ tags:
 
 this search is designed to detect suspicious powershell process that tries to inject code and to known/critical windows process and execute it using CreateRemoteThread. This technique is seen in several malware like trickbot and offensive tooling like cobaltstrike where it load a shellcode to svchost.exe to execute reverse shell to c2 and download another payload
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
-
 - **Last Updated**: 2021-04-19
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: ec102cb2-a0f5-11eb-9b38-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Annotations
+
+<details>
+  <summary>ATT&CK</summary>
+
+<div markdown="1">
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation |
+
+</div>
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+<div markdown="1">
+
+* Exploitation
+
+
+</div>
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+<div markdown="1">
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+<div markdown="1">
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+<div markdown="1">
+
+
+</div>
+</details>
 
 #### Search
 
@@ -52,10 +102,10 @@ this search is designed to detect suspicious powershell process that tries to in
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that `powershell_remote_thread_to_known_windows_process_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+Note that **powershell_remote_thread_to_known_windows_process_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -81,9 +131,6 @@ unknown
 * [Trickbot](/stories/trickbot)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -93,8 +140,6 @@ unknown
 | 63.0 | 70 | 90 | A suspicious powershell process $process_name$ that tries to create a remote thread on target process $TargetImage$ with eventcode $EventCode$ in host $Computer$ |
 
 
-
-
 #### Reference
 
 * [https://thedfirreport.com/2021/01/11/trickbot-still-alive-and-well/](https://thedfirreport.com/2021/01/11/trickbot-still-alive-and-well/)
@@ -102,7 +147,7 @@ unknown
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 

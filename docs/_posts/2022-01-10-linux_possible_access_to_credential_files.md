@@ -27,22 +27,78 @@ tags:
 
 This analytic is to detect a possible attempt to dump or access the content of /etc/passwd and /etc/shadow to enable offline credential cracking. "etc/passwd" store user information within linux OS while "etc/shadow" contain the user passwords hash. Adversaries and threat actors may attempt to access this to gain persistence and/or privilege escalation. This anomaly detection can be a good indicator of possible credential dumping technique but it might catch some normal administrator automation scripts or during credential auditing. In this scenario filter is needed.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
-
 - **Last Updated**: 2022-01-10
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: 16107e0e-71fc-11ec-b862-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Annotations
+
+<details>
+  <summary>ATT&CK</summary>
+
+<div markdown="1">
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1003.008](https://attack.mitre.org/techniques/T1003/008/) | /etc/passwd and /etc/shadow | Credential Access |
 
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
+
+</div>
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+<div markdown="1">
+
+* Exploitation
+
+
+</div>
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+<div markdown="1">
+
+* DE.CM
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+<div markdown="1">
+
+* CIS 3
+* CIS 5
+* CIS 16
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+<div markdown="1">
+
+
+</div>
+</details>
 
 #### Search
 
@@ -57,10 +113,10 @@ This analytic is to detect a possible attempt to dump or access the content of /
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that `linux_possible_access_to_credential_files_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+Note that **linux_possible_access_to_credential_files_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -84,9 +140,6 @@ Administrator or network operator can execute this command. Please update the fi
 * [Linux Persistence Techniques](/stories/linux_persistence_techniques)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -94,8 +147,6 @@ Administrator or network operator can execute this command. Please update the fi
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | A commandline $process$ executed on $dest$ |
-
-
 
 
 #### Reference
@@ -106,7 +157,7 @@ Administrator or network operator can execute this command. Please update the fi
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 

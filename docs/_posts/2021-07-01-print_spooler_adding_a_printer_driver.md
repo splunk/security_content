@@ -33,22 +33,77 @@ The following analytic identifies new printer drivers being load by utilizing th
 Within the proof of concept code, the following event will occur - "Printer driver 1234 for Windows x64 Version-3 was added or updated. Files:- UNIDRV.DLL, kernelbase.dll, evil.dll. No user action is required." \
 During triage, isolate the endpoint and review for source of exploitation. Capture any additional file modification events and review the source of where the exploitation began.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
-
 - **Last Updated**: 2021-07-01
 - **Author**: Mauricio Velazco, Michael Haag, Teoderick Contreras, Splunk
 - **ID**: 313681a2-da8e-11eb-adad-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Annotations
+
+<details>
+  <summary>ATT&CK</summary>
+
+<div markdown="1">
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1547.012](https://attack.mitre.org/techniques/T1547/012/) | Print Processors | Persistence, Privilege Escalation |
 
 | [T1547](https://attack.mitre.org/techniques/T1547/) | Boot or Logon Autostart Execution | Persistence, Privilege Escalation |
+
+</div>
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+<div markdown="1">
+
+* Exploitation
+
+
+</div>
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+<div markdown="1">
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+<div markdown="1">
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+<div markdown="1">
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+| [CVE-2021-34527](https://nvd.nist.gov/vuln/detail/CVE-2021-34527) | Windows Print Spooler Remote Code Execution Vulnerability | 9.0 |
+| [CVE-2021-1675](https://nvd.nist.gov/vuln/detail/CVE-2021-1675) | Windows Print Spooler Elevation of Privilege Vulnerability | 9.3 |
+
+
+
+</div>
+</details>
 
 #### Search
 
@@ -62,10 +117,10 @@ During triage, isolate the endpoint and review for source of exploitation. Captu
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [printservice](https://github.com/splunk/security_content/blob/develop/macros/printservice.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that `print_spooler_adding_a_printer_driver_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+Note that **print_spooler_adding_a_printer_driver_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -85,9 +140,6 @@ Unknown. This may require filtering.
 * [PrintNightmare CVE-2021-34527](/stories/printnightmare_cve-2021-34527)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -95,15 +147,6 @@ Unknown. This may require filtering.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 80 | 90 | Suspicious print driver was loaded on endpoint $ComputerName$. |
-
-
-#### CVE
-
-| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
-| ----------- | ----------- | -------------- |
-| [CVE-2021-34527](https://nvd.nist.gov/vuln/detail/CVE-2021-34527) | Windows Print Spooler Remote Code Execution Vulnerability | 9.0 |
-| [CVE-2021-1675](https://nvd.nist.gov/vuln/detail/CVE-2021-1675) | Windows Print Spooler Elevation of Privilege Vulnerability | 9.3 |
-
 
 
 #### Reference
@@ -116,7 +159,7 @@ Unknown. This may require filtering.
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 

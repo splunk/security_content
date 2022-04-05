@@ -23,20 +23,74 @@ tags:
 
 This search looks for AWS provisioning activities from previously unseen regions. Region in this context is similar to a state in the United States. Provisioning activities are defined broadly as any event that begins with "Run" or "Create." This search is deprecated and have been translated to use the latest Change Datamodel.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-
 
 - **Last Updated**: 2018-03-16
 - **Author**: David Dorsey, Splunk
 - **ID**: 7971d3df-da82-4648-a6e5-b5637bea5253
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Annotations
+
+<details>
+  <summary>ATT&CK</summary>
+
+<div markdown="1">
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1535](https://attack.mitre.org/techniques/T1535/) | Unused/Unsupported Cloud Regions | Defense Evasion |
+
+</div>
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+<div markdown="1">
+
+* Exploitation
+
+
+</div>
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+<div markdown="1">
+
+* ID.AM
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+<div markdown="1">
+
+* CIS 1
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+<div markdown="1">
+
+
+</div>
+</details>
 
 #### Search
 
@@ -64,7 +118,7 @@ This search looks for AWS provisioning activities from previously unseen regions
 The SPL above uses the following Macros:
 * [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
 
-Note that `aws_cloud_provisioning_from_previously_unseen_region_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+Note that **aws_cloud_provisioning_from_previously_unseen_region_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -83,9 +137,6 @@ This is a strictly behavioral search, so we define "false positive" slightly dif
 * [AWS Suspicious Provisioning Activities](/stories/aws_suspicious_provisioning_activities)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -95,13 +146,11 @@ This is a strictly behavioral search, so we define "false positive" slightly dif
 | 25.0 | 50 | 50 | tbd |
 
 
-
-
 #### Reference
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 
