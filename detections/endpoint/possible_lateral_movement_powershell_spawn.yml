@@ -37,6 +37,7 @@ references:
 - https://attack.mitre.org/techniques/T1543/003/
 tags:
   analytic_story:
+  - Hermetic Wiper 
   - Active Directory Lateral Movement
   - Malicious PowerShell
   confidence: 50
