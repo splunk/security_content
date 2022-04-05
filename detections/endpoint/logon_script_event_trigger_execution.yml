@@ -28,6 +28,7 @@ tags:
   analytic_story:
   - Windows Persistence Techniques
   - Windows Privilege Escalation
+  - Hermetic Wiper 
   confidence: 100
   context:
   - Source:Endpoint
