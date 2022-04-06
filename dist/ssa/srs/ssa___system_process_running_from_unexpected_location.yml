@@ -1,6 +1,6 @@
 name: System Process Running from Unexpected Location
 id: 28179107-099a-464a-94d3-08301e6c055f
-version: 3
+version: 4
 description: An attacker tries might try to use different version of a system command
   without overriding original, or they might try to avoid some detection running the
   process from a different folder. This detection checks that a list of system processes
@@ -64,12 +64,12 @@ search: ' $ssa_input = | from read_ssa_enriched_events() | eval dest_device_id=u
   OR process_name="rdpsauachelper.exe" OR process_name="reagentc.exe" OR process_name="recoverydrive.exe"
   OR process_name="register-cimprovider.exe" OR process_name="registeriepkeys.exe"
   OR process_name="relpost.exe" OR process_name="remoteposworker.exe" OR process_name="rmclient.exe"
-  OR process_name="robocopy.exe" OR process_name="rpcping.exe" OR process_name="runlegacycplelevated.exe"
-  OR process_name="runtimebroker.exe" OR process_name="sihclient.exe" OR process_name="searchfilterhost.exe"
-  OR process_name="searchindexer.exe" OR process_name="searchprotocolhost.exe" OR
-  process_name="secedit.exe" OR process_name="sensordataservice.exe" OR process_name="setieinstalleddate.exe"
-  OR process_name="settingsynchost.exe" OR process_name="slidetoshutdown.exe" OR process_name="smartscreensettings.exe"
-  OR process_name="sndvol.exe" OR process_name="snippingtool.exe" OR process_name="soundrecorder.exe"
+  OR process_name="rpcping.exe" OR process_name="runlegacycplelevated.exe" OR process_name="runtimebroker.exe"
+  OR process_name="sihclient.exe" OR process_name="searchfilterhost.exe" OR process_name="searchindexer.exe"
+  OR process_name="searchprotocolhost.exe" OR process_name="secedit.exe" OR process_name="sensordataservice.exe"
+  OR process_name="setieinstalleddate.exe" OR process_name="settingsynchost.exe" OR
+  process_name="slidetoshutdown.exe" OR process_name="smartscreensettings.exe" OR
+  process_name="sndvol.exe" OR process_name="snippingtool.exe" OR process_name="soundrecorder.exe"
   OR process_name="spaceagent.exe" OR process_name="sppextcomobj.exe" OR process_name="srtasks.exe"
   OR process_name="stikynot.exe" OR process_name="synchost.exe" OR process_name="sysreseterr.exe"
   OR process_name="systempropertiesadvanced.exe" OR process_name="systempropertiescomputername.exe"
@@ -185,18 +185,18 @@ search: ' $ssa_input = | from read_ssa_enriched_events() | eval dest_device_id=u
   OR process_name="sdclt.exe" OR process_name="sdiagnhost.exe" OR process_name="secinit.exe"
   OR process_name="services.exe" OR process_name="sessionmsg.exe" OR process_name="sethc.exe"
   OR process_name="setspn.exe" OR process_name="setupcl.exe" OR process_name="setupugc.exe"
-  OR process_name="setx.exe" OR process_name="sfc.exe" OR process_name="shadow.exe"
-  OR process_name="shrpubw.exe" OR process_name="shutdown.exe" OR process_name="sigverif.exe"
-  OR process_name="sihost.exe" OR process_name="slui.exe" OR process_name="smss.exe"
-  OR process_name="snmptrap.exe" OR process_name="sort.exe" OR process_name="spinstall.exe"
-  OR process_name="spoolsv.exe" OR process_name="sppsvc.exe" OR process_name="spreview.exe"
-  OR process_name="srdelayed.exe" OR process_name="subst.exe" OR process_name="svchost.exe"
-  OR process_name="sxstrace.exe" OR process_name="syskey.exe" OR process_name="systeminfo.exe"
-  OR process_name="systemreset.exe" OR process_name="systray.exe" OR process_name="tabcal.exe"
-  OR process_name="takeown.exe" OR process_name="taskeng.exe" OR process_name="taskhost.exe"
-  OR process_name="taskhostw.exe" OR process_name="taskkill.exe" OR process_name="tasklist.exe"
-  OR process_name="taskmgr.exe" OR process_name="tcmsetup.exe" OR process_name="timeout.exe"
-  OR process_name="tpmvscmgr.exe" OR process_name="tpmvscmgrsvr.exe";
+  OR process_name="setx.exe" OR process_name="shadow.exe" OR process_name="shrpubw.exe"
+  OR process_name="shutdown.exe" OR process_name="sigverif.exe" OR process_name="sihost.exe"
+  OR process_name="slui.exe" OR process_name="smss.exe" OR process_name="snmptrap.exe"
+  OR process_name="sort.exe" OR process_name="spinstall.exe" OR process_name="spoolsv.exe"
+  OR process_name="sppsvc.exe" OR process_name="spreview.exe" OR process_name="srdelayed.exe"
+  OR process_name="subst.exe" OR process_name="svchost.exe" OR process_name="sxstrace.exe"
+  OR process_name="syskey.exe" OR process_name="systeminfo.exe" OR process_name="systemreset.exe"
+  OR process_name="systray.exe" OR process_name="tabcal.exe" OR process_name="takeown.exe"
+  OR process_name="taskeng.exe" OR process_name="taskhost.exe" OR process_name="taskhostw.exe"
+  OR process_name="taskkill.exe" OR process_name="tasklist.exe" OR process_name="taskmgr.exe"
+  OR process_name="tcmsetup.exe" OR process_name="timeout.exe" OR process_name="tpmvscmgr.exe"
+  OR process_name="tpmvscmgrsvr.exe";
 
   $cond_6 = | from $ssa_input | where process_name="tracerpt.exe" OR process_name="tscon.exe"
   OR process_name="tsdiscon.exe" OR process_name="tskill.exe" OR process_name="typeperf.exe"
@@ -222,16 +222,18 @@ search: ' $ssa_input = | from read_ssa_enriched_events() | eval dest_device_id=u
   | from $cond_1 | union $cond_2 | union $cond_3 | union $cond_4 | union $cond_5 |
   union $cond_6 | where match_regex(process_path, /(?i)\\windows\\system32/)=false
   AND match_regex(process_path, /(?i)\\windows\\syswow64/)=false | eval body=create_map("category_id", 101, "class_id", 101000, "detection_start_time", timestamp, 
-  "detection_end_time", timestamp, "device_entities", [create_map("uid", ucast(map_get(input_event, "tbd"), "string", null), "type_id", 0)], 
-  "disposition_id", 1, "end_time", timestamp, "event_id", 10100001, "event_time", timestamp, 
+  "detection_end_time", timestamp, "device_entities", [create_map("uid", ucast(map_get(input_event, "dest_device_id"), "string", null), "type_id", 0)], 
+  "disposition_id", 1, "end_time", timestamp, "event_id", 10100001, "event_time", strftime(timestamp, "%Y-%m-%dT%H:%M:%S.%6QZ", "%Z"), 
   "finding", create_map("confidence", 80, "confidence_id", 3, 
   "context_ids", [10, 45], "impact", 70, "impact_id", 4,
   "kill_chain_phase", "Actions on Objectives", "kill_chain_phase_id", 7, 
-  "risk_level", "Medium", "risk_level_id", 2, "type_id", 1, "ref_event_uid", event_id), 
-  "message", "A system process $process_name$ with commandline $cmd_line$ spawn in non-default folder path in host $dest_device_id$", "metadata", create_map("log_name", "Endpoint_Processes", "version",
-  "1.0.0"), "observables", [create_map("name", "dest_device_id", "role_ids", [4], "type_id", 4, "value", dest_device_id), create_map("name", "dest_user_id", "role_ids", [4], "type_id", 6, "value", dest_user_id)], "origin", create_map("product", create_map("name", "Splunk Behavioral Analytics")), 
+  "risk_level", "Medium", "risk_level_id", 2, "risk_score", 56, 
+  "type_id", 1, "ref_event_uid", event_id), "message", "A system process $process_name$ with commandline $cmd_line$ spawn in non-default folder path in host $dest_device_id$", 
+  "metadata", create_map("log_name", "Endpoint_Processes", "version", "1.0.0"), 
+  "observables", [create_map("name", "dest_device_id", "role_ids", [4], "type_id", 4, "value", dest_device_id), create_map("name", "dest_user_id", "role_ids", [4], "type_id", 6, "value", dest_user_id)], 
+  "origin", create_map("product", create_map("name", "Splunk Behavioral Analytics")), 
   "rule", create_map("name", "System Process Running from Unexpected Location"), "start_time", timestamp, "time", timestamp,
-  "user_entities", [create_map("uid", "tbd")])
+  "user_entities", [create_map("uid", ucast(map_get(input_event, "dest_user_id"),"string", null))])
   | into write_ssa_finding_events();'
 how_to_implement: Collect endpoint data such as sysmon or 4688 events.
 known_false_positives: None

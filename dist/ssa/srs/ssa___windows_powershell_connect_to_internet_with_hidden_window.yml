@@ -22,16 +22,18 @@ search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map
   process_name="sqltoolsps.exe" OR process_name="powershell.exe" OR process_name="powershell_ise.exe"
   | where match_regex(process, /(?i)[\\-|\\/|\u2013\|\u2014|\u2015]w(in*d*o*w*s*t*y*l*e*)*\\s+[^-]/)=true
   | eval body=create_map("category_id", 101, "class_id", 101000, "detection_start_time", timestamp, 
-  "detection_end_time", timestamp, "device_entities", [create_map("uid", ucast(map_get(input_event, "tbd"), "string", null), "type_id", 0)], 
-  "disposition_id", 1, "end_time", timestamp, "event_id", 10100001, "event_time", timestamp, 
+  "detection_end_time", timestamp, "device_entities", [create_map("uid", ucast(map_get(input_event, "dest_device_id"), "string", null), "type_id", 0)], 
+  "disposition_id", 1, "end_time", timestamp, "event_id", 10100001, "event_time", strftime(timestamp, "%Y-%m-%dT%H:%M:%S.%6QZ", "%Z"), 
   "finding", create_map("confidence", 70, "confidence_id", 3, 
   "context_ids", [10, 50], "impact", 50, "impact_id", 3,
   "kill_chain_phase", "Exploitation", "kill_chain_phase_id", 4, 
-  "risk_level", "Low", "risk_level_id", 1, "type_id", 1, "ref_event_uid", event_id), 
-  "message", "PowerShell processes $process$ started with parameters to modify the execution policy of the run, run in a hidden window, and connect to the Internet on host $dest$ executed by user $user$.", "metadata", create_map("log_name", "Endpoint_Processes", "version",
-  "1.0.0"), "observables", [create_map("name", "dest_user_id", "role_ids", [4], "type_id", 6, "value", dest_user_id), create_map("name", "dest_device_id", "role_ids", [4], "type_id", 4, "value", dest_device_id), create_map("name", "parent_process_name", "role_ids", [5], "type_id", 15, "value", parent_process_name), create_map("name", "process_name", "role_ids", [6], "type_id", 15, "value", process_name)], "origin", create_map("product", create_map("name", "Splunk Behavioral Analytics")), 
+  "risk_level", "Low", "risk_level_id", 1, "risk_score", 35, 
+  "type_id", 1, "ref_event_uid", event_id), "message", "PowerShell processes $process$ started with parameters to modify the execution policy of the run, run in a hidden window, and connect to the Internet on host $dest$ executed by user $user$.", 
+  "metadata", create_map("log_name", "Endpoint_Processes", "version", "1.0.0"), 
+  "observables", [create_map("name", "dest_user_id", "role_ids", [4], "type_id", 6, "value", dest_user_id), create_map("name", "dest_device_id", "role_ids", [4], "type_id", 4, "value", dest_device_id), create_map("name", "parent_process_name", "role_ids", [5], "type_id", 15, "value", parent_process_name), create_map("name", "process_name", "role_ids", [6], "type_id", 15, "value", process_name)], 
+  "origin", create_map("product", create_map("name", "Splunk Behavioral Analytics")), 
   "rule", create_map("name", "Windows Powershell Connect to Internet With Hidden Window"), "start_time", timestamp, "time", timestamp,
-  "user_entities", [create_map("uid", "tbd")]) | into write_ssa_finding_events();'
+  "user_entities", [create_map("uid", ucast(map_get(input_event, "dest_user_id"),"string", null))]) | into write_ssa_finding_events();'
 how_to_implement: You must be ingesting data that records process activity from your
   hosts to populate the Endpoint data model in the Processes node. You must also be
   ingesting logs with both the process name and command line from your endpoints.
