@@ -1,0 +1,70 @@
+name: Web Spring4Shell HTTP Request Class Module
+id: fcdfd69d-0ca3-4476-920e-9b633cb4593e
+version: 1
+date: '2022-04-06'
+author: Michael Haag, Splunk
+type: TTP
+datamodel:
+- Web
+description: The following analytic identifies the payload related to Spring4Shell, CVE-2022-22965. This analytic uses Splunk Stream HTTP to view the http request body, form data. STRT reviewed all the current proof of concept code and determined the commonality with the payloads being passed used the same fields "class.module.classLoader.resources.context.parent.pipeline.first".
+search: '`stream_http` http_method IN ("POST")
+  | stats values(form_data) as http_request_body min(_time) as firstTime max(_time) as lastTime count by http_method http_user_agent uri_path url bytes_in bytes_out
+  | search http_request_body IN ("*class.module.classLoader.resources.context.parent.pipeline.first.fileDateFormat=_*", "*class.module.classLoader.resources.context.parent.pipeline.first.pattern*","*suffix=.jsp*")
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | `web_spring4shell_http_request_class_module_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the stream HTTP logs or network logs that catch network traffic. Make
+  sure that the http-request-body, payload, or request field is enabled.
+known_false_positives: False positives may occur and filtering may be required. Restrict analytic to asset type.
+references:
+- https://github.com/DDuarte/springshell-rce-poc/blob/master/poc.py
+tags:
+  analytic_story:
+  - Spring4Shell CVE-2022-22965
+  cve:
+  - CVE-2022-22965
+  asset_type: Web Server
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  confidence: 80
+  context:
+  - Scope:Network
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/spring4shell/http_request_body_streams.log
+  impact: 90
+  kill_chain_phases:
+  - Exploitation
+  message: A http body request related to Spring4Shell has been sent to $dest$ by $src$.
+  mitre_attack_id:
+  - T1190
+  nist:
+  - DE.CM
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: src
+    type: IP Address
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - http_request_body
+  - http_method
+  - http_user_agent
+  - uri_path 
+  - url 
+  - bytes_in 
+  - bytes_out
+  risk_score: 72
+  security_domain: network
+
+
