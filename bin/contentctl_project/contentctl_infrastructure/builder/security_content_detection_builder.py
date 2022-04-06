@@ -178,6 +178,7 @@ class SecurityContentDetectionBuilder(DetectionBuilder):
                             )
                             self.security_content_obj.tags.mitre_attack_enrichments.append(mitre_attack_enrichment)
                         else:
+                            #print("mitre_attack_id " + mitre_attack_id + " doesn't exist for detecction " + self.security_content_obj.name)
                             raise ValueError("mitre_attack_id " + mitre_attack_id + " doesn't exist for detecction " + self.security_content_obj.name)
 
 

@@ -1,9 +1,0 @@
-<panel>
-  <table>
-    <search>
-      <query>| from datamodel Email.All_Email | search recipient=misswang8107@gmail.com OR src_user=redhat@gmail.com | stats count earliest(_time) as firstTime, latest(_time) as lastTime values(dest) values(src) by src_user recipient | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`</query>
-    </search>
-    <option name="drilldown">cell</option>
-    <option name="wrap">false</option>
-  </table>
-</panel>

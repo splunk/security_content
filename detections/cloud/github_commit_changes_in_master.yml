@@ -10,11 +10,11 @@ description: This search is to detect a pushed or commit to master or main branc
   Ideally in terms of devsecops the changes made in a branch and do a PR for review.
   of course in some cases admin of the project may did a changes directly to master
   branch
-search: '`github` branches{}.name = main OR branches{}.name = master | eval severity="low"
-  | eval phase="code" |  stats count min(_time) as firstTime max(_time) as lastTime  by
-  commit.author.html_url commit.commit.author.email commit.author.login commit.commit.message
-  repository.pushed_at commit.commit.committer.date, phase, severity | eval phase="code"
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `github_commit_changes_in_master_filter`'
+search: '`github` branches{}.name = main OR branches{}.name = master 
+ |  stats count min(_time) as firstTime max(_time) as lastTime by commit.commit.author.email commit.author.login commit.commit.message
+  repository.pushed_at commit.commit.committer.date repository.full_name
+ | rename commit.author.login as user, repository.full_name as repository
+ | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `github_commit_changes_in_master_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs related to github logs having the fork, commit, push metadata that can be use
   to monitor the changes in a github project.

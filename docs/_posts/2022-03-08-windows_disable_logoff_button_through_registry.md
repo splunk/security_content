@@ -24,20 +24,76 @@ tags:
 
 This analytic is to detect a suspicious registry modification to disable logoff feature in windows host. This registry when enable will prevent users to log off of the system by using any method, including programs run from the command line, such as scripts. It also disables or removes all menu items and buttons that log the user off of the system. This technique was seen abused by ransomware malware to make the compromised host un-useful and hard to remove other registry modification made on the machine that needs restart to take effect. This windows feature may implement by administrator in some server where shutdown is critical. In that scenario filter of machine and users that can modify this registry is needed.
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
-
 - **Last Updated**: 2022-03-08
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: b2fb6830-9ed1-11ec-9fcb-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Annotations
+
+<details>
+  <summary>ATT&CK</summary>
+
+<div markdown="1">
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1112](https://attack.mitre.org/techniques/T1112/) | Modify Registry | Defense Evasion |
+
+</div>
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+<div markdown="1">
+
+* Exploitation
+
+
+</div>
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+<div markdown="1">
+
+* DE.CM
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+<div markdown="1">
+
+* CIS 3
+* CIS 5
+* CIS 16
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+<div markdown="1">
+
+
+</div>
+</details>
 
 #### Search
 
@@ -59,7 +115,7 @@ This analytic is to detect a suspicious registry modification to disable logoff 
 The SPL above uses the following Macros:
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that `windows_disable_logoff_button_through_registry_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+Note that **windows_disable_logoff_button_through_registry_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -84,10 +140,8 @@ This windows feature may implement by administrator in some server where shutdow
 
 #### Associated Analytic story
 * [Ransomware](/stories/ransomware)
+* [Windows Registry Abuse](/stories/windows_registry_abuse)
 
-
-#### Kill Chain Phase
-* Exploitation
 
 
 
@@ -96,8 +150,6 @@ This windows feature may implement by administrator in some server where shutdow
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | Registry modification in "NoLogOff" on $dest$ |
-
-
 
 
 #### Reference
@@ -109,7 +161,7 @@ This windows feature may implement by administrator in some server where shutdow
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 

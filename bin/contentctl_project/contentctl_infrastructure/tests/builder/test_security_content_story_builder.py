@@ -35,17 +35,6 @@ def test_add_detections():
     assert story.detection_names == ["ESCU - Attempted Credential Dump From Registry via Reg exe - Rule"]
     assert story.tags.datamodels == ['Endpoint']
     assert story.tags.kill_chain_phases == ['Actions on Objectives']
-    assert story.tags.mitre_attack_enrichments[0].dict() == {
-        'mitre_attack_id': 'T1003.002', 
-        'mitre_attack_technique': 'Security Account Manager', 
-        'mitre_attack_tactics': ['Credential Access'], 
-        'mitre_attack_groups': ['Dragonfly 2.0', 'GALLIUM', 'Ke3chang', 'Night Dragon', 'Threat Group-3390', 'Wizard Spider', 'menuPass']
-    }
-    assert story.tags.mitre_attack_enrichments[1].dict() == {
-        'mitre_attack_id': 'T1003', 
-        'mitre_attack_technique': 'OS Credential Dumping', 
-        'mitre_attack_tactics': ['Credential Access'], 'mitre_attack_groups': ['APT28', 'APT32', 'APT39', 'Axiom', 'Frankenstein', 'Leviathan', 'Poseidon Group', 'Sowbug', 'Suckfly', 'Tonto Team']
-    }
 
 
 def test_add_baselines():

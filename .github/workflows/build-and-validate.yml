@@ -146,6 +146,7 @@ jobs:
       - name: Run Generate
         run: |
           source venv/bin/activate
+          rm -rf dist/escu/default/data/ui/panels/*.xml
           python3 contentctl.py --path . generate --product ESCU --output dist/escu
           python3 contentctl.py --path . generate --product SSA --output dist/ssa
       

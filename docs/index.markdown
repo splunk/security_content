@@ -28,7 +28,7 @@ feature_row:
   - image_path: /static/feature_playbooks.png
     alt: "100% free"
     title: "Playbooks"
-    excerpt: "See all **31** automated investigation 🔭 and response 🛠 playbooks "
+    excerpt: "See all **31** automated investigation 🔭 and response 🛠 playbooks."
     url: "/playbooks"
     btn_class: "btn--primary"
     btn_label: "Explore"
@@ -48,29 +48,6 @@ Below is a snapshot in time of what technique we currently have some detection c
 
 [![](mitre-map/coverage.png)](https://mitremap.splunkresearch.com/)
 
-## View Our Content 🔎
-
-* [Analytic Stories](/stories)
-* [Detections](/detections)
-* [Playbooks](/playbooks)
-
-If you prefer working with the command line, check out our [API](https://docs.splunkresearch.com/?version=latest):
-
-```
-curl -s https://content.splunkresearch.com | jq
-{
-  "hello": "welcome to Splunks Research security content api"
-}
-```
-
-## Test Out The Detections 🏗
-
-Replay any detection dataset to a Splunk Enterprise Server by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui). Alternatively use:
-
-![](static/attack_range.png)
-
-The [Splunk Attack Range](https://github.com/splunk/attack_range) which allows you to create a isolated environment to launch attacks and test/build detections.
-
 ## Questions? 📞
 Please use the [GitHub issue tracker](https://github.com/splunk/attack_range/issues) to submit bugs or request features.
 
@@ -83,4 +60,3 @@ If you have questions or need support, you can:
 
 ## Contribute Content 🥰
 If you want to help the rest of the security community by sharing your own detections, see our [contributor guide](https://github.com/splunk/security_content/wiki/Contributing-to-the-Project) for more information on how to get involved!
-

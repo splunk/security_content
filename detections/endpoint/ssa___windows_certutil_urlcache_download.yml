@@ -48,6 +48,11 @@ tags:
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1105/atomic_red_team/T1105-windows-security.log
   impact: 90
+  cis20:
+  - CIS 8
+  nist:
+  - PR.PT
+  - DE.CM
   kill_chain_phases:
   - Exploitation
   message: An instance of $parent_process_name$ spawning $process_name$ was identified

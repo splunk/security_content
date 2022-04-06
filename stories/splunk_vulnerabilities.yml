@@ -1,0 +1,19 @@
+name: Splunk Vulnerabilities
+id: 5354df00-dce2-48ac-9a64-8adb48006828
+version: 1
+date: '2022-03-28'
+author: Lou Stella, Splunk
+description: Keeping your Splunk Enterprise deployment up to date is critical and will help you reduce the risk associated with vulnerabilities in the product. 
+narrative:  This analytic story includes detections that focus on attacker behavior targeted at your Splunk environment directly. 
+references: 
+- https://www.splunk.com/en_us/product-security/announcements/svd-2022-0301.html
+- https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-3422
+tags:
+  analytic_story: Splunk Vulnerabilities
+  category:
+  - Best Practices
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Application Security

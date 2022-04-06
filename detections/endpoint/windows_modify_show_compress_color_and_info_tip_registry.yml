@@ -34,8 +34,10 @@ references:
 - https://blog.talosintelligence.com/2022/02/threat-advisory-hermeticwiper.html
 tags:
   analytic_story:
+  - Data Destruction
   - Windows Defense Evasion Tactics
   - Hermetic Wiper
+  - Windows Registry Abuse
   cis20:
   - CIS 3
   - CIS 5

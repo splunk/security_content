@@ -114,6 +114,13 @@ class Detection(BaseModel, SecurityContentObject):
         return values
 
     @root_validator
+    def search_validation_ssa(cls, values):
+        if 'ssa_' in values['file_path']:
+            if not '--body--' in values['search']:
+                raise ValueError('finding report object placeholder --body-- missing in: ' + values["name"])
+        return values
+
+    @root_validator
     def name_max_length(cls, values):
         # Check max length only for ESCU searches, SSA does not have that constraint
         if 'ssa_' not in values['file_path']:

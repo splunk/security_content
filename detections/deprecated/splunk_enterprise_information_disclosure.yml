@@ -20,7 +20,7 @@ known_false_positives: Retrieving server information may be a legitimate API req
 references: []
 tags:
   analytic_story:
-  - Splunk Enterprise Vulnerability CVE-2018-11409
+  - Splunk Vulnerabilities
   asset_type: Splunk Server
   cis20:
   - CIS 3

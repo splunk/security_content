@@ -43,6 +43,11 @@ tags:
   - Living Off The Land
   automated_detection_testing: passed
   confidence: 100
+  cis20:
+  - CIS 8
+  nist:
+  - PR.PT
+  - DE.CM
   context:
   - Source:Endpoint
   - Stage:Command And Control

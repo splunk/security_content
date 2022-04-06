@@ -5,8 +5,8 @@ main:
     url: /stories/
   - title: "Playbooks"
     url: /playbooks/
-  - title: "Tags"
-    url: /tags/
+  - title: "Blog"
+    url: https://www.splunk.com/en_us/blog/author/secmrkt-research.html
   - title: "About"
     url: https://www.splunk.com/en_us/cyber-security/threat-research.html
 detections:
@@ -24,12 +24,14 @@ detections:
     {%- endfor %}
   - title: "Product"
     children:
+      - title: "Splunk Enterprise"
+        url: /tags/#splunk-enterprise
+      - title: "Splunk Cloud"
+        url: /tags/#splunk-cloud
       - title: "Splunk Enterprise Security"
         url: /tags/#splunk-enterprise-security
       - title: "Splunk Behavioral Analytics"
         url: /tags/#splunk-behavioral-analytics
-      - title: "Splunk Security Analytics for AWS"
-        url: /tags/#splunk-security-analytics-for-aws
 stories:
   - title: "Use Case"
     children:
