@@ -1,0 +1,72 @@
+name: Spring4Shell Payload URL Request
+id: 2850c734-2d44-4431-8139-1a56f6f54c01
+version: 1
+date: '2022-04-05'
+author: Michael Haag, Splunk
+type: TTP
+datamodel:
+- Web
+description: The following analytic is static indicators related to CVE-2022-22963, Spring4Shell. The 3 indicators provide an amount of fidelity that source IP is attemping to exploit a web shell on the destination. 
+  The filename and cmd are arbitrary in this exploitation. Java will write a JSP to disk and a process will spawn from Java based on the cmd passed. This is indicative of typical web shell activity.
+search: '| tstats count from datamodel=Web where Web.http_method IN ("GET")
+  Web.url IN ("*tomcatwar.jsp*","*poc.jsp*","*shell.jsp*")
+  by Web.http_user_agent Web.http_method, Web.url,Web.url_length Web.src, Web.dest
+  sourcetype
+  | `drop_dm_object_name("Web")`
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | `spring4shell_payload_url_request_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information on Web traffic that include fields relavent for traffic into the `Web` datamodel. 
+known_false_positives: The jsp file names are static names used in current proof of concept code. =
+references:
+- https://www.microsoft.com/security/blog/2022/04/04/springshell-rce-vulnerability-guidance-for-protecting-against-and-detecting-cve-2022-22965/
+- https://github.com/TheGejr/SpringShell
+- https://www.tenable.com/blog/spring4shell-faq-spring-framework-remote-code-execution-vulnerability
+tags:
+  analytic_story:
+  - Spring4Shell CVE-2022-22965
+  cve:
+  - CVE-2022-22965
+  asset_type: Web Server
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  confidence: 60
+  context:
+  - Scope:Network
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/spring4shell/spring4shell_nginx.log
+  impact: 60
+  kill_chain_phases:
+  - Exploitation
+  message: A URL was requested related to Spring4Shell POC code on $dest$ by $src$.
+  mitre_attack_id:
+  - T1505.003
+  - T1505
+  - T1190
+  nist:
+  - DE.CM
+  observable:
+  - name: dest
+    type: IP Address
+    role:
+    - Victim
+  - name: src
+    type: IP Address
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Web.http_method
+  - Web.url
+  - Web.url_length
+  - Web.src
+  - Web.dest
+  - Web.http_user_agent
+  risk_score: 36
+  security_domain: network
