@@ -117,8 +117,8 @@ package/default/sftp-config.json
 notes
 
 # detection_testing_batch innteractive mode
-bin/automated_detection_testing/ci/detection_testing_batch/*-test-run.json
-bin/automated_detection_testing/ci/detection_testing_batch/apps/
-bin/automated_detection_testing/ci/detection_testing_batch/security_content/
-bin/automated_detection_testing/ci/detection_testing_batch/test_config.json
-bin/automated_detection_testing/ci/detection_testing_batch/test_results/
+bin/docker_detection_tester/*-test-run.json
+bin/docker_detection_tester/apps/
+bin/docker_detection_tester/security_content/
+bin/docker_detection_tester/test_config.json
+bin/docker_detection_tester/test_results/

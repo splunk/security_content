@@ -49,13 +49,13 @@ tags:
   - DE.CM
   observable:
   - name: dest
-    type: Hostname
+    type: IP Address
     role:
     - Victim
   - name: src
-    type: Other
+    type: IP Address
     role:
-    - Other
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

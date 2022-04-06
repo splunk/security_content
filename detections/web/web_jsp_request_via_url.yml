@@ -53,9 +53,9 @@ tags:
     role:
     - Victim
   - name: src
-    type: Other
+    type: IP Address
     role:
-    - Other
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
