@@ -13,7 +13,9 @@ search: '`stream_http` http_method IN ("POST")
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)`
   | `web_spring4shell_http_request_class_module_filter`'
-how_to_implement: 
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the stream HTTP logs or network logs that catch network traffic. Make
+  sure that the http-request-body, payload, or request field is enabled.
 known_false_positives: False positives may occur and filtering may be required. Restrict analytic to asset type.
 references:
 - https://github.com/DDuarte/springshell-rce-poc/blob/master/poc.py
