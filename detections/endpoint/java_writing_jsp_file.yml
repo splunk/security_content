@@ -1,4 +1,4 @@
-name: Linux Java Writing JSP File
+name: Java Writing JSP File
 id: eb65619c-4f8d-4383-a975-d352765d344b
 version: 1
 date: '2022-04-05'
@@ -7,7 +7,7 @@ type: TTP
 datamodel:
 - Endpoint
 description: The following analytic identifies the process java writing a .jsp to disk. This is potentially indicative of a web shell being written to disk. 
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes where Processes.process_name=java
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes where Processes.process_name IN ("java","java.exe", "javaw.exe")
   by _time Processes.process_id Processes.process_name Processes.dest Processes.process_guid
   Processes.user | `drop_dm_object_name(Processes)` | join process_guid [| tstats
   `security_content_summariesonly` count FROM datamodel=Endpoint.Filesystem where
@@ -16,7 +16,7 @@ search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint
   | `drop_dm_object_name(Filesystem)` | fields _time process_guid file_path file_name
   file_create_time user dest process_name] | stats count min(_time) as firstTime max(_time)
   as lastTime by dest process_name process_guid file_name file_path file_create_time
-  user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `linux_java_writing_jsp_file_filter`'
+  user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `java_writing_jsp_file_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` and `Filesystem` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 known_false_positives: False positives are possible and filtering may be required. Restrict by assets or filter known jsp files that are common for the environment.
 references:
