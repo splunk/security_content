@@ -1,0 +1,88 @@
+name: Java Writing JSP File
+id: eb65619c-4f8d-4383-a975-d352765d344b
+version: 1
+date: '2022-04-05'
+author: Michael Haag, Splunk
+type: TTP
+datamodel:
+- Endpoint
+description: The following analytic identifies the process java writing a .jsp to disk. This is potentially indicative of a web shell being written to disk. 
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes where Processes.process_name IN ("java","java.exe", "javaw.exe")
+  by _time Processes.process_id Processes.process_name Processes.dest Processes.process_guid
+  Processes.user | `drop_dm_object_name(Processes)` | join process_guid [| tstats
+  `security_content_summariesonly` count FROM datamodel=Endpoint.Filesystem where
+  Filesystem.file_name="*.jsp*" by _time Filesystem.dest Filesystem.file_create_time
+  Filesystem.file_name Filesystem.file_path Filesystem.process_guid Filesystem.user
+  | `drop_dm_object_name(Filesystem)` | fields _time process_guid file_path file_name
+  file_create_time user dest process_name] | stats count min(_time) as firstTime max(_time)
+  as lastTime by dest process_name process_guid file_name file_path file_create_time
+  user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `java_writing_jsp_file_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` and `Filesystem` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
+known_false_positives: False positives are possible and filtering may be required. Restrict by assets or filter known jsp files that are common for the environment.
+references:
+- https://www.microsoft.com/security/blog/2022/04/04/springshell-rce-vulnerability-guidance-for-protecting-against-and-detecting-cve-2022-22965/
+- https://github.com/TheGejr/SpringShell
+- https://www.tenable.com/blog/spring4shell-faq-spring-framework-remote-code-execution-vulnerability
+tags:
+  analytic_story:
+  - Spring4Shell CVE-2022-22965
+  cve:
+  - CVE-2022-22965
+  asset_type: Endpoint
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  confidence: 70
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/spring4shell/java_write_jsp-linux-sysmon.log
+  impact: 60
+  kill_chain_phases:
+  - Exploitation
+  message: An instance of $process_name$ was identified
+    on endpoint $dest$ writing a jsp file to disk, potentially indicative of exploitation.
+  mitre_attack_id:
+  - T1190
+  nist:
+  - DE.CM
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Process
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.parent_process
+  - Processes.original_file_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_path
+  - Processes.process_path
+  - Processes.parent_process_id
+  - Filesystem.dest 
+  - Filesystem.file_create_time
+  - Filesystem.file_name 
+  - Filesystem.file_path 
+  - Filesystem.process_guid 
+  - Filesystem.user
+  risk_score: 42
+  security_domain: endpoint
