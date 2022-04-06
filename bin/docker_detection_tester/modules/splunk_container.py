@@ -434,6 +434,7 @@ class SplunkContainer:
 
         testing_service.load_splunk_for_fp_testing(self.splunk_ip, self.management_port, self.container_password, "", all_detections,  self.synchronization_object.attack_data_root_folder)
         
+        start_time = time.time()
         while detection_to_test is not None:
             if self.synchronization_object.checkContainerFailure():
                 self.container.stop()
@@ -491,6 +492,7 @@ class SplunkContainer:
             detection_to_test = self.synchronization_object.getTest()
             
         #We failed to get a test from the queue, so we must be done gracefully!  Quit
+        print(f"TOTAL TESTING TIME USING THIS CONFIG: {time.time()-start_time}")
         return self.successfully_finish_tests()
 
             
