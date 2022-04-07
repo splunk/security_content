@@ -43,7 +43,7 @@ tags:
   impact: 80
   kill_chain_phases:
   - Exploitation
-  message: UPDATE message
+  message: a $process_name$ with kworker commandline in $dest$
   mitre_attack_id:
   - T1562.004
   - T1562
