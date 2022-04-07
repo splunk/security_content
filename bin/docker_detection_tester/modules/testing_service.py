@@ -99,12 +99,10 @@ def test_detection(splunk_ip:str, splunk_port:int, container_name:str, splunk_pa
         #print(target_file)
 
 
-        # Update timestamps before replay
-        if 'update_timestamp' in attack_data:
-            if attack_data['update_timestamp'] == True:
-                data_manipulation = DataManipulation()
-                data_manipulation.manipulate_timestamp(target_file, attack_data['sourcetype'], attack_data['source'])
-        #replay_attack_dataset(container_name, splunk_password, folder_name, "test0", attack_data['sourcetype'], attack_data['source'], attack_data['file_name'])
+        # Update timestamps before replay - ALWAYS update timestamps!     
+        data_manipulation = DataManipulation()
+        data_manipulation.manipulate_timestamp(target_file, attack_data['sourcetype'], attack_data['source'])
+        
         
         try:
             service = get_service(splunk_ip, splunk_port, splunk_password)

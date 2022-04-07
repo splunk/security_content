@@ -16,4 +16,3 @@ tests:
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
-    update_timestamp: true

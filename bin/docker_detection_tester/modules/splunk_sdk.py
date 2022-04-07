@@ -194,8 +194,8 @@ def test_baseline_search(splunk_host, splunk_port, splunk_password, search, pass
         search = 'search ' + search
 
     kwargs = {"exec_mode": "blocking",
-              "dispatch.earliest_time": earliest_time,
-              "dispatch.latest_time": latest_time}
+              "earliest_time": earliest_time,
+              "latest_time": latest_time}
 
     splunk_search = search + ' ' + pass_condition
 
@@ -230,8 +230,8 @@ def test_detection_search(splunk_host:str, splunk_port:int, splunk_password:str,
         search = 'search ' + search 
 
     kwargs = {"exec_mode": "blocking",
-              "dispatch.earliest_time": "-1d",
-              "dispatch.latest_time": "now"}
+              "earliest_time": earliest_time,
+              "latest_time": latest_time}
 
     splunk_search = search + ' ' + pass_condition
     test_results = dict()
@@ -328,10 +328,7 @@ def delete_attack_data(splunk_host:str, splunk_password:str, splunk_port:int, wa
     while (get_number_of_indexed_events(splunk_host, splunk_port, splunk_password, index=index) != 0) :
         splunk_search = f'search index={index} | delete'
 
-        kwargs = {
-                "exec_mode": "blocking",
-                "dispatch.earliest_time": "-1d",
-                "dispatch.latest_time": "now"}
+        kwargs = {"exec_mode": "blocking"} #no earliest_time and latest_time so that it defaults to all time
         try:
             
             job = service.jobs.create(splunk_search, **kwargs)

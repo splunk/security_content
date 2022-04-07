@@ -10,4 +10,3 @@ tests:
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.003/rubeus/windows-security.log
     source: WinEventLog:Security
     sourcetype: WinEventLog
-    update_timestamp: true
