@@ -18,6 +18,7 @@ class AttackEnrichment():
         file_path = os.path.join(os.path.dirname(__file__), '../../../../lookups/mitre_enrichment.csv')
 
         try:
+            raise(Exception("INTENTIONAL EXCEPTION TO FORCE USE OF OFFLINE MITRE ATTACK ENRICHMENT"))
             lift = attack_client()
             all_enterprise = lift.get_enterprise(stix_format=False)
             enterprise_relationships = lift.get_enterprise_relationships()
