@@ -32,7 +32,7 @@ tags:
   - Windows Persistence Techniques
   - Windows Privilege Escalation
   - Windows Registry Abuse
-  - Hermetic Wiper 
+  - Hermetic Wiper
   confidence: 90
   context:
   - Source:Endpoint
