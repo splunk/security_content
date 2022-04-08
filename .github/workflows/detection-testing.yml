@@ -306,7 +306,7 @@ jobs:
                 config_tests_8.json.results
                 config_tests_9.json.results
         
-        - name: Upload S3 Badge and Summary Artifacts for Nightly Scheduled Run
+        - name: Log in to S3 for Artifact Uploads
           if: ${{ github.event_name == 'schedule' }}
           uses: aws-actions/configure-aws-credentials@v1
           with:
@@ -314,6 +314,9 @@ jobs:
             aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
             
             aws-region: us-west-2
+
+        - name: Upload S3 Badge and Summary Artifacts for Nightly Scheduled Run
+          if: ${{ github.event_name == 'schedule' }}
           run: |
             cd bin/docker_detection_tester
             python generate_detection_coverage_badge.py --input_summary_file summary_test_results.json --output_badge_file detection_coverage.svg --badge_string "Pass Rate"
