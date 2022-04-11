@@ -44,7 +44,7 @@ search: ' | from read_ssa_enriched_events() | eval dest_device_id=ucast(map_get(
   "risk_level", "Low", "risk_level_id", 1, "risk_score", 25, 
   "type_id", 1, "ref_event_uid", event_id), "message", "A system process $process_name$ with commandline $cmd_line$ spawn iin short period of time in host $dest_device_id$", 
   "metadata", create_map("log_name", "Endpoint_Processes", "version", "1.0.0"), 
-  "observables", [create_map("name", "dest_device_id", "role_ids", [4], "type_id", 4, "value", dest_device_id), create_map("name", "process_name", "role_ids", [-1], "type_id", 15, "value", process_name)], 
+  "observables", [create_map("name", "process_name", "role_ids", [-1], "type_id", 15, "value", process_name)], 
   "origin", create_map("product", create_map("name", "Splunk Behavioral Analytics")), 
   "rule", create_map("name", "Unusual LOLBAS in short period of time"), "start_time", timestamp, "time", timestamp,
   "user_entities", [create_map("uid", ucast(map_get(input_event, "dest_user_id"),"string", null))]) | into write_ssa_finding_events();'

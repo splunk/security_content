@@ -27,7 +27,7 @@ search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map
   "risk_level", "Medium", "risk_level_id", 2, "risk_score", 56, 
   "type_id", 1, "ref_event_uid", event_id), "message", "An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $dest_user_id$ attempting to persist using BITS.", 
   "metadata", create_map("log_name", "Endpoint_Processes", "version", "1.0.0"), 
-  "observables", [create_map("name", "dest_user_id", "role_ids", [4], "type_id", 6, "value", dest_user_id), create_map("name", "dest_device_id", "role_ids", [4], "type_id", 4, "value", dest_device_id), create_map("name", "parent_process_name", "role_ids", [5], "type_id", 15, "value", parent_process_name), create_map("name", "process_name", "role_ids", [6], "type_id", 15, "value", process_name)], 
+  "observables", [create_map("name", "parent_process_name", "role_ids", [5], "type_id", 15, "value", parent_process_name), create_map("name", "process_name", "role_ids", [6], "type_id", 15, "value", process_name), create_map("name", "process", "role_ids", [6], "type_id", 15, "value", process)], 
   "origin", create_map("product", create_map("name", "Splunk Behavioral Analytics")), 
   "rule", create_map("name", "Windows Bits Job Persistence"), "start_time", timestamp, "time", timestamp,
   "user_entities", [create_map("uid", ucast(map_get(input_event, "dest_user_id"),"string", null))])

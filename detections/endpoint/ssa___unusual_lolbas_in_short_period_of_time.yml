@@ -72,10 +72,6 @@ tags:
   - PR.PT
   - DE.CM
   observable:
-  - name: dest_device_id
-    type: Hostname
-    role:
-    - Victim
   - name: process_name
     type: Process
     role:

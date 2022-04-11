@@ -55,14 +55,6 @@ tags:
   - PR.PT
   - DE.CM
   observable:
-  - name: dest_user_id
-    type: User
-    role:
-    - Actor
-  - name: dest_device_id
-    type: Hostname
-    role:
-    - Victim
   - name: parent_process_name
     type: Process
     role:

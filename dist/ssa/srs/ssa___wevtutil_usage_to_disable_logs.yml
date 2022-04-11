@@ -23,7 +23,7 @@ search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map
   "risk_level", "High", "risk_level_id", 3, "risk_score", 63, 
   "type_id", 1, "ref_event_uid", event_id), "message", "A wevtutil process $process_name$ with commandline $process$ to disable event logs in host $dest_device_id$", 
   "metadata", create_map("log_name", "Endpoint_Processes", "version", "1.0.0"), 
-  "observables", [create_map("name", "dest_device_id", "role_ids", [4], "type_id", 4, "value", dest_device_id), create_map("name", "dest_user_id", "role_ids", [4], "type_id", 6, "value", dest_user_id)], 
+  "observables", [create_map("name", "parent_process_name", "role_ids", [5], "type_id", 15, "value", parent_process_name), create_map("name", "process_name", "role_ids", [6], "type_id", 15, "value", process_name), create_map("name", "process", "role_ids", [6], "type_id", 15, "value", process)], 
   "origin", create_map("product", create_map("name", "Splunk Behavioral Analytics")), 
   "rule", create_map("name", "Wevtutil Usage To Disable Logs"), "start_time", timestamp, "time", timestamp,
   "user_entities", [create_map("uid", ucast(map_get(input_event, "dest_user_id"),"string", null))]) | into write_ssa_finding_events();'

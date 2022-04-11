@@ -68,14 +68,14 @@ tags:
   - PR.PT
   - DE.CM
   observable:
-  - name: dest_device_id
-    type: Hostname
+  - name: process_path
+    type: Process
     role:
-    - Victim
-  - name: dest_user_id
-    type: User
+    - Child Process
+  - name: process_name
+    type: Process
     role:
-    - Victim
+    - Child Process
   product:
   - Splunk Behavioral Analytics
   required_fields:

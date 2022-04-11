@@ -65,10 +65,17 @@ tags:
     role:
     - Victim
   - name: parent_process_name
-    type: Other
+    type: Process
     role:
-    - Attacker
     - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
+  - name: process
+    type: Process
+    role:
+    - Child Process
   product:
   - Splunk Behavioral Analytics
   required_fields:

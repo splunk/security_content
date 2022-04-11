@@ -36,7 +36,7 @@ search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map
   "risk_level", "High", "risk_level_id", 3, "risk_score", 72, 
   "type_id", 1, "ref_event_uid", event_id), "message", "Potential lateral movement and credential stealing via Pass the Token or Pass the Hash techniques. Operation is performed via credentials of the account $dest_user_primary_artifact_id$ and observed by the destination device $dest_device_id$", 
   "metadata", create_map("log_name", "Authentication", "version", "1.0.0"), 
-  "observables", [create_map("name", "dest_user", "role_ids", [1], "type_id", 6, "value", dest_user), create_map("name", "dest_device_id", "role_ids", [-1], "type_id", 4, "value", dest_device_id)], 
+  "observables", [create_map("name", "dest_user", "role_ids", [1], "type_id", 6, "value", dest_user)], 
   "origin", create_map("product", create_map("name", "Splunk Behavioral Analytics")), 
   "rule", create_map("name", "Potential Pass the Token or Hash Observed at the Destination Device"), "start_time", timestamp, "time", timestamp,
   "user_entities", [create_map("uid", ucast(map_get(input_event, "dest_user_id"),"string", null))]) | into write_ssa_finding_events();'

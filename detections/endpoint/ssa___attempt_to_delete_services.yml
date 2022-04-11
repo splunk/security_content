@@ -58,14 +58,6 @@ tags:
   - PR.DS
   - PR.IP
   observable:
-  - name: dest_user_id
-    type: User
-    role:
-    - Victim
-  - name: dest_device_id
-    type: Hostname
-    role:
-    - Victim
   - name: parent_process_name
     type: Process
     role:

@@ -65,6 +65,10 @@ tags:
     type: Process
     role:
     - Child Process
+  - name: process
+    type: Process
+    role:
+    - Child Process
   product:
   - Splunk Behavioral Analytics
   required_fields:

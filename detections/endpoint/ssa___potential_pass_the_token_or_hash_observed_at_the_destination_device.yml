@@ -74,10 +74,6 @@ tags:
     type: User
     role:
     - Actor
-  - name: dest_device_id
-    type: Hostname
-    role:
-    - Other
   product:
   - Splunk Behavioral Analytics
   required_fields:

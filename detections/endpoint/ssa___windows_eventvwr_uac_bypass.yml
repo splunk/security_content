@@ -60,14 +60,22 @@ tags:
   nist:
   - DE.AE
   observable:
-  - name: dest_device_id
-    type: Hostname
+  - name: registry_path
+    type: Endpoint
     role:
-    - Victim
-  - name: dest_user_id
-    type: User
+    - Other
+  - name: registry_hive
+    type: Endpoint
     role:
-    - Victim
+    - Other
+  - name: registry_key_name
+    type: Endpoint
+    role:
+    - Other
+  - name: registry_value_name
+    type: Endpoint
+    role:
+    - Other
   product:
   - Splunk Behavioral Analytics
   required_fields:
