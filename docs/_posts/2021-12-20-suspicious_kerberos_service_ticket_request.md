@@ -140,6 +140,7 @@ We have tested this detection logic with ~2 million 4769 events and did not iden
 
 #### Associated Analytic story
 * [sAMAccountName Spoofing and Domain Controller Impersonation](/stories/samaccountname_spoofing_and_domain_controller_impersonation)
+* [Active Directory Kerberos Attacks](/stories/active_directory_kerberos_attacks)
 
 
 

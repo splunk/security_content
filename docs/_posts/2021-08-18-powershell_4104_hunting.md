@@ -295,6 +295,7 @@ The following Hunting analytic requires PowerShell operational logs to be import
 Limited false positives. May filter as needed.
 
 #### Associated Analytic story
+* [Hermetic Wiper](/stories/hermetic_wiper)
 * [Malicious PowerShell](/stories/malicious_powershell)
 
 

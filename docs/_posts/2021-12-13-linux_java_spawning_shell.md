@@ -107,9 +107,9 @@ The following analytic identifies the process name of Java, Apache, or Tomcat sp
 
 #### Macros
 The SPL above uses the following Macros:
-* [linux_shells](https://github.com/splunk/security_content/blob/develop/macros/linux_shells.yml)
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [linux_shells](https://github.com/splunk/security_content/blob/develop/macros/linux_shells.yml)
 
 Note that **linux_java_spawning_shell_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -135,7 +135,9 @@ To successfully implement this search, you need to be ingesting logs with the pr
 Filtering may be required on internal developer build systems or classify assets as web facing and restrict the analytic based on asset type.
 
 #### Associated Analytic story
+* [Hermetic Wiper](/stories/hermetic_wiper)
 * [Log4Shell CVE-2021-44228](/stories/log4shell_cve-2021-44228)
+* [Spring4Shell CVE-2022-22965](/stories/spring4shell_cve-2022-22965)
 
 
 

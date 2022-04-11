@@ -107,8 +107,8 @@ During triage, review parallel processes using an EDR product or 4688 events. It
 
 #### Macros
 The SPL above uses the following Macros:
-* [powershell](https://github.com/splunk/security_content/blob/develop/macros/powershell.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [powershell](https://github.com/splunk/security_content/blob/develop/macros/powershell.yml)
 
 Note that **powershell_loading_dotnet_into_memory_via_reflection_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -128,6 +128,7 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 False positives should be limited as day to day scripts do not use this method.
 
 #### Associated Analytic story
+* [Hermetic Wiper](/stories/hermetic_wiper)
 * [Malicious PowerShell](/stories/malicious_powershell)
 
 
