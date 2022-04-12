@@ -1,3 +1,0 @@
-definition: sourcetype=aws:cloudwatchlogs:vpcflow
-description: customer specific splunk configurations(eg- index, source, sourcetype) for AWS cloudwatch vpc logs. Replace the macro definition with configurations for your Splunk Environmnent.
-name: cloudwatch_vpc

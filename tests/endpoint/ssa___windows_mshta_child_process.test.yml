@@ -1,9 +1,0 @@
-name: Windows MSHTA Child Process Unit Test
-tests:
-- name: Windows MSHTA Child Process
-  file: endpoint/ssa___windows_mshta_child_process.yml
-  pass_condition: '@count_gt(0)'
-  attack_data:
-  - file_name: windows-security.log
-    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.005/atomic_red_team/windows-security.log
-    source: WinEventLog:Security

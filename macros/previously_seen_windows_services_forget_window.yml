@@ -1,3 +1,0 @@
-description: Use this macro to determine how long to keep track of Windows services
-definition: '"-90d@d"'
-name: previously_seen_windows_services_forget_window

@@ -1,4 +1,0 @@
-definition: (query=fls-na* AND query = www* AND query=images*)
-description: This limits the query fields to domains that are associated with evilginx
-  masquerading as Amazon
-name: evilginx_phishlets_amazon

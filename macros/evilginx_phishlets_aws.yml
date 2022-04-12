@@ -1,5 +1,0 @@
-definition: (query=www* AND query=aws* AND query=console.aws* AND query=signin.aws*
-  AND api-northeast-1.console.aws* AND query=fls-na* AND query=images-na*)
-description: This limits the query fields to domains that are associated with evilginx
-  masquerading as an AWS console
-name: evilginx_phishlets_aws

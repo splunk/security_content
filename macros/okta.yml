@@ -1,4 +1,0 @@
-definition: eventtype=okta_log
-description: customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk Environmnent.
-name: okta
