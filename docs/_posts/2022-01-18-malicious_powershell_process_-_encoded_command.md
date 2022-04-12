@@ -119,9 +119,9 @@ Alternatively, may use regex per matching here https://regexr.com/662ov.
 
 #### Macros
 The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [process_powershell](https://github.com/splunk/security_content/blob/develop/macros/process_powershell.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that **malicious_powershell_process_-_encoded_command_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -142,6 +142,7 @@ To successfully implement this search you need to be ingesting information on pr
 System administrators may use this option, but it's not common.
 
 #### Associated Analytic story
+* [Hermetic Wiper](/stories/hermetic_wiper)
 * [Malicious PowerShell](/stories/malicious_powershell)
 * [NOBELIUM Group](/stories/nobelium_group)
 * [WhisperGate](/stories/whispergate)

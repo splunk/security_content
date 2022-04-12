@@ -107,6 +107,7 @@ Detect multiple executions of Living off the Land (LOLbin) binaries in a short p
 | rename columns.* as * 
 | stats  min(_time) as firstTime max(_time) as lastTime values(cmdline) as cmdline, values(pid) as pid, values(parent) as parent, values(path) as path, values(signing_id) as signing_id,  dc(path) as dc_path by username host 
 | rename username as User, cmdline as process, path as process_path 
+| where dc_path > 3 
 | `security_content_ctime(firstTime)`
 | `security_content_ctime(lastTime)` 
 | `macos_lolbin_filter`
@@ -114,8 +115,8 @@ Detect multiple executions of Living off the Land (LOLbin) binaries in a short p
 
 #### Macros
 The SPL above uses the following Macros:
-* [osquery](https://github.com/splunk/security_content/blob/develop/macros/osquery.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [osquery](https://github.com/splunk/security_content/blob/develop/macros/osquery.yml)
 
 Note that **macos_lolbin_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
