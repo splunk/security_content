@@ -263,6 +263,102 @@ def update_required_fields_for_yaml(filename:str, search:str, required_fields:se
     return yaml_fields_to_update
 
 
+def check_for_presence_of_fields(filename:str, container:dict, field_names:list[str])->bool:
+    missing_fields = []
+    for field_name in field_names:
+        if field_name not in container:
+            missing_field = True
+            missing_fields.append(field_name)
+    
+    if len(missing_fields) > 0:
+        #One of more fields that we were required to find were not found
+        print(f"Detection file {filename} is missing the following keys: [{missing_fields.sort()}]")
+        return False
+
+    return True
+    
+
+def update_detection(filename:str, defined_datamodels:dict)->tuple[bool,bool, dict]:
+    #Use this variable to determine whether or not the yaml data is updated and should
+    #be rewritten to the file
+    dataset_updates = False
+    
+    try:
+        with open(filename, "r") as detection_file:
+            detection_file_data = yaml.safe_load(detection_file)
+    except Exception as e:
+        print(f"Error processing file [{filename}]: {str(e)}")
+        return (False,False,{})
+    
+
+    if not check_for_presence_of_fields(filename, detection_file_data, ['type']):
+        return (True,False,{})
+    if detection_file_data['type'] not in ["Anomaly", "Hunting", "TTP" ]:
+        #This is not one of the detection types we want to update
+        return (True,False,{})
+
+    if not (check_for_presence_of_fields(filename, detection_file_data, ['search', 'tags', 'datamodel']) and 
+            check_for_presence_of_fields(filename, detection_file_data["tags"], ['required_fields'])):
+        return (False, False,{})
+
+
+    #Always validate that the same dataset is linked in the detection as in the test file
+    if "dataset" not in detection_file_data["tags"] or True:
+        #Update the filename to refer to the test instead of the detection
+        
+        test_filename = filename.replace(".yml", ".test.yml",1).replace("/detections/","/tests/",1)
+
+        test_file_data_files = set()
+
+        try:
+            with open(test_filename, "r") as test_stream:
+                test_datamodel = yaml.safe_load(test_stream)
+        except Exception as e:
+            print(f"Error while parsing {test_filename}: {str(e)}")
+            return (False,False,{})
+
+        #Get all of the links to test datasets in the test file
+        if 'tests' in test_datamodel:
+            for test in test_datamodel['tests']:
+                if 'attack_data' in test:
+                    for data_file in test['attack_data']:
+                        if 'data' in data_file:
+                            test_file_data_files.add(data_file['data'])
+                        else:
+                            print(f"'data' field not found in attack_data for {test_filename}: {dictPrint(data_file)}")
+                            return (False, False,{})
+                else:
+                    print(f"'attack_data' not found in the test file {test_filename}")
+                    return (False, False,{})
+        else:
+            print(f"'tests' field not found in attack_data for {test_filename}")
+            return(False, False,{})
+
+        #Get all of the datasets that are referenced in the detection YML file
+        if 'dataset' in detection_file_data['tags']:
+            detection_file_data_files = set(detection_file_data['tags']['dataset'])
+        else:
+            detection_file_data_files = set()
+        
+        #Check to see if the test and detection ymls have the same datasets
+
+        diff = test_file_data_files.symmetric_difference(detection_file_data_files)
+        if len(diff) > 0:
+            print(f"{len(diff)} Error(s) for {filename:}")
+            for data_file in (test_file_data_files - detection_file_data_files):
+                print(f"\tTest file references file NOT detection file:\n\t\t{data_file}")
+            for data_file in (detection_file_data_files - test_file_data_files):
+                print(f"\tDetection file references file NOT included in the test file:\n\t\t{data_file}")
+            print("")
+            return (False,False,{})
+
+    return (True, False, {})
+        
+        
+
+
+    
+
 def clean_folder(directory:str, defined_datamodels:dict):
     files = glob.glob(os.path.join(directory,"*"))
     files.sort()
@@ -286,6 +382,8 @@ def clean_folder(directory:str, defined_datamodels:dict):
 
             if parsed["type"] not in ["Anomaly", "Hunting", "TTP" ]:
                 continue
+
+
 
             if "search" not in parsed:
                 print(f"Failed to find ['search'] in {filename}")
@@ -431,24 +529,37 @@ def main():
     
     args = parser.parse_args()
 
-    
+
     defined_datamodels = load_datamodels_from_directory(args.datamodel_directory)
 
-    sys.exit(0)
-    folders = sys.argv[2:]
+    
+    
     total_files = 0
     total_files_with_datamodels = 0
     total_files_without_datamodels = 0
-    for folder in folders:
-        total_files_folder, files_with_datamodels_folder, files_without_datamodels_folder = clean_folder(folder, defined_datamodels)
-        total_files += total_files_folder
-        total_files_with_datamodels += files_with_datamodels_folder
-        total_files_without_datamodels += files_without_datamodels_folder
+
+    #Get all the files that we will process
+    detection_filenames = [str(p) for p in args.detection_directory.glob("**/[!ssa___]*.yml") if "/deprecated/" not in str(p) and "/experimental/" not in str(p)]
+    detection_filenames.sort()
+    print(f"Detection files to be checked for possible updates: [{len(detection_filenames)}]")
+    
+    
+    #Update/check each of the files
+    for detection_filename in detection_filenames:
+        #Convert from 
+        success, dataset_has_updates, updated_dataset = update_detection(detection_filename, defined_datamodels)
+        if args.mode == "update" and dataset_has_updates:
+            pass
+
+        #total_files_folder, files_with_datamodels_folder, files_without_datamodels_folder = clean_folder(folder, defined_datamodels)
+        #total_files += total_files_folder
+        #total_files_with_datamodels += files_with_datamodels_folder
+        #total_files_without_datamodels += files_without_datamodels_folder
 
 
-    print(f"Total Files                   : {total_files}")
-    print(f"Total Files with datamodels   : {total_files_with_datamodels}")
-    print(f"Total Files without datamodels: {total_files_without_datamodels}")
+    #print(f"Total Files                   : {total_files}")
+    #print(f"Total Files with datamodels   : {total_files_with_datamodels}")
+    #print(f"Total Files without datamodels: {total_files_without_datamodels}")
     pass
 
 
