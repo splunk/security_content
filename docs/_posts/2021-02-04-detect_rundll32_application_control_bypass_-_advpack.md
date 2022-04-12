@@ -112,8 +112,8 @@ The following analytic identifies rundll32.exe loading advpack.dll and ieadvpack
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_rundll32](https://github.com/splunk/security_content/blob/develop/macros/process_rundll32.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [process_rundll32](https://github.com/splunk/security_content/blob/develop/macros/process_rundll32.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that **detect_rundll32_application_control_bypass_-_advpack_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -172,4 +172,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/detect_rundll32_application_control_bypass_-_advpack.yml) \| *version*: **2**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/detect_rundll32_application_control_bypass___advpack.yml) \| *version*: **2**

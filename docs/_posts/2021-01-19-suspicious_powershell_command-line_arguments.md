@@ -149,4 +149,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/deprecated/suspicious_powershell_command-line_arguments.yml) \| *version*: **6**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/deprecated/suspicious_powershell_command_line_arguments.yml) \| *version*: **6**

@@ -103,8 +103,8 @@ Start-BitsTransfer is the PowerShell "version" of BitsAdmin.exe. Similar functio
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_powershell](https://github.com/splunk/security_content/blob/develop/macros/process_powershell.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [process_powershell](https://github.com/splunk/security_content/blob/develop/macros/process_powershell.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that **powershell_start-bitstransfer_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -159,4 +159,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/powershell_start-bitstransfer.yml) \| *version*: **2**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/powershell_start_bitstransfer.yml) \| *version*: **2**

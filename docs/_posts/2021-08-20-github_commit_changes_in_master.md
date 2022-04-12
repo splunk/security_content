@@ -92,10 +92,8 @@ This search is to detect a pushed or commit to master or main branch. This is to
 
 ```
 `github` branches{}.name = main OR branches{}.name = master 
-| eval severity="low" 
-| eval phase="code" 
-|  stats count min(_time) as firstTime max(_time) as lastTime  by commit.author.html_url commit.commit.author.email commit.author.login commit.commit.message repository.pushed_at commit.commit.committer.date, phase, severity 
-| eval phase="code" 
+|  stats count min(_time) as firstTime max(_time) as lastTime by commit.commit.author.email commit.author.login commit.commit.message repository.pushed_at commit.commit.committer.date repository.full_name 
+| rename commit.author.login as user, repository.full_name as repository 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
 | `github_commit_changes_in_master_filter`
@@ -103,8 +101,8 @@ This search is to detect a pushed or commit to master or main branch. This is to
 
 #### Macros
 The SPL above uses the following Macros:
-* [github](https://github.com/splunk/security_content/blob/develop/macros/github.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [github](https://github.com/splunk/security_content/blob/develop/macros/github.yml)
 
 Note that **github_commit_changes_in_master_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
