@@ -142,6 +142,7 @@ It is possible some Administrative utilities will load msi.dll outside of normal
 
 #### Associated Analytic story
 * [Windows Privilege Escalation](/stories/windows_privilege_escalation)
+* [Hermetic Wiper](/stories/hermetic_wiper)
 
 
 
