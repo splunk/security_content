@@ -6,7 +6,8 @@ import os
 import re
 import json
 import pprint
-
+import argparse
+import pathlib
 
 #find datamodel=SOMETHING, allowing for whitespace on either side of =
 DATAMODEL_PATTERN = r"datamodel\s*=?\s*\S*"
@@ -397,12 +398,43 @@ def clean_folder(directory:str, defined_datamodels:dict):
     return  (total_files, files_with_datamodels, files_without_datamodels)
 
 
-def clean():
+def main():
 
-    datamodel_directory = sys.argv[1]
-    defined_datamodels = load_datamodels_from_directory(datamodel_directory)
+    parser  =argparse.ArgumentParser(prog="fields_extractor_and_updater",
+                                     description="This tool parses the search field and uses it to "
+                                        "determine and update the values in the datamodel "
+                                        "and required_fields portions of the detection yml.")
+    
+    parser.add_argument("mode", 
+                        choices=["check", "update"], 
+                        nargs = 1,
+                        help="Determines whether detections should be checked or updated.  "
+                             "Check will print the results, but update will update "
+                             "(and overrwrite) files that require changes.")
+    parser.add_argument("-d", 
+                        "--detection_directory", 
+                        type=pathlib.Path, 
+                        required=False, 
+                        nargs = 1,
+                        default = "../detections/",
+                        help="Root directory (or filename) to update.  "
+                             "Please note that this should NOT be a regular expression")
 
-    #sys.exit(0)
+    parser.add_argument("-dm", 
+                        "--datamodel_directory", 
+                        type=pathlib.Path, 
+                        required=False,
+                        nargs = 1,
+                        default="base_datamodels", 
+                        help="Root directory containing the standard datamodels. "
+                             "Please note that this should NOT be a regular expression")
+    
+    args = parser.parse_args()
+
+    
+    defined_datamodels = load_datamodels_from_directory(args.datamodel_directory)
+
+    sys.exit(0)
     folders = sys.argv[2:]
     total_files = 0
     total_files_with_datamodels = 0
@@ -421,4 +453,4 @@ def clean():
 
 
 if __name__ == "__main__":
-    clean()
+    main()

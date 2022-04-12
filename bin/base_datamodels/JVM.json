@@ -1,0 +1,824 @@
+{
+  "modelName": "JVM",
+  "displayName": "JVM",
+  "description": "Java Virtual Machine Data Model",
+  "objects": [
+    {
+      "comment": {
+        "tags": [
+          "jvm"
+        ]
+      },
+      "objectName": "JVM",
+      "displayName": "JVM",
+      "parentName": "BaseEvent",
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "(`cim_JVM_indexes`) tag=jvm"
+        }
+      ],
+      "fields": [
+        {
+          "comment": {
+            "description": "A description field provided in some data sources."
+          },
+          "fieldName": "jvm_description",
+          "displayName": "jvm_description",
+          "type": "string",
+          "required": false,
+          "multivalue": false,
+          "hidden": false,
+          "constraints": [
+            
+          ]
+        },
+        {
+          "comment": {
+            "description": "This automatically generated field is used to access tags from within data models. Add-on builders do not need to populate it.",
+            "ta_relevant": false
+          },
+          "fieldName": "tag",
+          "displayName": "tag",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        }
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "jvm",
+          "threading"
+        ]
+      },
+      "objectName": "Threading",
+      "displayName": "Threading",
+      "parentName": "JVM",
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "tag=threading"
+        }
+      ],
+      "fields": [
+        {
+          "comment": {
+            "description": "The total number of threads started in the JVM."
+          },
+          "fieldName": "threads_started",
+          "displayName": "threads_started",
+          "type": "number",
+          "required": false,
+          "multivalue": false,
+          "hidden": false,
+          "constraints": [
+            
+          ]
+        },
+        {
+          "comment": {
+            "description": "Indicates whether thread CPU time measurement is enabled.",
+            "expected_values": [
+              "true",
+              "false",
+              "1",
+              "0"
+            ]
+          },
+          "fieldName": "cpu_time_enabled",
+          "displayName": "cpu_time_enabled",
+          "type": "boolean",
+          "required": false,
+          "multivalue": false,
+          "hidden": false,
+          "constraints": [
+            
+          ]
+        },
+        {
+          "comment": {
+            "description": "The JVM's current thread count."
+          },
+          "fieldName": "thread_count",
+          "displayName": "thread_count",
+          "type": "number",
+          "required": false,
+          "multivalue": false,
+          "hidden": false,
+          "constraints": [
+            
+          ]
+        },
+        {
+          "comment": {
+            "description": "Indicates whether the JVM supports thread contention monitoring.",
+            "expected_values": [
+              "true",
+              "false",
+              "1",
+              "0"
+            ]
+          },
+          "fieldName": "cm_supported",
+          "displayName": "cm_supported",
+          "type": "boolean",
+          "required": false,
+          "multivalue": false,
+          "hidden": false,
+          "constraints": [
+            
+          ]
+        },
+        {
+          "comment": {
+            "description": "Indicates whether thread contention monitoring is enabled.",
+            "expected_values": [
+              "true",
+              "false",
+              "1",
+              "0"
+            ]
+          },
+          "fieldName": "cm_enabled",
+          "displayName": "cm_enabled",
+          "type": "boolean",
+          "required": false,
+          "multivalue": false,
+          "hidden": false,
+          "constraints": [
+            
+          ]
+        },
+        {
+          "comment": {
+            "description": "Indicates whether the JVM supports monitoring of ownable synchronizer usage.",
+            "expected_values": [
+              "true",
+              "false",
+              "1",
+              "0"
+            ]
+          },
+          "fieldName": "synch_supported",
+          "displayName": "synch_supported",
+          "type": "boolean",
+          "required": false,
+          "multivalue": false,
+          "hidden": false,
+          "constraints": [
+            
+          ]
+        },
+        {
+          "comment": {
+            "description": "The JVM's peak thread count."
+          },
+          "fieldName": "peak_thread_count",
+          "displayName": "peak_thread_count",
+          "type": "number",
+          "required": false,
+          "multivalue": false,
+          "hidden": false,
+          "constraints": [
+            
+          ]
+        },
+        {
+          "comment": {
+            "description": "Indicates whether the JVM supports monitoring of object monitor usage.",
+            "expected_values": [
+              "true",
+              "false",
+              "1",
+              "0"
+            ]
+          },
+          "fieldName": "omu_supported",
+          "displayName": "omu_supported",
+          "type": "boolean",
+          "required": false,
+          "multivalue": false,
+          "hidden": false,
+          "constraints": [
+            
+          ]
+        },
+        {
+          "comment": {
+            "description": "The JVM's current daemon count."
+          },
+          "fieldName": "daemon_thread_count",
+          "displayName": "daemon_thread_count",
+          "type": "number",
+          "required": false,
+          "multivalue": false,
+          "hidden": false,
+          "constraints": [
+            
+          ]
+        },
+        {
+          "comment": {
+            "description": "User-space time taken by the JVM, in seconds."
+          },
+          "fieldName": "current_user_time",
+          "displayName": "current_user_time",
+          "type": "number",
+          "required": false,
+          "multivalue": false,
+          "hidden": false,
+          "constraints": [
+            
+          ]
+        },
+        {
+          "comment": {
+            "description": "Indicates whether the Java virtual machine supports CPU time measurement for the current thread.",
+            "expected_values": [
+              "true",
+              "false",
+              "1",
+              "0"
+            ]
+          },
+          "fieldName": "cpu_time_supported",
+          "displayName": "cpu_time_supported",
+          "type": "boolean",
+          "required": false,
+          "multivalue": false,
+          "hidden": false,
+          "constraints": [
+            
+          ]
+        },
+        {
+          "comment": {
+            "description": "CPU-space time taken by the JVM, in seconds."
+          },
+          "fieldName": "current_cpu_time",
+          "displayName": "current_cpu_time",
+          "type": "number",
+          "required": false,
+          "multivalue": false,
+          "hidden": false,
+          "constraints": [
+            
+          ]
+        }
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "jvm",
+          "runtime"
+        ]
+      },
+      "objectName": "Runtime",
+      "displayName": "Runtime",
+      "parentName": "JVM",
+      "constraints": [
+        {
+          "search": "tag=runtime"
+        }
+      ],
+      "fields": [
+        {
+          "comment": {
+            "description": "Version of the JVM."
+          },
+          "fieldName": "version",
+          "displayName": "version",
+          "type": "string",
+          "required": false,
+          "multivalue": false,
+          "hidden": false,
+          "constraints": [
+            
+          ]
+        },
+        {
+          "comment": {
+            "description": "Uptime of the JVM process, in seconds."
+          },
+          "fieldName": "uptime",
+          "displayName": "uptime",
+          "type": "number",
+          "required": false,
+          "multivalue": false,
+          "hidden": false,
+          "constraints": [
+            
+          ]
+        },
+        {
+          "comment": {
+            "description": "Start time of the JVM process."
+          },
+          "fieldName": "start_time",
+          "displayName": "start_time",
+          "type": "timestamp",
+          "required": false,
+          "multivalue": false,
+          "hidden": false,
+          "constraints": [
+            
+          ]
+        },
+        {
+          "comment": {
+            "description": "Process name of the JVM process."
+          },
+          "fieldName": "process_name",
+          "displayName": "process_name",
+          "type": "string",
+          "required": false,
+          "multivalue": false,
+          "hidden": false,
+          "constraints": [
+            
+          ]
+        }
+      ],
+      "calculations": [
+        {
+          "calculationID": "Runtime_vendor_product",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The JVM product or service. This field can be automatically populated by the the vendor and product fields in your raw data."
+              },
+              "fieldName": "vendor_product",
+              "displayName": "vendor_product",
+              "type": "string",
+              "required": false,
+              "multivalue": false,
+              "hidden": false,
+              "constraints": [
+                
+              ]
+            }
+          ],
+          "expression": "case(isnotnull(vendor_product),vendor_product,isnotnull(vendor) AND vendor!=\"unknown\" AND isnotnull(product) AND product!=\"unknown\",vendor.\" \".product,isnotnull(vendor) AND vendor!=\"unknown\" AND (isnull(product) OR product=\"unknown\"),vendor.\" unknown\",(isnull(vendor) OR vendor=\"unknown\") AND isnotnull(product) AND product!=\"unknown\",\"unknown \".product,isnotnull(sourcetype),sourcetype,1=1,\"unknown\")"
+        }
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "jvm",
+          "os"
+        ]
+      },
+      "objectName": "OS",
+      "displayName": "OS",
+      "parentName": "JVM",
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "tag=os"
+        }
+      ],
+      "fields": [
+        {
+          "comment": {
+            "description": "OS version that the JVM is running on."
+          },
+          "fieldName": "os_version",
+          "displayName": "os_version",
+          "type": "string",
+          "required": false,
+          "multivalue": false,
+          "hidden": false,
+          "constraints": [
+            
+          ]
+        },
+        {
+          "comment": {
+            "description": "Swap memory space available to the OS that the JVM is running on, in bytes."
+          },
+          "fieldName": "swap_space",
+          "displayName": "swap_space",
+          "type": "number",
+          "required": false,
+          "multivalue": false,
+          "hidden": false,
+          "constraints": [
+            
+          ]
+        },
+        {
+          "comment": {
+            "description": "Physical memory available to the OS that the JVM is running on, in bytes."
+          },
+          "fieldName": "physical_memory",
+          "displayName": "physical_memory",
+          "type": "number",
+          "required": false,
+          "multivalue": false,
+          "hidden": false,
+          "constraints": [
+            
+          ]
+        },
+        {
+          "comment": {
+            "description": "System load of the OS that the JVM is running on."
+          },
+          "fieldName": "system_load",
+          "displayName": "system_load",
+          "type": "number",
+          "required": false,
+          "multivalue": false,
+          "hidden": false,
+          "constraints": [
+            
+          ]
+        },
+        {
+          "comment": {
+            "description": "Amount of CPU time taken by the JVM, in seconds."
+          },
+          "fieldName": "cpu_time",
+          "displayName": "cpu_time",
+          "type": "number",
+          "required": false,
+          "multivalue": false,
+          "hidden": false,
+          "constraints": [
+            
+          ]
+        },
+        {
+          "comment": {
+            "description": "OS that the JVM is running on."
+          },
+          "fieldName": "os",
+          "displayName": "os",
+          "type": "string",
+          "required": false,
+          "multivalue": false,
+          "hidden": false,
+          "constraints": [
+            
+          ]
+        },
+        {
+          "comment": {
+            "description": "Number of file descriptors opened by the JVM."
+          },
+          "fieldName": "open_file_descriptors",
+          "displayName": "open_file_descriptors",
+          "type": "number",
+          "required": false,
+          "multivalue": false,
+          "hidden": false,
+          "constraints": [
+            
+          ]
+        },
+        {
+          "comment": {
+            "description": "Maximum file descriptors available to the JVM."
+          },
+          "fieldName": "max_file_descriptors",
+          "displayName": "max_file_descriptors",
+          "type": "number",
+          "required": false,
+          "multivalue": false,
+          "hidden": false,
+          "constraints": [
+            
+          ]
+        },
+        {
+          "comment": {
+            "description": "Amount of free swap memory remaining to the JVM, in bytes."
+          },
+          "fieldName": "free_swap",
+          "displayName": "free_swap",
+          "type": "number",
+          "required": false,
+          "multivalue": false,
+          "hidden": false,
+          "constraints": [
+            
+          ]
+        },
+        {
+          "comment": {
+            "description": "Amount of free physical memory remaining to the JVM, in bytes."
+          },
+          "fieldName": "free_physical_memory",
+          "displayName": "free_physical_memory",
+          "type": "number",
+          "required": false,
+          "multivalue": false,
+          "hidden": false,
+          "constraints": [
+            
+          ]
+        },
+        {
+          "comment": {
+            "description": "Amount of memory committed to the JVM, in bytes."
+          },
+          "fieldName": "committed_memory",
+          "displayName": "committed_memory",
+          "type": "number",
+          "required": false,
+          "multivalue": false,
+          "hidden": false,
+          "constraints": [
+            
+          ]
+        },
+        {
+          "comment": {
+            "description": "Total processor cores available to the OS that the JVM is running on."
+          },
+          "fieldName": "total_processors",
+          "displayName": "total_processors",
+          "type": "number",
+          "required": false,
+          "multivalue": false,
+          "hidden": false,
+          "constraints": [
+            
+          ]
+        },
+        {
+          "comment": {
+            "description": "OS architecture that the JVM is running on."
+          },
+          "fieldName": "os_architecture",
+          "displayName": "os_architecture",
+          "type": "string",
+          "required": false,
+          "multivalue": false,
+          "hidden": false,
+          "constraints": [
+            
+          ]
+        }
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "jvm",
+          "compilation"
+        ]
+      },
+      "objectName": "Compilation",
+      "displayName": "Compilation",
+      "parentName": "JVM",
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "tag=compilation"
+        }
+      ],
+      "fields": [
+        {
+          "comment": {
+            "description": "Time taken by JIT compilation, in seconds."
+          },
+          "fieldName": "compilation_time",
+          "displayName": "compilation_time",
+          "type": "number",
+          "required": false,
+          "multivalue": false,
+          "hidden": false,
+          "constraints": [
+            
+          ]
+        }
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "jvm",
+          "classloading"
+        ]
+      },
+      "objectName": "Classloading",
+      "displayName": "Classloading",
+      "parentName": "JVM",
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "tag=classloading"
+        }
+      ],
+      "fields": [
+        {
+          "comment": {
+            "description": "The total count of classes loaded in the JVM."
+          },
+          "fieldName": "total_loaded",
+          "displayName": "total_loaded",
+          "type": "number",
+          "required": false,
+          "multivalue": false,
+          "hidden": false,
+          "constraints": [
+            
+          ]
+        },
+        {
+          "comment": {
+            "description": "The current count of classes loaded in the JVM."
+          },
+          "fieldName": "current_loaded",
+          "displayName": "current_loaded",
+          "type": "number",
+          "required": false,
+          "multivalue": false,
+          "hidden": false,
+          "constraints": [
+            
+          ]
+        },
+        {
+          "comment": {
+            "description": "The total count of classes unloaded from the JVM."
+          },
+          "fieldName": "total_unloaded",
+          "displayName": "total_unloaded",
+          "type": "number",
+          "required": false,
+          "multivalue": false,
+          "hidden": false,
+          "constraints": [
+            
+          ]
+        }
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "jvm",
+          "memory"
+        ]
+      },
+      "objectName": "Memory",
+      "displayName": "Memory",
+      "parentName": "JVM",
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "tag=memory"
+        }
+      ],
+      "fields": [
+        {
+          "comment": {
+            "description": "Non-heap memory used by the JVM, in bytes."
+          },
+          "fieldName": "non_heap_used",
+          "displayName": "non_heap_used",
+          "type": "number",
+          "required": false,
+          "multivalue": false,
+          "hidden": false,
+          "constraints": [
+            
+          ]
+        },
+        {
+          "comment": {
+            "description": "Maximum amount of non-heap memory used by the JVM, in bytes."
+          },
+          "fieldName": "non_heap_max",
+          "displayName": "non_heap_max",
+          "type": "number",
+          "required": false,
+          "multivalue": false,
+          "hidden": false,
+          "constraints": [
+            
+          ]
+        },
+        {
+          "comment": {
+            "description": "Initial amount of non-heap memory used by the JVM, in bytes."
+          },
+          "fieldName": "non_heap_initial",
+          "displayName": "non_heap_initial",
+          "type": "number",
+          "required": false,
+          "multivalue": false,
+          "hidden": false,
+          "constraints": [
+            
+          ]
+        },
+        {
+          "comment": {
+            "description": "Committed amount of non-heap memory used by the JVM, in bytes."
+          },
+          "fieldName": "non_heap_committed",
+          "displayName": "non_heap_committed",
+          "type": "number",
+          "required": false,
+          "multivalue": false,
+          "hidden": false,
+          "constraints": [
+            
+          ]
+        },
+        {
+          "comment": {
+            "description": "Heap memory used by the JVM, in bytes."
+          },
+          "fieldName": "heap_used",
+          "displayName": "heap_used",
+          "type": "number",
+          "required": false,
+          "multivalue": false,
+          "hidden": false,
+          "constraints": [
+            
+          ]
+        },
+        {
+          "comment": {
+            "description": "Maximum amount of heap memory used by the JVM, in bytes."
+          },
+          "fieldName": "heap_max",
+          "displayName": "heap_max",
+          "type": "number",
+          "required": false,
+          "multivalue": false,
+          "hidden": false,
+          "constraints": [
+            
+          ]
+        },
+        {
+          "comment": {
+            "description": "Initial amount of heap memory used by the JVM, in bytes."
+          },
+          "fieldName": "heap_initial",
+          "displayName": "heap_initial",
+          "type": "number",
+          "required": false,
+          "multivalue": false,
+          "hidden": false,
+          "constraints": [
+            
+          ]
+        },
+        {
+          "comment": {
+            "description": "Committed amount of heap memory used by the JVM, in bytes."
+          },
+          "fieldName": "heap_committed",
+          "displayName": "heap_committed",
+          "type": "number",
+          "required": false,
+          "multivalue": false,
+          "hidden": false,
+          "constraints": [
+            
+          ]
+        },
+        {
+          "comment": {
+            "description": "Number of objects pending in the JVM."
+          },
+          "fieldName": "objects_pending",
+          "displayName": "objects_pending",
+          "type": "number",
+          "required": false,
+          "multivalue": false,
+          "hidden": false,
+          "constraints": [
+            
+          ]
+        }
+      ]
+    }
+  ]
+}

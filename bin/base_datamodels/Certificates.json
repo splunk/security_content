@@ -1,0 +1,696 @@
+{
+  "modelName": "Certificates",
+  "displayName": "Certificates",
+  "description": "Certificates Data Model",
+  "editable": false,
+  "objects": [
+    {
+      "comment": {
+        "tags": [
+          "certificate"
+        ]
+      },
+      "objectName": "All_Certificates",
+      "displayName": "All Certificates",
+      "parentName": "BaseEvent",
+      "fields": [
+        {
+          "comment": {
+            "description": "The target in the certificate management event."
+          },
+          "fieldName": "dest",
+          "displayName": "dest",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The business unit of the target. This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "dest_bunit",
+          "displayName": "dest_bunit",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The category of the target, such as email_server or SOX-compliant. This field is automatically provided by Asset and Identity correlation features of applications like the Splunk Enterprise Security.",
+            "ta_relevant": false
+          },
+          "fieldName": "dest_category",
+          "displayName": "dest_category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The port number of the target."
+          },
+          "fieldName": "dest_port",
+          "displayName": "dest_port",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The priority of the target.",
+            "ta_relevant": false
+          },
+          "fieldName": "dest_priority",
+          "displayName": "dest_priority",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The amount of time for the completion of the certificate management event, in seconds."
+          },
+          "fieldName": "duration",
+          "displayName": "duration",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The amount of time it took, in seconds, to receive a response in the certificate management event, if applicable."
+          },
+          "fieldName": "response_time",
+          "displayName": "response_time",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The source involved in the certificate management event. You can alias this from more specific fields, such as src_host, src_ip, or src_nt_host."
+          },
+          "fieldName": "src",
+          "displayName": "src",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The business unit of the certificate management source. This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "src_bunit",
+          "displayName": "src_bunit",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The category of the certificate management source, such as email_server or SOX-compliant. This field is automatically provided by Asset and Identity correlation features of applications like the Splunk Enterprise Security.",
+            "ta_relevant": false
+          },
+          "fieldName": "src_category",
+          "displayName": "src_category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The port number of the source."
+          },
+          "fieldName": "src_port",
+          "displayName": "src_port",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The priority of the certificate management source.",
+            "ta_relevant": false
+          },
+          "fieldName": "src_priority",
+          "displayName": "src_priority",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This automatically generated field is used to access tags from within data models. Add-on builders do not need to populate it.",
+            "ta_relevant": false
+          },
+          "fieldName": "tag",
+          "displayName": "tag",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The transport protocol of the Network Traffic involved with this certificate."
+          },
+          "fieldName": "transport",
+          "displayName": "transport",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "(`cim_Certificates_indexes`) tag=certificate"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "certificate",
+          "ssl"
+        ]
+      },
+      "objectName": "SSL",
+      "displayName": "Transport Layer Security",
+      "parentName": "All_Certificates",
+      "fields": [
+        {
+          "comment": {
+            "description": "The expiry time of the certificate.",
+            "recommended": true
+          },
+          "fieldName": "ssl_end_time",
+          "displayName": "ssl_end_time",
+          "type": "timestamp",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The name of the signature engine that created the certificate."
+          },
+          "fieldName": "ssl_engine",
+          "displayName": "ssl_engine",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The certificate issuer's email address."
+          },
+          "fieldName": "ssl_issuer_email",
+          "displayName": "ssl_issuer_email",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The certificate issuer's locality."
+          },
+          "fieldName": "ssl_issuer_locality",
+          "displayName": "ssl_issuer_locality",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The certificate issuer's state of residence."
+          },
+          "fieldName": "ssl_issuer_state",
+          "displayName": "ssl_issuer_state",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The certificate issuer's organization."
+          },
+          "fieldName": "ssl_issuer_organization",
+          "displayName": "ssl_issuer_organization",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The certificate issuer's organizational unit."
+          },
+          "fieldName": "ssl_issuer_unit",
+          "displayName": "ssl_issuer_unit",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The certificate issuer's street address."
+          },
+          "fieldName": "ssl_issuer_street",
+          "displayName": "ssl_issuer_street",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The name of the ssl certificate."
+          },
+          "fieldName": "ssl_name",
+          "displayName": "ssl_name",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The Object Identification Numbers of the certificate's policies in a comma separated string."
+          },
+          "fieldName": "ssl_policies",
+          "displayName": "ssl_policies",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The certificate's public key."
+          },
+          "fieldName": "ssl_publickey",
+          "displayName": "ssl_publickey",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The algorithm used to create the public key."
+          },
+          "fieldName": "ssl_publickey_algorithm",
+          "displayName": "ssl_publickey_algorithm",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The certificate's serial number.",
+            "recommended": true
+          },
+          "fieldName": "ssl_serial",
+          "displayName": "ssl_serial",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The session identifier for this certificate."
+          },
+          "fieldName": "ssl_session_id",
+          "displayName": "ssl_session_id",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The algorithm used by the Certificate Authority to sign the certificate."
+          },
+          "fieldName": "ssl_signature_algorithm",
+          "displayName": "ssl_signature_algorithm",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This is the start date and time for this certificate's validity.",
+            "recommended": true
+          },
+          "fieldName": "ssl_start_time",
+          "displayName": "ssl_start_time",
+          "type": "timestamp",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The certificate owner's e-mail address."
+          },
+          "fieldName": "ssl_subject_email",
+          "displayName": "ssl_subject_email",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The certificate owner's locality."
+          },
+          "fieldName": "ssl_subject_locality",
+          "displayName": "ssl_subject_locality",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The certificate owner's state of residence."
+          },
+          "fieldName": "ssl_subject_state",
+          "displayName": "ssl_subject_state",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The certificate owner's organization."
+          },
+          "fieldName": "ssl_subject_organization",
+          "displayName": "ssl_subject_organization",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The certificate owner's organizational unit."
+          },
+          "fieldName": "ssl_subject_unit",
+          "displayName": "ssl_subject_unit",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The certificate owner's street address."
+          },
+          "fieldName": "ssl_subject_street",
+          "displayName": "ssl_subject_street",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The ssl version of this certificate."
+          },
+          "fieldName": "ssl_version",
+          "displayName": "ssl_version",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        {
+          "calculationID": "SSL_fillnull_ssl_hash",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The hash of the certificate.",
+                "recommended": true
+              },
+              "fieldName": "ssl_hash",
+              "displayName": "ssl_hash",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": true,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(ssl_hash) OR ssl_hash=\"\",\"unknown\",ssl_hash)"
+        },
+        {
+          "calculationID": "SSL_fillnull_ssl_issuer",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The certificate issuer's RFC2253 Distinguished Name.",
+                "recommended": true
+              },
+              "fieldName": "ssl_issuer",
+              "displayName": "ssl_issuer",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(ssl_issuer) OR ssl_issuer=\"\",\"unknown\",ssl_issuer)"
+        },
+        {
+          "calculationID": "SSL_fillnull_ssl_issuer_common_name",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The certificate issuer's common name.",
+                "recommended": true
+              },
+              "fieldName": "ssl_issuer_common_name",
+              "displayName": "ssl_issuer_common_name",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(ssl_issuer_common_name) OR ssl_issuer_common_name=\"\",\"unknown\",ssl_issuer_common_name)"
+        },
+        {
+          "calculationID": "SSL_ssl_issuer_email_domain",
+          "calculationType": "Rex",
+          "inputField": "ssl_issuer_email",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The domain name contained within the certificate issuer's email address.",
+                "recommended": true
+              },
+              "fieldName": "ssl_issuer_email_domain",
+              "displayName": "ssl_issuer_email_domain",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "^.*@(?<ssl_issuer_email_domain>.+)$"
+        },
+        {
+          "calculationID": "SSL_fillnull_ssl_subject",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The certificate owner's RFC2253 Distinguished Name.",
+                "recommended": true
+              },
+              "fieldName": "ssl_subject",
+              "displayName": "ssl_subject",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(ssl_subject) OR ssl_subject=\"\",\"unknown\",ssl_subject)"
+        },
+        {
+          "calculationID": "SSL_fillnull_ssl_subject_common_name",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The certificate subject's common name.",
+                "recommended": true
+              },
+              "fieldName": "ssl_subject_common_name",
+              "displayName": "ssl_subject_common_name",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(ssl_subject_common_name) OR ssl_subject_common_name=\"\",\"unknown\",ssl_subject_common_name)"
+        },
+        {
+          "calculationID": "SSL_ssl_subject_email_domain",
+          "calculationType": "Rex",
+          "inputField": "ssl_subject_email",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The domain name contained within the certificate subject's email address.",
+                "recommended": true
+              },
+              "fieldName": "ssl_subject_email_domain",
+              "displayName": "ssl_subject_email_domain",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "^.*@(?<ssl_subject_email_domain>.+)$"
+        },
+        {
+          "calculationID": "SSL_0validity_window",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The length of time, in seconds, for which this certificate is valid.",
+                "ta_relevant": false
+              },
+              "fieldName": "ssl_validity_window",
+              "displayName": "ssl_validity_window",
+              "type": "number",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnum(ssl_end_time) AND isnum(ssl_start_time),ssl_end_time-ssl_start_time,null())"
+        },
+        {
+          "calculationID": "SSL_1is_valid",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "Indicator of whether the ssl certificate is valid or not.",
+                "expected_values": [
+                  "true",
+                  "false",
+                  "1",
+                  "0"
+                ],
+                "ta_relevant": false
+              },
+              "fieldName": "ssl_is_valid",
+              "displayName": "ssl_is_valid",
+              "type": "boolean",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "case(match(ssl_is_valid, \"^(1|[Tt]|[Tt][Rr][Uu][Ee])$\"),1,match(ssl_is_valid, \"^(0|[Ff]|[Ff][Aa][Ll][Ss][Ee])$\"),0,isnum(ssl_end_time) AND isnum(ssl_start_time) AND _time>=ssl_start_time AND _time<=ssl_end_time,1,isnum(ssl_end_time) AND isnum(ssl_start_time),0,1=1,null())"
+        }
+      ],
+      "constraints": [
+        {
+          "search": "(tag=ssl OR tag=tls)"
+        }
+      ],
+      "children": [
+        
+      ]
+    }
+  ]
+}
