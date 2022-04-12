@@ -130,6 +130,7 @@ An single endpoint requesting a large number of computer service tickets is not 
 
 #### Associated Analytic story
 * [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
+* [Active Directory Kerberos Attacks](/stories/active_directory_kerberos_attacks)
 
 
 

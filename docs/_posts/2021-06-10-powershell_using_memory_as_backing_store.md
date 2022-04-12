@@ -120,6 +120,7 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 powershell may used this function to store out object into memory.
 
 #### Associated Analytic story
+* [Hermetic Wiper](/stories/hermetic_wiper)
 * [Malicious PowerShell](/stories/malicious_powershell)
 
 

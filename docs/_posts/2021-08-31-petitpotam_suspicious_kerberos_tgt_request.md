@@ -127,6 +127,7 @@ False positives are possible if the environment is using certificates for authen
 
 #### Associated Analytic story
 * [PetitPotam NTLM Relay on Active Directory Certificate Services](/stories/petitpotam_ntlm_relay_on_active_directory_certificate_services)
+* [Active Directory Kerberos Attacks](/stories/active_directory_kerberos_attacks)
 
 
 
