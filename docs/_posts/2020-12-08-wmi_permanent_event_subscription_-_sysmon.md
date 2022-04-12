@@ -172,4 +172,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/wmi_permanent_event_subscription_-_sysmon.yml) \| *version*: **3**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/wmi_permanent_event_subscription___sysmon.yml) \| *version*: **3**

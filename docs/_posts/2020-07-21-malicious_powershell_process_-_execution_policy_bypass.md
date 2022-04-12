@@ -169,4 +169,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/malicious_powershell_process_-_execution_policy_bypass.yml) \| *version*: **5**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/malicious_powershell_process___execution_policy_bypass.yml) \| *version*: **5**
