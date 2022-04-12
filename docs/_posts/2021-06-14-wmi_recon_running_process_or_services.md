@@ -120,6 +120,7 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 network administrator may used this command for checking purposes
 
 #### Associated Analytic story
+* [Hermetic Wiper](/stories/hermetic_wiper)
 * [Malicious PowerShell](/stories/malicious_powershell)
 
 
