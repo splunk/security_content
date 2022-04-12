@@ -94,7 +94,9 @@ class SecurityContentDetectionBuilder(DetectionBuilder):
         if self.security_content_obj:
             if self.security_content_obj.deployment:
                 if self.security_content_obj.deployment.notable:
-                    return self.security_content_obj.deployment.notable.nes_fields
+                    nes_fields = ",".join(list(self.security_content_obj.deployment.notable.nes_fields))
+                    self.security_content_obj.nes_fields = nes_fields
+                    
 
 
     def addMappings(self) -> None:
