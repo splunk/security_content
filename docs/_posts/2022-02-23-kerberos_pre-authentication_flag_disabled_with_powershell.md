@@ -149,4 +149,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/kerberos_pre-authentication_flag_disabled_with_powershell.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/kerberos_pre_authentication_flag_disabled_with_powershell.yml) \| *version*: **1**
