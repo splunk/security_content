@@ -172,4 +172,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/experimental/network/dns_query_length_outliers_-_mltk.yml) \| *version*: **2**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/experimental/network/dns_query_length_outliers___mltk.yml) \| *version*: **2**

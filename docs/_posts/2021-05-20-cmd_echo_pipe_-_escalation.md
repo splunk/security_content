@@ -175,4 +175,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/cmd_echo_pipe_-_escalation.yml) \| *version*: **2**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/cmd_echo_pipe___escalation.yml) \| *version*: **2**

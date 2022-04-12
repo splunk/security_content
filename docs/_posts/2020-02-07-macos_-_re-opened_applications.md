@@ -145,4 +145,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/experimental/endpoint/macos_-_re-opened_applications.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/experimental/endpoint/macos___re_opened_applications.yml) \| *version*: **1**
