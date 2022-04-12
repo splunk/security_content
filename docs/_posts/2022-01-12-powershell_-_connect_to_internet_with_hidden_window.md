@@ -126,9 +126,9 @@ The following hunting analytic identifies PowerShell commands utilizing the Wind
 
 #### Macros
 The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [process_powershell](https://github.com/splunk/security_content/blob/develop/macros/process_powershell.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that **powershell_-_connect_to_internet_with_hidden_window_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -148,6 +148,7 @@ You must be ingesting data that records process activity from your hosts to popu
 Legitimate process can have this combination of command-line options, but it's not common.
 
 #### Associated Analytic story
+* [Hermetic Wiper](/stories/hermetic_wiper)
 * [Malicious PowerShell](/stories/malicious_powershell)
 * [Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns](/stories/possible_backdoor_activity_associated_with_mudcarp_espionage_campaigns)
 * [HAFNIUM Group](/stories/hafnium_group)
