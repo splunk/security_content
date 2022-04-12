@@ -1,0 +1,3 @@
+description: Use this macro to determine how long to keep track of cloud api calls per user role
+definition: '"-90d@d"'
+name: previously_seen_cloud_api_calls_per_user_role_forget_window

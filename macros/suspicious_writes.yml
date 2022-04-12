@@ -1,0 +1,5 @@
+definition: lookup suspicious_writes_lookup file as file_name OUTPUT note as "Reference"
+  | search "Reference" != False
+description: This macro limites the output to file names that have been marked as
+  suspicious
+name: suspicious_writes

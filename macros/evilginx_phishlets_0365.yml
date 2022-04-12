@@ -1,0 +1,4 @@
+definition: (query=login* AND query=www*)
+description: This limits the query fields to domains that are associated with evilginx
+  masquerading as Office 365
+name: evilginx_phishlets_0365

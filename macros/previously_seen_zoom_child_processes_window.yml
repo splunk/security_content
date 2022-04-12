@@ -1,0 +1,3 @@
+description: Use this macro to determine how far back you should be checking for new zoom child processes
+definition: '"-70m@m"'
+name: previously_seen_zoom_child_processes_window

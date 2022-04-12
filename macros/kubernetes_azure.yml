@@ -1,0 +1,3 @@
+definition: sourcetype=mscs:storage:blob:json
+description: customer specific splunk configurations(eg- index, source, sourcetype) for Kubernetes data from Azure. Replace the macro definition with configurations for your Splunk Environmnent.
+name: kubernetes_azure

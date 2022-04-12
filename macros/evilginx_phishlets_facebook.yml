@@ -1,0 +1,4 @@
+definition: (query=www* AND query = m* AND query=static*)
+description: This limits the query fields to domains that are associated with evilginx
+  masquerading as FaceBook
+name: evilginx_phishlets_facebook

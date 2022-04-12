@@ -1,0 +1,3 @@
+description: Use this macro to determine how far into the past the window should be to determine if the user is new or not
+definition: '"-70m@m"'
+name: previously_seen_cloud_instance_modifications_by_user_search_window_begin_offset

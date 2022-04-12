@@ -1,0 +1,5 @@
+definition: lookup update=true ransomware_extensions_lookup Extensions AS file_extension
+  OUTPUT Name | search Name !=False
+description: This macro limits the output to files that have extensions associated
+  with ransomware
+name: ransomware_extensions

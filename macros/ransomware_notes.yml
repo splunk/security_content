@@ -1,0 +1,5 @@
+definition: lookup ransomware_notes_lookup ransomware_notes as file_name OUTPUT status
+  as "Known Ransomware Notes" | search "Known Ransomware Notes"=True
+description: This macro limits the output to files that have been identified as a
+  ransomware note
+name: ransomware_notes

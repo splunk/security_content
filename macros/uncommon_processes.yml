@@ -1,0 +1,12 @@
+definition: lookup update=true lookup_uncommon_processes_default process_name as process_name
+  outputnew uncommon_default,category_default,analytic_story_default,kill_chain_phase_default,mitre_attack_default
+  | lookup update=true  lookup_uncommon_processes_local process_name as process_name
+  outputnew uncommon_local,category_local,analytic_story_local,kill_chain_phase_local,mitre_attack_local
+  | eval uncommon = coalesce(uncommon_default, uncommon_local), analytic_story = coalesce(analytic_story_default,
+  analytic_story_local), category=coalesce(category_default, category_local), kill_chain_phase=coalesce(kill_chain_phase_default,
+  kill_chain_phase_local), mitre_attack=coalesce(mitre_attack_default, mitre_attack_local)
+  | fields - analytic_story_default, analytic_story_local, category_default, category_local,
+  kill_chain_phase_default, kill_chain_phase_local, mitre_attack_default, mitre_attack_local,
+  uncommon_default, uncommon_local | search uncommon=true
+description: This macro limits the output to processes that have been marked as uncommon
+name: uncommon_processes

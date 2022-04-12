@@ -1,0 +1,5 @@
+definition: lookup update=true is_suspicious_file_extension_lookup file_name OUTPUT suspicious
+  | search suspicious=true
+description: This macro limits the output to email attachments that have suspicious
+  extensions
+name: suspicious_email_attachments

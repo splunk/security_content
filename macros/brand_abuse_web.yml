@@ -1,0 +1,5 @@
+definition: lookup update=true brandMonitoring_lookup domain as urls OUTPUT domain_abuse
+  | search domain_abuse=true
+description: This macro limits the output to only domains that are in the brand monitoring
+  lookup file
+name: brand_abuse_web

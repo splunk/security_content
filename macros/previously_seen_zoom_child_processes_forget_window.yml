@@ -1,0 +1,3 @@
+description: Use this macro to determine how long to keep track of zoom child processes
+definition: '"-90d@d"'
+name: previously_seen_zoom_child_processes_forget_window
