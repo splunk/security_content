@@ -109,8 +109,8 @@ This analytic is developed to detect possible event trigger execution through sc
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that **screensaver_event_trigger_execution_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -133,6 +133,7 @@ unknown
 * [Windows Persistence Techniques](/stories/windows_persistence_techniques)
 * [Windows Privilege Escalation](/stories/windows_privilege_escalation)
 * [Windows Registry Abuse](/stories/windows_registry_abuse)
+* [Hermetic Wiper](/stories/hermetic_wiper)
 
 
 

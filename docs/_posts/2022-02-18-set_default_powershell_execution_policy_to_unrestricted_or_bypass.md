@@ -113,8 +113,8 @@ Monitor for changes of the ExecutionPolicy in the registry to the values "unrest
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that **set_default_powershell_execution_policy_to_unrestricted_or_bypass_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -133,6 +133,7 @@ You must be ingesting data that records process activity from your hosts to popu
 Administrators may attempt to change the default execution policy on a system for a variety of reasons. However, setting the policy to "unrestricted" or "bypass" as this search is designed to identify, would be unusual. Hits should be reviewed and investigated as appropriate.
 
 #### Associated Analytic story
+* [Hermetic Wiper](/stories/hermetic_wiper)
 * [Malicious PowerShell](/stories/malicious_powershell)
 * [Credential Dumping](/stories/credential_dumping)
 * [HAFNIUM Group](/stories/hafnium_group)
