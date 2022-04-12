@@ -172,4 +172,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/detect_rundll32_application_control_bypass_-_advpack.yml) \| *version*: **2**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/detect_rundll32_application_control_bypass___advpack.yml) \| *version*: **2**

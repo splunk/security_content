@@ -144,4 +144,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/deprecated/suspicious_email_-_uba_anomaly.yml) \| *version*: **3**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/deprecated/suspicious_email___uba_anomaly.yml) \| *version*: **3**
