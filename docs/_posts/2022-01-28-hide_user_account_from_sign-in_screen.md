@@ -159,4 +159,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/hide_user_account_from_sign-in_screen.yml) \| *version*: **2**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/hide_user_account_from_sign_in_screen.yml) \| *version*: **2**

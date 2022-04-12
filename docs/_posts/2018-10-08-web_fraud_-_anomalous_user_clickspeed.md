@@ -154,4 +154,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/deprecated/web_fraud_-_anomalous_user_clickspeed.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/deprecated/web_fraud___anomalous_user_clickspeed.yml) \| *version*: **1**
