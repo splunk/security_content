@@ -10,7 +10,7 @@ description: 'The following analytic identifies installation of a root CA certif
   The high-fidelity events to pay attention to are SetValue events where the TargetObject property ends with "<THUMBPRINT_VALUE>\Blob" as this indicates the direct installation or modification of a root certificate binary blob.
   The other high fidelity reference will be which process is making the registry modifications. There are very few processes that modify these day to day, therefore monitoring for all to start (hunting) provides a great beginning.'
 search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Registry
-  where Registry.registry_path IN ("*\\Certificates\\*") AND Registry.registry_value_name="Blob"
+  where Registry.registry_path IN ("*\\certificates\\*") AND Registry.registry_value_name="Blob"
   by _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_value_name Registry.process_guid Registry.registry_key_name Registry.registry_value_data 
   | `drop_dm_object_name(Registry)` 
   | join process_guid _time 
