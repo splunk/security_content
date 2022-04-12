@@ -135,6 +135,7 @@ A computer account name change event inmediately followed by a kerberos TGT requ
 
 #### Associated Analytic story
 * [sAMAccountName Spoofing and Domain Controller Impersonation](/stories/samaccountname_spoofing_and_domain_controller_impersonation)
+* [Active Directory Kerberos Attacks](/stories/active_directory_kerberos_attacks)
 
 
 

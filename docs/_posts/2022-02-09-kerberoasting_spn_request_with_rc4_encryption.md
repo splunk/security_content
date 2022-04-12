@@ -134,6 +134,7 @@ Older systems that support kerberos RC4 by default like NetApp may generate fals
 #### Associated Analytic story
 * [Windows Privilege Escalation](/stories/windows_privilege_escalation)
 * [Active Directory Kerberos Attacks](/stories/active_directory_kerberos_attacks)
+* [Hermetic Wiper](/stories/hermetic_wiper)
 
 
 

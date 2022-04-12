@@ -128,6 +128,7 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 False positives should be limited as day to day scripts do not use this method.
 
 #### Associated Analytic story
+* [Hermetic Wiper](/stories/hermetic_wiper)
 * [Malicious PowerShell](/stories/malicious_powershell)
 
 
