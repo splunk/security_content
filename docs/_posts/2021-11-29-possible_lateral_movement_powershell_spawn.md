@@ -162,6 +162,7 @@ To successfully implement this search, you need to be ingesting logs with the pr
 Legitimate applications may spawn PowerShell as a child process of the the identified processes. Filter as needed.
 
 #### Associated Analytic story
+* [Hermetic Wiper](/stories/hermetic_wiper)
 * [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
 * [Malicious PowerShell](/stories/malicious_powershell)
 

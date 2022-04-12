@@ -135,6 +135,7 @@ A network operator or systems administrator may utilize an automated or manual e
 
 #### Associated Analytic story
 * [Windows Privilege Escalation](/stories/windows_privilege_escalation)
+* [Hermetic Wiper](/stories/hermetic_wiper)
 
 
 

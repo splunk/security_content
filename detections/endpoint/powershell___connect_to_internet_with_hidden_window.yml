@@ -36,6 +36,7 @@ references:
 - https://blog.netlab.360.com/ten-families-of-malicious-samples-are-spreading-using-the-log4j2-vulnerability-now/
 tags:
   analytic_story:
+  - Hermetic Wiper 
   - Malicious PowerShell
   - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
   - HAFNIUM Group

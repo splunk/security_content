@@ -129,6 +129,7 @@ Legitimate process can have this combination of command-line options, but it's n
 
 #### Associated Analytic story
 * [Malicious PowerShell](/stories/malicious_powershell)
+* [Hermetic Wiper](/stories/hermetic_wiper)
 
 
 

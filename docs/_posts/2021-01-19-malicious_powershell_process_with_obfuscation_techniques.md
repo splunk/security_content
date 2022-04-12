@@ -146,6 +146,7 @@ To successfully implement this search you need to be ingesting information on pr
 These characters might be legitimately on the command-line, but it is not common.
 
 #### Associated Analytic story
+* [Hermetic Wiper](/stories/hermetic_wiper)
 * [Malicious PowerShell](/stories/malicious_powershell)
 
 

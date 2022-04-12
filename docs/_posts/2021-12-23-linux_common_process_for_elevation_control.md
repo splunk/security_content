@@ -27,7 +27,7 @@ tags:
 
 #### Description
 
-This analytic is to look for possible elevation control access using a common known process in linux platform to change the attribute and file ownership. This technique is commonly abused by adversaries, malware author and red teamers to gain persistence or privilege escalation on the target or compromised host. Tis common process is used to modify file attribute, file ownership or SUID. This tools can be used in legitimate purposes so filter is needed.
+This analytic is to look for possible elevation control access using a common known process in linux platform to change the attribute and file ownership. This technique is commonly abused by adversaries, malware author and red teamers to gain persistence or privilege escalation on the target or compromised host. This common process is used to modify file attribute, file ownership or SUID. This tools can be used in legitimate purposes so filter is needed.
 
 - **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud

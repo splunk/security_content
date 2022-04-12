@@ -22,6 +22,7 @@ references:
 - https://app.any.run/tasks/c0f98850-af65-4352-9746-fbebadee4f05/
 tags:
   analytic_story:
+  - Hermetic Wiper 
   - Malicious PowerShell
   - Ransomware
   context:

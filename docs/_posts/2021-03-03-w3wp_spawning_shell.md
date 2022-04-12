@@ -145,6 +145,7 @@ To successfully implement this search you need to be ingesting information on pr
 Baseline your environment before production. It is possible build systems using IIS will spawn cmd.exe to perform a software build. Filter as needed.
 
 #### Associated Analytic story
+* [Hermetic Wiper](/stories/hermetic_wiper)
 * [HAFNIUM Group](/stories/hafnium_group)
 * [ProxyShell](/stories/proxyshell)
 

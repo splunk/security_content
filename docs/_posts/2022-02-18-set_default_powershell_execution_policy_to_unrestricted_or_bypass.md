@@ -133,6 +133,7 @@ You must be ingesting data that records process activity from your hosts to popu
 Administrators may attempt to change the default execution policy on a system for a variety of reasons. However, setting the policy to "unrestricted" or "bypass" as this search is designed to identify, would be unusual. Hits should be reviewed and investigated as appropriate.
 
 #### Associated Analytic story
+* [Hermetic Wiper](/stories/hermetic_wiper)
 * [Malicious PowerShell](/stories/malicious_powershell)
 * [Credential Dumping](/stories/credential_dumping)
 * [HAFNIUM Group](/stories/hafnium_group)

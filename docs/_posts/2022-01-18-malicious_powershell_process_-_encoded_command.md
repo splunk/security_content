@@ -142,6 +142,7 @@ To successfully implement this search you need to be ingesting information on pr
 System administrators may use this option, but it's not common.
 
 #### Associated Analytic story
+* [Hermetic Wiper](/stories/hermetic_wiper)
 * [Malicious PowerShell](/stories/malicious_powershell)
 * [NOBELIUM Group](/stories/nobelium_group)
 * [WhisperGate](/stories/whispergate)

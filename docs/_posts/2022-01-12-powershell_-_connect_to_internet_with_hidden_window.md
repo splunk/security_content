@@ -148,6 +148,7 @@ You must be ingesting data that records process activity from your hosts to popu
 Legitimate process can have this combination of command-line options, but it's not common.
 
 #### Associated Analytic story
+* [Hermetic Wiper](/stories/hermetic_wiper)
 * [Malicious PowerShell](/stories/malicious_powershell)
 * [Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns](/stories/possible_backdoor_activity_associated_with_mudcarp_espionage_campaigns)
 * [HAFNIUM Group](/stories/hafnium_group)

@@ -133,6 +133,7 @@ unknown
 * [Windows Persistence Techniques](/stories/windows_persistence_techniques)
 * [Windows Privilege Escalation](/stories/windows_privilege_escalation)
 * [Windows Registry Abuse](/stories/windows_registry_abuse)
+* [Hermetic Wiper](/stories/hermetic_wiper)
 
 
 

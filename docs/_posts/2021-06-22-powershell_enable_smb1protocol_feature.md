@@ -126,6 +126,7 @@ To successfully implement this search, you need to be ingesting logs with the po
 network operator may enable or disable this windows feature.
 
 #### Associated Analytic story
+* [Hermetic Wiper](/stories/hermetic_wiper)
 * [Malicious PowerShell](/stories/malicious_powershell)
 * [Ransomware](/stories/ransomware)
 

@@ -115,7 +115,7 @@ Rubeus is a C# toolset for raw Kerberos interaction and abuses. It is heavily ad
 
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.process = "*ptt /ticket*" OR Processes.process = "* monitor*" OR Processes.process ="* asktgt* /user:*" OR Processes.process ="* asktgs* /service:*" OR Processes.process ="* golden* /user:*" OR Processes.process ="* silver* /service:*" OR Processes.process ="* kerberoast*" OR Processes.process ="* asreproast*" OR Processes.process = "* renew* /ticket:*" OR Processes.process = "* brute* /password:*" OR Processes.process = "* brute* /passwords:*" OR Processes.process ="* harvest*") by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id Processes.parent_process_name 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.process = "*ptt /ticket*" OR Processes.process = "* monitor *" OR Processes.process ="* asktgt* /user:*" OR Processes.process ="* asktgs* /service:*" OR Processes.process ="* golden* /user:*" OR Processes.process ="* silver* /service:*" OR Processes.process ="* kerberoast*" OR Processes.process ="* asreproast*" OR Processes.process = "* renew* /ticket:*" OR Processes.process = "* brute* /password:*" OR Processes.process = "* brute* /passwords:*" OR Processes.process ="* harvest*") by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id Processes.parent_process_name 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -165,6 +165,7 @@ Although unlikely, legitimate applications may use the same command line paramet
 * [https://github.com/GhostPack/Rubeus](https://github.com/GhostPack/Rubeus)
 * [http://www.harmj0y.net/blog/redteaming/from-kekeo-to-rubeus/](http://www.harmj0y.net/blog/redteaming/from-kekeo-to-rubeus/)
 * [https://attack.mitre.org/techniques/T1550/003/](https://attack.mitre.org/techniques/T1550/003/)
+* [https://en.hackndo.com/kerberos-silver-golden-tickets/](https://en.hackndo.com/kerberos-silver-golden-tickets/)
 
 
 

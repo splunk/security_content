@@ -135,7 +135,9 @@ To successfully implement this search, you need to be ingesting logs with the pr
 Filtering may be required on internal developer build systems or classify assets as web facing and restrict the analytic based on asset type.
 
 #### Associated Analytic story
+* [Hermetic Wiper](/stories/hermetic_wiper)
 * [Log4Shell CVE-2021-44228](/stories/log4shell_cve-2021-44228)
+* [Spring4Shell CVE-2022-22965](/stories/spring4shell_cve-2022-22965)
 
 
 

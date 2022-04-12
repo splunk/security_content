@@ -127,6 +127,7 @@ None identified
 #### Associated Analytic story
 * [Windows Privilege Escalation](/stories/windows_privilege_escalation)
 * [Unusual Processes](/stories/unusual_processes)
+* [Hermetic Wiper](/stories/hermetic_wiper)
 
 
 

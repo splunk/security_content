@@ -25,6 +25,7 @@ known_false_positives: Administrators may attempt to change the default executio
 references: []
 tags:
   analytic_story:
+  - Hermetic Wiper 
   - Malicious PowerShell
   - Credential Dumping
   - HAFNIUM Group
