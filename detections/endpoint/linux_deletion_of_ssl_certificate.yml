@@ -8,8 +8,8 @@ datamodel:
 - Endpoint
 description: This analytic is to detect a deletion of ssl certificate in a linux machine. 
   attacker may delete or modify ssl certificate to impair some security features or act as defense evasion in compromised linux machine. 
-  This Anomaly can be also a good indicator of a malware try to wipe or delete several files in compromised host as part of its destructive payload like what 
-  acidrain malware does in linux or router machine. This detection can be a good pivot to check what process and user 
+  This Anomaly can be also a good indicator of a malware trying to wipe or delete several files in a compromised host as part of its destructive payload like what 
+  acidrain malware does in linux or router machines. This detection can be a good pivot to check what process and user 
   tries to delete this type of files which is not so common and need further investigation.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem  
   where Filesystem.action=deleted Filesystem.file_path = "/etc/ssl/certs/*" Filesystem.file_path IN ("*.pem", "*.crt")
