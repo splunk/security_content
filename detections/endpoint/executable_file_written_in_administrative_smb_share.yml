@@ -22,8 +22,11 @@ search: '`wineventlog_security`
     Object_Type=coalesce(Object_Type, ObjectType),
     Share_Name=coalesce(Share_Name, ShareName),
     Access_Mask=coalesce(Access_Mask, AccessMask),
-    Source_Address=coalesce(Source_Address, IpAddress)
-| stats min(_time) as firstTime max(_time) as lastTime count by EventCode Share_Name Relative_Target_Name Object_Type Access_Mask src_user src_port Source_Address'
+    Source_Address=coalesce(Source_Address, IpAddress) 
+| stats min(_time) as firstTime max(_time) as lastTime count by EventCode Share_Name Relative_Target_Name Object_Type Access_Mask src_user src_port Source_Address 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `executable_file_written_in_administrative_smb_share_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   Windows Security Event Logs with 5145 EventCode enabled. The Windows TA is also
   required. Also enable the object Audit access success/failure in your group policy.
