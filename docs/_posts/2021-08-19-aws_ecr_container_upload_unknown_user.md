@@ -115,6 +115,7 @@ This search looks for AWS CloudTrail events from AWS Elastic Container Service (
 
 #### Macros
 The SPL above uses the following Macros:
+* [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [aws_ecr_users](https://github.com/splunk/security_content/blob/develop/macros/aws_ecr_users.yml)
 * [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)

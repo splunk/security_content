@@ -158,4 +158,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/detect_rclone_command-line_usage.yml) \| *version*: **2**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/detect_rclone_command_line_usage.yml) \| *version*: **2**

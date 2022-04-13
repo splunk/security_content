@@ -151,4 +151,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/get-foresttrust_with_powershell_script_block.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/get_foresttrust_with_powershell_script_block.yml) \| *version*: **1**

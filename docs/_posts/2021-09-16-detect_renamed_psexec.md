@@ -107,6 +107,7 @@ The following analytic identifies renamed instances of `PsExec.exe` being utiliz
 
 #### Macros
 The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [process_psexec](https://github.com/splunk/security_content/blob/develop/macros/process_psexec.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
