@@ -164,7 +164,7 @@ def test_construct_detections():
     assert detection.name == "Attempted Credential Dump From Registry via Reg exe"
     assert detection.author == "Patrick Bareiss, Splunk"
     assert detection.deployment.name == "ESCU Default Configuration TTP" 
-    assert detection.deployment.notable.nes_fields == ['user', 'dest']
+    assert detection.nes_fields == user, dest
     assert detection.annotations == valid_annotations
     assert detection.risk == valid_risk
     assert detection.playbooks[0].name == "Ransomware Investigate and Contain"
