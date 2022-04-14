@@ -6,9 +6,9 @@ author: Jose Hernandez, Splunk
 type: TTP
 datamodel:
 - Endpoint_Processes
-description: The following analytic identifies credential dumping using comsvcs.dll
-  with `regsvr32.exe`. This technique is common with adversaries who would like to
-  dump the memory of lsass.exe and perform offline password cracking.
+description: The following analytic identifies memory dumping using comsvcs.dll with the minidump function
+  with `rundll32.exe`. This technique is common with adversaries who would like to
+  dump the memory of lsass.exe.
 search: '| from read_ssa_enriched_events() | eval tenant=ucast(map_get(input_event,
   "_tenant"), "string", null), machine=ucast(map_get(input_event, "dest_device_id"),
   "string", null), process_name=lower(ucast(map_get(input_event, "process_name"),
@@ -32,6 +32,7 @@ references:
 tags:
   analytic_story:
   - Credential Dumping
+  - Suspicious Rundll32 Activity
   asset_type: Endpoint
   cis20:
   - CIS 8
@@ -46,7 +47,7 @@ tags:
   impact: 40
   kill_chain_phases:
   - Actions on Objectives
-  message: A dump of lsass.exe was attempted using comsvcs.dll on endpoint $dest_device_id$
+  message: A dump of a process was attempted using comsvcs.dll with the minidump function on endpoint $dest_device_id$
     by user $dest_device_user$.
   mitre_attack_id:
   - T1003.003
