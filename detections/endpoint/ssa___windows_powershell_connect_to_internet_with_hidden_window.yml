@@ -95,7 +95,7 @@ tags:
   - process_path
   - dest_user_id
   - process
-  - cmd_line
+  - process
   risk_score: 35
   risk_severity: low
   security_domain: endpoint
