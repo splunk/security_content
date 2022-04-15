@@ -25,8 +25,8 @@ references:
 - https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-40444
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.002/T1218.002.yaml
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where (Processes.process_name=rundll32.exe
-  OR Processes.original_file_name=RUNDLL32.EXE) Processes.process=*Control_RunDLL*  by
+  as lastTime from datamodel=Endpoint.Processes where (Processes.process_name="rundll32.exe"
+  OR Processes.original_file_name="RUNDLL32.EXE") Processes.process="*Control_RunDLL*" by
   Processes.dest Processes.user Processes.parent_process_name Processes.process_name
   Processes.process Processes.process_id Processes.parent_process_id Processes.original_file_name
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`

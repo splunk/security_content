@@ -19,7 +19,7 @@ references:
 - https://raw.githubusercontent.com/threatexpress/malleable-c2/c3385e481159a759f79b8acfe11acf240893b830/jquery-c2.4.2.profile
 - https://blog.cobaltstrike.com/2021/02/09/learn-pipe-fitting-for-all-of-your-offense-projects/
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
-  where Processes.process_name=dllhost.exe by _time span=1h  Processes.process_guid
+  where Processes.process_name="dllhost.exe" by _time span=1h  Processes.process_guid
   Processes.process_name Processes.dest Processes.process_path Processes.process Processes.parent_process_name
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | regex process="(dllhost\.exe.{0,4}$)" | join  process_guid [| tstats `security_content_summariesonly`

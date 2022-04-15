@@ -26,8 +26,8 @@ references:
 - https://github.com/BloodHoundAD/SharpHound3
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.001/T1059.001.md#atomic-test-2---run-bloodhound-from-local-disk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where (Processes.process_name=sharphound.exe
-  OR Processes.original_file_name=SharpHound.exe) by Processes.dest Processes.user
+  as lastTime from datamodel=Endpoint.Processes where (Processes.process_name="sharphound.exe"
+  OR Processes.original_file_name="SharpHound.exe") by Processes.dest Processes.user
   Processes.parent_process_name Processes.original_file_name Processes.process_name
   Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `detect_sharphound_usage_filter`'

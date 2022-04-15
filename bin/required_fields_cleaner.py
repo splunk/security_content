@@ -379,7 +379,7 @@ def validate_datamodels(filename:str, search_datamodels:dict, defined_datamodels
 def validate_fields(filename:str, submodels_with_fields:dict, search_submodel_fields:set)->bool:
     errors = []
 
-    print(search_submodel_fields)
+    
     
     for field in search_submodel_fields:
         tokens = field.split(".")

@@ -14,7 +14,7 @@ name: BCDEdit Failure Recovery Modification
 references:
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1490/T1490.md#atomic-test-4---windows---disable-windows-recovery-console-repair
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.process_name = bcdedit.exe
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name="bcdedit.exe"
   Processes.process="*recoveryenabled*" (Processes.process="* no*") by Processes.process_name
   Processes.process Processes.parent_process_name Processes.dest Processes.user |
   `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`

@@ -27,8 +27,8 @@ references:
 - https://2017.zeronights.org/wp-content/uploads/materials/ZN17_Kheirkhabarov_Hunting_for_Credentials_Dumping_in_Windows_Environment.pdf
 - https://strontic.github.io/xcyclopedia/library/vss_ps.dll-97B15BDAE9777F454C9A6BA25E938DB3.html
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where (Processes.process_name=ntdsutil.exe
-  Processes.process=*ntds* Processes.process=*create*) by Processes.dest Processes.user
+  as lastTime from datamodel=Endpoint.Processes where (Processes.process_name="ntdsutil.exe"
+  Processes.process="*ntds*" Processes.process="*create*") by Processes.dest Processes.user
   Processes.parent_process Processes.process_name Processes.process Processes.process_id
   Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`|
   `security_content_ctime(lastTime)` | `ntdsutil_export_ntds_filter`'

@@ -17,7 +17,7 @@ references:
 - https://attack.mitre.org/techniques/T1490/
 - https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/wbadmin
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=wbadmin.exe
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name="wbadmin.exe"
   Processes.process="*delete*" AND (Processes.process="*catalog*" OR Processes.process="*systemstatebackup*")
   by Processes.process_name Processes.process Processes.parent_process_name Processes.dest
   Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`

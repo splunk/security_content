@@ -18,8 +18,8 @@ references:
 - https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/winrs
 - https://attack.mitre.org/techniques/T1021/006/
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where (Processes.process_name=winrs.exe
-  OR Processes.original_file_name=winrs.exe) (Processes.process="*-r:*" OR Processes.process="*-remote:*")
+  as lastTime from datamodel=Endpoint.Processes where (Processes.process_name="winrs.exe"
+  OR Processes.original_file_name="winrs.exe") (Processes.process="*-r:*" OR Processes.process="*-remote:*")
   by Processes.dest Processes.user Processes.parent_process_name Processes.process_name
   Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `remote_process_instantiation_via_winrm_and_winrs_filter`'

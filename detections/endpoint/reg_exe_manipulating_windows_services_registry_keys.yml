@@ -19,8 +19,8 @@ references: []
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime values(Processes.process_name) as process_name values(Processes.parent_process_name)
   as parent_process_name values(Processes.user) as user FROM datamodel=Endpoint.Processes
-  where Processes.process_name=reg.exe Processes.process=*reg* Processes.process=*add*
-  Processes.process=*Services* by Processes.process_id Processes.dest Processes.process
+  where Processes.process_name="reg.exe" Processes.process="*reg*" Processes.process="*add*""
+  Processes.process="*Services*" by Processes.process_id Processes.dest Processes.process
   | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `reg_exe_manipulating_windows_services_registry_keys_filter`'
 tags:

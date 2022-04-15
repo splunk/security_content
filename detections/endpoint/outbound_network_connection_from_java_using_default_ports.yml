@@ -21,8 +21,8 @@ references:
 - https://www.lunasec.io/docs/blog/log4j-zero-day/
 - https://www.govcert.admin.ch/blog/zero-day-exploit-targeting-popular-java-library-log4j/
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
-  where (Processes.process_name="java.exe" OR Processes.process_name=javaw.exe OR
-  Processes.process_name=javaw.exe) by _time Processes.process_guid Processes.process_name
+  where (Processes.process_name="java.exe" OR Processes.process_name="javaw.exe" OR
+  Processes.process_name="javaw.exe") by _time Processes.process_guid Processes.process_name
   Processes.dest Processes.process_path Processes.process Processes.parent_process_name
   |  `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | join  process_guid [| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Ports

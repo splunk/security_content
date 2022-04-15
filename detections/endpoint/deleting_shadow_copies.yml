@@ -17,8 +17,8 @@ name: Deleting Shadow Copies
 references: []
 search: '| tstats `security_content_summariesonly` count values(Processes.process)
   as process values(Processes.parent_process) as parent_process min(_time) as firstTime
-  max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.process_name=vssadmin.exe
-  OR Processes.process_name=wmic.exe) Processes.process=*delete* Processes.process=*shadow*
+  max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.process_name="vssadmin.exe"
+  OR Processes.process_name="wmic.exe") Processes.process="*delete*" Processes.process="*shadow*"
   by Processes.user Processes.process_name Processes.parent_process_name Processes.dest  |
   `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   | `deleting_shadow_copies_filter`'
