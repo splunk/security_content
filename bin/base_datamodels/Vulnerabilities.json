@@ -1,0 +1,538 @@
+{
+  "modelName": "Vulnerabilities",
+  "displayName": "Vulnerabilities",
+  "description": "Vulnerabilities Data Model",
+  "editable": false,
+  "objects": [
+    {
+      "comment": {
+        "tags": [
+          "vulnerability",
+          "report"
+        ]
+      },
+      "objectName": "Vulnerabilities",
+      "displayName": "Vulnerabilities",
+      "parentName": "BaseEvent",
+      "fields": [
+        {
+          "comment": {
+            "description": "Numeric indicator of the common vulnerability scoring system."
+          },
+          "fieldName": "cvss",
+          "displayName": "cvss",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "dest_bunit",
+          "displayName": "dest_bunit",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "dest_category",
+          "displayName": "dest_category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "dest_priority",
+          "displayName": "dest_priority",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "dvc_bunit",
+          "displayName": "dvc_bunit",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "dvc_category",
+          "displayName": "dvc_category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "dvc_priority",
+          "displayName": "dvc_priority",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The numeric or vendor specific severity indicator corresponding to the event severity."
+          },
+          "fieldName": "severity_id",
+          "displayName": "severity_id",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The unique identifier or event code of the event signature."
+          },
+          "fieldName": "signature_id",
+          "displayName": "signature_id",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This automatically generated field is used to access tags from within data models. Add-on builders do not need to populate it.",
+            "ta_relevant": false
+          },
+          "fieldName": "tag",
+          "displayName": "tag",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The URL involved in the discovered vulnerability."
+          },
+          "fieldName": "url",
+          "displayName": "url",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The user involved in the discovered vulnerability."
+          },
+          "fieldName": "user",
+          "displayName": "user",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "user_bunit",
+          "displayName": "user_bunit",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "user_category",
+          "displayName": "user_category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "user_priority",
+          "displayName": "user_priority",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        {
+          "calculationID": "Vulnerabilities_lower_bugtraq",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The identifier in the vulnerability database provided by the Security Focus website (searchable at http:\/\/www.securityfocus.com\/)."
+              },
+              "fieldName": "bugtraq",
+              "displayName": "bugtraq",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": true,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnotnull(bugtraq) AND bugtraq!=\"\",lower(bugtraq),null())"
+        },
+        {
+          "calculationID": "Vulnerabilities_fillnull_category",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The category of the discovered vulnerability, such as DoS. Note: This field is a string. Use category_id for numeric values. The category_id field is optional and thus is not included in the data model.",
+                "recommended": true
+              },
+              "fieldName": "category",
+              "displayName": "category",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(category) OR category=\"\",\"unknown\",category)"
+        },
+        {
+          "calculationID": "Vulnerabilities_lower_cert",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The identifier in the vulnerability database provided by the US Computer Emergency Readiness Team (US-CERT, searchable at http:\/\/www.kb.cert.org\/vuls\/)."
+              },
+              "fieldName": "cert",
+              "displayName": "cert",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": true,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnotnull(cert) AND cert!=\"\",lower(cert),null())"
+        },
+        {
+          "calculationID": "Vulnerabilities_lower_cve",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The identifier provided in the Common Vulnerabilities and Exposures index (searchable at http:\/\/cve.mitre.org).",
+                "recommended": true
+              },
+              "fieldName": "cve",
+              "displayName": "cve",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": true,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnotnull(cve) AND cve!=\"\",lower(cve),null())"
+        },
+        {
+          "calculationID": "Vulnerabilities_fillnull_dest",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The host with the discovered vulnerability. You can alias this from more specific fields, such as dest_host, dest_ip, or dest_name.",
+                "recommended": true
+              },
+              "fieldName": "dest",
+              "displayName": "dest",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(dest) OR dest=\"\",\"unknown\",dest)"
+        },
+        {
+          "calculationID": "Vulnerabilities_fillnull_dvc",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The system that discovered the vulnerability. You can alias this from more specific fields, such as dvc_host, dvc_ip, or dvc_name.",
+                "recommended": true
+              },
+              "fieldName": "dvc",
+              "displayName": "dvc",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(dvc) OR dvc=\"\",\"unknown\",dvc)"
+        },
+        {
+          "calculationID": "Vulnerabilities_lower_msft",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The Microsoft Security Advisory number (http:\/\/technet.microsoft.com\/en-us\/security\/advisory\/)."
+              },
+              "fieldName": "msft",
+              "displayName": "msft",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": true,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnotnull(msft) AND msft!=\"\",lower(msft),null())"
+        },
+        {
+          "calculationID": "Vulnerabilities_lower_mskb",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The Microsoft Knowledge Base article number (http:\/\/support.microsoft.com\/kb\/)."
+              },
+              "fieldName": "mskb",
+              "displayName": "mskb",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": true,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnotnull(mskb) AND mskb!=\"\",lower(mskb),null())"
+        },
+        {
+          "calculationID": "Vulnerabilities_fillnull_severity",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The severity of the vulnerability detection event. Specific values are required. Use vendor_severity for the vendor's own human readable strings (such as Good, Bad, and Really Bad). Note: This field is a string. Use severity_id for numeric data types. The severity_id field is optional and not included in the data model.",
+                "expected_values": [
+                  "critical",
+                  "high",
+                  "medium",
+                  "low",
+                  "informational"
+                ],
+                "recommended": true
+              },
+              "fieldName": "severity",
+              "displayName": "severity",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(severity) OR severity=\"\",\"unknown\",severity)"
+        },
+        {
+          "calculationID": "Vulnerabilities_fillnull_signature",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The name of the vulnerability detected on the host, such as HPSBMU02785 SSRT100526 rev.2 - HP LoadRunner Running on Windows, Remote Execution of Arbitrary Code, Denial of Service (DoS). Note: This field has a string value. Use signature_id for numeric indicators. The signature_id field is optional and thus is not included in the data model.",
+                "recommended": true
+              },
+              "fieldName": "signature",
+              "displayName": "signature",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(signature) OR signature=\"\",\"unknown\",signature)"
+        },
+        {
+          "calculationID": "Vulnerabilities_vendor_product",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The vendor and product that detected the vulnerability. This field can be automatically populated by vendor and product fields in your data.",
+                "recommended": true
+              },
+              "fieldName": "vendor_product",
+              "displayName": "vendor_product",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "case(isnotnull(vendor_product),vendor_product,isnotnull(vendor) AND vendor!=\"unknown\" AND isnotnull(product) AND product!=\"unknown\",vendor.\" \".product,isnotnull(vendor) AND vendor!=\"unknown\" AND (isnull(product) OR product=\"unknown\"),vendor.\" unknown\",(isnull(vendor) OR vendor=\"unknown\") AND isnotnull(product) AND product!=\"unknown\",\"unknown \".product,isnotnull(sourcetype),sourcetype,1=1,\"unknown\")"
+        },
+        {
+          "calculationID": "Vulnerabilities_lower_xref",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "A cross-reference identifier associated with the vulnerability. In most cases, the xref field contains both the short name of the database being cross-referenced and the unique identifier used in the external database."
+              },
+              "fieldName": "xref",
+              "displayName": "xref",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": true,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnotnull(xref) AND xref!=\"\",lower(xref),null())"
+        }
+      ],
+      "constraints": [
+        {
+          "search": "(`cim_Vulnerabilities_indexes`) tag=vulnerability tag=report"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "vulnerability",
+          "report"
+        ]
+      },
+      "objectName": "High_Critical_Vulnerabilities",
+      "displayName": "High Or Critical Vulnerabilities",
+      "parentName": "Vulnerabilities",
+      "fields": [
+        
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "(severity=\"high\" OR severity=\"critical\")"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "vulnerability",
+          "report"
+        ]
+      },
+      "objectName": "Medium_Vulnerabilities",
+      "displayName": "Medium Vulnerabilities",
+      "parentName": "Vulnerabilities",
+      "fields": [
+        
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "severity=\"medium\""
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "vulnerability",
+          "report"
+        ]
+      },
+      "objectName": "Low_Informational_Vulnerabilities",
+      "displayName": "Low Or Informational Vulnerabilities",
+      "parentName": "Vulnerabilities",
+      "fields": [
+        
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "(severity=\"low\" OR severity=\"informational\")"
+        }
+      ],
+      "children": [
+        
+      ]
+    }
+  ]
+}

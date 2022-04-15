@@ -1,0 +1,1134 @@
+{
+  "modelName": "Change",
+  "displayName": "Change",
+  "description": "Change Data Model",
+  "editable": false,
+  "objects": [
+    {
+      "comment": {
+        "tags": [
+          "change"
+        ]
+      },
+      "objectName": "All_Changes",
+      "displayName": "All Changes",
+      "parentName": "BaseEvent",
+      "fields": [
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "dest_bunit",
+          "displayName": "dest_bunit",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "dest_category",
+          "displayName": "dest_category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "dest_priority",
+          "displayName": "dest_priority",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "src_bunit",
+          "displayName": "src_bunit",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "src_category",
+          "displayName": "src_category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "src_priority",
+          "displayName": "src_priority",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This automatically generated field is used to access tags from within data models. Add-on builders do not need to populate it.",
+            "ta_relevant": false
+          },
+          "fieldName": "tag",
+          "displayName": "tag",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The user agent through which the request was made, such as Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) or aws-cli/2.0.0 Python/3.7.4 Darwin/18.7.0 botocore/2.0.0dev4."
+          },
+          "fieldName": "user_agent",
+          "displayName": "user_agent",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "user_bunit",
+          "displayName": "user_bunit",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "user_category",
+          "displayName": "user_category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "user_priority",
+          "displayName": "user_priority",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The type of the user involved in the event or who initiated the event, such as IAMUser, Admin, or System. For account management events, this should represent the type of the user changed by the request."
+          },
+          "fieldName": "user_type",
+          "displayName": "user_type",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The account associated with the change."
+          },
+          "fieldName": "vendor_account",
+          "displayName": "vendor_account",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The data center region where the change occurred, such as us-west-2."
+          },
+          "fieldName": "vendor_region",
+          "displayName": "vendor_region",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        {
+          "calculationID": "All_Changes_fillnull_change_type",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The type of change, such as filesystem or AAA (authentication, authorization, and accounting).",
+                "expected_values": [
+                  "restart"
+                ],
+                "recommended": true
+              },
+              "fieldName": "change_type",
+              "displayName": "change_type",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(change_type) OR change_type=\"\",\"unknown\",change_type)"
+        },
+        {
+          "calculationID": "All_Changes_fillnull_command",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The command that initiated the change.",
+                "recommended": true
+              },
+              "fieldName": "command",
+              "displayName": "command",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(command) OR command=\"\",\"unknown\",if(sourcetype==\"audittrail\",Operation.\" \".ObjectName,command))"
+        },
+        {
+          "calculationID": "All_Changes_fillnull_dest",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The resource where change occurred. You can alias this from more specific fields, such as dest_host, dest_ip, or dest_name.",
+                "recommended": true
+              },
+              "fieldName": "dest",
+              "displayName": "dest",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(dest) OR dest=\"\",\"unknown\",dest)"
+        },
+        {
+          "calculationID": "All_Changes_fillnull_dvc",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The device that reported the change, if applicable, such as a FIP or CIM server. You can alias this from more specific fields, such as dvc_host, dvc_ip, or dvc_name.",
+                "recommended": true
+              },
+              "fieldName": "dvc",
+              "displayName": "dvc",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(dvc) OR dvc=\"\",\"unknown\",dvc)"
+        },
+        {
+          "calculationID": "All_Changes_fillnull_object",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "Name of the affected object on the resource, such as a router interface, user account, or server volume.",
+                "recommended": true
+              },
+              "fieldName": "object",
+              "displayName": "object",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(object) OR object=\"\",\"unknown\",object)"
+        },
+        {
+          "calculationID": "All_Changes_fillnull_object_attrs",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The attributes that were updated on the updated resource object, if applicable.",
+                "recommended": true
+              },
+              "fieldName": "object_attrs",
+              "displayName": "object_attrs",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": true,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(object_attrs) OR object_attrs=\"\",\"unknown\",object_attrs)"
+        },
+        {
+          "calculationID": "All_Changes_fillnull_object_category",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "Generic name for the class of the updated resource object. Expected values may be specific to an app.",
+                "expected_values": [
+                  "directory",
+                  "file",
+                  "group",
+                  "registry",
+                  "user"
+                ],
+                "recommended": true
+              },
+              "fieldName": "object_category",
+              "displayName": "object_category",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(object_category) OR object_category=\"\",\"unknown\",object_category)"
+        },
+        {
+          "calculationID": "All_Changes_fillnull_object_id",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The unique updated resource object ID as presented to the system, if applicable. For example, a SID, UUID, or GUID value.",
+                "recommended": true
+              },
+              "fieldName": "object_id",
+              "displayName": "object_id",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(object_id) OR object_id=\"\",\"unknown\",object_id)"
+        },
+        {
+          "calculationID": "All_Changes_fillnull_object_path",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The path of the modified resource object, if applicable, such as a file, directory, or volume.",
+                "recommended": true
+              },
+              "fieldName": "object_path",
+              "displayName": "object_path",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(object_path) OR object_path=\"\",\"unknown\",object_path)"
+        },
+        {
+          "calculationID": "All_Changes_fillnull_status",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "Status of the update.",
+                "expected_values": [
+                  "success",
+                  "failure"
+                ],
+                "recommended": true
+              },
+              "fieldName": "status",
+              "displayName": "status",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(status) OR status=\"\",\"unknown\",status)"
+        },
+        {
+          "calculationID": "All_Changes_fillnull_result",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The vendor-specific result of a change, or clarification of an action status. For example, status=failure may be accompanied by result=blocked by policy or result=disk full. Note: result is a string. Use msg_severity_id for severity ID fields that are integer data types.",
+                "expected_values": [
+                  "lockout"
+                ],
+                "recommended": true
+              },
+              "fieldName": "result",
+              "displayName": "result",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnotnull(result) AND result!=\"\",result,if(isnotnull(signature) AND signature!=\"\",signature,\"unknown\"))"
+        },
+        {
+          "calculationID": "All_Changes_fillnull_result_id",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "A result indicator for an action status.",
+                "recommended": true
+              },
+              "fieldName": "result_id",
+              "displayName": "result_id",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnotnull(result_id) AND result_id!=\"\",result_id,if(isnotnull(signature_id) AND signature_id!=\"\",signature_id,-1))"
+        },
+        {
+          "calculationID": "All_Changes_fillnull_src",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The resource where the change was originated. You can alias this from more specific fields, such as src_host, src_ip, or src_name.",
+                "recommended": true
+              },
+              "fieldName": "src",
+              "displayName": "src",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(src) OR src=\"\",\"unknown\",src)"
+        },
+        {
+          "calculationID": "All_Changes_fillnull_user",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The user or entity performing the change. For account changes, this is the account that was changed (see src_user for user or entity performing the change).",
+                "recommended": true
+              },
+              "fieldName": "user",
+              "displayName": "user",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(user) OR user=\"\",\"unknown\",user)"
+        },
+        {
+          "calculationID": "All_Changes_fillnull_user_name",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The user name of the user or entity performing the change. For account changes, this is the account that was changed (see src_user_name for user or entity performing the change).",
+                "recommended": true
+              },
+              "fieldName": "user_name",
+              "displayName": "user_name",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(user_name) OR user_name=\"\",\"unknown\",user_name)"
+        },
+        {
+          "calculationID": "All_Changes_vendor_product",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The vendor and product or service that detected the change. This field can be automatically populated by vendor and product fields in your data.",
+                "recommended": true
+              },
+              "fieldName": "vendor_product",
+              "displayName": "vendor_product",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "case(isnotnull(vendor_product),vendor_product,isnotnull(vendor) AND vendor!=\"unknown\" AND isnotnull(product) AND product!=\"unknown\",vendor.\" \".product,isnotnull(vendor) AND vendor!=\"unknown\" AND (isnull(product) OR product=\"unknown\"),vendor.\" unknown\",(isnull(vendor) OR vendor=\"unknown\") AND isnotnull(product) AND product!=\"unknown\",\"unknown \".product,isnotnull(sourcetype),sourcetype,1=1,\"unknown\")"
+        },
+        {
+          "calculationID": "All_Changes_fillnull_action",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The action attempted on the resource, regardless of success or failure.",
+                "expected_values": [
+                  "acl_modified",
+                  "cleared",
+                  "created",
+                  "deleted",
+                  "modified",
+                  "stopped",
+                  "lockout",
+                  "read",
+                  "logoff",
+                  "updated",
+                  "started",
+                  "restarted",
+                  "unlocked"
+                ],
+                "recommended": true
+              },
+              "fieldName": "action",
+              "displayName": "action",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(action) OR action=\"\",\"unknown\",action)"
+        }
+      ],
+      "constraints": [
+        {
+          "search": "(`cim_Change_indexes`) tag=change NOT (object_category=file OR object_category=directory OR object_category=registry)"
+        }
+      ],
+      "children": [
+
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "change",
+          "audit"
+        ]
+      },
+      "objectName": "Auditing_Changes",
+      "displayName": "Auditing Changes",
+      "parentName": "All_Changes",
+      "fields": [
+
+      ],
+      "calculations": [
+
+      ],
+      "constraints": [
+        {
+          "search": "tag=audit"
+        }
+      ],
+      "children": [
+
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "change",
+          "endpoint"
+        ]
+      },
+      "objectName": "Endpoint_Changes",
+      "displayName": "Endpoint Changes",
+      "parentName": "All_Changes",
+      "fields": [
+
+      ],
+      "calculations": [
+
+      ],
+      "constraints": [
+        {
+          "search": "tag=endpoint"
+        }
+      ],
+      "children": [
+
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "change",
+          "endpoint"
+        ]
+      },
+      "objectName": "Endpoint_Restarts",
+      "displayName": "Endpoint Restarts",
+      "parentName": "Endpoint_Changes",
+      "fields": [
+
+      ],
+      "calculations": [
+
+      ],
+      "constraints": [
+        {
+          "search": "action=modified change_type=restart"
+        }
+      ],
+      "children": [
+
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "change",
+          "endpoint"
+        ]
+      },
+      "objectName": "Other_Endpoint_Changes",
+      "displayName": "Other Endpoint Changes",
+      "parentName": "Endpoint_Changes",
+      "fields": [
+
+      ],
+      "calculations": [
+
+      ],
+      "constraints": [
+        {
+          "search": "NOT change_type=restart"
+        }
+      ],
+      "children": [
+
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "change",
+          "network"
+        ]
+      },
+      "objectName": "Network_Changes",
+      "displayName": "Network Changes",
+      "parentName": "All_Changes",
+      "fields": [
+        {
+          "comment": {
+            "description": "For network events, the outgoing traffic for a specific destination IP address range.  Specify a single IP address, or an IP address range in CIDR notation (for example, 203.0.113.5/32)",
+            "ta_relevant": false
+          },
+          "fieldName": "dest_ip_range",
+          "displayName": "dest_ip_range",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "For network events, this field represents destination port or range. For example, 80 or 8000 - 8080 or 80,443",
+            "ta_relevant": false
+          },
+          "fieldName": "dest_port_range",
+          "displayName": "dest_port_range",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "For network events, this field represents whether the traffic is inbound or outbound.",
+            "ta_relevant": false
+          },
+          "fieldName": "direction",
+          "displayName": "direction",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field represents the protocol for the network event rule.",
+            "ta_relevant": false
+          },
+          "fieldName": "protocol",
+          "displayName": "protocol",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "For network events, this field represents whether to allow or deny traffic.",
+            "ta_relevant": false
+          },
+          "fieldName": "rule_action",
+          "displayName": "rule_action",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "For network events, this field represents the incoming traffic from a specific source IP address or range. Specify a single IP address, or an IP address range in CIDR notation (for example, 203.0.113.5/32)",
+            "ta_relevant": false
+          },
+          "fieldName": "src_ip_range",
+          "displayName": "src_ip_range",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "For network events, this field represents source port or range. For example, 80 or 8000 - 8080 or 80,443",
+            "ta_relevant": false
+          },
+          "fieldName": "src_port_range",
+          "displayName": "src_port_range",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+
+      ],
+      "constraints": [
+        {
+          "search": "tag=network"
+        }
+      ],
+      "children": [
+
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "change",
+          "network"
+        ]
+      },
+      "objectName": "Device_Restarts",
+      "displayName": "Device Restarts",
+      "parentName": "Network_Changes",
+      "fields": [
+
+      ],
+      "calculations": [
+
+      ],
+      "constraints": [
+        {
+          "search": "action=modified change_type=restart"
+        }
+      ],
+      "children": [
+
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "change",
+          "account"
+        ]
+      },
+      "objectName": "Account_Management",
+      "displayName": "Account Management",
+      "parentName": "All_Changes",
+      "fields": [
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "src_user_bunit",
+          "displayName": "src_user_bunit",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "src_user_category",
+          "displayName": "src_user_category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "src_user_priority",
+          "displayName": "src_user_priority",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "For account management events, this should represent the type of the user changed by the request."
+          },
+          "fieldName": "src_user_type",
+          "displayName": "src_user_type",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        {
+          "calculationID": "Account_Management_fillnull_dest_nt_domain",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The NT domain of the destination, if applicable.",
+                "recommended": true
+              },
+              "fieldName": "dest_nt_domain",
+              "displayName": "dest_nt_domain",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(dest_nt_domain) OR dest_nt_domain=\"\",\"unknown\",dest_nt_domain)"
+        },
+        {
+          "calculationID": "Account_Management_fillnull_src_nt_domain",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The NT domain of the source, if applicable.",
+                "recommended": true
+              },
+              "fieldName": "src_nt_domain",
+              "displayName": "src_nt_domain",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(src_nt_domain) OR src_nt_domain=\"\",\"unknown\",src_nt_domain)"
+        },
+        {
+          "calculationID": "Account_Management_fillnull_src_user",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "For account changes, the user or entity performing the change.",
+                "recommended": true
+              },
+              "fieldName": "src_user",
+              "displayName": "src_user",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(src_user) OR src_user=\"\",\"unknown\",src_user)"
+        },
+        {
+          "calculationID": "Account_Management_fillnull_src_user_name",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "For account changes, the user name of the user or entity performing the change.",
+                "recommended": true
+              },
+              "fieldName": "src_user_name",
+              "displayName": "src_user_name",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(src_user_name) OR src_user_name=\"\",\"unknown\",src_user_name)"
+        }
+      ],
+      "constraints": [
+        {
+          "search": "tag=account"
+        }
+      ],
+      "children": [
+
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "change",
+          "account"
+        ]
+      },
+      "objectName": "Accounts_Created",
+      "displayName": "Created Accounts",
+      "parentName": "Account_Management",
+      "fields": [
+
+      ],
+      "calculations": [
+
+      ],
+      "constraints": [
+        {
+          "search": "action=\"created\""
+        }
+      ],
+      "children": [
+
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "change",
+          "account"
+        ]
+      },
+      "objectName": "Accounts_Deleted",
+      "displayName": "Deleted Accounts",
+      "parentName": "Account_Management",
+      "fields": [
+
+      ],
+      "calculations": [
+
+      ],
+      "constraints": [
+        {
+          "search": "action=\"deleted\""
+        }
+      ],
+      "children": [
+
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "change",
+          "account"
+        ]
+      },
+      "objectName": "Account_Lockouts",
+      "displayName": "Locked Accounts",
+      "parentName": "Account_Management",
+      "fields": [
+
+      ],
+      "calculations": [
+
+      ],
+      "constraints": [
+        {
+          "search": "result=\"lockout\""
+        }
+      ],
+      "children": [
+
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "change",
+          "account"
+        ]
+      },
+      "objectName": "Accounts_Updated",
+      "displayName": "Updated Accounts",
+      "parentName": "Account_Management",
+      "fields": [
+
+      ],
+      "calculations": [
+
+      ],
+      "constraints": [
+        {
+          "search": "action=\"updated\" OR action=\"modified\""
+        }
+      ],
+      "children": [
+
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "change",
+          "instance"
+        ]
+      },
+      "objectName": "Instance_Changes",
+      "displayName": "Instance Changes",
+      "parentName": "All_Changes",
+      "fields": [],
+      "calculations": [
+        {
+          "calculationID": "Instance_fillnull_image_id",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "For create instance events, this field represents the image ID used for creating the instance such as the OS, applications, installed libraries, and more.",
+                "recommended": true
+              },
+              "fieldName": "image_id",
+              "displayName": "image_id",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(image_id) OR image_id=\"\",\"unknown\",image_id)"
+        },
+        {
+          "calculationID": "Instance_fillnull_instance_type",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "For create instance events, this field represents the type of instance to build such as the combination of CPU, memory, storage, and network capacity.",
+                "recommended": true
+              },
+              "fieldName": "instance_type",
+              "displayName": "instance_type",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(instance_type) OR instance_type=\"\",\"unknown\",instance_type)"
+        }
+      ],
+      "constraints": [
+        {
+          "search": "tag=instance"
+        }
+      ],
+      "children": []
+    }
+  ]
+}

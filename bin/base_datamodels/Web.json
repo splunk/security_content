@@ -1,0 +1,806 @@
+{
+  "modelName": "Web",
+  "displayName": "Web",
+  "description": "Web Data Model",
+  "editable": false,
+  "objects": [
+    {
+      "comment": {
+        "tags": [
+          "web"
+        ]
+      },
+      "objectName": "Web",
+      "displayName": "Web",
+      "parentName": "BaseEvent",
+      "fields": [
+        {
+          "comment": {
+            "description": "The application detected or hosted by the server/site such as wordpress, splunk, or facebook."
+          },
+          "fieldName": "app",
+          "displayName": "app",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "Indicates whether the event data is cached or not.",
+            "expected_values": [
+              "true",
+              "false",
+              "1",
+              "0"
+            ]
+          },
+          "fieldName": "cached",
+          "displayName": "cached",
+          "type": "boolean",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The category of traffic, such as may be provided by a proxy server."
+          },
+          "fieldName": "category",
+          "displayName": "category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The cookie file recorded in the event."
+          },
+          "fieldName": "cookie",
+          "displayName": "cookie",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "dest_bunit",
+          "displayName": "dest_bunit",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "dest_category",
+          "displayName": "dest_category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The destination port of the web traffic."
+          },
+          "fieldName": "dest_port",
+          "displayName": "dest_port",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "dest_priority",
+          "displayName": "dest_priority",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The time taken by the proxy event, in milliseconds."
+          },
+          "fieldName": "duration",
+          "displayName": "duration",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The amount of time it took to receive a response, if applicable, in milliseconds."
+          },
+          "fieldName": "response_time",
+          "displayName": "response_time",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The virtual site which services the request, if applicable."
+          },
+          "fieldName": "site",
+          "displayName": "site",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "src_bunit",
+          "displayName": "src_bunit",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "src_category",
+          "displayName": "src_category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "src_priority",
+          "displayName": "src_priority",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This automatically generated field is used to access tags from within data models. Add-on builders do not need to populate it.",
+            "ta_relevant": false
+          },
+          "fieldName": "tag",
+          "displayName": "tag",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The path of the resource served by the webserver or proxy."
+          },
+          "fieldName": "uri_path",
+          "displayName": "uri_path",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The path of the resource requested by the client."
+          },
+          "fieldName": "uri_query",
+          "displayName": "uri_query",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "user_bunit",
+          "displayName": "user_bunit",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "user_category",
+          "displayName": "user_category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "user_priority",
+          "displayName": "user_priority",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        {
+          "calculationID": "Web_fillnull_action",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The action taken by the server or proxy.",
+                "recommended": true
+              },
+              "fieldName": "action",
+              "displayName": "action",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(action) OR action=\"\",\"unknown\",action)"
+        },
+        {
+          "calculationID": "Web_bytes",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The total number of bytes transferred (bytes_in + bytes_out).",
+                "recommended": true
+              },
+              "fieldName": "bytes",
+              "displayName": "bytes",
+              "type": "number",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "case(isnum(bytes),bytes,isnum(bytes_in) AND isnum(bytes_out),bytes_in+bytes_out,1=1,null())"
+        },
+        {
+          "calculationID": "Web_bytes_in",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The number of inbound bytes transferred.",
+                "recommended": true
+              },
+              "fieldName": "bytes_in",
+              "displayName": "bytes_in",
+              "type": "number",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "case(isnum(bytes_in),bytes_in,isnum(bytes) AND isnum(bytes_out),bytes-bytes_out,1=1,null())"
+        },
+        {
+          "calculationID": "Web_bytes_out",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The number of outbound bytes transferred.",
+                "recommended": true
+              },
+              "fieldName": "bytes_out",
+              "displayName": "bytes_out",
+              "type": "number",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "case(isnum(bytes_out),bytes_out,isnum(bytes) AND isnum(bytes_in),bytes-bytes_in,1=1,null())"
+        },
+        {
+          "calculationID": "Web_fillnull_dest",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The destination of the network traffic (the remote host). You can alias this from more specific fields, such as dest_host, dest_ip, or dest_name.",
+                "recommended": true
+              },
+              "fieldName": "dest",
+              "displayName": "dest",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(dest) OR dest=\"\" OR dest=\"-\",\"unknown\",dest)"
+        },
+        {
+          "calculationID": "Web_fillnull_http_content_type",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The content-type of the requested HTTP resource.",
+                "recommended": true
+              },
+              "fieldName": "http_content_type",
+              "displayName": "http_content_type",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(http_content_type) OR http_content_type=\"\" OR http_content_type=\"-\",\"unknown\",http_content_type)"
+        },
+        {
+          "calculationID": "Web_fillnull_http_method",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The HTTP method used in the request.",
+                "expected_values": [
+                  "GET",
+                  "PUT",
+                  "POST",
+                  "DELETE",
+                  "HEAD",
+                  "OPTIONS",
+                  "CONNECT",
+                  "TRACE"
+                ],
+                "recommended": true
+              },
+              "fieldName": "http_method",
+              "displayName": "http_method",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(http_method) OR http_method=\"\" OR http_method=\"-\",\"unknown\",http_method)"
+        },
+        {
+          "calculationID": "0Web_fillnull_http_referrer",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The HTTP referrer used in the request. The W3C specification and many implementations misspell this as http_referer. Use a FIELDALIAS to handle both key names.",
+                "recommended": true
+              },
+              "fieldName": "http_referrer",
+              "displayName": "http_referrer",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(http_referrer) OR http_referrer=\"\" OR http_referrer=\"-\",\"unknown\",http_referrer)"
+        },
+        {
+          "calculationID": "1Web_http_referrer_domain",
+          "calculationType": "Rex",
+          "inputField": "http_referrer",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The domain name contained within the HTTP referrer used in the request.",
+                "recommended": true
+              },
+              "fieldName": "http_referrer_domain",
+              "displayName": "http_referrer_domain",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "^(?:http|https|ftp):\\\/\\\/(?:[a-zA-Z0-9\\.\\-]+(?::[a-zA-Z0-9]+)?@)?(?<http_referrer_domain>[^\\\/:]+)(?::[0-9]+)?"
+        },
+        {
+          "calculationID": "Web_fillnull_http_user_agent",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The user agent used in the request.",
+                "recommended": true
+              },
+              "fieldName": "http_user_agent",
+              "displayName": "http_user_agent",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(http_user_agent) OR http_user_agent=\"\" OR http_user_agent=\"-\",\"unknown\",http_user_agent)"
+        },
+        {
+          "calculationID": "Web_http_user_agent_length",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The length of the user agent used in the request.",
+                "ta_relevant": false
+              },
+              "fieldName": "http_user_agent_length",
+              "displayName": "http_user_agent_length",
+              "type": "number",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "len(http_user_agent)"
+        },
+        {
+          "calculationID": "Web_fillnull_src",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The source of the network traffic (the client requesting the connection).",
+                "recommended": true
+              },
+              "fieldName": "src",
+              "displayName": "src",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(src) OR src=\"\" OR src=\"-\",\"unknown\",src)"
+        },
+        {
+          "calculationID": "Web_fillnull_status",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The HTTP response code indicating the status of the proxy request.",
+                "expected_values": [
+                  "100",
+                  "101",
+                  "102",
+                  "200",
+                  "201",
+                  "202",
+                  "203",
+                  "204",
+                  "205",
+                  "206",
+                  "207",
+                  "208",
+                  "226",
+                  "300",
+                  "301",
+                  "302",
+                  "303",
+                  "304",
+                  "305",
+                  "306",
+                  "307",
+                  "308",
+                  "400",
+                  "401",
+                  "402",
+                  "403",
+                  "404",
+                  "405",
+                  "406",
+                  "407",
+                  "408",
+                  "409",
+                  "410",
+                  "411",
+                  "412",
+                  "413",
+                  "414",
+                  "415",
+                  "416",
+                  "417",
+                  "422",
+                  "423",
+                  "424",
+                  "426",
+                  "428",
+                  "429",
+                  "431",
+                  "500",
+                  "501",
+                  "502",
+                  "503",
+                  "504",
+                  "505",
+                  "506",
+                  "507",
+                  "508",
+                  "510",
+                  "511"
+                ],
+                "recommended": true
+              },
+              "fieldName": "status",
+              "displayName": "status",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(status) OR status=\"\" OR status=\"-\",\"unknown\",status)"
+        },
+        {
+          "calculationID": "0Web_fillnull_url",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The URL of the requested HTTP resource.",
+                "recommended": true
+              },
+              "fieldName": "url",
+              "displayName": "url",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(url) OR url=\"\" OR url=\"-\",\"unknown\",url)"
+        },
+        {
+          "calculationID": "1Web_url_domain",
+          "calculationType": "Rex",
+          "inputField": "url",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The domain name contained within the URL of the requested HTTP resource.",
+                "recommended": true
+              },
+              "fieldName": "url_domain",
+              "displayName": "url_domain",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "^(?:http|https|ftp):\\\/\\\/(?:[a-zA-Z0-9\\.\\-]+(?::[a-zA-Z0-9]+)?@)?(?<url_domain>[^\\\/:]+)(?::[0-9]+)?"
+        },
+        {
+          "calculationID": "2Web_url_length",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The length of the URL.",
+                "ta_relevant": false
+              },
+              "fieldName": "url_length",
+              "displayName": "url_length",
+              "type": "number",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "len(url)"
+        },
+        {
+          "calculationID": "Web_fillnull_user",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The user that requested the HTTP resource.",
+                "recommended": true
+              },
+              "fieldName": "user",
+              "displayName": "user",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(user) OR user=\"\",\"unknown\",user)"
+        },
+        {
+          "calculationID": "Web_vendor_product",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The vendor and product of the proxy server, such as Squid Proxy Server. This field can be automatically populated by vendor and product fields in your data.",
+                "recommended": true
+              },
+              "fieldName": "vendor_product",
+              "displayName": "vendor_product",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "case(isnotnull(vendor_product),vendor_product,isnotnull(vendor) AND vendor!=\"unknown\" AND isnotnull(product) AND product!=\"unknown\",vendor.\" \".product,isnotnull(vendor) AND vendor!=\"unknown\" AND (isnull(product) OR product=\"unknown\"),vendor.\" unknown\",(isnull(vendor) OR vendor=\"unknown\") AND isnotnull(product) AND product!=\"unknown\",\"unknown \".product,isnotnull(sourcetype),sourcetype,1=1,\"unknown\")"
+        }
+      ],
+      "constraints": [
+        {
+          "search": "(`cim_Web_indexes`) tag=web"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "web",
+          "proxy"
+        ]
+      },
+      "objectName": "Proxy",
+      "displayName": "Proxy",
+      "parentName": "Web",
+      "fields": [
+        
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "tag=proxy"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "web",
+          "storage"
+        ]
+      },
+      "objectName": "Storage",
+      "displayName": "Storage",
+      "parentName": "Web",
+      "fields": [
+        {
+          "comment": {
+            "description": "The name of the bucket or storage account.",
+            "ta_relevant": false
+          },
+          "fieldName": "storage_name",
+          "displayName": "storage_name",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The operation performed on the storage account.",
+            "ta_relevant": false
+          },
+          "fieldName": "operation",
+          "displayName": "operation",
+          "type": "string",   
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The error code that occurred while accessing the storage account.",
+            "ta_relevant": false
+          },
+          "fieldName": "error_code",
+          "displayName": "error_code",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }  
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "tag=storage"
+        }
+      ],
+      "children": [
+         
+      ]
+    }
+  ]
+}
