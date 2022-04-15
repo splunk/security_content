@@ -98,8 +98,9 @@ def load_datamodels_from_directory(datamodels_directory:str)->dict:
     return all_models
 
 
-def get_datamodels(search:str)->dict:
+def get_datamodels(filename:str, search:str)->tuple[bool,dict]:
     #print(search)
+    errors = []
     matches = re.findall(DATAMODEL_PATTERN, search)
 
     #get the models and strip out the whitespace
@@ -112,7 +113,7 @@ def get_datamodels(search:str)->dict:
     results = {}
     for model_and_submodel in models_and_submodels:
         if model_and_submodel.count(".") != 1:
-            print(f"datamodel {model_and_submodel} is not in model.submodel format in {filename}")
+            errors.append(f"datamodel {model_and_submodel} is not in model.submodel format")
         else:
             model, submodel = model_and_submodel.split(".")
             if model in results:
@@ -122,7 +123,14 @@ def get_datamodels(search:str)->dict:
     #If we only care about the top level
     #models_only = [model.split(".")[0].strip() for model in models_and_submodels]
 
-    return results
+    if len(errors) > 0:
+        print(f"Error(s) getting the datamodel(s) for [{filename}] ")
+        for error in errors:
+            print(f"{SMALL_INDENT} {error}")
+        return (False,{})
+    else:
+    
+        return (True, results)
 
 def remove_datamodel_submodel_from_fields(defined_datamodels:dict ,fields:set[str])->set[str]:
     
@@ -421,7 +429,11 @@ def update_datamodels(filename:str, defined_datamodels:dict, detection_file_data
 
     
     #Pull the datamodel(s) from the search
-    search_datamodels = get_datamodels(detection_file_data['search'])
+    success, search_datamodels = get_datamodels(filename, detection_file_data['search'])
+    if success == False:
+        return (False, False, detection_file_data)
+
+
     #Validate that the datamodel(s) we pulled from the search exist
     success, submodels_with_fields = validate_datamodels(filename, search_datamodels, defined_datamodels)
 

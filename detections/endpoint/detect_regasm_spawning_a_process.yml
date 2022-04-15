@@ -15,7 +15,7 @@ description: The following analytic identifies regasm.exe spawning a process. Th
   regsvcs.exe and regasm.exe are natively found in C:\Windows\Microsoft.NET\Framework\v*\regasm|regsvcs.exe
   and C:\Windows\Microsoft.NET\Framework64\v*\regasm|regsvcs.exe.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=regasm.exe
+  as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name="regasm.exe"
   by Processes.dest Processes.user Processes.parent_process Processes.process_name
   Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `detect_regasm_spawning_a_process_filter`'

@@ -4,8 +4,7 @@ version: 1
 date: '2022-03-29'
 author: Patrick Bareiss, Splunk
 type: TTP
-datamodel:
-- Endpoint
+datamodel: []
 description: Detect usage of plutil to modify plist files. Adversaries can modiy plist files to executed binaries or add command line
   arguments. Plist files in auto-run locations are executed upon user logon or system startup.
 search: '`osquery` name=es_process_events columns.path=/usr/bin/plutil
@@ -66,4 +65,3 @@ tags:
   - host
   risk_score: 25
   security_domain: endpoint
-

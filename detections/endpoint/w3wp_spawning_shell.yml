@@ -16,7 +16,7 @@ description: This query identifies a shell, PowerShell.exe or Cmd.exe, spawning 
   to contain the threat and patch the system that is vulnerable.
 search: '| tstats `security_content_summariesonly` count values(Processes.process_name)
   as process_name values(Processes.process) as process min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=w3wp.exe
+  as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name="w3wp.exe"
   AND `process_cmd` OR `process_powershell` by Processes.dest Processes.parent_process
   Processes.original_file_name Processes.user | `drop_dm_object_name(Processes)` |
   `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `w3wp_spawning_shell_filter`'
