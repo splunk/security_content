@@ -15,7 +15,9 @@ DATAMODEL_PATTERN = r"datamodel\s*=?\s*\S*"
 QUOTATIONS_PATTERN = r'''(["'])(?:(?=(\\?))\2.)*?\1'''
 KEY_VALUE_PATTERN = r"[a-zA-Z0-9_]+\.[a-zA-Z0-9_]+"
 
-def dictPrint(d):
+SMALL_INDENT = '  -'
+
+def dictPrint(d:dict):
 
     printer = pprint.PrettyPrinter(indent=3)
     printer.pprint(d)
@@ -96,7 +98,7 @@ def load_datamodels_from_directory(datamodels_directory:str)->dict:
     return all_models
 
 
-def get_datamodels(search:str, filename:str)->list[tuple[str,str]]:
+def get_datamodels(search:str)->dict:
     #print(search)
     matches = re.findall(DATAMODEL_PATTERN, search)
 
@@ -107,21 +109,22 @@ def get_datamodels(search:str, filename:str)->list[tuple[str,str]]:
     models_and_submodels = [model.replace(" ","=").split("=")[1].strip() for model in matches]
 
 
-    results = []
+    results = {}
     for model_and_submodel in models_and_submodels:
         if model_and_submodel.count(".") != 1:
             print(f"datamodel {model_and_submodel} is not in model.submodel format in {filename}")
         else:
-            m,s = model_and_submodel.split(".")
-            results.append((m,s))
-
-
+            model, submodel = model_and_submodel.split(".")
+            if model in results:
+                results[model].append(submodel)
+            else:
+                results[model]=[submodel]
     #If we only care about the top level
     #models_only = [model.split(".")[0].strip() for model in models_and_submodels]
 
     return results
 
-def get_tokens(search:str):
+def get_datamodel_fields(search:str):
     quoted_text_removed = re.sub(QUOTATIONS_PATTERN, "", search)
     return set(re.findall(KEY_VALUE_PATTERN, quoted_text_removed))
 
@@ -176,7 +179,7 @@ def update_required_fields_for_yaml(filename:str, search:str, required_fields:se
             #input("waiting...\n")
     '''
 
-    toks = get_tokens(search)
+    toks = get_datamodel_fields(search)
 
     #print(defined_datamodels)
     #print(toks)
@@ -323,9 +326,9 @@ def verify_dataset_field(filename:str, detection_file_data:dict)->tuple[bool,boo
     if len(diff) > 0:
         print(f"{len(diff)} Error(s) for {filename:}")
         for data_file in (test_file_data_files - detection_file_data_files):
-            print(f"\tTest file references file NOT detection file:\n\t\t{data_file}")
+            print(f"\tTest file references file NOT detection file:\n\t{SMALL_INDENT} {data_file}")
         for data_file in (detection_file_data_files - test_file_data_files):
-            print(f"\tDetection file references file NOT included in the test file:\n\t\t{data_file}")
+            print(f"\tDetection file references file NOT included in the test file:\n\t{SMALL_INDENT} {data_file}")
         print("")
         return (False,False,detection_file_data)
     
@@ -336,6 +339,56 @@ def verify_dataset_field(filename:str, detection_file_data:dict)->tuple[bool,boo
     
 
 
+def validate_datamodels(filename:str, search_datamodels:dict, defined_datamodels:dict)->tuple[bool,dict]:
+    errors = []
+    submodels_with_fields = {}
+
+    for search_datamodel in search_datamodels:
+        if search_datamodel not in defined_datamodels:
+            errors.append(f"Failed to find the datamodel {search_datamodel} in predefined datamodels {defined_datamodels.keys()}")
+            continue
+        for submodel in search_datamodels[search_datamodel]:
+            if submodel not in defined_datamodels[search_datamodel]:
+                errors.append(f"Failed to find {'.'.join([search_datamodel,submodel])} in {search_datamodel}: {defined_datamodels[search_datamodel].keys()} ")
+            elif submodel not in submodels_with_fields:
+                submodels_with_fields[submodel] = defined_datamodels[search_datamodel][submodel]
+
+                
+    if len(errors) == 0:
+        return (True, submodels_with_fields)
+    else:
+        #There was at least one error, print it out
+        print(f"Error(s) validating the search datamodel for {filename}:")
+        for error in errors:
+            print(f"{SMALL_INDENT} {error}")
+        return (False, {})
+
+
+
+def validate_fields(filename:str, submodels_with_fields:dict, search_submodel_fields:set)->bool:
+    errors = []
+
+    for field in search_submodel_fields:
+        tokens = field.split(".")
+        if len(tokens) <= 1:
+            errors.append(f"Failed to find a submodel and a model for {field}") 
+        elif len(tokens) == 2:
+            submodel, field = tokens
+        else:
+            errors.append(f"Found more than just a submodel and field for {field}")
+
+
+    input("waiting...")
+    if len(errors) == 0:
+        return True
+    else:
+        #There was at least one error, print it out
+        print(f"Error(s) validating the datamodel fields in the search for {filename}:")
+        for error in errors:
+            print(f"{SMALL_INDENT} {error}")
+        return False
+
+
 def update_datamodels(filename:str, defined_datamodels:dict, detection_file_data: dict)->tuple[bool,bool,dict]:
     if not check_for_presence_of_fields(filename, detection_file_data, ["search","tags"]):
         return (False,False,detection_file_data)
@@ -343,9 +396,34 @@ def update_datamodels(filename:str, defined_datamodels:dict, detection_file_data
     if not check_for_presence_of_fields(filename, detection_file_data["tags"], ["required_fields"]):
         return (False,False,detection_file_data)
     
-    datamodel_fields = get_tokens(detection_file_data['search'])
-    print(f"{filename}:\n\t{datamodel_fields}")
-    sys.exit(0)
+
+    if not check_for_presence_of_fields(filename, detection_file_data, ["datamodel"]):
+        return (False,False,detection_file_data)
+
+    
+    #Pull the datamodel(s) from the search
+    search_datamodels = get_datamodels(detection_file_data['search'])
+    #Validate that the datamodel(s) we pulled from the search exist
+    success, submodels_with_fields = validate_datamodels(filename, search_datamodels, defined_datamodels)
+
+    
+    if len(detection_file_data["datamodel"]) == 0 and len(search_datamodels) == 0:
+        print(f"{filename} is a search that does not contain any datamodels.  required_fields will not be validated or updated")
+        if "tstats" in detection_file_data["search"]:
+            print(f"{SMALL_INDENT} Error - how can it contain no datamodels if it contains tstats?  Raw search:\n\t{detection_file_data['search']}")
+            return (False,False,detection_file_data)            
+        return (True,False,detection_file_data)        
+
+    #Pull all the the datamodel fields from the search
+    search_submodel_fields = get_datamodel_fields(detection_file_data['search'])
+
+    #Validate the fields we pulled from the search
+    validate_fields(filename, submodels_with_fields, search_submodel_fields)
+
+
+
+    #print(f"{filename}:\n\t{datamodel_fields}")
+    #sys.exit(0)
 
 
 
