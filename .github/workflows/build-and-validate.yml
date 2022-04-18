@@ -199,6 +199,7 @@ jobs:
 
             #test
             cat dist/api/version.json
+            ls dist/api
 
       
       - name: Persist to Workspace
