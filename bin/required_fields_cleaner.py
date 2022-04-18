@@ -11,6 +11,7 @@ import pathlib
 
 #find datamodel=SOMETHING, allowing for whitespace on either side of =
 DATAMODEL_PATTERN = r"datamodel\s*=?\s*\S*"
+NODENAME_PATTERN = r"datamodel\s*=?\s*\S*"
 
 QUOTATIONS_PATTERN = r'''(["'])(?:(?=(\\?))\2.)*?\1'''
 KEY_VALUE_PATTERN = r"[a-zA-Z0-9_]+\.[a-zA-Z0-9_]+"
@@ -33,17 +34,19 @@ def parse_datamodel(datamodel_name, object)->dict:
     #print(object['calculations'])
     #input("W")
     allFields = []
+    #Include all of the fields
     if 'fields' in object:
         allFields += object['fields']
 
+    #Include all of the calculations
     if 'calculations' in object:
         for calc_dict in object['calculations']:
             if 'outputFields' in calc_dict:
                 allFields += calc_dict['outputFields']
 
 
+    #Calculate longer paths for everything, which we may or may not use
     for field in allFields:
-
         fieldName = field['fieldName']
         if fieldName in submodules:
             raise(Exception(f"Duplicate Field {field} in {datamodel_name}"))
@@ -51,6 +54,7 @@ def parse_datamodel(datamodel_name, object)->dict:
         submodel_fieldname = f"{object['objectName']}.{fieldName}"
         model_submodel_fieldname =  f"{datamodel_name}.{submodel_fieldname}"
         submodules[fieldName] = {"field_name": fieldName, "submodel.fieldname": submodel_fieldname, "datamodel.submodel.field_name": model_submodel_fieldname}
+
 
 
     return submodules
@@ -410,7 +414,7 @@ def validate_fields(filename:str, submodels_with_fields:dict, search_submodel_fi
         return True
     else:
         #There was at least one error, print it out
-        print(f"Error(s) validating the datamodel fields in the search for {filename}:")
+        print(f"Error(s) validating the datamodel fields in the search for [{filename}]:")
         for error in errors:
             print(f"{SMALL_INDENT} {error}")
         return False
