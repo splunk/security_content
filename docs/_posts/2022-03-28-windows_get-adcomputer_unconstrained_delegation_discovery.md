@@ -157,4 +157,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/windows_get-adcomputer_unconstrained_delegation_discovery.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/windows_get_adcomputer_unconstrained_delegation_discovery.yml) \| *version*: **1**
