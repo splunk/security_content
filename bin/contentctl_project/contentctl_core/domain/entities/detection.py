@@ -51,6 +51,7 @@ class Detection(BaseModel, SecurityContentObject):
     splunk_app_enrichment: list = None
     file_path: str = None
     source: str = None
+    nes_fields: str = None
 
 
     # @validator('name')

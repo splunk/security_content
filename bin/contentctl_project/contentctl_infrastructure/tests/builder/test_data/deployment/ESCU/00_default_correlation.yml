@@ -16,7 +16,6 @@ alert_action:
     nes_fields:
     - user
     - dest
-    - src
 tags:
   type: 'Correlation'
   product: ESCU

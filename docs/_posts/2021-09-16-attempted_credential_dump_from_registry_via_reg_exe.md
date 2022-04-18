@@ -113,8 +113,8 @@ Monitor for execution of reg.exe with parameters specifying an export of keys th
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [process_cmd](https://github.com/splunk/security_content/blob/develop/macros/process_cmd.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [process_reg](https://github.com/splunk/security_content/blob/develop/macros/process_reg.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
