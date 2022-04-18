@@ -10,21 +10,20 @@ description: The following hunting analytic identifies PowerShell commands utili
   For example w, win, windowsty and so forth. In addition, through our research it
   was identified that PowerShell will interpret different command switch types beyond
   the hyphen. We have added endash, emdash, horizontal bar, and forward slash.
-search: "| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,\
-  \ \"_time\"), \"string\", null)), cmd_line=lower(ucast(map_get(input_event, \"process\"\
-  ), \"string\", null)), process_name=lower(ucast(map_get(input_event, \"process_name\"\
-  ), \"string\", null)), process_path=ucast(map_get(input_event, \"process_path\"\
-  ), \"string\", null), parent_process_name=ucast(map_get(input_event, \"parent_process_name\"\
-  ), \"string\", null), event_id=ucast(map_get(input_event, \"event_id\"), \"string\"\
-  , null) | where cmd_line IS NOT NULL AND process_name IS NOT NULL | where process_name=\"\
-  pwsh.exe\" OR process_name=\"pwsh.exe\" OR process_name=\"sqlps.exe\" OR process_name=\"\
-  sqltoolsps.exe\" OR process_name=\"powershell.exe\" OR process_name=\"powershell_ise.exe\"\
-  \ | where match_regex(cmd_line, /(?i)[\\\\-|\\\\/|\u2013\\|\u2014|\u2015]w(in*d*o*w*s*t*y*l*e*)*\\\
-  \\s+[^-]/)=true | eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event,\
-  \ \"dest_user_id\"), \"string\", null), ucast(map_get(input_event, \"dest_device_id\"\
-  ), \"string\", null)), body=create_map([\"event_id\", event_id, \"cmd_line\", cmd_line,\
-  \ \"process_name\", process_name, \"parent_process_name\", parent_process_name,\
-  \ \"process_path\", process_path]) | into write_ssa_detected_events();"
+search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
+  "_time"), "string", null)), process=lower(ucast(map_get(input_event, "process"),
+  "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"),
+  "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string",
+  null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string",
+  null), event_id=ucast(map_get(input_event, "event_id"), "string", null) | where
+  process IS NOT NULL AND process_name IS NOT NULL | where process_name="pwsh.exe"
+  OR process_name="pwsh.exe" OR process_name="sqlps.exe" OR process_name="sqltoolsps.exe"
+  OR process_name="powershell.exe" OR process_name="powershell_ise.exe" | where match_regex(process,
+  /(?i)[\-|\/]w(in*d*o*w*s*t*y*l*e*)*\s+[^-]/)=true | eval start_time=timestamp, end_time=timestamp,
+  entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event,
+  "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "process",
+  process, "process_name", process_name, "parent_process_name", parent_process_name,
+  "process_path", process_path]) | into write_ssa_detected_events();'
 how_to_implement: You must be ingesting data that records process activity from your
   hosts to populate the Endpoint data model in the Processes node. You must also be
   ingesting logs with both the process name and command line from your endpoints.
@@ -61,7 +60,7 @@ tags:
   - process_path
   - dest_user_id
   - process
-  - cmd_line
+  - process
   risk_score: 35
   security_domain: endpoint
   risk_severity: low
