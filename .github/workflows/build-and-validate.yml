@@ -195,8 +195,13 @@ jobs:
             # create version.json for dist/api
             # example:   {"version":{"name":"v3.37.1","published_at":"2022-04-04T18:15:38Z"}}
             ls -l dist/escu/default/content-version.conf
+            git branch
+            printf "\n\n"
+            git status
+            printf "\n\n"
             echo "git log TS:"
             git log -n 1 --pretty=format:%ci -- dist/escu/default/content-version.conf | sed 's/ /_/g'
+            printf "\n\n"
             VERSION_TS=$(git log -n 1 --pretty=format:%ci -- dist/escu/default/content-version.conf | sed 's/ /_/g')
             echo "{\"version\":{\"name\":\"$CONTENT_VERSION\",\"published_at\":\"$VERSION_TS\"}}" > dist/api/version.json
 
