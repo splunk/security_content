@@ -122,6 +122,7 @@ The following hunting analytic identifies renamed instances of rundll32.exe exec
 
 #### Macros
 The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [process_rundll32](https://github.com/splunk/security_content/blob/develop/macros/process_rundll32.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)

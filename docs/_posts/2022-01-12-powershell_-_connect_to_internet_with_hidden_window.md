@@ -183,4 +183,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/powershell_-_connect_to_internet_with_hidden_window.yml) \| *version*: **8**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/powershell___connect_to_internet_with_hidden_window.yml) \| *version*: **8**

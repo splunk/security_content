@@ -168,4 +168,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/msi_module_loaded_by_non-system_binary.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/msi_module_loaded_by_non_system_binary.yml) \| *version*: **1**
