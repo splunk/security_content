@@ -213,14 +213,14 @@ def doc_gen(args) -> None:
 
 def new_content(args) -> None:
     if args.type == 'detection':
-        type = SecurityContentType.detections
+        content_type = SecurityContentType.detections
     elif args.type == 'story':
-        type = SecurityContentType.stories
+        content_type = SecurityContentType.stories
     else:
         print("ERROR: type " + args.type + " not supported")
         sys.exit(1)
 
-    new_content_factory_input_dto = NewContentFactoryInputDto(type)
+    new_content_factory_input_dto = NewContentFactoryInputDto(content_type)
     new_content_input_dto = NewContentInputDto(new_content_factory_input_dto, ObjToYmlAdapter())
     new_content = NewContent()
     new_content.execute(new_content_input_dto)
