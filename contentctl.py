@@ -10,6 +10,8 @@ from bin.contentctl_project.contentctl_core.application.use_cases.validate impor
 from bin.contentctl_project.contentctl_core.application.use_cases.doc_gen import DocGenInputDto, DocGen
 from bin.contentctl_project.contentctl_core.application.use_cases.new_content import NewContentInputDto, NewContent
 from bin.contentctl_project.contentctl_core.application.use_cases.reporting import ReportingInputDto, Reporting
+from bin.contentctl_project.contentctl_core.application.use_cases.clean import Clean
+from bin.contentctl_project.contentctl_core.application.use_cases.deploy import Deploy
 from bin.contentctl_project.contentctl_core.application.factory.factory import FactoryInputDto
 from bin.contentctl_project.contentctl_core.application.factory.ba_factory import BAFactoryInputDto
 from bin.contentctl_project.contentctl_core.application.factory.new_content_factory import NewContentFactoryInputDto
