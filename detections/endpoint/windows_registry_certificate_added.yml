@@ -27,7 +27,7 @@ references:
 - https://github.com/redcanaryco/atomic-red-team/tree/master/atomics/T1553.004
 tags:
   analytic_story:
-  - Windows Rootkits
+  - Windows Drivers
   - Windows Registry Abuse
   cis20:
   - CIS 3

@@ -36,7 +36,7 @@ tags:
   analytic_story:
   - Ransomware
   - Windows Registry Abuse
-  - Windows Rootkits
+  - Windows Drivers
   confidence: 70
   context:
   - Source:Endpoint
