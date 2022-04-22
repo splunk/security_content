@@ -17,7 +17,7 @@ search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint
   | `security_content_ctime(lastTime)`
   | `windows_registry_delete_task_sd_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Registry` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
-known_false_positives: False positives should be limited as the activity is not common to delete ONLY the SD from the registry. Filter as needed.
+known_false_positives: False positives should be limited as the activity is not common to delete ONLY the SD from the registry. Filter as needed. Update the analytic Modified or Deleted values based on product that is in the datamodel.
 references:
 - https://www.microsoft.com/security/blog/2022/04/12/tarrask-malware-uses-scheduled-tasks-for-defense-evasion/
 - https://gist.github.com/MHaggis/5f7fd6745915166fc6da863d685e2728
