@@ -249,6 +249,12 @@ def reporting(args) -> None:
     reporting.execute(reporting_input_dto)
 
 
+def clean(args) -> None:
+    pass
+
+def deploy(args) -> None:
+    pass
+
 def main(args):
 
     init()
@@ -268,6 +274,10 @@ def main(args):
     docgen_parser = actions_parser.add_parser("docgen", help="Generates documentation")
     new_content_parser = actions_parser.add_parser("new_content", help="Create new security content object")
     reporting_parser = actions_parser.add_parser("reporting", help="Create security content reporting")
+    clean_parser = actions_parser.add_parser("clean", help="Remove all content from Security Content.  "
+                                                            "This allows a user to easily add their own content and, eventually, "
+                                                            "build a custom application consisting of their custom content.")
+    deploy_parser = actions_parser.add_parser("deploy", help="Install an application on a target Splunk Search Head.")
 
     # # new arguments
     # new_parser.add_argument("-t", "--type", required=False, type=str, default="detection",
@@ -300,6 +310,13 @@ def main(args):
     new_content_parser.set_defaults(func=new_content)
 
     reporting_parser.set_defaults(func=reporting)
+
+    clean_parser.set_defaults(func=clean)
+
+    deploy_parser.add_argument("-a", "--search_head_address", required=True, type=str, help="The address of the Splunk Search Head to deploy the application to.")
+    deploy_parser.add_argument("-u", "--username", required=True, type=str, help="Username for Splunk Search Head.  Note that this user MUST be able to install applications.")
+    deploy_parser.add_argument("-p", "--password", required=True, type=str, help="Password for Splunk Search Head.")
+    deploy_parser.set_defaults(func=deploy)
 
     # # parse them
     args = parser.parse_args()
