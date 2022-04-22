@@ -24,7 +24,7 @@ references:
   - https://www.fuzzysecurity.com/tutorials/28.html
 tags:
   analytic_story:
-  - Windows Rootkits
+  - Windows Drivers
   cis20:
   - CIS 3
   - CIS 5
