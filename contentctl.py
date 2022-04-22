@@ -252,7 +252,8 @@ def reporting(args) -> None:
 
 
 def clean(args) -> None:
-    pass
+    Clean(args)
+    
 
 def deploy(args) -> None:
     pass

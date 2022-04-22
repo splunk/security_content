@@ -2,9 +2,31 @@ import re
 import glob
 import os
 
+#f-strings cannot include a backslash, so we include this as a constant
+NEWLINE_INDENT = "\n\t"
 class Clean:
     def __init__(self, args):
-        pass
+        self.items_scanned = []
+        self.items_deleted = []
+        self.items_kept = []
+        self.items_deleted_failed = []
+        self.success = self.remove_all_content()
+        
+        self.print_results_summary()
+        return self.success
+
+    def print_results_summary(self):
+        if self.success is True:
+            print("security content has been cleaned successfully!\n"
+                  "Ready for your custom constent!")
+        else:
+            print("**Failure(s) cleaning security content - check log for details**")
+        print(f"\n\tSummary"
+              f"\n\tItems Scanned  : {len(self.items_scanned)}"
+              f"\n\tItems Kept     : {len(self.items_kept)}"
+              f"\n\tItems Deleted  : {len(self.items_deleted)}"
+              f"\n\tDeletion Failed: {len(self.items_deleted_failed)}"
+        )
 
     def remove_all_content(self)-> bool:
         errors = []
@@ -32,7 +54,7 @@ class Clean:
         if len(errors) == 0:
             return True
         else:
-            print(f"Clean failed on the following steps:\n\t{'\n\t'.join(errors)}")
+            print(f"Clean failed on the following steps:{NEWLINE_INDENT}{NEWLINE_INDENT.join(errors)}")
             return False
         
     def remove_detections(self, glob_patterns:list[str]=["detections/**/*.yml"], keep:list[str]=[]) -> bool:
@@ -55,7 +77,7 @@ class Clean:
 
     def remove_stories(self, glob_patterns:list[str]=["stories/**/*.yml"], keep:list[str]=[]) -> bool:
         return self.remove_by_glob_patterns(glob_patterns, keep)
-        
+
     def remove_tests(self, glob_patterns:list[str]=["tests/**/*.yml"], keep:list[str]=[]) -> bool:
         return self.remove_by_glob_patterns(glob_patterns, keep)
     
@@ -69,6 +91,7 @@ class Clean:
         try:
             matched_filenames = glob.glob(glob_pattern)
             for filename in matched_filenames:
+                self.items_scanned.append(filename)
                 success &= self.remove_file(filename, keep)
             return success
         except Exception as e:
@@ -81,6 +104,7 @@ class Clean:
         for keep_pattern in keep:
             if re.search(keep_pattern, filename) is not None:
                 print(f"Preserving file {filename} which conforms to the keep regex {keep_pattern}")
+                self.items_kept.append(filename)
                 return True
             
         #File will be deleted - it was not identified as a file to keep
@@ -88,9 +112,11 @@ class Clean:
         #the folder hierarchy.  If we want to delete folders, we will need to update this library
         try:
             os.remove(filename)
+            self.items_deleted.append(filename)
             return True
         except Exception as e:
             print(f"Error deleting file {filename}: {str(e)}")
+            self.items_deleted_failed.append(filename)
             return False
         
     
