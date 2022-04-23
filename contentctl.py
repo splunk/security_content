@@ -12,6 +12,8 @@ from bin.contentctl_project.contentctl_core.application.use_cases.new_content im
 from bin.contentctl_project.contentctl_core.application.use_cases.reporting import ReportingInputDto, Reporting
 from bin.contentctl_project.contentctl_core.application.use_cases.clean import Clean
 from bin.contentctl_project.contentctl_core.application.use_cases.deploy import Deploy
+from bin.contentctl_project.contentctl_core.application.use_cases.build import Build
+from bin.contentctl_project.contentctl_core.application.use_cases.inspect import Inspect
 from bin.contentctl_project.contentctl_core.application.factory.factory import FactoryInputDto
 from bin.contentctl_project.contentctl_core.application.factory.ba_factory import BAFactoryInputDto
 from bin.contentctl_project.contentctl_core.application.factory.new_content_factory import NewContentFactoryInputDto
@@ -254,6 +256,12 @@ def reporting(args) -> None:
 def clean(args) -> None:
     Clean(args)
 
+
+def build(args) -> None:
+    Build(args)
+
+def inspect(args) -> None:
+    Inspect(args)
 
 def deploy(args) -> None:
     Deploy(args)
