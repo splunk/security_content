@@ -13,7 +13,7 @@ class Clean:
         self.success = self.remove_all_content()
         
         self.print_results_summary()
-        return self.success
+        
 
     def print_results_summary(self):
         if self.success is True:
@@ -21,7 +21,7 @@ class Clean:
                   "Ready for your custom constent!")
         else:
             print("**Failure(s) cleaning security content - check log for details**")
-        print(f"\n\tSummary"
+        print(f"Summary:"
               f"\n\tItems Scanned  : {len(self.items_scanned)}"
               f"\n\tItems Kept     : {len(self.items_kept)}"
               f"\n\tItems Deleted  : {len(self.items_deleted)}"

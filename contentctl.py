@@ -253,10 +253,10 @@ def reporting(args) -> None:
 
 def clean(args) -> None:
     Clean(args)
-    
+
 
 def deploy(args) -> None:
-    pass
+    Deploy(args)
 
 def main(args):
 
@@ -280,6 +280,10 @@ def main(args):
     clean_parser = actions_parser.add_parser("clean", help="Remove all content from Security Content.  "
                                                             "This allows a user to easily add their own content and, eventually, "
                                                             "build a custom application consisting of their custom content.")
+
+    build_parser = actions_parser.add_parser("build", help="Build an application suitable for deployment to a search head")
+    inspect_parser = actions_parser.add_parser("inspect", help="Run appinspect to ensure that an app meets minimum requirements for deployment.")
+
     deploy_parser = actions_parser.add_parser("deploy", help="Install an application on a target Splunk Search Head.")
 
     # # new arguments
@@ -316,9 +320,18 @@ def main(args):
 
     clean_parser.set_defaults(func=clean)
 
-    deploy_parser.add_argument("-a", "--search_head_address", required=True, type=str, help="The address of the Splunk Search Head to deploy the application to.")
+    build_parser.set_defaults(func=build)
+
+    inspect_parser.set_defaults(func=inspect)
+
+    
+
+    deploy_parser.add_argument("-h", "--search_head_address", required=True, type=str, help="The address of the Splunk Search Head to deploy the application to.")
     deploy_parser.add_argument("-u", "--username", required=True, type=str, help="Username for Splunk Search Head.  Note that this user MUST be able to install applications.")
     deploy_parser.add_argument("-p", "--password", required=True, type=str, help="Password for Splunk Search Head.")
+    deploy_parser.add_argument("-a", "--api_port", required=False, type=int, default=8089, help="Port serving the Splunk API (you probably have not changed this).")
+    deploy_parser.add_argument("--overwrite_app", required=True, action=argparse.BooleanOptionalAction, help="If an app with the same name already exists, should it be overwritten?")
+    deploy_parser.set_defaults(overwrite_app=False)
     deploy_parser.set_defaults(func=deploy)
 
     # # parse them

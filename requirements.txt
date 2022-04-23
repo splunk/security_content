@@ -8,3 +8,6 @@ PyYAML
 questionary
 requests
 xmltodict
+splunk-sdk
+https://download.splunk.com/misc/packaging-toolkit/splunk-packaging-toolkit-1.0.1.tar.gz
+splunk-appinspect
