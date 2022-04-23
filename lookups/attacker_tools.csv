@@ -24,4 +24,4 @@ KPortScan3.exe,This executable was delivered in the XMRig Crypto Miner and is co
 NLAChecker.exe,A scanner tool that checks for Windows hosts for Network Level Authentication. This tool allows attackers to detect Windows Servers with RDP without NLA enabled which facilitates the use of brute force non microsoft rdp tools or exploits
 ns.exe,A commonly used tool used by attackers to scan and map file shares
 SilverBullet.exe,Malware was discovered in our monitoring of honey pots that abuses this open source software for scanning and connecting to hosts.
-kportscan3.exe, KPortScan 3.0 is a widely used port scanning tool on Hacking Forums, to perform network scanning on the internal networks.
+kportscan3.exe, KPortScan 3.0 is a widely used port scanning tool on Hacking Forums to perform network scanning on the internal networks.

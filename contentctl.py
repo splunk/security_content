@@ -328,13 +328,15 @@ def main(args):
 
     clean_parser.set_defaults(func=clean)
 
+    build_parser.add_argument("-o", "--output_dir", required=True, type=str, help="Directory to output the built package to.")
+    build_parser.add_argument("-n", "--app_name", required=True, type=str, help="Name of the application.")
     build_parser.set_defaults(func=build)
 
     inspect_parser.set_defaults(func=inspect)
 
     
 
-    deploy_parser.add_argument("-h", "--search_head_address", required=True, type=str, help="The address of the Splunk Search Head to deploy the application to.")
+    deploy_parser.add_argument("-s", "--search_head_address", required=True, type=str, help="The address of the Splunk Search Head to deploy the application to.")
     deploy_parser.add_argument("-u", "--username", required=True, type=str, help="Username for Splunk Search Head.  Note that this user MUST be able to install applications.")
     deploy_parser.add_argument("-p", "--password", required=True, type=str, help="Password for Splunk Search Head.")
     deploy_parser.add_argument("-a", "--api_port", required=False, type=int, default=8089, help="Port serving the Splunk API (you probably have not changed this).")
