@@ -1,7 +1,7 @@
-name: Start Up During Safe Mode Boot Unit Test
+name: Windows Registry Modification for Safe Mode Persistence Unit Test
 tests:
-- name: Start Up During Safe Mode Boot
-  file: endpoint/start_up_during_safe_mode_boot.yml
+- name: 'Windows Registry Modification for Safe Mode Persistence'
+  file: endpoint/windows_registry_modification_for_safe_mode_persistence.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h
   latest_time: now
