@@ -34,6 +34,7 @@ tags:
   - Active Directory Lateral Movement
   - Trickbot
   - Hermetic Wiper
+  - Industroyer2
   automated_detection_testing: passed
   confidence: 100
   context:

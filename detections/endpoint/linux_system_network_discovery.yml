@@ -30,6 +30,7 @@ references:
 tags:
   analytic_story:
   - Network Discovery
+  - Industroyer2
   asset_type: endpoint
   cis20:
   - CIS 3
