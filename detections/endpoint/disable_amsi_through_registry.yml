@@ -64,5 +64,3 @@ tags:
   - Endpoint.Registry.user
   - _time
   security_domain: endpoint
-  supported_tas:
-  - Splunk_TA_microsoft_sysmon

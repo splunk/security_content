@@ -66,5 +66,3 @@ tags:
   - Network_Resolution.DNS.query
   risk_score: 56
   security_domain: network
-  supported_tas:
-  - Splunk_TA_microsoft_sysmon

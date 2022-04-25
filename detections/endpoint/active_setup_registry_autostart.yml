@@ -85,5 +85,3 @@ tags:
   - _time
   risk_score: 64
   security_domain: endpoint
-  supported_tas:
-  - Splunk_TA_microsoft_sysmon
