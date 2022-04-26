@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: The following analytic identifies a suspicious deletion of critical folder in Linux machine using rm command. 
+description: The following analytic identifies a suspicious deletion of a critical folder in Linux machine using rm command. 
   This technique was seen in industroyer2 campaign to wipe or destroy energy facilities of a targeted sector. Deletion in these list of folder 
   is not so common since it need some elevated privileges to access some of it. We recommend to look further events specially in file access or file deletion, 
   process commandline that may related to this technique.
