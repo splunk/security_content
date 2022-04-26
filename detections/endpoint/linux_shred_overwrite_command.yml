@@ -49,7 +49,7 @@ tags:
   - Exploitation
   message: A possible shred overwrite command $process$ executed on $dest$
   mitre_attack_id:
-  - T485
+  - T1485
   nist:
   - DE.CM
   observable:
