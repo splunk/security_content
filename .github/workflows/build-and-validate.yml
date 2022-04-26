@@ -249,7 +249,7 @@ jobs:
             git status
             printf "\n\n"
             echo "git log TS:"
-            git log -n 1 --pretty=format:%ci -- dist/escu/default/content-version.conf | sed 's/ /_/g'
+            git log -n 1 --pretty=format:%ci dist/escu/default/content-version.conf | sed 's/ /_/g'
             printf "\n\n"
             VERSION_TS=$(git log -n 1 --pretty=format:%ci -- dist/escu/default/content-version.conf | sed 's/ /_/g')
             echo "{\"version\":{\"name\":\"$CONTENT_VERSION\",\"published_at\":\"$VERSION_TS\"}}" > dist/api/version.json
