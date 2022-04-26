@@ -160,8 +160,8 @@ jobs:
             ls dist/api
 
             #debug
-            echo "FOOO"
-            git log -n 3 dist/escu/default/content-version.conf
+            echo "F001"
+            git log -n 1 -- "dist/escu/default/content-version.conf"
 
 
 
