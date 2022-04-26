@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: The following analytic is to detect events that attempts to stop or clear a service. 
+description: The following analytic is to detect events that attempt to stop or clear a service. 
   This is typically identified in parallel with other instances of service enumeration of 
   attempts to stop a service and then delete it. Adversaries utilize this technique like industroyer2 
   malware to terminate security services or other related services to continue there objective as a destructive payload.
