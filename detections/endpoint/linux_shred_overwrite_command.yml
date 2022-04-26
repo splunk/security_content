@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: This analytic is to detect a shred process to overwrite files in a linux machine.
+description: This analytic is to detect a shred process to overwrite a files in a linux machine.
   Shred Linux application is designed to overwrite file to hide its contents or make the deleted file un-recoverable.
   Weve seen this technique in industroyer2 malware that tries to wipe energy facilities of targeted sector as part of its destructive attack. 
   It might be some normal user may use this command for valid purposes but it is recommended to check what files, disk or folder it tries to shred 
