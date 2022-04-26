@@ -116,6 +116,51 @@ jobs:
           git branch
           git branch --show-current
   
+  build-version-json:
+    runs-on: ubuntu-latest    
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Update Version and Build number
+        run : |
+            # check if tag is set, get build number from the tag if set
+            if [ -z "${{ steps.vars.outputs.tag }}" ]; then
+                CONTENT_VERSION=$(grep -oP "(\d+.\d+.\d+$)" dist/escu/default/content-version.conf)
+                echo "detected content version: $CONTENT_VERSION"
+            else
+                CONTENT_VERSION=$(echo ${{ steps.vars.outputs.tag }} | grep -oP "\d+.\d+.\d+")
+                echo "content version: $CONTENT_VERSION, set by tag: ${{ steps.vars.outputs.tag }}"
+            fi
+            # update build number and version for ESCU
+            sed -i "s/build = .*$/build = ${{ github.run_number }}/g" dist/escu/default/app.conf
+            sed -i "s/^version = .*$/version = $CONTENT_VERSION/g" dist/escu/default/app.conf
+            sed -i "s/\"version\": .*$/\"version\": \"$CONTENT_VERSION\"/g" dist/escu/app.manifest
+            sed -i "s/version = .*$/version = $CONTENT_VERSION/g" dist/escu/default/content-version.conf
+            tar -czf content-pack-build-escu.tar.gz dist/escu/*
+            # update build number and version for ssa
+            tar -czf content-pack-build-ssa.tar.gz dist/ssa/*
+
+            # create version.json for dist/api
+            # example:   {"version":{"name":"v3.37.1","published_at":"2022-04-04T18:15:38Z"}}
+            ls -l dist/escu/default/content-version.conf
+            git branch
+            printf "\n\n"
+            git status
+            printf "\n\n"
+            echo "git log TS:"
+            git log -n 1 --pretty=format:%ci -- dist/escu/default/content-version.conf | sed 's/ /_/g'
+            printf "\n\n"
+            VERSION_TS=$(git log -n 1 --pretty=format:%ci -- dist/escu/default/content-version.conf | sed 's/ /_/g')
+            echo "{\"version\":{\"name\":\"$CONTENT_VERSION\",\"published_at\":\"$VERSION_TS\"}}" > dist/api/version.json
+
+            #test
+            cat dist/api/version.json
+            ls dist/api
+
+
+
   build-sources:
     runs-on: ubuntu-latest
     needs: validate-content
