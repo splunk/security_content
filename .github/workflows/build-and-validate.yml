@@ -159,6 +159,10 @@ jobs:
             cat dist/api/version.json
             ls dist/api
 
+            #debug
+            echo "FOOO"
+            git log -n 3 dist/escu/default/content-version.conf
+
 
 
   build-sources:
