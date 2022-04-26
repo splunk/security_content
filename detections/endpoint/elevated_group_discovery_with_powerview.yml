@@ -1,7 +1,7 @@
 name: Elevated Group Discovery with PowerView
 id: 10d62950-0de5-4199-a710-cff9ea79b413
-version: 2
-date: '2022-02-24'
+version: 1
+date: '2021-08-25'
 author: Mauricio Velazco, Splunk
 type: Hunting
 datamodel: []
@@ -12,10 +12,10 @@ description: The following analytic utilizes PowerShell Script Block Logging (Ev
   specific domain group. Red Teams and adversaries alike use PowerView to enumerate
   elevated domain groups for situational awareness and Active Directory Discovery
   to identify high privileged users.
-search: '`powershell` EventCode=4104 (ScriptBlockText = "*Get-DomainGroupMember*") AND ScriptBlockText
+search: '`powershell` EventCode=4104 (Message = "*Get-DomainGroupMember*") AND Message
   IN ("*Domain Admins*","*Enterprise Admins*", "*Schema Admins*", "*Account Operators*"
   , "*Server Operators*", "*Protected Users*",  "*Dns Admins*") | stats count min(_time)
-  as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID | `security_content_ctime(firstTime)`
+  as firstTime max(_time) as lastTime by EventCode Message ComputerName User | `security_content_ctime(firstTime)`
   | `elevated_group_discovery_with_powerview_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
@@ -26,12 +26,9 @@ references:
 - https://powersploit.readthedocs.io/en/latest/Recon/Get-DomainGroupMember/
 - https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/plan/security-best-practices/appendix-b--privileged-accounts-and-groups-in-active-directory
 - https://attack.mitre.org/techniques/T1069/002/
-- https://www.splunk.com/en_us/blog/security/hunting-for-malicious-powershell-using-script-block-logging.html
 tags:
   analytic_story:
   - Active Directory Discovery
-  - Malicious PowerShell
-  automated_detection_testing: passed
   confidence: 70
   context:
   - Source:Endpoint
@@ -42,13 +39,12 @@ tags:
   impact: 30
   kill_chain_phases:
   - Reconnaissance
-  message: Elevated group discovery using PowerView on $Computer$ by $user$
+  message: Elevated group discovery using PowerView on $dest$ by $user$
   mitre_attack_id:
   - T1069
   - T1069.002
-  - T1059.001
   observable:
-  - name: Computer
+  - name: dest
     type: Endpoint
     role:
     - Victim
@@ -59,8 +55,9 @@ tags:
   required_fields:
   - _time
   - EventCode
-  - ScriptBlockText
-  - Computer
-  - UserID
+  - Message
+  - ComputerName
+  - User
   risk_score: 21
   security_domain: endpoint
+  asset_type: Endpoint

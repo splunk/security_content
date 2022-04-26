@@ -1,7 +1,7 @@
 name: Suspicious SearchProtocolHost no Command Line Arguments
 id: f52d2db8-31f9-4aa7-a176-25779effe55c
-version: 2
-date: '2021-09-20'
+version: 3
+date: '2022-03-15'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
@@ -17,7 +17,7 @@ search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint
   where Processes.process_name=searchprotocolhost.exe by _time span=1h  Processes.process_id
   Processes.process_name Processes.dest Processes.process_path Processes.process Processes.parent_process_name
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | regex process="(searchprotocolhost\.exe.{0,4}$)"  | `suspicious_searchprotocolhost_no_command_line_arguments_filter`'
+  | regex process="(?i)(searchprotocolhost\.exe.{0,4}$)" | `suspicious_searchprotocolhost_no_command_line_arguments_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
@@ -30,7 +30,6 @@ references:
 tags:
   analytic_story:
   - Cobalt Strike
-  automated_detection_testing: passed
   confidence: 70
   context:
   - Source:Endpoint
@@ -76,3 +75,4 @@ tags:
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_microsoft_sysmon
+  asset_type: Endpoint

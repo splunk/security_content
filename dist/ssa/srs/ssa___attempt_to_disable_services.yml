@@ -1,28 +1,11 @@
-author: Teoderick Contreras, Splunk
-datamodel:
-- Endpoint_Processes
-date: '2021-11-24'
+name: Attempt To Disable Services
+id: afb31de4-d023-11eb-98d5-acde48001122
+version: 3
 description: The following analytic identifies Windows Service Control, `sc.exe`,
   attempting to disable a service. This is typically identified in parallel with other
   instances of service enumeration of attempts to stop a service and then disable
   it. Adversaries utilize this technique to terminate security services or other related
   services to continue there objective and evade detections.
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA.
-id: afb31de4-d023-11eb-98d5-acde48001122
-known_false_positives: It is possible administrative scripts may start/stop/delete
-  services. Filter as needed.
-name: Attempt To Disable Services
-product:
-- Splunk Behavioral Analytics
-references:
-- https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
-- https://app.any.run/tasks/c0f98850-af65-4352-9746-fbebadee4f05/
-- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md#atomic-test-14---disable-arbitrary-security-windows-service
-risk_message: An instance of $parent_process_name$ spawning $process_name$ was identified
-  on endpoint $dest_device_id$ by user $dest_user_id$ attempting to disable a service.
 search: '| from read_ssa_enriched_events() | eval _datamodels=ucast(map_get(input_event,
   "_datamodels"), "collection<string>", []), body={} | eval timestamp=parse_long(ucast(map_get(input_event,
   "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"),
@@ -36,6 +19,16 @@ search: '| from read_ssa_enriched_events() | eval _datamodels=ucast(map_get(inpu
   "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name",
   process_name, "parent_process_name", parent_process_name, "process_path", process_path])
   | into write_ssa_detected_events();'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
+known_false_positives: It is possible administrative scripts may start/stop/delete
+  services. Filter as needed.
+references:
+- https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+- https://app.any.run/tasks/c0f98850-af65-4352-9746-fbebadee4f05/
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md#atomic-test-14---disable-arbitrary-security-windows-service
 tags:
   analytic_story:
   - XMRig
@@ -43,42 +36,13 @@ tags:
   cis20:
   - CIS 9
   - CIS 8
-  confidence: 60
-  context:
-  - Source:Endpoint
-  - Stage:Privilege Escalation
-  - Stage:Persistence
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/sc_disable.log
-  impact: 60
   kill_chain_phases:
   - Exploitation
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified
-    on endpoint $dest_device_id$ by user $dest_user_id$ attempting to disable a service.
   mitre_attack_id:
   - T1489
   nist:
   - PR.DS
   - PR.IP
-  observable:
-  - name: dest_user_id
-    role:
-    - Victim
-    type: User
-  - name: dest_device_id
-    role:
-    - Victim
-    type: Hostname
-  - name: parent_process_name
-    role:
-    - Parent Process
-    type: Parent Process
-  - name: process_name
-    role:
-    - Child Process
-    type: Process
-  product:
-  - Splunk Behavioral Analytics
   required_fields:
   - _time
   - dest_device_id
@@ -88,18 +52,15 @@ tags:
   - dest_user_id
   - process
   risk_score: 36
-  risk_severity: low
   security_domain: endpoint
+  risk_severity: low
 test:
   name: Attempt To Disable Services Unit Test
   tests:
-  - attack_data:
-    - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/sc_disable.log
-      file_name: sc_disable.log
-      source: WinEventLog:Security
-    description: Test for usage of sc.exe to disable a service
+  - name: Attempt To Disable Services
     file: endpoint/ssa___attempt_to_disable_services.yml
-    name: Attempt To Disable Services
     pass_condition: '@count_gt(0)'
-type: TTP
-version: 3
+    attack_data:
+    - file_name: sc_disable.log
+      data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/sc_disable.log
+      source: WinEventLog:Security

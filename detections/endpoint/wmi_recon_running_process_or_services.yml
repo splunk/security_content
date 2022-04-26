@@ -26,8 +26,8 @@ references:
 - https://in.security/an-intro-into-abusing-and-identifying-wmi-event-subscriptions-for-persistence/
 tags:
   analytic_story:
+  - Hermetic Wiper 
   - Malicious PowerShell
-  automated_detection_testing: passed
   confidence: 100
   context:
   - Source:Endpoint
@@ -63,3 +63,4 @@ tags:
   - UserID
   risk_score: 30
   security_domain: endpoint
+  asset_type: Endpoint

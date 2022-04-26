@@ -33,7 +33,6 @@ references:
 tags:
   analytic_story:
   - Log4Shell CVE-2021-44228
-  automated_detection_testing: passed
   confidence: 60
   context:
   - Source:Endpoint
@@ -71,3 +70,4 @@ tags:
   - Ports.dest_port
   risk_score: 54
   security_domain: endpoint
+  asset_type: Endpoint

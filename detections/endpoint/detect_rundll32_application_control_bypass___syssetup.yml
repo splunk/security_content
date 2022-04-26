@@ -37,8 +37,8 @@ references:
 tags:
   analytic_story:
   - Suspicious Rundll32 Activity
+  - Living Off The Land
   asset_type: Endpoint
-  automated_detection_testing: passed
   cis20:
   - CIS 8
   confidence: 100
@@ -69,7 +69,7 @@ tags:
     role:
     - Victim
   - name: parent_process_name
-    type: Parent Process
+    type: Process
     role:
     - Parent Process
   - name: process_name

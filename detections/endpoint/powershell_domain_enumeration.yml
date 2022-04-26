@@ -33,12 +33,12 @@ references:
 - https://www.splunk.com/en_us/blog/security/hunting-for-malicious-powershell-using-script-block-logging.html
 tags:
   analytic_story:
+  - Hermetic Wiper 
   - Malicious PowerShell
-  automated_detection_testing: passed
   confidence: 70
   context:
-  - source:endpoint
-  - stage: recon
+  - Source:Endpoint
+  - Stage:Discovery
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/windows-powershell.log
   impact: 60
@@ -69,3 +69,4 @@ tags:
   - EventCode
   risk_score: 42
   security_domain: endpoint
+  asset_type: Endpoint

@@ -30,7 +30,6 @@ references:
 tags:
   analytic_story:
   - Active Directory Discovery
-  automated_detection_testing: passed
   confidence: 40
   context:
   - Source:Endpoint
@@ -68,3 +67,4 @@ tags:
   - UserID
   risk_score: 12
   security_domain: endpoint
+  asset_type: Endpoint

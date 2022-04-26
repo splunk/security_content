@@ -1,26 +1,10 @@
-author: Teoderick Contreras, Splunk
-datamodel:
-- Endpoint_Processes
-date: '2021-12-20'
+name: Hiding Files And Directories With Attrib exe
+id: 028e4406-6176-11ec-aec2-acde48001122
+version: 1
 description: Attackers leverage an existing Windows binary, attrib.exe, to mark specific
   as hidden by using specific flags so that the victim does not see the file.  The
   search looks for specific command-line arguments to detect the use of attrib.exe
   to hide files.
-how_to_implement: You must be ingesting data that records process activity from your
-  hosts to populate the Endpoint data model in the Processes node. You must also be
-  ingesting logs with both the process name and command line from your endpoints.
-  The command-line arguments are mapped to the "process" field in the Endpoint data
-  model.
-id: 028e4406-6176-11ec-aec2-acde48001122
-known_false_positives: 'Some applications and users may legitimately use attrib.exe
-  to interact with the files. '
-name: Hiding Files And Directories With Attrib exe
-product:
-- Splunk Behavioral Analytics
-references:
-- https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/attrib
-risk_message: Attrib.exe with +h flag to hide files on $dest$ executed by $user$ is
-  detected.
 search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
   "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"),
   "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"),
@@ -33,6 +17,15 @@ search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map
   "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name",
   process_name, "parent_process_name", parent_process_name, "process_path", process_path])
   | into write_ssa_detected_events();'
+how_to_implement: You must be ingesting data that records process activity from your
+  hosts to populate the Endpoint data model in the Processes node. You must also be
+  ingesting logs with both the process name and command line from your endpoints.
+  The command-line arguments are mapped to the "process" field in the Endpoint data
+  model.
+known_false_positives: 'Some applications and users may legitimately use attrib.exe
+  to interact with the files. '
+references:
+- https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/attrib
 tags:
   analytic_story:
   - Windows Defense Evasion Tactics
@@ -41,54 +34,26 @@ tags:
   cis20:
   - CIS 14
   - CIS 16
-  confidence: 90
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  - Stage:Persistence
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/attrib_hidden/security.log
-  impact: 80
   kill_chain_phases:
   - Exploitation
-  message: Attrib.exe with +h flag to hide files on $dest$ executed by $user$ is detected.
   mitre_attack_id:
   - T1222.001
   - T1222
   nist:
   - PR.AC
   - PR.IP
-  observable:
-  - name: user
-    role:
-    - Victim
-    type: User
-  - name: dest
-    role:
-    - Victim
-    type: Endpoint
-  - name: parent_process
-    role:
-    - Attacker
-    - Parent Process
-    type: Other
-  product:
-  - Splunk Behavioral Analytics
   required_fields:
   - _time
   risk_score: 72
-  risk_severity: medium
   security_domain: endpoint
+  risk_severity: medium
 test:
   name: Hiding Files And Directories With Attrib exe - SSA Unit test
   tests:
-  - attack_data:
-    - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/attrib_hidden/security.log
-      file_name: security.log
-      source: WinEventLog:Security
-    description: Test detection of attrib Application execution
+  - name: Hiding Files And Directories With Attrib exe
     file: endpoint/ssa___hiding_files_and_directories_with_attrib_exe.yml
-    name: Hiding Files And Directories With Attrib exe
     pass_condition: '@count_gt(0)'
-type: TTP
-version: 1
+    attack_data:
+    - file_name: security.log
+      data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/attrib_hidden/security.log
+      source: WinEventLog:Security

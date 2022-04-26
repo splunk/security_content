@@ -28,7 +28,7 @@ references:
 tags:
   analytic_story:
   - Unusual Processes
-  automated_detection_testing: passed
+  - Living Off The Land
   confidence: 100
   context:
   - Stage:Execution
@@ -71,3 +71,4 @@ tags:
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_microsoft_sysmon
+  asset_type: Endpoint

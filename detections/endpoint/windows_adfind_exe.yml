@@ -32,18 +32,26 @@ tags:
   - NOBELIUM Group
   - Domain Trust Discovery
   asset_type: Endpoint
-  automated_detection_testing: passed
   cis20:
   - CIS 8
+  context:
+  - Source:Endpoint
+  - Stage:Discovery
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1018/atomic_red_team/windows-sysmon.log
   kill_chain_phases:
   - Exploitation
+  message: Windows AdFind Exe
   mitre_attack_id:
   - T1018
   nist:
   - PR.PT
   - DE.CM
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -60,3 +68,6 @@ tags:
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_microsoft_sysmon
+  confidence: 50
+  impact: 50
+  risk_score: 25.0

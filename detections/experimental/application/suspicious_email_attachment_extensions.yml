@@ -29,6 +29,7 @@ known_false_positives: None identified
 references: []
 tags:
   analytic_story:
+  - Hermetic Wiper
   - 'Emotet Malware  DHS Report TA18-201A '
   - Suspicious Emails
   asset_type: Endpoint
@@ -54,3 +55,13 @@ tags:
   - All_Email.src_user
   - All_Email.message_id
   security_domain: network
+  confidence: 50
+  impact: 50
+  risk_score: 25
+  context: []
+  message: tbd
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim

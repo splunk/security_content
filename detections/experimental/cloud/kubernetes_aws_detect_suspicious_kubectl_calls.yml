@@ -19,9 +19,9 @@ references: []
 tags:
   analytic_story:
   - Kubernetes Sensitive Object Access Activity
-  asset_type: AWS EKS Kubernetes cluster
+  asset_type: Kubernetes
   kill_chain_phases:
-  - Lateral Movement
+  - Exploitation
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -35,3 +35,13 @@ tags:
   - verb
   - requestURI
   security_domain: threat
+  confidence: 50
+  impact: 50
+  risk_score: 25
+  context: []
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  message: tbd

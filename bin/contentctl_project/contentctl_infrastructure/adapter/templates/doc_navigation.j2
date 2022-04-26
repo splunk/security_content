@@ -1,0 +1,48 @@
+main:
+  - title: "Detections"
+    url: /detections/
+  - title: "Analytic Stories"
+    url: /stories/
+  - title: "Playbooks"
+    url: /playbooks/
+  - title: "Blog"
+    url: https://www.splunk.com/en_us/blog/author/secmrkt-research.html
+  - title: "About"
+    url: https://www.splunk.com/en_us/cyber-security/threat-research.html
+detections:
+  - title: "Tactic"
+    children:
+    {%- for tactic in objects['attack_tactics'] %}
+      - title: {{ tactic }}
+        url: /detections/{{ tactic | lower | replace(" ", "_") }}/
+    {%- endfor %}
+  - title: "Datamodel"
+    children:
+    {%- for datamodel in objects['datamodels'] %}
+      - title: {{ datamodel }}
+        url: /detections/{{ datamodel | lower | replace(" ", "_") }}/
+    {%- endfor %}
+  - title: "Product"
+    children:
+      - title: "Splunk Enterprise"
+        url: /tags/#splunk-enterprise
+      - title: "Splunk Cloud"
+        url: /tags/#splunk-cloud
+      - title: "Splunk Enterprise Security"
+        url: /tags/#splunk-enterprise-security
+      - title: "Splunk Behavioral Analytics"
+        url: /tags/#splunk-behavioral-analytics
+stories:
+  - title: "Use Case"
+    children:
+    {%- for category in objects['categories'] %}
+      - title: {{ category }}
+        url: /stories/{{ category | lower | replace(" ", "_") }}/
+    {%- endfor %}
+playbooks:
+  - title: "Type"
+    children:
+      - title: "Response"
+        url: /tags/#response/
+      - title: "Investigation"
+        url: /tags/#investigation/

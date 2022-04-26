@@ -32,8 +32,8 @@ references:
 tags:
   analytic_story:
   - Suspicious MSHTA Activity
+  - Living Off The Land
   asset_type: Endpoint
-  automated_detection_testing: passed
   cis20:
   - CIS 8
   confidence: 80

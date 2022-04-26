@@ -25,8 +25,8 @@ tags:
   analytic_story:
   - Windows Persistence Techniques
   - Cloud Federated Credential Abuse
+  - Living Off The Land
   asset_type: Endpoint
-  automated_detection_testing: passed
   confidence: 70
   context:
   - Source:Endpoint
@@ -48,7 +48,7 @@ tags:
     role:
     - Victim
   - name: parent_process_name
-    type: Parent Process
+    type: Process
     role:
     - Parent Process
   - name: process_name

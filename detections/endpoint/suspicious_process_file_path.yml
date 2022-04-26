@@ -32,6 +32,8 @@ references:
 - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
 tags:
   analytic_story:
+  - Data Destruction 
+  - Double Zero Destructor
   - XMRig
   - Remcos
   - WhisperGate
@@ -77,3 +79,4 @@ tags:
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_microsoft_sysmon
+  asset_type: Endpoint

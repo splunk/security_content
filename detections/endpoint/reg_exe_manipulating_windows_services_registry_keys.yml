@@ -29,18 +29,16 @@ tags:
   analytic_story:
   - Windows Service Abuse
   - Windows Persistence Techniques
+  - Living Off The Land
   asset_type: Endpoint
-  automated_detection_testing: passed
   cis20:
   - CIS 3
   - CIS 5
   - CIS 8
   confidence: 60
   context:
-  - source:endpoint
-  - stage: Persistence
-  - Privilege Escalation
-  - Defense Evasion
+  - Source:Endpoint
+  - Stage:Persistence
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.011/change_registry_path_service/windows-sysmon.log
   impact: 75
@@ -62,7 +60,7 @@ tags:
     role:
     - Victim
   - name: user
-    type: user
+    type: User
     role:
     - Victim
   product:

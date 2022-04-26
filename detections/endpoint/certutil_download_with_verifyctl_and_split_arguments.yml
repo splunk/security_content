@@ -35,11 +35,11 @@ tags:
   analytic_story:
   - Ingress Tool Transfer
   - DarkSide Ransomware
-  automated_detection_testing: passed
+  - Living Off The Land
   confidence: 100
   context:
   - Source:Endpoint
-  - Stage:Command and Control
+  - Stage:Command And Control
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1105/atomic_red_team/windows-sysmon.log
   impact: 90
@@ -59,7 +59,7 @@ tags:
     role:
     - Victim
   - name: parent_process_name
-    type: Parent Process
+    type: Process
     role:
     - Parent Process
   - name: process_name
@@ -87,3 +87,4 @@ tags:
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_microsoft_sysmon
+  asset_type: Endpoint

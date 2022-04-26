@@ -21,10 +21,11 @@ tags:
   analytic_story:
   - Dev Sec Ops
   asset_type: Kubernetes
-  automated_detection_testing: passed
   cis20:
   - CIS 13
   confidence: 90
+  context:
+  - Unknown
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1526/kubernetes_kube_hunter/kubernetes_kube_hunter.json
   deployments:
@@ -41,12 +42,13 @@ tags:
   - DE.CM
   observable:
   - name: host
-    type: Entity
+    type: Hostname
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Dev Sec Ops Analytics
   required_fields:
   - object.message
   - source.host

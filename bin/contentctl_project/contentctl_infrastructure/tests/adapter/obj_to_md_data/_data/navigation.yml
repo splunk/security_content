@@ -1,0 +1,50 @@
+main:
+  - title: "Detections"
+    url: /detections/
+  - title: "Analytic Stories"
+    url: /stories/
+  - title: "Playbooks"
+    url: /playbooks/
+  - title: "Blog"
+    url: https://www.splunk.com/en_us/blog/author/secmrkt-research.html
+  - title: "About"
+    url: https://www.splunk.com/en_us/cyber-security/threat-research.html
+detections:
+  - title: "Tactic"
+    children:
+      - title: Credential Access
+        url: /detections/credential_access/
+      - title: Defense Evasion
+        url: /detections/defense_evasion/
+      - title: Initial Access
+        url: /detections/initial_access/
+      - title: Persistence
+        url: /detections/persistence/
+      - title: Privilege Escalation
+        url: /detections/privilege_escalation/
+  - title: "Datamodel"
+    children:
+      - title: Endpoint
+        url: /detections/endpoint/
+  - title: "Product"
+    children:
+      - title: "Splunk Enterprise"
+        url: /tags/#splunk-enterprise
+      - title: "Splunk Cloud"
+        url: /tags/#splunk-cloud
+      - title: "Splunk Enterprise Security"
+        url: /tags/#splunk-enterprise-security
+      - title: "Splunk Behavioral Analytics"
+        url: /tags/#splunk-behavioral-analytics
+stories:
+  - title: "Use Case"
+    children:
+      - title: Malware
+        url: /stories/malware/
+playbooks:
+  - title: "Type"
+    children:
+      - title: "Response"
+        url: /tags/#response/
+      - title: "Investigation"
+        url: /tags/#investigation/

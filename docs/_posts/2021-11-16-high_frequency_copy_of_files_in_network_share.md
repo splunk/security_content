@@ -1,6 +1,7 @@
 ---
 title: "High Frequency Copy Of Files In Network Share"
-excerpt: "Transfer Data to Cloud Account"
+excerpt: "Transfer Data to Cloud Account
+"
 categories:
   - Endpoint
 last_modified_at: 2021-11-16
@@ -17,7 +18,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -31,11 +32,62 @@ This analytic is to detect a suspicious high frequency copying/moving of files i
 - **ID**: 40925f12-4709-11ec-bb43-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Annotations
+
+<details>
+  <summary>ATT&CK</summary>
+
+<div markdown="1">
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1537](https://attack.mitre.org/techniques/T1537/) | Transfer Data to Cloud Account | Exfiltration |
+
+</div>
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+<div markdown="1">
+
+* Exploitation
+
+
+</div>
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+<div markdown="1">
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+<div markdown="1">
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+<div markdown="1">
+
+
+</div>
+</details>
 
 #### Search
 
@@ -54,7 +106,7 @@ This analytic is to detect a suspicious high frequency copying/moving of files i
 The SPL above uses the following Macros:
 * [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 
-Note that `high_frequency_copy_of_files_in_network_share_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+Note that **high_frequency_copy_of_files_in_network_share_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -78,9 +130,6 @@ this behavior may seen in normal transfer of file within network if network shar
 * [Information Sabotage](/stories/information_sabotage)
 
 
-#### Kill Chain Phase
-* Exfiltration
-
 
 
 #### RBA
@@ -90,10 +139,6 @@ this behavior may seen in normal transfer of file within network if network shar
 | 9.0 | 30 | 30 | high frequency copy of document in network share $Share_Name$ from $Source_Address$ by $user$ |
 
 
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
-
-
 #### Reference
 
 * [https://attack.mitre.org/techniques/T1537/](https://attack.mitre.org/techniques/T1537/)
@@ -101,8 +146,9 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1537/high_copy_files_in_net_share/security.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1537/high_copy_files_in_net_share/security.log)
 

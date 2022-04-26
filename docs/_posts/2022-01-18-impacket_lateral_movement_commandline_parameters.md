@@ -1,6 +1,11 @@
 ---
 title: "Impacket Lateral Movement Commandline Parameters"
-excerpt: "Remote Services, SMB/Windows Admin Shares, Distributed Component Object Model, Windows Management Instrumentation, Windows Service"
+excerpt: "Remote Services
+, SMB/Windows Admin Shares
+, Distributed Component Object Model
+, Windows Management Instrumentation
+, Windows Service
+"
 categories:
   - Endpoint
 last_modified_at: 2022-01-18
@@ -8,14 +13,14 @@ toc: true
 toc_label: ""
 tags:
   - Remote Services
-  - Lateral Movement
   - SMB/Windows Admin Shares
-  - Lateral Movement
   - Distributed Component Object Model
-  - Lateral Movement
   - Windows Management Instrumentation
-  - Execution
   - Windows Service
+  - Lateral Movement
+  - Lateral Movement
+  - Lateral Movement
+  - Execution
   - Persistence
   - Privilege Escalation
   - Splunk Enterprise
@@ -26,7 +31,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -34,13 +39,19 @@ This analytic looks for the presence of suspicious commandline parameters typica
 
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2022-01-18
 - **Author**: Mauricio Velazco, Splunk
 - **ID**: 8ce07472-496f-11ec-ab3b-3e22fbd008af
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Annotations
+
+<details>
+  <summary>ATT&CK</summary>
+
+<div markdown="1">
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
@@ -53,6 +64,51 @@ This analytic looks for the presence of suspicious commandline parameters typica
 | [T1047](https://attack.mitre.org/techniques/T1047/) | Windows Management Instrumentation | Execution |
 
 | [T1543.003](https://attack.mitre.org/techniques/T1543/003/) | Windows Service | Persistence, Privilege Escalation |
+
+</div>
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+<div markdown="1">
+
+* Exploitation
+
+
+</div>
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+<div markdown="1">
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+<div markdown="1">
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+<div markdown="1">
+
+
+</div>
+</details>
 
 #### Search
 
@@ -70,7 +126,7 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that `impacket_lateral_movement_commandline_parameters_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+Note that **impacket_lateral_movement_commandline_parameters_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -98,9 +154,6 @@ Although uncommon, Administrators may leverage Impackets tools to start a proces
 * [WhisperGate](/stories/whispergate)
 
 
-#### Kill Chain Phase
-* Lateral Movement
-
 
 
 #### RBA
@@ -108,10 +161,6 @@ Although uncommon, Administrators may leverage Impackets tools to start a proces
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 90 | 70 | Suspicious command line parameters on $dest may represent a lateral movement attack with Impackets tools |
-
-
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
-
 
 
 #### Reference
@@ -128,8 +177,9 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.003/impacket/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.003/impacket/windows-sysmon.log)
 

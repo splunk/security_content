@@ -35,9 +35,9 @@ references:
 - https://www.huntress.com/blog/rapid-response-microsoft-exchange-servers-still-vulnerable-to-proxyshell-exploit#what-should-you-do
 tags:
   analytic_story:
+  - Hermetic Wiper
   - HAFNIUM Group
   - ProxyShell
-  automated_detection_testing: passed
   confidence: 80
   context:
   - Source:Endpoint
@@ -82,3 +82,4 @@ tags:
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_microsoft_sysmon
+  asset_type: Endpoint

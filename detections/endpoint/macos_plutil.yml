@@ -1,0 +1,69 @@
+name: MacOS plutil
+id: c11f2b57-92c1-4cd2-b46c-064eafb833ac
+version: 1
+date: '2022-03-29'
+author: Patrick Bareiss, Splunk
+type: TTP
+datamodel:
+- Endpoint
+description: Detect usage of plutil to modify plist files. Adversaries can modiy plist files to executed binaries or add command line
+  arguments. Plist files in auto-run locations are executed upon user logon or system startup.
+search: '`osquery` name=es_process_events columns.path=/usr/bin/plutil
+  | rename columns.* as *
+  | stats count  min(_time) as firstTime max(_time) as lastTime by username host cmdline pid path parent signing_id
+  | rename username as User, cmdline as process, path as process_path
+  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+  | `macos_plutil_filter`'
+how_to_implement: This detection uses osquery and endpoint security on MacOS.
+  Follow the link in references, which describes how to setup process auditing in MacOS
+  with endpoint security and osquery.
+known_false_positives: Administrators using plutil to change plist files.
+references:
+- https://osquery.readthedocs.io/en/stable/deployment/process-auditing/
+tags:
+  analytic_story:
+  - Living Off The Land
+  asset_type: Endpoint
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  confidence: 50
+  context:
+  - Source:Endpoint
+  - Stage:Execution
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.011/atomic_red_team/osquery.log
+  impact: 50
+  kill_chain_phases:
+  - Actions on Objectives
+  message: plutil are executed on $host$ from $user$
+  mitre_attack_id:
+  - T1547.011
+  nist:
+  - DE.CM
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: process
+    type: Process
+    role:
+    - Child Process
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - columns.cmdline
+  - columns.pid
+  - columns.parent
+  - columns.path
+  - columns.signing_id
+  - columns.username
+  - host
+  risk_score: 25
+  security_domain: endpoint
+

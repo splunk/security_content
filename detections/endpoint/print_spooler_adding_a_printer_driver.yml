@@ -34,14 +34,13 @@ references:
 tags:
   analytic_story:
   - PrintNightmare CVE-2021-34527
-  automated_detection_testing: passed
   confidence: 90
   context:
   - Source:Endpoint
-  - Stage:Persistence,
+  - Stage:Persistence
   - Stage:Privilege Escalation
   - Stage:Defense Evasion
-  - Scope:Incoming
+  - Scope:Inbound
   cve:
   - CVE-2021-34527
   - CVE-2021-1675
@@ -71,3 +70,4 @@ tags:
   - Message
   risk_score: 72
   security_domain: endpoint
+  asset_type: Endpoint

@@ -1,27 +1,10 @@
-author: Teoderick Contreras, Splunk
-datamodel:
-- Endpoint_Processes
-date: '2021-11-30'
+name: Resize Shadowstorage Volume
+id: dbc30554-d27e-11eb-9e5e-acde48001122
+version: 3
 description: The following analytic identifies the resizing of shadowstorage using
   vssadmin.exe to avoid the shadow volumes being made again. This technique is typically
   found used by adversaries during a ransomware event and a precursor to deleting
   the shadowstorage.
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA.
-id: dbc30554-d27e-11eb-9e5e-acde48001122
-known_false_positives: System administrators may resize the shadowstorage for valid
-  purposes. Filter as needed.
-name: Resize Shadowstorage Volume
-product:
-- Splunk Behavioral Analytics
-references:
-- https://www.fireeye.com/blog/threat-research/2020/10/fin11-email-campaigns-precursor-for-ransomware-data-theft.html
-- https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html
-risk_message: An instance of $parent_process_name$ spawning $process_name$ was identified
-  on endpoint $dest_device_id$ by user $dest_user_id$ attempting to create a shadow
-  copy to perform offline password cracking.
 search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
   "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"),
   "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"),
@@ -35,6 +18,15 @@ search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map
   body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name,
   "parent_process_name", parent_process_name, "process_path", process_path]) | into
   write_ssa_detected_events();'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
+known_false_positives: System administrators may resize the shadowstorage for valid
+  purposes. Filter as needed.
+references:
+- https://www.fireeye.com/blog/threat-research/2020/10/fin11-email-campaigns-precursor-for-ransomware-data-theft.html
+- https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html
 tags:
   analytic_story:
   - Clop Ransomware
@@ -42,42 +34,13 @@ tags:
   cis20:
   - CIS 10
   - CIS 13
-  confidence: 80
-  context:
-  - Source:Endpoint
-  - stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/windows-security.log
-  impact: 80
   kill_chain_phases:
   - Exploitation
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified
-    on endpoint $dest_device_id$ by user $dest_user_id$ attempting to create a shadow
-    copy to perform offline password cracking.
   mitre_attack_id:
   - T1489
   nist:
   - PR.DS
   - PR.IP
-  observable:
-  - name: dest_user_id
-    role:
-    - Victim
-    type: User
-  - name: dest_device_id
-    role:
-    - Victim
-    type: Hostname
-  - name: parent_process
-    role:
-    - Parent Process
-    type: Parent Process
-  - name: process_name
-    role:
-    - Child Process
-    type: Process
-  product:
-  - Splunk Behavioral Analytics
   required_fields:
   - _time
   - dest_device_id
@@ -88,18 +51,15 @@ tags:
   - process
   - cmd_line
   risk_score: 64
-  risk_severity: medium
   security_domain: endpoint
+  risk_severity: medium
 test:
   name: Resize Shadowstorage Volume Unit Test
   tests:
-  - attack_data:
-    - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/windows-security.log
-      file_name: windows-security.log
-      source: WinEventLog:Security
-    description: Test for resizing the shadow storage of a machine
+  - name: Resize Shadowstorage Volume
     file: endpoint/ssa___resize_shadowstorage_volume.yml
-    name: Resize Shadowstorage Volume
     pass_condition: '@count_gt(0)'
-type: TTP
-version: 3
+    attack_data:
+    - file_name: windows-security.log
+      data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/windows-security.log
+      source: WinEventLog:Security

@@ -29,11 +29,11 @@ tags:
   analytic_story:
   - Trickbot
   - IcedID
-  automated_detection_testing: passed
+  - Living Off The Land
   confidence: 80
   context:
-  - source:endpoint
-  - stage: executions
+  - Source:Endpoint
+  - Stage:Execution
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/spear_phish/windows-sysmon.log
   impact: 70
@@ -50,7 +50,7 @@ tags:
     role:
     - Victim
   - name: user
-    type: user
+    type: User
     role:
     - Victim
   product:
@@ -74,3 +74,4 @@ tags:
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_microsoft_sysmon
+  asset_type: Endpoint

@@ -1,7 +1,7 @@
 name: Get DomainPolicy with Powershell
 id: b8f9947e-065a-11ec-aafb-acde48001122
-version: 2
-date: '2022-02-24'
+version: 1
+date: '2021-08-26'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 type: TTP
 datamodel:
@@ -11,7 +11,8 @@ description: This analytic looks for the execution of `powershell.exe` executing
   Red Teams and adversaries alike may use PowerShell to enumerate domain policies
   for situational awareness and Active Directory Discovery.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where `process_cmd` OR `process_powershell` AND Processes.process = "*Get-DomainPolicy*"
+  as lastTime from datamodel=Endpoint.Processes where (Processes.process_name="cmd.exe"
+  OR Processes.process_name="powershell*") AND Processes.process = "*Get-DomainPolicy*"
   by Processes.dest Processes.user Processes.parent_process Processes.process_name
   Processes.process Processes.process_id Processes.parent_process_id Processes.parent_process_name
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
@@ -28,12 +29,10 @@ references:
 tags:
   analytic_story:
   - Active Directory Discovery
-  - Malicious PowerShell
-  automated_detection_testing: passed
   confidence: 60
   context:
   - Source:Endpoint
-  - Stage:Reconnaissance
+  - Stage:Discovery
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1201/pwd_policy_discovery/windows-sysmon.log
   impact: 50
@@ -42,7 +41,6 @@ tags:
   message: an instance of process $process_name$ with commandline $process$ in $dest$
   mitre_attack_id:
   - T1201
-  - T1059.001
   observable:
   - name: user
     type: User
@@ -53,7 +51,7 @@ tags:
     role:
     - Victim
   - name: parent_process_name
-    type: Parent Process
+    type: Process
     role:
     - Parent Process
   product:
@@ -74,3 +72,4 @@ tags:
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_microsoft_sysmon
+  asset_type: Endpoint

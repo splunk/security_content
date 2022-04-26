@@ -35,8 +35,8 @@ references:
 - https://www.crowdstrike.com/blog/investigating-powershell-command-and-script-logging/
 tags:
   analytic_story:
+  - Hermetic Wiper 
   - Malicious PowerShell
-  automated_detection_testing: passed
   confidence: 70
   context:
   - Source:Endpoint
@@ -68,3 +68,4 @@ tags:
   - EventCode
   risk_score: 49
   security_domain: endpoint
+  asset_type: Endpoint

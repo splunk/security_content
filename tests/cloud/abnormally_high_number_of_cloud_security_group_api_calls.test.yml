@@ -3,17 +3,17 @@ tests:
 - name: Abnormally High Number Of Cloud Security Group API Calls
   file: cloud/abnormally_high_number_of_cloud_security_group_api_calls.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-24h'
-  latest_time: 'now'
+  earliest_time: -24h
+  latest_time: now
   baselines:
   - name: Baseline Of Cloud Security Group API Calls Per User
-    file: detections/cloud/baseline_of_cloud_security_group_api_calls_per_user.yml
+    file: baselines/baseline_of_cloud_security_group_api_calls_per_user.yml
     pass_condition: '| stats count | where count > 0'
-    earliest_time: '-30d'
-    latest_time: '-1d'
+    earliest_time: -30d
+    latest_time: -1d
   attack_data:
   - file_name: cloudtrail_behavioural_detections.json
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
-    update_timestamp: True
+    update_timestamp: true

@@ -1,6 +1,8 @@
 ---
 title: "Windows InstallUtil Uninstall Option with Network"
-excerpt: "InstallUtil, Signed Binary Proxy Execution"
+excerpt: "InstallUtil
+, Signed Binary Proxy Execution
+"
 categories:
   - Endpoint
 last_modified_at: 2021-11-12
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - InstallUtil
-  - Defense Evasion
   - Signed Binary Proxy Execution
+  - Defense Evasion
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -29,7 +31,7 @@ When `InstallUtil.exe` is used in a malicous manner, the path to an executable o
 If used by a developer, typically this will be found with multiple command-line switches/arguments and spawn from Visual Studio. \
 During triage review resulting network connections, file modifications, and parallel processes. Capture any artifacts and review further.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-11-12
@@ -63,9 +65,9 @@ During triage review resulting network connections, file modifications, and para
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_installutil](https://github.com/splunk/security_content/blob/develop/macros/process_installutil.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [process_installutil](https://github.com/splunk/security_content/blob/develop/macros/process_installutil.yml)
 
 Note that `windows_installutil_uninstall_option_with_network_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -99,7 +101,6 @@ Limited false positives should be present as InstallUtil is not typically used t
 
 #### Kill Chain Phase
 * Exploitation
-* Privilege Escalation
 
 
 
@@ -109,8 +110,6 @@ Limited false positives should be present as InstallUtil is not typically used t
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ performing an uninstall. |
 
-
-Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 
@@ -125,6 +124,7 @@ Note that risk score is calculated base on the following formula: `(Impact * Con
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.004/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.004/atomic_red_team/windows-sysmon.log)
 

@@ -1,31 +1,11 @@
-author: Jose Hernandez, Michael Haag, Splunk
-datamodel:
-- Endpoint_Processes
-date: '2022-02-11'
+name: Windows Powershell DownloadFile
+id: 46440222-81d5-44b1-a376-19dcd70d1b08
+version: 1
 description: The following analytic identifies the use of PowerShell downloading a
   file using `DownloadFile` method. This particular method is utilized in many different
   PowerShell frameworks to download files and output to disk. Identify the source
   (IP/domain) and destination file and triage appropriately. If AMSI logging or PowerShell
   transaction logs are available, review for further details of the implant.
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
-  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
-  endpoint product.
-id: 46440222-81d5-44b1-a376-19dcd70d1b08
-known_false_positives: False positives may be present and filtering will need to occur
-  by parent process or command line argument. It may be required to modify this query
-  to an EDR product for more granular coverage.
-name: Windows Powershell DownloadFile
-product:
-- Splunk Behavioral Analytics
-references:
-- https://docs.microsoft.com/en-us/dotnet/api/system.net.webclient.downloadfile?view=net-5.0
-- https://blog.malwarebytes.com/malwarebytes-news/2021/02/lazyscripter-from-empire-to-double-rat/
-- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.001/T1059.001.md
-risk_message: An instance of $parent_process_name$ spawning $process_name$ was identified
-  on endpoint $dest$ by user $user$. This behavior identifies the use of DownloadFile
-  within PowerShell.
 search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
   "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"),
   "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"),
@@ -40,6 +20,18 @@ search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map
   "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name",
   process_name, "parent_process_name", parent_process_name, "process_path", process_path])
   | into write_ssa_detected_events();'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: False positives may be present and filtering will need to occur
+  by parent process or command line argument. It may be required to modify this query
+  to an EDR product for more granular coverage.
+references:
+- https://docs.microsoft.com/en-us/dotnet/api/system.net.webclient.downloadfile?view=net-5.0
+- https://blog.malwarebytes.com/malwarebytes-news/2021/02/lazyscripter-from-empire-to-double-rat/
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.001/T1059.001.md
 tags:
   analytic_story:
   - Malicious PowerShell
@@ -47,42 +39,13 @@ tags:
   - Log4Shell CVE-2021-44228
   cis20:
   - CIS 8
-  confidence: 70
-  context:
-  - Source:Endpoint
-  - Stage:LateralMovement
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/atomic_red_team/downloadfile_windows-security.log
-  impact: 50
   kill_chain_phases:
-  - Lateral Movement
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified
-    on endpoint $dest$ by user $user$. This behavior identifies the use of DownloadFile
-    within PowerShell.
+  - Exploitation
   mitre_attack_id:
   - T1020
   nist:
   - PR.PT
   - DE.CM
-  observable:
-  - name: dest_user_id
-    role:
-    - Victim
-    type: User
-  - name: dest_device_id
-    role:
-    - Victim
-    type: Hostname
-  - name: parent_process_name
-    role:
-    - Parent Process
-    type: Parent Process
-  - name: process_name
-    role:
-    - Child Process
-    type: Process
-  product:
-  - Splunk Behavioral Analytics
   required_fields:
   - _time
   - dest_device_id
@@ -93,18 +56,15 @@ tags:
   - process
   - cmd_line
   risk_score: 35
-  risk_severity: low
   security_domain: endpoint
+  risk_severity: low
 test:
   name: Windows Powershell DownloadFile Unit Test
   tests:
-  - attack_data:
-    - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/atomic_red_team/downloadfile_windows-security.log
-      file_name: downloadfile_windows-security.log
-      source: WinEventLog:Security
-    description: Test Windows Powershell DownloadFile  detections
+  - name: Windows Powershell DownloadFile
     file: endpoint/ssa___windows_powershell_downloadfile.yml
-    name: Windows Powershell DownloadFile
     pass_condition: '@count_gt(0)'
-type: Anomaly
-version: 1
+    attack_data:
+    - file_name: downloadfile_windows-security.log
+      data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/atomic_red_team/downloadfile_windows-security.log
+      source: WinEventLog:Security

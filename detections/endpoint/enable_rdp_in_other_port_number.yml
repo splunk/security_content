@@ -34,7 +34,7 @@ references:
 tags:
   analytic_story:
   - Prohibited Traffic Allowed or Protocol Mismatch
-  automated_detection_testing: passed
+  - Windows Registry Abuse
   confidence: 100
   context:
   - Source:Endpoint
@@ -70,3 +70,4 @@ tags:
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_microsoft_sysmon
+  asset_type: Endpoint

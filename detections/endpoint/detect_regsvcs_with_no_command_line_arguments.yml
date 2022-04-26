@@ -1,7 +1,7 @@
 name: Detect Regsvcs with No Command Line Arguments
 id: 6b74d578-a02e-4e94-a0d1-39440d0bf254
-version: 2
-date: '2021-09-20'
+version: 3
+date: '2022-03-15'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
@@ -16,7 +16,7 @@ search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint
   where `process_regsvcs` by _time span=1h  Processes.process_id Processes.process_name
   Processes.dest Processes.process_path Processes.process Processes.parent_process_name
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | regex process="(regsvcs\.exe.{0,4}$)"| `detect_regsvcs_with_no_command_line_arguments_filter`'
+  | regex process="(?i)(regsvcs\.exe.{0,4}$)"| `detect_regsvcs_with_no_command_line_arguments_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
@@ -32,8 +32,8 @@ references:
 tags:
   analytic_story:
   - Suspicious Regsvcs Regasm Activity
+  - Living Off The Land
   asset_type: Endpoint
-  automated_detection_testing: passed
   cis20:
   - CIS 8
   confidence: 70
@@ -63,7 +63,7 @@ tags:
     role:
     - Victim
   - name: parent_process_name
-    type: Parent Process
+    type: Process
     role:
     - Parent Process
   - name: process_name

@@ -11,11 +11,9 @@ description: This search is to detect a suspicious rundll32.exe process having a
   malware where the rundll32 that execute its payload will contact amazon.com to check
   internet connect and to communicate to its C&C server to download config and other
   file component.
-search: '`sysmon` EventCode=22 process_name="rundll32.exe" 
-  | stats count min(_time) as firstTime max(_time) as lastTime by Image QueryName QueryStatus ProcessId  Computer 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `rundll32_dnsquery_filter`'
+search: '`sysmon` EventCode=22 process_name="rundll32.exe" | stats count min(_time)
+  as firstTime max(_time) as lastTime by Image QueryName QueryStatus ProcessId  Computer
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `rundll32_dnsquery_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name and eventcode = 22 dnsquery executions from your endpoints.
   If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
@@ -26,7 +24,7 @@ references:
 tags:
   analytic_story:
   - IcedID
-  automated_detection_testing: passed
+  - Living Off The Land
   confidence: 80
   context:
   - Source:Endpoint
@@ -47,7 +45,7 @@ tags:
     role:
     - Victim
   - name: process_name
-    type: process name
+    type: Process
     role:
     - Attacker
   product:
@@ -63,3 +61,4 @@ tags:
   - Computer
   risk_score: 56
   security_domain: endpoint
+  asset_type: Endpoint
