@@ -15,9 +15,13 @@ publish_build_to_pre_qa:
   script:
     - mkdir -p artifacts
     - pip install requests
-    - python security_content_automation/publish_build_to_pre_qa/publish_build_to_pre_qa.py --version $CI_COMMIT_REF_NAME --builds DA-ESS-ContentUpdate
+    - VERSION=$(git tag --sort=-creatordate | head -n 1)
+    - echo "Build Version - $VERSION"
+    - python security_content_automation/publish_build_to_pre_qa/publish_build_to_pre_qa.py --version $VERSION --builds DA-ESS-ContentUpdate SSA_Content
   after_script:
     - cp publish_build_to_pre_qa.log artifacts/publish_build_to_pre_qa.log
   rules:
-    - if: '$CI_COMMIT_REF_NAME =~ /^v[0-9]+\.[0-9]+\.[0-9]$/'
+    - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]$/'
+      when: always
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
       when: always
