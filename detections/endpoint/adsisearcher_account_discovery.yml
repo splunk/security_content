@@ -23,6 +23,7 @@ references:
 - https://devblogs.microsoft.com/scripting/use-the-powershell-adsisearcher-type-accelerator-to-search-active-directory/
 tags:
   analytic_story:
+  - Industroyer2
   - Active Directory Discovery
   confidence: 50
   context:
