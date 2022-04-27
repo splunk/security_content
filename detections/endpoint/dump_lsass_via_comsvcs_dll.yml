@@ -27,6 +27,7 @@ tags:
   - Suspicious Rundll32 Activity
   - HAFNIUM Group
   - Living Off The Land
+  - Industroyer2
   asset_type: Endpoint
   cis20:
   - CIS 3
