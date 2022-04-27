@@ -28,6 +28,7 @@ references:
 tags:
   analytic_story:
   - Cyclops BLink
+  - Industroyer2
   asset_type: Endpoint
   cis20:
   - CIS 3
