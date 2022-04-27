@@ -29,6 +29,7 @@ references:
 tags:
   analytic_story:
   - Data Destruction
+  - Industroyer2
   asset_type: endpoint
   cis20:
   - CIS 3
