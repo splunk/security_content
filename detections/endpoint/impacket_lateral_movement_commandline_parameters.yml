@@ -39,6 +39,7 @@ tags:
   analytic_story:
   - Active Directory Lateral Movement
   - WhisperGate
+  - Industroyer2
   confidence: 70
   context:
   - Source:Endpoint
