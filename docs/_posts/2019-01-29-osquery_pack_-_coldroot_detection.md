@@ -137,4 +137,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/deprecated/osquery_pack_-_coldroot_detection.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/deprecated/osquery_pack___coldroot_detection.yml) \| *version*: **1**

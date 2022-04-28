@@ -132,6 +132,7 @@ unknown
 #### Associated Analytic story
 * [Windows Persistence Techniques](/stories/windows_persistence_techniques)
 * [Windows Privilege Escalation](/stories/windows_privilege_escalation)
+* [Hermetic Wiper](/stories/hermetic_wiper)
 
 
 

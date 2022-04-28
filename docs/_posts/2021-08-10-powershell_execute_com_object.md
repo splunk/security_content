@@ -124,6 +124,7 @@ To successfully implement this search, you need to be ingesting logs with the pr
 network operrator may use this command.
 
 #### Associated Analytic story
+* [Hermetic Wiper](/stories/hermetic_wiper)
 * [Malicious PowerShell](/stories/malicious_powershell)
 * [Ransomware](/stories/ransomware)
 

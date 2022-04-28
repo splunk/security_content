@@ -107,6 +107,7 @@ Detect multiple executions of Living off the Land (LOLbin) binaries in a short p
 | rename columns.* as * 
 | stats  min(_time) as firstTime max(_time) as lastTime values(cmdline) as cmdline, values(pid) as pid, values(parent) as parent, values(path) as path, values(signing_id) as signing_id,  dc(path) as dc_path by username host 
 | rename username as User, cmdline as process, path as process_path 
+| where dc_path > 3 
 | `security_content_ctime(firstTime)`
 | `security_content_ctime(lastTime)` 
 | `macos_lolbin_filter`

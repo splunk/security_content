@@ -164,4 +164,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/print_spooler_failed_to_load_a_plug-in.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/print_spooler_failed_to_load_a_plug_in.yml) \| *version*: **1**

@@ -126,6 +126,7 @@ If Splunk Phantom is also configured in your environment, a playbook called "Sus
 None at this time
 
 #### Associated Analytic story
+* [Hermetic Wiper](/stories/hermetic_wiper)
 * [Emotet Malware  DHS Report TA18-201A ](/stories/emotet_malware__dhs_report_ta18-201a_)
 * [Suspicious Emails](/stories/suspicious_emails)
 

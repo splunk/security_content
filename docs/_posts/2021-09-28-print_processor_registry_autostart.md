@@ -134,6 +134,7 @@ possible new printer installation may add driver component on this registry.
 #### Associated Analytic story
 * [Windows Persistence Techniques](/stories/windows_persistence_techniques)
 * [Windows Privilege Escalation](/stories/windows_privilege_escalation)
+* [Hermetic Wiper](/stories/hermetic_wiper)
 
 
 

@@ -116,9 +116,9 @@ This query identifies a shell, PowerShell.exe or Cmd.exe, spawning from W3WP.exe
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_powershell](https://github.com/splunk/security_content/blob/develop/macros/process_powershell.yml)
 * [process_cmd](https://github.com/splunk/security_content/blob/develop/macros/process_cmd.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [process_powershell](https://github.com/splunk/security_content/blob/develop/macros/process_powershell.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 Note that **w3wp_spawning_shell_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -145,6 +145,7 @@ To successfully implement this search you need to be ingesting information on pr
 Baseline your environment before production. It is possible build systems using IIS will spawn cmd.exe to perform a software build. Filter as needed.
 
 #### Associated Analytic story
+* [Hermetic Wiper](/stories/hermetic_wiper)
 * [HAFNIUM Group](/stories/hafnium_group)
 * [ProxyShell](/stories/proxyshell)
 

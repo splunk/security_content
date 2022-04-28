@@ -128,6 +128,7 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 False positives may only pertain to it not being related to Empire, but another framework. Filter as needed if any applications use the same pattern.
 
 #### Associated Analytic story
+* [Hermetic Wiper](/stories/hermetic_wiper)
 * [Malicious PowerShell](/stories/malicious_powershell)
 
 

@@ -123,6 +123,7 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 Potential for some third party applications to disable AMSI upon invocation. Filter as needed.
 
 #### Associated Analytic story
+* [Hermetic Wiper](/stories/hermetic_wiper)
 * [Malicious PowerShell](/stories/malicious_powershell)
 
 

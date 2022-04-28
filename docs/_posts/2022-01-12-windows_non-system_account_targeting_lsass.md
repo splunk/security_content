@@ -163,4 +163,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/windows_non-system_account_targeting_lsass.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/windows_non_system_account_targeting_lsass.yml) \| *version*: **1**

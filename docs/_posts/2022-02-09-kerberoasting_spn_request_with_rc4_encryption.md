@@ -110,8 +110,8 @@ The following analytic leverages Kerberos Event 4769, A Kerberos service ticket 
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that **kerberoasting_spn_request_with_rc4_encryption_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -134,6 +134,7 @@ Older systems that support kerberos RC4 by default like NetApp may generate fals
 #### Associated Analytic story
 * [Windows Privilege Escalation](/stories/windows_privilege_escalation)
 * [Active Directory Kerberos Attacks](/stories/active_directory_kerberos_attacks)
+* [Hermetic Wiper](/stories/hermetic_wiper)
 
 
 

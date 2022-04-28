@@ -142,6 +142,7 @@ It is possible some Administrative utilities will load msi.dll outside of normal
 
 #### Associated Analytic story
 * [Windows Privilege Escalation](/stories/windows_privilege_escalation)
+* [Hermetic Wiper](/stories/hermetic_wiper)
 
 
 
@@ -167,4 +168,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/msi_module_loaded_by_non-system_binary.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/msi_module_loaded_by_non_system_binary.yml) \| *version*: **1**

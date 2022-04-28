@@ -140,6 +140,7 @@ Some legitimate printer-related processes may show up as children of spoolsv.exe
 
 #### Associated Analytic story
 * [Windows Privilege Escalation](/stories/windows_privilege_escalation)
+* [Hermetic Wiper](/stories/hermetic_wiper)
 
 
 

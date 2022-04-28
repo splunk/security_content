@@ -135,6 +135,7 @@ Microsoft may provide updates to these binaries. Verify that these changes do no
 
 #### Associated Analytic story
 * [Windows Privilege Escalation](/stories/windows_privilege_escalation)
+* [Hermetic Wiper](/stories/hermetic_wiper)
 
 
 
