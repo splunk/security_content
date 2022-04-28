@@ -580,6 +580,8 @@ jobs:
           # aws s3 cp lookups s3://security-content/lookups --recursive --exclude "*" --include "*.mlmodel"
           # aws s3 cp macros s3://security-content/macros --recursive --exclude "*" --include "*.yml"
           # aws s3 cp deployments s3://security-content/deployments --recursive --exclude "*" --include "*.yml"
+          echo "ready to copy... dist/api to s3"
+          ls -ahl dist/api
           aws s3 cp dist/api s3://security-content/json --recursive --exclude "*" --include "version.json"
       
       - name: Security Content API Smoke Test
