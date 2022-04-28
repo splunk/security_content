@@ -560,7 +560,18 @@ jobs:
         run: |
           source venv/bin/activate
           python3 contentctl.py --path . generate --product API --output dist/api
-      
+
+      - name: Generate content version and timestamp JSON
+        run : |
+            curl -o version-api.json https://api.github.com/repositories/162346001/releases/latest
+            VERSION_VAL=$(cat version-api.json | jq '.name')
+            VERSION_TS=$(cat version-api.json | jq '.published_at')
+            echo "{\"version\":{\"name\":$VERSION_VAL,\"published_at\":$VERSION_TS}}" > dist/api/version.json
+            ls -ahl dist/api/version.json
+            echo "contents of version.json:"
+            cat dist/api/version.json
+
+
       #Official, Verified Amazon-AWS Github Account Provided Action
       - uses: aws-actions/configure-aws-credentials@v1
         with:
