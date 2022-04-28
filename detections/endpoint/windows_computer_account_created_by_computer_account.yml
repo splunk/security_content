@@ -21,7 +21,7 @@ references:
 tags:
   analytic_story:
   - Active Directory Kerberos Attacks
-  - KrbRelayUp
+  - Local Privilege Escalation With KrbRelayUp
   asset_type: Endpoint
   cis20:
   - CIS 3

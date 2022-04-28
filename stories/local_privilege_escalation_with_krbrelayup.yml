@@ -1,0 +1,20 @@
+name: Local Privilege Escalation With KrbRelayUp
+id: 765790f0-2f8f-4048-8321-fd1928ec2546
+version: 1
+date: '2022-04-28'
+author: Michael Haag, Mauricio Velazco, Splunk
+description: KrbRelayUp is a tool that allows local privilege escalation from low-priviliged domain user to local system on domain-joined computers.
+narrative: UPDATE_NARRATIVE
+references:
+  - https://github.com/Dec0ne/KrbRelayUp
+  - https://gist.github.com/tothi/bf6c59d6de5d0c9710f23dae5750c4b9
+  - https://googleprojectzero.blogspot.com/2021/10/using-kerberos-for-authentication-relay.html
+tags:
+  analytic_story: Local Privilege Escalation With KrbRelayUp
+  category:
+  - Privilege Escalation
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
