@@ -8,5 +8,5 @@ tests:
   attack_data:
   - file_name: windows-powershell-xml2.log
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/adsi_discovery/windows-powershell-xml2.log
-    source: WinEventLog:Microsoft-Windows-PowerShell/Operational
-    sourcetype: WinEventLog
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: xmlwineventlog
