@@ -1,6 +1,6 @@
-name: Linux Kworker Process In Writable Process Unit Test
+name: Linux Kworker Process In Writable Process Path Unit Test
 tests:
-- name: Linux Kworker Process In Writable Process
+- name: Linux Kworker Process In Writable Process Path
   file: endpoint/linux_kworker_process_in_writable_process_path.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h
