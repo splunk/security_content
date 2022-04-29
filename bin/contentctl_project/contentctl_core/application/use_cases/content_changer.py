@@ -33,6 +33,14 @@ class ContentChanger:
         function_names = [function_object[0] for function_object in members if function_object[0] not in exclude_functions]
         return function_names
 
+    def all(self, objects : list) -> None:
+        for func_name in ContentChanger.enumerate_content_changer_functions():
+            if func_name not in ["all", "change_test_file_format"]:
+                print(f"calling {func_name}")
+                func_object = getattr(self, func_name)
+                func_object(objects)
+
+
     # Define Converter Functions here
     def example_converter_func(self, objects : list) -> None:
         for obj in objects:
