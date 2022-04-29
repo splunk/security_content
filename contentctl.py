@@ -257,7 +257,7 @@ def main(args):
     parser = argparse.ArgumentParser(
         description="Use `contentctl.py action -h` to get help with any Splunk Security Content action")
     parser.add_argument("-p", "--path", required=True, 
-                                        help="path to the Splunk Security Content folder")
+                                        help="path to the Splunk Security Content folder",)
     parser.set_defaults(func=lambda _: parser.print_help())
 
     actions_parser = parser.add_subparsers(title="Splunk Security Content actions", dest="action")
@@ -287,8 +287,10 @@ def main(args):
         help="Type of package to create, choose between `ESCU`, `SSA` or `API`.")
     generate_parser.set_defaults(func=generate)
     
-    content_changer_parser.add_argument("-cf", "--change_function", required=True, type=str,
-        help="Define a change funtion defined in bin/contentctl_core/contentctl/application/use_cases/content_changer.py")
+    content_changer_choices = ContentChanger.enumerate_content_changer_functions()
+    content_changer_parser.add_argument("-cf", "--change_function", required=True, metavar='{ ' + ', '.join(content_changer_choices) +' }' , type=str, choices=content_changer_choices, 
+                                        help= "Choose from the functions above defined in \nbin/contentctl_core/contentctl/application/use_cases/content_changer.py")
+    
     content_changer_parser.set_defaults(func=content_changer)
 
     docgen_parser.add_argument("-o", "--output", required=True, type=str,
