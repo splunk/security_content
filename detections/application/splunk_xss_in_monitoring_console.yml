@@ -7,15 +7,15 @@ type: TTP
 datamodel: []
 description: On May 3rd, 2022, Splunk published a security advisory for a reflective Cross-Site Scripting (XSS) vulnerability stemming from the lack of input validation in the Distributed Monitoring Console app. This detection will alert on attempted exploitation in patched versions of Splunk as well as actual exploitation in unpatched version of Splunk.
 search: ' `splunkd_web` method="GET" uri_query="description=%3C*" | table _time host status clientip user uri | `splunk_xss_in_monitoring_console_filter`'
-how_to_implement: This detection does not require you to ingest any new data. The detection does require the ability to search the _internal index. This detection will find attempted exploitation of CVE-2022-27183. 
-known_false_positives: Use of the monitoring console where the less-than sign (<) is the first character in the description field. 
+how_to_implement: This detection does not require you to ingest any new data. The detection does require the ability to search the _internal index. This detection will find attempted exploitation of CVE-2022-27183.
+known_false_positives: Use of the monitoring console where the less-than sign (<) is the first character in the description field.
 references:
 - https://www.splunk.com/en_us/product-security/announcements/svd-2022-0306.html
 tags:
   analytic_story:
   - Splunk Vulnerabilities
   asset_type: Endpoint
-  cve: 
+  cve:
   - CVE-2022-27183
   cis20:
   - CIS 3
@@ -44,7 +44,7 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - method 
+  - method
   - uri_query
   - status
   - clientip

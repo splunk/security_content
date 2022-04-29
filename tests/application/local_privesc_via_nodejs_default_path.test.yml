@@ -1,0 +1,12 @@
+name: Local privesc via nodejs default path Unit Test
+tests:
+- name: Local privesc via nodejs default path
+  file: application/local_privesc_via_nodejs_default_path.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: local_privesc_via_nodes_default_path.txt
+    data: https://raw.githubusercontent.com/splunk/attack_data/master/datasets/attack_techniques/T1548/splunk/local_privesc_via_nodes_default_path.txt
+    source: audittrail
+    sourcetype: audittrail
