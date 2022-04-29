@@ -26,9 +26,14 @@ class ContentChanger:
     
         input_dto.adapter.writeObjectsInPlace(objects)
 
+    @staticmethod
+    def enumerate_content_changer_functions(exclude_functions: list[str] = ["execute", "enumerate_content_changer_functions"]) -> list[str]:
+        import inspect
+        members = inspect.getmembers(ContentChanger, predicate=inspect.isfunction)
+        function_names = [function_object[0] for function_object in members if function_object[0] not in exclude_functions]
+        return function_names
 
     # Define Converter Functions here
-
     def example_converter_func(self, objects : list) -> None:
         for obj in objects:
             obj['author'] = obj['author'].upper()
