@@ -27,6 +27,7 @@ class FactoryInputDto:
     playbook_builder: PlaybookBuilder
     director: Director
     attack_enrichment: dict
+    force_cached_or_offline: bool = False
     
 
 @dataclass()
@@ -116,7 +117,7 @@ class Factory():
                               self.input_dto.director.constructDetection(self.input_dto.detection_builder, file, 
                                    self.output_dto.deployments, self.output_dto.playbooks, self.output_dto.baselines,
                                    self.output_dto.tests, self.input_dto.attack_enrichment, self.output_dto.macros,
-                                   self.output_dto.lookups)
+                                   self.output_dto.lookups, self.input_dto.force_cached_or_offline)
                               detection = self.input_dto.detection_builder.getObject()
                               self.output_dto.detections.append(detection)
                     

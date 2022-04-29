@@ -13,11 +13,13 @@ logging.getLogger('taxii2client').setLevel(logging.CRITICAL)
 class AttackEnrichment():
 
     @classmethod
-    def get_attack_lookup(self, store_csv = None) -> dict:
+    def get_attack_lookup(self, store_csv = None, force_cached_or_offline: bool = False) -> dict:
         attack_lookup = dict()
         file_path = os.path.join(os.path.dirname(__file__), '../../../../lookups/mitre_enrichment.csv')
 
         try:
+            if force_cached_or_offline is True:
+                raise(Exception("WARNING - Using cached MITRE Attack Enrichment.  Attack Enrichment may be out of date. Only use this setting for offline environments and development purposes."))
             lift = attack_client()
             all_enterprise = lift.get_enterprise(stix_format=False)
             enterprise_relationships = lift.get_enterprise_relationships()

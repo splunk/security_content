@@ -16,6 +16,7 @@ from bin.contentctl_project.contentctl_infrastructure.builder.splunk_app_enrichm
 
 class SecurityContentDetectionBuilder(DetectionBuilder):
     security_content_obj : SecurityContentObject
+    force_cached_or_offline: bool = False
 
 
     def setObject(self, path: str) -> None:
@@ -219,14 +220,14 @@ class SecurityContentDetectionBuilder(DetectionBuilder):
             self.security_content_obj.cve_enrichment = []
             if self.security_content_obj.tags.cve:
                 for cve in self.security_content_obj.tags.cve:
-                    self.security_content_obj.cve_enrichment.append(CveEnrichment.enrich_cve(cve))
+                    self.security_content_obj.cve_enrichment.append(CveEnrichment.enrich_cve(cve, force_cached_or_offline = self.force_cached_or_offline))
 
     def addSplunkApp(self) -> None:
         if self.security_content_obj:
             self.security_content_obj.splunk_app_enrichment = []
             if self.security_content_obj.tags.supported_tas:
                 for splunk_app in self.security_content_obj.tags.supported_tas:
-                    self.security_content_obj.splunk_app_enrichment.append(SplunkAppEnrichment.enrich_splunk_app(splunk_app))
+                    self.security_content_obj.splunk_app_enrichment.append(SplunkAppEnrichment.enrich_splunk_app(splunk_app, force_cached_or_offline=self.force_cached_or_offline))
 
     def reset(self) -> None:
         self.security_content_obj = None

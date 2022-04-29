@@ -258,6 +258,8 @@ def main(args):
         description="Use `contentctl.py action -h` to get help with any Splunk Security Content action")
     parser.add_argument("-p", "--path", required=True, 
                                         help="path to the Splunk Security Content folder",)
+    parser.add_argument("-c", "--cached_and_offline", required=False, type=bool, default=False,
+        help="Force cached/offline resources.  While this makes execution much faster, it may result in enrichment which is out of date. This is suitable for use only in development or disconnected environments.")
     parser.set_defaults(func=lambda _: parser.print_help())
 
     actions_parser = parser.add_subparsers(title="Splunk Security Content actions", dest="action")
