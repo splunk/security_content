@@ -15,7 +15,10 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   by Processes.process_name Processes.process Processes.process_id Processes.parent_process_id Processes.process_guid Processes.dest 
   Processes.user Processes.parent_process_name  Processes.parent_process_path Processes.process_path 
   | rex field=Processes.process "--dport (?<port>3269|636|989|994|995|8443)"
-  | stats values(Processes.process) as processes_exec values(port) as ports values(Processes.process_guid) as guids values(Processes.process_id) as pids dc(port) as port_count count by Processes.process_name Processes.parent_process_name Processes.parent_process_id Processes.dest Processes.user Processes.parent_process_path Processes.process_path | where port_count >=3
+  | stats values(Processes.process) as processes_exec values(port) as ports values(Processes.process_guid) as guids values(Processes.process_id) as pids 
+  dc(port) as port_count count 
+  by Processes.process_name Processes.parent_process_name Processes.parent_process_id Processes.dest Processes.user 
+  Processes.parent_process_path Processes.process_path firstTime lastTime | where port_count >=3
   | `drop_dm_object_name(Processes)` 
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
