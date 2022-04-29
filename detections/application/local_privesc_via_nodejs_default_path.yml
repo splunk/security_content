@@ -5,7 +5,7 @@ date: '2022-04-29'
 author: Rod Soto, Splunk
 type: TTP
 datamodel: []
-description: On May 3rd, 2022, Splunk published a security advisory for a privilege escalation vulnerability via Nodejs Default path. This vulnerability affects Windows and Unix based systems, and it allows a local low privilege user to gain SYSTEM in windows systems and in Unix based system the impact is lower as standard users cannot write under /opt directory.
+description: On May, 2022, Splunk published a security advisory for a privilege escalation vulnerability via Nodejs Default path. This vulnerability affects Windows and Unix based systems, and it allows a local low privilege user to gain SYSTEM in windows systems and in Unix based system the impact is lower as standard users cannot write under /opt directory.
 search: '`local_privesc_nodejs_splunk` search= makeresults | eval t= printf(\"*\") roles=user provenance=UI:Dashboard:* | stats count by action user savedsearch_name search | `local_privesc_via_nodejs_default_path_filter`'
 how_to_implement: This detection does not require you to ingest any new data. The detection does require the ability to search the _audit index. This search will provide users executing potentially exploitable command functionat search function.
 known_false_positives: In addition to the above search, the following search 'index=_internal pdf source="c:\\opt\\splunk\\var\\log\\splunk\\pdfgen.log" | table splunk_server filename date_mday date_hour' will provide time and document exported to PDF in order to find out low privilege user executing vulnerable function plus the export to PDF to complete exploit.
