@@ -101,7 +101,7 @@ def generate(args) -> None:
         SecurityContentInvestigationBuilder(),
         SecurityContentPlaybookBuilder(),
         SecurityContentDirector(),
-        AttackEnrichment.get_attack_lookup(store_csv=True)
+        AttackEnrichment.get_attack_lookup(store_csv=True, force_cached_or_offline=args.cached_and_offline)
     )
 
     ba_factory_input_dto = BAFactoryInputDto(
@@ -158,7 +158,7 @@ def validate(args) -> None:
         SecurityContentInvestigationBuilder(),
         SecurityContentPlaybookBuilder(),
         SecurityContentDirector(),
-        AttackEnrichment.get_attack_lookup()
+        AttackEnrichment.get_attack_lookup(force_cached_or_offline=args.cached_and_offline)
     )
 
     ba_factory_input_dto = BAFactoryInputDto(
@@ -198,7 +198,7 @@ def doc_gen(args) -> None:
         SecurityContentInvestigationBuilder(),
         SecurityContentPlaybookBuilder(),
         SecurityContentDirector(),
-        AttackEnrichment.get_attack_lookup()
+        AttackEnrichment.get_attack_lookup(force_cached_or_offline=args.cached_and_offline)
     )
 
     doc_gen_input_dto = DocGenInputDto(
@@ -236,7 +236,7 @@ def reporting(args) -> None:
         SecurityContentInvestigationBuilder(),
         SecurityContentPlaybookBuilder(),
         SecurityContentDirector(),
-        AttackEnrichment.get_attack_lookup()
+        AttackEnrichment.get_attack_lookup(force_cached_or_offline=args.cached_and_offline)
     )
 
     reporting_input_dto = ReportingInputDto(
@@ -258,9 +258,9 @@ def main(args):
         description="Use `contentctl.py action -h` to get help with any Splunk Security Content action")
     parser.add_argument("-p", "--path", required=True, 
                                         help="path to the Splunk Security Content folder",)
-    parser.add_argument("-c", "--cached_and_offline", required=False, type=bool, default=False,
+    parser.add_argument("--cached_and_offline", action=argparse.BooleanOptionalAction,
         help="Force cached/offline resources.  While this makes execution much faster, it may result in enrichment which is out of date. This is suitable for use only in development or disconnected environments.")
-    parser.set_defaults(func=lambda _: parser.print_help())
+    parser.set_defaults(cached_and_offline=False, func=lambda _: parser.print_help())
 
     actions_parser = parser.add_subparsers(title="Splunk Security Content actions", dest="action")
     #new_parser = actions_parser.add_parser("new", help="Create new content (detection, story, baseline)")

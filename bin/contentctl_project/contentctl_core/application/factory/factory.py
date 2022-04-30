@@ -27,7 +27,7 @@ class FactoryInputDto:
     playbook_builder: PlaybookBuilder
     director: Director
     attack_enrichment: dict
-    force_cached_or_offline: bool = False
+    force_cached_or_offline: bool = True
     
 
 @dataclass()

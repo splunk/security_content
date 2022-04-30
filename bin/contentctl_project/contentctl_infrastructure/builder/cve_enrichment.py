@@ -9,8 +9,6 @@ CVE_CACHE_FILENAME = "lookups/CVE_CACHE.PICKLE"
 
 @functools.cache
 def cvesearch_helper(url:str, cve_id:str):
-    
-
     try:
         with open(CVE_CACHE_FILENAME, 'rb') as p:
             dat = pickle.load(p)
