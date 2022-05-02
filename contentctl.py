@@ -92,6 +92,7 @@ def generate(args) -> None:
         print("ERROR: invalid product. valid products are ESCU, SSA or API.")
         sys.exit(1)
 
+    
     factory_input_dto = FactoryInputDto(
         os.path.abspath(args.path),
         SecurityContentBasicBuilder(),
@@ -149,10 +150,12 @@ def validate(args) -> None:
         print("ERROR: invalid product. valid products are all, ESCU or SSA.")
         sys.exit(1)
 
+    detection_builder = SecurityContentDetectionBuilder()
+    detection_builder.force_cached_or_offline = args.cached_and_offline
     factory_input_dto = FactoryInputDto(
         os.path.abspath(args.path),
         SecurityContentBasicBuilder(),
-        SecurityContentDetectionBuilder(),
+        detection_builder,
         SecurityContentStoryBuilder(),
         SecurityContentBaselineBuilder(),
         SecurityContentInvestigationBuilder(),

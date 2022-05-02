@@ -125,9 +125,13 @@ class Detection(BaseModel, SecurityContentObject):
 
     # @validator('references')
     # def references_check(cls, v, values):
+    #     #import traceback
+    #     #import sys
+    #     #traceback.print_stack()
+    #     #sys.exit(0)
     #     for reference in v:
     #         try:
-    #             get = requests.get(reference)
+    #             get = requests.head(reference)
     #             if not get.status_code == 200:
     #                 raise ValueError('Reference ' + reference + ' is not reachable: ' + values["name"])
     #         except requests.exceptions.RequestException as e:
