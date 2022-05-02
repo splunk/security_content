@@ -10,7 +10,7 @@ search: ' `splunkd_failed_auths` | stats count(user) as auths by user, src | whe
 how_to_implement: This detection does not require you to ingest any new data. The detection does require the ability to search the _audit index. This detection may assist in efforts to find password spraying or brute force authorization attempts in addition to someone enumerating usernames. 
 known_false_positives: Automation executing authentication attempts against your Splunk infrastructure with outdated credentials may cause false positives.
 references:
-- https://www.splunk.com/en_us/product-security/announcements/svd-2022-0303.html
+- https://www.splunk.com/en_us/product-security/announcements/svd-2022-0502.html
 tags:
   analytic_story:
   - Splunk Vulnerabilities

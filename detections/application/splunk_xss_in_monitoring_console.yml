@@ -10,7 +10,7 @@ search: ' `splunkd_web` method="GET" uri_query="description=%3C*" | table _time 
 how_to_implement: This detection does not require you to ingest any new data. The detection does require the ability to search the _internal index. This detection will find attempted exploitation of CVE-2022-27183.
 known_false_positives: Use of the monitoring console where the less-than sign (<) is the first character in the description field.
 references:
-- https://www.splunk.com/en_us/product-security/announcements/svd-2022-0306.html
+- https://www.splunk.com/en_us/product-security/announcements/svd-2022-0505.html
 tags:
   analytic_story:
   - Splunk Vulnerabilities
