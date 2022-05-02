@@ -113,9 +113,9 @@ Detect the usage of comsvcs.dll for dumping the lsass process.
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
-* [process_rundll32](https://github.com/splunk/security_content/blob/develop/macros/process_rundll32.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [process_rundll32](https://github.com/splunk/security_content/blob/develop/macros/process_rundll32.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that **dump_lsass_via_comsvcs_dll_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -145,6 +145,7 @@ None identified.
 * [Suspicious Rundll32 Activity](/stories/suspicious_rundll32_activity)
 * [HAFNIUM Group](/stories/hafnium_group)
 * [Living Off The Land](/stories/living_off_the_land)
+* [Industroyer2](/stories/industroyer2)
 
 
 
