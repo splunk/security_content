@@ -1,0 +1,12 @@
+name: Splunk XSS in Monitoring Console Unit Test
+tests:
+- name: Splunk XSS in Monitoring Console
+  file: application/splunk_xss_in_monitoring_console.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: splunk_web_access.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1189/xss/splunk_web_access.log
+    source: /opt/splunk/var/log/splunk/web_access.log
+    sourcetype: splunk_web_access
