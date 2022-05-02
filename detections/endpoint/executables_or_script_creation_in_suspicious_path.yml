@@ -35,7 +35,7 @@ references:
 - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
 tags:
   analytic_story:
-  - Double Zero Destructor 
+  - Double Zero Destructor
   - Data Destruction
   - XMRig
   - Remcos
@@ -83,6 +83,4 @@ tags:
   - Filesystem.user
   risk_score: 56
   security_domain: endpoint
-  supported_tas:
-  - Splunk_TA_microsoft_sysmon
   asset_type: Endpoint
