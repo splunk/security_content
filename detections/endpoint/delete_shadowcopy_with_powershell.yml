@@ -1,7 +1,7 @@
 name: Delete ShadowCopy With PowerShell
 id: 5ee2bcd0-b2ff-11eb-bb34-acde48001122
-version: 1
-date: '2021-05-12'
+version: 2
+date: '2022-05-02'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
@@ -11,9 +11,10 @@ description: This following analytic detects PowerShell command to delete shadow
   to deploy DarkSide Ransomware where it executed a child process of PowerShell to
   execute a hex encoded command to delete shadow copy. This hex encoded command was
   able to be decrypted by PowerShell log.
-search: '`powershell` EventCode=4104 Message= "*ShadowCopy*" (Message = "*Delete*"
-  OR Message = "*Remove*") | stats count min(_time) as firstTime max(_time) as lastTime
-  by EventCode Message ComputerName User | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+search: '`powershell` EventCode=4104 ScriptBlockText= "*ShadowCopy*" (ScriptBlockText = "*Delete*"
+  OR ScriptBlockText = "*Remove*") | stats count min(_time) as firstTime max(_time) as lastTime
+  by Opcode Computer
+  UserID EventCode ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `delete_shadowcopy_with_powershell_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the powershell logs  from your endpoints. make sure you enable needed
@@ -32,11 +33,11 @@ tags:
   - Source:Endpoint
   - Stage:Execution
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/revil/inf1/windows-powershell.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/sbl_xml.log
   impact: 90
   kill_chain_phases:
   - Exploitation
-  message: An attempt to delete ShadowCopy was performed using PowerShell on $ComputerName$
+  message: An attempt to delete ShadowCopy was performed using PowerShell on $Computer$
     by $User$.
   mitre_attack_id:
   - T1490
@@ -45,7 +46,7 @@ tags:
     type: User
     role:
     - Victim
-  - name: ComputerName
+  - name: Computer
     type: Hostname
     role:
     - Victim
@@ -55,10 +56,11 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
+  - ScriptBlockText
+  - Opcode
+  - Computer
+  - UserID
   - EventCode
-  - Message
-  - ComputerName
-  - User
   risk_score: 81
   security_domain: endpoint
   asset_type: Endpoint
