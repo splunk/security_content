@@ -10,7 +10,7 @@ description: The following analytic utilizes PowerShell Script Block Logging (Ev
   password policy in a Windows domain. Red Teams and adversaries alike may use PowerShell
   to enumerate domain policies for situational awareness and Active Directory Discovery.
 search: '`powershell` EventCode=4104 ScriptBlockText ="*Get-DomainPolicy*" | stats count min(_time)
-  as firstTime max(_time) as lastTime by EventCode Message ComputerName User | `security_content_ctime(firstTime)`
+  as firstTime max(_time) as lastTime by Opcode Computer UserID EventCode ScriptBlockText | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `get_domainpolicy_with_powershell_script_block_filter`'
 how_to_implement: The following Hunting analytic requires PowerShell operational logs
   to be imported. Modify the powershell macro as needed to match the sourcetype or
