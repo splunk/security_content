@@ -31,6 +31,8 @@ tags:
   analytic_story:
   - Windows Persistence Techniques
   - Windows Privilege Escalation
+  - Windows Registry Abuse
+  - Hermetic Wiper 
   confidence: 90
   context:
   - Source:Endpoint

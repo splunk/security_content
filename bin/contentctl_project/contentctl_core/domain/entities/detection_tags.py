@@ -26,6 +26,7 @@ class DetectionTags(BaseModel):
     security_domain: str
     risk_severity: str = None
     cve: list = None
+    supported_tas: list = None
 
     # enrichment
     mitre_attack_enrichments: list[MitreAttackEnrichment] = None

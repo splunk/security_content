@@ -17,18 +17,76 @@ tags:
 We have not been able to test, simulate, or build datasets for this object. Use at your own risk. This analytic is **NOT** supported.
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for Windows endpoints that have not generated an event indicating a successful Windows update in the last 60 days. Windows updates are typically released monthly and applied shortly thereafter. An endpoint that has not successfully applied an update in this time frame indicates the endpoint is not regularly being patched for some reason.
 
-- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Updates](https://docs.splunk.com/Documentation/CIM/latest/User/Updates)
 - **Last Updated**: 2017-09-15
 - **Author**: Bhavin Patel, Splunk
 - **ID**: 1a77c08c-2f56-409c-a2d3-7d64617edd4f
+
+
+#### Annotations
+
+<details>
+  <summary>ATT&CK</summary>
+
+<div markdown="1">
+
+</div>
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+<div markdown="1">
+
+* Exploitation
+
+
+</div>
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+<div markdown="1">
+
+* PR.PT
+* PR.MA
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+<div markdown="1">
+
+* CIS 18
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+<div markdown="1">
+
+
+</div>
+</details>
 
 #### Search
 
@@ -51,7 +109,7 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that `no_windows_updates_in_a_time_frame_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+Note that **no_windows_updates_in_a_time_frame_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -70,9 +128,6 @@ None identified
 * [Monitor for Updates](/stories/monitor_for_updates)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -82,13 +137,11 @@ None identified
 | 25.0 | 50 | 50 | tbd |
 
 
-
-
 #### Reference
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 

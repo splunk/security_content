@@ -48,8 +48,10 @@ class Detection(BaseModel, SecurityContentObject):
     macros: list[Macro] = None
     lookups: list[Lookup] = None
     cve_enrichment: list = None
+    splunk_app_enrichment: list = None
     file_path: str = None
     source: str = None
+    nes_fields: str = None
 
 
     # @validator('name')

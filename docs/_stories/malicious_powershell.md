@@ -46,9 +46,9 @@ Most recently we have added new content related to PowerShell Script Block loggi
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Malicious PowerShell Process - Multiple Suspicious Command-Line Arguments](/deprecated/malicious_powershell_process_-_multiple_suspicious_command-line_arguments/) | [PowerShell](/tags/#powershell)| TTP |
-| [Any Powershell DownloadFile](/endpoint/any_powershell_downloadfile/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [PowerShell](/tags/#powershell)| TTP |
-| [Any Powershell DownloadString](/endpoint/any_powershell_downloadstring/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [PowerShell](/tags/#powershell)| TTP |
+| [Suspicious Powershell Command-Line Arguments](/deprecated/suspicious_powershell_command-line_arguments/) | [PowerShell](/tags/#powershell)| TTP |
+| [Any Powershell DownloadFile](/endpoint/any_powershell_downloadfile/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [PowerShell](/tags/#powershell), [Ingress Tool Transfer](/tags/#ingress-tool-transfer)| TTP |
+| [Any Powershell DownloadString](/endpoint/any_powershell_downloadstring/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [PowerShell](/tags/#powershell), [Ingress Tool Transfer](/tags/#ingress-tool-transfer)| TTP |
 | [Detect Empire with PowerShell Script Block Logging](/endpoint/detect_empire_with_powershell_script_block_logging/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [PowerShell](/tags/#powershell)| TTP |
 | [Detect Mimikatz With PowerShell Script Block Logging](/endpoint/detect_mimikatz_with_powershell_script_block_logging/) | [OS Credential Dumping](/tags/#os-credential-dumping)| TTP |
 | [Malicious PowerShell Process - Encoded Command](/endpoint/malicious_powershell_process_-_encoded_command/) | [Obfuscated Files or Information](/tags/#obfuscated-files-or-information)| Hunting |
@@ -62,7 +62,7 @@ Most recently we have added new content related to PowerShell Script Block loggi
 | [Powershell Execute COM Object](/endpoint/powershell_execute_com_object/) | [Component Object Model Hijacking](/tags/#component-object-model-hijacking), [Event Triggered Execution](/tags/#event-triggered-execution)| TTP |
 | [Powershell Fileless Process Injection via GetProcAddress](/endpoint/powershell_fileless_process_injection_via_getprocaddress/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [Process Injection](/tags/#process-injection), [PowerShell](/tags/#powershell)| TTP |
 | [Powershell Fileless Script Contains Base64 Encoded Content](/endpoint/powershell_fileless_script_contains_base64_encoded_content/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [Obfuscated Files or Information](/tags/#obfuscated-files-or-information), [PowerShell](/tags/#powershell)| TTP |
-| [PowerShell Loading DotNET into Memory via System Reflection Assembly](/endpoint/powershell_loading_dotnet_into_memory_via_system_reflection_assembly/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [PowerShell](/tags/#powershell)| TTP |
+| [PowerShell Loading DotNET into Memory via Reflection](/endpoint/powershell_loading_dotnet_into_memory_via_reflection/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [PowerShell](/tags/#powershell)| TTP |
 | [Powershell Processing Stream Of Data](/endpoint/powershell_processing_stream_of_data/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [PowerShell](/tags/#powershell)| TTP |
 | [Powershell Using memory As Backing Store](/endpoint/powershell_using_memory_as_backing_store/) | [Deobfuscate/Decode Files or Information](/tags/#deobfuscate/decode-files-or-information)| TTP |
 | [Recon AVProduct Through Pwh or WMI](/endpoint/recon_avproduct_through_pwh_or_wmi/) | [Gather Victim Host Information](/tags/#gather-victim-host-information)| TTP |

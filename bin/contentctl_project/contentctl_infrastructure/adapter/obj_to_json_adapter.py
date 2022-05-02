@@ -28,14 +28,20 @@ class ObjToJsonAdapter(Adapter):
                     }
                 ))
             
-            JsonWriter.writeJsonObject(os.path.join(output_path, 'detections.json'), obj_array)
+            JsonWriter.writeJsonObject(os.path.join(output_path, 'detections.json'), {'detections': obj_array })
         
         elif type == SecurityContentType.stories:
             obj_array = []
             for story in objects:
-                obj_array.append(story.dict(exclude_none=True))
+                obj_array.append(story.dict(exclude_none=True,
+                    exclude =
+                    {
+                        "detections": True,
+                        "investigations": True
+                    }
+                ))
 
-            JsonWriter.writeJsonObject(os.path.join(output_path, 'stories.json'), obj_array)
+            JsonWriter.writeJsonObject(os.path.join(output_path, 'stories.json'), {'stories': obj_array })
 
         elif type == SecurityContentType.baselines:
             obj_array = []
@@ -47,33 +53,33 @@ class ObjToJsonAdapter(Adapter):
                     }
                 ))
 
-            JsonWriter.writeJsonObject(os.path.join(output_path, 'baselines.json'), obj_array)
+            JsonWriter.writeJsonObject(os.path.join(output_path, 'baselines.json'), {'baselines': obj_array })
 
         elif type == SecurityContentType.investigations:
             obj_array = []
             for investigation in objects:
                 obj_array.append(investigation.dict(exclude_none=True))
 
-            JsonWriter.writeJsonObject(os.path.join(output_path, 'response_tasks.json'), obj_array)
+            JsonWriter.writeJsonObject(os.path.join(output_path, 'response_tasks.json'), {'response_tasks': obj_array })
         
         elif type == SecurityContentType.lookups:
             obj_array = []
             for lookup in objects:
                 obj_array.append(lookup.dict(exclude_none=True))
 
-            JsonWriter.writeJsonObject(os.path.join(output_path, 'lookups.json'), obj_array)
+            JsonWriter.writeJsonObject(os.path.join(output_path, 'lookups.json'), {'lookups': obj_array })
 
         elif type == SecurityContentType.macros:      
             obj_array = []
             for macro in objects:
                 obj_array.append(macro.dict(exclude_none=True))
 
-            JsonWriter.writeJsonObject(os.path.join(output_path, 'macros.json'), obj_array)
+            JsonWriter.writeJsonObject(os.path.join(output_path, 'macros.json'), {'macros': obj_array })
 
         elif type == SecurityContentType.deployments:
             obj_array = []
             for deployment in objects:
                 obj_array.append(deployment.dict(exclude_none=True))
 
-            JsonWriter.writeJsonObject(os.path.join(output_path, 'deployments.json'), obj_array)
+            JsonWriter.writeJsonObject(os.path.join(output_path, 'deployments.json'), {'deployments': obj_array })
 

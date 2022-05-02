@@ -13,10 +13,9 @@ alert_action:
   notable:
     rule_description: '%description%'
     rule_title: '%name%'
-    nes_fields:
+    nes_fields: 
     - user
     - dest
-    - src
 tags:
   type: 'Correlation'
   product: ESCU

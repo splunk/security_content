@@ -1,0 +1,12 @@
+name: Spring4Shell Payload URL Request Unit Test
+tests:
+- name: Spring4Shell Payload URL Request
+  file: web/spring4shell_payload_url_request.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: spring4shell_nginx.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/spring4shell/spring4shell_nginx.log
+    source: /var/log/nginx/access.log
+    sourcetype: nginx:plus:kv

@@ -40,6 +40,7 @@ DevSecOps is a collaborative framework, which thinks about application and infra
 | [Circle CI Disable Security Step](/cloud/circle_ci_disable_security_step/) | [Compromise Client Software Binary](/tags/#compromise-client-software-binary)| Anomaly |
 | [Correlation by Repository and Risk](/cloud/correlation_by_repository_and_risk/) | [Malicious Image](/tags/#malicious-image), [User Execution](/tags/#user-execution)| Correlation |
 | [Correlation by User and Risk](/cloud/correlation_by_user_and_risk/) | [Malicious Image](/tags/#malicious-image), [User Execution](/tags/#user-execution)| Correlation |
+| [GitHub Actions Disable Security Workflow](/cloud/github_actions_disable_security_workflow/) | [Compromise Software Supply Chain](/tags/#compromise-software-supply-chain), [Supply Chain Compromise](/tags/#supply-chain-compromise)| Anomaly |
 | [Github Commit Changes In Master](/cloud/github_commit_changes_in_master/) | [Trusted Relationship](/tags/#trusted-relationship)| Anomaly |
 | [Github Commit In Develop](/cloud/github_commit_in_develop/) | [Trusted Relationship](/tags/#trusted-relationship)| Anomaly |
 | [GitHub Dependabot Alert](/cloud/github_dependabot_alert/) | [Compromise Software Dependencies and Development Tools](/tags/#compromise-software-dependencies-and-development-tools), [Supply Chain Compromise](/tags/#supply-chain-compromise)| Anomaly |

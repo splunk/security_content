@@ -30,7 +30,9 @@ references:
 - https://gist.github.com/olafhartong/916ebc673ba066537740164f7e7e1d72
 tags:
   analytic_story:
+  - Hermetic Wiper
   - Log4Shell CVE-2021-44228
+  - Spring4Shell CVE-2022-22965
   asset_type: Endpoint
   confidence: 50
   context:

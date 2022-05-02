@@ -1,0 +1,91 @@
+name: Windows Script Host Spawn MSBuild
+id: 92886f1c-9b11-11ec-848a-acde48001122
+version: 1
+date: '2022-03-03'
+author: Michael Haag, Splunk
+type: TTP
+datamodel:
+- Endpoint_Processes
+description: This analytic is to detect a suspicious child process of MSBuild spawned
+  by Windows Script Host - cscript or wscript. This behavior or event are commonly
+  seen and used by malware or adversaries to execute malicious msbuild process using
+  malicious script in the compromised host. During triage, review parallel processes
+  and identify any file modifications. MSBuild may load a script from the same path
+  without having command-line arguments.
+search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
+  "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"),
+  "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"),
+  "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string",
+  null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string",
+  null), event_id=ucast(map_get(input_event, "event_id"), "string", null) | where
+  cmd_line IS NOT NULL AND process_name IS NOT NULL AND parent_process_name IS NOT NULL | where (parent_process_name LIKE "%wscript.exe" OR parent_process_name LIKE "%cscript.exe%") AND process_name="msbuild.exe"
+  | eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event,
+  "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
+  "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name",
+  process_name, "parent_process_name", parent_process_name, "process_path", process_path])
+  | into write_ssa_detected_events();'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: False positives should be limited as developers do not spawn
+  MSBuild via a WSH.
+references:
+- https://app.any.run/tasks/dc93ee63-050c-4ff8-b07e-8277af9ab939/#
+- https://github.com/redcanaryco/AtomicTestHarnesses/blob/master/TestHarnesses/T1127.001_MSBuild/InvokeMSBuild.ps1
+tags:
+  analytic_story:
+  - Trusted Developer Utilities Proxy Execution MSBuild
+  - Living Off The Land
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127.001/msbuild-windows-security.log
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1127.001
+  - T1127
+  product:
+  - Splunk Behavioral Analytics
+  required_fields:
+  - _time
+  - dest_device_id
+  - process_name
+  - parent_process_name
+  - process_path
+  - dest_user_id
+  - process
+  - cmd_line
+  security_domain: endpoint
+  impact: 80
+  confidence: 100
+  # (impact * confidence)/100
+  risk_score: 80
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified
+    on endpoint $dest_device_id$ by user $dest_user_id$.
+  nist:
+  - PR.PT
+  - DE.CM
+  cis20:
+  - CIS 8
+  observable:
+  - name: dest_user_id
+    type: User
+    role:
+    - Victim
+  - name: dest_device_id
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Process Name
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
+  asset_type: Endpoint

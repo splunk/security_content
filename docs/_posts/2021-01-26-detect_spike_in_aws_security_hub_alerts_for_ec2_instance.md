@@ -14,18 +14,75 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for a spike in number of of AWS security Hub alerts for an EC2 instance in 4 hours intervals
 
-- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+
 - **Last Updated**: 2021-01-26
 - **Author**: Bhavin Patel, Splunk
 - **ID**: 2a9b80d3-6340-4345-b5ad-290bf5d0d222
+
+
+#### Annotations
+
+<details>
+  <summary>ATT&CK</summary>
+
+<div markdown="1">
+
+</div>
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+<div markdown="1">
+
+* Exploitation
+
+
+</div>
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+<div markdown="1">
+
+* DE.DP
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+<div markdown="1">
+
+* CIS 13
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+<div markdown="1">
+
+
+</div>
+</details>
 
 #### Search
 
@@ -45,7 +102,7 @@ This search looks for a spike in number of of AWS security Hub alerts for an EC2
 The SPL above uses the following Macros:
 * [aws_securityhub_finding](https://github.com/splunk/security_content/blob/develop/macros/aws_securityhub_finding.yml)
 
-Note that `detect_spike_in_aws_security_hub_alerts_for_ec2_instance_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+Note that **detect_spike_in_aws_security_hub_alerts_for_ec2_instance_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -68,9 +125,6 @@ None
 * [AWS Security Hub Alerts](/stories/aws_security_hub_alerts)
 
 
-#### Kill Chain Phase
-* Exploitation
-
 
 
 #### RBA
@@ -80,13 +134,11 @@ None
 | 15.0 | 30 | 50 | Spike in AWS security Hub alerts with title $Title$ for EC2 instance $dest$ |
 
 
-
-
 #### Reference
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 

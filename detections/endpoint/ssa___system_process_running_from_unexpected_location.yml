@@ -1,8 +1,8 @@
 name: System Process Running from Unexpected Location
 id: 28179107-099a-464a-94d3-08301e6c055f
-version: 3
-date: '2020-08-25'
-author: Ignacio Bermudez Corrales, Splunk
+version: 4
+date: '2022-03-24'
+author: Jose Hernadnez, Ignacio Bermudez Corrales, Splunk
 type: Anomaly
 datamodel:
 - Endpoint_Processes
@@ -69,7 +69,7 @@ search: ' $ssa_input = | from read_ssa_enriched_events() | eval device=ucast(map
   OR process_name="rdpsauachelper.exe" OR process_name="reagentc.exe" OR process_name="recoverydrive.exe"
   OR process_name="register-cimprovider.exe" OR process_name="registeriepkeys.exe"
   OR process_name="relpost.exe" OR process_name="remoteposworker.exe" OR process_name="rmclient.exe"
-  OR process_name="robocopy.exe" OR process_name="rpcping.exe" OR process_name="runlegacycplelevated.exe"
+  OR process_name="rpcping.exe" OR process_name="runlegacycplelevated.exe"
   OR process_name="runtimebroker.exe" OR process_name="sihclient.exe" OR process_name="searchfilterhost.exe"
   OR process_name="searchindexer.exe" OR process_name="searchprotocolhost.exe" OR
   process_name="secedit.exe" OR process_name="sensordataservice.exe" OR process_name="setieinstalleddate.exe"

@@ -20,27 +20,78 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following analytic identifies suspicious PowerShell script execution via EventCode 4104 that is processing compressed stream data. This is typically found in obfuscated PowerShell or PowerShell executing embedded .NET or binary files that are stream flattened and will be deflated durnig execution. During triage, review parallel processes within the same timeframe. Review the full script block to identify other related artifacts.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+
 - **Last Updated**: 2021-06-10
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: 0d718b52-c9f1-11eb-bc61-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Annotations
+
+<details>
+  <summary>ATT&CK</summary>
+
+<div markdown="1">
+
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 
 | [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
+
+</div>
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+<div markdown="1">
+
+* Exploitation
+
+
+</div>
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+<div markdown="1">
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+<div markdown="1">
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+<div markdown="1">
+
+
+</div>
+</details>
 
 #### Search
 
@@ -54,10 +105,10 @@ The following analytic identifies suspicious PowerShell script execution via Eve
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [powershell](https://github.com/splunk/security_content/blob/develop/macros/powershell.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that `powershell_processing_stream_of_data_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+Note that **powershell_processing_stream_of_data_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -75,11 +126,9 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 powershell may used this function to process compressed data.
 
 #### Associated Analytic story
+* [Hermetic Wiper](/stories/hermetic_wiper)
 * [Malicious PowerShell](/stories/malicious_powershell)
 
-
-#### Kill Chain Phase
-* Exploitation
 
 
 
@@ -88,8 +137,6 @@ powershell may used this function to process compressed data.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 40.0 | 50 | 80 | A suspicious powershell script contains stream command in $Message$ commonly for processing compressed or to decompressed binary file with EventCode $EventCode$ in host $ComputerName$ |
-
-
 
 
 #### Reference
@@ -103,7 +150,7 @@ powershell may used this function to process compressed data.
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 
