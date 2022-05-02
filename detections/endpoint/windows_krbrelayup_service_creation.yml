@@ -6,7 +6,7 @@ author: Michael Haag, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: The following analytic identifies the default service name created by KrbRelayUp.
+description: The following analytic identifies the default service name created by KrbRelayUp. Defenders should be aware that attackers could change the hardcoded service name of the KrbRelayUp tool and bypass this detection.
 search: '`wineventlog_system` EventCode=7045 Service_Name IN ("KrbSCM") | stats count min(_time) as firstTime max(_time) as lastTime by
   EventCode Service_File_Name Service_Name Service_Start_Type Service_Type | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`

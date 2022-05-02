@@ -6,7 +6,8 @@ author: Michael Haag, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: The following analytic identifes a Computer Account creating a new Computer Account with specific Service Principle Names - "RestrictedKrbHost" service class allows client applications to use Kerberos authentication when they do not have the identity of the service but have the server name.
+description: The following analytic identifes a Computer Account creating a new Computer Account with specific a Service Principle Name - "RestrictedKrbHost". 
+  The RestrictedKrbHost service class allows client applications to use Kerberos authentication when they do not have the identity of the service but have the server name.
 search: '`wineventlog_security` EventCode=4741 user_type=computer Subject_Account_Domain!="NT AUTHORITY"  Message=*RestrictedKrbHost*
 | stats  count min(_time) as firstTime max(_time) as lastTime by dest, subject, action ,src_user, user, Account_Name, Subject_Account_Name,Subject_Account_Domain
    | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
