@@ -42,8 +42,6 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - source
-  - s
   - status
   - clientip
   - method
