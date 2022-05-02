@@ -1,0 +1,12 @@
+name: Windows Kerberos Local Successful Logon Unit Test
+tests:
+- name: Windows Kerberos Local Successful Logon
+  file: endpoint/windows_kerberos_local_successful_logon.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: krbrelayup.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558/krbrelayup/krbrelayup.log
+    source: WinEventLog:Security
+    sourcetype: WinEventLog
