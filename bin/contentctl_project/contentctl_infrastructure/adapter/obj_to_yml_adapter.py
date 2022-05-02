@@ -100,7 +100,8 @@ class ObjToYmlAdapter(Adapter):
                             'file_name': 'UPDATE',
                             'data': 'UPDATE',
                             'source': 'UPDATE',
-                            'sourcetype': 'UPDATE'
+                            'sourcetype': 'UPDATE',
+                            'update_timestamp': True
                         }
                     ]
                 }
