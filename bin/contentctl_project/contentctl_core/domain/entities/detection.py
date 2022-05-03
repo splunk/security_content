@@ -3,10 +3,13 @@ import uuid
 import string
 import re
 import requests
-
+import time
 from pydantic import BaseModel, validator, root_validator
 from dataclasses import dataclass
 from datetime import datetime
+import urllib3, urllib3.exceptions
+
+
 
 from bin.contentctl_project.contentctl_core.domain.entities.security_content_object import SecurityContentObject
 from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import AnalyticsType
@@ -22,11 +25,18 @@ from bin.contentctl_project.contentctl_core.domain.entities.playbook import Play
 
 
 import functools
-DEFAULT_CHECK_REFERENCE_TIMEOUT_SECONDS = 60
+DEFAULT_CHECK_REFERENCE_TIMEOUT_SECONDS = 20
 DEFAULT_USER_AGENT_STRING = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.41 Safari/537.36"
+VERIFY_SSL = False
+if VERIFY_SSL is False:
+    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+count_not_cached = 0
+total_count = 0
 @functools.cache
 def check_reference(reference: str, timeout_seconds = DEFAULT_CHECK_REFERENCE_TIMEOUT_SECONDS, user_agent: str = DEFAULT_USER_AGENT_STRING)-> requests.Response:
-    get = requests.get(reference, timeout=timeout_seconds, headers = {"User-Agent": user_agent, "referrer": "https://google.com"}, allow_redirects=True)
+    global count_not_cached
+    count_not_cached+=1
+    get = requests.get(reference, timeout=timeout_seconds, headers = {"User-Agent": user_agent}, allow_redirects=True, verify=VERIFY_SSL)
     return get
 
 class Detection(BaseModel, SecurityContentObject):
@@ -138,16 +148,22 @@ class Detection(BaseModel, SecurityContentObject):
 
     @validator('references')
     def references_check(cls, v, values):
+        global total_count
+        #return v
         #import traceback
         #import sys
         #traceback.print_stack()
         #sys.exit(0)
         for reference in v:
+            #Get the start time of the request so that, if it fails, we can print out how long we waited
+            start_time = time.time()
+            total_count += 1
             try:
                 get = check_reference(reference)
                 if get.status_code == 200:
                     if reference != get.url:
-                        print(f"Redirect from {reference} to {get.url}") #follows all redirects    
+                        #print(f"Redirect from {reference} to {get.url}") #follows all redirects    
+                        pass
                     continue
                 elif get.status_code == 301:
                     #print(f"Redirect from {reference} to {get.url}")
@@ -155,11 +171,13 @@ class Detection(BaseModel, SecurityContentObject):
                     #and will change across calls.  Don't throw an error on this.
                     continue
                 #If we get here, it means it was not a 200 response code. Raise an error
-                raise ValueError('Reference ' + str(get.status_code) + ' ' + reference + ' is not reachable: ' + values["name"])
+                raise ValueError(f"Reference {reference} returned status code {get.status_code} after {round(time.time()-start_time)} seconds: {values['name']}")
 
             except requests.exceptions.RequestException as e:
-                raise ValueError('Reference ' + reference + ' is not reachable: ' + values["name"])
-                #raise ValueError('Reference ' + reference + ' is not reachable: ' + values["name"])
+                raise ValueError(f"Reference {reference} is not reachable after {round(time.time()-start_time)} seconds: {values['name']}")
+                
+            finally:
+                print(f"Request [{count_not_cached} / {total_count} - cache ratio {(1 - count_not_cached/total_count):.3f}]")
 
         return v
 
