@@ -33,7 +33,7 @@ references:
 - https://attack.mitre.org/techniques/T1021/003/
 - https://attack.mitre.org/techniques/T1021/006/
 - https://attack.mitre.org/techniques/T1047/
-- https://attack.mitre.org/techniques/T1053.005/
+- https://attack.mitre.org/techniques/T1053/005/
 - https://attack.mitre.org/techniques/T1543/003/
 tags:
   analytic_story:

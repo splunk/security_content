@@ -22,11 +22,11 @@ from bin.contentctl_project.contentctl_core.domain.entities.playbook import Play
 
 
 import functools
-DEFAULT_CHECK_REFERENCE_TIMEOUT_SECONDS = 5
+DEFAULT_CHECK_REFERENCE_TIMEOUT_SECONDS = 60
 DEFAULT_USER_AGENT_STRING = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.41 Safari/537.36"
 @functools.cache
 def check_reference(reference: str, timeout_seconds = DEFAULT_CHECK_REFERENCE_TIMEOUT_SECONDS, user_agent: str = DEFAULT_USER_AGENT_STRING)-> requests.Response:
-    get = requests.head(reference, timeout=timeout_seconds, headers = {"User-Agent": user_agent}, allow_redirects=True)
+    get = requests.get(reference, timeout=timeout_seconds, headers = {"User-Agent": user_agent, "referrer": "https://google.com"}, allow_redirects=True)
     return get
 
 class Detection(BaseModel, SecurityContentObject):
@@ -147,11 +147,13 @@ class Detection(BaseModel, SecurityContentObject):
                 get = check_reference(reference)
                 if get.status_code == 200:
                     if reference != get.url:
-                        print(f"Redirect from {reference} to {get.url}")#follows all redirects    
+                        print(f"Redirect from {reference} to {get.url}") #follows all redirects    
                     continue
                 elif get.status_code == 301:
-                    
-                    print(f"Redirect from {reference} to {get.url}")#follows all redirects
+                    #print(f"Redirect from {reference} to {get.url}")
+                    #Redirects here have typically added a guid or something similar to the URL which is not persistent
+                    #and will change across calls.  Don't throw an error on this.
+                    continue
                 #If we get here, it means it was not a 200 response code. Raise an error
                 raise ValueError('Reference ' + str(get.status_code) + ' ' + reference + ' is not reachable: ' + values["name"])
 
