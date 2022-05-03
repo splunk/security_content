@@ -19,6 +19,16 @@ from bin.contentctl_project.contentctl_core.domain.entities.lookup import Lookup
 from bin.contentctl_project.contentctl_core.domain.entities.baseline import Baseline
 from bin.contentctl_project.contentctl_core.domain.entities.playbook import Playbook
 
+
+
+import functools
+DEFAULT_CHECK_REFERENCE_TIMEOUT_SECONDS = 5
+DEFAULT_USER_AGENT_STRING = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.41 Safari/537.36"
+@functools.cache
+def check_reference(reference: str, timeout_seconds = DEFAULT_CHECK_REFERENCE_TIMEOUT_SECONDS, user_agent: str = DEFAULT_USER_AGENT_STRING)-> requests.Response:
+    get = requests.head(reference, timeout=timeout_seconds, headers = {"User-Agent": user_agent}, allow_redirects=True)
+    return get
+
 class Detection(BaseModel, SecurityContentObject):
     # detection spec
     name: str
@@ -122,22 +132,34 @@ class Detection(BaseModel, SecurityContentObject):
                 raise ValueError('name is longer then 67 chars: ' + values["name"])
         return values
 
+   
+        
 
-    # @validator('references')
-    # def references_check(cls, v, values):
-    #     #import traceback
-    #     #import sys
-    #     #traceback.print_stack()
-    #     #sys.exit(0)
-    #     for reference in v:
-    #         try:
-    #             get = requests.head(reference)
-    #             if not get.status_code == 200:
-    #                 raise ValueError('Reference ' + reference + ' is not reachable: ' + values["name"])
-    #         except requests.exceptions.RequestException as e:
-    #             raise ValueError('Reference ' + reference + ' is not reachable: ' + values["name"])
 
-    #     return v
+    @validator('references')
+    def references_check(cls, v, values):
+        #import traceback
+        #import sys
+        #traceback.print_stack()
+        #sys.exit(0)
+        for reference in v:
+            try:
+                get = check_reference(reference)
+                if get.status_code == 200:
+                    if reference != get.url:
+                        print(f"Redirect from {reference} to {get.url}")#follows all redirects    
+                    continue
+                elif get.status_code == 301:
+                    
+                    print(f"Redirect from {reference} to {get.url}")#follows all redirects
+                #If we get here, it means it was not a 200 response code. Raise an error
+                raise ValueError('Reference ' + str(get.status_code) + ' ' + reference + ' is not reachable: ' + values["name"])
+
+            except requests.exceptions.RequestException as e:
+                raise ValueError('Reference ' + reference + ' is not reachable: ' + values["name"])
+                #raise ValueError('Reference ' + reference + ' is not reachable: ' + values["name"])
+
+        return v
 
     @validator('search')
     def search_validate(cls, v, values):
