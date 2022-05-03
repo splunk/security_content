@@ -32,7 +32,7 @@ known_false_positives: normal user or normal transaction may contain the subject
   file type attachment that this detection try to search.
 references:
 - https://www.redhat.com/en/topics/devops/what-is-devsecops
-- https://www.fireeye.com/content/dam/fireeye-www/global/en/current-threats/pdfs/rpt-top-spear-phishing-words.pdf
+- https://www.mandiant.com/resources/top-words-used-in-spear-phishing-attacks
 tags:
   analytic_story:
   - Dev Sec Ops
