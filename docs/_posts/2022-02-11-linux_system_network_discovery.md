@@ -130,6 +130,7 @@ Administrator or network operator can execute this command. Please update the fi
 
 #### Associated Analytic story
 * [Network Discovery](/stories/network_discovery)
+* [Industroyer2](/stories/industroyer2)
 
 
 
