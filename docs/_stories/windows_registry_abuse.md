@@ -11,6 +11,7 @@ tags:
   - Actions on Objectives
   - Delivery
   - Exploitation
+  - Installation
 ---
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -86,6 +87,9 @@ Windows Registry is one of the powerful and yet still mysterious Windows feature
 | [Windows DisableAntiSpyware Registry](/endpoint/windows_disableantispyware_registry/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Impair Defenses](/tags/#impair-defenses)| TTP |
 | [Windows Hide Notification Features Through Registry](/endpoint/windows_hide_notification_features_through_registry/) | [Modify Registry](/tags/#modify-registry)| Anomaly |
 | [Windows Modify Show Compress Color And Info Tip Registry](/endpoint/windows_modify_show_compress_color_and_info_tip_registry/) | [Modify Registry](/tags/#modify-registry)| TTP |
+| [Windows Registry Certificate Added](/endpoint/windows_registry_certificate_added/) | [Install Root Certificate](/tags/#install-root-certificate), [Subvert Trust Controls](/tags/#subvert-trust-controls)| TTP |
+| [Windows Registry Delete Task SD](/endpoint/windows_registry_delete_task_sd/) | [Scheduled Task](/tags/#scheduled-task), [Impair Defenses](/tags/#impair-defenses)| TTP |
+| [Windows Registry Modification for Safe Mode Persistence](/endpoint/windows_registry_modification_for_safe_mode_persistence/) | [Registry Run Keys / Startup Folder](/tags/#registry-run-keys-/-startup-folder), [Boot or Logon Autostart Execution](/tags/#boot-or-logon-autostart-execution)| TTP |
 | [Windows Service Creation Using Registry Entry](/endpoint/windows_service_creation_using_registry_entry/) | [Services Registry Permissions Weakness](/tags/#services-registry-permissions-weakness)| TTP |
 | [WSReset UAC Bypass](/endpoint/wsreset_uac_bypass/) | [Bypass User Account Control](/tags/#bypass-user-account-control), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism)| TTP |
 

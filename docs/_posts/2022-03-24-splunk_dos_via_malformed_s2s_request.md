@@ -102,7 +102,7 @@ On March 24th, 2022, Splunk published a security advisory for a possible Denial 
 #### Search
 
 ```
-`splunkd` log_level=ERROR component=TcpInputProc thread_name=FwdDataReceiverThread 
+`splunkd` log_level="ERROR" component="TcpInputProc" thread_name="FwdDataReceiverThread" "Invalid _meta atom" 
 | table host, src 
 | `splunk_dos_via_malformed_s2s_request_filter`
 ```
@@ -155,4 +155,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/application/splunk_dos_via_malformed_s2s_request.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/application/splunk_dos_via_malformed_s2s_request.yml) \| *version*: **2**
