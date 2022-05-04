@@ -21,7 +21,7 @@ from bin.contentctl_project.contentctl_core.domain.entities.macro import Macro
 from bin.contentctl_project.contentctl_core.domain.entities.lookup import Lookup
 from bin.contentctl_project.contentctl_core.domain.entities.baseline import Baseline
 from bin.contentctl_project.contentctl_core.domain.entities.playbook import Playbook
-
+import sys
 
 
 import functools
@@ -32,11 +32,21 @@ if VERIFY_SSL is False:
     urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 count_not_cached = 0
 total_count = 0
+CACHER = dict()
 @functools.cache
 def check_reference(reference: str, timeout_seconds = DEFAULT_CHECK_REFERENCE_TIMEOUT_SECONDS, user_agent: str = DEFAULT_USER_AGENT_STRING)-> requests.Response:
     global count_not_cached
     count_not_cached+=1
     get = requests.get(reference, timeout=timeout_seconds, headers = {"User-Agent": user_agent}, allow_redirects=True, verify=VERIFY_SSL)
+    CACHER[reference] = get.text
+
+    totalSize = sys.getsizeof(CACHER)
+    for key in CACHER:
+        totalSize += sys.getsizeof(CACHER[key])
+                
+    print(f"Request [{count_not_cached} / {total_count} - cache ratio {(1 - count_not_cached/total_count):.3f}], CACHE: {(totalSize / (1024*1024)):.2f} MB")
+
+
     return get
 
 class Detection(BaseModel, SecurityContentObject):
@@ -52,8 +62,10 @@ class Detection(BaseModel, SecurityContentObject):
     search: str
     how_to_implement: str
     known_false_positives: str
+    check_references: bool = False #Validation is done in order, this field must be defined first
     references: list
     tags: DetectionTags
+    
 
     # enrichments
     deprecated: bool = None
@@ -143,9 +155,6 @@ class Detection(BaseModel, SecurityContentObject):
         return values
 
    
-        
-
-
     @validator('references')
     def references_check(cls, v, values):
         global total_count
@@ -154,6 +163,14 @@ class Detection(BaseModel, SecurityContentObject):
         #import sys
         #traceback.print_stack()
         #sys.exit(0)
+        
+        if 'check_references' in values and values['check_references'] is False:
+            #Reference checking is NOT enabled
+            return v
+        elif 'check_references' not in values:
+            raise(Exception("Member 'check_references' missing from Detection!"))
+        
+
         for reference in v:
             #Get the start time of the request so that, if it fails, we can print out how long we waited
             start_time = time.time()
@@ -177,8 +194,7 @@ class Detection(BaseModel, SecurityContentObject):
                 raise ValueError(f"Reference {reference} is not reachable after {round(time.time()-start_time)} seconds: {values['name']}")
                 
             finally:
-                print(f"Request [{count_not_cached} / {total_count} - cache ratio {(1 - count_not_cached/total_count):.3f}]")
-
+                pass
         return v
 
     @validator('search')
