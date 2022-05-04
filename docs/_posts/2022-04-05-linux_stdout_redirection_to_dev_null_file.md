@@ -19,6 +19,8 @@ tags:
   - Endpoint
 ---
 
+###  WARNING THIS IS A EXPERIMENTAL object
+We have not been able to test, simulate, or build datasets for this object. Use at your own risk. This analytic is **NOT** supported.
 
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
@@ -113,8 +115,8 @@ This analytic looks for suspicious commandline that redirect the stdout or possi
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that **linux_stdout_redirection_to_dev_null_file_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -137,6 +139,7 @@ unknown
 
 #### Associated Analytic story
 * [Cyclops BLink](/stories/cyclops_blink)
+* [Industroyer2](/stories/industroyer2)
 
 
 
@@ -164,4 +167,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/linux_stdout_redirection_to_dev_null_file.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/experimental/endpoint/linux_stdout_redirection_to_dev_null_file.yml) \| *version*: **1**

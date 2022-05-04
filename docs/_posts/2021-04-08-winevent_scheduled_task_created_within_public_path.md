@@ -106,7 +106,7 @@ Upon triage, identify the task scheduled source. Was it schtasks.exe or was it v
 ```
 `wineventlog_security` EventCode=4698 
 | xmlkv Message 
-| search Command IN ("*\\users\\public\\*", "*\\programdata\\*", "*\\temp\\*", "*\\Windows\\Tasks\\*", "*\\appdata\\*") 
+| search Command IN ("*\\users\\public\\*", "*\\programdata\\*", "*\\temp\\*", "*\\Windows\\Tasks\\*", "*\\appdata\\*", "*\\perflogs\\*") 
 | stats count min(_time) as firstTime max(_time) as lastTime by dest, Task_Name, Command, Author, Enabled, Hidden 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -115,8 +115,8 @@ Upon triage, identify the task scheduled source. Was it schtasks.exe or was it v
 
 #### Macros
 The SPL above uses the following Macros:
-* [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 
 Note that **winevent_scheduled_task_created_within_public_path_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -140,6 +140,7 @@ False positives are possible if legitimate applications are allowed to register 
 * [Ryuk Ransomware](/stories/ryuk_ransomware)
 * [IcedID](/stories/icedid)
 * [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
+* [Industroyer2](/stories/industroyer2)
 
 
 
