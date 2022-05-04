@@ -9,6 +9,7 @@ tags:
   - Splunk Cloud
   - Endpoint
   - Actions on Objectives
+  - Delivery
   - Exploitation
   - Installation
 ---
@@ -55,6 +56,7 @@ This Analytic Story focuses on detecting signs that a malicious payload has been
 | [Office Product Writing cab or inf](/endpoint/office_product_writing_cab_or_inf/) | [Phishing](/tags/#phishing), [Spearphishing Attachment](/tags/#spearphishing-attachment)| TTP |
 | [Office Spawning Control](/endpoint/office_spawning_control/) | [Phishing](/tags/#phishing), [Spearphishing Attachment](/tags/#spearphishing-attachment)| TTP |
 | [Process Creating LNK file in Suspicious Location](/endpoint/process_creating_lnk_file_in_suspicious_location/) | [Phishing](/tags/#phishing), [Spearphishing Link](/tags/#spearphishing-link)| TTP |
+| [Windows ISO LNK File Creation](/endpoint/windows_iso_lnk_file_creation/) | [Spearphishing Attachment](/tags/#spearphishing-attachment), [Phishing](/tags/#phishing), [Malicious Link](/tags/#malicious-link), [User Execution](/tags/#user-execution)| Hunting |
 | [Winword Spawning Cmd](/endpoint/winword_spawning_cmd/) | [Phishing](/tags/#phishing), [Spearphishing Attachment](/tags/#spearphishing-attachment)| TTP |
 | [Winword Spawning PowerShell](/endpoint/winword_spawning_powershell/) | [Phishing](/tags/#phishing), [Spearphishing Attachment](/tags/#spearphishing-attachment)| TTP |
 | [Gdrive suspicious file sharing](/cloud/gdrive_suspicious_file_sharing/) | [Phishing](/tags/#phishing)| Hunting |

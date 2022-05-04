@@ -125,6 +125,7 @@ The following Hunting analytic requires PowerShell operational logs to be import
 Administrators or power users may use this command for troubleshooting.
 
 #### Associated Analytic story
+* [Industroyer2](/stories/industroyer2)
 * [Active Directory Discovery](/stories/active_directory_discovery)
 
 

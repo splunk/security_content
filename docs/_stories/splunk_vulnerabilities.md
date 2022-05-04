@@ -9,6 +9,7 @@ tags:
   - Splunk Cloud
   - Delivery
   - Exploitation
+  - Reconnaissance
 ---
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -31,14 +32,16 @@ This analytic story includes detections that focus on attacker behavior targeted
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
+| [Path traversal SPL injection](/application/path_traversal_spl_injection/) | [File and Directory Discovery](/tags/#file-and-directory-discovery)| TTP |
 | [Splunk DoS via Malformed S2S Request](/application/splunk_dos_via_malformed_s2s_request/) | [Network Denial of Service](/tags/#network-denial-of-service)| TTP |
+| [Splunk User Enumeration Attempt](/application/splunk_user_enumeration_attempt/) | [Valid Accounts](/tags/#valid-accounts)| TTP |
+| [Splunk XSS in Monitoring Console](/application/splunk_xss_in_monitoring_console/) | [Drive-by Compromise](/tags/#drive-by-compromise)| TTP |
 | [Open Redirect in Splunk Web](/deprecated/open_redirect_in_splunk_web/) | None| TTP |
 | [Splunk Enterprise Information Disclosure](/deprecated/splunk_enterprise_information_disclosure/) | None| TTP |
 
 #### Reference
 
-* [https://www.splunk.com/en_us/product-security/announcements/svd-2022-0301.html](https://www.splunk.com/en_us/product-security/announcements/svd-2022-0301.html)
-* [https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-3422](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-3422)
+* [https://www.splunk.com/en_us/product-security/announcements.html](https://www.splunk.com/en_us/product-security/announcements.html)
 
 
 
