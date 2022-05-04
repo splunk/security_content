@@ -52,7 +52,6 @@ class LinkStats(BaseModel):
             raise(ValueError(f"Reference {reference} does not begin with http(s). Only http(s) references are supported"))
         
         try:
-            print(f"timeout seconds is {timeout_seconds}")
             get = method(reference, timeout=timeout_seconds, 
                             headers = headers, 
                             allow_redirects=allow_redirects, verify=verify_ssl)
@@ -86,13 +85,18 @@ class LinkStats(BaseModel):
 
 class LinkValidator(abc.ABC):
     cache: dict[str,LinkStats] = {}
+    uncached_checks: int = 0
+    total_checks: int = 0
+    
     #cache: dict[str,LinkStats] = {}
 
     
     @staticmethod
     def validate_reference(reference: str, raise_exception_if_failure: bool = False) -> bool:
-        
+        LinkValidator.total_checks += 1
+        print(f"Total Checks: {LinkValidator.total_checks}")
         if reference not in LinkValidator.cache:
+            LinkValidator.uncached_checks += 1
             LinkValidator.cache[reference] = LinkStats(reference=reference)
         result = LinkValidator.cache[reference].is_link_valid()
         if result is True:

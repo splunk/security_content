@@ -150,12 +150,10 @@ def validate(args) -> None:
         print("ERROR: invalid product. valid products are all, ESCU or SSA.")
         sys.exit(1)
 
-    detection_builder = SecurityContentDetectionBuilder()
-    detection_builder.force_cached_or_offline = args.cached_and_offline
     factory_input_dto = FactoryInputDto(
         os.path.abspath(args.path),
         SecurityContentBasicBuilder(),
-        detection_builder,
+        SecurityContentDetectionBuilder(force_cached_or_offline=args.cached_and_offline, check_references=args.check_references),
         SecurityContentStoryBuilder(),
         SecurityContentBaselineBuilder(),
         SecurityContentInvestigationBuilder(),
@@ -167,7 +165,7 @@ def validate(args) -> None:
     ba_factory_input_dto = BAFactoryInputDto(
         os.path.abspath(args.path),
         SecurityContentBasicBuilder(),
-        SecurityContentDetectionBuilder(),
+        SecurityContentDetectionBuilder(force_cached_or_offline = False, check_references=args.check_references),
         SecurityContentDirector()
     )
 
@@ -274,6 +272,8 @@ def main(args):
     new_content_parser = actions_parser.add_parser("new_content", help="Create new security content object")
     reporting_parser = actions_parser.add_parser("reporting", help="Create security content reporting")
 
+    
+
     # # new arguments
     # new_parser.add_argument("-t", "--type", required=False, type=str, default="detection",
     #                              help="Type of new content to create, please choose between `detection`, `baseline` or `story`. Defaults to `detection`")
@@ -283,7 +283,12 @@ def main(args):
 
     validate_parser.add_argument("-pr", "--product", required=True, type=str, default='all', 
         help="Type of package to create, choose between all, `ESCU` or `SSA`.")
-    validate_parser.set_defaults(func=validate, epilog="""
+    validate_parser.add_argument('--check_references', action=argparse.BooleanOptionalAction, help="The number of threads to use to resolve references.  "
+                                   "Larger numbers will result in faster resolution, but will be more likely to hit rate limits or use a large amount of "
+                                   "bandwidth.  A larger number of threads is particularly useful on high-bandwidth connections, but does not improve "
+                                   "performance on slow connections.")
+    
+    validate_parser.set_defaults(func=validate, check_references=False, epilog="""
                 Validates security manifest for correctness, adhering to spec and other common items.""")
 
     generate_parser.add_argument("-o", "--output", required=True, type=str,
@@ -307,6 +312,9 @@ def main(args):
     new_content_parser.set_defaults(func=new_content)
 
     reporting_parser.set_defaults(func=reporting)
+
+    
+    
 
     # # parse them
     args = parser.parse_args()

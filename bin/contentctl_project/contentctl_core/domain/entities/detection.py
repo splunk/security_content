@@ -1,13 +1,11 @@
-import enum
 import uuid
 import string
-import re
 import requests
 import time
 from pydantic import BaseModel, validator, root_validator
 from dataclasses import dataclass
 from datetime import datetime
-import urllib3, urllib3.exceptions
+
 
 
 
@@ -21,33 +19,11 @@ from bin.contentctl_project.contentctl_core.domain.entities.macro import Macro
 from bin.contentctl_project.contentctl_core.domain.entities.lookup import Lookup
 from bin.contentctl_project.contentctl_core.domain.entities.baseline import Baseline
 from bin.contentctl_project.contentctl_core.domain.entities.playbook import Playbook
+from bin.contentctl_project.contentctl_core.domain.entities.link_validator import LinkValidator
 import sys
 
 
-import functools
-DEFAULT_CHECK_REFERENCE_TIMEOUT_SECONDS = 20
-DEFAULT_USER_AGENT_STRING = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.41 Safari/537.36"
-VERIFY_SSL = False
-if VERIFY_SSL is False:
-    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-count_not_cached = 0
-total_count = 0
-CACHER = dict()
-@functools.cache
-def check_reference(reference: str, timeout_seconds = DEFAULT_CHECK_REFERENCE_TIMEOUT_SECONDS, user_agent: str = DEFAULT_USER_AGENT_STRING)-> requests.Response:
-    global count_not_cached
-    count_not_cached+=1
-    get = requests.get(reference, timeout=timeout_seconds, headers = {"User-Agent": user_agent}, allow_redirects=True, verify=VERIFY_SSL)
-    CACHER[reference] = get.text
 
-    totalSize = sys.getsizeof(CACHER)
-    for key in CACHER:
-        totalSize += sys.getsizeof(CACHER[key])
-                
-    print(f"Request [{count_not_cached} / {total_count} - cache ratio {(1 - count_not_cached/total_count):.3f}], CACHE: {(totalSize / (1024*1024)):.2f} MB")
-
-
-    return get
 
 class Detection(BaseModel, SecurityContentObject):
     # detection spec
@@ -157,12 +133,7 @@ class Detection(BaseModel, SecurityContentObject):
    
     @validator('references')
     def references_check(cls, v, values):
-        global total_count
-        #return v
-        #import traceback
-        #import sys
-        #traceback.print_stack()
-        #sys.exit(0)
+        
         
         if 'check_references' in values and values['check_references'] is False:
             #Reference checking is NOT enabled
@@ -172,29 +143,7 @@ class Detection(BaseModel, SecurityContentObject):
         
 
         for reference in v:
-            #Get the start time of the request so that, if it fails, we can print out how long we waited
-            start_time = time.time()
-            total_count += 1
-            try:
-                get = check_reference(reference)
-                if get.status_code == 200:
-                    if reference != get.url:
-                        #print(f"Redirect from {reference} to {get.url}") #follows all redirects    
-                        pass
-                    continue
-                elif get.status_code == 301:
-                    #print(f"Redirect from {reference} to {get.url}")
-                    #Redirects here have typically added a guid or something similar to the URL which is not persistent
-                    #and will change across calls.  Don't throw an error on this.
-                    continue
-                #If we get here, it means it was not a 200 response code. Raise an error
-                raise ValueError(f"Reference {reference} returned status code {get.status_code} after {round(time.time()-start_time)} seconds: {values['name']}")
-
-            except requests.exceptions.RequestException as e:
-                raise ValueError(f"Reference {reference} is not reachable after {round(time.time()-start_time)} seconds: {values['name']}")
-                
-            finally:
-                pass
+            LinkValidator.validate_reference(reference)
         return v
 
     @validator('search')

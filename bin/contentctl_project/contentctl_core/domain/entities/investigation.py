@@ -12,6 +12,7 @@ from bin.contentctl_project.contentctl_core.domain.entities.security_content_obj
 from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import AnalyticsType
 from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import DataModel
 from bin.contentctl_project.contentctl_core.domain.entities.investigation_tags import InvestigationTags
+from bin.contentctl_project.contentctl_core.domain.entities.link_validator import LinkValidator
 
 
 class Investigation(BaseModel, SecurityContentObject):
@@ -27,6 +28,7 @@ class Investigation(BaseModel, SecurityContentObject):
     search: str
     how_to_implement: str
     known_false_positives: str
+    check_references: bool = False #Validation is done in order, this field must be defined first
     references: list
     inputs: list = None
     tags: InvestigationTags
@@ -81,15 +83,17 @@ class Investigation(BaseModel, SecurityContentObject):
 
     @validator('references')
     def references_check(cls, v, values):
-        for reference in v:
-            try:
-                get = requests.get(reference)
-                if not get.status_code == 200:
-                    raise ValueError('Reference ' + reference + ' is not reachable: ' + values["name"])
-            except requests.exceptions.RequestException as e:
-                raise ValueError('Reference ' + reference + ' is not reachable: ' + values["name"])
+        
+        
+        if 'check_references' in values and values['check_references'] is False:
+            #Reference checking is NOT enabled
+            return v
+        elif 'check_references' not in values:
+            raise(Exception("Member 'check_references' missing from Detection!"))
+        
 
-        return v
+        for reference in v:
+            LinkValidator.validate_reference(reference)
 
     @validator('search')
     def search_validate(cls, v, values):
