@@ -154,10 +154,10 @@ def validate(args) -> None:
         os.path.abspath(args.path),
         SecurityContentBasicBuilder(),
         SecurityContentDetectionBuilder(force_cached_or_offline=args.cached_and_offline, check_references=args.check_references),
-        SecurityContentStoryBuilder(),
-        SecurityContentBaselineBuilder(),
-        SecurityContentInvestigationBuilder(),
-        SecurityContentPlaybookBuilder(),
+        SecurityContentStoryBuilder(check_references=args.check_references),
+        SecurityContentBaselineBuilder(check_references=args.check_references),
+        SecurityContentInvestigationBuilder(check_references=args.check_references),
+        SecurityContentPlaybookBuilder(check_references=args.check_references),
         SecurityContentDirector(),
         AttackEnrichment.get_attack_lookup(force_cached_or_offline=args.cached_and_offline)
     )
