@@ -92,7 +92,7 @@ class Baseline(BaseModel, SecurityContentObject):
             #Reference checking is NOT enabled
             return v
         elif 'check_references' not in values:
-            raise(Exception("Member 'check_references' missing from Detection!"))
+            raise(Exception("Member 'check_references' missing from Baseline!"))
         
 
         for reference in v:

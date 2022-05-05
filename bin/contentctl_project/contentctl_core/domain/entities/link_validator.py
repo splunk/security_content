@@ -105,9 +105,4 @@ class LinkValidator(abc.ABC):
             raise(Exception(f"Reference Link Failed: {reference}"))
         else:
             return False
-        
-
-
-
-
-
+            

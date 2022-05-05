@@ -81,7 +81,7 @@ class Factory():
 
           import copy
           import threading
-          NUM_THREADS = 1
+          NUM_THREADS = 10
           
           def make_detections_thread(index:int):
                my_dto = copy.deepcopy(self.input_dto)

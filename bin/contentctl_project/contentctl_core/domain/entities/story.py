@@ -63,7 +63,7 @@ class Story(BaseModel, SecurityContentObject):
             raise ValueError('encoding error in ' + field.name + ': ' + values["name"])
         return v
 
-      @validator('references')
+    @validator('references')
     def references_check(cls, v, values):
         
         
@@ -71,7 +71,7 @@ class Story(BaseModel, SecurityContentObject):
             #Reference checking is NOT enabled
             return v
         elif 'check_references' not in values:
-            raise(Exception("Member 'check_references' missing from Detection!"))
+            raise(Exception("Member 'check_references' missing from Story!"))
         
 
         for reference in v:
