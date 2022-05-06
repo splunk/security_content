@@ -13,4 +13,4 @@ class Lookup(BaseModel, SecurityContentObject):
     default_match: str = None
     match_type: str = None
     min_matches: int = None
-    case_sensitive_match: str = None
+    case_sensitive_match: str = 'false'

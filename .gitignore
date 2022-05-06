@@ -122,3 +122,5 @@ bin/docker_detection_tester/apps/
 bin/docker_detection_tester/security_content/
 bin/docker_detection_tester/test_config.json
 bin/docker_detection_tester/test_results/
+
+DA-ESS-ContentUpdate-3.39.0.tar.gz
