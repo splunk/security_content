@@ -284,6 +284,7 @@ def test_detection_search(splunk_host:str, splunk_port:int, splunk_password:str,
     test_results['runDuration'] = job['runDuration']
     test_results['scanCount'] = job['scanCount']
     test_results['eventCount'] = job['eventCount']
+    test_results['resultCount'] = job['resultCount']
     #If we get this far, then there was not an error
     #The search may have FAILED, but there was no error in the search
     test_results['error'] = False 

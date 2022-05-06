@@ -124,7 +124,7 @@ class TestDriver:
 
     def addError(self, result:dict, duration_string:str)->None:
         #Make sure that even errors have all of the required fields.
-        for required_field in ['search_string', 'eventCount', 'diskUsage','runDuration', 'detection_name', 'scanCount', 'detection_error', 'detection_file']:
+        for required_field in ['search_string', 'eventCount', 'resultCount', 'diskUsage','runDuration', 'detection_name', 'scanCount', 'detection_error', 'detection_file']:
             if required_field not in result:
                 result[required_field] = ""
         if  'error' not in result:
@@ -197,7 +197,7 @@ class TestDriver:
         return success
         
 
-    def outputResultsFiles(self, baseline:OrderedDict, fields:list[str]=['detection_name', 'eventCount', 'detection_file','runDuration','diskUsage', 'search_string', 'error', 'success', 'scanCount', 'detection_error'])->bool:
+    def outputResultsFiles(self, baseline:OrderedDict, fields:list[str]=['detection_name', 'eventCount', 'resultCount', 'detection_file','runDuration','diskUsage', 'search_string', 'error', 'success', 'scanCount', 'detection_error'])->bool:
         results_directory = "test_results"
         try:
             shutil.rmtree(results_directory,ignore_errors=True)
