@@ -78,10 +78,13 @@ class Factory():
                files = Utils.get_all_yml_files_from_directory(os.path.join(self.input_dto.input_path, str(type.name)))
           
           validation_error_found = False
-
+          
+          #Code below us commented out, but allows threaded construction of detections
+          #No issues have been observed running construction in parallel
+          '''
           import copy
           import threading
-          NUM_THREADS = 10
+          NUM_THREADS = 1
           
           def make_detections_thread(index:int):
                my_dto = copy.deepcopy(self.input_dto)
@@ -140,129 +143,84 @@ class Factory():
                          print(e)
                          validation_error_found = True
                     
-               #print(f"Builder thread {index} Done!")
+               
 
           builder_threads = []
-          #print("starting builder threads")
+          
           for t in range(NUM_THREADS):
                thread = threading.Thread(target=make_detections_thread,args=(t,))
                thread.start()
                builder_threads.append(thread)
-          #print("All threads started")
+          
           for thread in builder_threads:
                thread.join()
-               #print("thread joined")
-          #print("all threads joined")
+          '''
           
+          #Non threaded, production version of the construction code
 
+          for index,file in enumerate(files):
+               if not 'ssa__' in file:
+                    progress_percent = (index/len(files)) * 100
+                    try:
+                         if type == SecurityContentType.lookups:
+                              print(f"\r{'Lookups Progress'.rjust(23)}: [{progress_percent:3.0f}%]", end="", flush=True)
+                              self.input_dto.director.constructLookup(self.input_dto.basic_builder, file)
+                              self.output_dto.lookups.append(self.input_dto.basic_builder.getObject())
+                         
+                         elif type == SecurityContentType.macros:
+                              print(f"\r{'Playbooks Progress'.rjust(23)}: [{progress_percent:3.0f}%]", end="", flush=True)
+                              self.input_dto.director.constructMacro(self.input_dto.basic_builder, file)
+                              self.output_dto.macros.append(self.input_dto.basic_builder.getObject())
+                         
+                         elif type == SecurityContentType.deployments:
+                              print(f"\r{'Playbooks Progress'.rjust(23)}: [{progress_percent:3.0f}%]", end="", flush=True)
+                              self.input_dto.director.constructDeployment(self.input_dto.basic_builder, file)
+                              self.output_dto.deployments.append(self.input_dto.basic_builder.getObject())
+                         
+                         elif type == SecurityContentType.playbooks:
+                              print(f"\r{'Playbooks Progress'.rjust(23)}: [{progress_percent:3.0f}%]", end="", flush=True)
+                              self.input_dto.director.constructPlaybook(self.input_dto.playbook_builder, file)
+                              self.output_dto.playbooks.append(self.input_dto.playbook_builder.getObject())                    
+                         
+                         elif type == SecurityContentType.baselines:
+                              print(f"\r{'Baselines Progress'.rjust(23)}: [{progress_percent:3.0f}%]", end="", flush=True)
+                              self.input_dto.director.constructBaseline(self.input_dto.baseline_builder, file, self.output_dto.deployments)
+                              baseline = self.input_dto.baseline_builder.getObject()
+                              self.output_dto.baselines.append(baseline)
+                         
+                         elif type == SecurityContentType.investigations:
+                              print(f"\r{'Investigations Progress'.rjust(23)}: [{progress_percent:3.0f}%]", end="", flush=True)
+                              self.input_dto.director.constructInvestigation(self.input_dto.investigation_builder, file)
+                              investigation = self.input_dto.investigation_builder.getObject()
+                              self.output_dto.investigations.append(investigation)
 
-               
-          #      if not 'ssa__' in file:
-          #           try:
-          #                if type == SecurityContentType.lookups:
-          #                     self.input_dto.director.constructLookup(self.input_dto.basic_builder, file)
-          #                     self.output_dto.lookups.append(self.input_dto.basic_builder.getObject())
-                         
-          #                elif type == SecurityContentType.macros:
-          #                     self.input_dto.director.constructMacro(self.input_dto.basic_builder, file)
-          #                     self.output_dto.macros.append(self.input_dto.basic_builder.getObject())
-                         
-          #                elif type == SecurityContentType.deployments:
-          #                     self.input_dto.director.constructDeployment(self.input_dto.basic_builder, file)
-          #                     self.output_dto.deployments.append(self.input_dto.basic_builder.getObject())
-                         
-          #                elif type == SecurityContentType.playbooks:
-          #                     self.input_dto.director.constructPlaybook(self.input_dto.playbook_builder, file)
-          #                     self.output_dto.playbooks.append(self.input_dto.playbook_builder.getObject())                    
-                         
-          #                elif type == SecurityContentType.baselines:
-          #                     self.input_dto.director.constructBaseline(self.input_dto.baseline_builder, file, self.output_dto.deployments)
-          #                     baseline = self.input_dto.baseline_builder.getObject()
-          #                     self.output_dto.baselines.append(baseline)
-                         
-          #                elif type == SecurityContentType.investigations:
-          #                     self.input_dto.director.constructInvestigation(self.input_dto.investigation_builder, file)
-          #                     investigation = self.input_dto.investigation_builder.getObject()
-          #                     self.output_dto.investigations.append(investigation)
-
-          #                elif type == SecurityContentType.stories:
-          #                     self.input_dto.director.constructStory(self.input_dto.story_builder, file, 
-          #                          self.output_dto.detections, self.output_dto.baselines, self.output_dto.investigations)
-          #                     story = self.input_dto.story_builder.getObject()
-          #                     self.output_dto.stories.append(story)
+                         elif type == SecurityContentType.stories:
+                              print(f"\r{'Stories Progress'.rjust(23)}: [{progress_percent:3.0f}%]", end="", flush=True)
+                              self.input_dto.director.constructStory(self.input_dto.story_builder, file, 
+                                   self.output_dto.detections, self.output_dto.baselines, self.output_dto.investigations)
+                              story = self.input_dto.story_builder.getObject()
+                              self.output_dto.stories.append(story)
                     
-          #                elif type == SecurityContentType.detections:
-          #                     self.input_dto.director.constructDetection(self.input_dto.detection_builder, file, 
-          #                          self.output_dto.deployments, self.output_dto.playbooks, self.output_dto.baselines,
-          #                          self.output_dto.tests, self.input_dto.attack_enrichment, self.output_dto.macros,
-          #                          self.output_dto.lookups, self.input_dto.force_cached_or_offline)
-          #                     detection = self.input_dto.detection_builder.getObject()
-          #                     self.output_dto.detections.append(detection)
+                         elif type == SecurityContentType.detections:
+                              print(f"\r{'Detections Progress'.rjust(23)}: [{progress_percent:3.0f}%]", end="", flush=True)
+                              self.input_dto.director.constructDetection(self.input_dto.detection_builder, file, 
+                                   self.output_dto.deployments, self.output_dto.playbooks, self.output_dto.baselines,
+                                   self.output_dto.tests, self.input_dto.attack_enrichment, self.output_dto.macros,
+                                   self.output_dto.lookups, self.input_dto.force_cached_or_offline)
+                              detection = self.input_dto.detection_builder.getObject()
+                              self.output_dto.detections.append(detection)
                     
-          #                elif type == SecurityContentType.unit_tests:
-          #                     self.input_dto.director.constructTest(self.input_dto.basic_builder, file)
-          #                     test = self.input_dto.basic_builder.getObject()
-          #                     self.output_dto.tests.append(test)
+                         elif type == SecurityContentType.unit_tests:
+                              print(f"\r{'Detections Progress'.rjust(23)}: [{progress_percent:3.0f}%]", end="", flush=True)
+                              self.input_dto.director.constructTest(self.input_dto.basic_builder, file)
+                              test = self.input_dto.basic_builder.getObject()
+                              self.output_dto.tests.append(test)
                     
-          #           except ValidationError as e:
-          #                print('\nValidation Error for file ' + file)
-          #                print(e)
-          #                validation_error_found = True
-
-          
-
-          # for file in files:
-          #      if not 'ssa__' in file:
-          #           try:
-          #                if type == SecurityContentType.lookups:
-          #                     self.input_dto.director.constructLookup(self.input_dto.basic_builder, file)
-          #                     self.output_dto.lookups.append(self.input_dto.basic_builder.getObject())
-                         
-          #                elif type == SecurityContentType.macros:
-          #                     self.input_dto.director.constructMacro(self.input_dto.basic_builder, file)
-          #                     self.output_dto.macros.append(self.input_dto.basic_builder.getObject())
-                         
-          #                elif type == SecurityContentType.deployments:
-          #                     self.input_dto.director.constructDeployment(self.input_dto.basic_builder, file)
-          #                     self.output_dto.deployments.append(self.input_dto.basic_builder.getObject())
-                         
-          #                elif type == SecurityContentType.playbooks:
-          #                     self.input_dto.director.constructPlaybook(self.input_dto.playbook_builder, file)
-          #                     self.output_dto.playbooks.append(self.input_dto.playbook_builder.getObject())                    
-                         
-          #                elif type == SecurityContentType.baselines:
-          #                     self.input_dto.director.constructBaseline(self.input_dto.baseline_builder, file, self.output_dto.deployments)
-          #                     baseline = self.input_dto.baseline_builder.getObject()
-          #                     self.output_dto.baselines.append(baseline)
-                         
-          #                elif type == SecurityContentType.investigations:
-          #                     self.input_dto.director.constructInvestigation(self.input_dto.investigation_builder, file)
-          #                     investigation = self.input_dto.investigation_builder.getObject()
-          #                     self.output_dto.investigations.append(investigation)
-
-          #                elif type == SecurityContentType.stories:
-          #                     self.input_dto.director.constructStory(self.input_dto.story_builder, file, 
-          #                          self.output_dto.detections, self.output_dto.baselines, self.output_dto.investigations)
-          #                     story = self.input_dto.story_builder.getObject()
-          #                     self.output_dto.stories.append(story)
-                    
-          #                elif type == SecurityContentType.detections:
-          #                     self.input_dto.director.constructDetection(self.input_dto.detection_builder, file, 
-          #                          self.output_dto.deployments, self.output_dto.playbooks, self.output_dto.baselines,
-          #                          self.output_dto.tests, self.input_dto.attack_enrichment, self.output_dto.macros,
-          #                          self.output_dto.lookups, self.input_dto.force_cached_or_offline)
-          #                     detection = self.input_dto.detection_builder.getObject()
-          #                     self.output_dto.detections.append(detection)
-                    
-          #                elif type == SecurityContentType.unit_tests:
-          #                     self.input_dto.director.constructTest(self.input_dto.basic_builder, file)
-          #                     test = self.input_dto.basic_builder.getObject()
-          #                     self.output_dto.tests.append(test)
-                    
-          #           except ValidationError as e:
-          #                print('\nValidation Error for file ' + file)
-          #                print(e)
-          #                validation_error_found = True
+                    except ValidationError as e:
+                         print('\nValidation Error for file ' + file)
+                         print(e)
+                         validation_error_found = True
+          print("...Done!")
 
           if validation_error_found:
                sys.exit(1)

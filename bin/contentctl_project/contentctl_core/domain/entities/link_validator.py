@@ -56,8 +56,6 @@ class LinkStats(BaseModel):
                             headers = headers, 
                             allow_redirects=allow_redirects, verify=verify_ssl)
             resolution_time = time.time() - start_time
-
-            
             values['status_code'] = get.status_code
             values['resolution_time'] = resolution_time
             if reference != get.url:
@@ -87,22 +85,22 @@ class LinkValidator(abc.ABC):
     cache: dict[str,LinkStats] = {}
     uncached_checks: int = 0
     total_checks: int = 0
-    
     #cache: dict[str,LinkStats] = {}
 
     
     @staticmethod
     def validate_reference(reference: str, raise_exception_if_failure: bool = False) -> bool:
         LinkValidator.total_checks += 1
-        print(f"Total Checks: {LinkValidator.total_checks}")
         if reference not in LinkValidator.cache:
             LinkValidator.uncached_checks += 1
             LinkValidator.cache[reference] = LinkStats(reference=reference)
         result = LinkValidator.cache[reference].is_link_valid()
+
+        #print(f"Total Checks: {LinkValidator.total_checks}, Percent Cached: {100*(1 - LinkValidator.uncached_checks / LinkValidator.total_checks):.2f}")
+
         if result is True:
             return True
         elif raise_exception_if_failure is True:
             raise(Exception(f"Reference Link Failed: {reference}"))
         else:
             return False
-            
