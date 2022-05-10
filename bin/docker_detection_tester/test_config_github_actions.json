@@ -1,5 +1,10 @@
 {
   "apps": {
+      "PALO_ALTO_NETWORKS_ADD_ON_FOR_SPLUNK": {
+          "app_number": 2757,
+          "app_version": "7.1.0",
+          "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/palo-alto-networks-add-on-for-splunk_710.tgz"
+      },
       "ADD_ON_FOR_LINUX_SYSMON": {
           "app_number": 6176,
           "app_version": "1.0.4",

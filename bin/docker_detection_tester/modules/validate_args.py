@@ -77,7 +77,15 @@ setup_schema = {
                     "app_version": None,
                     "local_path": None
                 },
+
+
                 #The default apps below were taken from the attack_range loadout: https://github.com/splunk/attack_range/blob/develop/attack_range.conf.template
+
+                "PALO_ALTO_NETWORKS_ADD_ON_FOR_SPLUNK": {
+                    "app_number": 2757,
+                    "app_version": "7.1.0",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/palo-alto-networks-add-on-for-splunk_710.tgz"
+                },
                 "SPLUNK_ADD_ON_FOR_MICROSOFT_WINDOWS": {
                     "app_number": 742,
                     "app_version": "8.4.0",
