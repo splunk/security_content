@@ -14,8 +14,8 @@ class LinkStats(BaseModel):
     #Static Values
     method: Callable = requests.get
     allowed_http_codes: list[int] = [200] 
-    access_count: int = 0
-    timeout_seconds: int = 30
+    access_count: int = 1 #when constructor is called, it has been accessed once!
+    timeout_seconds: int = 15
     allow_redirects: bool = True
     headers: dict = {"User-Agent": DEFAULT_USER_AGENT_STRING}
     verify_ssl: bool = False
@@ -27,14 +27,16 @@ class LinkStats(BaseModel):
     #validation working since ComputedField has not yet been 
     #introduced to Pydantic
     reference: str
+    referencing_files: set[str]
     redirect: Union[str,None] = None
     status_code: int = 0
     valid: bool = False
     resolution_time: float = 0 
     
     
-    def is_link_valid(self)->bool:
+    def is_link_valid(self, referencing_file:str)->bool:
         self.access_count += 1
+        self.referencing_files.add(referencing_file)
         return self.valid
     
     @root_validator
@@ -67,13 +69,13 @@ class LinkStats(BaseModel):
             if get.status_code in allowed_http_codes:
                 values['valid'] = True
             else:
-                print(f"Unacceptable HTTP Status Code {get.status_code} received for {reference}")
+                #print(f"Unacceptable HTTP Status Code {get.status_code} received for {reference}")
                 values['valid'] = False
             return values    
 
         except Exception as e:
             resolution_time = time.time() - start_time
-            print(f"Reference {reference} was not reachable after {resolution_time:.2f} seconds")
+            #print(f"Reference {reference} was not reachable after {resolution_time:.2f} seconds")
             values['status_code'] = 0
             values['valid'] = False
             values['redirect'] = None
@@ -89,12 +91,12 @@ class LinkValidator(abc.ABC):
 
     
     @staticmethod
-    def validate_reference(reference: str, raise_exception_if_failure: bool = False) -> bool:
+    def validate_reference(reference: str, referencing_file:str, raise_exception_if_failure: bool = False) -> bool:
         LinkValidator.total_checks += 1
         if reference not in LinkValidator.cache:
             LinkValidator.uncached_checks += 1
-            LinkValidator.cache[reference] = LinkStats(reference=reference)
-        result = LinkValidator.cache[reference].is_link_valid()
+            LinkValidator.cache[reference] = LinkStats(reference=reference, referencing_files = set([referencing_file]))
+        result = LinkValidator.cache[reference].is_link_valid(referencing_file)
 
         #print(f"Total Checks: {LinkValidator.total_checks}, Percent Cached: {100*(1 - LinkValidator.uncached_checks / LinkValidator.total_checks):.2f}")
 
@@ -104,3 +106,10 @@ class LinkValidator(abc.ABC):
             raise(Exception(f"Reference Link Failed: {reference}"))
         else:
             return False
+    @staticmethod
+    def print_link_validation_errors():
+        for k in LinkValidator.cache.keys():
+            if LinkValidator.cache[k].valid is False:
+                print(f"Link {k} invalid with HTTP Status Code [{LinkValidator.cache[k].status_code}] and referenced by the following files:")
+                for ref in LinkValidator.cache[k].referencing_files:
+                    print(f"\t* {ref}")

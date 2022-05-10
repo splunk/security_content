@@ -38,5 +38,5 @@ class Playbook(BaseModel, SecurityContentObject):
         
 
         for reference in v:
-            LinkValidator.validate_reference(reference)
+            LinkValidator.validate_reference(reference, values['name'])
 

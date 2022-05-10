@@ -14,7 +14,7 @@ from bin.contentctl_project.contentctl_core.application.builder.investigation_bu
 from bin.contentctl_project.contentctl_core.application.builder.playbook_builder import PlaybookBuilder
 from bin.contentctl_project.contentctl_core.application.builder.director import Director
 from bin.contentctl_project.contentctl_core.application.factory.utils.utils import Utils
-
+from bin.contentctl_project.contentctl_core.domain.entities.link_validator import LinkValidator
 
 @dataclass(frozen=True)
 class FactoryInputDto:
@@ -54,7 +54,7 @@ class Factory():
 
      def execute(self, input_dto: FactoryInputDto) -> None:
           self.input_dto = input_dto
-
+          print("Creating Security Content. This may take some time...")
           # order matters to load and enrich security content types
           self.createSecurityContent(SecurityContentType.unit_tests)
           self.createSecurityContent(SecurityContentType.lookups)
@@ -65,7 +65,8 @@ class Factory():
           self.createSecurityContent(SecurityContentType.playbooks)
           self.createSecurityContent(SecurityContentType.detections)
           self.createSecurityContent(SecurityContentType.stories)
-
+          LinkValidator.print_link_validation_errors()
+          
 
      def createSecurityContent(self, type: SecurityContentType) -> list:
           
@@ -157,69 +158,71 @@ class Factory():
           '''
           
           #Non threaded, production version of the construction code
+          files_without_ssa = [f for f in files if 'ssa___' not in f]
+          for index,file in enumerate(files_without_ssa):
+          
+               #Index + 1 because we are zero indexed, not 1 indexed.  This ensures
+               # that printouts end at 100%, not some other number 
+               progress_percent = ((index+1)/len(files_without_ssa)) * 100
+               try:
+                    if type == SecurityContentType.lookups:
+                         print(f"\r{'Lookups Progress'.rjust(23)}: [{progress_percent:3.0f}%]", end="", flush=True)
+                         self.input_dto.director.constructLookup(self.input_dto.basic_builder, file)
+                         self.output_dto.lookups.append(self.input_dto.basic_builder.getObject())
+                    
+                    elif type == SecurityContentType.macros:
+                         print(f"\r{'Playbooks Progress'.rjust(23)}: [{progress_percent:3.0f}%]", end="", flush=True)
+                         self.input_dto.director.constructMacro(self.input_dto.basic_builder, file)
+                         self.output_dto.macros.append(self.input_dto.basic_builder.getObject())
+                    
+                    elif type == SecurityContentType.deployments:
+                         print(f"\r{'Deployments Progress'.rjust(23)}: [{progress_percent:3.0f}%]", end="", flush=True)
+                         self.input_dto.director.constructDeployment(self.input_dto.basic_builder, file)
+                         self.output_dto.deployments.append(self.input_dto.basic_builder.getObject())
+                    
+                    elif type == SecurityContentType.playbooks:
+                         print(f"\r{'Playbooks Progress'.rjust(23)}: [{progress_percent:3.0f}%]", end="", flush=True)
+                         self.input_dto.director.constructPlaybook(self.input_dto.playbook_builder, file)
+                         self.output_dto.playbooks.append(self.input_dto.playbook_builder.getObject())                    
+                    
+                    elif type == SecurityContentType.baselines:
+                         print(f"\r{'Baselines Progress'.rjust(23)}: [{progress_percent:3.0f}%]", end="", flush=True)
+                         self.input_dto.director.constructBaseline(self.input_dto.baseline_builder, file, self.output_dto.deployments)
+                         baseline = self.input_dto.baseline_builder.getObject()
+                         self.output_dto.baselines.append(baseline)
+                    
+                    elif type == SecurityContentType.investigations:
+                         print(f"\r{'Investigations Progress'.rjust(23)}: [{progress_percent:3.0f}%]", end="", flush=True)
+                         self.input_dto.director.constructInvestigation(self.input_dto.investigation_builder, file)
+                         investigation = self.input_dto.investigation_builder.getObject()
+                         self.output_dto.investigations.append(investigation)
 
-          for index,file in enumerate(files):
-               if not 'ssa__' in file:
-                    progress_percent = (index/len(files)) * 100
-                    try:
-                         if type == SecurityContentType.lookups:
-                              print(f"\r{'Lookups Progress'.rjust(23)}: [{progress_percent:3.0f}%]", end="", flush=True)
-                              self.input_dto.director.constructLookup(self.input_dto.basic_builder, file)
-                              self.output_dto.lookups.append(self.input_dto.basic_builder.getObject())
-                         
-                         elif type == SecurityContentType.macros:
-                              print(f"\r{'Playbooks Progress'.rjust(23)}: [{progress_percent:3.0f}%]", end="", flush=True)
-                              self.input_dto.director.constructMacro(self.input_dto.basic_builder, file)
-                              self.output_dto.macros.append(self.input_dto.basic_builder.getObject())
-                         
-                         elif type == SecurityContentType.deployments:
-                              print(f"\r{'Playbooks Progress'.rjust(23)}: [{progress_percent:3.0f}%]", end="", flush=True)
-                              self.input_dto.director.constructDeployment(self.input_dto.basic_builder, file)
-                              self.output_dto.deployments.append(self.input_dto.basic_builder.getObject())
-                         
-                         elif type == SecurityContentType.playbooks:
-                              print(f"\r{'Playbooks Progress'.rjust(23)}: [{progress_percent:3.0f}%]", end="", flush=True)
-                              self.input_dto.director.constructPlaybook(self.input_dto.playbook_builder, file)
-                              self.output_dto.playbooks.append(self.input_dto.playbook_builder.getObject())                    
-                         
-                         elif type == SecurityContentType.baselines:
-                              print(f"\r{'Baselines Progress'.rjust(23)}: [{progress_percent:3.0f}%]", end="", flush=True)
-                              self.input_dto.director.constructBaseline(self.input_dto.baseline_builder, file, self.output_dto.deployments)
-                              baseline = self.input_dto.baseline_builder.getObject()
-                              self.output_dto.baselines.append(baseline)
-                         
-                         elif type == SecurityContentType.investigations:
-                              print(f"\r{'Investigations Progress'.rjust(23)}: [{progress_percent:3.0f}%]", end="", flush=True)
-                              self.input_dto.director.constructInvestigation(self.input_dto.investigation_builder, file)
-                              investigation = self.input_dto.investigation_builder.getObject()
-                              self.output_dto.investigations.append(investigation)
-
-                         elif type == SecurityContentType.stories:
-                              print(f"\r{'Stories Progress'.rjust(23)}: [{progress_percent:3.0f}%]", end="", flush=True)
-                              self.input_dto.director.constructStory(self.input_dto.story_builder, file, 
-                                   self.output_dto.detections, self.output_dto.baselines, self.output_dto.investigations)
-                              story = self.input_dto.story_builder.getObject()
-                              self.output_dto.stories.append(story)
-                    
-                         elif type == SecurityContentType.detections:
-                              print(f"\r{'Detections Progress'.rjust(23)}: [{progress_percent:3.0f}%]", end="", flush=True)
-                              self.input_dto.director.constructDetection(self.input_dto.detection_builder, file, 
-                                   self.output_dto.deployments, self.output_dto.playbooks, self.output_dto.baselines,
-                                   self.output_dto.tests, self.input_dto.attack_enrichment, self.output_dto.macros,
-                                   self.output_dto.lookups, self.input_dto.force_cached_or_offline)
-                              detection = self.input_dto.detection_builder.getObject()
-                              self.output_dto.detections.append(detection)
-                    
-                         elif type == SecurityContentType.unit_tests:
-                              print(f"\r{'Detections Progress'.rjust(23)}: [{progress_percent:3.0f}%]", end="", flush=True)
-                              self.input_dto.director.constructTest(self.input_dto.basic_builder, file)
-                              test = self.input_dto.basic_builder.getObject()
-                              self.output_dto.tests.append(test)
-                    
-                    except ValidationError as e:
-                         print('\nValidation Error for file ' + file)
-                         print(e)
-                         validation_error_found = True
+                    elif type == SecurityContentType.stories:
+                         print(f"\r{'Stories Progress'.rjust(23)}: [{progress_percent:3.0f}%]", end="", flush=True)
+                         self.input_dto.director.constructStory(self.input_dto.story_builder, file, 
+                              self.output_dto.detections, self.output_dto.baselines, self.output_dto.investigations)
+                         story = self.input_dto.story_builder.getObject()
+                         self.output_dto.stories.append(story)
+               
+                    elif type == SecurityContentType.detections:
+                         print(f"\r{'Detections Progress'.rjust(23)}: [{progress_percent:3.0f}%]", end="", flush=True)
+                         self.input_dto.director.constructDetection(self.input_dto.detection_builder, file, 
+                              self.output_dto.deployments, self.output_dto.playbooks, self.output_dto.baselines,
+                              self.output_dto.tests, self.input_dto.attack_enrichment, self.output_dto.macros,
+                              self.output_dto.lookups, self.input_dto.force_cached_or_offline)
+                         detection = self.input_dto.detection_builder.getObject()
+                         self.output_dto.detections.append(detection)
+               
+                    elif type == SecurityContentType.unit_tests:
+                         print(f"\r{'Unit Tests Progress'.rjust(23)}: [{progress_percent:3.0f}%]", end="", flush=True)
+                         self.input_dto.director.constructTest(self.input_dto.basic_builder, file)
+                         test = self.input_dto.basic_builder.getObject()
+                         self.output_dto.tests.append(test)
+               
+               except ValidationError as e:
+                    print('\nValidation Error for file ' + file)
+                    print(e)
+                    validation_error_found = True
           print("...Done!")
 
           if validation_error_found:

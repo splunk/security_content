@@ -96,7 +96,7 @@ class Baseline(BaseModel, SecurityContentObject):
         
 
         for reference in v:
-            LinkValidator.validate_reference(reference)
+            LinkValidator.validate_reference(reference, values['name'])
 
     @validator('search')
     def search_validate(cls, v, values):
