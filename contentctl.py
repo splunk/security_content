@@ -92,25 +92,29 @@ def generate(args) -> None:
         print("ERROR: invalid product. valid products are ESCU, SSA or API.")
         sys.exit(1)
 
-    
-    factory_input_dto = FactoryInputDto(
-        os.path.abspath(args.path),
-        SecurityContentBasicBuilder(),
-        SecurityContentDetectionBuilder(),
-        SecurityContentStoryBuilder(),
-        SecurityContentBaselineBuilder(),
-        SecurityContentInvestigationBuilder(),
-        SecurityContentPlaybookBuilder(),
-        SecurityContentDirector(),
-        AttackEnrichment.get_attack_lookup(store_csv=True, force_cached_or_offline=args.cached_and_offline)
-    )
+    #Save runtime by only generating the required factory inputs
+    factory_input_dto = None
+    ba_factory_input_dto = None
+    if args.product in ["ESCU", "API"]:
+        factory_input_dto = FactoryInputDto(
+            os.path.abspath(args.path),
+            SecurityContentBasicBuilder(),
+            SecurityContentDetectionBuilder(force_cached_or_offline=args.cached_and_offline),
+            SecurityContentStoryBuilder(),
+            SecurityContentBaselineBuilder(),
+            SecurityContentInvestigationBuilder(),
+            SecurityContentPlaybookBuilder(),
+            SecurityContentDirector(),
+            AttackEnrichment.get_attack_lookup(force_cached_or_offline=args.cached_and_offline)
+        )
+    if args.product in ["SSA", "API"]:
+        ba_factory_input_dto = BAFactoryInputDto(
+            os.path.abspath(args.path),
+            SecurityContentBasicBuilder(),
+            SecurityContentDetectionBuilder(force_cached_or_offline = args.cached_and_offline),
+            SecurityContentDirector()
+        )
 
-    ba_factory_input_dto = BAFactoryInputDto(
-        os.path.abspath(args.path),
-        SecurityContentBasicBuilder(),
-        SecurityContentDetectionBuilder(),
-        SecurityContentDirector()
-    )
 
     if args.product == "ESCU":
         generate_input_dto = GenerateInputDto(
@@ -129,6 +133,7 @@ def generate(args) -> None:
             SecurityContentProduct.API
         )
     else:
+        print("making dto")
         generate_input_dto = GenerateInputDto(
             os.path.abspath(args.output),
             factory_input_dto,
@@ -136,7 +141,6 @@ def generate(args) -> None:
             ObjToYmlAdapter(),
             SecurityContentProduct.SSA
         ) 
-
     generate = Generate()
     generate.execute(generate_input_dto)
 
@@ -150,25 +154,29 @@ def validate(args) -> None:
         print("ERROR: invalid product. valid products are all, ESCU or SSA.")
         sys.exit(1)
 
-    factory_input_dto = FactoryInputDto(
-        os.path.abspath(args.path),
-        SecurityContentBasicBuilder(),
-        SecurityContentDetectionBuilder(force_cached_or_offline=args.cached_and_offline, check_references=args.check_references),
-        SecurityContentStoryBuilder(check_references=args.check_references),
-        SecurityContentBaselineBuilder(check_references=args.check_references),
-        SecurityContentInvestigationBuilder(check_references=args.check_references),
-        SecurityContentPlaybookBuilder(check_references=args.check_references),
-        SecurityContentDirector(),
-        AttackEnrichment.get_attack_lookup(force_cached_or_offline=args.cached_and_offline)
-    )
-
-    ba_factory_input_dto = BAFactoryInputDto(
-        os.path.abspath(args.path),
-        SecurityContentBasicBuilder(),
-        SecurityContentDetectionBuilder(force_cached_or_offline = False, check_references=args.check_references),
-        SecurityContentDirector()
-    )
-
+    #Save runtime by only generating the required factory inputs
+    factory_input_dto = None
+    ba_factory_input_dto = None
+    if args.product in ["ESCU", "all"]:
+        factory_input_dto = FactoryInputDto(
+            os.path.abspath(args.path),
+            SecurityContentBasicBuilder(),
+            SecurityContentDetectionBuilder(force_cached_or_offline=args.cached_and_offline, check_references=args.check_references),
+            SecurityContentStoryBuilder(check_references=args.check_references),
+            SecurityContentBaselineBuilder(check_references=args.check_references),
+            SecurityContentInvestigationBuilder(check_references=args.check_references),
+            SecurityContentPlaybookBuilder(check_references=args.check_references),
+            SecurityContentDirector(),
+            AttackEnrichment.get_attack_lookup(force_cached_or_offline=args.cached_and_offline)
+        )
+    if args.product in ["SSA", "all"]:
+        ba_factory_input_dto = BAFactoryInputDto(
+            os.path.abspath(args.path),
+            SecurityContentBasicBuilder(),
+            SecurityContentDetectionBuilder(force_cached_or_offline = args.cached_and_offline, check_references=args.check_references),
+            SecurityContentDirector()
+        )
+    
     if args.product == "ESCU" or args.product == "all":
         validate_input_dto = ValidateInputDto(
             factory_input_dto,
@@ -193,7 +201,7 @@ def doc_gen(args) -> None:
     factory_input_dto = FactoryInputDto(
         os.path.abspath(args.path),
         SecurityContentBasicBuilder(),
-        SecurityContentDetectionBuilder(),
+        SecurityContentDetectionBuilder(force_cached_or_offline=args.cached_and_offline),
         SecurityContentStoryBuilder(),
         SecurityContentBaselineBuilder(),
         SecurityContentInvestigationBuilder(),
@@ -231,7 +239,7 @@ def reporting(args) -> None:
     factory_input_dto = FactoryInputDto(
         os.path.abspath(args.path),
         SecurityContentBasicBuilder(),
-        SecurityContentDetectionBuilder(),
+        SecurityContentDetectionBuilder(force_cached_or_offline=args.cached_and_offline),
         SecurityContentStoryBuilder(),
         SecurityContentBaselineBuilder(),
         SecurityContentInvestigationBuilder(),

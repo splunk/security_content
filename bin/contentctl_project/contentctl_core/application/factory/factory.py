@@ -54,7 +54,7 @@ class Factory():
 
      def execute(self, input_dto: FactoryInputDto) -> None:
           self.input_dto = input_dto
-          print("Creating Security Content. This may take some time...")
+          print("Creating Security Content - ESCU. This may take some time...")
           # order matters to load and enrich security content types
           self.createSecurityContent(SecurityContentType.unit_tests)
           self.createSecurityContent(SecurityContentType.lookups)
@@ -166,46 +166,46 @@ class Factory():
                progress_percent = ((index+1)/len(files_without_ssa)) * 100
                try:
                     if type == SecurityContentType.lookups:
-                         print(f"\r{'Lookups Progress'.rjust(23)}: [{progress_percent:3.0f}%]", end="", flush=True)
+                         print(f"\r{'Lookups Progress'.rjust(23)}: [{progress_percent:3.0f}%]...", end="", flush=True)
                          self.input_dto.director.constructLookup(self.input_dto.basic_builder, file)
                          self.output_dto.lookups.append(self.input_dto.basic_builder.getObject())
                     
                     elif type == SecurityContentType.macros:
-                         print(f"\r{'Playbooks Progress'.rjust(23)}: [{progress_percent:3.0f}%]", end="", flush=True)
+                         print(f"\r{'Playbooks Progress'.rjust(23)}: [{progress_percent:3.0f}%]...", end="", flush=True)
                          self.input_dto.director.constructMacro(self.input_dto.basic_builder, file)
                          self.output_dto.macros.append(self.input_dto.basic_builder.getObject())
                     
                     elif type == SecurityContentType.deployments:
-                         print(f"\r{'Deployments Progress'.rjust(23)}: [{progress_percent:3.0f}%]", end="", flush=True)
+                         print(f"\r{'Deployments Progress'.rjust(23)}: [{progress_percent:3.0f}%]...", end="", flush=True)
                          self.input_dto.director.constructDeployment(self.input_dto.basic_builder, file)
                          self.output_dto.deployments.append(self.input_dto.basic_builder.getObject())
                     
                     elif type == SecurityContentType.playbooks:
-                         print(f"\r{'Playbooks Progress'.rjust(23)}: [{progress_percent:3.0f}%]", end="", flush=True)
+                         print(f"\r{'Playbooks Progress'.rjust(23)}: [{progress_percent:3.0f}%]...", end="", flush=True)
                          self.input_dto.director.constructPlaybook(self.input_dto.playbook_builder, file)
                          self.output_dto.playbooks.append(self.input_dto.playbook_builder.getObject())                    
                     
                     elif type == SecurityContentType.baselines:
-                         print(f"\r{'Baselines Progress'.rjust(23)}: [{progress_percent:3.0f}%]", end="", flush=True)
+                         print(f"\r{'Baselines Progress'.rjust(23)}: [{progress_percent:3.0f}%]...", end="", flush=True)
                          self.input_dto.director.constructBaseline(self.input_dto.baseline_builder, file, self.output_dto.deployments)
                          baseline = self.input_dto.baseline_builder.getObject()
                          self.output_dto.baselines.append(baseline)
                     
                     elif type == SecurityContentType.investigations:
-                         print(f"\r{'Investigations Progress'.rjust(23)}: [{progress_percent:3.0f}%]", end="", flush=True)
+                         print(f"\r{'Investigations Progress'.rjust(23)}: [{progress_percent:3.0f}%]...", end="", flush=True)
                          self.input_dto.director.constructInvestigation(self.input_dto.investigation_builder, file)
                          investigation = self.input_dto.investigation_builder.getObject()
                          self.output_dto.investigations.append(investigation)
 
                     elif type == SecurityContentType.stories:
-                         print(f"\r{'Stories Progress'.rjust(23)}: [{progress_percent:3.0f}%]", end="", flush=True)
+                         print(f"\r{'Stories Progress'.rjust(23)}: [{progress_percent:3.0f}%]...", end="", flush=True)
                          self.input_dto.director.constructStory(self.input_dto.story_builder, file, 
                               self.output_dto.detections, self.output_dto.baselines, self.output_dto.investigations)
                          story = self.input_dto.story_builder.getObject()
                          self.output_dto.stories.append(story)
                
                     elif type == SecurityContentType.detections:
-                         print(f"\r{'Detections Progress'.rjust(23)}: [{progress_percent:3.0f}%]", end="", flush=True)
+                         print(f"\r{'Detections Progress'.rjust(23)}: [{progress_percent:3.0f}%]...", end="", flush=True)
                          self.input_dto.director.constructDetection(self.input_dto.detection_builder, file, 
                               self.output_dto.deployments, self.output_dto.playbooks, self.output_dto.baselines,
                               self.output_dto.tests, self.input_dto.attack_enrichment, self.output_dto.macros,
@@ -214,7 +214,7 @@ class Factory():
                          self.output_dto.detections.append(detection)
                
                     elif type == SecurityContentType.unit_tests:
-                         print(f"\r{'Unit Tests Progress'.rjust(23)}: [{progress_percent:3.0f}%]", end="", flush=True)
+                         print(f"\r{'Unit Tests Progress'.rjust(23)}: [{progress_percent:3.0f}%]...", end="", flush=True)
                          self.input_dto.director.constructTest(self.input_dto.basic_builder, file)
                          test = self.input_dto.basic_builder.getObject()
                          self.output_dto.tests.append(test)
@@ -223,7 +223,7 @@ class Factory():
                     print('\nValidation Error for file ' + file)
                     print(e)
                     validation_error_found = True
-          print("...Done!")
+          print("Done!")
 
           if validation_error_found:
                sys.exit(1)

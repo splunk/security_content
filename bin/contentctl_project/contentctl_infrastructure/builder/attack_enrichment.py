@@ -14,18 +14,32 @@ class AttackEnrichment():
 
     @classmethod
     def get_attack_lookup(self, store_csv = None, force_cached_or_offline: bool = False) -> dict:
+        print("Getting MITRE Attack Enrichment Data. This may take some time...")
         attack_lookup = dict()
         file_path = os.path.join(os.path.dirname(__file__), '../../../../lookups/mitre_enrichment.csv')
 
         try:
             if force_cached_or_offline is True:
                 raise(Exception("WARNING - Using cached MITRE Attack Enrichment.  Attack Enrichment may be out of date. Only use this setting for offline environments and development purposes."))
+            print(f"\r{'Client'.rjust(23)}: [{0:3.0f}%]...", end="", flush=True)
             lift = attack_client()
+            print(f"\r{'Client'.rjust(23)}: [{100:3.0f}%]...Done!", end="\n", flush=True)
+            
+            print(f"\r{'Enterprise'.rjust(23)}: [{0.0:3.0f}%]...", end="", flush=True)
             all_enterprise = lift.get_enterprise(stix_format=False)
+            print(f"\r{'Enterprise'.rjust(23)}: [{100:3.0f}%]...Done!", end="\n", flush=True)
+            
+            print(f"\r{'Relationships'.rjust(23)}: [{0.0:3.0f}%]...", end="", flush=True)
             enterprise_relationships = lift.get_enterprise_relationships()
+            print(f"\r{'Relationships'.rjust(23)}: [{100:3.0f}%]...Done!", end="\n", flush=True)
+            
+            print(f"\r{'Groups'.rjust(23)}: [{0:3.0f}%]...", end="", flush=True)
             enterprise_groups = lift.get_enterprise_groups()
-
-            for technique in all_enterprise['techniques']:
+            print(f"\r{'Groups'.rjust(23)}: [{100:3.0f}%]...Done!", end="\n", flush=True)
+            
+            for index, technique in enumerate(all_enterprise['techniques']):
+                progress_percent = ((index+1)/len(all_enterprise['techniques'])) * 100
+                print(f"\r\t{'MITRE Technique Progress'.rjust(23)}: [{progress_percent:3.0f}%]...", end="", flush=True)
                 apt_groups = []
                 for relationship in enterprise_relationships:
                     if (relationship['target_ref'] == technique['id']) and relationship['source_ref'].startswith('intrusion-set'):
@@ -69,4 +83,5 @@ class AttackEnrichment():
                 attack_lookup = {rows[0]:{'technique': rows[1], 'tactics': rows[2].split('|'), 'groups': rows[3].split('|')} for rows in reader}
             attack_lookup.pop('mitre_id')
 
+        print("Done!")
         return attack_lookup

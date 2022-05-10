@@ -16,7 +16,9 @@ from bin.contentctl_project.contentctl_infrastructure.builder.splunk_app_enrichm
 
 class SecurityContentDetectionBuilder(DetectionBuilder):
     security_content_obj : SecurityContentObject
-    force_cached_or_offline: bool
+    #Only SecurityContentDetectionBuilder cares about force_cached_or_offline because it is
+    #used for CveEnrichment.enrich_cve and SplunkAppEnrichment.enrich_splunk_app
+    force_cached_or_offline: bool 
     check_references: bool
 
     def __init__(self, force_cached_or_offline: bool = False, check_references: bool = False):
