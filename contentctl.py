@@ -2,6 +2,8 @@ import sys
 import argparse
 import os
 
+from bin.contentctl_project.contentctl_core.domain.entities.link_validator import LinkValidator
+
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), 'bin/contentctl_project')))
 
 from bin.contentctl_project.contentctl_core.application.use_cases.content_changer import ContentChanger, ContentChangerInputDto
@@ -92,6 +94,10 @@ def generate(args) -> None:
         print("ERROR: invalid product. valid products are ESCU, SSA or API.")
         sys.exit(1)
 
+
+    if args.cached_and_offline:
+        LinkValidator.initialize_cache(args.cached_and_offline)
+
     #Save runtime by only generating the required factory inputs
     factory_input_dto = None
     ba_factory_input_dto = None
@@ -144,6 +150,8 @@ def generate(args) -> None:
     generate = Generate()
     generate.execute(generate_input_dto)
 
+    if args.cached_and_offline:
+        LinkValidator.dump_cache()
 
 def validate(args) -> None:
     if not args.product:
@@ -153,6 +161,9 @@ def validate(args) -> None:
     if args.product not in ['ESCU', 'SSA', 'all']:
         print("ERROR: invalid product. valid products are all, ESCU or SSA.")
         sys.exit(1)
+
+    if args.cached_and_offline:
+        LinkValidator.initialize_cache(args.cached_and_offline)
 
     #Save runtime by only generating the required factory inputs
     factory_input_dto = None
@@ -195,6 +206,8 @@ def validate(args) -> None:
         validate = Validate()
         validate.execute(validate_input_dto)
 
+    if args.cached_and_offline:
+        LinkValidator.dump_cache()
 
 
 def doc_gen(args) -> None:
@@ -321,6 +334,7 @@ def main(args):
 
     reporting_parser.set_defaults(func=reporting)
 
+    
     
     
 
