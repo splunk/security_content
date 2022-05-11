@@ -1,37 +1,39 @@
 
 from pycvesearch import CVESearch
 import functools
-import pickle
+import os
+import shelve
 
 CVESSEARCH_API_URL = 'https://cve.circl.lu'
 
-CVE_CACHE_FILENAME = "lookups/CVE_CACHE.PICKLE"
+CVE_CACHE_FILENAME = "lookups/CVE_CACHE.db"
 
 @functools.cache
 def cvesearch_helper(url:str, cve_id:str):
-    try:
-        with open(CVE_CACHE_FILENAME, 'rb') as p:
-            dat = pickle.load(p)
-            if cve_id in dat:
-                return dat[cve_id]
-    except Exception as e:
-        print(f"error loading pickle file {CVE_CACHE_FILENAME}- it probably didn't exist. we will create it")
-        dat = {}
+    if not os.path.exists(CVE_CACHE_FILENAME):
+        print(f"Reference cache at {CVE_CACHE_FILENAME} not found. Creating it.")
+    cache = shelve.open(CVE_CACHE_FILENAME, flag='c', writeback=True)
+    if cve_id in cache:
+        return cache[cve_id]
+    
+
     
     try:
-        #print(f"Even though 'force_cached_or_offline' was enabled, we were unable to find {cve_id}, so we will attempt to resolve it at {CVESSEARCH_API_URL}")
         cve = cvesearch_id_helper(url)
         result = cve.id(cve_id)
     except Exception as e:
         raise(Exception(f"The option 'force_cached_or_offline' was used, but {cve_id} not found in {CVE_CACHE_FILENAME} and unable to connect to {CVESSEARCH_API_URL}"))
-    with open(CVE_CACHE_FILENAME, 'wb') as p:
-        dat[cve_id] = result
-        pickle.dump(dat, p)
-    
+    if result is None:
+        raise(Exception(f'CveEnrichment for [ {cve_id} ] failed - CVE does not exist'))
+    cache[cve_id] = result
+    cache.close()
+
     return result
 
 @functools.cache
 def cvesearch_id_helper(url:str):
+    #The initial CVESearch call takes some time.
+    #We cache it to avoid making this call each time we need to do a lookup
     cve = CVESearch(CVESSEARCH_API_URL)
     return cve
 
