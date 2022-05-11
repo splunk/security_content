@@ -19,7 +19,7 @@ def cvesearch_helper(url:str, cve_id:str):
         dat = {}
     
     try:
-        print(f"Even though 'force_cached_or_offline' was enabled, we were unable to find {cve_id}, so we will attempt to resolve it at {CVESSEARCH_API_URL}")
+        #print(f"Even though 'force_cached_or_offline' was enabled, we were unable to find {cve_id}, so we will attempt to resolve it at {CVESSEARCH_API_URL}")
         cve = cvesearch_id_helper(url)
         result = cve.id(cve_id)
     except Exception as e:

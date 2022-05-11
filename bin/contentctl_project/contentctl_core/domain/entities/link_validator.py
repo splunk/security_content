@@ -8,8 +8,9 @@ import requests
 import urllib3, urllib3.exceptions
 import time
 import abc
-import pickle 
+
 import os
+import shelve
 
 DEFAULT_USER_AGENT_STRING = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.41 Safari/537.36"
 ALLOWED_HTTP_CODES = [200]
@@ -87,13 +88,13 @@ class LinkStats(BaseModel):
 
 
 class LinkValidator(abc.ABC):
-    cache: dict[str,LinkStats] = {}
+    cache: Union[dict[str,LinkStats], shelve.Shelf] = {}
     uncached_checks: int = 0
     total_checks: int = 0
     #cache: dict[str,LinkStats] = {}
 
     use_file_cache: bool = False
-    reference_cache_file: str ="lookups/REFERENCE_CACHE.PICKLE"
+    reference_cache_file: str ="lookups/REFERENCE_CACHE.db"
 
     @staticmethod
     def initialize_cache(use_file_cache: bool = False):
@@ -101,42 +102,36 @@ class LinkValidator(abc.ABC):
         if use_file_cache is False:
             return
         if not os.path.exists(LinkValidator.reference_cache_file):
-            print(f"Reference cache not found. Creating cache at {LinkValidator.reference_cache_file} after this run is complete")
-            return
-        #Load the cache into memory
-        try:
-            with open(LinkValidator.reference_cache_file, "rb") as cache_file:
-                LinkValidator.cache = pickle.load(cache_file)
-                print("reference cache found!")
-        except Exception as e:
-            #Most common error will be that the file did not exist
-            print(f"Reference cache read error: {str(e)}. Creating cache at {LinkValidator.reference_cache_file} after this run is complete")
-    
-    @staticmethod
-    def dump_cache():
-        if LinkValidator.use_file_cache is False:
-            #No need to dump the cache
-            return
-            
-        try:
-            
-            #If an entry failed, we do not want to cache its success! So remove failed 
-            #refs from the dict before caching it
-            failed_refs = []
-            for ref in LinkValidator.cache.keys():
-                if LinkValidator.cache[ref].status_code not in ALLOWED_HTTP_CODES:
-                    failed_refs.append(ref)
-                    #can't remove it here because this will throw an error:
-                    #cannot change size of dictionary while iterating over it
-            for ref in failed_refs:
-                del(LinkValidator.cache[ref])
-            
-            with open(LinkValidator.reference_cache_file, "wb") as cache_file:
-                 pickle.dump(LinkValidator.cache, cache_file)
-        except Exception as e:
-            print(f"Error writing to the reference cache at {LinkValidator.reference_cache_file}: {str(e)}")
+            print(f"Reference cache at {LinkValidator.reference_cache_file} not found. Creating it.")
         
-            
+        try:
+            LinkValidator.cache = shelve.open(LinkValidator.reference_cache_file, flag='c', writeback=True)
+        except:
+            print(f"Failed to create the cache file {LinkValidator.reference_cache_file}.  Reference info will not be cached.")
+            LinkValidator.cache = {}
+
+        #Remove all of the failures to force those resources to be resolved again
+        failed_refs = []
+        for ref in LinkValidator.cache.keys():
+            if LinkValidator.cache[ref].status_code not in ALLOWED_HTTP_CODES:
+                failed_refs.append(ref)
+                #can't remove it here because this will throw an error:
+                #cannot change size of dictionary while iterating over it
+            else:
+                #Set the reference count to 0 and referencing files to empty set
+                LinkValidator.cache[ref].access_count = 0
+                LinkValidator.cache[ref].referencing_files = set()
+        
+        for ref in failed_refs:
+            del(LinkValidator.cache[ref])
+
+
+        
+             
+    @staticmethod
+    def close_cache():
+        if LinkValidator.use_file_cache:
+            LinkValidator.cache.close()
 
     @staticmethod
     def validate_reference(reference: str, referencing_file:str, raise_exception_if_failure: bool = False) -> bool:

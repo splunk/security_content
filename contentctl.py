@@ -151,7 +151,7 @@ def generate(args) -> None:
     generate.execute(generate_input_dto)
 
     if args.cached_and_offline:
-        LinkValidator.dump_cache()
+        LinkValidator.close_cache()
 
 def validate(args) -> None:
     if not args.product:
@@ -207,7 +207,7 @@ def validate(args) -> None:
         validate.execute(validate_input_dto)
 
     if args.cached_and_offline:
-        LinkValidator.dump_cache()
+        LinkValidator.close_cache()
 
 
 def doc_gen(args) -> None:
