@@ -3,33 +3,30 @@ import xmltodict
 import json
 import functools
 import pickle
+import shelve
+import os
 
 SPLUNKBASE_API_URL = "https://apps.splunk.com/api/apps/entriesbyid/"
 
-APP_ENRICHMENT_CACHE_FILENAME = "lookups/APP_ENRICHMENT_CACHE.PICKLE"
+APP_ENRICHMENT_CACHE_FILENAME = "lookups/APP_ENRICHMENT_CACHE.db"
 
 @functools.cache
 def requests_get_helper(url:str)->bytes:
+    if not os.path.exists(APP_ENRICHMENT_CACHE_FILENAME):
+        print(f"Cache at {APP_ENRICHMENT_CACHE_FILENAME} not found - Creating it.")
+    cache = shelve.open(APP_ENRICHMENT_CACHE_FILENAME, flag='c', writeback=True)
+    if url in cache:
+        req_content = cache[url]
+        cache.close()
+        return req_content
     try:
-        with open(APP_ENRICHMENT_CACHE_FILENAME, 'rb') as p:
-            dat = pickle.load(p)
-            if url in dat:
-                return dat[url]
-    except Exception as e:
-        print(f"error loading pickle file {APP_ENRICHMENT_CACHE_FILENAME}- it probably didn't exist. we will create it")
-        dat = {}
-
-    try:
-        print(f"Even though 'force_cached_or_offline' is enabled, the url {url} was not found. We will try to resolve it.")
         req = requests.get(url)
-        with open(APP_ENRICHMENT_CACHE_FILENAME, 'wb') as p:
-            dat[url] = req.content
-            pickle.dump(dat, p)
+        req_content = req.content
+        cache[url] = req_content
+        cache.close()
+        return req_content
     except Exception as e:
         raise(Exception(f"ERROR - Failed to get Splunk App Enrichment at {SPLUNKBASE_API_URL}"))
-
-    return req.content
-
 
 
 class SplunkAppEnrichment():

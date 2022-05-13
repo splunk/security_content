@@ -102,7 +102,7 @@ class LinkValidator(abc.ABC):
         if use_file_cache is False:
             return
         if not os.path.exists(LinkValidator.reference_cache_file):
-            print(f"Reference cache at {LinkValidator.reference_cache_file} not found. Creating it.")
+            print(f"Cache at {LinkValidator.reference_cache_file} not found - Creating it.")
         
         try:
             LinkValidator.cache = shelve.open(LinkValidator.reference_cache_file, flag='c', writeback=True)

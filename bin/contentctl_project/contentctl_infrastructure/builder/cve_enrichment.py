@@ -11,10 +11,12 @@ CVE_CACHE_FILENAME = "lookups/CVE_CACHE.db"
 @functools.cache
 def cvesearch_helper(url:str, cve_id:str):
     if not os.path.exists(CVE_CACHE_FILENAME):
-        print(f"Reference cache at {CVE_CACHE_FILENAME} not found. Creating it.")
+        print(f"Cache at {CVE_CACHE_FILENAME} not found - Creating it.")
     cache = shelve.open(CVE_CACHE_FILENAME, flag='c', writeback=True)
     if cve_id in cache:
-        return cache[cve_id]
+        req = cache[cve_id]
+        cache.close()
+        return req
     
 
     
