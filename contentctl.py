@@ -342,7 +342,7 @@ def main(args):
     deploy_parser.add_argument("-u", "--username", required=True, type=str, help="Username for Splunk Search Head.  Note that this user MUST be able to install applications.")
     deploy_parser.add_argument("-p", "--password", required=True, type=str, help="Password for Splunk Search Head.")
     deploy_parser.add_argument("-a", "--api_port", required=False, type=int, default=8089, help="Port serving the Splunk API (you probably have not changed this).")
-    deploy_parser.add_argument("--overwrite_app", required=True, action=argparse.BooleanOptionalAction, help="If an app with the same name already exists, should it be overwritten?")
+    deploy_parser.add_argument("--overwrite_app", required=False, action=argparse.BooleanOptionalAction, help="If an app with the same name already exists, should it be overwritten?")
     deploy_parser.set_defaults(overwrite_app=False)
     deploy_parser.set_defaults(func=deploy)
 
