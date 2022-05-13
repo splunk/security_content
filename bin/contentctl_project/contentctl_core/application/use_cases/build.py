@@ -2,14 +2,30 @@ import subprocess
 import sys
 import tarfile
 import os
+from typing import TextIO
 class Build:
     def __init__(self, args):
-        self.source = args.path
-        self.app_name = args.app_name
+        base_path = args.path
+        if args.product == "ESCU":
+            self.source = os.path.join(base_path, "dist","escu")
+            self.app_name = "DA-ESS-ContentUpdate"
+        elif args.product == "SSA":
+            raise(Exception(f"{args.product} build not supported"))
+        else:
+            self.source = os.path.join(base_path, "dist", args.product)
+            self.app_name =  args.product
+        if not os.path.exists(self.source):
+            raise(Exception(f"Attemping to build app from {self.source}, but it does not exist."))
+
+        print(f"Building Splunk App from source {self.source}")    
+        
+        
         self.output_dir_base = args.output_dir
-        self.output_dir_source = os.path.join(self.output_dir_base, "source", self.app_name)
-        self.output_dir_build = os.path.join(self.output_dir_base, "build", self.app_name)
-        self.output_package = os.path.join(self.output_dir_base, "build", self.app_name+'.tar.gz')
+        
+
+        self.output_dir_source = os.path.join(self.output_dir_base, self.app_name)
+
+        #self.output_package = os.path.join(self.output_dir_base, self.app_name+'.tar.gz')
         
         self.copy_app_source()
         self.validate_splunk_app()
@@ -30,26 +46,28 @@ class Build:
     def validate_splunk_app(self):
         proc = "nothing..."
         try:
-            print("Validating Splunk App...", end='')
+            print("Validating Splunk App...")
             sys.stdout.flush()
-            nothing = subprocess.check_output(["slim", "package", "-o", self.output_dir_build, self.output_dir_source], stderr=sys.stderr)
-            print("done")
+            nothing = subprocess.check_output(["slim", "validate", self.output_dir_source])
+            
+            print("Package Validation Complete")
         except Exception as e:
-            print("error")
+            print(f"error: {str(e)} ")
             raise(Exception(f"Error building Splunk App: {str(e)}"))
 
 
     def build_splunk_app(self):
         proc = "nothing..."
         try:
-            print("Building Splunk App...", end='')
+            print("Building Splunk App...")
             sys.stdout.flush()
-            nothing = subprocess.check_output(["slim", "package", "-o", self.output_dir_build, self.output_dir_source], stderr=sys.stderr)
-            print("done")
+            nothing = subprocess.check_output(["slim", "package", "-o", self.output_dir_base, self.output_dir_source])
+            print("Package Generation Complete")
         except Exception as e:
             print("error")
             raise(Exception(f"Error building Splunk App: {str(e)}"))
     
+    '''
     def archive_splunk_app(self):
         
         try:
@@ -61,6 +79,6 @@ class Build:
         except Exception as e:
             print("error")
             raise(Exception(f"Error creating {self.output_package}: {str(e)}"))
-
+    '''
 
     

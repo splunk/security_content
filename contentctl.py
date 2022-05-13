@@ -328,8 +328,8 @@ def main(args):
 
     clean_parser.set_defaults(func=clean)
 
-    build_parser.add_argument("-o", "--output_dir", required=True, type=str, help="Directory to output the built package to.")
-    build_parser.add_argument("-n", "--app_name", required=True, type=str, help="Name of the application.")
+    build_parser.add_argument("-o", "--output_dir", required=True, default="build", type=str, help="Directory to output the built package to.")
+    build_parser.add_argument("-pr", "--product", required=True, type=str, help="Name of the application")
     build_parser.set_defaults(func=build)
 
     inspect_parser.set_defaults(func=inspect)
