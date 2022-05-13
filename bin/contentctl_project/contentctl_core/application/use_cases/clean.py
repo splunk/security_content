@@ -72,7 +72,7 @@ class Clean:
     def remove_notebooks(self, glob_patterns:list[str]=["notesbooks/**/*.ipynb"], keep:list[str]=[]) -> bool:
         return self.remove_by_glob_patterns(glob_patterns, keep)
 
-    def remove_playbooks(self, glob_patterns:list[str]=["playbooks/**/*"], keep:list[str]=[]) -> bool:
+    def remove_playbooks(self, glob_patterns:list[str]=["playbooks/**/*.*"], keep:list[str]=[]) -> bool:
         return self.remove_by_glob_patterns(glob_patterns, keep)
 
     def remove_stories(self, glob_patterns:list[str]=["stories/**/*.yml"], keep:list[str]=[]) -> bool:
@@ -81,7 +81,7 @@ class Clean:
     def remove_tests(self, glob_patterns:list[str]=["tests/**/*.yml"], keep:list[str]=[]) -> bool:
         return self.remove_by_glob_patterns(glob_patterns, keep)
     
-    def remove_by_glob_patterns(self, glob_patterns:list[str]=["tests/**/*.yml"], keep:list[str]=[]) -> bool:
+    def remove_by_glob_patterns(self, glob_patterns:list[str], keep:list[str]=[]) -> bool:
         success = True
         for pattern in glob_patterns:
             success |= self.remove_by_glob_pattern(pattern, keep)
@@ -89,7 +89,7 @@ class Clean:
     def remove_by_glob_pattern(self, glob_pattern:str, keep:list[str]) -> bool:
         success = True
         try:
-            matched_filenames = glob.glob(glob_pattern)
+            matched_filenames = glob.glob(glob_pattern, recursive=True)
             for filename in matched_filenames:
                 self.items_scanned.append(filename)
                 success &= self.remove_file(filename, keep)
