@@ -348,8 +348,10 @@ def main(args):
 
     # # parse them
     args = parser.parse_args()
-    return args.func(args)
-
+    try:
+        return args.func(args)
+    except Exception as e:
+        print(f"Error for function [{args.func.__name__}]: {str(e)}")
 
 if __name__ == "__main__":
     main(sys.argv[1:])

@@ -15,9 +15,10 @@ class Inspect:
         
         proc = "no output produced..."
         try:
-            proc = subprocess.check_output(["splunk-appinspect", "inspect", self.package_path])
+            proc = subprocess.run(["splunk-appinspect", "inspect", self.package_path])
+            if proc.returncode != 0:
+                raise(Exception(f"splunk-appinspect failed with return code {proc.returncode}"))
         except Exception as e:
-            print(f"Appinspect failed with output: \n{proc}")
             raise(Exception(f"Error running appinspect on {self.package_path}: {str(e)}"))
         
         print(f"Appinspect on {self.package_path} was successful!")
