@@ -34,7 +34,16 @@ class Build:
     
     def copy_app_source(self):
         import shutil
+
         try:
+            if os.path.exists(self.output_dir_source):
+                print(f"The directory {self.output_dir_source} exists. Deleting it in preparation to build the app... ", end='', flush=True)
+                try:
+                    shutil.rmtree(self.output_dir_source)
+                    print("Done!")
+                except Exception as e:
+                    raise(Exception(f"Unable to delete {self.output_dir_source}"))
+                
             print(f"Copying Splunk App Source to {self.source} in preparation for building...", end='')
             sys.stdout.flush()
             shutil.copytree(self.source, self.output_dir_source, dirs_exist_ok=True)

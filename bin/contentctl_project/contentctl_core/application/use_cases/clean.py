@@ -38,7 +38,8 @@ class Clean:
                  (self.remove_notebooks,"Removing Notebooks"),
                  (self.remove_playbooks,"Removing Playbooks"),
                  (self.remove_stories,"Removing Stores"),
-                 (self.remove_tests,"Removing Tests")]
+                 (self.remove_tests,"Removing Tests"),
+                 (self.remove_dist_lookups,"Removing Dist Lookups")]
         
         for func, text in steps:
             print(f"{text}...",end='')
@@ -56,14 +57,17 @@ class Clean:
         else:
             print(f"Clean failed on the following steps:{NEWLINE_INDENT}{NEWLINE_INDENT.join(errors)}")
             return False
-        
+
+    def remove_dist_lookups(self, glob_patterns:list[str]=["dist/escu/lookups/**/*.yml","dist/escu/lookups/**/*.csv", "dist/escu/lookups/**/*.*"], keep:list[str]=[]) -> bool:
+        return self.remove_by_glob_patterns(glob_patterns, keep)
+
     def remove_detections(self, glob_patterns:list[str]=["detections/**/*.yml"], keep:list[str]=[]) -> bool:
         return self.remove_by_glob_patterns(glob_patterns, keep)
 
     def remove_investigations(self,glob_patterns:list[str]=["investigations/**/*.yml"], keep:list[str]=[]) -> bool:
         return self.remove_by_glob_patterns(glob_patterns, keep)
 
-    def remove_lookups(self, glob_patterns:list[str]=["lookups/**/*.yml","lookups/**/*.csv"], keep:list[str]=[]) -> bool:
+    def remove_lookups(self, glob_patterns:list[str]=["lookups/**/*.yml","lookups/**/*.csv", "lookups/**/*.*"], keep:list[str]=[]) -> bool:
         return self.remove_by_glob_patterns(glob_patterns, keep)
 
     def remove_macros(self,glob_patterns:list[str]=["macros/**/*.yml"], keep:list[str]=[]) -> bool:
