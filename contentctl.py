@@ -263,7 +263,7 @@ def build(args) -> None:
 def inspect(args) -> None:
     Inspect(args)
 
-def deploy(args) -> None:
+def cloud_deploy(args) -> None:
     Deploy(args)
 
 def main(args):
@@ -292,7 +292,7 @@ def main(args):
     build_parser = actions_parser.add_parser("build", help="Build an application suitable for deployment to a search head")
     inspect_parser = actions_parser.add_parser("inspect", help="Run appinspect to ensure that an app meets minimum requirements for deployment.")
 
-    deploy_parser = actions_parser.add_parser("deploy", help="Install an application on a target Splunk Search Head.")
+    cloud_deploy_parser = actions_parser.add_parser("cloud_deploy", help="Install an application on a target Splunk Cloud Instance.")
 
     # # new arguments
     # new_parser.add_argument("-t", "--type", required=False, type=str, default="detection",
@@ -344,7 +344,14 @@ def main(args):
     inspect_parser.set_defaults(func=inspect)
 
     
+    cloud_deploy_parser.add_argument("--app-package", required=True, type=bool, help="Path to the package you wish to deploy")
+    cloud_deploy_parser.add_argument("--acs-legal-ack", required=True, type=str, help="specify '--acs-legal-ack=Y' to acknowledge your acceptance of any risks (required)")
+    cloud_deploy_parser.add_argument("--username", required=True, type=bool, help="splunk.com username")
+    cloud_deploy_parser.add_argument("--password", required=True, type=bool, help="splunk.com password")
+    cloud_deploy_parser.add_argument("--server", required=False, default="https://admin.splunk.com", type=str, help="Override server URL (default 'https://admin.splunk.com')")
+    cloud_deploy_parser.set_defaults(func=cloud_deploy)
 
+    '''
     deploy_parser.add_argument("-s", "--search_head_address", required=True, type=str, help="The address of the Splunk Search Head to deploy the application to.")
     deploy_parser.add_argument("-u", "--username", required=True, type=str, help="Username for Splunk Search Head.  Note that this user MUST be able to install applications.")
     deploy_parser.add_argument("-p", "--password", required=True, type=str, help="Password for Splunk Search Head.")
@@ -352,7 +359,7 @@ def main(args):
     deploy_parser.add_argument("--overwrite_app", required=False, action=argparse.BooleanOptionalAction, help="If an app with the same name already exists, should it be overwritten?")
     deploy_parser.set_defaults(overwrite_app=False)
     deploy_parser.set_defaults(func=deploy)
-
+    '''
     # # parse them
     args = parser.parse_args()
     try:

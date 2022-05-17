@@ -1,11 +1,33 @@
 
+from ssl import _PasswordType
 import splunklib.client as client
 import multiprocessing
 import http.server
 import time
-
+import sys
+import subprocess
+import os
 class Deploy:
     def __init__(self, args):
+
+        
+        
+        #First, check to ensure that the legal ack is correct. If not, quit
+        if args.acs_legal_ack != "Y":
+            raise(Exception(f"Error - must supply 'acs-legal-ack=Y', not 'acs-legal-ack={args.acs_legal_ack}'"))
+        
+        self.acs_legal_ack = args.acs_legal_ack
+        self.app_package = args.app_package
+        if not os.path.exists(self.app_package):
+            raise(Exception(f"Error - app_package file {self.app_package} does not exist"))
+        self.username = args.username
+        self.password = args.password
+        self.server = args.server
+
+
+
+
+        '''
         self.username = args.username
         self.password = args.password
         self.host = args.search_head_address
@@ -13,20 +35,27 @@ class Deploy:
         self.path = args.path
         self.overwrite_app = args.overwrite_app
         self.server_app_path=f"http://192.168.0.187:9998/args.path"
+        '''
 
+        sys.exit(0)
         self.http_process = self.start_http_server()
 
         self.install_app()
 
-    def start_http_server(self, http_address:str ='', http_listen_port:int=9998) -> multiprocessing.Process:
-        httpd = http.server.HTTPServer((http_address, http_listen_port), http.server.BaseHTTPRequestHandler)
-        m = multiprocessing.Process(target=httpd.serve_forever)
-        m.start()
-        return m
-        
+    
+    def deploy_to_splunk_cloud(self):
+        try:
+            commandline = f"acs apps install private --acs-legal-ack={self.acs_legal_ack} "\
+                          f"--app-package {self.app_package} --server {self.server} --username "\
+                          f"{self.username} --password {self.password}"
+            print(commandline.split(' '))
+            subprocess.run(args = commandline.split(' '), )
+            
+        except Exception as e:
+            raise(Exception(f"Error deplying to Splunk Cloud Instance: {str(e)}"))
 
 
-    def install_app(self) -> bool:
+    def install_app_local(self) -> bool:
         #Connect to the service
         time.sleep(1)
         #self.http_process.start()
