@@ -1,5 +1,3 @@
-
-from ssl import _PasswordType
 import splunklib.client as client
 import multiprocessing
 import http.server
@@ -24,9 +22,7 @@ class Deploy:
         self.password = args.password
         self.server = args.server
 
-
-
-
+        
         '''
         self.username = args.username
         self.password = args.password
@@ -36,25 +32,28 @@ class Deploy:
         self.overwrite_app = args.overwrite_app
         self.server_app_path=f"http://192.168.0.187:9998/args.path"
         '''
+        self.deploy_to_splunk_cloud()
+        #self.http_process = self.start_http_server()
 
-        sys.exit(0)
-        self.http_process = self.start_http_server()
-
-        self.install_app()
+        #self.install_app()
 
     
     def deploy_to_splunk_cloud(self):
+        
+        commandline = f"acs apps install private --acs-legal-ack={self.acs_legal_ack} "\
+                f"--app-package {self.app_package} --server {self.server} --username "\
+                f"{self.username} --password {self.password}"
+        print(commandline)
+        
         try:
-            commandline = f"acs apps install private --acs-legal-ack={self.acs_legal_ack} "\
-                          f"--app-package {self.app_package} --server {self.server} --username "\
-                          f"{self.username} --password {self.password}"
-            print(commandline.split(' '))
-            subprocess.run(args = commandline.split(' '), )
-            
+            res = subprocess.run(args = commandline.split(' '), )    
         except Exception as e:
-            raise(Exception(f"Error deplying to Splunk Cloud Instance: {str(e)}"))
+            raise(Exception(f"Error deploying to Splunk Cloud Instance: {str(e)}"))
+        print(res.returncode)
+        if res.returncode != 0:
+            raise(Exception("Error deploying to Splunk Cloud Instance. Review output to diagnose error."))
 
-
+    '''
     def install_app_local(self) -> bool:
         #Connect to the service
         time.sleep(1)
@@ -102,6 +101,6 @@ class Deploy:
         self.http_process.terminate()
 
         return True
-    
+    '''
     
     
