@@ -10,7 +10,7 @@ from bin.contentctl_project.contentctl_core.application.use_cases.validate impor
 from bin.contentctl_project.contentctl_core.application.use_cases.doc_gen import DocGenInputDto, DocGen
 from bin.contentctl_project.contentctl_core.application.use_cases.new_content import NewContentInputDto, NewContent
 from bin.contentctl_project.contentctl_core.application.use_cases.reporting import ReportingInputDto, Reporting
-from bin.contentctl_project.contentctl_core.application.use_cases.clean import Initialize
+from bin.contentctl_project.contentctl_core.application.use_cases.initialize import Initialize
 from bin.contentctl_project.contentctl_core.application.use_cases.deploy import Deploy
 from bin.contentctl_project.contentctl_core.application.use_cases.build import Build
 from bin.contentctl_project.contentctl_core.application.use_cases.inspect import Inspect
@@ -326,8 +326,13 @@ def main(args):
 
     reporting_parser.set_defaults(func=reporting)
 
+    init_parser.add_argument("-t", "--title", type=str, required=True, help="The title of the application to be built.")
     init_parser.add_argument("-n", "--name", type=str, required=True, help="The name of the application to be built.")
     init_parser.add_argument("-v", "--version", type=str, required=True, help="The version of the application to be built.  It should be in MAJOR.MINOR.PATCH format.")
+    init_parser.add_argument("-a", "--author_name", type=str, required=True, help="The name of the application author.")
+    init_parser.add_argument("-e", "--author_email", type=str, required=True, help="The email of the application author.")
+    init_parser.add_argument("-c", "--author_company", type=str, required=True, help="The company of the application author.")
+    init_parser.add_argument("-d", "--description", type=str, required=True, help="A brief description of the app.")
     init_parser.set_defaults(func=initialize)
 
     build_parser.add_argument("-o", "--output_dir", required=False, default="build", type=str, help="Directory to output the built package to.")
