@@ -4,7 +4,7 @@ import os
 
 #f-strings cannot include a backslash, so we include this as a constant
 NEWLINE_INDENT = "\n\t"
-class Init:
+class Initialize:
     def __init__(self, args):
         self.items_scanned = []
         self.items_deleted = []

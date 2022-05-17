@@ -10,7 +10,7 @@ from bin.contentctl_project.contentctl_core.application.use_cases.validate impor
 from bin.contentctl_project.contentctl_core.application.use_cases.doc_gen import DocGenInputDto, DocGen
 from bin.contentctl_project.contentctl_core.application.use_cases.new_content import NewContentInputDto, NewContent
 from bin.contentctl_project.contentctl_core.application.use_cases.reporting import ReportingInputDto, Reporting
-from bin.contentctl_project.contentctl_core.application.use_cases.clean import Init
+from bin.contentctl_project.contentctl_core.application.use_cases.clean import Initialize
 from bin.contentctl_project.contentctl_core.application.use_cases.deploy import Deploy
 from bin.contentctl_project.contentctl_core.application.use_cases.build import Build
 from bin.contentctl_project.contentctl_core.application.use_cases.inspect import Inspect
@@ -253,8 +253,8 @@ def reporting(args) -> None:
     reporting.execute(reporting_input_dto)
 
 
-def init(args) -> None:
-    Init(args)
+def initialize(args) -> None:
+    Initialize(args)
 
 
 def build(args) -> None:
@@ -328,7 +328,7 @@ def main(args):
 
     init_parser.add_argument("-n", "--name", type=str, required=True, help="The name of the application to be built.")
     init_parser.add_argument("-v", "--version", type=str, required=True, help="The version of the application to be built.  It should be in MAJOR.MINOR.PATCH format.")
-    init_parser.set_defaults(func=init)
+    init_parser.set_defaults(func=initialize)
 
     build_parser.add_argument("-o", "--output_dir", required=False, default="build", type=str, help="Directory to output the built package to.")
     build_parser.add_argument("-pr", "--product", required=True, type=str, help="Name of the product to build.")
