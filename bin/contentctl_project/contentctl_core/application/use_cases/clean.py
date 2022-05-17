@@ -4,7 +4,7 @@ import os
 
 #f-strings cannot include a backslash, so we include this as a constant
 NEWLINE_INDENT = "\n\t"
-class Clean:
+class Init:
     def __init__(self, args):
         self.items_scanned = []
         self.items_deleted = []
@@ -17,10 +17,10 @@ class Clean:
 
     def print_results_summary(self):
         if self.success is True:
-            print("security content has been cleaned successfully!\n"
+            print("repo has been initialized successfully!\n"
                   "Ready for your custom constent!")
         else:
-            print("**Failure(s) cleaning security content - check log for details**")
+            print("**Failure(s) initializing repo - check log for details**")
         print(f"Summary:"
               f"\n\tItems Scanned  : {len(self.items_scanned)}"
               f"\n\tItems Kept     : {len(self.items_kept)}"

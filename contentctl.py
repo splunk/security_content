@@ -10,7 +10,7 @@ from bin.contentctl_project.contentctl_core.application.use_cases.validate impor
 from bin.contentctl_project.contentctl_core.application.use_cases.doc_gen import DocGenInputDto, DocGen
 from bin.contentctl_project.contentctl_core.application.use_cases.new_content import NewContentInputDto, NewContent
 from bin.contentctl_project.contentctl_core.application.use_cases.reporting import ReportingInputDto, Reporting
-from bin.contentctl_project.contentctl_core.application.use_cases.clean import Clean
+from bin.contentctl_project.contentctl_core.application.use_cases.clean import Init
 from bin.contentctl_project.contentctl_core.application.use_cases.deploy import Deploy
 from bin.contentctl_project.contentctl_core.application.use_cases.build import Build
 from bin.contentctl_project.contentctl_core.application.use_cases.inspect import Inspect
@@ -253,8 +253,8 @@ def reporting(args) -> None:
     reporting.execute(reporting_input_dto)
 
 
-def clean(args) -> None:
-    Clean(args)
+def init(args) -> None:
+    Init(args)
 
 
 def build(args) -> None:
@@ -285,7 +285,7 @@ def main(args):
     docgen_parser = actions_parser.add_parser("docgen", help="Generates documentation")
     new_content_parser = actions_parser.add_parser("new_content", help="Create new security content object")
     reporting_parser = actions_parser.add_parser("reporting", help="Create security content reporting")
-    clean_parser = actions_parser.add_parser("clean", help="Remove all content from Security Content.  "
+    init_parser = actions_parser.add_parser("init", help="Initialize a repo with scaffolding in place to build a custom app."
                                                             "This allows a user to easily add their own content and, eventually, "
                                                             "build a custom application consisting of their custom content.")
 
@@ -326,7 +326,9 @@ def main(args):
 
     reporting_parser.set_defaults(func=reporting)
 
-    clean_parser.set_defaults(func=clean)
+    init_parser.add_argument("-n", "--name", type=str, required=True, help="The name of the application to be built.")
+    init_parser.add_argument("-v", "--version", type=str, required=True, help="The version of the application to be built.  It should be in MAJOR.MINOR.PATCH format.")
+    init_parser.set_defaults(func=init)
 
     build_parser.add_argument("-o", "--output_dir", required=False, default="build", type=str, help="Directory to output the built package to.")
     build_parser.add_argument("-pr", "--product", required=True, type=str, help="Name of the product to build.")
