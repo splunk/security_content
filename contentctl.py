@@ -92,6 +92,10 @@ def generate(args) -> None:
         print("ERROR: missing parameter -p/--product .")
         sys.exit(1)     
 
+    #For now, the custom product is treated just like ESCU
+    if args.product == 'CUSTOM':
+        args.product = 'ESCU'
+    
     if args.product not in ['ESCU', 'SSA', 'API']:
         print("ERROR: invalid product. valid products are ESCU, SSA or API.")
         sys.exit(1)
@@ -149,9 +153,14 @@ def validate(args) -> None:
         print("ERROR: missing parameter -p/--product .")
         sys.exit(1)     
 
+    #For now, the custom product is treated just like ESCU
+    if args.product == 'CUSTOM':
+        args.product = 'ESCU'
+
     if args.product not in ['ESCU', 'SSA', 'all']:
         print("ERROR: invalid product. valid products are all, ESCU or SSA.")
         sys.exit(1)
+    
 
     factory_input_dto = FactoryInputDto(
         os.path.abspath(args.path),

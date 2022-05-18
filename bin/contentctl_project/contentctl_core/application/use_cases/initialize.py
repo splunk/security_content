@@ -105,24 +105,41 @@ class Initialize:
         self.app_author_email = args.author_email
         self.app_author_company = args.author_company
         self.app_description = args.description
-        self.generate_custom_manifest()
-        self.generate_app_configuration_file()
-        
+
         self.success = self.remove_all_content()
-        
+        self.generate_files_and_directories()
         self.print_results_summary()
         
         
+    def generate_files_and_directories(self):
+        #Generate files
+        self.generate_custom_manifest()
+        self.generate_app_configuration_file()
+        self.generate_readme()
+
+        #Generate directories?
+
+    def generate_readme(self):
+        readme_file_path = os.path.join(self.path, "README.md")
+        readme_stub_text = "Empty Readme file"
+        try:
+            if not os.path.exists(os.path.dirname(readme_file_path)):
+                os.makedirs(os.path.dirname(readme_file_path), exist_ok = True)
+
+            with open(readme_file_path, "w") as readme_file:
+                readme_file.write(readme_stub_text)
+        except Exception as e:
+            raise(Exception(f"Error writing config to {readme_file_path}: {str(e)}"))
+        print(f"Created Custom App Configuration at: {readme_file_path}")
         
+
     def generate_app_configuration_file(self):
 
-        
         new_configuration = APP_CONFIGURATION_FILE.format(author = self.app_author_company, 
                                                           version=self.app_version, 
                                                           description=self.app_description, 
                                                           label=self.app_title, 
                                                           id=self.app_name)
-        print("format done")
         app_configuration_file_path = os.path.join(self.path, "default", "app.conf")
         try:
             if not os.path.exists(os.path.dirname(app_configuration_file_path)):
@@ -166,31 +183,33 @@ class Initialize:
 
     def print_results_summary(self):
         if self.success is True:
-            print("repo has been initialized successfully!\n"
+            print(f"repo has been initialized successfully for app [{self.app_name}]!\n"
                   "Ready for your custom constent!")
         else:
             print("**Failure(s) initializing repo - check log for details**")
+        '''
         print(f"Summary:"
               f"\n\tItems Scanned  : {len(self.items_scanned)}"
               f"\n\tItems Kept     : {len(self.items_kept)}"
               f"\n\tItems Deleted  : {len(self.items_deleted)}"
               f"\n\tDeletion Failed: {len(self.items_deleted_failed)}"
         )
+        '''
 
     def remove_all_content(self)-> bool:
         errors = []
         
         #List out all the steps we will have to take
-        steps = [(self.remove_detections,"Removing Detections"),
-                 (self.remove_baselines,"Removing Baselines"),
-                 (self.remove_investigations,"Removing Investigations"),
-                 (self.remove_lookups,"Removing Lookups"),
-                 (self.remove_macros,"Removing Macros"),
-                 (self.remove_notebooks,"Removing Notebooks"),
-                 (self.remove_playbooks,"Removing Playbooks"),
-                 (self.remove_stories,"Removing Stores"),
-                 (self.remove_tests,"Removing Tests"),
-                 (self.remove_dist_lookups,"Removing Dist Lookups")]
+        steps = [(self.remove_detections,"Creating Detections"),
+                 (self.remove_baselines,"Creating Baselines"),
+                 (self.remove_investigations,"Creating Investigations"),
+                 (self.remove_lookups,"Creating Lookups"),
+                 (self.remove_macros,"Creating Macros"),
+                 (self.remove_notebooks,"Creating Notebooks"),
+                 (self.remove_playbooks,"Creating Playbooks"),
+                 (self.remove_stories,"Creating Stores"),
+                 (self.remove_tests,"Creating Tests"),
+                 (self.remove_dist_lookups,"Creating Dist Lookups")]
         #Sort the steps so they are performced alphabetically
         steps.sort(key=lambda name: name[1])
         

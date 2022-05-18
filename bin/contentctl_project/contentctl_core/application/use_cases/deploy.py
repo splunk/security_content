@@ -23,15 +23,7 @@ class Deploy:
         self.server = args.server
 
         
-        '''
-        self.username = args.username
-        self.password = args.password
-        self.host = args.search_head_address
-        self.api_port = args.api_port
-        self.path = args.path
-        self.overwrite_app = args.overwrite_app
-        self.server_app_path=f"http://192.168.0.187:9998/args.path"
-        '''
+       
         self.deploy_to_splunk_cloud()
         #self.http_process = self.start_http_server()
 
@@ -43,7 +35,7 @@ class Deploy:
         commandline = f"acs apps install private --acs-legal-ack={self.acs_legal_ack} "\
                 f"--app-package {self.app_package} --server {self.server} --username "\
                 f"{self.username} --password {self.password}"
-        print(commandline)
+        
         
         try:
             res = subprocess.run(args = commandline.split(' '), )    
