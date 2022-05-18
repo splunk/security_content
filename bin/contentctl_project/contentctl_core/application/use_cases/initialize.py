@@ -105,7 +105,7 @@ class Initialize:
         self.app_author_email = args.author_email
         self.app_author_company = args.author_company
         self.app_description = args.description
-        self.path = os.path.join(args.path, self.app_name)
+        self.path = os.path.join(args.path, "dist", self.app_name)
 
 
         self.success = self.remove_all_content()
@@ -185,7 +185,7 @@ class Initialize:
 
     def print_results_summary(self):
         if self.success is True:
-            print(f"repo has been initialized successfully for app [{self.app_name} with output [{self.path}]]!\n"
+            print(f"Repo has been initialized successfully for app [{self.app_name}] at path [{self.path}]!\n"
                   "Ready for your custom constent!")
         else:
             print("**Failure(s) initializing repo - check log for details**")

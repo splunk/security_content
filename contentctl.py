@@ -344,7 +344,7 @@ def main(args):
     init_parser.add_argument("-d", "--description", type=str, required=True, help="A brief description of the app.")
     init_parser.set_defaults(func=initialize)
 
-    build_parser.add_argument("-o", "--output_dir", required=False, default="build", type=str, help="Directory to output the built package to.")
+    build_parser.add_argument("-o", "--output_dir", required=False, default="build", type=str, help="Directory to output the built package to (default is 'build')")
     build_parser.add_argument("-pr", "--product", required=True, type=str, help="Name of the product to build.")
     build_parser.set_defaults(func=build)
 
