@@ -94,7 +94,7 @@ class Initialize:
         self.items_kept = []
         self.items_deleted_failed = []
         
-        self.path = args.path
+        
         
         #Information that will be used for generation of a custom manifest
         self.app_title = args.title
@@ -105,6 +105,8 @@ class Initialize:
         self.app_author_email = args.author_email
         self.app_author_company = args.author_company
         self.app_description = args.description
+        self.path = os.path.join(args.path, self.app_name)
+
 
         self.success = self.remove_all_content()
         self.generate_files_and_directories()
@@ -183,7 +185,7 @@ class Initialize:
 
     def print_results_summary(self):
         if self.success is True:
-            print(f"repo has been initialized successfully for app [{self.app_name}]!\n"
+            print(f"repo has been initialized successfully for app [{self.app_name} with output [{self.path}]]!\n"
                   "Ready for your custom constent!")
         else:
             print("**Failure(s) initializing repo - check log for details**")
