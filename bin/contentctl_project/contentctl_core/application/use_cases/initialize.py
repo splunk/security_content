@@ -180,7 +180,7 @@ class Initialize:
     def remove_all_content(self)-> bool:
         errors = []
         
-        #Sort the steps so they are performced alphabetically
+        #List out all the steps we will have to take
         steps = [(self.remove_detections,"Removing Detections"),
                  (self.remove_baselines,"Removing Baselines"),
                  (self.remove_investigations,"Removing Investigations"),
@@ -190,7 +190,9 @@ class Initialize:
                  (self.remove_playbooks,"Removing Playbooks"),
                  (self.remove_stories,"Removing Stores"),
                  (self.remove_tests,"Removing Tests"),
-                 (self.remove_dist_lookups,"Removing Dist Lookups")].sort(key=lambda name: name[1])
+                 (self.remove_dist_lookups,"Removing Dist Lookups")]
+        #Sort the steps so they are performced alphabetically
+        steps.sort(key=lambda name: name[1])
         
         for func, text in steps:
             print(f"{text}...",end='')
