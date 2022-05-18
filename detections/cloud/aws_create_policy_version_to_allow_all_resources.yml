@@ -5,8 +5,7 @@ date: '2022-05-17'
 author: Bhavin Patel, Splunk
 type: TTP
 datamodel: []
-description: This search looks for AWS CloudTrail events where a user created a policy
-  version that allows them to access any resource in their account
+description: This search looks for AWS CloudTrail events where a user created a policy version that allows them to access any resource in their account.
 search: '`cloudtrail` eventName=CreatePolicyVersion eventSource = iam.amazonaws.com
   errorCode = success | spath input=requestParameters.policyDocument output=key_policy_statements
   path=Statement{} | mvexpand key_policy_statements | spath input=key_policy_statements
@@ -20,7 +19,7 @@ how_to_implement: You must install splunk AWS add on and Splunk App for AWS. Thi
 known_false_positives: While this search has no known false positives, it is possible
   that an AWS admin has legitimately created a policy to allow a user to access all
   resources. That said, AWS strongly advises against granting full control to all
-  AWS resources
+  AWS resources and you must verify this activity.
 references:
 - https://labs.bishopfox.com/tech-blog/privilege-escalation-in-aws
 - https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation-part-2/
@@ -41,7 +40,7 @@ tags:
   impact: 70
   kill_chain_phases:
   - Actions on Objectives
-  message: User $user$ created a policy version that allows them to access any resource in their account
+  message: User $user$ created a policy version that allows them to access any resource in their account.
   mitre_attack_id:
   - T1078.004
   - T1078
