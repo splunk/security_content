@@ -180,7 +180,9 @@ class Initialize:
     def remove_all_content(self)-> bool:
         errors = []
         
+        #Sort the steps so they are performced alphabetically
         steps = [(self.remove_detections,"Removing Detections"),
+                 (self.remove_baselines,"Removing Baselines"),
                  (self.remove_investigations,"Removing Investigations"),
                  (self.remove_lookups,"Removing Lookups"),
                  (self.remove_macros,"Removing Macros"),
@@ -188,7 +190,7 @@ class Initialize:
                  (self.remove_playbooks,"Removing Playbooks"),
                  (self.remove_stories,"Removing Stores"),
                  (self.remove_tests,"Removing Tests"),
-                 (self.remove_dist_lookups,"Removing Dist Lookups")]
+                 (self.remove_dist_lookups,"Removing Dist Lookups")].sort(key=lambda name: name[1])
         
         for func, text in steps:
             print(f"{text}...",end='')
@@ -206,6 +208,9 @@ class Initialize:
         else:
             print(f"Clean failed on the following steps:{NEWLINE_INDENT}{NEWLINE_INDENT.join(errors)}")
             return False
+
+    def remove_baselines(self, glob_patterns:list[str]=["baselines/**/*.yml"], keep:list[str]=[]) -> bool:
+        return self.remove_by_glob_patterns(glob_patterns, keep)
 
     def remove_dist_lookups(self, glob_patterns:list[str]=["dist/escu/lookups/**/*.yml","dist/escu/lookups/**/*.csv", "dist/escu/lookups/**/*.*"], keep:list[str]=[]) -> bool:
         return self.remove_by_glob_patterns(glob_patterns, keep)
