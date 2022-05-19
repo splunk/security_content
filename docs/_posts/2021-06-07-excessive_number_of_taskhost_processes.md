@@ -42,7 +42,7 @@ This detection targets behaviors observed in post exploit kits like Meterpreter 
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
-| [T1033](https://attack.mitre.org/techniques/T1033/) | System Owner/User Discovery | Discovery |
+| [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 
 </div>
 </details>
