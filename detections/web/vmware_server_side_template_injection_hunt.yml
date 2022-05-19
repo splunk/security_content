@@ -34,7 +34,7 @@ tags:
   - CIS 3
   - CIS 5
   - CIS 16
-cve: 
+  cve: 
   - CVE-2022-22954
   confidence: 50
   context:
