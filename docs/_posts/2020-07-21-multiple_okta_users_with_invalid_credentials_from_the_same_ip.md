@@ -28,7 +28,7 @@ tags:
 We have not been able to test, simulate, or build datasets for this object. Use at your own risk. This analytic is **NOT** supported.
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -119,8 +119,8 @@ This search detects Okta login failures due to bad credentials for multiple user
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [okta](https://github.com/splunk/security_content/blob/develop/macros/okta.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that **multiple_okta_users_with_invalid_credentials_from_the_same_ip_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 

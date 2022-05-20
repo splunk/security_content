@@ -20,7 +20,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -134,6 +134,7 @@ A source user failing attempting to authenticate multiple users on a host is not
 
 #### Associated Analytic story
 * [Active Directory Password Spraying](/stories/active_directory_password_spraying)
+* [Insider Threat](/stories/insider_threat)
 
 
 

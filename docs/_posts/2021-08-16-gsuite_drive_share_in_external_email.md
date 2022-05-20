@@ -20,7 +20,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -111,8 +111,8 @@ This search is to detect suspicious google drive or google docs files shared out
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [gsuite_drive](https://github.com/splunk/security_content/blob/develop/macros/gsuite_drive.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that **gsuite_drive_share_in_external_email_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
@@ -135,6 +135,7 @@ network admin or normal user may share files to customer and external team.
 
 #### Associated Analytic story
 * [Dev Sec Ops](/stories/dev_sec_ops)
+* [Insider Threat](/stories/insider_threat)
 
 
 
