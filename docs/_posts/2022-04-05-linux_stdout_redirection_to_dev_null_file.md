@@ -23,7 +23,7 @@ tags:
 We have not been able to test, simulate, or build datasets for this object. Use at your own risk. This analytic is **NOT** supported.
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -138,7 +138,7 @@ To successfully implement this search, you need to be ingesting logs with the pr
 unknown
 
 #### Associated Analytic story
-* [Cyclops BLink](/stories/cyclops_blink)
+* [CyclopsBLink](/stories/cyclopsblink)
 * [Industroyer2](/stories/industroyer2)
 
 

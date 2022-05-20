@@ -13,12 +13,12 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - 
+  - CVE-2022-26889
 ---
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -90,7 +90,7 @@ On May 3rd, 2022, Splunk published a security advisory for a Path traversal in s
 <div markdown="1">
 | ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
 | ----------- | ----------- | -------------- |
-| [](https://nvd.nist.gov/vuln/detail/) |  |  |
+| [CVE-2022-26889](https://nvd.nist.gov/vuln/detail/CVE-2022-26889) | The lack of sanitization in a relative url path in a search parameter allows for arbitrary injection of external content in Splunk Enterprise versions before 8.1.2. | 7.5 |
 
 
 
