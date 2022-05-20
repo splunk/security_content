@@ -34,6 +34,7 @@ references:
 tags:
   analytic_story:
   - Clop Ransomware
+  - Insider Threat
   confidence: 80
   context:
   - Source:Endpoint

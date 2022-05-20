@@ -17,7 +17,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -93,8 +93,8 @@ During triage, review parallel processes using an EDR product or 4688 events. It
 #### Search
 
 ```
-`powershell` EventCode=4104 Message = "*get-foresttrust*" 
-| stats count min(_time) as firstTime max(_time) as lastTime by  Message OpCode ComputerName User EventCode 
+`powershell` EventCode=4104 ScriptBlockText = "*get-foresttrust*" 
+| stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer user_id 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
 | `get_foresttrust_with_powershell_script_block_filter`
@@ -121,7 +121,7 @@ Note that **get-foresttrust_with_powershell_script_block_filter** is a empty mac
 To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
 
 #### Known False Positives
-UPDATE_KNOWN_FALSE_POSITIVES
+False positives may be present. Tune as needed.
 
 #### Associated Analytic story
 * [Active Directory Discovery](/stories/active_directory_discovery)
@@ -147,7 +147,7 @@ Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 
-* [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1482/discovery/windows-powershell.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1482/discovery/windows-powershell.log)
+* [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1482/discovery/windows-powershell-xml.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1482/discovery/windows-powershell-xml.log)
 
 
 

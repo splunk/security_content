@@ -20,7 +20,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -135,6 +135,7 @@ A process failing to authenticate with multiple users is not a common behavior f
 
 #### Associated Analytic story
 * [Active Directory Password Spraying](/stories/active_directory_password_spraying)
+* [Insider Threat](/stories/insider_threat)
 
 
 

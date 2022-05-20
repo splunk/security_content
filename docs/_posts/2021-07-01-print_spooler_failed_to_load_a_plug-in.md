@@ -25,7 +25,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -118,8 +118,8 @@ During triage, isolate the endpoint and review for source of exploitation. Captu
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [printservice](https://github.com/splunk/security_content/blob/develop/macros/printservice.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that **print_spooler_failed_to_load_a_plug-in_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
