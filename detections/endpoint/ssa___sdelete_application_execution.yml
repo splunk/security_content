@@ -45,6 +45,7 @@ references:
 tags:
   analytic_story:
   - Information Sabotage
+  - Insider Threat
   cis20: []
   confidence: 70
   context:
