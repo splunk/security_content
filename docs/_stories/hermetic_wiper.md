@@ -66,7 +66,7 @@ Hermetic Wiper is destructive malware operation found by Sentinel One targeting 
 | [Powershell Fileless Script Contains Base64 Encoded Content](/endpoint/powershell_fileless_script_contains_base64_encoded_content/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [Obfuscated Files or Information](/tags/#obfuscated-files-or-information), [PowerShell](/tags/#powershell)| TTP |
 | [PowerShell Loading DotNET into Memory via Reflection](/endpoint/powershell_loading_dotnet_into_memory_via_reflection/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [PowerShell](/tags/#powershell)| TTP |
 | [Powershell Processing Stream Of Data](/endpoint/powershell_processing_stream_of_data/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [PowerShell](/tags/#powershell)| TTP |
-| [Powershell Using memory As Backing Store](/endpoint/powershell_using_memory_as_backing_store/) | [Deobfuscate/Decode Files or Information](/tags/#deobfuscate/decode-files-or-information)| TTP |
+| [Powershell Using memory As Backing Store](/endpoint/powershell_using_memory_as_backing_store/) | [PowerShell](/tags/#powershell), [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter)| TTP |
 | [Recon AVProduct Through Pwh or WMI](/endpoint/recon_avproduct_through_pwh_or_wmi/) | [Gather Victim Host Information](/tags/#gather-victim-host-information)| TTP |
 | [Recon Using WMI Class](/endpoint/recon_using_wmi_class/) | [Gather Victim Host Information](/tags/#gather-victim-host-information)| TTP |
 | [Registry Keys Used For Privilege Escalation](/endpoint/registry_keys_used_for_privilege_escalation/) | [Image File Execution Options Injection](/tags/#image-file-execution-options-injection), [Event Triggered Execution](/tags/#event-triggered-execution)| TTP |
@@ -76,7 +76,7 @@ Hermetic Wiper is destructive malware operation found by Sentinel One targeting 
 | [Set Default PowerShell Execution Policy To Unrestricted or Bypass](/endpoint/set_default_powershell_execution_policy_to_unrestricted_or_bypass/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [PowerShell](/tags/#powershell)| TTP |
 | [Suspicious Process File Path](/endpoint/suspicious_process_file_path/) | [Create or Modify System Process](/tags/#create-or-modify-system-process)| TTP |
 | [Time Provider Persistence Registry](/endpoint/time_provider_persistence_registry/) | [Time Providers](/tags/#time-providers), [Boot or Logon Autostart Execution](/tags/#boot-or-logon-autostart-execution)| TTP |
-| [Unloading AMSI via Reflection](/endpoint/unloading_amsi_via_reflection/) | [Impair Defenses](/tags/#impair-defenses)| TTP |
+| [Unloading AMSI via Reflection](/endpoint/unloading_amsi_via_reflection/) | [Impair Defenses](/tags/#impair-defenses), [PowerShell](/tags/#powershell), [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter)| TTP |
 | [W3WP Spawning Shell](/endpoint/w3wp_spawning_shell/) | [Server Software Component](/tags/#server-software-component), [Web Shell](/tags/#web-shell)| TTP |
 | [Windows Disable Memory Crash Dump](/endpoint/windows_disable_memory_crash_dump/) | [Data Destruction](/tags/#data-destruction)| TTP |
 | [Windows File Without Extension In Critical Folder](/endpoint/windows_file_without_extension_in_critical_folder/) | [Data Destruction](/tags/#data-destruction)| TTP |

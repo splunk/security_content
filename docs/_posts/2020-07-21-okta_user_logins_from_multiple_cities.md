@@ -28,7 +28,7 @@ tags:
 We have not been able to test, simulate, or build datasets for this object. Use at your own risk. This analytic is **NOT** supported.
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -118,8 +118,8 @@ This search detects logins from the same user from different cities in a 24 hour
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [okta](https://github.com/splunk/security_content/blob/develop/macros/okta.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 Note that **okta_user_logins_from_multiple_cities_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
