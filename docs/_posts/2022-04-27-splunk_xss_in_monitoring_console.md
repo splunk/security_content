@@ -13,12 +13,12 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - 
+  - CVE-2022-27183
 ---
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -92,7 +92,7 @@ On May 3rd, 2022, Splunk published a security advisory for a reflective Cross-Si
 <div markdown="1">
 | ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
 | ----------- | ----------- | -------------- |
-| [](https://nvd.nist.gov/vuln/detail/) |  |  |
+| [CVE-2022-27183](https://nvd.nist.gov/vuln/detail/CVE-2022-27183) | The Monitoring Console app configured in Distributed mode allows for a Reflected XSS in a query parameter in Splunk Enterprise versions before 8.1.4. The Monitoring Console app is a bundled app included in Splunk Enterprise, not for download on SplunkBase, and not installed on Splunk Cloud Platform instances. Note that the Cloud Monitoring Console is not impacted. | 4.3 |
 
 
 

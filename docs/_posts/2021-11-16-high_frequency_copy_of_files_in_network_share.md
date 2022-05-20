@@ -18,7 +18,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -128,6 +128,7 @@ this behavior may seen in normal transfer of file within network if network shar
 
 #### Associated Analytic story
 * [Information Sabotage](/stories/information_sabotage)
+* [Insider Threat](/stories/insider_threat)
 
 
 
