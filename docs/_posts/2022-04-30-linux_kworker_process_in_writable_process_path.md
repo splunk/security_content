@@ -21,7 +21,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -138,7 +138,7 @@ To successfully implement this search, you need to be ingesting logs with the pr
 unknown
 
 #### Associated Analytic story
-* [Cyclops BLink](/stories/cyclops_blink)
+* [CyclopsBLink](/stories/cyclopsblink)
 
 
 
