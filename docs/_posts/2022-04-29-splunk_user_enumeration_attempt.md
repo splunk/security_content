@@ -16,12 +16,12 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - 
+  - CVE-2021-33845
 ---
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -95,7 +95,7 @@ On May 3rd, 2022, Splunk published a security advisory for  username enumeration
 <div markdown="1">
 | ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
 | ----------- | ----------- | -------------- |
-| [](https://nvd.nist.gov/vuln/detail/) |  |  |
+| [CVE-2021-33845](https://nvd.nist.gov/vuln/detail/CVE-2021-33845) | The Splunk Enterprise REST API allows enumeration of usernames via the lockout error message. The potential vulnerability impacts Splunk Enterprise instances before 8.1.7 when configured to repress verbose login errors. | 5.0 |
 
 
 
