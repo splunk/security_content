@@ -1,6 +1,8 @@
 ---
 title: "Unloading AMSI via Reflection"
 excerpt: "Impair Defenses
+, PowerShell
+, Command and Scripting Interpreter
 "
 categories:
   - Endpoint
@@ -9,7 +11,11 @@ toc: true
 toc_label: ""
 tags:
   - Impair Defenses
+  - PowerShell
+  - Command and Scripting Interpreter
   - Defense Evasion
+  - Execution
+  - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -17,7 +23,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -44,6 +50,10 @@ During triage, review parallel processes using an EDR product or 4688 events. It
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
+
+| [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
+
+| [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 
 </div>
 </details>
@@ -93,8 +103,8 @@ During triage, review parallel processes using an EDR product or 4688 events. It
 #### Search
 
 ```
-`powershell` EventCode=4104 Message=*system.management.automation.amsi* 
-| stats count min(_time) as firstTime max(_time) as lastTime by OpCode ComputerName User EventCode Message 
+`powershell` EventCode=4104 ScriptBlockText = *system.management.automation.amsi* 
+| stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer user_id 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
 | `unloading_amsi_via_reflection_filter`
@@ -150,7 +160,7 @@ Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 
-* [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/windows-powershell.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/windows-powershell.log)
+* [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/windows-powershell-xml.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/windows-powershell-xml.log)
 
 
 
