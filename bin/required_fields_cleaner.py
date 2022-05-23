@@ -54,6 +54,8 @@ def parse_datamodel(datamodel_name, object)->dict:
     return submodules
 
 def load_datamodels_from_directory(datamodels_directory:pathlib.PosixPath)->dict:
+    print("Loading datamodel templates...", end='', flush=True)
+
     all_models = {}
     datamodel_filenames = list(datamodels_directory.glob("*.json"))
     for datamodel_filename in datamodel_filenames:
@@ -70,28 +72,7 @@ def load_datamodels_from_directory(datamodels_directory:pathlib.PosixPath)->dict
 
 
         all_models[model_name] = model_fields
-    print(f"All {len(datamodel_filenames)} datamodels parsed")
-
-    '''
-    dups = [{"field_name": element, "number_of_occurences":count} for element, count in collections.Counter(all_fields).items() if count > 1]
-    if len(dups) != 0:
-        print("There were duplicate field names in the data models. They are listed below")
-        for dup in dups:
-            print(f"{dup['field_name']}: {dup['number_of_occurences']} occurences")
-        raise Exception("Duplicate fields detected")
-    '''
-    '''
-    counts= {}
-    for field in all_fields:
-        c = field.count(".")
-        if c in counts:
-            counts[c] += 1
-        else:
-            counts[c] = 1
-    print(counts)
-
-    print("\n".join(all_fields))
-    '''
+    print(f"[{len(datamodel_filenames):4d}] datamodel templates loaded")
 
     return all_models
 
@@ -325,7 +306,7 @@ def update_datamodels(filename:str, defined_datamodels:dict, detection_file_data
 
     return (True, updated, detection_file_data)
 
-def update_detection(filename:str, defined_datamodels:dict)->tuple[bool,bool, dict]:
+def validate_detection(filename:str, defined_datamodels:dict)->tuple[bool,bool, dict]:
     #Use this variable to determine whether or not the yaml data is updated and should
     #be rewritten to the file
     dataset_updates = False
@@ -379,6 +360,26 @@ def update_detection(filename:str, defined_datamodels:dict)->tuple[bool,bool, di
         
 
 
+def get_detection_filenames(detection_directory:pathlib.PosixPath, sort=True)->list[str]:
+    detection_filenames = [str(p) for p in detection_directory.glob("**/[!ssa___]*.yml") if "/deprecated/" not in str(p) and "/experimental/" not in str(p)]
+    print("Enumerating detections........", end='', flush=True)
+    print(f"[{len(detection_filenames):4d}] detections found")
+    if sort:
+        return sorted(detection_filenames)
+    else:
+        return detection_filenames    
+
+def output_updated_detection(detection_filename:str, detection_data:dict)->bool:
+    try:
+        with open(detection_filename, "w") as updated_detection:
+            yaml.dump(detection_data, updated_detection, sort_keys=False)
+        print(f"\t{detection_filename} changes written to disk")
+        return True
+    except Exception as e:
+        print(f"Error writing {detection_filename} to disk: {str(e)}")
+        return False
+
+
 def main():
 
     parser  =argparse.ArgumentParser(prog="fields_extractor_and_updater",
@@ -410,13 +411,14 @@ def main():
     args = parser.parse_args()
 
 
+    #Load all the datamodels to validate against
     defined_datamodels = load_datamodels_from_directory(args.datamodel_directory)
 
-    
     #Get all the files that we will process
-    detection_filenames = [str(p) for p in args.detection_directory.glob("**/[!ssa___]*.yml") if "/deprecated/" not in str(p) and "/experimental/" not in str(p)]
-    detection_filenames.sort()
-    print(f"Detection files to be checked for possible updates: [{len(detection_filenames)}]")
+    detection_filenames = get_detection_filenames(args.detection_directory)
+    
+
+
     
     
     all_success = True
@@ -424,23 +426,23 @@ def main():
     for detection_filename in detection_filenames:
         #Convert from 
         try:
-            success, dataset_has_updates, updated_dataset = update_detection(detection_filename, defined_datamodels)
-            if success is False:
-                all_success = False
-            elif success and dataset_has_updates and (args.mode == "update") :
-                
-                try:
-                    with open(detection_filename, "w") as updated_detection:
-                        yaml.dump(updated_dataset, updated_detection, sort_keys=False)
-                    print(f"\t{detection_filename} changes written to disk")
-                except Exception as e:
-                    print(f"Error writing {detection_filename} to disk: {str(e)}")
-                    all_success = False
+            success, dataset_has_updates, updated_dataset = validate_detection(detection_filename, defined_datamodels)
+            all_success &= success #accumulate any errors that may occur here
+
+            if success and dataset_has_updates and (args.mode == "update"):
+                output_updated_detection(detection_filename, updated_dataset)
+
+                        
         except Exception as e:
             print(f"Error processing {detection_filename}: {str(e)}")
 
     
-
+    if all_success is True:
+        print("All required fields pass!")
+        sys.exit(0)
+    else:
+        print("At least one error occurred - check the output for details")
+        sys.exit(1)
 
 if __name__ == "__main__":
     main()
