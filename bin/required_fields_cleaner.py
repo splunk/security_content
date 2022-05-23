@@ -1,8 +1,6 @@
 import collections
 import yaml
 import sys
-import glob
-import os
 import re
 import json
 import pprint
@@ -58,7 +56,6 @@ def parse_datamodel(datamodel_name, object)->dict:
 def load_datamodels_from_directory(datamodels_directory:pathlib.PosixPath)->dict:
     all_models = {}
     datamodel_filenames = list(datamodels_directory.glob("*.json"))
-    #datamodel_filenames = glob.glob(os.path.join(datamodels_directory,"*.json"))
     for datamodel_filename in datamodel_filenames:
         #Load the YAML File
         with open(datamodel_filename, "r") as model_stream:
