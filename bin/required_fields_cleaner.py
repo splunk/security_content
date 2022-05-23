@@ -55,9 +55,10 @@ def parse_datamodel(datamodel_name, object)->dict:
 
     return submodules
 
-def load_datamodels_from_directory(datamodels_directory:str)->dict:
+def load_datamodels_from_directory(datamodels_directory:pathlib.PosixPath)->dict:
     all_models = {}
-    datamodel_filenames = glob.glob(os.path.join(datamodels_directory,"*.json"))
+    datamodel_filenames = list(datamodels_directory.glob("*.json"))
+    #datamodel_filenames = glob.glob(os.path.join(datamodels_directory,"*.json"))
     for datamodel_filename in datamodel_filenames:
         #Load the YAML File
         with open(datamodel_filename, "r") as model_stream:
@@ -98,7 +99,7 @@ def load_datamodels_from_directory(datamodels_directory:str)->dict:
     return all_models
 
 
-def get_datamodels(search:str)->dict:
+def get_datamodels(search:str, filename:str)->dict:
     #print(search)
     matches = re.findall(DATAMODEL_PATTERN, search)
 
@@ -138,143 +139,6 @@ def get_datamodel_fields(defined_datamodels:dict, search:str)->set[str]:
     quoted_text_removed = re.sub(QUOTATIONS_PATTERN, "", search)
     all_fields =  set(re.findall(KEY_VALUE_PATTERN, quoted_text_removed))
     return remove_datamodel_submodel_from_fields(defined_datamodels, all_fields)
-
-
-def update_required_fields_for_yaml(filename:str, search:str, required_fields:set, datamodels_from_datamodel_field:set, defined_datamodels:dict, required_fields_from_yaml:set[str])->dict:
-
-    datamodels_from_search = get_datamodels(search,filename)
-    #print(f"Datamodels found in {filename}: {datamodels}")
-    yaml_fields_to_update = {}
-
-
-
-
-
-    #Now, ensure all the datamodels that we read from the file exist in the defiend datamodels
-    for model, submodel in datamodels_from_search:
-        if model not in defined_datamodels :
-            print(f"Error in {filename} - Failed to find model {model} in {defined_datamodels.keys()}")
-            #sys.exit(1)
-        elif submodel not in defined_datamodels[model]:
-            print(f"Error in {filename} - Failed to find submodel {submodel} in {defined_datamodels[model].keys()}")
-            sys.exit(1)
-
-
-
-
-    datamodels_with_submodel = [f"{d[0]}.{d[1]}" for d in datamodels_from_search]
-    disjoint_members = datamodels_from_datamodel_field.symmetric_difference(datamodels_with_submodel)
-    if len(disjoint_members) != 0:
-        yaml_fields_to_update['datamodel'] = sorted(datamodels_with_submodel)
-    #if len(datamodels_from_datamodel_field) == 0:
-    #    print(f"{filename} is {datamodels_from_datamodel_field}")
-    for model in datamodels_from_datamodel_field:
-        if model not in datamodels_with_submodel:
-            #print (f"{filename} used datamodel {model} but not in search {datamodels_from_search}")
-            break
-
-
-    '''
-    for model in datamodels_from_datamodel_field:
-        if model not in datamodels_from_search:
-            print(f"file {filename} yml contains datamodels:{datamodels_from_datamodel_field} but {model} was not found in search")
-            #print("ERROR")
-            #yaml_update_required = True
-            #input("waiting...\n")
-
-    for model in datamodels_from_search:
-        if model not in datamodels_from_datamodel_field:
-            #print(f"file {filename} yml contains search: {search} but {model} was not found in datamodels: {yml_datamodels}")
-            #print("ERROR")
-            yaml_update_required = True
-            #input("waiting...\n")
-    '''
-
-    toks = get_datamodel_fields(search)
-
-    #print(defined_datamodels)
-    #print(toks)
-    #dictPrint(defined_datamodels)
-
-    #For each token (submodel.field) found in the search field, make sure that it is included in the
-    # required_fields portion of the YAML.
-    #Required fields in a datamodel should be in the format model.submodel.fieldname to be more explicit.
-    #If a field is declared in required_fields that does not have a dot and exists in the raw search, then keep it.
-    #If a field is declared in required_fields that does not have a dot and does not exit in the raw search, then remove it.
-
-    #Remove all the datamodels and datamodel.submodels from toks.
-    toks_without_datamodels = set()
-    datamodels_in_use = dict()
-    for tok in toks:
-        try:
-            model,submodel = tok.split(".")
-        except Exception:
-            raise Exception(f"Did not find 2 . in {tok}")
-
-        if model in defined_datamodels and submodel in defined_datamodels[model]:
-            #print(f"Found {tok} in defined datamodels!")
-            if model not in datamodels_in_use:
-                datamodels_in_use[model] = {}
-
-            datamodels_in_use[model][submodel] = defined_datamodels[model][submodel]
-        else:
-            toks_without_datamodels.add((model,submodel))
-
-
-    #dictPrint(datamodels_in_use.keys())
-    #dictPrint(toks_without_datamodels)
-
-
-    fully_qualified_field_dicts = {}
-    #locate the field in the declared models
-    for submodel, fieldname in toks_without_datamodels:
-        #print(f"{submodel}.{fieldname}")
-        found = False
-        for model in datamodels_in_use:
-            dm = datamodels_in_use[model]
-            #dictPrint(dm)
-            if submodel in dm and fieldname in dm[submodel]:
-                fully_qualified_field_dicts[f"{model}.{submodel}.{fieldname}"] = dm[submodel][fieldname]
-                found=True
-                break
-        #If we got here, then we didn't find the fieldname in any of the models! This is bad. All these fields should probably be quoted... and there is some cleaning that needs to take place here...
-        #if found == False and len(datamodels_in_use) > 0:
-        if found == False and len(datamodels_in_use) > 0 and "exe" not in fieldname.lower():
-            print(f"Failed to find {submodel}.{fieldname} in the datamodels {datamodels_in_use.keys()} for {filename}")
-
-
-    non_datamodel_required_fields_from_yaml = [f for f in required_fields if "." not in f]
-    new_required_fields = list(fully_qualified_field_dicts.keys())
-    for field in non_datamodel_required_fields_from_yaml:
-        if field in search:
-            new_required_fields.append(field)
-    new_required_fields.sort()
-    symdiff = required_fields_from_yaml.symmetric_difference(set(new_required_fields))
-    if len(symdiff) != 0:
-        yaml_fields_to_update['tags']= {'required_fields': new_required_fields}
-
-
-
-
-    return yaml_fields_to_update
-    if yaml_update_required and False:
-        '''
-        print(f"\nMismatch between datamodel(s) used in search and declared datamodel(s)\n"\
-              f"\tFilename                        : {filename}\n"\
-              f"\tDisjoint Members                : {disjoint_members if len(disjoint_members) > 0 else '{}'}\n"\
-              f"\tdatamodels extracted from search: {datamodels_from_search if len(datamodels_from_search) > 0 else '{}'}\n"\
-              f"\tdatamodels declared in YAML     : {datamodels_from_datamodel_field if len(datamodels_from_datamodel_field) > 0 else '{}'}\n"\
-              f"\tUpdating the datamodels field in the YAML to contain datamodels extracted from search\n")
-        '''
-        yaml_fields_to_update['datamodel'] = datamodels_from_search
-
-
-
-
-    #print(datamodels)
-    #print(yml_datamodels)
-    #input("waiting...")
-    return yaml_fields_to_update
 
 
 def check_for_presence_of_fields(filename:str, container:dict, field_names:list[str])->bool:
@@ -421,11 +285,13 @@ def update_datamodels(filename:str, defined_datamodels:dict, detection_file_data
 
     
     #Pull the datamodel(s) from the search
-    search_datamodels = get_datamodels(detection_file_data['search'])
+    search_datamodels = get_datamodels(detection_file_data['search'],filename)
     #Validate that the datamodel(s) we pulled from the search exist
     success, submodels_with_fields = validate_datamodels(filename, search_datamodels, defined_datamodels)
+    if success is False:
+        return (success, False, detection_file_data)
 
-    
+
     if len(detection_file_data["datamodel"]) == 0 and len(search_datamodels) == 0:
         if "|tstats" in detection_file_data["search"] or "| tstats" in detection_file_data["search"]:
             print(f"{SMALL_INDENT} Error - {filename} contains tstats but no datamodels.  Raw search:\n\t{detection_file_data['search']}")
@@ -438,9 +304,18 @@ def update_datamodels(filename:str, defined_datamodels:dict, detection_file_data
     search_submodel_fields = get_datamodel_fields(defined_datamodels, detection_file_data['search'])
 
     #Validate the fields we pulled from the search
-    validate_fields(filename, submodels_with_fields, search_submodel_fields)
+    success = validate_fields(filename, submodels_with_fields, search_submodel_fields)
+    if success is False:
+        return (success, False, detection_file_data)
+
+    search_datamodel_and_submodel_set = set()
+    for model in search_datamodels:
+        for submodel in search_datamodels[model]:
+            search_datamodel_and_submodel_set.add(f"{model}.{submodel}")
+    
 
 
+    
 
     #print(f"{filename}:\n\t{datamodel_fields}")
     #sys.exit(0)
@@ -456,6 +331,8 @@ def update_detection(filename:str, defined_datamodels:dict)->tuple[bool,bool, di
     #be rewritten to the file
     dataset_updates = False
     
+
+    #load the yaml file
     try:
         with open(filename, "r") as detection_file:
             detection_file_data = yaml.safe_load(detection_file)
@@ -464,32 +341,118 @@ def update_detection(filename:str, defined_datamodels:dict)->tuple[bool,bool, di
         return (False,False,{})
     
 
+    #Ensure the 'type' field exists
     if not check_for_presence_of_fields(filename, detection_file_data, ['type']):
-        return (True,False,{})
+        raise(Exception("YML missing field name 'type'"))
     if detection_file_data['type'] not in ["Anomaly", "Hunting", "TTP" ]:
         #This is not one of the detection types we want to update
         return (True,False,{})
 
-    if not (check_for_presence_of_fields(filename, detection_file_data, ['search', 'tags', 'datamodel']) and 
-            check_for_presence_of_fields(filename, detection_file_data["tags"], ['required_fields'])):
-        return (False, False,{})
+    if not check_for_presence_of_fields(filename, detection_file_data, ['search']):
+        raise(Exception("YML missing field name 'search'"))
+    if not check_for_presence_of_fields(filename, detection_file_data, ['tags']):
+        raise(Exception("YML missing field name 'tags'"))
+    if not check_for_presence_of_fields(filename, detection_file_data, ['datamodel']):
+        raise(Exception("YML missing field name 'datamodel'"))
+    if not check_for_presence_of_fields(filename, detection_file_data['tags'], ['required_fields']):
+        raise(Exception("YML missing field name ['tags']['required_fields']"))
+            
+        
 
 
     #Always validate that the same dataset is linked in the detection as in the test file
     
 
-    success, updates, detection_file_data = verify_dataset_field(filename, detection_file_data)
+    dataset_success, dataset_updates, detection_file_data = verify_dataset_field(filename, detection_file_data)
     
-    success, updates, detection_file_data = update_datamodels(filename, defined_datamodels, detection_file_data)
+    datamodel_success, datamodel_updates, detection_file_data = update_datamodels(filename, defined_datamodels, detection_file_data)
 
+    #Success requires that both the dataset fields and and datamodel field are correct 
+    success = dataset_success & datamodel_success
+    #Updates requires that one, or both, of the dataset and datamodels are updated
+    updates = dataset_updates | datamodel_updates
     
 
     return (success, updates, detection_file_data)
         
 
 
-    
+def main():
 
+    parser  =argparse.ArgumentParser(prog="fields_extractor_and_updater",
+                                     description="This tool parses the search field and uses it to "
+                                        "determine and update the values in the datamodel "
+                                        "and required_fields portions of the detection yml.")
+    
+    parser.add_argument("mode", 
+                        choices=["check", "update"], 
+                        nargs = 1,
+                        help="Determines whether detections should be checked or updated.  "
+                             "Check will print the results, but update will update "
+                             "(and overrwrite) files that require changes.")
+    parser.add_argument("-d", 
+                        "--detection_directory", 
+                        type=pathlib.Path, 
+                        required=False, 
+                        default = "../detections/",
+                        help="Root directory (or filename) to update.  "
+                             "Please note that this should NOT be a regular expression")
+
+    parser.add_argument("-dm", 
+                        "--datamodel_directory", 
+                        type=pathlib.Path, 
+                        required=False,
+                        default="base_datamodels", 
+                        help="Root directory containing the standard datamodels. "
+                             "Please note that this should NOT be a regular expression")
+    
+    args = parser.parse_args()
+
+
+    defined_datamodels = load_datamodels_from_directory(args.datamodel_directory)
+
+    
+    
+    total_files = 0
+    total_files_with_datamodels = 0
+    total_files_without_datamodels = 0
+
+    #Get all the files that we will process
+    detection_filenames = [str(p) for p in args.detection_directory.glob("**/[!ssa___]*.yml") if "/deprecated/" not in str(p) and "/experimental/" not in str(p)]
+    detection_filenames.sort()
+    print(f"Detection files to be checked for possible updates: [{len(detection_filenames)}]")
+    
+    
+    #Update/check each of the files
+    for detection_filename in detection_filenames:
+        #Convert from 
+        try:
+            success, dataset_has_updates, updated_dataset = update_detection(detection_filename, defined_datamodels)
+            if args.mode == "update" and dataset_has_updates:
+                print(f"UPDATE {detection_filename}")
+                pass
+        except Exception as e:
+            print(f"Error processing {detection_filename}: {str(e)}")
+
+        #total_files_folder, files_with_datamodels_folder, files_without_datamodels_folder = clean_folder(folder, defined_datamodels)
+        #total_files += total_files_folder
+        #total_files_with_datamodels += files_with_datamodels_folder
+        #total_files_without_datamodels += files_without_datamodels_folder
+
+
+    #print(f"Total Files                   : {total_files}")
+    #print(f"Total Files with datamodels   : {total_files_with_datamodels}")
+    #print(f"Total Files without datamodels: {total_files_without_datamodels}")
+    pass
+
+
+if __name__ == "__main__":
+    main()
+
+
+
+
+'''
 def clean_folder(directory:str, defined_datamodels:dict):
     files = glob.glob(os.path.join(directory,"*"))
     files.sort()
@@ -625,74 +588,142 @@ def clean_folder(directory:str, defined_datamodels:dict):
     print(f"The total number of files  : {len(files)}\n")
     print(f"The total number of updates: {required_updates}\n")
     return  (total_files, files_with_datamodels, files_without_datamodels)
+'''
+
+'''
+def update_required_fields_for_yaml(filename:str, search:str, required_fields:set, datamodels_from_datamodel_field:set, defined_datamodels:dict, required_fields_from_yaml:set[str])->dict:
+    print("UPDATING")
+    datamodels_from_search = get_datamodels(search,filename)
+    #print(f"Datamodels found in {filename}: {datamodels}")
+    yaml_fields_to_update = {}
 
 
-def main():
 
-    parser  =argparse.ArgumentParser(prog="fields_extractor_and_updater",
-                                     description="This tool parses the search field and uses it to "
-                                        "determine and update the values in the datamodel "
-                                        "and required_fields portions of the detection yml.")
+
+
+    #Now, ensure all the datamodels that we read from the file exist in the defiend datamodels
+    for model, submodel in datamodels_from_search:
+        if model not in defined_datamodels :
+            print(f"Error in {filename} - Failed to find model {model} in {defined_datamodels.keys()}")
+            #sys.exit(1)
+        elif submodel not in defined_datamodels[model]:
+            print(f"Error in {filename} - Failed to find submodel {submodel} in {defined_datamodels[model].keys()}")
+            sys.exit(1)
+
+
+
+
+    datamodels_with_submodel = [f"{d[0]}.{d[1]}" for d in datamodels_from_search]
+    disjoint_members = datamodels_from_datamodel_field.symmetric_difference(datamodels_with_submodel)
+    if len(disjoint_members) != 0:
+        yaml_fields_to_update['datamodel'] = sorted(datamodels_with_submodel)
+    #if len(datamodels_from_datamodel_field) == 0:
+    #    print(f"{filename} is {datamodels_from_datamodel_field}")
+    for model in datamodels_from_datamodel_field:
+        if model not in datamodels_with_submodel:
+            #print (f"{filename} used datamodel {model} but not in search {datamodels_from_search}")
+            break
+
+
     
-    parser.add_argument("mode", 
-                        choices=["check", "update"], 
-                        nargs = 1,
-                        help="Determines whether detections should be checked or updated.  "
-                             "Check will print the results, but update will update "
-                             "(and overrwrite) files that require changes.")
-    parser.add_argument("-d", 
-                        "--detection_directory", 
-                        type=pathlib.Path, 
-                        required=False, 
-                        nargs = 1,
-                        default = "../detections/",
-                        help="Root directory (or filename) to update.  "
-                             "Please note that this should NOT be a regular expression")
+    # for model in datamodels_from_datamodel_field:
+    #     if model not in datamodels_from_search:
+    #         print(f"file {filename} yml contains datamodels:{datamodels_from_datamodel_field} but {model} was not found in search")
+    #         #print("ERROR")
+    #         #yaml_update_required = True
+    #         #input("waiting...\n")
 
-    parser.add_argument("-dm", 
-                        "--datamodel_directory", 
-                        type=pathlib.Path, 
-                        required=False,
-                        nargs = 1,
-                        default="base_datamodels", 
-                        help="Root directory containing the standard datamodels. "
-                             "Please note that this should NOT be a regular expression")
+    # for model in datamodels_from_search:
+    #     if model not in datamodels_from_datamodel_field:
+    #         #print(f"file {filename} yml contains search: {search} but {model} was not found in datamodels: {yml_datamodels}")
+    #         #print("ERROR")
+    #         yaml_update_required = True
+    #         #input("waiting...\n")
     
-    args = parser.parse_args()
+
+    toks = get_datamodel_fields(search)
+
+    #print(defined_datamodels)
+    #print(toks)
+    #dictPrint(defined_datamodels)
+
+    #For each token (submodel.field) found in the search field, make sure that it is included in the
+    # required_fields portion of the YAML.
+    #Required fields in a datamodel should be in the format model.submodel.fieldname to be more explicit.
+    #If a field is declared in required_fields that does not have a dot and exists in the raw search, then keep it.
+    #If a field is declared in required_fields that does not have a dot and does not exit in the raw search, then remove it.
+
+    #Remove all the datamodels and datamodel.submodels from toks.
+    toks_without_datamodels = set()
+    datamodels_in_use = dict()
+    for tok in toks:
+        try:
+            model,submodel = tok.split(".")
+        except Exception:
+            raise Exception(f"Did not find 2 . in {tok}")
+
+        if model in defined_datamodels and submodel in defined_datamodels[model]:
+            #print(f"Found {tok} in defined datamodels!")
+            if model not in datamodels_in_use:
+                datamodels_in_use[model] = {}
+
+            datamodels_in_use[model][submodel] = defined_datamodels[model][submodel]
+        else:
+            toks_without_datamodels.add((model,submodel))
 
 
-    defined_datamodels = load_datamodels_from_directory(args.datamodel_directory)
-
-    
-    
-    total_files = 0
-    total_files_with_datamodels = 0
-    total_files_without_datamodels = 0
-
-    #Get all the files that we will process
-    detection_filenames = [str(p) for p in args.detection_directory.glob("**/[!ssa___]*.yml") if "/deprecated/" not in str(p) and "/experimental/" not in str(p)]
-    detection_filenames.sort()
-    print(f"Detection files to be checked for possible updates: [{len(detection_filenames)}]")
-    
-    
-    #Update/check each of the files
-    for detection_filename in detection_filenames:
-        #Convert from 
-        success, dataset_has_updates, updated_dataset = update_detection(detection_filename, defined_datamodels)
-        if args.mode == "update" and dataset_has_updates:
-            pass
-
-        #total_files_folder, files_with_datamodels_folder, files_without_datamodels_folder = clean_folder(folder, defined_datamodels)
-        #total_files += total_files_folder
-        #total_files_with_datamodels += files_with_datamodels_folder
-        #total_files_without_datamodels += files_without_datamodels_folder
+    #dictPrint(datamodels_in_use.keys())
+    #dictPrint(toks_without_datamodels)
 
 
-    #print(f"Total Files                   : {total_files}")
-    #print(f"Total Files with datamodels   : {total_files_with_datamodels}")
-    #print(f"Total Files without datamodels: {total_files_without_datamodels}")
-    pass
+    fully_qualified_field_dicts = {}
+    #locate the field in the declared models
+    for submodel, fieldname in toks_without_datamodels:
+        #print(f"{submodel}.{fieldname}")
+        found = False
+        for model in datamodels_in_use:
+            dm = datamodels_in_use[model]
+            #dictPrint(dm)
+            if submodel in dm and fieldname in dm[submodel]:
+                fully_qualified_field_dicts[f"{model}.{submodel}.{fieldname}"] = dm[submodel][fieldname]
+                found=True
+                break
+        #If we got here, then we didn't find the fieldname in any of the models! This is bad. All these fields should probably be quoted... and there is some cleaning that needs to take place here...
+        #if found == False and len(datamodels_in_use) > 0:
+        if found == False and len(datamodels_in_use) > 0 and "exe" not in fieldname.lower():
+            print(f"Failed to find {submodel}.{fieldname} in the datamodels {datamodels_in_use.keys()} for {filename}")
 
 
-if __name__ == "__main__":
-    main()
+    non_datamodel_required_fields_from_yaml = [f for f in required_fields if "." not in f]
+    new_required_fields = list(fully_qualified_field_dicts.keys())
+    for field in non_datamodel_required_fields_from_yaml:
+        if field in search:
+            new_required_fields.append(field)
+    new_required_fields.sort()
+    symdiff = required_fields_from_yaml.symmetric_difference(set(new_required_fields))
+    if len(symdiff) != 0:
+        yaml_fields_to_update['tags']= {'required_fields': new_required_fields}
+
+
+
+
+    return yaml_fields_to_update
+    if yaml_update_required and False:
+        
+        # print(f"\nMismatch between datamodel(s) used in search and declared datamodel(s)\n"\
+        #       f"\tFilename                        : {filename}\n"\
+        #       f"\tDisjoint Members                : {disjoint_members if len(disjoint_members) > 0 else '{}'}\n"\
+        #       f"\tdatamodels extracted from search: {datamodels_from_search if len(datamodels_from_search) > 0 else '{}'}\n"\
+        #       f"\tdatamodels declared in YAML     : {datamodels_from_datamodel_field if len(datamodels_from_datamodel_field) > 0 else '{}'}\n"\
+        #       f"\tUpdating the datamodels field in the YAML to contain datamodels extracted from search\n")
+        
+        yaml_fields_to_update['datamodel'] = datamodels_from_search
+
+
+
+
+    #print(datamodels)
+    #print(yml_datamodels)
+    #input("waiting...")
+    return yaml_fields_to_update
+'''
