@@ -1,6 +1,7 @@
 ---
 title: "Windows Drivers Loaded by Signature"
 excerpt: "Rootkit
+, Exploitation for Privilege Escalation
 "
 categories:
   - Endpoint
@@ -9,7 +10,9 @@ toc: true
 toc_label: ""
 tags:
   - Rootkit
+  - Exploitation for Privilege Escalation
   - Defense Evasion
+  - Privilege Escalation
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -43,6 +46,8 @@ The following analytic assists with viewing all drivers being loaded by using Sy
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
 | [T1014](https://attack.mitre.org/techniques/T1014/) | Rootkit | Defense Evasion |
+
+| [T1068](https://attack.mitre.org/techniques/T1068/) | Exploitation for Privilege Escalation | Privilege Escalation |
 
 </div>
 </details>
@@ -107,8 +112,8 @@ The following analytic assists with viewing all drivers being loaded by using Sy
 
 #### Macros
 The SPL above uses the following Macros:
-* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 
 Note that **windows_drivers_loaded_by_signature_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
