@@ -1,7 +1,7 @@
-name: Linux deletion Of SSH Hash Conf Unit Test
+name: Linux Account Manipulation Of SSH Config and Keys Unit Test
 tests:
-- name: Linux deletion Of SSH Hash Conf
-  file: endpoint/linux_deletion_of_ssh_hash_conf.yml
+- name: Linux Account Manipulation Of SSH Config and Keys
+  file: endpoint/linux_account_manipulation_of_ssh_config_and_keys.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h
   latest_time: now
