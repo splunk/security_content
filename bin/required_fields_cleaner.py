@@ -313,18 +313,20 @@ def update_datamodels(filename:str, defined_datamodels:dict, detection_file_data
         for submodel in search_datamodels[model]:
             search_datamodel_and_submodel_set.add(f"{model}.{submodel}")
     
-
-
+    search_datamodel_and_submodel_list = sorted(list(search_datamodel_and_submodel_set))
+    if search_datamodel_and_submodel_list != detection_file_data['datamodel']:
+          print(f"Updated datamodel(s) in {filename}:\n\t {detection_file_data['datamodel']} --> {search_datamodel_and_submodel_list}")
+          detection_file_data['datamodel'] = search_datamodel_and_submodel_list
+          updated = True
+    else:
+        #No updates to the datamodel field
+        updated = False
     
 
     #print(f"{filename}:\n\t{datamodel_fields}")
     #sys.exit(0)
 
-
-
-
-
-    return (True, False, detection_file_data)
+    return (True, updated, detection_file_data)
 
 def update_detection(filename:str, defined_datamodels:dict)->tuple[bool,bool, dict]:
     #Use this variable to determine whether or not the yaml data is updated and should
@@ -386,7 +388,6 @@ def main():
     
     parser.add_argument("mode", 
                         choices=["check", "update"], 
-                        nargs = 1,
                         help="Determines whether detections should be checked or updated.  "
                              "Check will print the results, but update will update "
                              "(and overrwrite) files that require changes.")
@@ -423,14 +424,16 @@ def main():
     print(f"Detection files to be checked for possible updates: [{len(detection_filenames)}]")
     
     
+    all_success = True
     #Update/check each of the files
     for detection_filename in detection_filenames:
         #Convert from 
         try:
             success, dataset_has_updates, updated_dataset = update_detection(detection_filename, defined_datamodels)
-            if args.mode == "update" and dataset_has_updates:
+            if success is False:
+                all_success = False
+            elif success and dataset_has_updates and (args.mode == "update") :
                 print(f"UPDATE {detection_filename}")
-                pass
         except Exception as e:
             print(f"Error processing {detection_filename}: {str(e)}")
 
@@ -443,7 +446,7 @@ def main():
     #print(f"Total Files                   : {total_files}")
     #print(f"Total Files with datamodels   : {total_files_with_datamodels}")
     #print(f"Total Files without datamodels: {total_files_without_datamodels}")
-    pass
+    
 
 
 if __name__ == "__main__":
