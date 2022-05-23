@@ -1,4 +1,4 @@
-name: Linux deletion Of SSH Hash Conf
+name: Linux Account Manipulation Of SSH Config and Keys
 id: 73a56508-1cf5-4df7-b8d9-5737fbdc27d2
 version: 1
 date: '2022-04-12'
@@ -23,7 +23,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   |rename process_guid as proc_guid
   | fields _time dest user parent_process_name parent_process process_name process_path process proc_guid registry_path registry_value_name registry_value_data registry_key_name action]
   | table  process_name process proc_guid file_name file_path action _time parent_process_name parent_process  process_path dest user
-  | `linux_deletion_of_ssh_hash_conf_filter`'
+  | `linux_account_manipulation_of_ssh_config_and_keys_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from
