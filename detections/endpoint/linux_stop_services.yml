@@ -1,0 +1,72 @@
+name: Linux Stop Services
+id: d05204a5-9f1c-4946-a7f3-4fa58d76d5fd
+version: 1
+date: '2022-04-22'
+author: Teoderick Contreras, Splunk
+type: TTP
+datamodel:
+- Endpoint
+description: The following analytic is to detect events that attempt to stop or clear a service. 
+  This is typically identified in parallel with other instances of service enumeration of 
+  attempts to stop a service and then delete it. Adversaries utilize this technique like industroyer2 
+  malware to terminate security services or other related services to continue there objective as a destructive payload.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes 
+  where Processes.process_name IN ("systemctl", "service", "svcadm")  Processes.process ="*stop*"
+  by Processes.parent_process_name Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
+  Processes.process_guid Processes.dest Processes.user 
+  | `drop_dm_object_name(Processes)` 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | `linux_stop_services_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from
+  Splunkbase.
+known_false_positives: Administrator or network operator can use this application
+  for automation purposes. Please update the filter macros to remove false positives.
+references:
+- https://www.welivesecurity.com/2022/04/12/industroyer2-industroyer-reloaded/
+- https://cert.gov.ua/article/39518
+tags:
+  analytic_story:
+  - Industroyer2
+  asset_type: Endpoint
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  confidence: 70
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1489/linux_service_stop_disable/sysmon_linux.log
+  impact: 70
+  kill_chain_phases:
+  - Exploitation
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified
+    attempting to stop services on endpoint $dest$ by $user$.
+  mitre_attack_id:
+  - T1489
+  nist:
+  - DE.CM
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_id
+  risk_score: 49
+  security_domain: endpoint
