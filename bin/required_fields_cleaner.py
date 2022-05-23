@@ -205,7 +205,7 @@ def verify_dataset_field(filename:str, detection_file_data:dict)->tuple[bool,boo
         for data_file in (detection_file_data_files - test_file_data_files):
             print(f"\tDetection file references file NOT included in the test file:\n\t{SMALL_INDENT} {data_file}")
         print("")
-        return (False,False,detection_file_data)
+        return (False,False,{})
     
 
     #Success, no updates need to be made!
@@ -255,7 +255,7 @@ def validate_fields(filename:str, submodels_with_fields:dict, search_submodel_fi
                 if field not in submodels_with_fields[submodel]:
                     errors.append(f"[{submodel}] does not contain field [{field}]")
             except Exception as e:
-                errors.append(f"Problem resolving {submodel}.{field}: {str(e)}")
+                errors.append(f"Problem resolving [{submodel}.{field}]: [{str(e)}] is not a valid submodel")
 
         else:
             errors.append(f"Found more than just a submodel and field for {field}")
@@ -274,14 +274,14 @@ def validate_fields(filename:str, submodels_with_fields:dict, search_submodel_fi
 
 def update_datamodels(filename:str, defined_datamodels:dict, detection_file_data: dict)->tuple[bool,bool,dict]:
     if not check_for_presence_of_fields(filename, detection_file_data, ["search","tags"]):
-        return (False,False,detection_file_data)
+        return (False,False,{})
 
     if not check_for_presence_of_fields(filename, detection_file_data["tags"], ["required_fields"]):
-        return (False,False,detection_file_data)
+        return (False,False,{})
     
 
     if not check_for_presence_of_fields(filename, detection_file_data, ["datamodel"]):
-        return (False,False,detection_file_data)
+        return (False,False,{})
 
     
     #Pull the datamodel(s) from the search
@@ -289,13 +289,13 @@ def update_datamodels(filename:str, defined_datamodels:dict, detection_file_data
     #Validate that the datamodel(s) we pulled from the search exist
     success, submodels_with_fields = validate_datamodels(filename, search_datamodels, defined_datamodels)
     if success is False:
-        return (success, False, detection_file_data)
+        return (success, False, {})
 
 
     if len(detection_file_data["datamodel"]) == 0 and len(search_datamodels) == 0:
         if "|tstats" in detection_file_data["search"] or "| tstats" in detection_file_data["search"]:
             print(f"{SMALL_INDENT} Error - {filename} contains tstats but no datamodels.  Raw search:\n\t{detection_file_data['search']}")
-            return (False,False,detection_file_data)            
+            return (False,False,{})            
         else:
             #print(f"{filename} is a search that does not contain any datamodels.  required_fields will not be validated or updated")
             return (True,False,detection_file_data)        
@@ -365,12 +365,15 @@ def update_detection(filename:str, defined_datamodels:dict)->tuple[bool,bool, di
     #Always validate that the same dataset is linked in the detection as in the test file
     
 
-    dataset_success, dataset_updates, detection_file_data = verify_dataset_field(filename, detection_file_data)
+    success, dataset_updates, detection_file_data = verify_dataset_field(filename, detection_file_data)
+    if success is False:
+        return (success, False, {})
     
-    datamodel_success, datamodel_updates, detection_file_data = update_datamodels(filename, defined_datamodels, detection_file_data)
+    success, datamodel_updates, detection_file_data = update_datamodels(filename, defined_datamodels, detection_file_data)
+    if success is False:
+        return (success, False, {})
 
-    #Success requires that both the dataset fields and and datamodel field are correct 
-    success = dataset_success & datamodel_success
+ 
     #Updates requires that one, or both, of the dataset and datamodels are updated
     updates = dataset_updates | datamodel_updates
     
@@ -433,7 +436,14 @@ def main():
             if success is False:
                 all_success = False
             elif success and dataset_has_updates and (args.mode == "update") :
-                print(f"UPDATE {detection_filename}")
+                
+                try:
+                    with open(detection_filename, "w") as updated_detection:
+                        yaml.dump(updated_dataset, updated_detection, sort_keys=False)
+                    print(f"\t{detection_filename} changes written to disk")
+                except Exception as e:
+                    print(f"Error writing {detection_filename} to disk: {str(e)}")
+                    all_success = False
         except Exception as e:
             print(f"Error processing {detection_filename}: {str(e)}")
 
