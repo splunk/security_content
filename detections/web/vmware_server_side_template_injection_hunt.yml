@@ -65,5 +65,5 @@ tags:
   - Web.src
   - Web.dest
   - Web.http_user_agent
-  risk_score: 49
+  risk_score: 35
   security_domain: network
