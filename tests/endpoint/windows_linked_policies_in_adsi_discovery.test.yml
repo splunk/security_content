@@ -1,0 +1,12 @@
+name: Windows Linked Policies In ADSI Discovery Unit Test
+tests:
+- name: Windows Linked Policies In ADSI Discovery
+  file: endpoint/windows_linked_policies_in_adsi_discovery.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: windows-powershell-xml2.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/adsi_discovery/windows-powershell-xml2.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: xmlwineventlog
