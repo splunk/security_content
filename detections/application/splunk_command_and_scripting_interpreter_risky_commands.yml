@@ -7,15 +7,10 @@ type: Hunting
 datamodel:
 - Endpoint
 description: 'The Splunk platform contains built-in search processing language (SPL) safeguards to warn you when you are about to unknowingly run a search that contains commands that might be a security risk. This warning appears when you click a link or type a URL that loads a search that contains risky commands. The warning does not appear when you create ad hoc searches. This warning alerts you to the possibility of unauthorized actions by a malicious user. Unauthorized actions include -
-
-1. Copying or transferring data (data exfiltration) \
-
-1. Deleting data \
-
-1. Overwriting data \
-
-A possible scenario when this might occur is when a malicious person creates a search that includes commands that exfiltrate or damage data. The malicious person then sends an unsuspecting user a link to the search. The URL contains a query string (q) and a search identifier (sid), but the sid is not valid. The malicious person hopes the user will use the link and the search will run.'
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Splunk_Audit.Search_Activity where Search_Activity.search IN ("*runshellscript*", "*collect*","*delete*", "*fit*", "*outputcsv*", "*outputlookup*", "*run*", "*script*", "*sendalert*", "*sendemail*", "*tscollect*")
+  Copying or transferring data (data exfiltration), Deleting data and Overwriting data.
+  A possible scenario when this might occur is when a malicious person creates a search that includes commands that exfiltrate or damage data. The malicious person then sends an unsuspecting user a link to the search. The URL contains a query string (q) and a search identifier (sid), but the sid is not valid. The malicious person hopes the user will use the link and the search will run.
+  During analysis, pivot based on user name and filter any user or queries not needed. Adhoc queries found from dashboards, however in audittrail logs it does not show the dashboard name. The query defaults to adhoc and no Splunk system user activity.'
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Splunk_Audit.Search_Activity where Search_Activity.search IN ("*runshellscript*", "*collect*","*delete*", "*fit*", "*outputcsv*", "*outputlookup*", "*run*", "*script*", "*sendalert*", "*sendemail*", "*tscollect*") Search_Activity.search_type=adhoc Search_Activity.user!=splunk-system-user
   by Search_Activity.search Search_Activity.info Search_Activity.total_run_time Search_Activity.user Search_Activity.savedsearch_name Search_Activity.search_type
   | `drop_dm_object_name(Splunk_Audit)` 
   | `security_content_ctime(firstTime)`
@@ -37,7 +32,7 @@ tags:
   context:
   - Source:Endpoint
   dataset:
-  - UPDATE_DATASET_URL
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1213/audittrail/audittrail.log
   impact: 50
   kill_chain_phases:
   - Actions on Objectives
