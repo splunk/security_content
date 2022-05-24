@@ -3,14 +3,15 @@ id: 839d12a6-b119-4d44-ac4f-13eed95412c8
 version: 1
 date: '2022-05-24'
 author: Rod Soto, Splunk
-type: TTP
+type: Hunting
 datamodel: []
 search: 'index=_internal sourcetype=splunkd event_message="*SSL*" AND event_message="*ERROR*" OR event_message="*unknown CA*" |stats count by host source component event_message | dedup component host'
-description: On .
-how_to_implement: This detection does not require you to ingest any new data. The detection does require the ability to search the _internal index. This search will provide search UI requests with path traversal parameter ("../../../../../../../../../") which shows exploitation attempts.
-known_false_positives: This search may find additional path traversal exploitation attempts.
+description: On june 2022, Splunk released vulnerability advisory addresing Python TLS validation which was not set before Splunk version 9. From version 9 on Python3 client libraries now verify server certificates by default and use CA certificate store.
+how_to_implement: Must upgrade to Splunk version 9 and Configure TLS host name validation for Splunk Python modules in order to apply this search.
+known_false_positives: This search tries to address validation of server and client certificates within Splunk infrastructure, it might produce results from accidental or unintended requests to port 8089. 
 references:
-- https://www.splunk.com/en_us/product-security/announcements/svd-2022-0506.html
+- https://www.splunk.com/en_us/product-security.
+- https://docs.splunk.com/Documentation/Splunk/9.0.0/Security/EnableTLSCertHostnameValidation
 tags:
   analytic_story:
   - Splunk Vulnerabilities
