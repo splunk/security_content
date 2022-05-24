@@ -1,27 +1,29 @@
+name: Scheduled Task Initiation on Remote Endpoint
+id: 95cf4608-4302-11ec-8194-3e22fbd008af
+version: 1
+date: '2021-11-11'
 author: Mauricio Velazco, Splunk
+type: TTP
 datamodel:
 - Endpoint
-date: '2021-11-11'
 description: This analytic looks for the execution of `schtasks.exe` with command-line
   arguments utilized to start a Scheduled Task on a remote endpoint. Red Teams and
   adversaries alike may abuse the Task Scheduler for lateral movement and remote code
   execution.
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints.
-id: 95cf4608-4302-11ec-8194-3e22fbd008af
-known_false_positives: Administrators may start scheduled tasks on remote systems,
-  but this activity is usually limited to a small set of hosts or users.
-name: Scheduled Task Initiation on Remote Endpoint
-references:
-- https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/schtasks
-- https://attack.mitre.org/techniques/T1053/005/
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.process_name=schtasks.exe
   OR Processes.original_file_name=schtasks.exe) (Processes.process=*/s* AND Processes.process=*/run*)
   by Processes.dest Processes.user Processes.parent_process_name Processes.process_name
   Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `scheduled_task_initiation_on_remote_endpoint_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints.
+known_false_positives: Administrators may start scheduled tasks on remote systems,
+  but this activity is usually limited to a small set of hosts or users.
+references:
+- https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/schtasks
+- https://attack.mitre.org/techniques/T1053/005/
 tags:
   analytic_story:
   - Active Directory Lateral Movement
@@ -60,5 +62,3 @@ tags:
   - _time
   risk_score: 54
   security_domain: endpoint
-type: TTP
-version: 1

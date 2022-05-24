@@ -1,6 +1,10 @@
-author: Teoderick Contreras, Splunk
-datamodel: []
+name: Suspicious Process DNS Query Known Abuse Web Services
+id: 3cf0dc36-484d-11ec-a6bc-acde48001122
+version: 1
 date: '2021-11-18'
+author: Teoderick Contreras, Splunk
+type: TTP
+datamodel: []
 description: This analytic detects a suspicious process making a DNS query via known,
   abused text-paste web services, VoIP, instant messaging, and digital distribution
   platforms used to download external files. This technique is abused by adversaries,
@@ -8,20 +12,18 @@ description: This analytic detects a suspicious process making a DNS query via k
   is a good TTP indicator for possible initial access techniques. A user will experience
   false positives if the following instant messaging is allowed or common applications
   like telegram or discord are allowed in the corporate network.
-how_to_implement: This detection relies on sysmon logs with the Event ID 22, DNS Query.
-  We suggest you run this detection at least once a day over the last 14 days.
-id: 3cf0dc36-484d-11ec-a6bc-acde48001122
-known_false_positives: Noise and false positive can be seen if the following instant
-  messaging is allowed to use within corporate network. In this case, a filter is
-  needed.
-name: Suspicious Process DNS Query Known Abuse Web Services
-references:
-- https://urlhaus.abuse.ch/url/1798923/
 search: '`sysmon` EventCode=22 QueryName IN ("*pastebin*", "*discord*", "*telegram*",
   "*t.me*") process_name IN ("cmd.exe", "*powershell*", "pwsh.exe", "wscript.exe",
   "cscript.exe") | stats count min(_time) as firstTime max(_time) as lastTime by Image
   QueryName QueryStatus process_name QueryResults Computer | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `suspicious_process_dns_query_known_abuse_web_services_filter`'
+how_to_implement: This detection relies on sysmon logs with the Event ID 22, DNS Query.
+  We suggest you run this detection at least once a day over the last 14 days.
+known_false_positives: Noise and false positive can be seen if the following instant
+  messaging is allowed to use within corporate network. In this case, a filter is
+  needed.
+references:
+- https://urlhaus.abuse.ch/url/1798923/
 tags:
   analytic_story:
   - Remcos
@@ -62,5 +64,3 @@ tags:
   - Computer
   risk_score: 64
   security_domain: endpoint
-type: TTP
-version: 1

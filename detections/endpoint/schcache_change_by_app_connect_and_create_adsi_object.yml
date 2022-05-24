@@ -1,6 +1,10 @@
-author: Teoderick Contreras, Splunk
-datamodel: []
+name: SchCache Change By App Connect And Create ADSI Object
+id: 991eb510-0fc6-11ec-82d3-acde48001122
+version: 1
 date: '2021-09-07'
+author: Teoderick Contreras, Splunk
+type: Anomaly
+datamodel: []
 description: This analytic is to detect an application try to connect and create ADSI
   Object to do LDAP query. Every time an application connects to the directory and
   attempts to create an ADSI object, the Active Directory Schema is checked for changes.
@@ -10,22 +14,20 @@ description: This analytic is to detect an application try to connect and create
   application like blackmatter ransomware that use ADS object api to execute ldap
   query. having a good list of ldap or normal AD query tool used within the network
   is a good start to reduce the noise.
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA.
-id: 991eb510-0fc6-11ec-82d3-acde48001122
-known_false_positives: normal application like mmc.exe and other ldap query tool may
-  trigger this detections.
-name: SchCache Change By App Connect And Create ADSI Object
-references:
-- https://docs.microsoft.com/en-us/windows/win32/adsi/adsi-and-uac
-- https://news.sophos.com/en-us/2021/08/09/blackmatter-ransomware-emerges-from-the-shadow-of-darkside/
 search: '`sysmon` EventCode=11  TargetFilename = "*\\Windows\\SchCache\\*" TargetFilename
   = "*.sch*" NOT (Image IN ("*\\Windows\\system32\\mmc.exe")) |stats count min(_time)
   as firstTime max(_time) as lastTime by Image TargetFilename EventCode process_id  process_name
   Computer | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `schcache_change_by_app_connect_and_create_adsi_object_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
+known_false_positives: normal application like mmc.exe and other ldap query tool may
+  trigger this detections.
+references:
+- https://docs.microsoft.com/en-us/windows/win32/adsi/adsi-and-uac
+- https://news.sophos.com/en-us/2021/08/09/blackmatter-ransomware-emerges-from-the-shadow-of-darkside/
 tags:
   analytic_story:
   - blackMatter ransomware
@@ -62,5 +64,3 @@ tags:
   - Computer
   risk_score: 25
   security_domain: endpoint
-type: Anomaly
-version: 1

@@ -1,20 +1,15 @@
+name: Suspicious Process File Path
+id: 9be25988-ad82-11eb-a14f-acde48001122
+version: 1
+date: '2021-05-05'
 author: Teoderick Contreras, Splunk
+type: TTP
 datamodel:
 - Endpoint
-date: '2021-05-05'
 description: The following analytic will detect a suspicious process running in a
   file path where a process is not commonly seen and is most commonly used by malicious
   softtware. This behavior has been used by adversaries where they drop and run an
   exe in a path that is accessible without admin privileges.
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Processes` node.
-id: 9be25988-ad82-11eb-a14f-acde48001122
-known_false_positives: Administrators may allow execution of specific binaries in
-  non-standard paths. Filter as needed.
-name: Suspicious Process File Path
-references:
-- https://www.trendmicro.com/vinfo/hk/threat-encyclopedia/malware/trojan.ps1.powtran.a/
 search: '| tstats `security_content_summariesonly` count values(Processes.process_name)
   as process_name values(Processes.process) as process min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_path = "*\\windows\\fonts\\*"
@@ -27,6 +22,13 @@ search: '| tstats `security_content_summariesonly` count values(Processes.proces
   Processes.parent_process Processes.process_path Processes.dest Processes.user |
   `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `suspicious_process_file_path_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+known_false_positives: Administrators may allow execution of specific binaries in
+  non-standard paths. Filter as needed.
+references:
+- https://www.trendmicro.com/vinfo/hk/threat-encyclopedia/malware/trojan.ps1.powtran.a/
 tags:
   analytic_story:
   - XMRig
@@ -70,5 +72,3 @@ tags:
   - _time
   risk_score: 35
   security_domain: endpoint
-type: TTP
-version: 1
