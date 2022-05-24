@@ -28,7 +28,7 @@ tags:
   - Exploitation
   message: Failed to validate certificate on host$
   mitre_attack_id:
-  - T1083
+  -  T1588.004 
   observable:
   - name: host
     type: host
