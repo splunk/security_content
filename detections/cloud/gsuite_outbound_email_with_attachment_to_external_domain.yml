@@ -43,13 +43,13 @@ tags:
   - T1048
   observable:
   - name: source.address
-    type: User
     role:
     - attacker
-  - name: destination{}.address
     type: User
+  - name: destination{}.address
     role:
     - Victim
+    type: User
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

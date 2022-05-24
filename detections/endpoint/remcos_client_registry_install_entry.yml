@@ -1,23 +1,25 @@
+name: Remcos client registry install entry
+id: f2a1615a-1d63-11ec-97d2-acde48001122
+version: 1
+date: '2021-09-24'
 author: Bhavin Patel, Rod Soto, Splunk
+type: TTP
 datamodel:
 - Endpoint
-date: '2021-09-24'
 description: This search detects registry key license at host where Remcos RAT agent
   is installed.
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure
-  that this registry was included in your config files ex. sysmon config to be monitored.
-id: f2a1615a-1d63-11ec-97d2-acde48001122
-known_false_positives: unknown
-name: Remcos client registry install entry
-references:
-- https://attack.mitre.org/software/S0332/
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime values(Registry.registry_path) as  registry_path FROM datamodel=Endpoint.Registry
   where (Registry.registry_key_name=*\\Software\\Remcos*) by Registry.dest  Registry.user
   Registry.registry_key_name Registry.process_id| `drop_dm_object_name(Registry)`
   | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`|`remcos_client_registry_install_entry_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure
+  that this registry was included in your config files ex. sysmon config to be monitored.
+known_false_positives: unknown
+references:
+- https://attack.mitre.org/software/S0332/
 tags:
   analytic_story:
   - Remcos
@@ -52,5 +54,3 @@ tags:
   - _time
   risk_score: 90
   security_domain: endpoint
-type: TTP
-version: 1

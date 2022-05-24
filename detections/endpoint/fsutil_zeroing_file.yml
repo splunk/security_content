@@ -1,25 +1,27 @@
+name: Fsutil Zeroing File
+id: 4e5e024e-fabb-11eb-8b8f-acde48001122
+version: 1
+date: '2021-08-11'
 author: Teoderick Contreras, Splunk
+type: TTP
 datamodel:
 - Endpoint
-date: '2021-08-11'
 description: This search is to detect a suspicious fsutil process to zeroing a target
   file. This technique was seen in lockbit ransomware where it tries to zero out its
   malware path as part of its defense evasion after encrypting the compromised host.
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA.
-id: 4e5e024e-fabb-11eb-8b8f-acde48001122
-known_false_positives: unknown
-name: Fsutil Zeroing File
-references:
-- https://app.any.run/tasks/e0ac072d-58c9-4f53-8a3b-3e491c7ac5db/
 search: '| tstats `security_content_summariesonly` count values(Processes.process)
   as process values(Processes.parent_process) as parent_process min(_time) as firstTime
   max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name="fsutil.exe"
   Processes.process="*setzerodata*" by Processes.user Processes.process_name Processes.parent_process_name
   Processes.dest  Processes.process Processes.parent_process | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `fsutil_zeroing_file_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
+known_false_positives: unknown
+references:
+- https://app.any.run/tasks/e0ac072d-58c9-4f53-8a3b-3e491c7ac5db/
 tags:
   analytic_story:
   - Ransomware
@@ -55,5 +57,3 @@ tags:
   - _time
   risk_score: 54
   security_domain: endpoint
-type: TTP
-version: 1

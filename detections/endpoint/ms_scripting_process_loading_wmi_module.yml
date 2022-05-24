@@ -1,6 +1,10 @@
-author: Teoderick Contreras, Splunk
-datamodel: []
+name: MS Scripting Process Loading WMI Module
+id: 2eba3d36-14a6-11ec-a682-acde48001122
+version: 1
 date: '2021-09-13'
+author: Teoderick Contreras, Splunk
+type: Anomaly
+datamodel: []
 description: This search is to detect a suspicious MS scripting process such as wscript.exe
   or cscript.exe that loading wmi module to process wmi query. This behavior was seen
   in FIN7 implant where it uses javascript to execute wmi query to parse host information
@@ -8,23 +12,21 @@ description: This search is to detect a suspicious MS scripting process such as 
   to hunt further a suspicious wmi query or wmi related events to the host that may
   give you good information regarding process that are commonly using wmi query or
   modules or might be an attacker using this technique.
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
-id: 2eba3d36-14a6-11ec-a682-acde48001122
-known_false_positives: automation scripting language may used by network operator
-  to do ldap query.
-name: MS Scripting Process Loading WMI Module
-references:
-- https://www.fireeye.com/blog/threat-research/2018/08/fin7-pursuing-an-enigmatic-and-evasive-global-criminal-operation.html
-- https://attack.mitre.org/groups/G0046/
 search: '`sysmon` EventCode =7 Image IN ("*\\wscript.exe", "*\\cscript.exe") ImageLoaded
   IN ("*\\fastprox.dll", "*\\wbemdisp.dll", "*\\wbemprox.dll", "*\\wbemsvc.dll" ,
   "*\\wmiutils.dll", "*\\wbemcomn.dll") | stats min(_time) as firstTime max(_time)
   as lastTime count by Image EventCode process_name ProcessId ProcessGuid Computer
   ImageLoaded | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `ms_scripting_process_loading_wmi_module_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
+known_false_positives: automation scripting language may used by network operator
+  to do ldap query.
+references:
+- https://www.fireeye.com/blog/threat-research/2018/08/fin7-pursuing-an-enigmatic-and-evasive-global-criminal-operation.html
+- https://attack.mitre.org/groups/G0046/
 tags:
   analytic_story:
   - FIN7
@@ -62,5 +64,3 @@ tags:
   - ImageLoaded
   risk_score: 9
   security_domain: endpoint
-type: Anomaly
-version: 1

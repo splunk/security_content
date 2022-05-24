@@ -1,23 +1,25 @@
-author: Teoderick Contreras, Splunk
-datamodel: []
+name: Rundll32 Create Remote Thread To A Process
+id: 2dbeee3a-f067-11eb-96c0-acde48001122
+version: 1
 date: '2021-07-29'
+author: Teoderick Contreras, Splunk
+type: TTP
+datamodel: []
 description: This analytic identifies the suspicious Remote Thread execution of rundll32.exe
   process to cmd.exe process. This technique was seen in IcedID malware to execute
   its malicious code in normal process for defense evasion and to steal sensitive
   information the the compromised host. browser process.
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the SourceImage, TargetImage, and EventCode executions from your endpoints
-  related to create remote thread or injecting codes. If you are using Sysmon, you
-  must have at least version 6.0.4 of the Sysmon TA.
-id: 2dbeee3a-f067-11eb-96c0-acde48001122
-known_false_positives: unknown
-name: Rundll32 Create Remote Thread To A Process
-references:
-- https://www.joesandbox.com/analysis/380662/0/html
 search: '`sysmon` EventCode=8 SourceImage = "*\\rundll32.exe" TargetImage = "*.exe"
   | stats count min(_time) as firstTime max(_time) as lastTime by SourceImage TargetImage
   TargetProcessId SourceProcessId StartAddress EventCode Computer | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `rundll32_create_remote_thread_to_a_process_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the SourceImage, TargetImage, and EventCode executions from your endpoints
+  related to create remote thread or injecting codes. If you are using Sysmon, you
+  must have at least version 6.0.4 of the Sysmon TA.
+known_false_positives: unknown
+references:
+- https://www.joesandbox.com/analysis/380662/0/html
 tags:
   analytic_story:
   - IcedID
@@ -59,5 +61,3 @@ tags:
   - Computer
   risk_score: 56
   security_domain: endpoint
-type: TTP
-version: 1

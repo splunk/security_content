@@ -1,7 +1,11 @@
+name: Dump LSASS via procdump
+id: 3742ebfe-64c2-11eb-ae93-0242ac130002
+version: 2
+date: '2021-09-16'
 author: Michael Haag, Splunk
+type: TTP
 datamodel:
 - Endpoint
-date: '2021-09-16'
 description: 'Detect procdump.exe dumping the lsass process. This query looks for
   both -mm and -ma usage. -mm will produce a mini dump file and -ma will write a dump
   file with all process memory. Both are highly suspect and should be reviewed. This
@@ -12,23 +16,21 @@ description: 'Detect procdump.exe dumping the lsass process. This query looks fo
   Sysinternals utility has been ran, it is possible there will be a -accepteula on
   the command line. Review other endpoint data sources for cross process (injection)
   into lsass.exe.'
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
-  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
-  endpoint product.
-id: 3742ebfe-64c2-11eb-ae93-0242ac130002
-known_false_positives: None identified.
-name: Dump LSASS via procdump
-references:
-- https://attack.mitre.org/techniques/T1003/001/
-- https://docs.microsoft.com/en-us/sysinternals/downloads/procdump
-- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.001/T1003.001.md#atomic-test-2---dump-lsassexe-memory-using-procdump
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_procdump` (Processes.process=*-ma*
   OR Processes.process=*-mm*) Processes.process=*lsass* by Processes.user Processes.process_name
   Processes.process Processes.original_file_name Processes.dest | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `dump_lsass_via_procdump_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: None identified.
+references:
+- https://attack.mitre.org/techniques/T1003/001/
+- https://docs.microsoft.com/en-us/sysinternals/downloads/procdump
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.001/T1003.001.md#atomic-test-2---dump-lsassexe-memory-using-procdump
 tags:
   analytic_story:
   - Credential Dumping
@@ -85,5 +87,3 @@ tags:
   - _time
   risk_score: 80
   security_domain: endpoint
-type: TTP
-version: 2

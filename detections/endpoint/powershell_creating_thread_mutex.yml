@@ -45,13 +45,13 @@ tags:
   - T1027.005
   observable:
   - name: ComputerName
+    role:
+    - Victim
     type: Hostname
-    role:
-    - Victim
   - name: User
-    type: User
     role:
     - Victim
+    type: User
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

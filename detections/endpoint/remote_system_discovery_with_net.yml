@@ -1,20 +1,16 @@
+name: Remote System Discovery with Net
+id: 9df16706-04a2-41e2-bbfe-9b38b34409d3
+version: 1
+date: '2021-08-30'
 author: Mauricio Velazco, Splunk
+type: Hunting
 datamodel:
 - Endpoint
-date: '2021-08-30'
 description: This analytic looks for the execution of `net.exe` or `net1.exe` with
   command-line arguments utilized to discover remote systems. The argument `domain
   computers /domain` returns a list of all domain computers. Red Teams and adversaries
   alike use net.exe to identify remote systems for situational awareness and Active
   Directory Discovery.
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Processes` node.
-id: 9df16706-04a2-41e2-bbfe-9b38b34409d3
-known_false_positives: Administrators or power users may use this command for troubleshooting.
-name: Remote System Discovery with Net
-references:
-- https://attack.mitre.org/techniques/T1018/
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.process_name="net.exe"
   OR Processes.process_name="net1.exe") (Processes.process="*domain computers*" AND
@@ -22,6 +18,12 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   by Processes.dest Processes.user Processes.parent_process Processes.process_name
   Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `remote_system_discovery_with_net_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+known_false_positives: Administrators or power users may use this command for troubleshooting.
+references:
+- https://attack.mitre.org/techniques/T1018/
 tags:
   analytic_story:
   - Active Directory Discovery
@@ -58,5 +60,3 @@ tags:
   - Endpoint.Processes.user
   risk_score: 15
   security_domain: endpoint
-type: Hunting
-version: 1

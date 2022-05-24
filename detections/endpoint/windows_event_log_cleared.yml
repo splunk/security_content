@@ -56,9 +56,9 @@ tags:
   - DE.AE
   observable:
   - name: dest
-    type: Endpoint
     role:
     - Victim
+    type: Endpoint
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

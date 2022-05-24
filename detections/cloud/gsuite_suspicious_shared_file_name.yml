@@ -1,24 +1,16 @@
-author: Teoderick Contreras, Splunk
-datamodel: []
+name: Gsuite Suspicious Shared File Name
+id: 07eed200-03f5-11ec-98fb-acde48001122
+version: 1
 date: '2021-08-23'
+author: Teoderick Contreras, Splunk
+type: Anomaly
+datamodel: []
 description: This search is to detect a shared file in google drive with suspicious
   file name that are commonly used by spear phishing campaign. This technique is very
   popular to lure the user by running a malicious document or click a malicious link
   within the shared file that will redirected to malicious website. This detection
   can also catch some normal email communication between organization and its external
   customer.
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs related to gsuite having the file attachment metadata like file type, file
-  extension, source email, destination email, num of attachment and etc. In order
-  for the search to work for your environment, please edit the query to use your company
-  specific email domain instead of `internal_test_email.com`.
-id: 07eed200-03f5-11ec-98fb-acde48001122
-known_false_positives: normal user or normal transaction may contain the subject and
-  file type attachment that this detection try to search
-name: Gsuite Suspicious Shared File Name
-references:
-- https://www.redhat.com/en/topics/devops/what-is-devsecops
-- https://www.fireeye.com/content/dam/fireeye-www/global/en/current-threats/pdfs/rpt-top-spear-phishing-words.pdf
 search: '`gsuite_drive` parameters.owner_is_team_drive=false "parameters.doc_title"
   IN ("*dhl*", "* ups *", "*delivery*", "*parcel*", "*label*", "*invoice*", "*postal*",
   "*fedex*", "* usps *", "* express *", "*shipment*", "*Banking/Tax*","*shipment*",
@@ -30,6 +22,16 @@ search: '`gsuite_drive` parameters.owner_is_team_drive=false "parameters.doc_tit
   parameters.target_user parameters.doc_title parameters.doc_type phase severity |
   rename parameters.target_user AS user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `gsuite_suspicious_shared_file_name_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs related to gsuite having the file attachment metadata like file type, file
+  extension, source email, destination email, num of attachment and etc. In order
+  for the search to work for your environment, please edit the query to use your company
+  specific email domain instead of `internal_test_email.com`.
+known_false_positives: normal user or normal transaction may contain the subject and
+  file type attachment that this detection try to search
+references:
+- https://www.redhat.com/en/topics/devops/what-is-devsecops
+- https://www.fireeye.com/content/dam/fireeye-www/global/en/current-threats/pdfs/rpt-top-spear-phishing-words.pdf
 tags:
   analytic_story:
   - Dev Sec Ops
@@ -67,5 +69,3 @@ tags:
   - email
   risk_score: 21
   security_domain: endpoint
-type: Anomaly
-version: 1

@@ -41,9 +41,9 @@ tags:
   - T1114
   observable:
   - name: Source
-    type: User
     role:
     - Attacker
+    type: User
   product:
   - Splunk Security Analytics for AWS
   - Splunk Enterprise

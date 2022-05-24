@@ -53,13 +53,13 @@ tags:
   - T1069.001
   observable:
   - name: dest
+    role:
+    - Victim
     type: Endpoint
-    role:
-    - Victim
   - name: user
-    type: User
     role:
     - Victim
+    type: User
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

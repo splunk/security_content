@@ -1,15 +1,17 @@
-author: Patrick Bareiss, Splunk
-datamodel: []
-date: '2021-09-06'
-description: This search correlations detections by repository and risk_score
-how_to_implement: For Dev Sec Ops POC
-id: 8da9fdd9-6a1b-4ae0-8a34-8c25e6be9687
-known_false_positives: unknown
 name: Correlation by Repository and Risk
-references: []
+id: 8da9fdd9-6a1b-4ae0-8a34-8c25e6be9687
+version: 1
+date: '2021-09-06'
+author: Patrick Bareiss, Splunk
+type: Correlation
+datamodel: []
+description: This search correlations detections by repository and risk_score
 search: '`signals` | fillnull | stats sum(risk_score) as risk_score values(source)
   as signals values(user) as user by repository | sort - risk_score | where risk_score
   > 80 | `correlation_by_repository_and_risk_filter`'
+how_to_implement: For Dev Sec Ops POC
+known_false_positives: unknown
+references: []
 tags:
   analytic_story:
   - Dev Sec Ops
@@ -43,5 +45,3 @@ tags:
   required_fields: []
   risk_score: 70
   security_domain: network
-type: Correlation
-version: 1

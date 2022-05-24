@@ -1,22 +1,24 @@
-author: Teoderick Contreras, Splunk
-datamodel: []
+name: Trickbot Named Pipe
+id: 1804b0a4-a682-11eb-8f68-acde48001122
+version: 1
 date: '2021-04-26'
+author: Teoderick Contreras, Splunk
+type: TTP
+datamodel: []
 description: this search is to detect potential trickbot infection through the create/connected
   named pipe to the system. This technique is used by trickbot to communicate to its
   c2 to post or get command during infection.
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name and pipename from your endpoints. If you are using Sysmon,
-  you must have at least version 6.0.4 of the Sysmon TA. .
-id: 1804b0a4-a682-11eb-8f68-acde48001122
-known_false_positives: unknown
-name: Trickbot Named Pipe
-references:
-- https://labs.vipre.com/trickbot-and-its-modules/
-- https://blog.whitehat.eu/2019/05/incident-trickbot-ryuk-2.html
 search: '`sysmon` EventCode IN (17,18) PipeName="\\pipe\\*lacesomepipe" | stats  min(_time)
   as firstTime max(_time) as lastTime count by Computer user_id EventCode PipeName
   signature Image process_id | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `trickbot_named_pipe_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name and pipename from your endpoints. If you are using Sysmon,
+  you must have at least version 6.0.4 of the Sysmon TA. .
+known_false_positives: unknown
+references:
+- https://labs.vipre.com/trickbot-and-its-modules/
+- https://blog.whitehat.eu/2019/05/incident-trickbot-ryuk-2.html
 tags:
   analytic_story:
   - Trickbot
@@ -58,5 +60,3 @@ tags:
   - process_id
   risk_score: 42
   security_domain: endpoint
-type: TTP
-version: 1

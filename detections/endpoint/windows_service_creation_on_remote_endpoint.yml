@@ -1,22 +1,15 @@
+name: Windows Service Creation on Remote Endpoint
+id: e0eea4fa-4274-11ec-882b-3e22fbd008af
+version: 1
+date: '2021-11-10'
 author: Mauricio Velazco, Splunk
+type: TTP
 datamodel:
 - Endpoint
-date: '2021-11-10'
 description: This analytic looks for the execution of `sc.exe` with command-line arguments
   utilized to create a Windows Service on a remote endpoint. Red Teams and adversaries
   alike may abuse the Service Control Manager for lateral movement and remote code
   execution.
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints.
-id: e0eea4fa-4274-11ec-882b-3e22fbd008af
-known_false_positives: Administrators may create Windows Services on remote systems,
-  but this activity is usually limited to a small set of hosts or users.
-name: Windows Service Creation on Remote Endpoint
-references:
-- https://docs.microsoft.com/en-us/windows/win32/services/service-control-manager
-- https://docs.microsoft.com/en-us/windows/win32/services/controlling-a-service-using-sc
-- https://attack.mitre.org/techniques/T1543/003/
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.process_name="sc.exe"
   OR Processes.original_file_name="sc.exe") (Processes.process="*\\\\*" AND Processes.process="*create*"
@@ -24,6 +17,15 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   | `windows_service_creation_on_remote_endpoint_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints.
+known_false_positives: Administrators may create Windows Services on remote systems,
+  but this activity is usually limited to a small set of hosts or users.
+references:
+- https://docs.microsoft.com/en-us/windows/win32/services/service-control-manager
+- https://docs.microsoft.com/en-us/windows/win32/services/controlling-a-service-using-sc
+- https://attack.mitre.org/techniques/T1543/003/
 tags:
   analytic_story:
   - Active Directory Lateral Movement
@@ -62,5 +64,3 @@ tags:
   - _time
   risk_score: 54
   security_domain: endpoint
-type: TTP
-version: 1

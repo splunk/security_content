@@ -1,7 +1,11 @@
+name: Detect SharpHound File Modifications
+id: 42b4b438-beed-11eb-ba1d-acde48001122
+version: 1
+date: '2021-05-27'
 author: Michael Haag, Splunk
+type: TTP
 datamodel:
 - Endpoint
-date: '2021-05-27'
 description: SharpHound is used as a reconnaissance collector, ingestor, for BloodHound.
   SharpHound will query the domain controller and begin gathering all the data related
   to the domain and trusts. For output, it will drop a .zip file upon completion following
@@ -16,26 +20,24 @@ description: SharpHound is used as a reconnaissance collector, ingestor, for Blo
   or remove these json's entirely if it is too noisy. During traige, review parallel
   processes for further suspicious behavior. Typically, the process executing the
   `.ps1` ingestor will be PowerShell.
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on file modifications that include the name of the process, and file, responsible
-  for the changes from your endpoints into the `Endpoint` datamodel in the `Filesystem`
-  node.
-id: 42b4b438-beed-11eb-ba1d-acde48001122
-known_false_positives: False positives should be limited as the analytic is specific
-  to a filename with extension .zip. Filter as needed.
-name: Detect SharpHound File Modifications
-references:
-- https://attack.mitre.org/software/S0521/
-- https://thedfirreport.com/?s=bloodhound
-- https://github.com/BloodHoundAD/BloodHound/tree/master/Collectors
-- https://github.com/BloodHoundAD/SharpHound3
-- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.001/T1059.001.md#atomic-test-2---run-bloodhound-from-local-disk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Filesystem where Filesystem.file_name IN ("*bloodhound.zip",
   "*_computers.json", "*_gpos.json", "*_domains.json", "*_users.json", "*_groups.json")
   by Filesystem.file_create_time Filesystem.process_id  Filesystem.file_name Filesystem.file_path
   Filesystem.dest | `drop_dm_object_name(Filesystem)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `detect_sharphound_file_modifications_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on file modifications that include the name of the process, and file, responsible
+  for the changes from your endpoints into the `Endpoint` datamodel in the `Filesystem`
+  node.
+known_false_positives: False positives should be limited as the analytic is specific
+  to a filename with extension .zip. Filter as needed.
+references:
+- https://attack.mitre.org/software/S0521/
+- https://thedfirreport.com/?s=bloodhound
+- https://github.com/BloodHoundAD/BloodHound/tree/master/Collectors
+- https://github.com/BloodHoundAD/SharpHound3
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.001/T1059.001.md#atomic-test-2---run-bloodhound-from-local-disk
 tags:
   analytic_story:
   - Discovery Techniques
@@ -86,5 +88,3 @@ tags:
   - process_id
   risk_score: 24
   security_domain: endpoint
-type: TTP
-version: 1

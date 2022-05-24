@@ -53,9 +53,9 @@ tags:
   - T1187
   observable:
   - name: dest
-    type: Hostname
     role:
     - Victim
+    type: Hostname
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

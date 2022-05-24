@@ -51,13 +51,13 @@ tags:
   - T1003
   observable:
   - name: User
+    role:
+    - Victim
     type: User
-    role:
-    - Victim
   - name: ComputerName
-    type: Hostname
     role:
     - Victim
+    type: Hostname
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

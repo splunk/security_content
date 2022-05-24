@@ -38,9 +38,9 @@ tags:
   - T1199
   observable:
   - name: commit.commit.author.email
-    type: User
     role:
     - attacker
+    type: User
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

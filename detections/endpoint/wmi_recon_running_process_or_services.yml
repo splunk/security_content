@@ -44,13 +44,13 @@ tags:
   - T1592
   observable:
   - name: ComputerName
+    role:
+    - Victim
     type: Endpoint
-    role:
-    - Victim
   - name: User
-    type: User
     role:
     - Victim
+    type: User
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
