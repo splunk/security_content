@@ -58,19 +58,23 @@ def load_datamodels_from_directory(datamodels_directory:pathlib.PosixPath)->dict
 
     all_models = {}
     datamodel_filenames = list(datamodels_directory.glob("*.json"))
+    
+    #Iterate through all of the YML files (*.json) in the directory that we passed.
     for datamodel_filename in datamodel_filenames:
-        #Load the YAML File
+        #Load the YML File
         with open(datamodel_filename, "r") as model_stream:
             json_datamodel = json.load(model_stream)
 
+        #Get the name of the model
         model_name = json_datamodel['modelName']
+
         model_fields = {}
 
-        #Load all the submodels from the YAML file
+        #Load all the submodels from the YML file. They are called 'objects'
         for submodel in json_datamodel['objects']:
             model_fields[submodel['objectName']] = parse_datamodel(model_name, submodel)
 
-
+        
         all_models[model_name] = model_fields
     print(f"[{len(datamodel_filenames):4d}] datamodel templates loaded")
 
@@ -416,15 +420,10 @@ def main():
 
     #Get all the files that we will process
     detection_filenames = get_detection_filenames(args.detection_directory)
-    
-
-
-    
-    
+        
     all_success = True
     #Update/check each of the files
     for detection_filename in detection_filenames:
-        #Convert from 
         try:
             success, dataset_has_updates, updated_dataset = validate_detection(detection_filename, defined_datamodels)
             all_success &= success #accumulate any errors that may occur here
