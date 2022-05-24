@@ -8,7 +8,7 @@ datamodel: []
 search: 'index=_internal sourcetype=splunkd event_message="*SSL*" AND event_message="*ERROR*" OR event_message="*unknown CA*" |stats count by host source component event_message | dedup component host'
 description: On june 2022, Splunk released vulnerability advisory addresing Python TLS validation which was not set before Splunk version 9. From version 9 on Python3 client libraries now verify server certificates by default and use CA certificate store.
 how_to_implement: Must upgrade to Splunk version 9 and Configure TLS host name validation for Splunk Python modules in order to apply this search.
-known_false_positives: This search tries to address validation of server and client certificates within Splunk infrastructure, it might produce results from accidental or unintended requests to port 8089. 
+known_false_positives: This search tries to address validation of server and client certificates within Splunk infrastructure, it might produce results from accidental or unintended requests to port 8089.
 references:
 - https://www.splunk.com/en_us/product-security.
 - https://docs.splunk.com/Documentation/Splunk/9.0.0/Security/EnableTLSCertHostnameValidation
@@ -18,35 +18,29 @@ tags:
   asset_type: Endpoint
   cve:
   - CVE-2022-0000
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
   confidence: 80
   context:
   - Source:Endpoint
   dataset:
-  - https://raw.githubusercontent.com/splunk/attack_data/master/datasets/attack_techniques/T1083/splunk/path_traversal_spl_injection.txt
+  - https://raw.githubusercontent.com/splunk/attack_data/master/datasets/attack_techniques/T1083/splunk/splk_protocol_impersonation_weak_encryption_configuration.txt
   impact: 50
   kill_chain_phases:
   - Exploitation
-  message: Path traversal exploitation attempt from $clientip$
+  message: Failed to validate certificate on host$
   mitre_attack_id:
   - T1083
   observable:
-  - name: clientip
-    type: IP Address
+  - name: host
+    type: host
     role:
-    - Attacker
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - status
-  - clientip
-  - method
-  - uri_path
-  - uri_query
+  - host
+  - event_message
+  - component
   risk_score: 40
   security_domain: threat
