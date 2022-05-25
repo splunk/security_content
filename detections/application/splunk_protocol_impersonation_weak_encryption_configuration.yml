@@ -30,8 +30,8 @@ tags:
   mitre_attack_id:
   -  T1588.004
   observable:
-  - name: hostname
-    type: hostname
+  - name: Hostname
+    type: Hostname
     role:
     - Victim
   product:
