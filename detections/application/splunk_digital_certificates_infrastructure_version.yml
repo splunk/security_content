@@ -37,7 +37,7 @@ tags:
   - name: splunk_server
     type: Hostname
     role:
-    - victim
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
