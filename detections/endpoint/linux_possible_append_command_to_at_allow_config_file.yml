@@ -1,7 +1,7 @@
 name: Linux Possible Append Command To At Allow Config File
 id: 7bc20606-5f40-11ec-a586-acde48001122
-version: 1
-date: '2021-12-17'
+version: 2
+date: '2022-05-26'
 author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
@@ -43,13 +43,13 @@ tags:
   - Stage:Privilege Escalation
   - Stage:Persistence
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.001/at_execution/sysmon_linux.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.002/at_execution/sysmon_linux.log
   impact: 30
   kill_chain_phases:
   - Exploitation
   message: A commandline $process$ that may modify at allow config file in $dest$
   mitre_attack_id:
-  - T1053.001
+  - T1053.002
   - T1053
   nist:
   - DE.CM
