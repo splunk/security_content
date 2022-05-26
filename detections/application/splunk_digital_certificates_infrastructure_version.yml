@@ -11,6 +11,7 @@ how_to_implement: The user running this search is required to have a permission 
 known_false_positives: No known at this time.
 references:
 - https://docs.splunk.com/Documentation/Splunk/9.0.0/Security/EnableTLSCertHostnameValidation#Configure_TLS_host_name_validation_for_Splunk-to-Splunk_communication
+- https://www.splunk.com/en_us/product-security/announcements/svd-2022-0602.html
 tags:
   analytic_story:
   - Splunk Vulnerabilities
