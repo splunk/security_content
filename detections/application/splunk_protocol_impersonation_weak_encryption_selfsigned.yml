@@ -22,6 +22,8 @@ tags:
   dataset:
   - https://raw.githubusercontent.com/splunk/attack_data/master/datasets/attack_techniques/T1558.004/splunk_protocol_impersonation_weak_encryption_selfsigned.txt
   impact: 50
+  kill_chain_phases:
+  - Exploitation
   message: Splunk default issued certificate at host$
   mitre_attack_id:
   -  T1588.004
