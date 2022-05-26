@@ -11,6 +11,7 @@ how_to_implement: The user running this search is required to have a permission 
 known_false_positives: While all of the settings on each device returned by this search may appear to be hardened, you will still need to verify the value of PYTHONHTTPSVERIFY in $SPLUNK_HOME/etc/splunk-launch.conf on each device in order to harden the python configuration.
 references:
 - https://docs.splunk.com/Documentation/Splunk/9.0.0/Security/EnableTLSCertHostnameValidation
+- https://www.splunk.com/en_us/product-security/announcements/svd-2022-0601.html
 tags:
   analytic_story:
   - Splunk Vulnerabilities
@@ -34,7 +35,7 @@ tags:
   - DE.CM
   observable:
   - name: splunk_server
-    type: hostname
+    type: Hostname
     role:
     - victim
   product:
