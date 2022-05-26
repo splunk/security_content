@@ -7,6 +7,6 @@ tests:
   latest_time: now
   attack_data:
   - file_name: splk_protocol_impersonation_weak_encryption_simplerequest.txt
-    data: https://raw.githubusercontent.com/splunk/attack_data/master/datasets/attack_techniques/T1588.004/splunk/splk_protocol_impersonation_weak_encryption_simplerequest.txt
+    data: https://raw.githubusercontent.com/splunk/attack_data/master/datasets/attack_techniques/T1558.004/splk_protocol_impersonation_weak_encryption_simplerequest.txt
     source: "/opt/splunk/var/log/splunk/splunkd.log"
     sourcetype: splunkd
