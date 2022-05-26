@@ -35,7 +35,7 @@ tags:
   - DE.CM
   observable:
   - name: splunk_server
-    type: hostname
+    type: Hostname
     role:
     - victim
   product:
