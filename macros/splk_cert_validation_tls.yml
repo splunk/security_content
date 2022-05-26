@@ -1,11 +1,4 @@
-<<<<<<< HEAD
-definition: index=_internal sourcetype=splunk_python 
+definition: index=_internal sourcetype=splunk_python
 description: customer specific splunk configurations(eg- index, source, sourcetype).
   Replace the macro definition with configurations for your Splunk Environmnent.
 name: splunk_protocol_impersonation_weak_encryption_simplerequest
-=======
-definition: index=_internal sourcetype=splunkd
-description: customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk Environmnent.
-name: splunkd
->>>>>>> 7bd84418068bfb3989af7bca4491af2c2400d959
