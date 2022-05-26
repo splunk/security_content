@@ -1,8 +1,8 @@
 <<<<<<< HEAD
-definition: index=_internal sourcetype=splunk_python source=/opt/splunk/var/log/splunk/python.log
+definition: index=_internal sourcetype=splunk_python 
 description: customer specific splunk configurations(eg- index, source, sourcetype).
   Replace the macro definition with configurations for your Splunk Environmnent.
-name: splunk_protocol_impersonation_weak_encryption_simplerequest 
+name: splunk_protocol_impersonation_weak_encryption_simplerequest
 =======
 definition: index=_internal sourcetype=splunkd
 description: customer specific splunk configurations(eg- index, source, sourcetype).
