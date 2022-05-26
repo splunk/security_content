@@ -1,0 +1,47 @@
+name: Splunk Digital Certificates Infrastructure Version
+id: 3c162281-7edb-4ebc-b9a4-5087aaf28fa7
+version: 1
+date: '2022-05-26'
+author: Lou Stella, Splunk
+type: Hunting
+datamodel: []
+description: On June 10th, 2022, Splunk released a security advisory relating to TLS validation occuring between different parts of Splunk Enterprise Infrastructure. In addition to upgrading to Splunk Enterprise 9.0 or later, several configuration settings need to be set. This search will check those configurations on the search head it is run from as well as its search peers. Other components such as additional search heads or anything this rest command cannot be distributed to will need to be manually checked. 
+search: '| rest /services/server/info | table splunk_server version server_roles | join splunk_server [| rest /servicesNS/nobody/search/configs/conf-server/ search="sslConfig"| table splunk_server sslVerifyServerCert sslVerifyServerName serverCert] | fillnull value="Not Set" | rename sslVerifyServerCert as "Server.conf:SslConfig:sslVerifyServerCert", sslVerifyServerName as "Server.conf:SslConfig:sslVerifyServerName", serverCert as "Server.conf:SslConfig:serverCert" | `splunk_digital_certificates_infrastructure_version_filter`'
+how_to_implement: The user running this search is required to have a permission allowing them to dispatch REST requests to indexers.
+known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
+references:
+- https://docs.splunk.com/Documentation/Splunk/9.0.0/Security/EnableTLSCertHostnameValidation#Configure_TLS_host_name_validation_for_Splunk-to-Splunk_communication
+tags:
+  analytic_story:
+  - Splunk Vulnerabilities
+  asset_type: Endpoint
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  confidence: 100
+  context:
+  - Source:Endpoint
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1213/audittrail/audittrail.log
+  impact: 50
+  kill_chain_phases:
+  - Exploitation
+  message: $splunk_server$ may not be properly validating TLS Certificates
+  mitre_attack_id:
+  - T1587.003
+  nist:
+  - DE.CM
+  observable:
+  - name: splunk_server
+    type: hostname
+    role:
+    - victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - none
+  risk_score: 50
+  security_domain: threat
