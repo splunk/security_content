@@ -1,6 +1,6 @@
 ---
 title: "Excessive number of taskhost processes"
-excerpt: "System Owner/User Discovery
+excerpt: "Command and Scripting Interpreter
 "
 categories:
   - Endpoint
@@ -8,8 +8,8 @@ last_modified_at: 2021-06-07
 toc: true
 toc_label: ""
 tags:
-  - System Owner/User Discovery
-  - Discovery
+  - Command and Scripting Interpreter
+  - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -42,7 +42,7 @@ This detection targets behaviors observed in post exploit kits like Meterpreter 
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
-| [T1033](https://attack.mitre.org/techniques/T1033/) | System Owner/User Discovery | Discovery |
+| [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 
 </div>
 </details>

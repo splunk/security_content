@@ -26,18 +26,7 @@ Monitor for activities and techniques associated with insider threats and specif
 
 #### Narrative
 
-Insider Threats are best defined by CISA:
-
-"Insider threat incidents are possible in any sector or organization. An insider threat is typically a current or former employee, third-party contractor, or business partner. In their present or former role, the person has or had access to an organization's network systems, data, or premises, and uses their access (sometimes unwittingly). To combat the insider threat, organizations can implement a proactive, prevention-focused mitigation program to detect and identify threats, assess risk, and manage that risk - before an incident occurs."
-
-An insider is any person who has or had authorized access to or knowledge of an organization's resources, including personnel, facilities, information, equipment, networks, and systems. These are the common insiders that create insider threats: 
- * Departing Employees 
- * Security Evaders 
- * Malicious Insiders 
- * Negligent Employees
-
-
-This story aims at detecting the malicious insider.
+Insider Threats are best defined by CISA: "Insider threat incidents are possible in any sector or organization. An insider threat is typically a current or former employee, third-party contractor, or business partner. In their present or former role, the person has or had access to an organization's network systems, data, or premises, and uses their access (sometimes unwittingly). To combat the insider threat, organizations can implement a proactive, prevention-focused mitigation program to detect and identify threats, assess risk, and manage that risk - before an incident occurs." An insider is any person who has or had authorized access to or knowledge of an organization's resources, including personnel, facilities, information, equipment, networks, and systems. These are the common insiders that create insider threats: Departing Employees, Security Evaders, Malicious Insiders, and Negligent Employees. This story aims at detecting the malicious insider.
 
 #### Detections
 
