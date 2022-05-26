@@ -48,7 +48,7 @@ tags:
   - Exploitation
   message: At application was executed in $dest$
   mitre_attack_id:
-  - T1053.001
+  - T1053.002
   - T1053
   nist:
   - DE.CM
