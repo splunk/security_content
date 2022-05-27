@@ -88,8 +88,8 @@ setup_schema = {
                 },
                 "SPLUNK_ADD_ON_FOR_MICROSOFT_WINDOWS": {
                     "app_number": 742,
-                    "app_version": "8.4.0",
-                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-microsoft-windows_840.tgz"
+                    "app_version": "8.5.0",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-microsoft-windows_850.tgz"
                 },
                 "ADD_ON_FOR_LINUX_SYSMON": {
                     "app_number": 6176,
@@ -118,18 +118,18 @@ setup_schema = {
                 },
                 "SPLUNK_APP_FOR_STREAM": {
                     "app_number": 1809,
-                    "app_version": "8.0.1",
-                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-app-for-stream_801.tgz"
+                    "app_version": "8.0.2",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-app-for-stream_802.tgz"
                 },
                 "SPLUNK_ADD_ON_FOR_STREAM_WIRE_DATA": {
                     "app_number": 5234,
-                    "app_version": "8.0.1",
-                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-stream-wire-data_801.tgz"
+                    "app_version": "8.0.2",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-stream-wire-data_802.tgz"
                 },
                 "SPLUNK_ADD_ON_FOR_STREAM_FORWARDERS": {
                     "app_number": 5238,
-                    "app_version": "8.0.1",
-                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-stream-forwarders_801.tgz"
+                    "app_version": "8.0.2",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-stream-forwarders_802.tgz"
                 },
                 "SPLUNK_ADD_ON_FOR_AMAZON_KINESIS_FIREHOSE": {
                     "app_number": 3719,
@@ -138,13 +138,13 @@ setup_schema = {
                 },
                 "SPLUNK_ADD_ON_FOR_MICROSOFT_OFFICE_365": {
                     "app_number": 4055,
-                    "app_version": "2.2.0",
-                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-microsoft-office-365_220.tgz"
+                    "app_version": "3.0.0",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-microsoft-office-365_300.tgz"
                 },
                 "SPLUNK_ADD_ON_FOR_UNIX_AND_LINUX": {
                     "app_number": 833,
-                    "app_version": "8.4.0",
-                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-unix-and-linux_840.tgz"
+                    "app_version": "8.5.0",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-unix-and-linux_850.tgz"
                 },
                 "SPLUNK_ADD_ON_FOR_NGINX": {
                     "app_number": 3258,
