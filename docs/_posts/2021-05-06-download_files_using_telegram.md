@@ -89,7 +89,7 @@ The following analytic will identify a suspicious download by the Telegram appli
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `sysmon` EventCode= 15 process_name = "telegram.exe" TargetFilename = "*:Zone.Identifier" 
@@ -104,7 +104,8 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 
-Note that **download_files_using_telegram_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **download_files_using_telegram_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -134,6 +135,9 @@ normal download of file in telegram app. (if it was a common app in network)
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | Suspicious files were downloaded with the Telegram application on $dest$ by $user$. |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (**Impact** * **Confidence**/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

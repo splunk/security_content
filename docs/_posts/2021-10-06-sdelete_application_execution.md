@@ -99,7 +99,7 @@ This analytic is to detect the execution of sdelete.exe application sysinternal 
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -113,10 +113,11 @@ This analytic is to detect the execution of sdelete.exe application sysinternal 
 #### Macros
 The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
-* [process_sdelete](https://github.com/splunk/security_content/blob/develop/macros/process_sdelete.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [process_sdelete](https://github.com/splunk/security_content/blob/develop/macros/process_sdelete.yml)
 
-Note that **sdelete_application_execution_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **sdelete_application_execution_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -151,6 +152,9 @@ user may execute and use this application
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | sdelete process $process_name$ executed in $dest$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (**Impact** * **Confidence**/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

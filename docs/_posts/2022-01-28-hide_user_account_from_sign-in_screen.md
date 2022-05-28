@@ -94,7 +94,7 @@ This analytic identifies a suspicious registry modification to hide a user accou
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -114,7 +114,8 @@ This analytic identifies a suspicious registry modification to hide a user accou
 The SPL above uses the following Macros:
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that **hide_user_account_from_sign-in_screen_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **hide_user_account_from_sign-in_screen_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -143,6 +144,9 @@ Unknown. Filter as needed.
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 90 | 80 | Suspicious registry modification ($registry_value_name$) which is used go hide a user account on the Windows Login screen detected on $dest$ executed by $user$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (**Impact** * **Confidence**/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

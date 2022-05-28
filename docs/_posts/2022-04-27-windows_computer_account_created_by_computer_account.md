@@ -95,7 +95,7 @@ The following analytic identifes a Computer Account creating a new Computer Acco
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `wineventlog_security` EventCode=4741 user_type=computer Subject_Account_Domain!="NT AUTHORITY"  Message=*RestrictedKrbHost* 
@@ -107,10 +107,11 @@ The following analytic identifes a Computer Account creating a new Computer Acco
 
 #### Macros
 The SPL above uses the following Macros:
-* [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 
-Note that **windows_computer_account_created_by_computer_account_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **windows_computer_account_created_by_computer_account_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -143,6 +144,9 @@ It is possible third party applications may have a computer account that adds co
 | ----------- | ----------- |--------------|--------------|
 | 30.0 | 50 | 60 | A Computer Account created a Computer Account on $dest$, possibly indicative of Kerberos relay attack. |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (**Impact** * **Confidence**/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

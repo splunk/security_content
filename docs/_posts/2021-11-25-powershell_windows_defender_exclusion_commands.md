@@ -94,7 +94,7 @@ This analytic will detect a suspicious process commandline related to windows de
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `powershell` EventCode=4104 (Message = "*Add-MpPreference *" OR Message = "*Set-MpPreference *") AND Message = "*-exclusion*" 
@@ -109,7 +109,8 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [powershell](https://github.com/splunk/security_content/blob/develop/macros/powershell.yml)
 
-Note that **powershell_windows_defender_exclusion_commands_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **powershell_windows_defender_exclusion_commands_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -139,6 +140,9 @@ admin or user may choose to use this windows features.
 | ----------- | ----------- |--------------|--------------|
 | 64.0 | 80 | 80 | exclusion command $Message$ executed on $ComputerName$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (**Impact** * **Confidence**/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

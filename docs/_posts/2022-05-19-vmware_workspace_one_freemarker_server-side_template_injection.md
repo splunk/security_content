@@ -100,7 +100,7 @@ The following analytic identifies the server side template injection related to 
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -115,7 +115,8 @@ The following analytic identifies the server side template injection related to 
 The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that **vmware_workspace_one_freemarker_server-side_template_injection_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **vmware_workspace_one_freemarker_server-side_template_injection_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * Web.http_method
@@ -144,6 +145,9 @@ False positives may be present if the activity is blocked or was not successful.
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | An attempt to exploit a VMware Server Side Injection CVE-2022-22954 on $dest$ has occurred. |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (**Impact** * **Confidence**/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

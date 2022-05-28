@@ -93,7 +93,7 @@ This search detects the creation of a new Federation setting by alerting about a
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `o365_management_activity` Workload=AzureActiveDirectory Operation="Add app role assignment grant to user." 
@@ -108,7 +108,8 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [o365_management_activity](https://github.com/splunk/security_content/blob/develop/macros/o365_management_activity.yml)
 
-Note that **o365_add_app_role_assignment_grant_user_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **o365_add_app_role_assignment_grant_user_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -140,6 +141,9 @@ The creation of a new Federation is not necessarily malicious, however this even
 | ----------- | ----------- |--------------|--------------|
 | 18.0 | 30 | 60 | User $Actor.ID$ has created a new federation setting on $dest$ from IP Address $ActorIpAddress$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (**Impact** * **Confidence**/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

@@ -96,7 +96,7 @@ During triage, review parallel processes for further suspicious activity.
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -113,7 +113,8 @@ The SPL above uses the following Macros:
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [process_setspn](https://github.com/splunk/security_content/blob/develop/macros/process_setspn.yml)
 
-Note that **serviceprincipalnames_discovery_with_setspn_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **serviceprincipalnames_discovery_with_setspn_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -149,6 +150,9 @@ False positives may be caused by Administrators resetting SPNs or querying for S
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to identify service principle names. |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (**Impact** * **Confidence**/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

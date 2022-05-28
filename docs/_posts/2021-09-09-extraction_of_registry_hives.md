@@ -94,7 +94,7 @@ The following analytic identifies the use of `reg.exe` exporting Windows Registr
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -111,7 +111,8 @@ The SPL above uses the following Macros:
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [process_reg](https://github.com/splunk/security_content/blob/develop/macros/process_reg.yml)
 
-Note that **extraction_of_registry_hives_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **extraction_of_registry_hives_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -147,6 +148,9 @@ It is possible some agent based products will generate false positives. Filter a
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 80 | 70 | Suspicious use of `reg.exe` exporting Windows Registry hives containing credentials executed on $dest$ by user $user$, with a parent process of $parent_process_id$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (**Impact** * **Confidence**/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

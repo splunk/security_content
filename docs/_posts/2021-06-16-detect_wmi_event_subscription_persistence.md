@@ -100,7 +100,7 @@ Monitor for the creation of new WMI EventFilter, EventConsumer, and FilterToCons
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `sysmon` EventID=20 
@@ -115,7 +115,8 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 
-Note that **detect_wmi_event_subscription_persistence_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **detect_wmi_event_subscription_persistence_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -142,6 +143,9 @@ It is possible some applications will create a consumer and may be required to b
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | Possible malicious WMI Subscription created on $dest$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (**Impact** * **Confidence**/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

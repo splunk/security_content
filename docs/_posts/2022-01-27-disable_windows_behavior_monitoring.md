@@ -94,7 +94,7 @@ This search is to identifies a modification in registry to disable the windows d
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -114,7 +114,8 @@ This search is to identifies a modification in registry to disable the windows d
 The SPL above uses the following Macros:
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that **disable_windows_behavior_monitoring_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **disable_windows_behavior_monitoring_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -146,6 +147,9 @@ admin or user may choose to disable this windows features.
 | ----------- | ----------- |--------------|--------------|
 | 40.0 | 40 | 100 | Windows Defender real time behavior monitoring disabled on $dest |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (**Impact** * **Confidence**/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

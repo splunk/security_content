@@ -90,14 +90,14 @@ On May 3rd, 2022, Splunk published a security advisory for a Path traversal in s
 <div markdown="1">
 | ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
 | ----------- | ----------- | -------------- |
-| [CVE-2022-26889](https://nvd.nist.gov/vuln/detail/CVE-2022-26889) | The lack of sanitization in a relative url path in a search parameter allows for arbitrary injection of external content in Splunk Enterprise versions before 8.1.2. | 7.5 |
+| [CVE-2022-26889](https://nvd.nist.gov/vuln/detail/CVE-2022-26889) | The lack of sanitization in a relative url path in a search parameter allows for arbitrary injection of external content in Splunk Enterprise versions before 8.1.2. | 5.1 |
 
 
 
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
  `path_traversal_spl_injection` 
@@ -110,7 +110,8 @@ On May 3rd, 2022, Splunk published a security advisory for a Path traversal in s
 The SPL above uses the following Macros:
 * [path_traversal_spl_injection](https://github.com/splunk/security_content/blob/develop/macros/path_traversal_spl_injection.yml)
 
-Note that **path_traversal_spl_injection_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **path_traversal_spl_injection_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * status
@@ -138,6 +139,9 @@ This search may find additional path traversal exploitation attempts.
 | ----------- | ----------- |--------------|--------------|
 | 40.0 | 50 | 80 | Path traversal exploitation attempt from $clientip$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (**Impact** * **Confidence**/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

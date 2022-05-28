@@ -93,7 +93,7 @@ This analytic is to detect deletion of registry with suspicious process file pat
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -113,7 +113,8 @@ This analytic is to detect deletion of registry with suspicious process file pat
 The SPL above uses the following Macros:
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that **windows_deleted_registry_by_a_non_critical_process_file_path_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **windows_deleted_registry_by_a_non_critical_process_file_path_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -151,6 +152,9 @@ This detection can catch for third party application updates or installation. In
 | ----------- | ----------- |--------------|--------------|
 | 36.0 | 60 | 60 | registry was deleted by a suspicious $process_name$ with proces path $process_path in $dest$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (**Impact** * **Confidence**/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

@@ -102,7 +102,7 @@ On May 3rd, 2022, Splunk published a security advisory for  username enumeration
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
  `splunkd_failed_auths` 
@@ -116,7 +116,8 @@ On May 3rd, 2022, Splunk published a security advisory for  username enumeration
 The SPL above uses the following Macros:
 * [splunkd_failed_auths](https://github.com/splunk/security_content/blob/develop/macros/splunkd_failed_auths.yml)
 
-Note that **splunk_user_enumeration_attempt_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **splunk_user_enumeration_attempt_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * user
@@ -143,6 +144,9 @@ Automation executing authentication attempts against your Splunk infrastructure 
 | ----------- | ----------- |--------------|--------------|
 | 40.0 | 50 | 80 | $TotalFailedAuths$ failed authentication events to Splunk from $src$ detected. |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (**Impact** * **Confidence**/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 
