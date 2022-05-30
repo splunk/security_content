@@ -33,7 +33,7 @@ tags:
   - CIS 3
   - CIS 5
   - CIS 16
-  confidence: UPDATE value between 1-100
+  confidence: 100
   context:
   - Source:Endpoint
   - Stage:Defense Evasion
@@ -69,5 +69,5 @@ tags:
   - Processes.parent_process_path
   - Processes.process_path
   - Processes.parent_process_id
-  risk_score: 100
+  risk_score: 90
   security_domain: endpoint
