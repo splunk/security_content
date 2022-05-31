@@ -22,14 +22,14 @@ how_to_implement: To successfully implement this search you need to be ingesting
   your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
   confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
   endpoint product
-known_false_positives: unknown
+known_false_positives: Not known at this moment. 
 references:
 - https://app.any.run/tasks/713f05d2-fe78-4b9d-a744-f7c133e3fafb/
 tags:
   analytic_story:
   - Windows Defense Evasion Tactics
   - Microsoft Support Diagnostic Tool Vulnerability CVE-2022-30190
-  asset_type: UPDATE asset_type
+  asset_type: Endpoint
   cis20:
   - CIS 3
   - CIS 5
