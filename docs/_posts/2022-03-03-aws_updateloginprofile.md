@@ -113,8 +113,8 @@ This search looks for AWS CloudTrail events where a user A who has already permi
 
 #### Macros
 The SPL above uses the following Macros:
-* [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
 
 > :information_source:
 > **aws_updateloginprofile_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.

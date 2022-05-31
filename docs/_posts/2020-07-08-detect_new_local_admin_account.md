@@ -113,8 +113,8 @@ This search looks for newly created accounts that have been elevated to local ad
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **detect_new_local_admin_account_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.

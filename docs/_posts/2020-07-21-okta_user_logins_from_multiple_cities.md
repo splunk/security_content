@@ -118,8 +118,8 @@ This search detects logins from the same user from different cities in a 24 hour
 
 #### Macros
 The SPL above uses the following Macros:
-* [okta](https://github.com/splunk/security_content/blob/develop/macros/okta.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [okta](https://github.com/splunk/security_content/blob/develop/macros/okta.yml)
 
 > :information_source:
 > **okta_user_logins_from_multiple_cities_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.

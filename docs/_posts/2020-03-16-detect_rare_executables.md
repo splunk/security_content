@@ -113,8 +113,8 @@ This search will return a table of rare processes, the names of the systems runn
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [filter_rare_process_allow_list](https://github.com/splunk/security_content/blob/develop/macros/filter_rare_process_allow_list.yml)
 
 > :information_source:
