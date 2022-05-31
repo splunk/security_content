@@ -101,7 +101,7 @@ The following analytic identifies a suspicious child process, `rundll32.exe`, wi
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -114,11 +114,12 @@ The following analytic identifies a suspicious child process, `rundll32.exe`, wi
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_rundll32](https://github.com/splunk/security_content/blob/develop/macros/process_rundll32.yml)
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [process_rundll32](https://github.com/splunk/security_content/blob/develop/macros/process_rundll32.yml)
 
-Note that **spoolsv_spawning_rundll32_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **spoolsv_spawning_rundll32_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -153,6 +154,9 @@ Limited false positives have been identified. There are limited instances where 
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 80 | 90 | $parent_process$ has spawned $process_name$ on endpoint $ComputerName$. This behavior is suspicious and related to PrintNightmare. |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

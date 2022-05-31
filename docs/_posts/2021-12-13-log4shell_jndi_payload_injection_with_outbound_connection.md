@@ -101,7 +101,7 @@ CVE-2021-44228 Log4Shell payloads can be injected via various methods, but on of
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -127,7 +127,8 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that **log4shell_jndi_payload_injection_with_outbound_connection_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **log4shell_jndi_payload_injection_with_outbound_connection_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * action
@@ -163,6 +164,9 @@ If there is a vulnerablility scannner looking for log4shells this will trigger, 
 | ----------- | ----------- |--------------|--------------|
 | 15.0 | 50 | 30 | CVE-2021-44228 Log4Shell triggered for host $dest$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 
