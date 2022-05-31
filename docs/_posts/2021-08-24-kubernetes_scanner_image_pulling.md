@@ -94,7 +94,7 @@ This search uses the Kubernetes logs from Splunk Connect from Kubernetes to dete
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `kube_objects_events` object.message IN ("Pulling image *kube-hunter*", "Pulling image *kube-bench*", "Pulling image *kube-recon*", "Pulling image *kube-recon*") 
@@ -111,10 +111,11 @@ This search uses the Kubernetes logs from Splunk Connect from Kubernetes to dete
 
 #### Macros
 The SPL above uses the following Macros:
-* [kube_objects_events](https://github.com/splunk/security_content/blob/develop/macros/kube_objects_events.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [kube_objects_events](https://github.com/splunk/security_content/blob/develop/macros/kube_objects_events.yml)
 
-Note that **kubernetes_scanner_image_pulling_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **kubernetes_scanner_image_pulling_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * object.message
@@ -144,6 +145,9 @@ unknown
 | ----------- | ----------- |--------------|--------------|
 | 81.0 | 90 | 90 | Kubernetes Scanner image pulled on host $host$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

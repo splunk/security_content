@@ -102,7 +102,7 @@ This search looks for registry activity associated with modifications to the reg
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -122,7 +122,8 @@ This search looks for registry activity associated with modifications to the reg
 The SPL above uses the following Macros:
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that **monitor_registry_keys_for_print_monitors_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **monitor_registry_keys_for_print_monitors_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -154,6 +155,9 @@ You will encounter noise from legitimate print-monitor registry entries.
 | ----------- | ----------- |--------------|--------------|
 | 64.0 | 80 | 80 | New print monitor added on $dest$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

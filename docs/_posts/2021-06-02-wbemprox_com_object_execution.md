@@ -1,6 +1,6 @@
 ---
 title: "Wbemprox COM Object Execution"
-excerpt: "Signed Binary Proxy Execution
+excerpt: "System Binary Proxy Execution
 , CMSTP
 "
 categories:
@@ -9,7 +9,7 @@ last_modified_at: 2021-06-02
 toc: true
 toc_label: ""
 tags:
-  - Signed Binary Proxy Execution
+  - System Binary Proxy Execution
   - CMSTP
   - Defense Evasion
   - Defense Evasion
@@ -45,7 +45,7 @@ this search is designed to detect potential malicious process loading COM object
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
-| [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
+| [T1218](https://attack.mitre.org/techniques/T1218/) | System Binary Proxy Execution | Defense Evasion |
 
 | [T1218.003](https://attack.mitre.org/techniques/T1218/003/) | CMSTP | Defense Evasion |
 
@@ -94,7 +94,7 @@ this search is designed to detect potential malicious process loading COM object
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `sysmon` EventCode=7  ImageLoaded IN ("*\\fastprox.dll", "*\\wbemprox.dll", "*\\wbemcomn.dll") NOT (process_name IN ("wmiprvse.exe", "WmiApSrv.exe", "unsecapp.exe")) NOT(Image IN("*\\windows\\*","*\\program files*", "*\\wbem\\*")) 
@@ -109,7 +109,8 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 
-Note that **wbemprox_com_object_execution_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **wbemprox_com_object_execution_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -143,6 +144,9 @@ legitimate process that are not in the exception list may trigger this event.
 | ----------- | ----------- |--------------|--------------|
 | 35.0 | 70 | 50 | Suspicious COM Object Execution on $Computer$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

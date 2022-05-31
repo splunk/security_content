@@ -92,7 +92,7 @@ This search detects writes to the recycle bin by a process other than explorer.e
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -109,7 +109,8 @@ This search detects writes to the recycle bin by a process other than explorer.e
 The SPL above uses the following Macros:
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that **suspicious_writes_to_windows_recycle_bin_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **suspicious_writes_to_windows_recycle_bin_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -142,6 +143,9 @@ Because the Recycle Bin is a hidden folder in modern versions of Windows, it wou
 | ----------- | ----------- |--------------|--------------|
 | 28.0 | 40 | 70 | Suspicious writes to windows Recycle Bin process $Processes.process_name$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 
