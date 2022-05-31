@@ -169,7 +169,7 @@ Legitimate DNS changes can be detected in this search. Investigate, verify and u
 
 
 > :information_source:
-> The Risk Score is calculated by the following formula: Risk Score = (**Impact** * **Confidence**/100). Initial Confidence and Impact is set by the analytic author. 
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

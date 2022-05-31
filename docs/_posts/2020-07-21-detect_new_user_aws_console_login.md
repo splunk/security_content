@@ -113,8 +113,8 @@ This search looks for AWS CloudTrail events wherein a console login event by a u
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **detect_new_user_aws_console_login_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -145,7 +145,7 @@ When a legitimate new user logins for the first time, this activity will be dete
 
 
 > :information_source:
-> The Risk Score is calculated by the following formula: Risk Score = (**Impact** * **Confidence**/100). Initial Confidence and Impact is set by the analytic author. 
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

@@ -114,8 +114,8 @@ This search looks for fast execution of processes used for system network config
 #### Macros
 The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
-* [system_network_configuration_discovery_tools](https://github.com/splunk/security_content/blob/develop/macros/system_network_configuration_discovery_tools.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [system_network_configuration_discovery_tools](https://github.com/splunk/security_content/blob/develop/macros/system_network_configuration_discovery_tools.yml)
 
 > :information_source:
 > **detect_processes_used_for_system_network_configuration_discovery_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -155,7 +155,7 @@ It is uncommon for normal users to execute a series of commands used for network
 
 
 > :information_source:
-> The Risk Score is calculated by the following formula: Risk Score = (**Impact** * **Confidence**/100). Initial Confidence and Impact is set by the analytic author. 
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

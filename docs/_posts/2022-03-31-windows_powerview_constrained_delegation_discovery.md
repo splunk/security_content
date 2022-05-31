@@ -106,8 +106,8 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [powershell](https://github.com/splunk/security_content/blob/develop/macros/powershell.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **windows_powerview_constrained_delegation_discovery_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -140,7 +140,7 @@ Administrators or power users may leverage PowerView for system management or tr
 
 
 > :information_source:
-> The Risk Score is calculated by the following formula: Risk Score = (**Impact** * **Confidence**/100). Initial Confidence and Impact is set by the analytic author. 
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

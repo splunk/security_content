@@ -115,9 +115,9 @@ During triage review resulting network connections, file modifications, and para
 
 #### Macros
 The SPL above uses the following Macros:
+* [process_installutil](https://github.com/splunk/security_content/blob/develop/macros/process_installutil.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
-* [process_installutil](https://github.com/splunk/security_content/blob/develop/macros/process_installutil.yml)
 
 > :information_source:
 > **windows_installutil_remote_network_connection_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -161,7 +161,7 @@ Limited false positives should be present as InstallUtil is not typically used t
 
 
 > :information_source:
-> The Risk Score is calculated by the following formula: Risk Score = (**Impact** * **Confidence**/100). Initial Confidence and Impact is set by the analytic author. 
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

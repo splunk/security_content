@@ -107,9 +107,9 @@ The following analytic identifies the process - `esentutl.exe` - being used to c
 
 #### Macros
 The SPL above uses the following Macros:
+* [process_esentutl](https://github.com/splunk/security_content/blob/develop/macros/process_esentutl.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
-* [process_esentutl](https://github.com/splunk/security_content/blob/develop/macros/process_esentutl.yml)
 
 > :information_source:
 > **esentutl_sam_copy_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -150,7 +150,7 @@ False positives should be limited. Filter as needed.
 
 
 > :information_source:
-> The Risk Score is calculated by the following formula: Risk Score = (**Impact** * **Confidence**/100). Initial Confidence and Impact is set by the analytic author. 
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

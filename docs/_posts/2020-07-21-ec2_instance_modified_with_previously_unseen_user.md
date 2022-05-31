@@ -118,9 +118,9 @@ This search looks for EC2 instances being modified by users who have not previou
 
 #### Macros
 The SPL above uses the following Macros:
-* [ec2_modification_api_calls](https://github.com/splunk/security_content/blob/develop/macros/ec2_modification_api_calls.yml)
 * [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [ec2_modification_api_calls](https://github.com/splunk/security_content/blob/develop/macros/ec2_modification_api_calls.yml)
 
 > :information_source:
 > **ec2_instance_modified_with_previously_unseen_user_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -157,7 +157,7 @@ It's possible that a new user will start to modify EC2 instances when they haven
 
 
 > :information_source:
-> The Risk Score is calculated by the following formula: Risk Score = (**Impact** * **Confidence**/100). Initial Confidence and Impact is set by the analytic author. 
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

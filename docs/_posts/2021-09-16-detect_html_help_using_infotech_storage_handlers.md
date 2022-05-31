@@ -112,9 +112,9 @@ The following analytic identifies hh.exe (HTML Help) execution of a Compiled HTM
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [process_hh](https://github.com/splunk/security_content/blob/develop/macros/process_hh.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **detect_html_help_using_infotech_storage_handlers_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -155,7 +155,7 @@ It is rare to see instances of InfoTech Storage Handlers being used, but it does
 
 
 > :information_source:
-> The Risk Score is calculated by the following formula: Risk Score = (**Impact** * **Confidence**/100). Initial Confidence and Impact is set by the analytic author. 
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

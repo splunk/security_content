@@ -103,9 +103,9 @@ The following hunting analytic assists with identifying the proces execution of 
 
 #### Macros
 The SPL above uses the following Macros:
-* [is_nirsoft_software](https://github.com/splunk/security_content/blob/develop/macros/is_nirsoft_software.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [is_nirsoft_software](https://github.com/splunk/security_content/blob/develop/macros/is_nirsoft_software.yml)
 
 > :information_source:
 > **windows_nirsoft_utilities_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -145,7 +145,7 @@ False positives may be present. Filtering may be required before setting to aler
 
 
 > :information_source:
-> The Risk Score is calculated by the following formula: Risk Score = (**Impact** * **Confidence**/100). Initial Confidence and Impact is set by the analytic author. 
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

@@ -114,8 +114,8 @@ The search looks for AWS CloudTrail events to detect if any network ACLs were cr
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **aws_network_access_control_list_created_with_all_open_ports_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -154,7 +154,7 @@ It's possible that an admin has created this ACL with all ports open for some le
 
 
 > :information_source:
-> The Risk Score is calculated by the following formula: Risk Score = (**Impact** * **Confidence**/100). Initial Confidence and Impact is set by the analytic author. 
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

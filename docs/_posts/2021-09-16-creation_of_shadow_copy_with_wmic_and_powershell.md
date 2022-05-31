@@ -112,9 +112,9 @@ This search detects the use of wmic and Powershell to create a shadow copy.
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_wmic](https://github.com/splunk/security_content/blob/develop/macros/process_wmic.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [process_wmic](https://github.com/splunk/security_content/blob/develop/macros/process_wmic.yml)
 * [process_powershell](https://github.com/splunk/security_content/blob/develop/macros/process_powershell.yml)
 
 > :information_source:
@@ -156,7 +156,7 @@ Legtimate administrator usage of wmic to create a shadow copy.
 
 
 > :information_source:
-> The Risk Score is calculated by the following formula: Risk Score = (**Impact** * **Confidence**/100). Initial Confidence and Impact is set by the analytic author. 
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

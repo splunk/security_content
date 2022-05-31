@@ -102,9 +102,9 @@ Certutil.exe may download a file from a remote destination using `-VerifyCtl`. T
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_certutil](https://github.com/splunk/security_content/blob/develop/macros/process_certutil.yml)
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [process_certutil](https://github.com/splunk/security_content/blob/develop/macros/process_certutil.yml)
 
 > :information_source:
 > **certutil_download_with_verifyctl_and_split_arguments_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -146,7 +146,7 @@ Limited false positives in most environments, however tune as needed based on pa
 
 
 > :information_source:
-> The Risk Score is calculated by the following formula: Risk Score = (**Impact** * **Confidence**/100). Initial Confidence and Impact is set by the analytic author. 
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

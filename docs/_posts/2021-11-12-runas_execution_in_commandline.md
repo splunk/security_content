@@ -109,9 +109,9 @@ This analytic look for a spawned runas.exe process with a administrator user opt
 
 #### Macros
 The SPL above uses the following Macros:
+* [process_runas](https://github.com/splunk/security_content/blob/develop/macros/process_runas.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
-* [process_runas](https://github.com/splunk/security_content/blob/develop/macros/process_runas.yml)
 
 > :information_source:
 > **runas_execution_in_commandline_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -149,7 +149,7 @@ A network operator or systems administrator may utilize an automated or manual e
 
 
 > :information_source:
-> The Risk Score is calculated by the following formula: Risk Score = (**Impact** * **Confidence**/100). Initial Confidence and Impact is set by the analytic author. 
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

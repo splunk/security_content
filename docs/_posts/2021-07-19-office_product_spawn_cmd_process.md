@@ -107,9 +107,9 @@ this search is to detect a suspicious office product process that spawn cmd chil
 
 #### Macros
 The SPL above uses the following Macros:
+* [process_cmd](https://github.com/splunk/security_content/blob/develop/macros/process_cmd.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
-* [process_cmd](https://github.com/splunk/security_content/blob/develop/macros/process_cmd.yml)
 
 > :information_source:
 > **office_product_spawn_cmd_process_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -149,7 +149,7 @@ IT or network admin may create an document automation that will run shell script
 
 
 > :information_source:
-> The Risk Score is calculated by the following formula: Risk Score = (**Impact** * **Confidence**/100). Initial Confidence and Impact is set by the analytic author. 
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

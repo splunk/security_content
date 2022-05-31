@@ -110,8 +110,8 @@ This search detects newly added IP addresses/CIDR blocks to the list of MFA Trus
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [o365_management_activity](https://github.com/splunk/security_content/blob/develop/macros/o365_management_activity.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **o365_bypass_mfa_via_trusted_ip_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -149,7 +149,7 @@ Unless it is a special case, it is uncommon to continually update Trusted IPs to
 
 
 > :information_source:
-> The Risk Score is calculated by the following formula: Risk Score = (**Impact** * **Confidence**/100). Initial Confidence and Impact is set by the analytic author. 
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

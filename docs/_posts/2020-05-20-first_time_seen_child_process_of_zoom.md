@@ -113,9 +113,9 @@ This search looks for child processes spawned by zoom.exe or zoom.us that has no
 
 #### Macros
 The SPL above uses the following Macros:
+* [previously_seen_zoom_child_processes_window](https://github.com/splunk/security_content/blob/develop/macros/previously_seen_zoom_child_processes_window.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
-* [previously_seen_zoom_child_processes_window](https://github.com/splunk/security_content/blob/develop/macros/previously_seen_zoom_child_processes_window.yml)
 
 > :information_source:
 > **first_time_seen_child_process_of_zoom_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -156,7 +156,7 @@ A new child process of zoom isn't malicious by that fact alone. Further investig
 
 
 > :information_source:
-> The Risk Score is calculated by the following formula: Risk Score = (**Impact** * **Confidence**/100). Initial Confidence and Impact is set by the analytic author. 
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

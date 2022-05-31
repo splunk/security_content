@@ -107,8 +107,8 @@ This search is to detect a suspicious attachment file extension in Gsuite email 
 
 #### Macros
 The SPL above uses the following Macros:
-* [gsuite_gmail](https://github.com/splunk/security_content/blob/develop/macros/gsuite_gmail.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [gsuite_gmail](https://github.com/splunk/security_content/blob/develop/macros/gsuite_gmail.yml)
 
 > :information_source:
 > **gsuite_email_suspicious_attachment_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -145,7 +145,7 @@ network admin and normal user may send this file attachment as part of their day
 
 
 > :information_source:
-> The Risk Score is calculated by the following formula: Risk Score = (**Impact** * **Confidence**/100). Initial Confidence and Impact is set by the analytic author. 
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

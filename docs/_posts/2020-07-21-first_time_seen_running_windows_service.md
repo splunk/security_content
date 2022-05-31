@@ -118,8 +118,8 @@ This search looks for the first and last time a Windows service is seen running 
 
 #### Macros
 The SPL above uses the following Macros:
-* [previously_seen_windows_services_window](https://github.com/splunk/security_content/blob/develop/macros/previously_seen_windows_services_window.yml)
 * [wineventlog_system](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_system.yml)
+* [previously_seen_windows_services_window](https://github.com/splunk/security_content/blob/develop/macros/previously_seen_windows_services_window.yml)
 
 > :information_source:
 > **first_time_seen_running_windows_service_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -158,7 +158,7 @@ A previously unseen service is not necessarily malicious. Verify that the servic
 
 
 > :information_source:
-> The Risk Score is calculated by the following formula: Risk Score = (**Impact** * **Confidence**/100). Initial Confidence and Impact is set by the analytic author. 
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 
