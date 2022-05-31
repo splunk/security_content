@@ -24,6 +24,7 @@ class DataModel(enum.Enum):
     Endpoint_Filesystem = 14
     Endpoint_Registry = 15
     Risk = 16
+    Splunk_Audit = 17
 
 class SecurityContentType(enum.Enum):
     detections = 1
