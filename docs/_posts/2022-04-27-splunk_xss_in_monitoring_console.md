@@ -99,7 +99,7 @@ On May 3rd, 2022, Splunk published a security advisory for a reflective Cross-Si
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
  `splunkd_web` method="GET" uri_query="description=%3C*" 
@@ -111,7 +111,8 @@ On May 3rd, 2022, Splunk published a security advisory for a reflective Cross-Si
 The SPL above uses the following Macros:
 * [splunkd_web](https://github.com/splunk/security_content/blob/develop/macros/splunkd_web.yml)
 
-Note that **splunk_xss_in_monitoring_console_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **splunk_xss_in_monitoring_console_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * method
@@ -140,6 +141,9 @@ Use of the monitoring console where the less-than sign (<) is the first characte
 | ----------- | ----------- |--------------|--------------|
 | 40.0 | 50 | 80 | A potential XSS attempt has been detected from $user$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

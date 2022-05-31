@@ -96,7 +96,7 @@ This search looks for AWS CloudTrail events wherein a console login event by a u
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `cloudtrail` eventName=ConsoleLogin 
@@ -114,7 +114,8 @@ This search looks for AWS CloudTrail events wherein a console login event by a u
 #### Macros
 The SPL above uses the following Macros:
 
-Note that **detect_new_user_aws_console_login_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **detect_new_user_aws_console_login_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -140,6 +141,9 @@ When a legitimate new user logins for the first time, this activity will be dete
 | ----------- | ----------- |--------------|--------------|
 | 90.0 | 90 | 100 | tbd |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

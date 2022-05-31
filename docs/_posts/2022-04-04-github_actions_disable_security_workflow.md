@@ -99,7 +99,7 @@ This search detects a disabled security workflow in GitHub Actions. An attacker 
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `github` workflow_run.event=push OR workflow_run.event=pull_request 
@@ -116,7 +116,8 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [github](https://github.com/splunk/security_content/blob/develop/macros/github.yml)
 
-Note that **github_actions_disable_security_workflow_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **github_actions_disable_security_workflow_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * workflow_run.event
@@ -151,6 +152,9 @@ unknown
 | ----------- | ----------- |--------------|--------------|
 | 27.0 | 30 | 90 | Security Workflow is disabled in branch $branch$ for repository $repository$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

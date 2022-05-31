@@ -91,7 +91,7 @@ This search provides detection of updates to SAML provider in AWS. Updates to SA
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `cloudtrail` eventName=UpdateSAMLProvider 
@@ -103,10 +103,11 @@ This search provides detection of updates to SAML provider in AWS. Updates to SA
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that **aws_saml_update_identity_provider_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **aws_saml_update_identity_provider_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -137,6 +138,9 @@ Updating a SAML provider or creating a new one may not necessarily be malicious 
 | ----------- | ----------- |--------------|--------------|
 | 64.0 | 80 | 80 | User $userIdentity.principalId$ from IP address $sourceIPAddress$ has trigged an event $eventName$ to update the SAML provider to $requestParameters.sAMLProviderArn$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

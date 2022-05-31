@@ -101,7 +101,7 @@ Upon triage, identify the task scheduled source. Was it schtasks.exe or via Task
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `wineventlog_security` EventCode=4698 
@@ -115,10 +115,11 @@ Upon triage, identify the task scheduled source. Was it schtasks.exe or via Task
 
 #### Macros
 The SPL above uses the following Macros:
-* [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 
-Note that **winevent_scheduled_task_created_to_spawn_shell_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **winevent_scheduled_task_created_to_spawn_shell_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -148,6 +149,9 @@ False positives are possible if legitimate applications are allowed to register 
 | ----------- | ----------- |--------------|--------------|
 | 70.0 | 70 | 100 | A windows scheduled task was created (task name=$Task_Name$) on $dest$ by the following command: $Command$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

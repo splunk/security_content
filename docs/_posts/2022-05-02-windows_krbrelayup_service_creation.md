@@ -96,7 +96,7 @@ The following analytic identifies the default service name created by KrbRelayUp
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `wineventlog_system` EventCode=7045 Service_Name IN ("KrbSCM") 
@@ -108,10 +108,11 @@ The following analytic identifies the default service name created by KrbRelayUp
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [wineventlog_system](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_system.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that **windows_krbrelayup_service_creation_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **windows_krbrelayup_service_creation_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -140,6 +141,9 @@ False positives should be limited as this is specific to KrbRelayUp based attack
 | ----------- | ----------- |--------------|--------------|
 | 64.0 | 80 | 80 | A service was created on $dest$, related to KrbRelayUp. |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 
