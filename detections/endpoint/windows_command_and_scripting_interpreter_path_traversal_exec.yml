@@ -28,6 +28,7 @@ references:
 tags:
   analytic_story:
   - Windows Defense Evasion Tactics
+  - Microsoft Support Diagnostic Tool Vulnerability CVE-2022-30190
   asset_type: UPDATE asset_type
   cis20:
   - CIS 3
