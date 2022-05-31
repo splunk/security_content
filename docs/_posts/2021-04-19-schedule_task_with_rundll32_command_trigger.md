@@ -91,7 +91,7 @@ The following query utilizes Windows Security EventCode 4698, `A scheduled task 
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `wineventlog_security` EventCode=4698 
@@ -105,10 +105,11 @@ The following query utilizes Windows Security EventCode 4698, `A scheduled task 
 
 #### Macros
 The SPL above uses the following Macros:
-* [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 
-Note that **schedule_task_with_rundll32_command_trigger_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **schedule_task_with_rundll32_command_trigger_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -142,6 +143,9 @@ unknown
 | ----------- | ----------- |--------------|--------------|
 | 70.0 | 70 | 100 | A schedule task process commandline rundll32 arguments $Arguments$ in host $dest$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

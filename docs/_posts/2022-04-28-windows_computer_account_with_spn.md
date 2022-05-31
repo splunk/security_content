@@ -95,7 +95,7 @@ The following analytic identifies two SPNs, HOST and RestrictedKrbHost, added us
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `wineventlog_security` EventCode=4741 MSADChangedAttributes IN ("*HOST/*","*RestrictedKrbHost/*") AND New_UAC_Value=0x80 
@@ -109,10 +109,11 @@ The following analytic identifies two SPNs, HOST and RestrictedKrbHost, added us
 
 #### Macros
 The SPL above uses the following Macros:
-* [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 
-Note that **windows_computer_account_with_spn_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **windows_computer_account_with_spn_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -145,6 +146,9 @@ It is possible third party applications may add these SPNs to Computer Accounts,
 | ----------- | ----------- |--------------|--------------|
 | 64.0 | 80 | 80 | A Computer Account was created with SPNs related to Kerberos on $dest$, possibly indicative of Kerberos relay attack. |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

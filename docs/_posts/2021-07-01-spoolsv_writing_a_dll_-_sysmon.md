@@ -101,7 +101,7 @@ The following analytic identifies a `.dll` being written by `spoolsv.exe`. This 
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `sysmon` EventID=11 process_name=spoolsv.exe file_path="*\\spool\\drivers\\x64\\*" file_name=*.dll 
@@ -116,7 +116,8 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 
-Note that **spoolsv_writing_a_dll_-_sysmon_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **spoolsv_writing_a_dll_-_sysmon_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -146,6 +147,9 @@ Limited false positives. Filter as needed.
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 80 | 90 | $process_name$ has been identified writing dll's to $file_path$ on endpoint $dest$. This behavior is suspicious and related to PrintNightmare. |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

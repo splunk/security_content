@@ -88,7 +88,7 @@ This detection identifies failure attempts to delete groups. We want to identify
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `cloudtrail` eventSource=iam.amazonaws.com eventName=DeleteGroup errorCode IN (NoSuchEntityException,DeleteConflictException, AccessDenied) (userAgent!=*.amazonaws.com) 
@@ -100,10 +100,11 @@ This detection identifies failure attempts to delete groups. We want to identify
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that **aws_iam_failure_group_deletion_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **aws_iam_failure_group_deletion_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -131,6 +132,9 @@ This detection will require tuning to provide high fidelity detection capabiltie
 | ----------- | ----------- |--------------|--------------|
 | 5.0 | 10 | 50 | User $user_arn$ has had mulitple failures while attempting to delete groups from $src$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

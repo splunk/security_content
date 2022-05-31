@@ -94,7 +94,7 @@ this analytic is to detect a suspicious compile before delivery approach of .net
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -111,7 +111,8 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that **csc_net_on_the_fly_compilation_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **csc_net_on_the_fly_compilation_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -143,6 +144,9 @@ A network operator or systems administrator may utilize an automated powershell 
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | csc.exe with commandline $process$ to compile .net code on $dest$ by $user$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

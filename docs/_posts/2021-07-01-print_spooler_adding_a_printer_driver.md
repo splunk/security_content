@@ -105,7 +105,7 @@ During triage, isolate the endpoint and review for source of exploitation. Captu
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `printservice` EventCode=316 category = "Adding a printer driver" Message = "*kernelbase.dll,*" Message = "*UNIDRV.DLL,*" Message = "*.DLL.*" 
@@ -117,10 +117,11 @@ During triage, isolate the endpoint and review for source of exploitation. Captu
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [printservice](https://github.com/splunk/security_content/blob/develop/macros/printservice.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that **print_spooler_adding_a_printer_driver_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **print_spooler_adding_a_printer_driver_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -148,6 +149,9 @@ Unknown. This may require filtering.
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 80 | 90 | Suspicious print driver was loaded on endpoint $ComputerName$. |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

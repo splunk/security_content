@@ -94,7 +94,7 @@ This analytic is to detect a suspicious copy of file from systemroot folder of t
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -108,10 +108,11 @@ This analytic is to detect a suspicious copy of file from systemroot folder of t
 #### Macros
 The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
-* [process_copy](https://github.com/splunk/security_content/blob/develop/macros/process_copy.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [process_copy](https://github.com/splunk/security_content/blob/develop/macros/process_copy.yml)
 
-Note that **suspicious_copy_on_system32_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **suspicious_copy_on_system32_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -146,6 +147,9 @@ every user may do this event but very un-ussual.
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | execution of copy exe to copy file from $process$ in $dest$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

@@ -89,7 +89,7 @@ This detection is to identify a suspicious process that tries to delete the proc
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `sysmon` EventCode=1 CommandLine = "* /c *" CommandLine = "* del*" Image = "*\\cmd.exe" 
@@ -106,7 +106,8 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 
-Note that **process_deleting_its_process_file_path_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **process_deleting_its_process_file_path_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * EventCode
@@ -141,6 +142,9 @@ unknown
 | ----------- | ----------- |--------------|--------------|
 | 60.0 | 60 | 100 | A process $Image$ tries to delete its process path in commandline $cmdline$ as part of defense evasion in host $Computer$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 
