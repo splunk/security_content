@@ -16,6 +16,8 @@ references:
   - https://www.welivesecurity.com/2022/01/11/signed-kernel-drivers-unguarded-gateway-windows-core/
 tags:
   analytic_story: Windows Drivers
+  category: 
+  - Adversary Tactics
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
