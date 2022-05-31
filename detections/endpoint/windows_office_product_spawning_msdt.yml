@@ -56,12 +56,12 @@ tags:
     type: User
     role:
     - Victim
-  - name: Computer
+  - name: dest
     type: Hostname
     role:
     - Victim
-  - name: Process
-    type: Parent Process
+  - name: parent_process_name
+    type: Process
     role:
     - Parent Process
   - name: process_name
