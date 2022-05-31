@@ -96,7 +96,7 @@ The following search identifies Eventvwr bypass by identifying the registry modi
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -116,7 +116,8 @@ The following search identifies Eventvwr bypass by identifying the registry modi
 The SPL above uses the following Macros:
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that **eventvwr_uac_bypass_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **eventvwr_uac_bypass_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -148,6 +149,9 @@ Some false positives may be present and will need to be filtered.
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | Registry values were modified to bypass UAC using Event Viewer on $dest$ by $user$. |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

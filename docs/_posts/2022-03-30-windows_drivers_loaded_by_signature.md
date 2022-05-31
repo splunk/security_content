@@ -100,7 +100,7 @@ The following analytic assists with viewing all drivers being loaded by using Sy
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `sysmon` EventCode=6 
@@ -115,7 +115,8 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 
-Note that **windows_drivers_loaded_by_signature_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **windows_drivers_loaded_by_signature_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -146,6 +147,9 @@ This analytic is meant to assist with identifying drivers loaded in the environm
 | ----------- | ----------- |--------------|--------------|
 | 42.0 | 60 | 70 | A driver has loaded on $Computer$. |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

@@ -95,7 +95,7 @@ Upon triage, review the process performing the named pipe. If it is explorer.exe
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `sysmon` EventID=17 OR EventID=18 PipeName IN (\\msagent_*, \\DserNamePipe*, \\srvsvc_*, \\postex_*, \\status_*, \\MSSE-*, \\spoolss_*, \\win_svc*, \\ntsvcs*, \\winsock*, \\UIA_PIPE*)  
@@ -111,7 +111,8 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 
-Note that **cobalt_strike_named_pipes_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **cobalt_strike_named_pipes_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -143,6 +144,9 @@ The idea of using named pipes with Cobalt Strike is to blend in. Therefore, some
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 80 | 90 | An instance of $process_name$ was identified on endpoint $Computer$ by user $user$ accessing known suspicious named pipes related to Cobalt Strike. |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

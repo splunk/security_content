@@ -90,7 +90,7 @@ This search is to detect suspicious process injection in command shell. This tec
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `sysmon` EventCode=8 TargetImage IN ("*\\cmd.exe", "*\\powershell*") 
@@ -105,7 +105,8 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 
-Note that **create_remote_thread_in_shell_application_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **create_remote_thread_in_shell_application_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -136,6 +137,9 @@ unknown
 | ----------- | ----------- |--------------|--------------|
 | 70.0 | 70 | 100 | process $SourceImage$ create a remote thread to shell app process $TargetImage$ in host $Computer$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

@@ -93,7 +93,7 @@ The following detection identifies any malformed policy document exceptions with
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `cloudtrail` (errorCode=MalformedPolicyDocumentException) status=failure (userAgent!=*.amazonaws.com) 
@@ -106,10 +106,11 @@ The following detection identifies any malformed policy document exceptions with
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that **aws_iam_assume_role_policy_brute_force_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **aws_iam_assume_role_policy_brute_force_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -137,6 +138,9 @@ This detection will require tuning to provide high fidelity detection capabiltie
 | ----------- | ----------- |--------------|--------------|
 | 28.0 | 40 | 70 | User $user_arn$ has caused multiple failures with errorCode $errorCode$, which potentially means adversary is attempting to identify a role name. |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

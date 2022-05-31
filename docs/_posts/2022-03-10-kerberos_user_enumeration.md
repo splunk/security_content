@@ -93,7 +93,7 @@ The following analytic leverages Event Id 4768, A Kerberos authentication ticket
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
  `wineventlog_security` EventCode=4768 Result_Code=0x6 Account_Name!="*$" 
@@ -110,7 +110,8 @@ The following analytic leverages Event Id 4768, A Kerberos authentication ticket
 The SPL above uses the following Macros:
 * [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 
-Note that **kerberos_user_enumeration_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **kerberos_user_enumeration_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -138,6 +139,9 @@ Possible false positive scenarios include but are not limited to vulnerability s
 | ----------- | ----------- |--------------|--------------|
 | 24.0 | 30 | 80 | Potential Kerberos based user enumeration attack $Client_Address$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

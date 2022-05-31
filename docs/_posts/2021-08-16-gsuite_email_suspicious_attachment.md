@@ -93,7 +93,7 @@ This search is to detect a suspicious attachment file extension in Gsuite email 
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `gsuite_gmail` "attachment{}.file_extension_type" IN ("pl", "py", "rb", "sh", "bat", "exe", "dll", "cpl", "com", "js", "vbs", "ps1", "reg","swf", "cmd", "go") 
@@ -110,7 +110,8 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [gsuite_gmail](https://github.com/splunk/security_content/blob/develop/macros/gsuite_gmail.yml)
 
-Note that **gsuite_email_suspicious_attachment_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **gsuite_email_suspicious_attachment_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -142,6 +143,9 @@ network admin and normal user may send this file attachment as part of their day
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | suspicious email from $source.address$ to $destination{}.address$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 
