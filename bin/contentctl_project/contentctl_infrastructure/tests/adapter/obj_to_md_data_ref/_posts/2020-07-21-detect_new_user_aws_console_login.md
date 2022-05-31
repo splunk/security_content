@@ -26,7 +26,7 @@ tags:
 
 This search looks for AWS CloudTrail events wherein a console login event by a user was recorded within the last hour, then compares the event to a lookup file of previously seen users (by ARN values) who have logged into the console. The alert is fired if the user has logged into the console for the first time within the last hour. Deprecated now this search is updated to use the Authentication datamodel.
 
-- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 
 - **Last Updated**: 2020-07-21
@@ -96,7 +96,7 @@ This search looks for AWS CloudTrail events wherein a console login event by a u
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `cloudtrail` eventName=ConsoleLogin 
@@ -113,8 +113,11 @@ This search looks for AWS CloudTrail events wherein a console login event by a u
 
 #### Macros
 The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
 
-Note that **detect_new_user_aws_console_login_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **detect_new_user_aws_console_login_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -138,8 +141,11 @@ When a legitimate new user logins for the first time, this activity will be dete
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
-| 90.0 | 90 | 100 | tbd |
+| 25.0 | 50 | 50 | tbd |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (**Impact** * **Confidence**/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 
