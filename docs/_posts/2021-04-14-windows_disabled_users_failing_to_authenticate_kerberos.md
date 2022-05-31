@@ -96,7 +96,7 @@ The analytics returned fields allow analysts to investigate the event further by
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `wineventlog_security` EventCode=4768 Account_Name!="*$" Result_Code=0x12 
@@ -113,7 +113,8 @@ The analytics returned fields allow analysts to investigate the event further by
 The SPL above uses the following Macros:
 * [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 
-Note that **windows_disabled_users_failing_to_authenticate_kerberos_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **windows_disabled_users_failing_to_authenticate_kerberos_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -142,6 +143,9 @@ A host failing to authenticate with multiple disabled domain users is not a comm
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | Potential Kerberos based password spraying attack from $Client_Address$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

@@ -108,7 +108,7 @@ Monitor for the creation of new WMI EventFilter, EventConsumer, and FilterToCons
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `sysmon` EventCode=21 
@@ -121,7 +121,8 @@ Monitor for the creation of new WMI EventFilter, EventConsumer, and FilterToCons
 The SPL above uses the following Macros:
 * [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 
-Note that **wmi_permanent_event_subscription_-_sysmon_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **wmi_permanent_event_subscription_-_sysmon_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -153,6 +154,9 @@ Although unlikely, administrators may use event subscriptions for legitimate pur
 | ----------- | ----------- |--------------|--------------|
 | 30.0 | 30 | 100 | User $user$ on $host$ executed the following suspicious WMI query: $Query$.  Filter: $filter$. Consumer: $Consumer$.  EventCode: $EventCode$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

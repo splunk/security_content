@@ -89,7 +89,7 @@ This search detects a suspicioous termination of known services killed by ransom
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `wineventlog_system` EventCode=7036 Message IN ("*Volume Shadow Copy*","*VSS*", "*backup*", "*sophos*", "*sql*", "*memtas*", "*mepocs*", "*veeam*", "*svc$*") Message="*service entered the stopped state*" 
@@ -101,10 +101,11 @@ This search detects a suspicioous termination of known services killed by ransom
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [wineventlog_system](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_system.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that **known_services_killed_by_ransomware_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **known_services_killed_by_ransomware_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -133,6 +134,9 @@ Admin activities or installing related updates may do a sudden stop to list of s
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 90 | 80 | Known services $Message$ terminated by a potential ransomware on $dest$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 
