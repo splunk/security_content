@@ -5,7 +5,7 @@ date: '2022-05-23'
 author: Michael Haag, Splunk
 type: Hunting
 datamodel:
-- Endpoint
+- Splunk_Audit
 description: 'The Splunk platform contains built-in search processing language (SPL) safeguards to warn you when you are about to unknowingly run a search that contains commands that might be a security risk. This warning appears when you click a link or type a URL that loads a search that contains risky commands. The warning does not appear when you create ad hoc searches. This warning alerts you to the possibility of unauthorized actions by a malicious user. Unauthorized actions include -
   Copying or transferring data (data exfiltration), Deleting data and Overwriting data.
   A possible scenario when this might occur is when a malicious person creates a search that includes commands that exfiltrate or damage data. The malicious person then sends an unsuspecting user a link to the search. The URL contains a query string (q) and a search identifier (sid), but the sid is not valid. The malicious person hopes the user will use the link and the search will run.
