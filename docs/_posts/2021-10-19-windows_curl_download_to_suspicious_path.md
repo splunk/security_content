@@ -104,8 +104,8 @@ During triage, review parallel processes for further behavior. In addition, iden
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [process_curl](https://github.com/splunk/security_content/blob/develop/macros/process_curl.yml)
 
 > :information_source:
