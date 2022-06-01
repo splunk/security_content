@@ -1,6 +1,6 @@
 name: Windows Execute Arbitrary Commands with MSDT
 id: e1d5145f-38fe-42b9-a5d5-457796715f97
-version: 1
+version: 2
 date: '2022-05-30'
 author: Michael Haag, Teoderick Contreras, Splunk
 type: TTP
@@ -10,11 +10,11 @@ description: The following analytic identifies a recently disclosed arbitraty co
   During triage, review file modifications for html. Identify parallel process execution that may be related, including an Office Product.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name=msdt.exe
-  Processes.process="*ms-msdt:/id*" Processes.process="*IT_BrowseForFile=*" Processes.process="*IT_RebrowseForFile=*" by Processes.dest Processes.user Processes.parent_process_name Processes.process_name
+  Processes.process IN ("*ms-msdt:/id*","*ms-msdt:-id*","*/id*") AND (Processes.process="*IT_BrowseForFile=*" OR Processes.process="*IT_RebrowseForFile=*") AND Processes.process="*PCWDiagnostic*" by Processes.dest Processes.user Processes.parent_process_name Processes.process_name
   Processes.process Processes.process_id Processes.parent_process_id
   | `drop_dm_object_name(Processes)` 
   | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `windows_execute_arbitrary_commands_with_msdt_filter`'
+  | `security_content_ctime(lastTime)`| `windows_execute_arbitrary_commands_with_msdt_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 known_false_positives: False positives may be present, filter as needed. 
 references:
@@ -46,7 +46,7 @@ tags:
   message: A parent process $parent_process_name$ has spawned a child
     process $process_name$ on host $dest$ possibly indicative of indirect command execution.
   mitre_attack_id:
-  - T1202
+  - T1218
   nist:
   - DE.CM
   observable:
