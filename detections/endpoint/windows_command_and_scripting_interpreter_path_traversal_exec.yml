@@ -6,8 +6,8 @@ author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: The following analytic identifies path traversal commandline execution. This technique was seen in malicious document that execute malicious code 
-  using msdt.exe and path traversal technique that serve as defense evasion. This TTP is a good pivot to look for more suspicious process and commandline 
+description: The following analytic identifies path traversal command-line execution. This technique was seen in malicious document that execute malicious code 
+  using msdt.exe and path traversal technique that serve as defense evasion. This TTP is a good pivot to look for more suspicious process and command-line 
   that runs before and after this execution. This may help you to find possible downloaded malware or other lolbin execution.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Processes where  Processes.process="*\/..\/..\/..\/*" OR Processes.process="*\\..\\..\\..\\*" OR Processes.process="*\/\/..\/\/..\/\/..\/\/*" by
