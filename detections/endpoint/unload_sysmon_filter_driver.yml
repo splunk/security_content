@@ -22,7 +22,7 @@ how_to_implement: You must be ingesting data that records process activity from 
   The command-line arguments are mapped to the "process" field in the Endpoint data
   model. This search is also shipped with `unload_sysmon_filter_driver_filter` macro,
   update this macro to filter out false positives.
-known_false_positives: 'Unkown at the moment'
+known_false_positives: 'Unknown at the moment'
 references: 
   - https://www.ired.team/offensive-security/defense-evasion/unloading-sysmon-driver
 tags:
