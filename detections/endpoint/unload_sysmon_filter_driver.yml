@@ -1,7 +1,7 @@
 name: Unload Sysmon Filter Driver
 id: e5928ff3-23eb-4d8b-b8a4-dcbc844fdfbe
-version: 3
-date: '2020-07-22'
+version: 4
+date: '2022-06-01'
 author: Bhavin Patel, Splunk
 type: TTP
 datamodel:
@@ -22,12 +22,13 @@ how_to_implement: You must be ingesting data that records process activity from 
   The command-line arguments are mapped to the "process" field in the Endpoint data
   model. This search is also shipped with `unload_sysmon_filter_driver_filter` macro,
   update this macro to filter out false positives.
-known_false_positives: ''
-references: []
+known_false_positives: 'Unknown at the moment'
+references: 
+  - https://www.ired.team/offensive-security/defense-evasion/unloading-sysmon-driver
 tags:
   analytic_story:
   - Disabling Security Tools
-  asset_type: ''
+  asset_type: Endpoint
   cis20:
   - CIS 8
   confidence: 90
@@ -35,7 +36,7 @@ tags:
   - Source:Endpoint
   - Stage:Defense Evasion
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/atomic_red_team/windows-sysmon.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/unload_sysmon/windows-sysmon.log
   impact: 50
   kill_chain_phases:
   - Actions on Objectives
