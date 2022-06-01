@@ -89,7 +89,7 @@ This analytic looks for the execution of `powershell.exe` with command-line argu
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -102,10 +102,11 @@ This analytic looks for the execution of `powershell.exe` with command-line argu
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that **getwmiobject_ds_computer_with_powershell_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **getwmiobject_ds_computer_with_powershell_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * Processes.dest
@@ -139,6 +140,9 @@ Administrators or power users may use this command for troubleshooting.
 | ----------- | ----------- |--------------|--------------|
 | 21.0 | 30 | 70 | Remote system discovery enumeration using WMI on $dest$ by $user$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

@@ -102,7 +102,7 @@ This analytic looks for suspicious file creation on init system directories for 
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -115,10 +115,11 @@ This analytic looks for suspicious file creation on init system directories for 
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that **linux_file_creation_in_init_boot_directory_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **linux_file_creation_in_init_boot_directory_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -148,6 +149,9 @@ Administrator or network operator can create file in this folders for automation
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | A file $file_name$ is created in $file_path$ on $dest$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

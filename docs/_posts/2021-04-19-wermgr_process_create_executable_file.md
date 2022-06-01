@@ -89,7 +89,7 @@ this search is designed to detect potential malicious wermgr.exe process that dr
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `sysmon` EventCode=11 process_name = "wermgr.exe" TargetFilename = "*.exe" 
@@ -104,7 +104,8 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 
-Note that **wermgr_process_create_executable_file_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **wermgr_process_create_executable_file_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -134,6 +135,9 @@ unknown
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | Wermgr.exe writing executable files on $dest$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

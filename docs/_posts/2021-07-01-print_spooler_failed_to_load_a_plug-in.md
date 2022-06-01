@@ -106,7 +106,7 @@ During triage, isolate the endpoint and review for source of exploitation. Captu
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `printservice` ((ErrorCode="0x45A" (EventCode="808" OR EventCode="4909")) OR ("The print spooler failed to load a plug-in module" OR "\\drivers\\x64\\")) 
@@ -121,7 +121,8 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [printservice](https://github.com/splunk/security_content/blob/develop/macros/printservice.yml)
 
-Note that **print_spooler_failed_to_load_a_plug-in_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **print_spooler_failed_to_load_a_plug-in_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -149,6 +150,9 @@ False positives are unknown and filtering may be required.
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 80 | 90 | Suspicious printer spooler errors have occured on endpoint $ComputerName$ with EventCode $EventCode$. |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

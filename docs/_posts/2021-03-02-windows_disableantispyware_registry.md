@@ -99,7 +99,7 @@ The search looks for the Registry Key DisableAntiSpyware set to disable. This is
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -112,10 +112,11 @@ The search looks for the Registry Key DisableAntiSpyware set to disable. This is
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that **windows_disableantispyware_registry_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **windows_disableantispyware_registry_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -146,6 +147,9 @@ It is unusual to turn this feature off a Windows system since it is a default se
 | ----------- | ----------- |--------------|--------------|
 | 24.0 | 30 | 80 | Windows DisableAntiSpyware registry key set to 'disabled' on $dest$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

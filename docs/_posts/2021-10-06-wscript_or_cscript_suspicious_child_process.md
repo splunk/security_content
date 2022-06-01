@@ -108,7 +108,7 @@ This analytic identifies a suspicious spawned process by WScript or CScript proc
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -121,10 +121,11 @@ This analytic identifies a suspicious spawned process by WScript or CScript proc
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that **wscript_or_cscript_suspicious_child_process_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **wscript_or_cscript_suspicious_child_process_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -162,6 +163,9 @@ Administrators may create vbs or js script that use several tool as part of its 
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | wscript or cscript parent process spawned $process_name$ in $dest$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

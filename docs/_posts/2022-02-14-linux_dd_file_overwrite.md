@@ -95,7 +95,7 @@ This analytic is to look for dd command to overwrite file. This technique was ab
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -108,10 +108,11 @@ This analytic is to look for dd command to overwrite file. This technique was ab
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that **linux_dd_file_overwrite_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **linux_dd_file_overwrite_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -143,6 +144,9 @@ Administrator or network operator can execute this command. Please update the fi
 | ----------- | ----------- |--------------|--------------|
 | 64.0 | 80 | 80 | A commandline $process$ executed on $dest$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

@@ -100,7 +100,7 @@ The following analytic identifies installation of a root CA certificate by monit
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -117,7 +117,8 @@ The following analytic identifies installation of a root CA certificate by monit
 The SPL above uses the following Macros:
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that **windows_registry_certificate_added_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **windows_registry_certificate_added_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -151,6 +152,9 @@ False positives will be limited to a legitimate business applicating consistentl
 | ----------- | ----------- |--------------|--------------|
 | 42.0 | 60 | 70 | A root certificate was added on $dest$. |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

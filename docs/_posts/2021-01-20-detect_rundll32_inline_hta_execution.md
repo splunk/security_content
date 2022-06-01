@@ -1,6 +1,6 @@
 ---
 title: "Detect Rundll32 Inline HTA Execution"
-excerpt: "Signed Binary Proxy Execution
+excerpt: "System Binary Proxy Execution
 , Mshta
 "
 categories:
@@ -9,7 +9,7 @@ last_modified_at: 2021-01-20
 toc: true
 toc_label: ""
 tags:
-  - Signed Binary Proxy Execution
+  - System Binary Proxy Execution
   - Mshta
   - Defense Evasion
   - Defense Evasion
@@ -45,7 +45,7 @@ The following analytic identifies "rundll32.exe" execution with inline protocol 
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
-| [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
+| [T1218](https://attack.mitre.org/techniques/T1218/) | System Binary Proxy Execution | Defense Evasion |
 
 | [T1218.005](https://attack.mitre.org/techniques/T1218/005/) | Mshta | Defense Evasion |
 
@@ -99,7 +99,7 @@ The following analytic identifies "rundll32.exe" execution with inline protocol 
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -116,7 +116,8 @@ The SPL above uses the following Macros:
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that **detect_rundll32_inline_hta_execution_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **detect_rundll32_inline_hta_execution_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -153,6 +154,9 @@ Although unlikely, some legitimate applications may exhibit this behavior, trigg
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | Suspicious rundll32.exe inline HTA execution on $dest$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

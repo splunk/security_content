@@ -25,7 +25,7 @@ tags:
   - Change
 ---
 
-###  WARNING THIS IS A EXPERIMENTAL object
+### :warning: WARNING THIS IS A EXPERIMENTAL analytic
 We have not been able to test, simulate, or build datasets for this object. Use at your own risk. This analytic is **NOT** supported.
 
 
@@ -107,7 +107,7 @@ This search finds for the number successfully created cloud instances for every 
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -131,7 +131,8 @@ This search finds for the number successfully created cloud instances for every 
 #### Macros
 The SPL above uses the following Macros:
 
-Note that **abnormally_high_number_of_cloud_instances_launched_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **abnormally_high_number_of_cloud_instances_launched_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -161,6 +162,9 @@ Many service accounts configured within an AWS infrastructure are known to exhib
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

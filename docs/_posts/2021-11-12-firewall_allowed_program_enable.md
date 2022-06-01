@@ -94,7 +94,7 @@ This analytic detects a potential suspicious modification of firewall rule allow
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -107,10 +107,11 @@ This analytic detects a potential suspicious modification of firewall rule allow
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that **firewall_allowed_program_enable_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **firewall_allowed_program_enable_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -142,6 +143,9 @@ A network operator or systems administrator may utilize an automated or manual e
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | firewall allowed program commandline $process$ of $process_name$ on $dest$ by $user$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 
