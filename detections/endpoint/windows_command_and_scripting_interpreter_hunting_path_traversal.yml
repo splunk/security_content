@@ -6,9 +6,9 @@ author: Teoderick Contreras, Michael Haag, Splunk
 type: Hunting
 datamodel:
 - Endpoint
-description: The following analytic identifies path traversal commandline execution. This technique was seen in malicious document that execute malicious code 
-  using msdt.exe and path traversal technique that serve as defense evasion. This Hunting query is a good pivot to look for possible suspicious process and commandline 
-  that runs execute path ttraversal technique to run malicious code. This may help you to find possible downloaded malware or other lolbin execution.
+description: The following analytic identifies path traversal command-line execution. This technique was seen in malicious document that execute malicious code 
+  using msdt.exe and path traversal technique that serve as defense evasion. This Hunting query is a good pivot to look for possible suspicious process and command-line 
+  that runs execute path traversal technique to run malicious code. This may help you to find possible downloaded malware or other lolbin execution.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) 
   as lastTime FROM datamodel=Endpoint.Processes  by
   Processes.original_file_name Processes.process_id Processes.parent_process_id Processes.process_hash 
