@@ -6,7 +6,7 @@ author: Rod Soto, Splunk
 type: Hunting
 datamodel: []
 search: '| `splk_cert_validation_tls` "simpleRequest SSL certificate validation is enabled without hostname verification" | stats count by host path | splunk_protocol_impersonation_weak_encryption_simplerequest_filter'
-description: On june 2022, Splunk released vulnerability advisory addresing Python TLS validation which was not set before Splunk version 9. From version 9 on Python3 client libraries now verify server certificates by default and use CA certificate store.This search warns about failure to validate certification using python3 request.
+description: On June 14th 2022, Splunk released vulnerability advisory addresing Python TLS validation which was not set before Splunk version 9. From version 9 on Python3 client libraries now verify server certificates by default and use CA certificate store.This search warns about failure to validate certification using python3 request.
 how_to_implement: Must upgrade to Splunk version 9 and Configure TLS host name validation for Splunk Python modules in order to apply this search.
 known_false_positives: This search tries to address validation of server and client certificates within Splunk infrastructure, it might produce results from accidental or unintended requests to port 8089.
 references:
@@ -16,6 +16,8 @@ tags:
   analytic_story:
   - Splunk Vulnerabilities
   asset_type: Endpoint
+  cve:
+  - CVE-2022-32152
   confidence: 80
   context:
   - Source:Endpoint

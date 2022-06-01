@@ -6,7 +6,7 @@ author: Rod Soto, Splunk
 type: Hunting
 datamodel: []
 search: '| `splk_cert_validation_tls_selfsigned` certificate event_message="X509 certificate* should not be used*" | stats count by host CN component log_level | splunk_protocol_impersonation_weak_encryption_selfsigned_filter'
-description: On june 2022, Splunk released vulnerability advisory addresing Python TLS validation which was not set before Splunk version 9. This search displays events showing WARNING of using Splunk issued default selfsigned certificates.
+description: On June 14th 2022, Splunk released vulnerability advisory addresing Python TLS validation which was not set before Splunk version 9. This search displays events showing WARNING of using Splunk issued default selfsigned certificates.
 how_to_implement: Must upgrade to Splunk version 9 and Configure TLS in order to apply this search.
 known_false_positives: This searches finds self signed certificates issued by Splunk which are not recommended from Splunk version 9 forward.
 references:
@@ -16,6 +16,8 @@ tags:
   analytic_story:
   - Splunk Vulnerabilities
   asset_type: Endpoint
+  cve:
+  - CVE-2022-32152
   confidence: 80
   context:
   - Source:Endpoint

@@ -21,6 +21,9 @@ tags:
   - CIS 3
   - CIS 5
   - CIS 16
+  cve:
+  - CVE-2022-32151
+  - CVE-2022-32152
   confidence: 100
   context:
   - Source:Application Log

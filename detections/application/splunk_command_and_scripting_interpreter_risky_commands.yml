@@ -29,6 +29,8 @@ tags:
   - CIS 3
   - CIS 5
   - CIS 16
+  cve:
+  CVE-2022-32154
   confidence: 40
   context:
   - Source:Endpoint
