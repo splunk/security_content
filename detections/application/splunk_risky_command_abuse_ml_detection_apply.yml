@@ -20,7 +20,7 @@ search: '| tstats values(Search_Activity.user) AS user, sum(Search_Activity.tota
   | apply risky_command_abuse
   | fields _time, user, run_time, IsOutlier(run_time)
   | rename IsOutlier(run_time) as isOutlier, _time as timestamp
-  | where isOutlier>0.5'
+  | where isOutlier>0.5 | `splunk_risky_command_abuse_ml_detection_apply_filter`'
 how_to_implement: This detection depends on MLTK and assumes Splunk audit data model is available. 
 known_false_positives: Benigh search of long run time will be flagged as positive (false), if the run time of 
   a search exceeds the boundaries of outlier defined by the fitted density function model. 
@@ -37,7 +37,7 @@ tags:
   context:
   - Source:Endpoint
   dataset:
-  - https://github.com/splunk/attack_data/raw/master/datasets/attack_techniques/T1203/search_activity.json
+  - https://github.com/splunk/attack_data/raw/master/datasets/attack_techniques/T1203/search_activity_apply.json
   impact: 50
   kill_chain_phases:
   - Actions on Objectives
@@ -63,3 +63,4 @@ tags:
   - Search_Activity.search_type
   risk_score: 20
   security_domain: audit
+  
