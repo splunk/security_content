@@ -18,7 +18,7 @@ search: '| tstats values(Search_Activity.user) as user, sum(Search_Activity.tota
   AND (Search_Activity.total_run_time>1) AND (earliest=-7d@d latest=now) 
   AND (Search_Activity.search IN ("*| runshellscript *", "*| collect *","*| delete *", "*| fit *", "*| outputcsv *", "*| outputlookup *", "*| run *", "*| script *", "*| sendalert *", "*| sendemail *", "*| tscollect *")) 
   AND (Search_Activity.search_type=adhoc) AND (Search_Activity.user!=splunk-system-user) BY _time, Search_Activity.user span=1h 
-  | fit DensityFunction "run_time" dist=auto threshold=0.001 show_density=true by "user" into "risky_command_abuse"'
+  | fit DensityFunction "run_time" dist=auto threshold=0.001 show_density=true by "user" into "risky_command_abuse" |`splunk_risky_command_abuse_ml_detection_fit_filter`'
 how_to_implement: This detection depends on MLTK and assumes Splunk audit data model is available. For large enterprises, training the 
   model might take significant computing resources, and might need to incresase MLTK DensityFunction settings default value.
 known_false_positives: Benigh search of long run time will be flagged as positive (false), if the run time of a search exceeds
