@@ -33,6 +33,8 @@ tags:
   message: Failed to validate certificate on host$
   mitre_attack_id:
   -  T1588.004
+  nist:
+  - DE.CM
   observable:
   - name: Hostname
     type: Hostname
