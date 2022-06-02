@@ -26,7 +26,7 @@ search: '| tstats values(Search_Activity.user) as user, sum(Search_Activity.tota
   | `splunk_risky_command_abuse_ml_detection_fit_filter`'
 how_to_implement: This detection depends on MLTK and assumes Splunk audit data model is available. 
   For large enterprises, training the model might take significant computing resources, and might 
-  need to incresase MLTK DensityFunction settings default values.
+  need to incresase MLTK DensityFunction settings default values, such as max_fit_time, max_groups, etc.
 known_false_positives: Benigh search of long run time will be flagged as positive (false), if the run time of
   a search exceeds the boundaries of outlier defined by the fitted density function model. 
 references:
