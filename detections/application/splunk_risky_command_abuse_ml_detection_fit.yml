@@ -6,23 +6,28 @@ author: Abhinav Mishra, Kumar Sharad and Xiao Lin, Splunk
 type: Anomaly
 datamodel:
 - Splunk_Audit
-description: 'This search is to build a per user risky command abuse detection model using MLTK DensityFunction algorithm 
-  based on audit log data of Splunk apps. The model is built from past 7 days users history of running search commands containing 
-  risky keywords, and aggregate the total search run time for each hour as indicator of user behavior. The default threshold of 
-  outlier boundary is defined as 0.1%. This search should be scheduled to run at least as frequently as every 7 days to build a 
-  recent baseline for each user. The name of ML model generated is "risky_command_abuse" and should be configured as global (not private) 
-  in MLTK app, unless the same account of training this model will be used to perfeorm inference using this model for anomaly detection. 
-  The corresponding detection of using this model is "Splunk Command and Scripting Interpreter Risky Commands Abuse Model Apply". '
+description: 'This search is to build a per user risky command abuse detection model using MLTK DensityFunction 
+  algorithm based on audit log data of Splunk apps. The model is built from past 7 days users history of running 
+  search commands containing risky keywords, and aggregate the total search run time for each hour as indicator of 
+  user behavior. The default threshold of outlier boundary is defined as 0.1%. This search should be scheduled to 
+  run at least as frequently as every 7 days to build a recent baseline for each user. The name of ML model 
+  generated is "risky_command_abuse" and should be configured as global (not private) in MLTK app, unless the same 
+  account of training this model will be used to perfeorm inference using this model for anomaly detection. 
+  The corresponding detection of using this model is "Splunk Command and Scripting Interpreter Risky Commands Abuse 
+  Model Apply". '
 search: '| tstats values(Search_Activity.user) as user, sum(Search_Activity.total_run_time) as run_time count 
   FROM datamodel=Splunk_Audit.Search_Activity WHERE (Search_Activity.user!="") 
   AND (Search_Activity.total_run_time>1) AND (earliest=-7d@d latest=now) 
-  AND (Search_Activity.search IN ("*| runshellscript *", "*| collect *","*| delete *", "*| fit *", "*| outputcsv *", "*| outputlookup *", "*| run *", "*| script *", "*| sendalert *", "*| sendemail *", "*| tscollect *")) 
-  AND (Search_Activity.search_type=adhoc) AND (Search_Activity.user!=splunk-system-user) BY _time, Search_Activity.user span=1h 
+  AND (Search_Activity.search IN ("*| runshellscript *", "*| collect *","*| delete *", "*| fit *", "*| outputcsv *", 
+  "*| outputlookup *", "*| run *", "*| script *", "*| sendalert *", "*| sendemail *", "*| tscollect *")) 
+  AND (Search_Activity.search_type=adhoc) AND (Search_Activity.user!=splunk-system-user) 
+  BY _time, Search_Activity.user span=1h 
   | fit DensityFunction "run_time" dist=auto threshold=0.001 show_density=true by "user" into "risky_command_abuse"'
-how_to_implement: This detection depends on MLTK and assumes Splunk audit data model is available. For large enterprises, training the 
-  model might take significant computing resources, and might need to incresase MLTK DensityFunction settings default value.
-known_false_positives: Benigh search of long run time will be flagged as positive (false), if the run time of a search exceeds
-  the boundaries of outlier defined by the fitted density function model. 
+how_to_implement: This detection depends on MLTK and assumes Splunk audit data model is available. 
+  For large enterprises, training the model might take significant computing resources, and might 
+  need to incresase MLTK DensityFunction settings default value.
+known_false_positives: Benigh search of long run time will be flagged as positive (false), if the run time of
+  a search exceeds the boundaries of outlier defined by the fitted density function model. 
 references:
 - https://docs.splunk.com/Documentation/Splunk/latest/Security/SPLsafeguards#Commands_that_trigger_the_warning
 tags:
@@ -32,11 +37,11 @@ tags:
   cis20:
   - CIS 3
   - CIS 6
-  confidence: 50
+  confidence: 40
   context:
   - Source:Endpoint
   dataset:
-  - https://github.com/splunk/attack_data/TODO
+  - https://github.com/splunk/attack_data/raw/master/datasets/attack_techniques/T1203/search_activity.json
   impact: 50
   kill_chain_phases:
   - Actions on Objectives
@@ -60,6 +65,5 @@ tags:
   - Search_Activity.total_run_time 
   - Search_Activity.user 
   - Search_Activity.search_type
-  risk_score: 50
+  risk_score: 20
   security_domain: audit
-  

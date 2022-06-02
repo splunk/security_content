@@ -33,7 +33,7 @@ tags:
   cis20:
   - CIS 3
   - CIS 6
-  confidence: 50
+  confidence: 40
   context:
   - Source:Endpoint
   dataset:
@@ -61,6 +61,5 @@ tags:
   - Search_Activity.total_run_time 
   - Search_Activity.user 
   - Search_Activity.search_type
-  risk_score: 50
+  risk_score: 20
   security_domain: audit
-  
