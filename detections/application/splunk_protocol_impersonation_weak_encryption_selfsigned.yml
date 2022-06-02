@@ -16,6 +16,10 @@ tags:
   analytic_story:
   - Splunk Vulnerabilities
   asset_type: Endpoint
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
   cve:
   - CVE-2022-32152
   confidence: 80
@@ -29,6 +33,8 @@ tags:
   message: Splunk default issued certificate at host$
   mitre_attack_id:
   -  T1588.004
+  nist:
+  - DE.CM
   observable:
   - name: Hostname
     type: Hostname
