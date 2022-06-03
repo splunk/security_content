@@ -1,7 +1,7 @@
 name: Linux Iptables Firewall Modification
 id: 309d59dc-1e1b-49b2-9800-7cf18d12f7b7
-version: 2
-date: '2022-04-30'
+version: 3
+date: '2022-06-03'
 author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
@@ -12,10 +12,11 @@ description: This analytic looks for suspicious commandline that modify the ipta
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
   where  Processes.process = "*iptables *" AND Processes.process = "* --dport *" AND Processes.process = "* ACCEPT*" AND Processes.process = "*&amp;&gt;/dev/null*"
   AND Processes.process = "* tcp *" AND NOT(Processes.parent_process_path IN("/bin/*", "/lib/*", "/usr/bin/*", "/sbin/*"))
-  by Processes.process_name Processes.process Processes.process_id Processes.parent_process_id Processes.process_guid Processes.dest
+  by Processes.process_name Processes.process Processes.process_id Processes.parent_process_id Processes.process_guid Processes.dest _time span=10s
   Processes.user Processes.parent_process_name  Processes.parent_process_path Processes.process_path
   | rex field=Processes.process "--dport (?<port>3269|636|989|994|995|8443)"
-  | stats values(Processes.process) as processes_exec values(port) as ports values(Processes.process_guid) as guids values(Processes.process_id) as pids dc(port) as port_count count by Processes.process_name Processes.parent_process_name Processes.parent_process_id Processes.dest Processes.user Processes.parent_process_path Processes.process_path firstTime lastTime | where port_count >=3
+  | stats values(Processes.process) as processes_exec values(port) as ports values(Processes.process_guid) as guids values(Processes.process_id) as pids dc(port) as port_count count 
+  by Processes.process_name Processes.parent_process_name Processes.parent_process_id Processes.dest Processes.user Processes.parent_process_path Processes.process_path | where port_count >=3
   | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
