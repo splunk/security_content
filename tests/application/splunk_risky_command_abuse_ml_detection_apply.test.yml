@@ -5,9 +5,9 @@ tests:
   pass_condition: '| stats count | where count > 0'
   earliest_time: -1h
   latest_time: now
-  baseline:
+  baselines:
   - name: Splunk Risky Command Abuse ML Detection Fit
-    file: baseline/splunk_risky_command_abuse_ml_detection_fit.yml
+    file: baselines/splunk_risky_command_abuse_ml_detection_fit.yml
     pass_condition: '| stats count | where count > 0'
     earliest_time: -7d
     latest_time: now
