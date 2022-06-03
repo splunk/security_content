@@ -29,7 +29,6 @@ class SecurityContentStoryBuilder(StoryBuilder):
         return self.story
 
     def addDetections(self, detections: list) -> None:
-        matched_detection_names = []
         matched_detections = []
         mitre_attack_enrichments = []
         mitre_attack_tactics = set()
@@ -40,8 +39,8 @@ class SecurityContentStoryBuilder(StoryBuilder):
             if detection:
                 for detection_analytic_story in detection.tags.analytic_story:
                     if detection_analytic_story == self.story.name:
-                        matched_detection_names.append(str('ESCU - ' + detection.name + ' - Rule'))
-                        matched_detections.append(detection)
+                        # SSE-638: detections should only contain the 'name' attribute 
+                        matched_detections.append({"name" : detection.name})
                         datamodels.update(detection.datamodel)
                         if detection.tags.kill_chain_phases:
                             kill_chain_phases.update(detection.tags.kill_chain_phases)
@@ -52,7 +51,6 @@ class SecurityContentStoryBuilder(StoryBuilder):
                                 if attack_enrichment.mitre_attack_id not in [attack.mitre_attack_id for attack in mitre_attack_enrichments]:
                                     mitre_attack_enrichments.append(attack_enrichment)
 
-        self.story.detection_names = matched_detection_names
         self.story.detections = matched_detections
         self.story.tags.datamodels = sorted(list(datamodels))
         self.story.tags.kill_chain_phases = sorted(list(kill_chain_phases))
