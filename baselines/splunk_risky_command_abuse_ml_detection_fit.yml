@@ -22,8 +22,7 @@ search: '| tstats values(Search_Activity.user) as user, sum(Search_Activity.tota
   "*| outputlookup *", "*| run *", "*| script *", "*| sendalert *", "*| sendemail *", "*| tscollect *")) 
   AND (Search_Activity.search_type=adhoc) AND (Search_Activity.user!=splunk-system-user) 
   BY _time, Search_Activity.user span=1h 
-  | fit DensityFunction "run_time" dist=auto threshold=0.001 show_density=true by "user" into "risky_command_abuse"
-  | `splunk_risky_command_abuse_ml_detection_fit_filter`'
+  | fit DensityFunction "run_time" dist=auto threshold=0.001 show_density=true by "user" into "risky_command_abuse" '
 how_to_implement: This detection depends on MLTK and assumes Splunk audit data model is available. 
   For large enterprises, training the model might take significant computing resources, and might 
   need to incresase MLTK DensityFunction settings default values, such as max_fit_time, max_groups, etc.
@@ -42,7 +41,7 @@ tags:
   context:
   - Source:Endpoint
   dataset:
-  - https://github.com/splunk/attack_data/raw/master/datasets/attack_techniques/T1203/search_activity_fit.json
+  - https://github.com/splunk/attack_data/raw/master/datasets/attack_techniques/T1203/search_activity.json
   impact: 50
   kill_chain_phases:
   - Actions on Objectives
