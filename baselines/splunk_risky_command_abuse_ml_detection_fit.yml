@@ -41,7 +41,7 @@ tags:
   context:
   - Source:Endpoint
   dataset:
-  - https://github.com/splunk/attack_data/raw/master/datasets/attack_techniques/T1203/search_activity.json
+  - https://github.com/splunk/attack_data/raw/master/datasets/attack_techniques/T1203/search_activity.txt
   impact: 50
   kill_chain_phases:
   - Actions on Objectives

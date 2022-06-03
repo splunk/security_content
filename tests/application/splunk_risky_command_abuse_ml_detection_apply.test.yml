@@ -13,7 +13,7 @@ tests:
     latest_time: now
   attack_data: 
   - file_name: search_activity.json
-    data: https://github.com/splunk/attack_data/raw/master/datasets/attack_techniques/T1203/search_activity.json
+    data: https://github.com/splunk/attack_data/raw/master/datasets/attack_techniques/T1203/search_activity.txt
     source: audittrail
     sourcetype: audittrail
     update_timestamp: true
