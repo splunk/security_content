@@ -68,5 +68,6 @@ tags:
   - Search_Activity.search_type
   risk_score: 20
   security_domain: audit
-  detections: Splunk Risky Command Abuse ML Detection
-  
+  detections: 
+  - Splunk Risky Command Abuse ML Detection
+
