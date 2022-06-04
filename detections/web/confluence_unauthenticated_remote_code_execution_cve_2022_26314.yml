@@ -35,7 +35,7 @@ tags:
   - CIS 16
   confidence: 100
   context:
-  - Update context
+  - Scope:Network
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/java/confluence.log
   impact: 100
