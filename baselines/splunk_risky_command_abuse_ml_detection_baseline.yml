@@ -1,4 +1,4 @@
-name: Splunk Risky Command Abuse ML Detection Fit
+name: Splunk Risky Command Abuse ML Detection Baseline
 id: 273df2f7-643a-451a-8d4d-637e39eadc87
 version: 1
 date: '2022-05-27'
@@ -13,8 +13,7 @@ description: 'This search is to build a per user risky command abuse detection m
   run at least as frequently as every 7 days to build a recent baseline for each user. The name of ML model 
   generated is "risky_command_abuse" and should be configured as global (not private) in MLTK app, unless the same 
   account of training this model will be used to perfeorm inference using this model for anomaly detection. 
-  The corresponding detection of using this model is "Splunk Command and Scripting Interpreter Risky Commands Abuse 
-  Model Apply". '
+  The corresponding detection of using this model is "Splunk Risky Command Abuse ML Detection". '
 search: '| tstats values(Search_Activity.user) as user, sum(Search_Activity.total_run_time) as run_time count 
   FROM datamodel=Splunk_Audit.Search_Activity WHERE (Search_Activity.user!="") 
   AND (Search_Activity.total_run_time>1) AND (earliest=-7d@d latest=now) 
