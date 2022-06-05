@@ -1,13 +1,13 @@
-name: Splunk Risky Command Abuse ML Detection Apply Unit Test
+name: Splunk Risky Command Abuse ML Detection Unit Test
 tests:
-- name: Splunk Risky Command Abuse ML Detection Apply
-  file: application/splunk_risky_command_abuse_ml_detection_apply.yml
+- name: Splunk Risky Command Abuse ML Detection
+  file: application/splunk_risky_command_abuse_ml_detection.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -1h
   latest_time: now
   baselines:
-  - name: Splunk Risky Command Abuse ML Detection Fit
-    file: baselines/splunk_risky_command_abuse_ml_detection_fit.yml
+  - name: Splunk Risky Command Abuse ML Detection Baseline
+    file: baselines/splunk_risky_command_abuse_ml_detection_baseline.yml
     pass_condition: '| stats count | where count > 0'
     earliest_time: -7d
     latest_time: now
