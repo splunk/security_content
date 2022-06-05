@@ -7,7 +7,7 @@ type: Anomaly
 datamodel:
 - Splunk_Audit
 description: 'This detection utilize machine learning model named "risky_command_abuse" trained from "Splunk 
-  Risky Command Abuse Model Baseline". It should be scheduled to run every hour 
+  Risky Command Abuse ML Model Baseline". It should be scheduled to run every hour 
   to detect whether a user has run searches containing risky keywords with abnormal long running time in the 
   past two hours, comparing with his/her past seven days history. '
 search: '| tstats values(Search_Activity.user) AS user, sum(Search_Activity.total_run_time) AS run_time count 
