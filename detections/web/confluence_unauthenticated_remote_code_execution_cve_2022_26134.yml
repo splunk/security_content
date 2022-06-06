@@ -14,7 +14,7 @@ search: '| tstats count min(_time) as firstTime max(_time)
   | `drop_dm_object_name("Web")`
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)` 
-  | `confluence_unauthenticated_remote_code_execution_cve_2022_26314_filter`'
+  | `confluence_unauthenticated_remote_code_execution_cve_2022_26134_filter`'
 how_to_implement: This detection requires the Web datamodel to be populated from a
   supported Technology Add-On like Splunk for Apache or Splunk for Nginx. In addition, network based logs or event data like PAN Threat.
 known_false_positives: Tune based on assets if possible, or restrict to known Confluence servers. Remove the ${ for a more broad query. To identify more exec, remove everything up to the last parameter (Runtime().exec) for a broad query.
