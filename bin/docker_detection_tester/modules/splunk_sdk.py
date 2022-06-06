@@ -94,11 +94,13 @@ def get_number_of_indexed_events(splunk_host, splunk_port, splunk_password, inde
 
 
 def wait_for_indexing_to_complete(splunk_host, splunk_port, splunk_password, sourcetype:str, index:str, check_interval_seconds:int=10)->bool:
-    
+    MAX_WAIT_TIME = 60
     startTime = timeit.default_timer()
     previous_count = -1
     time.sleep(check_interval_seconds)
     while True:
+        if (timeit.default_timer() - startTime) > 60:
+            print("force timeout! assume we are done indexing")
         new_count = get_number_of_indexed_events(splunk_host, splunk_port, splunk_password, index=index, sourcetype=sourcetype)
         #print(f"Previous Count [{previous_count}] New Count [{new_count}]")
         if previous_count == -1:
