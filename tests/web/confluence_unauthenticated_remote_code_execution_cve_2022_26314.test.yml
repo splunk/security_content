@@ -1,7 +1,7 @@
-name: Confluence Unauthenticated Remote Code Execution CVE-2022-26314 Unit Test
+name: Confluence Unauthenticated Remote Code Execution CVE-2022-26134 Unit Test
 tests:
-- name: Confluence Unauthenticated Remote Code Execution CVE-2022-26314
-  file: web/confluence_unauthenticated_remote_code_execution_cve_2022_26314.yml
+- name: Confluence Unauthenticated Remote Code Execution CVE-2022-26134
+  file: web/confluence_unauthenticated_remote_code_execution_cve_2022_26134.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h
   latest_time: now
