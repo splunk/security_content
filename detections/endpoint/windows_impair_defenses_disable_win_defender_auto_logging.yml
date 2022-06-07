@@ -68,6 +68,7 @@ tags:
   - Registry.dest
   - Registry.user
   - Registry.registry_path
+  - Registry.action
   risk_score: 24
   security_domain: endpoint
   supported_tas:
