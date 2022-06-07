@@ -7,10 +7,11 @@ type: Anomaly
 datamodel:
 - Splunk_Audit
 description: 'This detection utilize machine learning model named "risky_command_abuse" trained from "Splunk 
-  Risky Command Abuse Model Baseline". It should be scheduled to run every hour 
+  Risky Command Abuse ML Model Baseline". It should be scheduled to run every hour 
   to detect whether a user has run searches containing risky keywords with abnormal long running time in the 
   past two hours, comparing with his/her past seven days history. '
-search: '| tstats values(Search_Activity.user) AS user, sum(Search_Activity.total_run_time) AS run_time count 
+search: '| tstats values(Search_Activity.user) AS user, sum(Search_Activity.total_run_time) AS run_time,
+  values(Search_Activity.search) as searches, count 
   FROM datamodel=Splunk_Audit.Search_Activity WHERE (Search_Activity.user!="") 
   AND (Search_Activity.total_run_time>1) AND (earliest=-2h@h latest=now) 
   AND (Search_Activity.search IN ("*| runshellscript *", "*| collect *","*| delete *", "*| fit *", "*| outputcsv *", 
@@ -18,7 +19,7 @@ search: '| tstats values(Search_Activity.user) AS user, sum(Search_Activity.tota
   AND (Search_Activity.search_type=adhoc) AND (Search_Activity.user!=splunk-system-user) 
   BY _time, Search_Activity.user span=1h 
   | apply risky_command_abuse
-  | fields _time, user, run_time, IsOutlier(run_time)
+  | fields _time, user, searches, run_time, IsOutlier(run_time)
   | rename IsOutlier(run_time) as isOutlier, _time as timestamp
   | where isOutlier>0.5 | `splunk_risky_command_abuse_ml_detection_apply_filter`'
 how_to_implement: This detection depends on MLTK and assumes Splunk audit data model is available. 
