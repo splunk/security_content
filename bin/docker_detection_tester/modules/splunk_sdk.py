@@ -9,6 +9,9 @@ import timeit
 import datetime
 from typing import Union
 
+DEFAULT_EVENT_HOST = "ATTACK_DATA_HOST"
+DEFAULT_DATA_INDEX = "main"
+
 def enable_delete_for_admin(splunk_host:str, splunk_port:int, splunk_password:str)->bool:
     try:
         service = client.connect(
@@ -58,7 +61,7 @@ def enable_delete_for_admin(splunk_host:str, splunk_port:int, splunk_password:st
 
 
 
-def get_number_of_indexed_events(splunk_host, splunk_port, splunk_password, index:str, sourcetype:Union[str,None]=None )->int:
+def get_number_of_indexed_events(splunk_host, splunk_port, splunk_password, index:str, event_host:str=DEFAULT_EVENT_HOST, sourcetype:Union[str,None]=None )->int:
 
     try:
         service = client.connect(
@@ -71,9 +74,9 @@ def get_number_of_indexed_events(splunk_host, splunk_port, splunk_password, inde
         raise(Exception("Unable to connect to Splunk instance: " + str(e)))
 
     if sourcetype is not None:
-        search = '''search index="%s" sourcetype="%s" | stats count'''%(index,sourcetype)
+        search = f'''search index="{index}" sourcetype="{sourcetype}" host="{event_host} | stats count'''
     else:
-        search = '''search index="%s" | stats count'''%(index)
+        search = f'''search index="{index}" host="{event_host}" | stats count'''
     kwargs = {"exec_mode":"blocking"}
     try:
         search_result = service.jobs.create(search, **kwargs)
@@ -94,14 +97,10 @@ def get_number_of_indexed_events(splunk_host, splunk_port, splunk_password, inde
 
 
 def wait_for_indexing_to_complete(splunk_host, splunk_port, splunk_password, sourcetype:str, index:str, check_interval_seconds:int=10)->bool:
-    MAX_WAIT_TIME = 60
     startTime = timeit.default_timer()
     previous_count = -1
     time.sleep(check_interval_seconds)
     while True:
-        if (timeit.default_timer() - startTime) > 60:
-            print("force timeout! assume we are done indexing")
-            return True
         new_count = get_number_of_indexed_events(splunk_host, splunk_port, splunk_password, index=index, sourcetype=sourcetype)
         #print(f"Previous Count [{previous_count}] New Count [{new_count}]")
         if previous_count == -1:
@@ -303,7 +302,7 @@ def test_detection_search(splunk_host:str, splunk_port:int, splunk_password:str,
         return test_results
 
 
-def delete_attack_data(splunk_host:str, splunk_password:str, splunk_port:int, wait_on_delete:Union[dict,None], search_string:str, detection_filename:str, index:str="main")->bool:
+def delete_attack_data(splunk_host:str, splunk_password:str, splunk_port:int, wait_on_delete:Union[dict,None], search_string:str, detection_filename:str, index:str=DEFAULT_DATA_INDEX, host:str=DEFAULT_EVENT_HOST)->bool:
     
     try:
         service = client.connect(
@@ -328,8 +327,8 @@ def delete_attack_data(splunk_host:str, splunk_password:str, splunk_port:int, wa
 
 
 
-    while (get_number_of_indexed_events(splunk_host, splunk_port, splunk_password, index=index) != 0) :
-        splunk_search = f'search index={index} | delete'
+    while (get_number_of_indexed_events(splunk_host, splunk_port, splunk_password, index=index, event_host=host) != 0) :
+        splunk_search = f'search index="{index}" host="{host}" | delete'
 
         kwargs = {
                 "exec_mode": "blocking",
