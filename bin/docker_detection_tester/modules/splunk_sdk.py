@@ -74,7 +74,7 @@ def get_number_of_indexed_events(splunk_host, splunk_port, splunk_password, inde
         raise(Exception("Unable to connect to Splunk instance: " + str(e)))
 
     if sourcetype is not None:
-        search = f'''search index="{index}" sourcetype="{sourcetype}" host="{event_host} | stats count'''
+        search = f'''search index="{index}" sourcetype="{sourcetype}" host="{event_host}" | stats count'''
     else:
         search = f'''search index="{index}" host="{event_host}" | stats count'''
     kwargs = {"exec_mode":"blocking"}
