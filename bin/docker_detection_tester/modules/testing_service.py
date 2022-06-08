@@ -48,9 +48,8 @@ def test_detection_wrapper(container_name:str, splunk_ip:str, splunk_password:st
     else:
         wait_on_delete = None
 
-    for index_to_delete in indices_to_delete:
-        print(f"Deleting index data for {test_file}: {index_to_delete}")
-        splunk_sdk.delete_attack_data(splunk_ip, splunk_password, splunk_port, wait_on_delete, search_string, test_file, index = index_to_delete)
+
+    splunk_sdk.delete_attack_data(splunk_ip, splunk_password, splunk_port, wait_on_delete, search_string, test_file, indices = indices_to_delete
    
 
     return result_test    
