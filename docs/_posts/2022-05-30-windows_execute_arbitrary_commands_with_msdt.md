@@ -1,6 +1,6 @@
 ---
 title: "Windows Execute Arbitrary Commands with MSDT"
-excerpt: "Indirect Command Execution
+excerpt: "System Binary Proxy Execution
 "
 categories:
   - Endpoint
@@ -8,12 +8,12 @@ last_modified_at: 2022-05-30
 toc: true
 toc_label: ""
 tags:
-  - Indirect Command Execution
+  - System Binary Proxy Execution
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - 
+  - CVE-2022-30190
   - Endpoint
 ---
 
@@ -43,7 +43,7 @@ The following analytic identifies a recently disclosed arbitraty command executi
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
-| [T1202](https://attack.mitre.org/techniques/T1202/) | Indirect Command Execution | Defense Evasion |
+| [T1218](https://attack.mitre.org/techniques/T1218/) | System Binary Proxy Execution | Defense Evasion |
 
 </div>
 </details>
@@ -93,7 +93,7 @@ The following analytic identifies a recently disclosed arbitraty command executi
 <div markdown="1">
 | ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
 | ----------- | ----------- | -------------- |
-| [](https://nvd.nist.gov/vuln/detail/) |  |  |
+| [CVE-2022-30190](https://nvd.nist.gov/vuln/detail/CVE-2022-30190) | Microsoft Windows Support Diagnostic Tool (MSDT) Remote Code Execution Vulnerability. | 9.3 |
 
 
 
@@ -104,17 +104,17 @@ The following analytic identifies a recently disclosed arbitraty command executi
 
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=msdt.exe Processes.process="*ms-msdt:/id*" Processes.process="*IT_BrowseForFile=*" Processes.process="*IT_RebrowseForFile=*" by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=msdt.exe Processes.process IN ("*ms-msdt:/id*","*ms-msdt:-id*","*/id*") AND (Processes.process="*IT_BrowseForFile=*" OR Processes.process="*IT_RebrowseForFile=*" OR Processes.process="*.xml*") AND Processes.process="*PCWDiagnostic*" by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
-| `security_content_ctime(lastTime)` 
+| `security_content_ctime(lastTime)`
 | `windows_execute_arbitrary_commands_with_msdt_filter`
 ```
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 > :information_source:
 > **windows_execute_arbitrary_commands_with_msdt_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -138,7 +138,7 @@ The SPL above uses the following Macros:
 To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 
 #### Known False Positives
-False positives may be present, filter as needed.
+False positives may be present, filter as needed. Added .xml to potentially capture any answer file usage. Remove as needed.
 
 #### Associated Analytic story
 * [Microsoft Support Diagnostic Tool Vulnerability CVE-2022-30190](/stories/microsoft_support_diagnostic_tool_vulnerability_cve-2022-30190)
@@ -176,4 +176,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/windows_execute_arbitrary_commands_with_msdt.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/windows_execute_arbitrary_commands_with_msdt.yml) \| *version*: **2**
