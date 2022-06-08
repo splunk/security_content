@@ -11,3 +11,4 @@ tests:
     source: audittrail
     sourcetype: audittrail
     update_timestamp: true
+    custom_index: _audit
