@@ -9,6 +9,9 @@ import timeit
 import datetime
 from typing import Union
 
+DEFAULT_EVENT_HOST = "ATTACK_DATA_HOST"
+DEFAULT_DATA_INDEX = "main"
+
 def enable_delete_for_admin(splunk_host:str, splunk_port:int, splunk_password:str)->bool:
     try:
         service = client.connect(
@@ -58,7 +61,7 @@ def enable_delete_for_admin(splunk_host:str, splunk_port:int, splunk_password:st
 
 
 
-def get_number_of_indexed_events(splunk_host, splunk_port, splunk_password, index:str, sourcetype:Union[str,None]=None )->int:
+def get_number_of_indexed_events(splunk_host, splunk_port, splunk_password, index:str, event_host:str=DEFAULT_EVENT_HOST, sourcetype:Union[str,None]=None )->int:
 
     try:
         service = client.connect(
@@ -71,9 +74,9 @@ def get_number_of_indexed_events(splunk_host, splunk_port, splunk_password, inde
         raise(Exception("Unable to connect to Splunk instance: " + str(e)))
 
     if sourcetype is not None:
-        search = '''search index="%s" sourcetype="%s" | stats count'''%(index,sourcetype)
+        search = f'''search index="{index}" sourcetype="{sourcetype}" host="{event_host}" | stats count'''
     else:
-        search = '''search index="%s" | stats count'''%(index)
+        search = f'''search index="{index}" host="{event_host}" | stats count'''
     kwargs = {"exec_mode":"blocking"}
     try:
         search_result = service.jobs.create(search, **kwargs)
@@ -94,7 +97,6 @@ def get_number_of_indexed_events(splunk_host, splunk_port, splunk_password, inde
 
 
 def wait_for_indexing_to_complete(splunk_host, splunk_port, splunk_password, sourcetype:str, index:str, check_interval_seconds:int=10)->bool:
-    
     startTime = timeit.default_timer()
     previous_count = -1
     time.sleep(check_interval_seconds)
@@ -300,7 +302,7 @@ def test_detection_search(splunk_host:str, splunk_port:int, splunk_password:str,
         return test_results
 
 
-def delete_attack_data(splunk_host:str, splunk_password:str, splunk_port:int, wait_on_delete:Union[dict,None], search_string:str, detection_filename:str, index:str="main")->bool:
+def delete_attack_data(splunk_host:str, splunk_password:str, splunk_port:int, wait_on_delete:Union[dict,None], search_string:str, detection_filename:str, indices:list[str]=[DEFAULT_DATA_INDEX], host:str=DEFAULT_EVENT_HOST)->bool:
     
     try:
         service = client.connect(
@@ -324,47 +326,48 @@ def delete_attack_data(splunk_host:str, splunk_password:str, splunk_port:int, wa
     data_exists = True
 
 
+    #print(f"Deleting data for {detection_filename}: {indices}")
+    for index in indices:
+        while (get_number_of_indexed_events(splunk_host, splunk_port, splunk_password, index=index, event_host=host) != 0) :
+            splunk_search = f'search index="{index}" host="{host}" | delete'
 
-    while (get_number_of_indexed_events(splunk_host, splunk_port, splunk_password, index=index) != 0) :
-        splunk_search = f'search index={index} | delete'
+            kwargs = {
+                    "exec_mode": "blocking",
+                    "dispatch.earliest_time": "-1d",
+                    "dispatch.latest_time": "now"}
+            try:
+                
+                job = service.jobs.create(splunk_search, **kwargs)
+                reader = results.ResultsReader(job)
 
-        kwargs = {
-                "exec_mode": "blocking",
-                "dispatch.earliest_time": "-1d",
-                "dispatch.latest_time": "now"}
-        try:
-            
-            job = service.jobs.create(splunk_search, **kwargs)
-            reader = results.ResultsReader(job)
+                
+                '''
+                error_in_results = False
+                for result in reader:
+                    if hasattr(result,"message") and hasattr(result,"type") and ("You have insufficient privileges to delete events" in result.message or result.type == "FATAL"):
+                        print("Delete is not enabled for admin: [%s] - enabling delete and trying to delete again..."%(result.message), file=sys.stderr)
+                        if already_enabled_delete is True:
+                            print("We already enabled delete, but the setting did not take effect.")
+                            raise(Exception("Enabling delete command failed to take effect"))
+                        if enable_delete_for_admin(splunk_host, splunk_port,splunk_password) != True:
+                            raise(Exception("Failure enabling delete for admin. We cannot continue"))
+                        # We enabled delete, so now we will try to delete again
+                        already_enabled_delete = True
+                        break
+                    else:
+                        #This is not one of the error messages, do nothing
+                        pass
+                '''
+                #No need to issue Delete command again, we will now break out of the loop
+                #if error_in_results is False:
+                #    data_exists = False
 
-            
-            '''
-            error_in_results = False
-            for result in reader:
-                if hasattr(result,"message") and hasattr(result,"type") and ("You have insufficient privileges to delete events" in result.message or result.type == "FATAL"):
-                    print("Delete is not enabled for admin: [%s] - enabling delete and trying to delete again..."%(result.message), file=sys.stderr)
-                    if already_enabled_delete is True:
-                        print("We already enabled delete, but the setting did not take effect.")
-                        raise(Exception("Enabling delete command failed to take effect"))
-                    if enable_delete_for_admin(splunk_host, splunk_port,splunk_password) != True:
-                        raise(Exception("Failure enabling delete for admin. We cannot continue"))
-                    # We enabled delete, so now we will try to delete again
-                    already_enabled_delete = True
-                    break
-                else:
-                    #This is not one of the error messages, do nothing
-                    pass
-            '''
-            #No need to issue Delete command again, we will now break out of the loop
-            #if error_in_results is False:
-            #    data_exists = False
+                #Otherwise, we will loop again
 
-            #Otherwise, we will loop again
-
-        except Exception as e:
-            print(f"Trouble deleting data from a run.... we will try again: {str(e)}")
-            time.sleep(5)
-            #raise(Exception("Unable to delete data from a run: " + str(e)))
+            except Exception as e:
+                print(f"Trouble deleting data from a run.... we will try again: {str(e)}")
+                time.sleep(5)
+                #raise(Exception("Unable to delete data from a run: " + str(e)))
         
     
     return True
