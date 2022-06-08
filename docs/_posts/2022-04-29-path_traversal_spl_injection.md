@@ -90,7 +90,7 @@ On May 3rd, 2022, Splunk published a security advisory for a Path traversal in s
 <div markdown="1">
 | ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
 | ----------- | ----------- | -------------- |
-| [CVE-2022-26889](https://nvd.nist.gov/vuln/detail/CVE-2022-26889) | The lack of sanitization in a relative url path in a search parameter allows for arbitrary injection of external content in Splunk Enterprise versions before 8.1.2. | 5.1 |
+| [CVE-2022-26889](https://nvd.nist.gov/vuln/detail/CVE-2022-26889) | In Splunk Enterprise versions before 8.1.2, the uri path to load a relative resource within a web page is vulnerable to path traversal. It allows an attacker to potentially inject arbitrary content into the web page (e.g., HTML Injection, XSS) or bypass SPL safeguards for risky commands. The attack is browser-based. An attacker cannot exploit the attack at will and requires the attacker to initiate a request within the victim's browser (e.g., phishing). | 5.1 |
 
 
 
