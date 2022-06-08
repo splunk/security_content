@@ -112,8 +112,8 @@ This analytic will identify a suspicious PowerShell command used to delete the W
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [powershell](https://github.com/splunk/security_content/blob/develop/macros/powershell.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **powershell_remove_windows_defender_directory_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.

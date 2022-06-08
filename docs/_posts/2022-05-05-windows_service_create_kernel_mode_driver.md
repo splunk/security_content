@@ -120,8 +120,8 @@ The following analytic identifes a new kernel driver being added to Windows usin
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 > :information_source:
 > **windows_service_create_kernel_mode_driver_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
