@@ -114,8 +114,8 @@ This search looks for processes launched from files that have double extensions 
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 > :information_source:
 > **execution_of_file_with_multiple_extensions_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
