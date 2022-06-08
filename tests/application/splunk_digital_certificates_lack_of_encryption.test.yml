@@ -11,3 +11,4 @@ tests:
     source: "/opt/splunk/var/log/splunk/metrics.log"
     sourcetype: splunkd
     update_timestamp: false
+    custom_index: _internal
