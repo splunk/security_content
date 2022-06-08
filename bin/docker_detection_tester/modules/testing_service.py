@@ -18,7 +18,7 @@ import datetime
 import http.client
 
 
-DEFAULT_DATA_INDEX = "main"
+
 
 def test_detection_wrapper(container_name:str, splunk_ip:str, splunk_password:str, splunk_port:int, 
                            test_file:str, attack_data_root_folder, wait_on_failure:bool=False, wait_on_completion:bool=False)->dict:
@@ -101,7 +101,7 @@ def test_detection(splunk_ip:str, splunk_port:int, container_name:str, splunk_pa
             print(f"Found a custom index for {test_file}: {attack_data['custom_index']}")
             data_upload_index = attack_data['custom_index']
         else:
-            data_upload_index = DEFAULT_DATA_INDEX
+            data_upload_index = splunk_sdk.DEFAULT_DATA_INDEX
 
         indices_to_delete.add(data_upload_index)
 
