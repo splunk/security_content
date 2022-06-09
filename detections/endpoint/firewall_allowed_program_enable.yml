@@ -31,11 +31,11 @@ references:
 tags:
   analytic_story:
   - Windows Defense Evasion Tactics
+  - Azorult
   confidence: 50
   context:
   - Source:Endpoint
   - Stage:Defense Evasion
-  - Azorult
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/vilsel/sysmon.log
   impact: 50
