@@ -8,7 +8,6 @@ description: Leverage searches that allow you to detect and investigate unusual 
   The AZORULT malware was first discovered in 2016 to be an information stealer that steals browsing history, cookies, ID/passwords, cryptocurrency information and more. 
   It can also be a downloader of other malware. A variant of this malware was able to create a new, hidden administrator account on the machine to set a registry key 
   to establish a Remote Desktop Protocol (RDP) connection.
-
   Exploit kits such as Fallout Exploit Kit (EK) and phishing mails with social engineering technique are now the major infection vectors of the AZORult malware. 
   Other malware families such as Ramnit and Emotet also download AZORult. The current malspam and phishing emails use fake product order requests, invoice documents 
   and payment information requests. This Trojan-Spyware connects to command and control (C&C) servers of attacker to send and receive information.
