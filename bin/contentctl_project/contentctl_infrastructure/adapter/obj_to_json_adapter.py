@@ -36,7 +36,6 @@ class ObjToJsonAdapter(Adapter):
                 obj_array.append(story.dict(exclude_none=True,
                     exclude =
                     {
-                        "detections": True,
                         "investigations": True
                     }
                 ))
