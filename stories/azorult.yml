@@ -15,7 +15,6 @@ description: Leverage searches that allow you to detect and investigate unusual 
 narrative: Adversaries may use this technique to maximize the impact on the target organization in operations where network wide availability interruption
   is the goal. 
 references:
-- https://app.any.run/tasks/a6f2ffe2-e6e2-4396-ae2e-04ea0143f2d8/
 - https://success.trendmicro.com/dcx/s/solution/000146108-azorult-malware-information?language=en_US&sfdcIFrameOrigin=null
 tags:
   analytic_story: Azorult
