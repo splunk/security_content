@@ -37,7 +37,7 @@ stories:
     children:
     {%- for category in objects['categories'] %}
       - title: {{ category }}
-        url: /stories/{{ category | lower | replace(" ", "_") }}/
+        url: /tags/#{{ category | lower | replace(" ", "-") }}/
     {%- endfor %}
 playbooks:
   - title: "Type"

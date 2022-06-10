@@ -13,6 +13,9 @@ tags:
 {%- for phase in object.tags.kill_chain_phases %}
   - {{ phase }}
 {%- endfor %}
+{%- for category in object.tags.category %}
+  - {{ category }}
+{%- endfor %}
 ---
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
