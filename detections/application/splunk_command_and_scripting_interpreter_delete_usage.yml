@@ -13,7 +13,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)` 
   | `splunk_command_and_scripting_interpreter_delete_usage_filter`'
-how_to_implement: To successfully implement this search acceleration is recommended against the Search_Activity datamodel that runs against the splunk _audit index. In addition, this analytic requires the Common Information Model App which includes the Splunk Audit Datamodel https://splunkbase.splunk.com/app/1621/. Acceleration is recommended. 
+how_to_implement: To successfully implement this search acceleration is recommended against the Search_Activity datamodel that runs against the splunk _audit index. In addition, this analytic requires the Common Information Model App which includes the Splunk Audit Datamodel https://splunkbase.splunk.com/app/1621/.
 known_false_positives: False positives may be present if this command is used as a common practice. Filter as needed.
 references:
 - https://docs.splunk.com/Documentation/Splunk/latest/Security/SPLsafeguards#Commands_that_trigger_the_warning
