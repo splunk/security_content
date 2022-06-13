@@ -5,13 +5,12 @@ date: '2022-05-26'
 author: Lou Stella, Splunk
 type: Hunting
 datamodel: []
-description: On June 14th, 2022, Splunk released a security advisory relating to the authentication that happens between Universal Forwarders and Deployment Servers. In some circumstances, an unauthenticated client can download forwarder bundles from the Deployment Server. In other circumstances, a client may be allowed to publish a forwarder bundle to other clients, which may allow for arbitrary code execution. This hunting search pulls a full list of forwarder bundle downloads where peer is the forwarder, host is the Deployment Server, and then you have a list of the apps downloaded and the serverclasses in which the peer is a member of. You should look for apps or clients that you do not recognize as being part of your environment.
+description: On June 14th, 2022, Splunk released a security advisory relating to the authentication that happens between Universal Forwarders and Deployment Servers. In some circumstances, an unauthenticated client can download forwarder bundles from the Deployment Server. This hunting search pulls a full list of forwarder bundle downloads where the peer column is the forwarder, the host column is the Deployment Server, and then you have a list of the apps downloaded and the serverclasses in which the peer is a member of. You should look for apps or clients that you do not recognize as being part of your environment.
 search: '`splunkd` component="PackageDownloadRestHandler" | stats values(app) values(serverclass) by peer, host | `splunk_process_injection_forwarder_bundle_downloads_filter`'
 how_to_implement: This hunting search uses native logs produced when a deployment server is within your environment.
 known_false_positives: None at this time.
 references:
 - https://www.splunk.com/en_us/product-security/announcements/svd-2022-0607.html
-- https://www.splunk.com/en_us/product-security/announcements/svd-2022-0608.html
 tags:
   analytic_story:
   - Splunk Vulnerabilites
