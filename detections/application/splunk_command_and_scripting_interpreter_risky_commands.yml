@@ -17,10 +17,11 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)`
   | `splunk_command_and_scripting_interpreter_risky_commands_filter`'
-how_to_implement: To successfully implement this search acceleration is recommended against the Search_Activity datamodel that runs against the splunk _audit index.  In addition, this analytic requires the Common Information Model App which includes the Splunk Audit Datamodel https://splunkbase.splunk.com/app/1621/.
+how_to_implement: To successfully implement this search acceleration is recommended against the Search_Activity datamodel that runs against the splunk _audit index.  In addition, this analytic requires the Common Information Model App which includes the Splunk Audit Datamodel https://splunkbase.splunk.com/app/1621/. Splunk SOAR customers can find a SOAR workbook that walks an analyst through the process of running these hunting searches in the references list of this detection. In order to use this workbook, a user will need to run a curl command to post the file to their SOAR instance such as "curl -u username:password https://soar.instance.name/rest/rest/workbook_template -d @splunk_psa_0622.json". A user should then create an empty container or case, attach the workbook, and begin working through the tasks.
 known_false_positives: False positives will be present until properly filtered by Username and search name. 
 references:
 - https://docs.splunk.com/Documentation/Splunk/latest/Security/SPLsafeguards#Commands_that_trigger_the_warning
+- https://www.github.com/splunk/security_content/blob/develop/workbooks/splunk_psa_0622.json
 tags:
   analytic_story:
   - Splunk Vulnerabilities
