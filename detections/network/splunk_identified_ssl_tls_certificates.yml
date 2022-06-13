@@ -4,12 +4,11 @@ version: 1
 date: '2022-05-25'
 author: Michael Haag, Splunk
 type: Hunting
-datamodel:
-- Network_Traffic
+datamodel: []
 description: The following analytic uses tags of SSL, TLS and certificate to identify the usage of the Splunk default certificates being utilized in the environment. Recommended guidance to utilize valid TLS certificates which documentation may be found in Splunk Docs - https://docs.splunk.com/Documentation/Splunk/8.2.6/Security/AboutsecuringyourSplunkconfigurationwithSSL.
 search: 'tag IN (ssl, tls, certificate) ssl_issuer_common_name=*splunk* | stats values(src) AS "Host(s) with Default Cert" count by ssl_issuer ssl_subject_common_name ssl_subject_organization ssl_subject host sourcetype
   | `splunk_identified_ssl_tls_certificates_filter`'
-how_to_implement: Ingestion of SSL/TLS data is needed and to be tagged properly as ssl, tls or certificate. This data may come from a proxy, zeek, or Splunk Streams.
+how_to_implement: Ingestion of SSL/TLS data is needed and to be tagged properly as ssl, tls or certificate. This data may come from a proxy, zeek, or Splunk Streams. 
 known_false_positives: False positives will not be present as it is meant to assist with identifying default certificates being utilized.
 references:
   - https://docs.splunk.com/Documentation/Splunk/8.2.6/Security/AboutsecuringyourSplunkconfigurationwithSSL
