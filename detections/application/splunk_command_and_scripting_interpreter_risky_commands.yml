@@ -7,9 +7,9 @@ type: Hunting
 datamodel:
 - Splunk_Audit
 description: 'The Splunk platform contains built-in search processing language (SPL) safeguards to warn you when you are about to unknowingly run a search that contains commands that might be a security risk. This warning appears when you click a link or type a URL that loads a search that contains risky commands. The warning does not appear when you create ad hoc searches. This warning alerts you to the possibility of unauthorized actions by a malicious user. Unauthorized actions include -
-  Copying or transferring data (data exfiltration), Deleting data and Overwriting data.
-  A possible scenario when this might occur is when a malicious person creates a search that includes commands that exfiltrate or damage data. The malicious person then sends an unsuspecting user a link to the search. The URL contains a query string (q) and a search identifier (sid), but the sid is not valid. The malicious person hopes the user will use the link and the search will run.
-  During analysis, pivot based on user name and filter any user or queries not needed. Adhoc queries found from dashboards, however in audittrail logs it does not show the dashboard name. The query defaults to adhoc and no Splunk system user activity.
+  Copying or transferring data (data exfiltration), Deleting data and Overwriting data. All risky commands may be found here https://docs.splunk.com/Documentation/Splunk/latest/Security/SPLsafeguards#Commands_that_trigger_the_warninga. 
+  A possible scenario when this might occur is when a malicious actor creates a search that includes commands that exfiltrate or damage data. The malicious actor then sends an unsuspecting user a link to the search. The URL contains a query string (q) and a search identifier (sid), but the sid is not valid. The malicious actor hopes the user will use the link and the search will run.
+  During analysis, pivot based on user name and filter any user or queries not needed. Queries ran from a dashboard are seen as adhoc queries. When a query runs from a dashboard it will not show in audittrail logs the source dashboard name. The query defaults to adhoc and no Splunk system user activity.
   In addition, modify this query by removing key commands that generate too much noise, or too little, and create separate queries with higher confidence to alert on.'
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Splunk_Audit.Search_Activity where Search_Activity.search IN ("*| runshellscript *", "*| collect *","*| delete *", "*| fit *", "*| outputcsv *", "*| outputlookup *", "*| run *", "*| script *", "*| sendalert *", "*| sendemail *", "*| tscollect *") Search_Activity.search_type=adhoc Search_Activity.user!=splunk-system-user
   by Search_Activity.search Search_Activity.info Search_Activity.total_run_time Search_Activity.user Search_Activity.search_type 
@@ -17,8 +17,8 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)`
   | `splunk_command_and_scripting_interpreter_risky_commands_filter`'
-how_to_implement: To successfully implement this search acceleration is recommended against the Search_Activity datamodel that runs against the splunk _audit index. 
-known_false_positives: False positives will be present until properly filtered by Username, search name, and so forth. 
+how_to_implement: To successfully implement this search acceleration is recommended against the Search_Activity datamodel that runs against the splunk _audit index.  In addition, this analytic requires the Common Information Model App which includes the Splunk Audit Datamodel https://splunkbase.splunk.com/app/1621/.
+known_false_positives: False positives will be present until properly filtered by Username and search name. 
 references:
 - https://docs.splunk.com/Documentation/Splunk/latest/Security/SPLsafeguards#Commands_that_trigger_the_warning
 tags:
@@ -41,7 +41,7 @@ tags:
   - Actions on Objectives
   message: A risky Splunk command has ran by $user$ and should be reviewed.
   mitre_attack_id:
-  - T1213
+  - T1059
   nist:
   - DE.CM
   observable:
