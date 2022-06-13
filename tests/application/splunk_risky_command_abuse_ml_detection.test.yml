@@ -1,0 +1,20 @@
+name: Splunk Risky Command Abuse ML Detection Unit Test
+tests:
+- name: Splunk Risky Command Abuse ML Detection
+  file: application/splunk_risky_command_abuse_ml_detection.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -1h
+  latest_time: now
+  baselines:
+  - name: Splunk Risky Command Abuse ML Detection Baseline
+    file: baselines/splunk_risky_command_abuse_ml_detection_baseline.yml
+    pass_condition: '| stats count | where count > 0'
+    earliest_time: -7d
+    latest_time: now
+  attack_data: 
+  - file_name: search_activity.json
+    data: https://github.com/splunk/attack_data/raw/master/datasets/attack_techniques/T1203/search_activity.txt
+    source: audittrail
+    sourcetype: audittrail
+    update_timestamp: true
+    custom_index: _audit
