@@ -1,4 +1,4 @@
-name: Splunk Risky Command Abuse ML Detection
+name: Splunk Command and Scripting Interpreter Risky SPL MLTK
 id: 19d0146c-2eae-4e53-8d39-1198a78fa9ca
 version: 1
 date: '2022-05-27'
@@ -6,14 +6,16 @@ author: Abhinav Mishra, Kumar Sharad and Xiao Lin, Splunk
 type: Anomaly
 datamodel:
 - Splunk_Audit
-description: 'This detection utilize machine learning model named "risky_command_abuse" trained from "Splunk 
-  Risky Command Abuse ML Model Baseline". It should be scheduled to run every hour 
-  to detect whether a user has run searches containing risky keywords with abnormal long running time in the 
-  past two hours, comparing with his/her past seven days history. '
+description: 'This detection utilize machine learning model named "risky_command_abuse" trained from "Splunk Command 
+  and Scripting Interpreter Risky SPL MLTK Baseline". It should be scheduled to run hourly to detect whether a user 
+  has run searches containing risky SPL from this list 
+  https://docs.splunk.com/Documentation/Splunk/latest/Security/SPLsafeguards#Commands_that_trigger_the_warninga
+  with abnormal long running time in the past one hour, comparing with his/her past seven days history. This search 
+  uses the trained baseline to infer whether a search is an outlier (isOutlier ~= 1.0) or not (isOutlier_= 0.0)'
 search: '| tstats values(Search_Activity.user) AS user, sum(Search_Activity.total_run_time) AS run_time,
   values(Search_Activity.search) as searches, count 
   FROM datamodel=Splunk_Audit.Search_Activity WHERE (Search_Activity.user!="") 
-  AND (Search_Activity.total_run_time>1) AND (earliest=-2h@h latest=now) 
+  AND (Search_Activity.total_run_time>1) AND (earliest=-1h@h latest=now) 
   AND (Search_Activity.search IN ("*| runshellscript *", "*| collect *","*| delete *", "*| fit *", "*| outputcsv *", 
   "*| outputlookup *", "*| run *", "*| script *", "*| sendalert *", "*| sendemail *", "*| tscollect *")) 
   AND (Search_Activity.search_type=adhoc) AND (Search_Activity.user!=splunk-system-user) 
@@ -21,10 +23,13 @@ search: '| tstats values(Search_Activity.user) AS user, sum(Search_Activity.tota
   | apply risky_command_abuse
   | fields _time, user, searches, run_time, IsOutlier(run_time)
   | rename IsOutlier(run_time) as isOutlier, _time as timestamp
-  | where isOutlier>0.5 | `splunk_risky_command_abuse_ml_detection_filter`'
-how_to_implement: This detection depends on MLTK and assumes Splunk audit data model is available. 
-known_false_positives: Benigh search of long run time will be flagged as positive (false), if the run time of 
-  a search exceeds the boundaries of outlier defined by the fitted density function model. 
+  | where isOutlier>0.5 
+  | `splunk_command_and_scripting_interpreter_risky_spl_mltk_filter`'
+how_to_implement: This detection depends on MLTK app which can be found here - https://splunkbase.splunk.com/app/2890/ 
+  and the Splunk Audit datamodel which can be found here - https://splunkbase.splunk.com/app/1621/. Baseline model
+  needs to be buillt using "Splunk Command and Scripting Interpreter Risky SPL MLTK Baseline" before this search can run.
+known_false_positives: If the run time of a search exceeds the boundaries of outlier defined by the fitted density 
+  function model, false positives can occur, incorrectly labeling a long running search as potentially risky. 
 references:
 - https://docs.splunk.com/Documentation/Splunk/latest/Security/SPLsafeguards#Commands_that_trigger_the_warning
 tags:
@@ -35,6 +40,8 @@ tags:
   - CIS 3
   - CIS 6
   confidence: 40
+  cve:
+  - CVE-2022-32154
   context:
   - Source:Endpoint
   dataset:
@@ -42,9 +49,9 @@ tags:
   impact: 50
   kill_chain_phases:
   - Actions on Objectives
-  message: $user used abnormally long run time for searches with risky command.
+  message: Abnormally long run time for risk SPL command seen by user $user.
   mitre_attack_id:
-  - T1203
+  - T1059
   nist:
   - DE.AE
   observable:
