@@ -103,8 +103,8 @@ The following hunting analytic assists with identifying the proces execution of 
 
 #### Macros
 The SPL above uses the following Macros:
-* [is_nirsoft_software](https://github.com/splunk/security_content/blob/develop/macros/is_nirsoft_software.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [is_nirsoft_software](https://github.com/splunk/security_content/blob/develop/macros/is_nirsoft_software.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 > :information_source:

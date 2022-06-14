@@ -99,8 +99,8 @@ This search returns a list of hosts that have not successfully completed a backu
 
 #### Macros
 The SPL above uses the following Macros:
-* [netbackup](https://github.com/splunk/security_content/blob/develop/macros/netbackup.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [netbackup](https://github.com/splunk/security_content/blob/develop/macros/netbackup.yml)
 
 > :information_source:
 > **extended_period_without_successful_netbackup_backups_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
