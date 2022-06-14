@@ -27,7 +27,7 @@ tags:
   - CIS 16
   cve:
   - CVE-2022-32154
-  confidence: 80
+  confidence: 30
   context:
   - Source:Endpoint
   dataset:
@@ -57,6 +57,6 @@ tags:
   - Search_Activity.user 
   - Search_Activity.savedsearch_name 
   - Search_Activity.search_type
-  risk_score: 72
+  risk_score: 27
   security_domain: audit
   
