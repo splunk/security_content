@@ -107,8 +107,8 @@ The following analytic identifies the process name of Java, Apache, or Tomcat sp
 
 #### Macros
 The SPL above uses the following Macros:
-* [linux_shells](https://github.com/splunk/security_content/blob/develop/macros/linux_shells.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [linux_shells](https://github.com/splunk/security_content/blob/develop/macros/linux_shells.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 > :information_source:

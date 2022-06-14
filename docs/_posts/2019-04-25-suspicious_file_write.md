@@ -99,8 +99,8 @@ The search looks for files created with names that have been linked to malicious
 
 #### Macros
 The SPL above uses the following Macros:
-* [suspicious_writes](https://github.com/splunk/security_content/blob/develop/macros/suspicious_writes.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [suspicious_writes](https://github.com/splunk/security_content/blob/develop/macros/suspicious_writes.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 > :information_source:
