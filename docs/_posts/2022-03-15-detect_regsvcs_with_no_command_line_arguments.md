@@ -113,8 +113,8 @@ The following analytic identifies regsvcs.exe with no command line arguments. Th
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_regsvcs](https://github.com/splunk/security_content/blob/develop/macros/process_regsvcs.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [process_regsvcs](https://github.com/splunk/security_content/blob/develop/macros/process_regsvcs.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 > :information_source:
