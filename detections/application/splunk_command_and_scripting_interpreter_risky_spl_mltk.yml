@@ -17,7 +17,7 @@ search: '| tstats sum(Search_Activity.total_run_time) AS run_time,
   FROM datamodel=Splunk_Audit.Search_Activity WHERE (Search_Activity.user!="") 
   AND (Search_Activity.total_run_time>1) AND (earliest=-1h@h latest=now) 
   AND (Search_Activity.search IN ("*| runshellscript *", "*| collect *","*| delete *", "*| fit *", "*| outputcsv *", 
-  "*| outputlookup *", "*| run *", "*| script *", "*| sendalert *", "*| sendemail *", "*| tscollect *")) 
+  "*| outputlookup *", "*| run *", "*| script *", "*| sendalert *", "*| sendemail *", "*| tscolle*")) 
   AND (Search_Activity.search_type=adhoc) AND (Search_Activity.user!=splunk-system-user) 
   BY _time, Search_Activity.user span=1h 
   | apply risky_command_abuse
