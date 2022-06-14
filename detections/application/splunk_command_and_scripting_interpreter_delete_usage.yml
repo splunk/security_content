@@ -9,7 +9,7 @@ datamodel:
 description: The following analytic identifies the use of the risky command - Delete - that may be utilized in Splunk to delete some or all data queried for. In order to use Delete in Splunk, one must be assigned the role. This is typically not used and should generate an anomaly if it is used.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Splunk_Audit.Search_Activity where Search_Activity.search IN ("*| delete*") Search_Activity.search_type=adhoc Search_Activity.user!=splunk-system-user
   by Search_Activity.search Search_Activity.info Search_Activity.total_run_time Search_Activity.user Search_Activity.search_type 
-  | `drop_dm_object_name(Splunk_Audit)` 
+  | `drop_dm_object_name(Search_Activity)` 
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)` 
   | `splunk_command_and_scripting_interpreter_delete_usage_filter`'
