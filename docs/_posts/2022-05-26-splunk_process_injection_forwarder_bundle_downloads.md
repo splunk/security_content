@@ -132,7 +132,7 @@ This hunting search uses native logs produced when a deployment server is within
 None at this time.
 
 #### Associated Analytic story
-* [Splunk Vulnerabilites](/stories/splunk_vulnerabilites)
+* [Splunk Vulnerabilities](/stories/splunk_vulnerabilities)
 
 
 

@@ -103,8 +103,8 @@ This detection is to identify a suspicious process that tries to delete the proc
 
 #### Macros
 The SPL above uses the following Macros:
-* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 
 > :information_source:
 > **process_deleting_its_process_file_path_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
