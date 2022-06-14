@@ -6,29 +6,31 @@ author: Abhinav Mishra, Kumar Sharad and Xiao Lin, Splunk
 type: Baseline
 datamodel:
 - Splunk_Audit
-description: 'This search is to build a per user command and scripting risky SPL detection model using MLTK 
-  DensityFunction algorithm based on audit log data of Splunk apps. The model is built from past 7 days users 
-  history of running search commands from 
+description: 'This search supports an analyst looking for abuse or misuse of the risky commands listed here: 
   https://docs.splunk.com/Documentation/Splunk/latest/Security/SPLsafeguards#Commands_that_trigger_the_warninga, 
-  and aggregate the total search run time for each hour as indicator of user behavior. The default threshold of 
-  outlier boundary is defined as 0.1%, which means that the possibility of search run time exceeding that 
-  boundary is smaller than 0.1% (three 9s - 0.999), indicating a risky use of these commands. Users can adjust 
-  this threshold 0.1% to higher or lower value depending on desired false positive report rate. This search should 
-  be scheduled to run at least as frequently as every 7 days. The name of machine learning model generated is 
+  This is accomplished by using the time spent executing one of these risky commands as a proxy for misuse/abuse
+  of interest during investigation and/or hunting.
+  The search builds a model utilizes the MLTK DensityFunction algorithm on Splunk app audit log data. The model
+  uses the past 7 days of user history executing the above referenced commands then aggregates the total search 
+  run time for each hour as indicator of user behavior.
+  The model identifies the top 0.1% of user search run time, indicating a risky use of these commands. Users can
+  adjust this threshold 0.1% as interested however this will correlate to missed/false positive rates. This search 
+  should be scheduled to run at least every 7 days. The name of machine learning model generated is 
   "risky_command_abuse" and should be configured to be globally shared (not private) in MLTK app as documented here:
   https://docs.splunk.com/Documentation/MLApp/5.3.1/User/Models#Sharing_models_from_other_Splunk_apps
   unless the same account of training this model will be used to perform inference using this model for anomaly 
   detection. '
-search: '| tstats values(Search_Activity.user) as user, sum(Search_Activity.total_run_time) as run_time count 
+search: '| tstats sum(Search_Activity.total_run_time) as run_time, count 
   FROM datamodel=Splunk_Audit.Search_Activity WHERE (Search_Activity.user!="") 
   AND (Search_Activity.total_run_time>1) AND (earliest=-7d@d latest=now) 
   AND (Search_Activity.search IN ("*| runshellscript *", "*| collect *","*| delete *", "*| fit *", "*| outputcsv *", 
   "*| outputlookup *", "*| run *", "*| script *", "*| sendalert *", "*| sendemail *", "*| tscollect *")) 
   AND (Search_Activity.search_type=adhoc) AND (Search_Activity.user!=splunk-system-user) 
   BY _time, Search_Activity.user span=1h 
-  | fit DensityFunction "run_time" dist=auto threshold=0.001 show_density=true by "user" into "risky_command_abuse" '
+  | fit DensityFunction "run_time" dist=auto lower_threshold=0.000001 upper_threshold=0.001 show_density=true 
+  by Search_Activity.user into "risky_command_abuse" '
 how_to_implement: The corresponding detection of using this model is "Splunk Command and Scripting Interpreter Risky 
-  SPL MLTK". This detection depends on MLTK app which can be hound here - https://splunkbase.splunk.com/app/2890/
+  SPL MLTK". This detection depends on MLTK app which can be found here - https://splunkbase.splunk.com/app/2890/
   and it assumes Splunk accelerated audit data model is available. For large enterprises, training the model might 
   take significant computing resources. It might require dedicated search head. The underlined machine learning 
   algorithm this detection used is DensityFunction. It might need to increase its settings default values, such as 
