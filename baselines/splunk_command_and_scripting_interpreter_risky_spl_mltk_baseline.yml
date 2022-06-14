@@ -6,20 +6,13 @@ author: Abhinav Mishra, Kumar Sharad and Xiao Lin, Splunk
 type: Baseline
 datamodel:
 - Splunk_Audit
-description: 'This search supports an analyst looking for abuse or misuse of the risky commands listed here: 
-  https://docs.splunk.com/Documentation/Splunk/latest/Security/SPLsafeguards#Commands_that_trigger_the_warninga, 
-  This is accomplished by using the time spent executing one of these risky commands as a proxy for misuse/abuse
-  of interest during investigation and/or hunting.
-  The search builds a model utilizes the MLTK DensityFunction algorithm on Splunk app audit log data. The model
-  uses the past 7 days of user history executing the above referenced commands then aggregates the total search 
-  run time for each hour as indicator of user behavior.
-  The model identifies the top 0.1% of user search run time, indicating a risky use of these commands. Users can
-  adjust this threshold 0.1% as interested however this will correlate to missed/false positive rates. This search 
-  should be scheduled to run at least every 7 days. The name of machine learning model generated is 
-  "risky_command_abuse" and should be configured to be globally shared (not private) in MLTK app as documented here:
-  https://docs.splunk.com/Documentation/MLApp/5.3.1/User/Models#Sharing_models_from_other_Splunk_apps
-  unless the same account of training this model will be used to perform inference using this model for anomaly 
-  detection. '
+description: 'This search supports an analyst looking for abuse or misuse of the risky commands listed here: https://docs.splunk.com/Documentation/Splunk/latest/Security/SPLsafeguards#Commands_that_trigger_the_warning
+This is accomplished by using the time spent executing one of these risky commands as a proxy for misuse/abuse of interest during investigation and/or hunting.
+The search builds a model utilizes the MLTK DensityFunction algorithm on Splunk app audit log data. The model uses the past 7 days of user history executing the above referenced commands then aggregates the total search run time for each hour as indicator of user behavior.
+The model identifies the top 0.1% of user search run time, indicating a risky use of these commands. Users can adjust this threshold 0.1% as interested however this will correlate to missed/false positive rates. This search should be scheduled to run at least every 7 days. The name of machine learning model generated is "risky_command_abuse" and should be configured to be globally shared (not private) in MLTK app as documented here:
+https://docs.splunk.com/Documentation/MLApp/5.3.1/User/Models#Sharing_models_from_other_Splunk_apps
+unless the same account of training this model will be used to perform inference using this model for anomaly
+detection.'
 search: '| tstats sum(Search_Activity.total_run_time) as run_time, count 
   FROM datamodel=Splunk_Audit.Search_Activity WHERE (Search_Activity.user!="") 
   AND (Search_Activity.total_run_time>1) AND (earliest=-7d@d latest=now) 
