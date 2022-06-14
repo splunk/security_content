@@ -115,8 +115,8 @@ This analytic will identify the possible execution of ping sleep batch commands.
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_ping](https://github.com/splunk/security_content/blob/develop/macros/process_ping.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [process_ping](https://github.com/splunk/security_content/blob/develop/macros/process_ping.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 > :information_source:

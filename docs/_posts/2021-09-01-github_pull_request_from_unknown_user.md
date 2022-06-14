@@ -114,9 +114,9 @@ This search looks for Pull Request from unknown user.
 
 #### Macros
 The SPL above uses the following Macros:
+* [github_known_users](https://github.com/splunk/security_content/blob/develop/macros/github_known_users.yml)
 * [github](https://github.com/splunk/security_content/blob/develop/macros/github.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
-* [github_known_users](https://github.com/splunk/security_content/blob/develop/macros/github_known_users.yml)
 
 > :information_source:
 > **github_pull_request_from_unknown_user_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.

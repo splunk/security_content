@@ -109,8 +109,8 @@ During triage, review parallel processes for further suspicious activity.
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_setspn](https://github.com/splunk/security_content/blob/develop/macros/process_setspn.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [process_setspn](https://github.com/splunk/security_content/blob/develop/macros/process_setspn.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 > :information_source:
