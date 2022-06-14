@@ -13,7 +13,7 @@ description: 'The Splunk platform contains built-in search processing language (
   In addition, modify this query by removing key commands that generate too much noise, or too little, and create separate queries with higher confidence to alert on.'
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Splunk_Audit.Search_Activity where Search_Activity.search IN ("*| runshellscript *", "*| collect *","*| delete *", "*| fit *", "*| outputcsv *", "*| outputlookup *", "*| run *", "*| script *", "*| sendalert *", "*| sendemail *", "*| tscollect *") Search_Activity.search_type=adhoc Search_Activity.user!=splunk-system-user
   by Search_Activity.search Search_Activity.info Search_Activity.total_run_time Search_Activity.user Search_Activity.search_type 
-  | `drop_dm_object_name(Splunk_Audit)` 
+  | `drop_dm_object_name(Search_Activity)` 
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)`
   | `splunk_command_and_scripting_interpreter_risky_commands_filter`'
