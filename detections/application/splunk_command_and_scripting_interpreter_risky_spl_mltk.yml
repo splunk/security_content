@@ -27,7 +27,7 @@ search: '| tstats values(Search_Activity.user) AS user, sum(Search_Activity.tota
   | `splunk_command_and_scripting_interpreter_risky_spl_mltk_filter`'
 how_to_implement: This detection depends on MLTK app which can be found here - https://splunkbase.splunk.com/app/2890/ 
   and the Splunk Audit datamodel which can be found here - https://splunkbase.splunk.com/app/1621/. Baseline model
-  needs to be buillt using "Splunk Command and Scripting Interpreter Risky SPL MLTK Baseline" before this search can run.
+  needs to be built using "Splunk Command and Scripting Interpreter Risky SPL MLTK Baseline" before this search can run.
 known_false_positives: If the run time of a search exceeds the boundaries of outlier defined by the fitted density 
   function model, false positives can occur, incorrectly labeling a long running search as potentially risky. 
 references:
