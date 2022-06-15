@@ -1,0 +1,21 @@
+name: Hosts receiving high volume of network traffic from email server
+id: a418619d-12cb-42ff-9ddf-65cc127fe271
+date: '2022-06-15'
+author: Jose Hernandez
+description: This configuration file applies to Hosts receiving high volume of network traffic from email server
+scheduling:
+  cron_schedule: 59 * * * *
+  earliest_time: -30d@d
+  latest_time: -10m@m
+  schedule_window: auto
+alert_action:
+  notable:
+    rule_description: Host $host$ receiving high volume of network traffic from email server 
+    rule_title: Host $host$ receiving high volume of network traffic 
+    nes_fields:
+    - host
+    - firstTime
+    - lastTime
+    - count
+tags:
+  detection_name: Hosts receiving high volume of network traffic from email server
