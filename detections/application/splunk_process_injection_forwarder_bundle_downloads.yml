@@ -22,7 +22,6 @@ tags:
   - CIS 16
   cve:
   - CVE-2022-32157
-  - CVE-2022-32158
   confidence: 70
   context:
   - Source:Endpoint
