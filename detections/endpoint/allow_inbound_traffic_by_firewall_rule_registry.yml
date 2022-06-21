@@ -74,6 +74,4 @@ tags:
   - Registry.user
   risk_score: 3
   security_domain: endpoint
-  supported_tas:
-  - Splunk_TA_microsoft_sysmon
   asset_type: Endpoint
