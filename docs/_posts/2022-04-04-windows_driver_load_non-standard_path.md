@@ -95,7 +95,7 @@ The following analytic uses Windows EventCode 7045 to identify new Kernel Mode D
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `wineventlog_system` EventCode=7045 Service_Type="kernel mode driver" NOT (Service_File_Name IN ("*\\Windows\\*", "*\\Program File*", "*\\systemroot\\*","%SystemRoot%*", "system32\*")) 
@@ -110,7 +110,8 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [wineventlog_system](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_system.yml)
 
-Note that **windows_driver_load_non-standard_path_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **windows_driver_load_non-standard_path_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * ComputerName
@@ -139,6 +140,9 @@ False positives may be present based on legitimate third party applications need
 | ----------- | ----------- |--------------|--------------|
 | 36.0 | 60 | 60 | A kernel mode driver was loaded from a non-standard path on $ComputerName$. |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

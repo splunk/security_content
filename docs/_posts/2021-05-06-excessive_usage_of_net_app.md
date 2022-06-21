@@ -89,7 +89,7 @@ This analytic identifies excessive usage of `net.exe` or `net1.exe` within a buc
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -103,11 +103,12 @@ This analytic identifies excessive usage of `net.exe` or `net1.exe` within a buc
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [process_net](https://github.com/splunk/security_content/blob/develop/macros/process_net.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that **excessive_usage_of_net_app_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **excessive_usage_of_net_app_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -143,6 +144,9 @@ unknown. Filter as needed. Modify the time span as needed.
 | ----------- | ----------- |--------------|--------------|
 | 28.0 | 40 | 70 | Excessive usage of net1.exe or net.exe within 1m, with command line $process$ has been detected on $dest$ by $user$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

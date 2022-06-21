@@ -93,7 +93,7 @@ The following analytc uses Windows Event Id 7045, `New Service Was Installed`, t
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
  `wineventlog_system` EventCode=7045  Service_File_Name = "*\.exe" NOT (Service_File_Name IN ("C:\\Windows\\*", "C:\\Program File*", "C:\\Programdata\\*", "%systemroot%\\*")) 
@@ -108,7 +108,8 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [wineventlog_system](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_system.yml)
 
-Note that **windows_service_created_with_suspicious_service_path_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **windows_service_created_with_suspicious_service_path_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * EventCode
@@ -138,6 +139,9 @@ Legitimate applications may install services with uncommon services paths.
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | A service $Service_File_Name$ was created from a non-standard path using $Service_Name$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

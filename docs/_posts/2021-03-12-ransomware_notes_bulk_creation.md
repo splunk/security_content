@@ -89,7 +89,7 @@ The following analytics identifies a big number of instance of ransomware notes 
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `sysmon` EventCode=11 file_name IN ("*\.txt","*\.html","*\.hta") 
@@ -106,7 +106,8 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 
-Note that **ransomware_notes_bulk_creation_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **ransomware_notes_bulk_creation_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * EventCode
@@ -138,6 +139,9 @@ unknown
 | ----------- | ----------- |--------------|--------------|
 | 81.0 | 90 | 90 | A high frequency file creation of $file_name$ in different file path in host $Computer$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

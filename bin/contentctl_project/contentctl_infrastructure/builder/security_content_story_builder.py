@@ -41,7 +41,20 @@ class SecurityContentStoryBuilder(StoryBuilder):
                 for detection_analytic_story in detection.tags.analytic_story:
                     if detection_analytic_story == self.story.name:
                         matched_detection_names.append(str('ESCU - ' + detection.name + ' - Rule'))
-                        matched_detections.append(detection)
+                        # SSE-638: detections object should at least contain the name attribute.
+                        # We also need a minimal set of the following attributes to satisfy docgen (doc_stories.j2):
+                        # name, source, type, tags.mitre_attack_enrichments.mitre_attack_technique
+                        mitre_attack_enrichments_list = []
+                        if (detection.tags.mitre_attack_enrichments):
+                            for attack in detection.tags.mitre_attack_enrichments:
+                                mitre_attack_enrichments_list.append({"mitre_attack_technique": attack.mitre_attack_technique})
+                        tags_obj = {"mitre_attack_enrichments": mitre_attack_enrichments_list}
+                        matched_detections.append({
+                            "name": detection.name,
+                            "source": detection.source,
+                            "type": detection.type,
+                            "tags": tags_obj
+                        })
                         datamodels.update(detection.datamodel)
                         if detection.tags.kill_chain_phases:
                             kill_chain_phases.update(detection.tags.kill_chain_phases)
