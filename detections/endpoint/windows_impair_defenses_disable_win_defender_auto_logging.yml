@@ -8,7 +8,7 @@ datamodel:
 - Endpoint
 description: The search looks for the Registry Key DefenderApiLogger or DefenderAuditLogger set to disable.
   This is consistent with RAT malware across a fleet of endpoints. This particular
-  behavior is typically executed when anadversary gains access to an endpoint
+  behavior is typically executed when an adversary gains access to an endpoint
   and beings to perform execution. Usually, a batch (.bat) will be executed and multiple
   registry and scheduled task modifications will occur. During triage, review parallel
   processes and identify any further file modifications.
