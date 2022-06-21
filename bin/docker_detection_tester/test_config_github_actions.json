@@ -79,6 +79,11 @@
             "app_number": 5466,
             "app_version": "1.0.5",
             "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/ta-for-zeek_105.tgz"
+        },
+        "URL_TOOLBOX": {
+            "app_number": 2734,
+            "app_version": "1.9.2",
+            "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/url-toolbox_192.tgz"
         }
     },
     "branch": "BRANCH_DOES_NOT_EXIST_USE_CLI_ARGUMENT",
