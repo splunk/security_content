@@ -46,7 +46,7 @@ tags:
     role:
     - Victim
   - name: SourceImage
-    type: process name
+    type: Process Name
     role:
     - Attacker
   product:
@@ -65,3 +65,4 @@ tags:
   - Processes.parent_process_id
   risk_score: 25
   security_domain: endpoint
+  asset_type: Endpoint
