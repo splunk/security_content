@@ -1,0 +1,75 @@
+name: Windows Impair Defense Delete Win Defender Profile Registry
+id: 65d4b105-ec52-48ec-ac46-289d0fbf7d96
+version: 1
+date: '2022-06-07'
+author: Teoderick Contreras, Splunk
+type: Anomaly
+datamodel:
+- Endpoint
+description: The search looks for the deletion of Windows Defender main profile within the registry.
+  This was used by RAT malware across a fleet of endpoints. This particular
+  behavior is typically executed when an adversary gains access to an endpoint
+  and beings to perform execution. Usually, a batch (.bat) will be executed and multiple
+  registry and scheduled task modifications will occur. During triage, review parallel
+  processes and identify any further file modifications.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry  
+  where Registry.registry_path = "*\\Policies\\Microsoft\\Windows Defender" Registry.action = deleted
+  by  Registry.registry_path Registry.registry_value_name Registry.registry_value_data Registry.process_guid Registry.action  Registry.user Registry.dest
+  | `drop_dm_object_name(Registry)`
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `windows_impair_defense_delete_win_defender_profile_registry_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Registry` node.
+known_false_positives: It is unusual to turn this feature off a Windows system since
+  it is a default security control, although it is not rare for some policies to disable
+  it. Although no false positives have been identified, use the provided filter macro
+  to tune the search.
+references:
+- https://blog.malwarebytes.com/malwarebytes-news/2021/02/lazyscripter-from-empire-to-double-rat/
+- https://app.any.run/tasks/45f5d114-91ea-486c-ab01-41c4093d2861/
+tags:
+  analytic_story:
+  - Windows Defense Evasion Tactics
+  - Windows Registry Abuse
+  asset_type: Endpoint
+  cis20:
+  - CIS 8
+  confidence: 80
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/delete_win_defender_context_menu/sysmon.log
+  impact: 80
+  kill_chain_phases:
+  - Delivery
+  message: Windows Defender Logger registry key set to 'disabled' on $dest$.
+  mitre_attack_id:
+  - T1562.001
+  - T1562
+  nist:
+  - PR.PT
+  - DE.CM
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Registry.registry_key_name
+  - Registry.registry_value_name
+  - Registry.dest
+  - Registry.user
+  - Registry.registry_path
+  - Registry.action
+  risk_score: 64
+  security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon
