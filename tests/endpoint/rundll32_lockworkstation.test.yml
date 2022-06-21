@@ -1,4 +1,4 @@
-rname: Rundll32 LockWorkStation Unit Test
+name: Rundll32 LockWorkStation Unit Test
 tests:
 - name: Rundll32 LockWorkStation
   file: endpoint/rundll32_lockworkstation.yml
