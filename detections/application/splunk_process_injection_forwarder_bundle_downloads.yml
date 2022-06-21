@@ -14,7 +14,7 @@ references:
 - https://www.github.com/splunk/security_content/blob/develop/workbooks/splunk_psa_0622.json
 tags:
   analytic_story:
-  - Splunk Vulnerabilites
+  - Splunk Vulnerabilities
   asset_type: Endpoint
   cis20:
   - CIS 3
@@ -22,7 +22,6 @@ tags:
   - CIS 16
   cve:
   - CVE-2022-32157
-  - CVE-2022-32158
   confidence: 70
   context:
   - Source:Endpoint

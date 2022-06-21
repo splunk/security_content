@@ -101,8 +101,8 @@ This search is to detect a pushed or commit to master or main branch. This is to
 
 #### Macros
 The SPL above uses the following Macros:
-* [github](https://github.com/splunk/security_content/blob/develop/macros/github.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [github](https://github.com/splunk/security_content/blob/develop/macros/github.yml)
 
 > :information_source:
 > **github_commit_changes_in_master_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.

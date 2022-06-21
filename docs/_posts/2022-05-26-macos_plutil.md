@@ -109,8 +109,8 @@ Detect usage of plutil to modify plist files. Adversaries can modiy plist files 
 
 #### Macros
 The SPL above uses the following Macros:
-* [osquery](https://github.com/splunk/security_content/blob/develop/macros/osquery.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [osquery](https://github.com/splunk/security_content/blob/develop/macros/osquery.yml)
 
 > :information_source:
 > **macos_plutil_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.

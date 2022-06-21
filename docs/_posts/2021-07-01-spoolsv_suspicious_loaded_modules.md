@@ -105,7 +105,7 @@ This search is to detect suspicious loading of dll in specific path relative to 
 
 ```
 `sysmon` EventCode=7 Image ="*\\spoolsv.exe" ImageLoaded="*\\Windows\\System32\\spool\\drivers\\x64\\*" ImageLoaded = "*.dll" 
-| stats dc(ImageLoaded) as countImgloaded values(ImageLoaded) as ImgLoaded count min(_time) as firstTime max(_time) as lastTime by Image Computer process_id EventCode 
+| stats dc(ImageLoaded) as countImgloaded values(ImageLoaded) as ImgLoaded count min(_time) as firstTime max(_time) as lastTime by Image Computer ProcessId EventCode 
 | where countImgloaded >= 3 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -165,4 +165,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/spoolsv_suspicious_loaded_modules.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/spoolsv_suspicious_loaded_modules.yml) \| *version*: **2**

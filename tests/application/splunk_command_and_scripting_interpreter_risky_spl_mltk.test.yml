@@ -1,7 +1,7 @@
 name: Splunk Command and Scripting Interpreter Risky SPL MLTK Unit Test
 tests:
 - name: Splunk Command and Scripting Interpreter Risky SPL MLTK
-  file: splunk_command_and_scripting_interpreter_risky_spl_mltk.yml
+  file: application/splunk_command_and_scripting_interpreter_risky_spl_mltk.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -1h
   latest_time: now
