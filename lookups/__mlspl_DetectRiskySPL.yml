@@ -1,4 +1,4 @@
-description: An MLTK model for detecting risky SPL
+description: An MLTK model for detecting Risky SPL
 filename: __mlspl_DetectRiskySPL.mlmodel.mlmodel
 name: __mlspl_DetectRiskySPL.mlmodel
 case_sensitive_match: 'false'
