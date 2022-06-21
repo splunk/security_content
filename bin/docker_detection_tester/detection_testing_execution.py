@@ -118,7 +118,7 @@ def copy_local_apps_to_directory(apps: dict[str, dict], splunkbase_username:tupl
                 path_after_host = url_parse_obj[2].rstrip('/') #removes / at the end, if applicable
                 base_name = path_after_host.rpartition('/')[-1] #just get the file name
                 dest_path = os.path.join(target_directory, base_name) #write the whole path
-                utils.download_file_from_http(http_path, dest_path)
+                utils.download_file_from_http(http_path, dest_path, verbose_print=True)
                 #we need to update the local path because this is used to copy it into the container later
                 item['local_path'] = dest_path
                 #Remove the HTTP Path, we will use the local_path instead
