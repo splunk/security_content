@@ -15,7 +15,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | `drop_dm_object_name(Search_Activity)`
   | table search, user, search_type, risk_score
   |`splunk_command_and_scripting_interpreter_detect_risky_spl_mltk_filter`'
-how_to_implement: This detection depends on the MLTK app which can be found here - https://splunkbase.splunk.com/app/2890/ and the Splunk Audit datamodel which can be found here - https://splunkbase.splunk.com/app/1621/. Additionally, you need to be ingesting logs which include Search_Activity.search, Search_Activity.user, Search_Activity.search_type from your endpoints.
+how_to_implement: This detection depends on the MLTK app which can be found here - https://splunkbase.splunk.com/app/2890/ and the Splunk Audit datamodel which can be found here - https://splunkbase.splunk.com/app/1621/. Additionally, you need to be ingesting logs which include Search_Activity.search, Search_Activity.user, Search_Activity.search_type from your endpoints. The risk score threshold should be adjusted based on the environment.
 known_false_positives: False positives may be present if suspicious behavior is observed, as determined by frequent usage of risky keywords.
 references:
 - https://docs.splunk.com/Documentation/Splunk/latest/Security/SPLsafeguards#Commands_that_trigger_the_warning
