@@ -105,19 +105,19 @@ def generate(args) -> None:
         factory_input_dto = FactoryInputDto(
             os.path.abspath(args.path),
             SecurityContentBasicBuilder(),
-            SecurityContentDetectionBuilder(force_cached_or_offline=args.cached_and_offline),
+            SecurityContentDetectionBuilder(force_cached_or_offline=args.cached_and_offline, skip_enrichment=args.skip_enrichment),
             SecurityContentStoryBuilder(),
             SecurityContentBaselineBuilder(),
             SecurityContentInvestigationBuilder(),
             SecurityContentPlaybookBuilder(),
             SecurityContentDirector(),
-            AttackEnrichment.get_attack_lookup(force_cached_or_offline=args.cached_and_offline)
+            AttackEnrichment.get_attack_lookup(force_cached_or_offline=args.cached_and_offline, skip_enrichment=args.skip_enrichment)
         )
     if args.product in ["SSA", "API"]:
         ba_factory_input_dto = BAFactoryInputDto(
             os.path.abspath(args.path),
             SecurityContentBasicBuilder(),
-            SecurityContentDetectionBuilder(force_cached_or_offline = args.cached_and_offline),
+            SecurityContentDetectionBuilder(force_cached_or_offline = args.cached_and_offline, skip_enrichment=args.skip_enrichment),
             SecurityContentDirector()
         )
 
@@ -172,19 +172,19 @@ def validate(args) -> None:
         factory_input_dto = FactoryInputDto(
             os.path.abspath(args.path),
             SecurityContentBasicBuilder(),
-            SecurityContentDetectionBuilder(force_cached_or_offline=args.cached_and_offline, check_references=args.check_references),
+            SecurityContentDetectionBuilder(force_cached_or_offline=args.cached_and_offline, check_references=args.check_references, skip_enrichment=args.skip_enrichment),
             SecurityContentStoryBuilder(check_references=args.check_references),
             SecurityContentBaselineBuilder(check_references=args.check_references),
             SecurityContentInvestigationBuilder(check_references=args.check_references),
             SecurityContentPlaybookBuilder(check_references=args.check_references),
             SecurityContentDirector(),
-            AttackEnrichment.get_attack_lookup(force_cached_or_offline=args.cached_and_offline)
+            AttackEnrichment.get_attack_lookup(force_cached_or_offline=args.cached_and_offline, skip_enrichment=args.skip_enrichment)
         )
     if args.product in ["SSA", "all"]:
         ba_factory_input_dto = BAFactoryInputDto(
             os.path.abspath(args.path),
             SecurityContentBasicBuilder(),
-            SecurityContentDetectionBuilder(force_cached_or_offline = args.cached_and_offline, check_references=args.check_references),
+            SecurityContentDetectionBuilder(force_cached_or_offline = args.cached_and_offline, check_references=args.check_references, skip_enrichment=args.skip_enrichment),
             SecurityContentDirector()
         )
     
@@ -214,13 +214,13 @@ def doc_gen(args) -> None:
     factory_input_dto = FactoryInputDto(
         os.path.abspath(args.path),
         SecurityContentBasicBuilder(),
-        SecurityContentDetectionBuilder(force_cached_or_offline=args.cached_and_offline),
+        SecurityContentDetectionBuilder(force_cached_or_offline=args.cached_and_offline, skip_enrichment=args.skip_enrichment),
         SecurityContentStoryBuilder(),
         SecurityContentBaselineBuilder(),
         SecurityContentInvestigationBuilder(),
         SecurityContentPlaybookBuilder(),
         SecurityContentDirector(),
-        AttackEnrichment.get_attack_lookup(force_cached_or_offline=args.cached_and_offline)
+        AttackEnrichment.get_attack_lookup(force_cached_or_offline=args.cached_and_offline, skip_enrichment=args.skip_enrichment)
     )
 
     doc_gen_input_dto = DocGenInputDto(
@@ -235,14 +235,14 @@ def doc_gen(args) -> None:
 
 def new_content(args) -> None:
     if args.type == 'detection':
-        type = SecurityContentType.detections
+        contentType = SecurityContentType.detections
     elif args.type == 'story':
-        type = SecurityContentType.stories
+        contentType = SecurityContentType.stories
     else:
         print("ERROR: type " + args.type + " not supported")
         sys.exit(1)
 
-    new_content_factory_input_dto = NewContentFactoryInputDto(type)
+    new_content_factory_input_dto = NewContentFactoryInputDto(contentType)
     new_content_input_dto = NewContentInputDto(new_content_factory_input_dto, ObjToYmlAdapter())
     new_content = NewContent()
     new_content.execute(new_content_input_dto)
@@ -252,13 +252,13 @@ def reporting(args) -> None:
     factory_input_dto = FactoryInputDto(
         os.path.abspath(args.path),
         SecurityContentBasicBuilder(),
-        SecurityContentDetectionBuilder(force_cached_or_offline=args.cached_and_offline),
+        SecurityContentDetectionBuilder(force_cached_or_offline=args.cached_and_offline, skip_enrichment=args.skip_enrichment),
         SecurityContentStoryBuilder(),
         SecurityContentBaselineBuilder(),
         SecurityContentInvestigationBuilder(),
         SecurityContentPlaybookBuilder(),
         SecurityContentDirector(),
-        AttackEnrichment.get_attack_lookup(force_cached_or_offline=args.cached_and_offline)
+        AttackEnrichment.get_attack_lookup(force_cached_or_offline=args.cached_and_offline, skip_enrichment=args.skip_enrichment)
     )
 
     reporting_input_dto = ReportingInputDto(
@@ -282,6 +282,9 @@ def main(args):
                                         help="path to the Splunk Security Content folder",)
     parser.add_argument("--cached_and_offline", action=argparse.BooleanOptionalAction,
         help="Force cached/offline resources.  While this makes execution much faster, it may result in enrichment which is out of date. This is suitable for use only in development or disconnected environments.")
+    parser.add_argument("--skip_enrichment", action=argparse.BooleanOptionalAction,
+        help="Skip enrichment of CVEs.  This can significantly decrease the amount of time needed to run content_ctl.")
+
     parser.set_defaults(cached_and_offline=False, func=lambda _: parser.print_help())
 
     actions_parser = parser.add_subparsers(title="Splunk Security Content actions", dest="action")

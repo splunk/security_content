@@ -13,12 +13,16 @@ logging.getLogger('taxii2client').setLevel(logging.CRITICAL)
 class AttackEnrichment():
 
     @classmethod
-    def get_attack_lookup(self, store_csv = None, force_cached_or_offline: bool = False) -> dict:
+    def get_attack_lookup(self, store_csv = None, force_cached_or_offline: bool = False, skip_enrichment:bool = False) -> dict:
         print("Getting MITRE Attack Enrichment Data. This may take some time...")
         attack_lookup = dict()
         file_path = os.path.join(os.path.dirname(__file__), '../../../../lookups/mitre_enrichment.csv')
 
+        if skip_enrichment is True:
+            print("Skipping enrichment")
+            return attack_lookup
         try:
+
             if force_cached_or_offline is True:
                 raise(Exception("WARNING - Using cached MITRE Attack Enrichment.  Attack Enrichment may be out of date. Only use this setting for offline environments and development purposes."))
             print(f"\r{'Client'.rjust(23)}: [{0:3.0f}%]...", end="", flush=True)

@@ -20,10 +20,12 @@ class SecurityContentDetectionBuilder(DetectionBuilder):
     #used for CveEnrichment.enrich_cve and SplunkAppEnrichment.enrich_splunk_app
     force_cached_or_offline: bool 
     check_references: bool
+    skip_enrichment: bool
 
-    def __init__(self, force_cached_or_offline: bool = False, check_references: bool = False):
+    def __init__(self, force_cached_or_offline: bool = False, check_references: bool = False, skip_enrichment:bool = False):
         self.force_cached_or_offline = force_cached_or_offline
         self.check_references = check_references
+        self.skip_enrichment = skip_enrichment
 
     def setObject(self, path: str) -> None:
         yml_dict = YmlReader.load_file(path)
@@ -174,6 +176,10 @@ class SecurityContentDetectionBuilder(DetectionBuilder):
             if attack_enrichment:
                 if self.security_content_obj.tags.mitre_attack_id:
                     self.security_content_obj.tags.mitre_attack_enrichments = []
+                    if self.skip_enrichment:
+                        # We just want to make the above, mitre_attack_enrichments, and
+                        # empty list since we didn't actually fetch those enrichments
+                        return
                     for mitre_attack_id in self.security_content_obj.tags.mitre_attack_id:
                         if mitre_attack_id in attack_enrichment:
                             mitre_attack_enrichment = MitreAttackEnrichment(
@@ -185,7 +191,7 @@ class SecurityContentDetectionBuilder(DetectionBuilder):
                             self.security_content_obj.tags.mitre_attack_enrichments.append(mitre_attack_enrichment)
                         else:
                             #print("mitre_attack_id " + mitre_attack_id + " doesn't exist for detecction " + self.security_content_obj.name)
-                            raise ValueError("mitre_attack_id " + mitre_attack_id + " doesn't exist for detecction " + self.security_content_obj.name)
+                            raise ValueError("mitre_attack_id " + mitre_attack_id + " doesn't exist for detection " + self.security_content_obj.name)
 
 
     def addMacros(self, macros: list) -> None:
@@ -224,6 +230,8 @@ class SecurityContentDetectionBuilder(DetectionBuilder):
 
 
     def addCve(self) -> None:
+        if self.skip_enrichment:
+            return None
         if self.security_content_obj:
             self.security_content_obj.cve_enrichment = []
             if self.security_content_obj.tags.cve:
@@ -231,6 +239,8 @@ class SecurityContentDetectionBuilder(DetectionBuilder):
                     self.security_content_obj.cve_enrichment.append(CveEnrichment.enrich_cve(cve, force_cached_or_offline = self.force_cached_or_offline))
 
     def addSplunkApp(self) -> None:
+        if self.skip_enrichment:
+            return None
         if self.security_content_obj:
             self.security_content_obj.splunk_app_enrichment = []
             if self.security_content_obj.tags.supported_tas:
