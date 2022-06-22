@@ -12,8 +12,8 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | dedup spl_text
   | apply DetectRiskySPL
   | where risk_score > 0.6
-  | table Search_Activity.search, Search_Activity.user, Search_Activity.search_type, risk_score
   | `drop_dm_object_name(Search_Activity)`
+  | table search, user, search_type, risk_score
   |`splunk_command_and_scripting_interpreter_detect_risky_spl_mltk_filter`'
 how_to_implement: This detection depends on the MLTK app which can be found here - https://splunkbase.splunk.com/app/2890/ and the Splunk Audit datamodel which can be found here - https://splunkbase.splunk.com/app/1621/. Additionally, you need to be ingesting logs which include Search_Activity.search, Search_Activity.user, Search_Activity.search_type from your endpoints.
 known_false_positives: False positives may be present if suspicious behavior is observed, as determined by frequent usage of risky keywords.
