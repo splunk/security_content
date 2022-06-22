@@ -455,8 +455,18 @@ class SplunkContainer:
                 #pdb.set_trace()
                 # Fill in all the "Empty" fields with default values. Otherwise, we will not be able to 
                 # process the result correctly.  
+                detection_to_test.replace("security_content/tests", "security_content/detections")
+                try:
+                    test_file_obj = testing_service.load_file(os.path.join("security_content/", detection_to_test))
+                    if 'file' not in test_file_obj:
+                        raise Exception(f"'file' field not found in {detection_to_test}")
+                except:
+                    test_file_obj['file'] = detection_to_test.replace("tests/", "").replace(".test.yml", ".yml")
+                    print(f"Error getting the detection file associated with the test file. We will try our best to convert it: {detection_to_test}-->{test_file_obj['file']}")
+                    
+
                 self.synchronization_object.addError(
-                    {"detection_file": detection_to_test,
+                    {"detection_file": test_file_obj['file'],
                         "detection_error": str(e)}, duration_string = datetime.timedelta(seconds=round(timeit.default_timer() - current_test_start_time))
 
 
