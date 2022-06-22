@@ -130,7 +130,7 @@ To successfully implement this search you need to be ingesting information on pr
 There will be limited false positives and it will be different for every environment. Tune by child process or command-line as needed.
 
 #### Associated Analytic story
-* [Spearphishing Attachment](/stories/spearphishing_attachment)
+* [Spearphishing Attachments](/stories/spearphishing_attachments)
 
 
 
