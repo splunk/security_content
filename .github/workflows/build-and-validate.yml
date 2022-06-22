@@ -81,8 +81,8 @@ jobs:
       - name: content_ctl validate
         run: |
           source .venv/bin/activate
-          python contentctl.py -p . validate -pr ESCU
-          python contentctl.py -p . validate -pr SSA
+          python contentctl.py -p . --skip_enrichment validate -pr ESCU
+          python contentctl.py -p . --skip_enrichment validate -pr SSA
 
 
       #Now generate the documentation (uses Node)
@@ -93,7 +93,7 @@ jobs:
       - name: contentctl docgen
         run: |
           source .venv/bin/activate
-          python contentctl.py -p . docgen -o docs
+          python contentctl.py -p . --skip_enrichment docgen -o docs
           #Now generate the spec docs
           npm install -g @adobe/jsonschema2md
           jsonschema2md -d spec -o docs/spec -f yaml -e spec.json -x -
@@ -104,8 +104,8 @@ jobs:
         run: |
           source .venv/bin/activate
           rm -rf dist/escu/default/data/ui/panels/*.xml
-          python contentctl.py --path . generate --product ESCU --output dist/escu
-          python contentctl.py --path . generate --product SSA --output dist/ssa
+          python contentctl.py --path . --skip_enrichment generate --product ESCU --output dist/escu
+          python contentctl.py --path . --skip_enrichment generate --product SSA --output dist/ssa
       
       - name: Copy lookups .mlmodel files
         run: |
@@ -289,7 +289,7 @@ jobs:
       - name: run reporting
         run: |
           source venv/bin/activate
-          python3 contentctl.py -p . reporting
+          python3 contentctl.py -p . --skip_enrichment reporting
       
       #Official, Verified Amazon-AWS Github Account Provided Action
       - uses: aws-actions/configure-aws-credentials@v1
@@ -350,7 +350,7 @@ jobs:
       - name: Run doc-gen
         run: |
           source venv/bin/activate
-          python3 contentctl.py -p . docgen -o docs
+          python3 contentctl.py -p . --skip_enrichment docgen -o docs
 
       - name: Update github with new docs and package bits
         run: |
@@ -468,7 +468,7 @@ jobs:
       - name: Create YML to JSON Folder
         run: |
           source venv/bin/activate
-          python3 contentctl.py --path . generate --product API --output dist/api
+          python3 contentctl.py --path . --skip_enrichment generate --product API --output dist/api
 
       - name: Generate content version and timestamp JSON
         run : |
