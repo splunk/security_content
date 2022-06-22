@@ -11,3 +11,4 @@ tests:
     source: /opt/splunk/var/log/splunk/splunkd.log
     sourcetype: splunkd
     update_timestamp: true
+    custom_index: _internal

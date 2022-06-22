@@ -1,7 +1,7 @@
 name: AWS ECR Container Scanning Findings High
 id: 62721bd2-1d82-4623-b6e6-aac170014423
 version: 1
-date: '2021-08-17'
+date: '2022-06-21'
 author: Patrick Bareiss, Splunk
 type: TTP
 datamodel: []
@@ -14,7 +14,7 @@ search: '`cloudtrail` eventSource=ecr.amazonaws.com eventName=DescribeImageScanF
   description as finding_description, requestParameters.imageId.imageDigest as imageDigest,
   requestParameters.repositoryName as image | eval finding = finding_name.", ".finding_description
   | eval phase="release" | eval severity="high" | stats min(_time) as firstTime max(_time)
-  as lastTime by awsRegion, eventName, eventSource, imageDigest, image, user, userName,
+  as lastTime by awsRegion, eventName, eventSource, imageDigest, image, userName,
   src_ip, finding, phase, severity | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `aws_ecr_container_scanning_findings_high_filter`'
 how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
