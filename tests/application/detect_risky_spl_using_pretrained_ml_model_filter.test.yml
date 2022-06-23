@@ -1,6 +1,6 @@
-name: Splunk Command and Scripting Interpreter Detect Risky SPL MLTK Unit Test
+name: Detect Risky SPL using Pretrained ML Model Unit Test
 tests:
-- name: Splunk Command and Scripting Interpreter Detect Risky SPL MLTK
+- name: Detect Risky SPL using Pretrained ML Model
   file: application/splunk_command_and_scripting_interpreter_detect_risky_spl_mltk.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -10y

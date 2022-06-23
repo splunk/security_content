@@ -1,6 +1,0 @@
-description: An MLTK model for detecting Risky SPL
-filename: __mlspl_DetectRiskySPL.mlmodel.mlmodel
-name: __mlspl_DetectRiskySPL.mlmodel
-case_sensitive_match: 'false'
-min_matches: 1
-default_match: 'false'
