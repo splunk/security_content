@@ -118,8 +118,8 @@ This search looks at S3 bucket-access logs and detects new or previously unseen 
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [aws_s3_accesslogs](https://github.com/splunk/security_content/blob/develop/macros/aws_s3_accesslogs.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **detect_s3_access_from_a_new_ip_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
