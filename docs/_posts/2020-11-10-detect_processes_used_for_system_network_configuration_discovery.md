@@ -113,8 +113,8 @@ This search looks for fast execution of processes used for system network config
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [system_network_configuration_discovery_tools](https://github.com/splunk/security_content/blob/develop/macros/system_network_configuration_discovery_tools.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 > :information_source:

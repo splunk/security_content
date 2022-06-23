@@ -111,7 +111,7 @@ This search looks for AWS CloudTrail events from AWS Elastic Container Service (
 | eval finding = finding_name.", ".finding_description 
 | eval phase="release" 
 | eval severity="medium" 
-| stats min(_time) as firstTime max(_time) as lastTime by awsRegion, eventName, eventSource, imageDigest, image, user, userName, src_ip, finding, phase, severity 
+| stats min(_time) as firstTime max(_time) as lastTime by awsRegion, eventName, eventSource, imageDigest, image, userName, src_ip, finding, phase, severity 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
 | `aws_ecr_container_scanning_findings_medium_filter`

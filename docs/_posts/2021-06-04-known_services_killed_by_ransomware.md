@@ -101,8 +101,8 @@ This search detects a suspicioous termination of known services killed by ransom
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [wineventlog_system](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_system.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **known_services_killed_by_ransomware_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
