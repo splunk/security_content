@@ -1,7 +1,7 @@
-name: Windows Modify Registry Disable Windows Security Center Notifications Unit Test
+name: Windows Modify Registry Disable Windows Security Center Notifs Unit Test
 tests:
-- name: Windows Modify Registry Disable Windows Security Center Notifications
-  file: endpoint/windows_modify_registry_disable_windows_security_center_notifications.yml
+- name: Windows Modify Registry Disable Windows Security Center Notifs
+  file: endpoint/windows_modify_registry_disable_windows_security_center_notifs.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h
   latest_time: now
