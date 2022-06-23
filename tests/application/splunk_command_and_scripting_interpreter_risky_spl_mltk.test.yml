@@ -1,0 +1,20 @@
+name: Splunk Command and Scripting Interpreter Risky SPL MLTK Unit Test
+tests:
+- name: Splunk Command and Scripting Interpreter Risky SPL MLTK
+  file: application/splunk_command_and_scripting_interpreter_risky_spl_mltk.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -1h
+  latest_time: now
+  baselines:
+  - name: Splunk Command and Scripting Interpreter Risky SPL MLTK Baseline
+    file: baselines/splunk_command_and_scripting_interpreter_risky_spl_mltk_baseline.yml
+    pass_condition: '| stats count | where count > 0'
+    earliest_time: -7d
+    latest_time: now
+  attack_data: 
+  - file_name: search_activity.json
+    data: https://github.com/splunk/attack_data/raw/master/datasets/attack_techniques/T1203/search_activity.txt
+    source: audittrail
+    sourcetype: audittrail
+    update_timestamp: true
+    custom_index: _audit

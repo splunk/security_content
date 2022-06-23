@@ -103,8 +103,8 @@ This search provides information of unauthenticated requests via user agent, and
 
 #### Macros
 The SPL above uses the following Macros:
-* [aws_cloudwatchlogs_eks](https://github.com/splunk/security_content/blob/develop/macros/aws_cloudwatchlogs_eks.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [aws_cloudwatchlogs_eks](https://github.com/splunk/security_content/blob/develop/macros/aws_cloudwatchlogs_eks.yml)
 
 > :information_source:
 > **amazon_eks_kubernetes_cluster_scan_detection_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
