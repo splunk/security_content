@@ -121,7 +121,7 @@ jobs:
           source .venv/bin/activate
           rm -rf dist/escu/default/data/ui/panels/*.xml
           python contentctl.py --path . ${{ steps.vars.outputs.skip_enrichment_var }} generate --product ESCU --output dist/escu
-          python contentctl.py --path . ${{ steps.vars.outputs.skip_enrichment_var }} --product SSA --output dist/ssa
+          python contentctl.py --path . ${{ steps.vars.outputs.skip_enrichment_var }} generate --product SSA --output dist/ssa
       
       - name: Copy lookups .mlmodel files
         run: |
