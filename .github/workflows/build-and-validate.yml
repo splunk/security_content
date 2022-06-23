@@ -60,7 +60,7 @@ jobs:
             #Not a tagged relese
             echo "Release is NOT TAGGED!"
             echo "::set-output name=tag::"
-            echo "::set-output name=skipenrichment_var::--skip_enrichment"
+            echo "::set-output name=skip_enrichment_var::--skip_enrichment"
           fi
 
       #Previous config chose which branch/tag to operate on.
