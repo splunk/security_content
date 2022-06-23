@@ -1,4 +1,4 @@
-name: Windows Modify Registry Disable Windows Security Center Notifs
+name: Windows Modify Registry Disable Windows Security Center Notif
 id: 27ed3e79-6d86-44dd-b9ab-524451c97a7b
 version: 1
 date: '2022-06-22'
@@ -17,7 +17,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | `drop_dm_object_name(Registry)`
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` 
-  | `windows_modify_registry_disable_windows_security_center_notifs_filter`'
+  | `windows_modify_registry_disable_windows_security_center_notif_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure
