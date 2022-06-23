@@ -1,0 +1,18 @@
+name: Windows System Binary Proxy Execution MSIExec
+id: bea2e16b-4599-46ad-a95b-116078726c68
+version: 1
+date: '2022-06-16'
+author: Michael Haag, Splunk
+description: Adversaries may abuse msiexec.exe to proxy execution of malicious payloads. Msiexec.exe is the command-line utility for the Windows Installer and is thus commonly associated with executing installation packages (.msi).
+narrative: Adversaries may abuse msiexec.exe to launch local or network accessible MSI files. Msiexec.exe can also execute DLLs. Since it may be signed and native on Windows systems, msiexec.exe can be used to bypass application control solutions that do not account for its potential abuse. Msiexec.exe execution may also be elevated to SYSTEM privileges if the AlwaysInstallElevated policy is enabled.
+references: 
+  - https://attack.mitre.org/techniques/T1218/007/
+tags:
+  analytic_story: Windows System Binary Proxy Execution MSIExec
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

@@ -1,6 +1,6 @@
 name: Windows LOLBin Binary in Non Standard Path
 id: 25689101-012a-324a-94d3-08301e6c065a
-version: 1
+version: 2
 description: The following analytic identifies native living off the land binaries
   within the Windows operating system that may be abused by adversaries by moving
   it to a new directory. The list of binaries was derived from the https://lolbas-project.github.io
@@ -49,6 +49,7 @@ search: ' $ssa_input = | from read_ssa_enriched_events() | eval device=ucast(map
   /(?i)\\windows\\adws/)=false AND match_regex(process_path, /(?i)\\windows\\networkcontroller/)=false
   AND match_regex(process_path, /(?i)\\windows\\systemapps/)=false AND match_regex(process_path,
   /(?i)\\winsxs/)=false AND match_regex(process_path, /(?i)\\microsoft.net/)=false
+  AND match_regex(process_path, /(?i)\\microsoft\\windows defender\\platform/)=false
   | eval start_time=timestamp, end_time=timestamp, entities=mvappend(device, user),
   body=create_map(["event_id", event_id, "process_path", process_path, "process_name",
   process_name]) | into write_ssa_detected_events();'

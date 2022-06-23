@@ -94,7 +94,7 @@ By populating the organization's assets within the assets_by_str.csv, we will be
 
 ```
 
-| tstats `security_content_summariesonly` count from datamodel=Network_Sessions where nodename=All_Sessions.DHCP All_Sessions.signature=DHCPREQUEST by All_Sessions.src_ip All_Sessions.dest_mac 
+| tstats `security_content_summariesonly` count from datamodel=Network_Sessions where nodename=All_Sessions.DHCP All_Sessions.tag=dhcp by All_Sessions.dest_ip All_Sessions.dest_mac 
 | dedup All_Sessions.dest_mac
 | `drop_dm_object_name("Network_Sessions")`
 |`drop_dm_object_name("All_Sessions")` 
@@ -150,4 +150,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/experimental/network/detect_unauthorized_assets_by_mac_address.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/experimental/network/detect_unauthorized_assets_by_mac_address.yml) \| *version*: **2**
