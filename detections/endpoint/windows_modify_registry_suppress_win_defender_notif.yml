@@ -1,4 +1,4 @@
-name: Windows Modify Registry Suppress Win Defender Notifs
+name: Windows Modify Registry Suppress Win Defender Notif
 id: e3b42daf-fff4-429d-bec8-2a199468cea9
 version: 1
 date: '2022-06-22'
@@ -16,7 +16,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | `drop_dm_object_name(Registry)`
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` 
-  | `windows_modify_registry_suppress_win_defender_notifs_filter`'
+  | `windows_modify_registry_suppress_win_defender_notif_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure
