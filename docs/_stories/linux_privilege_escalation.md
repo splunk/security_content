@@ -33,8 +33,9 @@ Privilege escalation is a "land-and-expand" technique, wherein an adversary gain
 | ----------- | ----------- |--------------|
 | [Linux Add Files In Known Crontab Directories](/endpoint/linux_add_files_in_known_crontab_directories/) | [Cron](/tags/#cron), [Scheduled Task/Job](/tags/#scheduled-task/job)| Anomaly |
 | [Linux Add User Account](/endpoint/linux_add_user_account/) | [Local Account](/tags/#local-account), [Create Account](/tags/#create-account)| Hunting |
+| [Linux Adding Crontab Using List Parameter](/endpoint/linux_adding_crontab_using_list_parameter/) | [Cron](/tags/#cron), [Scheduled Task/Job](/tags/#scheduled-task/job)| Hunting |
 | [Linux At Allow Config File Creation](/endpoint/linux_at_allow_config_file_creation/) | [Cron](/tags/#cron), [Scheduled Task/Job](/tags/#scheduled-task/job)| Anomaly |
-| [Linux At Application Execution](/endpoint/linux_at_application_execution/) | [At (Linux)](/tags/#at-(linux)), [Scheduled Task/Job](/tags/#scheduled-task/job)| Anomaly |
+| [Linux At Application Execution](/endpoint/linux_at_application_execution/) | [At](/tags/#at), [Scheduled Task/Job](/tags/#scheduled-task/job)| Anomaly |
 | [Linux Change File Owner To Root](/endpoint/linux_change_file_owner_to_root/) | [Linux and Mac File and Directory Permissions Modification](/tags/#linux-and-mac-file-and-directory-permissions-modification), [File and Directory Permissions Modification](/tags/#file-and-directory-permissions-modification)| Anomaly |
 | [Linux Common Process For Elevation Control](/endpoint/linux_common_process_for_elevation_control/) | [Setuid and Setgid](/tags/#setuid-and-setgid), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism)| Hunting |
 | [Linux Doas Conf File Creation](/endpoint/linux_doas_conf_file_creation/) | [Sudo and Sudo Caching](/tags/#sudo-and-sudo-caching), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism)| Anomaly |
@@ -50,7 +51,7 @@ Privilege escalation is a "land-and-expand" technique, wherein an adversary gain
 | [Linux Possible Access Or Modification Of sshd Config File](/endpoint/linux_possible_access_or_modification_of_sshd_config_file/) | [SSH Authorized Keys](/tags/#ssh-authorized-keys), [Account Manipulation](/tags/#account-manipulation)| Anomaly |
 | [Linux Possible Access To Credential Files](/endpoint/linux_possible_access_to_credential_files/) | [/etc/passwd and /etc/shadow](/tags/#/etc/passwd-and-/etc/shadow), [OS Credential Dumping](/tags/#os-credential-dumping)| Anomaly |
 | [Linux Possible Access To Sudoers File](/endpoint/linux_possible_access_to_sudoers_file/) | [Sudo and Sudo Caching](/tags/#sudo-and-sudo-caching), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism)| Anomaly |
-| [Linux Possible Append Command To At Allow Config File](/endpoint/linux_possible_append_command_to_at_allow_config_file/) | [At (Linux)](/tags/#at-(linux)), [Scheduled Task/Job](/tags/#scheduled-task/job)| Anomaly |
+| [Linux Possible Append Command To At Allow Config File](/endpoint/linux_possible_append_command_to_at_allow_config_file/) | [At](/tags/#at), [Scheduled Task/Job](/tags/#scheduled-task/job)| Anomaly |
 | [Linux Possible Append Command To Profile Config File](/endpoint/linux_possible_append_command_to_profile_config_file/) | [Unix Shell Configuration Modification](/tags/#unix-shell-configuration-modification), [Event Triggered Execution](/tags/#event-triggered-execution)| Anomaly |
 | [Linux Possible Append Cronjob Entry on Existing Cronjob File](/endpoint/linux_possible_append_cronjob_entry_on_existing_cronjob_file/) | [Cron](/tags/#cron), [Scheduled Task/Job](/tags/#scheduled-task/job)| Hunting |
 | [Linux Possible Cronjob Modification With Editor](/endpoint/linux_possible_cronjob_modification_with_editor/) | [Cron](/tags/#cron), [Scheduled Task/Job](/tags/#scheduled-task/job)| Hunting |
@@ -61,6 +62,7 @@ Privilege escalation is a "land-and-expand" technique, wherein an adversary gain
 | [Linux Service Started Or Enabled](/endpoint/linux_service_started_or_enabled/) | [Systemd Timers](/tags/#systemd-timers), [Scheduled Task/Job](/tags/#scheduled-task/job)| Anomaly |
 | [Linux Setuid Using Chmod Utility](/endpoint/linux_setuid_using_chmod_utility/) | [Setuid and Setgid](/tags/#setuid-and-setgid), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism)| Anomaly |
 | [Linux Setuid Using Setcap Utility](/endpoint/linux_setuid_using_setcap_utility/) | [Setuid and Setgid](/tags/#setuid-and-setgid), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism)| Anomaly |
+| [Linux Shred Overwrite Command](/endpoint/linux_shred_overwrite_command/) | [Data Destruction](/tags/#data-destruction)| TTP |
 | [Linux Sudo OR Su Execution](/endpoint/linux_sudo_or_su_execution/) | [Sudo and Sudo Caching](/tags/#sudo-and-sudo-caching), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism)| Hunting |
 | [Linux Sudoers Tmp File Creation](/endpoint/linux_sudoers_tmp_file_creation/) | [Sudo and Sudo Caching](/tags/#sudo-and-sudo-caching), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism)| Anomaly |
 | [Linux Visudo Utility Execution](/endpoint/linux_visudo_utility_execution/) | [Sudo and Sudo Caching](/tags/#sudo-and-sudo-caching), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism)| Anomaly |

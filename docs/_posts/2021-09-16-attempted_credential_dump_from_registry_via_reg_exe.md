@@ -100,7 +100,7 @@ Monitor for execution of reg.exe with parameters specifying an export of keys th
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -114,11 +114,12 @@ Monitor for execution of reg.exe with parameters specifying an export of keys th
 #### Macros
 The SPL above uses the following Macros:
 * [process_cmd](https://github.com/splunk/security_content/blob/develop/macros/process_cmd.yml)
-* [process_reg](https://github.com/splunk/security_content/blob/develop/macros/process_reg.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [process_reg](https://github.com/splunk/security_content/blob/develop/macros/process_reg.yml)
 
-Note that **attempted_credential_dump_from_registry_via_reg_exe_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **attempted_credential_dump_from_registry_via_reg_exe_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -156,6 +157,9 @@ None identified.
 | ----------- | ----------- |--------------|--------------|
 | 90.0 | 90 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to export the registry keys. |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

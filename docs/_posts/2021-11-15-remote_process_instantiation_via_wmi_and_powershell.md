@@ -89,7 +89,7 @@ This analytic looks for the execution of `powershell.exe` leveraging the `Invoke
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -102,11 +102,12 @@ This analytic looks for the execution of `powershell.exe` leveraging the `Invoke
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [process_powershell](https://github.com/splunk/security_content/blob/develop/macros/process_powershell.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that **remote_process_instantiation_via_wmi_and_powershell_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **remote_process_instantiation_via_wmi_and_powershell_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -141,6 +142,9 @@ Administrators may leverage WWMI and powershell.exe to start a process on remote
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 90 | 70 | A process was started on a remote endpoint from $dest by abusing WMI using PowerShell.exe |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

@@ -93,7 +93,7 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `powershell` EventCode=4104 (Message = "*Get-DomainGroupMember*") AND Message IN ("*Domain Admins*","*Enterprise Admins*", "*Schema Admins*", "*Account Operators*" , "*Server Operators*", "*Protected Users*",  "*Dns Admins*") 
@@ -107,7 +107,8 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [powershell](https://github.com/splunk/security_content/blob/develop/macros/powershell.yml)
 
-Note that **elevated_group_discovery_with_powerview_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **elevated_group_discovery_with_powerview_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -135,6 +136,9 @@ Administrators or power users may use this PowerView for troubleshooting.
 | ----------- | ----------- |--------------|--------------|
 | 21.0 | 30 | 70 | Elevated group discovery using PowerView on $dest$ by $user$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

@@ -108,6 +108,9 @@ Once an attacker obtains an initial foothold in an Active Directory environment,
 | [System User Discovery With Whoami](/endpoint/system_user_discovery_with_whoami/) | [System Owner/User Discovery](/tags/#system-owner/user-discovery)| Hunting |
 | [User Discovery With Env Vars PowerShell](/endpoint/user_discovery_with_env_vars_powershell/) | [System Owner/User Discovery](/tags/#system-owner/user-discovery)| Hunting |
 | [User Discovery With Env Vars PowerShell Script Block](/endpoint/user_discovery_with_env_vars_powershell_script_block/) | [System Owner/User Discovery](/tags/#system-owner/user-discovery)| Hunting |
+| [Windows Hidden Schedule Task Settings](/endpoint/windows_hidden_schedule_task_settings/) | [Scheduled Task/Job](/tags/#scheduled-task/job)| TTP |
+| [Windows Linked Policies In ADSI Discovery](/endpoint/windows_linked_policies_in_adsi_discovery/) | [Domain Account](/tags/#domain-account), [Account Discovery](/tags/#account-discovery)| Anomaly |
+| [Windows Root Domain linked policies Discovery](/endpoint/windows_root_domain_linked_policies_discovery/) | [Domain Account](/tags/#domain-account), [Account Discovery](/tags/#account-discovery)| Anomaly |
 | [Wmic Group Discovery](/endpoint/wmic_group_discovery/) | [Permission Groups Discovery](/tags/#permission-groups-discovery), [Local Groups](/tags/#local-groups)| Hunting |
 
 #### Reference

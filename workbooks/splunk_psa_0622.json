@@ -1,0 +1,100 @@
+{
+    "name": "Splunk PSA Hunting 06/22",
+    "is_default": false,
+    "phases": [
+        {
+            "name": "SVD-2022-0601",
+            "order": 1,
+            "tasks": [
+                {
+                    "name": "Identify hosts running pre-9.0 versions of Splunk",
+                    "order": 1,
+                    "description": "This vulnerability affects all installs of Splunk prior to version 9.0. The first thing we need to do is identify which of these hosts are present within an environment. Run the \"ESCU - Splunk Protocol Impersonation Weak Encryption Configuration\" hunting search. \n\n\n Examine the output of the query. Hosts need to be running 9.0 or later in order to have the configuration options available. Additionally, several configuration stanzas need to be set in order to ensure the host properly validates TLS certificates. You can view the full list here: https://docs.splunk.com/Documentation/Splunk/9.0.0/Security/EnableTLSCertHostnameValidation#Configure_TLS_host_name_validation_for_Splunk_Python_modules \n\n\n While the hunting search returns the values to check for in server.conf and web.conf, there is also an environment variable set in $SPLUNK_HOME/etc/splunk-launch.conf, which is not available from the search. This needs to be manually checked for (and configured) on each host.",
+                    "playbooks": [],
+                    "actions": ["run query"]
+                    
+                },
+                {
+                    "name": "Look for usage of Default Splunk TLS Certificates",
+                    "order": 2,
+                    "description": "As part of auditing your environment, use data collected from Splunk Stream, Zeek, or a similar data source that provides insight into encrypted traffic and the TLS certificates in use within your environment. You can use the \"ESCU - Splunk Identified SSL TLS Certificates\" hunting search to identify hosts using the default, out of the box Splunk TLS certificates, which should not be considered secure.",
+                    "playbooks": [],
+                    "actions": ["run query"]
+                },
+                {
+                    "name":"Look for lack of encryption",
+                    "order": 3,
+                    "description": "You can use the \"ESCU - Splunk Digital Certificates Lack of Encryption\" search to look for hosts that are forwarding data without the use of TLS. Hosts that are not using TLS to forward data to Splunk are the most likely to need additional scrutiny to ensure these devices are configured in a secure manner. Additionally, you can remove the 'ssl=\"false\"' segment from the beginning of this search in order to get a larger picture of what devices within your environment are forwarding data.",
+                    "playbooks": [],
+                    "actions": ["run query"]
+                },
+                {
+                    "name": "Look for simpleRequest TLS errors",
+                    "order": 4,
+                    "description": "Use the \"ESCU - Splunk Protocol Impersonation Weak Encryption simpleRequest\" hunting search. This search helps you to identify instances in which the SimpleRequest library that ships as part of Splunk's Python failed to validate a certificate.",
+                    "playbooks": [],
+                    "actions": ["run query"]
+                }
+            ]
+        },
+        {
+            "name":"SVD-2022-0602",
+            "order": 2,
+            "tasks":[
+                {
+                    "name": "Look for usage of Default Splunk TLS Certificates",
+                    "order": 1,
+                    "description":"As part of auditing your environment, use data collected from Splunk Stream, Zeek, or a similar data source that provides insight into encrypted traffic and the TLS certificates in use within your environment. You can use the \"ESCU - Splunk Identified SSL TLS Certificates\" hunting search to identify hosts using the default, out of the box Splunk TLS certificates, which should not be considered secure.",
+                    "playbooks": [],
+                    "actions": ["run query"]
+                }, 
+                {
+                    "name": "Look for Default TLS Certificate logged errors",
+                    "order": 2,
+                    "description": "Use the \"ESCU - Splunk Protocol Impersonation Weak Encryption SelfSigned\" hunting search. This search helps you identify devices using self signed certificates which emit warnings starting in version 9.0 of Splunk Enterprise.",
+                    "playbooks": [],
+                    "actions": ["run query"]
+                }
+            ]
+        },
+        {
+            "name": "SVD-2022-0603",
+            "order": 3,
+            "tasks": [
+                {
+                    "name": "Check Splunk Infrastructure versions",
+                    "order": 1,
+                    "description": "Use the \"ESCU - Splunk Digital Certificates Infrastructure Version\" hunting search. This allows you to check the \"SslConfig\" stanza for each host's server.conf as well as its version. For more details about the settings, you can read the docs here: https://docs.splunk.com/Documentation/Splunk/9.0.0/Security/EnableTLSCertHostnameValidation#Configure_TLS_host_name_validation_for_Splunk-to-Splunk_communications",
+                    "playbooks": [],
+                    "actions": ["run query"]
+                }
+            ]
+        },
+        {
+            "name": "SVD-2022-0604",
+            "order": 4,
+            "tasks": [
+                {
+                    "name": "Risky Command Hunting",
+                    "order": 1,
+                    "description": "Use the \"ESCU - Splunk Command and Scripting Interpreter Risky Commands\" hunting search. The Splunk platform includes several SPL commands that can be used to take data that may be restricted by index based RBAC or other means, and make it available to others. This hunting search uses the Splunk Audit datamodel to query the audit trail for your Splunk environment to look for the usage of these commands. The usage of these in particular is not necessarily a sign of trouble and some are used often, but after figuring out what is normal for your environment and who runs what and how often, the data presented will make more sense.",
+                    "playbooks": [],
+                    "actions": ["run query"]
+                }
+            ]
+        },
+        {
+            "name": "SVD-2022-0607",
+            "order": 5,
+            "tasks": [
+                {
+                    "name": "Forwarder Bundle Download Hunting",
+                    "order": 1,
+                    "description": "Use the \"ESCU - Splunk Process Injection Forwarder Bundle Downloads\" hunting search. This search presents you with all of the apps downloaded by forwarders from your deployment server, as well as what serverclass the clients belong to. This vulnerability relates to unauthenticated clients being able to download forwarder bundles. Look for instances in which apps have been downloaded but a client does not have an associated serverclass.",
+                    "playbooks": [],
+                    "actions": ["run query"]
+                }
+            ]
+        }
+    ]
+}
