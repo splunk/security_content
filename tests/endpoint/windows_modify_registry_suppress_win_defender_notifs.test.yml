@@ -1,6 +1,6 @@
 name: Windows Modify Registry Suppress Win Defender Notifs Unit Test
 tests:
-- name: Windows Modify Registry Suppress Win Defender Notifications
+- name: Windows Modify Registry Suppress Win Defender Notifs
   file: endpoint/windows_modify_registry_suppress_win_defender_notifs.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h
