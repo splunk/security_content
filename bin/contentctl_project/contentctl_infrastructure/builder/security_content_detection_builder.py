@@ -93,7 +93,7 @@ class SecurityContentDetectionBuilder(DetectionBuilder):
         if self.security_content_obj:
             if self.security_content_obj.tags.supported_tas:
                 if 'Splunk_TA_microsoft_sysmon' in self.security_content_obj.tags.supported_tas:
-                    self.security_content_obj.providing_technologies = ['Sysmon']
+                    self.security_content_obj.providing_technologies = ['Sysmon','Microsoft Windows']
 
 
     def addNesFields(self) -> None:
