@@ -14,7 +14,7 @@ description: The following analytic utilizes PowerShell Script Block Logging (Ev
   Red Teams and adversaries alike may leverage PowerView and these commandlets to identify accounts that can be
   attacked with the Kerberoasting technique.
 search: '`powershell` EventCode=4104 (ScriptBlockText =*Get-NetUser* OR ScriptBlockText=*Get-DomainUser*) ScriptBlockText= *-SPN* 
-| stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText ComputerName User 
+| stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer 
 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `windows_powerview_spn_discovery_filter`'
 how_to_implement: The following analytic requires PowerShell operational logs
   to be imported. Modify the powershell macro as needed to match the sourcetype or
