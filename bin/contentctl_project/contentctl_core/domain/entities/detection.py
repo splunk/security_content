@@ -52,6 +52,7 @@ class Detection(BaseModel, SecurityContentObject):
     file_path: str = None
     source: str = None
     nes_fields: str = None
+    providing_technologies: str = None
 
 
     # @validator('name')

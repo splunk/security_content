@@ -89,6 +89,12 @@ class SecurityContentDetectionBuilder(DetectionBuilder):
 
             self.security_content_obj.risk = risk_objects
 
+     def addProvidingTechnologies(self) -> None:
+        if self.security_content_obj:
+            if self.security_content_obj.tags.supported_tas:
+                if 'Splunk_TA_microsoft_sysmon' in self.security_content_obj.tags.supported_tas:
+                    self.security_content_obj.providing_technologies = ['Sysmon']
+
 
     def addNesFields(self) -> None:
         if self.security_content_obj:
