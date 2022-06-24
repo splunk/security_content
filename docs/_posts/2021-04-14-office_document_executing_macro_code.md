@@ -97,7 +97,7 @@ this detection was designed to identifies suspicious office documents that using
 #### Search 
 
 ```
-`sysmon` EventCode=7 process_name IN ("WINWORD.EXE", "EXCEL.EXE", "POWERPNT.EXE") ImageLoaded IN ("*\\VBE7INTL.DLL","*\\VBE7.DLL", "*\\VBEUI.DLL") 
+`sysmon` EventCode=7 parent_process_name IN ("WINWORD.EXE", "EXCEL.EXE", "POWERPNT.EXE") ImageLoaded IN ("*\\VBE7INTL.DLL","*\\VBE7.DLL", "*\\VBEUI.DLL") 
 | stats min(_time) as firstTime max(_time) as lastTime values(ImageLoaded) as AllImageLoaded count by Computer EventCode Image process_name ProcessId ProcessGuid 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -106,8 +106,8 @@ this detection was designed to identifies suspicious office documents that using
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **office_document_executing_macro_code_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.

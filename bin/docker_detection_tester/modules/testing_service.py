@@ -9,6 +9,7 @@ import os
 import time
 import requests
 from modules.DataManipulation import DataManipulation
+from modules import utils
 from modules import splunk_sdk
 import timeit
 from typing import Union, Tuple
@@ -103,12 +104,10 @@ def test_detection(splunk_ip:str, splunk_port:int, container_name:str, splunk_pa
             data_upload_index = splunk_sdk.DEFAULT_DATA_INDEX
 
         indices_to_delete.add(data_upload_index)
-
-        r = requests.get(url, allow_redirects=True)
+        
         target_file = os.path.join(folder_name, attack_data['file_name'])
-        with open(target_file, 'wb') as target:
-            target.write(r.content)
-        #print(target_file)
+        utils.download_file_from_http(url, target_file)
+        
 
 
         # Update timestamps before replay

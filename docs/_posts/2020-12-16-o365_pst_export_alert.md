@@ -100,8 +100,8 @@ This search detects when a user has performed an Ediscovery search or exported a
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [o365_management_activity](https://github.com/splunk/security_content/blob/develop/macros/o365_management_activity.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **o365_pst_export_alert_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.

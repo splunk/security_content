@@ -118,8 +118,8 @@ The following analytic identifies native .net binaries within the Windows operat
 
 #### Macros
 The SPL above uses the following Macros:
-* [is_net_windows_file](https://github.com/splunk/security_content/blob/develop/macros/is_net_windows_file.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [is_net_windows_file](https://github.com/splunk/security_content/blob/develop/macros/is_net_windows_file.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 > :information_source:
