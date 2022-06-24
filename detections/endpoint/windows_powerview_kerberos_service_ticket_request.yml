@@ -8,8 +8,8 @@ datamodel: []
 description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
   to identify the execution of the `Get-DomainSPNTicket` commandlets with specific parameters. This commandlet
   is a part of PowerView, a PowerShell tool used to perform enumeration and discovery
-  on Windows Active Directory networks. As the name suggest, this commandlnet is used to 
-  request the kerberos ticket for a specified service principal name (SPN). Once, the ticket is received, it may be cracked 
+  on Windows Active Directory networks. As the name suggests, this commandlet is used to 
+  request the kerberos ticket for a specified service principal name (SPN). Once the ticket is received, it may be cracked 
   using password cracking tools like hashcat to extract the password of the SPN account.
   Red Teams and adversaries alike may leverage PowerView and these commandlets to identify accounts that can be
   attacked with the Kerberoasting technique.
