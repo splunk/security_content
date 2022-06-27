@@ -93,11 +93,13 @@ class SecurityContentDetectionBuilder(DetectionBuilder):
         if self.security_content_obj:
             # if self.security_content_obj.tags.supported_tas:
                 if 'Endpoint' in self.security_content_obj.datamodel:
-                    self.security_content_obj.providing_technologies = "['Sysmon', 'Microsoft Windows','Carbon Black Response','CrowdStrike Falcon', 'Symantec Endpoint Protection']"
+                    self.security_content_obj.providing_technologies = ["Sysmon", "Microsoft Windows","Carbon Black Response","CrowdStrike Falcon", "Symantec Endpoint Protection"]
                 if "`cloudtrail`" in str(self.security_content_obj.search):
-                    self.security_content_obj.providing_technologies = "['Amazon Web Services - Cloudtrail']"
+                    self.security_content_obj.providing_technologies = ["Amazon Web Services - Cloudtrail"]
                 if '`wineventlog_security`' in self.security_content_obj.search or '`powershell`' in self.security_content_obj.search:
-                    self.security_content_obj.providing_technologies = "['Microsoft Windows']"
+                    self.security_content_obj.providing_technologies = ["Microsoft Windows"]
+
+    
 
 
     def addNesFields(self) -> None:
