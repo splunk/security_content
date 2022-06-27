@@ -9,4 +9,4 @@ tests:
   - file_name: get-aduser-powershell.log
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.004/getaduser/get-aduser-powershell.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
-    sourcetype: XmlWinEventLog
+    sourcetype: xmlwineventlog
