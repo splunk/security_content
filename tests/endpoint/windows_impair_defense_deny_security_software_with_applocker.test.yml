@@ -1,7 +1,7 @@
-name: Windows Impair Defense Deny Security Software With Applocker Registry Unit Test
+name: Windows Impair Defense Deny Security Software With Applocker Unit Test
 tests:
-- name: Windows Impair Defense Deny Security Software With Applocker Registry
-  file: endpoint/windows_impair_defense_deny_security_software_with_applocker_registry.yml
+- name: Windows Impair Defense Deny Security Software With Applocker
+  file: endpoint/windows_impair_defense_deny_security_software_with_applocker.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h
   latest_time: now
