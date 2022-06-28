@@ -97,8 +97,8 @@ jobs:
       - name: content_ctl validate
         run: |
           source .venv/bin/activate
-          python contentctl.py -p . ${{ steps.vars.outputs.skip_enrichment_var }} validate -pr ESCU
-          python contentctl.py -p . ${{ steps.vars.outputs.skip_enrichment_var }} validate -pr SSA
+          python contentctl.py -p . ${{ steps.vars.outputs.skip_enrichment_var }} validate -pr ESCU > /dev/null
+          python contentctl.py -p . ${{ steps.vars.outputs.skip_enrichment_var }} validate -pr SSA > /dev/null
 
 
       #Now generate the documentation (uses Node)
@@ -120,8 +120,8 @@ jobs:
         run: |
           source .venv/bin/activate
           rm -rf dist/escu/default/data/ui/panels/*.xml
-          python contentctl.py --path . ${{ steps.vars.outputs.skip_enrichment_var }} generate --product ESCU --output dist/escu
-          python contentctl.py --path . ${{ steps.vars.outputs.skip_enrichment_var }} generate --product SSA --output dist/ssa
+          python contentctl.py --path . ${{ steps.vars.outputs.skip_enrichment_var }} generate --product ESCU --output dist/escu > /dev/null
+          python contentctl.py --path . ${{ steps.vars.outputs.skip_enrichment_var }} generate --product SSA --output dist/ssa > /dev/null
       
       - name: Copy lookups .mlmodel files
         run: |
