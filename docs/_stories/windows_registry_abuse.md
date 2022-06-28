@@ -86,6 +86,9 @@ Windows Registry is one of the powerful and yet still mysterious Windows feature
 | [Windows Disable Windows Group Policy Features Through Registry](/endpoint/windows_disable_windows_group_policy_features_through_registry/) | [Modify Registry](/tags/#modify-registry)| Anomaly |
 | [Windows DisableAntiSpyware Registry](/endpoint/windows_disableantispyware_registry/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Impair Defenses](/tags/#impair-defenses)| TTP |
 | [Windows Hide Notification Features Through Registry](/endpoint/windows_hide_notification_features_through_registry/) | [Modify Registry](/tags/#modify-registry)| Anomaly |
+| [Windows Impair Defense Delete Win Defender Context Menu](/endpoint/windows_impair_defense_delete_win_defender_context_menu/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Impair Defenses](/tags/#impair-defenses)| Hunting |
+| [Windows Impair Defense Delete Win Defender Profile Registry](/endpoint/windows_impair_defense_delete_win_defender_profile_registry/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Impair Defenses](/tags/#impair-defenses)| Anomaly |
+| [Windows Impair Defenses Disable Win Defender Auto Logging](/endpoint/windows_impair_defenses_disable_win_defender_auto_logging/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Impair Defenses](/tags/#impair-defenses)| Anomaly |
 | [Windows Modify Show Compress Color And Info Tip Registry](/endpoint/windows_modify_show_compress_color_and_info_tip_registry/) | [Modify Registry](/tags/#modify-registry)| TTP |
 | [Windows Registry Certificate Added](/endpoint/windows_registry_certificate_added/) | [Install Root Certificate](/tags/#install-root-certificate), [Subvert Trust Controls](/tags/#subvert-trust-controls)| TTP |
 | [Windows Registry Delete Task SD](/endpoint/windows_registry_delete_task_sd/) | [Scheduled Task](/tags/#scheduled-task), [Impair Defenses](/tags/#impair-defenses)| TTP |

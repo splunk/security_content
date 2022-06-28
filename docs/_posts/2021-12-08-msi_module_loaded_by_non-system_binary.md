@@ -107,7 +107,7 @@ In addition, `msi.dll` has been abused in DLL side-loading attacks by being load
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `sysmon` EventCode=7 ImageLoaded="*\\msi.dll" NOT (Image IN ("*\\System32\\*","*\\syswow64\\*","*\\windows\\*", "*\\winsxs\\*")) 
@@ -122,7 +122,8 @@ The SPL above uses the following Macros:
 * [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that **msi_module_loaded_by_non-system_binary_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **msi_module_loaded_by_non-system_binary_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -153,6 +154,9 @@ It is possible some Administrative utilities will load msi.dll outside of normal
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 80 | 70 | The following module $ImageLoaded$ was loaded by $Image$ outside of the normal system paths on endpoint $Computer$, potentally related to DLL side-loading. |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

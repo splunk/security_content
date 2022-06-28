@@ -10,9 +10,14 @@ narrative: A rootkit on Windows may sometimes be in the form of a Windows Driver
   Review the signing information if it is present. Is it common? A lot of driver hunting will lead down rabbit holes, but we hope to help lead the way. 
 references: 
   - https://redcanary.com/blog/tracking-driver-inventory-to-expose-rootkits/
+  - https://www.trendmicro.com/en_us/research/22/e/avoslocker-ransomware-variant-abuses-driver-file-to-disable-anti-Virus-scans-log4shell.html
+  - https://symantec-enterprise-blogs.security.com/blogs/threat-intelligence/daxin-backdoor-espionage
+  - https://media.kasperskycontenthub.com/wp-content/uploads/sites/43/2018/03/08064459/Equation_group_questions_and_answers.pdf
+  - https://www.welivesecurity.com/2022/01/11/signed-kernel-drivers-unguarded-gateway-windows-core/
 tags:
   analytic_story: Windows Drivers
-  category: []
+  category: 
+  - Adversary Tactics
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

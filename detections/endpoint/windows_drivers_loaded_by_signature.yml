@@ -41,6 +41,7 @@ tags:
   message: A driver has loaded on $Computer$. 
   mitre_attack_id:
   - T1014
+  - T1068
   nist:
   - DE.CM
   observable:

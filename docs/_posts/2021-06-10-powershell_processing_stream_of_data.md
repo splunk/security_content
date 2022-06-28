@@ -93,7 +93,7 @@ The following analytic identifies suspicious PowerShell script execution via Eve
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `powershell` EventCode=4104 Message = "*IO.Compression.*" OR Message = "*IO.StreamReader*" OR Message = "*]::Decompress*" 
@@ -108,7 +108,8 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [powershell](https://github.com/splunk/security_content/blob/develop/macros/powershell.yml)
 
-Note that **powershell_processing_stream_of_data_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **powershell_processing_stream_of_data_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -138,6 +139,9 @@ powershell may used this function to process compressed data.
 | ----------- | ----------- |--------------|--------------|
 | 40.0 | 50 | 80 | A suspicious powershell script contains stream command in $Message$ commonly for processing compressed or to decompressed binary file with EventCode $EventCode$ in host $ComputerName$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

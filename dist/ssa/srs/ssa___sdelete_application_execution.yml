@@ -40,6 +40,7 @@ references:
 tags:
   analytic_story:
   - Information Sabotage
+  - Insider Threat
   cis20: []
   kill_chain_phases:
   - Exploitation

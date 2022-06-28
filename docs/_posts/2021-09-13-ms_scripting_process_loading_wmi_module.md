@@ -94,7 +94,7 @@ This search is to detect a suspicious MS scripting process such as wscript.exe o
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `sysmon` EventCode =7 Image IN ("*\\wscript.exe", "*\\cscript.exe") ImageLoaded IN ("*\\fastprox.dll", "*\\wbemdisp.dll", "*\\wbemprox.dll", "*\\wbemsvc.dll" , "*\\wmiutils.dll", "*\\wbemcomn.dll") 
@@ -109,7 +109,8 @@ The SPL above uses the following Macros:
 * [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that **ms_scripting_process_loading_wmi_module_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **ms_scripting_process_loading_wmi_module_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -140,6 +141,9 @@ automation scripting language may used by network operator to do ldap query.
 | ----------- | ----------- |--------------|--------------|
 | 9.0 | 30 | 30 | $process_name$ loading wmi modules $ImageLoaded$ in $dest$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

@@ -100,7 +100,7 @@ This analytic is to look for suspicious raw access read to drive where the maste
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `sysmon` EventCode=9 Device = \\Device\\Harddisk0\\DR0 NOT (Image IN("*\\Windows\\System32\\*", "*\\Windows\\SysWOW64\\*")) 
@@ -115,7 +115,8 @@ The SPL above uses the following Macros:
 * [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that **windows_raw_access_to_master_boot_record_drive_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **windows_raw_access_to_master_boot_record_drive_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -149,6 +150,9 @@ This event is really notable but we found minimal number of normal application f
 | ----------- | ----------- |--------------|--------------|
 | 90.0 | 90 | 100 | process accessing MBR $device$ in $dest$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

@@ -93,7 +93,7 @@ The following Hunting analytic assists with identifying suspicious PowerShell ex
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `powershell` EventCode=4104 
@@ -281,7 +281,8 @@ The following Hunting analytic assists with identifying suspicious PowerShell ex
 The SPL above uses the following Macros:
 * [powershell](https://github.com/splunk/security_content/blob/develop/macros/powershell.yml)
 
-Note that **powershell_4104_hunting_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **powershell_4104_hunting_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -307,6 +308,9 @@ Limited false positives. May filter as needed.
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ executing suspicious commands. |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

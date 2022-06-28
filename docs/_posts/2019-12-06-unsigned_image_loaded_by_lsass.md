@@ -93,7 +93,7 @@ This search detects loading of unsigned images by LSASS. Deprecated because too 
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `sysmon` EventID=7 Image=*lsass.exe Signed=false 
@@ -109,7 +109,8 @@ The SPL above uses the following Macros:
 * [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that **unsigned_image_loaded_by_lsass_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **unsigned_image_loaded_by_lsass_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -133,6 +134,9 @@ Other tools could load images into LSASS for legitimate reason. But enterprise t
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

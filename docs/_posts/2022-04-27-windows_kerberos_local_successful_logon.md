@@ -95,7 +95,7 @@ The following analytic identifies a local successful authentication event on a W
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `wineventlog_security`  EventCode=4624 Logon_Type=3 Authentication_Package=Kerberos action=success src_ip=127.0.0.1 
@@ -107,10 +107,11 @@ The following analytic identifies a local successful authentication event on a W
 
 #### Macros
 The SPL above uses the following Macros:
-* [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 
-Note that **windows_kerberos_local_successful_logon_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **windows_kerberos_local_successful_logon_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -142,6 +143,9 @@ False positives are possible, filtering may be required to restrict to workstati
 | ----------- | ----------- |--------------|--------------|
 | 64.0 | 80 | 80 | A successful localhost Kerberos authentication event occurred on $dest$, possibly indicative of Kerberos relay attack. |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 
