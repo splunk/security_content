@@ -5,13 +5,13 @@ date: '2021-06-15'
 author: Teoderick Contreras, Splunk
 type: TTP
 status: production
-enabled: true
 description: This search is to detect execution of wevtutil.exe to disable logs. This
   technique was seen in several ransomware to disable the event logs to evade alerts
   and detections in compromised host.
 logsource:
-  product: windows
-  catgeory: process_creation
+  - Windows Security 4688
+  - Sysmon Event Code 1
+  - Carbon Black Process 
 search:
   selection:
     CommandLine|contains: 'sl'
@@ -33,8 +33,8 @@ tags:
   - Ransomware
   confidence: 90
   impact: 70
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/ssa_wevtutil/disable_evt.log
+  mesage: message here
+  drilldown: drilldown search here (pre generated) (optional field)
   mitre_attack_id:
   - T1070
   - T1070.001
@@ -49,14 +49,14 @@ tags:
   asset_type: Endpoint
 test:
 - name: Wevtutil Usage To Disable Logs SRS
-  type: SRS
+  product: BA
   pass_condition: '@count_gt(0)'
   attack_data:
   - file_name: disable_evt.log
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/ssa_wevtutil/disable_evt.log
     source: WinEventLog:Security
 - name: Wevtutil Usage To Disable Logs Sysmon
-  type: ESCU
+  product: ESCU
   pass_condition: '@count_gt(0)'
   attack_data:
   - file_name: sysmon.log
@@ -64,7 +64,7 @@ test:
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
 - name: Wevtutil Usage To Disable Logs CarbonBlack
-  type: ESCU
+  product: ESCU
   pass_condition: '@count_gt(0)'
   attack_data:
   - file_name: carbon-black.log
