@@ -10,7 +10,7 @@ description: The following analytic utilizes PowerShell Script Block Logging (Ev
   is part of PowerView, a PowerShell tool used to perform enumeration on Windows domains.
   Red Teams and adversaries alike may use PowerView to enumerate domain computers
   for situational awareness and Active Directory Discovery.
-search: '`powershell` EventCode=4104 (Message = "*Get-DomainController*") | stats
+search: '`powershell` EventCode=4104 (ScriptBlockText = "*Get-DomainController*") | stats
   count min(_time) as firstTime max(_time) as lastTime by Opcode Computer UserID EventCode ScriptBlockText | `security_content_ctime(firstTime)` | `getdomaincontroller_with_powershell_script_block_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
