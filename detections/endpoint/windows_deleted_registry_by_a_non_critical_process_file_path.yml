@@ -4,7 +4,8 @@ version: 1
 date: '2022-03-28'
 author: Teoderick Contreras, Splunk
 type: Anomaly
-datamodel: []
+datamodel: 
+- Endpoint
 description: This analytic is to detect deletion of registry with suspicious process file path. This technique was seen in Double Zero wiper malware 
   where it will delete all the subkey in HKLM, HKCU and HKU registry hive as part of its destructive payload to the targeted hosts. This anomaly detections 
   can catch possible malware or advesaries deleting registry as part of defense evasion or even payload impact but can also catch for third party application 
