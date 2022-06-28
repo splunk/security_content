@@ -52,7 +52,7 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Processes.process_guid
+  - Processes.process_id
   - Processes.process_name
   - Processes.dest
   - Processes.process_path
