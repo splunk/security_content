@@ -1,11 +1,12 @@
 name: Outbound Network Connection from Java Using Default Ports
 id: d2c14d28-5c47-11ec-9892-acde48001122
-version: 1
-date: '2021-12-13'
-author: Mauricio Velazco, Splunk
+version: 2
+date: '2022-06-28'
+author: Mauricio Velazco, Lou Stella, Splunk
 type: TTP
 datamodel: 
 - Endpoint
+- Network_Traffic
 description: A required step while exploiting the CVE-2021-44228-Log4j vulnerability
   is that the victim server will perform outbound connections to attacker-controlled
   infrastructure. This is required as part of the JNDI lookup as well as for retrieving
@@ -57,9 +58,9 @@ tags:
   - Processes.process_path
   - Processes.process
   - Processes.parent_process_name
-  - Ports.process_guid
-  - Ports.dest
-  - Ports.dest_port
+  - All_Traffic.process_id
+  - All_Traffic.dest
+  - All_Traffic.dest_port
   risk_score: 54
   security_domain: endpoint
   asset_type: Endpoint
