@@ -142,7 +142,7 @@ unknown
 #### Reference
 
 * [https://labs.vipre.com/trickbot-and-its-modules/](https://labs.vipre.com/trickbot-and-its-modules/)
-* [https://blog.whitehat.eu/2019/05/incident-trickbot-ryuk-2.html](https://blog.whitehat.eu/2019/05/incident-trickbot-ryuk-2.html)
+* [https://whitehat.eu/incident-response-case-study-featuring-ryuk-and-trickbot-part-2/](https://whitehat.eu/incident-response-case-study-featuring-ryuk-and-trickbot-part-2/)
 
 
 

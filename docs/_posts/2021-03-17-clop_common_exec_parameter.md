@@ -102,8 +102,8 @@ The following analytics are designed to identifies some CLOP ransomware variant 
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **clop_common_exec_parameter_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -147,7 +147,7 @@ Operators can execute third party tools using these parameters.
 
 #### Reference
 
-* [https://www.fireeye.com/blog/threat-research/2020/10/fin11-email-campaigns-precursor-for-ransomware-data-theft.html](https://www.fireeye.com/blog/threat-research/2020/10/fin11-email-campaigns-precursor-for-ransomware-data-theft.html)
+* [https://www.mandiant.com/resources/fin11-email-campaigns-precursor-for-ransomware-data-theft](https://www.mandiant.com/resources/fin11-email-campaigns-precursor-for-ransomware-data-theft)
 * [https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html](https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html)
 
 

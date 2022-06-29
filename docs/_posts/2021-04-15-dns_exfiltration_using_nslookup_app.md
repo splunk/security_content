@@ -102,8 +102,8 @@ this search is to detect potential DNS exfiltration using nslookup application. 
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **dns_exfiltration_using_nslookup_app_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -150,8 +150,8 @@ admin nslookup usage
 
 #### Reference
 
-* [https://www.fireeye.com/blog/threat-research/2017/03/fin7_spear_phishing.html](https://www.fireeye.com/blog/threat-research/2017/03/fin7_spear_phishing.html)
-* [https://www.varonis.com/blog/dns-tunneling/](https://www.varonis.com/blog/dns-tunneling/)
+* [https://www.mandiant.com/resources/fin7-spear-phishing-campaign-targets-personnel-involved-sec-filings](https://www.mandiant.com/resources/fin7-spear-phishing-campaign-targets-personnel-involved-sec-filings)
+* [https://www.varonis.com/blog/dns-tunneling](https://www.varonis.com/blog/dns-tunneling)
 * [https://www.microsoft.com/security/blog/2021/01/20/deep-dive-into-the-solorigate-second-stage-activation-from-sunburst-to-teardrop-and-raindrop/](https://www.microsoft.com/security/blog/2021/01/20/deep-dive-into-the-solorigate-second-stage-activation-from-sunburst-to-teardrop-and-raindrop/)
 
 

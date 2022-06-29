@@ -159,7 +159,7 @@ Administrators often leverage net.exe to create or delete network shares. You sh
 
 #### Reference
 
-* [https://attack.mitre.org/techniques/T1070/005](https://attack.mitre.org/techniques/T1070/005)
+* [https://attack.mitre.org/techniques/T1070/005/](https://attack.mitre.org/techniques/T1070/005/)
 
 
 

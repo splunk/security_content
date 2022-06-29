@@ -111,8 +111,8 @@ This search uses the Kubernetes logs from Splunk Connect from Kubernetes to dete
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [kube_objects_events](https://github.com/splunk/security_content/blob/develop/macros/kube_objects_events.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **kubernetes_scanner_image_pulling_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
