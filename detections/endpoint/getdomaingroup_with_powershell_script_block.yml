@@ -29,7 +29,7 @@ tags:
   - Source:Endpoint
   - Stage:Discovery
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.002/AD_discovery/windows-powershell.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/domaingroup.log
   impact: 30
   kill_chain_phases:
   - Reconnaissance

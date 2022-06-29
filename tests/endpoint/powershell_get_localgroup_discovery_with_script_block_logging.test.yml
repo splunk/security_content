@@ -8,5 +8,5 @@ tests:
   attack_data:
   - file_name: getlocalgroup.log
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/getlocalgroup.log
-    source: WinEventLog:Microsoft-Windows-PowerShell/Operational
-    sourcetype: wineventlog
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: xmlwineventlog
