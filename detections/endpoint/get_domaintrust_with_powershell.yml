@@ -25,7 +25,7 @@ how_to_implement: To successfully implement this search you need to be ingesting
 known_false_positives: Limited false positives as this requires an active Administrator
   or adversary to bring in, import, and execute.
 references:
-- http://www.harmj0y.net/blog/redteaming/a-guide-to-attacking-domain-trusts/
+- https://blog.harmj0y.net/redteaming/a-guide-to-attacking-domain-trusts/
 tags:
   analytic_story:
   - Active Directory Discovery

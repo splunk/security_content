@@ -177,10 +177,10 @@ def generate_escu_app(persist_security_content: bool = False) -> str:
                     ". ./.venv/bin/activate",
                     "python -m pip install wheel",
                     "python -m pip install -r requirements.txt",
-                    "python3 contentctl.py --path . generate --product ESCU --output dist/escu"]
+                    "python3 ../../../contentctl.py --path . --skip_enrichment generate --product ESCU --output dist/escu"]
     else:
         commands = [". ./.venv/bin/activate",
-                    "python3 contentctl.py --path . generate --product ESCU --output dist/escu"]
+                    "python3 ../../../contentctl.py --path . --skip_enrichment generate --product ESCU --output dist/escu"]
     ret = subprocess.run("; ".join(commands),
                          shell=True, capture_output=True)
     if ret.returncode != 0:

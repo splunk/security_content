@@ -17,7 +17,7 @@ narrative: 'Networking devices, such as routers and switches, are often overlook
   can obtain direct access to the company''s internal infrastructure&#151; effectively
   increasing the attack surface and accessing private services/data.'
 references:
-- https://www.fireeye.com/blog/executive-perspective/2015/09/the_new_route_toper.html
+- https://web.archive.org/web/20210420020040/https://www.fireeye.com/blog/executive-perspective/2015/09/the_new_route_toper.html
 - https://www.cisco.com/c/en/us/about/security-center/event-response/synful-knock.html
 tags:
   analytic_story: Router and Infrastructure Security
