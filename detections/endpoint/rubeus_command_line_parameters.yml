@@ -34,7 +34,7 @@ known_false_positives: Although unlikely, legitimate applications may use the sa
   command line parameters as Rubeus. Filter as needed.
 references:
 - https://github.com/GhostPack/Rubeus
-- http://www.harmj0y.net/blog/redteaming/from-kekeo-to-rubeus/
+- https://web.archive.org/web/20210725005734/http://www.harmj0y.net/blog/redteaming/from-kekeo-to-rubeus/
 - https://attack.mitre.org/techniques/T1550/003/
 - https://en.hackndo.com/kerberos-silver-golden-tickets/
 tags:
