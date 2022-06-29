@@ -33,9 +33,10 @@ class BAFactory():
 
     def execute(self, input_dto: BAFactoryInputDto) -> None:
         self.input_dto = input_dto
-
+        print("Creating Security Content - SSA. This may take some time...")
         self.createSecurityContent(SecurityContentType.unit_tests)
         self.createSecurityContent(SecurityContentType.detections)
+        
 
         
 
@@ -48,15 +49,24 @@ class BAFactory():
 
         validation_error_found = False
 
-        for file in files:
+        files_with_ssa = [f for f in files if 'ssa___' in f]
+        for index,file in enumerate(files_with_ssa):
+          
+            #Index + 1 because we are zero indexed, not 1 indexed.  This ensures
+            # that printouts end at 100%, not some other number 
+            progress_percent = ((index+1)/len(files_with_ssa)) * 100
+        
             if 'ssa__' in file:
+                progress_percent = ((index+1)/len(files_with_ssa)) * 100
                 try:
                     if type == SecurityContentType.detections:
+                        print(f"\r{'Detections Progress'.rjust(23)}: [{progress_percent:3.0f}%]...", end="", flush=True)
                         self.input_dto.director.constructDetection(self.input_dto.detection_builder, file, [], [], [], self.output_dto.tests, {}, [], [])
                         detection = self.input_dto.detection_builder.getObject()
                         if not detection.deprecated and not detection.experimental:
                             self.output_dto.detections.append(detection)
                     elif type == SecurityContentType.unit_tests:
+                        print(f"\r{'Unit Tests Progress'.rjust(23)}: [{progress_percent:3.0f}%]...", end="", flush=True)
                         self.input_dto.director.constructTest(self.input_dto.basic_builder, file)
                         test = self.input_dto.basic_builder.getObject()
                         self.output_dto.tests.append(test)
@@ -65,6 +75,7 @@ class BAFactory():
                     print('\nValidation Error for file ' + file)
                     print(e)
                     validation_error_found = True
+        print("Done!")
 
         if validation_error_found:
             sys.exit(1)

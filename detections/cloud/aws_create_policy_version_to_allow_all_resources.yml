@@ -21,7 +21,7 @@ known_false_positives: While this search has no known false positives, it is pos
   resources. That said, AWS strongly advises against granting full control to all
   AWS resources and you must verify this activity.
 references:
-- https://labs.bishopfox.com/tech-blog/privilege-escalation-in-aws
+- https://bishopfox.com/blog/privilege-escalation-in-aws
 - https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation-part-2/
 tags:
   analytic_story:

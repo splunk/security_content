@@ -70,9 +70,13 @@ class GithubService:
 
         # No checking to see if the hash is to a commit inside of the branch - the user
         # has to do that by hand.
+        
+        # -- ensures that we check out the appropriate branch or commit hash.
+        # Without --, there can be ambiguity if a file/folder exists with the
+        # same name as the branch, causing the checkout to fail with error
         if commit_hash is not None:
             print("Checking out commit hash: [%s]" % (commit_hash))
-            self.security_content_repo_obj.git.checkout(commit_hash)
+            self.security_content_repo_obj.git.checkout(commit_hash, '--')
         else:
             #Even if we have fetched a PR, we still MUST check out the branch to
             # be able to do anything with it. Otherwise we won't have the files
@@ -80,7 +84,7 @@ class GithubService:
                   (security_content_branch), end='')
             sys.stdout.flush()
             self.security_content_repo_obj.git.checkout(
-                security_content_branch)
+                security_content_branch, '--')
             commit_hash = self.security_content_repo_obj.head.object.hexsha
             print("commit_hash %s" % (commit_hash))
 
