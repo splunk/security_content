@@ -3,32 +3,35 @@ from pycvesearch import CVESearch
 import functools
 import os
 import shelve
-
+import time
 CVESSEARCH_API_URL = 'https://cve.circl.lu'
 
 CVE_CACHE_FILENAME = "lookups/CVE_CACHE.db"
 
-@functools.cache
-def cvesearch_helper(url:str, cve_id:str):
-    if not os.path.exists(CVE_CACHE_FILENAME):
-        print(f"Cache at {CVE_CACHE_FILENAME} not found - Creating it.")
-    cache = shelve.open(CVE_CACHE_FILENAME, flag='c', writeback=True)
-    if cve_id in cache:
-        req = cache[cve_id]
-        cache.close()
-        return req
-    
+NON_PERSISTENT_CACHE = {}
 
-    
-    try:
-        cve = cvesearch_id_helper(url)
-        result = cve.id(cve_id)
-    except Exception as e:
-        raise(Exception(f"The option 'force_cached_or_offline' was used, but {cve_id} not found in {CVE_CACHE_FILENAME} and unable to connect to {CVESSEARCH_API_URL}"))
-    if result is None:
-        raise(Exception(f'CveEnrichment for [ {cve_id} ] failed - CVE does not exist'))
-    cache[cve_id] = result
-    cache.close()
+@functools.cache
+def cvesearch_helper(url:str, cve_id:str, force_cached_or_offline:bool=False):
+    if force_cached_or_offline:
+        if not os.path.exists(CVE_CACHE_FILENAME):
+            print(f"Cache at {CVE_CACHE_FILENAME} not found - Creating it.")
+        cache = shelve.open(CVE_CACHE_FILENAME, flag='c', writeback=True)
+    else:
+        cache = NON_PERSISTENT_CACHE
+    if cve_id in cache:
+        result = cache[cve_id]
+        #print(f"hit cve_enrichment:  {time.time() - start:.2f}")
+    else:
+        try:
+            cve = cvesearch_id_helper(url)
+            result = cve.id(cve_id)
+        except Exception as e:
+            raise(Exception(f"The option 'force_cached_or_offline' was used, but {cve_id} not found in {CVE_CACHE_FILENAME} and unable to connect to {CVESSEARCH_API_URL}"))
+        if result is None:
+            raise(Exception(f'CveEnrichment for [ {cve_id} ] failed - CVE does not exist'))
+        cache[cve_id] = result
+    if force_cached_or_offline:
+        cache.close()
 
     return result
 
@@ -47,11 +50,8 @@ class CveEnrichment():
     def enrich_cve(self, cve_id: str, force_cached_or_offline: bool = False) -> dict:
         cve_enriched = dict()
         try:
-            if force_cached_or_offline is True:
-                result = cvesearch_helper(CVESSEARCH_API_URL, cve_id)
-            else:
-                cve = CVESearch(CVESSEARCH_API_URL)
-                result = cve.id(cve_id)
+            
+            result = cvesearch_helper(CVESSEARCH_API_URL, cve_id)
             cve_enriched['id'] = cve_id
             cve_enriched['cvss'] = result['cvss']
             cve_enriched['summary'] = result['summary']
