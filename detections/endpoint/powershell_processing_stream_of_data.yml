@@ -35,7 +35,7 @@ tags:
   - Source:Endpoint
   - Stage:Defense Evasion
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/sbl_xml.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/streamreader.log
   impact: 50
   kill_chain_phases:
   - Exploitation
