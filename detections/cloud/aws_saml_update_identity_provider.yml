@@ -19,7 +19,7 @@ how_to_implement: You must install splunk AWS add on and Splunk App for AWS. Thi
 known_false_positives: Updating a SAML provider or creating a new one may not necessarily
   be malicious however it needs to be closely monitored.
 references:
-- https://us-cert.cisa.gov/ncas/alerts/aa21-008a
+- https://www.cisa.gov/uscert/ncas/alerts/aa21-008a
 - https://www.splunk.com/en_us/blog/security/a-golden-saml-journey-solarwinds-continued.html
 - https://www.fireeye.com/content/dam/fireeye-www/blog/pdfs/wp-m-unc2452-2021-000343-01.pdf
 - https://www.cyberark.com/resources/threat-research-blog/golden-saml-newly-discovered-attack-technique-forges-authentication-to-cloud-apps

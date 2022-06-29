@@ -20,8 +20,8 @@ how_to_implement: To successfully implement this search, you need to be ingestin
   registry to monitor this event.
 known_false_positives: unknown
 references:
-- https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html
-- https://searchwindowsserver.techtarget.com/tutorial/Set-up-PowerShell-script-block-logging-for-added-security
+- https://www.mandiant.com/resources/shining-a-light-on-darkside-ransomware-operations
+- https://www.techtarget.com/searchwindowsserver/tutorial/Set-up-PowerShell-script-block-logging-for-added-security
 tags:
   analytic_story:
   - DarkSide Ransomware

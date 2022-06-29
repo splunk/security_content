@@ -22,7 +22,7 @@ how_to_implement: To successfully implement this search you need to be ingesting
 known_false_positives: Administrators often leverage net.exe to create or delete network
   shares. You should verify that the activity was intentional and is legitimate.
 references:
-- https://attack.mitre.org/techniques/T1070/005
+- https://attack.mitre.org/techniques/T1070/005/
 tags:
   analytic_story:
   - Hidden Cobra Malware

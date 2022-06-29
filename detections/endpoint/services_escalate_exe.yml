@@ -31,7 +31,7 @@ known_false_positives: False positives should be limited as `services.exe` shoul
 references:
 - https://thedfirreport.com/2021/03/29/sodinokibi-aka-revil-ransomware/
 - https://attack.mitre.org/techniques/T1548/
-- https://www.cobaltstrike.com/help-beacon
+- https://hstechdocs.helpsystems.com/manuals/cobaltstrike/current/userguide/index.htm#cshid=1085
 tags:
   analytic_story:
   - Cobalt Strike

@@ -9,7 +9,7 @@ narrative: 'On April 6, 2022, VMware published VMSA-2022-0011, which discloses m
   To further exacerbate this issue, VMware also disclosed a local privilege escalation issue, CVE-2022-22960, which permits the attacker to gain root after exploiting CVE-2022-22954. Products affected include - VMware Workspace ONE Access (Access) 20.10.0.0 - 20.10.0.1, 21.08.0.0 - 21.08.0.1 and VMware Identity Manager (vIDM) 3.3.3 - 3.3.6.'
 references:
   - https://attackerkb.com/topics/BDXyTqY1ld/cve-2022-22954/rapid7-analysis
-  - https://www.cisa.gov/uscert/sites/default/files/publications/CISA_CSA_Threat_Actors_Chaining_VMware_Unpatched_Vulnerabilities_for_Full_System_Control.pdf 
+  - https://www.cisa.gov/uscert/ncas/alerts/aa22-138b 
 tags:
   analytic_story: VMware Server Side Injection and Privilege Escalation
   category:
