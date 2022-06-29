@@ -33,10 +33,10 @@ known_false_positives: The idea of using named pipes with Cobalt Strike is to bl
 references:
 - https://attack.mitre.org/techniques/T1218/009/
 - https://docs.microsoft.com/en-us/windows/win32/ipc/named-pipes
-- https://www.cobaltstrike.com/help-smb-beacon
-- https://blog.cobaltstrike.com/2021/02/09/learn-pipe-fitting-for-all-of-your-offense-projects/
+- https://hstechdocs.helpsystems.com/manuals/cobaltstrike/current/userguide/index.htm#cshid=1040
+- https://www.cobaltstrike.com/blog/learn-pipe-fitting-for-all-of-your-offense-projects/
 - https://gist.github.com/MHaggis/6c600e524045a6d49c35291a21e10752
-- https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html
+- https://www.mandiant.com/resources/shining-a-light-on-darkside-ransomware-operations
 tags:
   analytic_story:
   - Cobalt Strike
