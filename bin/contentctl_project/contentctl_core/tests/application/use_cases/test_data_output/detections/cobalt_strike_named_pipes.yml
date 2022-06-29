@@ -34,7 +34,7 @@ references:
 - https://attack.mitre.org/techniques/T1218/009/
 - https://docs.microsoft.com/en-us/windows/win32/ipc/named-pipes
 - https://gist.github.com/MHaggis/6c600e524045a6d49c35291a21e10752
-- https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html
+- https://www.mandiant.com/resources/shining-a-light-on-darkside-ransomware-operations
 tags:
   analytic_story:
   - Cobalt Strike

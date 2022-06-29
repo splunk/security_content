@@ -13,10 +13,10 @@ class StoryTags(BaseModel):
     usecase: str
 
     # enrichment
-    mitre_attack_enrichments: list[MitreAttackEnrichment] = None
-    mitre_attack_tactics: list = None
-    datamodels: list = None
-    kill_chain_phases: list = None
+    mitre_attack_enrichments: list[MitreAttackEnrichment] = []
+    mitre_attack_tactics: list = []
+    datamodels: list = []
+    kill_chain_phases: list = []
 
 
     @validator('product')

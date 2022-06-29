@@ -22,7 +22,7 @@ how_to_implement: To successfully implement this search, you need to be ingestin
   If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 known_false_positives: user may delete bunch of pictures or files in a folder.
 references:
-- https://www.fireeye.com/blog/threat-research/2020/10/fin11-email-campaigns-precursor-for-ransomware-data-theft.html
+- https://www.mandiant.com/resources/fin11-email-campaigns-precursor-for-ransomware-data-theft
 - https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html
 - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
 tags:

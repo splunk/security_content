@@ -3,6 +3,7 @@
 from dataclasses import dataclass
 
 from pydantic import ValidationError
+from typing import Union
 
 from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import SecurityContentProduct
 from bin.contentctl_project.contentctl_core.application.factory.factory import FactoryInputDto, Factory, FactoryOutputDto
@@ -11,8 +12,8 @@ from bin.contentctl_project.contentctl_core.application.factory.ba_factory impor
 
 @dataclass(frozen=True)
 class ValidateInputDto:
-    factory_input_dto: FactoryInputDto
-    ba_factory_input_dto: BAFactoryInputDto
+    factory_input_dto: Union[FactoryInputDto,None]
+    ba_factory_input_dto: Union[BAFactoryInputDto,None]
     product: SecurityContentProduct
 
 
