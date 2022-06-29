@@ -18,7 +18,7 @@ how_to_implement: You must ingest Kubernetes logs through Splunk Connect for Kub
 known_false_positives: unknown
 references:
 - https://github.com/splunk/splunk-connect-for-kubernetes
-- https://www.netsparker.com/blog/web-security/remote-file-inclusion-vulnerability/
+- https://www.invicti.com/blog/web-security/remote-file-inclusion-vulnerability/
 tags:
   analytic_story:
   - Dev Sec Ops

@@ -20,9 +20,9 @@ known_false_positives: The creation of a new Federation is not necessarily malic
   abuse or backdoor via federated identities at a different cloud provider.
 references:
 - https://www.fireeye.com/content/dam/fireeye-www/blog/pdfs/wp-m-unc2452-2021-000343-01.pdf
-- https://us-cert.cisa.gov/ncas/alerts/aa21-008a
+- https://www.cisa.gov/uscert/ncas/alerts/aa21-008a
 - https://www.splunk.com/en_us/blog/security/a-golden-saml-journey-solarwinds-continued.html
-- https://www.sygnia.co/golden-saml-advisory
+- https://blog.sygnia.co/detection-and-hunting-of-golden-saml-attack?hsLang=en
 tags:
   analytic_story:
   - Office 365 Detections

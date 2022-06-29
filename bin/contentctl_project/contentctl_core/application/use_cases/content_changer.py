@@ -1,6 +1,8 @@
+import argparse
+from ast import arg
 import re
 import uuid
-
+import inspect
 from dataclasses import dataclass
 
 from bin.contentctl_project.contentctl_core.application.factory.object_factory import ObjectFactory, ObjectFactoryInputDto
@@ -12,7 +14,6 @@ class ContentChangerInputDto:
     adapter : Adapter
     factory_input_dto : ObjectFactoryInputDto
     converter_func_name : str
-
 
 class ContentChanger:
 
@@ -26,21 +27,24 @@ class ContentChanger:
     
         input_dto.adapter.writeObjectsInPlace(objects)
 
+    @staticmethod
+    def enumerate_content_changer_functions(exclude_functions: list[str] = ["enumerate_content_changer_functions", "execute", "example_converter_func"]) -> list[str]:
+        members = inspect.getmembers(ContentChanger, predicate=inspect.isfunction)
+        function_names = [function_object[0] for function_object in members if function_object[0] not in exclude_functions]
+        return function_names
+
+    def all(self, objects : list) -> None:
+        for func_name in ContentChanger.enumerate_content_changer_functions():
+            if func_name not in ["all", "change_test_file_format"]:
+                print(f"calling {func_name}")
+                func_object = getattr(self, func_name)
+                func_object(objects)
+
 
     # Define Converter Functions here
-
     def example_converter_func(self, objects : list) -> None:
         for obj in objects:
-            obj['author'] = obj['author'].upper()
-
-    def add_default_risk_values(self, objects : list) -> None:
-        for obj in objects:
-            if not 'confidence' in obj['tags']:
-                obj['tags']['confidence'] = 50
-            if not 'impact' in obj['tags']:
-                obj['tags']['impact'] = 50
-            if not 'risk_score' in obj['tags']:
-                obj['tags']['risk_score'] = 25
+            obj['author'] = obj['author'].upper()                
 
     def add_unknown_context(self, objects : list) -> None:
         for obj in objects:
@@ -104,8 +108,9 @@ class ContentChanger:
 
     def fix_wrong_calculated_risk_score(self, objects : list) -> None:
         for obj in objects:
-            calculated_risk_score = (int(obj['tags']['impact']))*(int(obj['tags']['confidence']))/100
-            if calculated_risk_score != int(obj['tags']['risk_score']):
+            #Risk score must be an integer, so we round it to the nearest integer
+            calculated_risk_score = round((obj['tags']['impact'] * obj['tags']['confidence'])/100)
+            if calculated_risk_score != round(obj['tags']['risk_score']):
                 obj['tags']['risk_score'] = calculated_risk_score
 
     def add_asset_type_to_endpoint_detections(self, objects : list) -> None:
@@ -174,13 +179,18 @@ class ContentChanger:
 
     def add_default_confidence_impact_risk_score(self, objects : list) -> None:
         for obj in objects:
-            if 'confidence' not in obj['tags']:
+            updated = True
+            if not 'confidence' in obj['tags']:
+                updated = True
                 obj['tags']['confidence'] = 50
-            if 'impact' not in obj['tags']:
+            if not 'impact' in obj['tags']:
+                updated = True
                 obj['tags']['impact'] = 50
-            if 'risk_score' not in obj['tags']:
-                calculated_risk_score = (int(obj['tags']['impact']))*(int(obj['tags']['confidence']))/100
-                obj['tags']['risk_score'] = calculated_risk_score
+            if not 'risk_score' in obj['tags'] or updated == True:
+                #Recalculate the risk score if we have added/updated
+                #the confidence or impact fields OR the risk_score
+                #was missing in the first place
+                self.fix_wrong_calculated_risk_score([obj])
 
     def fix_cc(self, objects : list) -> None:
         for obj in objects:
