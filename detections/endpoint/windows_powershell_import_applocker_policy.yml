@@ -20,11 +20,11 @@ how_to_implement: To successfully implement this analytic, you will need to enab
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
 known_false_positives: administrators may execute this command that may cause some false positive. 
 references:
-- REFERENCE
+- https://app.any.run/tasks/a6f2ffe2-e6e2-4396-ae2e-04ea0143f2d8/
 tags:
   analytic_story:
   - Azorult
-  asset_type: UPDATE asset_type
+  asset_type: Endpoint
   cis20:
   - CIS 3
   - CIS 5
