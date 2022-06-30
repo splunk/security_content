@@ -157,6 +157,10 @@ class Factory():
                thread.join()
           '''
           
+          already_ran = False
+          progress_percent = 0
+          type_string = "UNKNOWN TYPE"
+
           #Non threaded, production version of the construction code
           files_without_ssa = [f for f in files if 'ssa___' not in f]
           for index,file in enumerate(files_without_ssa):
@@ -223,13 +227,16 @@ class Factory():
                     else:
                          raise Exception(f"Unsupported type: [{type}]")
                     
-                    if (sys.stdout.isatty() and sys.stdin.isatty() and sys.stderr.isatty()):
+                    if (sys.stdout.isatty() and sys.stdin.isatty() and sys.stderr.isatty()) or not already_ran:
+                         already_ran = True
                          print(f"\r{f'{type_string} Progress'.rjust(23)}: [{progress_percent:3.0f}%]...", end="", flush=True)
                
                except ValidationError as e:
                     print('\nValidation Error for file ' + file)
                     print(e)
                     validation_error_found = True
+          
+          print(f"\r{f'{type_string} Progress'.rjust(23)}: [{progress_percent:3.0f}%]...", end="", flush=True)
           print("Done!")
 
           if validation_error_found:
