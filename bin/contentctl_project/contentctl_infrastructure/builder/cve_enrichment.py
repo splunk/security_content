@@ -4,6 +4,7 @@ import functools
 import os
 import shelve
 import time
+import sys
 CVESSEARCH_API_URL = 'https://cve.circl.lu'
 
 CVE_CACHE_FILENAME = "lookups/CVE_CACHE.db"
@@ -58,9 +59,10 @@ class CveEnrichment():
         except TypeError as TypeErr:
             # there was a error calling the circl api lets just empty the object
             print("WARNING, issue enriching {0}, with error: {1}".format(cve_id, str(TypeErr)))
-            cve_enriched = dict()
+            sys.exit(1)
+            
         except Exception as e:
             print("WARNING - {0}".format(str(e)))
-            cve_enriched = dict()
+            sys.exit(1)
     
         return cve_enriched

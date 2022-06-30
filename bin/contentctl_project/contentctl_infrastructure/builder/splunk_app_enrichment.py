@@ -71,6 +71,11 @@ class SplunkAppEnrichment():
             # there was a connection error lets just capture the name
             splunk_app_enriched['name'] = splunk_ta
             splunk_app_enriched['url'] = ''
+        except Exception as e:
+            print(f"There was an unknown error enriching the Splunk TA [{splunk_ta}]: {str(e)}")
+            splunk_app_enriched['name'] = splunk_ta
+            splunk_app_enriched['url'] = ''
+
 
         return splunk_app_enriched
 
