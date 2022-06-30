@@ -15,7 +15,7 @@ unless the same account of training this model will be used to perform inference
 detection.'
 search: '| tstats sum(Search_Activity.total_run_time) as run_time, count 
   FROM datamodel=Splunk_Audit.Search_Activity WHERE (Search_Activity.user!="") 
-  AND (Search_Activity.total_run_time>1) AND (earliest=-7d@d latest=now) 
+  AND (Search_Activity.total_run_time>1) AND (earliest=-30d@d latest=now) 
   AND (Search_Activity.search IN ("*| runshellscript *", "*| collect *","*| delete *", "*| fit *", "*| outputcsv *", 
   "*| outputlookup *", "*| run *", "*| script *", "*| sendalert *", "*| sendemail *", "*| tscolle*")) 
   AND (Search_Activity.search_type=adhoc) AND (Search_Activity.user!=splunk-system-user) 

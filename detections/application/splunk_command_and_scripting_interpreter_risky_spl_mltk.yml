@@ -15,7 +15,7 @@ description: 'This detection utilizes machine learning model named "risky_comman
 search: '| tstats sum(Search_Activity.total_run_time) AS run_time,
   values(Search_Activity.search) as searches, count 
   FROM datamodel=Splunk_Audit.Search_Activity WHERE (Search_Activity.user!="") 
-  AND (Search_Activity.total_run_time>1) AND (earliest=-1h@h latest=now) 
+  AND (Search_Activity.total_run_time>1) AND (earliest=-30d@d latest=now) 
   AND (Search_Activity.search IN ("*| runshellscript *", "*| collect *","*| delete *", "*| fit *", "*| outputcsv *", 
   "*| outputlookup *", "*| run *", "*| script *", "*| sendalert *", "*| sendemail *", "*| tscolle*")) 
   AND (Search_Activity.search_type=adhoc) AND (Search_Activity.user!=splunk-system-user) 

@@ -3,13 +3,13 @@ tests:
 - name: Splunk Command and Scripting Interpreter Risky SPL MLTK
   file: application/splunk_command_and_scripting_interpreter_risky_spl_mltk.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: -1h
+  earliest_time: -30d
   latest_time: now
   baselines:
   - name: Splunk Command and Scripting Interpreter Risky SPL MLTK Baseline
     file: baselines/splunk_command_and_scripting_interpreter_risky_spl_mltk_baseline.yml
     pass_condition: '| stats count | where count > 0'
-    earliest_time: -7d
+    earliest_time: -30d
     latest_time: now
   attack_data: 
   - file_name: search_activity.json
