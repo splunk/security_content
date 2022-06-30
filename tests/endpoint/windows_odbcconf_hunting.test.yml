@@ -1,0 +1,13 @@
+name: Windows Odbcconf Hunting Unit Test
+tests:
+- name: Windows Odbcconf Hunting
+  file: endpoint/windows_odbcconf_hunting.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: UPDATE
+    data: UPDATE
+    source: UPDATE
+    sourcetype: UPDATE
+    update_timestamp: true
