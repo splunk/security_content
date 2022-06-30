@@ -59,18 +59,24 @@ class BAFactory():
             if 'ssa__' in file:
                 progress_percent = ((index+1)/len(files_with_ssa)) * 100
                 try:
+                    type_string = "UNKNOWN TYPE"
                     if type == SecurityContentType.detections:
-                        print(f"\r{'Detections Progress'.rjust(23)}: [{progress_percent:3.0f}%]...", end="", flush=True)
+                        type_string = "Detections"    
                         self.input_dto.director.constructDetection(self.input_dto.detection_builder, file, [], [], [], self.output_dto.tests, {}, [], [])
                         detection = self.input_dto.detection_builder.getObject()
                         if not detection.deprecated and not detection.experimental:
                             self.output_dto.detections.append(detection)
                     elif type == SecurityContentType.unit_tests:
-                        print(f"\r{'Unit Tests Progress'.rjust(23)}: [{progress_percent:3.0f}%]...", end="", flush=True)
+                        type_string = "Unit Tests"
                         self.input_dto.director.constructTest(self.input_dto.basic_builder, file)
                         test = self.input_dto.basic_builder.getObject()
                         self.output_dto.tests.append(test)
-                    
+                    else:
+                        raise(Exception(f"Unsupported content type: [{type}]"))
+
+                    if (sys.stdout.isatty() and sys.stdin.isatty() and sys.stderr.isatty()):
+                        print(f"\r{f'{type_string} Progress'.rjust(23)}: [{progress_percent:3.0f}%]...", end="", flush=True)
+
                 except ValidationError as e:
                     print('\nValidation Error for file ' + file)
                     print(e)
