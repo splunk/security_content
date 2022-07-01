@@ -62,5 +62,5 @@ tags:
   - ScriptBlockText
   - ComputerName
   - EventCode
-  risk_score: 42
+  risk_score: 49
   security_domain: endpoint
