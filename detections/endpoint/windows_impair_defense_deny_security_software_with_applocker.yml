@@ -12,7 +12,8 @@ description: The following analytic is to identify a modification in the Windows
   commandlet. This event is really suspicious and need to be check that may lead for further IOC that tries to evade detections, persistence or even 
   privilege escalation.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry 
-  where Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Group Policy Objects\\*" AND Registry.registry_path= "*}Machine\\Software\\Policies\\Microsoft\\Windows\\SrpV2*"
+  where (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Group Policy Objects\\*" AND Registry.registry_path= "*}Machine\\Software\\Policies\\Microsoft\\Windows\\SrpV2*")
+  OR Registry.registry_path="*\\Software\\Policies\\Microsoft\\Windows\\SrpV2*"
   AND Registry.registry_value_data = "*Action\=\"Deny\"*" 
   AND Registry.registry_value_data IN("*O=SYMANTEC*","*O=MCAFEE*","*O=KASPERSKY*","*O=BLEEPING COMPUTER*", "*O=PANDA SECURITY*","*O=SYSTWEAK SOFTWARE*", "*O=TREND MICRO*", "*O=AVAST*", "*O=GRIDINSOFT*", "*O=MICROSOFT*", "*O=NANO SECURITY*", "*O=SUPERANTISPYWARE.COM*", "*O=DOCTOR WEB*", "*O=MALWAREBYTES*", "*O=ESET*", "*O=AVIRA*", "*O=WEBROOT*")
   by  Registry.user Registry.registry_path Registry.registry_value_data Registry.action Registry.registry_key_name Registry.dest 
@@ -27,6 +28,7 @@ how_to_implement: To successfully implement this search you need to be ingesting
 known_false_positives: unknown
 references:
 - https://app.any.run/tasks/a6f2ffe2-e6e2-4396-ae2e-04ea0143f2d8/
+- https://www.microsoftpressstore.com/articles/article.aspx?p=2228450&seqNum=11
 tags:
   analytic_story:
   - Azorult
