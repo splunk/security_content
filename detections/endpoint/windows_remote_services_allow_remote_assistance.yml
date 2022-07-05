@@ -7,7 +7,7 @@ type: Anomaly
 datamodel:
 - Endpoint
 description: The following analytic is to identify a modification in the Windows registry
-  to enable remote desktop assitance on a targeted machine. This technique was seen in several adversaries, malware or red teamer 
+  to enable remote desktop assistance on a targeted machine. This technique was seen in several adversaries, malware or red teamer 
   like azorult to remotely access the compromised or targeted host by enabling this protocol in registry. Even this protocol might be allowed in some 
   production environment, This Anomaly behavior is a good pivot to check who and why the user want to enable this feature through registry which is un-common.
   And as per stated in microsoft documentation the default value of this registry is false that makes this a good indicator of suspicious behavior.
