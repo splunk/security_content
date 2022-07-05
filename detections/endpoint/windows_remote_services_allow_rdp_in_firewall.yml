@@ -7,7 +7,7 @@ type: Anomaly
 datamodel:
 - Endpoint
 description: The following analytic is to identify a modification in the Windows firewall
-  to enable remoted desktop protocol on a targeted machine. This technique was seen in several adversaries, malware or red teamer 
+  to enable remote desktop protocol on a targeted machine. This technique was seen in several adversaries, malware or red teamer 
   to remotely access the compromised or targeted host by allowing this protocol in firewall. Even this protocol might be allowed in some 
   production environment, This TTP behavior is a good pivot to check who and why the user want to enable this feature through firewall which is also common traits 
   of attack to start lateral movement.
