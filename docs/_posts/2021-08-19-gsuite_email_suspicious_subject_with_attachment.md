@@ -110,8 +110,8 @@ This search is to detect a gsuite email contains suspicious subject having known
 
 #### Macros
 The SPL above uses the following Macros:
-* [gsuite_gmail](https://github.com/splunk/security_content/blob/develop/macros/gsuite_gmail.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [gsuite_gmail](https://github.com/splunk/security_content/blob/develop/macros/gsuite_gmail.yml)
 
 > :information_source:
 > **gsuite_email_suspicious_subject_with_attachment_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -145,7 +145,7 @@ normal user or normal transaction may contain the subject and file type attachme
 #### Reference
 
 * [https://www.redhat.com/en/topics/devops/what-is-devsecops](https://www.redhat.com/en/topics/devops/what-is-devsecops)
-* [https://www.fireeye.com/content/dam/fireeye-www/global/en/current-threats/pdfs/rpt-top-spear-phishing-words.pdf](https://www.fireeye.com/content/dam/fireeye-www/global/en/current-threats/pdfs/rpt-top-spear-phishing-words.pdf)
+* [https://www.mandiant.com/resources/top-words-used-in-spear-phishing-attacks](https://www.mandiant.com/resources/top-words-used-in-spear-phishing-attacks)
 
 
 

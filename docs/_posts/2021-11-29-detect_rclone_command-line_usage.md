@@ -103,8 +103,8 @@ This analytic identifies commonly used command-line arguments used by `rclone.ex
 #### Macros
 The SPL above uses the following Macros:
 * [process_rclone](https://github.com/splunk/security_content/blob/develop/macros/process_rclone.yml)
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **detect_rclone_command-line_usage_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -147,7 +147,7 @@ False positives should be limited as this is restricted to the Rclone process na
 #### Reference
 
 * [https://redcanary.com/blog/rclone-mega-extortion/](https://redcanary.com/blog/rclone-mega-extortion/)
-* [https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html](https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html)
+* [https://www.mandiant.com/resources/shining-a-light-on-darkside-ransomware-operations](https://www.mandiant.com/resources/shining-a-light-on-darkside-ransomware-operations)
 * [https://thedfirreport.com/2021/03/29/sodinokibi-aka-revil-ransomware/](https://thedfirreport.com/2021/03/29/sodinokibi-aka-revil-ransomware/)
 * [https://thedfirreport.com/2021/11/29/continuing-the-bazar-ransomware-story/](https://thedfirreport.com/2021/11/29/continuing-the-bazar-ransomware-story/)
 

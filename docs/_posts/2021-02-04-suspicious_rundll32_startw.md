@@ -112,9 +112,9 @@ The following analytic identifies rundll32.exe executing a DLL function name, St
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_rundll32](https://github.com/splunk/security_content/blob/develop/macros/process_rundll32.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [process_rundll32](https://github.com/splunk/security_content/blob/develop/macros/process_rundll32.yml)
 
 > :information_source:
 > **suspicious_rundll32_startw_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -162,8 +162,8 @@ Although unlikely, some legitimate applications may use Start as a function and 
 
 * [https://attack.mitre.org/techniques/T1218/011/](https://attack.mitre.org/techniques/T1218/011/)
 * [https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.011/T1218.011.md](https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.011/T1218.011.md)
-* [https://www.cobaltstrike.com/help-windows-executable](https://www.cobaltstrike.com/help-windows-executable)
-* [https://lolbas-project.github.io/lolbas/Binaries/Rundll32](https://lolbas-project.github.io/lolbas/Binaries/Rundll32)
+* [https://hstechdocs.helpsystems.com/manuals/cobaltstrike/current/userguide/index.htm#cshid=1036](https://hstechdocs.helpsystems.com/manuals/cobaltstrike/current/userguide/index.htm#cshid=1036)
+* [https://lolbas-project.github.io/lolbas/Binaries/Rundll32/](https://lolbas-project.github.io/lolbas/Binaries/Rundll32/)
 * [https://bohops.com/2018/02/26/leveraging-inf-sct-fetch-execute-techniques-for-bypass-evasion-persistence/](https://bohops.com/2018/02/26/leveraging-inf-sct-fetch-execute-techniques-for-bypass-evasion-persistence/)
 
 

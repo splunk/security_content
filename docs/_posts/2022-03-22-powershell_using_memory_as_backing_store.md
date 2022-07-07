@@ -105,8 +105,8 @@ The following analytic identifies suspicious PowerShell script execution via Eve
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [powershell](https://github.com/splunk/security_content/blob/develop/macros/powershell.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **powershell_using_memory_as_backing_store_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -144,7 +144,7 @@ powershell may used this function to store out object into memory.
 
 #### Reference
 
-* [https://www.carbonblack.com/blog/decoding-malicious-powershell-streams/](https://www.carbonblack.com/blog/decoding-malicious-powershell-streams/)
+* [https://web.archive.org/web/20201112031711/https://www.carbonblack.com/blog/decoding-malicious-powershell-streams/](https://web.archive.org/web/20201112031711/https://www.carbonblack.com/blog/decoding-malicious-powershell-streams/)
 * [https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.](https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.)
 * [https://blog.palantir.com/tampering-with-windows-event-tracing-background-offense-and-defense-4be7ac62ac63](https://blog.palantir.com/tampering-with-windows-event-tracing-background-offense-and-defense-4be7ac62ac63)
 * [https://static1.squarespace.com/static/552092d5e4b0661088167e5c/t/59c1814829f18782e24f1fe2/1505853768977/Windows+PowerShell+Logging+Cheat+Sheet+ver+Sept+2017+v2.1.pdf](https://static1.squarespace.com/static/552092d5e4b0661088167e5c/t/59c1814829f18782e24f1fe2/1505853768977/Windows+PowerShell+Logging+Cheat+Sheet+ver+Sept+2017+v2.1.pdf)

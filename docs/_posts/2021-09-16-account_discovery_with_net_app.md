@@ -156,7 +156,7 @@ admin or power user may used this series of command.
 #### Reference
 
 * [https://labs.vipre.com/trickbot-and-its-modules/](https://labs.vipre.com/trickbot-and-its-modules/)
-* [https://blog.whitehat.eu/2019/05/incident-trickbot-ryuk-2.html](https://blog.whitehat.eu/2019/05/incident-trickbot-ryuk-2.html)
+* [https://whitehat.eu/incident-response-case-study-featuring-ryuk-and-trickbot-part-2/](https://whitehat.eu/incident-response-case-study-featuring-ryuk-and-trickbot-part-2/)
 * [https://app.any.run/tasks/48414a33-3d66-4a46-afe5-c2003bb55ccf/](https://app.any.run/tasks/48414a33-3d66-4a46-afe5-c2003bb55ccf/)
 
 

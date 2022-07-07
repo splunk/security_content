@@ -110,8 +110,8 @@ The following analytic identifies suspicious processes spawning from WinRM (wsmp
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **winrm_spawning_a_process_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -151,7 +151,7 @@ Unknown. Add new processes or filter as needed. It is possible system management
 
 #### Reference
 
-* [https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_access/win_susp_shell_spawn_from_winrm.yml](https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_access/win_susp_shell_spawn_from_winrm.yml)
+* [https://github.com/SigmaHQ/sigma/blob/9b7fb0c0f3af2e53ed483e29e0d0f88ccf1c08ca/rules/windows/process_access/win_susp_shell_spawn_from_winrm.yml](https://github.com/SigmaHQ/sigma/blob/9b7fb0c0f3af2e53ed483e29e0d0f88ccf1c08ca/rules/windows/process_access/win_susp_shell_spawn_from_winrm.yml)
 * [https://www.zerodayinitiative.com/blog/2021/5/17/cve-2021-31166-a-wormable-code-execution-bug-in-httpsys](https://www.zerodayinitiative.com/blog/2021/5/17/cve-2021-31166-a-wormable-code-execution-bug-in-httpsys)
 * [https://github.com/0vercl0k/CVE-2021-31166/blob/main/cve-2021-31166.py](https://github.com/0vercl0k/CVE-2021-31166/blob/main/cve-2021-31166.py)
 
