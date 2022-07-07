@@ -13,8 +13,8 @@ description: The following analytic utilizes PowerShell Script Block Logging (Ev
   using password cracking tools like hashcat to extract the password of the SPN account.
   Red Teams and adversaries alike may leverage PowerView and these commandlets to identify accounts that can be
   attacked with the Kerberoasting technique.
-search: '`powershell` EventCode=4104 Message=*Get-DomainSPNTicket* 
-| stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message ComputerName User 
+search: '`powershell` EventCode=4104 ScriptBlockText=*Get-DomainSPNTicket*
+| stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer 
 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
  | `windows_powerview_kerberos_service_ticket_request_filter`'
 how_to_implement: The following analytic requires PowerShell operational logs
@@ -40,11 +40,11 @@ tags:
   - Source:Endpoint
   - Stage:Recon
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.003/powerview/windows-powershell.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.003/powerview/windows-powershell-xml.log
   impact: 30
   kill_chain_phases:
   - Exploitation
-  message: PowerView commandlets used for requesting SPN service ticket executed on $Computer_Name$
+  message: PowerView commandlets used for requesting SPN service ticket executed on $Computer$
   mitre_attack_id:
   - T1558
   - T1558.003
@@ -62,8 +62,7 @@ tags:
   required_fields:
   - _time
   - EventCode
-  - Result_Code
-  - Account_Name
-  - Client_Address
+  - Computer
+  - ScriptBlockText
   risk_score: 27
   security_domain: endpoint
