@@ -14,7 +14,7 @@ NON_PERSISTENT_CACHE = {}
 
 
 @functools.cache
-def cvesearch_helper(url:str, cve_id:str, force_cached_or_offline:bool=False, max_api_attempts:int=3):
+def cvesearch_helper(url:str, cve_id:str, force_cached_or_offline:bool=False, max_api_attempts:int=3, retry_sleep_seconds:int=5):
     if max_api_attempts < 1:
             raise(Exception(f"The minimum number of CVESearch API attempts is 1.  You have passed {max_api_attempts}"))
 
@@ -41,7 +41,8 @@ def cvesearch_helper(url:str, cve_id:str, force_cached_or_offline:bool=False, ma
             except Exception as e:
                 if api_attempts_remaining > 0:
                     print(f"The option 'force_cached_or_offline' was used, but {cve_id} not found in {CVE_CACHE_FILENAME} and unable to connect to {CVESSEARCH_API_URL}: {str(e)}")
-                    print(f"Retrying the CVESearch API up to {api_attempts_remaining} more times...")
+                    print(f"Retrying the CVESearch API up to {api_attempts_remaining} more times after a sleep of {retry_sleep_seconds} seconds...")
+                    time.sleep(retry_sleep_seconds)
                 else:
                     raise(Exception(f"The option 'force_cached_or_offline' was used, but {cve_id} not found in {CVE_CACHE_FILENAME} and unable to connect to {CVESSEARCH_API_URL} after {max_api_attempts} attempts: {str(e)}"))
             
