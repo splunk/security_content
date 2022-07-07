@@ -105,8 +105,8 @@ This search detects the addition of a new Federated domain.
 
 #### Macros
 The SPL above uses the following Macros:
-* [o365_management_activity](https://github.com/splunk/security_content/blob/develop/macros/o365_management_activity.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [o365_management_activity](https://github.com/splunk/security_content/blob/develop/macros/o365_management_activity.yml)
 
 > :information_source:
 > **o365_new_federated_domain_added_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -149,9 +149,9 @@ The creation of a new Federated domain is not necessarily malicious, however the
 #### Reference
 
 * [https://www.fireeye.com/content/dam/fireeye-www/blog/pdfs/wp-m-unc2452-2021-000343-01.pdf](https://www.fireeye.com/content/dam/fireeye-www/blog/pdfs/wp-m-unc2452-2021-000343-01.pdf)
-* [https://us-cert.cisa.gov/ncas/alerts/aa21-008a](https://us-cert.cisa.gov/ncas/alerts/aa21-008a)
+* [https://www.cisa.gov/uscert/ncas/alerts/aa21-008a](https://www.cisa.gov/uscert/ncas/alerts/aa21-008a)
 * [https://www.splunk.com/en_us/blog/security/a-golden-saml-journey-solarwinds-continued.html](https://www.splunk.com/en_us/blog/security/a-golden-saml-journey-solarwinds-continued.html)
-* [https://www.sygnia.co/golden-saml-advisory](https://www.sygnia.co/golden-saml-advisory)
+* [https://blog.sygnia.co/detection-and-hunting-of-golden-saml-attack?hsLang=en](https://blog.sygnia.co/detection-and-hunting-of-golden-saml-attack?hsLang=en)
 * [https://o365blog.com/post/aadbackdoor/](https://o365blog.com/post/aadbackdoor/)
 
 

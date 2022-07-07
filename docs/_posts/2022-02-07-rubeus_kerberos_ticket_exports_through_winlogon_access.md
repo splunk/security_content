@@ -150,7 +150,7 @@ Legitimate applications may obtain a handle for winlogon.exe. Filter as needed
 #### Reference
 
 * [https://github.com/GhostPack/Rubeus](https://github.com/GhostPack/Rubeus)
-* [http://www.harmj0y.net/blog/redteaming/from-kekeo-to-rubeus/](http://www.harmj0y.net/blog/redteaming/from-kekeo-to-rubeus/)
+* [https://web.archive.org/web/20210725005734/http://www.harmj0y.net/blog/redteaming/from-kekeo-to-rubeus/](https://web.archive.org/web/20210725005734/http://www.harmj0y.net/blog/redteaming/from-kekeo-to-rubeus/)
 * [https://attack.mitre.org/techniques/T1550/003/](https://attack.mitre.org/techniques/T1550/003/)
 
 

@@ -621,8 +621,8 @@
         },
         {
             "techniqueID": "T1558",
-            "score": 12,
-            "comment": "https://github.com/splunk/security_content/blob/develop/detections/endpoint/disabled_kerberos_pre_authentication_discovery_with_get_aduser.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/disabled_kerberos_pre_authentication_discovery_with_powerview.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/kerberoasting_spn_request_with_rc4_encryption.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/kerberos_pre_authentication_flag_disabled_in_useraccountcontrol.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/kerberos_pre_authentication_flag_disabled_with_powershell.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/kerberos_service_ticket_request_using_rc4_encryption.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/rubeus_command_line_parameters.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/unusual_number_of_kerberos_service_tickets_requested.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_computer_account_created_by_computer_account.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_computer_account_requesting_kerberos_ticket.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_computer_account_with_spn.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_kerberos_local_successful_logon.yml"
+            "score": 14,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/endpoint/disabled_kerberos_pre_authentication_discovery_with_get_aduser.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/disabled_kerberos_pre_authentication_discovery_with_powerview.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/kerberoasting_spn_request_with_rc4_encryption.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/kerberos_pre_authentication_flag_disabled_in_useraccountcontrol.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/kerberos_pre_authentication_flag_disabled_with_powershell.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/kerberos_service_ticket_request_using_rc4_encryption.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/rubeus_command_line_parameters.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/unusual_number_of_kerberos_service_tickets_requested.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_computer_account_created_by_computer_account.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_computer_account_requesting_kerberos_ticket.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_computer_account_with_spn.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_kerberos_local_successful_logon.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_powerview_kerberos_service_ticket_request.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_powerview_spn_discovery.yml"
         },
         {
             "techniqueID": "T1558.004",
@@ -691,8 +691,8 @@
         },
         {
             "techniqueID": "T1558.003",
-            "score": 5,
-            "comment": "https://github.com/splunk/security_content/blob/develop/detections/endpoint/kerberoasting_spn_request_with_rc4_encryption.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/rubeus_command_line_parameters.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/serviceprincipalnames_discovery_with_powershell.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/serviceprincipalnames_discovery_with_setspn.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/unusual_number_of_kerberos_service_tickets_requested.yml"
+            "score": 7,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/endpoint/kerberoasting_spn_request_with_rc4_encryption.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/rubeus_command_line_parameters.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/serviceprincipalnames_discovery_with_powershell.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/serviceprincipalnames_discovery_with_setspn.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/unusual_number_of_kerberos_service_tickets_requested.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_powerview_kerberos_service_ticket_request.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_powerview_spn_discovery.yml"
         },
         {
             "techniqueID": "T1558.001",
@@ -971,8 +971,8 @@
         },
         {
             "techniqueID": "T1218.007",
-            "score": 1,
-            "comment": "https://github.com/splunk/security_content/blob/develop/detections/endpoint/uninstall_app_using_msiexec.yml"
+            "score": 6,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/endpoint/uninstall_app_using_msiexec.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_msiexec_dllregisterserver.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_msiexec_remote_download.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_msiexec_spawn_discovery_command.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_msiexec_unregister_dllregisterserver.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_msiexec_with_network_connections.yml"
         },
         {
             "techniqueID": "T1218.012",

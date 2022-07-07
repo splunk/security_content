@@ -124,8 +124,8 @@ Rubeus is a C# toolset for raw Kerberos interaction and abuses. It is heavily ad
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **rubeus_command_line_parameters_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -167,7 +167,7 @@ Although unlikely, legitimate applications may use the same command line paramet
 #### Reference
 
 * [https://github.com/GhostPack/Rubeus](https://github.com/GhostPack/Rubeus)
-* [http://www.harmj0y.net/blog/redteaming/from-kekeo-to-rubeus/](http://www.harmj0y.net/blog/redteaming/from-kekeo-to-rubeus/)
+* [https://web.archive.org/web/20210725005734/http://www.harmj0y.net/blog/redteaming/from-kekeo-to-rubeus/](https://web.archive.org/web/20210725005734/http://www.harmj0y.net/blog/redteaming/from-kekeo-to-rubeus/)
 * [https://attack.mitre.org/techniques/T1550/003/](https://attack.mitre.org/techniques/T1550/003/)
 * [https://en.hackndo.com/kerberos-silver-golden-tickets/](https://en.hackndo.com/kerberos-silver-golden-tickets/)
 

@@ -106,8 +106,8 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [powershell](https://github.com/splunk/security_content/blob/develop/macros/powershell.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **windows_powerview_constrained_delegation_discovery_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -148,7 +148,7 @@ Administrators or power users may leverage PowerView for system management or tr
 * [https://adsecurity.org/?p=1667](https://adsecurity.org/?p=1667)
 * [https://docs.microsoft.com/en-us/defender-for-identity/cas-isp-unconstrained-kerberos](https://docs.microsoft.com/en-us/defender-for-identity/cas-isp-unconstrained-kerberos)
 * [https://www.guidepointsecurity.com/blog/delegating-like-a-boss-abusing-kerberos-delegation-in-active-directory/](https://www.guidepointsecurity.com/blog/delegating-like-a-boss-abusing-kerberos-delegation-in-active-directory/)
-* [https://book.hacktricks.xyz/windows/active-directory-methodology/constrained-delegation](https://book.hacktricks.xyz/windows/active-directory-methodology/constrained-delegation)
+* [https://book.hacktricks.xyz/windows-hardening/active-directory-methodology/constrained-delegation](https://book.hacktricks.xyz/windows-hardening/active-directory-methodology/constrained-delegation)
 * [https://www.cyberark.com/resources/threat-research-blog/weakness-within-kerberos-delegation](https://www.cyberark.com/resources/threat-research-blog/weakness-within-kerberos-delegation)
 
 
