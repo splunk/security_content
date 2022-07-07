@@ -107,8 +107,8 @@ This analytic detects a potential suspicious modification of firewall rule allow
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **firewall_allowed_program_enable_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -149,7 +149,7 @@ A network operator or systems administrator may utilize an automated or manual e
 
 #### Reference
 
-* [https://app.any.run/tasks/ad4c3cda-41f2-4401-8dba-56cc2d245488/#](https://app.any.run/tasks/ad4c3cda-41f2-4401-8dba-56cc2d245488/#)
+* [https://app.any.run/tasks/ad4c3cda-41f2-4401-8dba-56cc2d245488/](https://app.any.run/tasks/ad4c3cda-41f2-4401-8dba-56cc2d245488/)
 
 
 

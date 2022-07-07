@@ -145,7 +145,7 @@ unknown
 
 #### Reference
 
-* [https://www.cisecurity.org/white-papers/security-primer-icedid/](https://www.cisecurity.org/white-papers/security-primer-icedid/)
+* [https://www.cisecurity.org/insights/white-papers/security-primer-icedid](https://www.cisecurity.org/insights/white-papers/security-primer-icedid)
 
 
 

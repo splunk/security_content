@@ -114,8 +114,8 @@ The following analytic identifies the Windows Windows Remote Auto Dialer, rasaut
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **windows_rasautou_dll_execution_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -162,7 +162,7 @@ False positives will be limited to applications that require Rasautou.exe to loa
 * [https://github.com/mandiant/DueDLLigence](https://github.com/mandiant/DueDLLigence)
 * [https://github.com/MHaggis/notes/blob/master/utilities/Invoke-SPLDLLigence.ps1](https://github.com/MHaggis/notes/blob/master/utilities/Invoke-SPLDLLigence.ps1)
 * [https://gist.github.com/NickTyrer/c6043e4b302d5424f701f15baf136513](https://gist.github.com/NickTyrer/c6043e4b302d5424f701f15baf136513)
-* [https://www.fireeye.com/blog/threat-research/2019/10/staying-hidden-on-the-endpoint-evading-detection-with-shellcode.html](https://www.fireeye.com/blog/threat-research/2019/10/staying-hidden-on-the-endpoint-evading-detection-with-shellcode.html)
+* [https://www.mandiant.com/resources/staying-hidden-on-the-endpoint-evading-detection-with-shellcode](https://www.mandiant.com/resources/staying-hidden-on-the-endpoint-evading-detection-with-shellcode)
 
 
 

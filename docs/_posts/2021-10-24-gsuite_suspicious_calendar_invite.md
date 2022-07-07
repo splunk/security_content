@@ -142,7 +142,7 @@ This search will also produce normal activity statistics. Fields such as email, 
 #### Reference
 
 * [https://www.techrepublic.com/article/how-to-avoid-the-dreaded-google-calendar-malicious-invite-issue/](https://www.techrepublic.com/article/how-to-avoid-the-dreaded-google-calendar-malicious-invite-issue/)
-* [https://gcn.com/articles/2012/09/26/20-most-common-words-phishing-attacks.aspx](https://gcn.com/articles/2012/09/26/20-most-common-words-phishing-attacks.aspx)
+* [https://gcn.com/cybersecurity/2012/09/the-20-most-common-words-in-phishing-attacks/280956/](https://gcn.com/cybersecurity/2012/09/the-20-most-common-words-in-phishing-attacks/280956/)
 
 
 

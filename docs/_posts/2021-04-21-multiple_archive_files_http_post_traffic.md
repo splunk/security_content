@@ -109,8 +109,8 @@ This search is designed to detect high frequency of archive files data exfiltrat
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [stream_http](https://github.com/splunk/security_content/blob/develop/macros/stream_http.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **multiple_archive_files_http_post_traffic_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -154,7 +154,7 @@ Normal archive transfer via HTTP protocol may trip this detection.
 #### Reference
 
 * [https://attack.mitre.org/techniques/T1560/001/](https://attack.mitre.org/techniques/T1560/001/)
-* [https://www.fireeye.com/blog/threat-research/2019/01/apt39-iranian-cyber-espionage-group-focused-on-personal-information.html](https://www.fireeye.com/blog/threat-research/2019/01/apt39-iranian-cyber-espionage-group-focused-on-personal-information.html)
+* [https://www.mandiant.com/resources/apt39-iranian-cyber-espionage-group-focused-on-personal-information](https://www.mandiant.com/resources/apt39-iranian-cyber-espionage-group-focused-on-personal-information)
 * [https://www.microsoft.com/security/blog/2021/01/20/deep-dive-into-the-solorigate-second-stage-activation-from-sunburst-to-teardrop-and-raindrop/](https://www.microsoft.com/security/blog/2021/01/20/deep-dive-into-the-solorigate-second-stage-activation-from-sunburst-to-teardrop-and-raindrop/)
 
 

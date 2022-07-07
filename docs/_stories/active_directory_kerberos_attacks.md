@@ -62,6 +62,8 @@ Kerberos, initially named after Cerberus, the three-headed dog in Greek mytholog
 | [Windows Invalid Users Failed Authentication via Kerberos](/endpoint/windows_invalid_users_failed_authentication_via_kerberos/) | [Password Spraying](/tags/#password-spraying), [Brute Force](/tags/#brute-force)| Anomaly |
 | [Windows Kerberos Local Successful Logon](/endpoint/windows_kerberos_local_successful_logon/) | [Steal or Forge Kerberos Tickets](/tags/#steal-or-forge-kerberos-tickets)| TTP |
 | [Windows PowerView Constrained Delegation Discovery](/endpoint/windows_powerview_constrained_delegation_discovery/) | [Remote System Discovery](/tags/#remote-system-discovery)| TTP |
+| [Windows PowerView Kerberos Service Ticket Request](/endpoint/windows_powerview_kerberos_service_ticket_request/) | [Steal or Forge Kerberos Tickets](/tags/#steal-or-forge-kerberos-tickets), [Kerberoasting](/tags/#kerberoasting)| TTP |
+| [Windows PowerView SPN Discovery](/endpoint/windows_powerview_spn_discovery/) | [Steal or Forge Kerberos Tickets](/tags/#steal-or-forge-kerberos-tickets), [Kerberoasting](/tags/#kerberoasting)| TTP |
 | [Windows PowerView Unconstrained Delegation Discovery](/endpoint/windows_powerview_unconstrained_delegation_discovery/) | [Remote System Discovery](/tags/#remote-system-discovery)| TTP |
 | [Unusual Number of Computer Service Tickets Requested](/endpoint/unusual_number_of_computer_service_tickets_requested/) | [Valid Accounts](/tags/#valid-accounts)| Hunting |
 
