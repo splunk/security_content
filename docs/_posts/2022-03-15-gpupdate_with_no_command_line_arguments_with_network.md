@@ -109,8 +109,8 @@ The following analytic identifies gpupdate.exe with no command line arguments an
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **gpupdate_with_no_command_line_arguments_with_network_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -150,7 +150,7 @@ Limited false positives may be present in small environments. Tuning may be requ
 #### Reference
 
 * [https://raw.githubusercontent.com/xx0hcd/Malleable-C2-Profiles/0ef8cf4556e26f6d4190c56ba697c2159faa5822/crimeware/trick_ryuk.profile](https://raw.githubusercontent.com/xx0hcd/Malleable-C2-Profiles/0ef8cf4556e26f6d4190c56ba697c2159faa5822/crimeware/trick_ryuk.profile)
-* [https://blog.cobaltstrike.com/2021/02/09/learn-pipe-fitting-for-all-of-your-offense-projects/](https://blog.cobaltstrike.com/2021/02/09/learn-pipe-fitting-for-all-of-your-offense-projects/)
+* [https://www.cobaltstrike.com/blog/learn-pipe-fitting-for-all-of-your-offense-projects/](https://www.cobaltstrike.com/blog/learn-pipe-fitting-for-all-of-your-offense-projects/)
 
 
 

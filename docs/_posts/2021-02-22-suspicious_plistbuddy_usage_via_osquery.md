@@ -147,7 +147,7 @@ Some legitimate applications may use PlistBuddy to create or modify property lis
 
 #### Reference
 
-* [https://marcosantadev.com/manage-plist-files-plistbuddy/](https://marcosantadev.com/manage-plist-files-plistbuddy/)
+* [https://www.marcosantadev.com/manage-plist-files-plistbuddy/](https://www.marcosantadev.com/manage-plist-files-plistbuddy/)
 
 
 

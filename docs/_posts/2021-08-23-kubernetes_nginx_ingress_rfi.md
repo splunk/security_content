@@ -148,7 +148,7 @@ unknown
 #### Reference
 
 * [https://github.com/splunk/splunk-connect-for-kubernetes](https://github.com/splunk/splunk-connect-for-kubernetes)
-* [https://www.netsparker.com/blog/web-security/remote-file-inclusion-vulnerability/](https://www.netsparker.com/blog/web-security/remote-file-inclusion-vulnerability/)
+* [https://www.invicti.com/blog/web-security/remote-file-inclusion-vulnerability/](https://www.invicti.com/blog/web-security/remote-file-inclusion-vulnerability/)
 
 
 

@@ -123,8 +123,8 @@ This analytic looks for the presence of suspicious commandline parameters typica
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **impacket_lateral_movement_commandline_parameters_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -174,7 +174,7 @@ Although uncommon, Administrators may leverage Impackets tools to start a proces
 * [https://attack.mitre.org/techniques/T1021/003/](https://attack.mitre.org/techniques/T1021/003/)
 * [https://attack.mitre.org/techniques/T1047/](https://attack.mitre.org/techniques/T1047/)
 * [https://attack.mitre.org/techniques/T1053/](https://attack.mitre.org/techniques/T1053/)
-* [https://attack.mitre.org/techniques/T1053/005](https://attack.mitre.org/techniques/T1053/005)
+* [https://attack.mitre.org/techniques/T1053/005/](https://attack.mitre.org/techniques/T1053/005/)
 * [https://github.com/SecureAuthCorp/impacket](https://github.com/SecureAuthCorp/impacket)
 * [https://vk9-sec.com/impacket-remote-code-execution-rce-on-windows-from-linux/](https://vk9-sec.com/impacket-remote-code-execution-rce-on-windows-from-linux/)
 * [https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/](https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/)
