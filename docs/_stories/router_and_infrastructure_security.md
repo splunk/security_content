@@ -46,7 +46,7 @@ This Analytic Story helps you gain a better understanding of how your network de
 
 #### Reference
 
-* [https://www.fireeye.com/blog/executive-perspective/2015/09/the_new_route_toper.html](https://www.fireeye.com/blog/executive-perspective/2015/09/the_new_route_toper.html)
+* [https://web.archive.org/web/20210420020040/https://www.fireeye.com/blog/executive-perspective/2015/09/the_new_route_toper.html](https://web.archive.org/web/20210420020040/https://www.fireeye.com/blog/executive-perspective/2015/09/the_new_route_toper.html)
 * [https://www.cisco.com/c/en/us/about/security-center/event-response/synful-knock.html](https://www.cisco.com/c/en/us/about/security-center/event-response/synful-knock.html)
 
 

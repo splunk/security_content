@@ -109,8 +109,8 @@ The following analytic identifies the Microsoft Software Licensing User Interfac
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **slui_spawning_a_process_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -153,7 +153,7 @@ Certain applications may spawn from `slui.exe` that are legitimate. Filtering wi
 
 * [https://www.exploit-db.com/exploits/46998](https://www.exploit-db.com/exploits/46998)
 * [https://www.rapid7.com/db/modules/exploit/windows/local/bypassuac_sluihijack/](https://www.rapid7.com/db/modules/exploit/windows/local/bypassuac_sluihijack/)
-* [https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html](https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html)
+* [https://www.mandiant.com/resources/shining-a-light-on-darkside-ransomware-operations](https://www.mandiant.com/resources/shining-a-light-on-darkside-ransomware-operations)
 
 
 

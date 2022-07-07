@@ -108,8 +108,8 @@ This search is to detect a suspicious modification of firewall to allow file and
 #### Macros
 The SPL above uses the following Macros:
 * [process_netsh](https://github.com/splunk/security_content/blob/develop/macros/process_netsh.yml)
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **allow_file_and_printing_sharing_in_firewall_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -153,7 +153,7 @@ network admin may modify this firewall feature that may cause this rule to be tr
 
 #### Reference
 
-* [https://kb.fortinet.com/kb/documentLink.do?externalID=FD52469](https://kb.fortinet.com/kb/documentLink.do?externalID=FD52469)
+* [https://community.fortinet.com:443/t5/FortiEDR/How-FortiEDR-detects-and-blocks-Revil-Ransomware-aka-sodinokibi/ta-p/189638?externalID=FD52469](https://community.fortinet.com:443/t5/FortiEDR/How-FortiEDR-detects-and-blocks-Revil-Ransomware-aka-sodinokibi/ta-p/189638?externalID=FD52469)
 * [https://app.any.run/tasks/c0f98850-af65-4352-9746-fbebadee4f05/](https://app.any.run/tasks/c0f98850-af65-4352-9746-fbebadee4f05/)
 
 

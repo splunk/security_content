@@ -147,7 +147,7 @@ Possible false positive scenarios include but are not limited to vulnerability s
 
 * [https://github.com/ropnop/kerbrute](https://github.com/ropnop/kerbrute)
 * [https://attack.mitre.org/techniques/T1589/002/](https://attack.mitre.org/techniques/T1589/002/)
-* [https://www.redsiege.com/blog/2020/04/user-enumeration-part-3-windows/](https://www.redsiege.com/blog/2020/04/user-enumeration-part-3-windows/)
+* [https://redsiege.com/tools-techniques/2020/04/user-enumeration-part-3-windows/](https://redsiege.com/tools-techniques/2020/04/user-enumeration-part-3-windows/)
 
 
 

@@ -135,8 +135,8 @@ The following analytic assists with identifying a PowerShell process spawned as 
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **possible_lateral_movement_powershell_spawn_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -182,10 +182,10 @@ Legitimate applications may spawn PowerShell as a child process of the the ident
 
 #### Reference
 
-* [https://attack.mitre.org/techniques/T1021/003](https://attack.mitre.org/techniques/T1021/003)
+* [https://attack.mitre.org/techniques/T1021/003/](https://attack.mitre.org/techniques/T1021/003/)
 * [https://attack.mitre.org/techniques/T1021/006/](https://attack.mitre.org/techniques/T1021/006/)
 * [https://attack.mitre.org/techniques/T1047/](https://attack.mitre.org/techniques/T1047/)
-* [https://attack.mitre.org/techniques/T1053.005/](https://attack.mitre.org/techniques/T1053.005/)
+* [https://attack.mitre.org/techniques/T1053/005/](https://attack.mitre.org/techniques/T1053/005/)
 * [https://attack.mitre.org/techniques/T1543/003/](https://attack.mitre.org/techniques/T1543/003/)
 
 

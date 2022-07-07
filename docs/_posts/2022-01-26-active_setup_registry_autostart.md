@@ -154,7 +154,7 @@ Active setup installer may add or modify this registry.
 
 #### Reference
 
-* [https://www.microsoft.com/en-us/wdsi/threats/malware-encyclopedia-description?Name=Backdoor%3aWin32%2fPoisonivy.E](https://www.microsoft.com/en-us/wdsi/threats/malware-encyclopedia-description?Name=Backdoor%3aWin32%2fPoisonivy.E)
+* [https://www.microsoft.com/en-us/wdsi/threats/malware-encyclopedia-description?Name=Backdoor%3AWin32%2FPoisonivy.E](https://www.microsoft.com/en-us/wdsi/threats/malware-encyclopedia-description?Name=Backdoor%3AWin32%2FPoisonivy.E)
 * [https://attack.mitre.org/techniques/T1547/014/](https://attack.mitre.org/techniques/T1547/014/)
 
 

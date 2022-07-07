@@ -102,8 +102,8 @@ This search is to detect file creation in remcos folder in appdata which is the 
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **remcos_rat_file_creation_in_remcos_folder_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -140,7 +140,7 @@ unknown
 
 #### Reference
 
-* [https://success.trendmicro.com/solution/1123281-remcos-malware-information](https://success.trendmicro.com/solution/1123281-remcos-malware-information)
+* [https://success.trendmicro.com/dcx/s/solution/1123281-remcos-malware-information?language=en_US](https://success.trendmicro.com/dcx/s/solution/1123281-remcos-malware-information?language=en_US)
 * [https://blog.malwarebytes.com/threat-intelligence/2021/07/remcos-rat-delivered-via-visual-basic/](https://blog.malwarebytes.com/threat-intelligence/2021/07/remcos-rat-delivered-via-visual-basic/)
 
 
