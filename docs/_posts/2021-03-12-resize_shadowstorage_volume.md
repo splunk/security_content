@@ -102,8 +102,8 @@ The following analytics identifies the resizing of shadowstorage by ransomware m
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **resize_shadowstorage_volume_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -142,7 +142,7 @@ network admin can resize the shadowstorage for valid purposes.
 
 #### Reference
 
-* [https://www.fireeye.com/blog/threat-research/2020/10/fin11-email-campaigns-precursor-for-ransomware-data-theft.html](https://www.fireeye.com/blog/threat-research/2020/10/fin11-email-campaigns-precursor-for-ransomware-data-theft.html)
+* [https://www.mandiant.com/resources/fin11-email-campaigns-precursor-for-ransomware-data-theft](https://www.mandiant.com/resources/fin11-email-campaigns-precursor-for-ransomware-data-theft)
 * [https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html](https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html)
 * [https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1490/T1490.md](https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1490/T1490.md)
 * [https://redcanary.com/blog/blackbyte-ransomware/](https://redcanary.com/blog/blackbyte-ransomware/)

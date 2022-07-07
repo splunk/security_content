@@ -118,8 +118,8 @@ Upon triage, fodhelper.exe will have a child process and read access will occur 
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **fodhelper_uac_bypass_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -164,7 +164,7 @@ Limited to no false positives are expected.
 * [https://blog.malwarebytes.com/malwarebytes-news/2021/02/lazyscripter-from-empire-to-double-rat/](https://blog.malwarebytes.com/malwarebytes-news/2021/02/lazyscripter-from-empire-to-double-rat/)
 * [https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1548.002/T1548.002.md](https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1548.002/T1548.002.md)
 * [https://github.com/gushmazuko/WinBypass/blob/master/FodhelperBypass.ps1](https://github.com/gushmazuko/WinBypass/blob/master/FodhelperBypass.ps1)
-* [https://attack.mitre.org/techniques/T1548/002](https://attack.mitre.org/techniques/T1548/002)
+* [https://attack.mitre.org/techniques/T1548/002/](https://attack.mitre.org/techniques/T1548/002/)
 
 
 

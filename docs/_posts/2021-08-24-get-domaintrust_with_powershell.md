@@ -102,8 +102,8 @@ This analytic identifies Get-DomainTrust from PowerView in order to gather domai
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **get-domaintrust_with_powershell_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -147,7 +147,7 @@ Limited false positives as this requires an active Administrator or adversary to
 
 #### Reference
 
-* [http://www.harmj0y.net/blog/redteaming/a-guide-to-attacking-domain-trusts/](http://www.harmj0y.net/blog/redteaming/a-guide-to-attacking-domain-trusts/)
+* [https://blog.harmj0y.net/redteaming/a-guide-to-attacking-domain-trusts/](https://blog.harmj0y.net/redteaming/a-guide-to-attacking-domain-trusts/)
 
 
 

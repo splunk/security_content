@@ -18,6 +18,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - Endpoint
 ---
 
 
@@ -30,7 +31,7 @@ This search looks for registry activity associated with modifications to the reg
 
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-01-28
 - **Author**: Bhavin Patel, Teoderick Contreras, Splunk
 - **ID**: f5f6af30-7ba7-4295-bfe9-07de87c01bbc
