@@ -1,6 +1,6 @@
 import os
 import asyncio
-
+import sys
 from bin.contentctl_project.contentctl_core.application.adapter.adapter import Adapter
 from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import SecurityContentType
 from bin.contentctl_project.contentctl_infrastructure.adapter.jinja_writer import JinjaWriter
@@ -14,7 +14,8 @@ class ObjToMdAdapter(Adapter):
         self.files_to_write = sum([len(obj) for obj in objects])
         self.index = 0
         progress_percent = ((self.index+1)/self.files_to_write) * 100
-        print(f"\r{'Docgen Progress'.rjust(23)}: [{progress_percent:3.0f}%]...", end="", flush=True)
+        if (sys.stdout.isatty() and sys.stdin.isatty() and sys.stderr.isatty()):
+            print(f"\r{'Docgen Progress'.rjust(23)}: [{progress_percent:3.0f}%]...", end="", flush=True)
 
         attack_tactics = set()
         datamodels = set()
@@ -65,7 +66,8 @@ class ObjToMdAdapter(Adapter):
         for obj in objects:
             progress_percent = ((self.index+1)/self.files_to_write) * 100
             self.index+=1
-            print(f"\r{'Docgen Progress'.rjust(23)}: [{progress_percent:3.0f}%]...", end="", flush=True)
+            if (sys.stdout.isatty() and sys.stdin.isatty() and sys.stderr.isatty()):
+                print(f"\r{'Docgen Progress'.rjust(23)}: [{progress_percent:3.0f}%]...", end="", flush=True)
 
             JinjaWriter.writeObject(template_name, os.path.join(output_path, obj.name.lower().replace(' ', '_') + '.md'), obj)
 
@@ -73,6 +75,7 @@ class ObjToMdAdapter(Adapter):
         for obj in objects:
             progress_percent = ((self.index+1)/self.files_to_write) * 100
             self.index+=1
-            print(f"\r{'Docgen Progress'.rjust(23)}: [{progress_percent:3.0f}%]...", end="", flush=True)
+            if (sys.stdout.isatty() and sys.stdin.isatty() and sys.stderr.isatty()):
+                print(f"\r{'Docgen Progress'.rjust(23)}: [{progress_percent:3.0f}%]...", end="", flush=True)
 
             JinjaWriter.writeObject(template_name, os.path.join(output_path, obj.date + '-' + obj.name.lower().replace(' ', '_') + '.md'), obj)
