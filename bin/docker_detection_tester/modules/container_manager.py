@@ -137,9 +137,13 @@ class ContainerManager:
 
 
     def run_containers(self) -> None:
-        for container in self.containers:
-            #give a little time between container startup
-            time.sleep(15)
+         for container_number, container in enumerate(self.containers):
+            #give a little time between container startup if there is more than one container.
+            #Never wait on the first container. This gets us to testing as fast as possible
+            #for the most common case (one container) and gives us some extra time and
+            #reduces load when we are launching more than one container
+            if (container_number != 0):
+                time.sleep(10)
             container.thread.start()
         
     
