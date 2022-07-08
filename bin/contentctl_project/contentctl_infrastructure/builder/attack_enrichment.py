@@ -3,7 +3,7 @@ import csv
 import os
 from posixpath import split
 from typing import Optional
-
+import sys
 from attackcti import attack_client
 
 import logging
@@ -43,7 +43,8 @@ class AttackEnrichment():
             
             for index, technique in enumerate(all_enterprise['techniques']):
                 progress_percent = ((index+1)/len(all_enterprise['techniques'])) * 100
-                print(f"\r\t{'MITRE Technique Progress'.rjust(23)}: [{progress_percent:3.0f}%]...", end="", flush=True)
+                if (sys.stdout.isatty() and sys.stdin.isatty() and sys.stderr.isatty()):
+                    print(f"\r\t{'MITRE Technique Progress'.rjust(23)}: [{progress_percent:3.0f}%]...", end="", flush=True)
                 apt_groups = []
                 for relationship in enterprise_relationships:
                     if (relationship['target_ref'] == technique['id']) and relationship['source_ref'].startswith('intrusion-set'):
