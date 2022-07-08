@@ -33,7 +33,7 @@ tags:
   - Ransomware
   confidence: 90
   impact: 70
-  mesage: message here
+  message: message here
   drilldown: drilldown search here (pre generated) (optional field)
   mitre_attack_id:
   - T1070
