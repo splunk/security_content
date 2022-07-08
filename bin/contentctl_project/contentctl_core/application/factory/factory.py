@@ -157,6 +157,10 @@ class Factory():
                thread.join()
           '''
           
+          already_ran = False
+          progress_percent = 0
+          type_string = "UNKNOWN TYPE"
+
           #Non threaded, production version of the construction code
           files_without_ssa = [f for f in files if 'ssa___' not in f]
           for index,file in enumerate(files_without_ssa):
@@ -165,47 +169,48 @@ class Factory():
                # that printouts end at 100%, not some other number 
                progress_percent = ((index+1)/len(files_without_ssa)) * 100
                try:
+                    type_string = "UNKNOWN TYPE"
                     if type == SecurityContentType.lookups:
-                         print(f"\r{'Lookups Progress'.rjust(23)}: [{progress_percent:3.0f}%]...", end="", flush=True)
+                         type_string = "Lookups"
                          self.input_dto.director.constructLookup(self.input_dto.basic_builder, file)
                          self.output_dto.lookups.append(self.input_dto.basic_builder.getObject())
                     
                     elif type == SecurityContentType.macros:
-                         print(f"\r{'Playbooks Progress'.rjust(23)}: [{progress_percent:3.0f}%]...", end="", flush=True)
+                         type_string = "Macros"
                          self.input_dto.director.constructMacro(self.input_dto.basic_builder, file)
                          self.output_dto.macros.append(self.input_dto.basic_builder.getObject())
                     
                     elif type == SecurityContentType.deployments:
-                         print(f"\r{'Deployments Progress'.rjust(23)}: [{progress_percent:3.0f}%]...", end="", flush=True)
+                         type_string = "Deployments"
                          self.input_dto.director.constructDeployment(self.input_dto.basic_builder, file)
                          self.output_dto.deployments.append(self.input_dto.basic_builder.getObject())
                     
                     elif type == SecurityContentType.playbooks:
-                         print(f"\r{'Playbooks Progress'.rjust(23)}: [{progress_percent:3.0f}%]...", end="", flush=True)
+                         type_string = "Playbooks"
                          self.input_dto.director.constructPlaybook(self.input_dto.playbook_builder, file)
                          self.output_dto.playbooks.append(self.input_dto.playbook_builder.getObject())                    
                     
                     elif type == SecurityContentType.baselines:
-                         print(f"\r{'Baselines Progress'.rjust(23)}: [{progress_percent:3.0f}%]...", end="", flush=True)
+                         type_string = "Baselines"
                          self.input_dto.director.constructBaseline(self.input_dto.baseline_builder, file, self.output_dto.deployments)
                          baseline = self.input_dto.baseline_builder.getObject()
                          self.output_dto.baselines.append(baseline)
                     
                     elif type == SecurityContentType.investigations:
-                         print(f"\r{'Investigations Progress'.rjust(23)}: [{progress_percent:3.0f}%]...", end="", flush=True)
+                         type_string = "Investigations"
                          self.input_dto.director.constructInvestigation(self.input_dto.investigation_builder, file)
                          investigation = self.input_dto.investigation_builder.getObject()
                          self.output_dto.investigations.append(investigation)
 
                     elif type == SecurityContentType.stories:
-                         print(f"\r{'Stories Progress'.rjust(23)}: [{progress_percent:3.0f}%]...", end="", flush=True)
+                         type_string = "Stories"
                          self.input_dto.director.constructStory(self.input_dto.story_builder, file, 
                               self.output_dto.detections, self.output_dto.baselines, self.output_dto.investigations)
                          story = self.input_dto.story_builder.getObject()
                          self.output_dto.stories.append(story)
                
                     elif type == SecurityContentType.detections:
-                         print(f"\r{'Detections Progress'.rjust(23)}: [{progress_percent:3.0f}%]...", end="", flush=True)
+                         type_string = "Detections"
                          self.input_dto.director.constructDetection(self.input_dto.detection_builder, file, 
                               self.output_dto.deployments, self.output_dto.playbooks, self.output_dto.baselines,
                               self.output_dto.tests, self.input_dto.attack_enrichment, self.output_dto.macros,
@@ -214,15 +219,24 @@ class Factory():
                          self.output_dto.detections.append(detection)
                
                     elif type == SecurityContentType.unit_tests:
-                         print(f"\r{'Unit Tests Progress'.rjust(23)}: [{progress_percent:3.0f}%]...", end="", flush=True)
+                         type_string = "Unit Tests"
                          self.input_dto.director.constructTest(self.input_dto.basic_builder, file)
                          test = self.input_dto.basic_builder.getObject()
                          self.output_dto.tests.append(test)
+
+                    else:
+                         raise Exception(f"Unsupported type: [{type}]")
+                    
+                    if (sys.stdout.isatty() and sys.stdin.isatty() and sys.stderr.isatty()) or not already_ran:
+                         already_ran = True
+                         print(f"\r{f'{type_string} Progress'.rjust(23)}: [{progress_percent:3.0f}%]...", end="", flush=True)
                
                except ValidationError as e:
                     print('\nValidation Error for file ' + file)
                     print(e)
                     validation_error_found = True
+          
+          print(f"\r{f'{type_string} Progress'.rjust(23)}: [{progress_percent:3.0f}%]...", end="", flush=True)
           print("Done!")
 
           if validation_error_found:
