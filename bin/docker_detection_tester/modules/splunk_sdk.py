@@ -11,6 +11,7 @@ from typing import Union
 
 DEFAULT_EVENT_HOST = "ATTACK_DATA_HOST"
 DEFAULT_DATA_INDEX = "main"
+FAILURE_SLEEP_INTERVAL_SECONDS = 60
 
 def enable_delete_for_admin(splunk_host:str, splunk_port:int, splunk_password:str)->bool:
     try:
@@ -225,7 +226,12 @@ def test_baseline_search(splunk_host, splunk_port, splunk_password, search, pass
 
 
 
-def test_detection_search(splunk_host:str, splunk_port:int, splunk_password:str, search:str, pass_condition:str, detection_name:str, detection_file:str, earliest_time:str, latest_time:str)->dict:
+def test_detection_search(splunk_host:str, splunk_port:int, splunk_password:str, search:str, pass_condition:str, 
+                          detection_name:str, detection_file:str, earliest_time:str, latest_time:str, attempts_remaining:int=4, 
+                          failure_sleep_interval_seconds:int=FAILURE_SLEEP_INTERVAL_SECONDS)->dict:
+    #Since this is an attempt, decrement the number of remaining attempts
+    attempts_remaining -= 1
+    
     if search.startswith('|'):
         search = search
     else:
@@ -294,8 +300,15 @@ def test_detection_search(splunk_host:str, splunk_port:int, splunk_password:str,
     #Should this be 1 for a pass, or should it be greater than 0?
     if int(job['resultCount']) != 1:
         #print("Test failed for detection: " + detection_name)
-        test_results['success'] = False
-        return test_results
+        if attempts_remaining > 0:
+            print(f"Execution of test failed for [{detection_name}]. Sleeping for [{failure_sleep_interval_seconds} seconds] and trying again...")
+            time.sleep(failure_sleep_interval_seconds)
+            return test_detection_search(splunk_host, splunk_port, splunk_password, search, pass_condition, detection_name, detection_file, 
+                                         earliest_time, latest_time, attempts_remaining=attempts_remaining, 
+                                         failure_sleep_interval_seconds=failure_sleep_interval_seconds)
+        else:
+            test_results['success'] = False
+            return test_results
     else:
         #print("Test successful for detection: " + detection_name)
         test_results['success'] = True
