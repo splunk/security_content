@@ -7,7 +7,7 @@ type: TTP
 datamodel:
 - Endpoint
 description: The following analytic is to identify a modification or creation of Windows registry 
-  related to Remote Manipulator System (RMS) Remote Admin tool. RMS is a legitimate tool developed by russian organization TektonIT and 
+  related to the Remote Manipulator System (RMS) Remote Admin tool. RMS is a legitimate tool developed by russian organization TektonIT and 
   has been observed being abused by adversaries and threat actor to gain remote access to the targeted host. Azorult malware is one of the 
   malware uses this tool as part of its malicious intent in the compromised host. This detections may give a good pivot in analyzing who and why 
   this application is installed in a production machine specially if it is not a common tool on premise.
