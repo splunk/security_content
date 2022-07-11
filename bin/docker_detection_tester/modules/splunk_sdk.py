@@ -192,15 +192,15 @@ def test_baseline_search(splunk_host, splunk_port, splunk_password, search, pass
     # search = search.replace('\\','\\\\')
 
     if search.startswith('|'):
-        search = search
+        updated_search = search
     else:
-        search = 'search ' + search
+        updated_search = 'search ' + search
 
     kwargs = {"exec_mode": "blocking",
               "dispatch.earliest_time": earliest_time,
               "dispatch.latest_time": latest_time}
 
-    splunk_search = search + ' ' + pass_condition
+    splunk_search = updated_search + ' ' + pass_condition
 
     try:
         job = service.jobs.create(splunk_search, **kwargs)
@@ -233,15 +233,15 @@ def test_detection_search(splunk_host:str, splunk_port:int, splunk_password:str,
     attempts_remaining -= 1
     
     if search.startswith('|'):
-        search = search
+        updated_search = search
     else:
-        search = 'search ' + search 
+        updated_search = 'search ' + search 
 
     kwargs = {"exec_mode": "blocking",
               "dispatch.earliest_time": "-1d",
               "dispatch.latest_time": "now"}
 
-    splunk_search = search + ' ' + pass_condition
+    splunk_search = updated_search + ' ' + pass_condition
     test_results = dict()
     
     #These will always be present. By default, we will say that the
