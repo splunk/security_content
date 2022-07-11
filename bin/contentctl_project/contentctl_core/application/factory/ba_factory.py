@@ -50,6 +50,10 @@ class BAFactory():
         validation_error_found = False
 
         files_with_ssa = [f for f in files if 'ssa___' in f]
+
+        already_ran = False
+        progress_percent = 0
+        type_string = "UNKNOWN TYPE"
         for index,file in enumerate(files_with_ssa):
           
             #Index + 1 because we are zero indexed, not 1 indexed.  This ensures
@@ -59,22 +63,31 @@ class BAFactory():
             if 'ssa__' in file:
                 progress_percent = ((index+1)/len(files_with_ssa)) * 100
                 try:
+                    type_string = "UNKNOWN TYPE"
                     if type == SecurityContentType.detections:
-                        print(f"\r{'Detections Progress'.rjust(23)}: [{progress_percent:3.0f}%]...", end="", flush=True)
+                        type_string = "Detections"    
                         self.input_dto.director.constructDetection(self.input_dto.detection_builder, file, [], [], [], self.output_dto.tests, {}, [], [])
                         detection = self.input_dto.detection_builder.getObject()
                         if not detection.deprecated and not detection.experimental:
                             self.output_dto.detections.append(detection)
                     elif type == SecurityContentType.unit_tests:
-                        print(f"\r{'Unit Tests Progress'.rjust(23)}: [{progress_percent:3.0f}%]...", end="", flush=True)
+                        type_string = "Unit Tests"
                         self.input_dto.director.constructTest(self.input_dto.basic_builder, file)
                         test = self.input_dto.basic_builder.getObject()
                         self.output_dto.tests.append(test)
-                    
+                    else:
+                        raise(Exception(f"Unsupported content type: [{type}]"))
+
+                    if (sys.stdout.isatty() and sys.stdin.isatty() and sys.stderr.isatty()) or not already_ran:
+                        already_ran = True
+                        print(f"\r{f'{type_string} Progress'.rjust(23)}: [{progress_percent:3.0f}%]...", end="", flush=True)
+
                 except ValidationError as e:
                     print('\nValidation Error for file ' + file)
                     print(e)
                     validation_error_found = True
+
+        print(f"\r{f'{type_string} Progress'.rjust(23)}: [{progress_percent:3.0f}%]...", end="", flush=True)                    
         print("Done!")
 
         if validation_error_found:
