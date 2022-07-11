@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: The following analytic identifies the use of default or publicly known named pipes used with RMX remote admin tool. 
+description: The following analytic identifies the use of default or publicly known named pipes used by RMX remote admin tool. 
   A named pipe is a named, one-way or duplex pipe for communication between the pipe server and one or more pipe clients. RMX Tool uses named pipes in many way 
   as part of its communication for its server and client component. This tool was abuse by several adversaries and malware like Azorult to collect data to the targeted host. 
   This TTP is a good indicator that this tool was install in production premise and need to check if the user has a valid reason why it need to install this legitimate application.
