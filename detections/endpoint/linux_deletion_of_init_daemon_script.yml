@@ -2,7 +2,7 @@ name: Linux Deletion Of Init Daemon Script
 id: 729aab57-d26f-4156-b97f-ab8dda8f44b1
 version: 1
 date: '2022-04-12'
-author: Teoderick Contreras, Splunk
+author: Teoderick Contreras, Splunk 
 type: TTP
 datamodel:
 - Endpoint

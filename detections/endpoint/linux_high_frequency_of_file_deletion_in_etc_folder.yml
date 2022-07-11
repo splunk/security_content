@@ -2,7 +2,7 @@ name: Linux High Frequency Of File Deletion In Etc Folder
 id: 9d867448-2aff-4d07-876c-89409a752ff8
 version: 1
 date: '2022-04-12'
-author: Teoderick Contreras, Splunk
+author: Teoderick Contreras, Splunk 
 type: Anomaly
 datamodel:
 - Endpoint

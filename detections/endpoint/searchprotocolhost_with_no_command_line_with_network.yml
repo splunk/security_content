@@ -2,7 +2,7 @@ name: SearchProtocolHost with no Command Line with Network
 id: b690df8c-a145-11eb-a38b-acde48001122
 version: 3
 date: '2022-03-15'
-author: Michael Haag, Splunk
+author: Michael Haag, Splunk 
 type: TTP
 datamodel:
 - Endpoint

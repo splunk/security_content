@@ -2,7 +2,7 @@ name: Windows Disable Notification Center
 id: 1cd983c8-8fd6-11ec-a09d-acde48001122
 version: 1
 date: '2022-02-17'
-author: Teoderick Contreras, Splunk
+author: Teoderick Contreras, Splunk 
 type: Anomaly
 datamodel:
 - Endpoint

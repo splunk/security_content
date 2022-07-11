@@ -2,7 +2,7 @@ name: Windows InstallUtil Remote Network Connection
 id: 4fbf9270-43da-11ec-9486-acde48001122
 version: 2
 date: '2022-03-16'
-author: Michael Haag, Splunk
+author: Michael Haag, Splunk 
 type: TTP
 datamodel:
 - Endpoint

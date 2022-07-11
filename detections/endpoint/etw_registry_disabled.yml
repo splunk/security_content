@@ -2,7 +2,7 @@ name: ETW Registry Disabled
 id: 8ed523ac-276b-11ec-ac39-acde48001122
 version: 2
 date: '2022-01-28'
-author: Teoderick Contreras, Splunk
+author: Teoderick Contreras, Splunk 
 type: TTP
 datamodel:
 - Endpoint

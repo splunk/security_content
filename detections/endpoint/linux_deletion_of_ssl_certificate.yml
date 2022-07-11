@@ -2,7 +2,7 @@ name: Linux Deletion of SSL Certificate
 id: 839ab790-a60a-4f81-bfb3-02567063f615
 version: 1
 date: '2022-04-12'
-author: Teoderick Contreras, Splunk
+author: Teoderick Contreras, Splunk 
 type: Anomaly
 datamodel:
 - Endpoint
