@@ -8,6 +8,6 @@ tests:
   attack_data:
   - file_name: azure-audit.log
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/azuread_highrisk/azure-audit.log
-    source: UPDATE
-    sourcetype: UPDATE
+    source: mscs:azure:eventhub
+    sourcetype: mscs:azure:eventhub
     update_timestamp: true
