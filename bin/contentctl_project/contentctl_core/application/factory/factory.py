@@ -48,29 +48,12 @@ class FactoryOutputDto:
 class Factory():
      input_dto: FactoryInputDto
      output_dto: FactoryOutputDto
-
      ids: dict[str,list[str]] = {}
 
      def __init__(self, output_dto: FactoryOutputDto) -> None:
         self.output_dto = output_dto
 
-     def add_id(self, obj:SecurityContentObject, path:str) -> None:     
-          if hasattr(obj, "id"):
-               obj_id = obj.id
-               if obj_id in self.ids:
-                    self.ids[obj_id].append(path)
-               else:
-                    self.ids[obj_id] = [path]
-          # Otherwise, no ID so nothing to add....
-     
-     def check_ids_for_duplicates(self)->bool:
-          validation_error = False
-          for key, values in self.ids.items():
-               if len(values) > 1:
-                    validation_error = True
-                    id_conflicts_string = '\n\t* '.join(values)
-                    print(f"\nError validating id [{key}] - duplicate ID is used for the following content: \n\t* {id_conflicts_string}")
-          return validation_error
+
           
 
      def execute(self, input_dto: FactoryInputDto) -> None:
@@ -90,7 +73,6 @@ class Factory():
           
 
      def createSecurityContent(self, type: SecurityContentType) -> list:
-          
           objects = []
           if type == SecurityContentType.deployments:
                files = Utils.get_all_yml_files_from_directory(os.path.join(self.input_dto.input_path, str(type.name), 'ESCU'))
@@ -122,42 +104,42 @@ class Factory():
                          type_string = "Lookups"
                          self.input_dto.director.constructLookup(self.input_dto.basic_builder, file)
                          lookup = self.input_dto.basic_builder.getObject()
-                         self.add_id(lookup, file)
+                         Utils.add_id(self.ids, lookup, file)
                          self.output_dto.lookups.append(lookup)
                     
                     elif type == SecurityContentType.macros:
                          type_string = "Macros"
                          self.input_dto.director.constructMacro(self.input_dto.basic_builder, file)
                          macro = self.input_dto.basic_builder.getObject()
-                         self.add_id(macro, file)
+                         Utils.add_id(self.ids, macro, file)
                          self.output_dto.macros.append(macro)
                     
                     elif type == SecurityContentType.deployments:
                          type_string = "Deployments"
                          self.input_dto.director.constructDeployment(self.input_dto.basic_builder, file)
                          deployment = self.input_dto.basic_builder.getObject()
-                         self.add_id(deployment, file)
+                         Utils.add_id(self.ids, deployment, file)
                          self.output_dto.deployments.append(deployment)
                     
                     elif type == SecurityContentType.playbooks:
                          type_string = "Playbooks"
                          self.input_dto.director.constructPlaybook(self.input_dto.playbook_builder, file)
                          playbook = self.input_dto.playbook_builder.getObject()
-                         self.add_id(playbook, file)
+                         Utils.add_id(self.ids, playbook, file)
                          self.output_dto.playbooks.append(playbook)                    
                     
                     elif type == SecurityContentType.baselines:
                          type_string = "Baselines"
                          self.input_dto.director.constructBaseline(self.input_dto.baseline_builder, file, self.output_dto.deployments)
                          baseline = self.input_dto.baseline_builder.getObject()
-                         self.add_id(baseline, file)
+                         Utils.add_id(self.ids, baseline, file)
                          self.output_dto.baselines.append(baseline)
                     
                     elif type == SecurityContentType.investigations:
                          type_string = "Investigations"
                          self.input_dto.director.constructInvestigation(self.input_dto.investigation_builder, file)
                          investigation = self.input_dto.investigation_builder.getObject()
-                         self.add_id(investigation, file)
+                         Utils.add_id(self.ids, investigation, file)
                          self.output_dto.investigations.append(investigation)
 
                     elif type == SecurityContentType.stories:
@@ -165,7 +147,7 @@ class Factory():
                          self.input_dto.director.constructStory(self.input_dto.story_builder, file, 
                               self.output_dto.detections, self.output_dto.baselines, self.output_dto.investigations)
                          story = self.input_dto.story_builder.getObject()
-                         self.add_id(story, file)
+                         Utils.add_id(self.ids, story, file)
                          self.output_dto.stories.append(story)
                
                     elif type == SecurityContentType.detections:
@@ -175,14 +157,14 @@ class Factory():
                               self.output_dto.tests, self.input_dto.attack_enrichment, self.output_dto.macros,
                               self.output_dto.lookups, self.input_dto.force_cached_or_offline)
                          detection = self.input_dto.detection_builder.getObject()
-                         self.add_id(detection, file)
+                         Utils.add_id(self.ids, detection, file)
                          self.output_dto.detections.append(detection)
                
                     elif type == SecurityContentType.unit_tests:
                          type_string = "Unit Tests"
                          self.input_dto.director.constructTest(self.input_dto.basic_builder, file)
                          test = self.input_dto.basic_builder.getObject()
-                         self.add_id(test, file)
+                         Utils.add_id(self.ids, test, file)
                          self.output_dto.tests.append(test)
 
                     else:
@@ -202,7 +184,7 @@ class Factory():
           # to track them, self.ids, is populated previously in this
           # function every time content is adde.  
           # This will also print out the duplicates if they exist.
-          validation_error_found |= self.check_ids_for_duplicates() 
+          validation_error_found |= Utils.check_ids_for_duplicates(self.ids)
 
           print(f"\r{f'{type_string} Progress'.rjust(23)}: [{progress_percent:3.0f}%]...", end="", flush=True)
           print("Done!")
