@@ -7,7 +7,7 @@ type: TTP
 datamodel: []
 description: 'The following analytic triggers on a high risk sign-in against Azure Active Directory identified by Azure Identity Protection. Identity Protection monitors sign-in events
   using heuristics and machine learning to identify potentially malicious events and categorizes them in three categories high, medium and low.'
-search: ' body.category=UserRiskEvents body.properties.riskLevel=high 
+search: ' `azuread` body.category=UserRiskEvents body.properties.riskLevel=high 
   |  stats values(body.properties.userPrincipalName) by _time, body.properties.ipAddress, body.properties.activity, body.properties.riskLevel, body.properties.riskEventType, body.properties.additionalInfo
   | `azure_active_directory_high_risk_sign_in_filter`'
 how_to_implement: You must be ingesting Azure Active Directory events in your Splunk environment. Specifically, this analytic leverages the RiskyUsers and UserRiskEvents
