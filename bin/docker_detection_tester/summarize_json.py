@@ -123,7 +123,7 @@ def finish(test_pass:bool, test_count: int, pass_count:int, fail_count:int, erro
 def get_formatted_error_text(data:list[dict])->str:
     #Get all of the errors
     
-    error_strings = []
+    error_strings = ["\n\nError Details:"]
     for errored_test in data:
         try:
             full_detection_path = os.path.join("security_content/detections",errored_test['detection_file'])
