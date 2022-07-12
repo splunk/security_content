@@ -122,7 +122,7 @@ def test_detection(splunk_ip:str, splunk_port:int, container_name:str, splunk_pa
             test_index = service.indexes[data_upload_index]
             
             with open(target_file, 'rb') as target:
-                test_index.submit(target.read(), sourcetype=attack_data['sourcetype'], source=attack_data['source'])
+                test_index.submit(target.read(), sourcetype=attack_data['sourcetype'], source=attack_data['source'], host=splunk_sdk.DEFAULT_EVENT_HOST)
         
         except http.client.HTTPException as e:
             raise(Exception(f"Failed to submit detection file {target_file} to Splunk Server: {str(e)}"))
