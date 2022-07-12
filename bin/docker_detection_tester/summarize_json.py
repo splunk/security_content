@@ -1,3 +1,4 @@
+from ftplib import error_temp
 import json
 from collections import OrderedDict
 import argparse
@@ -7,12 +8,13 @@ from modules import validate_args
 import os.path
 from operator import itemgetter
 import copy
+from typing import Union
 
 def outputResultsJSON(output_filename:str, data:list[dict], baseline:OrderedDict, 
                       failure_manifest_filename = "detection_failure_manifest.json", 
-                      output_folder:str="", summarization_reproduce_failure_config:dict={})->tuple[bool,int,int,int,int]:
+                      output_folder:str="", summarization_reproduce_failure_config:dict={})->tuple[bool,int,int,int,int,str]:
     success = True
-    
+    error_text = ''
     try:
         test_count = len(data)
         #Passed
@@ -24,6 +26,8 @@ def outputResultsJSON(output_filename:str, data:list[dict], baseline:OrderedDict
         
         #An error (every error is also a failure)
         fail_and_error_count = len([x for x in data if x['error'] == True])
+        if fail_and_error_count > 0:
+            error_text = get_formatted_error_text([x for x in data if x['error'] == True])
         
         #A failure without an error
         fail_without_error_count = len([x for x in data if x['success'] == False and x['error'] == False])
@@ -73,6 +77,8 @@ def outputResultsJSON(output_filename:str, data:list[dict], baseline:OrderedDict
                                     "mode":"selected", "show_splunk_app_password": True})
             with open(os.path.join(output_folder,failure_manifest_filename),"w") as failures:
                 validate_args.validate_and_write(failures_test_override, failures)
+        
+        
     except Exception as e:
         print("There was an error generating [%s]: [%s]"%(output_filename, str(e)),file=sys.stderr)
         print(data)
@@ -81,7 +87,7 @@ def outputResultsJSON(output_filename:str, data:list[dict], baseline:OrderedDict
         #return success, False
 
     #note that total failures is fail_count, fail_and_error count is JUST errors (and every error is also a failure)
-    return success, test_count, pass_count, fail_count, fail_and_error_count
+    return success, test_count, pass_count, fail_count, fail_and_error_count, error_text
 
 def calculate_pass_rate(pass_count:int, test_count:int)->float:
     if test_count == 0:
@@ -91,13 +97,12 @@ def calculate_pass_rate(pass_count:int, test_count:int)->float:
         pass_rate = pass_count / test_count
     return pass_rate
 
-def print_summary(test_count: int, pass_count:int, fail_count:int, error_count:int)->None:
-    
+def print_summary(test_count: int, pass_count:int, fail_count:int, error_count:int, error_text:str = "")->None:
     print("Summary:"\
             f"\n\tTotal Tests: {test_count}"\
             f"\n\tTotal Pass : {pass_count}"\
             f"\n\tTotal Fail : {fail_count} ({error_count} of these were ERRORS))"\
-            f"\n\tPass  Rate : {calculate_pass_rate(pass_count, test_count):.3f}")
+            f"\n\tPass  Rate : {calculate_pass_rate(pass_count, test_count):.3f}" + error_text)
 
 def exit_with_status(test_pass:bool, test_count: int, pass_count:int, fail_count:int, error_count:int)->None:
     if not test_pass:
@@ -111,9 +116,27 @@ def exit_with_status(test_pass:bool, test_count: int, pass_count:int, fail_count
         sys.exit(0)
 
 
-def finish(test_pass:bool, test_count: int, pass_count:int, fail_count:int, error_count:int)->None:
-    print_summary(test_count, pass_count, fail_count,error_count)
+def finish(test_pass:bool, test_count: int, pass_count:int, fail_count:int, error_count:int, error_text:str = "")->None:
+    print_summary(test_count, pass_count, fail_count, error_count, error_text=error_text)
     exit_with_status(test_pass, test_count, pass_count, fail_count,error_count)
+
+def get_formatted_error_text(data:list[dict])->str:
+    #Get all of the errors
+    
+    error_strings = []
+    for errored_test in data:
+        try:
+            full_detection_path = os.path.join("security_content/detections",errored_test['detection_file'])
+        except Exception as e:
+            full_detection_path = "UNKNOWN PATH"
+        try:
+            error_string = errored_test['error']
+        except Exception as e:
+            error_string = "UNKNOWN ERROR"
+        
+        error_strings.append(f"\nError Processing [{full_detection_path}]:\n\t* {error_string}")
+
+    return ''.join(error_strings)
 
 def main():
     parser = argparse.ArgumentParser(description="Results Merger")
@@ -140,8 +163,8 @@ def main():
             else:
                 all_data['results'] = data['results']
 
-        test_pass, test_count, pass_count, fail_count, error_count = outputResultsJSON(args.output_filename, all_data['results'], all_data['baseline'])
-        finish(test_pass, test_count, pass_count, fail_count, error_count)
+        test_pass, test_count, pass_count, fail_count, error_count, error_text = outputResultsJSON(args.output_filename, all_data['results'], all_data['baseline'])
+        finish(test_pass, test_count, pass_count, fail_count, error_count, error_text = error_text)
         
     except Exception as e:
         print("Error generating the summary file: [%s].\n\tQuitting..."%(str(e)))
