@@ -41,7 +41,7 @@ tags:
   impact: 70
   kill_chain_phases:
   - Exploitation
-  message: UPDATE message
+  message: Source Ip $body.properties.ipAddress$ failed to authenticate with 30 users within 5 minutes.
   mitre_attack_id:
   - T1110
   - T1110.003
