@@ -14,7 +14,7 @@ search: ' `azuread` body.properties.status.errorCode= 50126 body.category= SignI
   | eventstats  avg(unique_accounts) as ip_avg , stdev(unique_accounts) as ip_std by body.properties.ipAddress
   | eval  upperBound=(ip_avg+ip_std*3)
   | eval  isOutlier=if(unique_accounts > 10 and unique_accounts >= upperBound, 1, 0)
-  | `unusual_number_of_failed_authentications_from_ip_filter`'
+  | `azure_ad_unusual_number_of_failed_authentications_from_ip_filter`'
 how_to_implement: You must be ingesting Azure Active Directory events in your Splunk environment. Specifically, this analytic leverages the SignInLogs
   log category.
 known_false_positives: A source Ip failing to authenticate with multiple users is not a common for legitimate behavior.
