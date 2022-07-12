@@ -2,7 +2,7 @@ name: Windows Disable Shutdown Button Through Registry
 id: 55fb2958-9ecd-11ec-a06a-acde48001122
 version: 1
 date: '2022-03-08'
-author: Teoderick Contreras, Splunk 
+author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
 - Endpoint

@@ -79,7 +79,7 @@ jobs:
             echo "github.event_name                  : [${{ github.event_name }}]"
             
             
-            if [[ ${{ github.event_name }} == schedule ]] || [[  true = true ]]; then
+            if [[ ${{ github.event_name }} == schedule ]]; then
               # Note that scheduled actions ONLY run on the default branch, so it won't run on all other branches!
               echo "Running a nightly test on all detections OR a commit was made directly to develop"
               python detection_testing_execution.py run --branch develop --mode all --mock --config_file test_config_github_actions.json  
@@ -140,7 +140,7 @@ jobs:
         - name: Checkout Repo
           uses: actions/checkout@v2
           with:
-            ref: resolve_local_gha_delta
+            ref: develop
         
         - name: Download artifacts
           uses: actions/download-artifact@v2

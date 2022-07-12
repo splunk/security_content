@@ -2,7 +2,7 @@ name: Windows Disable Lock Workstation Feature Through Registry
 id: c82adbc6-9f00-11ec-a81f-acde48001122
 version: 1
 date: '2022-03-08'
-author: Teoderick Contreras, Splunk 
+author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
 - Endpoint

@@ -2,7 +2,7 @@ name: Windows Modify Show Compress Color And Info Tip Registry
 id: b7548c2e-9a10-11ec-99e3-acde48001122
 version: 1
 date: '2022-03-02'
-author: Teoderick Contreras, Splunk 
+author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint
