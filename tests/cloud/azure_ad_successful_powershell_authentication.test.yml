@@ -1,7 +1,7 @@
 name: Azure AD Successful PowerShell Authentication Unit Test
 tests:
 - name: Azure AD Successful PowerShell Authentication
-  file: endpoint/azure_ad_successful_powershell_authentication.yml
+  file: cloud/azure_ad_successful_powershell_authentication.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h
   latest_time: now
