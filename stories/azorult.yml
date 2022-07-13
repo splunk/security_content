@@ -1,0 +1,26 @@
+name: Azorult
+id: efed5343-4ac2-42b1-a16d-da2428d0ce94
+version: 1
+date: '2022-06-09'
+author: Teoderick Contreras, Splunk
+description: Leverage searches that allow you to detect and investigate unusual activities
+  that might relate to the Azorult malware including firewall modification, icacl execution, spawning more process, botnet c2 communication, defense evasion and etc.
+  The AZORULT malware was first discovered in 2016 to be an information stealer that steals browsing history, cookies, ID/passwords, cryptocurrency information and more. 
+  It can also be a downloader of other malware. A variant of this malware was able to create a new, hidden administrator account on the machine to set a registry key 
+  to establish a Remote Desktop Protocol (RDP) connection.
+  Exploit kits such as Fallout Exploit Kit (EK) and phishing mails with social engineering technique are one of the major infection vectors of the AZORult malware. 
+  The current malspam and phishing emails use fake product order requests, invoice documents and payment information requests. This Trojan-Spyware connects to command and control (C&C) servers of attacker to send and receive information.
+narrative: Adversaries may use this technique to maximize the impact on the target organization in operations where network wide availability interruption
+  is the goal. 
+references:
+- https://success.trendmicro.com/dcx/s/solution/000146108-azorult-malware-information?language=en_US&sfdcIFrameOrigin=null
+- https://app.any.run/tasks/a6f2ffe2-e6e2-4396-ae2e-04ea0143f2d8/
+tags:
+  analytic_story: Azorult
+  category:
+  - Malware
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
