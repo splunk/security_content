@@ -32,6 +32,7 @@ tags:
   - Ryuk Ransomware
   - Windows Persistence Techniques
   - Living Off The Land
+  - Azorult
   confidence: 50
   context:
   - Source:Endpoint
