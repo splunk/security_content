@@ -28,6 +28,7 @@ tags:
   - Suspicious Windows Registry Activities
   - Remcos
   - Windows Registry Abuse
+  - Azorult
   asset_type: Endpoint
   cis20:
   - CIS 8

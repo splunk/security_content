@@ -32,6 +32,7 @@ tags:
   - Netsh Abuse
   - Disabling Security Tools
   - DHS Report TA18-074A
+  - Azorult
   asset_type: Endpoint
   cis20:
   - CIS 8
