@@ -27,6 +27,7 @@ references:
 tags:
   analytic_story:
   - Ransomware
+  - Azorult
   context:
   - Source:Endpoint
   - Scope:Local
