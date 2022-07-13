@@ -213,11 +213,11 @@ class TestDriver:
         res |= self.outputResultsFile(fields, os.path.join(results_directory, "combined"), combined_data, baseline)
         
         try:
-            success, test_count,pass_count,fail_count,error_count = \
+            success, test_count,pass_count,fail_count,error_count,error_text = \
                 summarize_json.outputResultsJSON("summary.json", combined_data, 
                                                  baseline, output_folder=results_directory, 
                                                  summarization_reproduce_failure_config=self.summarization_reproduce_failure_config)
-            summarize_json.print_summary(test_count, pass_count, fail_count, error_count)
+            summarize_json.print_summary(test_count, pass_count, fail_count, error_count, error_text=error_text)
             res |= success
         except Exception as e:
             print("Failure writing the summary file: [%s]"%str(e),file=sys.stderr)
