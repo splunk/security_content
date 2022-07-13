@@ -29,6 +29,7 @@ tags:
   - Windows Persistence Techniques
   - Disabling Security Tools
   - NOBELIUM Group
+  - Azorult
   asset_type: Endpoint
   cis20:
   - CIS 3
