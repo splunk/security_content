@@ -123,20 +123,20 @@ def finish(test_pass:bool, test_count: int, pass_count:int, fail_count:int, erro
 def get_formatted_error_text(data:list[dict])->str:
     #Get all of the errors
     
-    error_strings = ["\n\nError Details:"]
+    error_strings = ["\n\Detailed Errors:"]
     for errored_test in data:
         try:
             full_detection_path = os.path.join("security_content/detections",errored_test['detection_file'])
         except Exception as e:
             full_detection_path = "UNKNOWN PATH"
         try:
-            error_string = errored_test['error']
+            error_string = errored_test['detection_error']
         except Exception as e:
             error_string = "UNKNOWN ERROR"
         
-        error_strings.append(f"\nError Processing [{full_detection_path}]:\n\t* {error_string}")
+        error_strings.append(f"\nError Processing [{full_detection_path}]:\n\n\t* {error_string}")
 
-    return ''.join(error_strings)
+    return ''.join(error_strings) + '\n'
 
 def main():
     parser = argparse.ArgumentParser(description="Results Merger")
