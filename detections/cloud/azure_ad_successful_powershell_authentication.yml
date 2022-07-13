@@ -5,7 +5,8 @@ date: '2022-07-13'
 author: Mauricio Velazco, Splunk
 type: TTP
 datamodel: []
-description: 'The following analytic identifies a '
+description: 'The following analytic identifies a successful authentication event against an Azure AD tenant using PowerShell commandlets. After compromising an account in Azure AD, attackers and red teams
+ alike will perform enumeration and discovery techniques. One method of executing these techniques is leveraging the native PowerShell modules. '
 search: ' `azuread` body.category=SignInLogs body.properties.authenticationDetails{}.succeeded=true body.properties.appDisplayName="Azure Active Directory PowerShell" 
   |  stats values(body.properties.userPrincipalName) by _time, body.properties.ipAddress, body.properties.appDisplayName, body.properties.userAgent
   | `azure_ad_successful_powershell_authentication_filter`'
@@ -15,6 +16,8 @@ known_false_positives: Administrative users will likely use PowerShell commandle
 references:
 - https://attack.mitre.org/techniques/T1078/004/
 - https://docs.microsoft.com/en-us/powershell/module/azuread/connect-azuread?view=azureadps-2.0
+- https://securitycafe.ro/2022/04/29/pentesting-azure-recon-techniques/
+- https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Cloud%20-%20Azure%20Pentest.md 
 tags:
   analytic_story:
   - Azure Active Directory Password Spraying
@@ -59,5 +62,5 @@ tags:
   - body.properties.ipAddress
   - body.properties.appDisplayName
   - body.properties.userAgent
-  risk_score: 53
+  risk_score: 54
   security_domain: identity
