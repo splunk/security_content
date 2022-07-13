@@ -1,0 +1,63 @@
+name: Azure AD Successful PowerShell Authentication
+id: 62f10052-d7b3-4e48-b57b-56f8e3ac7ceb
+version: 1
+date: '2022-07-13'
+author: Mauricio Velazco, Splunk
+type: TTP
+datamodel: []
+description: 'The following analytic identifies a '
+search: ' `azuread` body.category=SignInLogs body.properties.authenticationDetails{}.succeeded=true body.properties.appDisplayName="Azure Active Directory PowerShell" 
+  |  stats values(body.properties.userPrincipalName) by _time, body.properties.ipAddress, body.properties.appDisplayName, body.properties.userAgent
+  | `azure_ad_successful_powershell_authentication_filter`'
+how_to_implement: You must be ingesting Azure Active Directory events in your Splunk environment. Specifically, this analytic leverages the SignInLogs
+  log category.
+known_false_positives: Administrative users will likely use PowerShell commandlets to troubleshoot and maintain the environment. Filter as needed.
+references:
+- https://attack.mitre.org/techniques/T1078/004/
+- https://docs.microsoft.com/en-us/powershell/module/azuread/connect-azuread?view=azureadps-2.0
+tags:
+  analytic_story:
+  - Azure Active Directory Password Spraying
+  asset_type: Azure Active Directory
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  confidence: 90
+  context:
+  - Source:Cloud Data
+  - Stage:Initial Access
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.004/azuread_pws/azure-audit.log
+  impact: 60
+  kill_chain_phases:
+  - Exploitation
+  message: Successful authentication for user $body.properties.userPrincipalName$ using PowerShell.
+  mitre_attack_id:
+  - T1078
+  - T1078.004
+  nist:
+  - DE.CM
+  observable:
+  - name: body.properties.userPrincipalName
+    type: User
+    role:
+    - Victim
+  - name: body.properties.ipAddress
+    type: IP Address
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - body.properties.appDisplayName
+  - body.category
+  - body.properties.userPrincipalName
+  - body.properties.ipAddress
+  - body.properties.appDisplayName
+  - body.properties.userAgent
+  risk_score: 53
+  security_domain: identity
