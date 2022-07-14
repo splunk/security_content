@@ -6,7 +6,7 @@ author: Michael Haag, Splunk
 type: Correlation
 datamodel:
   - Risk
-description: sdfsgt
+description: The following correlation identifies a distinct amount of analytics associated with the Living Off The Land analytic story that identify potentially suspicious behavior. 
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Risk.All_Risk where All_Risk.analyticstories="Living Off The Land" All_Risk.risk_object_type="system" by All_Risk.risk_object All_Risk.annotations.mitre_attack.mitre_tactic source 
   | `drop_dm_object_name(All_Risk)` 
   | `security_content_ctime(firstTime)` 
@@ -20,9 +20,10 @@ how_to_implement: To implement this correlation search a user needs to enable al
   events.
 known_false_positives: There are no known false positive for this search, but it could
   contain false positives as multiple detections can trigger and not have successful
-  exploitation. Modify the static value distinct_detection_name to a higher value. It is required to tune analytics that are also tagged to ensure volume is never too much.
+  exploitation. Modify the static value distinct_detection_name to a higher value. It is also required to tune analytics that are also tagged to ensure volume is never too much.
 references:
-- https://www.splunk.com/en_us/blog/security/living-off-the-land-threat-research-february-2022-release.html
+  - https://www.splunk.com/en_us/blog/security/living-off-the-land-threat-research-february-2022-release.html
+  - https://research.splunk.com/stories/living_off_the_land/
 tags:
   analytic_story:
   - Living Off The Land
