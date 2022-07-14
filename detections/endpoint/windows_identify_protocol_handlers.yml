@@ -8,10 +8,7 @@ datamodel:
 - Endpoint
 description: 'The following hunting analytic will identify any protocol handlers utilized on the command-line. A protocol handler is an application that knows how to handle particular types of links: for example, a mail client is a protocol handler for "mailto:" links. When the user clicks a "mailto:" link, the browser opens the application selected as the handler for the "mailto:" protocol (or offers them a choice of handlers, depending on their settings).
   To identify protocol handlers we can use NirSoft https://www.nirsoft.net/utils/url_protocol_view.html URLProtocolView or query the registry using PowerShell: get-Item Registry::HKEY_CLASSES_ROOT\* | Select-Object "Property","PSChildName" | Where-Object -Property Property -Match "^URL*" #|Export-Csv -path c:\temp\url_all.csv. Note my query is limited to URL in the property to limit the scope of this query to similar handlers as ms-msdt.'
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime values(Processes.process) as process values(Processes.parent_process)
-  as parent_process from datamodel=Endpoint.Processes  by Processes.dest Processes.user Processes.process_name
-  Processes.process 
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Processes.process) as process values(Processes.parent_process) as parent_process from datamodel=Endpoint.Processes  by Processes.dest Processes.user Processes.process_name Processes.process 
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)` 
   | `drop_dm_object_name(Processes)` 
