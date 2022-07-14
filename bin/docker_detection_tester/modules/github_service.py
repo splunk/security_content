@@ -31,7 +31,8 @@ class GithubService:
 
     def __init__(self, security_content_branch: str, commit_hash: Union[str,None], PR_number: Union[int,None] = None, persist_security_content: bool = False):
 
-        self.security_content_branch = security_content_branch
+        
+
         if persist_security_content:
             print("Getting handle on existing security_content repo!")
             self.security_content_repo_obj = git.Repo("security_content")
@@ -39,6 +40,30 @@ class GithubService:
             print("Checking out security_content repo!")            
             self.security_content_repo_obj = self.clone_project(
                 SECURITY_CONTENT_URL, f"security_content", f"develop")
+
+
+        if commit_hash is not None:
+            full_branch_name = f"remotes/origin/{security_content_branch}"
+            try:
+                res = self.security_content_repo_obj.git.branch("-a", "--contains", commit_hash)
+            except Exception as e:
+                print(f"Commit hash {commit_hash} not found in branch '{full_branch_name}' (derived from '{security_content_branch}')\nQuitting...")
+                sys.exit(1)
+            all_branches = [branch.strip() for branch in res.split('\n')]
+            if full_branch_name in all_branches:
+                print(f"[{commit_hash}] found in {full_branch_name} and [{len(all_branches)-1}] other branches")
+                
+            else:
+                print("Commit hash not found in the following list of branches:")
+                for branch in all_branches:
+                    print(branch)
+                sys.exit(1)
+        else:
+            self.security_content_branch = security_content_branch
+
+
+
+
 
         #Ensure that the branch name is valid   
         #Get all the branch names, prefixed with "origin/"
@@ -58,14 +83,25 @@ class GithubService:
             
 
         if PR_number:
+            #ret = subprocess.run(["git", "-C", "security_content/", "fetch", "origin",
+            #                "refs/pull/%d/head:%s" % (PR_number, security_content_branch)], capture_output=True)
             ret = subprocess.run(["git", "-C", "security_content/", "fetch", "origin",
-                            "refs/pull/%d/head:%s" % (PR_number, security_content_branch)], capture_output=True)
+                            "pull/%d/head" % (PR_number)], capture_output=True)
             #ret = subprocess.call(["git", "-C", "security_content/", "fetch", "origin",
             #                "refs/pull/%d/head:%s" % (PR_number, security_content_branch)])
             
             
             if ret.returncode != 0:
-                raise(Exception("Error checking out repository: [%s]"%(ret.stdout.decode("utf-8") + "\n" + ret.stderr.decode("utf-8"))))
+                raise(Exception("1Error checking out repository: \n%s"%(ret.stdout.decode("utf-8") + "\n" + ret.stderr.decode("utf-8"))))
+
+            ret = subprocess.run(["git", "-C", "security_content/", "checkout", "FETCH_HEAD"], capture_output=True)
+
+            if ret.returncode != 0:
+                raise(Exception("2Error checking out repository: \n%s"%(ret.stdout.decode("utf-8") + "\n" + ret.stderr.decode("utf-8"))))
+
+            commit_hash = self.security_content_repo_obj.head.object.hexsha
+            print(self.security_content_repo_obj.head.object.hexsha)
+            self.security_content_branch = f"PULL_REQUEST_{PR_number}"
             
 
         # No checking to see if the hash is to a commit inside of the branch - the user
@@ -74,7 +110,7 @@ class GithubService:
         # -- ensures that we check out the appropriate branch or commit hash.
         # Without --, there can be ambiguity if a file/folder exists with the
         # same name as the branch, causing the checkout to fail with error
-        if commit_hash is not None:
+        elif commit_hash is not None:
             print("Checking out commit hash: [%s]" % (commit_hash))
             self.security_content_repo_obj.git.checkout(commit_hash, '--')
         else:
@@ -343,7 +379,10 @@ class GithubService:
 
     def get_changed_test_files(self, folders=['endpoint', 'cloud', 'network'],   types_to_test=["Anomaly", "Hunting", "TTP"]) -> list[str]:
 
-        branch1 = self.security_content_branch
+        if self.commit_hash is None:
+            branch1 = self.security_content_branch
+        else:
+            branch1 = self.commit_hash
         branch2 = 'develop'
         g = git.Git('security_content')
         all_changed_test_files = []
@@ -351,8 +390,10 @@ class GithubService:
         all_changed_detection_files = []
         if branch1 != 'develop':
             if self.commit_hash is None:
+                print("commit hash was none")
                 differ = g.diff('--name-status', branch2 + '...' + branch1)
             else:
+                print("commit hash was NOT none")
                 differ = g.diff('--name-status', branch2 +
                                 '...' + self.commit_hash)
 
