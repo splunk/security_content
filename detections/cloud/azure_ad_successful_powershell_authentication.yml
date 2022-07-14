@@ -21,7 +21,7 @@ references:
 - https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Cloud%20-%20Azure%20Pentest.md 
 tags:
   analytic_story:
-  - Azure Active Directory Password Spraying
+  - Azure Active Directory Account Takeover
   asset_type: Azure Active Directory
   cis20:
   - CIS 3

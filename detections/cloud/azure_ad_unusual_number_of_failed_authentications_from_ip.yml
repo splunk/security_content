@@ -35,7 +35,7 @@ references:
 - https://docs.microsoft.com/azure/active-directory/reports-monitoring/reference-sign-ins-error-codes
 tags:
   analytic_story:
-  - Azure Active Directory Password Spraying
+  - Azure Active Directory Account Takeover
   asset_type: Azure Active Directory
   cis20:
   - CIS 3

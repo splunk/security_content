@@ -20,7 +20,7 @@ references:
 - https://docs.microsoft.com/en-us/azure/active-directory/identity-protection/concept-identity-protection-risks
 tags:
   analytic_story:
-  - Azure Active Directory Password Spraying
+  - Azure Active Directory Account Takeover
   asset_type: Azure Active Directory
   cis20:
   - CIS 3

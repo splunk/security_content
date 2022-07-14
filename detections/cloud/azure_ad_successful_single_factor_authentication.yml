@@ -19,7 +19,7 @@ references:
 - https://www.forbes.com/sites/daveywinder/2020/07/08/new-dark-web-audit-reveals-15-billion-stolen-logins-from-100000-breaches-passwords-hackers-cybercrime/?sh=69927b2a180f
 tags:
   analytic_story:
-  - Azure Active Directory Password Spraying
+  - Azure Active Directory Account Takeover
   asset_type: Azure Active Directory
   cis20:
   - CIS 3
