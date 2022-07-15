@@ -138,8 +138,8 @@ setup_schema = {
                 },
                 "SPLUNK_ADD_ON_FOR_MICROSOFT_OFFICE_365": {
                     "app_number": 4055,
-                    "app_version": "3.0.0",
-                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-microsoft-office-365_300.tgz"
+                    "app_version": "4.0.0",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-microsoft-office-365_400.tgz"
                 },
                 "SPLUNK_ADD_ON_FOR_UNIX_AND_LINUX": {
                     "app_number": 833,
