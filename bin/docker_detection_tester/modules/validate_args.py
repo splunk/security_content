@@ -98,13 +98,13 @@ setup_schema = {
                 },
                 "SPLUNK_ADD_ON_FOR_SYSMON": {
                     "app_number": 5709,
-                    "app_version": "2.0.0",
-                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-sysmon_200.tgz"
+                    "app_version": "3.0.0",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-sysmon_300.tgz"
                 },
                 "SPLUNK_COMMON_INFORMATION_MODEL": {
                     "app_number": 1621,
-                    "app_version": "5.0.0",
-                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-common-information-model-cim_500.tgz"
+                    "app_version": "5.0.1",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-common-information-model-cim_501.tgz"
                 },
                 "PYTHON_FOR_SCIENTIFIC_COMPUTING_FOR_LINUX_64_BIT": {
                     "app_number": 2882,
