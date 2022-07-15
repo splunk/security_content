@@ -118,18 +118,18 @@ setup_schema = {
                 },
                 "SPLUNK_APP_FOR_STREAM": {
                     "app_number": 1809,
-                    "app_version": "8.0.2",
-                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-app-for-stream_802.tgz"
+                    "app_version": "8.1.0",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-app-for-stream_810.tgz"
                 },
                 "SPLUNK_ADD_ON_FOR_STREAM_WIRE_DATA": {
                     "app_number": 5234,
-                    "app_version": "8.0.2",
-                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-stream-wire-data_802.tgz"
+                    "app_version": "8.1.0",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-stream-wire-data_810.tgz"
                 },
                 "SPLUNK_ADD_ON_FOR_STREAM_FORWARDERS": {
                     "app_number": 5238,
-                    "app_version": "8.0.2",
-                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-stream-forwarders_802.tgz"
+                    "app_version": "8.1.0",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-stream-forwarders_810.tgz"
                 },
                 "SPLUNK_ADD_ON_FOR_AMAZON_KINESIS_FIREHOSE": {
                     "app_number": 3719,
@@ -143,8 +143,8 @@ setup_schema = {
                 },
                 "SPLUNK_ADD_ON_FOR_UNIX_AND_LINUX": {
                     "app_number": 833,
-                    "app_version": "8.5.0",
-                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-unix-and-linux_850.tgz"
+                    "app_version": "8.6.0",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-unix-and-linux_860.tgz"
                 },
                 "SPLUNK_ADD_ON_FOR_NGINX": {
                     "app_number": 3258,
