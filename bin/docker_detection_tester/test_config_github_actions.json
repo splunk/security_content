@@ -67,8 +67,8 @@
       },
       "SPLUNK_ES_CONTENT_UPDATE": {
         "app_number": 3449,
-        "app_version": None,
-        "local_path": None
+        "app_version": null,
+        "local_path": null
       },
       "SPLUNK_MACHINE_LEARNING_TOOLKIT": {
         "app_number": 2890,
