@@ -19,7 +19,7 @@ how_to_implement: To successfully implement this search, you need to be ingestin
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
   Sysmon TA.
-known_false_positives: unknown
+known_false_positives: False positives may be present. Filter based on pipe name or process.
 references:
 - https://app.any.run/tasks/a6f2ffe2-e6e2-4396-ae2e-04ea0143f2d8/
 - https://attack.mitre.org/techniques/T1071/
