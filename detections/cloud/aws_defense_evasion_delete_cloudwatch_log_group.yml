@@ -16,7 +16,7 @@ how_to_implement: You must install Splunk AWS Add on and enable Cloudtrail logs 
 known_false_positives: While this search has no known false positives, it is possible
   that an AWS admin has deleted CloudWatch logging. Please investigate this activity. 
 references:
-- REFERENCE
+- https://attack.mitre.org/techniques/T1562/008/
 tags:
   analytic_story:
   - AWS Defense Evasion
@@ -35,6 +35,7 @@ tags:
   - Actions on Objectives
   message: User $user_arn$ has deleted a CloudWatch logging group for account id $aws_account_id$ from IP $src$
   mitre_attack_id:
+  - T1562
   - T1562.008
   nist:
   - DE.CM
