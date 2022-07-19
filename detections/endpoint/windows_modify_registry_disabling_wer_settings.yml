@@ -6,10 +6,10 @@ author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: The following analytic is to identify a modification in the Windows registry
-  to disable windows error reporting settings. This Windows feature allow the use to report bug, errors, failure or problems 
-  encounter in specific application or process. Adversaries and threat actors use this technique like in Azorult malware to hide any 
-  error or failure that some of its malicious component trigger. This modification is a good TTP pivot since it is not common to disable this feature.
+description: The following analytic identifies a modification in the Windows registry
+  to disable Windows error reporting settings. This Windows feature allows the user to report bugs, errors, failure or problems 
+  encountered in specific application or processes. Adversaries use this technique to hide any 
+  error or failure that some of its malicious components trigger.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry 
   where Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\Windows Error Reporting\\disable*" Registry.registry_value_data="0x00000001" 
   by Registry.registry_key_name Registry.user Registry.registry_path Registry.registry_value_data Registry.action Registry.dest 
@@ -21,7 +21,7 @@ how_to_implement: To successfully implement this search you need to be ingesting
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure
   that this registry was included in your config files ex. sysmon config to be monitored.
-known_false_positives: administrators may enable or disable this feature that may cause some false positive. 
+known_false_positives: Administrators may enable or disable this feature that may cause some false positive, however is not common. Filter as needed.
 references:
 - https://docs.microsoft.com/en-us/windows-hardware/customize/desktop/unattend/microsoft-windows-remoteassistance-exe-fallowtogethelp
 - https://app.any.run/tasks/a6f2ffe2-e6e2-4396-ae2e-04ea0143f2d8/
@@ -42,7 +42,7 @@ tags:
   impact: 70
   kill_chain_phases:
   - Exploitation
-  message: the registry for WER settings was modified to disabled in $dest$
+  message: the registry for WER settings was modified to be disabled on $dest$.
   mitre_attack_id:
   - T1112
   nist:
