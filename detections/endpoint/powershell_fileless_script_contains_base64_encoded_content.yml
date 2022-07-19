@@ -1,7 +1,7 @@
 name: Powershell Fileless Script Contains Base64 Encoded Content
 id: 8acbc04c-c882-11eb-b060-acde48001122
-version: 1
-date: '2021-06-08'
+version: 2
+date: '2022-04-26'
 author: Michael Haag, Splunk
 type: TTP
 datamodel: []
@@ -20,8 +20,8 @@ description: 'The following analytic utilizes PowerShell Script Block Logging (E
   During triage, review parallel processes using an EDR product or 4688 events. It
   will be important to understand the timeline of events around this activity. Review
   the entire logged PowerShell script block.'
-search: '`powershell` EventCode=4104 Message=*frombase64string* | stats count min(_time)
-  as firstTime max(_time) as lastTime by OpCode ComputerName User EventCode Message
+search: '`powershell` EventCode=4104 ScriptBlockText=*frombase64string* | stats count min(_time)
+  as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `powershell_fileless_script_contains_base64_encoded_content_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
@@ -41,7 +41,7 @@ tags:
   - Source:Endpoint
   - Stage:Execution
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/windows-powershell.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/frombase64string.log
   impact: 70
   kill_chain_phases:
   - Exploitation
@@ -66,11 +66,11 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Message
-  - OpCode
-  - ComputerName
-  - User
-  - EventCode
+  - ScriptBlockText
+  - Opcode
+  - Computer
+  - UserID
+  - EventCodes
   risk_score: 56
   security_domain: endpoint
   asset_type: Endpoint
