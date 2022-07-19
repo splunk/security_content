@@ -12,10 +12,13 @@ from bin.contentctl_project.contentctl_infrastructure.builder.yml_reader import 
 
 class SecurityContentPlaybookBuilder(PlaybookBuilder):
     playbook: Playbook
+    input_path: str
     check_references: bool
     
-    def __init__(self, check_references: bool = False):
+    
+    def __init__(self, input_path: str, check_references: bool = False):
         self.check_references = check_references
+        self.input_path = input_path
 
     def setObject(self, path: str) -> None:
         yml_dict = YmlReader.load_file(path)
@@ -60,7 +63,7 @@ class SecurityContentPlaybookBuilder(PlaybookBuilder):
 
 
     def findDetectionPath(self, detection_name: str) -> str:
-        for path in Path(os.path.join(os.path.dirname(__file__), '../../../../detections')).rglob(self.convertNameToFileName(detection_name) + '.yml'):
+        for path in Path(os.path.join(self.input_path, 'detections')).rglob(self.convertNameToFileName(detection_name) + '.yml'):
             normalized_path = os.path.normpath(path)
             path_components = normalized_path.split(os.sep)
             value_index = path_components.index('detections')

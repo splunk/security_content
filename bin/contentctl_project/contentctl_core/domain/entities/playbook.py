@@ -28,15 +28,5 @@ class Playbook(BaseModel, SecurityContentObject):
     
     @validator('references')
     def references_check(cls, v, values):
-        
-        
-        if 'check_references' in values and values['check_references'] is False:
-            #Reference checking is NOT enabled
-            return v
-        elif 'check_references' not in values:
-            raise(Exception("Member 'check_references' missing from Playbook!"))
-        
-
-        for reference in v:
-            LinkValidator.validate_reference(reference, values['name'])
+        return LinkValidator.SecurityContentObject_validate_references(v, values)
 

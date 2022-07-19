@@ -1,5 +1,6 @@
 import os
 import filecmp
+from bin.contentctl_project.contentctl_infrastructure.tests.test_constants import SECURITY_CONTENT_ROOT
 
 from bin.contentctl_project.contentctl_infrastructure.adapter.obj_to_md_adapter import ObjToMdAdapter
 from bin.contentctl_project.contentctl_infrastructure.builder.security_content_director import SecurityContentDirector
@@ -46,7 +47,7 @@ def test_svg_writer():
         '../builder/test_data/test/attempted_credential_dump_from_registry_via_reg_exe.test.yml'))
     test = unit_test_builder.getObject()
 
-    playbook_builder = SecurityContentPlaybookBuilder()
+    playbook_builder = SecurityContentPlaybookBuilder(input_path = SECURITY_CONTENT_ROOT)
     director.constructPlaybook(playbook_builder, os.path.join(os.path.dirname(__file__), 
         '../builder/test_data/playbook/example_playbook.yml'))
     playbook = playbook_builder.getObject()
@@ -54,7 +55,7 @@ def test_svg_writer():
     detection_builder = SecurityContentDetectionBuilder()
     director.constructDetection(detection_builder, os.path.join(os.path.dirname(__file__), 
         '../builder/test_data/detection/valid.yml'), [deployment], [playbook], [baseline], [test],
-        AttackEnrichment.get_attack_lookup(), [], [])
+        AttackEnrichment.get_attack_lookup(input_path = SECURITY_CONTENT_ROOT), [], [])
     detection = detection_builder.getObject()
 
     adapter = ObjToAttackNavAdapter()
