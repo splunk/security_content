@@ -1,8 +1,6 @@
 name: code-testing
 on:
   push:
-    paths:
-      - 'bin/contentctl_project/**'
 
 jobs:
   code-testing:
