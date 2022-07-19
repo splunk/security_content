@@ -1,7 +1,7 @@
 name: Exchange PowerShell Module Usage
 id: 2d10095e-05ae-11ec-8fdf-acde48001122
-version: 1
-date: '2021-08-27'
+version: 2
+date: '2022-05-02'
 author: Michael Haag
 type: TTP
 datamodel: []
@@ -19,9 +19,9 @@ description: 'The following analytic identifies the usage of Exchange PowerShell
   Module - New-managementroleassignment can assign a management role to a management
   role group, management role assignment policy, user, or universal security group
   (USG).'
-search: '`powershell` EventCode=4104 Message IN ("*New-MailboxExportRequest*", "*New-ManagementRoleAssignment*")
-  | stats count min(_time) as firstTime max(_time) as lastTime by Path Message OpCode
-  ComputerName User EventCode| `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+search: '`powershell` EventCode=4104 ScriptBlockText IN ("*New-MailboxExportRequest*", "*New-ManagementRoleAssignment*")
+  | stats count min(_time) as firstTime max(_time) as lastTime by lastTime by Opcode Computer
+  UserID EventCode ScriptBlockText| `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `exchange_powershell_module_usage_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
@@ -63,11 +63,10 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Path
-  - Message
-  - OpCode
-  - ComputerName
-  - User
+  - ScriptBlockText
+  - Opcode
+  - Computer
+  - UserID
   - EventCode
   risk_score: 15
   security_domain: endpoint
