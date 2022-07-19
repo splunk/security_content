@@ -115,9 +115,9 @@ This search looks for AWS CloudTrail events from AWS Elastic Container Service (
 
 #### Macros
 The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [aws_ecr_users](https://github.com/splunk/security_content/blob/develop/macros/aws_ecr_users.yml)
 * [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **aws_ecr_container_upload_unknown_user_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.

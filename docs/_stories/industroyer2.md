@@ -47,7 +47,7 @@ Industroyer2 is part of continuous attack to ukraine targeting energy facilities
 | [Linux Shred Overwrite Command](/endpoint/linux_shred_overwrite_command/) | [Data Destruction](/tags/#data-destruction)| TTP |
 | [Linux Stop Services](/endpoint/linux_stop_services/) | [Service Stop](/tags/#service-stop)| TTP |
 | [Linux System Network Discovery](/endpoint/linux_system_network_discovery/) | [System Network Configuration Discovery](/tags/#system-network-configuration-discovery)| Anomaly |
-| [Recon Using WMI Class](/endpoint/recon_using_wmi_class/) | [Gather Victim Host Information](/tags/#gather-victim-host-information)| TTP |
+| [Recon Using WMI Class](/endpoint/recon_using_wmi_class/) | [Gather Victim Host Information](/tags/#gather-victim-host-information), [PowerShell](/tags/#powershell)| TTP |
 | [Schtasks Run Task On Demand](/endpoint/schtasks_run_task_on_demand/) | [Scheduled Task/Job](/tags/#scheduled-task/job)| TTP |
 | [Suspicious Process File Path](/endpoint/suspicious_process_file_path/) | [Create or Modify System Process](/tags/#create-or-modify-system-process)| TTP |
 | [Windows Hidden Schedule Task Settings](/endpoint/windows_hidden_schedule_task_settings/) | [Scheduled Task/Job](/tags/#scheduled-task/job)| TTP |

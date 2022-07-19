@@ -113,8 +113,8 @@ This search detects a disabled security workflow in GitHub Actions. An attacker 
 
 #### Macros
 The SPL above uses the following Macros:
-* [github](https://github.com/splunk/security_content/blob/develop/macros/github.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [github](https://github.com/splunk/security_content/blob/develop/macros/github.yml)
 
 > :information_source:
 > **github_actions_disable_security_workflow_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.

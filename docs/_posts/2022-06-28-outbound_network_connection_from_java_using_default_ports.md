@@ -113,8 +113,8 @@ A required step while exploiting the CVE-2021-44228-Log4j vulnerability is that 
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 > :information_source:
 > **outbound_network_connection_from_java_using_default_ports_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
