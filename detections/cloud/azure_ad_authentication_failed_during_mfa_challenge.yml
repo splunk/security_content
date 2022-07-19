@@ -9,7 +9,8 @@ description: 'The following analytic identifies an authentication attempt event 
   trying to authenticate with compromised credentials. In some cases, adversaries may continuously repeat login attempts in order to bombard users with MFA push notifications, SMS messages,
   and phone calls, potentially resulting in the user finally accepting the authentication request.'
 search: ' `azuread` body.category=SignInLogs body.properties.status.errorCode=500121
-  | stats values(body.properties.userPrincipalName) by _time, body.properties.ipAddress, body.properties.status.additionalDetails, body.properties.appDisplayName, body.properties.userAgent
+  | rename body.properties.* as *
+  | stats values(userPrincipalName) by _time, ipAddress, status.additionalDetails, appDisplayName, userAgent
   | `azure_ad_authentication_failed_during_mfa_challenge_filter`'
 how_to_implement: You must be ingesting Azure Active Directory events in your Splunk environment. Specifically, this analytic leverages the RiskyUsers and UserRiskEvents
   log category.

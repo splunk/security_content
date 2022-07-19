@@ -8,8 +8,9 @@ datamodel: []
 description: 'The following analytic identifies a successful authentication event against an Azure AD tenant using PowerShell commandlets. This behavior is not common for regular,
  non administrative users. After compromising an account in Azure AD, attackers and red teams  alike will perform enumeration and discovery techniques. 
  One method of executing these techniques is leveraging the native PowerShell modules.'
-search: ' `azuread` body.category=SignInLogs body.properties.authenticationDetails{}.succeeded=true body.properties.appDisplayName="Azure Active Directory PowerShell" 
-  |  stats values(body.properties.userPrincipalName) by _time, body.properties.ipAddress, body.properties.appDisplayName, body.properties.userAgent
+search: ' `azuread` body.category=SignInLogs body.properties.authenticationDetails{}.succeeded=true body.properties.appDisplayName="Azure Active Directory PowerShell"
+  | rename body.properties.* as *
+  |  stats values(userPrincipalName) by _time, ipAddress, appDisplayName, userAgent
   | `azure_ad_successful_powershell_authentication_filter`'
 how_to_implement: You must be ingesting Azure Active Directory events in your Splunk environment. Specifically, this analytic leverages the SignInLogs
   log category.

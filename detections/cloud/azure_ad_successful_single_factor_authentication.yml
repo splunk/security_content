@@ -7,8 +7,9 @@ type: TTP
 datamodel: []
 description: 'The following analytic identifies a successful authentication event against Azure Active Directory for an account without Multi-Factor Authentication 
   enabled. This could be evidence of a missconfiguration, a policy violation or an account take over attempt that should be investigated'
-search: ' `azuread` body.category=SignInLogs body.properties.authenticationRequirement=singleFactorAuthentication body.properties.authenticationDetails{}.succeeded=true
-  |  stats values(body.properties.userPrincipalName) by _time, body.properties.ipAddress, body.properties.appDisplayName, body.properties.authenticationRequirement
+search: ' `azuread`  body.category=SignInLogs body.properties.authenticationRequirement=singleFactorAuthentication body.properties.authenticationDetails{}.succeeded=true
+  | rename body.properties.* as *
+  |  stats values(userPrincipalName) by _time, ipAddress, appDisplayName, authenticationRequirement
   | `azure_ad_successful_single_factor_authentication_filter`'
 how_to_implement: You must be ingesting Azure Active Directory events in your Splunk environment. Specifically, this analytic leverages the SignInLogs
   log category.
