@@ -6,7 +6,7 @@ tests:
   earliest_time: -24h
   latest_time: now
   attack_data:
-  - file_name: UPDATE
+  - file_name: windows-security.log
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.003/mpcmdrun/windows-security.log
     source: XmlWinEventLog
     sourcetype: XmlWinEventLog
