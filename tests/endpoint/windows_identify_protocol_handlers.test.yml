@@ -1,0 +1,13 @@
+name: Windows Identify Protocol Handlers Unit Test
+tests:
+- name: Windows Identify Protocol Handlers
+  file: endpoint/windows_identify_protocol_handlers.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: msdt.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/protocol_handlers/protocolhandlers.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true
