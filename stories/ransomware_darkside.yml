@@ -16,7 +16,7 @@ narrative: This story addresses Darkside ransomware. This ransomware payload has
   to other ransomware payloads and those particular to Darkside payload.
 references:
 - https://www.splunk.com/en_us/blog/security/the-darkside-of-the-ransomware-pipeline.htmlbig-game-hunting-with-ryuk-another-lucrative-targeted-ransomware/
-- https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html
+- https://www.mandiant.com/resources/shining-a-light-on-darkside-ransomware-operations
 tags:
   analytic_story: DarkSide Ransomware
   category:
