@@ -1,7 +1,7 @@
 name: Certutil exe certificate extraction
 id: 337a46be-600f-11eb-ae93-0242ac130002
-version: 1
-date: '2021-01-26'
+version: 2
+date: '2022-07-15'
 author: Rod Soto, Splunk
 type: TTP
 datamodel:
@@ -9,18 +9,20 @@ datamodel:
 description: This search looks for arguments to certutil.exe indicating the manipulation
   or extraction of Certificate. This certificate can then be used to sign new authentication
   tokens specially inside Federated environments such as Windows ADFS.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=certutil.exe
-  Processes.process = "*-exportPFX*" by Processes.dest Processes.user Processes.parent_process
-  Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
-  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `certutil_exe_certificate_extraction_filter`'
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=certutil.exe Processes.process = "*-exportPFX*" by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
+  | `drop_dm_object_name(Processes)` 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `certutil_exe_certificate_extraction_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node.
 known_false_positives: Unless there are specific use cases, manipulating or exporting
   certificates using certutil is uncommon. Extraction of certificate has been observed
   during attacks such as Golden SAML and other campaigns targeting Federated services.
-references: []
+references:
+  - https://blog.sygnia.co/detection-and-hunting-of-golden-saml-attack
+  - https://strontic.github.io/xcyclopedia/library/certutil.exe-09A8A29BAA3A451713FD3D07943B4A43.html
 tags:
   analytic_story:
   - Windows Persistence Techniques
