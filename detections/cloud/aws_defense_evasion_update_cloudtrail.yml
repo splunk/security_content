@@ -10,7 +10,7 @@ description: This search looks for `UpdateTrail` events in Cloudtrail logs. Atta
   When the adversary has the right type of permissions in the compromised AWS environment, they can update the cloudtrail settings that is logging activities 
   in your environment.
 search: '`cloudtrail` eventName = UpdateTrail eventSource = cloudtrail.amazonaws.com userAgent !=console.amazonaws.com errorCode = success| stats
-  count min(_time) as firstTime max(_time) as lastTime values(requestParameters.name) as deleted_cloudtrail_name by src region eventName userAgent user_arn aws_account_id | `security_content_ctime(firstTime)`|
+  count min(_time) as firstTime max(_time) as lastTime values(requestParameters.name) as cloudtrail_name by src region eventName userAgent user_arn aws_account_id | `security_content_ctime(firstTime)`|
   `security_content_ctime(lastTime)`| `aws_defense_evasion_update_cloudtrail_filter`'
 how_to_implement: You must install Splunk AWS Add on and enable Cloudtrail logs in
   your AWS Environment.
