@@ -19,6 +19,10 @@ class DetectionBuilder(abc.ABC):
     @abc.abstractmethod
     def addNesFields(self) -> None:
         pass
+        
+    @abc.abstractmethod
+    def addProvidingTechnologies(self) -> None:
+        pass
 
     @abc.abstractmethod
     def addMappings(self) -> None:
