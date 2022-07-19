@@ -13,6 +13,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - Endpoint
 ---
 
 
@@ -25,7 +26,7 @@ The search looks for files that contain the key word *Ryuk* under any folder in 
 
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-11-06
 - **Author**: Rod Soto, Jose Hernandez, Splunk
 - **ID**: 57d44d70-28d9-4ed1-acf5-1c80ae2bbce3
@@ -93,7 +94,7 @@ The search looks for files that contain the key word *Ryuk* under any folder in 
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -106,10 +107,11 @@ The search looks for files that contain the key word *Ryuk* under any folder in 
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that **ryuk_test_files_detected_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **ryuk_test_files_detected_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -136,6 +138,9 @@ If there are files with this keywoord as file names it might trigger false possi
 | ----------- | ----------- |--------------|--------------|
 | 70.0 | 70 | 100 | A creation of ryuk test file $file_path$ in host $dest$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

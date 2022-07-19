@@ -100,7 +100,7 @@ The following analytic identifies the server side template injection related to 
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -115,7 +115,8 @@ The following analytic identifies the server side template injection related to 
 The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that **vmware_workspace_one_freemarker_server-side_template_injection_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **vmware_workspace_one_freemarker_server-side_template_injection_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * Web.http_method
@@ -145,9 +146,12 @@ False positives may be present if the activity is blocked or was not successful.
 | 49.0 | 70 | 70 | An attempt to exploit a VMware Server Side Injection CVE-2022-22954 on $dest$ has occurred. |
 
 
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
+
 #### Reference
 
-* [https://www.cisa.gov/uscert/sites/default/files/publications/CISA_CSA_Threat_Actors_Chaining_VMware_Unpatched_Vulnerabilities_for_Full_System_Control.pdf](https://www.cisa.gov/uscert/sites/default/files/publications/CISA_CSA_Threat_Actors_Chaining_VMware_Unpatched_Vulnerabilities_for_Full_System_Control.pdf)
+* [https://www.cisa.gov/uscert/ncas/alerts/aa22-138b](https://www.cisa.gov/uscert/ncas/alerts/aa22-138b)
 * [https://github.com/wvu/metasploit-framework/blob/master/modules/exploits/linux/http/vmware_workspace_one_access_cve_2022_22954.rb](https://github.com/wvu/metasploit-framework/blob/master/modules/exploits/linux/http/vmware_workspace_one_access_cve_2022_22954.rb)
 * [https://github.com/sherlocksecurity/VMware-CVE-2022-22954](https://github.com/sherlocksecurity/VMware-CVE-2022-22954)
 * [https://www.vmware.com/security/advisories/VMSA-2022-0011.html](https://www.vmware.com/security/advisories/VMSA-2022-0011.html)

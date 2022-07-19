@@ -99,7 +99,7 @@ The following detection identifies control.exe spawning from an office product. 
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -112,10 +112,11 @@ The following detection identifies control.exe spawning from an office product. 
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that **office_spawning_control_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **office_spawning_control_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * Processes.dest
@@ -151,12 +152,15 @@ Limited false positives should be present.
 | 80.0 | 80 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ clicking a suspicious attachment. |
 
 
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
+
 #### Reference
 
 * [https://strontic.github.io/xcyclopedia/library/control.exe-1F13E714A0FEA8887707DFF49287996F.html](https://strontic.github.io/xcyclopedia/library/control.exe-1F13E714A0FEA8887707DFF49287996F.html)
 * [https://app.any.run/tasks/36c14029-9df8-439c-bba0-45f2643b0c70/](https://app.any.run/tasks/36c14029-9df8-439c-bba0-45f2643b0c70/)
 * [https://attack.mitre.org/techniques/T1218/011/](https://attack.mitre.org/techniques/T1218/011/)
-* [https://www.echotrail.io/insights/search/control.exe](https://www.echotrail.io/insights/search/control.exe)
+* [https://www.echotrail.io/insights/search/control.exe/](https://www.echotrail.io/insights/search/control.exe/)
 * [https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-40444](https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-40444)
 * [https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.002/T1218.002.yaml](https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.002/T1218.002.yaml)
 

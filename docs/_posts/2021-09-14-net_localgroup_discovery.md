@@ -94,7 +94,7 @@ The following hunting analytic will identify the use of localgroup discovery usi
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -107,10 +107,11 @@ The following hunting analytic will identify the use of localgroup discovery usi
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that **net_localgroup_discovery_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **net_localgroup_discovery_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -146,6 +147,9 @@ False positives may be present. Tune as needed.
 | ----------- | ----------- |--------------|--------------|
 | 15.0 | 30 | 50 | Local group discovery on $dest$ by $user$. |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

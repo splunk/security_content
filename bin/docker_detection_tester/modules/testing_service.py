@@ -9,13 +9,16 @@ import os
 import time
 import requests
 from modules.DataManipulation import DataManipulation
+from modules import utils
 from modules import splunk_sdk
 import timeit
-from typing import Union
+from typing import Union, Tuple
 from os.path import relpath
 from tempfile import mkdtemp
 import datetime
 import http.client
+
+
 
 
 def test_detection_wrapper(container_name:str, splunk_ip:str, splunk_password:str, splunk_port:int, 
@@ -23,7 +26,7 @@ def test_detection_wrapper(container_name:str, splunk_ip:str, splunk_password:st
     
     one_test_start = timeit.default_timer()
     uuid_var = str(uuid.uuid4())
-    result_test = test_detection(splunk_ip, splunk_port, container_name, splunk_password, test_file, uuid_var, attack_data_root_folder)
+    result_test, indices_to_delete = test_detection(splunk_ip, splunk_port, container_name, splunk_password, test_file, uuid_var, attack_data_root_folder)
     one_test_stop = timeit.default_timer()
     
     if result_test is None:
@@ -45,8 +48,9 @@ def test_detection_wrapper(container_name:str, splunk_ip:str, splunk_password:st
         wait_on_delete = {'message':"\n\n\n****SEARCH SUCCESS : Allowing time to examine search/data****"}
     else:
         wait_on_delete = None
-    
-    splunk_sdk.delete_attack_data(splunk_ip, splunk_password, splunk_port, wait_on_delete, search_string, test_file)
+
+
+    splunk_sdk.delete_attack_data(splunk_ip, splunk_password, splunk_port, wait_on_delete, search_string, test_file, indices = indices_to_delete)
    
 
     return result_test    
@@ -66,7 +70,7 @@ def get_service(splunk_ip:str, splunk_port:int, splunk_password:str):
         raise(Exception("Unable to connect to Splunk instance: " + str(e)))
     return service
 
-def test_detection(splunk_ip:str, splunk_port:int, container_name:str, splunk_password:str, test_file:str, uuid_var, attack_data_root_folder)->Union[dict,None]:
+def test_detection(splunk_ip:str, splunk_port:int, container_name:str, splunk_password:str, test_file:str, uuid_var, attack_data_root_folder)->Tuple[Union[dict,None], set[str]]:
     
     test_file_obj = load_file(os.path.join("security_content/", test_file))
     
@@ -89,14 +93,21 @@ def test_detection(splunk_ip:str, splunk_port:int, container_name:str, splunk_pa
 
     
 
-
+    indices_to_delete = set()
     for attack_data in test_file_obj['tests'][0]['attack_data']:
         url = attack_data['data']
-        r = requests.get(url, allow_redirects=True)
+        
+        if 'custom_index' in attack_data:
+            print(f"Found a custom index for {test_file}: {attack_data['custom_index']}")
+            data_upload_index = attack_data['custom_index']
+        else:
+            data_upload_index = splunk_sdk.DEFAULT_DATA_INDEX
+
+        indices_to_delete.add(data_upload_index)
+        
         target_file = os.path.join(folder_name, attack_data['file_name'])
-        with open(target_file, 'wb') as target:
-            target.write(r.content)
-        #print(target_file)
+        utils.download_file_from_http(url, target_file)
+        
 
 
         # Update timestamps before replay
@@ -108,10 +119,10 @@ def test_detection(splunk_ip:str, splunk_port:int, container_name:str, splunk_pa
         
         try:
             service = get_service(splunk_ip, splunk_port, splunk_password)
-            test_index = service.indexes["main"]
+            test_index = service.indexes[data_upload_index]
             
             with open(target_file, 'rb') as target:
-                test_index.submit(target.read(), sourcetype=attack_data['sourcetype'], source=attack_data['source'])
+                test_index.submit(target.read(), sourcetype=attack_data['sourcetype'], source=attack_data['source'], host=splunk_sdk.DEFAULT_EVENT_HOST)
         
         except http.client.HTTPException as e:
             raise(Exception(f"Failed to submit detection file {target_file} to Splunk Server: {str(e)}"))
@@ -122,7 +133,7 @@ def test_detection(splunk_ip:str, splunk_port:int, container_name:str, splunk_pa
             
 
 
-        if not splunk_sdk.wait_for_indexing_to_complete(splunk_ip, splunk_port, splunk_password, attack_data['sourcetype'], "main"):
+        if not splunk_sdk.wait_for_indexing_to_complete(splunk_ip, splunk_port, splunk_password, attack_data['sourcetype'], data_upload_index):
             raise Exception("There was an error waiting for indexing to complete.")
         
     #Allow some time for the data to be ingested and processed
@@ -169,7 +180,7 @@ def test_detection(splunk_ip:str, splunk_port:int, container_name:str, splunk_pa
     result_test['attack_data_directory'] = abs_folder_path
 
 
-    return result_test
+    return result_test, indices_to_delete
 
 
 def load_file(file_path):

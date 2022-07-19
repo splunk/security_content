@@ -4,7 +4,8 @@ version: 2
 date: '2021-09-16'
 author: Michael Haag, Splunk
 type: Hunting
-datamodel: []
+datamodel: 
+- Endpoint
 description: The following analytic identifies the usage of `rclone.exe`, renamed,
   being used to exfiltrate data to a remote destination. RClone has been used by multiple
   ransomware groups to exfiltrate data. In many instances, it will be downloaded from
@@ -27,7 +28,7 @@ known_false_positives: False positives should be limited as this analytic identi
   use case.
 references:
 - https://redcanary.com/blog/rclone-mega-extortion/
-- https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html
+- https://www.mandiant.com/resources/shining-a-light-on-darkside-ransomware-operations
 - https://thedfirreport.com/2021/03/29/sodinokibi-aka-revil-ransomware/
 tags:
   analytic_story:

@@ -28,7 +28,7 @@ known_false_positives: It's possible for system administrators to write scripts 
   exhibit this behavior. If this is the case, the search will need to be modified
   to filter them out.
 references:
-- https://car.mitre.org/wiki/CAR-2013-03-001
+- https://car.mitre.org/wiki/CAR-2013-03-001/
 tags:
   analytic_story:
   - Windows Defense Evasion Tactics

@@ -95,7 +95,7 @@ This detection search will help profile user accounts in your environment by ide
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -112,7 +112,8 @@ This detection search will help profile user accounts in your environment by ide
 The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that **identify_new_user_accounts_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **identify_new_user_accounts_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -136,6 +137,9 @@ If the Identity_Management data model is not updated regularly, this search coul
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

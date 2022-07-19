@@ -95,7 +95,7 @@ Upon triage, review the process performing the named pipe. If it is explorer.exe
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `sysmon` EventID=17 OR EventID=18 PipeName IN (\\msagent_*, \\DserNamePipe*, \\srvsvc_*, \\postex_*, \\status_*, \\MSSE-*, \\spoolss_*, \\win_svc*, \\ntsvcs*, \\winsock*, \\UIA_PIPE*)  
@@ -108,10 +108,11 @@ Upon triage, review the process performing the named pipe. If it is explorer.exe
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that **cobalt_strike_named_pipes_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **cobalt_strike_named_pipes_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -144,14 +145,17 @@ The idea of using named pipes with Cobalt Strike is to blend in. Therefore, some
 | 72.0 | 80 | 90 | An instance of $process_name$ was identified on endpoint $Computer$ by user $user$ accessing known suspicious named pipes related to Cobalt Strike. |
 
 
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
+
 #### Reference
 
 * [https://attack.mitre.org/techniques/T1218/009/](https://attack.mitre.org/techniques/T1218/009/)
 * [https://docs.microsoft.com/en-us/windows/win32/ipc/named-pipes](https://docs.microsoft.com/en-us/windows/win32/ipc/named-pipes)
-* [https://www.cobaltstrike.com/help-smb-beacon](https://www.cobaltstrike.com/help-smb-beacon)
-* [https://blog.cobaltstrike.com/2021/02/09/learn-pipe-fitting-for-all-of-your-offense-projects/](https://blog.cobaltstrike.com/2021/02/09/learn-pipe-fitting-for-all-of-your-offense-projects/)
+* [https://hstechdocs.helpsystems.com/manuals/cobaltstrike/current/userguide/index.htm#cshid=1040](https://hstechdocs.helpsystems.com/manuals/cobaltstrike/current/userguide/index.htm#cshid=1040)
+* [https://www.cobaltstrike.com/blog/learn-pipe-fitting-for-all-of-your-offense-projects/](https://www.cobaltstrike.com/blog/learn-pipe-fitting-for-all-of-your-offense-projects/)
 * [https://gist.github.com/MHaggis/6c600e524045a6d49c35291a21e10752](https://gist.github.com/MHaggis/6c600e524045a6d49c35291a21e10752)
-* [https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html](https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html)
+* [https://www.mandiant.com/resources/shining-a-light-on-darkside-ransomware-operations](https://www.mandiant.com/resources/shining-a-light-on-darkside-ransomware-operations)
 
 
 

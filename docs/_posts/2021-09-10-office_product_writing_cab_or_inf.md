@@ -99,7 +99,7 @@ The following analytic identifies behavior related to CVE-2021-40444. Whereas th
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -118,7 +118,8 @@ The following analytic identifies behavior related to CVE-2021-40444. Whereas th
 The SPL above uses the following Macros:
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that **office_product_writing_cab_or_inf_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **office_product_writing_cab_or_inf_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -149,6 +150,9 @@ The query is structured in a way that `action` (read, create) is not defined. Re
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | An instance of $process_name$ was identified on $dest$ writing an inf or cab file to this. This is not typical of $process_name$. |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

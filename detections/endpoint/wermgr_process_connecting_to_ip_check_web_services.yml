@@ -1,8 +1,8 @@
 name: Wermgr Process Connecting To IP Check Web Services
 id: ed313326-a0f9-11eb-a89c-acde48001122
-version: 1
-date: '2021-04-19'
-author: Teoderick Contreras, Splunk
+version: 2
+date: '2022-06-01'
+author: Teoderick Contreras, Mauricio Velazco, Splunk
 type: TTP
 datamodel:
 - Endpoint
@@ -17,8 +17,8 @@ search: '`sysmon` EventCode =22 process_name = wermgr.exe QueryName IN ("*wtfism
   "*checkip.amazonaws.com", "*ipecho.net", "*ipinfo.io", "*api.ipify.org", "*icanhazip.com",
   "*ip.anysrc.com","*api.ip.sb", "ident.me", "www.myexternalip.com", "*zen.spamhaus.org",
   "*cbl.abuseat.org", "*b.barracudacentral.org","*dnsbl-1.uceprotect.net", "*spam.dnsbl.sorbs.net")
-  |  stats  min(_time) as firstTime max(_time) as lastTime count by  process_path
-  process_name process_id QueryName QueryStatus QueryResults Computer EventCode |
+  |  stats  min(_time) as firstTime max(_time) as lastTime count by Image
+  process_name ProcessId QueryName QueryStatus QueryResults Computer EventCode |
   `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `wermgr_process_connecting_to_ip_check_web_services_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, dns query name process path , and query ststus from
@@ -27,7 +27,7 @@ how_to_implement: To successfully implement this search, you need to be ingestin
 known_false_positives: unknown
 references:
 - https://labs.vipre.com/trickbot-and-its-modules/
-- https://blog.whitehat.eu/2019/05/incident-trickbot-ryuk-2.html
+- https://whitehat.eu/incident-response-case-study-featuring-ryuk-and-trickbot-part-2/
 tags:
   analytic_story:
   - Trickbot

@@ -94,7 +94,7 @@ This search looks for the execution of `nltest.exe` with command-line arguments 
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -107,11 +107,12 @@ This search looks for the execution of `nltest.exe` with command-line arguments 
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_nltest](https://github.com/splunk/security_content/blob/develop/macros/process_nltest.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [process_nltest](https://github.com/splunk/security_content/blob/develop/macros/process_nltest.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that **nltest_domain_trust_discovery_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **nltest_domain_trust_discovery_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -146,12 +147,15 @@ Administrators may use nltest for troubleshooting purposes, otherwise, rarely us
 | 15.0 | 30 | 50 | Domain trust discovery execution on $dest$ |
 
 
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
+
 #### Reference
 
 * [https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1482/T1482.md](https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1482/T1482.md)
 * [https://malware.news/t/lets-learn-trickbot-implements-network-collector-module-leveraging-cmd-wmi-ldap/19104](https://malware.news/t/lets-learn-trickbot-implements-network-collector-module-leveraging-cmd-wmi-ldap/19104)
 * [https://attack.mitre.org/techniques/T1482/](https://attack.mitre.org/techniques/T1482/)
-* [https://www.owasp.org/images/4/4b/Red_Team_Operating_in_a_Modern_Environment.pdf](https://www.owasp.org/images/4/4b/Red_Team_Operating_in_a_Modern_Environment.pdf)
+* [https://owasp.org/www-pdf-archive/Red_Team_Operating_in_a_Modern_Environment.pdf](https://owasp.org/www-pdf-archive/Red_Team_Operating_in_a_Modern_Environment.pdf)
 * [https://ss64.com/nt/nltest.html](https://ss64.com/nt/nltest.html)
 * [https://redcanary.com/threat-detection-report/techniques/domain-trust-discovery/](https://redcanary.com/threat-detection-report/techniques/domain-trust-discovery/)
 * [https://thedfirreport.com/2020/10/08/ryuks-return/](https://thedfirreport.com/2020/10/08/ryuks-return/)

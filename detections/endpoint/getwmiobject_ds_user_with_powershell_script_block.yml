@@ -1,7 +1,7 @@
 name: GetWmiObject DS User with PowerShell Script Block
 id: fabd364e-04f3-11ec-b34b-acde48001122
-version: 1
-date: '2021-08-24'
+version: 2
+date: '2022-05-02'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 type: TTP
 datamodel: []
@@ -10,9 +10,9 @@ description: The following analytic utilizes PowerShell Script Block Logging (Ev
   parameter leverages WMI to query for all domain users. Red Teams and adversaries
   may leverage this commandlet to enumerate domain users for situational awareness
   and Active Directory Discovery.
-search: '`powershell` EventCode=4104 Message = "*get-wmiobject*" Message = "*ds_user*"
-  Message = "*-namespace*" Message = "*root\\directory\\ldap*" | stats count min(_time)
-  as firstTime max(_time) as lastTime by EventCode Message ComputerName User | `security_content_ctime(firstTime)`
+search: '`powershell` EventCode=4104 ScriptBlockText = "*get-wmiobject*" ScriptBlockText = "*ds_user*"
+  ScriptBlockText = "*-namespace*" ScriptBlockText = "*root\\directory\\ldap*" | stats count min(_time)
+  as firstTime max(_time) as lastTime by Opcode Computer UserID EventCode ScriptBlockText | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `getwmiobject_ds_user_with_powershell_script_block_filter`'
 how_to_implement: he following Hunting analytic requires PowerShell operational logs
   to be imported. Modify the powershell macro as needed to match the sourcetype or
@@ -33,12 +33,12 @@ tags:
   impact: 50
   kill_chain_phases:
   - Reconnaissance
-  message: powershell process having commandline $Message$ for user enumeration
+  message: powershell process having commandline $ScriptBlockText$ for user enumeration
   mitre_attack_id:
   - T1087.002
   - T1087
   observable:
-  - name: ComputerName
+  - name: Computer
     type: Hostname
     role:
     - Victim
@@ -52,10 +52,11 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
+  - ScriptBlockText
+  - Opcode
+  - Computer
+  - UserID
   - EventCode
-  - Message
-  - ComputerName
-  - User
   risk_score: 25
   security_domain: endpoint
   asset_type: Endpoint

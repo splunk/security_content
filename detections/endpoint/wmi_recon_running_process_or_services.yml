@@ -1,7 +1,7 @@
 name: WMI Recon Running Process Or Services
 id: b5cd5526-cce7-11eb-b3bd-acde48001122
-version: 1
-date: '2021-06-14'
+version: 2
+date: '2022-05-02'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel: []
@@ -11,9 +11,9 @@ description: The following analytic identifies suspicious PowerShell script exec
   where the adversary will map all running security applications or services on the
   compromised machine. During triage, review parallel processes within the same timeframe.
   Review the full script block to identify other related artifacts.
-search: '`powershell` EventCode=4104 Message= "*SELECT*" AND (Message="*Win32_Process*"
-  OR Message="*Win32_Service*") | stats count min(_time) as firstTime max(_time) as
-  lastTime by EventCode Message ComputerName User | `security_content_ctime(firstTime)`
+search: '`powershell` EventCode=4104 ScriptBlockText= "*SELECT*" AND (ScriptBlockText="*Win32_Process*"
+  OR ScriptBlockText="*Win32_Service*") | stats count min(_time) as firstTime max(_time) as
+  lastTime by EventCode ScriptBlockText Computer UserID | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `wmi_recon_running_process_or_services_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
@@ -22,8 +22,8 @@ known_false_positives: network administrator may used this command for checking 
 references:
 - https://news.sophos.com/en-us/2020/05/12/maze-ransomware-1-year-counting/
 - https://www.eideon.com/2018-03-02-THL03-WMIBackdoors/
-- https://github.com/trustedsec/SysmonCommunityGuide/blob/master/WMI-events.md
-- https://in.security/an-intro-into-abusing-and-identifying-wmi-event-subscriptions-for-persistence/
+- https://github.com/trustedsec/SysmonCommunityGuide/blob/master/chapters/WMI-events.md
+- https://in.security/2019/04/03/an-intro-into-abusing-and-identifying-wmi-event-subscriptions-for-persistence/
 tags:
   analytic_story:
   - Hermetic Wiper 
@@ -33,17 +33,17 @@ tags:
   - Source:Endpoint
   - Stage:Recon
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/honeypots/pwsh/windows-powershell.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/win32process.log
   impact: 30
   kill_chain_phases:
   - Reconnaissance
-  message: Suspicious powerShell script execution by $user$ on $ComputerName$ via
+  message: Suspicious powerShell script execution by $user$ on $Computer$ via
     EventCode 4104, where WMI is performing an event query looking for running processes
     or running services
   mitre_attack_id:
   - T1592
   observable:
-  - name: ComputerName
+  - name: Computer
     type: Endpoint
     role:
     - Victim
@@ -57,10 +57,11 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
+  - ScriptBlockText
+  - Opcode
+  - Computer
+  - UserID
   - EventCode
-  - Message
-  - ComputerName
-  - User
   risk_score: 30
   security_domain: endpoint
   asset_type: Endpoint

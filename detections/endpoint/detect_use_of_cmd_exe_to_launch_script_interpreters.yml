@@ -26,6 +26,7 @@ tags:
   analytic_story:
   - 'Emotet Malware  DHS Report TA18-201A '
   - Suspicious Command-Line Executions
+  - Azorult
   asset_type: Endpoint
   cis20:
   - CIS 8

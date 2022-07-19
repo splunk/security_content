@@ -1,5 +1,6 @@
 import os
 import filecmp
+from bin.contentctl_project.contentctl_infrastructure.tests.test_constants import SECURITY_CONTENT_ROOT
 
 from bin.contentctl_project.contentctl_infrastructure.adapter.obj_to_json_adapter import ObjToJsonAdapter
 from bin.contentctl_project.contentctl_infrastructure.builder.security_content_basic_builder import SecurityContentBasicBuilder
@@ -29,7 +30,7 @@ def test_write_detections():
     detection_builder = SecurityContentDetectionBuilder()
     director.constructDetection(detection_builder, os.path.join(os.path.dirname(__file__), 
         '../builder/test_data/detection/valid.yml'), [], [], [], [],
-        AttackEnrichment.get_attack_lookup(), [macro], [lookup])
+        AttackEnrichment.get_attack_lookup(input_path = SECURITY_CONTENT_ROOT), [macro], [lookup])
     detection = detection_builder.getObject()
     
     output_path = os.path.join(os.path.dirname(__file__), 'obj_to_json_adapter_data')
@@ -141,7 +142,7 @@ def test_write_stories():
         '../builder/test_data/deployment/ESCU/00_default_baseline.yml'))
     deployment_baseline = deployment_builder.getObject() 
 
-    playbook_builder = SecurityContentPlaybookBuilder()
+    playbook_builder = SecurityContentPlaybookBuilder(input_path = SECURITY_CONTENT_ROOT)
     director.constructPlaybook(playbook_builder, os.path.join(os.path.dirname(__file__), 
         '../builder/test_data/playbook/example_playbook.yml'))
     playbook = playbook_builder.getObject()    
@@ -159,7 +160,7 @@ def test_write_stories():
     detection_builder = SecurityContentDetectionBuilder()
     director.constructDetection(detection_builder, os.path.join(os.path.dirname(__file__), 
         '../builder/test_data/detection/valid.yml'), [deployment], [playbook], [baseline], [test],
-        AttackEnrichment.get_attack_lookup(), [], [])
+        AttackEnrichment.get_attack_lookup(input_path = SECURITY_CONTENT_ROOT), [], [])
     detection = detection_builder.getObject()
 
     investigation_builder = SecurityContentInvestigationBuilder()

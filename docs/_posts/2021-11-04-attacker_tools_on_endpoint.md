@@ -111,7 +111,7 @@ This search looks for execution of commonly used attacker tools on an endpoint.
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -126,10 +126,11 @@ This search looks for execution of commonly used attacker tools on an endpoint.
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that **attacker_tools_on_endpoint_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **attacker_tools_on_endpoint_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Lookups
 The SPL above uses the following Lookups:
@@ -164,6 +165,9 @@ Some administrator activity can be potentially triggered, please add those users
 | ----------- | ----------- |--------------|--------------|
 | 64.0 | 80 | 80 | An attacker tool $process_name$,listed in attacker_tools.csv is executed on host $dest$ by User $user$. This process $process_name$ is known to do- $description$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

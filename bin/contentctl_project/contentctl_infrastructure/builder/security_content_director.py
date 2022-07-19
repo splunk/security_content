@@ -12,11 +12,12 @@ from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import S
 
 class SecurityContentDirector(Director):
 
-    def constructDetection(self, builder: DetectionBuilder, path: str, deployments: list, playbooks: list, baselines: list, tests: list, attack_enrichment: dict, macros: list, lookups: list) -> None:
+    def constructDetection(self, builder: DetectionBuilder, path: str, deployments: list, playbooks: list, baselines: list, tests: list, attack_enrichment: dict, macros: list, lookups: list, force_cached_or_offline: bool = False) -> None:
         builder.reset()
         builder.setObject(os.path.join(os.path.dirname(__file__), path))
         builder.addDeployment(deployments)
         builder.addRBA()
+        builder.addProvidingTechnologies()
         builder.addNesFields()
         builder.addAnnotations()
         builder.addMappings()

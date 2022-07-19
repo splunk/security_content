@@ -98,7 +98,7 @@ This search detects accounts that were created and deleted in a short time perio
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -114,10 +114,11 @@ This search detects accounts that were created and deleted in a short time perio
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that **short_lived_windows_accounts_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **short_lived_windows_accounts_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -144,6 +145,9 @@ It is possible that an administrator created and deleted an account in a short t
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | A user account created or delete shortly in host $dest$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

@@ -29,9 +29,10 @@ import requests.packages.urllib3
 from docker.client import DockerClient
 from requests import get
 
-import modules.new_arguments2
+
+
 from modules import (container_manager, new_arguments2,
-                     testing_service, validate_args)
+                     testing_service, validate_args, utils)
 from modules.github_service import GithubService
 from modules.validate_args import validate, validate_and_write, ES_APP_NAME
 
@@ -55,17 +56,6 @@ MAX_RECOMMENDED_CONTAINERS_BEFORE_WARNING = 2
 
 
 
-
-def download_file_from_http(url:str, destination_file:str, overwrite_file:bool=False)->None:
-    if os.path.exists(destination_file) and overwrite_file is False:
-        print(f"[{destination_file}] already exists...using cached version")
-        return
-    print(f"downloading to [{destination_file}]")
-    file_to_download = requests.get(url, stream=True)
-    with open(destination_file, "wb") as output:
-        for piece in file_to_download.iter_content(chunk_size=(1024*1024)):
-            output.write(piece)
-    
 
 def copy_local_apps_to_directory(apps: dict[str, dict], splunkbase_username:tuple[str,None] = None, splunkbase_password:tuple[str,None] = None, mock:bool = False, target_directory:str = "apps") -> str:
     if mock is True:
@@ -128,7 +118,7 @@ def copy_local_apps_to_directory(apps: dict[str, dict], splunkbase_username:tupl
                 path_after_host = url_parse_obj[2].rstrip('/') #removes / at the end, if applicable
                 base_name = path_after_host.rpartition('/')[-1] #just get the file name
                 dest_path = os.path.join(target_directory, base_name) #write the whole path
-                download_file_from_http(http_path, dest_path)
+                utils.download_file_from_http(http_path, dest_path, verbose_print=True)
                 #we need to update the local path because this is used to copy it into the container later
                 item['local_path'] = dest_path
                 #Remove the HTTP Path, we will use the local_path instead
@@ -187,10 +177,10 @@ def generate_escu_app(persist_security_content: bool = False) -> str:
                     ". ./.venv/bin/activate",
                     "python -m pip install wheel",
                     "python -m pip install -r requirements.txt",
-                    "python3 contentctl.py --path . generate --product ESCU --output dist/escu"]
+                    "python3 ../../../contentctl.py --path . --skip_enrichment generate --product ESCU --output dist/escu"]
     else:
         commands = [". ./.venv/bin/activate",
-                    "python3 contentctl.py --path . generate --product ESCU --output dist/escu"]
+                    "python3 ../../../contentctl.py --path . --skip_enrichment generate --product ESCU --output dist/escu"]
     ret = subprocess.run("; ".join(commands),
                          shell=True, capture_output=True)
     if ret.returncode != 0:
@@ -341,7 +331,7 @@ def main(args: list[str]):
 
     start_datetime = datetime.now()
     
-    action, settings = modules.new_arguments2.parse(args)
+    action, settings = new_arguments2.parse(args)
     if action == "configure":
         # Done, nothing else to do
         print("Configuration complete!")
