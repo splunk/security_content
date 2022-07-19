@@ -1,5 +1,6 @@
 import pytest
 import os
+from bin.contentctl_project.contentctl_infrastructure.tests.test_constants import SECURITY_CONTENT_ROOT
 
 from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import SecurityContentProduct
 from bin.contentctl_project.contentctl_infrastructure.builder.security_content_detection_builder import SecurityContentDetectionBuilder
@@ -10,6 +11,7 @@ from bin.contentctl_project.contentctl_infrastructure.builder.security_content_i
 from bin.contentctl_project.contentctl_infrastructure.builder.security_content_baseline_builder import SecurityContentBaselineBuilder
 from bin.contentctl_project.contentctl_infrastructure.builder.attack_enrichment import AttackEnrichment
 from bin.contentctl_project.contentctl_infrastructure.builder.security_content_playbook_builder import SecurityContentPlaybookBuilder
+
 
 
 def test_read_detection():
@@ -112,7 +114,7 @@ def test_detection_add_rba():
 
 
 def test_detection_add_playbooks():
-    playbook_builder = SecurityContentPlaybookBuilder()
+    playbook_builder = SecurityContentPlaybookBuilder(input_path = SECURITY_CONTENT_ROOT)
     playbook_builder.setObject(os.path.join(os.path.dirname(__file__), 
         'test_data/playbook/example_playbook.yml'))
     playbook = playbook_builder.getObject()
@@ -160,7 +162,7 @@ def test_attack_enrichment():
     security_content_builder = SecurityContentDetectionBuilder()
     security_content_builder.setObject(os.path.join(os.path.dirname(__file__), 
         'test_data/detection/valid.yml'))
-    security_content_builder.addMitreAttackEnrichment(AttackEnrichment.get_attack_lookup())
+    security_content_builder.addMitreAttackEnrichment(AttackEnrichment.get_attack_lookup(input_path = SECURITY_CONTENT_ROOT))
     detection = security_content_builder.getObject()
 
     assert detection.tags.mitre_attack_enrichments[0].dict()['mitre_attack_id'] == 'T1003.002'

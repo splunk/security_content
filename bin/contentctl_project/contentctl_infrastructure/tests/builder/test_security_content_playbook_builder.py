@@ -1,11 +1,14 @@
-import os
+from bin.contentctl_project.contentctl_infrastructure.tests.test_constants import SECURITY_CONTENT_ROOT
 
+import os
 from bin.contentctl_project.contentctl_infrastructure.builder.security_content_playbook_builder import SecurityContentPlaybookBuilder
 from bin.contentctl_project.contentctl_infrastructure.builder.security_content_detection_builder import SecurityContentDetectionBuilder
 
 
+
+
 def test_read_playbook():
-    playbook_builder = SecurityContentPlaybookBuilder()
+    playbook_builder = SecurityContentPlaybookBuilder(input_path = SECURITY_CONTENT_ROOT)
     playbook_builder.setObject(os.path.join(os.path.dirname(__file__), 
         'test_data/playbook/example_playbook.yml'))
     playbook = playbook_builder.getObject()
@@ -15,7 +18,7 @@ def test_read_playbook():
 
 def test_enrich_detections():
 
-    playbook_builder = SecurityContentPlaybookBuilder()
+    playbook_builder = SecurityContentPlaybookBuilder(input_path = SECURITY_CONTENT_ROOT)
     playbook_builder.setObject(os.path.join(os.path.dirname(__file__), 
         'test_data/playbook/example_playbook.yml'))
     playbook_builder.addDetections()
