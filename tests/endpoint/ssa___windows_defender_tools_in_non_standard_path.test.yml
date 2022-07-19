@@ -8,6 +8,6 @@ tests:
   attack_data:
   - file_name: UPDATE
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.003/mpcmdrun/windows-security.log
-    source: XmlWinEventLog:Security
+    source: XmlWinEventLog
     sourcetype: XmlWinEventLog
     update_timestamp: true
