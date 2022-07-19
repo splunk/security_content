@@ -59,6 +59,7 @@ tags:
   - T1053.005
   - T1543.003
   - T1059.001
+  - T1218.014
   observable:
   - name: dest
     type: Endpoint
