@@ -1,7 +1,7 @@
 name: Windows LOLBin Binary in Non Standard Path
 id: 25689101-012a-324a-94d3-08301e6c065a
-version: 2
-date: '2022-06-22'
+version: 3
+date: '2022-07-19'
 author: Michael Haag, Splunk
 type: Anomaly
 datamodel:
