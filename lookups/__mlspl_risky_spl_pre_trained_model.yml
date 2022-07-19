@@ -1,0 +1,6 @@
+description: Detect Risky SPL using Pretrained ML Model
+filename: __mlspl_risky_spl_pre_trained_model.mlmodel
+name: __mlspl_risky_spl_pre_trained_model
+case_sensitive_match: 'false'
+min_matches: 1
+default_match: 'false'
