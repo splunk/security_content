@@ -22,9 +22,11 @@ known_false_positives: Administrators or power users may use this PowerShell com
   for troubleshooting.
 references:
 - https://attack.mitre.org/techniques/T1087/001/
+- https://www.splunk.com/en_us/blog/security/hunting-for-malicious-powershell-using-script-block-logging.html
 tags:
   analytic_story:
   - Active Directory Discovery
+  - Malicious PowerShell
   confidence: 50
   context:
   - Source:Endpoint
@@ -34,12 +36,13 @@ tags:
   impact: 30
   kill_chain_phases:
   - Reconnaissance
-  message: Local user discovery enumeration using PowerShell on $dest$ by $user$
+  message: Local user discovery enumeration using PowerShell on $Computer$ by $user$
   mitre_attack_id:
   - T1087
   - T1087.001
+  - T1059.001
   observable:
-  - name: dest
+  - name: Computer
     type: Endpoint
     role:
     - Victim
@@ -49,6 +52,10 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
+  - EventCode 
+  - ScriptBlockText
+  - Computer
+  - UserID
   risk_score: 15
   security_domain: endpoint
   asset_type: Endpoint
