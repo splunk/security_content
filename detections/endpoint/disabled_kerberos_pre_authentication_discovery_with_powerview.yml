@@ -1,7 +1,7 @@
 name: Disabled Kerberos Pre-Authentication Discovery With PowerView
 id: b0b34e2c-90de-11ec-baeb-acde48001122
-version: 1
-date: '2022-02-18'
+version: 2
+date: '2022-05-03'
 author: Mauricio Velazco, Splunk
 type: TTP
 datamodel: []
@@ -13,9 +13,8 @@ description: The following analytic utilizes PowerShell Script Block Logging (Ev
   adversaries to discover domain accounts with Kerberos Pre Authentication disabled.\
   Red Teams and adversaries alike use may leverage PowerView to enumerate these accounts
   and attempt to crack their passwords offline.
-search: ' `powershell` EventCode=4104 (Message = "*Get-DomainUser*" AND Message="*PreauthNotRequired*")
-  | stats count min(_time)  as firstTime max(_time) as lastTime by EventCode Message
-  ComputerName User | `security_content_ctime(firstTime)` | `disabled_kerberos_pre_authentication_discovery_with_powerview_filter`'
+search: ' `powershell` EventCode=4104 (ScriptBlockText = "*Get-DomainUser*" AND ScriptBlockText="*PreauthNotRequired*")
+  | stats count min(_time)  as firstTime max(_time) as lastTime by Opcode Computer UserID EventCode ScriptBlockText | `security_content_ctime(firstTime)` | `disabled_kerberos_pre_authentication_discovery_with_powerview_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
@@ -34,7 +33,7 @@ tags:
   - Stage:Discovery
   - Stage:Recon
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.004/powerview/windows-powershell.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/getdomainuser.log
   impact: 60
   kill_chain_phases:
   - Exploitation
@@ -53,9 +52,10 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
+  - ScriptBlockText
+  - Opcode
+  - Computer
+  - UserID
   - EventCode
-  - Message
-  - ComputerName
-  - User
   risk_score: 54
   security_domain: endpoint
