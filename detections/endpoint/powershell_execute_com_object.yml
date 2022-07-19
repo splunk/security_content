@@ -23,6 +23,7 @@ how_to_implement: To successfully implement this search, you need to be ingestin
 known_false_positives: network operrator may use this command.
 references:
 - https://threadreaderapp.com/thread/1423361119926816776.html
+- https://www.splunk.com/en_us/blog/security/hunting-for-malicious-powershell-using-script-block-logging.html
 tags:
   analytic_story:
   - Hermetic Wiper 
@@ -34,17 +35,17 @@ tags:
   - Stage:Privilege Escalation
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.015/pwh_com_object/windows-powershell-xml.log
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/conti/conti_leak/windows-powershell.log
   impact: 10
   kill_chain_phases:
   - Exploitation
-  message: A suspicious powershell script contains COM CLSID command in $Message$
-    with EventCode $EventCode$ in host $ComputerName$
+  message: A suspicious powershell script contains COM CLSID command in $ScriptBlockText$
+    with EventCode $EventCode$ in host $Computer$
   mitre_attack_id:
   - T1546.015
   - T1546
+  - T1059.001
   observable:
-  - name: ComputerName
+  - name: Computer
     type: Hostname
     role:
     - Victim
@@ -58,6 +59,9 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
+  - ScriptBlockText
+  - Computer
+  - EventCode
   risk_score: 5
   security_domain: endpoint
   asset_type: Endpoint
