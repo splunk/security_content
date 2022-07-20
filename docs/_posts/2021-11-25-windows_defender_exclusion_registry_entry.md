@@ -136,6 +136,7 @@ admin or user may choose to use this windows features.
 #### Associated Analytic story
 * [Remcos](/stories/remcos)
 * [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
+* [Azorult](/stories/azorult)
 
 
 

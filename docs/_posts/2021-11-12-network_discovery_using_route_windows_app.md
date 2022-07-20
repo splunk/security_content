@@ -108,8 +108,8 @@ This analytic look for a spawned process of route.exe windows application. Adver
 #### Macros
 The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [process_route](https://github.com/splunk/security_content/blob/develop/macros/process_route.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 > :information_source:
 > **network_discovery_using_route_windows_app_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.

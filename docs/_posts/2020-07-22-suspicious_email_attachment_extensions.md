@@ -117,9 +117,9 @@ This search looks for emails that have attachments with suspicious file extensio
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [suspicious_email_attachments](https://github.com/splunk/security_content/blob/develop/macros/suspicious_email_attachments.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 > :information_source:
 > **suspicious_email_attachment_extensions_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
