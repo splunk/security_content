@@ -63,10 +63,10 @@ jobs:
         - name: Install Python Dependencies
           run: |
             cd bin/docker_detection_tester
-            python3 -m venv .venv
+            python -m venv .venv
             source .venv/bin/activate
-            python3 -m pip install wheel
-            python3 -m pip install -r requirements.txt
+            python -m pip install wheel
+            python -m pip install -r requirements.txt
         
         - name: Run the CI
           run: |
@@ -157,10 +157,10 @@ jobs:
         - name: Install Python Dependencies
           run: |
             cd bin/docker_detection_tester
-            python3 -m venv .venv
+            python -m venv .venv
             source .venv/bin/activate
-            python3 -m pip install wheel
-            python3 -m pip install -r requirements.txt
+            python -m pip install wheel
+            python -m pip install -r requirements.txt
         
         - name: Run the CI
           run: |
@@ -260,10 +260,10 @@ jobs:
         - name: Install Python Dependencies
           run: |
             cd bin/docker_detection_tester
-            python3 -m venv .venv
+            python -m venv .venv
             source .venv/bin/activate
-            python3 -m pip install wheel
-            python3 -m pip install -r requirements.txt
+            python -m pip install wheel
+            python -m pip install -r requirements.txt
 
         - name: Merge Detections into single File
           run: |

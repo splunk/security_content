@@ -173,14 +173,9 @@ def generate_escu_app(persist_security_content: bool = False) -> str:
     print("****GENERATING ESCU APP****")
     os.chdir("security_content")
     if persist_security_content is False:
-        commands = ["python3 -m venv .venv",
-                    ". ./.venv/bin/activate",
-                    "python -m pip install wheel",
-                    "python -m pip install -r requirements.txt",
-                    "python3 ../../../contentctl.py --path . --skip_enrichment generate --product ESCU --output dist/escu"]
+        commands = ["python ../../../contentctl.py --path . --skip_enrichment generate --product ESCU --output dist/escu"]
     else:
-        commands = [". ./.venv/bin/activate",
-                    "python3 ../../../contentctl.py --path . --skip_enrichment generate --product ESCU --output dist/escu"]
+        commands = ["python ../../../contentctl.py --path . --skip_enrichment generate --product ESCU --output dist/escu"]
     ret = subprocess.run("; ".join(commands),
                          shell=True, capture_output=True)
     if ret.returncode != 0:
@@ -199,7 +194,7 @@ def generate_escu_app(persist_security_content: bool = False) -> str:
     output_file_path_from_slim_latest = os.path.join(
         "upload", output_file_name)
     output_file_path_from_security_content = os.path.join(
-        "slim_packaging", "slim_latest", output_file_path_from_slim_latest)
+        "slim_packaging", output_file_path_from_slim_latest)
     output_file_path_from_root = os.path.join(
         "security_content", output_file_path_from_security_content)
 
@@ -215,42 +210,17 @@ def generate_escu_app(persist_security_content: bool = False) -> str:
             sys.exit(1)
 
         # There remove the latest file if it exists
-        commands = ["cd slim_packaging/slim_latest",
-                    ". ./.venv/bin/activate",
-                    "cp -R ../../dist/escu DA-ESS-ContentUpdate",
+        commands = ["cd slim_packaging",
+                    "cp -R ../dist/escu DA-ESS-ContentUpdate",
                     "slim package -o upload DA-ESS-ContentUpdate",
                     "cp upload/DA-ESS-ContentUpdate*.tar.gz %s" % (output_file_path_from_slim_latest)]
 
     else:
         os.mkdir("slim_packaging")
-        
-        try:
-            SPLUNK_PACKAGING_TOOLKIT_URL = "https://download.splunk.com/misc/packaging-toolkit/splunk-packaging-toolkit-0.9.0.tar.gz"
-            SPLUNK_PACKAGING_TOOLKIT_FILENAME = 'splunk-packaging-toolkit-latest.tar.gz'
-            print("Downloading the Splunk Packaging Toolkit from %s..." %
-                  (SPLUNK_PACKAGING_TOOLKIT_URL), end='')
-            response = get(SPLUNK_PACKAGING_TOOLKIT_URL)
-            response.raise_for_status()
-            with open(SPLUNK_PACKAGING_TOOLKIT_FILENAME, 'wb') as slim_file:
-                slim_file.write(response.content)
-            print("Done")
-        except Exception as e:
-            print("Error downloading the Splunk Packaging Toolkit: [%s].\n\tQuitting..." %
-                  (str(e)), file=sys.stderr)
-            sys.exit(1)
-        
         commands = ["rm -rf slim_packaging/slim_latest",
-                    "mkdir slim_packaging/slim_latest",
+                    "mkdir slim_packaging",
                     "cd slim_packaging",
-                    "tar -zxf ../splunk-packaging-toolkit-latest.tar.gz -C slim_latest --strip-components=1",
-                    "cd slim_latest",
-                    "python3 -m venv .venv",
-                    ". ./.venv/bin/activate",
-                    "python -m pip install --upgrade pip",
-                    "python -m pip install wheel",
-                    "python -m pip install semantic_version",
-                    "python -m pip install .",
-                    "cp -R ../../dist/escu DA-ESS-ContentUpdate",
+                    "cp -R ../dist/escu DA-ESS-ContentUpdate",
                     "slim package -o upload DA-ESS-ContentUpdate",
                     "cp upload/DA-ESS-ContentUpdate*.tar.gz %s" % (output_file_path_from_slim_latest)]
 
