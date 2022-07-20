@@ -121,9 +121,8 @@ The SPL above uses the following Macros:
 #### Required field
 * _time
 * EventCode
-* Result_Code
-* Account_Name
-* Client_Address
+* Computer
+* ScriptBlockText
 
 
 #### How To Implement
@@ -142,7 +141,7 @@ False positive may include Administrators using PowerView for troubleshooting an
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
-| 27.0 | 30 | 90 | PowerView commandlets used for SPN discovery executed on $Computer_Name$ |
+| 27.0 | 30 | 90 | PowerView commandlets used for SPN discovery executed on $Computer$ |
 
 
 > :information_source:

@@ -34,6 +34,7 @@ This analytic story includes detections that focus on attacker behavior targeted
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
+| [Detect Risky SPL using Pretrained ML Model](/application/detect_risky_spl_using_pretrained_ml_model/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter)| Anomaly |
 | [Path traversal SPL injection](/application/path_traversal_spl_injection/) | [File and Directory Discovery](/tags/#file-and-directory-discovery)| TTP |
 | [Splunk Command and Scripting Interpreter Delete Usage](/application/splunk_command_and_scripting_interpreter_delete_usage/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter)| Anomaly |
 | [Splunk Command and Scripting Interpreter Risky Commands](/application/splunk_command_and_scripting_interpreter_risky_commands/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter)| Hunting |

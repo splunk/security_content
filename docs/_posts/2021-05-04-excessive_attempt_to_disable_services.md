@@ -94,7 +94,7 @@ This analytic will identify suspicious series of command-line to disable several
 ```
 
 | tstats `security_content_summariesonly` values(Processes.process) as process values(Processes.process_id) as process_id count min(_time) as firstTime max(_time) as lastTime  from datamodel=Endpoint.Processes where   Processes.process_name = "sc.exe" AND Processes.process="*config*" OR Processes.process="*Disabled*" by Processes.process_name Processes.parent_process_name Processes.dest Processes.user _time span=1m 
-| where count >=5 
+| where count >=4 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -103,8 +103,8 @@ This analytic will identify suspicious series of command-line to disable several
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 > :information_source:
 > **excessive_attempt_to_disable_services_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -127,6 +127,7 @@ unknown
 
 #### Associated Analytic story
 * [XMRig](/stories/xmrig)
+* [Azorult](/stories/azorult)
 
 
 

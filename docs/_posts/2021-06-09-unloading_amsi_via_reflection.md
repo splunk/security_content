@@ -120,10 +120,10 @@ The SPL above uses the following Macros:
 
 #### Required field
 * _time
-* Message
-* OpCode
-* ComputerName
-* User
+* ScriptBlockText
+* Opcode
+* Computer
+* UserID
 * EventCode
 
 
@@ -144,7 +144,7 @@ Potential for some third party applications to disable AMSI upon invocation. Fil
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
-| 49.0 | 70 | 70 | Possible AMSI Unloading via Reflection using PowerShell on $ComputerName$ |
+| 49.0 | 70 | 70 | Possible AMSI Unloading via Reflection using PowerShell on $Computer$ |
 
 
 > :information_source:
