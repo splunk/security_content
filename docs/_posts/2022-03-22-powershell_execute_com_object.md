@@ -2,6 +2,7 @@
 title: "Powershell Execute COM Object"
 excerpt: "Component Object Model Hijacking
 , Event Triggered Execution
+, PowerShell
 "
 categories:
   - Endpoint
@@ -11,10 +12,12 @@ toc_label: ""
 tags:
   - Component Object Model Hijacking
   - Event Triggered Execution
+  - PowerShell
   - Persistence
   - Privilege Escalation
   - Persistence
   - Privilege Escalation
+  - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -50,6 +53,8 @@ This search is to detect a COM CLSID execution through powershell. This techniqu
 | [T1546.015](https://attack.mitre.org/techniques/T1546/015/) | Component Object Model Hijacking | Persistence, Privilege Escalation |
 
 | [T1546](https://attack.mitre.org/techniques/T1546/) | Event Triggered Execution | Persistence, Privilege Escalation |
+
+| [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
 
 </div>
 </details>
@@ -116,6 +121,9 @@ The SPL above uses the following Macros:
 
 #### Required field
 * _time
+* ScriptBlockText
+* Computer
+* EventCode
 
 
 #### How To Implement
@@ -136,7 +144,7 @@ network operrator may use this command.
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
-| 5.0 | 10 | 50 | A suspicious powershell script contains COM CLSID command in $Message$ with EventCode $EventCode$ in host $ComputerName$ |
+| 5.0 | 10 | 50 | A suspicious powershell script contains COM CLSID command in $ScriptBlockText$ with EventCode $EventCode$ in host $Computer$ |
 
 
 > :information_source:
@@ -145,6 +153,7 @@ network operrator may use this command.
 #### Reference
 
 * [https://threadreaderapp.com/thread/1423361119926816776.html](https://threadreaderapp.com/thread/1423361119926816776.html)
+* [https://www.splunk.com/en_us/blog/security/hunting-for-malicious-powershell-using-script-block-logging.html](https://www.splunk.com/en_us/blog/security/hunting-for-malicious-powershell-using-script-block-logging.html)
 
 
 
@@ -154,7 +163,6 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.015/pwh_com_object/windows-powershell-xml.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.015/pwh_com_object/windows-powershell-xml.log)
-* [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/conti/conti_leak/windows-powershell.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/conti/conti_leak/windows-powershell.log)
 
 
 

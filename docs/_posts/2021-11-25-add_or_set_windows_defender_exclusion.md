@@ -107,8 +107,8 @@ This analytic will identify a suspicious process command-line related to Windows
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 > :information_source:
 > **add_or_set_windows_defender_exclusion_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.

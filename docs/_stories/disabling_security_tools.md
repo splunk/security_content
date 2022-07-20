@@ -43,7 +43,7 @@ Attackers employ a variety of tactics in order to avoid detection and operate wi
 
 * [https://attack.mitre.org/wiki/Technique/T1089](https://attack.mitre.org/wiki/Technique/T1089)
 * [https://blog.malwarebytes.com/cybercrime/2015/11/vonteera-adware-uses-certificates-to-disable-anti-malware/](https://blog.malwarebytes.com/cybercrime/2015/11/vonteera-adware-uses-certificates-to-disable-anti-malware/)
-* [https://www.operationblockbuster.com/wp-content/uploads/2016/02/Operation-Blockbuster-Tools-Report.pdf](https://www.operationblockbuster.com/wp-content/uploads/2016/02/Operation-Blockbuster-Tools-Report.pdf)
+* [https://web.archive.org/web/20220425194457/https://www.operationblockbuster.com/wp-content/uploads/2016/02/Operation-Blockbuster-Tools-Report.pdf](https://web.archive.org/web/20220425194457/https://www.operationblockbuster.com/wp-content/uploads/2016/02/Operation-Blockbuster-Tools-Report.pdf)
 
 
 

@@ -1,6 +1,6 @@
 name: Windows LOLBin Binary in Non Standard Path
 id: 25689101-012a-324a-94d3-08301e6c065a
-version: 2
+version: 3
 description: The following analytic identifies native living off the land binaries
   within the Windows operating system that may be abused by adversaries by moving
   it to a new directory. The list of binaries was derived from the https://lolbas-project.github.io
@@ -27,29 +27,28 @@ search: ' $ssa_input = | from read_ssa_enriched_events() | eval device=ucast(map
   OR process_name="gfxdownloadwrapper.exe" OR process_name="gpscript.exe" OR process_name="imewdbld.exe"
   OR process_name="ie4uinit.exe" OR process_name="ieexec.exe" OR process_name="ilasm.exe"
   OR process_name="infdefaultinstall.exe" OR process_name="makecab.exe" OR process_name="mavinject.exe"
-  OR process_name="microsoft.workflow.compiler.exe" OR process_name="mmc.exe" OR process_name="mpcmdrun.exe"
-  OR process_name="msconfig.exe" OR process_name="msdt.exe" OR process_name="mshta.exe"
-  OR process_name="msiexec.exe" OR process_name="netsh.exe" OR process_name="odbcconf.exe"
-  OR process_name="offlinescannershell.exe" OR process_name="onedrivestandaloneupdater.exe"
-  OR process_name="pcalua.exe" OR process_name="pcwrun.exe" OR process_name="pktmon.exe"
-  OR process_name="pnputil.exe" OR process_name="presentationhost.exe" OR process_name="print.exe"
-  OR process_name="printbrm.exe" OR process_name="psr.exe" OR process_name="rasautou.exe"
-  OR process_name="reg.exe" OR process_name="regini.exe" OR process_name="register-cimprovider.exe"
-  OR process_name="regsvr32.exe" OR process_name="replace.exe" OR process_name="rpcping.exe"
-  OR process_name="rundll32.exe" OR process_name="runonce.exe" OR process_name="runscripthelper.exe"
-  OR process_name="sc.exe" OR process_name="schtasks.exe" OR process_name="scriptrunner.exe"
-  OR process_name="settingsynchost.exe" OR process_name="syncappvpublishingserver.exe"
-  OR process_name="ttdinject.exe" OR process_name="tttracer.exe" OR process_name="vbc.exe"
-  OR process_name="verclsid.exe" OR process_name="wab.exe" OR process_name="wlrmdr.exe"
-  OR process_name="wmic.exe" OR process_name="workfolders.exe" OR process_name="wscript.exe"
-  OR process_name="wsreset.exe" OR process_name="wuauclt.exe" OR process_name="xwizard.exe";
+  OR process_name="microsoft.workflow.compiler.exe" OR process_name="mmc.exe" OR process_name="msconfig.exe"
+  OR process_name="msdt.exe" OR process_name="mshta.exe" OR process_name="msiexec.exe"
+  OR process_name="netsh.exe" OR process_name="odbcconf.exe" OR process_name="offlinescannershell.exe"
+  OR process_name="onedrivestandaloneupdater.exe" OR process_name="pcalua.exe" OR
+  process_name="pcwrun.exe" OR process_name="pktmon.exe" OR process_name="pnputil.exe"
+  OR process_name="presentationhost.exe" OR process_name="print.exe" OR process_name="printbrm.exe"
+  OR process_name="psr.exe" OR process_name="rasautou.exe" OR process_name="reg.exe"
+  OR process_name="regini.exe" OR process_name="register-cimprovider.exe" OR process_name="regsvr32.exe"
+  OR process_name="replace.exe" OR process_name="rpcping.exe" OR process_name="rundll32.exe"
+  OR process_name="runonce.exe" OR process_name="runscripthelper.exe" OR process_name="sc.exe"
+  OR process_name="schtasks.exe" OR process_name="scriptrunner.exe" OR process_name="settingsynchost.exe"
+  OR process_name="syncappvpublishingserver.exe" OR process_name="ttdinject.exe" OR
+  process_name="tttracer.exe" OR process_name="vbc.exe" OR process_name="verclsid.exe"
+  OR process_name="wab.exe" OR process_name="wlrmdr.exe" OR process_name="wmic.exe"
+  OR process_name="workfolders.exe" OR process_name="wscript.exe" OR process_name="wsreset.exe"
+  OR process_name="wuauclt.exe" OR process_name="xwizard.exe";
 
   | from $cond_1 | where match_regex(process_path, /(?i)\\windows\\system32/)=false
   AND match_regex(process_path, /(?i)\\windows\\syswow64/)=false AND match_regex(process_path,
   /(?i)\\windows\\adws/)=false AND match_regex(process_path, /(?i)\\windows\\networkcontroller/)=false
   AND match_regex(process_path, /(?i)\\windows\\systemapps/)=false AND match_regex(process_path,
   /(?i)\\winsxs/)=false AND match_regex(process_path, /(?i)\\microsoft.net/)=false
-  AND match_regex(process_path, /(?i)\\microsoft\\windows defender\\platform/)=false
   | eval start_time=timestamp, end_time=timestamp, entities=mvappend(device, user),
   body=create_map(["event_id", event_id, "process_path", process_path, "process_name",
   process_name]) | into write_ssa_detected_events();'

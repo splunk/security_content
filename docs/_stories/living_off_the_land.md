@@ -8,9 +8,11 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
+  - Risk
   - Actions on Objectives
   - Exploitation
   - Installation
+  - Reconnaissance
 ---
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -20,7 +22,7 @@ tags:
 Leverage analytics that allow you to identify the presence of an adversary leveraging native applications within your environment.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint), [Risk](https://docs.splunk.com/Documentation/CIM/latest/User/Risk)
 - **Last Updated**: 2022-03-16
 - **Author**: Lou Stella, Splunk
 - **ID**: 6f7982e2-900b-11ec-a54a-acde48001122
@@ -64,9 +66,10 @@ Living Off The Land refers to an adversary methodology of using native applicati
 | [Dump LSASS via comsvcs DLL](/endpoint/dump_lsass_via_comsvcs_dll/) | [LSASS Memory](/tags/#lsass-memory), [OS Credential Dumping](/tags/#os-credential-dumping)| TTP |
 | [Esentutl SAM Copy](/endpoint/esentutl_sam_copy/) | [Security Account Manager](/tags/#security-account-manager), [OS Credential Dumping](/tags/#os-credential-dumping)| Hunting |
 | [Eventvwr UAC Bypass](/endpoint/eventvwr_uac_bypass/) | [Bypass User Account Control](/tags/#bypass-user-account-control), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism)| TTP |
+| [Living Off The Land](/endpoint/living_off_the_land/) | [Ingress Tool Transfer](/tags/#ingress-tool-transfer), [Exploit Public-Facing Application](/tags/#exploit-public-facing-application), [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter)| Correlation |
 | [MacOS LOLbin](/endpoint/macos_lolbin/) | [Unix Shell](/tags/#unix-shell), [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter)| TTP |
 | [MacOS plutil](/endpoint/macos_plutil/) | [Plist File Modification](/tags/#plist-file-modification)| TTP |
-| [Mmc LOLBAS Execution Process Spawn](/endpoint/mmc_lolbas_execution_process_spawn/) | [Remote Services](/tags/#remote-services), [Distributed Component Object Model](/tags/#distributed-component-object-model)| TTP |
+| [Mmc LOLBAS Execution Process Spawn](/endpoint/mmc_lolbas_execution_process_spawn/) | [Remote Services](/tags/#remote-services), [Distributed Component Object Model](/tags/#distributed-component-object-model), [MMC](/tags/#mmc)| TTP |
 | [Mshta spawning Rundll32 OR Regsvr32 Process](/endpoint/mshta_spawning_rundll32_or_regsvr32_process/) | [System Binary Proxy Execution](/tags/#system-binary-proxy-execution), [Mshta](/tags/#mshta)| TTP |
 | [Ntdsutil Export NTDS](/endpoint/ntdsutil_export_ntds/) | [NTDS](/tags/#ntds), [OS Credential Dumping](/tags/#os-credential-dumping)| TTP |
 | [Reg exe Manipulating Windows Services Registry Keys](/endpoint/reg_exe_manipulating_windows_services_registry_keys/) | [Services Registry Permissions Weakness](/tags/#services-registry-permissions-weakness), [Hijack Execution Flow](/tags/#hijack-execution-flow)| TTP |
@@ -100,7 +103,9 @@ Living Off The Land refers to an adversary methodology of using native applicati
 | [Suspicious Rundll32 dllregisterserver](/endpoint/suspicious_rundll32_dllregisterserver/) | [System Binary Proxy Execution](/tags/#system-binary-proxy-execution), [Rundll32](/tags/#rundll32)| TTP |
 | [Suspicious Scheduled Task from Public Directory](/endpoint/suspicious_scheduled_task_from_public_directory/) | [Scheduled Task](/tags/#scheduled-task), [Scheduled Task/Job](/tags/#scheduled-task/job)| Anomaly |
 | [Svchost LOLBAS Execution Process Spawn](/endpoint/svchost_lolbas_execution_process_spawn/) | [Scheduled Task/Job](/tags/#scheduled-task/job), [Scheduled Task](/tags/#scheduled-task)| TTP |
+| [Windows Binary Proxy Execution Mavinject DLL Injection](/endpoint/windows_binary_proxy_execution_mavinject_dll_injection/) | [Mavinject](/tags/#mavinject), [System Binary Proxy Execution](/tags/#system-binary-proxy-execution)| TTP |
 | [Windows Diskshadow Proxy Execution](/endpoint/windows_diskshadow_proxy_execution/) | [System Binary Proxy Execution](/tags/#system-binary-proxy-execution)| TTP |
+| [Windows Identify Protocol Handlers](/endpoint/windows_identify_protocol_handlers/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter)| Hunting |
 | [Windows Indirect Command Execution Via forfiles](/endpoint/windows_indirect_command_execution_via_forfiles/) | [Indirect Command Execution](/tags/#indirect-command-execution)| TTP |
 | [Windows Indirect Command Execution Via pcalua](/endpoint/windows_indirect_command_execution_via_pcalua/) | [Indirect Command Execution](/tags/#indirect-command-execution)| TTP |
 | [Windows InstallUtil in Non Standard Path](/endpoint/windows_installutil_in_non_standard_path/) | [Masquerading](/tags/#masquerading), [Rename System Utilities](/tags/#rename-system-utilities), [System Binary Proxy Execution](/tags/#system-binary-proxy-execution), [InstallUtil](/tags/#installutil)| TTP |
@@ -108,6 +113,10 @@ Living Off The Land refers to an adversary methodology of using native applicati
 | [Windows InstallUtil Uninstall Option](/endpoint/windows_installutil_uninstall_option/) | [InstallUtil](/tags/#installutil), [System Binary Proxy Execution](/tags/#system-binary-proxy-execution)| TTP |
 | [Windows InstallUtil Uninstall Option with Network](/endpoint/windows_installutil_uninstall_option_with_network/) | [InstallUtil](/tags/#installutil), [System Binary Proxy Execution](/tags/#system-binary-proxy-execution)| TTP |
 | [Windows InstallUtil URL in Command Line](/endpoint/windows_installutil_url_in_command_line/) | [InstallUtil](/tags/#installutil), [System Binary Proxy Execution](/tags/#system-binary-proxy-execution)| TTP |
+| [Windows MOF Event Triggered Execution via WMI](/endpoint/windows_mof_event_triggered_execution_via_wmi/) | [Windows Management Instrumentation Event Subscription](/tags/#windows-management-instrumentation-event-subscription)| TTP |
+| [Windows Odbcconf Hunting](/endpoint/windows_odbcconf_hunting/) | [Odbcconf](/tags/#odbcconf)| Hunting |
+| [Windows Odbcconf Load DLL](/endpoint/windows_odbcconf_load_dll/) | [Odbcconf](/tags/#odbcconf)| TTP |
+| [Windows Odbcconf Load Response File](/endpoint/windows_odbcconf_load_response_file/) | [Odbcconf](/tags/#odbcconf)| TTP |
 | [WSReset UAC Bypass](/endpoint/wsreset_uac_bypass/) | [Bypass User Account Control](/tags/#bypass-user-account-control), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism)| TTP |
 
 #### Reference

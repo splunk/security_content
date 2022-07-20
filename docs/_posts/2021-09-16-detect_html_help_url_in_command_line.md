@@ -113,8 +113,8 @@ The following analytic identifies hh.exe (HTML Help) execution of a Compiled HTM
 #### Macros
 The SPL above uses the following Macros:
 * [process_hh](https://github.com/splunk/security_content/blob/develop/macros/process_hh.yml)
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 > :information_source:
 > **detect_html_help_url_in_command_line_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.

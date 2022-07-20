@@ -113,9 +113,9 @@ The following analytic identifies regsvcs.exe with no command line arguments. Th
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [process_regsvcs](https://github.com/splunk/security_content/blob/develop/macros/process_regsvcs.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 > :information_source:
 > **detect_regsvcs_with_no_command_line_arguments_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.

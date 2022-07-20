@@ -107,9 +107,9 @@ This analytic looks for the execution of `powershell.exe` with arguments utilize
 
 #### Macros
 The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [process_powershell](https://github.com/splunk/security_content/blob/develop/macros/process_powershell.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **remote_process_instantiation_via_dcom_and_powershell_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
