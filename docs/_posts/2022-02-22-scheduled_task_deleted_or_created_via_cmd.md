@@ -115,8 +115,8 @@ The following analytic identifies the creation or deletion of a scheduled task u
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 > :information_source:
 > **scheduled_task_deleted_or_created_via_cmd_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -142,6 +142,7 @@ It is possible scripts or administrators may trigger this analytic. Filter as ne
 * [NOBELIUM Group](/stories/nobelium_group)
 * [Windows Persistence Techniques](/stories/windows_persistence_techniques)
 * [Living Off The Land](/stories/living_off_the_land)
+* [Azorult](/stories/azorult)
 
 
 

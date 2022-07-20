@@ -117,8 +117,8 @@ This search detects SIGRed via Splunk Stream.
 
 #### Macros
 The SPL above uses the following Macros:
-* [stream_tcp](https://github.com/splunk/security_content/blob/develop/macros/stream_tcp.yml)
 * [stream_dns](https://github.com/splunk/security_content/blob/develop/macros/stream_dns.yml)
+* [stream_tcp](https://github.com/splunk/security_content/blob/develop/macros/stream_tcp.yml)
 
 > :information_source:
 > **detect_windows_dns_sigred_via_splunk_stream_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.

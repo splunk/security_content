@@ -113,10 +113,11 @@ The SPL above uses the following Macros:
 
 #### Required field
 * _time
+* ScriptBlockText
+* Opcode
+* Computer
+* UserID
 * EventCode
-* Message
-* ComputerName
-* User
 
 
 #### How To Implement
@@ -135,7 +136,7 @@ Administrators may leverage WinRM and `Invoke-Command` to start a process on rem
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
-| 45.0 | 90 | 50 | A process was started on a remote endpoint from $ComputerName by abusing WinRM using PowerShell.exe |
+| 45.0 | 90 | 50 | A process was started on a remote endpoint from $Computer$ by abusing WinRM using PowerShell.exe |
 
 
 > :information_source:

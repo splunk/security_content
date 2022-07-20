@@ -119,8 +119,8 @@ This search looks for arguments to sc.exe indicating the creation or modificatio
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 > :information_source:
 > **sc_exe_manipulating_windows_services_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -147,6 +147,7 @@ Using sc.exe to manipulate Windows services is uncommon. However, there may be l
 * [Windows Persistence Techniques](/stories/windows_persistence_techniques)
 * [Disabling Security Tools](/stories/disabling_security_tools)
 * [NOBELIUM Group](/stories/nobelium_group)
+* [Azorult](/stories/azorult)
 
 
 

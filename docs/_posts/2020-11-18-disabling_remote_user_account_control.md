@@ -138,6 +138,7 @@ This registry key may be modified via administrators to implement a change in sy
 * [Suspicious Windows Registry Activities](/stories/suspicious_windows_registry_activities)
 * [Remcos](/stories/remcos)
 * [Windows Registry Abuse](/stories/windows_registry_abuse)
+* [Azorult](/stories/azorult)
 
 
 

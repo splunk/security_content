@@ -114,9 +114,9 @@ The SPL above uses the following Macros:
 #### Required field
 * _time
 * EventCode
-* Message
-* ComputerName
-* User
+* ScriptBlockText
+* Computer
+* UserID
 
 
 #### How To Implement
@@ -136,7 +136,7 @@ powershell may used this function to store out object into memory.
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
-| 40.0 | 50 | 80 | A suspicious powershell script contains memorystream command in $Message$ as new object backstore with EventCode $EventCode$ in host $ComputerName$ |
+| 40.0 | 50 | 80 | A suspicious powershell script contains memorystream command in $ScriptBlockText$ as new object backstore with EventCode $EventCode$ in host $Computer$ |
 
 
 > :information_source:

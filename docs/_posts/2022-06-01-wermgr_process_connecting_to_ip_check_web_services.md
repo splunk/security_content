@@ -106,8 +106,8 @@ this search is designed to detect suspicious wermgr.exe process that tries to co
 
 #### Macros
 The SPL above uses the following Macros:
-* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 
 > :information_source:
 > **wermgr_process_connecting_to_ip_check_web_services_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
