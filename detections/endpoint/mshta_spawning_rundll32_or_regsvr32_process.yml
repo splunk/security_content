@@ -5,7 +5,7 @@ date: '2021-07-19'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This search is to detect a suspicious mshta.exe process that spawn rundll32
   or regsvr32 child process. This technique was seen in several malware nowadays like
   trickbot to load its initial .dll stage loader to execute and download the the actual

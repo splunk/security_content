@@ -5,7 +5,8 @@ date: '2022-01-27'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
+- Endpoint.Registry
 description: This analytic is to detect a suspicious registry modification to disable
   security audit logs. This technique was shared by a researcher to disable Security
   logs of windows by adding this registry. The Windows will think it is WinPE and

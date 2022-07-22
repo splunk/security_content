@@ -5,7 +5,7 @@ date: '2022-01-28'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: The following analytic identifies `pkexec` spawning with no command-line
   arguments. A vulnerability in Polkit's pkexec component identified as CVE-2021-4034
   (PwnKit) which is present in the default configuration of all major Linux distributions

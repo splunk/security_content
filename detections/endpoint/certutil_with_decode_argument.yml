@@ -5,7 +5,7 @@ date: '2021-03-23'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: CertUtil.exe may be used to `encode` and `decode` a file, including PE
   and script code. Encoding will convert a file to base64 with `-----BEGIN CERTIFICATE-----`
   and `-----END CERTIFICATE-----` tags. Malicious usage will include decoding a encoded

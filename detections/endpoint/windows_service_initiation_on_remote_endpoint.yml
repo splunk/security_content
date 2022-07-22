@@ -5,7 +5,7 @@ date: '2021-11-10'
 author: Mauricio Velazco, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic looks for the execution of `sc.exe` with command-line arguments
   utilized to start a Windows Service on a remote endpoint. Red Teams and adversaries
   alike may abuse the Service Control Manager for lateral movement and remote code

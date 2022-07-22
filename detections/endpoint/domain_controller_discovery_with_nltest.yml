@@ -5,7 +5,7 @@ date: '2021-08-30'
 author: Mauricio Velazco, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic looks for the execution of `nltest.exe` with command-line
   arguments utilized to discover remote systems. The arguments `/dclist:` and '/dsgetdc:',
   can be used to return a list of all domain controllers. Red Teams and adversaries

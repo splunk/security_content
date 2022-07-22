@@ -5,7 +5,7 @@ date: '2021-07-05'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Filesystem
 description: This search is to detect a suspicious creation of msmpeng.exe or mpsvc.dll
   in non default windows defender folder. This technique was seen couple days ago
   with revil ransomware in Kaseya Supply chain. The approach is to drop an old version

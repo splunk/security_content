@@ -5,7 +5,7 @@ date: '2020-11-18'
 author: David Dorsey, Patrick Bareiss, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Registry
 description: The search looks for modifications to registry keys that control the
   enforcement of Windows User Account Control (UAC).
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)

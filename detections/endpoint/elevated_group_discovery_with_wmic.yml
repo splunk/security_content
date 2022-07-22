@@ -5,7 +5,7 @@ date: '2021-08-25'
 author: Mauricio Velazco, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic looks for the execution of `wmic.exe` with command-line
   arguments utilized to query for specific domain groups. Red Teams and adversaries
   alike use net.exe to enumerate elevated domain groups for situational awareness

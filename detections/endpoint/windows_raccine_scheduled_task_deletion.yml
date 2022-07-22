@@ -5,7 +5,7 @@ date: '2021-12-07'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: The following analytic identifies the Raccine Rules Updater scheduled
   task being deleted. Adversaries may attempt to remove this task in order to prevent
   the update of Raccine.  Raccine is a "ransomware vaccine" created by security researcher

@@ -5,7 +5,7 @@ date: '2021-08-23'
 author: Mauricio Velazco, Splunk
 type: Hunting
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic looks for the execution of `powershell.exe` with command-line
   arguments utilized to query for local users. The `Get-LocalUser` commandlet is used
   to return a list of all local users. Red Teams and adversaries may leverage this

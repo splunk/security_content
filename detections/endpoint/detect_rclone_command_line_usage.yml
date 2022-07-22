@@ -5,7 +5,7 @@ date: '2021-11-29'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic identifies commonly used command-line arguments used by
   `rclone.exe` to initiate a file transfer. Some arguments were negated as they are
   specific to the configuration used by adversaries. In particular, an adversary may

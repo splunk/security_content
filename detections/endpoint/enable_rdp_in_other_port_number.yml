@@ -5,7 +5,8 @@ date: '2022-01-28'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
+- Endpoint.Registry
 description: This search is to detect a modification to registry to enable rdp to
   a machine with different port number. This technique was seen in some atttacker
   tries to do lateral movement and remote access to a compromised machine to gain

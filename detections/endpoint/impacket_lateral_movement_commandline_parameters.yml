@@ -5,7 +5,7 @@ date: '2022-01-18'
 author: Mauricio Velazco, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic looks for the presence of suspicious commandline parameters
   typically present when using Impacket tools. Impacket is a collection of python
   classes meant to be used with Microsoft network protocols. There are multiple scripts

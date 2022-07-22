@@ -4,19 +4,15 @@ version: 1
 date: '2022-04-26'
 author: Teoderick Contreras, Splunk
 type: TTP
-datamodel:
-- Endpoint
-description: The following query utilizes Windows Security EventCode 4698, 
-  A scheduled task was created, to identify suspicious tasks registered on 
-  Windows either via schtasks.exe OR TaskService with a hidden settings
-  that are unique entry of malware like industroyer2 or attack that uses 
-  lolbin to download other file or payload to the infected machine. 
-search: '`wineventlog_security` EventCode=4698
-  | xmlkv Message
-  | search Hidden = true
-  | stats count min(_time) as firstTime max(_time) as lastTime by  Task_Name, Command, Author, Hidden, dest
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
+datamodel: []
+description: The following query utilizes Windows Security EventCode 4698, A scheduled
+  task was created, to identify suspicious tasks registered on Windows either via
+  schtasks.exe OR TaskService with a hidden settings that are unique entry of malware
+  like industroyer2 or attack that uses lolbin to download other file or payload to
+  the infected machine.
+search: '`wineventlog_security` EventCode=4698 | xmlkv Message | search Hidden = true
+  | stats count min(_time) as firstTime max(_time) as lastTime by  Task_Name, Command,
+  Author, Hidden, dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_hidden_schedule_task_settings_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the task schedule (Exa. Security Log EventCode 4698) endpoints. Tune and

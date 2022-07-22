@@ -5,7 +5,7 @@ date: '2020-08-16'
 author: Rico Valdez, Bhavin Patel, Splunk
 type: Anomaly
 datamodel:
-- Change
+- Change.All_Changes
 description: This search looks for cloud provisioning activities from previously unseen
   regions. Provisioning activities are defined broadly as any event that runs or creates
   something.

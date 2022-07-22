@@ -5,7 +5,7 @@ date: '2021-09-16'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: The following query identifies Microsoft Background Intelligent Transfer
   Service utility `bitsadmin.exe` scheduling a BITS job to persist on an endpoint.
   The query identifies the parameters used to create, resume or add a file to a BITS

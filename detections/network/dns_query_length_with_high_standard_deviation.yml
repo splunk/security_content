@@ -5,7 +5,7 @@ date: '2021-10-06'
 author: Bhavin Patel, Splunk
 type: Anomaly
 datamodel:
-- Network_Resolution
+- Network_Resolution.DNS
 description: This search allows you to identify DNS requests and compute the standard
   deviation on the length of the names being resolved, then filter on two times the
   standard deviation to show you those queries that are unusually large for your environment.

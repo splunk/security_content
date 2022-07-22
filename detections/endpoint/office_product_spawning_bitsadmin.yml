@@ -5,7 +5,7 @@ date: '2021-04-26'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: The following detection identifies the latest behavior utilized by different
   malware families (including TA551, IcedID). This detection identifies any Windows
   Office Product spawning `bitsadmin.exe`. In malicious instances, the command-line

@@ -5,7 +5,7 @@ date: '2022-01-24'
 author: Michael Haag, Splunk
 type: Hunting
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: The following hunting analytic assists with identifying the proces execution
   of commonly used utilities from NirSoft. Potentially not adversary behavior, but
   worth identifying to know if the software is present and being used.

@@ -5,7 +5,7 @@ date: '2021-08-17'
 author: Teoderick Contreras, Splunk
 type: Hunting
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This search is to detect a suspicious 7z process with commandline pointing
   to SMB network share. This technique was seen in CONTI LEAK tools where it use 7z
   to archive a sensitive files and place it in network share tmp folder. This search

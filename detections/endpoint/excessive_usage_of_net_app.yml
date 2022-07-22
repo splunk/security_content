@@ -5,7 +5,7 @@ date: '2021-05-06'
 author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic identifies excessive usage of `net.exe` or `net1.exe` within
   a bucket of time (1 minute). This behavior was seen in a Monero incident where the
   adversary attempts to create many users, delete and disable users as part of its

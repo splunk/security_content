@@ -5,7 +5,7 @@ date: '2021-03-03'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This query identifies a shell, PowerShell.exe or Cmd.exe, spawning from
   W3WP.exe, or IIS. In addition to IIS logs, this behavior with an EDR product will
   capture potential webshell activity, similar to the HAFNIUM Group abusing CVEs,

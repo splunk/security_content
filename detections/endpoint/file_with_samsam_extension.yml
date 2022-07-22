@@ -5,7 +5,7 @@ date: '2018-12-14'
 author: Rico Valdez, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Filesystem
 description: The search looks for file writes with extensions consistent with a SamSam
   ransomware attack.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)

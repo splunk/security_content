@@ -5,7 +5,7 @@ date: '2021-03-12'
 author: Teoderick Contreras
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: The following analytics identifies the resizing of shadowstorage by ransomware
   malware to avoid the shadow volumes being made again. this technique is an alternative
   by ransomware attacker than deleting the shadowstorage which is known alert in defensive

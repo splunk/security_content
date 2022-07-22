@@ -5,7 +5,7 @@ date: '2021-12-13'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: The following analytic identifies the process name of Java, Apache, or
   Tomcat spawning a Linux shell. This is potentially indicative of exploitation of
   the Java application and may be related to current event CVE-2021-44228 (Log4Shell).

@@ -5,7 +5,7 @@ date: '2021-08-25'
 author: Mauricio Velazco, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic looks for the execution of `powershell.exe` with command-line
   arguments utilized to query for domain groups. `Get-DomainGroup` is part of PowerView,
   a PowerShell tool used to perform enumeration on Windows domains. Red Teams and

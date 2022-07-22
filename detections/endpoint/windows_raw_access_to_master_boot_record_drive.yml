@@ -4,8 +4,7 @@ version: 1
 date: '2022-02-17'
 author: Teoderick Contreras, Splunk
 type: TTP
-datamodel:
-- Endpoint
+datamodel: []
 description: This analytic is to look for suspicious raw access read to drive where
   the master boot record is placed. This technique was seen in several attacks by
   adversaries or threat actor to wipe, encrypt or overwrite the master boot record
@@ -28,7 +27,7 @@ references:
 - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
 tags:
   analytic_story:
-  - Data Destruction 
+  - Data Destruction
   - Caddy Wiper
   - WhisperGate
   - Hermetic Wiper

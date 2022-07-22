@@ -5,7 +5,7 @@ date: '2021-09-13'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This search is to detect a suspicious wmic.exe process or renamed wmic
   process to execute malicious xsl file. This technique was seen in FIN7 to execute
   its malicous jscript using the .xsl as the loader with the help of wmic.exe process.

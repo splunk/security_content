@@ -5,7 +5,7 @@ date: '2021-08-25'
 author: Mauricio Velazco, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic looks for the execution of `powershell.exe` with command-line
   arguments utilized to query for domain groups. The `Get-WmiObject` commandlet combined
   with the `-class ds_group` parameter can be used to return the full list of groups

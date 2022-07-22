@@ -5,7 +5,7 @@ date: '2021-12-17'
 author: Teoderick Contreras, Splunk
 type: Hunting
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic looks for possible modification of cronjobs file using
   editor. This event is can be seen in normal user but can also be a good hunting
   indicator for unwanted user modifying cronjobs for possible persistence or privilege

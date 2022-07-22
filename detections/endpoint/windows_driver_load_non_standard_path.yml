@@ -4,21 +4,26 @@ version: 1
 date: '2022-04-04'
 author: Michael Haag, Splunk
 type: TTP
-datamodel:
-- Endpoint
-description: The following analytic uses Windows EventCode 7045 to identify new Kernel Mode Drivers being loaded in Windows from a non-standard path.
-  Note that, adversaries may move malicious or vulnerable drivers into these paths and load up. The idea is that this analytic provides visibility into drivers loading in non-standard file paths.
-search: '`wineventlog_system` EventCode=7045 Service_Type="kernel mode driver" NOT (Service_File_Name IN ("*\\Windows\\*", "*\\Program File*", "*\\systemroot\\*","%SystemRoot%*", "system32\*")) 
-  | stats count min(_time) as firstTime max(_time) as lastTime by ComputerName EventCode Service_File_Name Service_Name Service_Start_Type Service_Type 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | `windows_driver_load_non_standard_path_filter`'
-how_to_implement: To implement this analytic, the Windows EventCode 7045 will need to be logged. The Windows TA for Splunk is also recommended.
-known_false_positives: False positives may be present based on legitimate third party applications needing to install drivers. Filter, or allow list known good drivers consistently being installed in these paths.
+datamodel: []
+description: The following analytic uses Windows EventCode 7045 to identify new Kernel
+  Mode Drivers being loaded in Windows from a non-standard path. Note that, adversaries
+  may move malicious or vulnerable drivers into these paths and load up. The idea
+  is that this analytic provides visibility into drivers loading in non-standard file
+  paths.
+search: '`wineventlog_system` EventCode=7045 Service_Type="kernel mode driver" NOT
+  (Service_File_Name IN ("*\\Windows\\*", "*\\Program File*", "*\\systemroot\\*","%SystemRoot%*",
+  "system32\*")) | stats count min(_time) as firstTime max(_time) as lastTime by ComputerName
+  EventCode Service_File_Name Service_Name Service_Start_Type Service_Type | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_driver_load_non_standard_path_filter`'
+how_to_implement: To implement this analytic, the Windows EventCode 7045 will need
+  to be logged. The Windows TA for Splunk is also recommended.
+known_false_positives: False positives may be present based on legitimate third party
+  applications needing to install drivers. Filter, or allow list known good drivers
+  consistently being installed in these paths.
 references:
-  - https://redcanary.com/blog/tracking-driver-inventory-to-expose-rootkits/
-  - https://attack.mitre.org/techniques/T1014/
-  - https://www.fuzzysecurity.com/tutorials/28.html
+- https://redcanary.com/blog/tracking-driver-inventory-to-expose-rootkits/
+- https://attack.mitre.org/techniques/T1014/
+- https://www.fuzzysecurity.com/tutorials/28.html
 tags:
   analytic_story:
   - Windows Drivers
@@ -52,10 +57,10 @@ tags:
   - Splunk Cloud
   required_fields:
   - ComputerName
-  - EventCode 
+  - EventCode
   - Service_File_Name
   - Service_Name
   - Service_Start_Type
-  - Service_Type 
+  - Service_Type
   risk_score: 36
   security_domain: endpoint

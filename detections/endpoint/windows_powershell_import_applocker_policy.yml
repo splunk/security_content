@@ -4,20 +4,20 @@ version: 1
 date: '2022-06-30'
 author: Teoderick Contreras, Splunk
 type: TTP
-datamodel:
-- Endpoint
-description: The following analytic is to identify the imports of Windows PowerShell Applocker commandlets.
-  This technique was seen in Azorult malware where it drops an xml Applocker policy that will deny several AV product and then loaded using PowerShell Applocker 
-  commandlet.
-search: '`powershell` EventCode=4104 ScriptBlockText="*Import-Module Applocker*" ScriptBlockText="*Set-AppLockerPolicy *" ScriptBlockText="* -XMLPolicy *"
-  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer user_id 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` 
-  | `windows_powershell_import_applocker_policy_filter`'
+datamodel: []
+description: The following analytic is to identify the imports of Windows PowerShell
+  Applocker commandlets. This technique was seen in Azorult malware where it drops
+  an xml Applocker policy that will deny several AV product and then loaded using
+  PowerShell Applocker commandlet.
+search: '`powershell` EventCode=4104 ScriptBlockText="*Import-Module Applocker*" ScriptBlockText="*Set-AppLockerPolicy
+  *" ScriptBlockText="* -XMLPolicy *" | stats count min(_time) as firstTime max(_time)
+  as lastTime by EventCode ScriptBlockText Computer user_id | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_powershell_import_applocker_policy_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
-known_false_positives: administrators may execute this command that may cause some false positive. 
+known_false_positives: administrators may execute this command that may cause some
+  false positive.
 references:
 - https://app.any.run/tasks/a6f2ffe2-e6e2-4396-ae2e-04ea0143f2d8/
 tags:

@@ -5,7 +5,7 @@ date: '2021-10-05'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: The following analytic identifies winhlp32.exe, found natively in `c:\windows\`,
   spawning a child process that loads a file out of appdata, programdata, or temp.
   Winhlp32.exe has a rocky past in that multiple vulnerabilities were found and added

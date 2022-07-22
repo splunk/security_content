@@ -5,7 +5,7 @@ date: '2021-12-17'
 author: Teoderick Contreras, Splunk
 type: Hunting
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: The following analytic identifies a suspicious cronjobs modification
   using crontab edit parameter. This commandline parameter can be abuse by malware
   author, adversaries, and red red teamers to add cronjob entry to their malicious

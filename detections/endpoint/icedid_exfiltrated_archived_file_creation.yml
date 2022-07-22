@@ -4,8 +4,7 @@ version: 1
 date: '2021-07-30'
 author: Teoderick Contreras, Splunk
 type: Hunting
-datamodel:
-- Endpoint
+datamodel: []
 description: This search is to detect a suspicious file creation namely passff.tar
   and cookie.tar. This files are possible archived of stolen browser information like
   history and cookies in a compromised machine with IcedID.

@@ -5,7 +5,7 @@ date: '2021-08-23'
 author: Mauricio Velazco, Splunk
 type: Hunting
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic looks for the execution of `powershell.exe` with command-line
   arguments utilized to query local users. The `Get-WmiObject` commandlet combined
   with the `Win32_UserAccount` parameter is used to return a list of all local users.

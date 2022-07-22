@@ -5,7 +5,8 @@ date: '2021-10-05'
 author: Michael Haag, Shannon Davis, David Dorsey, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Filesystem
+- Endpoint.Processes
 description: 'The following query identifies suspicious .aspx created in 3 paths identified
   by Microsoft as known drop locations for Exchange exploitation related to HAFNIUM
   group and recently disclosed vulnerablity named ProxyShell. Paths include: `\HttpProxy\owa\auth\`,

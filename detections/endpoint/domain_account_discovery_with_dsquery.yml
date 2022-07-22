@@ -5,7 +5,7 @@ date: '2021-08-24'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 type: Hunting
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic looks for the execution of `dsquery.exe` with command-line
   arguments utilized to discover  domain users. The `user` argument returns a list
   of all users registered in the domain. Red Teams and adversaries alike engage in

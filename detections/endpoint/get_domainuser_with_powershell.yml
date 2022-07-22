@@ -5,7 +5,7 @@ date: '2021-08-24'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic looks for the execution of `powershell.exe` with command-line
   arguments utilized to enumerate domain users. `Get-DomainUser` is part of PowerView,
   a PowerShell tool used to perform enumeration on Windows domains. Red Teams and

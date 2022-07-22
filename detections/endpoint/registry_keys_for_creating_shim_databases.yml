@@ -4,8 +4,9 @@ version: 4
 date: '2020-01-28'
 author: Bhavin Patel, Patrick Bareiss, Teoderick Contreras, Splunk
 type: TTP
-datamodel: 
-- Endpoint
+datamodel:
+- Endpoint.Processes
+- Endpoint.Registry
 description: This search looks for registry activity associated with application compatibility
   shims, which can be leveraged by attackers for various nefarious purposes.
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry

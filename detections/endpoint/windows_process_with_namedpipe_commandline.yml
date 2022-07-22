@@ -5,7 +5,7 @@ date: '2022-02-23'
 author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic is to look for process commandline that contains named
   pipe. This technique was seen in some adversaries, threat actor and malware like
   olympic destroyer to communicate to its other child processes after process injection

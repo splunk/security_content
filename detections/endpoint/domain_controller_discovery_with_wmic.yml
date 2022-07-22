@@ -5,7 +5,7 @@ date: '2021-09-01'
 author: Mauricio Velazco, Splunk
 type: Hunting
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic looks for the execution of `wmic.exe` with command-line
   arguments utilized to discover remote systems. The arguments utilized in this command
   line return a list of all domain controllers in a Windows domain. Red Teams and

@@ -5,7 +5,7 @@ date: '2021-08-25'
 author: Mauricio Velazco, Splunk
 type: Hunting
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic looks for the execution of `wmic.exe` with command-line
   arguments utilized to query for domain groups. The arguments utilized in this command
   return a list of all domain groups. Red Teams and adversaries alike use wmic.exe

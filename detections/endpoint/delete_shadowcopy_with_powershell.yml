@@ -4,18 +4,16 @@ version: 2
 date: '2022-05-02'
 author: Teoderick Contreras, Splunk
 type: TTP
-datamodel:
-- Endpoint
+datamodel: []
 description: This following analytic detects PowerShell command to delete shadow copy
   using the WMIC PowerShell module. This technique was seen used by a recent adversary
   to deploy DarkSide Ransomware where it executed a child process of PowerShell to
   execute a hex encoded command to delete shadow copy. This hex encoded command was
   able to be decrypted by PowerShell log.
-search: '`powershell` EventCode=4104 ScriptBlockText= "*ShadowCopy*" (ScriptBlockText = "*Delete*"
-  OR ScriptBlockText = "*Remove*") | stats count min(_time) as firstTime max(_time) as lastTime
-  by Opcode Computer
-  UserID EventCode ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `delete_shadowcopy_with_powershell_filter`'
+search: '`powershell` EventCode=4104 ScriptBlockText= "*ShadowCopy*" (ScriptBlockText
+  = "*Delete*" OR ScriptBlockText = "*Remove*") | stats count min(_time) as firstTime
+  max(_time) as lastTime by Opcode Computer UserID EventCode ScriptBlockText | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `delete_shadowcopy_with_powershell_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the powershell logs  from your endpoints. make sure you enable needed
   registry to monitor this event.

@@ -5,26 +5,30 @@ date: '2022-04-12'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
-- Endpoint
-description: This analytic is to detect a deletion of init daemon script in a linux machine.
-  daemon script that place in /etc/init.d/ is a directory that can start and stop some daemon services in linux machines. 
-  attacker may delete or modify daemon script to impair some security features or act as defense evasion in a compromised linux machine. 
-  This TTP can be also a good indicator of a malware trying to wipe or delete several files in compromised host as part of its destructive payload like what 
-  acidrain malware does in linux or router machines. This detection can be a good pivot to check what process and user 
-  tries to delete this type of files which is not so common and need further investigation.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem  
-  where Filesystem.action=deleted Filesystem.file_path IN ( "/etc/init.d/*") 
-  by _time span=1h Filesystem.file_name Filesystem.file_path Filesystem.dest Filesystem.process_guid Filesystem.action
-  | `drop_dm_object_name(Filesystem)` 
-  |rename process_guid as proc_guid 
-  |join proc_guid, _time [
-  | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes where Processes.parent_process_name != unknown 
-  by _time span=1h Processes.process_id Processes.process_name Processes.process Processes.dest Processes.parent_process_name Processes.parent_process Processes.process_path Processes.process_guid 
-  | `drop_dm_object_name(Processes)` 
-  |rename process_guid as proc_guid 
-  | fields _time dest user parent_process_name parent_process process_name process_path process proc_guid registry_path registry_value_name registry_value_data registry_key_name action] 
-  | table  process_name process proc_guid file_name file_path action _time parent_process_name parent_process  process_path dest user
-  | `linux_deletion_of_init_daemon_script_filter`'
+- Endpoint.Filesystem
+- Endpoint.Processes
+description: This analytic is to detect a deletion of init daemon script in a linux
+  machine. daemon script that place in /etc/init.d/ is a directory that can start
+  and stop some daemon services in linux machines. attacker may delete or modify daemon
+  script to impair some security features or act as defense evasion in a compromised
+  linux machine. This TTP can be also a good indicator of a malware trying to wipe
+  or delete several files in compromised host as part of its destructive payload like
+  what acidrain malware does in linux or router machines. This detection can be a
+  good pivot to check what process and user tries to delete this type of files which
+  is not so common and need further investigation.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.action=deleted Filesystem.file_path
+  IN ( "/etc/init.d/*") by _time span=1h Filesystem.file_name Filesystem.file_path
+  Filesystem.dest Filesystem.process_guid Filesystem.action | `drop_dm_object_name(Filesystem)`
+  |rename process_guid as proc_guid |join proc_guid, _time [ | tstats `security_content_summariesonly`
+  count FROM datamodel=Endpoint.Processes where Processes.parent_process_name != unknown
+  by _time span=1h Processes.process_id Processes.process_name Processes.process Processes.dest
+  Processes.parent_process_name Processes.parent_process Processes.process_path Processes.process_guid
+  | `drop_dm_object_name(Processes)` |rename process_guid as proc_guid | fields _time
+  dest user parent_process_name parent_process process_name process_path process proc_guid
+  registry_path registry_value_name registry_value_data registry_key_name action]
+  | table  process_name process proc_guid file_name file_path action _time parent_process_name
+  parent_process  process_path dest user | `linux_deletion_of_init_daemon_script_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from
@@ -32,7 +36,7 @@ how_to_implement: To successfully implement this search, you need to be ingestin
 known_false_positives: Administrator or network operator can execute this command.
   Please update the filter macros to remove false positives.
 references:
-- https://www.sentinelone.com/labs/acidrain-a-modem-wiper-rains-down-on-europe/ 
+- https://www.sentinelone.com/labs/acidrain-a-modem-wiper-rains-down-on-europe/
 tags:
   analytic_story:
   - AcidRain

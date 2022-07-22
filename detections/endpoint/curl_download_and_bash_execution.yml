@@ -5,7 +5,7 @@ date: '2021-12-10'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: The following analytic identifies the use of curl on Linux or MacOS attempting
   to download a file from a remote source and pipe it to bash. This is typically found
   with coinminers and most recently with CVE-2021-44228, a vulnerability in Log4j.

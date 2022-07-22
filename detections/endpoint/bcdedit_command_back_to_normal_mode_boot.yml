@@ -5,7 +5,7 @@ date: '2021-09-06'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This search is to detect a suspicious bcdedit commandline to configure
   the host from safe mode back to normal boot configuration. This technique was seen
   in blackMatter ransomware where it force the compromised host to boot in safe mode

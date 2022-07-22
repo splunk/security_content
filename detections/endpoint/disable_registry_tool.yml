@@ -5,7 +5,8 @@ date: '2022-01-27'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
+- Endpoint.Registry
 description: This search identifies modification of registry to disable the regedit
   or registry tools of the windows operating system. Since registry tool is a swiss
   knife in analyzing registry, malware such as RAT or trojan Spy disable this application

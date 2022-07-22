@@ -5,7 +5,7 @@ date: '2022-05-26'
 author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: The following analytic identifies a suspicious process creation of At
   application. This process can be used by malware, adversaries and red teamers to
   create persistence entry to the targeted or compromised host with their malicious

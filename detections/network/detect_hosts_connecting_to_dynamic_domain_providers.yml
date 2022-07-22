@@ -5,7 +5,7 @@ date: '2021-01-14'
 author: Bhavin Patel, Splunk
 type: TTP
 datamodel:
-- Network_Resolution
+- Network_Resolution.DNS
 description: Malicious actors often abuse legitimate Dynamic DNS services to host
   malicious payloads or interactive command and control nodes. Attackers will automate
   domain resolution changes by routing dynamic domains to countless IP addresses to
@@ -13,8 +13,9 @@ description: Malicious actors often abuse legitimate Dynamic DNS services to hos
   analytic and investigative processes. This search will look for DNS queries made
   from within your infrastructure to suspicious dynamic domains.
 search: '| tstats `security_content_summariesonly` count values(DNS.answer) as answer
-  min(_time) as firstTime from datamodel=Network_Resolution.DNS by DNS.query host | `drop_dm_object_name("DNS")`
-  | `security_content_ctime(firstTime)` | `dynamic_dns_providers` | `detect_hosts_connecting_to_dynamic_domain_providers_filter`'
+  min(_time) as firstTime from datamodel=Network_Resolution.DNS by DNS.query host
+  | `drop_dm_object_name("DNS")` | `security_content_ctime(firstTime)` | `dynamic_dns_providers`
+  | `detect_hosts_connecting_to_dynamic_domain_providers_filter`'
 how_to_implement: 'First, you''ll need to ingest data from your DNS operations. This
   can be done by ingesting logs from your server or data, collected passively by Splunk
   Stream or a similar solution. Specifically, data that contains the domain that is

@@ -5,7 +5,7 @@ date: '2021-03-03'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This query detects the Nishang Invoke-PowerShellTCPOneLine utility that
   spawns a call back to a remote command and control server. This is a powershell
   oneliner. In addition, this will capture on the command-line additional utilities

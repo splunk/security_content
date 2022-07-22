@@ -5,7 +5,7 @@ date: '2021-03-29'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: Start-BitsTransfer is the PowerShell "version" of BitsAdmin.exe. Similar
   functionality is present. This technique variation is not as commonly used by adversaries,
   but has been abused in the past. Lesser known uses include the ability to set the

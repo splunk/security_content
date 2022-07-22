@@ -5,7 +5,7 @@ date: '2022-01-04'
 author: Teoderick Contreras, Splunk
 type: Hunting
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic is to detect the execution of sudo or su command in linux
   operating system. The "sudo" command allows a system administrator to delegate authority
   to give certain users (or groups of users) the ability to run some (or all) commands

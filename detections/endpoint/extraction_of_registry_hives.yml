@@ -5,7 +5,7 @@ date: '2021-09-09'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: The following analytic identifies the use of `reg.exe` exporting Windows
   Registry hives containing credentials. Adversaries may use this technique to export
   registry hives for offline credential access attacks. Typically found executed from

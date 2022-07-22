@@ -5,7 +5,7 @@ date: '2021-09-16'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: The following query identifies Microsoft Background Intelligent Transfer
   Service utility `bitsadmin.exe` using the `transfer` parameter to download a remote
   object. In addition, look for `download` or `upload` on the command-line, the switches

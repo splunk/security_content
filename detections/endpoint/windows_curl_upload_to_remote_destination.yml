@@ -5,7 +5,7 @@ date: '2021-11-10'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: 'The following analytic identifies the use of Windows Curl.exe uploading
   a file to a remote destination. \
 

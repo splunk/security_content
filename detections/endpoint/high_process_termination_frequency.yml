@@ -4,8 +4,7 @@ version: 1
 date: '2021-03-16'
 author: Teoderick Contreras
 type: Anomaly
-datamodel:
-- Endpoint
+datamodel: []
 description: This analytics are designed to indentify a high frequency of process
   termination on a machine which is a common behavior of ransomware malware before
   encrypting files. This technique is designed to avoid an exception error while accessing

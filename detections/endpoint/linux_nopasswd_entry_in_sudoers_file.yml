@@ -5,7 +5,7 @@ date: '2021-12-21'
 author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic is to look for suspicious command lines that may add entry
   to /etc/sudoers with NOPASSWD attribute in linux platform. This technique is commonly
   abuse by adversaries, malware author and red teamers to gain elevated privilege

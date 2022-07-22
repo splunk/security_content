@@ -5,7 +5,8 @@ date: '2022-01-28'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
+- Endpoint.Registry
 description: This search is to identify modification of registry to disable run application
   in window start menu. this application is known to be a helpful shortcut to windows
   OS user to run known application and also to execute some reg or batch script. This

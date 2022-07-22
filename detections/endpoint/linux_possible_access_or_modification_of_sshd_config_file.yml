@@ -5,7 +5,7 @@ date: '2022-01-11'
 author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic is to look for suspicious process command-line that might
   be accessing or modifying sshd_config. This file is the ssh configuration file that
   might be modify by threat actors or adversaries to redirect port connection, allow

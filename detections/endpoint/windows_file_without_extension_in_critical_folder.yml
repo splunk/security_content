@@ -5,7 +5,8 @@ date: '2022-02-25'
 author: Teoderick Contreras, Bhavin Patel, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Filesystem
+- Endpoint.Processes
 description: This analytic is to look for suspicious file creation in the critical
   folder like "System32\Drivers" folder without file extension. This artifacts was
   seen in latest hermeticwiper where it drops its driver component in Driver Directory

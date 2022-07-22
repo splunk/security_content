@@ -5,7 +5,7 @@ date: '2022-02-11'
 author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic is to look for possible enumeration of local network configuration.
   This technique is commonly used as part of recon of adversaries or threat actor
   to know some network information for its next or further attack. This anomaly detections

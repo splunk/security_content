@@ -5,7 +5,7 @@ date: '2022-01-10'
 author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic is to detect a possible access or modification of /etc/sudoers
   file. "/etc/sudoers" file controls who can run what command as what users on what
   machine and can also control whether a specific user need a password for particular

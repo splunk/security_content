@@ -5,7 +5,7 @@ date: '2021-08-18'
 author: Michael Haag, Splunk
 type: Hunting
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: The following analytic identifies the process - `esentutl.exe` - being
   used to capture credentials stored in ntds.dit or the SAM file on disk. During triage,
   review parallel processes and determine if legitimate activity. Upon determination

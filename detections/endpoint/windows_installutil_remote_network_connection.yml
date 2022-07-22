@@ -5,7 +5,8 @@ date: '2022-03-16'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
+- Network_Traffic.All_Traffic
 description: 'The following analytic identifies the Windows InstallUtil.exe binary
   making a remote network connection. This technique may be used to download and execute
   code while bypassing application control. \
@@ -25,10 +26,10 @@ search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint
   Processes.dest Processes.process_path Processes.process Processes.parent_process_name
   Processes.original_file_name | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | join  process_id [| tstats `security_content_summariesonly`
-  count FROM datamodel=Network_Traffic.All_Traffic where All_Traffic.dest_port != 0 by All_Traffic.process_id
-  All_Traffic.dest All_Traffic.dest_port | `drop_dm_object_name(All_Traffic)` | rename dest as C2 ]
-  | table _time dest parent_process_name process_name process_path process process_id dest_port C2 
-  | `windows_installutil_remote_network_connection_filter`'
+  count FROM datamodel=Network_Traffic.All_Traffic where All_Traffic.dest_port !=
+  0 by All_Traffic.process_id All_Traffic.dest All_Traffic.dest_port | `drop_dm_object_name(All_Traffic)`
+  | rename dest as C2 ] | table _time dest parent_process_name process_name process_path
+  process process_id dest_port C2 | `windows_installutil_remote_network_connection_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` and `Ports` node.

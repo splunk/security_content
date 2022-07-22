@@ -5,7 +5,7 @@ date: '2021-06-01'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Filesystem
 description: The following analytic is similar to SharpHound file modifications, but
   this instance covers the use of Invoke-AzureHound. AzureHound is the SharpHound
   equivilent but for Azure. It's possible this may never be seen in an environment

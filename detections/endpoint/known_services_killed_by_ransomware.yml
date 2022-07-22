@@ -4,8 +4,7 @@ version: 1
 date: '2021-06-04'
 author: Teoderick Contreras, Splunk
 type: TTP
-datamodel:
-- Endpoint
+datamodel: []
 description: This search detects a suspicioous termination of known services killed
   by ransomware before encrypting files in a compromised machine. This technique is
   commonly seen in most of ransomware now a days to avoid exception error while accessing

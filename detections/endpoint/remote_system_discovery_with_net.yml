@@ -5,7 +5,7 @@ date: '2021-08-30'
 author: Mauricio Velazco, Splunk
 type: Hunting
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic looks for the execution of `net.exe` or `net1.exe` with
   command-line arguments utilized to discover remote systems. The argument `domain
   computers /domain` returns a list of all domain computers. Red Teams and adversaries

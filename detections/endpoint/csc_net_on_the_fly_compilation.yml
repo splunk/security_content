@@ -5,7 +5,7 @@ date: '2021-11-12'
 author: Teoderick Contreras, Splunk
 type: Hunting
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: this analytic is to detect a suspicious compile before delivery approach
   of .net compiler csc.exe. This technique was seen in several adversaries, malware
   and even in red teams to take advantage the csc.exe .net compiler tool to compile

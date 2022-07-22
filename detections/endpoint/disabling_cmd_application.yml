@@ -5,7 +5,8 @@ date: '2022-01-27'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
+- Endpoint.Registry
 description: this search is to identify modification in registry to disable cmd prompt
   application. This technique is commonly seen in RAT, Trojan or WORM to prevent triaging
   or deleting there samples through cmd application which is one of the tool of analyst

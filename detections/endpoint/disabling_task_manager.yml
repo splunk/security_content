@@ -5,7 +5,8 @@ date: '2022-01-28'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
+- Endpoint.Registry
 description: This search is to identifies modification of registry to disable the
   task manager of windows operating system. this event or technique are commonly seen
   in malware such as RAT, Trojan, TrojanSpy or worm to prevent the user to terminate

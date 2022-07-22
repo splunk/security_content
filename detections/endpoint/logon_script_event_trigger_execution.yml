@@ -5,7 +5,7 @@ date: '2021-09-27'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Registry
 description: This search is to detect a suspicious modification of registry entry
   to persist and gain privilege escalation upon booting up of compromised host. This
   technique was seen in several APT and malware where it modify UserInitMprLogonScript
@@ -28,7 +28,7 @@ tags:
   analytic_story:
   - Windows Persistence Techniques
   - Windows Privilege Escalation
-  - Hermetic Wiper 
+  - Hermetic Wiper
   confidence: 100
   context:
   - Source:Endpoint

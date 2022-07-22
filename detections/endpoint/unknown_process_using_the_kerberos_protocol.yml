@@ -5,23 +5,26 @@ date: '2022-03-09'
 author: Mauricio Velazco, Splunk
 type: TTP
 datamodel:
-- Endpoint
-- Network_Traffic
-description: The following analytic identifies a process performing an outbound connection on port 88 used by default by the network authentication protocol
-  Kerberos. Typically, on a regular Windows endpoint, only the lsass.exe process is the one tasked with connecting to the Kerberos Distribution Center
-  to obtain Kerberos tickets. Identifying an unknown process using this protocol may be evidence of an adversary abusing the Kerberos protocol.
+- Endpoint.Processes
+- Network_Traffic.All_Traffic
+description: The following analytic identifies a process performing an outbound connection
+  on port 88 used by default by the network authentication protocol Kerberos. Typically,
+  on a regular Windows endpoint, only the lsass.exe process is the one tasked with
+  connecting to the Kerberos Distribution Center to obtain Kerberos tickets. Identifying
+  an unknown process using this protocol may be evidence of an adversary abusing the
+  Kerberos protocol.
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
-  where Processes.process_name!="lsass.exe" by _time Processes.process_id
-  Processes.process_name Processes.dest Processes.process_path Processes.process Processes.parent_process_name
+  where Processes.process_name!="lsass.exe" by _time Processes.process_id Processes.process_name
+  Processes.dest Processes.process_path Processes.process Processes.parent_process_name
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | join  process_id [| tstats `security_content_summariesonly`
-  count FROM datamodel=Network_Traffic.All_Traffic where All_Traffic.dest_port = 88 by All_Traffic.process_id
-  All_Traffic.dest All_Traffic.dest_port | `drop_dm_object_name(All_Traffic)` ]
-  | table _time dest parent_process_name process_name process_path process process_id dest_port
-  | `unknown_process_using_the_kerberos_protocol_filter`'
+  | join  process_id [| tstats `security_content_summariesonly` count FROM datamodel=Network_Traffic.All_Traffic
+  where All_Traffic.dest_port = 88 by All_Traffic.process_id All_Traffic.dest All_Traffic.dest_port
+  | `drop_dm_object_name(All_Traffic)` ] | table _time dest parent_process_name process_name
+  process_path process process_id dest_port | `unknown_process_using_the_kerberos_protocol_filter`'
 how_to_implement: To successfully implement this search, you must be ingesting your
   endpoint events and populating the Endpoint and Network data models.
-known_false_positives: Custom applications may leverage the Kerberos protocol. Filter as needed.
+known_false_positives: Custom applications may leverage the Kerberos protocol. Filter
+  as needed.
 references:
 - https://stealthbits.com/blog/how-to-detect-overpass-the-hash-attacks/
 - https://www.thehacker.recipes/ad/movement/kerberos/ptk

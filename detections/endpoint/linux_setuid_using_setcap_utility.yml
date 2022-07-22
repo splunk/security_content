@@ -5,7 +5,7 @@ date: '2021-12-21'
 author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic looks for suspicious setcap utility execution to enable
   SUID bit. This allows a user to temporarily gain root access, usually in order to
   run a program. For example, only the root account is allowed to change the password

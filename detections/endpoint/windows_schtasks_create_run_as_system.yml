@@ -5,7 +5,7 @@ date: '2022-02-07'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: The following analytic identifies Schtasks.exe creating a new task to
   start and run as an elevated user - SYSTEM. This is commonly used by adversaries
   to spawn a process in an elevated state.

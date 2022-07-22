@@ -5,7 +5,7 @@ date: '2021-12-13'
 author: Bhavin Patel, Johan Bjerke, Splunk
 type: Hunting
 datamodel:
-- Network_Traffic
+- Network_Traffic.All_Traffic
 description: Malicious actors often abuse misconfigured LDAP servers or applications
   that use the LDAP servers in organizations. Outbound LDAP traffic should not be
   allowed outbound through your perimeter firewall.  This search will help determine
@@ -13,10 +13,10 @@ description: Malicious actors often abuse misconfigured LDAP servers or applicat
   space.
 search: '| tstats earliest(_time) as earliest_time latest(_time) as latest_time values(All_Traffic.dest_ip)
   as dest_ip from datamodel=Network_Traffic.All_Traffic where All_Traffic.dest_port
-  = 389 OR All_Traffic.dest_port = 636 AND NOT (All_Traffic.dest_ip = "10.0.0.0/8" OR
-  All_Traffic.dest_ip="192.168.0.0/16" OR All_Traffic.dest_ip = "172.16.0.0/12") by All_Traffic.src_ip
-  All_Traffic.dest_ip |`drop_dm_object_name("All_Traffic")` | where src_ip != dest_ip
-  | `security_content_ctime(latest_time)`  | `security_content_ctime(earliest_time)`
+  = 389 OR All_Traffic.dest_port = 636 AND NOT (All_Traffic.dest_ip = "10.0.0.0/8"
+  OR All_Traffic.dest_ip="192.168.0.0/16" OR All_Traffic.dest_ip = "172.16.0.0/12")
+  by All_Traffic.src_ip All_Traffic.dest_ip |`drop_dm_object_name("All_Traffic")`
+  | where src_ip != dest_ip | `security_content_ctime(latest_time)`  | `security_content_ctime(earliest_time)`
   |`detect_outbound_ldap_traffic_filter`'
 how_to_implement: You must be ingesting Zeek DNS and Zeek Conn data into Splunk. Zeek
   data should also be getting ingested in JSON format and should be mapped to the

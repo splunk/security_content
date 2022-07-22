@@ -5,7 +5,7 @@ date: '2021-12-22'
 author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
-- Endpoint
+- Endpoint.Filesystem
 description: This analytic looks for suspicious file creation in kernel/driver directory
   in linux platform. This directory is known folder for all linux kernel module available
   within the system. so creation of file in this directory is a good indicator that

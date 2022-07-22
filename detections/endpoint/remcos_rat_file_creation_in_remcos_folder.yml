@@ -5,7 +5,7 @@ date: '2021-09-21'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Filesystem
 description: This search is to detect file creation in remcos folder in appdata which
   is the keylog and clipboard logs that will be send to its c2 server. This is really
   a good TTP indicator that there is a remcos rat in the system that do keylogging,

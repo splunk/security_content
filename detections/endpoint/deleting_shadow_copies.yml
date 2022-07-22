@@ -5,7 +5,7 @@ date: '2020-11-09'
 author: David Dorsey, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: The vssadmin.exe utility is used to interact with the Volume Shadow Copy
   Service.  Wmic is an interface to the Windows Management Instrumentation.  This
   search looks for either of these tools being used to delete shadow copies.

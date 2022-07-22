@@ -5,7 +5,7 @@ date: '2021-09-29'
 author: Teoderick Contreras, Splunk
 type: Hunting
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic is to detect a possible abuse of verclsid to execute malicious
   file through generate CLSID. This process is a normal application of windows to
   verify the CLSID COM object before it is instantiated by Windows Explorer. This

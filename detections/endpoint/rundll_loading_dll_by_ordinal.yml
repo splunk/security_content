@@ -5,7 +5,7 @@ date: '2022-02-08'
 author: Michael Haag, David Dorsey, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: The following analytic identifies rundll32.exe loading an export function
   by ordinal value. Adversaries may abuse rundll32.exe to proxy execution of malicious
   code. Using rundll32.exe, vice executing directly, may avoid triggering security

@@ -5,7 +5,8 @@ date: '2022-01-27'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
+- Endpoint.Registry
 description: This analytic detects a suspicious registry modification to disable Windows
   hotkey (shortcut keys) for native Windows applications. This technique is commonly
   used to disable certain or several Windows applications like `taskmgr.exe` and `cmd.exe`.

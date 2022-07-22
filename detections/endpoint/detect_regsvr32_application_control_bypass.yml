@@ -5,7 +5,7 @@ date: '2021-01-28'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: 'Adversaries may abuse Regsvr32.exe to proxy execution of malicious code.
   Regsvr32.exe is a command-line program used to register and unregister object linking
   and embedding controls, including dynamic link libraries (DLLs), on Windows systems.

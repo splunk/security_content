@@ -4,16 +4,20 @@ version: 1
 date: '2022-04-27'
 author: Michael Haag, Splunk
 type: TTP
-datamodel:
-- Endpoint
-description: The following analytic identifies a ComputerAccount requesting a Kerberos Ticket. typically, a user account requests a Kerberos ticket. This behavior was identified with KrbUpRelay, but additional Kerberos attacks have exhibited similar behavior.
-search: '`wineventlog_security`  EventCode=4768 Account_Name="*$"  src_ip!="::1"
-  | stats  count min(_time) as firstTime max(_time) as lastTime by dest, subject,
-  action, Supplied_Realm_Name, user, Account_Name, src_ip | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_computer_account_requesting_kerberos_ticket_filter`'
+datamodel: []
+description: The following analytic identifies a ComputerAccount requesting a Kerberos
+  Ticket. typically, a user account requests a Kerberos ticket. This behavior was
+  identified with KrbUpRelay, but additional Kerberos attacks have exhibited similar
+  behavior.
+search: '`wineventlog_security`  EventCode=4768 Account_Name="*$"  src_ip!="::1" |
+  stats  count min(_time) as firstTime max(_time) as lastTime by dest, subject, action,
+  Supplied_Realm_Name, user, Account_Name, src_ip | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_computer_account_requesting_kerberos_ticket_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   Windows Security Event Logs with 4768 EventCode enabled. The Windows TA is also
   required.
-known_false_positives: It is possible false positives will be present based on third party applications. Filtering may be needed.
+known_false_positives: It is possible false positives will be present based on third
+  party applications. Filtering may be needed.
 references:
 - https://github.com/Dec0ne/KrbRelayUp
 tags:
@@ -33,7 +37,8 @@ tags:
   impact: 50
   kill_chain_phases:
   - Actions on Objectives
-  message: A Computer Account requested a Kerberos ticket on $dest$, possibly indicative of Kerberos relay attack.
+  message: A Computer Account requested a Kerberos ticket on $dest$, possibly indicative
+    of Kerberos relay attack.
   mitre_attack_id:
   - T1558
   nist:

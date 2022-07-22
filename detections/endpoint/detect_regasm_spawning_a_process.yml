@@ -5,7 +5,7 @@ date: '2021-02-12'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: The following analytic identifies regasm.exe spawning a process. This
   particular technique has been used in the wild to bypass application control products.
   Regasm.exe and Regsvcs.exe are signed by Microsoft. Spawning of a child process

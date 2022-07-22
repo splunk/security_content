@@ -5,7 +5,7 @@ date: '2021-08-31'
 author: Mauricio Velazco, Splunk
 type: Hunting
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic looks for the execution of `dsquery.exe` with command-line
   arguments utilized to discover remote systems. The `computer` argument returns a
   list of all computers registered in the domain. Red Teams and adversaries alike

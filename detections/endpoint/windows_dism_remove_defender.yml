@@ -5,7 +5,7 @@ date: '2021-11-17'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: The following analytic identifies the use of the Windows Disk Image Utility,
   `dism.exe`, to remove Windows Defender. Adversaries may use `dism.exe` to disable
   Defender before completing their objective.

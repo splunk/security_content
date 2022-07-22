@@ -5,7 +5,7 @@ date: '2021-04-22'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: The following detection identifies the latest behavior utilized by IcedID
   malware family. This detection identifies any Windows Office Product spawning `rundll32.exe`
   without a `.dll` file extension. In malicious instances, the command-line of `rundll32.exe`

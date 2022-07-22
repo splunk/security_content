@@ -5,7 +5,8 @@ date: '2021-09-16'
 author: Michael Haag, Rico Valdez, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Filesystem
+- Endpoint.Processes
 description: The search looks for a batch file (.bat) written to the Windows system
   directory tree.
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes

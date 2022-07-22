@@ -5,7 +5,7 @@ date: '2021-11-15'
 author: Michael Haag, Splunk
 type: Hunting
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: The following analytic identifies DiskCryptor  process name of dcrypt.exe
   or internal name dcinst.exe. This utility has been utilized by adversaries to encrypt
   disks manually during an operation. In addition, during install, a dcrypt.sys driver

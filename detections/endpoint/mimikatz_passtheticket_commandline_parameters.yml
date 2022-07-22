@@ -5,7 +5,7 @@ date: '2022-02-01'
 author: Mauricio Velazco, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: The following analytic looks for the use of Mimikatz command line parameters
   leveraged to execute pass the ticket attacks. Red teams and adversaries alike may
   use the pass the ticket technique using stolen Kerberos tickets to move laterally

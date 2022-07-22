@@ -5,7 +5,8 @@ date: '2022-01-28'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
+- Endpoint.Registry
 description: This analytic is to detect a registry modification to disable ETW feature
   of windows. This technique is to evade EDR appliance to evade detections and hide
   its execution from audit logs.
@@ -38,7 +39,7 @@ tags:
   - Windows Persistence Techniques
   - Windows Privilege Escalation
   - Windows Registry Abuse
-  - Hermetic Wiper 
+  - Hermetic Wiper
   confidence: 100
   context:
   - Source:Endpoint

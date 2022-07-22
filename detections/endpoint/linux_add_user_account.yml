@@ -5,7 +5,7 @@ date: '2021-12-21'
 author: Teoderick Contreras, Splunk
 type: Hunting
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic looks for commands to create user accounts on the linux
   platform. This technique is commonly abuse by adversaries, malware author and red
   teamers to persist on the targeted or compromised host by creating new user with

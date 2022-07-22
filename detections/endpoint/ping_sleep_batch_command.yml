@@ -5,7 +5,7 @@ date: '2022-01-20'
 author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic will identify the possible execution of ping sleep batch
   commands. This technique was seen in several malware samples and is used to trigger
   sleep times without explicitly calling sleep functions or commandlets. The goal

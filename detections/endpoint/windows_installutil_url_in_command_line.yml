@@ -5,7 +5,7 @@ date: '2021-11-12'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: 'The following analytic identifies the Windows InstallUtil.exe binary
   passing a HTTP request on the command-line. This technique may be used to download
   and execute code while bypassing application control. \

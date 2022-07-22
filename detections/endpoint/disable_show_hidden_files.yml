@@ -5,7 +5,8 @@ date: '2022-01-27'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
+- Endpoint.Registry
 description: The following analytic is to identify a modification in the Windows registry
   to prevent users from seeing all the files with hidden attributes. This event or
   techniques are known on some worm and trojan spy malware that will drop hidden files

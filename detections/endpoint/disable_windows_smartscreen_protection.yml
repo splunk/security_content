@@ -5,7 +5,8 @@ date: '2022-01-27'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
+- Endpoint.Registry
 description: The following search identifies a modification of registry to disable
   the smartscreen protection of windows machine. This is windows feature provide an
   early warning system against website that might engage in phishing attack or malware

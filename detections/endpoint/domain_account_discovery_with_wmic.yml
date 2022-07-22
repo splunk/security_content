@@ -5,7 +5,7 @@ date: '2021-08-24'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic looks for the execution of `wmic.exe` with command-line
   arguments utilized to query for domain users. Red Teams and adversaries alike use
   wmic.exe to enumerate domain users for situational awareness and Active Directory

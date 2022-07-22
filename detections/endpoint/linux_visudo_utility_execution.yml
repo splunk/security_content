@@ -5,7 +5,7 @@ date: '2021-12-21'
 author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic is to looks for suspicious commandline that add entry to
   /etc/sudoers by using visudo utility tool in linux platform. This technique may
   abuse by adversaries, malware author and red teamers to gain elevated privilege

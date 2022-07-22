@@ -5,7 +5,7 @@ date: '2021-08-25'
 author: Mauricio Velazco, Splunk
 type: Hunting
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic looks for the execution of `powershell.exe` with command-line
   utilized to get a listing of network connections on a compromised system. The `Get-NetTcpConnection`
   commandlet lists the current TCP connections. Red Teams and adversaries alike may

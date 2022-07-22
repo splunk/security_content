@@ -5,7 +5,7 @@ date: '2022-02-18'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Registry
 description: This search is to detect modification of registry to bypass UAC windows
   feature. This technique is to add a payload dll path on .NET COR file path that
   will be loaded by mmc.exe as soon it was executed. This detection rely on monitoring

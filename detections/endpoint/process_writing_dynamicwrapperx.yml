@@ -5,7 +5,8 @@ date: '2021-10-05'
 author: Michael Haag, Splunk
 type: Hunting
 datamodel:
-- Endpoint
+- Endpoint.Filesystem
+- Endpoint.Processes
 description: DynamicWrapperX is an ActiveX component that can be used in a script
   to call Windows API functions, but it requires the dynwrapx.dll to be installed
   and registered. With that, a binary writing dynwrapx.dll to disk and registering

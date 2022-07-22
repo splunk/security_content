@@ -5,7 +5,7 @@ date: '2021-08-24'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic looks for the execution of `net.exe` or `net1.exe` with
   command-line arguments utilized to query for domain users. Red Teams and adversaries
   alike may use net.exe to enumerate domain users for situational awareness and Active

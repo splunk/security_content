@@ -5,7 +5,7 @@ date: '2021-09-14'
 author: Michael Haag, Splunk
 type: Hunting
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: The following hunting analytic identifies the use of `get-localgroup`
   being used with PowerShell to identify local groups on the endpoint. During triage,
   review parallel processes and identify any further suspicious behavior.

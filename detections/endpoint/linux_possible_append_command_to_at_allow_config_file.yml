@@ -5,7 +5,7 @@ date: '2022-05-26'
 author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic looks for suspicious commandline that may use to append
   user entry to /etc/at.allow or /etc/at.deny. These 2 files are commonly abused by
   malware, adversaries or red teamers to persist on the targeted or compromised host.

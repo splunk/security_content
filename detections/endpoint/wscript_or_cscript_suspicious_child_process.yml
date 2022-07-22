@@ -5,7 +5,7 @@ date: '2021-10-06'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic identifies a suspicious spawned process by WScript or CScript
   process. This technique was a common technique used by adversaries and malware to
   execute different LOLBIN, other scripts like PowerShell or spawn a suspended process

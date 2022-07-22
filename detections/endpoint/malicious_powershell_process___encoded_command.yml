@@ -5,7 +5,7 @@ date: '2022-01-18'
 author: David Dorsey, Michael Haag, Splunk
 type: Hunting
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: 'The following analytic identifies the use of the EncodedCommand PowerShell
   parameter. This is typically used by Administrators to run complex scripts, but
   commonly used by adversaries to hide their code. \
@@ -40,7 +40,7 @@ references:
 - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
 tags:
   analytic_story:
-  - Hermetic Wiper 
+  - Hermetic Wiper
   - Malicious PowerShell
   - NOBELIUM Group
   - WhisperGate

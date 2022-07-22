@@ -5,7 +5,7 @@ date: '2021-09-16'
 author: Patrick Bareiss, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This search detects the use of wmic and Powershell to create a shadow
   copy.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)

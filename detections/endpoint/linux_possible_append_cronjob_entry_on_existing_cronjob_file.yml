@@ -5,7 +5,7 @@ date: '2021-12-17'
 author: Teoderick Contreras, Splunk
 type: Hunting
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic looks for possible suspicious commandline that may use
   to append a code to any existing cronjob files for persistence or privilege escalation.
   This technique is commonly abused by malware, adversaries and red teamers to automatically

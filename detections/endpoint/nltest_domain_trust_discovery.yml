@@ -5,17 +5,18 @@ date: '2022-04-18'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This search looks for the execution of `nltest.exe` with command-line
   arguments utilized to query for Domain Trust information. Two arguments `/domain
   trusts`, returns a list of trusted domains, and `/all_trusts`, returns all trusted
   domains. Red Teams and adversaries alike use NLTest.exe to enumerate the current
   domain to assist with further understanding where to pivot next.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where `process_nltest` (Processes.process=""*/domain_trusts*"" OR Processes.process=""*/all_trusts*"")
-  by Processes.dest Processes.user Processes.parent_process Processes.process_name
-  Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `nltest_domain_trust_discovery_filter`'
+  as lastTime from datamodel=Endpoint.Processes where `process_nltest` (Processes.process=""*/domain_trusts*""
+  OR Processes.process=""*/all_trusts*"") by Processes.dest Processes.user Processes.parent_process
+  Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
+  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `nltest_domain_trust_discovery_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node.

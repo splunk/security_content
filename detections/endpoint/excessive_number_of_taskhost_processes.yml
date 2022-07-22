@@ -5,7 +5,7 @@ date: '2021-06-07'
 author: Michael Hart
 type: Anomaly
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This detection targets behaviors observed in post exploit kits like Meterpreter
   and Koadic that are run in memory.  We have observed that these tools must invoke
   an excessive number of taskhost.exe and taskhostex.exe processes to complete various

@@ -5,7 +5,7 @@ date: '2021-09-08'
 author: Michael Haag, Splunk
 type: Hunting
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: The following hunting detection identifies rundll32.exe with `control_rundll`
   within the command-line, loading a .cpl or another file type. Developed in relation
   to CVE-2021-40444. Rundll32.exe can also be used to execute Control Panel Item files

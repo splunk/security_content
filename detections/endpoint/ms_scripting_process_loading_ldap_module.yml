@@ -4,8 +4,7 @@ version: 1
 date: '2021-09-13'
 author: Teoderick Contreras, Splunk
 type: Anomaly
-datamodel:
-- Endpoint
+datamodel: []
 description: This search is to detect a suspicious MS scripting process such as wscript.exe
   or cscript.exe that loading ldap module to process ldap query. This behavior was
   seen in FIN7 implant where it uses javascript to execute ldap query to parse host

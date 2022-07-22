@@ -5,7 +5,7 @@ date: '2021-11-22'
 author: Teoderick Contreras, Splunk
 type: Hunting
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic will detect if a suspicious process contains a commandline
   parameter related to a web browser credential dumper. This technique is used by
   Remcos RAT malware which uses the Nirsoft webbrowserpassview.exe application to

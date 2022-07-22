@@ -5,7 +5,8 @@ date: '2022-01-28'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
+- Endpoint.Registry
 description: This search is to identify registry modification to disable folder options
   feature of windows to show hidden files, file extension and etc. This technique
   used by malware in combination if disabling show hidden files feature to hide their

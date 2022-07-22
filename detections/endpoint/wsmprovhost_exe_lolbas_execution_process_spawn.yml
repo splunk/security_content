@@ -5,7 +5,7 @@ date: '2021-11-22'
 author: Mauricio Velazco, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: The following analytic identifies `Wsmprovhost.exe` spawning a LOLBAS
   execution process. When adversaries execute code on remote endpoints abusing the
   Windows Remote Management (WinRm) protocol, the executed command is spawned as a

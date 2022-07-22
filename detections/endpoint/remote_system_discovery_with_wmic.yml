@@ -5,7 +5,7 @@ date: '2021-09-01'
 author: Mauricio Velazco, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic looks for the execution of `wmic.exe` with command-line
   arguments utilized to discover remote systems. The arguments utilized in this command
   return a list of all the systems registered in the domain. Red Teams and adversaries

@@ -5,7 +5,7 @@ date: '2021-09-08'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: The following detection identifies control.exe loading either a .cpl
   or .inf from a writable directory. This is related to CVE-2021-40444. During triage,
   review parallel processes, parent and child, for further suspicious behaviors. In

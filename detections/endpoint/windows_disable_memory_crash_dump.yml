@@ -5,7 +5,8 @@ date: '2022-02-25'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
+- Endpoint.Registry
 description: The following analytic identifies a process that is attempting to disable
   the ability on Windows to generate a memory crash dump. This was recently identified
   being utilized by HermeticWiper. To disable crash dumps, the value must be set to

@@ -5,7 +5,8 @@ date: '2022-01-27'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
+- Endpoint.Registry
 description: this search is to identify modification in registry to disable ETW windows
   feature to evade detections. This technique was seen in several ransomware, RAT
   and even APT to impaire defenses of the compromise machine and to be able to execute

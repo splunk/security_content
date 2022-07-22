@@ -5,7 +5,7 @@ date: '2021-09-15'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This search is to detect a suspicious whoami execution to check if the
   cmd or shell instance process is with elevated privileges. This technique was seen
   in FIN7 js implant where it execute this as part of its data collection to the infected

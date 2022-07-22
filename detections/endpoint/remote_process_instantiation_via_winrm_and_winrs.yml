@@ -5,7 +5,7 @@ date: '2021-11-11'
 author: Mauricio Velazco, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic looks for the execution of `winrs.exe` with command-line
   arguments utilized to start a process on a remote endpoint. Red Teams and adversaries
   alike may abuse the WinRM protocol and this binary for lateral movement and remote

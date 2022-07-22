@@ -5,7 +5,7 @@ date: '2021-11-12'
 author: Rico Valdez, Mauricio Velazco, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic identifies wmic.exe being launched with parameters to spawn
   a process on a remote system. Red Teams and adversaries alike may abuse WMI and
   this binary for lateral movement and remote code execution.

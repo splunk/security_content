@@ -5,7 +5,7 @@ date: '2021-10-04'
 author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic is to detect a loading of dll using regsvr32 application
   with silent parameter and dllinstall execution. This technique was seen in several
   RAT malware similar to remcos, njrat and adversaries to load their malicious DLL

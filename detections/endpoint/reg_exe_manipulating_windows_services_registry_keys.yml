@@ -5,7 +5,7 @@ date: '2020-11-26'
 author: Rico Valdez, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: The search looks for reg.exe modifying registry keys that define Windows
   services and their configurations.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)

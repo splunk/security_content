@@ -5,7 +5,7 @@ date: '2021-09-13'
 author: Mauricio Velazco, Splunk
 type: Hunting
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic looks for the execution of `powershell.exe` with command-line
   arguments that leverage PowerShell environment variables to identify the current
   logged user. Red Teams and adversaries may leverage this method to identify the

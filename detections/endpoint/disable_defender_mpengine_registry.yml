@@ -5,7 +5,8 @@ date: '2022-01-26'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
+- Endpoint.Registry
 description: This particular behavior is typically executed when an adversaries or
   malware gains access to an endpoint and beings to perform execution and to evade
   detections. Usually, a batch (.bat) will be executed and multiple registry and scheduled

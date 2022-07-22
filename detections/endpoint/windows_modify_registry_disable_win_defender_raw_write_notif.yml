@@ -5,23 +5,24 @@ date: '2022-06-23'
 author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
-- Endpoint
+- Endpoint.Registry
 description: The following analytic identifies a modification in the Windows registry
-  to disable Windows Defender raw write notification feature. This policy controls whether raw volume write notifications are 
-  sent to behavior monitoring or not. This registry was recently identified in Azorult malware to bypass Windows Defender detections or behavior monitoring 
-  in terms of volume write.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry 
-  where Registry.registry_path= "*\\Windows Defender\\Real-Time Protection\\DisableRawWriteNotification*" Registry.registry_value_data="0x00000001" 
-  by Registry.registry_key_name Registry.user Registry.registry_path Registry.registry_value_data Registry.action Registry.dest 
-  | `drop_dm_object_name(Registry)`
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` 
-  | `windows_modify_registry_disable_win_defender_raw_write_notif_filter`'
+  to disable Windows Defender raw write notification feature. This policy controls
+  whether raw volume write notifications are sent to behavior monitoring or not. This
+  registry was recently identified in Azorult malware to bypass Windows Defender detections
+  or behavior monitoring in terms of volume write.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path= "*\\Windows
+  Defender\\Real-Time Protection\\DisableRawWriteNotification*" Registry.registry_value_data="0x00000001"
+  by Registry.registry_key_name Registry.user Registry.registry_path Registry.registry_value_data
+  Registry.action Registry.dest | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_modify_registry_disable_win_defender_raw_write_notif_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure
   that this registry was included in your config files ex. sysmon config to be monitored.
-known_false_positives: Administrators may enable or disable this feature that may cause some false positive. Filter as needed.
+known_false_positives: Administrators may enable or disable this feature that may
+  cause some false positive. Filter as needed.
 references:
 - https://admx.help/?Category=SystemCenterEndpointProtection&Policy=Microsoft.Policies.Antimalware::real-time_protection_disablerawwritenotification
 - https://app.any.run/tasks/a6f2ffe2-e6e2-4396-ae2e-04ea0143f2d8/
@@ -42,7 +43,8 @@ tags:
   impact: 70
   kill_chain_phases:
   - Exploitation
-  message: The registry for raw write notification settings was modified to disable in $dest$.
+  message: The registry for raw write notification settings was modified to disable
+    in $dest$.
   mitre_attack_id:
   - T1112
   nist:

@@ -5,7 +5,7 @@ date: '2022-01-19'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: The following analytic identifies native .net binaries within the Windows
   operating system that may be abused by adversaries by moving it to a new directory.
   The analytic identifies the .net binary by using a lookup and compares the process

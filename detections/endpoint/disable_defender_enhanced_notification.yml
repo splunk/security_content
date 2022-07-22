@@ -5,7 +5,8 @@ date: '2022-01-26'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
+- Endpoint.Registry
 description: This analytic is to detect a suspicious modification of registry to disable
   windows defender feature. This technique is to bypassed or evade detection from
   Windows Defender AV product specially the Enhanced Notification feature wher user

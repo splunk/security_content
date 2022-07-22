@@ -5,20 +5,19 @@ date: '2022-06-07'
 author: Teoderick Contreras, Splunk
 type: Hunting
 datamodel:
-- Endpoint
-description: The search looks for the deletion of Windows Defender context menu within the registry.
-  This is consistent behavior with RAT malware across a fleet of endpoints. This particular
-  behavior is executed when an adversary gains access to an endpoint
+- Endpoint.Registry
+description: The search looks for the deletion of Windows Defender context menu within
+  the registry. This is consistent behavior with RAT malware across a fleet of endpoints.
+  This particular behavior is executed when an adversary gains access to an endpoint
   and begins to perform execution. Usually, a batch (.bat) will be executed and multiple
   registry and scheduled task modifications will occur. During triage, review parallel
   processes and identify any further file modifications.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry  
-  where Registry.registry_path = "*\\shellex\\ContextMenuHandlers\\EPP" Registry.action = deleted
-  by  Registry.registry_path Registry.registry_value_name Registry.registry_value_data Registry.process_guid Registry.action Registry.dest Registry.user 
-  | `drop_dm_object_name(Registry)`
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `windows_impair_defense_delete_win_defender_context_menu_filter`'
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Registry where Registry.registry_path = "*\\shellex\\ContextMenuHandlers\\EPP"
+  Registry.action = deleted by  Registry.registry_path Registry.registry_value_name
+  Registry.registry_value_data Registry.process_guid Registry.action Registry.dest
+  Registry.user | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_impair_defense_delete_win_defender_context_menu_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Registry` node.

@@ -5,7 +5,7 @@ date: '2021-09-14'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: The following analytic identifies a non-standard parent process (not
   matching CMD, PowerShell, or Explorer) spawning `ipconfig.exe` or `systeminfo.exe`.
   This particular behavior was seen in FIN7's JSSLoader .NET payload. This is also

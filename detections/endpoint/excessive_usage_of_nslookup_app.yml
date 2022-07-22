@@ -4,24 +4,19 @@ version: 2
 date: '2022-06-03'
 author: Teoderick Contreras, Stanislav Miskovic, Splunk
 type: Anomaly
-datamodel:
-- Endpoint
+datamodel: []
 description: This search is to detect potential DNS exfiltration using nslookup application.
   This technique are seen in couple of malware and APT group to exfiltrated collected
   data in a infected machine or infected network. This detection is looking for unique
   use of nslookup where it tries to use specific record type (TXT, A, AAAA) that are
   commonly used by attacker and also the retry parameter which is designed to query
   C2 DNS multiple tries.
-search: '`sysmon` EventCode = 1 process_name = "nslookup.exe" 
-  | bucket _time span=1m 
-  | stats count as numNsLookup by Computer, _time 
-  | eventstats avg(numNsLookup) as avgNsLookup, stdev(numNsLookup) as stdNsLookup, count as numSlots by Computer 
-  | eval upperThreshold=(avgNsLookup + stdNsLookup *3) 
-  | eval isOutlier=if(numNsLookup > 20 and numNsLookup >= upperThreshold, 1, 0) 
-  | search isOutlier=1 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `excessive_usage_of_nslookup_app_filter`'
+search: '`sysmon` EventCode = 1 process_name = "nslookup.exe" | bucket _time span=1m
+  | stats count as numNsLookup by Computer, _time | eventstats avg(numNsLookup) as
+  avgNsLookup, stdev(numNsLookup) as stdNsLookup, count as numSlots by Computer |
+  eval upperThreshold=(avgNsLookup + stdNsLookup *3) | eval isOutlier=if(numNsLookup
+  > 20 and numNsLookup >= upperThreshold, 1, 0) | search isOutlier=1 | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `excessive_usage_of_nslookup_app_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the

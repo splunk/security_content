@@ -5,7 +5,7 @@ date: '2021-12-14'
 author: Michael Haag, Splunk
 type: Hunting
 datamodel:
-- Web
+- Web.Web
 description: 'The following hunting query assists with quickly assessing CVE-2021-44228,
   or Log4Shell, activity mapped to the Web Datamodel. This is a combination query
   attempting to identify, score and dashboard. Because the Log4Shell vulnerability

@@ -5,7 +5,7 @@ date: '2022-02-07'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: The following analytic identifies the use of Microsoft Remote Assistance,
   msra.exe, spawning PowerShell.exe or cmd.exe as a child process. Msra.exe by default
   has no command-line arguments and typically spawns itself. It will generate a network

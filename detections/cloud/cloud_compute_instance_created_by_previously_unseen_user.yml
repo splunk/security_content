@@ -5,7 +5,7 @@ date: '2021-07-13'
 author: Rico Valdez, Splunk
 type: Anomaly
 datamodel:
-- Change
+- Change.All_Changes
 description: This search looks for cloud compute instances created by users who have
   not created them before.
 search: '| tstats `security_content_summariesonly` count earliest(_time) as firstTime,

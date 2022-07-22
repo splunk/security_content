@@ -5,7 +5,7 @@ date: '2022-02-22'
 author: Teoderick Contreras, Splunk
 type: Hunting
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic is to look for wmi commandlines to execute or create process.
   This technique was used by adversaries or threat actor to execute their malicious
   payload in local or remote host. This hunting query is a good pivot to start to

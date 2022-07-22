@@ -5,7 +5,7 @@ date: '2021-08-24'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 type: Hunting
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic looks for the execution of `powershell.exe` with command-line
   arguments utilized to enumerate domain users. The `Get-AdUser' commandlet returns
   a list of all domain users. Red Teams and adversaries alike may use this commandlet

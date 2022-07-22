@@ -5,7 +5,7 @@ date: '2021-05-04'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic identifies potential adversaries that modify the security
   permission of a specific file or directory. This technique is commonly seen in APT
   tradecraft and coinminer scripts to evade detections and restrict access to their

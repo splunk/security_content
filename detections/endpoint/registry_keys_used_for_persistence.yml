@@ -5,7 +5,8 @@ date: '2022-01-26'
 author: Jose Hernandez, David Dorsey, Teoderick Contreras, Rod Soto, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
+- Endpoint.Registry
 description: The search looks for modifications to registry keys that can be used
   to launch an application or service at system startup.
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry

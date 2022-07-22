@@ -5,7 +5,8 @@ date: '2022-03-02'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
+- Endpoint.Registry
 description: This analytic is to look for suspicious registry modification related
   to file compression color and information tips. This IOC was seen in hermetic wiper
   where it has a thread that will create this registry entry to change the color of

@@ -5,7 +5,8 @@ date: '2022-01-28'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
+- Endpoint.Registry
 description: The following search identifies the modification of registry related
   in disabling the system restore of a machine. This event or behavior are seen in
   some RAT malware to make the restore of the infected machine  difficult and keep

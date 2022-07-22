@@ -5,7 +5,7 @@ date: '2021-12-20'
 author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic looks for restarted or re-enable services in linux platform.
   This technique can be executed or performed using systemctl or service tool application.
   Adversaries may create or modify Windows services to repeatedly execute malicious

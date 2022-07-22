@@ -5,7 +5,7 @@ date: '2021-06-02'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This search detects the suspicious commandline argument of revil ransomware
   to encrypt specific or all local drive and network shares of the compromised machine
   or host.

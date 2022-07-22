@@ -5,7 +5,7 @@ date: '2021-12-13'
 author: Jose Hernandez
 type: Anomaly
 datamodel:
-- Web
+- Web.Web
 description: CVE-2021-44228 Log4Shell payloads can be injected via various methods,
   but on of the most common vectors injection is via Web calls. Many of the vulnerable
   java web applications that are using log4j have a web component to them are specially

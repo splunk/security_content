@@ -5,7 +5,7 @@ date: '2021-06-10'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This search is to detect a suspicious bcdedit.exe execution to ignore
   all failures. This technique was used by ransomware to prevent the compromise machine
   automatically boot in repair mode.

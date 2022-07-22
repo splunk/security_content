@@ -4,8 +4,7 @@ version: 1
 date: '2021-09-15'
 author: Teoderick Contreras, Splunk
 type: Anomaly
-datamodel:
-- Endpoint
+datamodel: []
 description: This search is to detect an anomaly event of non-firefox process accessing
   the files in  profile folder. This folder contains all the sqlite database of the
   firefox browser related to users login, history, cookies and etc. Most of the RAT,

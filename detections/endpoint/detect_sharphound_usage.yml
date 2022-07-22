@@ -5,7 +5,7 @@ date: '2021-05-27'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: The following analytic identifies SharpHound binary usage by using the
   original filena,e. In addition to renaming the PE, other coverage is available to
   detect command-line arguments. This particular analytic looks for the original_file_name

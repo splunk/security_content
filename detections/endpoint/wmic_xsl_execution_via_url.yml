@@ -5,7 +5,7 @@ date: '2021-11-11'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: The following analytic identifies `wmic.exe` loading a remote XSL (eXtensible
   Stylesheet Language) script. This originally was identified by Casey Smith, dubbed
   Squiblytwo, as an application control bypass. Many adversaries will utilize this

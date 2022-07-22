@@ -5,7 +5,7 @@ date: '2022-02-28'
 author: Michael Hart, Mauricio Velazco, Splunk
 type: Anomaly
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic will identify suspicious series of process executions.  We
   have observed that post exploit framework tools like Koadic and Meterpreter will
   launch an excessive number of processes with distinct file paths from Windows\Temp

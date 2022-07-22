@@ -5,19 +5,18 @@ date: '2022-04-22'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
-- Endpoint
-description: The following analytic is to detect events that attempt to stop or clear a service. 
-  This is typically identified in parallel with other instances of service enumeration of 
-  attempts to stop a service and then delete it. Adversaries utilize this technique like industroyer2 
-  malware to terminate security services or other related services to continue there objective as a destructive payload.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes 
-  where Processes.process_name IN ("systemctl", "service", "svcadm")  Processes.process ="*stop*"
-  by Processes.parent_process_name Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
-  Processes.process_guid Processes.dest Processes.user 
-  | `drop_dm_object_name(Processes)` 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | `linux_stop_services_filter`'
+- Endpoint.Processes
+description: The following analytic is to detect events that attempt to stop or clear
+  a service. This is typically identified in parallel with other instances of service
+  enumeration of attempts to stop a service and then delete it. Adversaries utilize
+  this technique like industroyer2 malware to terminate security services or other
+  related services to continue there objective as a destructive payload.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name IN ("systemctl",
+  "service", "svcadm")  Processes.process ="*stop*" by Processes.parent_process_name
+  Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
+  Processes.process_guid Processes.dest Processes.user | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `linux_stop_services_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from

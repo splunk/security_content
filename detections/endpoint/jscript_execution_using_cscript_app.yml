@@ -5,7 +5,7 @@ date: '2021-09-13'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This search is to detect a execution of jscript using cscript process.
   Commonly when a user run jscript file it was executed by wscript.exe application.
   This technique was seen in FIN7 js implant to execute its malicious script using

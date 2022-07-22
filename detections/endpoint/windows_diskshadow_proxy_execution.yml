@@ -5,7 +5,7 @@ date: '2022-02-15'
 author: Lou Stella, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: DiskShadow.exe is a Microsoft Signed binary present on Windows Server.
   It has a scripting mode intended for complex scripted backup operations. This feature
   also allows for execution of arbitrary unsigned code. This analytic looks for the

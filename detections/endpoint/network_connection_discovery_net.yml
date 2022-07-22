@@ -5,7 +5,7 @@ date: '2021-09-10'
 author: Mauricio Velazco, Splunk
 type: Hunting
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic looks for the execution of `net.exe` with command-line
   arguments utilized to get a listing of network connections on a compromised system.
   Red Teams and adversaries alike may use net.exe for situational awareness and Active

@@ -5,7 +5,8 @@ date: '2022-01-27'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
+- Endpoint.Registry
 description: This analytic is to detect a suspicious modification of registry to disable
   UAC remote restriction. This technique was well documented in Microsoft page where
   attacker may modify this registry value to bypassed UAC feature of windows host.

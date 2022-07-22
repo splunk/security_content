@@ -5,7 +5,7 @@ date: '2021-12-23'
 author: Teoderick Contreras, Splunk
 type: Hunting
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic is to look for possible elevation control access using
   a common known process in linux platform to change the attribute and file ownership.
   This technique is commonly abused by adversaries, malware author and red teamers

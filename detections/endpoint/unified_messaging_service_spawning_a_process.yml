@@ -5,7 +5,7 @@ date: '2021-03-02'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This detection identifies Microsoft Exchange Server's Unified Messaging
   services, umworkerprocess.exe and umservice.exe, spawning a child process, indicating
   possible exploitation of CVE-2021-26857 vulnerability. The query filters out werfault.exe

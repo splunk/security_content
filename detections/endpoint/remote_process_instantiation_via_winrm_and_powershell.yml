@@ -5,7 +5,7 @@ date: '2021-11-16'
 author: Mauricio Velazco, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic looks for the execution of `powershell.exe` with arguments
   utilized to start a process on a remote endpoint by abusing the WinRM protocol.
   Specifically, this search looks for the abuse of the `Invoke-Command` commandlet.

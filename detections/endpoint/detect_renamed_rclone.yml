@@ -4,8 +4,8 @@ version: 2
 date: '2021-09-16'
 author: Michael Haag, Splunk
 type: Hunting
-datamodel: 
-- Endpoint
+datamodel:
+- Endpoint.Processes
 description: The following analytic identifies the usage of `rclone.exe`, renamed,
   being used to exfiltrate data to a remote destination. RClone has been used by multiple
   ransomware groups to exfiltrate data. In many instances, it will be downloaded from

@@ -5,7 +5,7 @@ date: '2022-01-05'
 author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
-- Endpoint
+- Endpoint.Filesystem
 description: This analytic is to detect the creation of doas.conf file in linux host
   platform. This configuration file can be use by doas utility tool to allow or permit
   standard users to perform tasks as root, the same way sudo does. This tool is developed

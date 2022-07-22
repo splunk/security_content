@@ -5,7 +5,7 @@ date: '2021-09-01'
 author: Mauricio Velazco, Splunk
 type: Hunting
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic looks for the execution of `dsquery.exe` with command-line
   arguments utilized to query for domain groups. The argument `group`, returns a list
   of all domain groups. Red Teams and adversaries alike use may leverage dsquery.exe

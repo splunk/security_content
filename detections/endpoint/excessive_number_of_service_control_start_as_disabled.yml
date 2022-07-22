@@ -5,7 +5,7 @@ date: '2021-06-25'
 author: Michael Hart, Splunk
 type: Anomaly
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This detection targets behaviors observed when threat actors have used
   sc.exe to modify services. We observed malware in a honey pot spawning numerous
   sc.exe processes in a short period of time, presumably to impair defenses, possibly

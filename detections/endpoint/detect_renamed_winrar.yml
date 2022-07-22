@@ -5,7 +5,7 @@ date: '2021-09-16'
 author: Michael Haag, Splunk
 type: Hunting
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: The following analtyic identifies renamed instances of `WinRAR.exe`.
   In most cases, it is not common for WinRAR to be used renamed, however it is common
   to be installed by a third party application and executed from a non-standard path.

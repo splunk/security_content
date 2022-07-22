@@ -5,7 +5,7 @@ date: '2021-09-27'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Registry
 description: This analytic is developed to detect suspicious registry modification
   to change the default file association of windows to malicious payload. This techninique
   was seen in some APT where it modify the default process to run file association,
@@ -31,7 +31,7 @@ tags:
   - Windows Persistence Techniques
   - Windows Privilege Escalation
   - Windows Registry Abuse
-  - Hermetic Wiper 
+  - Hermetic Wiper
   confidence: 100
   context:
   - Source:Endpoint

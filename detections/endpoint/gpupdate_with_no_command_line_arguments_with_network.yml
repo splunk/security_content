@@ -5,7 +5,8 @@ date: '2022-03-15'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
+- Network_Traffic.All_Traffic
 description: The following analytic identifies gpupdate.exe with no command line arguments
   and with a network connection. It is unusual for gpupdate.exe to execute with no
   command line arguments present. This particular behavior is common with malicious
@@ -18,10 +19,10 @@ search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint
   Processes.process_name Processes.dest Processes.process_path Processes.process Processes.parent_process_name
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | regex process="(?i)(gpupdate\.exe.{0,4}$)"| join  process_id [| tstats `security_content_summariesonly`
-  count FROM datamodel=Network_Traffic.All_Traffic where All_Traffic.dest_port != 0 by All_Traffic.process_id
-  All_Traffic.dest All_Traffic.dest_port | `drop_dm_object_name(All_Traffic)` | rename dest as C2 ]
-  | table _time dest parent_process_name process_name process_path process process_id dest_port C2
-  | `gpupdate_with_no_command_line_arguments_with_network_filter`'
+  count FROM datamodel=Network_Traffic.All_Traffic where All_Traffic.dest_port !=
+  0 by All_Traffic.process_id All_Traffic.dest All_Traffic.dest_port | `drop_dm_object_name(All_Traffic)`
+  | rename dest as C2 ] | table _time dest parent_process_name process_name process_path
+  process process_id dest_port C2 | `gpupdate_with_no_command_line_arguments_with_network_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node.

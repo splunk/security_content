@@ -5,7 +5,7 @@ date: '2021-01-28'
 author: Michael Haag, Patrick Bareiss, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: 'Monitor for signs that Ntdsutil is being used to Extract Active Directory
   database - NTDS.dit, typically used for offline password cracking. It may be used
   in normal circumstances with no command line arguments or shorthand variations of

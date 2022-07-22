@@ -5,7 +5,7 @@ date: '2021-09-07'
 author: Mauricio Velazco, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic looks for the execution of `powershell.exe` with command-line
   arguments utilized to discover remote systems. The `Get-WmiObject` commandlet combined
   with the `DS_Computer` parameter can be used to return a list of all domain computers.

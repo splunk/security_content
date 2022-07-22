@@ -5,7 +5,7 @@ date: '2021-10-05'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic is to detect a suspicious rundll32 commandline to clear
   shim cache. This technique is a anti-forensic technique to clear the cache taht
   are one important artifacts in terms of digital forensic during attacks or incident.

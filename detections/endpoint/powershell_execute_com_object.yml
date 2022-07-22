@@ -4,17 +4,15 @@ version: 2
 date: '2022-03-22'
 author: Teoderick Contreras, Splunk
 type: TTP
-datamodel:
-- Endpoint
+datamodel: []
 description: This search is to detect a COM CLSID execution through powershell. This
   technique was seen in several adversaries and malware like ransomware conti where
   it has a feature to execute command using COM Object. This technique may use by
   network operator at some cases but a good indicator if some application want to
   gain privilege escalation or bypass uac.
 search: '`powershell` EventCode=4104 ScriptBlockText = "*CreateInstance([type]::GetTypeFromCLSID*"
-  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer user_id 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` 
+  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText
+  Computer user_id | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `powershell_execute_com_object_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
@@ -26,7 +24,7 @@ references:
 - https://www.splunk.com/en_us/blog/security/hunting-for-malicious-powershell-using-script-block-logging.html
 tags:
   analytic_story:
-  - Hermetic Wiper 
+  - Hermetic Wiper
   - Malicious PowerShell
   - Ransomware
   confidence: 50

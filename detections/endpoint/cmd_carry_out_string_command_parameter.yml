@@ -5,7 +5,7 @@ date: '2022-01-18'
 author: Teoderick Contreras, Bhavin Patel, Splunk
 type: Hunting
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: The following analytic identifies command-line arguments where `cmd.exe
   /c` is used to execute a program. `cmd /c` is used to run commands in MS-DOS and
   terminate after command or process completion. This technique is commonly seen in

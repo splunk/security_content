@@ -5,7 +5,7 @@ date: '2021-11-12'
 author: Teoderick Contreras, Splunk
 type: Hunting
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: This analytic look for a spawned runas.exe process with a administrator
   user option parameter. This parameter was abused by adversaries, malware author
   or even red teams to gain elevated privileges in target host. This is a good hunting
@@ -31,7 +31,7 @@ references:
 tags:
   analytic_story:
   - Windows Privilege Escalation
-  - Hermetic Wiper 
+  - Hermetic Wiper
   confidence: 50
   context:
   - Source:Endpoint

@@ -4,16 +4,15 @@ version: 1
 date: '2022-04-25'
 author: Teoderick Contreras, Splunk
 type: Anomaly
-datamodel:
-- Endpoint
+datamodel: []
 description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
   to identify the `[Adsisearcher]` type accelerator being used to query Active Directory
   for domain groups. Red Teams and adversaries may leverage `[Adsisearcher]` to enumerate
   domain organizational unit for situational awareness and Active Directory Discovery.
-search: '`powershell` EventCode=4104 ScriptBlockText = "*[adsisearcher]*" ScriptBlockText = "*objectcategory=organizationalunit*" ScriptBlockText = "*findAll()*"
-  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer user_id 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
+search: '`powershell` EventCode=4104 ScriptBlockText = "*[adsisearcher]*" ScriptBlockText
+  = "*objectcategory=organizationalunit*" ScriptBlockText = "*findAll()*" | stats
+  count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText
+  Computer user_id | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_linked_policies_in_adsi_discovery_filter`'
 how_to_implement: The following Hunting analytic requires PowerShell operational logs
   to be imported. Modify the powershell macro as needed to match the sourcetype or

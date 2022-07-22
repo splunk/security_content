@@ -5,7 +5,7 @@ date: '2022-02-01'
 author: Mauricio Velazco, Splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint.Processes
 description: Rubeus is a C# toolset for raw Kerberos interaction and abuses. It is
   heavily adapted from Benjamin Delpys Kekeo project and Vincent LE TOUXs MakeMeEnterpriseAdmin
   project. This analytic looks for the use of Rubeus command line arguments utilized
