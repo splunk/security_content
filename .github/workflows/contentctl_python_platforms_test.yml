@@ -1,0 +1,42 @@
+name: contentctl_python_platforms_test
+on:
+  push:
+jobs:
+
+  check-python-versions:
+    strategy:
+      matrix:
+        os: [ubuntu-18.04, ubuntu-20.04, ubuntu22.04, macos-12, windows-2022]
+        python-version: [3.9, 3.10]
+    runs-on: ${{ matrix.os }}
+
+    steps:  
+        - name: Checkout Repo
+          uses: actions/checkout@v2
+
+        - uses: actions/setup-python@v2
+          with:
+            python-version: ${{ matrix.python-version }} #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
+            architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified          
+        
+        - name: Install Python Dependencies
+          run: |
+            python -m venv .venv
+            source .venv/bin/activate
+            python -m pip install wheel
+            python -m pip install -r requirements.txt
+        
+        - name: Run contentctl to make sure it works on each contentctl_python_platforms_test
+          run: |
+            # Validate
+            python contentctl.py -p . --skip_enrichment generate validate -pr ESCU 
+            python contentctl.py -p . --skip_enrichment generate validate -pr SSA 
+            # Generate
+            python contentctl.py --path . --skip_enrichment generate --product ESCU --output dist/escu
+            python contentctl.py --path . --skip_enrichment generate --product SSA --output dist/ssa
+
+            #Test slim as well
+            mv dist/escu      DA-ESS-ContentUpdate
+            slim package -o upload DA-ESS-ContentUpdate
+            
+        
