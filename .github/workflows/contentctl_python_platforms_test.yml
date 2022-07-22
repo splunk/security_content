@@ -18,19 +18,22 @@ jobs:
         - uses: actions/setup-python@v2
           with:
             python-version: ${{ matrix.python-version }} #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
+            cache: 'pip'
+            cache-dependency-path: 'requirements.txt'
             architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified          
         
-        - name: Install Python Dependencies
-          run: |
-            python -m venv .venv
-            source .venv/bin/activate
-            python -m pip install wheel
-            python -m pip install -r requirements.txt
+        #- name: Install Python Dependencies
+        #  run: |
+        #    python -m venv .venv
+
+        #    source .venv/bin/activate
+        #    python -m pip install wheel
+        #    python -m pip install -r requirements.txt
         
         - name: Run contentctl and slim to make sure they work on each platform and python version
           run: |
             # Validate
-            source .venv/bin/activate
+            #source .venv/bin/activate
             python contentctl.py -p . --skip_enrichment validate -pr ESCU 
             python contentctl.py -p . --skip_enrichment validate -pr SSA 
             # Generate
