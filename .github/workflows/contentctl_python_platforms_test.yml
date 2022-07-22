@@ -27,9 +27,10 @@ jobs:
             python -m pip install wheel
             python -m pip install -r requirements.txt
         
-        - name: Run contentctl to make sure it works on each contentctl_python_platforms_test
+        - name: Run contentctl and slim to make sure they work on each platform and python version
           run: |
             # Validate
+            source .venv/bin/activate
             python contentctl.py -p . --skip_enrichment generate validate -pr ESCU 
             python contentctl.py -p . --skip_enrichment generate validate -pr SSA 
             # Generate
