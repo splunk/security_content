@@ -17,7 +17,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -88,7 +88,7 @@ The following analytic identifies suspicious PowerShell script execution via Eve
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `powershell` EventCode=4104 Message= "*SELECT*" AND (Message="*Win32_Process*" OR Message="*Win32_Service*") 
@@ -103,7 +103,8 @@ The SPL above uses the following Macros:
 * [powershell](https://github.com/splunk/security_content/blob/develop/macros/powershell.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that **wmi_recon_running_process_or_services_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **wmi_recon_running_process_or_services_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -133,12 +134,15 @@ network administrator may used this command for checking purposes
 | 30.0 | 30 | 100 | Suspicious powerShell script execution by $user$ on $ComputerName$ via EventCode 4104, where WMI is performing an event query looking for running processes or running services |
 
 
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
+
 #### Reference
 
 * [https://news.sophos.com/en-us/2020/05/12/maze-ransomware-1-year-counting/](https://news.sophos.com/en-us/2020/05/12/maze-ransomware-1-year-counting/)
 * [https://www.eideon.com/2018-03-02-THL03-WMIBackdoors/](https://www.eideon.com/2018-03-02-THL03-WMIBackdoors/)
-* [https://github.com/trustedsec/SysmonCommunityGuide/blob/master/WMI-events.md](https://github.com/trustedsec/SysmonCommunityGuide/blob/master/WMI-events.md)
-* [https://in.security/an-intro-into-abusing-and-identifying-wmi-event-subscriptions-for-persistence/](https://in.security/an-intro-into-abusing-and-identifying-wmi-event-subscriptions-for-persistence/)
+* [https://github.com/trustedsec/SysmonCommunityGuide/blob/master/chapters/WMI-events.md](https://github.com/trustedsec/SysmonCommunityGuide/blob/master/chapters/WMI-events.md)
+* [https://in.security/2019/04/03/an-intro-into-abusing-and-identifying-wmi-event-subscriptions-for-persistence/](https://in.security/2019/04/03/an-intro-into-abusing-and-identifying-wmi-event-subscriptions-for-persistence/)
 
 
 

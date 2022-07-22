@@ -1,6 +1,6 @@
 ---
 title: "UAC Bypass With Colorui COM Object"
-excerpt: "Signed Binary Proxy Execution
+excerpt: "System Binary Proxy Execution
 , CMSTP
 "
 categories:
@@ -9,7 +9,7 @@ last_modified_at: 2021-08-13
 toc: true
 toc_label: ""
 tags:
-  - Signed Binary Proxy Execution
+  - System Binary Proxy Execution
   - CMSTP
   - Defense Evasion
   - Defense Evasion
@@ -21,7 +21,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -45,7 +45,7 @@ This search is to detect a possible uac bypass using the colorui.dll COM Object.
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
-| [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
+| [T1218](https://attack.mitre.org/techniques/T1218/) | System Binary Proxy Execution | Defense Evasion |
 
 | [T1218.003](https://attack.mitre.org/techniques/T1218/003/) | CMSTP | Defense Evasion |
 
@@ -94,7 +94,7 @@ This search is to detect a possible uac bypass using the colorui.dll COM Object.
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `sysmon` EventCode=7 ImageLoaded="*\\colorui.dll" process_name != "colorcpl.exe" NOT(Image IN("*\\windows\\*", "*\\program files*")) 
@@ -106,10 +106,11 @@ This search is to detect a possible uac bypass using the colorui.dll COM Object.
 
 #### Macros
 The SPL above uses the following Macros:
-* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 
-Note that **uac_bypass_with_colorui_com_object_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **uac_bypass_with_colorui_com_object_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -140,6 +141,9 @@ not so common. but 3rd part app may load this dll.
 | ----------- | ----------- |--------------|--------------|
 | 48.0 | 60 | 80 | The following module $ImageLoaded$ was loaded by a non-standard application on endpoint $Computer$ by user $user$. |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

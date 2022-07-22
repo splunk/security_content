@@ -30,10 +30,10 @@ how_to_implement: To successfully implement this search, you need to be ingestin
 known_false_positives: Legitimate applications may spawn PowerShell as a child process
   of the the identified processes. Filter as needed.
 references:
-- https://attack.mitre.org/techniques/T1021/003
+- https://attack.mitre.org/techniques/T1021/003/
 - https://attack.mitre.org/techniques/T1021/006/
 - https://attack.mitre.org/techniques/T1047/
-- https://attack.mitre.org/techniques/T1053.005/
+- https://attack.mitre.org/techniques/T1053/005/
 - https://attack.mitre.org/techniques/T1543/003/
 tags:
   analytic_story:
@@ -59,6 +59,7 @@ tags:
   - T1053.005
   - T1543.003
   - T1059.001
+  - T1218.014
   observable:
   - name: dest
     type: Endpoint

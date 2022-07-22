@@ -20,7 +20,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -93,7 +93,7 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
  `powershell` EventCode=4104 (Message = "*Get-DomainUser*" AND Message="*PreauthNotRequired*") 
@@ -107,7 +107,8 @@ The SPL above uses the following Macros:
 * [powershell](https://github.com/splunk/security_content/blob/develop/macros/powershell.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that **disabled_kerberos_pre-authentication_discovery_with_powerview_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **disabled_kerberos_pre-authentication_discovery_with_powerview_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -135,6 +136,9 @@ Administrators or power users may use PowerView for troubleshooting
 | ----------- | ----------- |--------------|--------------|
 | 54.0 | 60 | 90 | Disabled Kerberos Pre-Authentication Discovery With PowerView from $dest$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

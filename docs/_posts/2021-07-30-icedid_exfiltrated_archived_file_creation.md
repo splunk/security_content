@@ -21,7 +21,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -94,7 +94,7 @@ This search is to detect a suspicious file creation namely passff.tar and cookie
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `sysmon` EventCode= 11  (TargetFilename = "*\\passff.tar" OR TargetFilename = "*\\cookie.tar") 
@@ -106,10 +106,11 @@ This search is to detect a suspicious file creation namely passff.tar and cookie
 
 #### Macros
 The SPL above uses the following Macros:
-* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 
-Note that **icedid_exfiltrated_archived_file_creation_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **icedid_exfiltrated_archived_file_creation_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -139,9 +140,12 @@ unknown
 | 72.0 | 80 | 90 | process $SourceImage$ create a file $TargetImage$ in host $Computer$ |
 
 
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
+
 #### Reference
 
-* [https://www.cisecurity.org/white-papers/security-primer-icedid/](https://www.cisecurity.org/white-papers/security-primer-icedid/)
+* [https://www.cisecurity.org/insights/white-papers/security-primer-icedid](https://www.cisecurity.org/insights/white-papers/security-primer-icedid)
 
 
 

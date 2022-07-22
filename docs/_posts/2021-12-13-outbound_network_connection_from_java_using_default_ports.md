@@ -18,7 +18,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -93,7 +93,7 @@ A required step while exploiting the CVE-2021-44228-Log4j vulnerability is that 
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -114,7 +114,8 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that **outbound_network_connection_from_java_using_default_ports_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **outbound_network_connection_from_java_using_default_ports_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -147,6 +148,9 @@ Legitimate Java applications may use perform outbound connections to these ports
 | ----------- | ----------- |--------------|--------------|
 | 54.0 | 90 | 60 | Java performed outbound connections to default ports of LDAP or RMI on $dest$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

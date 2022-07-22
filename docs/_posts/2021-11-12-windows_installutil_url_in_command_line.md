@@ -1,7 +1,7 @@
 ---
 title: "Windows InstallUtil URL in Command Line"
 excerpt: "InstallUtil
-, Signed Binary Proxy Execution
+, System Binary Proxy Execution
 "
 categories:
   - Endpoint
@@ -10,7 +10,7 @@ toc: true
 toc_label: ""
 tags:
   - InstallUtil
-  - Signed Binary Proxy Execution
+  - System Binary Proxy Execution
   - Defense Evasion
   - Defense Evasion
   - Splunk Enterprise
@@ -21,7 +21,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -50,7 +50,7 @@ During triage review resulting network connections, file modifications, and para
 | -------------- | ---------------- |-------------------- |
 | [T1218.004](https://attack.mitre.org/techniques/T1218/004/) | InstallUtil | Defense Evasion |
 
-| [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
+| [T1218](https://attack.mitre.org/techniques/T1218/) | System Binary Proxy Execution | Defense Evasion |
 
 </div>
 </details>
@@ -97,7 +97,7 @@ During triage review resulting network connections, file modifications, and para
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -110,11 +110,12 @@ During triage review resulting network connections, file modifications, and para
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [process_installutil](https://github.com/splunk/security_content/blob/develop/macros/process_installutil.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that **windows_installutil_url_in_command_line_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **windows_installutil_url_in_command_line_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -150,6 +151,9 @@ Limited false positives should be present as InstallUtil is not typically used t
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ passing a URL on the command-line. |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

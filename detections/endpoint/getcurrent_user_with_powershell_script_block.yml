@@ -1,7 +1,7 @@
 name: GetCurrent User with PowerShell Script Block
 id: 80879283-c30f-44f7-8471-d1381f6d437a
-version: 1
-date: '2021-09-13'
+version: 2
+date: '2022-03-22'
 author: Mauricio Velazco, Splunk
 type: Hunting
 datamodel: []
@@ -10,9 +10,10 @@ description: The following analytic utilizes PowerShell Script Block Logging (Ev
   class. This method returns an object that represents the current Windows user. Red
   Teams and adversaries may leverage this method to identify the logged user on a
   compromised endpoint for situational awareness and Active Directory Discovery.
-search: '`powershell` EventCode=4104 (Message = "*[System.Security.Principal.WindowsIdentity]*"
-  AND Message = "*GetCurrent()*") | stats count min(_time) as firstTime max(_time)
-  as lastTime by EventCode Message ComputerName User | `security_content_ctime(firstTime)`
+search: '`powershell` EventCode=4104 ScriptBlockText = "*[System.Security.Principal.WindowsIdentity]*"  ScriptBlockText = "*GetCurrent()*"
+  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer user_id 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
   | `getcurrent_user_with_powershell_script_block_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
@@ -21,7 +22,7 @@ known_false_positives: Administrators or power users may use this PowerShell com
   for troubleshooting.
 references:
 - https://attack.mitre.org/techniques/T1033/
-- https://docs.microsoft.com/en-us/dotnet/api/system.security.principal.windowsidentity.getcurrent?view=net-5.0
+- https://docs.microsoft.com/en-us/dotnet/api/system.security.principal.windowsidentity.getcurrent?view=net-6.0&viewFallbackFrom=net-5.0
 tags:
   analytic_story:
   - Active Directory Discovery
@@ -30,7 +31,7 @@ tags:
   - Source:Endpoint
   - Stage:Discovery
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1033/AD_discovery/windows-powershell.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1033/AD_discovery/windows-powershell-xml.log
   impact: 30
   kill_chain_phases:
   - Reconnaissance

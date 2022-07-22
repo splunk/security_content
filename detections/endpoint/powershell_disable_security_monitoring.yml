@@ -1,7 +1,7 @@
 name: Powershell Disable Security Monitoring
 id: c148a894-dd93-11eb-bf2a-acde48001122
-version: 2
-date: '2021-07-05'
+version: 3
+date: '2022-07-15'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
@@ -11,7 +11,7 @@ description: This search is to identifies a modification in registry to disable 
   seen in RAT, bot, or Trojan to disable AV to evade detections.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_powershell` Processes.process="*set-mppreference*"
-  AND Processes.process IN ("*disablerealtimemonitoring*","*disableioavprotection*","*disableintrusionpreventionsystem*","*disablescriptscanning*","*disableblockatfirstseen*")
+  AND Processes.process IN ("*disablerealtimemonitoring*","*disableioavprotection*","*disableintrusionpreventionsystem*","*disablescriptscanning*","*disableblockatfirstseen*","*DisableBehaviorMonitoring*","*drtm *","*dioavp *","*dscrptsc *","*dbaf *","*dbm *")
   by Processes.dest Processes.user Processes.parent_process Processes.original_file_name
   Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
@@ -25,6 +25,7 @@ known_false_positives: Limited false positives. However, tune based on scripts t
   may perform this action.
 references:
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md#atomic-test-15---tamper-with-windows-defender-atp-powershell
+- https://docs.microsoft.com/en-us/powershell/module/defender/set-mppreference?view=windowsserver2022-ps
 tags:
   analytic_story:
   - Ransomware

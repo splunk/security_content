@@ -20,7 +20,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -103,7 +103,7 @@ The following analytic utilizes Windows Security Event ID 1102 or System log eve
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 (`wineventlog_security` EventCode=1102) OR (`wineventlog_system` EventCode=104) 
@@ -116,10 +116,11 @@ The following analytic utilizes Windows Security Event ID 1102 or System log eve
 #### Macros
 The SPL above uses the following Macros:
 * [wineventlog_system](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_system.yml)
-* [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 
-Note that **windows_event_log_cleared_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **windows_event_log_cleared_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -147,6 +148,9 @@ It is possible that these logs may be legitimately cleared by Administrators. Fi
 | ----------- | ----------- |--------------|--------------|
 | 70.0 | 70 | 100 | Windows event logs cleared on $dest$ via EventCode $EventCode$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

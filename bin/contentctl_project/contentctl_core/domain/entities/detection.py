@@ -1,12 +1,13 @@
-import enum
 import uuid
 import string
-import re
 import requests
-
+import time
 from pydantic import BaseModel, validator, root_validator
 from dataclasses import dataclass
 from datetime import datetime
+
+
+
 
 from bin.contentctl_project.contentctl_core.domain.entities.security_content_object import SecurityContentObject
 from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import AnalyticsType
@@ -18,6 +19,11 @@ from bin.contentctl_project.contentctl_core.domain.entities.macro import Macro
 from bin.contentctl_project.contentctl_core.domain.entities.lookup import Lookup
 from bin.contentctl_project.contentctl_core.domain.entities.baseline import Baseline
 from bin.contentctl_project.contentctl_core.domain.entities.playbook import Playbook
+from bin.contentctl_project.contentctl_core.domain.entities.link_validator import LinkValidator
+import sys
+
+
+
 
 class Detection(BaseModel, SecurityContentObject):
     # detection spec
@@ -32,8 +38,10 @@ class Detection(BaseModel, SecurityContentObject):
     search: str
     how_to_implement: str
     known_false_positives: str
+    check_references: bool = False #Validation is done in order, this field must be defined first
     references: list
     tags: DetectionTags
+    
 
     # enrichments
     deprecated: bool = None
@@ -51,6 +59,8 @@ class Detection(BaseModel, SecurityContentObject):
     splunk_app_enrichment: list = None
     file_path: str = None
     source: str = None
+    nes_fields: str = None
+    providing_technologies: list = None
 
 
     # @validator('name')
@@ -121,18 +131,10 @@ class Detection(BaseModel, SecurityContentObject):
                 raise ValueError('name is longer then 67 chars: ' + values["name"])
         return values
 
-
-    # @validator('references')
-    # def references_check(cls, v, values):
-    #     for reference in v:
-    #         try:
-    #             get = requests.get(reference)
-    #             if not get.status_code == 200:
-    #                 raise ValueError('Reference ' + reference + ' is not reachable: ' + values["name"])
-    #         except requests.exceptions.RequestException as e:
-    #             raise ValueError('Reference ' + reference + ' is not reachable: ' + values["name"])
-
-    #     return v
+   
+    @validator('references')
+    def references_check(cls, v, values):
+        return LinkValidator.SecurityContentObject_validate_references(v, values)
 
     @validator('search')
     def search_validate(cls, v, values):

@@ -1,5 +1,6 @@
 import os
 from re import A
+from bin.contentctl_project.contentctl_infrastructure.tests.test_constants import SECURITY_CONTENT_ROOT
 
 from bin.contentctl_project.contentctl_core.application.factory.factory import FactoryInputDto
 from bin.contentctl_project.contentctl_core.application.factory.factory import FactoryOutputDto
@@ -25,9 +26,9 @@ def test_factory_ESCU():
         SecurityContentStoryBuilder(),
         SecurityContentBaselineBuilder(),
         SecurityContentInvestigationBuilder(),
-        SecurityContentPlaybookBuilder(),
+        SecurityContentPlaybookBuilder(input_path = SECURITY_CONTENT_ROOT),
         SecurityContentDirector(),
-        AttackEnrichment.get_attack_lookup()
+        AttackEnrichment.get_attack_lookup(input_path = SECURITY_CONTENT_ROOT)
     )
 
     output_dto = FactoryOutputDto([],[],[],[],[],[],[],[],[])

@@ -29,6 +29,7 @@ tags:
   analytic_story:
   - FIN7
   - Remcos
+  - Azorult
   confidence: 70
   context:
   - Source:Endpoint

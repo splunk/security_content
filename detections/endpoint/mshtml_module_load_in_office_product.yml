@@ -1,8 +1,8 @@
 name: MSHTML Module Load in Office Product
 id: 5f1c168e-118b-11ec-84ff-acde48001122
-version: 1
-date: '2021-09-09'
-author: Michael Haag, Splunk
+version: 2
+date: '2022-06-01'
+author: Michael Haag, Mauricio Velazco, Splunk
 type: TTP
 datamodel:
 - Endpoint
@@ -14,7 +14,7 @@ description: The following detection identifies the module load of mshtml.dll in
 search: '`sysmon` EventID=7  process_name IN ("winword.exe","excel.exe","powerpnt.exe","mspub.exe","visio.exe","wordpad.exe","wordview.exe")
   ImageLoaded IN ("*\\mshtml.dll", "*\\Microsoft.mshtml.dll","*\\IE.Interop.MSHTML.dll","*\\MshtmlDac.dll","*\\MshtmlDed.dll","*\\MshtmlDer.dll")
   | stats count min(_time) as firstTime max(_time) as lastTime by Computer, process_name,
-  ImageLoaded, OriginalFileName, process_id | rename Computer as dest | `security_content_ctime(firstTime)`
+  ImageLoaded, OriginalFileName, ProcessGuid | rename Computer as dest | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `mshtml_module_load_in_office_product_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process names and image loads from your endpoints. If you are using

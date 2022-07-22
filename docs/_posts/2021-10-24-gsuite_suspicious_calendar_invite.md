@@ -15,11 +15,11 @@ tags:
   - Splunk Cloud
 ---
 
-###  WARNING THIS IS A EXPERIMENTAL object
+### :warning: WARNING THIS IS A EXPERIMENTAL analytic
 We have not been able to test, simulate, or build datasets for this object. Use at your own risk. This analytic is **NOT** supported.
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -90,7 +90,7 @@ This search can help the detection of compromised accounts or internal users sen
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `gsuite_calendar` 
@@ -106,7 +106,8 @@ This search can help the detection of compromised accounts or internal users sen
 The SPL above uses the following Macros:
 * [gsuite_calendar](https://github.com/splunk/security_content/blob/develop/macros/gsuite_calendar.yml)
 
-Note that **gsuite_suspicious_calendar_invite_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **gsuite_suspicious_calendar_invite_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -135,10 +136,13 @@ This search will also produce normal activity statistics. Fields such as email, 
 | 25.0 | 50 | 50 | tbd |
 
 
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
+
 #### Reference
 
 * [https://www.techrepublic.com/article/how-to-avoid-the-dreaded-google-calendar-malicious-invite-issue/](https://www.techrepublic.com/article/how-to-avoid-the-dreaded-google-calendar-malicious-invite-issue/)
-* [https://gcn.com/articles/2012/09/26/20-most-common-words-phishing-attacks.aspx](https://gcn.com/articles/2012/09/26/20-most-common-words-phishing-attacks.aspx)
+* [https://gcn.com/cybersecurity/2012/09/the-20-most-common-words-in-phishing-attacks/280956/](https://gcn.com/cybersecurity/2012/09/the-20-most-common-words-in-phishing-attacks/280956/)
 
 
 

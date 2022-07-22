@@ -27,7 +27,7 @@ references:
 - https://github.com/mandiant/DueDLLigence
 - https://github.com/MHaggis/notes/blob/master/utilities/Invoke-SPLDLLigence.ps1
 - https://gist.github.com/NickTyrer/c6043e4b302d5424f701f15baf136513
-- https://www.fireeye.com/blog/threat-research/2019/10/staying-hidden-on-the-endpoint-evading-detection-with-shellcode.html
+- https://www.mandiant.com/resources/staying-hidden-on-the-endpoint-evading-detection-with-shellcode
 tags:
   analytic_story:
   - Windows Defense Evasion Tactics

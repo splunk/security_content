@@ -22,7 +22,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -95,7 +95,7 @@ The following analytic looks for a process accessing the winlogon.exe system pro
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
  `sysmon` EventCode=10 TargetImage=C:\\Windows\\system32\\winlogon.exe (GrantedAccess=0x1f3fff) (SourceImage!=C:\\Windows\\system32\\svchost.exe AND SourceImage!=C:\\Windows\\system32\\lsass.exe AND SourceImage!=C:\\Windows\\system32\\LogonUI.exe AND SourceImage!=C:\\Windows\\system32\\smss.exe AND SourceImage!=C:\\Windows\\system32\\wbem\\wmiprvse.exe) 
@@ -108,10 +108,11 @@ The following analytic looks for a process accessing the winlogon.exe system pro
 
 #### Macros
 The SPL above uses the following Macros:
-* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 
-Note that **rubeus_kerberos_ticket_exports_through_winlogon_access_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **rubeus_kerberos_ticket_exports_through_winlogon_access_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -143,10 +144,13 @@ Legitimate applications may obtain a handle for winlogon.exe. Filter as needed
 | 36.0 | 60 | 60 | Winlogon.exe was accessed by $SourceImage$ on $dest$ |
 
 
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
+
 #### Reference
 
 * [https://github.com/GhostPack/Rubeus](https://github.com/GhostPack/Rubeus)
-* [http://www.harmj0y.net/blog/redteaming/from-kekeo-to-rubeus/](http://www.harmj0y.net/blog/redteaming/from-kekeo-to-rubeus/)
+* [https://web.archive.org/web/20210725005734/http://www.harmj0y.net/blog/redteaming/from-kekeo-to-rubeus/](https://web.archive.org/web/20210725005734/http://www.harmj0y.net/blog/redteaming/from-kekeo-to-rubeus/)
 * [https://attack.mitre.org/techniques/T1550/003/](https://attack.mitre.org/techniques/T1550/003/)
 
 

@@ -9,7 +9,9 @@ tags:
   - Splunk Cloud
   - Endpoint
   - Network_Traffic
+  - Actions on Objectives
   - Exploitation
+  - Installation
   - Reconnaissance
 ---
 
@@ -52,10 +54,16 @@ Kerberos, initially named after Cerberus, the three-headed dog in Greek mytholog
 | [Suspicious Ticket Granting Ticket Request](/endpoint/suspicious_ticket_granting_ticket_request/) | [Valid Accounts](/tags/#valid-accounts), [Domain Accounts](/tags/#domain-accounts)| Hunting |
 | [Unknown Process Using The Kerberos Protocol](/endpoint/unknown_process_using_the_kerberos_protocol/) | [Use Alternate Authentication Material](/tags/#use-alternate-authentication-material)| TTP |
 | [Unusual Number of Kerberos Service Tickets Requested](/endpoint/unusual_number_of_kerberos_service_tickets_requested/) | [Steal or Forge Kerberos Tickets](/tags/#steal-or-forge-kerberos-tickets), [Kerberoasting](/tags/#kerberoasting)| Anomaly |
+| [Windows Computer Account Created by Computer Account](/endpoint/windows_computer_account_created_by_computer_account/) | [Steal or Forge Kerberos Tickets](/tags/#steal-or-forge-kerberos-tickets)| TTP |
+| [Windows Computer Account Requesting Kerberos Ticket](/endpoint/windows_computer_account_requesting_kerberos_ticket/) | [Steal or Forge Kerberos Tickets](/tags/#steal-or-forge-kerberos-tickets)| TTP |
+| [Windows Computer Account With SPN](/endpoint/windows_computer_account_with_spn/) | [Steal or Forge Kerberos Tickets](/tags/#steal-or-forge-kerberos-tickets)| TTP |
 | [Windows Disabled Users Failing To Authenticate Kerberos](/endpoint/windows_disabled_users_failing_to_authenticate_kerberos/) | [Password Spraying](/tags/#password-spraying), [Brute Force](/tags/#brute-force)| Anomaly |
 | [Windows Get-AdComputer Unconstrained Delegation Discovery](/endpoint/windows_get-adcomputer_unconstrained_delegation_discovery/) | [Remote System Discovery](/tags/#remote-system-discovery)| TTP |
 | [Windows Invalid Users Failed Authentication via Kerberos](/endpoint/windows_invalid_users_failed_authentication_via_kerberos/) | [Password Spraying](/tags/#password-spraying), [Brute Force](/tags/#brute-force)| Anomaly |
+| [Windows Kerberos Local Successful Logon](/endpoint/windows_kerberos_local_successful_logon/) | [Steal or Forge Kerberos Tickets](/tags/#steal-or-forge-kerberos-tickets)| TTP |
 | [Windows PowerView Constrained Delegation Discovery](/endpoint/windows_powerview_constrained_delegation_discovery/) | [Remote System Discovery](/tags/#remote-system-discovery)| TTP |
+| [Windows PowerView Kerberos Service Ticket Request](/endpoint/windows_powerview_kerberos_service_ticket_request/) | [Steal or Forge Kerberos Tickets](/tags/#steal-or-forge-kerberos-tickets), [Kerberoasting](/tags/#kerberoasting)| TTP |
+| [Windows PowerView SPN Discovery](/endpoint/windows_powerview_spn_discovery/) | [Steal or Forge Kerberos Tickets](/tags/#steal-or-forge-kerberos-tickets), [Kerberoasting](/tags/#kerberoasting)| TTP |
 | [Windows PowerView Unconstrained Delegation Discovery](/endpoint/windows_powerview_unconstrained_delegation_discovery/) | [Remote System Discovery](/tags/#remote-system-discovery)| TTP |
 | [Unusual Number of Computer Service Tickets Requested](/endpoint/unusual_number_of_computer_service_tickets_requested/) | [Valid Accounts](/tags/#valid-accounts)| Hunting |
 

@@ -21,7 +21,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -99,7 +99,7 @@ This search looks for the creation of local administrator accounts using net.exe
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -115,7 +115,8 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that **create_local_admin_accounts_using_net_exe_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **create_local_admin_accounts_using_net_exe_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -140,6 +141,7 @@ Administrators often leverage net.exe to create admin accounts.
 
 #### Associated Analytic story
 * [DHS Report TA18-074A](/stories/dhs_report_ta18-074a)
+* [Azorult](/stories/azorult)
 
 
 
@@ -150,6 +152,9 @@ Administrators often leverage net.exe to create admin accounts.
 | ----------- | ----------- |--------------|--------------|
 | 30.0 | 50 | 60 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to add a user to the local Administrators group. |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

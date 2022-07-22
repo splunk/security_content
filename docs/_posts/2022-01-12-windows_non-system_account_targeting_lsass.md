@@ -20,7 +20,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -96,7 +96,7 @@ The following analytic identifies non SYSTEM accounts requesting access to lsass
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `sysmon` EventCode=10 TargetImage=*lsass.exe SourceUser!="NT AUTHORITY\\*" 
@@ -109,10 +109,11 @@ The following analytic identifies non SYSTEM accounts requesting access to lsass
 
 #### Macros
 The SPL above uses the following Macros:
-* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 
-Note that **windows_non-system_account_targeting_lsass_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **windows_non-system_account_targeting_lsass_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -143,6 +144,9 @@ False positives will occur based on legitimate application requests, filter base
 | ----------- | ----------- |--------------|--------------|
 | 64.0 | 80 | 80 | A process, $SourceImage$, has loaded $ImageLoaded$ that are typically related to credential dumping on $dest$. Review for further details. |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

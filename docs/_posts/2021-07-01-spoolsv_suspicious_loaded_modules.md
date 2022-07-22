@@ -24,7 +24,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -101,11 +101,11 @@ This search is to detect suspicious loading of dll in specific path relative to 
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `sysmon` EventCode=7 Image ="*\\spoolsv.exe" ImageLoaded="*\\Windows\\System32\\spool\\drivers\\x64\\*" ImageLoaded = "*.dll" 
-| stats dc(ImageLoaded) as countImgloaded values(ImageLoaded) as ImgLoaded count min(_time) as firstTime max(_time) as lastTime by Image Computer process_id EventCode 
+| stats dc(ImageLoaded) as countImgloaded values(ImageLoaded) as ImgLoaded count min(_time) as firstTime max(_time) as lastTime by Image Computer ProcessId EventCode 
 | where countImgloaded >= 3 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -114,10 +114,11 @@ This search is to detect suspicious loading of dll in specific path relative to 
 
 #### Macros
 The SPL above uses the following Macros:
-* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 
-Note that **spoolsv_suspicious_loaded_modules_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **spoolsv_suspicious_loaded_modules_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -146,6 +147,9 @@ unknown
 | 72.0 | 80 | 90 | $Image$ with process id $process_id$ has loaded a driver from $ImageLoaded$ on endpoint $Computer$. This behavior is suspicious and related to PrintNightmare. |
 
 
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
+
 #### Reference
 
 * [https://raw.githubusercontent.com/hieuttmmo/sigma/dceb13fe3f1821b119ae495b41e24438bd97e3d0/rules/windows/image_load/sysmon_cve_2021_1675_print_nightmare.yml](https://raw.githubusercontent.com/hieuttmmo/sigma/dceb13fe3f1821b119ae495b41e24438bd97e3d0/rules/windows/image_load/sysmon_cve_2021_1675_print_nightmare.yml)
@@ -161,4 +165,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/spoolsv_suspicious_loaded_modules.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/spoolsv_suspicious_loaded_modules.yml) \| *version*: **2**

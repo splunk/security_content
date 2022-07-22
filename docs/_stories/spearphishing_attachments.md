@@ -9,6 +9,7 @@ tags:
   - Splunk Cloud
   - Endpoint
   - Actions on Objectives
+  - Delivery
   - Exploitation
   - Installation
 ---
@@ -55,8 +56,11 @@ This Analytic Story focuses on detecting signs that a malicious payload has been
 | [Office Product Writing cab or inf](/endpoint/office_product_writing_cab_or_inf/) | [Phishing](/tags/#phishing), [Spearphishing Attachment](/tags/#spearphishing-attachment)| TTP |
 | [Office Spawning Control](/endpoint/office_spawning_control/) | [Phishing](/tags/#phishing), [Spearphishing Attachment](/tags/#spearphishing-attachment)| TTP |
 | [Process Creating LNK file in Suspicious Location](/endpoint/process_creating_lnk_file_in_suspicious_location/) | [Phishing](/tags/#phishing), [Spearphishing Link](/tags/#spearphishing-link)| TTP |
+| [Windows ISO LNK File Creation](/endpoint/windows_iso_lnk_file_creation/) | [Spearphishing Attachment](/tags/#spearphishing-attachment), [Phishing](/tags/#phishing), [Malicious Link](/tags/#malicious-link), [User Execution](/tags/#user-execution)| Hunting |
+| [Windows Office Product Spawning MSDT](/endpoint/windows_office_product_spawning_msdt/) | [Phishing](/tags/#phishing), [Spearphishing Attachment](/tags/#spearphishing-attachment)| TTP |
 | [Winword Spawning Cmd](/endpoint/winword_spawning_cmd/) | [Phishing](/tags/#phishing), [Spearphishing Attachment](/tags/#spearphishing-attachment)| TTP |
 | [Winword Spawning PowerShell](/endpoint/winword_spawning_powershell/) | [Phishing](/tags/#phishing), [Spearphishing Attachment](/tags/#spearphishing-attachment)| TTP |
+| [Winword Spawning Windows Script Host](/endpoint/winword_spawning_windows_script_host/) | [Phishing](/tags/#phishing), [Spearphishing Attachment](/tags/#spearphishing-attachment)| TTP |
 | [Gdrive suspicious file sharing](/cloud/gdrive_suspicious_file_sharing/) | [Phishing](/tags/#phishing)| Hunting |
 | [Gsuite suspicious calendar invite](/cloud/gsuite_suspicious_calendar_invite/) | [Phishing](/tags/#phishing)| Hunting |
 | [Detect Outlook exe writing a zip file](/endpoint/detect_outlook_exe_writing_a_zip_file/) | [Phishing](/tags/#phishing), [Spearphishing Attachment](/tags/#spearphishing-attachment)| TTP |

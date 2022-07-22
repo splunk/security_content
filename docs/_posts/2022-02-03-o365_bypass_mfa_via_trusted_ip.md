@@ -20,7 +20,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -93,7 +93,7 @@ This search detects newly added IP addresses/CIDR blocks to the list of MFA Trus
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `o365_management_activity` Operation="Set Company Information." ModifiedProperties{}.Name=StrongAuthenticationPolicy 
@@ -110,10 +110,11 @@ This search detects newly added IP addresses/CIDR blocks to the list of MFA Trus
 
 #### Macros
 The SPL above uses the following Macros:
-* [o365_management_activity](https://github.com/splunk/security_content/blob/develop/macros/o365_management_activity.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [o365_management_activity](https://github.com/splunk/security_content/blob/develop/macros/o365_management_activity.yml)
 
-Note that **o365_bypass_mfa_via_trusted_ip_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **o365_bypass_mfa_via_trusted_ip_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -146,6 +147,9 @@ Unless it is a special case, it is uncommon to continually update Trusted IPs to
 | ----------- | ----------- |--------------|--------------|
 | 42.0 | 70 | 60 | User $user_id$ has added new IP addresses $ip_addresses_new_added$ to a list of trusted IPs to bypass MFA |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

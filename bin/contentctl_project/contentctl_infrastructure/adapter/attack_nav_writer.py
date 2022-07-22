@@ -2,7 +2,7 @@
 import json
 
 
-VERSION = "4.2"
+VERSION = "4.3"
 NAME = "Detection Coverage"
 DESCRIPTION = "security_content detection coverage"
 DOMAIN = "mitre-enterprise"

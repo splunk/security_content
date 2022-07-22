@@ -18,7 +18,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -89,7 +89,7 @@ This search is designed to detect suspicious cmd and powershell process spawned 
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -107,7 +107,8 @@ The SPL above uses the following Macros:
 * [process_powershell](https://github.com/splunk/security_content/blob/develop/macros/process_powershell.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that **wermgr_process_spawned_cmd_or_powershell_process_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **wermgr_process_spawned_cmd_or_powershell_process_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -143,10 +144,13 @@ unknown
 | 56.0 | 70 | 80 | Wermgr.exe spawning suspicious processes on $dest$ |
 
 
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
+
 #### Reference
 
 * [https://labs.vipre.com/trickbot-and-its-modules/](https://labs.vipre.com/trickbot-and-its-modules/)
-* [https://blog.whitehat.eu/2019/05/incident-trickbot-ryuk-2.html](https://blog.whitehat.eu/2019/05/incident-trickbot-ryuk-2.html)
+* [https://whitehat.eu/incident-response-case-study-featuring-ryuk-and-trickbot-part-2/](https://whitehat.eu/incident-response-case-study-featuring-ryuk-and-trickbot-part-2/)
 
 
 

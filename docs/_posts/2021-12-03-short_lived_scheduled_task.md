@@ -19,7 +19,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -90,7 +90,7 @@ The following analytic leverages Windows Security EventCode 4698, `A scheduled t
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
  `wineventlog_security` EventCode=4698 OR EventCode=4699 
@@ -106,7 +106,8 @@ The following analytic leverages Windows Security EventCode 4698, `A scheduled t
 The SPL above uses the following Macros:
 * [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 
-Note that **short_lived_scheduled_task_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **short_lived_scheduled_task_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -136,6 +137,9 @@ Although uncommon, legitimate applications may create and delete a Scheduled Tas
 | ----------- | ----------- |--------------|--------------|
 | 81.0 | 90 | 90 | A windows scheduled task was created and deleted in 30 seconds on $ComputerName$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

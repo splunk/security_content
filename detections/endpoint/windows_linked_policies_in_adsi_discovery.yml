@@ -1,0 +1,65 @@
+name: Windows Linked Policies In ADSI Discovery
+id: 510ea428-4731-4d2f-8829-a28293e427aa
+version: 1
+date: '2022-04-25'
+author: Teoderick Contreras, Splunk
+type: Anomaly
+datamodel:
+- Endpoint
+description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
+  to identify the `[Adsisearcher]` type accelerator being used to query Active Directory
+  for domain groups. Red Teams and adversaries may leverage `[Adsisearcher]` to enumerate
+  domain organizational unit for situational awareness and Active Directory Discovery.
+search: '`powershell` EventCode=4104 ScriptBlockText = "*[adsisearcher]*" ScriptBlockText = "*objectcategory=organizationalunit*" ScriptBlockText = "*findAll()*"
+  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer user_id 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | `windows_linked_policies_in_adsi_discovery_filter`'
+how_to_implement: The following Hunting analytic requires PowerShell operational logs
+  to be imported. Modify the powershell macro as needed to match the sourcetype or
+  add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
+known_false_positives: Administrators or power users may use this command for troubleshooting.
+references:
+- https://www.welivesecurity.com/2022/04/12/industroyer2-industroyer-reloaded/
+- https://medium.com/@pentesttas/discover-hidden-gpo-s-on-active-directory-using-ps-adsi-a284b6814c81
+tags:
+  analytic_story:
+  - Industroyer2
+  - Active Directory Discovery
+  asset_type: Endpoint
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  confidence: 50
+  context:
+  - Source:Endpoint
+  - Stage:Discovery
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/adsi_discovery/windows-powershell-xml2.log
+  impact: 50
+  kill_chain_phases:
+  - Reconnaissance
+  message: powershell process having commandline $Message$ for user enumeration
+  mitre_attack_id:
+  - T1087.002
+  - T1087
+  nist:
+  - DE.CM
+  observable:
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - ScriptBlockText
+  - Computer
+  - user_id
+  risk_score: 25
+  security_domain: endpoint

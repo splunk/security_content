@@ -19,7 +19,7 @@ how_to_implement: To successfully implement this search, you need to be ingestin
   Sysmon TA.
 known_false_positives: unknown
 references:
-- https://www.cisecurity.org/white-papers/security-primer-icedid/
+- https://www.cisecurity.org/insights/white-papers/security-primer-icedid
 tags:
   analytic_story:
   - IcedID

@@ -20,7 +20,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -94,7 +94,7 @@ The detection calculates the standard deviation for each host and leverages the 
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
  `wineventlog_security` EventCode=4769 Service_Name!="*$" Ticket_Encryption_Type=0x17 
@@ -111,7 +111,8 @@ The detection calculates the standard deviation for each host and leverages the 
 The SPL above uses the following Macros:
 * [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 
-Note that **unusual_number_of_kerberos_service_tickets_requested_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **unusual_number_of_kerberos_service_tickets_requested_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -142,6 +143,9 @@ An single endpoint requesting a large number of kerberos service tickets is not 
 | ----------- | ----------- |--------------|--------------|
 | 36.0 | 60 | 60 | tbd |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

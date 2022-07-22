@@ -1,6 +1,6 @@
 ---
 title: "Detect Regsvcs with No Command Line Arguments"
-excerpt: "Signed Binary Proxy Execution
+excerpt: "System Binary Proxy Execution
 , Regsvcs/Regasm
 "
 categories:
@@ -9,7 +9,7 @@ last_modified_at: 2022-03-15
 toc: true
 toc_label: ""
 tags:
-  - Signed Binary Proxy Execution
+  - System Binary Proxy Execution
   - Regsvcs/Regasm
   - Defense Evasion
   - Defense Evasion
@@ -21,7 +21,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -45,7 +45,7 @@ The following analytic identifies regsvcs.exe with no command line arguments. Th
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
-| [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
+| [T1218](https://attack.mitre.org/techniques/T1218/) | System Binary Proxy Execution | Defense Evasion |
 
 | [T1218.009](https://attack.mitre.org/techniques/T1218/009/) | Regsvcs/Regasm | Defense Evasion |
 
@@ -99,7 +99,7 @@ The following analytic identifies regsvcs.exe with no command line arguments. Th
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -117,7 +117,8 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that **detect_regsvcs_with_no_command_line_arguments_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **detect_regsvcs_with_no_command_line_arguments_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -153,6 +154,9 @@ Although unlikely, limited instances of regsvcs.exe may cause a false positive. 
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | The process $process_name$ was spawned by $parent_process_name$ without any command-line arguments on $dest$ by $user$. |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

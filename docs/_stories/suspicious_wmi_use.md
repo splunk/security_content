@@ -47,7 +47,7 @@ WMI is a Microsoft infrastructure for management data and operations on Windows 
 #### Reference
 
 * [https://www.blackhat.com/docs/us-15/materials/us-15-Graeber-Abusing-Windows-Management-Instrumentation-WMI-To-Build-A-Persistent%20Asynchronous-And-Fileless-Backdoor-wp.pdf](https://www.blackhat.com/docs/us-15/materials/us-15-Graeber-Abusing-Windows-Management-Instrumentation-WMI-To-Build-A-Persistent%20Asynchronous-And-Fileless-Backdoor-wp.pdf)
-* [https://www.fireeye.com/blog/threat-research/2017/03/wmimplant_a_wmi_ba.html](https://www.fireeye.com/blog/threat-research/2017/03/wmimplant_a_wmi_ba.html)
+* [https://web.archive.org/web/20210921091529/https://www.fireeye.com/blog/threat-research/2017/03/wmimplant_a_wmi_ba.html](https://web.archive.org/web/20210921091529/https://www.fireeye.com/blog/threat-research/2017/03/wmimplant_a_wmi_ba.html)
 
 
 

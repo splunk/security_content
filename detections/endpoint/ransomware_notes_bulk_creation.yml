@@ -22,7 +22,7 @@ how_to_implement: You must be ingesting data that records the filesystem activit
   you want to collect data.
 known_false_positives: unknown
 references:
-- https://www.fireeye.com/blog/threat-research/2020/10/fin11-email-campaigns-precursor-for-ransomware-data-theft.html
+- https://www.mandiant.com/resources/fin11-email-campaigns-precursor-for-ransomware-data-theft
 - https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html
 tags:
   analytic_story:

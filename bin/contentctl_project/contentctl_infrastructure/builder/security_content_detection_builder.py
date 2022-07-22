@@ -16,12 +16,23 @@ from bin.contentctl_project.contentctl_infrastructure.builder.splunk_app_enrichm
 
 class SecurityContentDetectionBuilder(DetectionBuilder):
     security_content_obj : SecurityContentObject
+    #Only SecurityContentDetectionBuilder cares about force_cached_or_offline because it is
+    #used for CveEnrichment.enrich_cve and SplunkAppEnrichment.enrich_splunk_app
+    force_cached_or_offline: bool 
+    check_references: bool
+    skip_enrichment: bool
 
+    def __init__(self, force_cached_or_offline: bool = False, check_references: bool = False, skip_enrichment:bool = False):
+        self.force_cached_or_offline = force_cached_or_offline
+        self.check_references = check_references
+        self.skip_enrichment = skip_enrichment
 
     def setObject(self, path: str) -> None:
         yml_dict = YmlReader.load_file(path)
         yml_dict["tags"]["name"] = yml_dict["name"]
+        yml_dict["check_references"] = self.check_references
         self.security_content_obj = Detection.parse_obj(yml_dict)
+        del(yml_dict["check_references"])
         self.security_content_obj.source = os.path.split(os.path.dirname(self.security_content_obj.file_path))[-1]      
 
 
@@ -89,17 +100,26 @@ class SecurityContentDetectionBuilder(DetectionBuilder):
 
             self.security_content_obj.risk = risk_objects
 
+    def addProvidingTechnologies(self) -> None:
+        if self.security_content_obj:
+            # if self.security_content_obj.tags.supported_tas:
+                if 'Endpoint' in self.security_content_obj.datamodel:
+                    self.security_content_obj.providing_technologies = ["Sysmon", "Microsoft Windows","Carbon Black Response","CrowdStrike Falcon", "Symantec Endpoint Protection"]
+                if "`cloudtrail`" in str(self.security_content_obj.search):
+                    self.security_content_obj.providing_technologies = ["Amazon Web Services - Cloudtrail"]
+                if '`wineventlog_security`' in self.security_content_obj.search or '`powershell`' in self.security_content_obj.search:
+                    self.security_content_obj.providing_technologies = ["Microsoft Windows"]
+
+    
+
 
     def addNesFields(self) -> None:
         if self.security_content_obj:
-            nes_fields_matches = []
             if self.security_content_obj.deployment:
                 if self.security_content_obj.deployment.notable:
-                    for nes_field in self.security_content_obj.deployment.notable.nes_fields:
-                        if (self.security_content_obj.search.find(nes_field + ' ') != -1):
-                            nes_fields_matches.append(nes_field)
-                
-                    self.security_content_obj.deployment.notable.nes_fields = nes_fields_matches
+                    nes_fields = ",".join(list(self.security_content_obj.deployment.notable.nes_fields))
+                    self.security_content_obj.nes_fields = nes_fields
+                    
 
 
     def addMappings(self) -> None:
@@ -168,6 +188,10 @@ class SecurityContentDetectionBuilder(DetectionBuilder):
             if attack_enrichment:
                 if self.security_content_obj.tags.mitre_attack_id:
                     self.security_content_obj.tags.mitre_attack_enrichments = []
+                    if self.skip_enrichment:
+                        # We just want to make the above, mitre_attack_enrichments, and
+                        # empty list since we didn't actually fetch those enrichments
+                        return
                     for mitre_attack_id in self.security_content_obj.tags.mitre_attack_id:
                         if mitre_attack_id in attack_enrichment:
                             mitre_attack_enrichment = MitreAttackEnrichment(
@@ -179,7 +203,7 @@ class SecurityContentDetectionBuilder(DetectionBuilder):
                             self.security_content_obj.tags.mitre_attack_enrichments.append(mitre_attack_enrichment)
                         else:
                             #print("mitre_attack_id " + mitre_attack_id + " doesn't exist for detecction " + self.security_content_obj.name)
-                            raise ValueError("mitre_attack_id " + mitre_attack_id + " doesn't exist for detecction " + self.security_content_obj.name)
+                            raise ValueError("mitre_attack_id " + mitre_attack_id + " doesn't exist for detection " + self.security_content_obj.name)
 
 
     def addMacros(self, macros: list) -> None:
@@ -218,18 +242,22 @@ class SecurityContentDetectionBuilder(DetectionBuilder):
 
 
     def addCve(self) -> None:
+        if self.skip_enrichment:
+            return None
         if self.security_content_obj:
             self.security_content_obj.cve_enrichment = []
             if self.security_content_obj.tags.cve:
                 for cve in self.security_content_obj.tags.cve:
-                    self.security_content_obj.cve_enrichment.append(CveEnrichment.enrich_cve(cve))
+                    self.security_content_obj.cve_enrichment.append(CveEnrichment.enrich_cve(cve, force_cached_or_offline = self.force_cached_or_offline))
 
     def addSplunkApp(self) -> None:
+        if self.skip_enrichment:
+            return None
         if self.security_content_obj:
             self.security_content_obj.splunk_app_enrichment = []
             if self.security_content_obj.tags.supported_tas:
                 for splunk_app in self.security_content_obj.tags.supported_tas:
-                    self.security_content_obj.splunk_app_enrichment.append(SplunkAppEnrichment.enrich_splunk_app(splunk_app))
+                    self.security_content_obj.splunk_app_enrichment.append(SplunkAppEnrichment.enrich_splunk_app(splunk_app, force_cached_or_offline=self.force_cached_or_offline))
 
     def reset(self) -> None:
         self.security_content_obj = None
@@ -237,4 +265,3 @@ class SecurityContentDetectionBuilder(DetectionBuilder):
 
     def getObject(self) -> SecurityContentObject:
         return self.security_content_obj
-

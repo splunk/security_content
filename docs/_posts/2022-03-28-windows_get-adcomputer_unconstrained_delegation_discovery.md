@@ -17,7 +17,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -94,7 +94,7 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
  `powershell` EventCode=4104 (Message = "*Get-ADComputer*" AND Message = "*TrustedForDelegation*") 
@@ -109,7 +109,8 @@ The SPL above uses the following Macros:
 * [powershell](https://github.com/splunk/security_content/blob/develop/macros/powershell.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that **windows_get-adcomputer_unconstrained_delegation_discovery_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **windows_get-adcomputer_unconstrained_delegation_discovery_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -137,6 +138,9 @@ Administrators or power users may leverage PowerView for system management or tr
 | ----------- | ----------- |--------------|--------------|
 | 35.0 | 50 | 70 | Suspicious PowerShell Get-ADComputer was identified on endpoint $ComputerName$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

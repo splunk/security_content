@@ -19,7 +19,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -100,7 +100,7 @@ The following analytic identifies the payload related to Spring4Shell, CVE-2022-
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `stream_http` http_method IN ("POST") 
@@ -116,7 +116,8 @@ The SPL above uses the following Macros:
 * [stream_http](https://github.com/splunk/security_content/blob/develop/macros/stream_http.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that **web_spring4shell_http_request_class_module_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **web_spring4shell_http_request_class_module_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -147,6 +148,9 @@ False positives may occur and filtering may be required. Restrict analytic to as
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 90 | 80 | A http body request related to Spring4Shell has been sent to $dest$ by $src$. |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

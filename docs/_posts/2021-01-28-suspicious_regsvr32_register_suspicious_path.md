@@ -1,6 +1,6 @@
 ---
 title: "Suspicious Regsvr32 Register Suspicious Path"
-excerpt: "Signed Binary Proxy Execution
+excerpt: "System Binary Proxy Execution
 , Regsvr32
 "
 categories:
@@ -9,7 +9,7 @@ last_modified_at: 2021-01-28
 toc: true
 toc_label: ""
 tags:
-  - Signed Binary Proxy Execution
+  - System Binary Proxy Execution
   - Regsvr32
   - Defense Evasion
   - Defense Evasion
@@ -21,7 +21,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -45,7 +45,7 @@ Adversaries may abuse Regsvr32.exe to proxy execution of malicious code by using
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
-| [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
+| [T1218](https://attack.mitre.org/techniques/T1218/) | System Binary Proxy Execution | Defense Evasion |
 
 | [T1218.010](https://attack.mitre.org/techniques/T1218/010/) | Regsvr32 | Defense Evasion |
 
@@ -99,7 +99,7 @@ Adversaries may abuse Regsvr32.exe to proxy execution of malicious code by using
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -116,7 +116,8 @@ The SPL above uses the following Macros:
 * [process_regsvr32](https://github.com/splunk/security_content/blob/develop/macros/process_regsvr32.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that **suspicious_regsvr32_register_suspicious_path_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **suspicious_regsvr32_register_suspicious_path_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -153,6 +154,9 @@ Limited false positives with the query restricted to specified paths. Add more w
 | ----------- | ----------- |--------------|--------------|
 | 35.0 | 70 | 50 | Suspicious $Processes.process_path.file_path$ process potentially loading malicious code |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

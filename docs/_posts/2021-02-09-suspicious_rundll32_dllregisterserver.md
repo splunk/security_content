@@ -1,6 +1,6 @@
 ---
 title: "Suspicious Rundll32 dllregisterserver"
-excerpt: "Signed Binary Proxy Execution
+excerpt: "System Binary Proxy Execution
 , Rundll32
 "
 categories:
@@ -9,7 +9,7 @@ last_modified_at: 2021-02-09
 toc: true
 toc_label: ""
 tags:
-  - Signed Binary Proxy Execution
+  - System Binary Proxy Execution
   - Rundll32
   - Defense Evasion
   - Defense Evasion
@@ -21,7 +21,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -45,7 +45,7 @@ The following analytic identifies rundll32.exe using dllregisterserver on the co
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
-| [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
+| [T1218](https://attack.mitre.org/techniques/T1218/) | System Binary Proxy Execution | Defense Evasion |
 
 | [T1218.011](https://attack.mitre.org/techniques/T1218/011/) | Rundll32 | Defense Evasion |
 
@@ -99,7 +99,7 @@ The following analytic identifies rundll32.exe using dllregisterserver on the co
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -116,7 +116,8 @@ The SPL above uses the following Macros:
 * [process_rundll32](https://github.com/splunk/security_content/blob/develop/macros/process_rundll32.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that **suspicious_rundll32_dllregisterserver_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **suspicious_rundll32_dllregisterserver_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -153,15 +154,18 @@ This is likely to produce false positives and will require some filtering. Tune 
 | 35.0 | 70 | 50 | $Processes.process_path.file_path$ process potentially loading malicious code |
 
 
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
+
 #### Reference
 
 * [https://attack.mitre.org/techniques/T1218/011/](https://attack.mitre.org/techniques/T1218/011/)
 * [https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.011/T1218.011.md](https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.011/T1218.011.md)
-* [https://lolbas-project.github.io/lolbas/Binaries/Rundll32](https://lolbas-project.github.io/lolbas/Binaries/Rundll32)
+* [https://lolbas-project.github.io/lolbas/Binaries/Rundll32/](https://lolbas-project.github.io/lolbas/Binaries/Rundll32/)
 * [https://symantec-enterprise-blogs.security.com/blogs/threat-intelligence/seedworm-apt-iran-middle-east](https://symantec-enterprise-blogs.security.com/blogs/threat-intelligence/seedworm-apt-iran-middle-east)
 * [https://github.com/pan-unit42/tweets/blob/master/2020-12-10-IOCs-from-Ursnif-infection-with-Delf-variant.txt](https://github.com/pan-unit42/tweets/blob/master/2020-12-10-IOCs-from-Ursnif-infection-with-Delf-variant.txt)
 * [https://www.crowdstrike.com/blog/duck-hunting-with-falcon-complete-qakbot-zip-based-campaign/](https://www.crowdstrike.com/blog/duck-hunting-with-falcon-complete-qakbot-zip-based-campaign/)
-* [https://msdn.microsoft.com/en-us/library/windows/desktop/ms682162(v=vs.85).aspx](https://msdn.microsoft.com/en-us/library/windows/desktop/ms682162(v=vs.85).aspx)
+* [https://docs.microsoft.com/en-us/windows/win32/api/olectl/nf-olectl-dllregisterserver?redirectedfrom=MSDN](https://docs.microsoft.com/en-us/windows/win32/api/olectl/nf-olectl-dllregisterserver?redirectedfrom=MSDN)
 
 
 

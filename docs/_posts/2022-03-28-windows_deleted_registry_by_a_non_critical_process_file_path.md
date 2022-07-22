@@ -13,11 +13,12 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - Endpoint
 ---
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -25,7 +26,7 @@ This analytic is to detect deletion of registry with suspicious process file pat
 
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2022-03-28
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: 15e70689-f55b-489e-8a80-6d0cd6d8aad2
@@ -93,7 +94,7 @@ This analytic is to detect deletion of registry with suspicious process file pat
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -113,7 +114,8 @@ This analytic is to detect deletion of registry with suspicious process file pat
 The SPL above uses the following Macros:
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that **windows_deleted_registry_by_a_non_critical_process_file_path_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **windows_deleted_registry_by_a_non_critical_process_file_path_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -151,6 +153,9 @@ This detection can catch for third party application updates or installation. In
 | ----------- | ----------- |--------------|--------------|
 | 36.0 | 60 | 60 | registry was deleted by a suspicious $process_name$ with proces path $process_path in $dest$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

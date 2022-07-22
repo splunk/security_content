@@ -27,6 +27,7 @@ references:
 tags:
   analytic_story:
   - XMRig
+  - Industroyer2
   confidence: 80
   context:
   - Source:Endpoint

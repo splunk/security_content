@@ -12,11 +12,11 @@ tags:
   - Splunk Cloud
 ---
 
-###  WARNING THIS IS A EXPERIMENTAL object
+### :warning: WARNING THIS IS A EXPERIMENTAL analytic
 We have not been able to test, simulate, or build datasets for this object. Use at your own risk. This analytic is **NOT** supported.
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -89,7 +89,7 @@ This search will detect spike in blocked outbound network connections originatin
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `cloudwatchlogs_vpcflow` action=blocked (src_ip=10.0.0.0/8 OR src_ip=172.16.0.0/12 OR src_ip=192.168.0.0/16) ( dest_ip!=10.0.0.0/8 AND dest_ip!=172.16.0.0/12 AND dest_ip!=192.168.0.0/16)  [search  `cloudwatchlogs_vpcflow` action=blocked (src_ip=10.0.0.0/8 OR src_ip=172.16.0.0/12 OR src_ip=192.168.0.0/16) ( dest_ip!=10.0.0.0/8 AND dest_ip!=172.16.0.0/12 AND dest_ip!=192.168.0.0/16)  
@@ -115,7 +115,8 @@ This search will detect spike in blocked outbound network connections originatin
 The SPL above uses the following Macros:
 * [cloudwatchlogs_vpcflow](https://github.com/splunk/security_content/blob/develop/macros/cloudwatchlogs_vpcflow.yml)
 
-Note that **detect_spike_in_blocked_outbound_traffic_from_your_aws_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **detect_spike_in_blocked_outbound_traffic_from_your_aws_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Lookups
 The SPL above uses the following Lookups:
@@ -150,6 +151,9 @@ The false-positive rate may vary based on the values of`dataPointThreshold` and 
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

@@ -27,7 +27,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -100,7 +100,7 @@ As part of the sAMAccountName Spoofing (CVE-2021-42278) and Domain Controller Im
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
  `wineventlog_security` (EventCode=4781 Old_Account_Name="*$" New_Account_Name!="*$") OR (EventCode=4768 Account_Name!="*$") 
@@ -116,7 +116,8 @@ As part of the sAMAccountName Spoofing (CVE-2021-42278) and Domain Controller Im
 The SPL above uses the following Macros:
 * [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 
-Note that **suspicious_ticket_granting_ticket_request_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **suspicious_ticket_granting_ticket_request_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -146,6 +147,9 @@ A computer account name change event inmediately followed by a kerberos TGT requ
 | ----------- | ----------- |--------------|--------------|
 | 60.0 | 100 | 60 | A suspicious TGT was requested was requested |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

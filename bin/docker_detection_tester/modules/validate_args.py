@@ -52,13 +52,13 @@ setup_schema = {
                     "additionalProperties": False,
                     "properties": {
                         "app_number": {
-                            "type": ["integer","null"]
+                            "type": ["integer", "null"]
                         },
                         "app_version": {
-                            "type": ["string","null"]
+                            "type": ["string", "null"]
                         },
                         "local_path": {
-                            "type": ["string","null"]
+                            "type": ["string", "null"]
                         },
                         "http_path": {
                             "type": ["string", "null"]
@@ -66,89 +66,101 @@ setup_schema = {
                     },
                     "anyOf": [
                         {"required": ["local_path"]},
-                        {"required": ["http_path"] },
-                        {"required": ["app_number", "app_version"] },
+                        {"required": ["http_path"]},
+                        {"required": ["app_number", "app_version"]},
                     ]
                 }
             },
             "default": {
-                ES_APP_NAME : {
-                    "app_number": 3449,
-                    "app_version": None,
-                    "local_path": None
-                },
-                #The default apps below were taken from the attack_range loadout: https://github.com/splunk/attack_range/blob/develop/attack_range.conf.template
-                "SPLUNK_ADD_ON_FOR_MICROSOFT_WINDOWS": {
-                    "app_number": 742,
-                    "app_version": "8.4.0",
-                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-microsoft-windows_840.tgz"
-                },
+               
+                # The default apps below were taken from the attack_range loadout: https://github.com/splunk/attack_range/blob/develop/attack_range.conf.template
+
                 "ADD_ON_FOR_LINUX_SYSMON": {
                     "app_number": 6176,
                     "app_version": "1.0.4",
                     "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/add-on-for-linux-sysmon_104.tgz"
-                },
-                "SPLUNK_ADD_ON_FOR_SYSMON": {
-                    "app_number": 5709,
-                    "app_version": "2.0.0",
-                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-sysmon_200.tgz"
-                },
-                "SPLUNK_COMMON_INFORMATION_MODEL": {
-                    "app_number": 1621,
-                    "app_version": "5.0.0",
-                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-common-information-model-cim_500.tgz"
-                },
-                "PYTHON_FOR_SCIENTIFIC_COMPUTING_FOR_LINUX_64_BIT": {
+                  },
+                  ES_APP_NAME: {
+                    "app_number": 3449,
+                    "app_version": None,
+                    "local_path": None
+                  },
+                  "PALO_ALTO_NETWORKS_ADD_ON_FOR_SPLUNK": {
+                    "app_number": 2757,
+                    "app_version": "7.1.0",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/palo-alto-networks-add-on-for-splunk_710.tgz"
+                  },
+                  "PYTHON_FOR_SCIENTIFIC_COMPUTING_FOR_LINUX_64_BIT": {
                     "app_number": 2882,
                     "app_version": "3.0.2",
                     "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/python-for-scientific-computing-for-linux-64-bit_302.tgz"
-                },
-                "SPLUNK_MACHINE_LEARNING_TOOLKIT": {
-                    "app_number": 2890,
-                    "app_version": "5.3.1",
-                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-machine-learning-toolkit_531.tgz"
-                },
-                "SPLUNK_APP_FOR_STREAM": {
-                    "app_number": 1809,
-                    "app_version": "8.0.1",
-                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-app-for-stream_801.tgz"
-                },
-                "SPLUNK_ADD_ON_FOR_STREAM_WIRE_DATA": {
-                    "app_number": 5234,
-                    "app_version": "8.0.1",
-                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-stream-wire-data_801.tgz"
-                },
-                "SPLUNK_ADD_ON_FOR_STREAM_FORWARDERS": {
-                    "app_number": 5238,
-                    "app_version": "8.0.1",
-                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-stream-forwarders_801.tgz"
-                },
-                "SPLUNK_ADD_ON_FOR_AMAZON_KINESIS_FIREHOSE": {
+                  },
+                  "SPLUNK_ADD_ON_FOR_AMAZON_KINESIS_FIREHOSE": {
                     "app_number": 3719,
                     "app_version": "1.3.2",
                     "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-amazon-kinesis-firehose_132.tgz"
-                },
-                "SPLUNK_ADD_ON_FOR_MICROSOFT_OFFICE_365": {
+                  },
+                  "SPLUNK_ADD_ON_FOR_MICROSOFT_OFFICE_365": {
                     "app_number": 4055,
-                    "app_version": "2.2.0",
-                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-microsoft-office-365_220.tgz"
-                },
-                "SPLUNK_ADD_ON_FOR_UNIX_AND_LINUX": {
-                    "app_number": 833,
-                    "app_version": "8.4.0",
-                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-unix-and-linux_840.tgz"
-                },
-                "SPLUNK_ADD_ON_FOR_NGINX": {
+                    "app_version": "4.0.0",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-microsoft-office-365_400.tgz"
+                  },
+                  "SPLUNK_ADD_ON_FOR_MICROSOFT_WINDOWS": {
+                    "app_number": 742,
+                    "app_version": "8.5.0",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-microsoft-windows_850.tgz"
+                  },
+                  "SPLUNK_ADD_ON_FOR_NGINX": {
                     "app_number": 3258,
                     "app_version": "3.1.0",
                     "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-nginx_310.tgz"
-                },
-                "SPLUNK_TA_FOR_ZEEK": {
+                  },
+                  "SPLUNK_ADD_ON_FOR_STREAM_FORWARDERS": {
+                    "app_number": 5238,
+                    "app_version": "8.1.0",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-stream-forwarders_810.tgz"
+                  },
+                  "SPLUNK_ADD_ON_FOR_STREAM_WIRE_DATA": {
+                    "app_number": 5234,
+                    "app_version": "8.1.0",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-stream-wire-data_810.tgz"
+                  },
+                  "SPLUNK_ADD_ON_FOR_SYSMON": {
+                    "app_number": 5709,
+                    "app_version": "3.0.0",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-sysmon_300.tgz"
+                  },
+                  "SPLUNK_ADD_ON_FOR_UNIX_AND_LINUX": {
+                    "app_number": 833,
+                    "app_version": "8.6.0",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-unix-and-linux_860.tgz"
+                  },
+                  "SPLUNK_APP_FOR_STREAM": {
+                    "app_number": 1809,
+                    "app_version": "8.1.0",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-app-for-stream_810.tgz"
+                  },
+                  "SPLUNK_COMMON_INFORMATION_MODEL": {
+                    "app_number": 1621,
+                    "app_version": "5.0.1",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-common-information-model-cim_501.tgz"
+                  },
+                  "SPLUNK_MACHINE_LEARNING_TOOLKIT": {
+                    "app_number": 2890,
+                    "app_version": "5.3.1",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-machine-learning-toolkit_531.tgz"
+                  },
+                  "SPLUNK_TA_FOR_ZEEK": {
                     "app_number": 5466,
                     "app_version": "1.0.5",
                     "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/ta-for-zeek_105.tgz"
-                },
-                
+                  },
+                  "URL_TOOLBOX": {
+                    "app_number": 2734,
+                    "app_version": "1.9.2",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/url-toolbox_192.tgz"
+                  }
+
             }
         },
 
@@ -219,9 +231,9 @@ setup_schema = {
             "type": "array",
             "items": {
                 "type": "string",
-                "enum": ["endpoint", "cloud", "network","web","application", "experimental"]
+                "enum": ["endpoint", "cloud", "network", "web", "application", "experimental"]
             },
-            "default": ["endpoint", "cloud", "network","web", "application"]
+            "default": ["endpoint", "cloud", "network", "web", "application"]
         },
 
         "types": {
@@ -244,7 +256,7 @@ def validate_file(file: io.TextIOWrapper) -> tuple[Union[dict, None], dict]:
         raise(e)
 
 
-def check_dependencies(settings: dict, skip_password_accessibility_check:bool=True) -> bool:
+def check_dependencies(settings: dict, skip_password_accessibility_check: bool = True) -> bool:
     # Check complex mode dependencies
     error_free = True
 
@@ -260,20 +272,19 @@ def check_dependencies(settings: dict, skip_password_accessibility_check:bool=Tr
         print("Error - mode was not 'selected' but detections_list was supplied.", file=sys.stderr)
         error_free = False
 
-
     # Make sure that if we will be in an interactive mode, that either the user has provided the password or the password will be printed
     if skip_password_accessibility_check:
         pass
     elif (settings['interactive'] or not settings['no_interactive_failure']) and settings['show_splunk_app_password'] is False:
         print("\n\n******************************************************\n\n")
         if settings['splunk_app_password'] is not None:
-            print("Warning: You have chosen an interactive mode, set show_splunk_app_password False,\n"\
-                  "and provided a password in the config file.  We will NOT print this password to\n"\
-                  "stdout.  Look in the config file for this password.",file=sys.stderr)
+            print("Warning: You have chosen an interactive mode, set show_splunk_app_password False,\n"
+                  "and provided a password in the config file.  We will NOT print this password to\n"
+                  "stdout.  Look in the config file for this password.", file=sys.stderr)
         else:
-            print("Warning: You have chosen an interactive mode, set show_splunk_app_password False,\n"\
-                  "and DID NOT provide a password in the config file.  We have updated show_splunk_app_password\n"\
-                  "to True for you.  Otherwise, interactive mode login would be impossible.",file=sys.stderr)
+            print("Warning: You have chosen an interactive mode, set show_splunk_app_password False,\n"
+                  "and DID NOT provide a password in the config file.  We have updated show_splunk_app_password\n"
+                  "to True for you.  Otherwise, interactive mode login would be impossible.", file=sys.stderr)
             settings['show_splunk_app_password'] = True
         print("\n\n******************************************************\n\n")
 
@@ -281,7 +292,7 @@ def check_dependencies(settings: dict, skip_password_accessibility_check:bool=Tr
     return error_free
 
 
-def validate_and_write(configuration: dict, output_file: Union[io.TextIOWrapper, None] = None, strip_credentials: bool = False, skip_password_accessibility_check:bool=True) -> tuple[Union[dict, None], dict]:
+def validate_and_write(configuration: dict, output_file: Union[io.TextIOWrapper, None] = None, strip_credentials: bool = False, skip_password_accessibility_check: bool = True) -> tuple[Union[dict, None], dict]:
     closeFile = False
     if output_file is None:
         import datetime
@@ -297,7 +308,8 @@ def validate_and_write(configuration: dict, output_file: Union[io.TextIOWrapper,
         configuration['container_password'] = None
         configuration['show_splunk_app_password'] = True
 
-    validated_json, setup_schema = validate(configuration,skip_password_accessibility_check)
+    validated_json, setup_schema = validate(
+        configuration, skip_password_accessibility_check)
     if validated_json == None:
         print("Error in the new settings! No output file written")
     else:
@@ -316,7 +328,7 @@ def validate_and_write(configuration: dict, output_file: Union[io.TextIOWrapper,
     return validated_json, setup_schema
 
 
-def validate(configuration: dict, skip_password_accessibility_check:bool=True) -> tuple[Union[dict, None], dict]:
+def validate(configuration: dict, skip_password_accessibility_check: bool = True) -> tuple[Union[dict, None], dict]:
     # v = jsonschema.Draft201909Validator(argument_schema)
 
     try:
@@ -326,7 +338,8 @@ def validate(configuration: dict, skip_password_accessibility_check:bool=True) -
 
         if len(validation_errors) == 0:
             # check to make sure there were no complex errors
-            no_complex_errors = check_dependencies(validated_json,skip_password_accessibility_check)
+            no_complex_errors = check_dependencies(
+                validated_json, skip_password_accessibility_check)
             if no_complex_errors:
                 return validated_json, setup_schema
             else:

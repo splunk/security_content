@@ -1,7 +1,7 @@
 ---
 title: "Windows Rasautou DLL Execution"
 excerpt: "Dynamic-link Library Injection
-, Signed Binary Proxy Execution
+, System Binary Proxy Execution
 , Process Injection
 "
 categories:
@@ -11,7 +11,7 @@ toc: true
 toc_label: ""
 tags:
   - Dynamic-link Library Injection
-  - Signed Binary Proxy Execution
+  - System Binary Proxy Execution
   - Process Injection
   - Defense Evasion
   - Privilege Escalation
@@ -26,7 +26,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -52,7 +52,7 @@ The following analytic identifies the Windows Windows Remote Auto Dialer, rasaut
 | -------------- | ---------------- |-------------------- |
 | [T1055.001](https://attack.mitre.org/techniques/T1055/001/) | Dynamic-link Library Injection | Defense Evasion, Privilege Escalation |
 
-| [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
+| [T1218](https://attack.mitre.org/techniques/T1218/) | System Binary Proxy Execution | Defense Evasion |
 
 | [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation |
 
@@ -101,7 +101,7 @@ The following analytic identifies the Windows Windows Remote Auto Dialer, rasaut
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -117,7 +117,8 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that **windows_rasautou_dll_execution_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **windows_rasautou_dll_execution_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -153,12 +154,15 @@ False positives will be limited to applications that require Rasautou.exe to loa
 | 80.0 | 80 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ attempting to load a DLL in a suspicious manner. |
 
 
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
+
 #### Reference
 
 * [https://github.com/mandiant/DueDLLigence](https://github.com/mandiant/DueDLLigence)
 * [https://github.com/MHaggis/notes/blob/master/utilities/Invoke-SPLDLLigence.ps1](https://github.com/MHaggis/notes/blob/master/utilities/Invoke-SPLDLLigence.ps1)
 * [https://gist.github.com/NickTyrer/c6043e4b302d5424f701f15baf136513](https://gist.github.com/NickTyrer/c6043e4b302d5424f701f15baf136513)
-* [https://www.fireeye.com/blog/threat-research/2019/10/staying-hidden-on-the-endpoint-evading-detection-with-shellcode.html](https://www.fireeye.com/blog/threat-research/2019/10/staying-hidden-on-the-endpoint-evading-detection-with-shellcode.html)
+* [https://www.mandiant.com/resources/staying-hidden-on-the-endpoint-evading-detection-with-shellcode](https://www.mandiant.com/resources/staying-hidden-on-the-endpoint-evading-detection-with-shellcode)
 
 
 

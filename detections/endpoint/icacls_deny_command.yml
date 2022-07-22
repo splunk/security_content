@@ -28,6 +28,7 @@ references:
 tags:
   analytic_story:
   - XMRig
+  - Azorult
   confidence: 80
   context:
   - Source:Endpoint

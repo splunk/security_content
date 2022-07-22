@@ -20,7 +20,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -97,7 +97,7 @@ This search will detect users creating spikes of API activity in your AWS enviro
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `cloudtrail` eventType=AwsApiCall [search `cloudtrail` eventType=AwsApiCall 
@@ -126,7 +126,8 @@ This search will detect users creating spikes of API activity in your AWS enviro
 The SPL above uses the following Macros:
 * [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
 
-Note that **detect_spike_in_aws_api_activity_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **detect_spike_in_aws_api_activity_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Lookups
 The SPL above uses the following Lookups:
@@ -164,6 +165,9 @@ Detailed documentation on how to create a new field within Incident Review may b
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

@@ -21,7 +21,7 @@ narrative: WMI is a Microsoft infrastructure for management data and operations 
   These details may provide insights related to how WMI was used and to what end.
 references:
 - https://www.blackhat.com/docs/us-15/materials/us-15-Graeber-Abusing-Windows-Management-Instrumentation-WMI-To-Build-A-Persistent%20Asynchronous-And-Fileless-Backdoor-wp.pdf
-- https://www.fireeye.com/blog/threat-research/2017/03/wmimplant_a_wmi_ba.html
+- https://web.archive.org/web/20210921091529/https://www.fireeye.com/blog/threat-research/2017/03/wmimplant_a_wmi_ba.html
 tags:
   analytic_story: Suspicious WMI Use
   category:

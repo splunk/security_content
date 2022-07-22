@@ -40,13 +40,29 @@ jobs:
           exit 0
           fi
 
-  validate-content:
+  validate-and-build:
     #Note that the CircleCI job used a Container.  The way to do this with Github Actions
     #is to first start up a Virtual Machine, then we can by following:
     # https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idcontainer
     runs-on: ubuntu-latest
     needs: [validate-tag-if-present]
     steps:
+
+      - name: Configure Enrichment and Tag
+        id: vars
+        run: |
+          if [ $(echo ${GITHUB_REF} | grep "^refs/tags/*") ]; then
+            #failed to find the refs/tags/ beginning, grab and set the tag
+            echo "Release is TAGGED!"
+            echo "::set-output name=tag::${GITHUB_REF#refs/tags/}"
+            echo "::set-output name=skip_enrichment_var::"
+          else
+            #Not a tagged relese
+            echo "Release is NOT TAGGED!"
+            echo "::set-output name=tag::"
+            echo "::set-output name=skip_enrichment_var::--skip_enrichment"
+          fi
+
       #Previous config chose which branch/tag to operate on.
       #I think Github is smart enough to choose based on whether it's a pull request or push + other info?
       - name: Check out the repository code
@@ -62,38 +78,27 @@ jobs:
           architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
 
 
-      #TODO: CircleCI restore_cache equivalent
-
-      #don't need to install python3 or python3-dev since it was handled by the action above?
-      #Also, no support for YAML anchors/aliases in Github Actions...
       - name: Install System Packages
         run: |
           sudo apt update -qq
           sudo apt install jq -qq
-      #TODO: CircleCI save_cache equivalent
+      
 
       - name: Install Python Dependencies
         run: |
           #Get the virtualenv set up
           rm -rf venv
-          python3 -m venv --clear venv
-          source venv/bin/activate
-          python3 -m pip install --upgrade pip
-          python3 -m pip install wheel
-          python3 -m pip install -q -r requirements.txt
+          python -m venv --clear .venv
+          source .venv/bin/activate
+          python -m pip install --upgrade pip
+          python -m pip install wheel
+          python -m pip install -q -r requirements.txt
       
-      - name: run validate
+      - name: content_ctl validate
         run: |
-          source venv/bin/activate
-          python3 contentctl.py -p . validate -pr ESCU
-          python3 contentctl.py -p . validate -pr SSA
-
-
-      # - name: Get CTI Repo for Mitre context
-      #   uses:  actions/checkout@v2
-      #   with:
-      #     repository: mitre/cti #check out https://github.com/mitre/cti.git, defaults to HEAD
-      #     path: "cti/"
+          source .venv/bin/activate
+          python contentctl.py -p . ${{ steps.vars.outputs.skip_enrichment_var }} validate -pr ESCU 
+          python contentctl.py -p . ${{ steps.vars.outputs.skip_enrichment_var }} validate -pr SSA 
 
 
       #Now generate the documentation (uses Node)
@@ -101,76 +106,32 @@ jobs:
         with:
           node-version: '14' #can easily be changed to a different version
       
-      - name: Generate documentation
+      - name: contentctl docgen
         run: |
-          ls -lah
-          #Enter the virtualenv and run the docgen
-          source venv/bin/activate
-          python3 contentctl.py -p . docgen -o docs
+          source .venv/bin/activate
+          python contentctl.py -p . --skip_enrichment docgen -o docs
           #Now generate the spec docs
           npm install -g @adobe/jsonschema2md
           jsonschema2md -d spec -o docs/spec -f yaml -e spec.json -x -
           #Clean up extra properties on docs
           rm -rf docs/spec/*-*.md
-          echo "****** BRANCH INFORMATION ******"
-          git branch
-          git branch --show-current
-  
-  build-sources:
-    runs-on: ubuntu-latest
-    needs: validate-content
-    steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v2
-
-      - uses: actions/setup-python@v2
-        with:
-          python-version: '3.9' #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
-          architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
-
-      - name: Install System Packages
-        run: |
-          sudo apt update -qq
-          sudo apt install jq -qq
       
-      - name: Install Python Dependencies
+      - name: contentctl generate
         run: |
-          #Get the virtualenv set up
-          rm -rf venv
-          python3 -m venv --clear venv
-          source venv/bin/activate
-          python3 -m pip install --upgrade pip
-          python3 -m pip install wheel
-          python3 -m pip install -q -r requirements.txt
-      
-      - name: Run Generate
-        run: |
-          source venv/bin/activate
+          source .venv/bin/activate
           rm -rf dist/escu/default/data/ui/panels/*.xml
-          python3 contentctl.py --path . generate --product ESCU --output dist/escu
-          python3 contentctl.py --path . generate --product SSA --output dist/ssa
+          python contentctl.py --path . ${{ steps.vars.outputs.skip_enrichment_var }} generate --product ESCU --output dist/escu
+          python contentctl.py --path . ${{ steps.vars.outputs.skip_enrichment_var }} generate --product SSA --output dist/ssa
       
       - name: Copy lookups .mlmodel files
         run: |
           cd lookups
           count=`ls -1 *.mlmodel 2>/dev/null | wc -l`
           if [ $count != 0 ]
-          then cp -rv *.mlmodel ../dist/escu/lookups
-          else echo "No mlmodel files to copy"
-          fi
-      
-      #Tag is '' for non-tagged push and the tag name for a tagged release
-      - name: Set tag
-        id: vars
-        run: |
-          if [ $(echo ${GITHUB_REF} | grep "^refs/tags/*") ]; then
-            #failed to find the refs/tags/ beginning, grab and set the tag
-            echo "Release is TAGGED!"
-            echo "::set-output name=tag::${GITHUB_REF#refs/tags/}"
-          else
-            #Not a tagged relese
-            echo "Release is NOT TAGGED!"
-            echo "::set-output name=tag::"
+          then 
+             cp -rv *.mlmodel ../dist/escu/lookups
+          else 
+             echo "No mlmodel files to copy"
           fi
       
       - name: Update Version and Build number
@@ -188,57 +149,24 @@ jobs:
             sed -i "s/^version = .*$/version = $CONTENT_VERSION/g" dist/escu/default/app.conf
             sed -i "s/\"version\": .*$/\"version\": \"$CONTENT_VERSION\"/g" dist/escu/app.manifest
             sed -i "s/version = .*$/version = $CONTENT_VERSION/g" dist/escu/default/content-version.conf
-            tar -czf content-pack-build-escu.tar.gz dist/escu/*
+            mkdir build
+            tar -czf build/content-pack-build-escu.tar.gz dist/escu/*
             # update build number and version for ssa
-            tar -czf content-pack-build-ssa.tar.gz dist/ssa/*
+            tar -czf build/content-pack-build-ssa.tar.gz dist/ssa/*
       
-      - name: Persist to Workspace
-        uses: actions/upload-artifact@v2
-        with:
-          name: content-pack-build
-          path: |
-            content-pack-build-escu.tar.gz
-            content-pack-build-ssa.tar.gz
-  
-  build-package:
-    runs-on: ubuntu-latest
-    needs: [validate-content, build-sources]
-
-    steps:
-      - uses: actions/download-artifact@v2
-        with:
-          name: content-pack-build
-          path: build/
-
-      #This explicitly uses a different version of python (2.7)
-      - uses: actions/setup-python@v2
-        with:
-          python-version: '2.7' #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
-          architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
-
-      - name: Get virtualenv for Python 2.7
-        run: |
-          sudo apt install virtualenv
-      
-      - name: Grab Splunk Packaging Toolkit
+      - name: Download and Install Splunk Packaging Toolkit
         run : |
-          curl -Ls https://download.splunk.com/misc/packaging-toolkit/splunk-packaging-toolkit-0.9.0.tar.gz -o splunk-packaging-toolkit-latest.tar.gz
+          source .venv/bin/activate
+          curl -Ls https://download.splunk.com/misc/packaging-toolkit/splunk-packaging-toolkit-1.0.1.tar.gz -o splunk-packaging-toolkit-latest.tar.gz
           mkdir slim-latest
           tar -zxf splunk-packaging-toolkit-latest.tar.gz -C slim-latest --strip-components=1
-      
-      - name: Install Splunk Packaging Toolkit (slim)
-        run: |
           cd slim-latest
-          virtualenv --python=/usr/bin/python2.7 --clear venv
-          source venv/bin/activate
-          python2 -m pip install --upgrade pip
-          python2 -m pip install wheel
-          python2 -m pip install semantic_version
-          python2 -m pip install .
+          python -m pip install .
+          cd ..
       
-      - name: Create a .spl for this Build Using Slim
+      - name: Build ESCU
         run: |
-          source slim-latest/venv/bin/activate
+          source .venv/bin/activate
           cd build
           tar -zxf content-pack-build-escu.tar.gz
           tar -zxf content-pack-build-ssa.tar.gz
@@ -253,7 +181,8 @@ jobs:
           tar -zcf upload/SSA_Content-NO_SLIM.tar.gz SSA_Content  
           cp upload/SSA_Content-*.tar.gz SSA_Content-latest.tar.gz
           sha256sum SSA_Content-latest.tar.gz >> checksum.txt
-          
+
+
       - name: store_artifacts
         uses: actions/upload-artifact@v2
         with:
@@ -269,13 +198,13 @@ jobs:
             build/DA-ESS-ContentUpdate-latest.tar.gz
             build/SSA_Content-latest.tar.gz
             build/checksum.txt
-  
 
+          
   #Everything below this line should ONLY run on a tag and nothing else
   #We still want all of the above checks to run and pass before running these
   run-appinspect:
     runs-on: ubuntu-latest
-    needs: [validate-content, build-sources, build-package]
+    needs: [validate-and-build]
     #Only run when tagged
     if: startsWith(github.ref, 'refs/tags/')
     steps:
@@ -331,7 +260,7 @@ jobs:
   
   create-report:
     runs-on: ubuntu-latest
-    needs: [validate-content, build-sources, build-package, run-appinspect]
+    needs: [validate-and-build, run-appinspect]
     #Only run when tagged
     if: startsWith(github.ref, 'refs/tags/')
     steps:
@@ -379,7 +308,7 @@ jobs:
   
   update-sources-github:
     runs-on: ubuntu-latest
-    needs: [validate-content, build-sources, build-package, run-appinspect, create-report]
+    needs: [validate-and-build, run-appinspect, create-report]
     #Only run when tagged
     if: startsWith(github.ref, 'refs/tags/')
     steps:
@@ -426,6 +355,11 @@ jobs:
           source venv/bin/activate
           python3 contentctl.py -p . docgen -o docs
 
+      - name: Run reporting
+        run: |
+          source venv/bin/activate
+          python3 contentctl.py -p . reporting
+
       - name: Update github with new docs and package bits
         run: |
           rm -rf dist
@@ -448,7 +382,7 @@ jobs:
     #Github-maintained release action is in archived state: https://github.com/actions/create-release
     #They recommend several and we use the following with the most stars: https://github.com/softprops/action-gh-release
     runs-on: ubuntu-latest
-    needs: [validate-content, build-sources, build-package, run-appinspect, create-report, update-sources-github]
+    needs: [validate-and-build, run-appinspect, create-report]
     #Only run when tagged
     if: startsWith(github.ref, 'refs/tags/')
     steps:
@@ -488,7 +422,7 @@ jobs:
   
   attack-range-update:
     runs-on: ubuntu-latest
-    needs: [validate-content, build-sources, build-package, run-appinspect, create-report, update-sources-github, publish-github-release]
+    needs: [validate-and-build, run-appinspect, create-report]
     #Only run when tagged
     if: startsWith(github.ref, 'refs/tags/')
     steps:
@@ -514,7 +448,7 @@ jobs:
   
   master-api-update:
     runs-on: ubuntu-latest
-    needs: [validate-content, build-sources, build-package, run-appinspect, create-report, update-sources-github, publish-github-release, attack-range-update]
+    needs: [validate-and-build, run-appinspect, create-report]
     #Only run when tagged
     if: startsWith(github.ref, 'refs/tags/')
     steps:
@@ -543,7 +477,17 @@ jobs:
         run: |
           source venv/bin/activate
           python3 contentctl.py --path . generate --product API --output dist/api
-      
+
+      - name: Generate content version and timestamp JSON
+        run : |
+            curl -o version-api.json https://api.github.com/repositories/162346001/releases/latest
+            VERSION_VAL=$(cat version-api.json | jq '.name')
+            VERSION_TS=$(cat version-api.json | jq '.published_at')
+            echo "{\"version\":{\"name\":$VERSION_VAL,\"published_at\":$VERSION_TS}}" > dist/api/version.json
+            echo "contents of version.json:"
+            cat dist/api/version.json
+
+
       #Official, Verified Amazon-AWS Github Account Provided Action
       - uses: aws-actions/configure-aws-credentials@v1
         with:

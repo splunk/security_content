@@ -19,7 +19,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -90,7 +90,7 @@ this search is to detect potential trickbot infection through the create/connect
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `sysmon` EventCode IN (17,18) PipeName="\\pipe\\*lacesomepipe" 
@@ -102,10 +102,11 @@ this search is to detect potential trickbot infection through the create/connect
 
 #### Macros
 The SPL above uses the following Macros:
-* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 
-Note that **trickbot_named_pipe_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **trickbot_named_pipe_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -137,10 +138,13 @@ unknown
 | 42.0 | 70 | 60 | Possible Trickbot namedpipe created on $Computer$ by $Image$ |
 
 
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
+
 #### Reference
 
 * [https://labs.vipre.com/trickbot-and-its-modules/](https://labs.vipre.com/trickbot-and-its-modules/)
-* [https://blog.whitehat.eu/2019/05/incident-trickbot-ryuk-2.html](https://blog.whitehat.eu/2019/05/incident-trickbot-ryuk-2.html)
+* [https://whitehat.eu/incident-response-case-study-featuring-ryuk-and-trickbot-part-2/](https://whitehat.eu/incident-response-case-study-featuring-ryuk-and-trickbot-part-2/)
 
 
 

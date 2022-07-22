@@ -64,8 +64,8 @@ schedule_window = {{ detection.deployment.scheduling.schedule_window }}
 {% if detection.deployment is defined %}
 {% if detection.deployment.notable.rule_title is defined %}
 action.notable = 1
-{% if detection.deployment.notable.nes_fields is defined %}
-action.notable.param.nes_fields = {{ detection.deployment.notable.nes_fields }}
+{% if detection.nes_fields is defined %}
+action.notable.param.nes_fields = {{ detection.nes_fields }}
 {% endif %}
 action.notable.param.rule_description = {{ detection.deployment.notable.rule_description | custom_jinja2_enrichment_filter(detection) }}
 action.notable.param.rule_title = {{ detection.deployment.notable.rule_title | custom_jinja2_enrichment_filter(detection) }}

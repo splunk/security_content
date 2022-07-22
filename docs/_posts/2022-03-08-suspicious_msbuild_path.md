@@ -27,7 +27,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -109,7 +109,7 @@ The following analytic identifies msbuild.exe executing from a non-standard path
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -122,11 +122,12 @@ The following analytic identifies msbuild.exe executing from a non-standard path
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_msbuild](https://github.com/splunk/security_content/blob/develop/macros/process_msbuild.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [process_msbuild](https://github.com/splunk/security_content/blob/develop/macros/process_msbuild.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that **suspicious_msbuild_path_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **suspicious_msbuild_path_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -164,6 +165,9 @@ Some legitimate applications may use a moved copy of msbuild.exe, triggering a f
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | Msbuild.exe ran from an uncommon path on $dest$ execyted by $user$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

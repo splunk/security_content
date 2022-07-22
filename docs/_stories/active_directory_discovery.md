@@ -60,7 +60,7 @@ Once an attacker obtains an initial foothold in an Active Directory environment,
 | [Get DomainUser with PowerShell](/endpoint/get_domainuser_with_powershell/) | [Domain Account](/tags/#domain-account), [Account Discovery](/tags/#account-discovery)| TTP |
 | [Get DomainUser with PowerShell Script Block](/endpoint/get_domainuser_with_powershell_script_block/) | [Domain Account](/tags/#domain-account), [Account Discovery](/tags/#account-discovery)| TTP |
 | [Get-ForestTrust with PowerShell](/endpoint/get-foresttrust_with_powershell/) | [Domain Trust Discovery](/tags/#domain-trust-discovery)| TTP |
-| [Get-ForestTrust with PowerShell Script Block](/endpoint/get-foresttrust_with_powershell_script_block/) | [Domain Trust Discovery](/tags/#domain-trust-discovery)| TTP |
+| [Get-ForestTrust with PowerShell Script Block](/endpoint/get-foresttrust_with_powershell_script_block/) | [Domain Trust Discovery](/tags/#domain-trust-discovery), [PowerShell](/tags/#powershell)| TTP |
 | [Get WMIObject Group Discovery](/endpoint/get_wmiobject_group_discovery/) | [Permission Groups Discovery](/tags/#permission-groups-discovery), [Local Groups](/tags/#local-groups)| Hunting |
 | [Get WMIObject Group Discovery with Script Block Logging](/endpoint/get_wmiobject_group_discovery_with_script_block_logging/) | [Permission Groups Discovery](/tags/#permission-groups-discovery), [Local Groups](/tags/#local-groups)| Hunting |
 | [GetAdComputer with PowerShell](/endpoint/getadcomputer_with_powershell/) | [Remote System Discovery](/tags/#remote-system-discovery)| Hunting |
@@ -76,7 +76,7 @@ Once an attacker obtains an initial foothold in an Active Directory environment,
 | [GetDomainGroup with PowerShell](/endpoint/getdomaingroup_with_powershell/) | [Permission Groups Discovery](/tags/#permission-groups-discovery), [Domain Groups](/tags/#domain-groups)| TTP |
 | [GetDomainGroup with PowerShell Script Block](/endpoint/getdomaingroup_with_powershell_script_block/) | [Permission Groups Discovery](/tags/#permission-groups-discovery), [Domain Groups](/tags/#domain-groups)| TTP |
 | [GetLocalUser with PowerShell](/endpoint/getlocaluser_with_powershell/) | [Account Discovery](/tags/#account-discovery), [Local Account](/tags/#local-account)| Hunting |
-| [GetLocalUser with PowerShell Script Block](/endpoint/getlocaluser_with_powershell_script_block/) | [Account Discovery](/tags/#account-discovery), [Local Account](/tags/#local-account)| Hunting |
+| [GetLocalUser with PowerShell Script Block](/endpoint/getlocaluser_with_powershell_script_block/) | [Account Discovery](/tags/#account-discovery), [Local Account](/tags/#local-account), [PowerShell](/tags/#powershell)| Hunting |
 | [GetNetTcpconnection with PowerShell](/endpoint/getnettcpconnection_with_powershell/) | [System Network Connections Discovery](/tags/#system-network-connections-discovery)| Hunting |
 | [GetNetTcpconnection with PowerShell Script Block](/endpoint/getnettcpconnection_with_powershell_script_block/) | [System Network Connections Discovery](/tags/#system-network-connections-discovery)| Hunting |
 | [GetWmiObject Ds Computer with PowerShell](/endpoint/getwmiobject_ds_computer_with_powershell/) | [Remote System Discovery](/tags/#remote-system-discovery)| TTP |
@@ -86,7 +86,7 @@ Once an attacker obtains an initial foothold in an Active Directory environment,
 | [GetWmiObject DS User with PowerShell](/endpoint/getwmiobject_ds_user_with_powershell/) | [Domain Account](/tags/#domain-account), [Account Discovery](/tags/#account-discovery)| TTP |
 | [GetWmiObject DS User with PowerShell Script Block](/endpoint/getwmiobject_ds_user_with_powershell_script_block/) | [Domain Account](/tags/#domain-account), [Account Discovery](/tags/#account-discovery)| TTP |
 | [GetWmiObject User Account with PowerShell](/endpoint/getwmiobject_user_account_with_powershell/) | [Account Discovery](/tags/#account-discovery), [Local Account](/tags/#local-account)| Hunting |
-| [GetWmiObject User Account with PowerShell Script Block](/endpoint/getwmiobject_user_account_with_powershell_script_block/) | [Account Discovery](/tags/#account-discovery), [Local Account](/tags/#local-account)| Hunting |
+| [GetWmiObject User Account with PowerShell Script Block](/endpoint/getwmiobject_user_account_with_powershell_script_block/) | [Account Discovery](/tags/#account-discovery), [Local Account](/tags/#local-account), [PowerShell](/tags/#powershell)| Hunting |
 | [Local Account Discovery with Net](/endpoint/local_account_discovery_with_net/) | [Account Discovery](/tags/#account-discovery), [Local Account](/tags/#local-account)| Hunting |
 | [Local Account Discovery With Wmic](/endpoint/local_account_discovery_with_wmic/) | [Account Discovery](/tags/#account-discovery), [Local Account](/tags/#local-account)| Hunting |
 | [Net Localgroup Discovery](/endpoint/net_localgroup_discovery/) | [Permission Groups Discovery](/tags/#permission-groups-discovery), [Local Groups](/tags/#local-groups)| Hunting |
@@ -108,6 +108,9 @@ Once an attacker obtains an initial foothold in an Active Directory environment,
 | [System User Discovery With Whoami](/endpoint/system_user_discovery_with_whoami/) | [System Owner/User Discovery](/tags/#system-owner/user-discovery)| Hunting |
 | [User Discovery With Env Vars PowerShell](/endpoint/user_discovery_with_env_vars_powershell/) | [System Owner/User Discovery](/tags/#system-owner/user-discovery)| Hunting |
 | [User Discovery With Env Vars PowerShell Script Block](/endpoint/user_discovery_with_env_vars_powershell_script_block/) | [System Owner/User Discovery](/tags/#system-owner/user-discovery)| Hunting |
+| [Windows Hidden Schedule Task Settings](/endpoint/windows_hidden_schedule_task_settings/) | [Scheduled Task/Job](/tags/#scheduled-task/job)| TTP |
+| [Windows Linked Policies In ADSI Discovery](/endpoint/windows_linked_policies_in_adsi_discovery/) | [Domain Account](/tags/#domain-account), [Account Discovery](/tags/#account-discovery)| Anomaly |
+| [Windows Root Domain linked policies Discovery](/endpoint/windows_root_domain_linked_policies_discovery/) | [Domain Account](/tags/#domain-account), [Account Discovery](/tags/#account-discovery)| Anomaly |
 | [Wmic Group Discovery](/endpoint/wmic_group_discovery/) | [Permission Groups Discovery](/tags/#permission-groups-discovery), [Local Groups](/tags/#local-groups)| Hunting |
 
 #### Reference

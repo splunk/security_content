@@ -64,7 +64,9 @@ Defense evasion is a tactic--identified in the MITRE ATT&CK framework--that adve
 | [SLUI RunAs Elevated](/endpoint/slui_runas_elevated/) | [Bypass User Account Control](/tags/#bypass-user-account-control), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism)| TTP |
 | [SLUI Spawning a Process](/endpoint/slui_spawning_a_process/) | [Bypass User Account Control](/tags/#bypass-user-account-control), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism)| TTP |
 | [Suspicious Reg exe Process](/endpoint/suspicious_reg_exe_process/) | [Modify Registry](/tags/#modify-registry)| TTP |
-| [UAC Bypass MMC Load Unsigned Dll](/endpoint/uac_bypass_mmc_load_unsigned_dll/) | [Bypass User Account Control](/tags/#bypass-user-account-control), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism)| TTP |
+| [UAC Bypass MMC Load Unsigned Dll](/endpoint/uac_bypass_mmc_load_unsigned_dll/) | [Bypass User Account Control](/tags/#bypass-user-account-control), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism), [MMC](/tags/#mmc)| TTP |
+| [Windows Command and Scripting Interpreter Hunting Path Traversal](/endpoint/windows_command_and_scripting_interpreter_hunting_path_traversal/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter)| Hunting |
+| [Windows Command and Scripting Interpreter Path Traversal Exec](/endpoint/windows_command_and_scripting_interpreter_path_traversal_exec/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter)| TTP |
 | [Windows Defender Exclusion Registry Entry](/endpoint/windows_defender_exclusion_registry_entry/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Impair Defenses](/tags/#impair-defenses)| TTP |
 | [Windows Disable Change Password Through Registry](/endpoint/windows_disable_change_password_through_registry/) | [Modify Registry](/tags/#modify-registry)| Anomaly |
 | [Windows Disable Lock Workstation Feature Through Registry](/endpoint/windows_disable_lock_workstation_feature_through_registry/) | [Modify Registry](/tags/#modify-registry)| Anomaly |
@@ -75,9 +77,12 @@ Defense evasion is a tactic--identified in the MITRE ATT&CK framework--that adve
 | [Windows Event For Service Disabled](/endpoint/windows_event_for_service_disabled/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Impair Defenses](/tags/#impair-defenses)| Hunting |
 | [Windows Excessive Disabled Services Event](/endpoint/windows_excessive_disabled_services_event/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Impair Defenses](/tags/#impair-defenses)| TTP |
 | [Windows Hide Notification Features Through Registry](/endpoint/windows_hide_notification_features_through_registry/) | [Modify Registry](/tags/#modify-registry)| Anomaly |
+| [Windows Impair Defense Delete Win Defender Context Menu](/endpoint/windows_impair_defense_delete_win_defender_context_menu/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Impair Defenses](/tags/#impair-defenses)| Hunting |
+| [Windows Impair Defense Delete Win Defender Profile Registry](/endpoint/windows_impair_defense_delete_win_defender_profile_registry/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Impair Defenses](/tags/#impair-defenses)| Anomaly |
+| [Windows Impair Defenses Disable Win Defender Auto Logging](/endpoint/windows_impair_defenses_disable_win_defender_auto_logging/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Impair Defenses](/tags/#impair-defenses)| Anomaly |
 | [Windows Modify Show Compress Color And Info Tip Registry](/endpoint/windows_modify_show_compress_color_and_info_tip_registry/) | [Modify Registry](/tags/#modify-registry)| TTP |
 | [Windows Process With NamedPipe CommandLine](/endpoint/windows_process_with_namedpipe_commandline/) | [Process Injection](/tags/#process-injection)| Anomaly |
-| [Windows Rasautou DLL Execution](/endpoint/windows_rasautou_dll_execution/) | [Dynamic-link Library Injection](/tags/#dynamic-link-library-injection), [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Process Injection](/tags/#process-injection)| TTP |
+| [Windows Rasautou DLL Execution](/endpoint/windows_rasautou_dll_execution/) | [Dynamic-link Library Injection](/tags/#dynamic-link-library-injection), [System Binary Proxy Execution](/tags/#system-binary-proxy-execution), [Process Injection](/tags/#process-injection)| TTP |
 | [WSReset UAC Bypass](/endpoint/wsreset_uac_bypass/) | [Bypass User Account Control](/tags/#bypass-user-account-control), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism)| TTP |
 
 #### Reference

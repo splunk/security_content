@@ -20,7 +20,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -98,7 +98,7 @@ The search looks for AWS CloudTrail events to detect if any network ACLs were cr
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `cloudtrail` eventName=CreateNetworkAclEntry OR eventName=ReplaceNetworkAclEntry requestParameters.ruleAction=allow requestParameters.egress=false requestParameters.aclProtocol=-1 
@@ -114,10 +114,11 @@ The search looks for AWS CloudTrail events to detect if any network ACLs were cr
 
 #### Macros
 The SPL above uses the following Macros:
-* [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
 
-Note that **aws_network_access_control_list_created_with_all_open_ports_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **aws_network_access_control_list_created_with_all_open_ports_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -151,6 +152,9 @@ It's possible that an admin has created this ACL with all ports open for some le
 | ----------- | ----------- |--------------|--------------|
 | 48.0 | 60 | 80 | User $user_arn$ has created network ACLs with all the ports open to a specified CIDR $requestParameters.cidrBlock$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

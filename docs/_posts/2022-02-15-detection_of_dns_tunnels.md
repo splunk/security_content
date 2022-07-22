@@ -1,6 +1,6 @@
 ---
 title: "Detection of DNS Tunnels"
-excerpt: "Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol
+excerpt: "Exfiltration Over Unencrypted Non-C2 Protocol
 "
 categories:
   - Deprecated
@@ -8,7 +8,7 @@ last_modified_at: 2022-02-15
 toc: true
 toc_label: ""
 tags:
-  - Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol
+  - Exfiltration Over Unencrypted Non-C2 Protocol
   - Exfiltration
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -18,7 +18,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -43,7 +43,7 @@ NOTE:Deprecated because existing detection is doing the same. This detection is 
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
-| [T1048.003](https://attack.mitre.org/techniques/T1048/003/) | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
+| [T1048.003](https://attack.mitre.org/techniques/T1048/003/) | Exfiltration Over Unencrypted Non-C2 Protocol | Exfiltration |
 
 </div>
 </details>
@@ -96,7 +96,7 @@ NOTE:Deprecated because existing detection is doing the same. This detection is 
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -118,7 +118,8 @@ NOTE:Deprecated because existing detection is doing the same. This detection is 
 The SPL above uses the following Macros:
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that **detection_of_dns_tunnels_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **detection_of_dns_tunnels_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -148,6 +149,9 @@ It's possible that normal DNS traffic will exhibit this behavior. If an alert is
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

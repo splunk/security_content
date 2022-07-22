@@ -1,7 +1,7 @@
 name: Schtasks scheduling job on remote system
 id: 1297fb80-f42a-4b4a-9c8a-88c066237cf6
-version: 5
-date: '2021-11-11'
+version: 6
+date: '2022-05-23'
 author: David Dorsey, Mauricio Velazco, Splunk
 type: TTP
 datamodel:
@@ -42,32 +42,36 @@ tags:
   impact: 70
   kill_chain_phases:
   - Actions on Objectives
-  message: A schedule task process $process_name$ with remote job commandline $process$
-    in host $dest$
+  message: A schedule task process $process_name$ with remote job command-line $process$
+    in host $dest$ by $user$.
   mitre_attack_id:
   - T1053.005
   - T1053
   nist:
   - PR.IP
   observable:
-  - name: Processes.dest
+  - name: dest
     type: Hostname
     role:
     - Victim
-  - name: Processes.user
+  - name: user
     type: User
     role:
     - Victim
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
   - _time
-  - Processes.process_name
-  - Processes.process
+  - Processes.process_name 
+  - Processes.process 
   - Processes.parent_process_name
-  - Processes.dest
+  - Processes.dest 
   - Processes.user
   risk_score: 63
   security_domain: endpoint

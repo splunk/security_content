@@ -7,6 +7,8 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - Endpoint
+  - Exploitation
 ---
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -16,7 +18,7 @@ tags:
 Leverage searches that allow you to detect and investigate unusual activities that might relate to the cyclopsblink malware including firewall modification, spawning more process, botnet c2 communication, defense evasion and etc. Cyclops Blink is a Linux ELF executable compiled for 32-bit x86 and PowerPC architecture that has targeted several network devices. The complete list of targeted devices is unknown at this time, but WatchGuard FireBox has specifically been listed as a target. The modular malware consists of core components and modules that are deployed as child processes using the Linux API fork. At this point, four modules have been identified that download and upload files, gather system information and contain updating mechanisms for the malware itself. Additional modules can be downloaded and executed from the command and control (C2) server.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2022-04-07
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: 7c75b1c8-dfff-46f1-8250-e58df91b6fd9
@@ -29,6 +31,9 @@ Adversaries may use this technique to maximize the impact on the target organiza
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
+| [Linux Iptables Firewall Modification](/endpoint/linux_iptables_firewall_modification/) | [Disable or Modify System Firewall](/tags/#disable-or-modify-system-firewall), [Impair Defenses](/tags/#impair-defenses)| Anomaly |
+| [Linux Kworker Process In Writable Process Path](/endpoint/linux_kworker_process_in_writable_process_path/) | [Masquerade Task or Service](/tags/#masquerade-task-or-service), [Masquerading](/tags/#masquerading)| Hunting |
+| [Linux Stdout Redirection To Dev Null File](/endpoint/linux_stdout_redirection_to_dev_null_file/) | [Disable or Modify System Firewall](/tags/#disable-or-modify-system-firewall), [Impair Defenses](/tags/#impair-defenses)| Anomaly |
 
 #### Reference
 

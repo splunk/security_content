@@ -17,7 +17,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -88,7 +88,7 @@ This search show information on uploaded containers including source user, accou
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -100,7 +100,8 @@ This search show information on uploaded containers including source user, accou
 #### Macros
 The SPL above uses the following Macros:
 
-Note that **gcp_gcr_container_uploaded_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **gcp_gcr_container_uploaded_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -124,6 +125,9 @@ Uploading container is a normal behavior from developers or users with access to
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

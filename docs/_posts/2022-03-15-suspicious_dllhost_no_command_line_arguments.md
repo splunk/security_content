@@ -19,7 +19,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -90,7 +90,7 @@ The following analytic identifies DLLHost.exe with no command line arguments. It
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -108,7 +108,8 @@ The SPL above uses the following Macros:
 * [process_dllhost](https://github.com/splunk/security_content/blob/develop/macros/process_dllhost.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that **suspicious_dllhost_no_command_line_arguments_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **suspicious_dllhost_no_command_line_arguments_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -144,10 +145,13 @@ Limited false positives may be present in small environments. Tuning may be requ
 | 49.0 | 70 | 70 | Suspicious dllhost.exe process with no command line arguments executed on $dest$ by $user$ |
 
 
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
+
 #### Reference
 
 * [https://raw.githubusercontent.com/threatexpress/malleable-c2/c3385e481159a759f79b8acfe11acf240893b830/jquery-c2.4.2.profile](https://raw.githubusercontent.com/threatexpress/malleable-c2/c3385e481159a759f79b8acfe11acf240893b830/jquery-c2.4.2.profile)
-* [https://blog.cobaltstrike.com/2021/02/09/learn-pipe-fitting-for-all-of-your-offense-projects/](https://blog.cobaltstrike.com/2021/02/09/learn-pipe-fitting-for-all-of-your-offense-projects/)
+* [https://www.cobaltstrike.com/blog/learn-pipe-fitting-for-all-of-your-offense-projects/](https://www.cobaltstrike.com/blog/learn-pipe-fitting-for-all-of-your-offense-projects/)
 
 
 
