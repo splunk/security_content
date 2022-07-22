@@ -26,8 +26,11 @@ tags:
   - Splunk Phantom
   required_fields:
   - _time
-  - awsRegion
-  - errorCode
-  - eventName
   - sourceIPAddress
+  - userIdentity.arn
+  - userIdentity.userName
+  - userIdentity.type
+  - awsRegion
+  - eventName
+  - errorCode
   security_domain: network

@@ -19,8 +19,12 @@ tags:
   - Splunk Phantom
   required_fields:
   - _time
-  - displayMessage
-  - result
-  - src_ip
+  - client.geographicalContext.country
+  - client.geographicalContext.state
+  - client.geographicalContext.city
   - user
+  - displayMessage
+  - src_ip
+  - result
+  - outcome.reason
   security_domain: network

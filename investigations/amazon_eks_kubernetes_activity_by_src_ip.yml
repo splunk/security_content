@@ -24,8 +24,10 @@ tags:
   - Splunk Phantom
   required_fields:
   - _time
-  - requestURI
   - sourceIPs{}
-  - userAgent
+  - user.username
+  - requestURI
   - verb
+  - userAgent
+  - annotations.authorization.k8s.io/decision
   security_domain: network

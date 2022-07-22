@@ -4,8 +4,7 @@ version: 1
 date: '2017-11-09'
 author: Bhavin Patel, Splunk
 type: Investigation
-datamodel:
-- Email
+datamodel: []
 description: This search returns all the information Splunk might have collected a
   specific email message over the last 2 hours.
 search: '| from datamodel Email.All_Email | search message_id=$message_id$'
@@ -20,5 +19,6 @@ tags:
   product:
   - Splunk Phantom
   required_fields:
+  - _time
   - message
   security_domain: network

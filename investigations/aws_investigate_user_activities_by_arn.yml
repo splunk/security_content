@@ -35,10 +35,13 @@ tags:
   - Splunk Phantom
   required_fields:
   - _time
-  - awsRegion
+  - user
+  - userIdentity.type
+  - userIdentity.userName
+  - userIdentity.arn
   - aws_account_id
+  - src
+  - awsRegion
   - eventName
   - eventType
-  - src
-  - user
   security_domain: network

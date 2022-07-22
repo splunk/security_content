@@ -31,7 +31,8 @@ tags:
   product:
   - Splunk Phantom
   required_fields:
-  - dest_ip
-  - dest_port
+  - _time
   - src_ip
+  - dest_port
+  - dest_ip
   security_domain: network

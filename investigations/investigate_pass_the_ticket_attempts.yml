@@ -24,7 +24,8 @@ tags:
   product:
   - Splunk Phantom
   required_fields:
+  - _time
   - EventCode
-  - dest
   - user
+  - dest
   security_domain: endpoint

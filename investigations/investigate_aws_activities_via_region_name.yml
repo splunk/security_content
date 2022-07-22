@@ -24,7 +24,9 @@ tags:
   product:
   - Splunk Phantom
   required_fields:
+  - _time
+  - vendor_region
+  - requestParameters.instancesSet.items{}.instanceId
   - eventName
   - user
-  - vendor_region
   security_domain: network

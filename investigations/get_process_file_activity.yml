@@ -25,9 +25,10 @@ tags:
   product:
   - Splunk Phantom
   required_fields:
-  - Endpoint.Filesystem.action
-  - Endpoint.Filesystem.dest
-  - Endpoint.Filesystem.file_name
-  - Endpoint.Filesystem.file_path
   - _time
+  - Filesystem.file_name
+  - Filesystem.dest
+  - Filesystem.process_name
+  - Filesystem.file_path
+  - Filesystem.action
   security_domain: endpoint

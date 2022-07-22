@@ -23,10 +23,12 @@ tags:
   product:
   - Splunk Phantom
   required_fields:
-  - action
-  - aws_account_id
+  - _time
+  - resourceId
   - bucketName
   - resourceCreationTime
-  - resourceId
   - vendor_region
+  - action
+  - aws_account_id
+  - supplementaryConfiguration.AccessControlList
   security_domain: network

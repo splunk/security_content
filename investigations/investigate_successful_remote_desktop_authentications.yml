@@ -10,7 +10,7 @@ description: 'This search returns the source, destination, and user for all succ
   remote-desktop authentications. A successful authentication after a brute-force
   attack on a destination machine is suspicious behavior. '
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Authentication.Authentication where Authentication.signature_id=4624
+  as lastTime from datamodel=Authentication where Authentication.signature_id=4624
   Authentication.app=win:remote by Authentication.src Authentication.dest Authentication.app
   Authentication.user Authentication.signature Authentication.src_nt_domain | `security_content_ctime(lastTime)`
   | `security_content_ctime(firstTime)` | `drop_dm_object_name("Authentication")`
@@ -28,12 +28,12 @@ tags:
   product:
   - Splunk Phantom
   required_fields:
-  - Authentication.Authentication.app
-  - Authentication.Authentication.dest
-  - Authentication.Authentication.signature
-  - Authentication.Authentication.signature_id
-  - Authentication.Authentication.src
-  - Authentication.Authentication.src_nt_domain
-  - Authentication.Authentication.user
   - _time
+  - Authentication.signature_id
+  - Authentication.app
+  - Authentication.src
+  - Authentication.dest
+  - Authentication.user
+  - Authentication.signature
+  - Authentication.src_nt_domain
   security_domain: endpoint

@@ -20,8 +20,12 @@ tags:
   required_fields:
   - _time
   - app
-  - displayMessage
-  - result
-  - src_ip
+  - client.geographicalContext.country
+  - client.geographicalContext.state
+  - client.geographicalContext.city
   - user
+  - displayMessage
+  - src_ip
+  - result
+  - outcome.reason
   security_domain: network

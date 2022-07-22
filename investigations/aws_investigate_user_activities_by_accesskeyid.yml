@@ -23,9 +23,11 @@ tags:
   - Splunk Security Analytics for AWS
   required_fields:
   - _time
+  - userIdentity.accessKeyId
+  - userIdentity.arn
+  - sourceIPAddress
   - awsRegion
+  - eventName
   - errorCode
   - errorMessage
-  - eventName
-  - sourceIPAddress
   security_domain: network

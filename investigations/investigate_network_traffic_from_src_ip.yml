@@ -22,5 +22,6 @@ tags:
   product:
   - Splunk Phantom
   required_fields:
+  - _time
   - src_ip
   security_domain: network

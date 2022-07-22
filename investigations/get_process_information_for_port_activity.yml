@@ -35,12 +35,12 @@ tags:
   product:
   - Splunk Phantom
   required_fields:
-  - Endpoint.Ports.dest_port
-  - Endpoint.Ports.process_id
-  - Endpoint.Ports.src
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.process_id
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.user
   - _time
+  - Processes.user
+  - Processes.process_id
+  - Processes.process_name
+  - Processes.dest
+  - Ports.process_id
+  - Ports.src
+  - Ports.dest_port
   security_domain: endpoint

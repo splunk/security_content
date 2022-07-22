@@ -18,5 +18,6 @@ tags:
   product:
   - Splunk Phantom
   required_fields:
+  - _time
   - dest
   security_domain: endpoint

@@ -11,9 +11,9 @@ description: This search allows you to gather more context around a notable whic
   the first and last occurrences of the suspicious device attempting to connect with
   your network.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Network_Sessions.All_Sessions where nodename=All_Sessions.DHCP
-  All_Sessions.signature=DHCPREQUEST All_Sessions.src_mac= $src_mac$ by All_Sessions.src_ip
-  All_Sessions.user | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`'
+  as lastTime from datamodel=Network_Sessions where nodename=All_Sessions.DHCP All_Sessions.signature=DHCPREQUEST
+  All_Sessions.src_mac= $src_mac$ by All_Sessions.src_ip All_Sessions.user | `security_content_ctime(lastTime)`
+  | `security_content_ctime(firstTime)`'
 how_to_implement: To successfully implement this search, you must be ingesting the
   logs from your DHCP server.
 known_false_positives: ''
@@ -24,9 +24,10 @@ tags:
   product:
   - Splunk Phantom
   required_fields:
-  - Network_Sessions.All_Sessions.signature
-  - Network_Sessions.All_Sessions.src_ip
-  - Network_Sessions.All_Sessions.src_mac
-  - Network_Sessions.All_Sessions.user
   - _time
+  - All_Sessions.DHCP
+  - All_Sessions.signature
+  - All_Sessions.src_mac
+  - All_Sessions.src_ip
+  - All_Sessions.user
   security_domain: network

@@ -53,10 +53,9 @@ tags:
   product:
   - Splunk Phantom
   required_fields:
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.parent_process_name
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.user
   - _time
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.process_name
+  - Processes.dest
   security_domain: endpoint

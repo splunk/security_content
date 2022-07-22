@@ -31,8 +31,8 @@ tags:
   product:
   - Splunk Phantom
   required_fields:
-  - Email.All_Email.dest
-  - Email.All_Email.recipient
-  - Email.All_Email.src
   - _time
+  - All_Email.dest
+  - All_Email.recipient
+  - All_Email.src
   security_domain: network

@@ -22,8 +22,9 @@ tags:
   product:
   - Splunk Phantom
   required_fields:
-  - http_user_agent
+  - _time
   - session_id
+  - http_user_agent
   - src_ip
   - status
   security_domain: network

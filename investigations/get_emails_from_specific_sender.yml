@@ -4,8 +4,7 @@ version: 1
 date: '2017-11-09'
 author: David Dorsey, Splunk
 type: Investigation
-datamodel:
-- Email
+datamodel: []
 description: This search returns all the emails from a specific sender over the last
   24 and next hours.
 search: '| from datamodel Email.All_Email | search src_user=$src_user$'
@@ -22,5 +21,6 @@ tags:
   product:
   - Splunk Phantom
   required_fields:
+  - _time
   - src_user
   security_domain: networks

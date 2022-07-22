@@ -22,7 +22,9 @@ tags:
   product:
   - Splunk Phantom
   required_fields:
-  - account_id
+  - _time
   - id
+  - account_id
   - vpc_id
+  - network_acl_entries{}.*
   security_domain: network

@@ -26,10 +26,14 @@ tags:
   product:
   - Splunk Phantom
   required_fields:
+  - _time
+  - findings{}.Resources{}.Type
+  - findings{}.Resources{}.Id
+  - instance
+  - Remediation.Recommendation.Text
+  - Title
+  - ProductArn
   - Description
   - FirstObservedAt
-  - ProductArn
   - RecordState
-  - Title
-  - instance
   security_domain: network

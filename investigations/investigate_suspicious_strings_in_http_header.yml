@@ -28,8 +28,9 @@ tags:
   product:
   - Splunk Phantom
   required_fields:
-  - cs_content_type
-  - dest_ip
+  - _time
   - src_ip
+  - dest_ip
+  - cs_content_type
   - url
   security_domain: network

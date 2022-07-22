@@ -9,7 +9,7 @@ datamodel:
 description: 'This investigative search retrieves POST requests from a specified source
   IP or hostname. Identifying the POST requests, as well as their associated destination
   URLs and user agent(s), may help you scope and characterize the suspicious traffic. '
-search: '| tstats `security_content_summariesonly` values(Web.url) as url from datamodel=Web.Web
+search: '| tstats `security_content_summariesonly` values(Web.url) as url from datamodel=Web
   by Web.src,Web.http_user_agent,Web.http_method | `drop_dm_object_name("Web")`| search
   http_method, "POST" | search src=$src$'
 how_to_implement: To successfully implement this search, you must be ingesting your
@@ -22,8 +22,9 @@ tags:
   product:
   - Splunk Phantom
   required_fields:
-  - Web.Web.http_method
-  - Web.Web.http_user_agent
-  - Web.Web.src
-  - Web.Web.url
+  - _time
+  - Web.url
+  - Web.src
+  - Web.http_user_agent
+  - Web.http_method
   security_domain: network

@@ -28,4 +28,12 @@ tags:
   - Splunk Phantom
   required_fields:
   - _time
+  - data.protoPayload.requestMetadata.callerIp
+  - data.protoPayload.methodName
+  - data.protoPayload.resourceName
+  - data.protoPayload.requestMetadata.callerSuppliedUserAgent
+  - data.protoPayload.authenticationInfo.principalEmail
+  - data.protoPayload.status.message
+  - data.resource.labels.cluster_name
+  - data.resource.type
   security_domain: network
