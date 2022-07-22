@@ -30,7 +30,6 @@ references:
 tags:
   analytic_story:
   - Collection and Staging
-  automated_detection_testing: passed
   confidence: 90
   context:
   - Source:Endpoint
@@ -40,7 +39,6 @@ tags:
   impact: 30
   kill_chain_phases:
   - Exploitation
-  - Exfiltration
   message: The following $process_name$ has been identified as renamed, spawning from
     $parent_process_name$ on $dest$ by $user$.
   mitre_attack_id:
@@ -56,6 +54,7 @@ tags:
     - Victim
     type: Hostname
   - name: parent_process_name
+    type: Process
     role:
     - Parent Process
     type: Parent Process
@@ -79,3 +78,4 @@ tags:
   - _time
   risk_score: 27
   security_domain: endpoint
+  asset_type: Endpoint

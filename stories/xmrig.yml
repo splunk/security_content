@@ -5,16 +5,20 @@ date: '2021-05-07'
 author: Teoderick Contreras, Rod Soto Splunk
 description: Leverage searches that allow you to detect and investigate unusual activities
   that might relate to the xmrig monero, including looking for file writes associated
-  with its payload, process command-line, defense evasion (killing services, deleting users, modifying files or folder permission, killing other malware or other coin miner)
-  and hacking tools including Telegram as mean of command and control (C2) to download other files.
-  Adversaries may leverage the resources of co-opted systems in order to solve resource intensive problems which may impact system and/or hosted service availability.
-  One common purpose for Resource Hijacking is to validate transactions of cryptocurrency networks and earn virtual currency. 
-  Adversaries may consume enough system resources to negatively impact and/or cause affected machines to become unresponsive.
-  (1) Servers and cloud-based
-  (2) systems are common targets because of the high potential for available resources, 
-  but user endpoint systems may also be compromised and used for Resource Hijacking and cryptocurrency mining.
-narrative: XMRig is a high performance, open source, cross platform RandomX, KawPow, CryptoNight and AstroBWT unified CPU/GPU miner.
-  This monero is seen in the wild on May 2017.
+  with its payload, process command-line, defense evasion (killing services, deleting
+  users, modifying files or folder permission, killing other malware or other coin
+  miner) and hacking tools including Telegram as mean of command and control (C2)
+  to download other files. Adversaries may leverage the resources of co-opted systems
+  in order to solve resource intensive problems which may impact system and/or hosted
+  service availability. One common purpose for Resource Hijacking is to validate transactions
+  of cryptocurrency networks and earn virtual currency. Adversaries may consume enough
+  system resources to negatively impact and/or cause affected machines to become unresponsive.
+  (1) Servers and cloud-based (2) systems are common targets because of the high potential
+  for available resources, but user endpoint systems may also be compromised and used
+  for Resource Hijacking and cryptocurrency mining.
+narrative: XMRig is a high performance, open source, cross platform RandomX, KawPow,
+  CryptoNight and AstroBWT unified CPU/GPU miner. This monero is seen in the wild
+  on May 2017.
 references:
 - https://github.com/xmrig/xmrig
 - https://www.getmonero.org/resources/user-guides/mine-to-pool.html
@@ -29,6 +33,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Advanced Threat Detection
-
-
-

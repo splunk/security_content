@@ -24,13 +24,13 @@ known_false_positives: This detection will require tuning to provide high fideli
   detection capabilties. Tune based on src addresses (corporate offices, VPN terminations)
   or by groups of users.
 references:
-- https://www.praetorian.com/blog/aws-iam-assume-role-vulnerabilities
+- https://www.praetorian.com/blog/aws-iam-assume-role-vulnerabilities/
 - https://rhinosecuritylabs.com/aws/assume-worst-aws-assume-role-enumeration/
 - https://www.elastic.co/guide/en/security/current/aws-iam-brute-force-of-assume-role-policy.html
 tags:
   analytic_story:
   - AWS IAM Privilege Escalation
-  automated_detection_testing: passed
+  asset_type: AWS Account
   confidence: 70
   context:
   - Source:Cloud Data
@@ -60,7 +60,6 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Splunk Security Analytics for AWS
   required_fields:
   - _time
   - errorCode

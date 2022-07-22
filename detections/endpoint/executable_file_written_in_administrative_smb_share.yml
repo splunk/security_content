@@ -27,11 +27,14 @@ references:
 - https://attack.mitre.org/techniques/T1021/002/
 - https://www.rapid7.com/blog/post/2013/03/09/psexec-demystified/
 - https://labs.vipre.com/trickbot-and-its-modules/
-- https://blog.whitehat.eu/2019/05/incident-trickbot-ryuk-2.html
+- https://whitehat.eu/incident-response-case-study-featuring-ryuk-and-trickbot-part-2/
 tags:
   analytic_story:
+  - Data Destruction
   - Active Directory Lateral Movement
   - Trickbot
+  - Hermetic Wiper
+  - Industroyer2
   automated_detection_testing: passed
   confidence: 100
   context:
@@ -41,7 +44,7 @@ tags:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/exe_smbshare/windows-security.log
   impact: 70
   kill_chain_phases:
-  - Lateral Movement
+  - Exploitation
   message: $user$ dropped or created an executable file in known sensitive SMB share.  Share
     name=$Share_Name$, Target name=$Relative_Target_Name$, and Access mask=$Access_Mask$
   mitre_attack_id:
@@ -68,3 +71,4 @@ tags:
   - Source_Address
   risk_score: 70
   security_domain: endpoint
+  asset_type: Endpoint

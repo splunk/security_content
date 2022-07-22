@@ -1,5 +1,5 @@
 name: Email files written outside of the Outlook directory
-id: ee18ed37-0802-4268-9435-b3b91aaa18xx
+id: 8d52cf03-ba25-4101-aa78-07994aed4f74
 version: 3
 date: '2020-07-21'
 author: Bhavin Patel, Splunk
@@ -48,3 +48,13 @@ tags:
   - Filesystem.process_id
   - Filesystem.dest
   security_domain: endpoint
+  confidence: 50
+  impact: 50
+  risk_score: 25
+  context: []
+  message: tbd
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim

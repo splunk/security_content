@@ -1,6 +1,7 @@
 ---
 title: "Common Ransomware Notes"
-excerpt: "Data Destruction"
+excerpt: "Data Destruction
+"
 categories:
   - Endpoint
 last_modified_at: 2020-11-09
@@ -17,13 +18,13 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The search looks for files created with names matching those typically used in ransomware notes that tell the victim how to get their data back.
 
-- **Type**: Hunting
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-11-09
@@ -31,13 +32,69 @@ The search looks for files created with names matching those typically used in r
 - **ID**: ada0f478-84a8-4641-a3f1-d82362d6bd71
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Annotations
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+<details>
+  <summary>ATT&CK</summary>
+
+<div markdown="1">
+
+
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1485](https://attack.mitre.org/techniques/T1485/) | Data Destruction | Impact |
 
-#### Search
+</div>
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+<div markdown="1">
+
+* Actions on Objectives
+
+
+</div>
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+<div markdown="1">
+
+* PR.PT
+* DE.CM
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+<div markdown="1">
+
+* CIS 8
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+<div markdown="1">
+
+
+</div>
+</details>
+
+#### Search 
 
 ```
 
@@ -49,15 +106,14 @@ The search looks for files created with names matching those typically used in r
 | `common_ransomware_notes_filter`
 ```
 
-#### Associated Analytic Story
-* [SamSam Ransomware](/stories/samsam_ransomware)
-* [Ransomware](/stories/ransomware)
-* [Ryuk Ransomware](/stories/ryuk_ransomware)
-* [Clop Ransomware](/stories/clop_ransomware)
+#### Macros
+The SPL above uses the following Macros:
+* [ransomware_notes](https://github.com/splunk/security_content/blob/develop/macros/ransomware_notes.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-You must be ingesting data that records file-system activity from your hosts to populate the Endpoint Filesystem data-model node. This is typically populated via endpoint detection-and-response product, such as Carbon Black, or via other endpoint data sources, such as Sysmon. The data used for this search is typically generated via logs that report file-system reads and writes.
+> :information_source:
+> **common_ransomware_notes_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -67,12 +123,19 @@ You must be ingesting data that records file-system activity from your hosts to 
 * Filesystem.file_name
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+You must be ingesting data that records file-system activity from your hosts to populate the Endpoint Filesystem data-model node. This is typically populated via endpoint detection-and-response product, such as Carbon Black, or via other endpoint data sources, such as Sysmon. The data used for this search is typically generated via logs that report file-system reads and writes.
 
 #### Known False Positives
-It&#39;s possible that a legitimate file could be created with the same name used by ransomware note files.
+It's possible that a legitimate file could be created with the same name used by ransomware note files.
+
+#### Associated Analytic story
+* [SamSam Ransomware](/stories/samsam_ransomware)
+* [Ransomware](/stories/ransomware)
+* [Ryuk Ransomware](/stories/ryuk_ransomware)
+* [Clop Ransomware](/stories/clop_ransomware)
+
+
 
 
 #### RBA
@@ -82,14 +145,16 @@ It&#39;s possible that a legitimate file could be created with the same name use
 | 90.0 | 90 | 100 | A file - $file_name$ was written to disk on endpoint $dest$ by user $user$, this is indicative of a known ransomware note file and should be reviewed immediately. |
 
 
-
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/ransomware_notes/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/ransomware_notes/windows-sysmon.log)
 

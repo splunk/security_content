@@ -34,7 +34,6 @@ references:
 tags:
   analytic_story:
   - Spearphishing Attachments
-  automated_detection_testing: passed
   confidence: 100
   context:
   - Source:Endpoint
@@ -59,6 +58,7 @@ tags:
     - Victim
     type: Hostname
   - name: parent_process_name
+    type: Process
     role:
     - Parent Process
     type: Parent Process
@@ -84,3 +84,4 @@ tags:
   - user
   risk_score: 80
   security_domain: endpoint
+  asset_type: Endpoint

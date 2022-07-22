@@ -1,0 +1,13 @@
+name: Kerberos Pre-Authentication Flag Disabled with PowerShell Unit Test
+tests:
+- name: Kerberos Pre-Authentication Flag Disabled with PowerShell
+  file: endpoint/kerberos_pre_authentication_flag_disabled_with_powershell.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: windows-powershell-xml.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.004/powershell/windows-powershell-xml.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: True

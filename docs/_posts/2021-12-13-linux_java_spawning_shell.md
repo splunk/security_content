@@ -1,6 +1,7 @@
 ---
 title: "Linux Java Spawning Shell"
-excerpt: "Exploit Public-Facing Application"
+excerpt: "Exploit Public-Facing Application
+"
 categories:
   - Endpoint
 last_modified_at: 2021-12-13
@@ -16,17 +17,15 @@ tags:
   - Endpoint
 ---
 
-### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
-We have not been able to test, simulate, or build datasets for this detection. Use at your own risk. This analytic is **NOT** supported.
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
-The following analytic identifies the process name of Java, Apache, or Tomcat spawning a Linux shell. This is potentially indicative of exploitation of the Java application and may be related to current event CVE-2021-44228 (Log4Shell). The shells included in the macro are &#34;sh&#34;, &#34;ksh&#34;, &#34;zsh&#34;, &#34;bash&#34;, &#34;dash&#34;, &#34;rbash&#34;, &#34;fish&#34;, &#34;csh&#39;, &#34;tcsh&#39;, &#34;ion&#34;, &#34;eshell&#34;. Upon triage, review parallel processes and command-line arguments to determine legitimacy.
+The following analytic identifies the process name of Java, Apache, or Tomcat spawning a Linux shell. This is potentially indicative of exploitation of the Java application and may be related to current event CVE-2021-44228 (Log4Shell). The shells included in the macro are "sh", "ksh", "zsh", "bash", "dash", "rbash", "fish", "csh', "tcsh', "ion", "eshell". Upon triage, review parallel processes and command-line arguments to determine legitimacy.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-12-13
@@ -34,13 +33,68 @@ The following analytic identifies the process name of Java, Apache, or Tomcat sp
 - **ID**: 7b09db8a-5c20-11ec-9945-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Annotations
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+<details>
+  <summary>ATT&CK</summary>
+
+<div markdown="1">
+
+
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1190](https://attack.mitre.org/techniques/T1190/) | Exploit Public-Facing Application | Initial Access |
 
-#### Search
+</div>
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+<div markdown="1">
+
+* Exploitation
+
+
+</div>
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+<div markdown="1">
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+<div markdown="1">
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+<div markdown="1">
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+| [CVE-2021-44228](https://nvd.nist.gov/vuln/detail/CVE-2021-44228) | Apache Log4j2 2.0-beta9 through 2.15.0 (excluding security releases 2.12.2, 2.12.3, and 2.3.1) JNDI features used in configuration, log messages, and parameters do not protect against attacker controlled LDAP and other JNDI related endpoints. An attacker who can control log messages or log message parameters can execute arbitrary code loaded from LDAP servers when message lookup substitution is enabled. From log4j 2.15.0, this behavior has been disabled by default. From version 2.16.0 (along with 2.12.2, 2.12.3, and 2.3.1), this functionality has been completely removed. Note that this vulnerability is specific to log4j-core and does not affect log4net, log4cxx, or other Apache Logging Services projects. | 9.3 |
+
+
+
+</div>
+</details>
+
+#### Search 
 
 ```
 
@@ -51,12 +105,14 @@ The following analytic identifies the process name of Java, Apache, or Tomcat sp
 | `linux_java_spawning_shell_filter`
 ```
 
-#### Associated Analytic Story
-* [Log4Shell CVE-2021-44228](/stories/log4shell_cve-2021-44228)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [linux_shells](https://github.com/splunk/security_content/blob/develop/macros/linux_shells.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon for Linux, you will need to ensure mapping is occurring correctly. Ensure EDR product is mapping OS Linux to the datamodel properly. Add any additional java process names for your environment to the analytic as needed.
+> :information_source:
+> **linux_java_spawning_shell_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -73,12 +129,18 @@ To successfully implement this search, you need to be ingesting logs with the pr
 * Processes.parent_process_id
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon for Linux, you will need to ensure mapping is occurring correctly. Ensure EDR product is mapping OS Linux to the datamodel properly. Add any additional java process names for your environment to the analytic as needed.
 
 #### Known False Positives
-Filtering may be required on internal developer build systems or classify assets as web facing and restrict the analytic based on that.
+Filtering may be required on internal developer build systems or classify assets as web facing and restrict the analytic based on asset type.
+
+#### Associated Analytic story
+* [Hermetic Wiper](/stories/hermetic_wiper)
+* [Log4Shell CVE-2021-44228](/stories/log4shell_cve-2021-44228)
+* [Spring4Shell CVE-2022-22965](/stories/spring4shell_cve-2022-22965)
+
+
 
 
 #### RBA
@@ -88,14 +150,8 @@ Filtering may be required on internal developer build systems or classify assets
 | 40.0 | 80 | 50 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ spawning a Linux shell, potentially indicative of exploitation. |
 
 
-
-#### CVE
-
-| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
-| ----------- | ----------- | -------------- |
-| [CVE-2021-44228](https://nvd.nist.gov/vuln/detail/CVE-2021-44228) | Apache Log4j2 2.0-beta9 through 2.12.1 and 2.13.0 through 2.15.0 JNDI features used in configuration, log messages, and parameters do not protect against attacker controlled LDAP and other JNDI related endpoints. An attacker who can control log messages or log message parameters can execute arbitrary code loaded from LDAP servers when message lookup substitution is enabled. From log4j 2.15.0, this behavior has been disabled by default. From version 2.16.0, this functionality has been completely removed. Note that this vulnerability is specific to log4j-core and does not affect log4net, log4cxx, or other Apache Logging Services projects. | 9.3 |
-
-
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 
@@ -105,10 +161,9 @@ Filtering may be required on internal developer build systems or classify assets
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 
 
-
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/experimental/endpoint/linux_java_spawning_shell.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/linux_java_spawning_shell.yml) \| *version*: **1**

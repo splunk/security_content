@@ -1,0 +1,12 @@
+name: Linux Doas Conf File Creation Unit Test
+tests:
+- name: Linux Doas Conf File Creation
+  file: endpoint/linux_doas_conf_file_creation.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: sysmon_linux.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.003/doas/sysmon_linux.log
+    source: Syslog:Linux-Sysmon/Operational
+    sourcetype: sysmon_linux

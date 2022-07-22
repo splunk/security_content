@@ -24,15 +24,17 @@ narrative: 'The searches in this Analytic Story monitor for parameters often use
 
   1. Fully qualified domain names associated with the external IP address \
 
-  1. Registration of fully qualified domain names associated with external IP address \
-  
-  Determining whether it is a dynamic domain frequently visited by others and/or how third parties
-  categorize it can also help you answer some questions surrounding the attacker and
-  details related to the external system. In addition, there are various sources--such
-  as VirusTotal&#151; that can provide some reputation information on the IP address
-  or domain name, which can assist in determining whether the event is malicious.
-  Finally, determining whether there are other events associated with the IP address
-  may help connect data points or show other events that should be brought into scope. \
+  1. Registration of fully qualified domain names associated with external IP address
+  \
+
+  Determining whether it is a dynamic domain frequently visited by others and/or how
+  third parties categorize it can also help you answer some questions surrounding
+  the attacker and details related to the external system. In addition, there are
+  various sources--such as VirusTotal&#151; that can provide some reputation information
+  on the IP address or domain name, which can assist in determining whether the event
+  is malicious. Finally, determining whether there are other events associated with
+  the IP address may help connect data points or show other events that should be
+  brought into scope. \
 
   Gathering data on the system of interest can sometimes help you quickly determine
   whether something suspicious is happening. Some of these items include finding out
@@ -62,8 +64,19 @@ narrative: 'The searches in this Analytic Story monitor for parameters often use
   we suggest reviewing the browsing activity from that system around the time of the
   event. If categories are given for the URLs visited, that can help you zero in on
   possible malicious sites. \
-  
-  Most recently we have added new content related to PowerShell Script Block logging, Windows EventCode 4104. Script block logging presents the deobfuscated and raw script executed on an endpoint. The analytics produced were tested against commonly used attack frameworks - PowerShell-Empire, Cobalt Strike and Covenant. In addition, we sampled publicly available samples that utilize PowerShell and validated coverage. The analytics are here to identify suspicious usage, cmdlets, or script values. 4104 events are enabled via the Windows registry and may generate a large volume of data if enabled globally. Enabling on critical systems or a limited set may be best. During triage of 4104 events, review parallel processes for other processes and command executed. Identify any file modifications and network communication and review accordingly. Fortunately, we get the full script to determine the level of threat identified.'
+
+  Most recently we have added new content related to PowerShell Script Block logging,
+  Windows EventCode 4104. Script block logging presents the deobfuscated and raw script
+  executed on an endpoint. The analytics produced were tested against commonly used
+  attack frameworks - PowerShell-Empire, Cobalt Strike and Covenant. In addition,
+  we sampled publicly available samples that utilize PowerShell and validated coverage.
+  The analytics are here to identify suspicious usage, cmdlets, or script values.
+  4104 events are enabled via the Windows registry and may generate a large volume
+  of data if enabled globally. Enabling on critical systems or a limited set may be
+  best. During triage of 4104 events, review parallel processes for other processes
+  and command executed. Identify any file modifications and network communication
+  and review accordingly. Fortunately, we get the full script to determine the level
+  of threat identified.'
 references:
 - https://blogs.mcafee.com/mcafee-labs/malware-employs-powershell-to-infect-systems/
 - https://www.crowdstrike.com/blog/bears-midst-intrusion-democratic-national-committee/

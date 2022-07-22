@@ -1,0 +1,21 @@
+name: AWS Disable User Accounts
+id: fc0edc75-ff2b-48c0-5f6f-63da6423fd63
+version: 1
+date: '2021-11-01'
+author: Philip Royer, Splunk
+type: Response
+description: "Disable a list of AWS IAM user accounts. After checking the list of accounts against an allowlist and confirming with an analyst, each account is disabled. The change can be reversed with the `enable user` action."
+playbook: aws_disable_user_accounts
+how_to_implement: "This playbook works with the community playbook aws_find_inactive_users using the usernames discovered by that playbook. Change the prompt block from admin to the correct analyst user or role. You should create a custom list called aws_inactive_user_allowlist. Any user names in that list will be ignored by this playbook."
+references: 
+- https://www.splunk.com/en_us/blog/security/splunk-soar-playbooks-finding-and-disabling-inactive-users-on-aws.html
+app_list:
+- "AWS IAM"
+tags:
+  platform_tags:
+  - Cloud
+  playbook_type: Input
+  playbook_fields:
+  - aws_username
+  product:
+  - Splunk SOAR

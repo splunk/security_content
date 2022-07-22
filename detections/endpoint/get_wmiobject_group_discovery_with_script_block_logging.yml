@@ -1,7 +1,7 @@
 name: Get WMIObject Group Discovery with Script Block Logging
 id: 69df7f7c-155d-11ec-a055-acde48001122
-version: 1
-date: '2021-09-14'
+version: 2
+date: '2022-03-22'
 author: Michael Haag, Splunk
 type: Hunting
 datamodel: []
@@ -18,9 +18,10 @@ description: 'The following analytic utilizes PowerShell Script Block Logging (E
   During triage, review parallel processes using an EDR product or 4688 events. It
   will be important to understand the timeline of events around this activity. Review
   the entire logged PowerShell script block.'
-search: '`powershell` EventCode=4104 Message = "*Get-WMIObject*" AND Message = "*Win32_Group*"
-  | stats count min(_time) as firstTime max(_time) as lastTime by  Message OpCode
-  ComputerName User EventCode| `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+search: '`powershell` EventCode=4104 ScriptBlockText = "*Get-WMIObject*" AND ScriptBlockText = "*Win32_Group*"
+  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer user_id 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
   | `get_wmiobject_group_discovery_with_script_block_logging_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
@@ -36,14 +37,12 @@ references:
 tags:
   analytic_story:
   - Active Directory Discovery
-  automated_detection_testing: passed
   confidence: 50
   context:
   - Source:Endpoint
   - Stage:Discovery
-  - Stage:Recon
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.001/atomic_red_team/windows-powershell.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.001/atomic_red_team/windows-powershell-xml.log
   impact: 30
   kill_chain_phases:
   - Reconnaissance
@@ -72,3 +71,4 @@ tags:
   - User
   risk_score: 15
   security_domain: endpoint
+  asset_type: Endpoint

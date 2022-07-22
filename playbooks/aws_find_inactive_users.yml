@@ -1,0 +1,21 @@
+name: AWS Find Inactive Users
+id: fc0edc76-ff2b-48b0-5f6f-63da6423fd63
+version: 1
+date: '2021-11-01'
+author: Philip Royer, Splunk
+type: Investigation
+description: "Find AWS accounts that have not been used for a long time (90 days by default). For each unused account, gather additional group and policy information and create an artifact to enable further automation or manual action."
+playbook: aws_find_inactive_users
+how_to_implement: "This playbook is meant to run on a Timer, such as once per week. To adjust the lookback period away from the default, change the number of days to a different negative number in the 'calculate_start_time' block. Note that this playbook will ignore accounts where the password has never been used. These could be unused human accounts or they could be API accounts where the access keys are actively used."
+references: 
+- https://www.splunk.com/en_us/blog/security/splunk-soar-playbooks-finding-and-disabling-inactive-users-on-aws.html
+app_list:
+- "AWS IAM"
+- "Phantom"
+tags:
+  platform_tags:
+  - Cloud
+  playbook_type: Automation
+  playbook_fields: []
+  product:
+  - Splunk SOAR

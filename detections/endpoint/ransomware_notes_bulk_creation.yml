@@ -21,23 +21,21 @@ how_to_implement: You must be ingesting data that records the filesystem activit
   you want to collect data.
 known_false_positives: unknown
 references:
-- https://www.fireeye.com/blog/threat-research/2020/10/fin11-email-campaigns-precursor-for-ransomware-data-theft.html
+- https://www.mandiant.com/resources/fin11-email-campaigns-precursor-for-ransomware-data-theft
 - https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html
 tags:
   analytic_story:
   - Clop Ransomware
   - DarkSide Ransomware
   - BlackMatter Ransomware
-  automated_detection_testing: passed
   confidence: 90
   context:
-  - source:endpoint
-  - stage: Impact
+  - Source:Endpoint
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-sysmon.log
   impact: 90
   kill_chain_phases:
-  - Obfuscation
+  - Exploitation
   message: A high frequency file creation of $file_name$ in different file path in
     host $Computer$
   mitre_attack_id:
@@ -48,6 +46,7 @@ tags:
     - Victim
     type: Hostname
   - name: user
+    type: User
     role:
     - Victim
     type: user
@@ -64,3 +63,4 @@ tags:
   - file_name
   risk_score: 81
   security_domain: endpoint
+  asset_type: Endpoint

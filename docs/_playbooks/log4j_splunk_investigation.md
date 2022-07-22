@@ -26,14 +26,12 @@ Published in response to CVE-2021-44228, this playbook utilizes data already in 
 
 
 #### How To Implement
-This playbook presumes you have Enterprise Security and have configured Assets &amp; Identities, as well as the Endpoint.Processes datamodel
+This playbook presumes you have Enterprise Security and have configured Assets & Identities, as well as the Endpoint.Processes datamodel
 
 #### Playbooks
 ![](https://raw.githubusercontent.com/splunk/security_content/develop/playbooks/internal_host_splunk_investigate_log4j.png)
 
 #### Required field
-* hostName
-* destinationAddress
 
 
 #### Reference
@@ -43,4 +41,4 @@ This playbook presumes you have Enterprise Security and have configured Assets &
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/playbooks/internal_host_splunk_investigate_log4j.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/playbooks/log4j_splunk_investigation.yml) \| *version*: **1**

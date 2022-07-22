@@ -14,9 +14,8 @@ description: The following hunting detection identifies rundll32.exe with `contr
   to be a bit more broad by not including .cpl. \ During triage, review parallel processes
   to identify any further suspicious behavior.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where (Processes.process_name="rundll32.exe"
-  OR Processes.original_file_name="RUNDLL32.EXE") Processes.process="*Control_RunDLL*"
-  by Processes.dest Processes.user Processes.parent_process_name Processes.process_name
+  as lastTime from datamodel=Endpoint.Processes where `process_rundll32` Processes.process=*Control_RunDLL*  by
+  Processes.dest Processes.user Processes.parent_process_name Processes.process_name
   Processes.process Processes.process_id Processes.parent_process_id Processes.original_file_name
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `rundll32_control_rundll_hunt_filter`'
@@ -33,11 +32,12 @@ references:
 - https://attack.mitre.org/techniques/T1218/011/
 - https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-40444
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.002/T1218.002.yaml
+- https://redcanary.com/blog/intelligence-insights-december-2021/
 tags:
   analytic_story:
   - Suspicious Rundll32 Activity
   - Microsoft MSHTML Remote Code Execution CVE-2021-40444
-  automated_detection_testing: passed
+  - Living Off The Land
   confidence: 50
   context:
   - Source:Endpoint
@@ -64,6 +64,7 @@ tags:
     - Victim
     type: Hostname
   - name: parent_process_name
+    type: Process
     role:
     - Parent Process
     type: Parent Process
@@ -86,3 +87,4 @@ tags:
   - Endpoint.Processes.user
   risk_score: 15
   security_domain: endpoint
+  asset_type: Endpoint

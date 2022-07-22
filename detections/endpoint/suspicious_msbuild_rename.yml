@@ -1,9 +1,9 @@
 name: Suspicious MSBuild Rename
 id: 4006adac-5937-11eb-ae93-0242ac130002
-version: 2
-date: '2021-01-12'
+version: 3
+date: '2022-04-07'
 author: Michael Haag, Splunk
-type: TTP
+type: Hunting
 datamodel:
 - Endpoint
 description: The following analytic identifies renamed instances of msbuild.exe executing.
@@ -11,7 +11,7 @@ description: The following analytic identifies renamed instances of msbuild.exe 
   C:\Windows\Microsoft.NET\Framework64\v4.0.30319. During investigation, identify
   the code executed and what is executing a renamed instance of MSBuild.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where `process_msbuild` by Processes.dest
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name!=msbuild.exe AND Processes.original_file_name=MSBuild.exe by Processes.dest
   Processes.user Processes.parent_process_name Processes.process_name Processes.process
   Processes.process_id Processes.parent_process_id Processes.original_file_name |
   `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
@@ -32,8 +32,8 @@ tags:
   - Trusted Developer Utilities Proxy Execution MSBuild
   - Cobalt Strike
   - Masquerading - Rename System Utilities
+  - Living Off The Land
   asset_type: Endpoint
-  automated_detection_testing: passed
   cis20:
   - CIS 8
   confidence: 90
@@ -41,7 +41,6 @@ tags:
   - Source:Endpoint
   - Stage:Defense Evasion
   - Stage:Execution
-  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127.001/windows-sysmon.log
   impact: 70
@@ -81,3 +80,5 @@ tags:
   - _time
   risk_score: 63
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon

@@ -32,7 +32,6 @@ references:
 tags:
   analytic_story:
   - Meterpreter
-  automated_detection_testing: passed
   confidence: 70
   context:
   - Source:Endpoint
@@ -45,7 +44,7 @@ tags:
   message: An excessive amount of $process_name$ was executed on $dest$ indicative
     of suspicious behavior.
   mitre_attack_id:
-  - T1033
+  - T1059
   observable:
   - name: dest
     role:
@@ -66,3 +65,6 @@ tags:
   - _time
   risk_score: 56
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_windows
+  asset_type: Endpoint

@@ -1,0 +1,12 @@
+name: Windows Root Domain linked policies Discovery Unit Test
+tests:
+- name: Windows Root Domain linked policies Discovery
+  file: endpoint/windows_root_domain_linked_policies_discovery.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: windows-powershell-xml1.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/adsi_discovery/windows-powershell-xml1.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: xmlwineventlog

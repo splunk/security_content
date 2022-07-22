@@ -1,0 +1,10 @@
+name: Clear Unallocated Sector Using Cipher - SSA Unit test
+tests:
+  - name: Clear Unallocated Sector Using Cipher App
+    file: endpoint/ssa___clear_unallocated_sector_using_cipher_app.yml
+    pass_condition: '@count_gt(0)'
+    description: Test detection of Cipher Application execution
+    attack_data:
+      - file_name: security.log
+        data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.004/cipher/security.log
+        source: WinEventLog:Security

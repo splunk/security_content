@@ -1,6 +1,8 @@
 ---
 title: "Disabling Remote User Account Control"
-excerpt: "Bypass User Account Control, Abuse Elevation Control Mechanism"
+excerpt: "Bypass User Account Control
+, Abuse Elevation Control Mechanism
+"
 categories:
   - Endpoint
 last_modified_at: 2020-11-18
@@ -8,41 +10,98 @@ toc: true
 toc_label: ""
 tags:
   - Bypass User Account Control
-  - Privilege Escalation
-  - Defense Evasion
   - Abuse Elevation Control Mechanism
+  - Defense Evasion
   - Privilege Escalation
   - Defense Evasion
+  - Privilege Escalation
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - Endpoint
 ---
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The search looks for modifications to registry keys that control the enforcement of Windows User Account Control (UAC).
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-11-18
 - **Author**: David Dorsey, Patrick Bareiss, Splunk
 - **ID**: bbc644bc-37df-4e1a-9c88-ec9a53e2038c
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Annotations
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-| [T1548.002](https://attack.mitre.org/techniques/T1548/002/) | Bypass User Account Control | Privilege Escalation, Defense Evasion |
+<details>
+  <summary>ATT&CK</summary>
 
-| [T1548](https://attack.mitre.org/techniques/T1548/) | Abuse Elevation Control Mechanism | Privilege Escalation, Defense Evasion |
+<div markdown="1">
 
-#### Search
+
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
+| [T1548.002](https://attack.mitre.org/techniques/T1548/002/) | Bypass User Account Control | Defense Evasion, Privilege Escalation |
+
+| [T1548](https://attack.mitre.org/techniques/T1548/) | Abuse Elevation Control Mechanism | Defense Evasion, Privilege Escalation |
+
+</div>
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+<div markdown="1">
+
+* Actions on Objectives
+
+
+</div>
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+<div markdown="1">
+
+* PR.PT
+* DE.CM
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+<div markdown="1">
+
+* CIS 8
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+<div markdown="1">
+
+
+</div>
+</details>
+
+#### Search 
 
 ```
 
@@ -51,14 +110,12 @@ The search looks for modifications to registry keys that control the enforcement
 | `disabling_remote_user_account_control_filter`
 ```
 
-#### Associated Analytic Story
-* [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
-* [Suspicious Windows Registry Activities](/stories/suspicious_windows_registry_activities)
-* [Remcos](/stories/remcos)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search, you must be ingesting data that records registry activity from your hosts to populate the endpoint data model in the registry node. This is typically populated via endpoint detection-and-response product, such as Carbon Black, or via other endpoint data sources, such as Sysmon. The data used for this search is typically generated via logs that report registry modifications.
+> :information_source:
+> **disabling_remote_user_account_control_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -70,12 +127,20 @@ To successfully implement this search, you must be ingesting data that records r
 * Registry.action
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+To successfully implement this search, you must be ingesting data that records registry activity from your hosts to populate the endpoint data model in the registry node. This is typically populated via endpoint detection-and-response product, such as Carbon Black, or via other endpoint data sources, such as Sysmon. The data used for this search is typically generated via logs that report registry modifications.
 
 #### Known False Positives
 This registry key may be modified via administrators to implement a change in system policy. This type of change should be a very rare occurrence.
+
+#### Associated Analytic story
+* [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
+* [Suspicious Windows Registry Activities](/stories/suspicious_windows_registry_activities)
+* [Remcos](/stories/remcos)
+* [Windows Registry Abuse](/stories/windows_registry_abuse)
+* [Azorult](/stories/azorult)
+
+
 
 
 #### RBA
@@ -85,14 +150,16 @@ This registry key may be modified via administrators to implement a change in sy
 | 42.0 | 70 | 60 | The Windows registry keys that control the enforcement of Windows User Account Control (UAC) were modified on $dest$ by $user$. |
 
 
-
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.002/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.002/atomic_red_team/windows-sysmon.log)
 

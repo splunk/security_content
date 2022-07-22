@@ -1,10 +1,10 @@
-name: Common Ransomware Extensions Unit Test
+name: Common Ransomware Notes Unit Test
 tests:
 - name: Common Ransomware Notes
   file: endpoint/common_ransomware_notes.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-24h'
-  latest_time: 'now'
+  earliest_time: -24h
+  latest_time: now
   attack_data:
   - file_name: windows-sysmon.log
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/ransomware_notes/windows-sysmon.log

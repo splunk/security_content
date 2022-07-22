@@ -1,0 +1,18 @@
+
+{% for response_task in objects %}
+{% if response_task.inputs|length == 1 %}
+[workbench_panel_{{ response_task.lowercase_name }}___response_task]
+label                   = Workbench - {{ response_task.name }}
+type                    = link
+fields                  = {{ response_task.inputs[0] }}
+display_location        = field_menu
+{% if response_task.inputs[0] == "user" %}
+link.uri                = /app/$@namespace$/ess_workbench_panel?type_identity=$@field_value$&panel=workbench_panel_{{ response_task.lowercase_name }}___response_task&drilldown_field=$@field_name$&use_drilldown_time=true
+{% else %}
+link.uri                = /app/$@namespace$/ess_workbench_panel?type_asset=$@field_value$&panel=workbench_panel_{{ response_task.lowercase_name }}___response_task&drilldown_field=$@field_name$&use_drilldown_time=true
+{% endif %}
+link.target             = blank
+link.method             = get
+{% endif %}
+
+{% endfor %}

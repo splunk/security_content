@@ -36,3 +36,13 @@ tags:
   - Web.url
   - Web.src
   security_domain: network
+  confidence: 50
+  impact: 50
+  risk_score: 25
+  context: []
+  message: tbd
+  observable:
+  - name: src
+    type: Hostname
+    role:
+    - Victim

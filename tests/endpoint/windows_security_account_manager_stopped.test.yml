@@ -1,10 +1,10 @@
-name:  Windows Security Account Manager Stopped Unit Test
+name: Windows Security Account Manager Stopped Unit Test
 tests:
-- name:  Windows Security Account Manager Stopped
+- name: Windows Security Account Manager Stopped
   file: endpoint/windows_security_account_manager_stopped.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-24h'
-  latest_time: 'now'
+  earliest_time: -24h
+  latest_time: now
   attack_data:
   - file_name: windows-sysmon.log
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ryuk/windows-sysmon.log

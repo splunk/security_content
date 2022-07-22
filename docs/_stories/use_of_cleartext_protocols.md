@@ -8,6 +8,8 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   - Network_Traffic
+  - Actions on Objectives
+  - Reconnaissance
 ---
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -30,7 +32,7 @@ Various legacy protocols operate by default in the clear, without the protection
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Protocols passing authentication in cleartext](/network/protocols_passing_authentication_in_cleartext/) |  | TTP |
+| [Protocols passing authentication in cleartext](/network/protocols_passing_authentication_in_cleartext/) | None| TTP |
 
 #### Reference
 

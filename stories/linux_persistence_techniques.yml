@@ -1,0 +1,26 @@
+name: Linux Persistence Techniques
+id: e40d13e5-d38b-457e-af2a-e8e6a2f2b516
+version: 1
+date: '2021-12-17'
+author: Teoderick Contreras, Splunk
+description: Monitor for activities and techniques associated with maintaining persistence
+  on a Linux system--a sign that an adversary may have compromised your environment.
+narrative: Maintaining persistence is one of the first steps taken by attackers after
+  the initial compromise. Attackers leverage various custom and built-in tools to
+  ensure survivability and persistent access within a compromised enterprise. This
+  Analytic Story provides searches to help you identify various behaviors used by
+  attackers to maintain persistent access to a Linux environment.
+references:
+- https://attack.mitre.org/techniques/T1053/
+- https://kifarunix.com/scheduling-tasks-using-at-command-in-linux/
+- https://gtfobins.github.io/gtfobins/at/
+- https://www.cert.ssi.gouv.fr/uploads/CERTFR-2021-CTI-005.pdf
+tags:
+  analytic_story: Linux Persistence Techniques
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

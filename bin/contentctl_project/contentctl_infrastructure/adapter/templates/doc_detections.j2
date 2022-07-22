@@ -1,0 +1,210 @@
+---
+title: "{{object.name}}"
+excerpt: "{% if object.tags.mitre_attack_enrichments %}{% for attack in object.tags.mitre_attack_enrichments -%}
+{{ attack.mitre_attack_technique }}
+{% if not loop.last -%}, {% endif -%}
+{% endfor %}{% endif -%}"
+categories:
+  - {{object.source|capitalize}}
+last_modified_at: {{object.date}}
+toc: true
+toc_label: ""
+tags:
+{%- if object.tags.mitre_attack_enrichments %}
+{%- for attack in object.tags.mitre_attack_enrichments %}
+  - {{ attack.mitre_attack_technique }}
+{%- endfor -%}
+{%- for attack in object.tags.mitre_attack_enrichments %}
+{%- for tactic in attack.mitre_attack_tactics %}
+  - {{ tactic }}
+{%- endfor -%}
+{%- endfor -%}
+{%- endif -%}
+{%- for product in object.tags.product %}
+  - {{ product }}
+{%- endfor -%}
+{% if object.cve_enrichment -%}
+{%- for cve in object.cve_enrichment %}
+  - {{ cve.id }}
+{%- endfor -%}
+{% endif -%}
+{%- for datamodel in object.datamodel %}
+  - {{ datamodel }}
+{%- endfor %}
+---
+
+{% if object.experimental is sameas true -%}
+### :warning: WARNING THIS IS A EXPERIMENTAL analytic
+We have not been able to test, simulate, or build datasets for this object. Use at your own risk. This analytic is **NOT** supported.
+{% endif %}
+
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
+
+#### Description
+
+{{ object.description }}
+
+- **Type**: [{{ object.type }}](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Product**: {{ object.tags.product|join(', ') }}
+{% if object.datamodel -%}- **Datamodel**: {% for datamodel in object.datamodel %}[{{ datamodel }}](https://docs.splunk.com/Documentation/CIM/latest/User/{{ datamodel|replace("_", "")}}){% if not loop.last %}, {% endif %}{%-endfor %}{% endif %}
+{%- if object.splunk_app_enrichment %}- **Datasource**: {% for splunk_app in object.splunk_app_enrichment %}[{{ splunk_app.name }}]({{splunk_app.url}}){% if not loop.last %}, {% endif %}{%-endfor %}{% endif %}
+- **Last Updated**: {{ object.date }}
+- **Author**: {{object.author}}
+- **ID**: {{ object.id }}
+
+
+#### Annotations
+
+<details>
+  <summary>ATT&CK</summary>
+
+<div markdown="1">
+
+{% if object.tags.mitre_attack_id %}
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
+{%- for attack in object.tags.mitre_attack_enrichments %}
+{% if attack.mitre_attack_id -%}
+{% set sub_technique = attack.mitre_attack_id.split('.') %}{% if sub_technique | length > 1 -%}
+| [{{ attack.mitre_attack_id }}](https://attack.mitre.org/techniques/{{sub_technique[0]}}/{{sub_technique[1]}}/) | {{ attack.mitre_attack_technique }} | {{ attack.mitre_attack_tactics|join(', ') }} |
+{% else -%}
+| [{{ attack.mitre_attack_id }}](https://attack.mitre.org/techniques/{{attack.mitre_attack_id}}/) | {{ attack.mitre_attack_technique }} | {{ attack.mitre_attack_tactics|join(', ') }} |
+{% endif -%}
+{% endif -%}
+{% endfor %}
+{% endif -%}
+
+</div>
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+<div markdown="1">
+
+{% for phase in object.annotations.kill_chain_phases -%}
+* {{ phase }}
+{% endfor %}
+
+</div>
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+<div markdown="1">
+
+{% if object.annotations.nist -%}
+{% for nist in object.annotations.nist -%}
+* {{ nist }}
+{% endfor %}
+{% endif %}
+
+</div>
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+<div markdown="1">
+
+{% if object.annotations.cis20 -%}
+{% for cis in object.annotations.cis20 -%}
+* {{ cis }}
+{% endfor %}
+{% endif %}
+
+</div>
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+<div markdown="1">
+{% if object.cve_enrichment -%}
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+{% for cve in object.cve_enrichment -%}
+| [{{ cve.id }}](https://nvd.nist.gov/vuln/detail/{{cve.id}}) | {{ cve.summary }} | {{ cve.cvss }} |
+{% endfor %}
+{% endif %}
+
+</div>
+</details>
+
+#### Search 
+
+```
+{{ object.search|replace("|", "\n|")|safe }}
+```
+
+{% if object.macros -%}
+#### Macros
+The SPL above uses the following Macros:
+{% for macro in object.macros -%}
+{% if not '_filter' in macro.name -%}
+* [{{ macro.name }}](https://github.com/splunk/security_content/blob/develop/macros/{{macro.name}}.yml)
+{% endif -%}
+{% endfor %}
+{% endif -%}
+
+> :information_source:
+> **{{object.name | lower | replace(" ", "_") }}_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+
+{% if object.lookups -%}
+#### Lookups
+The SPL above uses the following Lookups:
+
+{% for lookup in object.lookups -%}
+* [{{lookup.name}}](https://github.com/splunk/security_content/blob/develop/lookups/{{lookup.name}}.yml) with [data](https://github.com/splunk/security_content/tree/develop/lookups/{{lookup.name}}.csv)
+{% endfor %}
+{% endif -%}
+
+#### Required field
+{% for field in object.tags.required_fields -%}
+* {{ field }}
+{% endfor %}
+
+#### How To Implement
+{{ object.how_to_implement}}
+
+#### Known False Positives
+{{ object.known_false_positives}}
+
+#### Associated Analytic story
+{% for story in object.tags.analytic_story -%}
+* [{{ story }}](/stories/{{story|lower|replace(" ", "_")}})
+{% endfor %}
+
+
+{% if object.tags.observable %}
+#### RBA
+
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| {{(object.tags.impact * object.tags.confidence)/100}} | {{ object.tags.impact }} | {{ object.tags.confidence }} | {{object.tags.message}} |
+{% endif %}
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
+
+#### Reference
+{% if object.references %}
+{% for reference in object.references -%}
+* [{{ reference }}]({{ reference }})
+{% endfor %}
+{% endif %}
+
+#### Test Dataset
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
+{% if object.tags.dataset %}
+{% for dataset in object.tags.dataset -%}
+* [{{dataset}}]({{ dataset }})
+{% endfor %}
+{% endif %}
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/{% if object.experimental is sameas true -%}experimental/{%- endif -%}{{object.source}}/{{ object.name | lower | replace (" ", "_") | replace("-", "_") }}.yml) \| *version*: **{{object.version}}**

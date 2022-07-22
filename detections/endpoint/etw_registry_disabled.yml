@@ -1,7 +1,7 @@
 name: ETW Registry Disabled
 id: 8ed523ac-276b-11ec-ac39-acde48001122
-version: 1
-date: '2021-10-07'
+version: 2
+date: '2022-01-28'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
@@ -10,11 +10,20 @@ description: This analytic is to detect a registry modification to disable ETW f
   of windows. This technique is to evade EDR appliance to evade detections and hide
   its execution from audit logs.
 search: '| tstats `security_content_summariesonly` count  min(_time) as firstTime
-  max(_time) as lastTime FROM datamodel=Endpoint.Registry where (Registry.registry_path="*\\SOFTWARE\\Microsoft\\.NETFramework*")
+  max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path="*\\SOFTWARE\\Microsoft\\.NETFramework*"
   Registry.registry_value_name = ETWEnabled Registry.registry_value_data=0x00000000
-  by Registry.dest Registry.user Registry.registry_path Registry.registry_key_name
-  Registry.registry_value_name Registry.registry_value_data | `security_content_ctime(lastTime)`
-  | `security_content_ctime(firstTime)` | `etw_registry_disabled_filter`'
+  by _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_value_name
+  Registry.process_guid Registry.registry_key_name Registry.registry_value_data |
+  `drop_dm_object_name(Registry)` |rename process_guid as proc_guid |join proc_guid,
+  _time [| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
+  by _time span=1h Processes.process_id Processes.process_name Processes.process Processes.dest
+  Processes.parent_process_name Processes.parent_process Processes.process_guid |
+  `drop_dm_object_name(Processes)` |rename process_guid as proc_guid | fields _time
+  dest user parent_process_name parent_process process_name process_path process proc_guid
+  registry_path registry_value_name registry_value_data registry_key_name] | table
+  _time dest user parent_process_name parent_process process_name process_path process
+  proc_guid registry_path registry_value_name registry_value_data registry_key_name
+  | `etw_registry_disabled_filter`'
 how_to_implement: To successfully implement this search, you must be ingesting data
   that records registry activity from your hosts to populate the endpoint data model
   in the registry node. This is typically populated via endpoint detection-and-response
@@ -28,11 +37,12 @@ tags:
   analytic_story:
   - Windows Persistence Techniques
   - Windows Privilege Escalation
-  automated_detection_testing: passed
+  - Windows Registry Abuse
+  - Hermetic Wiper 
   confidence: 100
   context:
-  - source:endpoint
-  - stage:Privilege Escalation Persistence
+  - Source:Endpoint
+  - Stage:Privilege Escalation
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127/etw_disable/sysmon.log
   impact: 90
@@ -49,6 +59,7 @@ tags:
     - Victim
     type: Hostname
   - name: user
+    type: User
     role:
     - Victim
     type: user
@@ -66,3 +77,6 @@ tags:
   - _time
   risk_score: 90
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon
+  asset_type: Endpoint

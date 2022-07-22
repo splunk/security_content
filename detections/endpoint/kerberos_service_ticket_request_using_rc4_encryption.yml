@@ -1,0 +1,65 @@
+name: Kerberos Service Ticket Request Using RC4 Encryption
+id: 7d90f334-a482-11ec-908c-acde48001122
+version: 1
+date: '2022-03-15'
+author: Mauricio Velazco, Splunk
+type: TTP
+datamodel: []
+description:  The following analytic leverages Kerberos Event 4769, A Kerberos service
+  ticket was requested, to identify a potential Kerberos Service Ticket request related to a Golden Ticket attack. Adversaries who have obtained the Krbtgt account NTLM password 
+  hash may forge a Kerberos Granting Ticket (TGT) to obtain unrestricted access to an Active Directory environment. Armed with a Golden Ticket, attackers can request 
+  service tickets to move laterally and execute code on remote systems. Looking for Kerberos Service Ticket requests using the legacy RC4 encryption mechanism could represent the second stage
+  of a Golden Ticket attack. RC4 usage should be rare on a modern network since Windows Vista & Windows Sever 2008 and newer support AES Kerberos encryption.\
+  Defenders should note that if an attacker does not leverage the NTLM password hash but rather the AES key to create a golden ticket, this detection may be bypassed.
+search: ' `wineventlog_security` EventCode=4769 Service_Name="*$" (Ticket_Options=0x40810000
+  OR Ticket_Options=0x40800000 OR Ticket_Options=0x40810010) Ticket_Encryption_Type=0x17
+  | stats count min(_time) as firstTime max(_time) as lastTime by dest, service, service_id,
+  Ticket_Encryption_Type, Ticket_Options | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`
+  | `kerberos_service_ticket_request_using_rc4_encryption_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  Domain Controller and Kerberos events. The Advanced Security Audit policy setting
+  `Audit Kerberos Authentication Service` within `Account Logon` needs to be enabled.
+known_false_positives: Based on Microsoft documentation, legacy systems or applications will use RC4-HMAC as the default encryption for Kerberos Service Ticket requests. Specifically, 
+  systems before Windows Server 2008 and Windows Vista. Newer systems will use AES128 or AES256.
+references:
+- https://attack.mitre.org/techniques/T1558/001/
+- https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4769
+- https://adsecurity.org/?p=1515
+- https://gist.github.com/TarlogicSecurity/2f221924fef8c14a1d8e29f3cb5c5c4a 
+- https://en.hackndo.com/kerberos-silver-golden-tickets/
+tags:
+  analytic_story:
+  - Active Directory Kerberos Attacks
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.001/impacket/windows-security.log
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1558
+  - T1558.001
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - Ticket_Options
+  - Ticket_Encryption_Type
+  - dest
+  - service
+  - service_id
+  security_domain: endpoint
+  impact: 90
+  confidence: 50
+  risk_score: 45
+  context:
+  - Source:Endpoint
+  - Stage:Privilege Escalation
+  message: A Kerberos Service TTicket request with RC4 encryption was requested from $Client_Address$
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  asset_type: Endpoint

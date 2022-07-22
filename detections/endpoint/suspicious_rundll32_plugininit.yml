@@ -27,7 +27,6 @@ references:
 tags:
   analytic_story:
   - IcedID
-  automated_detection_testing: passed
   confidence: 70
   context:
   - Source:Endpoint
@@ -47,6 +46,7 @@ tags:
     - Victim
     type: Hostname
   - name: process_name
+    type: Process
     role:
     - Attacker
     type: process name
@@ -67,3 +67,6 @@ tags:
   - _time
   risk_score: 42
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon
+  asset_type: Endpoint

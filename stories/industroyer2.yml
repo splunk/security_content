@@ -1,0 +1,25 @@
+name: Industroyer2
+id: 7ff7db2b-b001-498e-8fe8-caf2dbc3428a
+version: 1
+date: '2022-04-21'
+author: Teoderick Contreras, Splunk
+type: batch
+description: Leverage searches that allow you to detect and investigate unusual activities
+  that might relate to the Industroyer2 attack, including file writes associated with its payload, 
+  lateral movement, persistence, privilege escalation and data destruction.
+narrative: Industroyer2 is part of continuous attack to ukraine targeting energy facilities.
+  This malware is a windows binary that implement IEC-104 protocol to communicate with industrial equipments.
+  This attack consist of several destructive linux script component to wipe or delete several linux critical files, 
+  powershell for domain enumeration and caddywiper to wipe boot sector of the targeted host.
+references:
+- https://cert.gov.ua/article/39518
+- https://www.welivesecurity.com/2022/04/12/industroyer2-industroyer-reloaded/
+tags:
+  analytic_story: Industroyer2
+  category:
+  - Malware
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

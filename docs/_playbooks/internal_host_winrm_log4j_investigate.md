@@ -13,7 +13,7 @@ tags:
 
 #### Description
 
-Published in response to CVE-2021-44228, this playbook uses WinRM to scan Windows endpoints for the presence of &#34;jndilookup.class&#34; in all .jar files. The presence of that string could indicate a log4j vulnerability.
+Published in response to CVE-2021-44228, this playbook uses WinRM to scan Windows endpoints for the presence of "jndilookup.class" in all .jar files. The presence of that string could indicate a log4j vulnerability.
 
 - **Type**: Investigation
 - **Product**: Splunk SOAR

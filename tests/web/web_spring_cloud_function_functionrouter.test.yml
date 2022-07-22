@@ -1,0 +1,12 @@
+name: Web Spring Cloud Function FunctionRouter Unit Test
+tests:
+- name: Web Spring Cloud Function FunctionRouter
+  file: web/web_spring_cloud_function_functionrouter.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: all_functionrouter_http_streams.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/spring4shell/all_functionrouter_http_streams.log
+    source: stream:http
+    sourcetype: stream:http

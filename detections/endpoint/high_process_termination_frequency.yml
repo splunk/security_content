@@ -18,12 +18,11 @@ how_to_implement: To successfully implement this search, you need to be ingestin
   If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 known_false_positives: admin or user tool that can terminate multiple process.
 references:
-- https://www.fireeye.com/blog/threat-research/2020/10/fin11-email-campaigns-precursor-for-ransomware-data-theft.html
+- https://www.mandiant.com/resources/fin11-email-campaigns-precursor-for-ransomware-data-theft
 - https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html
 tags:
   analytic_story:
   - Clop Ransomware
-  automated_detection_testing: passed
   confidence: 80
   context:
   - Source:Endpoint
@@ -58,3 +57,4 @@ tags:
   - ProcessID
   risk_score: 72
   security_domain: endpoint
+  asset_type: Endpoint

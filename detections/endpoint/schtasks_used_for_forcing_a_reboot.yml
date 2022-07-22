@@ -27,15 +27,12 @@ tags:
   - Windows Persistence Techniques
   - Ransomware
   asset_type: Endpoint
-  automated_detection_testing: passed
   cis20:
   - CIS 3
   confidence: 80
   context:
-  - source:endpoint
-  - stage: Execution
-  - Persistence
-  - Privilege Escalation
+  - Source:Endpoint
+  - Stage:Execution
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/schtask_shutdown/windows-sysmon.log
   impact: 70
@@ -54,6 +51,7 @@ tags:
     - Victim
     type: Hostname
   - name: user
+    type: User
     role:
     - Victim
     type: user
@@ -70,3 +68,5 @@ tags:
   - _time
   risk_score: 56
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon

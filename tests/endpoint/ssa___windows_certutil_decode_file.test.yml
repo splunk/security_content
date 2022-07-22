@@ -1,0 +1,9 @@
+name: Windows CertUtil Decode File Unit Test
+tests:
+- name: Windows CertUtil Decode File
+  file: endpoint/ssa___windows_certutil_decode_file.yml
+  pass_condition: '@count_gt(0)'
+  attack_data:
+  - file_name: windows-security.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1140/atomic_red_team/encode-windows-security.log
+    source: WinEventLog:Security

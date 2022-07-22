@@ -1,0 +1,7 @@
+
+{% for detection in objects %}
+[{{ detection.name | replace(' ', '_') | replace('-', '_') | replace('.', '_') | replace('/', '_') | lower + '_filter' }}]
+definition = search *
+description = Update this macro to limit the output results to filter out false positives.
+
+{% endfor %}

@@ -1,0 +1,21 @@
+name: Living Off The Land
+id: 6f7982e2-900b-11ec-a54a-acde48001122
+version: 2
+date: '2022-03-16'
+author: Lou Stella, Splunk
+description: Leverage analytics that allow you to identify the presence of an adversary leveraging native applications within your environment. 
+narrative: Living Off The Land refers to an adversary methodology of using native applications already installed on the target operating system to achieve their objective. Native utilities provide the adversary with reduced chances of detection by antivirus software or EDR tools. This allows the adversary to blend in with native process behavior.
+references:
+- https://lolbas-project.github.io/
+tags:
+  analytic_story: Living Off The Land
+  category:
+  - Adversary Tactics
+  - Unauthorized Software
+  - Lateral Movement
+  - Privilege Escalation
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Security Monitoring

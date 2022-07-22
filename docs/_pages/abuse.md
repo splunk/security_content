@@ -3,15 +3,7 @@ title: Abuse
 layout: tag
 author_profile: false
 taxonomy: Abuse
-permalink: /stories/abuse/
+permalink: /detections/abuse/
 sidebar:
-  nav: "stories"
+  nav: "detections"
 ---
-
-| Name        | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
-| [Brand Monitoring]() | None | None |
-| [DNS Amplification Attacks](/stories/dns_amplification_attacks/) | [Network Denial of Service](/tags/#network-denial-of-service), [Reflection Amplification](/tags/#reflection-amplification) | [Impact](/tags/#impact) |
-| [Data Protection](/stories/data_protection/) | [Drive-by Compromise](/tags/#drive-by-compromise) | [Initial Access](/tags/#initial-access) |
-| [Information Sabotage](/stories/information_sabotage/) | [Data Destruction](/tags/#data-destruction), [File Deletion](/tags/#file-deletion), [Indicator Removal on Host](/tags/#indicator-removal-on-host) | [Impact](/tags/#impact) |
-| [Netsh Abuse](/stories/netsh_abuse/) | [Disable or Modify System Firewall](/tags/#disable-or-modify-system-firewall), [Impair Defenses](/tags/#impair-defenses) | [Defense Evasion](/tags/#defense-evasion) |

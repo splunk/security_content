@@ -1,0 +1,505 @@
+{
+    "blockly": false,
+    "blockly_xml": "<xml></xml>",
+    "category": "Cloud",
+    "coa": {
+        "data": {
+            "description": "Find AWS accounts that have not been used for a long time (90 days by default). For each unused account, gather additional group and policy information and create an artifact to enable further automation or manual action.",
+            "edges": [
+                {
+                    "id": "port_0_to_port_2",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "2",
+                    "targetPort": "2_in"
+                },
+                {
+                    "id": "port_0_to_port_3",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "3",
+                    "targetPort": "3_in"
+                },
+                {
+                    "id": "port_2_to_port_4",
+                    "sourceNode": "2",
+                    "sourcePort": "2_out",
+                    "targetNode": "4",
+                    "targetPort": "4_in"
+                },
+                {
+                    "id": "port_3_to_port_4",
+                    "sourceNode": "3",
+                    "sourcePort": "3_out",
+                    "targetNode": "4",
+                    "targetPort": "4_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_4_to_port_5",
+                    "sourceNode": "4",
+                    "sourcePort": "4_out",
+                    "targetNode": "5",
+                    "targetPort": "5_in"
+                },
+                {
+                    "id": "port_5_to_port_6",
+                    "sourceNode": "5",
+                    "sourcePort": "5_out",
+                    "targetNode": "6",
+                    "targetPort": "6_in"
+                },
+                {
+                    "id": "port_6_to_port_8",
+                    "sourceNode": "6",
+                    "sourcePort": "6_out",
+                    "targetNode": "8",
+                    "targetPort": "8_in"
+                },
+                {
+                    "id": "port_8_to_port_1",
+                    "sourceNode": "8",
+                    "sourcePort": "8_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                }
+            ],
+            "nodes": {
+                "0": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_start",
+                        "id": "0",
+                        "type": "start"
+                    },
+                    "errors": {},
+                    "id": "0",
+                    "type": "start",
+                    "x": 190,
+                    "y": 0
+                },
+                "1": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionId": 1,
+                        "functionName": "on_finish",
+                        "id": "1",
+                        "type": "end"
+                    },
+                    "errors": {},
+                    "id": "1",
+                    "type": "end",
+                    "userCode": "\n    # This function is called after all actions are completed.\n    # summary of all the action and/or all details of actions\n    # can be collected here.\n\n    # summary_json = phantom.get_summary()\n    # if 'result' in summary_json:\n        # for action_result in summary_json['result']:\n            # if 'action_run_id' in action_result:\n                # action_results = phantom.get_action_results(action_run_id=action_result['action_run_id'], result_data=False, flatten=False)\n                # phantom.debug(action_results)\n\n",
+                    "x": 190,
+                    "y": 1007
+                },
+                "2": {
+                    "data": {
+                        "action": "list users",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "list all accounts",
+                            "customNameId": 0,
+                            "description": "List all AWS IAM accounts, which will include the PasswordLastUsed field for us to filter on.",
+                            "join": [],
+                            "note": "List all AWS IAM accounts, which will include the PasswordLastUsed field for us to filter on."
+                        },
+                        "connector": "AWS IAM",
+                        "connectorConfigs": [
+                            "aws_iam"
+                        ],
+                        "connectorId": 20,
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "list_all_accounts",
+                        "id": "2",
+                        "requiredParameters": [],
+                        "tab": "byAction",
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "2",
+                    "type": "action",
+                    "x": 0,
+                    "y": 148
+                },
+                "3": {
+                    "data": {
+                        "advanced": {
+                            "customName": "calculate start time",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "datetime_modify",
+                            "repoName": "community"
+                        },
+                        "functionId": 1,
+                        "functionName": "calculate_start_time",
+                        "id": "3",
+                        "selectMore": false,
+                        "type": "utility",
+                        "utilities": {
+                            "datetime_modify": {
+                                "description": "Change a timestamp by adding or subtracting minutes, hours, or days.",
+                                "fields": [
+                                    {
+                                        "dataTypes": [
+                                            ""
+                                        ],
+                                        "description": "The datetime to modify, which should be provided in a string format determined by input_format_string",
+                                        "inputType": "item",
+                                        "label": "input_datetime",
+                                        "name": "input_datetime",
+                                        "placeholder": "2020-06-27T14:53:08.219016Z",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "The format string to use for the input according to the Python's datetime.strptime() formatting rules. If none is provided the default will be '%Y-%m-%dT%H:%M:%S.%fZ'. In addition to strptime() formats, the special format \"epoch\" can be used to accept unix epoch timestamps.",
+                                        "inputType": "item",
+                                        "label": "input_format_string",
+                                        "name": "input_format_string",
+                                        "placeholder": "%Y-%m-%dT%H:%M:%S.%fZ",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            ""
+                                        ],
+                                        "description": "Choose a unit to modify the date by, which must be either seconds, minutes, hours, or days. If none is provided the default will be 'minutes'",
+                                        "inputType": "item",
+                                        "label": "modification_unit",
+                                        "name": "modification_unit",
+                                        "placeholder": "minutes",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "The number of seconds, minutes, hours, or days to add or subtract. Use a negative number such as -1.5 to subtract time. Defaults to zero.",
+                                        "inputType": "item",
+                                        "label": "amount_to_modify",
+                                        "name": "amount_to_modify",
+                                        "placeholder": "0",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "The format string to use for the output according to the Python's datetime.strftime() formatting rules. If none is provided the default will be '%Y-%m-%dT%H:%M:%S.%fZ'.",
+                                        "inputType": "item",
+                                        "label": "output_format_string",
+                                        "name": "output_format_string",
+                                        "placeholder": "%Y-%m-%dT%H:%M:%S.%fZ",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "datetime_modify",
+                                "name": "datetime_modify"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "datetime_modify": {
+                                "amount_to_modify": "-90",
+                                "input_datetime": null,
+                                "input_format_string": null,
+                                "modification_unit": "days",
+                                "output_format_string": "%Y-%m-%dT%H:%M:%SZ"
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "3",
+                    "type": "utility",
+                    "x": 340,
+                    "y": 162.5
+                },
+                "4": {
+                    "data": {
+                        "advanced": {
+                            "customName": "filter inactive accounts",
+                            "customNameId": 0,
+                            "description": "Compare the PasswordLastUsed field to the calculated start time to find unused accounts. Ignore accounts with no value for PasswordLastUsed. This will ignore all accounts with no passwords, such as accounts that only use API access keys.",
+                            "join": [],
+                            "note": "Compare the PasswordLastUsed field to the calculated start time to find unused accounts. Ignore accounts with no value for PasswordLastUsed. This will ignore all accounts with no passwords, such as accounts that only use API access keys."
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "<",
+                                        "param": "list_all_accounts:action_result.data.*.PasswordLastUsed",
+                                        "value": "calculate_start_time:custom_function_result.data.datetime_string"
+                                    },
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "list_all_accounts:action_result.data.*.PasswordLastUsed",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 1,
+                        "functionName": "filter_inactive_accounts",
+                        "id": "4",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "4",
+                    "type": "filter",
+                    "x": 230,
+                    "y": 325
+                },
+                "5": {
+                    "data": {
+                        "action": "get user",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "get unused account information",
+                            "customNameId": 0,
+                            "description": "Use the \"get user\" action to gather more information about the unused accounts, including group membership and policy assignments.",
+                            "join": [],
+                            "note": "Use the \"get user\" action to gather more information about the unused accounts, including group membership and policy assignments."
+                        },
+                        "connector": "AWS IAM",
+                        "connectorConfigs": [
+                            "aws_iam"
+                        ],
+                        "connectorId": 20,
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "get_unused_account_information",
+                        "id": "5",
+                        "parameters": {
+                            "username": "filtered-data:filter_inactive_accounts:condition_1:list_all_accounts:action_result.data.*.UserName"
+                        },
+                        "requiredParameters": [
+                            "username"
+                        ],
+                        "tab": "byAction",
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "5",
+                    "type": "action",
+                    "x": 170,
+                    "y": 505
+                },
+                "6": {
+                    "data": {
+                        "advanced": {
+                            "customName": "save to artifacts",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "artifact_create",
+                            "repoName": "community"
+                        },
+                        "functionId": 2,
+                        "functionName": "save_to_artifacts",
+                        "id": "6",
+                        "selectMore": false,
+                        "type": "utility",
+                        "utilities": {
+                            "artifact_create": {
+                                "description": "Create a new artifact with the specified attributes.",
+                                "fields": [
+                                    {
+                                        "dataTypes": [
+                                            "phantom container id"
+                                        ],
+                                        "description": "Container which the artifact will be added to.",
+                                        "inputType": "item",
+                                        "label": "container",
+                                        "name": "container",
+                                        "placeholder": "container:id",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "The name of the new artifact, which is optional and defaults to \"artifact\".",
+                                        "inputType": "item",
+                                        "label": "name",
+                                        "name": "name",
+                                        "placeholder": "artifact",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "The label of the new artifact, which is optional and defaults to \"events\"",
+                                        "inputType": "item",
+                                        "label": "label",
+                                        "name": "label",
+                                        "placeholder": "events",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            ""
+                                        ],
+                                        "description": "The severity of the new artifact, which is optional and defaults to \"Medium\". Typically this is either \"High\", \"Medium\", or \"Low\".",
+                                        "inputType": "item",
+                                        "label": "severity",
+                                        "name": "severity",
+                                        "placeholder": "Medium",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "The name of the CEF field to populate in the artifact, such as \"destinationAddress\" or \"sourceDnsDomain\". Required only if cef_value is provided.",
+                                        "inputType": "item",
+                                        "label": "cef_field",
+                                        "name": "cef_field",
+                                        "placeholder": "destinationAddress",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "The value of the CEF field to populate in the artifact, such as the IP address, domain name, or file hash. Required only if cef_field is provided.",
+                                        "inputType": "item",
+                                        "label": "cef_value",
+                                        "name": "cef_value",
+                                        "placeholder": "192.0.2.192",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "The CEF data type of the data in cef_value. For example, this could be \"ip\", \"hash\", or \"domain\". Optional.",
+                                        "inputType": "item",
+                                        "label": "cef_data_type",
+                                        "name": "cef_data_type",
+                                        "placeholder": "ip",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "A comma-separated list of tags to apply to the created artifact, which is optional.",
+                                        "inputType": "item",
+                                        "label": "tags",
+                                        "name": "tags",
+                                        "placeholder": "tag1, tag2, tag3",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Either \"true\" or \"false\", depending on whether or not the new artifact should trigger the execution of any playbooks that are set to active on the label of the container the artifact will be added to. Optional and defaults to \"false\".",
+                                        "inputType": "item",
+                                        "label": "run_automation",
+                                        "name": "run_automation",
+                                        "placeholder": "false",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Optional parameter to modify any extra attributes of the artifact. Input_json will be merged with other inputs. In the event of a conflict, input_json will take precedence.",
+                                        "inputType": "item",
+                                        "label": "input_json",
+                                        "name": "input_json",
+                                        "placeholder": "{\"source_data_identifier\": \"1234\", \"data\": \"5678\"}",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "artifact_create",
+                                "name": "artifact_create"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "artifact_create": {
+                                "cef_data_type": "aws iam user name",
+                                "cef_field": "awsUserName",
+                                "cef_value": "get_unused_account_information:action_result.parameter.username",
+                                "container": "container:id",
+                                "input_json": null,
+                                "label": "user",
+                                "name": "Unused AWS Account",
+                                "run_automation": "false",
+                                "severity": null,
+                                "tags": null
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "6",
+                    "type": "utility",
+                    "x": 170,
+                    "y": 697
+                },
+                "8": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionId": 1,
+                        "functionName": "playbook_aws_disable_user_accounts_1",
+                        "id": "8",
+                        "inputs": {
+                            "aws_username": {
+                                "datapaths": [
+                                    "get_unused_account_information:action_result.parameter.username"
+                                ],
+                                "deduplicate": false
+                            }
+                        },
+                        "playbookName": "aws_disable_user_accounts",
+                        "playbookRepo": 1,
+                        "playbookRepoName": "community",
+                        "playbookType": "data",
+                        "synchronous": false,
+                        "type": "playbook"
+                    },
+                    "errors": {},
+                    "id": "8",
+                    "type": "playbook",
+                    "x": 170,
+                    "y": 845
+                }
+            },
+            "notes": "This playbook uses the following Apps:\n - AWS IAM (list users, get user) [asset name = aws_iam] - gather information about AWS IAM user accounts\n\nDeployment Notes:\n - this playbook is meant to run on a Timer, such as once per week\n - to adjust the lookback period away from the default, change the number of days to a different negative number in the \"calculate_start_time\" block\n - note that this playbook will ignore accounts where the password has never been used. These could be unused human accounts or they could be API accounts where the access keys are actively used."
+        },
+        "input_spec": null,
+        "output_spec": null,
+        "playbook_type": "automation",
+        "python_version": "3",
+        "schema": "5.0.3",
+        "version": "5.0.1.66250"
+    },
+    "create_time": "2021-11-01T20:36:59.131793+00:00",
+    "draft_mode": false,
+    "labels": [
+        "aws find inactive users"
+    ],
+    "tags": []
+}

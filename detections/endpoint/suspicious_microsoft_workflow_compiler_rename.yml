@@ -1,7 +1,7 @@
 name: Suspicious microsoft workflow compiler rename
 id: f0db4464-55d9-11eb-ae93-0242ac130002
-version: 3
-date: '2021-09-20'
+version: 4
+date: '2022-04-07'
 author: Michael Haag, Splunk
 type: Hunting
 datamodel:
@@ -13,7 +13,7 @@ description: The following analytic identifies a renamed instance of microsoft.w
   In any instance, microsoft.workflow.compiler.exe spawning from an Office product
   or any living off the land binary is highly suspect.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where `process_microsoftworkflowcompiler`
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name!=microsoft.workflow.compiler.exe AND Processes.original_file_name=Microsoft.Workflow.Compiler.exe
   by Processes.dest Processes.user Processes.parent_process_name Processes.process_name
   Processes.process Processes.process_id Processes.parent_process_id Processes.original_file_name
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
@@ -33,8 +33,8 @@ tags:
   - Trusted Developer Utilities Proxy Execution
   - Cobalt Strike
   - Masquerading - Rename System Utilities
+  - Living Off The Land
   asset_type: Endpoint
-  automated_detection_testing: passed
   cis20:
   - CIS 8
   confidence: 90

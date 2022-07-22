@@ -3,14 +3,16 @@ id: 0ca8c38e-631e-4b81-940c-f9c5450ce41e
 version: 1
 date: '2021-08-18'
 author: Patrick Bareiss, Splunk
-description: This story is focused around detecting attacks on a DevSecOps lifeccycle which
-  consists of the phases plan, code, build, test, release, deploy, operate and monitor.
-narrative: DevSecOps is a collaborative framework, which thinks about application and infrastructure 
-  security from the start. This means that security tools are part of the continuous integration and 
-  continuous deployment pipeline. In this analytics story, we focused on detections around the tools
-  used in this framework such as GitHub as a version control system, GDrive for the documentation, CircleCI
-  as the CI/CD pipeline, Kubernetes as the container execution engine and multiple security tools such as
-  Semgrep and Kube-Hunter.
+description: This story is focused around detecting attacks on a DevSecOps lifeccycle
+  which consists of the phases plan, code, build, test, release, deploy, operate and
+  monitor.
+narrative: DevSecOps is a collaborative framework, which thinks about application
+  and infrastructure security from the start. This means that security tools are part
+  of the continuous integration and continuous deployment pipeline. In this analytics
+  story, we focused on detections around the tools used in this framework such as
+  GitHub as a version control system, GDrive for the documentation, CircleCI as the
+  CI/CD pipeline, Kubernetes as the container execution engine and multiple security
+  tools such as Semgrep and Kube-Hunter.
 references:
 - https://www.redhat.com/en/topics/devops/what-is-devsecops
 tags:
@@ -21,5 +23,4 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Dev Sec Ops Analytics
   usecase: Security Monitoring

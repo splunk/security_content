@@ -49,5 +49,15 @@ tags:
   - userName
   risk_object: userName
   risk_object_type: user
-  risk_score: 40
+  risk_score: 25.0
   security_domain: network
+  confidence: 50
+  impact: 50
+  context:
+  - Unknown
+  message: tbd
+  observable:
+  - name: field
+    type: Unknown
+    role:
+    - Unknown

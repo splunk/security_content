@@ -32,13 +32,11 @@ references:
 tags:
   analytic_story:
   - Windows Persistence Techniques
-  automated_detection_testing: passed
+  - Living Off The Land
   confidence: 90
   context:
-  - source:endpoint
-  - stage: Execution
-  - Persistence
-  - Privilege Escalation
+  - Source:Endpoint
+  - Stage:Execution
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/tasksched/windows-security.log
   impact: 70
@@ -52,11 +50,6 @@ tags:
   - name: dest
     role:
     - Victim
-    type: Hostname
-  - name: Arguments
-    role:
-    - Attacker
-    type: Arguments
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -72,3 +65,4 @@ tags:
   - Arguments
   risk_score: 63
   security_domain: endpoint
+  asset_type: Endpoint

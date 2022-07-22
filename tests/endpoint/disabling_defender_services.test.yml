@@ -3,8 +3,8 @@ tests:
 - name: Disabling Defender Services
   file: endpoint/disabling_defender_services.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-24h'
-  latest_time: 'now'
+  earliest_time: -24h
+  latest_time: now
   attack_data:
   - file_name: sysmon2.log
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/disable_av/sysmon2.log

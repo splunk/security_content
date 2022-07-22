@@ -1,7 +1,7 @@
 name: Rundll32 DNSQuery
 id: f1483f5e-ee29-11eb-9d23-acde48001122
-version: 1
-date: '2021-07-26'
+version: 2
+date: '2022-02-18'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel: []
@@ -11,9 +11,8 @@ description: This search is to detect a suspicious rundll32.exe process having a
   internet connect and to communicate to its C&C server to download config and other
   file component.
 search: '`sysmon` EventCode=22 process_name="rundll32.exe" | stats count min(_time)
-  as firstTime max(_time) as lastTime by Image QueryName QueryStatus ProcessId direction
-  Computer | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `rundll32_dnsquery_filter`'
+  as firstTime max(_time) as lastTime by Image QueryName QueryStatus ProcessId  Computer
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `rundll32_dnsquery_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name and eventcode = 22 dnsquery executions from your endpoints.
   If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
@@ -24,7 +23,7 @@ references:
 tags:
   analytic_story:
   - IcedID
-  automated_detection_testing: passed
+  - Living Off The Land
   confidence: 80
   context:
   - Source:Endpoint
@@ -45,6 +44,7 @@ tags:
     - Victim
     type: Hostname
   - name: process_name
+    type: Process
     role:
     - Attacker
     type: process name
@@ -58,7 +58,7 @@ tags:
   - QueryName
   - QueryStatus
   - ProcessId
-  - direction
   - Computer
   risk_score: 56
   security_domain: endpoint
+  asset_type: Endpoint

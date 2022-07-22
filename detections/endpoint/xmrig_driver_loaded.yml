@@ -21,12 +21,10 @@ references:
 tags:
   analytic_story:
   - XMRig
-  automated_detection_testing: passed
   confidence: 100
   context:
-  - source:endpoint
-  - stage: Privilege Escalation
-  - Persistence
+  - Source:Endpoint
+  - Stage:Privilege Escalation
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
   impact: 80
@@ -40,11 +38,6 @@ tags:
   - name: Computer
     role:
     - Victim
-    type: Hostname
-  - name: ImageLoaded
-    role:
-    - Attacker
-    type: ImageLoaded
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -59,3 +52,4 @@ tags:
   - Signed
   risk_score: 80
   security_domain: endpoint
+  asset_type: Endpoint

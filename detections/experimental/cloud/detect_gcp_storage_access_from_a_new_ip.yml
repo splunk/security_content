@@ -13,9 +13,9 @@ search: '`google_gcp_pubsub_message` | multikv | rename sc_status_ as status | r
   | rename cs_method_ as operation | search status="\"200\"" | stats earliest(_time)
   as firstTime latest(_time) as lastTime by bucket_name remote_ip operation request_uri
   | table firstTime, lastTime, bucket_name, remote_ip, operation, request_uri | inputlookup
-  append=t previously_seen_gcp_storage_access_from_remote_ip.csv | stats min(firstTime)
+  append=t previously_seen_gcp_storage_access_from_remote_ip | stats min(firstTime)
   as firstTime, max(lastTime) as lastTime by bucket_name remote_ip operation request_uri
-  | outputlookup previously_seen_gcp_storage_access_from_remote_ip.csv | eval newIP=if(firstTime
+  | outputlookup previously_seen_gcp_storage_access_from_remote_ip | eval newIP=if(firstTime
   >= relative_time(now(),"-70m@m"), 1, 0) | where newIP=1 | eval first_time=strftime(firstTime,"%m/%d/%y
   %H:%M:%S") | eval last_time=strftime(lastTime,"%m/%d/%y %H:%M:%S") | table  first_time
   last_time bucket_name remote_ip operation request_uri | `detect_gcp_storage_access_from_a_new_ip_filter`'
@@ -62,3 +62,13 @@ tags:
   - cs_uri_
   - cs_method_
   security_domain: network
+  confidence: 50
+  impact: 50
+  risk_score: 25
+  context: []
+  observable:
+  - name: dest
+    type: Other
+    role:
+    - Other
+  message: tbd

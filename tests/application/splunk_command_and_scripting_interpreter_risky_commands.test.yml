@@ -1,0 +1,14 @@
+name: Splunk Command and Scripting Interpreter Risky Commands Unit Test
+tests:
+- name: Splunk Command and Scripting Interpreter Risky Commands
+  file: application/splunk_command_and_scripting_interpreter_risky_commands.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: audittrail.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1213/audittrail/audittrail.log
+    source: audittrail
+    sourcetype: audittrail
+    update_timestamp: true
+    custom_index: _audit

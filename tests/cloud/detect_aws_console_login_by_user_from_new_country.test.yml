@@ -3,22 +3,22 @@ tests:
 - name: Detect AWS Console Login by User from New Country
   file: cloud/detect_aws_console_login_by_user_from_new_country.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-24h'
-  latest_time: 'now'
+  earliest_time: -24h
+  latest_time: now
   baselines:
   - name: Previously Seen Users In Cloudtrail - Initial
-    file: detections/cloud/previously_seen_users_in_cloudtrail_initial.yml
+    file: baselines/previously_seen_users_in_cloudtrail___initial.yml
     pass_condition: '| stats count | where count > 0'
-    earliest_time: '-30d'
-    latest_time: '-1d'
+    earliest_time: -30d
+    latest_time: -1d
   - name: Previously Seen Users In Cloudtrail - Update
-    file: detections/cloud/previously_seen_users_in_cloudtrail_update.yml
+    file: baselines/previously_seen_users_in_cloudtrail___update.yml
     pass_condition: '| stats count | where count > 0'
-    earliest_time: '-30d'
-    latest_time: '-1d'
+    earliest_time: -30d
+    latest_time: -1d
   attack_data:
   - file_name: cloudtrail_behavioural_detections.json
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
-    update_timestamp: True
+    update_timestamp: true

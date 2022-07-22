@@ -21,10 +21,11 @@ tags:
   analytic_story:
   - Dev Sec Ops
   asset_type: GitHub
-  automated_detection_testing: passed
   cis20:
   - CIS 13
   confidence: 90
+  context:
+  - Source:Application Log
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1195.001/github_pull_request/github_pull_request.json
   impact: 30
@@ -40,6 +41,7 @@ tags:
   - DE.CM
   observable:
   - name: repository
+    type: Unknown
     role:
     - Victim
     type: System
@@ -47,7 +49,18 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Dev Sec Ops Analytics
-  required_fields: []
+  required_fields:
+  - _time
+  - alert.id
+  - repository.full_name
+  - repository.html_url
+  - action
+  - alert.affected_package_name
+  - alert.affected_range
+  - alert.created_at
+  - alert.external_identifier
+  - alert.external_reference
+  - alert.fixed_in
+  - alert.severity
   risk_score: 27
   security_domain: network

@@ -58,3 +58,15 @@ tags:
   risk_object_type: user
   risk_score: 25
   security_domain: endpoint
+  kill_chain_phases:
+  - Exploitation
+  confidence: 50
+  impact: 50
+  context:
+  - Unknown
+  message: tbd
+  observable:
+  - name: field
+    type: Unknown
+    role:
+    - Unknown

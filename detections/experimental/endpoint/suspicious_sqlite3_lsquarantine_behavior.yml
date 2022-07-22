@@ -22,7 +22,7 @@ how_to_implement: To successfully implement this search you need to be ingesting
 known_false_positives: Unknown.
 references:
 - https://redcanary.com/blog/clipping-silver-sparrows-wings/
-- https://marcosantadev.com/manage-plist-files-plistbuddy/
+- https://www.marcosantadev.com/manage-plist-files-plistbuddy/
 tags:
   analytic_story:
   - Silver Sparrow
@@ -46,3 +46,17 @@ tags:
   - Processes.process_id
   - Processes.parent_process_id
   security_domain: endpoint
+  confidence: 50
+  impact: 50
+  risk_score: 25
+  context: []
+  message: tbd
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim

@@ -3,10 +3,10 @@ tests:
 - name: MS Scripting Process Loading Ldap Module
   file: endpoint/ms_scripting_process_loading_ldap_module.yml
   pass_condition: '| stats count | where count >= 2'
-  earliest_time: '-24h'
-  latest_time: 'now'
+  earliest_time: -24h
+  latest_time: now
   attack_data:
   - file_name: sysmon.log
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_js_2/sysmon.log
-    source:  XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

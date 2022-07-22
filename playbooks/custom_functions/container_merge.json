@@ -1,6 +1,6 @@
 {
-    "create_time": "2021-10-18T12:31:32.500833+00:00",
-    "custom_function_id": "83776ecf4dd52c71d8497cb500dd332780eb9c72",
+    "create_time": "2022-02-25T14:52:47.172543+00:00",
+    "custom_function_id": "1f8ae8e7978b750272fbbaba5efe4e6127a9a6a7",
     "description": "An alternative to the add-to-case API call. This function will copy all artifacts, automation, notes and comments over from every container within the container_list into the target_container. The target_container will be upgraded to a case.\n\nThe notes will be copied over with references to the child containers from where they came. A note will be left in the child containers with a link to the target container. The child containers will be marked as evidence within the target container. \n\nAny notes left as a consequence of the merge process will be skipped in subsequent merges.",
     "draft_mode": false,
     "inputs": [
@@ -36,6 +36,6 @@
         }
     ],
     "outputs": [],
-    "platform_version": "5.0.1.66250",
+    "platform_version": "5.2.1.78411",
     "python_version": "3"
 }

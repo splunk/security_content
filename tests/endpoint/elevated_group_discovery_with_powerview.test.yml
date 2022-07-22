@@ -1,10 +1,10 @@
-name: Elevated Group Discovery with PowerViewUnit Test
+name: Elevated Group Discovery with PowerView Unit Test
 tests:
 - name: Elevated Group Discovery with PowerView
   file: endpoint/elevated_group_discovery_with_powerview.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-24h'
-  latest_time: 'now'
+  earliest_time: -24h
+  latest_time: now
   attack_data:
   - file_name: windows-powershell.log
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.002/AD_discovery/windows-powershell.log

@@ -4,8 +4,7 @@ version: 1
 date: '2021-12-01'
 author: Mauricio Velazco, Splunk
 type: Hunting
-datamodel:
-- Endpoint
+datamodel: []
 description: 'The following hunting analytic leverages Event ID 4769, `A Kerberos
   service ticket was requested`, to identify an unusual number of computer service
   ticket requests from one source. When a domain joined endpoint connects to a remote
@@ -37,16 +36,16 @@ references:
 tags:
   analytic_story:
   - Active Directory Lateral Movement
+  - Active Directory Kerberos Attacks
+  asset_type: Endpoint
   confidence: 60
   context:
   - Source:Endpoint
   - Stage:Lateral Movement
   impact: 70
   kill_chain_phases:
-  - Reconnaissance
   - Exploitation
-  - Lateral Movement
-  message: null
+  message: ''
   mitre_attack_id:
   - T1078
   observable:

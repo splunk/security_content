@@ -1,0 +1,115 @@
+---
+title: "Clear Unallocated Sector Using Cipher App"
+excerpt: "File Deletion, Indicator Removal on Host"
+categories:
+  - Endpoint
+last_modified_at: 2021-12-20
+toc: true
+toc_label: ""
+tags:
+  - File Deletion
+  - Defense Evasion
+  - Indicator Removal on Host
+  - Defense Evasion
+  - Splunk Behavioral Analytics
+  - Endpoint_Processes
+---
+
+
+
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+
+#### Description
+
+this search is to detect execution of `cipher.exe` to clear the unallocated sectors of a specific disk. This technique was seen in some ransomware to make it impossible to forensically recover deleted files.
+
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Product**: Splunk Behavioral Analytics
+- **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
+- **Last Updated**: 2021-12-20
+- **Author**: Teoderick Contreras, Splunk
+- **ID**: 8f907d90-6173-11ec-9c23-acde48001122
+
+
+#### [ATT&CK](https://attack.mitre.org/)
+
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
+| [T1070.004](https://attack.mitre.org/techniques/T1070/004/) | File Deletion | Defense Evasion |
+
+| [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
+
+#### Search
+
+```
+
+| from read_ssa_enriched_events() 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"), "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
+| where cmd_line IS NOT NULL AND like(cmd_line, "%/w:%") AND process_name="cipher.exe" 
+| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
+| into write_ssa_detected_events();
+```
+
+#### Macros
+The SPL above uses the following Macros:
+
+Note that `clear_unallocated_sector_using_cipher_app_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+
+#### Required field
+* _time
+* Processes.dest
+* Processes.user
+* Processes.parent_process_name
+* Processes.parent_process
+* Processes.original_file_name
+* Processes.process_name
+* Processes.process
+* Processes.process_id
+* Processes.parent_process_path
+* Processes.process_path
+* Processes.parent_process_id
+
+
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
+
+#### Known False Positives
+administrator may execute this app to manage disk
+
+#### Associated Analytic story
+* [Ransomware](/stories/ransomware)
+* [Information Sabotage](/stories/information_sabotage)
+
+
+#### Kill Chain Phase
+* Exploitation
+
+
+
+#### RBA
+
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 90.0 | 90 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to clear the unallocated sectors of a specific disk. |
+
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
+
+
+#### Reference
+
+* [https://unit42.paloaltonetworks.com/vatet-pyxie-defray777/3/](https://unit42.paloaltonetworks.com/vatet-pyxie-defray777/3/)
+* [https://www.sophos.com/en-us/medialibrary/PDFs/technical-papers/sophoslabs-ransomware-behavior-report.pdf](https://www.sophos.com/en-us/medialibrary/PDFs/technical-papers/sophoslabs-ransomware-behavior-report.pdf)
+
+
+
+#### Test Dataset
+Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
+* [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.004/cipher/security.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.004/cipher/security.log)
+
+
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/clear_unallocated_sector_using_cipher_app.yml) \| *version*: **1**

@@ -1,5 +1,5 @@
 name: Detect Outbound SMB Traffic
-id: 7f5fb3e1-4209-414-90db-0ec21b936378
+id: 1bed7774-304a-4e8f-9d72-d80e45ff492b
 version: 3
 date: '2020-07-21'
 author: Bhavin Patel, Stuart Hopkins from Splunk
@@ -47,7 +47,7 @@ tags:
   - CIS 12
   kill_chain_phases:
   - Actions on Objectives
-  - Command and Control
+  - Command & Control
   mitre_attack_id:
   - T1071.002
   - T1071
@@ -67,3 +67,13 @@ tags:
   - All_Traffic.dest_category
   - All_Traffic.src_ip
   security_domain: network
+  confidence: 50
+  impact: 50
+  risk_score: 25
+  context: []
+  message: tbd
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim

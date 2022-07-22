@@ -30,7 +30,7 @@ tags:
   analytic_story:
   - IcedID
   - Windows Persistence Techniques
-  automated_detection_testing: passed
+  - Industroyer2
   confidence: 100
   context:
   - Source:Endpoint
@@ -57,3 +57,4 @@ tags:
   - dest
   risk_score: 80
   security_domain: endpoint
+  asset_type: Endpoint

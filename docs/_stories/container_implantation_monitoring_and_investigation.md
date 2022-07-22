@@ -29,7 +29,6 @@ Container Registrys provide a way for organizations to keep customized images of
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [New container uploaded to AWS ECR](/cloud/new_container_uploaded_to_aws_ecr/) | [Implant Internal Image](/tags/#implant-internal-image) | Hunting |
 
 #### Reference
 

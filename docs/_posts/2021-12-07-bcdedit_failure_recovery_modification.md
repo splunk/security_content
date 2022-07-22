@@ -21,7 +21,7 @@ tags:
 
 This search looks for flags passed to bcdedit.exe modifications to the built-in Windows error recovery boot configurations. This is typically used by ransomware to prevent recovery.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2021-12-07
@@ -31,8 +31,8 @@ This search looks for flags passed to bcdedit.exe modifications to the built-in 
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1490](https://attack.mitre.org/techniques/T1490/) | Inhibit System Recovery | Impact |
 
 #### Search
@@ -46,13 +46,10 @@ This search looks for flags passed to bcdedit.exe modifications to the built-in 
 | into write_ssa_detected_events();
 ```
 
-#### Associated Analytic Story
-* [Ryuk Ransomware](/stories/ryuk_ransomware)
-* [Ransomware](/stories/ransomware)
+#### Macros
+The SPL above uses the following Macros:
 
-
-#### How To Implement
-To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint_Processess` datamodel.
+Note that `bcdedit_failure_recovery_modification_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -65,12 +62,20 @@ To successfully implement this search you need to be ingesting information on pr
 * cmd_line
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint_Processess` datamodel.
 
 #### Known False Positives
 Administrators may modify the boot configuration.
+
+#### Associated Analytic story
+* [Ryuk Ransomware](/stories/ryuk_ransomware)
+* [Ransomware](/stories/ransomware)
+
+
+#### Kill Chain Phase
+* Actions on Objectives
+
 
 
 #### RBA
@@ -79,6 +84,8 @@ Administrators may modify the boot configuration.
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 100 | 80 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest_device_id$ by user $dest_user_id$ attempting disable the ability to recover the endpoint. |
 
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 
@@ -92,7 +99,7 @@ Administrators may modify the boot configuration.
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
-* [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1490/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1490/atomic_red_team/windows-sysmon.log)
+* [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1490/atomic_red_team/windows-security_bcdedit_wbadmin.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1490/atomic_red_team/windows-security_bcdedit_wbadmin.log)
 
 
 

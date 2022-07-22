@@ -25,7 +25,6 @@ tags:
   analytic_story:
   - Ransomware
   - Revil Ransomware
-  automated_detection_testing: passed
   confidence: 50
   context:
   - Source:Endpoint
@@ -61,3 +60,4 @@ tags:
   - IMPHASH
   risk_score: 35
   security_domain: endpoint
+  asset_type: Endpoint

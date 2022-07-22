@@ -1,0 +1,23 @@
+name: Block Indicators
+id: fc0edc76-ff2b-48b0-5f6f-63da6783fd63
+version: 1
+date: '2021-01-21'
+author: Philip Royer, Splunk
+type: Response
+description: This playbook retrieves IP addresses, domains, and file hashes, blocks them on various services, and adds them to specific blocklists as custom lists.
+playbook: block_indicators
+how_to_implement: "This playbook uses the following custom lists:  ip_address_blocklist, domain_blocklist, filehash_blocklist. This playbook provides an easy, automated, and straightforward solution to maintaining up-to-date IP address, file, and domain blocklists. The playbook looks for any of the required CEF fields within the container. The CEF value is then cross-referenced with their respective Custom Lists. IP addresses are blocked on a Firewall, while domains are blocked using a blocklist service.  The blocking of these two will prevent access to the IOCs.  Finally, file hashes are blocked using an endpoint protection service, which will prevent the process from running on affected endpoints within a network. After the IOCs are blocked using various apps, they are added to their respective custom lists as to maintain a running blocklist record."
+references: []
+app_list:
+- "Palo Alto Networks Firewall"
+- "CarbonBlack Response"
+- "OpenDNS Umbrella"
+tags:
+  platform_tags: []
+  playbook_type: Automation
+  playbook_fields:
+  - destinationDnsDomain
+  - destinationAddress
+  - fileHash
+  product:
+  - Splunk SOAR

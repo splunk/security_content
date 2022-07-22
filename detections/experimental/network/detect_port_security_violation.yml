@@ -69,3 +69,13 @@ tags:
   - host
   - src_interface
   security_domain: network
+  confidence: 50
+  impact: 50
+  risk_score: 25
+  context: []
+  message: tbd
+  observable:
+  - name: dest
+    type: Other
+    role:
+    - Other

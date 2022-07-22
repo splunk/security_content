@@ -1,10 +1,10 @@
 name: Disable Net User Account Unit Test
 tests:
-  - name: Disable Net User Account
-    file: endpoint/ssa___disable_net_user_account.yml
-    pass_condition: '@count_gt(0)'
-    description: Test for usage of net.exe or net1.exe to disable net user
-    attack_data:
-      - file_name: net_user_dis.log
-        data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/net_user_dis.log
-        source: WinEventLog:Security
+- name: Disable Net User Account
+  file: endpoint/ssa___disable_net_user_account.yml
+  pass_condition: '@count_gt(0)'
+  description: Test for usage of net.exe or net1.exe to disable net user
+  attack_data:
+  - file_name: net_user_dis.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/net_user_dis.log
+    source: WinEventLog:Security

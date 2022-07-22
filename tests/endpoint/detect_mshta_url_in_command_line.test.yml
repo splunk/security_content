@@ -1,10 +1,10 @@
-name: Detect mshta url in command line test
+name: Detect MSHTA Url in Command Line Unit Test
 tests:
-- name: Detect mshta url in command line
+- name: Detect MSHTA Url in Command Line
   file: endpoint/detect_mshta_url_in_command_line.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-24h'
-  latest_time: 'now'
+  earliest_time: -24h
+  latest_time: now
   attack_data:
   - file_name: windows-sysmon.log
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.005/atomic_red_team/windows-sysmon.log

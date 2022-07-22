@@ -1,0 +1,12 @@
+name: Windows Disable Shutdown Button Through Registry Unit Test
+tests:
+- name: Windows Disable Shutdown Button Through Registry
+  file: endpoint/windows_disable_shutdown_button_through_registry.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: sysmon.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/ransomware_disable_reg/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog 

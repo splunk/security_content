@@ -1,10 +1,11 @@
 name: Suspicious Process DNS Query Known Abuse Web Services
 id: 3cf0dc36-484d-11ec-a6bc-acde48001122
-version: 1
-date: '2021-11-18'
+version: 2
+date: '2022-01-18'
 author: Teoderick Contreras, Splunk
 type: TTP
-datamodel: []
+datamodel:
+- Endpoint
 description: This analytic detects a suspicious process making a DNS query via known,
   abused text-paste web services, VoIP, instant messaging, and digital distribution
   platforms used to download external files. This technique is abused by adversaries,
@@ -24,10 +25,11 @@ known_false_positives: Noise and false positive can be seen if the following ins
   needed.
 references:
 - https://urlhaus.abuse.ch/url/1798923/
+- https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
 tags:
   analytic_story:
   - Remcos
-  automated_detection_testing: passed
+  - WhisperGate
   confidence: 80
   context:
   - Source:Endpoint
@@ -47,6 +49,7 @@ tags:
     - Victim
     type: Hostname
   - name: process_name
+    type: Process
     role:
     - Attacker
     type: process name
@@ -64,3 +67,4 @@ tags:
   - Computer
   risk_score: 64
   security_domain: endpoint
+  asset_type: Endpoint

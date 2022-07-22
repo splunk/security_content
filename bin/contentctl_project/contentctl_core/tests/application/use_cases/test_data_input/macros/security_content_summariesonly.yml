@@ -1,0 +1,3 @@
+definition: summariesonly=false allow_old_summaries=true
+description: search data model's summaries only 
+name: security_content_summariesonly

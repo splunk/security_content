@@ -1,6 +1,8 @@
 ---
 title: "Add or Set Windows Defender Exclusion"
-excerpt: "Disable or Modify Tools, Impair Defenses"
+excerpt: "Disable or Modify Tools
+, Impair Defenses
+"
 categories:
   - Endpoint
 last_modified_at: 2021-11-25
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - Disable or Modify Tools
-  - Defense Evasion
   - Impair Defenses
+  - Defense Evasion
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -19,29 +21,80 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
-This analytic will detect a suspicious process commandline related to windows defender exclusion feature. This command is abused by adversaries, malware author and red teams to bypassed Windows Defender Anti-Virus product by excluding  folder path, file path, process, extensions and etc. from its real time or schedule scan to execute their malicious code. This is a good indicator for defense evasion and to look further for events after this behavior.
+This analytic will identify a suspicious process command-line related to Windows Defender exclusion feature. This command is abused by adversaries, malware authors and red teams to bypass Windows Defender Antivirus products by excluding folder path, file path, process and extensions. From its real time or schedule scan to execute their malicious code. This is a good indicator for defense evasion and to look further for events after this behavior.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2021-11-25
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: 773b66fe-4dd9-11ec-8289-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Annotations
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+<details>
+  <summary>ATT&CK</summary>
+
+<div markdown="1">
+
+
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1562.001](https://attack.mitre.org/techniques/T1562/001/) | Disable or Modify Tools | Defense Evasion |
 
 | [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
 
-#### Search
+</div>
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+<div markdown="1">
+
+* Exploitation
+
+
+</div>
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+<div markdown="1">
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+<div markdown="1">
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+<div markdown="1">
+
+
+</div>
+</details>
+
+#### Search 
 
 ```
 
@@ -52,13 +105,13 @@ This analytic will detect a suspicious process commandline related to windows de
 | `add_or_set_windows_defender_exclusion_filter`
 ```
 
-#### Associated Analytic Story
-* [Remcos](/stories/remcos)
-* [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure that this registry was included in your config files ex. sysmon config to be monitored.
+> :information_source:
+> **add_or_set_windows_defender_exclusion_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -75,12 +128,18 @@ To successfully implement this search you need to be ingesting information on pr
 * Processes.parent_process_id
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure that this registry was included in your config files ex. sysmon config to be monitored.
 
 #### Known False Positives
-admin or user may choose to use this windows features.
+Admin or user may choose to use this windows features. Filter as needed.
+
+#### Associated Analytic story
+* [Remcos](/stories/remcos)
+* [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
+* [WhisperGate](/stories/whispergate)
+
+
 
 
 #### RBA
@@ -90,18 +149,21 @@ admin or user may choose to use this windows features.
 | 64.0 | 80 | 80 | exclusion command $process$ executed on $dest$ |
 
 
-
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 
 * [https://tccontre.blogspot.com/2020/01/remcos-rat-evading-windows-defender-av.html](https://tccontre.blogspot.com/2020/01/remcos-rat-evading-windows-defender-av.html)
 * [https://app.any.run/tasks/cf1245de-06a7-4366-8209-8e3006f2bfe5/](https://app.any.run/tasks/cf1245de-06a7-4366-8209-8e3006f2bfe5/)
+* [https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/](https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/)
 
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/defender_exclusion_sysmon/sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/defender_exclusion_sysmon/sysmon.log)
 

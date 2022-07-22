@@ -8,6 +8,8 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
+  - Actions on Objectives
+  - Exploitation
 ---
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -30,21 +32,22 @@ WMI is a Microsoft infrastructure for management data and operations on Windows 
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Detect WMI Event Subscription Persistence](/endpoint/detect_wmi_event_subscription_persistence/) | [Windows Management Instrumentation Event Subscription](/tags/#windows-management-instrumentation-event-subscription), [Event Triggered Execution](/tags/#event-triggered-execution) | TTP |
-| [Process Execution via WMI](/endpoint/process_execution_via_wmi/) | [Windows Management Instrumentation](/tags/#windows-management-instrumentation) | TTP |
-| [Remote Process Instantiation via WMI](/endpoint/remote_process_instantiation_via_wmi/) | [Windows Management Instrumentation](/tags/#windows-management-instrumentation) | TTP |
-| [Remote WMI Command Attempt](/endpoint/remote_wmi_command_attempt/) | [Windows Management Instrumentation](/tags/#windows-management-instrumentation) | TTP |
-| [Script Execution via WMI](/endpoint/script_execution_via_wmi/) | [Windows Management Instrumentation](/tags/#windows-management-instrumentation) | TTP |
-| [WMI Permanent Event Subscription](/endpoint/wmi_permanent_event_subscription/) | [Windows Management Instrumentation](/tags/#windows-management-instrumentation) | TTP |
-| [WMI Permanent Event Subscription - Sysmon](/endpoint/wmi_permanent_event_subscription_-_sysmon/) | [Windows Management Instrumentation Event Subscription](/tags/#windows-management-instrumentation-event-subscription), [Event Triggered Execution](/tags/#event-triggered-execution) | TTP |
-| [WMI Temporary Event Subscription](/endpoint/wmi_temporary_event_subscription/) | [Windows Management Instrumentation](/tags/#windows-management-instrumentation) | TTP |
-| [WMIC XSL Execution via URL](/endpoint/wmic_xsl_execution_via_url/) | [XSL Script Processing](/tags/#xsl-script-processing) | TTP |
-| [XSL Script Execution With WMIC](/endpoint/xsl_script_execution_with_wmic/) | [XSL Script Processing](/tags/#xsl-script-processing) | TTP |
+| [Detect WMI Event Subscription Persistence](/endpoint/detect_wmi_event_subscription_persistence/) | [Windows Management Instrumentation Event Subscription](/tags/#windows-management-instrumentation-event-subscription), [Event Triggered Execution](/tags/#event-triggered-execution)| TTP |
+| [Process Execution via WMI](/endpoint/process_execution_via_wmi/) | [Windows Management Instrumentation](/tags/#windows-management-instrumentation)| TTP |
+| [Remote Process Instantiation via WMI](/endpoint/remote_process_instantiation_via_wmi/) | [Windows Management Instrumentation](/tags/#windows-management-instrumentation)| TTP |
+| [Remote WMI Command Attempt](/endpoint/remote_wmi_command_attempt/) | [Windows Management Instrumentation](/tags/#windows-management-instrumentation)| TTP |
+| [Script Execution via WMI](/endpoint/script_execution_via_wmi/) | [Windows Management Instrumentation](/tags/#windows-management-instrumentation)| TTP |
+| [Windows WMI Process Call Create](/endpoint/windows_wmi_process_call_create/) | [Windows Management Instrumentation](/tags/#windows-management-instrumentation)| Hunting |
+| [WMI Permanent Event Subscription - Sysmon](/endpoint/wmi_permanent_event_subscription_-_sysmon/) | [Windows Management Instrumentation Event Subscription](/tags/#windows-management-instrumentation-event-subscription), [Event Triggered Execution](/tags/#event-triggered-execution)| TTP |
+| [WMIC XSL Execution via URL](/endpoint/wmic_xsl_execution_via_url/) | [XSL Script Processing](/tags/#xsl-script-processing)| TTP |
+| [XSL Script Execution With WMIC](/endpoint/xsl_script_execution_with_wmic/) | [XSL Script Processing](/tags/#xsl-script-processing)| TTP |
+| [WMI Permanent Event Subscription](/endpoint/wmi_permanent_event_subscription/) | [Windows Management Instrumentation](/tags/#windows-management-instrumentation)| TTP |
+| [WMI Temporary Event Subscription](/endpoint/wmi_temporary_event_subscription/) | [Windows Management Instrumentation](/tags/#windows-management-instrumentation)| TTP |
 
 #### Reference
 
 * [https://www.blackhat.com/docs/us-15/materials/us-15-Graeber-Abusing-Windows-Management-Instrumentation-WMI-To-Build-A-Persistent%20Asynchronous-And-Fileless-Backdoor-wp.pdf](https://www.blackhat.com/docs/us-15/materials/us-15-Graeber-Abusing-Windows-Management-Instrumentation-WMI-To-Build-A-Persistent%20Asynchronous-And-Fileless-Backdoor-wp.pdf)
-* [https://www.fireeye.com/blog/threat-research/2017/03/wmimplant_a_wmi_ba.html](https://www.fireeye.com/blog/threat-research/2017/03/wmimplant_a_wmi_ba.html)
+* [https://web.archive.org/web/20210921091529/https://www.fireeye.com/blog/threat-research/2017/03/wmimplant_a_wmi_ba.html](https://web.archive.org/web/20210921091529/https://www.fireeye.com/blog/threat-research/2017/03/wmimplant_a_wmi_ba.html)
 
 
 

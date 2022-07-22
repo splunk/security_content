@@ -1,6 +1,8 @@
 ---
 title: "System Processes Run From Unexpected Locations"
-excerpt: "Masquerading, Rename System Utilities"
+excerpt: "Masquerading
+, Rename System Utilities
+"
 categories:
   - Endpoint
 last_modified_at: 2020-12-08
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - Masquerading
-  - Defense Evasion
   - Rename System Utilities
+  - Defense Evasion
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -19,7 +21,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -27,23 +29,79 @@ This search looks for system processes that typically execute from `C:\Windows\S
 This detection utilizes a lookup that is deduped `system32` and `syswow64` directories from Server 2016 and Windows 10.\
 During triage, review the parallel processes - what process moved the native Windows binary? identify any artifacts on disk and review. If a remote destination is contacted, what is the reputation?
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2020-12-08
 - **Author**: David Dorsey, Michael Haag, Splunk
 - **ID**: a34aae96-ccf8-4aef-952c-3ea21444444d
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Annotations
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+<details>
+  <summary>ATT&CK</summary>
+
+<div markdown="1">
+
+
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1036](https://attack.mitre.org/techniques/T1036/) | Masquerading | Defense Evasion |
 
 | [T1036.003](https://attack.mitre.org/techniques/T1036/003/) | Rename System Utilities | Defense Evasion |
 
-#### Search
+</div>
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+<div markdown="1">
+
+* Actions on Objectives
+
+
+</div>
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+<div markdown="1">
+
+* PR.PT
+* DE.CM
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+<div markdown="1">
+
+* CIS 8
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+<div markdown="1">
+
+
+</div>
+</details>
+
+#### Search 
 
 ```
 
@@ -55,15 +113,14 @@ During triage, review the parallel processes - what process moved the native Win
 | `system_processes_run_from_unexpected_locations_filter`
 ```
 
-#### Associated Analytic Story
-* [Suspicious Command-Line Executions](/stories/suspicious_command-line_executions)
-* [Unusual Processes](/stories/unusual_processes)
-* [Ransomware](/stories/ransomware)
-* [Masquerading - Rename System Utilities](/stories/masquerading_-_rename_system_utilities)
+#### Macros
+The SPL above uses the following Macros:
+* [is_windows_system_file](https://github.com/splunk/security_content/blob/develop/macros/is_windows_system_file.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
+> :information_source:
+> **system_processes_run_from_unexpected_locations_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -76,12 +133,19 @@ To successfully implement this search you need to be ingesting information on pr
 * Processes.process_hash
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
 
 #### Known False Positives
 This detection may require tuning based on third party applications utilizing native Windows binaries in non-standard paths.
+
+#### Associated Analytic story
+* [Suspicious Command-Line Executions](/stories/suspicious_command-line_executions)
+* [Unusual Processes](/stories/unusual_processes)
+* [Ransomware](/stories/ransomware)
+* [Masquerading - Rename System Utilities](/stories/masquerading_-_rename_system_utilities)
+
+
 
 
 #### RBA
@@ -91,7 +155,8 @@ This detection may require tuning based on third party applications utilizing na
 | 49.0 | 70 | 70 | System process running from unexpected location on $dest$ |
 
 
-
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 
@@ -101,8 +166,9 @@ This detection may require tuning based on third party applications utilizing na
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.003/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.003/atomic_red_team/windows-sysmon.log)
 

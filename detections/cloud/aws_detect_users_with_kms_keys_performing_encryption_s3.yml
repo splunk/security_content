@@ -24,7 +24,6 @@ tags:
   analytic_story:
   - Ransomware Cloud
   asset_type: S3 Bucket
-  automated_detection_testing: passed
   confidence: 50
   context:
   - Source:Cloud Data
@@ -48,7 +47,6 @@ tags:
     - Target
     type: File
   product:
-  - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -59,3 +57,5 @@ tags:
   - userAgent
   risk_score: 15
   security_domain: threat
+  kill_chain_phases:
+  - Exploitation

@@ -15,8 +15,7 @@ how_to_implement: Splunk Universal Forwarder running on Linux systems (tested on
   single host
 known_false_positives: If sudoedit is throwing segfaults for other reasons this will
   pick those up too.
-references:
-- https://blog.qualys.com/vulnerabilities-research/2021/01/26/cve-2021-3156-heap-based-buffer-overflow-in-sudo-baron-samedit
+references: []
 tags:
   analytic_story:
   - Baron Samedit CVE-2021-3156
@@ -41,3 +40,13 @@ tags:
   - _time
   - host
   security_domain: endpoint
+  confidence: 50
+  impact: 50
+  risk_score: 25
+  context: []
+  message: tbd
+  observable:
+  - name: dest
+    type: Other
+    role:
+    - Other

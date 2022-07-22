@@ -3,8 +3,8 @@ tests:
 - name: High Frequency Copy Of Files In Network Share
   file: endpoint/high_frequency_copy_of_files_in_network_share.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-30d'
-  latest_time: 'now'
+  earliest_time: -30d
+  latest_time: now
   attack_data:
   - file_name: security.log
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1537/high_copy_files_in_net_share/security.log

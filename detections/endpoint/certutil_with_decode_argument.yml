@@ -35,7 +35,7 @@ references:
 tags:
   analytic_story:
   - Deobfuscate-Decode Files or Information
-  automated_detection_testing: passed
+  - Living Off The Land
   confidence: 80
   context:
   - Source:Endpoint
@@ -59,6 +59,7 @@ tags:
     - Victim
     type: Hostname
   - name: parent_process_name
+    type: Process
     role:
     - Parent Process
     type: Parent Process
@@ -81,3 +82,6 @@ tags:
   - _time
   risk_score: 40
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon
+  asset_type: Endpoint

@@ -20,7 +20,7 @@ known_false_positives: There might be false positives associted with this detect
   since items like args as a web argument is pretty generic.
 references:
 - https://www.splunk.com/en_us/blog/security/detecting-supernova-malware-solarwinds-continued.html
-- https://www.guidepointsecurity.com/supernova-solarwinds-net-webshell-analysis/
+- https://www.guidepointsecurity.com/blog/supernova-solarwinds-net-webshell-analysis/
 tags:
   analytic_story:
   - NOBELIUM Group
@@ -29,7 +29,7 @@ tags:
   - CIS 13
   - CIS 18
   kill_chain_phases:
-  - Exfiltration
+  - Exploitation
   mitre_attack_id:
   - T1505.003
   nist:
@@ -51,3 +51,18 @@ tags:
   - Web.user
   - Web.http_user_agent
   security_domain: network
+  confidence: 50
+  impact: 50
+  risk_score: 25
+  context: []
+  message: tbd
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  asset_type: Web Server

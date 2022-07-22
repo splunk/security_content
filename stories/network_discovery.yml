@@ -1,0 +1,23 @@
+name: Network Discovery
+id: af228995-f182-49d7-90b3-2a732944f00f
+version: 1
+date: '2022-02-14'
+author: Teoderick Contreras, Splunk
+description: Leverage searches that allow you to detect and investigate unusual activities
+  that might relate to the network discovery, including looking for network configuration, settings such as IP, MAC address, 
+  firewall settings and many more.
+narrative: Adversaries may use the information from System Network Configuration Discovery during automated discovery to shape follow-on behaviors, 
+  including determining certain access within the target network and what actions to do next.
+references:
+- https://attack.mitre.org/techniques/T1016/
+- https://www.welivesecurity.com/wp-content/uploads/2021/01/ESET_Kobalos.pdf
+- https://researchcenter.paloaltonetworks.com/2018/09/unit42-xbash-combines-botnet-ransomware-coinmining-worm-targets-linux-windows/
+tags:
+  analytic_story: Network Discovery
+  category:
+  - Malware
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

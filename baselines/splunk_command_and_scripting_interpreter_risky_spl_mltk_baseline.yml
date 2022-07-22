@@ -1,0 +1,80 @@
+name: Splunk Command and Scripting Interpreter Risky SPL MLTK Baseline
+id: 273df2f7-643a-451a-8d4d-637e39eadc87
+version: 1
+date: '2022-05-27'
+author: Abhinav Mishra, Kumar Sharad and Xiao Lin, Splunk
+type: Baseline
+datamodel:
+- Splunk_Audit
+description: 'This search supports an analyst looking for abuse or misuse of the risky commands listed here: https://docs.splunk.com/Documentation/Splunk/latest/Security/SPLsafeguards#Commands_that_trigger_the_warning
+This is accomplished by using the time spent executing one of these risky commands as a proxy for misuse/abuse of interest during investigation and/or hunting.
+The search builds a model utilizes the MLTK DensityFunction algorithm on Splunk app audit log data. The model uses the past 7 days of user history executing the above referenced commands then aggregates the total search run time for each hour as indicator of user behavior.
+The model identifies the top 0.1% of user search run time, indicating a risky use of these commands. Users can adjust this threshold 0.1% as interested however this will correlate to missed/false positive rates. This search should be scheduled to run at least every 7 days. The name of machine learning model generated is "risky_command_abuse" and should be configured to be globally shared (not private) in MLTK app as documented here:
+https://docs.splunk.com/Documentation/MLApp/5.3.1/User/Models#Sharing_models_from_other_Splunk_apps
+unless the same account of training this model will be used to perform inference using this model for anomaly
+detection.'
+search: '| tstats sum(Search_Activity.total_run_time) as run_time, count 
+  FROM datamodel=Splunk_Audit.Search_Activity WHERE (Search_Activity.user!="") 
+  AND (Search_Activity.total_run_time>1) AND (earliest=-7d@d latest=now) 
+  AND (Search_Activity.search IN ("*| runshellscript *", "*| collect *","*| delete *", "*| fit *", "*| outputcsv *", 
+  "*| outputlookup *", "*| run *", "*| script *", "*| sendalert *", "*| sendemail *", "*| tscolle*")) 
+  AND (Search_Activity.search_type=adhoc) AND (Search_Activity.user!=splunk-system-user) 
+  BY _time, Search_Activity.user span=1h 
+  | fit DensityFunction "run_time" dist=auto lower_threshold=0.000001 upper_threshold=0.001 show_density=true 
+  by Search_Activity.user into "risky_command_abuse" '
+how_to_implement: The corresponding detection of using this model is "Splunk Command and Scripting Interpreter Risky 
+  SPL MLTK". This detection depends on MLTK app which can be found here - https://splunkbase.splunk.com/app/2890/
+  and it assumes Splunk accelerated audit data model is available. For large enterprises, training the model might 
+  take significant computing resources. It might require dedicated search head. The underlined machine learning 
+  algorithm this detection used is DensityFunction. It might need to increase its settings default values, such as 
+  max_fit_time, max_groups, etc. More details of achieving optimal performance and configuring DensityFunction 
+  parameters can be found here - https://docs.splunk.com/Documentation/MLApp/5.3.1/User/Configurefitandapply
+  Users can modify earliest=-7d@d in the search to other value so that the search can collect enough data points 
+  to build a good baseline model. Users can also modify list of risky commands in "Search_Activity.search IN" to better
+  suit users' violation policy and their usage environment.
+known_false_positives: If the run time of a search exceeds the boundaries of outlier defined by the fitted density 
+  function model, false positives can occur, incorrectly labeling a long running search as potentially risky. 
+references:
+- https://docs.splunk.com/Documentation/Splunk/latest/Security/SPLsafeguards#Commands_that_trigger_the_warning
+tags:
+  analytic_story:
+  - Splunk Vulnerabilities
+  asset_type: Web Server
+  cis20:
+  - CIS 3
+  - CIS 6
+  confidence: 40
+  cve:
+  - CVE-2022-32154
+  context:
+  - Source: Endpoint
+  dataset:
+  - https://github.com/splunk/attack_data/raw/master/datasets/attack_techniques/T1203/search_activity.txt
+  impact: 50
+  kill_chain_phases:
+  - Actions on Objectives
+  message: ML model "risky_command_abuse" training is completed.
+  mitre_attack_id:
+  - T1059
+  nist:
+  - DE.AE
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Search_Activity.search
+  - Search_Activity.total_run_time 
+  - Search_Activity.user 
+  - Search_Activity.search_type
+  risk_score: 20
+  security_domain: audit
+  detections: 
+  - Splunk Command and Scripting Interpreter Risky SPL MLTK
+

@@ -1,6 +1,7 @@
 ---
 title: "Amazon EKS Kubernetes cluster scan detection"
-excerpt: "Cloud Service Discovery"
+excerpt: "Cloud Service Discovery
+"
 categories:
   - Cloud
 last_modified_at: 2020-04-15
@@ -14,31 +15,82 @@ tags:
   - Splunk Cloud
 ---
 
-### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
-We have not been able to test, simulate, or build datasets for this detection. Use at your own risk. This analytic is **NOT** supported.
+### :warning: WARNING THIS IS A EXPERIMENTAL analytic
+We have not been able to test, simulate, or build datasets for this object. Use at your own risk. This analytic is **NOT** supported.
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search provides information of unauthenticated requests via user agent, and authentication data against Kubernetes cluster in AWS
 
-- **Type**: Hunting
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+
 - **Last Updated**: 2020-04-15
 - **Author**: Rod Soto, Splunk
 - **ID**: 294c4686-63dd-4fe6-93a2-ca807626704a
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Annotations
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+<details>
+  <summary>ATT&CK</summary>
+
+<div markdown="1">
+
+
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1526](https://attack.mitre.org/techniques/T1526/) | Cloud Service Discovery | Discovery |
 
-#### Search
+</div>
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+<div markdown="1">
+
+* Reconnaissance
+
+
+</div>
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+<div markdown="1">
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+<div markdown="1">
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+<div markdown="1">
+
+
+</div>
+</details>
+
+#### Search 
 
 ```
 `aws_cloudwatchlogs_eks` "user.username"="system:anonymous" userAgent!="AWS Security Scanner" 
@@ -49,12 +101,13 @@ This search provides information of unauthenticated requests via user agent, and
 |`amazon_eks_kubernetes_cluster_scan_detection_filter` 
 ```
 
-#### Associated Analytic Story
-* [Kubernetes Scanning Activity](/stories/kubernetes_scanning_activity)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [aws_cloudwatchlogs_eks](https://github.com/splunk/security_content/blob/develop/macros/aws_cloudwatchlogs_eks.yml)
 
-
-#### How To Implement
-You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudWatch EKS Logs inputs.
+> :information_source:
+> **amazon_eks_kubernetes_cluster_scan_detection_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -70,24 +123,34 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 * user.groups{}
 
 
-#### Kill Chain Phase
-* Reconnaissance
-
+#### How To Implement
+You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudWatch EKS Logs inputs.
 
 #### Known False Positives
 Not all unauthenticated requests are malicious, but frequency, UA and source IPs will provide context.
 
+#### Associated Analytic story
+* [Kubernetes Scanning Activity](/stories/kubernetes_scanning_activity)
 
 
 
+
+#### RBA
+
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 25.0 | 50 | 50 | tbd |
+
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

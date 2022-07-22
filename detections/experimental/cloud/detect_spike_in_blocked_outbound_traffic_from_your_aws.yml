@@ -1,5 +1,5 @@
 name: Detect Spike in blocked Outbound Traffic from your AWS
-id: ada0f278-84a8-46w1-a3f1-w32372d4bd53
+id: d3fffa37-492f-487b-a35d-c60fcb2acf01
 version: 1
 date: '2018-05-07'
 author: Bhavin Patel, Splunk
@@ -50,7 +50,7 @@ tags:
   - CIS 11
   kill_chain_phases:
   - Actions on Objectives
-  - Command and Control
+  - Command & Control
   nist:
   - DE.AE
   - DE.CM
@@ -66,5 +66,14 @@ tags:
   - dest_ip
   risk_object: src_ip
   risk_object_type: system
-  risk_score: 20
+  risk_score: 25.0
   security_domain: network
+  confidence: 50
+  impact: 50
+  context: []
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  message: tbd

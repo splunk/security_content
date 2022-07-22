@@ -26,12 +26,10 @@ references:
 tags:
   analytic_story:
   - Trickbot
-  automated_detection_testing: passed
   confidence: 90
   context:
-  - source:endpoint
-  - stage: Defense Evasion
-  - Privilege Escalation
+  - Source:Endpoint
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/infection/windows-sysmon.log
   impact: 70
@@ -47,6 +45,7 @@ tags:
     - Victim
     type: Hostname
   - name: process_name
+    type: Process
     role:
     - Attacker
     type: process name
@@ -68,3 +67,4 @@ tags:
   - EventCode
   risk_score: 63
   security_domain: endpoint
+  asset_type: Endpoint

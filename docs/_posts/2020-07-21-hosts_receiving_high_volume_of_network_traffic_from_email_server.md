@@ -1,6 +1,8 @@
 ---
 title: "Hosts receiving high volume of network traffic from email server"
-excerpt: "Remote Email Collection, Email Collection"
+excerpt: "Remote Email Collection
+, Email Collection
+"
 categories:
   - Network
 last_modified_at: 2020-07-21
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - Remote Email Collection
-  - Collection
   - Email Collection
+  - Collection
   - Collection
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -17,17 +19,17 @@ tags:
   - Network_Traffic
 ---
 
-### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
-We have not been able to test, simulate, or build datasets for this detection. Use at your own risk. This analytic is **NOT** supported.
+### :warning: WARNING THIS IS A EXPERIMENTAL analytic
+We have not been able to test, simulate, or build datasets for this object. Use at your own risk. This analytic is **NOT** supported.
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for an increase of data transfers from your email server to your clients. This could be indicative of a malicious actor collecting data using your email server.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
 - **Last Updated**: 2020-07-21
@@ -35,15 +37,72 @@ This search looks for an increase of data transfers from your email server to yo
 - **ID**: 7f5fb3e1-4209-4914-90db-0ec21b556368
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Annotations
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+<details>
+  <summary>ATT&CK</summary>
+
+<div markdown="1">
+
+
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1114.002](https://attack.mitre.org/techniques/T1114/002/) | Remote Email Collection | Collection |
 
 | [T1114](https://attack.mitre.org/techniques/T1114/) | Email Collection | Collection |
 
-#### Search
+</div>
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+<div markdown="1">
+
+* Actions on Objectives
+
+
+</div>
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+<div markdown="1">
+
+* PR.PT
+* DE.CM
+* DE.AE
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+<div markdown="1">
+
+* CIS 7
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+<div markdown="1">
+
+
+</div>
+</details>
+
+#### Search 
 
 ```
 
@@ -58,12 +117,12 @@ This search looks for an increase of data transfers from your email server to yo
 | `hosts_receiving_high_volume_of_network_traffic_from_email_server_filter`
 ```
 
-#### Associated Analytic Story
-* [Collection and Staging](/stories/collection_and_staging)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-This search requires you to be ingesting your network traffic and populating the Network_Traffic data model.  Your email servers must be categorized as &#34;email_server&#34; for the search to work, as well. You may need to adjust the deviation_threshold and minimum_data_samples values based on the network traffic in your environment. The &#34;deviation_threshold&#34; field is a multiplying factor to control how much variation you&#39;re willing to tolerate. The &#34;minimum_data_samples&#34; field is the minimum number of connections of data samples required for the statistic to be valid.
+> :information_source:
+> **hosts_receiving_high_volume_of_network_traffic_from_email_server_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -72,24 +131,34 @@ This search requires you to be ingesting your network traffic and populating the
 * All_Traffic.src_ip
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+This search requires you to be ingesting your network traffic and populating the Network_Traffic data model.  Your email servers must be categorized as "email_server" for the search to work, as well. You may need to adjust the deviation_threshold and minimum_data_samples values based on the network traffic in your environment. The "deviation_threshold" field is a multiplying factor to control how much variation you're willing to tolerate. The "minimum_data_samples" field is the minimum number of connections of data samples required for the statistic to be valid.
 
 #### Known False Positives
 The false-positive rate will vary based on how you set the deviation_threshold and data_samples values. Our recommendation is to adjust these values based on your network traffic to and from your email servers.
 
+#### Associated Analytic story
+* [Collection and Staging](/stories/collection_and_staging)
 
 
 
+
+#### RBA
+
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 25.0 | 50 | 50 | tbd |
+
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

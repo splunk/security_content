@@ -1,0 +1,14 @@
+
+{% for story in objects %}
+[panel_group://workbench_panel_group_{{ story.lowercase_name}}]
+label = {{ story.name }}
+description = {{ story.description }}
+disabled = 0
+
+{% if story.workbench_panels is defined %}
+panels = {{ story.workbench_panels | tojson }}
+{% else %}
+panels = ["panel://workbench_panel_get_notable_history___response_task"]
+{% endif %}
+
+{% endfor %}

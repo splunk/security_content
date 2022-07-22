@@ -7,6 +7,9 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - Endpoint
+  - Command & Control
+  - Installation
 ---
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -16,7 +19,7 @@ tags:
 Leverage searches that allow you to detect and investigate unusual activities that relate to the ColdRoot Remote Access Trojan that affects MacOS. An example of some of these activities are changing sensative binaries in the MacOS sub-system, detecting process names and executables associated with the RAT, detecting when a keyboard tab is installed on a MacOS machine and more.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2019-01-09
 - **Author**: Jose Hernandez, Splunk
 - **ID**: bd91a2bc-d20b-4f44-a982-1bea98e86390
@@ -31,7 +34,9 @@ Searches in this Analytic Story leverage the capabilities of OSquery to address 
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Processes Tapping Keyboard Events](/endpoint/processes_tapping_keyboard_events/) |  | TTP |
+| [Osquery pack - ColdRoot detection](/deprecated/osquery_pack_-_coldroot_detection/) | None| TTP |
+| [MacOS - Re-opened Applications](/endpoint/macos_-_re-opened_applications/) | None| TTP |
+| [Processes Tapping Keyboard Events](/endpoint/processes_tapping_keyboard_events/) | None| TTP |
 
 #### Reference
 

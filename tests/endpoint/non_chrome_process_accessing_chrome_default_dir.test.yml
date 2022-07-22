@@ -3,8 +3,8 @@ tests:
 - name: Non Chrome Process Accessing Chrome Default Dir
   file: endpoint/non_chrome_process_accessing_chrome_default_dir.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-24h'
-  latest_time: 'now'
+  earliest_time: -24h
+  latest_time: now
   attack_data:
   - file_name: security2.log
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_sacl/security2.log

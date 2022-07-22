@@ -52,7 +52,7 @@ search: '| from datamodel Web.Web | eval jndi=if(match(_raw, "(\{|%7B)[jJnNdDiI]
   | eval keywords = if(match(_raw,"(?i)\$\{ctx\:loginId\}|\$\{map\:type\}|\$\{filename\}|\$\{date\:MM-dd-yyyy\}|\$\{docker\:containerId\}|\$\{docker\:containerName\}|\$\{docker\:imageName\}|\$\{env\:USER\}|\$\{event\:Marker\}|\$\{mdc\:UserId\}|\$\{java\:runtime\}|\$\{java\:vm\}|\$\{java\:os\}|\$\{jndi\:logging/context-name\}|\$\{hostName\}|\$\{docker\:containerId\}|\$\{k8s\:accountName\}|\$\{k8s\:clusterName\}|\$\{k8s\:containerId\}|\$\{k8s\:containerName\}|\$\{k8s\:host\}|\$\{k8s\:labels.app\}|\$\{k8s\:labels.podTemplateHash\}|\$\{k8s\:masterUrl\}|\$\{k8s\:namespaceId\}|\$\{k8s\:namespaceName\}|\$\{k8s\:podId\}|\$\{k8s\:podIp\}|\$\{k8s\:podName\}|\$\{k8s\:imageId\}|\$\{k8s\:imageName\}|\$\{log4j\:configLocation\}|\$\{log4j\:configParentLocation\}|\$\{spring\:spring.application.name\}|\$\{main\:myString\}|\$\{main\:0\}|\$\{main\:1\}|\$\{main\:2\}|\$\{main\:3\}|\$\{main\:4\}|\$\{main\:bar\}|\$\{name\}|\$\{marker\}|\$\{marker\:name\}|\$\{spring\:profiles.active[0]|\$\{sys\:logPath\}|\$\{web\:rootDir\}|\$\{sys\:user.name\}"),4,0)
   | eval obf = if(match(_raw, "(\$|%24)[^ /]*({|%7b)[^ /]*(j|%6a)[^ /]*(n|%6e)[^ /]*(d|%64)[^
   /]*(i|%69)[^ /]*(:|%3a)[^ /]*(:|%3a)[^ /]*(/|%2f)"),5,0) | eval lookups = if(match(_raw,
-  "date:") OR match(_raw, "upper:") OR match(_raw, "lower:"),4,0) | addtotals fieldname=Score,
+  "(?i)({|%7b)(main|sys|k8s|spring|lower|upper|env|date|sd)"),4,0)  | addtotals fieldname=Score,
   jndi, jndi_proto, env_var, uridetect, all_match, jndi_fastmatch, keywords, obf,
   lookups | where Score > 2 | stats values(Score) by  jndi, jndi_proto, env_var, uridetect,
   all_match, jndi_fastmatch, keywords, lookups, obf, _raw | `hunting_for_log4shell_filter`'
@@ -74,10 +74,9 @@ tags:
   analytic_story:
   - Log4Shell CVE-2021-44228
   asset_type: Web Server
-  automated_detection_testing: passed
   confidence: 50
   context:
-  - Source:network
+  - Scope:Network
   cve:
   - CVE-2021-44228
   dataset:
@@ -95,12 +94,10 @@ tags:
     type: Hostname
   - name: http_method
     role:
-    - other
-    type: Other
+    - Other
   - name: src
     role:
-    - other
-    type: Other
+    - Other
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

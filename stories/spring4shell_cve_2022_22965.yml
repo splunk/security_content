@@ -1,0 +1,30 @@
+name: Spring4Shell CVE-2022-22965
+id: dcc19913-6918-4ed2-bbba-a6b484c10ef4
+version: 1
+date: '2022-04-05'
+author: Michael Haag, Splunk
+description: Spring4Shell is the nickname given to a zero-day vulnerability in the Spring Core Framework, a programming and configuration model for Java-based enterprise applications.
+narrative: 'An attacker could exploit Spring4Shell by sending a specially crafted request to a vulnerable server. However, exploitation of Spring4Shell requires certain prerequisites, whereas the original Log4Shell vulnerability affected all versions of Log4j 2 using the default configuration. \
+
+According to Spring, the following requirements were included in the vulnerability report, however the post cautions that there may be other ways in which this can be exploited so this may not be a complete list of requirements at this time: \
+
+- Java Development Kit (JDK) 9 or greater \
+
+- Apache Tomcat as the Servlet container \
+
+- Packaged as a WAR \
+
+- spring-webmvc or spring-webflux dependency \
+
+'
+references:
+- https://www.tenable.com/blog/spring4shell-faq-spring-framework-remote-code-execution-vulnerability
+tags:
+  analytic_story: Spring4Shell CVE-2022-22965
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Application Security

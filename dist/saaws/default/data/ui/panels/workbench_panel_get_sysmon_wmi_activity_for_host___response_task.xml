@@ -1,9 +1,0 @@
-<panel>
-  <table>
-    <search>
-      <query>sourcetype="XmlWinEventLog:Microsoft-Windows-Sysmon/Operational" EventCode&gt;18 EventCode&lt;22 | rename host as dest | search dest=$dest$| table _time, dest, user, Name, Operation, EventType, Type, Query, Consumer, Filter</query>
-    </search>
-    <option name="drilldown">cell</option>
-    <option name="wrap">false</option>
-  </table>
-</panel>

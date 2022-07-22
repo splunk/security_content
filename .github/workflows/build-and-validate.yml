@@ -10,8 +10,6 @@
 #https://docs.github.com/en/actions/guides/storing-workflow-data-as-artifacts
 #In CircleCI, this was different (store_artifacts vs persist_to_workspace)
 
-
-
 name: build-and-validate
 on:
   push:
@@ -42,13 +40,29 @@ jobs:
           exit 0
           fi
 
-  validate-content:
+  validate-and-build:
     #Note that the CircleCI job used a Container.  The way to do this with Github Actions
     #is to first start up a Virtual Machine, then we can by following:
     # https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idcontainer
     runs-on: ubuntu-latest
     needs: [validate-tag-if-present]
     steps:
+
+      - name: Configure Enrichment and Tag
+        id: vars
+        run: |
+          if [ $(echo ${GITHUB_REF} | grep "^refs/tags/*") ]; then
+            #failed to find the refs/tags/ beginning, grab and set the tag
+            echo "Release is TAGGED!"
+            echo "::set-output name=tag::${GITHUB_REF#refs/tags/}"
+            echo "::set-output name=skip_enrichment_var::"
+          else
+            #Not a tagged relese
+            echo "Release is NOT TAGGED!"
+            echo "::set-output name=tag::"
+            echo "::set-output name=skip_enrichment_var::--skip_enrichment"
+          fi
+
       #Previous config chose which branch/tag to operate on.
       #I think Github is smart enough to choose based on whether it's a pull request or push + other info?
       - name: Check out the repository code
@@ -64,117 +78,62 @@ jobs:
           architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
 
 
-      #TODO: CircleCI restore_cache equivalent
-
-      #don't need to install python3 or python3-dev since it was handled by the action above?
-      #Also, no support for YAML anchors/aliases in Github Actions...
       - name: Install System Packages
         run: |
           sudo apt update -qq
           sudo apt install jq -qq
-      #TODO: CircleCI save_cache equivalent
+      
 
       - name: Install Python Dependencies
         run: |
           #Get the virtualenv set up
           rm -rf venv
-          python3 -m venv --clear venv
-          source venv/bin/activate
-          python3 -m pip install --upgrade pip
-          python3 -m pip install wheel
-          python3 -m pip install -q -r requirements.txt
-
-
-      - name: run validate
+          python -m venv --clear .venv
+          source .venv/bin/activate
+          python -m pip install --upgrade pip
+          python -m pip install wheel
+          python -m pip install -q -r requirements.txt
+      
+      - name: content_ctl validate
         run: |
-          source venv/bin/activate
-          python3 contentctl.py --path . --verbose validate
-
-      - name: Get CTI Repo for Mitre context
-        uses:  actions/checkout@v2
-        with:
-          repository: mitre/cti #check out https://github.com/mitre/cti.git, defaults to HEAD
-          path: "cti/"
+          source .venv/bin/activate
+          python contentctl.py -p . ${{ steps.vars.outputs.skip_enrichment_var }} validate -pr ESCU 
+          python contentctl.py -p . ${{ steps.vars.outputs.skip_enrichment_var }} validate -pr SSA 
 
 
       #Now generate the documentation (uses Node)
       - uses: actions/setup-node@v2
         with:
           node-version: '14' #can easily be changed to a different version
-      - name: Generate documentation
+      
+      - name: contentctl docgen
         run: |
-          ls -lah
-
-          #Enter the virtualenv and run the docgen
-          source venv/bin/activate
-          python3 bin/doc_gen.py --path . --output docs -v
-
+          source .venv/bin/activate
+          python contentctl.py -p . --skip_enrichment docgen -o docs
           #Now generate the spec docs
           npm install -g @adobe/jsonschema2md
           jsonschema2md -d spec -o docs/spec -f yaml -e spec.json -x -
-
           #Clean up extra properties on docs
           rm -rf docs/spec/*-*.md
-
-          echo "****** BRANCH INFORMATION ******"
-          git branch
-          git branch --show-current
-
-  build-sources:
-    runs-on: ubuntu-latest
-    needs: validate-content
-    steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v2
-
-      - name: Install System Packages
+      
+      - name: contentctl generate
         run: |
-          sudo apt update -qq
-          sudo apt install jq -qq
-
-      - name: Install Python Dependencies
+          source .venv/bin/activate
+          rm -rf dist/escu/default/data/ui/panels/*.xml
+          python contentctl.py --path . ${{ steps.vars.outputs.skip_enrichment_var }} generate --product ESCU --output dist/escu
+          python contentctl.py --path . ${{ steps.vars.outputs.skip_enrichment_var }} generate --product SSA --output dist/ssa
+      
+      - name: Copy lookups .mlmodel files
         run: |
-          #Get the virtualenv set up
-          rm -rf venv
-          python3 -m venv --clear venv
-          source venv/bin/activate
-          python3 -m pip install --upgrade pip
-          python3 -m pip install wheel
-          python3 -m pip install -q -r requirements.txt
-
-      - name: Run Generate
-        run: |
-          source venv/bin/activate
-          python3 contentctl.py --path . --verbose generate --product ESCU --output dist/escu
-          python3 contentctl.py --path . --verbose generate --product SAAWS --output dist/saaws
-          python3 contentctl.py --path . --verbose generate --product SSA --output dist/ssa
-
-      - name: Copy lookups .csv files
-        run: |
-          # clean up current lookups
-          rm -rf dist/escu/lookups
-          rm -rf dist/saaws/lookups
-          mkdir dist/escu/lookups
-          mkdir dist/saaws/lookups
-          #copy over lookups
           cd lookups
-          cp -rv *.csv ../dist/escu/lookups
-          cp -rv *.csv ../dist/saaws/lookups
-
-      #Tag is '' for non-tagged push and the tag name for a tagged release
-      - name: Set tag
-        id: vars
-        run: |
-          if [ $(echo ${GITHUB_REF} | grep "^refs/tags/*") ]; then
-            #failed to find the refs/tags/ beginning, grab and set the tag
-            echo "Release is TAGGED!"
-            echo "::set-output name=tag::${GITHUB_REF#refs/tags/}"
-          else
-            #Not a tagged relese
-            echo "Release is NOT TAGGED!"
-            echo "::set-output name=tag::"
+          count=`ls -1 *.mlmodel 2>/dev/null | wc -l`
+          if [ $count != 0 ]
+          then 
+             cp -rv *.mlmodel ../dist/escu/lookups
+          else 
+             echo "No mlmodel files to copy"
           fi
-
+      
       - name: Update Version and Build number
         run : |
             # check if tag is set, get build number from the tag if set
@@ -190,85 +149,32 @@ jobs:
             sed -i "s/^version = .*$/version = $CONTENT_VERSION/g" dist/escu/default/app.conf
             sed -i "s/\"version\": .*$/\"version\": \"$CONTENT_VERSION\"/g" dist/escu/app.manifest
             sed -i "s/version = .*$/version = $CONTENT_VERSION/g" dist/escu/default/content-version.conf
-            tar -czf content-pack-build-escu.tar.gz dist/escu/*
-
-            # update build number and version for saaws
-            sed -i "s/build = .*$/build = ${{ github.run_number }}/g" dist/saaws/default/app.conf
-            sed -i "s/^version = .*$/version = $CONTENT_VERSION/g" dist/saaws/default/app.conf
-            sed -i "s/\"version\": .*$/\"version\": \"$CONTENT_VERSION\"/g" dist/saaws/app.manifest
-            sed -i "s/version = .*$/version = $CONTENT_VERSION/g" dist/saaws/default/content-version.conf
-            tar -czf content-pack-build-saaws.tar.gz dist/saaws/*
-
+            mkdir build
+            tar -czf build/content-pack-build-escu.tar.gz dist/escu/*
             # update build number and version for ssa
-            tar -czf content-pack-build-ssa.tar.gz dist/ssa/*
-
-      - name: Persist to Workspace
-        uses: actions/upload-artifact@v2
-        with:
-          name: content-pack-build
-          path: |
-            content-pack-build-escu.tar.gz
-            content-pack-build-saaws.tar.gz
-            content-pack-build-ssa.tar.gz
-
-
-  build-package:
-    runs-on: ubuntu-latest
-    needs: [validate-content, build-sources]
-
-    steps:
-      - uses: actions/download-artifact@v2
-        with:
-          name: content-pack-build
-          path: build/
-
-      #This explicitly uses a different version of python (2.7)
-      - uses: actions/setup-python@v2
-        with:
-          python-version: '2.7' #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
-          architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
-
-      - name: Get virtualenv for Python 2.7
-        run: |
-          sudo apt install virtualenv
-
-      - name: Grab Splunk Packaging Toolkit
+            tar -czf build/content-pack-build-ssa.tar.gz dist/ssa/*
+      
+      - name: Download and Install Splunk Packaging Toolkit
         run : |
-          curl -Ls https://download.splunk.com/misc/packaging-toolkit/splunk-packaging-toolkit-0.9.0.tar.gz -o splunk-packaging-toolkit-latest.tar.gz
+          source .venv/bin/activate
+          curl -Ls https://download.splunk.com/misc/packaging-toolkit/splunk-packaging-toolkit-1.0.1.tar.gz -o splunk-packaging-toolkit-latest.tar.gz
           mkdir slim-latest
           tar -zxf splunk-packaging-toolkit-latest.tar.gz -C slim-latest --strip-components=1
-
-      - name: Install Splunk Packaging Toolkit (slim)
-        run: |
           cd slim-latest
-          virtualenv --python=/usr/bin/python2.7 --clear venv
-          source venv/bin/activate
-          python2 -m pip install --upgrade pip
-          python2 -m pip install wheel
-          python2 -m pip install semantic_version
-          python2 -m pip install .
-      - name: Create a .spl for this Build Using Slim
+          python -m pip install .
+          cd ..
+      
+      - name: Build ESCU
         run: |
-          source slim-latest/venv/bin/activate
+          source .venv/bin/activate
           cd build
           tar -zxf content-pack-build-escu.tar.gz
-          tar -zxf content-pack-build-saaws.tar.gz
           tar -zxf content-pack-build-ssa.tar.gz
-
           mv dist/escu      DA-ESS-ContentUpdate
-          mv dist/saaws     DA-ESS_AmazonWebServices_Content
           mv dist/ssa       SSA_Content
-
           slim package -o upload DA-ESS-ContentUpdate
-          slim package -o upload DA-ESS_AmazonWebServices_Content
-          #slim package -o upload SSA_Content
-
           cp upload/DA-ESS-ContentUpdate-*.tar.gz DA-ESS-ContentUpdate-latest.tar.gz
           sha256sum DA-ESS-ContentUpdate-latest.tar.gz > checksum.txt
-
-          cp upload/DA-ESS_AmazonWebServices_Content-*tar.gz DA-ESS_AmazonWebServices_Content-latest.tar.gz
-          sha256sum DA-ESS_AmazonWebServices_Content-latest.tar.gz >> checksum.txt
-
           #Do this copy so that we conform as much as possible, and have to make 
           #as few changes as possible, once we start generating this as a real,
           #properly packaged app
@@ -276,7 +182,6 @@ jobs:
           cp upload/SSA_Content-*.tar.gz SSA_Content-latest.tar.gz
           sha256sum SSA_Content-latest.tar.gz >> checksum.txt
 
-          
 
       - name: store_artifacts
         uses: actions/upload-artifact@v2
@@ -284,22 +189,22 @@ jobs:
           name: package
           path: |
             build/upload
+      
       - name: store_artifacts_two
         uses: actions/upload-artifact@v2
         with:
           name: content-latest
           path: |
             build/DA-ESS-ContentUpdate-latest.tar.gz
-            build/DA-ESS_AmazonWebServices_Content-latest.tar.gz
             build/SSA_Content-latest.tar.gz
             build/checksum.txt
 
-
+          
   #Everything below this line should ONLY run on a tag and nothing else
   #We still want all of the above checks to run and pass before running these
   run-appinspect:
     runs-on: ubuntu-latest
-    needs: [validate-content, build-sources, build-package]
+    needs: [validate-and-build]
     #Only run when tagged
     if: startsWith(github.ref, 'refs/tags/')
     steps:
@@ -315,17 +220,12 @@ jobs:
           name: content-latest
           path: build/
 
-
-
-
       - name: Install System Packages
         run: |
           sudo apt update -qq
           sudo apt install jq -qq
-
-
-
-      - name: Submit ESCU, SAAWS, dev_sec_ops_analytics, and SSA Packages to AppInspect API
+      
+      - name: Submit ESCU to AppInspect API
         env:
           APPINSPECT_USERNAME: ${{ secrets.AppInspectUsername }}
           APPINSPECT_PASSWORD: ${{ secrets.AppInspectPassword }}
@@ -334,21 +234,20 @@ jobs:
           #Enclose in quotes in case there are any special characters in the username/password
           #Better not to pass these arguments on the command line, if possible
           ./appinspect.sh ../ DA-ESS-ContentUpdate-latest.tar.gz "$APPINSPECT_USERNAME" "$APPINSPECT_PASSWORD"
-          ./appinspect.sh ../ DA-ESS_AmazonWebServices_Content-latest.tar.gz "$APPINSPECT_USERNAME" "$APPINSPECT_PASSWORD"
-
+      
       - name: Create report artifact
         if: always()
         run: |
           #Always create this, regardless of whether success or failure above
           tar -cvzf report.tar.gz report/
-
+      
       - name: store_artifacts
         uses: actions/upload-artifact@v2
         with:
           name: appinspect_reports
           path: |
             report.tar.gz
-
+     
       #Still store the report, even if we have failed (otherwise we don't know why/how we failed)
       - name: store_artifacts_on_failure
         uses: actions/upload-artifact@v2
@@ -357,10 +256,11 @@ jobs:
           name: appinspect_reports_failure
           path: |
             report.tar.gz
-
+  
+  
   create-report:
     runs-on: ubuntu-latest
-    needs: [validate-content, build-sources, build-package, run-appinspect]
+    needs: [validate-and-build, run-appinspect]
     #Only run when tagged
     if: startsWith(github.ref, 'refs/tags/')
     steps:
@@ -369,12 +269,11 @@ jobs:
         with:
           ref: 'develop'
 
-
       - name: Install System Packages
         run: |
           sudo apt update -qq
           sudo apt install jq -qq
-
+     
       - uses: actions/setup-python@v2
         with:
           python-version: '3.9' #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
@@ -389,12 +288,12 @@ jobs:
           python3 -m pip install --upgrade pip
           python3 -m pip install wheel
           python3 -m pip install -q -r requirements.txt
-
+      
       - name: run reporting
         run: |
           source venv/bin/activate
-          python3 bin/reporting.py
-
+          python3 contentctl.py -p . reporting
+      
       #Official, Verified Amazon-AWS Github Account Provided Action
       - uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -406,10 +305,10 @@ jobs:
       - name: Upload Reporting
         run: |
           aws s3 cp bin/reporting s3://security-content/reporting --recursive --exclude "*" --include "*.svg"
-
+  
   update-sources-github:
     runs-on: ubuntu-latest
-    needs: [validate-content, build-sources, build-package, run-appinspect, create-report]
+    needs: [validate-and-build, run-appinspect, create-report]
     #Only run when tagged
     if: startsWith(github.ref, 'refs/tags/')
     steps:
@@ -429,15 +328,13 @@ jobs:
         with:
           name: content-latest
 
-
       - name: Stage artifacts in proper directories
         run: |
           mkdir latest-escu
           tar -zxf DA-ESS-ContentUpdate-latest.tar.gz -C latest-escu --strip-components=1
-          mkdir latest-saaws
-          tar -zxf DA-ESS_AmazonWebServices_Content-latest.tar.gz -C latest-saaws --strip-components=1
           mkdir latest-ssa
           tar -zxf SSA_Content-latest.tar.gz -C latest-ssa --strip-components=1
+      
       - name: Install Python Dependencies
         run: |
           #Get the virtualenv set up
@@ -448,38 +345,26 @@ jobs:
           python3 -m pip install wheel
           python3 -m pip install -q -r requirements.txt
 
-      - name: Get CTI Repo for Mitre context
-        uses:  actions/checkout@v2
-        with:
-          repository: mitre/cti #check out https://github.com/mitre/cti.git, defaults to HEAD
-          path: "cti/"
-
       - name: Get branch and PR required for detection testing main.py
         id: vars
         run: |
           echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
-
+      
       - name: Run doc-gen
         run: |
           source venv/bin/activate
-          python3 bin/doc_gen.py --path . --output docs -v
+          python3 contentctl.py -p . docgen -o docs
 
-      - name: Make YAMLs Pretty
+      - name: Run reporting
         run: |
           source venv/bin/activate
-          python3 bin/pretty_yaml.py --path . -v
-
-      - name: Run generate-coverage-map
-        run: |
-          source venv/bin/activate
-          python3 bin/generate-coverage-map.py --projects_path . --output docs/mitre-map
+          python3 contentctl.py -p . reporting
 
       - name: Update github with new docs and package bits
         run: |
           rm -rf dist
           mkdir dist
           mv latest-escu dist/escu
-          mv latest-saaws dist/saaws
           mv latest-ssa dist/ssa
           # configure git to prep for commit
           git config user.email "research@splunk.com"
@@ -492,13 +377,12 @@ jobs:
           # Push quietly to prevent showing the token in log
           #No need to provide any credentials
           git push
-
-
+  
   publish-github-release:
     #Github-maintained release action is in archived state: https://github.com/actions/create-release
     #They recommend several and we use the following with the most stars: https://github.com/softprops/action-gh-release
     runs-on: ubuntu-latest
-    needs: [validate-content, build-sources, build-package, run-appinspect, create-report, update-sources-github]
+    needs: [validate-and-build, run-appinspect, create-report]
     #Only run when tagged
     if: startsWith(github.ref, 'refs/tags/')
     steps:
@@ -512,8 +396,6 @@ jobs:
         with:
           name: appinspect_reports
 
-
-
       #Rename those artifacts appropriately
       - name: Set tag
         id: vars
@@ -522,14 +404,11 @@ jobs:
       - name: Rename the content-update appropriately
         run: |
           cp DA-ESS-ContentUpdate-latest.tar.gz DA-ESS-ContentUpdate-${{ steps.vars.outputs.tag }}.tar.gz
-          cp DA-ESS_AmazonWebServices_Content-latest.tar.gz DA-ESS_AmazonWebServices_Content-${{ steps.vars.outputs.tag }}.tar.gz
           cp SSA_Content-latest.tar.gz SSA_Content-${{ steps.vars.outputs.tag }}.tar.gz
-
           #No checksum on the reports
           cp report.tar.gz report-${{ steps.vars.outputs.tag }}.tar.gz
-
           cp checksum.txt checksum-${{ steps.vars.outputs.tag }}.txt
-
+      
       #Upload all of the artifacts that we have created using the third party
       #action recommended bu Github
       - name: Upload Release Artifacts
@@ -537,16 +416,13 @@ jobs:
         with:
           files: |
             DA-ESS-ContentUpdate-${{ steps.vars.outputs.tag }}.tar.gz
-            DA-ESS_AmazonWebServices_Content-${{ steps.vars.outputs.tag }}.tar.gz
             SSA_Content-${{ steps.vars.outputs.tag }}.tar.gz
             report-${{ steps.vars.outputs.tag }}.tar.gz
             checksum-${{ steps.vars.outputs.tag }}.txt
-
-
-
+  
   attack-range-update:
     runs-on: ubuntu-latest
-    needs: [validate-content, build-sources, build-package, run-appinspect, create-report, update-sources-github, publish-github-release]
+    needs: [validate-and-build, run-appinspect, create-report]
     #Only run when tagged
     if: startsWith(github.ref, 'refs/tags/')
     steps:
@@ -555,7 +431,6 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           name: content-latest
-
 
       #Official, Verified Amazon-AWS Github Account Provided Action
       - uses: aws-actions/configure-aws-credentials@v1
@@ -570,10 +445,10 @@ jobs:
             aws s3 cp DA-ESS-ContentUpdate-latest.tar.gz s3://attack-range-appbinaries/
             # make the file public since it is not by default
             aws s3api put-object-acl --bucket attack-range-appbinaries --key DA-ESS-ContentUpdate-latest.tar.gz --acl public-read
-
+  
   master-api-update:
     runs-on: ubuntu-latest
-    needs: [validate-content, build-sources, build-package, run-appinspect, create-report, update-sources-github, publish-github-release, attack-range-update]
+    needs: [validate-and-build, run-appinspect, create-report]
     #Only run when tagged
     if: startsWith(github.ref, 'refs/tags/')
     steps:
@@ -598,15 +473,20 @@ jobs:
           python3 -m pip install wheel
           python3 -m pip install -q -r requirements.txt
 
-      - name: Create Baseline Folder
-        run: |
-          source venv/bin/activate
-          python3 bin/create_baseline_folder.py
-
       - name: Create YML to JSON Folder
         run: |
           source venv/bin/activate
-          python3 contentctl.py --path . --verbose generate --product API --output dist/api
+          python3 contentctl.py --path . generate --product API --output dist/api
+
+      - name: Generate content version and timestamp JSON
+        run : |
+            curl -o version-api.json https://api.github.com/repositories/162346001/releases/latest
+            VERSION_VAL=$(cat version-api.json | jq '.name')
+            VERSION_TS=$(cat version-api.json | jq '.published_at')
+            echo "{\"version\":{\"name\":$VERSION_VAL,\"published_at\":$VERSION_TS}}" > dist/api/version.json
+            echo "contents of version.json:"
+            cat dist/api/version.json
+
 
       #Official, Verified Amazon-AWS Github Account Provided Action
       - uses: aws-actions/configure-aws-credentials@v1
@@ -625,9 +505,11 @@ jobs:
           aws s3 cp playbooks s3://security-content/playbooks --recursive --exclude "*" --include "*.yml"
           aws s3 cp lookups s3://security-content/lookups --recursive --exclude "*" --include "*.yml"
           aws s3 cp lookups s3://security-content/lookups --recursive --exclude "*" --include "*.csv"
+          aws s3 cp lookups s3://security-content/lookups --recursive --exclude "*" --include "*.mlmodel"
           aws s3 cp macros s3://security-content/macros --recursive --exclude "*" --include "*.yml"
           aws s3 cp deployments s3://security-content/deployments --recursive --exclude "*" --include "*.yml"
           aws s3 cp dist/api s3://security-content/json --recursive --exclude "*" --include "*.json"
+      
       - name: Security Content API Smoke Test
         run: |
           API_URL='https://content.splunkresearch.com/detections'

@@ -4,7 +4,7 @@ version: 3
 date: '2020-12-08'
 author: David Dorsey, Splunk
 type: TTP
-datamodel:
+datamodel: 
 - Endpoint
 description: This search looks for shim database files being written to default directories.
   The sdbinst.exe application is used to install shim database files (.sdb). According
@@ -28,14 +28,12 @@ tags:
   analytic_story:
   - Windows Persistence Techniques
   asset_type: Endpoint
-  automated_detection_testing: passed
   cis20:
   - CIS 8
   confidence: 80
   context:
-  - source:endpoint
-  - stage: Privilege Escalation
-  - Persistence
+  - Source:Endpoint
+  - Stage:Privilege Escalation
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.011/atomic_red_team/windows-sysmon.log
   impact: 70
@@ -53,9 +51,9 @@ tags:
     - Victim
     type: Hostname
   - name: file_path
+    type: File
     role:
-    - Others
-    type: file path
+    - Other
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

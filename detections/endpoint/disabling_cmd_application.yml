@@ -1,7 +1,7 @@
 name: Disabling CMD Application
 id: ff86077c-9212-11eb-a1e6-acde48001122
-version: 1
-date: '2021-03-31'
+version: 2
+date: '2022-01-27'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
@@ -10,11 +10,20 @@ description: this search is to identify modification in registry to disable cmd 
   application. This technique is commonly seen in RAT, Trojan or WORM to prevent triaging
   or deleting there samples through cmd application which is one of the tool of analyst
   to traverse on directory and files.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= "*\\SOFTWARE\\Policies\\Microsoft\\Windows\\System\\DisableCMD"
-  Registry.registry_value_data = "0x00000001" by Registry.registry_path Registry.registry_key_name
-  Registry.registry_value_data Registry.dest | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`
-  |`security_content_ctime(lastTime)` | `disabling_cmd_application_filter`'
+search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Registry
+  where Registry.registry_path= "*\\SOFTWARE\\Policies\\Microsoft\\Windows\\System\\DisableCMD"
+  Registry.registry_value_data = "0x00000001" by _time span=1h Registry.dest Registry.user
+  Registry.registry_path Registry.registry_value_name Registry.registry_key_name Registry.process_guid
+  Registry.registry_value_data | `drop_dm_object_name(Registry)` |rename process_guid
+  as proc_guid |join proc_guid, _time [| tstats `security_content_summariesonly` count
+  FROM datamodel=Endpoint.Processes by _time span=1h Processes.process_id Processes.process_name
+  Processes.process Processes.dest Processes.parent_process_name Processes.parent_process
+  Processes.process_guid | `drop_dm_object_name(Processes)` |rename process_guid as
+  proc_guid | fields _time dest user parent_process_name parent_process process_name
+  process_path process proc_guid registry_path registry_value_name registry_value_data
+  registry_key_name] | table _time dest user parent_process_name parent_process process_name
+  process_path process proc_guid registry_path registry_value_name registry_value_data
+  registry_key_name | `disabling_cmd_application_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure
@@ -25,7 +34,7 @@ references:
 tags:
   analytic_story:
   - Windows Defense Evasion Tactics
-  automated_detection_testing: passed
+  - Windows Registry Abuse
   confidence: 50
   context:
   - Source:Endpoint
@@ -62,3 +71,6 @@ tags:
   - _time
   risk_score: 25
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon
+  asset_type: Endpoint

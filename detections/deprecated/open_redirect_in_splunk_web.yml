@@ -13,7 +13,7 @@ known_false_positives: None identified
 references: []
 tags:
   analytic_story:
-  - Splunk Enterprise Vulnerability
+  - Splunk Vulnerabilities
   asset_type: Splunk Server
   cis20:
   - CIS 3
@@ -37,3 +37,14 @@ tags:
   required_fields:
   - _time
   security_domain: network
+  confidence: 50
+  impact: 50
+  risk_score: 25
+  context:
+  - Unknown
+  message: tbd
+  observable:
+  - name: field
+    type: Unknown
+    role:
+    - Unknown

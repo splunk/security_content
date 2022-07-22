@@ -74,3 +74,4 @@ tags:
   - _time
   risk_score: 80
   security_domain: endpoint
+  asset_type: Endpoint

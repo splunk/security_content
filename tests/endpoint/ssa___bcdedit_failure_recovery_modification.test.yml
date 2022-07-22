@@ -1,10 +1,10 @@
-name: BCDEdit Failure Recovery Modification - SSA Unit Test
+name: BCDEdit Failure Recovery Modification Unit Test
 tests:
   - name: BCDEdit Failure Recovery Modification
     file: endpoint/ssa___bcdedit_failure_recovery_modification.yml
     pass_condition: '@count_gt(0)'
     description: Test detection of BCDEdit Failure Recovery Modification
     attack_data:
-      - file_name: windows-sysmon.log
-        data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1490/atomic_red_team/windows-sysmon.log
-        source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+      - file_name: windows-security_bcdedit_wbadmin.log
+        data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1490/atomic_red_team/windows-security_bcdedit_wbadmin.log
+        source: WinEventLog:Security

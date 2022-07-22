@@ -33,7 +33,6 @@ tags:
   - Suspicious Zoom Child Processes
   - NOBELIUM Group
   asset_type: Endpoint
-  automated_detection_testing: passed
   cis20:
   - CIS 8
   confidence: 100
@@ -63,6 +62,7 @@ tags:
     - Victim
     type: Hostname
   - name: parent_process_name
+    type: Process
     role:
     - Parent Process
     type: Parent Process

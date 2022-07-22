@@ -1,0 +1,11 @@
+{% for search in objects %}
+<panel>
+  <table>
+    <search>
+      <query>{{ search }}</query>
+    </search>
+    <option name="drilldown">cell</option>
+    <option name="wrap">false</option>
+  </table>
+</panel>
+{% endfor %}

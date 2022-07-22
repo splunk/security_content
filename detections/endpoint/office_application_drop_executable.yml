@@ -31,16 +31,15 @@ how_to_implement: To successfully implement this search, you need to be ingestin
   Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
 known_false_positives: office macro for automation may do this behavior
 references:
-- https://www.fireeye.com/blog/threat-research/2018/08/fin7-pursuing-an-enigmatic-and-evasive-global-criminal-operation.html
+- https://www.mandiant.com/resources/fin7-pursuing-an-enigmatic-and-evasive-global-criminal-operation
 - https://attack.mitre.org/groups/G0046/
 tags:
   analytic_story:
   - FIN7
-  automated_detection_testing: passed
   confidence: 80
   context:
   - Source:Endpoint
-  - Stage:recon
+  - Stage:Recon
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_macro_js_1/sysmon.log
   impact: 80
@@ -56,6 +55,7 @@ tags:
     - Victim
     type: Hostname
   - name: process_name
+    type: Process
     role:
     - Attacker
     type: process name
@@ -78,3 +78,4 @@ tags:
   - dest
   risk_score: 64
   security_domain: endpoint
+  asset_type: Endpoint

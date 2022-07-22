@@ -1,7 +1,7 @@
 name: CertUtil Download With URLCache and Split Arguments
 id: 415b4306-8bfb-11eb-85c4-acde48001122
-version: 2
-date: '2021-03-23'
+version: 3
+date: '2022-02-03'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
@@ -14,11 +14,11 @@ description: Certutil.exe may download a file from a remote destination using `-
   During triage, capture any files on disk and review. Review the reputation of the
   remote IP or domain in question.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where `process_certutil` Processes.process=*urlcache*
-  Processes.process=*split* by Processes.dest Processes.user Processes.parent_process
-  Processes.process_name Processes.process Processes.process_id Processes.original_file_name
-  Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `certutil_download_with_urlcache_and_split_arguments_filter`'
+  as lastTime from datamodel=Endpoint.Processes where `process_certutil` (Processes.process=*urlcache*
+  Processes.process=*split*) OR Processes.process=*urlcache* by Processes.dest Processes.user
+  Processes.parent_process Processes.process_name Processes.process Processes.process_id
+  Processes.original_file_name Processes.parent_process_id | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `certutil_download_with_urlcache_and_split_arguments_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
@@ -29,16 +29,16 @@ known_false_positives: Limited false positives in most environments, however tun
 references:
 - https://attack.mitre.org/techniques/T1105/
 - https://www.avira.com/en/blog/certutil-abused-by-attackers-to-spread-threats
-- https://www.fireeye.com/blog/threat-research/2019/10/certutil-qualms-they-came-to-drop-fombs.html
+- https://web.archive.org/web/20210921110637/https://www.fireeye.com/blog/threat-research/2019/10/certutil-qualms-they-came-to-drop-fombs.html
 tags:
   analytic_story:
   - Ingress Tool Transfer
   - DarkSide Ransomware
-  automated_detection_testing: passed
+  - Living Off The Land
   confidence: 100
   context:
   - Source:Endpoint
-  - Stage:Command and Control
+  - Stage:Command And Control
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1105/atomic_red_team/windows-sysmon.log
   impact: 90
@@ -58,6 +58,7 @@ tags:
     - Victim
     type: Hostname
   - name: parent_process_name
+    type: Process
     role:
     - Parent Process
     type: Parent Process
@@ -81,3 +82,6 @@ tags:
   - _time
   risk_score: 90
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon
+  asset_type: Endpoint

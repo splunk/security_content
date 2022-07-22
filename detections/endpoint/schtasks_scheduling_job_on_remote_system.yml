@@ -1,7 +1,7 @@
 name: Schtasks scheduling job on remote system
 id: 1297fb80-f42a-4b4a-9c8a-88c066237cf6
-version: 5
-date: '2021-11-11'
+version: 6
+date: '2022-05-23'
 author: David Dorsey, Mauricio Velazco, Splunk
 type: TTP
 datamodel:
@@ -29,37 +29,39 @@ tags:
   analytic_story:
   - Active Directory Lateral Movement
   - NOBELIUM Group
+  - Living Off The Land
   asset_type: Endpoint
-  automated_detection_testing: passed
   cis20:
   - CIS 3
   confidence: 90
   context:
-  - source:endpoint
-  - stage: Execution
-  - Persistence
-  - Privilege Escalation
+  - Source:Endpoint
+  - Stage:Execution
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/atomic_red_team/windows-sysmon.log
   impact: 70
   kill_chain_phases:
   - Actions on Objectives
-  message: A schedule task process $process_name$ with remote job commandline $process$
-    in host $dest$
+  message: A schedule task process $process_name$ with remote job command-line $process$
+    in host $dest$ by $user$.
   mitre_attack_id:
   - T1053.005
   - T1053
   nist:
   - PR.IP
   observable:
-  - name: Processes.dest
-    role:
-    - Victim
+  - name: dest
     type: Hostname
-  - name: Processes.user
     role:
     - Victim
-    type: user
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -72,5 +74,12 @@ tags:
   - Endpoint.Processes.process_name
   - Endpoint.Processes.user
   - _time
+  - Processes.process_name 
+  - Processes.process 
+  - Processes.parent_process_name
+  - Processes.dest 
+  - Processes.user
   risk_score: 63
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon

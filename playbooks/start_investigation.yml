@@ -1,0 +1,17 @@
+name: Start Investigation
+id: fc5adc76-f3ab-4cb0-5f6f-63bc3493fd46
+version: 1
+date: '2021-10-07'
+author: Kelby Shelton, Splunk
+type: Investigation
+description: Handle cases in Splunk SOAR with consistency that only automation can provide. This playbook ensures that cases are being assigned to analysts, and follow on work gets started.
+playbook: start_investigation
+how_to_implement: "This is a playbook that is designed to be recommended within a workbook. If used in this manner, the playbook will assign the user that launched the playbook as the owner of the event, move the event status to \"Open\", and complete the workbook task where this playbook appears. If there is a task after the one where the playbook appears (within the same phase), it will set the next task to \"In Progress.\""
+references: []
+app_list: []
+tags:
+  platform_tags: []
+  playbook_fields: []
+  playbook_type: Automation
+  product:
+  - Splunk SOAR

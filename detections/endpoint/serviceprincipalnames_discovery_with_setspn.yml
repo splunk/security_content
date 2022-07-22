@@ -49,13 +49,14 @@ references:
 - https://strontic.github.io/xcyclopedia/library/setspn.exe-5C184D581524245DAD7A0A02B51FD2C2.html
 - https://attack.mitre.org/techniques/T1558/003/
 - https://social.technet.microsoft.com/wiki/contents/articles/717.service-principal-names-spn-setspn-syntax.aspx
-- https://www.harmj0y.net/blog/powershell/kerberoasting-without-mimikatz/
+- https://web.archive.org/web/20220212163642/https://www.harmj0y.net/blog/powershell/kerberoasting-without-mimikatz/
 - https://blog.zsec.uk/paving-2-da-wholeset/
 - https://msitpros.com/?p=3113
 - https://adsecurity.org/?p=3466
 tags:
   analytic_story:
   - Active Directory Discovery
+  - Active Directory Kerberos Attacks
   automated_detection_testing: passed
   confidence: 100
   context:
@@ -65,7 +66,7 @@ tags:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.003/atomic_red_team/windows-sysmon_setspn.log
   impact: 80
   kill_chain_phases:
-  - Privilege Escalation
+  - Exploitation
   message: An instance of $parent_process_name$ spawning $process_name$ was identified
     on endpoint $dest$ by user $user$ attempting to identify service principle names.
   mitre_attack_id:
@@ -80,6 +81,7 @@ tags:
     - Victim
     type: Hostname
   - name: parent_process_name
+    type: Process
     role:
     - Parent Process
     type: Parent Process
@@ -103,3 +105,6 @@ tags:
   - _time
   risk_score: 80
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon
+  asset_type: Endpoint

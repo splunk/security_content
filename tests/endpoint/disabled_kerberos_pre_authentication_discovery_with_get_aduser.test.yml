@@ -1,0 +1,12 @@
+name: Disabled Kerberos Pre-Authentication Discovery With Get-ADUser Unit Test
+tests:
+- name: Disabled Kerberos Pre-Authentication Discovery With Get-ADUser
+  file: endpoint/disabled_kerberos_pre_authentication_discovery_with_get_aduser.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: get-aduser-powershell.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.004/getaduser/get-aduser-powershell.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: xmlwineventlog

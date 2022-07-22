@@ -1,10 +1,10 @@
-name: Mmc EXE LOLBAS Execution Process Spawn Unit Test
+name: Mmc LOLBAS Execution Process Spawn Unit Test
 tests:
-- name: Mmc.exe LOLBAS Execution Process Spawn
+- name: Mmc LOLBAS Execution Process Spawn
   file: endpoint/mmc_exe_lolbas_execution_process_spawn.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-24h'
-  latest_time: 'now'
+  earliest_time: -24h
+  latest_time: now
   attack_data:
   - file_name: windows-sysmon.log
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.003/lateral_movement_lolbas/windows-sysmon.log

@@ -1,6 +1,8 @@
 ---
 title: "Processes launching netsh"
-excerpt: "Disable or Modify System Firewall, Impair Defenses"
+excerpt: "Disable or Modify System Firewall
+, Impair Defenses
+"
 categories:
   - Endpoint
 last_modified_at: 2021-09-16
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - Disable or Modify System Firewall
-  - Defense Evasion
   - Impair Defenses
+  - Defense Evasion
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -19,29 +21,85 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for processes launching netsh.exe. Netsh is a command-line scripting utility that allows you to, either locally or remotely, display or modify the network configuration of a computer that is currently running. Netsh can be used as a persistence proxy technique to execute a helper DLL when netsh.exe is executed. In this search, we are looking for processes spawned by netsh.exe and executing commands via the command line.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2021-09-16
 - **Author**: Michael Haag, Josef Kuepker, Splunk
 - **ID**: b89919ed-fe5f-492c-b139-95dbb162040e
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Annotations
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+<details>
+  <summary>ATT&CK</summary>
+
+<div markdown="1">
+
+
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1562.004](https://attack.mitre.org/techniques/T1562/004/) | Disable or Modify System Firewall | Defense Evasion |
 
 | [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
 
-#### Search
+</div>
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+<div markdown="1">
+
+* Actions on Objectives
+
+
+</div>
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+<div markdown="1">
+
+* PR.PT
+* DE.CM
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+<div markdown="1">
+
+* CIS 8
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+<div markdown="1">
+
+
+</div>
+</details>
+
+#### Search 
 
 ```
 
@@ -52,14 +110,14 @@ This search looks for processes launching netsh.exe. Netsh is a command-line scr
 |`processes_launching_netsh_filter`
 ```
 
-#### Associated Analytic Story
-* [Netsh Abuse](/stories/netsh_abuse)
-* [Disabling Security Tools](/stories/disabling_security_tools)
-* [DHS Report TA18-074A](/stories/dhs_report_ta18-074a)
+#### Macros
+The SPL above uses the following Macros:
+* [process_netsh](https://github.com/splunk/security_content/blob/develop/macros/process_netsh.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
+> :information_source:
+> **processes_launching_netsh_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -71,12 +129,19 @@ To successfully implement this search you need to be ingesting information on pr
 * Processes.dest
 
 
-#### Kill Chain Phase
-* Actions on Objectives
-
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 
 #### Known False Positives
 Some VPN applications are known to launch netsh.exe. Outside of these instances, it is unusual for an executable to launch netsh.exe and run commands.
+
+#### Associated Analytic story
+* [Netsh Abuse](/stories/netsh_abuse)
+* [Disabling Security Tools](/stories/disabling_security_tools)
+* [DHS Report TA18-074A](/stories/dhs_report_ta18-074a)
+* [Azorult](/stories/azorult)
+
+
 
 
 #### RBA
@@ -86,14 +151,16 @@ Some VPN applications are known to launch netsh.exe. Outside of these instances,
 | 42.0 | 60 | 70 | A process $process_name$ that tries to execute netsh commandline $process$ in host $dest$ |
 
 
-
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.004/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.004/atomic_red_team/windows-sysmon.log)
 

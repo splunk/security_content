@@ -7,6 +7,7 @@ tags:
   - Response
   - Splunk SOAR
   - None
+  - Risk Notable
 ---
 
 [Try in Splunk SOAR](https://www.splunk.com/en_us/software/splunk-security-orchestration-and-automation.html){: .btn .btn--success}
@@ -26,7 +27,7 @@ This playbook locates available playbooks with the response tag and presents the
 
 
 #### How To Implement
-
+tbd
 
 #### Playbooks
 ![](https://raw.githubusercontent.com/splunk/security_content/develop/playbooks/risk_notable_verdict.png)

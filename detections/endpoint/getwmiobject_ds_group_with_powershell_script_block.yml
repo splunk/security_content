@@ -1,7 +1,7 @@
 name: GetWmiObject Ds Group with PowerShell Script Block
 id: 67740bd3-1506-469c-b91d-effc322cc6e5
-version: 1
-date: '2021-08-25'
+version: 2
+date: '2022-05-02'
 author: Mauricio Velazco, Splunk
 type: TTP
 datamodel: []
@@ -10,9 +10,8 @@ description: The following analytic utilizes PowerShell Script Block Logging (Ev
   . The `DS_Group` parameter leverages WMI to query for all domain groups. Red Teams
   and adversaries may leverage this commandlet to enumerate domain groups for situational
   awareness and Active Directory Discovery.
-search: '`powershell` EventCode=4104 (Message=*Get-WmiObject* AND Message=*"namespace
-  root\\directory\\ldap"* AND Message=*"class ds_group"*) | stats count min(_time)
-  as firstTime max(_time) as lastTime by EventCode Message ComputerName User | `security_content_ctime(firstTime)`
+search: '`powershell` EventCode=4104 (ScriptBlockText=*Get-WmiObject* AND ScriptBlockText="*namespace root\\directory\\ldap*" AND ScriptBlockText="*class ds_group*") | stats count min(_time)
+  as firstTime max(_time) as lastTime by Opcode Computer UserID EventCode ScriptBlockText | `security_content_ctime(firstTime)`
   | `getwmiobject_ds_group_with_powershell_script_block_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
@@ -25,18 +24,16 @@ references:
 tags:
   analytic_story:
   - Active Directory Discovery
-  automated_detection_testing: passed
   confidence: 50
   context:
   - Source:Endpoint
   - Stage:Discovery
-  - Stage:Recon
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.002/AD_discovery/windows-powershell.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/sbl_xml.log
   impact: 30
   kill_chain_phases:
   - Reconnaissance
-  message: Domain group discovery enumeration using PowerShell on $dest$ by $user$
+  message: Domain group discovery enumeration using PowerShell on $Computer$ by $UserID$
   mitre_attack_id:
   - T1069
   - T1069.002
@@ -51,9 +48,11 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
+  - ScriptBlockText
+  - Opcode
+  - Computer
+  - UserID
   - EventCode
-  - Message
-  - ComputerName
-  - User
   risk_score: 15
   security_domain: endpoint
+  asset_type: Endpoint

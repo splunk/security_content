@@ -10,6 +10,12 @@ tags:
   - Endpoint
   - Network_Traffic
   - Web
+  - Actions on Objectives
+  - Command & Control
+  - Delivery
+  - Exploitation
+  - Installation
+  - Reconnaissance
 ---
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -37,20 +43,21 @@ This Analytic Story includes searches designed to help detect and investigate si
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Attacker Tools On Endpoint](/endpoint/attacker_tools_on_endpoint/) | [Match Legitimate Name or Location](/tags/#match-legitimate-name-or-location), [Masquerading](/tags/#masquerading), [OS Credential Dumping](/tags/#os-credential-dumping), [Active Scanning](/tags/#active-scanning) | TTP |
-| [Batch File Write to System32](/endpoint/batch_file_write_to_system32/) | [User Execution](/tags/#user-execution), [Malicious File](/tags/#malicious-file) | TTP |
-| [Common Ransomware Extensions](/endpoint/common_ransomware_extensions/) | [Data Destruction](/tags/#data-destruction) | Hunting |
-| [Common Ransomware Notes](/endpoint/common_ransomware_notes/) | [Data Destruction](/tags/#data-destruction) | Hunting |
-| [Deleting Shadow Copies](/endpoint/deleting_shadow_copies/) | [Inhibit System Recovery](/tags/#inhibit-system-recovery) | TTP |
-| [Detect PsExec With accepteula Flag](/endpoint/detect_psexec_with_accepteula_flag/) | [Remote Services](/tags/#remote-services), [SMB/Windows Admin Shares](/tags/#smb/windows-admin-shares) | TTP |
-| [Detect Renamed PSExec](/endpoint/detect_renamed_psexec/) | [System Services](/tags/#system-services), [Service Execution](/tags/#service-execution) | Hunting |
-| [Detect attackers scanning for vulnerable JBoss servers](/web/detect_attackers_scanning_for_vulnerable_jboss_servers/) | [System Information Discovery](/tags/#system-information-discovery) | TTP |
-| [Detect malicious requests to exploit JBoss servers](/web/detect_malicious_requests_to_exploit_jboss_servers/) |  | TTP |
-| [File with Samsam Extension](/endpoint/file_with_samsam_extension/) |  | TTP |
-| [Remote Desktop Network Bruteforce](/network/remote_desktop_network_bruteforce/) | [Remote Desktop Protocol](/tags/#remote-desktop-protocol), [Remote Services](/tags/#remote-services) | TTP |
-| [Remote Desktop Network Traffic](/network/remote_desktop_network_traffic/) | [Remote Desktop Protocol](/tags/#remote-desktop-protocol), [Remote Services](/tags/#remote-services) | Anomaly |
-| [Samsam Test File Write](/endpoint/samsam_test_file_write/) | [Data Encrypted for Impact](/tags/#data-encrypted-for-impact) | TTP |
-| [Spike in File Writes](/endpoint/spike_in_file_writes/) |  | Anomaly |
+| [Prohibited Software On Endpoint](/deprecated/prohibited_software_on_endpoint/) | None| Hunting |
+| [Attacker Tools On Endpoint](/endpoint/attacker_tools_on_endpoint/) | [Match Legitimate Name or Location](/tags/#match-legitimate-name-or-location), [Masquerading](/tags/#masquerading), [OS Credential Dumping](/tags/#os-credential-dumping), [Active Scanning](/tags/#active-scanning)| TTP |
+| [Batch File Write to System32](/endpoint/batch_file_write_to_system32/) | [User Execution](/tags/#user-execution), [Malicious File](/tags/#malicious-file)| TTP |
+| [Common Ransomware Extensions](/endpoint/common_ransomware_extensions/) | [Data Destruction](/tags/#data-destruction)| Hunting |
+| [Common Ransomware Notes](/endpoint/common_ransomware_notes/) | [Data Destruction](/tags/#data-destruction)| Hunting |
+| [Deleting Shadow Copies](/endpoint/deleting_shadow_copies/) | [Inhibit System Recovery](/tags/#inhibit-system-recovery)| TTP |
+| [Detect PsExec With accepteula Flag](/endpoint/detect_psexec_with_accepteula_flag/) | [Remote Services](/tags/#remote-services), [SMB/Windows Admin Shares](/tags/#smb/windows-admin-shares)| TTP |
+| [Detect Renamed PSExec](/endpoint/detect_renamed_psexec/) | [System Services](/tags/#system-services), [Service Execution](/tags/#service-execution)| Hunting |
+| [File with Samsam Extension](/endpoint/file_with_samsam_extension/) | None| TTP |
+| [Samsam Test File Write](/endpoint/samsam_test_file_write/) | [Data Encrypted for Impact](/tags/#data-encrypted-for-impact)| TTP |
+| [Spike in File Writes](/endpoint/spike_in_file_writes/) | None| Anomaly |
+| [Remote Desktop Network Bruteforce](/network/remote_desktop_network_bruteforce/) | [Remote Desktop Protocol](/tags/#remote-desktop-protocol), [Remote Services](/tags/#remote-services)| TTP |
+| [Remote Desktop Network Traffic](/network/remote_desktop_network_traffic/) | [Remote Desktop Protocol](/tags/#remote-desktop-protocol), [Remote Services](/tags/#remote-services)| Anomaly |
+| [Detect attackers scanning for vulnerable JBoss servers](/web/detect_attackers_scanning_for_vulnerable_jboss_servers/) | [System Information Discovery](/tags/#system-information-discovery)| TTP |
+| [Detect malicious requests to exploit JBoss servers](/web/detect_malicious_requests_to_exploit_jboss_servers/) | None| TTP |
 
 #### Reference
 

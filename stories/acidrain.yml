@@ -1,0 +1,23 @@
+name: AcidRain
+id: c68717c6-4938-434b-987c-e1ce9d516124
+version: 1
+date: '2022-04-12'
+author: Teoderick Contreras, Splunk
+description: Leverage searches that allow you to detect and investigate unusual activities
+  that might relate to the acidrain malware including deleting of files and etc.
+  AcidRain is an ELF MIPS malware specifically designed to wipe modems and routers.
+  The complete list of targeted devices is unknown at this time, but WatchGuard FireBox has specifically been listed as a target. 
+  This malware is capable of wiping and deleting non-standard linux files and overwriting storage device files that might related to router, ssd card and many more.
+narrative: Adversaries may use this technique to maximize the impact on the target organization in operations where network wide availability interruption
+  is the goal. 
+references:
+- https://www.sentinelone.com/labs/acidrain-a-modem-wiper-rains-down-on-europe/
+tags:
+  analytic_story: AcidRain
+  category:
+  - Malware
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

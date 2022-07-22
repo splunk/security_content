@@ -8,8 +8,8 @@ description: Leverage searches that allow you to detect and investigate unusual 
   with Ryuk, Stopping Security Access Manager, DisableAntiSpyware registry key modification,
   suspicious psexec use, and more.
 narrative: "Cybersecurity Infrastructure Security Agency (CISA) released Alert (AA20-302A)\
-  \ on October 28th called \u201CRansomware Activity Targeting the Healthcare and\
-  \ Public Health Sector.\u201D This alert details TTPs associated with ongoing and\
+  \ on October 28th called Ransomware Activity Targeting the Healthcare and\
+  \ Public Health Sector. This alert details TTPs associated with ongoing and\
   \ possible imminent attacks against the Healthcare sector, and is a joint advisory\
   \ in coordination with other U.S. Government agencies. The objective of these malicious\
   \ campaigns is to infiltrate targets in named sectors and to drop ransomware payloads,\

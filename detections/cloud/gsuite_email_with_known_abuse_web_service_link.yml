@@ -27,11 +27,11 @@ references:
 tags:
   analytic_story:
   - Dev Sec Ops
-  automated_detection_testing: passed
+  asset_type: GSuite
   confidence: 50
   context:
   - Source:Endpoint
-  - Stage:Reconnaissance
+  - Stage:Discovery
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/gsuite_susp_url/gsuite_susp_url.log
   impact: 50
@@ -41,11 +41,15 @@ tags:
   mitre_attack_id:
   - T1566.001
   - T1566
+  observable:
+  - name: source.address
+    type: User
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Dev Sec Ops Analytics
   required_fields:
   - _time
   risk_score: 25

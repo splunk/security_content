@@ -1,6 +1,7 @@
 ---
 title: "Ransomware Notes bulk creation"
-excerpt: "Data Encrypted for Impact"
+excerpt: "Data Encrypted for Impact
+"
 categories:
   - Endpoint
 last_modified_at: 2021-03-12
@@ -17,13 +18,13 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following analytics identifies a big number of instance of ransomware notes (filetype e.g .txt, .html, .hta) file creation to the infected machine. This behavior is a good sensor if the ransomware note filename is quite new for security industry or the ransomware note filename is not in your ransomware lookup table list for monitoring.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-03-12
@@ -31,13 +32,64 @@ The following analytics identifies a big number of instance of ransomware notes 
 - **ID**: eff7919a-8330-11eb-83f8-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Annotations
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+<details>
+  <summary>ATT&CK</summary>
+
+<div markdown="1">
+
+
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1486](https://attack.mitre.org/techniques/T1486/) | Data Encrypted for Impact | Impact |
 
-#### Search
+</div>
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+<div markdown="1">
+
+* Exploitation
+
+
+</div>
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+<div markdown="1">
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+<div markdown="1">
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+<div markdown="1">
+
+
+</div>
+</details>
+
+#### Search 
 
 ```
 `sysmon` EventCode=11 file_name IN ("*\.txt","*\.html","*\.hta") 
@@ -49,14 +101,13 @@ The following analytics identifies a big number of instance of ransomware notes 
 | `ransomware_notes_bulk_creation_filter`
 ```
 
-#### Associated Analytic Story
-* [Clop Ransomware](/stories/clop_ransomware)
-* [DarkSide Ransomware](/stories/darkside_ransomware)
-* [BlackMatter Ransomware](/stories/blackmatter_ransomware)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 
-
-#### How To Implement
-You must be ingesting data that records the filesystem activity from your hosts to populate the Endpoint file-system data model node. If you are using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which you want to collect data.
+> :information_source:
+> **ransomware_notes_bulk_creation_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * EventCode
@@ -68,12 +119,18 @@ You must be ingesting data that records the filesystem activity from your hosts 
 * user
 
 
-#### Kill Chain Phase
-* Obfuscation
-
+#### How To Implement
+You must be ingesting data that records the filesystem activity from your hosts to populate the Endpoint file-system data model node. If you are using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which you want to collect data.
 
 #### Known False Positives
 unknown
+
+#### Associated Analytic story
+* [Clop Ransomware](/stories/clop_ransomware)
+* [DarkSide Ransomware](/stories/darkside_ransomware)
+* [BlackMatter Ransomware](/stories/blackmatter_ransomware)
+
+
 
 
 #### RBA
@@ -83,18 +140,20 @@ unknown
 | 81.0 | 90 | 90 | A high frequency file creation of $file_name$ in different file path in host $Computer$ |
 
 
-
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 
-* [https://www.fireeye.com/blog/threat-research/2020/10/fin11-email-campaigns-precursor-for-ransomware-data-theft.html](https://www.fireeye.com/blog/threat-research/2020/10/fin11-email-campaigns-precursor-for-ransomware-data-theft.html)
+* [https://www.mandiant.com/resources/fin11-email-campaigns-precursor-for-ransomware-data-theft](https://www.mandiant.com/resources/fin11-email-campaigns-precursor-for-ransomware-data-theft)
 * [https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html](https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html)
 
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-sysmon.log)
 

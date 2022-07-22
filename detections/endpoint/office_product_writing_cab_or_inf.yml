@@ -1,7 +1,7 @@
 name: Office Product Writing cab or inf
 id: f48cd1d4-125a-11ec-a447-acde48001122
-version: 1
-date: '2021-09-10'
+version: 2
+date: '2022-07-07'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
@@ -10,16 +10,21 @@ description: The following analytic identifies behavior related to CVE-2021-4044
   Whereas the malicious document will load ActiveX and download the remote payload
   (.inf, .cab). During triage, review parallel processes and further activity on endpoint
   to identify additional patterns. Retrieve the file modifications and analyze further.
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
-  where Processes.process_name IN ("winword.exe","excel.exe","powerpnt.exe","mspub.exe","visio.exe","wordpad.exe","wordview.exe")
-  by _time span=1h Processes.process_id Processes.process_name Processes.process Processes.dest
-  | `drop_dm_object_name(Processes)` | join process_guid, _time [| tstats `security_content_summariesonly`
-  count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem
-  where Filesystem.file_name IN ("*.inf","*.cab") by _time span=1h Filesystem.dest
-  Filesystem.file_create_time Filesystem.file_name Filesystem.file_path | `drop_dm_object_name(Filesystem)`
-  | fields _time dest file_create_time file_name file_path process_name process_path
-  process] | dedup file_create_time | table dest, process_name, process, file_create_time,
-  file_name, file_path | `office_product_writing_cab_or_inf_filter`'
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes 
+  where Processes.process_name IN ("winword.exe","excel.exe","powerpnt.exe","mspub.exe","visio.exe","wordpad.exe","wordview.exe") 
+  by _time span=1h Processes.process_id Processes.process_name Processes.process Processes.dest Processes.process_guid
+  | `drop_dm_object_name(Processes)`
+  |rename process_guid as proc_guid
+  | join proc_guid, _time [
+  | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem 
+  where Filesystem.file_name IN ("*.inf","*.cab") 
+  by _time span=1h Filesystem.dest Filesystem.file_create_time Filesystem.file_name Filesystem.file_path Filesystem.process_guid
+  | `drop_dm_object_name(Filesystem)` 
+  |rename process_guid as proc_guid
+  | fields _time dest file_create_time file_name file_path process_name process_path process proc_guid] 
+  | dedup file_create_time 
+  | table dest, process_name, process, file_create_time, file_name, file_path, proc_guid 
+  | `office_product_writing_cab_or_inf_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node and `Filesystem`
@@ -36,7 +41,6 @@ tags:
   analytic_story:
   - Spearphishing Attachments
   - Microsoft MSHTML Remote Code Execution CVE-2021-40444
-  automated_detection_testing: passed
   confidence: 100
   context:
   - Source:Endpoint
@@ -84,3 +88,4 @@ tags:
   - process_name
   risk_score: 80
   security_domain: endpoint
+  asset_type: Endpoint

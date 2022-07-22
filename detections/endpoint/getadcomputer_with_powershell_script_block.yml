@@ -1,7 +1,7 @@
 name: GetAdComputer with PowerShell Script Block
 id: a9a1da02-8e27-4bf7-a348-f4389c9da487
-version: 1
-date: '2021-09-01'
+version: 3
+date: '2022-05-02'
 author: Mauricio Velazco, Splunk
 type: Hunting
 datamodel: []
@@ -10,9 +10,9 @@ description: The following analytic utilizes PowerShell Script Block Logging (Ev
   is used to return a list of all domain computers. Red Teams and adversaries may
   leverage this commandlet to enumerate domain computers for situational awareness
   and Active Directory Discovery.
-search: '`powershell` EventCode=4104 (Message = "*Get-AdComputer*") | stats count
-  min(_time) as firstTime max(_time) as lastTime by EventCode Message ComputerName
-  User | `security_content_ctime(firstTime)` | `getadcomputer_with_powershell_script_block_filter`'
+search: '`powershell` EventCode=4104 (ScriptBlockText = "*Get-AdComputer*") | stats count
+  min(_time) as firstTime max(_time) as lastTime by Opcode Computer
+  UserID EventCode ScriptBlockText | `security_content_ctime(firstTime)` | `getadcomputer_with_powershell_script_block_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
@@ -24,22 +24,21 @@ references:
 tags:
   analytic_story:
   - Active Directory Discovery
-  automated_detection_testing: passed
   confidence: 50
   context:
   - Source:Endpoint
   - Stage:Discovery
-  - Stage:Recon
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1018/AD_discovery/windows-powershell.log
   impact: 30
   kill_chain_phases:
   - Reconnaissance
-  message: Remote system discovery enumeration on $dest$ by $user$
+  message: Remote system discovery enumeration on $Computer$ by $UserID$
   mitre_attack_id:
   - T1018
   observable:
-  - name: dest
+  - name: Computer
+    type: Endpoint
     role:
     - Victim
     type: Endpoint
@@ -49,9 +48,11 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
+  - ScriptBlockText
+  - Opcode
+  - Computer
+  - UserID
   - EventCode
-  - Message
-  - ComputerName
-  - User
   risk_score: 15
   security_domain: endpoint
+  asset_type: Endpoint

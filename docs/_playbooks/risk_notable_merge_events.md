@@ -7,6 +7,7 @@ tags:
   - Investigation
   - Splunk SOAR
   - None
+  - Risk Notable
 ---
 
 [Try in Splunk SOAR](https://www.splunk.com/en_us/software/splunk-security-orchestration-and-automation.html){: .btn .btn--success}

@@ -24,11 +24,10 @@ known_false_positives: A network operator or systems administrator may utilize a
   automated host discovery application that may generate false positives or an amazon
   ec2 script that uses this application. Filter as needed.
 references:
-- https://app.any.run/tasks/ad4c3cda-41f2-4401-8dba-56cc2d245488/#
+- https://app.any.run/tasks/ad4c3cda-41f2-4401-8dba-56cc2d245488/
 tags:
   analytic_story:
   - Active Directory Discovery
-  automated_detection_testing: passed
   confidence: 30
   context:
   - Source:Endpoint
@@ -64,3 +63,4 @@ tags:
   - _time
   risk_score: 9
   security_domain: endpoint
+  asset_type: Endpoint

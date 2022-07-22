@@ -46,5 +46,15 @@ tags:
   - awsRegion
   risk_object: src
   risk_object_type: system
-  risk_score: 10
+  risk_score: 25.0
   security_domain: network
+  confidence: 50
+  impact: 50
+  context:
+  - Unknown
+  message: tbd
+  observable:
+  - name: field
+    type: Unknown
+    role:
+    - Unknown

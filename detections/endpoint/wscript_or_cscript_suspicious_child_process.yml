@@ -6,13 +6,12 @@ author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: This analytic is to detect a suspicious spawned process by wscript or
-  cscript process. This technique was a common technique used by adversaries and malware
-  to execute different LOLBIN, other script like powershell or create a suspended
-  process to inject its code as a defense evasion. This TTP may detect some normal
-  script that using several application tool that are in the list of the child process
-  it detects but a good pivot and indicator that a script is may execute suspicious
-  code.
+description: This analytic identifies a suspicious spawned process by WScript or CScript
+  process. This technique was a common technique used by adversaries and malware to
+  execute different LOLBIN, other scripts like PowerShell or spawn a suspended process
+  to inject its code as a defense evasion. This TTP may detect some normal script
+  that using several application tool that are in the list of the child process it
+  detects but a good pivot and indicator that a script is may execute suspicious code.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name
   IN ("cscript.exe", "wscript.exe") Processes.process_name IN ("regsvr32.exe", "rundll32.exe","winhlp32.exe","certutil.exe","msbuild.exe","cmd.exe","powershell*","wmic.exe","mshta.exe")
@@ -24,16 +23,17 @@ how_to_implement: To successfully implement this search, you need to be ingestin
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
   Sysmon TA.
-known_false_positives: user may create vbs or js script that use several tool as part
-  of its execution.
+known_false_positives: Administrators may create vbs or js script that use several
+  tool as part of its execution. Filter as needed.
 references:
 - https://www.hybrid-analysis.com/sample/8da5b75b6380a41eee3a399c43dfe0d99eeefaa1fd21027a07b1ecaa4cd96fdd?environmentId=120
+- https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
 tags:
   analytic_story:
   - FIN7
   - Remcos
   - Unusual Processes
-  automated_detection_testing: passed
+  - WhisperGate
   confidence: 70
   context:
   - Source:Endpoint
@@ -74,3 +74,6 @@ tags:
   - _time
   risk_score: 49
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon
+  asset_type: Endpoint

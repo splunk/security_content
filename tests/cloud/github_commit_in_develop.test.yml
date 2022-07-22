@@ -3,8 +3,8 @@ tests:
 - name: Github Commit In Develop
   file: cloud/github_commit_in_develop.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-24h'
-  latest_time: 'now'
+  earliest_time: -24h
+  latest_time: now
   attack_data:
   - file_name: github_push_develop.json
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1199/github_push_master/github_push_develop.json

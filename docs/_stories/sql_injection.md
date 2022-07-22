@@ -8,6 +8,7 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   - Web
+  - Delivery
 ---
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -31,7 +32,7 @@ This Analytic Story contains a search designed to identify attempts by attackers
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [SQL Injection with Long URLs](/web/sql_injection_with_long_urls/) | [Exploit Public-Facing Application](/tags/#exploit-public-facing-application) | TTP |
+| [SQL Injection with Long URLs](/web/sql_injection_with_long_urls/) | [Exploit Public-Facing Application](/tags/#exploit-public-facing-application)| TTP |
 
 #### Reference
 

@@ -1,0 +1,19 @@
+---
+title: Analytic Stories
+layout: collection
+permalink: /stories/
+collection: stories
+classes: wide
+sidebar:
+  nav: "stories"
+---
+
+| Name    |   Technique |     Tactic   |
+| ----------- | ----------- |--------------|
+{%- for story in objects -%}
+{% if story.tags.mitre_attack_enrichments %}
+| [{{ story.name }}]({{ story.name | lower | replace(" ", "_") }}) | {% for attack in story.tags.mitre_attack_enrichments -%} [{{ attack.mitre_attack_technique }}](/tags/#{{ attack.mitre_attack_technique | lower | replace(" ", "-") }}){% if not loop.last -%}, {% endif -%}{%- endfor %} | {% for tactic in story.tags.mitre_attack_tactics -%} [{{ tactic }}](/tags/#{{ tactic | lower | replace(" ", "-") }}){% if not loop.last -%}, {% endif -%}{%- endfor %} |
+{%- else %}
+| [{{ story.name }}]({{ story.name | lower | replace(" ", "_") }}) | None | None |
+{%- endif -%}
+{%- endfor -%}

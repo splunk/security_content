@@ -28,6 +28,7 @@ references:
 tags:
   analytic_story:
   - Credential Dumping
+  - Living Off The Land
   confidence: 100
   context:
   - Source:Endpoint
@@ -35,8 +36,7 @@ tags:
   dataset: []
   impact: 80
   kill_chain_phases:
-  - Privilege Escalation
-  - Lateral Movement
+  - Exploitation
   message: An instance of $parent_process_name$ spawning $process_name$ was identified
     on endpoint $dest$ by user user$ attempting to capture credentials for offline
     cracking or observability.
@@ -53,6 +53,7 @@ tags:
     - Victim
     type: Hostname
   - name: parent_process_name
+    type: Process
     role:
     - Parent Process
     type: Parent Process
@@ -76,3 +77,4 @@ tags:
   - _time
   risk_score: 80
   security_domain: endpoint
+  asset_type: Endpoint

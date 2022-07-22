@@ -1,0 +1,12 @@
+name: Windows Disable Notification Center Unit Test
+tests:
+- name: Windows Disable Notification Center
+  file: endpoint/windows_disable_notification_center.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: sysmon.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/disable_notif_center/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

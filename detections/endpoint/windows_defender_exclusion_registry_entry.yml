@@ -14,9 +14,17 @@ description: This analytic will detect a suspicious process that modify a regist
   defense evasion and to look further for events after this behavior.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Registry where Registry.registry_path = "*\\SOFTWARE\\Policies\\Microsoft\\Windows
-  Defender\\Exclusions\\*" by Registry.dest Registry.user Registry.registry_path Registry.registry_value_name
-  Registry.registry_value_data | `drop_dm_object_name(Registry)` | `security_content_ctime(lastTime)`
-  | `security_content_ctime(firstTime)` | `windows_defender_exclusion_registry_entry_filter`'
+  Defender\\Exclusions\\*" by _time span=1h Registry.dest Registry.user Registry.registry_path
+  Registry.registry_value_name Registry.registry_value_data Registry.process_guid
+  | `drop_dm_object_name(Registry)` |rename process_guid as proc_guid |join proc_guid,
+  _time [| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
+  by _time span=1h Processes.process_id Processes.process_name Processes.process Processes.dest
+  Processes.parent_process_name Processes.parent_process Processes.process_guid |
+  `drop_dm_object_name(Processes)` |rename process_guid as proc_guid | fields _time
+  dest user parent_process_name parent_process process_name process_path process proc_guid
+  registry_path registry_value_name registry_value_data] | table _time dest user parent_process_name
+  parent_process process_name process_path process proc_guid registry_path registry_value_name
+  registry_value_data | `windows_defender_exclusion_registry_entry_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure
@@ -25,11 +33,12 @@ known_false_positives: admin or user may choose to use this windows features.
 references:
 - https://tccontre.blogspot.com/2020/01/remcos-rat-evading-windows-defender-av.html
 - https://app.any.run/tasks/cf1245de-06a7-4366-8209-8e3006f2bfe5/
+- https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
 tags:
   analytic_story:
   - Remcos
   - Windows Defense Evasion Tactics
-  automated_detection_testing: passed
+  - Azorult
   confidence: 80
   context:
   - Source:Endpoint
@@ -65,3 +74,6 @@ tags:
   - _time
   risk_score: 64
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon
+  asset_type: Endpoint

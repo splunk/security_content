@@ -22,11 +22,10 @@ how_to_implement: To successfully implement this search, you need to be ingestin
 known_false_positives: unknown
 references:
 - https://labs.vipre.com/trickbot-and-its-modules/
-- https://blog.whitehat.eu/2019/05/incident-trickbot-ryuk-2.html
+- https://whitehat.eu/incident-response-case-study-featuring-ryuk-and-trickbot-part-2/
 tags:
   analytic_story:
   - Trickbot
-  automated_detection_testing: passed
   confidence: 80
   context:
   - Source:Endpoint
@@ -58,3 +57,4 @@ tags:
   - ProcessId
   risk_score: 56
   security_domain: endpoint
+  asset_type: Endpoint

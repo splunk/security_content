@@ -1,0 +1,67 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "contentctl new_detection",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/contentctl.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": ["-p", ".", "new_content", "-t", "detection"]
+        },
+        {
+            "name": "contentctl validate",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/contentctl.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": ["-p", ".", "validate", "-pr", "ESCU"]
+        },
+        {
+            "name": "contentctl generate",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/contentctl.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": ["-p", ".", "generate", "-o", "dist/escu", "-pr", "ESCU"]
+        },
+        {
+            "name": "contentctl docgen",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/contentctl.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": ["-p", ".", "docgen", "-o", "docs"]
+        },
+        {
+            "name": "contentctl content_changer",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/contentctl.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": ["-p", "detections", "content_changer", "-cf", "fix_kill_chain"]
+        },
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "args": [
+                "--path",
+                ".",
+                "--output",
+                "docs",
+                "-v"
+            ]
+        }
+    ]
+}

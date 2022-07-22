@@ -1,0 +1,15 @@
+
+{% for macro in objects %}
+[{{ macro.name }}{% if macro.arguments is not none %}({{ macro.arguments|length }}){% endif %}]
+{% if macro.arguments is not none %}
+args = {% for arg in macro.arguments %}{{ arg }}{{ ", " if not loop.last }}
+{% endfor %}
+{% endif %}
+{% if macro.definition is not none %}
+definition = {{ macro.definition }}
+{% else %}
+definition =
+{% endif %}
+description = {{ macro.description }}
+
+{% endfor %}

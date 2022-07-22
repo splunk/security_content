@@ -1,7 +1,7 @@
 name: CMD Carry Out String Command Parameter
 id: 54a6ed00-3256-11ec-b031-acde48001122
-version: 2
-date: '2021-12-13'
+version: 3
+date: '2022-01-18'
 author: Teoderick Contreras, Bhavin Patel, Splunk
 type: Hunting
 datamodel:
@@ -27,10 +27,16 @@ known_false_positives: False positives may be high based on legitimate scripted 
   in any environment. Filter as needed.
 references:
 - https://thedfirreport.com/2021/10/18/icedid-to-xinglocker-ransomware-in-24-hours/
+- https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
 tags:
   analytic_story:
+  - Data Destruction
   - IcedID
   - Log4Shell CVE-2021-44228
+  - WhisperGate
+  - Hermetic Wiper
+  - Living Off The Land
+  - Azorult
   automated_detection_testing: passed
   confidence: 50
   context:
@@ -73,3 +79,4 @@ tags:
   - _time
   risk_score: 30
   security_domain: endpoint
+  asset_type: Endpoint

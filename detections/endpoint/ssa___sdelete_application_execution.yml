@@ -45,6 +45,8 @@ references:
 tags:
   analytic_story:
   - Information Sabotage
+  - Insider Threat
+  cis20: []
   confidence: 70
   context:
   - Source:Endpoint
@@ -60,6 +62,7 @@ tags:
   - T1485
   - T1070.004
   - T1070
+  nist: []
   observable:
   - name: dest_user_id
     type: User
@@ -70,7 +73,7 @@ tags:
     role:
     - Victim
   - name: parent_process
-    type: Parent Process
+    type: Process
     role:
     - Parent Process
   - name: process_name
@@ -91,4 +94,6 @@ tags:
   - process_path
   - cmd_line
   risk_score: 42
+  risk_severity: low
   security_domain: endpoint
+  asset_type: Endpoint

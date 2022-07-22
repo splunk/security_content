@@ -1,6 +1,8 @@
 ---
 title: "Possible Browser Pass View Parameter"
-excerpt: "Credentials from Web Browsers, Credentials from Password Stores"
+excerpt: "Credentials from Web Browsers
+, Credentials from Password Stores
+"
 categories:
   - Endpoint
 last_modified_at: 2021-11-22
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - Credentials from Web Browsers
-  - Credential Access
   - Credentials from Password Stores
+  - Credential Access
   - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -19,13 +21,13 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
-This analytic will detect a suspicious process contains a commandline parameter related to web browser credential dumper. This technique was used by Remcos RAT malware where it use the techique of Nirsoft webbrowserpassview.exe application to dump web browser credentials. Remcos use the &#34;/stext&#34; commandline to dump the credential in text format. This Hunting query is good indicator to look further for possible remcos infection within the network or possible compromised host. Since the detections is only base on the parameter command and the possible path where it will drop the text credential information, It may catch normal tools that having same command and behavior.
+This analytic will detect if a suspicious process contains a commandline parameter related to a web browser credential dumper. This technique is used by Remcos RAT malware which uses the Nirsoft webbrowserpassview.exe application to dump web browser credentials. Remcos uses the "/stext" command line to dump the credentials in text format. This Hunting query is a good indicator of hosts suffering from possible Remcos RAT infection. Since the hunting query is based on the parameter command and the possible path where it will save the text credential information, it may catch normal tools that are using the same command and behavior.
 
-- **Type**: Hunting
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-11-22
@@ -33,15 +35,66 @@ This analytic will detect a suspicious process contains a commandline parameter 
 - **ID**: 8ba484e8-4b97-11ec-b19a-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Annotations
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+<details>
+  <summary>ATT&CK</summary>
+
+<div markdown="1">
+
+
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1555.003](https://attack.mitre.org/techniques/T1555/003/) | Credentials from Web Browsers | Credential Access |
 
 | [T1555](https://attack.mitre.org/techniques/T1555/) | Credentials from Password Stores | Credential Access |
 
-#### Search
+</div>
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+<div markdown="1">
+
+* Exploitation
+
+
+</div>
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+<div markdown="1">
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+<div markdown="1">
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+<div markdown="1">
+
+
+</div>
+</details>
+
+#### Search 
 
 ```
 
@@ -52,12 +105,13 @@ This analytic will detect a suspicious process contains a commandline parameter 
 | `possible_browser_pass_view_parameter_filter`
 ```
 
-#### Associated Analytic Story
-* [Remcos](/stories/remcos)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+> :information_source:
+> **possible_browser_pass_view_parameter_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -74,12 +128,16 @@ To successfully implement this search, you need to be ingesting logs with the pr
 * Processes.parent_process_id
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 
 #### Known False Positives
 False positive is quite limited. Filter is needed
+
+#### Associated Analytic story
+* [Remcos](/stories/remcos)
+
+
 
 
 #### RBA
@@ -89,7 +147,8 @@ False positive is quite limited. Filter is needed
 | 16.0 | 40 | 40 | suspicious process $process_name$ contains commandline $process$ on $dest$ |
 
 
-
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 
@@ -99,8 +158,9 @@ False positive is quite limited. Filter is needed
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1555/web_browser_pass_view/sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1555/web_browser_pass_view/sysmon.log)
 

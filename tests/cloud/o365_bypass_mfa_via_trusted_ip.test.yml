@@ -3,10 +3,10 @@ tests:
 - name: O365 Bypass MFA via Trusted IP
   file: cloud/o365_bypass_mfa_via_trusted_ip.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-30d'
-  latest_time: 'now'
+  earliest_time: -30d
+  latest_time: now
   attack_data:
   - file_name: o365_bypass_mfa_via_trusted_ip.json
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.007/o365_bypass_mfa_via_trusted_ip/o365_bypass_mfa_via_trusted_ip.json
-    sourcetype: 'o365:management:activity'
-    source: 'o365'
+    sourcetype: o365:management:activity
+    source: o365

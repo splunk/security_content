@@ -7,6 +7,7 @@ tags:
   - Investigation
   - Splunk SOAR
   - None
+  - Risk Notable
 ---
 
 [Try in Splunk SOAR](https://www.splunk.com/en_us/software/splunk-security-orchestration-and-automation.html){: .btn .btn--success}
@@ -26,7 +27,7 @@ This playbook collects the available Indicator data types within the event as we
 
 
 #### How To Implement
-None
+tbd
 
 #### Playbooks
 ![](https://raw.githubusercontent.com/splunk/security_content/develop/playbooks/risk_notable_enrich.png)

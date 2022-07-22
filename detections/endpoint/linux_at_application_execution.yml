@@ -1,0 +1,75 @@
+name: Linux At Application Execution
+id: bf0a378e-5f3c-11ec-a6de-acde48001122
+version: 2
+date: '2022-05-26'
+author: Teoderick Contreras, Splunk
+type: Anomaly
+datamodel:
+- Endpoint
+description: The following analytic identifies a suspicious process creation of At
+  application. This process can be used by malware, adversaries and red teamers to
+  create persistence entry to the targeted or compromised host with their malicious
+  code. This anomaly detection can be a good indicator to investigate the event before
+  and after this process execution, when it was executed and what schedule task it
+  will execute.
+search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Processes
+  where  Processes.process_name IN ("at", "atd") OR Processes.parent_process_name
+  IN ("at", "atd") by Processes.dest Processes.user Processes.parent_process_name
+  Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
+  Processes.process_guid | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `linux_at_application_execution_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from
+  Splunkbase.
+known_false_positives: Administrator or network operator can use this application
+  for automation purposes. Please update the filter macros to remove false positives.
+references:
+- https://attack.mitre.org/techniques/T1053/001/
+- https://www.linkedin.com/pulse/getting-attacker-ip-address-from-malicious-linux-job-craig-rowland/
+tags:
+  analytic_story:
+  - Linux Privilege Escalation
+  - Linux Persistence Techniques
+  automated_detection_testing: passed
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  confidence: 30
+  context:
+  - Source:Endpoint
+  - Stage:Privilege Escalation
+  - Stage:Persistence
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.002/at_execution/sysmon_linux.log
+  impact: 30
+  kill_chain_phases:
+  - Exploitation
+  message: At application was executed in $dest$
+  mitre_attack_id:
+  - T1053.002
+  - T1053
+  nist:
+  - DE.CM
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_id
+  risk_score: 9
+  security_domain: endpoint
+  asset_type: Endpoint

@@ -9,6 +9,8 @@ tags:
   - Splunk Cloud
   - Endpoint
   - Network_Traffic
+  - Actions on Objectives
+  - Exploitation
 ---
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -33,12 +35,13 @@ Use the searches to detect and monitor suspicious behavior related to these acti
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Detect Renamed 7-Zip](/endpoint/detect_renamed_7-zip/) | [Archive via Utility](/tags/#archive-via-utility), [Archive Collected Data](/tags/#archive-collected-data) | Hunting |
-| [Detect Renamed WinRAR](/endpoint/detect_renamed_winrar/) | [Archive via Utility](/tags/#archive-via-utility), [Archive Collected Data](/tags/#archive-collected-data) | Hunting |
-| [Email files written outside of the Outlook directory](/application/email_files_written_outside_of_the_outlook_directory/) | [Email Collection](/tags/#email-collection), [Local Email Collection](/tags/#local-email-collection) | TTP |
-| [Email servers sending high volume traffic to hosts](/application/email_servers_sending_high_volume_traffic_to_hosts/) | [Email Collection](/tags/#email-collection), [Remote Email Collection](/tags/#remote-email-collection) | Anomaly |
-| [Hosts receiving high volume of network traffic from email server](/network/hosts_receiving_high_volume_of_network_traffic_from_email_server/) | [Remote Email Collection](/tags/#remote-email-collection), [Email Collection](/tags/#email-collection) | Anomaly |
-| [Suspicious writes to windows Recycle Bin](/endpoint/suspicious_writes_to_windows_recycle_bin/) | [Masquerading](/tags/#masquerading) | TTP |
+| [Suspicious writes to System Volume Information](/deprecated/suspicious_writes_to_system_volume_information/) | [Masquerading](/tags/#masquerading)| Hunting |
+| [Detect Renamed 7-Zip](/endpoint/detect_renamed_7-zip/) | [Archive via Utility](/tags/#archive-via-utility), [Archive Collected Data](/tags/#archive-collected-data)| Hunting |
+| [Detect Renamed WinRAR](/endpoint/detect_renamed_winrar/) | [Archive via Utility](/tags/#archive-via-utility), [Archive Collected Data](/tags/#archive-collected-data)| Hunting |
+| [Suspicious writes to windows Recycle Bin](/endpoint/suspicious_writes_to_windows_recycle_bin/) | [Masquerading](/tags/#masquerading)| TTP |
+| [Email files written outside of the Outlook directory](/application/email_files_written_outside_of_the_outlook_directory/) | [Email Collection](/tags/#email-collection), [Local Email Collection](/tags/#local-email-collection)| TTP |
+| [Email servers sending high volume traffic to hosts](/application/email_servers_sending_high_volume_traffic_to_hosts/) | [Email Collection](/tags/#email-collection), [Remote Email Collection](/tags/#remote-email-collection)| Anomaly |
+| [Hosts receiving high volume of network traffic from email server](/network/hosts_receiving_high_volume_of_network_traffic_from_email_server/) | [Remote Email Collection](/tags/#remote-email-collection), [Email Collection](/tags/#email-collection)| Anomaly |
 
 #### Reference
 

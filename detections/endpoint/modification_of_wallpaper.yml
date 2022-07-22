@@ -27,7 +27,7 @@ tags:
   - Ransomware
   - Revil Ransomware
   - BlackMatter Ransomware
-  automated_detection_testing: passed
+  - Windows Registry Abuse
   confidence: 90
   context:
   - Source:Endpoint
@@ -61,3 +61,4 @@ tags:
   - user_id
   risk_score: 54
   security_domain: endpoint
+  asset_type: Endpoint

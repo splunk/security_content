@@ -9,7 +9,7 @@ tags:
   - Splunk Cloud
   - Splunk Behavioral Analytics
   - Endpoint
-  - Endpoint_Processes
+  - Exploitation
 ---
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -19,7 +19,7 @@ tags:
 Leverage searches that allow you to detect and investigate unusual activities that might correlate to insider threat specially in terms of information sabotage.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Splunk Behavioral Analytics
-- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint), [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-11-17
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: b71ba595-ef80-4e39-8b66-887578a7a71b
@@ -32,8 +32,7 @@ Information sabotage is the type of crime many people associate with insider thr
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [High Frequency Copy Of Files In Network Share](/endpoint/high_frequency_copy_of_files_in_network_share/) | [Transfer Data to Cloud Account](/tags/#transfer-data-to-cloud-account) | Anomaly |
-| [Sdelete Application Execution](/endpoint/sdelete_application_execution/) | [Data Destruction](/tags/#data-destruction), [File Deletion](/tags/#file-deletion), [Indicator Removal on Host](/tags/#indicator-removal-on-host) | Anomaly |
+| [High Frequency Copy Of Files In Network Share](/endpoint/high_frequency_copy_of_files_in_network_share/) | [Transfer Data to Cloud Account](/tags/#transfer-data-to-cloud-account)| Anomaly |
 
 #### Reference
 

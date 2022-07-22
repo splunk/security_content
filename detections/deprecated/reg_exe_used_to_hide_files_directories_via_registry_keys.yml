@@ -1,5 +1,5 @@
 name: Reg exe used to hide files directories via registry keys
-id: c77162d3-f93c-45cc-80c8-22f6b5264x9f
+id: 61a7d1e6-f5d4-41d9-a9be-39a1ffe69459
 version: 2
 date: '2019-02-27'
 author: Bhavin Patel, Splunk
@@ -42,3 +42,14 @@ tags:
   required_fields:
   - _time
   security_domain: endpoint
+  confidence: 50
+  impact: 50
+  risk_score: 25
+  context:
+  - Unknown
+  message: tbd
+  observable:
+  - name: field
+    type: Unknown
+    role:
+    - Unknown

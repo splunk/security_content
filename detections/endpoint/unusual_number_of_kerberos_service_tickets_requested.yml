@@ -1,0 +1,70 @@
+name: Unusual Number of Kerberos Service Tickets Requested
+id: eb3e6702-8936-11ec-98fe-acde48001122
+version: 1
+date: '2022-02-08'
+author: Mauricio Velazco, Splunk
+type: Anomaly
+datamodel: []
+description: 'The following hunting analytic leverages Kerberos Event 4769, A Kerberos
+  service ticket was requested, to identify a potential kerberoasting attack against
+  Active Directory networks. Kerberoasting allows an adversary to request kerberos
+  tickets for domain accounts typically used as service accounts and attempt to crack
+  them offline allowing them to obtain privileged access to the domain.\
+
+  The detection calculates the standard deviation for each host and leverages the
+  3-sigma statistical rule to identify an unusual number service ticket requests.
+  To customize this analytic, users can try different combinations of the `bucket`
+  span time and the calculation of the `upperBound` field.'
+search: ' `wineventlog_security` EventCode=4769 Service_Name!="*$" Ticket_Encryption_Type=0x17
+  | bucket span=2m _time | stats dc(Service_Name) AS unique_services values(Service_Name)
+  as requested_services by _time, Client_Address | eventstats avg(unique_services)
+  as comp_avg , stdev(unique_services) as comp_std by Client_Address | eval upperBound=(comp_avg+comp_std*3)
+  | eval isOutlier=if(unique_services > 2 and unique_services >= upperBound, 1, 0)
+  | search isOutlier=1 | `unusual_number_of_kerberos_service_tickets_requested_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  Domain Controller and Kerberos events. The Advanced Security Audit policy setting
+  `Audit Kerberos Authentication Service` within `Account Logon` needs to be enabled.
+known_false_positives: An single endpoint requesting a large number of kerberos service
+  tickets is not common behavior. Possible false positive scenarios include but are
+  not limited to vulnerability scanners, administration systems and missconfigured
+  systems.
+references:
+- https://attack.mitre.org/techniques/T1558/003/
+- https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/t1208-kerberoasting
+tags:
+  analytic_story:
+  - Active Directory Kerberos Attacks
+  asset_type: Endpoint
+  confidence: 60
+  context:
+  - Source:Endpoint
+  - Stage:Privilege Escalation
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.003/rubeus/windows-security.log
+  impact: 60
+  kill_chain_phases:
+  - Exploitation
+  message: tbd
+  mitre_attack_id:
+  - T1558
+  - T1558.003
+  observable:
+  - name: Client_Address
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - Ticket_Options
+  - Ticket_Encryption_Type
+  - dest
+  - Service_Name
+  - service_id
+  - Client_Address
+  risk_score: 36
+  security_domain: endpoint

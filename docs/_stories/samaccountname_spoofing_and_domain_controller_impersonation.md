@@ -8,6 +8,7 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
+  - Exploitation
 ---
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -30,9 +31,9 @@ On November 9, 2021, Microsoft released patches to address two vulnerabilities t
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Suspicious Computer Account Name Change](/endpoint/suspicious_computer_account_name_change/) | [Valid Accounts](/tags/#valid-accounts), [Domain Accounts](/tags/#domain-accounts) | TTP |
-| [Suspicious Kerberos Service Ticket Request](/endpoint/suspicious_kerberos_service_ticket_request/) | [Valid Accounts](/tags/#valid-accounts), [Domain Accounts](/tags/#domain-accounts) | TTP |
-| [Suspicious Ticket Granting Ticket Request](/endpoint/suspicious_ticket_granting_ticket_request/) | [Valid Accounts](/tags/#valid-accounts), [Domain Accounts](/tags/#domain-accounts) | Hunting |
+| [Suspicious Computer Account Name Change](/endpoint/suspicious_computer_account_name_change/) | [Valid Accounts](/tags/#valid-accounts), [Domain Accounts](/tags/#domain-accounts)| TTP |
+| [Suspicious Kerberos Service Ticket Request](/endpoint/suspicious_kerberos_service_ticket_request/) | [Valid Accounts](/tags/#valid-accounts), [Domain Accounts](/tags/#domain-accounts)| TTP |
+| [Suspicious Ticket Granting Ticket Request](/endpoint/suspicious_ticket_granting_ticket_request/) | [Valid Accounts](/tags/#valid-accounts), [Domain Accounts](/tags/#domain-accounts)| Hunting |
 
 #### Reference
 

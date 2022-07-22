@@ -26,12 +26,15 @@ how_to_implement: To successfully implement this search you need to be ingesting
 known_false_positives: Other third part application may used this parameter but not
   so common in base windows environment.
 references:
-- https://app.any.run/tasks/dc93ee63-050c-4ff8-b07e-8277af9ab939/#
+- https://app.any.run/tasks/dc93ee63-050c-4ff8-b07e-8277af9ab939/
 - https://attack.mitre.org/techniques/T1218/010/
 tags:
   analytic_story:
+  - Data Destruction
   - Suspicious Regsvr32 Activity
   - Remcos
+  - Hermetic Wiper
+  - Living Off The Land
   automated_detection_testing: passed
   confidence: 60
   context:
@@ -58,6 +61,7 @@ tags:
     - Victim
     type: Hostname
   - name: parent_process_name
+    type: Process
     role:
     - Parent Process
     type: Parent Process
@@ -80,3 +84,6 @@ tags:
   - _time
   risk_score: 36
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon
+  asset_type: Endpoint

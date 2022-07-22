@@ -1,0 +1,9 @@
+name: Windows CertUtil VerifyCtl Download  Unit Test
+tests:
+- name: Windows CertUtil VerifyCtl Download 
+  file: endpoint/ssa___windows_certutil_verifyctl_download_.yml
+  pass_condition: '@count_gt(0)'
+  attack_data:
+  - file_name: T1105-windows-security.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1105/atomic_red_team/T1105-windows-security.log
+    source: WinEventLog:Security

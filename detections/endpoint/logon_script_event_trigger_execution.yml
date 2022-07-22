@@ -23,16 +23,16 @@ how_to_implement: To successfully implement this search, you must be ingesting d
   to the registry.
 known_false_positives: unknown
 references:
-- https://attack.mitre.org/techniques/T1037/001
+- https://attack.mitre.org/techniques/T1037/001/
 tags:
   analytic_story:
   - Windows Persistence Techniques
   - Windows Privilege Escalation
-  automated_detection_testing: passed
+  - Hermetic Wiper 
   confidence: 100
   context:
-  - source:endpoint
-  - stage:Privilege Escalation Persistence
+  - Source:Endpoint
+  - Stage:Privilege Escalation
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1037.001/logonscript_reg/sysmon.log
   impact: 80
@@ -48,6 +48,7 @@ tags:
     - Victim
     type: Hostname
   - name: user
+    type: User
     role:
     - Victim
     type: user
@@ -64,3 +65,6 @@ tags:
   - _time
   risk_score: 80
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon
+  asset_type: Endpoint

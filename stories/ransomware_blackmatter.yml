@@ -4,11 +4,13 @@ version: 1
 date: '2021-09-06'
 author: Teoderick Contreras, Splunk
 description: Leverage searches that allow you to detect and investigate unusual activities
-  that might relate to the BlackMatter ransomware, including looking for file writes associated
-  with BlackMatter, force safe mode boot, autadminlogon account registry modification and more.
-narrative: BlackMatter ransomware campaigns targeting healthcare and other vertical sectors, involve the use of
-  ransomware payloads along with exfiltration of data per HHS bulletin. Malicious actors demand payment for
-  ransome of data and threaten deletion and exposure of exfiltrated data.
+  that might relate to the BlackMatter ransomware, including looking for file writes
+  associated with BlackMatter, force safe mode boot, autadminlogon account registry
+  modification and more.
+narrative: BlackMatter ransomware campaigns targeting healthcare and other vertical
+  sectors, involve the use of ransomware payloads along with exfiltration of data
+  per HHS bulletin. Malicious actors demand payment for ransome of data and threaten
+  deletion and exposure of exfiltrated data.
 references:
 - https://news.sophos.com/en-us/2021/08/09/blackmatter-ransomware-emerges-from-the-shadow-of-darkside/
 - https://www.bleepingcomputer.com/news/security/blackmatter-ransomware-gang-rises-from-the-ashes-of-darkside-revil/

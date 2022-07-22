@@ -23,7 +23,7 @@ tags:
 
 The wevtutil.exe application is the windows event log utility. This searches for wevtutil.exe with parameters for clearing the application, security, setup, powershell, sysmon, or system event logs.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2021-06-15
@@ -33,8 +33,8 @@ The wevtutil.exe application is the windows event log utility. This searches for
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
 
 | [T1070.001](https://attack.mitre.org/techniques/T1070/001/) | Clear Windows Event Logs | Defense Evasion |
@@ -52,14 +52,10 @@ The wevtutil.exe application is the windows event log utility. This searches for
 | into write_ssa_detected_events();
 ```
 
-#### Associated Analytic Story
-* [Windows Log Manipulation](/stories/windows_log_manipulation)
-* [Ransomware](/stories/ransomware)
-* [Clop Ransomware](/stories/clop_ransomware)
+#### Macros
+The SPL above uses the following Macros:
 
-
-#### How To Implement
-You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the &#34;process&#34; field in the Endpoint data model.
+Note that `wevtutil_usage_to_clear_logs_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -71,12 +67,21 @@ You must be ingesting data that records process activity from your hosts to popu
 * process
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the &#34;process&#34; field in the Endpoint data model.
 
 #### Known False Positives
 The wevtutil.exe application is a legitimate Windows event log utility. Administrators may use it to manage Windows event logs.
+
+#### Associated Analytic story
+* [Windows Log Manipulation](/stories/windows_log_manipulation)
+* [Ransomware](/stories/ransomware)
+* [Clop Ransomware](/stories/clop_ransomware)
+
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA
@@ -85,6 +90,8 @@ The wevtutil.exe application is a legitimate Windows event log utility. Administ
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | A wevtutil process $process_name$ with commandline $cmd_line$ to clear event logs in host $dest_device_id$ |
 
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 

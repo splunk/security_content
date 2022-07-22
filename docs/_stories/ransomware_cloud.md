@@ -8,6 +8,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - Exploitation
 ---
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -30,8 +31,8 @@ Ransomware is an ever-present risk to the enterprise, wherein an infected host e
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [AWS Detect Users creating keys with encrypt policy without MFA](/cloud/aws_detect_users_creating_keys_with_encrypt_policy_without_mfa/) | [Data Encrypted for Impact](/tags/#data-encrypted-for-impact) | TTP |
-| [AWS Detect Users with KMS keys performing encryption S3](/cloud/aws_detect_users_with_kms_keys_performing_encryption_s3/) | [Data Encrypted for Impact](/tags/#data-encrypted-for-impact) | Anomaly |
+| [AWS Detect Users creating keys with encrypt policy without MFA](/cloud/aws_detect_users_creating_keys_with_encrypt_policy_without_mfa/) | [Data Encrypted for Impact](/tags/#data-encrypted-for-impact)| TTP |
+| [AWS Detect Users with KMS keys performing encryption S3](/cloud/aws_detect_users_with_kms_keys_performing_encryption_s3/) | [Data Encrypted for Impact](/tags/#data-encrypted-for-impact)| Anomaly |
 
 #### Reference
 

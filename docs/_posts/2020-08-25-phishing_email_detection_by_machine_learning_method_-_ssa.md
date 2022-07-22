@@ -22,7 +22,7 @@ We have not been able to test, simulate, or build datasets for this detection. U
 
 Malicious mails can conduct phishing that induces readers to open attachment, click links or trigger third party service. This detect uses Natural Language Processing (NLP) approach to analyze an email message&#39;s content (Sender, Subject and Body) and judge whether it is a phishing email. The detection adopts a deep learning (neural network) model that employs character level embeddings plus LSTM layers to perform classification. The model is pre-trained and then published as ONNX format. Current sample model is trained using the dataset published at https://github.com/splunk/attack_data/tree/master/datasets/T1566_Phishing_Email/splunk_train.json User are expected to re-train the model by combining with their own training data for better accuracy using the provided model file (SMLE notebook). DSP pipeline then processes the email message and passes it as an event to Apply ML Models function, which returns the probability of a phishing email. Current implementation assumes the email is fed to DSP in JSON format contains at least email&#39;s sender, subject and its message body, including reply content, if any.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-08-25
@@ -32,8 +32,8 @@ Malicious mails can conduct phishing that induces readers to open attachment, cl
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1566](https://attack.mitre.org/techniques/T1566/) | Phishing | Initial Access |
 
 #### Search
@@ -53,23 +53,30 @@ Malicious mails can conduct phishing that induces readers to open attachment, cl
 | into write_ssa_detected_events();
 ```
 
-#### Associated Analytic Story
+#### Macros
+The SPL above uses the following Macros:
+
+Note that `phishing_email_detection_by_machine_learning_method_-_ssa_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+
+#### Required field
 
 
 #### How To Implement
 Events are fed to DSP contains at least email&#39;s sender, subject and its message body.
 
-#### Required field
+#### Known False Positives
+Because of imbalance of anomaly data in training, the model will less likely report false positive. Instead, the model is more prone to false negative. Current best recall score is ~85%
+
+#### Associated Analytic story
 
 
 #### Kill Chain Phase
 * Actions on Objectives
 
 
-#### Known False Positives
-Because of imbalance of anomaly data in training, the model will less likely report false positive. Instead, the model is more prone to false negative. Current best recall score is ~85%
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 

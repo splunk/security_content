@@ -5,8 +5,8 @@ main:
     url: /stories/
   - title: "Playbooks"
     url: /playbooks/
-  - title: "Tags"
-    url: /tags/
+  - title: "Blog"
+    url: https://www.splunk.com/en_us/blog/author/secmrkt-research.html
   - title: "About"
     url: https://www.splunk.com/en_us/cyber-security/threat-research.html
 detections:
@@ -38,55 +38,73 @@ detections:
         url: /detections/privilege_escalation/
       - title: Reconnaissance
         url: /detections/reconnaissance/
+      - title: Resource Development
+        url: /detections/resource_development/
   - title: "Datamodel"
     children:
       - title: Authentication
         url: /detections/authentication/
-      - title: Certificates
-        url: /detections/certificates/
       - title: Change
         url: /detections/change/
+      - title: Change_Analysis
+        url: /detections/change_analysis/
       - title: Email
         url: /detections/email/
       - title: Endpoint
         url: /detections/endpoint/
-      - title: Endpoint_Filesystem
-        url: /detections/endpoint_filesystem/
-      - title: Endpoint_Processes
-        url: /detections/endpoint_processes/
       - title: Network_Resolution
         url: /detections/network_resolution/
       - title: Network_Sessions
         url: /detections/network_sessions/
       - title: Network_Traffic
         url: /detections/network_traffic/
+      - title: Risk
+        url: /detections/risk/
+      - title: Splunk_Audit
+        url: /detections/splunk_audit/
+      - title: UEBA
+        url: /detections/ueba/
       - title: Updates
         url: /detections/updates/
+      - title: Vulnerabilities
+        url: /detections/vulnerabilities/
       - title: Web
         url: /detections/web/
   - title: "Product"
     children:
+      - title: "Splunk Enterprise"
+        url: /tags/#splunk-enterprise
+      - title: "Splunk Cloud"
+        url: /tags/#splunk-cloud
       - title: "Splunk Enterprise Security"
         url: /tags/#splunk-enterprise-security
       - title: "Splunk Behavioral Analytics"
         url: /tags/#splunk-behavioral-analytics
-      - title: "Splunk Security Analytics for AWS"
-        url: /tags/#splunk-security-analytics-for-aws
 stories:
   - title: "Use Case"
     children:
       - title: Abuse
         url: /stories/abuse/
+      - title: Account Compromise
+        url: /stories/account_compromise/
       - title: Adversary Tactics
         url: /stories/adversary_tactics/
       - title: Best Practices
         url: /stories/best_practices/
       - title: Cloud Security
         url: /stories/cloud_security/
+      - title: Data Destruction
+        url: /stories/data_destruction/
+      - title: Lateral Movement
+        url: /stories/lateral_movement/
       - title: Malware
         url: /stories/malware/
       - title: Privilege Escalation
         url: /stories/privilege_escalation/
+      - title: Ransomware
+        url: /stories/ransomware/
+      - title: Unauthorized Software
+        url: /stories/unauthorized_software/
       - title: Vulnerability
         url: /stories/vulnerability/
 playbooks:

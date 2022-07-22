@@ -22,7 +22,7 @@ tags:
   - Kubernetes Sensitive Role Activity
   asset_type: GCP GKE EKS Kubernetes cluster
   kill_chain_phases:
-  - Lateral Movement
+  - Exploitation
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -30,3 +30,14 @@ tags:
   required_fields:
   - _time
   security_domain: threat
+  confidence: 50
+  impact: 50
+  risk_score: 25
+  context:
+  - Unknown
+  message: tbd
+  observable:
+  - name: field
+    type: Unknown
+    role:
+    - Unknown

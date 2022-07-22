@@ -1,0 +1,40 @@
+
+{% for lookup in objects %}
+[{{ lookup.name }}]
+{% if lookup.filename is defined and lookup.filename != None %}
+filename = {{ lookup.filename  }}
+{% else %}
+collection = {{ lookup.collection }}
+external_type = kvstore
+{% endif %}
+{% if lookup.default_match is defined and lookup.default_match != None  %}
+default_match = {{ lookup.default_match }}
+{% endif %}
+{% if lookup.case_sensitive_match is defined and lookup.case_sensitive_match != None %}
+case_sensitive_match = {{ lookup.case_sensitive_match }}
+{% endif %}
+{% if lookup.description is defined and lookup.description != None %}
+# description = {{ lookup.description }}
+{% endif %}
+{% if lookup.match_type is defined and lookup.match_type != None %}
+match_type = {{ lookup.match_type }}
+{% endif %}
+{% if lookup.max_matches is defined and lookup.max_matches != None %}
+max_matches = {{ lookup.max_matches }}
+{% endif %}
+{% if lookup.min_matches is defined and lookup.min_matches != None %}
+min_matches = {{ lookup.min_matches }}
+{% endif %}
+{% if lookup.fields_list is defined and lookup.fields_list != None %}
+fields_list = {{ lookup.fields_list }}
+{% endif %}
+{% if lookup.filter is defined and lookup.filter != None %}
+filter = {{ lookup.filter }}
+{% endif %}
+
+{% endfor %}
+
+### Default transforms definitions for the lookup files we ship ###
+[mitre_enrichment]
+filename = mitre_enrichment.csv
+# description = A lookup file that is created by generate.py

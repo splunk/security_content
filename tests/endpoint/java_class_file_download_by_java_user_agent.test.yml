@@ -3,11 +3,10 @@ tests:
 - name: Java Class File download by Java User Agent
   file: endpoint/java_class_file_download_by_java_user_agent.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-24h'
-  latest_time: 'now'
+  earliest_time: -24h
+  latest_time: now
   attack_data:
   - file_name: java.log
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/java/java.log
     source: stream:http
     sourcetype: stream:http
-

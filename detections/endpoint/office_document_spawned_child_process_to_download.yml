@@ -25,11 +25,10 @@ how_to_implement: To successfully implement this search, you need to be ingestin
   used.
 known_false_positives: Default browser not in the filter list.
 references:
-- https://app.any.run/tasks/92d7ef61-bfd7-4c92-bc15-322172b4ebec/#
+- https://app.any.run/tasks/92d7ef61-bfd7-4c92-bc15-322172b4ebec/
 tags:
   analytic_story:
   - Spearphishing Attachments
-  automated_detection_testing: passed
   confidence: 50
   context:
   - Source:Endpoint
@@ -64,3 +63,6 @@ tags:
   - _time
   risk_score: 35
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon
+  asset_type: Endpoint

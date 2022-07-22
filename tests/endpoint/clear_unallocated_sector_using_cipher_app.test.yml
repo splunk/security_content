@@ -3,8 +3,8 @@ tests:
 - name: Clear Unallocated Sector Using Cipher App
   file: endpoint/clear_unallocated_sector_using_cipher_app.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-24h'
-  latest_time: 'now'
+  earliest_time: -24h
+  latest_time: now
   attack_data:
   - file_name: windows-sysmon.log
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data1/windows-sysmon.log

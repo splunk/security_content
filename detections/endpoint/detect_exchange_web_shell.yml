@@ -51,11 +51,10 @@ tags:
   analytic_story:
   - HAFNIUM Group
   - ProxyShell
-  automated_detection_testing: passed
   confidence: 90
   context:
   - Source:Endpoint
-  - Stage:Exploitation
+  - Stage:Execution
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.003/windows-sysmon_proxylogon.log
   impact: 90
@@ -67,6 +66,7 @@ tags:
   mitre_attack_id:
   - T1505
   - T1505.003
+  - T1190
   observable:
   - name: user
     role:
@@ -95,3 +95,6 @@ tags:
   - _time
   risk_score: 81
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon
+  asset_type: Endpoint

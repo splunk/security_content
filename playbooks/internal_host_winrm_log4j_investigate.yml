@@ -11,8 +11,8 @@ references: ["https://twitter.com/CyberRaiju/status/1469505677580124160"]
 app_list:
 - "Windows Remote Management"
 tags:
-  platform_tags:
-  - Response
+  platform_tags: []
+  playbook_type: Input
   playbook_fields: []
   product:
   - Splunk SOAR

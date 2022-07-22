@@ -26,8 +26,8 @@ tags:
   analytic_story:
   - 'Emotet Malware  DHS Report TA18-201A '
   - Suspicious Command-Line Executions
+  - Azorult
   asset_type: Endpoint
-  automated_detection_testing: passed
   cis20:
   - CIS 8
   confidence: 50
@@ -67,3 +67,5 @@ tags:
   - _time
   risk_score: 35
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon

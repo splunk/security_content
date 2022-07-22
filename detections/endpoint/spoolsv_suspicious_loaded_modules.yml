@@ -1,6 +1,6 @@
 name: Spoolsv Suspicious Loaded Modules
 id: a5e451f8-da81-11eb-b245-acde48001122
-version: 1
+version: 2
 date: '2021-07-01'
 author: Mauricio Velazco, Michael Haag, Teoderick Contreras, Splunk
 type: TTP
@@ -11,7 +11,7 @@ description: This search is to detect suspicious loading of dll in specific path
 search: '`sysmon` EventCode=7 Image ="*\\spoolsv.exe" ImageLoaded="*\\Windows\\System32\\spool\\drivers\\x64\\*"
   ImageLoaded = "*.dll" | stats dc(ImageLoaded) as countImgloaded values(ImageLoaded)
   as ImgLoaded count min(_time) as firstTime max(_time) as lastTime by Image Computer
-  process_id EventCode | where countImgloaded >= 3 | `security_content_ctime(firstTime)`
+  ProcessId EventCode | where countImgloaded >= 3 | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `spoolsv_suspicious_loaded_modules_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name and imageloaded executions from your endpoints. If you
@@ -22,7 +22,6 @@ references:
 tags:
   analytic_story:
   - PrintNightmare CVE-2021-34527
-  automated_detection_testing: passed
   confidence: 90
   context:
   - Source:Endpoint
@@ -67,3 +66,4 @@ tags:
   - ImageLoaded
   risk_score: 72
   security_domain: endpoint
+  asset_type: Endpoint

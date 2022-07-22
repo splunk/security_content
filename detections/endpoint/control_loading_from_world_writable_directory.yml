@@ -34,7 +34,7 @@ references:
 tags:
   analytic_story:
   - Microsoft MSHTML Remote Code Execution CVE-2021-40444
-  automated_detection_testing: passed
+  - Living Off The Land
   confidence: 100
   context:
   - Source:Endpoint
@@ -61,6 +61,7 @@ tags:
     - Victim
     type: Hostname
   - name: parent_process_name
+    type: Process
     role:
     - Parent Process
     type: Parent Process
@@ -83,3 +84,6 @@ tags:
   - Endpoint.Processes.user
   risk_score: 80
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon
+  asset_type: Endpoint

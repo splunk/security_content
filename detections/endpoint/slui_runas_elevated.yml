@@ -25,19 +25,18 @@ known_false_positives: Limited false positives should be present as this is not 
   used by legitimate applications.
 references:
 - https://www.exploit-db.com/exploits/46998
-- https://medium.com/@mattharr0ey/privilege-escalation-uac-bypass-in-changepk-c40b92818d1b
+- https://mattharr0ey.medium.com/privilege-escalation-uac-bypass-in-changepk-c40b92818d1b
 - https://gist.github.com/r00t-3xp10it/0c92cd554d3156fd74f6c25660ccc466
 - https://www.rapid7.com/db/modules/exploit/windows/local/bypassuac_sluihijack/
-- https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html
+- https://www.mandiant.com/resources/shining-a-light-on-darkside-ransomware-operations
 tags:
   analytic_story:
   - DarkSide Ransomware
   - Windows Defense Evasion Tactics
-  automated_detection_testing: passed
   confidence: 90
   context:
-  - source:endpoint
-  - stage: Privilege Escalation
+  - Source:Endpoint
+  - Stage:Privilege Escalation
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.002/slui/windows-sysmon.log
   impact: 70
@@ -72,3 +71,6 @@ tags:
   - _time
   risk_score: 63
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon
+  asset_type: Endpoint

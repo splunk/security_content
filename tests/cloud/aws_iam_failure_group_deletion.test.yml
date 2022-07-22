@@ -3,11 +3,11 @@ tests:
 - name: AWS IAM Failure Group Deletion
   file: cloud/aws_iam_failure_group_deletion.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-24h'
-  latest_time: 'now'
+  earliest_time: -24h
+  latest_time: now
   attack_data:
   - file_name: aws_iam_delete_policy.json
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/aws_iam_failure_group_deletion/aws_iam_failure_group_deletion.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
-    update_timestamp: True
+    update_timestamp: true

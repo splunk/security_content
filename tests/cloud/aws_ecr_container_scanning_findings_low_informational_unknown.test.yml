@@ -1,10 +1,10 @@
 name: AWS ECR Container Scanning Findings Low Informational Unknwon Unit Test
 tests:
-- name: AWS ECR Container Scanning Findings Low Informational Unknwon
+- name: AWS ECR Container Scanning Findings Low Informational Unknown
   file: cloud/aws_ecr_container_scanning_findings_low_informational_unknown.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-7d'
-  latest_time: 'now'
+  earliest_time: -7d
+  latest_time: now
   attack_data:
   - file_name: aws_ecr_scanning_findings_events.json
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204.003/aws_ecr_image_scanning/aws_ecr_scanning_findings_events.json

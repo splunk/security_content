@@ -3,18 +3,28 @@ id: b4453928-5a98-11ec-afcd-8de10b48fc52
 version: 1
 date: '2021-12-11'
 author: Jose Hernandez
-description: 'Log4Shell or CVE-2021-44228 is a Remote Code Execution (RCE) vulnerability in the Apache Log4j library, a widely used and ubiquitous logging framework for Java.
-  The vulnerability allows an attacker who can control log messages to execute arbitrary code loaded from attacker-controlled servers and we anticipate that most apps using the Log4j library will meet this condition.'
-narrative: 'In late November 2021, Chen Zhaojun of Alibaba identified a remote code execution vulnerability. Previous work was seen in a 2016 Blackhat talk by Alvaro Munoz and Oleksandr Mirosh called ["A Journey from JNDI/LDAP Manipulation to Remote Code Execution Dream Land"](https://www.blackhat.com/docs/us-16/materials/us-16-Munoz-A-Journey-From-JNDI-LDAP-Manipulation-To-RCE.pdf). Reported under the CVE ID : CVE-2021-44228, released to the public on December 10, 2021. The vulnerability is exploited through improper deserialization of user input passed into the framework. It permits remote code execution and it can allow an attacker to leak sensitive data, such as environment variables, or execute malicious software on the target system.'
+description: Log4Shell or CVE-2021-44228 is a Remote Code Execution (RCE) vulnerability
+  in the Apache Log4j library, a widely used and ubiquitous logging framework for
+  Java. The vulnerability allows an attacker who can control log messages to execute
+  arbitrary code loaded from attacker-controlled servers and we anticipate that most
+  apps using the Log4j library will meet this condition.
+narrative: 'In late November 2021, Chen Zhaojun of Alibaba identified a remote code
+  execution vulnerability. Previous work was seen in a 2016 Blackhat talk by Alvaro
+  Munoz and Oleksandr Mirosh called ["A Journey from JNDI/LDAP Manipulation to Remote
+  Code Execution Dream Land"](https://www.blackhat.com/docs/us-16/materials/us-16-Munoz-A-Journey-From-JNDI-LDAP-Manipulation-To-RCE.pdf).
+  Reported under the CVE ID : CVE-2021-44228, released to the public on December 10,
+  2021. The vulnerability is exploited through improper deserialization of user input
+  passed into the framework. It permits remote code execution and it can allow an
+  attacker to leak sensitive data, such as environment variables, or execute malicious
+  software on the target system.'
 references:
-  - https://mbechler.github.io/2021/12/10/PSA_Log4Shell_JNDI_Injection/
-  - https://www.fastly.com/blog/digging-deeper-into-log4shell-0day-rce-exploit-found-in-log4j
-  - https://www.crowdstrike.com/blog/log4j2-vulnerability-analysis-and-mitigation-recommendations/
-  - https://www.lunasec.io/docs/blog/log4j-zero-day/
-  - https://www.splunk.com/en_us/blog/security/log-jammin-log4j-2-rce.html
+- https://mbechler.github.io/2021/12/10/PSA_Log4Shell_JNDI_Injection/
+- https://www.fastly.com/blog/digging-deeper-into-log4shell-0day-rce-exploit-found-in-log4j
+- https://www.crowdstrike.com/blog/log4j2-vulnerability-analysis-and-mitigation-recommendations/
+- https://www.lunasec.io/docs/blog/log4j-zero-day/
+- https://www.splunk.com/en_us/blog/security/log-jammin-log4j-2-rce.html
 tags:
-  analytic_story:
-  - Log4Shell CVE-2021-44228
+  analytic_story: Log4Shell CVE-2021-44228
   category:
   - Adversary Tactics
   product:

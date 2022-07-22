@@ -30,7 +30,6 @@ tags:
   analytic_story:
   - XMRig
   - Ransomware
-  automated_detection_testing: passed
   confidence: 100
   context:
   - Source:Endpoint
@@ -68,3 +67,6 @@ tags:
   - _time
   risk_score: 80
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon
+  asset_type: Endpoint

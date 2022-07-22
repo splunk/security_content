@@ -1,5 +1,5 @@
 name: Suspicious Java Classes
-id: if1fea6da-3c86-4c1d-b255-fc3b2781a491
+id: 6ed33786-5e87-4f55-b62c-cb5f1168b831
 version: 1
 date: '2018-12-06'
 author: Jose Hernandez, Splunk
@@ -44,3 +44,17 @@ tags:
   - src
   - dest
   security_domain: threat
+  confidence: 50
+  impact: 50
+  risk_score: 25
+  context: []
+  message: tbd
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim

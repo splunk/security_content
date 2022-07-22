@@ -31,12 +31,11 @@ known_false_positives: A network operator or systems administrator may utilize a
   automated host discovery application that may generate false positives. Filter as
   needed.
 references:
-- https://www.fireeye.com/blog/threat-research/2018/08/fin7-pursuing-an-enigmatic-and-evasive-global-criminal-operation.html
+- https://www.mandiant.com/resources/fin7-pursuing-an-enigmatic-and-evasive-global-criminal-operation
 - https://attack.mitre.org/groups/G0046/
 tags:
   analytic_story:
   - FIN7
-  automated_detection_testing: passed
   confidence: 80
   context:
   - Source:Endpoint
@@ -61,6 +60,7 @@ tags:
     - Victim
     type: User
   - name: parent_process_name
+    type: Process
     role:
     - Parent Process
     type: Parent Process
@@ -84,3 +84,6 @@ tags:
   - _time
   risk_score: 56
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon
+  asset_type: Endpoint

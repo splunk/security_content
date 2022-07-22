@@ -1,0 +1,12 @@
+name: Windows PowerView Constrained Delegation Discovery Unit Test
+tests:
+- name: Windows PowerView Constrained Delegation Discovery
+  file: endpoint/windows_powerview_constrained_delegation_discovery.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: windows-powershell.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1018/constrained/windows-powershell.log
+    source: WinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: WinEventLog

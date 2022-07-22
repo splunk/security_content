@@ -31,11 +31,12 @@ tags:
   analytic_story:
   - Windows Persistence Techniques
   - Windows Privilege Escalation
-  automated_detection_testing: passed
+  - Windows Registry Abuse
+  - Hermetic Wiper 
   confidence: 90
   context:
-  - source:endpoint
-  - stage:Privilege Escalation Persistence
+  - Source:Endpoint
+  - Stage:Privilege Escalation
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.002/scrnsave_reg/sysmon.log
   impact: 80
@@ -51,6 +52,7 @@ tags:
     - Victim
     type: Hostname
   - name: user
+    type: User
     role:
     - Victim
     type: user
@@ -67,3 +69,6 @@ tags:
   - _time
   risk_score: 72
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon
+  asset_type: Endpoint

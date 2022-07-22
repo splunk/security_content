@@ -29,17 +29,17 @@ how_to_implement: To successfully implement this search, you need to be ingestin
 known_false_positives: unknown
 references:
 - https://labs.vipre.com/trickbot-and-its-modules/
-- https://blog.whitehat.eu/2019/05/incident-trickbot-ryuk-2.html
+- https://whitehat.eu/incident-response-case-study-featuring-ryuk-and-trickbot-part-2/
 tags:
   analytic_story:
   - Windows Persistence Techniques
   - Trickbot
   - IcedID
-  automated_detection_testing: passed
+  - Living Off The Land
   confidence: 100
   context:
-  - source:endpoint
-  - stage: Defense Evasion
+  - Source:Endpoint
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/tasksched/windows-security.log
   impact: 70
@@ -53,11 +53,6 @@ tags:
   - name: dest
     role:
     - Victim
-    type: Hostname
-  - name: Arguments
-    role:
-    - Attacker
-    type: Arguments
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -73,3 +68,4 @@ tags:
   - Arguments
   risk_score: 70
   security_domain: endpoint
+  asset_type: Endpoint

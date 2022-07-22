@@ -1,5 +1,5 @@
 name: Abnormally High AWS Instances Terminated by User
-id: ada0f478-84a8-4641-s3f3-d82362dffd75
+id: 8d301246-fccf-45e2-a8e7-3655fd14379c
 version: 2
 date: '2020-07-21'
 author: Bhavin Patel, Splunk
@@ -48,3 +48,14 @@ tags:
   - errorCode
   - userName
   security_domain: network
+  confidence: 50
+  impact: 50
+  risk_score: 25
+  context:
+  - Unknown
+  message: tbd
+  observable:
+  - name: field
+    type: Unknown
+    role:
+    - Unknown

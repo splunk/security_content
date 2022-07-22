@@ -1,47 +1,53 @@
 name: RunDLL Loading DLL By Ordinal
 id: 6c135f8d-5e60-454e-80b7-c56eed739833
-version: 5
-date: '2020-11-30'
-author: David Dorsey, Splunk
+version: 6
+date: '2022-02-08'
+author: Michael Haag, David Dorsey, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: This search looks for executing scripts with rundll32. Adversaries may
-  abuse rundll32.exe to proxy execution of malicious code. Using rundll32.exe, vice
-  executing directly, may avoid triggering security tools that may not monitor execution
-  of the rundll32.exe process because of allowlists or false positives from normal
-  operations.
+description: The following analytic identifies rundll32.exe loading an export function
+  by ordinal value. Adversaries may abuse rundll32.exe to proxy execution of malicious
+  code. Using rundll32.exe, vice executing directly, may avoid triggering security
+  tools that may not monitor execution of the rundll32.exe process because of allowlists
+  or false positives from normal operations. Utilizing ordinal values makes it a bit
+  more complicated for analysts to understand the behavior until the DLL is reviewed.
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
   min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
-  where `process_rundll32` by Processes.process_name Processes.parent_process_name
-  Processes.original_file_name Processes.process Processes.dest Processes.user | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `rundll_loading_dll_by_ordinal_filter`'
+  where `process_rundll32` by Processes.dest Processes.user Processes.parent_process_name
+  Processes.process_name Processes.original_file_name Processes.process Processes.process_id
+  Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | where match(process,"rundll32.+\#\d+") |
+  `rundll_loading_dll_by_ordinal_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
   confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
   endpoint product.
-known_false_positives: While not common, loading a DLL under %AppData% and calling
-  a function by ordinal is possible by a legitimate process
-references: []
+known_false_positives: False positives are possible with native utilities and third
+  party applications. Filtering may be needed based on command-line, or add world
+  writeable paths to restrict query.
+references:
+- https://thedfirreport.com/2022/02/07/qbot-likes-to-move-it-move-it/
 tags:
   analytic_story:
   - Unusual Processes
+  - Suspicious Rundll32 Activity
+  - Living Off The Land
   asset_type: Endpoint
-  automated_detection_testing: passed
   cis20:
   - CIS 8
-  confidence: 100
+  confidence: 70
   context:
-  - source:endpoint
-  - stage: Defense Evasion
+  - Source:Endpoint
+  - Stage:Defense Evasion
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.011/atomic_red_team/windows-sysmon.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.011/atomic_red_team/ordinal_windows-sysmon.log
   impact: 70
   kill_chain_phases:
   - Installation
   message: A rundll32 process $process_name$ with ordinal parameter like this process
-    commandline $process$ in host $dest$
+    commandline $process$ on host $dest$.
   mitre_attack_id:
   - T1218
   - T1218.011
@@ -54,6 +60,7 @@ tags:
     - Victim
     type: Hostname
   - name: user
+    type: User
     role:
     - Victim
     type: user
@@ -69,5 +76,16 @@ tags:
   - Endpoint.Processes.process_name
   - Endpoint.Processes.user
   - _time
-  risk_score: 70
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.parent_process
+  - Processes.original_file_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_path
+  - Processes.process_path
+  - Processes.parent_process_id
+  risk_score: 49
   security_domain: endpoint

@@ -1,0 +1,337 @@
+{
+    "blockly": false,
+    "blockly_xml": "<xml></xml>",
+    "category": "Cloud",
+    "coa": {
+        "data": {
+            "description": "Disable a list of AWS IAM user accounts. After checking the list of accounts against an allowlist and confirming with an analyst, each account is disabled. The change can be reversed with the \"enable user\" action.",
+            "edges": [
+                {
+                    "id": "port_0_to_port_2",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "2",
+                    "targetPort": "2_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 1
+                        }
+                    ],
+                    "id": "port_2_to_port_3",
+                    "sourceNode": "2",
+                    "sourcePort": "2_out",
+                    "targetNode": "3",
+                    "targetPort": "3_in"
+                },
+                {
+                    "id": "port_3_to_port_4",
+                    "sourceNode": "3",
+                    "sourcePort": "3_out",
+                    "targetNode": "4",
+                    "targetPort": "4_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_4_to_port_5",
+                    "sourceNode": "4",
+                    "sourcePort": "4_out",
+                    "targetNode": "5",
+                    "targetPort": "5_in"
+                },
+                {
+                    "id": "port_5_to_port_1",
+                    "sourceNode": "5",
+                    "sourcePort": "5_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_2_to_port_9",
+                    "sourceNode": "2",
+                    "sourcePort": "2_out",
+                    "targetNode": "9",
+                    "targetPort": "9_in"
+                }
+            ],
+            "hash": "5f38423da066d88fdb15072fc93346ea05c4fafe",
+            "nodes": {
+                "0": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_start",
+                        "id": "0",
+                        "type": "start"
+                    },
+                    "errors": {},
+                    "id": "0",
+                    "type": "start",
+                    "x": 150,
+                    "y": 0
+                },
+                "1": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionId": 1,
+                        "functionName": "on_finish",
+                        "id": "1",
+                        "type": "end"
+                    },
+                    "errors": {},
+                    "id": "1",
+                    "type": "end",
+                    "userCode": "\n    # This function is called after all actions are completed.\n    # summary of all the action and/or all details of actions\n    # can be collected here.\n\n    # summary_json = phantom.get_summary()\n    # if 'result' in summary_json:\n        # for action_result in summary_json['result']:\n            # if 'action_run_id' in action_result:\n                # action_results = phantom.get_action_results(action_run_id=action_result['action_run_id'], result_data=False, flatten=False)\n                # phantom.debug(action_results)\n\n",
+                    "x": 20,
+                    "y": 836
+                },
+                "2": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "in",
+                                        "param": "playbook_input:aws_username",
+                                        "value": "custom_list:aws_inactive_user_allowlist"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "user in allowlist",
+                                "logic": "and"
+                            },
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 1,
+                                        "op": "not in",
+                                        "param": "playbook_input:aws_username",
+                                        "value": "custom_list:aws_inactive_user_allowlist"
+                                    }
+                                ],
+                                "conditionIndex": 1,
+                                "customName": "user not in allowlist",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 1,
+                        "functionName": "filter_1",
+                        "id": "2",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "2",
+                    "type": "filter",
+                    "x": 190,
+                    "y": 148
+                },
+                "3": {
+                    "data": {
+                        "advanced": {
+                            "customName": "aws_disable_user_check",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "approver": "proyer",
+                        "functionId": 1,
+                        "functionName": "aws_disable_user_check",
+                        "id": "3",
+                        "message": "The following AWS user(s) were found to be inactive:\n\n```\n{0}\n```",
+                        "parameters": [
+                            "filtered-data:filter_1:condition_2:playbook_input:aws_username"
+                        ],
+                        "responseTime": 30,
+                        "responses": [
+                            {
+                                "responseOptions": [
+                                    "Yes",
+                                    "No"
+                                ],
+                                "responsePrompt": "Should those user account(s) be disabled?",
+                                "responseType": "yes/no"
+                            }
+                        ],
+                        "type": "prompt"
+                    },
+                    "errors": {},
+                    "id": "3",
+                    "type": "prompt",
+                    "x": 80,
+                    "y": 328
+                },
+                "4": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "==",
+                                        "param": "aws_disable_user_check:action_result.summary.responses.0",
+                                        "value": "Yes"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "display": "If",
+                                "logic": "and",
+                                "type": "if"
+                            }
+                        ],
+                        "functionId": 1,
+                        "functionName": "decision_1",
+                        "id": "4",
+                        "type": "decision"
+                    },
+                    "errors": {},
+                    "id": "4",
+                    "type": "decision",
+                    "x": 80,
+                    "y": 508
+                },
+                "5": {
+                    "data": {
+                        "action": "disable user",
+                        "actionType": "contain",
+                        "advanced": {
+                            "join": []
+                        },
+                        "connector": "AWS IAM",
+                        "connectorConfigs": [
+                            "aws_iam"
+                        ],
+                        "connectorId": 46,
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "disable_user_1",
+                        "id": "5",
+                        "parameters": {
+                            "disable_access_keys": true,
+                            "username": "filtered-data:filter_1:condition_2:playbook_input:aws_username"
+                        },
+                        "requiredParameters": [
+                            "username"
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "5",
+                    "type": "action",
+                    "x": 0,
+                    "y": 688
+                },
+                "9": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "indicator_tag",
+                            "repoName": "community"
+                        },
+                        "functionId": 4,
+                        "functionName": "indicator_tag_4",
+                        "id": "9",
+                        "selectMore": false,
+                        "type": "utility",
+                        "utilities": {
+                            "indicator_tag": {
+                                "description": "Tag an existing indicator record. Tags can be overwritten or appended.",
+                                "fields": [
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "Specifies the indicator which the tag will be added to. Supports a string indicator value or an indicator id.",
+                                        "inputType": "item",
+                                        "label": "indicator",
+                                        "name": "indicator",
+                                        "placeholder": "my_indicator",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "Comma separated list of tags. Tags should only contain characters Aa-Zz, 0-9, '-', and '_'.",
+                                        "inputType": "item",
+                                        "label": "tags",
+                                        "name": "tags",
+                                        "placeholder": "tag1,tag2,...,tagk",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Optional input. Either \"true\" or \"false\" with default as \"false\". If set to \"true\", existing tags on the indicator record will be replaced by the provided input. If set to \"false\", the new tags will be appended to the existing indicator tags.",
+                                        "inputType": "item",
+                                        "label": "overwrite",
+                                        "name": "overwrite",
+                                        "placeholder": "false",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "indicator_tag",
+                                "name": "indicator_tag"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "indicator_tag": {
+                                "indicator": "filtered-data:filter_1:condition_1:playbook_input:aws_username",
+                                "overwrite": null,
+                                "tags": "aws_inactive_user_allowlist"
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "9",
+                    "type": "utility",
+                    "x": 260,
+                    "y": 344
+                }
+            },
+            "notes": "This playbook uses the following Apps:\n - AWS IAM (disable user) [asset name = aws_iam] - disable AWS user accounts\n\nDeployment Notes:\n - works with the community playbook \"aws_find_inactive_users\" using the usernames discovered by that playbook\n - change the prompt block from admin to the correct analyst user or role\n - create a custom list called aws_inactive_user_allowlist. Any user names in that list will be ignored by this playbook."
+        },
+        "input_spec": [
+            {
+                "contains": [],
+                "description": "One or more AWS account usernames to disable",
+                "name": "aws_username"
+            }
+        ],
+        "output_spec": null,
+        "playbook_type": "data",
+        "python_version": "3",
+        "schema": "5.0.3",
+        "version": "5.0.1.66250"
+    },
+    "create_time": "2021-11-01T20:24:56.751674+00:00",
+    "draft_mode": false,
+    "labels": [
+        "*"
+    ],
+    "tags": []
+}

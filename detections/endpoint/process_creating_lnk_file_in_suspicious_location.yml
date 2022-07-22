@@ -34,14 +34,13 @@ tags:
   analytic_story:
   - Spearphishing Attachments
   asset_type: Endpoint
-  automated_detection_testing: passed
   cis20:
   - CIS 7
   - CIS 8
   confidence: 90
   context:
-  - source:endpoint
-  - stage: Initial Access
+  - Source:Endpoint
+  - Stage:Initial Access
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.002/lnk_file_temp_folder/windows-sysmon.log
   impact: 70
@@ -62,6 +61,7 @@ tags:
     - Victim
     type: Hostname
   - name: user
+    type: User
     role:
     - Victim
     type: user
@@ -84,3 +84,5 @@ tags:
   - _time
   risk_score: 63
   security_domain: network
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon

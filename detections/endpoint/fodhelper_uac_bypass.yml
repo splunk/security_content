@@ -33,12 +33,11 @@ references:
 - https://blog.malwarebytes.com/malwarebytes-news/2021/02/lazyscripter-from-empire-to-double-rat/
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1548.002/T1548.002.md
 - https://github.com/gushmazuko/WinBypass/blob/master/FodhelperBypass.ps1
-- https://attack.mitre.org/techniques/T1548/002
+- https://attack.mitre.org/techniques/T1548/002/
 tags:
   analytic_story:
   - Windows Defense Evasion Tactics
   - IcedID
-  automated_detection_testing: passed
   confidence: 90
   context:
   - Source:Endpoint
@@ -48,7 +47,6 @@ tags:
   impact: 90
   kill_chain_phases:
   - Exploitation
-  - Privilege Escalation
   message: Suspcious registy keys added by process fodhelper.exe (process_id- $process_id),
     with a parent_process of $parent_process_name$ that has been executed on $dest$
     by $user$.
@@ -86,3 +84,6 @@ tags:
   - _time
   risk_score: 81
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon
+  asset_type: Endpoint

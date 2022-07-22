@@ -8,7 +8,7 @@ datamodel:
 - Endpoint
 description: The following analytic will detect a suspicious process running in a
   file path where a process is not commonly seen and is most commonly used by malicious
-  softtware. This behavior has been used by adversaries where they drop and run an
+  software. This behavior has been used by adversaries where they drop and run an
   exe in a path that is accessible without admin privileges.
 search: '| tstats `security_content_summariesonly` count values(Processes.process_name)
   as process_name values(Processes.process) as process min(_time) as firstTime max(_time)
@@ -18,10 +18,10 @@ search: '| tstats `security_content_summariesonly` count values(Processes.proces
   = "*\\Users\\Administrator\\Music\\*" OR Processes.process_path.file_path = "*\\Windows\\servicing\\*"
   OR Processes.process_path.file_path = "*\\Users\\Default\\*" OR Processes.process_path.file_path
   = "*Recycle.bin*" OR Processes.process_path = "*\\Windows\\Media\\*" OR Processes.process_path
-  = "\\Windows\\repair\\*" OR Processes.process_path = "*\\temp\\*" by Processes.parent_process_name
-  Processes.parent_process Processes.process_path Processes.dest Processes.user |
-  `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `suspicious_process_file_path_filter`'
+  = "\\Windows\\repair\\*" OR Processes.process_path = "*\\temp\\*" OR Processes.process_path
+  = "*\\PerfLogs\\*" by Processes.parent_process_name Processes.parent_process Processes.process_path
+  Processes.dest Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `suspicious_process_file_path_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node.
@@ -29,10 +29,16 @@ known_false_positives: Administrators may allow execution of specific binaries i
   non-standard paths. Filter as needed.
 references:
 - https://www.trendmicro.com/vinfo/hk/threat-encyclopedia/malware/trojan.ps1.powtran.a/
+- https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
 tags:
   analytic_story:
+  - Data Destruction 
+  - Double Zero Destructor
   - XMRig
   - Remcos
+  - WhisperGate
+  - Hermetic Wiper
+  - Industroyer2
   automated_detection_testing: passed
   confidence: 50
   context:
@@ -72,3 +78,6 @@ tags:
   - _time
   risk_score: 35
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon
+  asset_type: Endpoint

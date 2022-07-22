@@ -1,7 +1,7 @@
 name: Disable AMSI Through Registry
 id: 9c27ec42-d338-11eb-9044-acde48001122
-version: 1
-date: '2021-06-22'
+version: 2
+date: '2022-01-26'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
@@ -12,9 +12,17 @@ description: this search is to identify modification in registry to disable AMSI
   payload with minimal alert as much as possible.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows
-  Script\\Settings\\AmsiEnable" Registry.registry_value_data = "0x00000000" by Registry.registry_path
-  Registry.registry_key_name Registry.registry_value_data Registry.dest | `drop_dm_object_name(Registry)`
-  | `security_content_ctime(firstTime)` |`security_content_ctime(lastTime)` | `disable_amsi_through_registry_filter`'
+  Script\\Settings\\AmsiEnable" Registry.registry_value_data = "0x00000000" by _time
+  span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_value_name
+  Registry.registry_value_data Registry.process_guid | `drop_dm_object_name(Registry)`
+  |rename process_guid as proc_guid |join proc_guid, _time [| tstats `security_content_summariesonly`
+  count FROM datamodel=Endpoint.Processes by _time span=1h Processes.process_id Processes.process_name
+  Processes.process Processes.dest Processes.parent_process_name Processes.parent_process
+  Processes.process_guid | `drop_dm_object_name(Processes)` |rename process_guid as
+  proc_guid | fields _time dest user parent_process_name parent_process process_name
+  process_path process proc_guid registry_path registry_value_name registry_value_data]
+  | table _time dest user parent_process_name parent_process process_name process_path
+  process proc_guid registry_path registry_value_name registry_value_data | `disable_amsi_through_registry_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure
@@ -27,14 +35,23 @@ references:
 tags:
   analytic_story:
   - Ransomware
-  automated_detection_testing: passed
+  - Windows Registry Abuse
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data2/windows-sysmon.log
   kill_chain_phases:
   - Exploitation
+  message: Disable AMSI Through Registry
   mitre_attack_id:
   - T1562.001
   - T1562
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -46,3 +63,9 @@ tags:
   - Endpoint.Registry.registry_value_data
   - _time
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon
+  asset_type: Endpoint
+  confidence: 50
+  impact: 50
+  risk_score: 25.0

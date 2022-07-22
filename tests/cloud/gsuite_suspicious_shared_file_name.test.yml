@@ -3,10 +3,10 @@ tests:
 - name: Gsuite Suspicious Shared File Name
   file: cloud/gsuite_suspicious_shared_file_name.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-24h'
-  latest_time: 'now'
+  earliest_time: -24h
+  latest_time: now
   attack_data:
   - file_name: gdrive_susp_attach.log
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/gdrive_susp_file_share/gdrive_susp_attach.log
     source: http:gsuite
-    sourcetype: gsuite:drive:json 
+    sourcetype: gsuite:drive:json

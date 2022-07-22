@@ -1,7 +1,7 @@
 name: DLLHost with no Command Line Arguments with Network
 id: f1c07594-a141-11eb-8407-acde48001122
-version: 2
-date: '2021-10-13'
+version: 3
+date: '2022-03-15'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
@@ -13,14 +13,14 @@ description: The following analytic identifies DLLHost.exe with no command line 
   parallel processes. Identify any suspicious module loads related to credential dumping
   or file writes. DLLHost.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64.
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
-  where Processes.process_name="dllhost.exe" by _time span=1h  Processes.process_guid
+  where Processes.process_name=dllhost.exe by _time span=1h  Processes.process_id
   Processes.process_name Processes.dest Processes.process_path Processes.process Processes.parent_process_name
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | regex process="(dllhost\.exe.{0,4}$)" | join  process_guid [| tstats `security_content_summariesonly`
-  count FROM datamodel=Endpoint.Ports where Ports.dest_port !="0" by Ports.process_guid
-  Ports.dest Ports.dest_port | `drop_dm_object_name(Ports)` | rename  dest as connection_to_CNC]
-  | table _time dest parent_process_name process_name process_path process process_guid
-  connection_to_CNC dest_port | `dllhost_with_no_command_line_arguments_with_network_filter`'
+  | regex process="(?i)(dllhost\.exe.{0,4}$)" | join  process_id [| tstats `security_content_summariesonly`
+  count FROM datamodel=Network_Traffic.All_Traffic where All_Traffic.dest_port != 0 by All_Traffic.process_id
+  All_Traffic.dest All_Traffic.dest_port | `drop_dm_object_name(All_Traffic)` | rename dest as C2 ]
+  | table _time dest parent_process_name process_name process_path process process_id dest_port C2 
+  | `dllhost_with_no_command_line_arguments_with_network_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` and `port` node.
@@ -28,11 +28,10 @@ known_false_positives: Although unlikely, some legitimate third party applicatio
   may use a moved copy of dllhost, triggering a false positive.
 references:
 - https://raw.githubusercontent.com/threatexpress/malleable-c2/c3385e481159a759f79b8acfe11acf240893b830/jquery-c2.4.2.profile
-- https://blog.cobaltstrike.com/2021/02/09/learn-pipe-fitting-for-all-of-your-offense-projects/
+- https://www.cobaltstrike.com/blog/learn-pipe-fitting-for-all-of-your-offense-projects/
 tags:
   analytic_story:
   - Cobalt Strike
-  automated_detection_testing: passed
   confidence: 70
   context:
   - Source:Endpoint
@@ -56,6 +55,7 @@ tags:
     - Victim
     type: Hostname
   - name: parent_image
+    type: Process
     role:
     - Parent Process
     type: Parent Process
@@ -84,3 +84,4 @@ tags:
   - process_path
   risk_score: 49
   security_domain: endpoint
+  asset_type: Endpoint

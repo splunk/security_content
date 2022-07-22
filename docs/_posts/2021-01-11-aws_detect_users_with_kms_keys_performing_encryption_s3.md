@@ -1,6 +1,7 @@
 ---
 title: "AWS Detect Users with KMS keys performing encryption S3"
-excerpt: "Data Encrypted for Impact"
+excerpt: "Data Encrypted for Impact
+"
 categories:
   - Cloud
 last_modified_at: 2021-01-11
@@ -9,7 +10,6 @@ toc_label: ""
 tags:
   - Data Encrypted for Impact
   - Impact
-  - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -17,27 +17,78 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search provides detection of users with KMS keys performing encryption specifically against S3 buckets.
 
-- **Type**: Anomaly
-- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+
 - **Last Updated**: 2021-01-11
 - **Author**: Rod Soto, Patrick Bareiss Splunk
 - **ID**: 884a5f59-eec7-4f4a-948b-dbde18225fdc
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Annotations
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+<details>
+  <summary>ATT&CK</summary>
+
+<div markdown="1">
+
+
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1486](https://attack.mitre.org/techniques/T1486/) | Data Encrypted for Impact | Impact |
 
-#### Search
+</div>
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+<div markdown="1">
+
+* Exploitation
+
+
+</div>
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+<div markdown="1">
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+<div markdown="1">
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+<div markdown="1">
+
+
+</div>
+</details>
+
+#### Search 
 
 ```
 `cloudtrail` eventName=CopyObject requestParameters.x-amz-server-side-encryption="aws:kms" 
@@ -48,12 +99,13 @@ This search provides detection of users with KMS keys performing encryption spec
 |`aws_detect_users_with_kms_keys_performing_encryption_s3_filter`
 ```
 
-#### Associated Analytic Story
-* [Ransomware Cloud](/stories/ransomware_cloud)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
 
-
-#### How To Implement
-You must install splunk AWS add on and Splunk App for AWS. This search works with AWS CloudTrail logs
+> :information_source:
+> **aws_detect_users_with_kms_keys_performing_encryption_s3_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -66,11 +118,16 @@ You must install splunk AWS add on and Splunk App for AWS. This search works wit
 * region
 
 
-#### Kill Chain Phase
-
+#### How To Implement
+You must install splunk AWS add on and Splunk App for AWS. This search works with AWS CloudTrail logs
 
 #### Known False Positives
 bucket with S3 encryption
+
+#### Associated Analytic story
+* [Ransomware Cloud](/stories/ransomware_cloud)
+
+
 
 
 #### RBA
@@ -80,7 +137,8 @@ bucket with S3 encryption
 | 15.0 | 30 | 50 | User $user$ with KMS keys is performing encryption, against S3 buckets on these files $dest_file$ |
 
 
-
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 
@@ -91,8 +149,9 @@ bucket with S3 encryption
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1486/s3_file_encryption/aws_cloudtrail_events.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1486/s3_file_encryption/aws_cloudtrail_events.json)
 

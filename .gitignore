@@ -115,3 +115,10 @@ package/bin/sftp-config.json
 package/default/sftp-config.json
 *.code-snippets
 notes
+
+# detection_testing_batch innteractive mode
+bin/docker_detection_tester/*-test-run.json
+bin/docker_detection_tester/apps/
+bin/docker_detection_tester/security_content/
+bin/docker_detection_tester/test_config.json
+bin/docker_detection_tester/test_results/

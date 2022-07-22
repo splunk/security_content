@@ -3,8 +3,8 @@ tests:
 - name: Suspicious Copy on System32
   file: endpoint/suspicious_copy_on_system32.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-24h'
-  latest_time: 'now'
+  earliest_time: -24h
+  latest_time: now
   attack_data:
   - file_name: sysmon.log
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.003/copy_sysmon/sysmon.log

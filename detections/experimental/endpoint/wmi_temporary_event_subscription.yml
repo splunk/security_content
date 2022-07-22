@@ -46,3 +46,13 @@ tags:
   - Message
   - query
   security_domain: endpoint
+  confidence: 50
+  impact: 50
+  risk_score: 25
+  context: []
+  message: tbd
+  observable:
+  - name: dest
+    type: Other
+    role:
+    - Other

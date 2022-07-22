@@ -8,7 +8,7 @@ toc: true
 toc_label: ""
 tags:
   - Ingress Tool Transfer
-  - Command And Control
+  - Command & Control
   - Splunk Behavioral Analytics
   - Endpoint_Processes
 ---
@@ -25,7 +25,7 @@ The following analytic identifies the use of Windows Curl.exe uploading a file t
 HTTP multipart formposts are done with `-F`, but this appears to not be compatible with the Windows version of Curl. Will update if identified adversary tradecraft. \
 Adversaries may use one of the three methods based on the remote destination and what they are attempting to upload (zip vs txt). During triage, review parallel processes for further behavior. In addition, identify if the upload was successful in network logs. If a file was uploaded, isolate the endpoint and review.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2021-12-03
@@ -35,8 +35,8 @@ Adversaries may use one of the three methods based on the remote destination and
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1105](https://attack.mitre.org/techniques/T1105/) | Ingress Tool Transfer | Command And Control |
 
 #### Search
@@ -54,12 +54,10 @@ Adversaries may use one of the three methods based on the remote destination and
 | into write_ssa_detected_events();
 ```
 
-#### Associated Analytic Story
-* [Ingress Tool Transfer](/stories/ingress_tool_transfer)
+#### Macros
+The SPL above uses the following Macros:
 
-
-#### How To Implement
-To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint_Processess` datamodel.
+Note that `windows_curl_upload_to_remote_destination_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -72,12 +70,19 @@ To successfully implement this search you need to be ingesting information on pr
 * cmd_line
 
 
-#### Kill Chain Phase
-* Exfiltration
-
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint_Processess` datamodel.
 
 #### Known False Positives
 False positives may be limited to source control applications and may be required to be filtered out.
+
+#### Associated Analytic story
+* [Ingress Tool Transfer](/stories/ingress_tool_transfer)
+
+
+#### Kill Chain Phase
+* Exfiltration
+
 
 
 #### RBA
@@ -86,6 +91,8 @@ False positives may be limited to source control applications and may be require
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest_device_id$ by user $dest_user_id$ uploading a file to a remote destination. |
 
+
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
 
 
 

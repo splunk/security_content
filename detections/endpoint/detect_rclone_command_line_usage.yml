@@ -29,14 +29,13 @@ known_false_positives: False positives should be limited as this is restricted t
   the Rclone process name. Filter or tune the analytic as needed.
 references:
 - https://redcanary.com/blog/rclone-mega-extortion/
-- https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html
+- https://www.mandiant.com/resources/shining-a-light-on-darkside-ransomware-operations
 - https://thedfirreport.com/2021/03/29/sodinokibi-aka-revil-ransomware/
 - https://thedfirreport.com/2021/11/29/continuing-the-bazar-ransomware-story/
 tags:
   analytic_story:
   - DarkSide Ransomware
   - Ransomware
-  automated_detection_testing: passed
   confidence: 70
   context:
   - Source:Endpoint
@@ -45,7 +44,7 @@ tags:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1020/windows-sysmon.log
   impact: 50
   kill_chain_phases:
-  - Exfiltration
+  - Exploitation
   message: An instance of $parent_process_name$ spawning $process_name$ was identified
     on endpoint $dest$ by user $user$ attempting to connect to a remote cloud service
     to move files or folders.
@@ -61,6 +60,7 @@ tags:
     - Victim
     type: Hostname
   - name: parent_process_name
+    type: Process
     role:
     - Parent Process
     type: Parent Process
@@ -83,3 +83,6 @@ tags:
   - _time
   risk_score: 35
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon
+  asset_type: Endpoint

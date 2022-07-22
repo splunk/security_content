@@ -8,6 +8,7 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   - Updates
+  - Exploitation
 ---
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -32,7 +33,7 @@ Microsoft releases updates for Windows systems on a monthly cadence. They should
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [No Windows Updates in a time frame](/application/no_windows_updates_in_a_time_frame/) |  | Hunting |
+| [No Windows Updates in a time frame](/application/no_windows_updates_in_a_time_frame/) | None| Hunting |
 
 #### Reference
 

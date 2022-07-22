@@ -1,7 +1,7 @@
 name: NET Profiler UAC bypass
 id: 0252ca80-e30d-11eb-8aa3-acde48001122
-version: 1
-date: '2021-07-12'
+version: 2
+date: '2022-02-18'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
@@ -14,8 +14,8 @@ description: This search is to detect modification of registry to bypass UAC win
   filtering is needed.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= "*\\Environment\\COR_PROFILER_PATH"
-  Registry.registry_value_name = "*.dll" by Registry.registry_path Registry.registry_key_name
-  Registry.registry_value_name Registry.dest | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`
+  Registry.registry_value_data = "*.dll" by Registry.registry_path Registry.registry_key_name
+  Registry.registry_value_data Registry.dest | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `net_profiler_uac_bypass_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
@@ -31,10 +31,10 @@ tags:
   confidence: 90
   context:
   - Source:Endpoint
-  - Stage:Persistence,
+  - Stage:Persistence
   - Stage:Privilege Escalation
   - Stage:Defense Evasion
-  - Scope:Incoming
+  - Scope:Inbound
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/uac_bypass/windows-sysmon2.log
   impact: 70
@@ -62,3 +62,6 @@ tags:
   - _time
   risk_score: 63
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon
+  asset_type: Endpoint

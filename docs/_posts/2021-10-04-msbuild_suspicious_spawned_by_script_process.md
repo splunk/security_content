@@ -1,6 +1,8 @@
 ---
 title: "MSBuild Suspicious Spawned By Script Process"
-excerpt: "MSBuild, Trusted Developer Utilities Proxy Execution"
+excerpt: "MSBuild
+, Trusted Developer Utilities Proxy Execution
+"
 categories:
   - Endpoint
 last_modified_at: 2021-10-04
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - MSBuild
-  - Defense Evasion
   - Trusted Developer Utilities Proxy Execution
+  - Defense Evasion
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -19,29 +21,80 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This analytic is to detect a suspicious child process of MSBuild spawned by Windows Script Host - cscript or wscript. This behavior or event are commonly seen and used by malware or adversaries to execute malicious msbuild process using malicious script in the compromised host. During triage, review parallel processes and identify any file modifications. MSBuild may load a script from the same path without having command-line arguments.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2021-10-04
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: 213b3148-24ea-11ec-93a2-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Annotations
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+<details>
+  <summary>ATT&CK</summary>
+
+<div markdown="1">
+
+
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1127.001](https://attack.mitre.org/techniques/T1127/001/) | MSBuild | Defense Evasion |
 
 | [T1127](https://attack.mitre.org/techniques/T1127/) | Trusted Developer Utilities Proxy Execution | Defense Evasion |
 
-#### Search
+</div>
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+<div markdown="1">
+
+* Exploitation
+
+
+</div>
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+<div markdown="1">
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+<div markdown="1">
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+<div markdown="1">
+
+
+</div>
+</details>
+
+#### Search 
 
 ```
 
@@ -52,12 +105,14 @@ This analytic is to detect a suspicious child process of MSBuild spawned by Wind
 | `msbuild_suspicious_spawned_by_script_process_filter`
 ```
 
-#### Associated Analytic Story
-* [Trusted Developer Utilities Proxy Execution MSBuild](/stories/trusted_developer_utilities_proxy_execution_msbuild)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [process_msbuild](https://github.com/splunk/security_content/blob/develop/macros/process_msbuild.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
+> :information_source:
+> **msbuild_suspicious_spawned_by_script_process_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -69,12 +124,16 @@ To successfully implement this search you need to be ingesting information on pr
 * Processes.user
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 
 #### Known False Positives
 False positives should be limited as developers do not spawn MSBuild via a WSH.
+
+#### Associated Analytic story
+* [Trusted Developer Utilities Proxy Execution MSBuild](/stories/trusted_developer_utilities_proxy_execution_msbuild)
+
+
 
 
 #### RBA
@@ -84,17 +143,19 @@ False positives should be limited as developers do not spawn MSBuild via a WSH.
 | 49.0 | 70 | 70 | Msbuild.exe process spawned by $parent_process_name$ on $dest$ executed by $user$ |
 
 
-
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 
-* [https://app.any.run/tasks/dc93ee63-050c-4ff8-b07e-8277af9ab939/#](https://app.any.run/tasks/dc93ee63-050c-4ff8-b07e-8277af9ab939/#)
+* [https://app.any.run/tasks/dc93ee63-050c-4ff8-b07e-8277af9ab939/](https://app.any.run/tasks/dc93ee63-050c-4ff8-b07e-8277af9ab939/)
 
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127.001/regsvr32_silent/sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127.001/regsvr32_silent/sysmon.log)
 

@@ -45,3 +45,14 @@ tags:
   required_fields:
   - _time
   security_domain: endpoint
+  confidence: 50
+  impact: 50
+  risk_score: 25
+  context:
+  - Unknown
+  message: tbd
+  observable:
+  - name: field
+    type: Unknown
+    role:
+    - Unknown

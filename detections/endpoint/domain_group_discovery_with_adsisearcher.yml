@@ -23,7 +23,6 @@ references:
 tags:
   analytic_story:
   - Active Directory Discovery
-  automated_detection_testing: passed
   confidence: 60
   context:
   - Source:Endpoint
@@ -55,3 +54,4 @@ tags:
   - User
   risk_score: 18
   security_domain: endpoint
+  asset_type: Endpoint

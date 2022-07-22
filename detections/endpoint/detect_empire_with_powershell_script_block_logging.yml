@@ -1,7 +1,7 @@
 name: Detect Empire with PowerShell Script Block Logging
 id: bc1dc6b8-c954-11eb-bade-acde48001122
-version: 1
-date: '2021-06-09'
+version: 2
+date: '2022-02-24'
 author: Michael Haag, Splunk
 type: TTP
 datamodel: []
@@ -19,9 +19,9 @@ description: 'The following analytic utilizes PowerShell Script Block Logging (E
   During triage, review parallel processes using an EDR product or 4688 events. It
   will be important to understand the timeline of events around this activity. Review
   the entire logged PowerShell script block.'
-search: '`powershell` EventCode=4104  (Message=*system.net.webclient* AND Message=*frombase64string*)
-  | stats count min(_time) as firstTime max(_time) as lastTime by OpCode ComputerName
-  User EventCode Message | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+search: '`powershell` EventCode=4104  (ScriptBlockText=*system.net.webclient* AND ScriptBlockText=*frombase64string*)
+  | stats count min(_time) as firstTime max(_time) as lastTime by Opcode Computer
+  UserID EventCode ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `detect_empire_with_powershell_script_block_logging_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
@@ -35,30 +35,32 @@ references:
 - https://static1.squarespace.com/static/552092d5e4b0661088167e5c/t/59c1814829f18782e24f1fe2/1505853768977/Windows+PowerShell+Logging+Cheat+Sheet+ver+Sept+2017+v2.1.pdf
 - https://www.crowdstrike.com/blog/investigating-powershell-command-and-script-logging/
 - https://github.com/BC-SECURITY/Empire
+- https://www.splunk.com/en_us/blog/security/hunting-for-malicious-powershell-using-script-block-logging.html
 tags:
   analytic_story:
+  - Hermetic Wiper 
   - Malicious PowerShell
-  automated_detection_testing: passed
   confidence: 90
   context:
   - Source:Endpoint
   - Stage:Execution
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/windows-powershell.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/empire.log
   impact: 90
   kill_chain_phases:
   - Exploitation
   message: The following behavior was identified and typically related to PowerShell-Empire
-    on $ComputerName$ by $User$.
+    on $Computer$ by $UserID$.
   mitre_attack_id:
   - T1059
   - T1059.001
   observable:
-  - name: User
+  - name: UserID
+    type: User
     role:
     - Victim
-    type: User
-  - name: ComputerName
+  - name: Computer
+    type: Hostname
     role:
     - Victim
     type: Hostname
@@ -68,10 +70,11 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Message
-  - OpCode
-  - ComputerName
-  - User
+  - ScriptBlockText
+  - Opcode
+  - Computer
+  - UserID
   - EventCode
   risk_score: 81
   security_domain: endpoint
+  asset_type: Endpoint

@@ -1,0 +1,6 @@
+default_match: 'false'
+description: A subset of utilities provided by NirSoft that may be used by adversaries.
+filename: is_nirsoft_software.csv
+min_matches: 1
+name: is_nirsoft_software
+case_sensitive_match: 'false'

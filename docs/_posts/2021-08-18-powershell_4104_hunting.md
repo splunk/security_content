@@ -1,6 +1,8 @@
 ---
 title: "PowerShell 4104 Hunting"
-excerpt: "Command and Scripting Interpreter, PowerShell"
+excerpt: "Command and Scripting Interpreter
+, PowerShell
+"
 categories:
   - Endpoint
 last_modified_at: 2021-08-18
@@ -8,8 +10,8 @@ toc: true
 toc_label: ""
 tags:
   - Command and Scripting Interpreter
-  - Execution
   - PowerShell
+  - Execution
   - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -18,29 +20,80 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following Hunting analytic assists with identifying suspicious PowerShell execution using Script Block Logging, or EventCode 4104. This analytic is not meant to be ran hourly, but occasionally to identify malicious or suspicious PowerShell. This analytic is a combination of work completed by Alex Teixeira and Splunk Threat Research Team.
 
-- **Type**: Hunting
+- **Type**: [Hunting](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+
 - **Last Updated**: 2021-08-18
 - **Author**: Michael Haag, Splunk
 - **ID**: d6f2b006-0041-11ec-8885-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Annotations
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+<details>
+  <summary>ATT&CK</summary>
+
+<div markdown="1">
+
+
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 
 | [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
 
-#### Search
+</div>
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+<div markdown="1">
+
+* Exploitation
+
+
+</div>
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+<div markdown="1">
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+<div markdown="1">
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+<div markdown="1">
+
+
+</div>
+</details>
+
+#### Search 
 
 ```
 `powershell` EventCode=4104 
@@ -224,24 +277,29 @@ The following Hunting analytic assists with identifying suspicious PowerShell ex
 | `powershell_4104_hunting_filter`
 ```
 
-#### Associated Analytic Story
-* [Malicious PowerShell](/stories/malicious_powershell)
+#### Macros
+The SPL above uses the following Macros:
+* [powershell](https://github.com/splunk/security_content/blob/develop/macros/powershell.yml)
 
-
-#### How To Implement
-The following Hunting analytic requires PowerShell operational logs to be imported. Modify the powershell macro as needed to match the sourcetype or add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
+> :information_source:
+> **powershell_4104_hunting_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
 * Message
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+The following Hunting analytic requires PowerShell operational logs to be imported. Modify the powershell macro as needed to match the sourcetype or add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
 
 #### Known False Positives
 Limited false positives. May filter as needed.
+
+#### Associated Analytic story
+* [Hermetic Wiper](/stories/hermetic_wiper)
+* [Malicious PowerShell](/stories/malicious_powershell)
+
+
 
 
 #### RBA
@@ -251,7 +309,8 @@ Limited false positives. May filter as needed.
 | 80.0 | 80 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ executing suspicious commands. |
 
 
-
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 
@@ -260,15 +319,14 @@ Limited false positives. May filter as needed.
 * [https://github.com/marcurdy/dfir-toolset/blob/master/Powershell%20Blueteam.txt](https://github.com/marcurdy/dfir-toolset/blob/master/Powershell%20Blueteam.txt)
 * [https://devblogs.microsoft.com/powershell/powershell-the-blue-team/](https://devblogs.microsoft.com/powershell/powershell-the-blue-team/)
 * [https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_logging?view=powershell-5.1](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_logging?view=powershell-5.1)
-* [https://www.fireeye.com/blog/threat-research/2016/02/greater_visibilityt.html](https://www.fireeye.com/blog/threat-research/2016/02/greater_visibilityt.html)
+* [https://www.mandiant.com/resources/greater-visibilityt](https://www.mandiant.com/resources/greater-visibilityt)
 * [https://hurricanelabs.com/splunk-tutorials/how-to-use-powershell-transcription-logs-in-splunk/](https://hurricanelabs.com/splunk-tutorials/how-to-use-powershell-transcription-logs-in-splunk/)
 
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

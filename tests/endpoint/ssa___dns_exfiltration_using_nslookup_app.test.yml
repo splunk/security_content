@@ -4,6 +4,6 @@ tests:
   file: endpoint/ssa_dns_exfiltration_using_nslookup_app.yml
   pass_condition: '@count_gt(0)'
   attack_data:
-  - file_name: windows-sysmon.log
-    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/nslookup_exfil/windows-sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+  - file_name: windows-security.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/nslookup_exfil/windows-security.log
+    source: WinEventLog:Security

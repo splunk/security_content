@@ -1,0 +1,88 @@
+name: Windows DotNet Binary in Non Standard Path
+id: 21179107-099a-324a-94d3-08301e6c065f
+version: 1
+date: '2022-03-17'
+author: Michael Haag, Splunk
+type: Anomaly
+datamodel:
+- Endpoint_Processes
+description: The following analytic identifies native .net binaries within the Windows
+  operating system that may be abused by adversaries by moving it to a new directory.
+  The analytic identifies the .net binary by using a list. If one or the other matches an alert will be generated. Adversaries abuse
+  these binaries as they are native to Windows and native DotNet. Note that not all
+  SDK (post install of Windows) are captured in the list. Lookup - https://github.com/splunk/security_content/blob/develop/lookups/is_net_windows_file.csv.
+search: ' $ssa_input = | from read_ssa_enriched_events() | eval device=ucast(map_get(input_event,
+  "dest_device_id"), "string", null), user=ucast(map_get(input_event, "dest_user_id"),
+  "string", null), timestamp=parse_long(ucast(map_get(input_event, "_time"), "string",
+  null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string",
+  null)), process_path=lower(ucast(map_get(input_event, "process_path"), "string",
+  null)), event_id=ucast(map_get(input_event, "event_id"), "string", null);
+
+  $cond_1 = | from $ssa_input | where process_name="msbuild.exe" OR process_name="comsvcconfig.exe" OR process_name="dfsradmin.exe" OR process_name="dfsvc.exe" OR process_name="microsoft.workflow.compiler.exe" OR process_name="smsvchost.exe" OR process_name="wsatconfig.exe" OR process_name="addinprocess.exe" OR process_name="addinprocess32.exe" OR process_name="addinutil.exe" OR process_name="aspnet_compiler.exe" OR process_name="aspnet_regbrowsers.exe" OR process_name="aspnet_regsql.exe" OR process_name="caspol.exe" OR process_name="datasvcutil.exe" OR process_name="edmgen.exe" OR process_name="installutil.exe" OR process_name="jsc.exe" OR process_name="ngentask.exe" OR process_name="regasm.exe" OR process_name="regsvcs.exe" OR process_name="sdnbr.exe" OR process_name="acu.exe" OR process_name="appvstreamingux.exe" OR process_name="dsac.exe" OR process_name="lbfoadmin.exe" OR process_name="microsoft.uev.synccontroller.exe" OR process_name="mtedit.exe" OR process_name="scriptrunner.exe" OR process_name="servermanager.exe" OR process_name="stordiag.exe" OR process_name="tzsync.exe" OR process_name="uevagentpolicygenerator.exe" OR process_name="uevappmonitor.exe" OR process_name="uevtemplatebaselinegenerator.exe" OR process_name="uevtemplateconfigitemgenerator.exe" OR process_name="powershell_ise.exe" OR process_name="iediagcmd.exe" OR process_name="xbox.tcui.exe" OR process_name="microsoft.activedirectory.webservices.exe" OR process_name="iisual.exe" OR process_name="filehistory.exe" OR process_name="secureassessmentbrowser.exe";
+
+  | from $cond_1 | where match_regex(process_path, /(?i)\\windows\\system32/)=false
+  AND match_regex(process_path, /(?i)\\windows\\syswow64/)=false AND 
+  match_regex(process_path, /(?i)\\windows\\adws/)=false AND match_regex(process_path, /(?i)\\windows\\networkcontroller/)=false
+  AND match_regex(process_path, /(?i)\\windows\\systemapps/)=false AND match_regex(process_path, /(?i)\\winsxs/)=false
+  AND match_regex(process_path, /(?i)\\microsoft.net/)=false | eval start_time=timestamp,
+  end_time=timestamp, entities=mvappend(device, user), body=create_map(["event_id",
+  event_id, "process_path", process_path, "process_name", process_name]) | into write_ssa_detected_events();'
+how_to_implement: Collect endpoint data such as sysmon or 4688 events.
+known_false_positives: False positives may be present and filtering may be required.
+  Certain utilities will run from non-standard paths based on the third-party application
+  in use.
+references:
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1036.003/T1036.003.yaml
+  - https://attack.mitre.org/techniques/T1036/003/
+  - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.004/T1218.004.md
+tags:
+  analytic_story:
+  - Masquerading - Rename System Utilities
+  - Unusual Processes
+  - Ransomware
+  - Signed Binary Proxy Execution InstallUtil
+  - WhisperGate
+  cis20:
+  - CIS 8
+  confidence: 70
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/system_process_running_unexpected_location/dotnet_lolbin-windows-security.log
+  impact: 70
+  kill_chain_phases:
+  - Actions on Objectives
+  message: A system process $process_name$ with commandline $cmd_line$ spawn in non-default
+    folder path on host $dest_device_id$
+  mitre_attack_id:
+  - T1036
+  - T1036.003
+  - T1218
+  - T1218.004
+  nist:
+  - PR.PT
+  - DE.CM
+  observable:
+  - name: dest_device_id
+    type: Hostname
+    role:
+    - Victim
+  - name: dest_user_id
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Behavioral Analytics
+  required_fields:
+  - dest_device_id
+  - process_name
+  - _time
+  - dest_user_id
+  - process_path
+  - cmd_line
+  risk_score: 49
+  risk_severity: medium
+  security_domain: endpoint
+  asset_type: Endpoint

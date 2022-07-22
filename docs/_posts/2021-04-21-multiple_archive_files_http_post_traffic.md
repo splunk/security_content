@@ -1,15 +1,17 @@
 ---
 title: "Multiple Archive Files Http Post Traffic"
-excerpt: "Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol, Exfiltration Over Alternative Protocol"
+excerpt: "Exfiltration Over Unencrypted Non-C2 Protocol
+, Exfiltration Over Alternative Protocol
+"
 categories:
   - Network
 last_modified_at: 2021-04-21
 toc: true
 toc_label: ""
 tags:
-  - Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol
-  - Exfiltration
+  - Exfiltration Over Unencrypted Non-C2 Protocol
   - Exfiltration Over Alternative Protocol
+  - Exfiltration
   - Exfiltration
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -19,13 +21,13 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search is designed to detect high frequency of archive files data exfiltration through HTTP POST method protocol. This are one of the common techniques used by APT or trojan spy after doing the data collection like screenshot, recording, sensitive data to the infected machines. The attacker may execute archiving command to the collected data, save it a temp folder with a hidden attribute then send it to its C2 through HTTP POST. Sometimes adversaries will rename the archive files or encode/encrypt to cover their tracks. This detection can detect a renamed archive files transfer to HTTP POST since it checks the request body header. Unfortunately this detection cannot support archive that was encrypted or encoded before doing the exfiltration.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
 - **Last Updated**: 2021-04-21
@@ -33,15 +35,66 @@ This search is designed to detect high frequency of archive files data exfiltrat
 - **ID**: 4477f3ea-a28f-11eb-b762-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Annotations
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-| [T1048.003](https://attack.mitre.org/techniques/T1048/003/) | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
+<details>
+  <summary>ATT&CK</summary>
+
+<div markdown="1">
+
+
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
+| [T1048.003](https://attack.mitre.org/techniques/T1048/003/) | Exfiltration Over Unencrypted Non-C2 Protocol | Exfiltration |
 
 | [T1048](https://attack.mitre.org/techniques/T1048/) | Exfiltration Over Alternative Protocol | Exfiltration |
 
-#### Search
+</div>
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+<div markdown="1">
+
+* Exploitation
+
+
+</div>
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+<div markdown="1">
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+<div markdown="1">
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+<div markdown="1">
+
+
+</div>
+</details>
+
+#### Search 
 
 ```
 `stream_http` http_method=POST 
@@ -54,13 +107,13 @@ This search is designed to detect high frequency of archive files data exfiltrat
 | `multiple_archive_files_http_post_traffic_filter`
 ```
 
-#### Associated Analytic Story
-* [Command and Control](/stories/command_and_control)
-* [Data Exfiltration](/stories/data_exfiltration)
+#### Macros
+The SPL above uses the following Macros:
+* [stream_http](https://github.com/splunk/security_content/blob/develop/macros/stream_http.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the stream HTTP logs or network logs that catch network traffic. Make sure that the http-request-body, payload, or request field is enabled in stream http configuration.
+> :information_source:
+> **multiple_archive_files_http_post_traffic_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -75,12 +128,17 @@ To successfully implement this search, you need to be ingesting logs with the st
 * form_data
 
 
-#### Kill Chain Phase
-* Exfiltration
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the stream HTTP logs or network logs that catch network traffic. Make sure that the http-request-body, payload, or request field is enabled in stream http configuration.
 
 #### Known False Positives
 Normal archive transfer via HTTP protocol may trip this detection.
+
+#### Associated Analytic story
+* [Data Exfiltration](/stories/data_exfiltration)
+* [Command and Control](/stories/command_and_control)
+
+
 
 
 #### RBA
@@ -90,19 +148,21 @@ Normal archive transfer via HTTP protocol may trip this detection.
 | 25.0 | 50 | 50 | A http post $http_method$ sending packet with possible archive bytes header 4form_data$ in uri path $uri_path$ |
 
 
-
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 
 * [https://attack.mitre.org/techniques/T1560/001/](https://attack.mitre.org/techniques/T1560/001/)
-* [https://www.fireeye.com/blog/threat-research/2019/01/apt39-iranian-cyber-espionage-group-focused-on-personal-information.html](https://www.fireeye.com/blog/threat-research/2019/01/apt39-iranian-cyber-espionage-group-focused-on-personal-information.html)
+* [https://www.mandiant.com/resources/apt39-iranian-cyber-espionage-group-focused-on-personal-information](https://www.mandiant.com/resources/apt39-iranian-cyber-espionage-group-focused-on-personal-information)
 * [https://www.microsoft.com/security/blog/2021/01/20/deep-dive-into-the-solorigate-second-stage-activation-from-sunburst-to-teardrop-and-raindrop/](https://www.microsoft.com/security/blog/2021/01/20/deep-dive-into-the-solorigate-second-stage-activation-from-sunburst-to-teardrop-and-raindrop/)
 
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/archive_http_post/stream_http_events.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/archive_http_post/stream_http_events.log)
 

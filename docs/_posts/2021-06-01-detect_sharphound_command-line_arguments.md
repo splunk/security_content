@@ -1,6 +1,13 @@
 ---
 title: "Detect SharpHound Command-Line Arguments"
-excerpt: "Domain Account, Local Groups, Domain Trust Discovery, Local Account, Account Discovery, Domain Groups, Permission Groups Discovery"
+excerpt: "Domain Account
+, Local Groups
+, Domain Trust Discovery
+, Local Account
+, Account Discovery
+, Domain Groups
+, Permission Groups Discovery
+"
 categories:
   - Endpoint
 last_modified_at: 2021-06-01
@@ -8,18 +15,18 @@ toc: true
 toc_label: ""
 tags:
   - Domain Account
-  - Discovery
   - Local Groups
-  - Discovery
   - Domain Trust Discovery
-  - Discovery
   - Local Account
-  - Discovery
   - Account Discovery
-  - Discovery
   - Domain Groups
-  - Discovery
   - Permission Groups Discovery
+  - Discovery
+  - Discovery
+  - Discovery
+  - Discovery
+  - Discovery
+  - Discovery
   - Discovery
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -29,24 +36,30 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following analytic identifies common command-line arguments used by SharpHound `-collectionMethod` and `invoke-bloodhound`. Being the script is FOSS, function names may be modified, but these changes are dependent upon the operator. In most instances the defaults are used. This analytic works to identify the common command-line attributes used. It does not cover the entirety of every argument in order to avoid false positives.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2021-06-01
 - **Author**: Michael Haag, Splunk
 - **ID**: a0bdd2f6-c2ff-11eb-b918-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Annotations
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+<details>
+  <summary>ATT&CK</summary>
+
+<div markdown="1">
+
+
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1087.002](https://attack.mitre.org/techniques/T1087/002/) | Domain Account | Discovery |
 
 | [T1069.001](https://attack.mitre.org/techniques/T1069/001/) | Local Groups | Discovery |
@@ -61,7 +74,52 @@ The following analytic identifies common command-line arguments used by SharpHou
 
 | [T1069](https://attack.mitre.org/techniques/T1069/) | Permission Groups Discovery | Discovery |
 
-#### Search
+</div>
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+<div markdown="1">
+
+* Reconnaissance
+
+
+</div>
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+<div markdown="1">
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+<div markdown="1">
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+<div markdown="1">
+
+
+</div>
+</details>
+
+#### Search 
 
 ```
 
@@ -72,13 +130,13 @@ The following analytic identifies common command-line arguments used by SharpHou
 | `detect_sharphound_command_line_arguments_filter`
 ```
 
-#### Associated Analytic Story
-* [Discovery Techniques](/stories/discovery_techniques)
-* [Ransomware](/stories/ransomware)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
+> :information_source:
+> **detect_sharphound_command-line_arguments_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -91,12 +149,17 @@ To successfully implement this search you need to be ingesting information on pr
 * Processes.parent_process_id
 
 
-#### Kill Chain Phase
-* Reconnaissance
-
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
 
 #### Known False Positives
 False positives should be limited as the arguments used are specific to SharpHound. Filter as needed or add more command-line arguments as needed.
+
+#### Associated Analytic story
+* [Discovery Techniques](/stories/discovery_techniques)
+* [Ransomware](/stories/ransomware)
+
+
 
 
 #### RBA
@@ -106,7 +169,8 @@ False positives should be limited as the arguments used are specific to SharpHou
 | 24.0 | 30 | 80 | Possible SharpHound command-Line arguments identified on $dest$ |
 
 
-
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 
@@ -119,11 +183,12 @@ False positives should be limited as the arguments used are specific to SharpHou
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/sharphound/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/sharphound/windows-sysmon.log)
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/detect_sharphound_command-line_arguments.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/detect_sharphound_command_line_arguments.yml) \| *version*: **1**

@@ -4,8 +4,7 @@ version: 1
 date: '2021-11-29'
 author: Mauricio Velazco, Splunk
 type: Hunting
-datamodel:
-- Endpoint
+datamodel: []
 description: The following hunting analytic leverages Event ID 4698, `A scheduled
   task was created`, to identify the creation of a Scheduled Task with a suspicious,
   high entropy, Task Name. To achieve this, this analytic also leverages the `ut_shannon`
@@ -31,6 +30,7 @@ references:
 tags:
   analytic_story:
   - Active Directory Lateral Movement
+  asset_type: Endpoint
   confidence: 50
   context:
   - Source:Endpoint
@@ -38,9 +38,7 @@ tags:
   - Stage:Lateral Movement
   impact: 90
   kill_chain_phases:
-  - Privilege Escalation
-  - Lateral Movement
-  - Persistence
+  - Exploitation
   message: A windows scheduled task with a suspicious task name was created on $dest$
   mitre_attack_id:
   - T1053

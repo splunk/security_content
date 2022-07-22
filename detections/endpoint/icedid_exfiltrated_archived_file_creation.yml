@@ -18,11 +18,10 @@ how_to_implement: To successfully implement this search, you need to be ingestin
   Sysmon TA.
 known_false_positives: unknown
 references:
-- https://www.cisecurity.org/white-papers/security-primer-icedid/
+- https://www.cisecurity.org/insights/white-papers/security-primer-icedid
 tags:
   analytic_story:
   - IcedID
-  automated_detection_testing: passed
   confidence: 90
   context:
   - Source:Endpoint
@@ -42,6 +41,7 @@ tags:
     - Victim
     type: Hostname
   - name: SourceImage
+    type: Process
     role:
     - Attacker
     type: process name
@@ -58,3 +58,4 @@ tags:
   - Computer
   risk_score: 72
   security_domain: endpoint
+  asset_type: Endpoint

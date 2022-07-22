@@ -1,6 +1,10 @@
 ---
 title: "Detect Traffic Mirroring"
-excerpt: "Hardware Additions, Automated Exfiltration, Network Denial of Service, Traffic Duplication"
+excerpt: "Hardware Additions
+, Automated Exfiltration
+, Network Denial of Service
+, Traffic Duplication
+"
 categories:
   - Network
 last_modified_at: 2020-10-28
@@ -8,40 +12,46 @@ toc: true
 toc_label: ""
 tags:
   - Hardware Additions
-  - Initial Access
   - Automated Exfiltration
-  - Exfiltration
   - Network Denial of Service
-  - Impact
   - Traffic Duplication
+  - Initial Access
+  - Exfiltration
+  - Impact
   - Exfiltration
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
 ---
 
-### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
-We have not been able to test, simulate, or build datasets for this detection. Use at your own risk. This analytic is **NOT** supported.
+### :warning: WARNING THIS IS A EXPERIMENTAL analytic
+We have not been able to test, simulate, or build datasets for this object. Use at your own risk. This analytic is **NOT** supported.
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 Adversaries may leverage traffic mirroring in order to automate data exfiltration over compromised network infrastructure. Traffic mirroring is a native feature for some network devices and used for network analysis and may be configured to duplicate traffic and forward to one or more destinations for analysis by a network analyzer or other monitoring device.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+
 - **Last Updated**: 2020-10-28
 - **Author**: Mikael Bjerkeland, Splunk
 - **ID**: 42b3b753-5925-49c5-9742-36fa40a73990
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Annotations
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+<details>
+  <summary>ATT&CK</summary>
+
+<div markdown="1">
+
+
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1200](https://attack.mitre.org/techniques/T1200/) | Hardware Additions | Initial Access |
 
 | [T1020](https://attack.mitre.org/techniques/T1020/) | Automated Exfiltration | Exfiltration |
@@ -50,7 +60,59 @@ Adversaries may leverage traffic mirroring in order to automate data exfiltratio
 
 | [T1020.001](https://attack.mitre.org/techniques/T1020/001/) | Traffic Duplication | Exfiltration |
 
-#### Search
+</div>
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+<div markdown="1">
+
+* Delivery
+* Actions on Objectives
+
+
+</div>
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+<div markdown="1">
+
+* ID.AM
+* PR.DS
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+<div markdown="1">
+
+* CIS 1
+* CIS 11
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+<div markdown="1">
+
+
+</div>
+</details>
+
+#### Search 
 
 ```
 `cisco_networks` (facility="MIRROR" mnemonic="ETH_SPAN_SESSION_UP") OR (facility="SPAN" mnemonic="SESSION_UP") OR (facility="SPAN" mnemonic="PKTCAP_START") OR (mnemonic="CFGLOG_LOGGEDCMD" command="monitor session*") 
@@ -60,12 +122,13 @@ Adversaries may leverage traffic mirroring in order to automate data exfiltratio
 | `detect_traffic_mirroring_filter`
 ```
 
-#### Associated Analytic Story
-* [Router and Infrastructure Security](/stories/router_and_infrastructure_security)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [cisco_networks](https://github.com/splunk/security_content/blob/develop/macros/cisco_networks.yml)
 
-
-#### How To Implement
-This search uses a standard SPL query on logs from Cisco Network devices. The network devices must log with a severity level of minimum &#34;5 - notification&#34;. The search also requires that the Cisco Networks Add-on for Splunk (https://splunkbase.splunk.com/app/1467) is used to parse the logs from the Cisco network devices and that the devices have been configured according to the documentation of the Cisco Networks Add-on. Also note that an attacker may disable logging from the device prior to enabling traffic mirroring.
+> :information_source:
+> **detect_traffic_mirroring_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -74,25 +137,34 @@ This search uses a standard SPL query on logs from Cisco Network devices. The ne
 * host
 
 
-#### Kill Chain Phase
-* Delivery
-* Actions on Objectives
-
+#### How To Implement
+This search uses a standard SPL query on logs from Cisco Network devices. The network devices must log with a severity level of minimum "5 - notification". The search also requires that the Cisco Networks Add-on for Splunk (https://splunkbase.splunk.com/app/1467) is used to parse the logs from the Cisco network devices and that the devices have been configured according to the documentation of the Cisco Networks Add-on. Also note that an attacker may disable logging from the device prior to enabling traffic mirroring.
 
 #### Known False Positives
 This search will return false positives for any legitimate traffic captures by network administrators.
 
+#### Associated Analytic story
+* [Router and Infrastructure Security](/stories/router_and_infrastructure_security)
 
 
 
+
+#### RBA
+
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 25.0 | 50 | 50 | tbd |
+
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

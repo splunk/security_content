@@ -3,11 +3,11 @@ tests:
 - name: AWS SAML Access by Provider User and Principal
   file: cloud/aws_saml_access_by_provider_user_and_principal.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-24h'
-  latest_time: 'now'
+  earliest_time: -24h
+  latest_time: now
   attack_data:
   - file_name: aws_cloudtrail_events.json
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/assume_role_with_saml/assume_role_with_saml.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
-    update_timestamp: True
+    update_timestamp: true

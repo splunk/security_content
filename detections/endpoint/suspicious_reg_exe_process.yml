@@ -28,14 +28,13 @@ known_false_positives: It's possible for system administrators to write scripts 
   exhibit this behavior. If this is the case, the search will need to be modified
   to filter them out.
 references:
-- https://car.mitre.org/wiki/CAR-2013-03-001
+- https://car.mitre.org/wiki/CAR-2013-03-001/
 tags:
   analytic_story:
   - Windows Defense Evasion Tactics
   - Disabling Security Tools
   - DHS Report TA18-074A
   asset_type: Endpoint
-  automated_detection_testing: passed
   cis20:
   - CIS 8
   confidence: 50
@@ -77,3 +76,5 @@ tags:
   - _time
   risk_score: 35
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon

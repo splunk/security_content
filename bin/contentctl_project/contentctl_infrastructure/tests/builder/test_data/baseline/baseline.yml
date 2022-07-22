@@ -1,0 +1,46 @@
+name: Previously Seen Users In CloudTrail - Update
+id: 66ff71c2-7e01-47dd-a041-906688c9d322
+version: 1
+date: '2020-05-28'
+author: Rico Valdez, Splunk
+type: Baseline
+datamodel:
+- Authentication
+description: This search looks for CloudTrail events where a user logs into the console,
+  then updates the baseline of the latest and earliest times, City, Region, and Country
+  we have encountered this user in our dataset, grouped by user, within the last hour.
+search: '| tstats earliest(_time) as firstTime latest(_time) as lastTime from datamodel=Authentication
+  where Authentication.signature=ConsoleLogin by Authentication.user Authentication.src
+  | iplocation Authentication.src | rename Authentication.user as user Authentication.src
+  as src | table user src City Region Country firstTime lastTime | inputlookup append=t
+  previously_seen_users_console_logins | stats min(firstTime) as firstTime max(lastTime)
+  as lastTime by user src City Region Country | outputlookup previously_seen_users_console_logins'
+how_to_implement: You must install and configure the Splunk Add-on for AWS (version
+  5.1.0 or later) and Enterprise Security 6.2, which contains the required updates
+  to the Authentication data model for cloud use cases. Validate the user name entries
+  in `previously_seen_users_console_logins`, which is a lookup file created by this
+  support search.
+known_false_positives: none
+references: []
+tags:
+  analytic_story:
+  - Suspicious Cloud Authentication Activities
+  deployments:
+  - Daily Cache Updates
+  detections:
+  - Detect AWS Console Login by User from New Country
+  - Detect AWS Console Login by User from New Region
+  - Detect AWS Console Login by User from New City
+  - Detect AWS Console Login by New User
+  - Attempted Credential Dump From Registry via Reg exe
+  product:
+  - Splunk Security Analytics for AWS
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Authentication.signature
+  - Authentication.user
+  - Authentication.src
+  security_domain: network

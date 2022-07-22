@@ -25,14 +25,14 @@ tags:
   analytic_story:
   - Prohibited Traffic Allowed or Protocol Mismatch
   - Ransomware
-  - Command and Control
   - NOBELIUM Group
+  - Command and Control
   asset_type: Endpoint
   cis20:
   - CIS 9
   - CIS 12
   kill_chain_phases:
-  - Command and Control
+  - Command & Control
   mitre_attack_id:
   - T1071
   - T1071.001
@@ -50,3 +50,13 @@ tags:
   - All_Traffic.dest_ip
   - All_Traffic.dest_port
   security_domain: network
+  confidence: 50
+  impact: 50
+  risk_score: 25
+  context: []
+  message: tbd
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim

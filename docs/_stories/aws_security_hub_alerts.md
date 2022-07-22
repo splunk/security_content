@@ -8,6 +8,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - Exploitation
 ---
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -30,8 +31,8 @@ AWS Security Hub collects and consolidates findings from AWS security services e
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Detect Spike in AWS Security Hub Alerts for EC2 Instance](/cloud/detect_spike_in_aws_security_hub_alerts_for_ec2_instance/) |  | Anomaly |
-| [Detect Spike in AWS Security Hub Alerts for User](/cloud/detect_spike_in_aws_security_hub_alerts_for_user/) |  | Anomaly |
+| [Detect Spike in AWS Security Hub Alerts for EC2 Instance](/cloud/detect_spike_in_aws_security_hub_alerts_for_ec2_instance/) | None| Anomaly |
+| [Detect Spike in AWS Security Hub Alerts for User](/cloud/detect_spike_in_aws_security_hub_alerts_for_user/) | None| Anomaly |
 
 #### Reference
 

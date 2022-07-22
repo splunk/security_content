@@ -3,10 +3,10 @@ tests:
 - name: Cmdline Tool Not Executed In CMD Shell
   file: endpoint/cmdline_tool_not_executed_in_cmd_shell.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-24h'
-  latest_time: 'now'
+  earliest_time: -24h
+  latest_time: now
   attack_data:
   - file_name: sysmon.log
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/jssloader/sysmon.log
-    source:  XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

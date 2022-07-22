@@ -1,0 +1,12 @@
+name: Excessive File Deletion In WinDefender Folder Unit Test
+tests:
+- name: Excessive File Deletion In WinDefender Folder
+  file: endpoint/excessive_file_deletion_in_windefender_folder.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: sysmon.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/excessive_file_del_in_windefender_dir/sysmon.log
+    source:  XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

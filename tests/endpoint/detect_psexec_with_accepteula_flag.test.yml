@@ -1,10 +1,10 @@
-name: Detect PsExec With accepteula Flag
+name: Detect PsExec With accepteula Flag Unit Test
 tests:
 - name: Detect PsExec With accepteula Flag
   file: endpoint/detect_psexec_with_accepteula_flag.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-24h'
-  latest_time: 'now'
+  earliest_time: -24h
+  latest_time: now
   attack_data:
   - file_name: windows-sysmon.log
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.002/atomic_red_team/windows-sysmon.log

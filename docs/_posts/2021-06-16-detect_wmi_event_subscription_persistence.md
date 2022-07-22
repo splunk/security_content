@@ -1,6 +1,8 @@
 ---
 title: "Detect WMI Event Subscription Persistence"
-excerpt: "Windows Management Instrumentation Event Subscription, Event Triggered Execution"
+excerpt: "Windows Management Instrumentation Event Subscription
+, Event Triggered Execution
+"
 categories:
   - Endpoint
 last_modified_at: 2021-06-16
@@ -8,11 +10,11 @@ toc: true
 toc_label: ""
 tags:
   - Windows Management Instrumentation Event Subscription
-  - Privilege Escalation
-  - Persistence
   - Event Triggered Execution
+  - Persistence
   - Privilege Escalation
   - Persistence
+  - Privilege Escalation
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -20,7 +22,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -31,23 +33,74 @@ All event subscriptions have three components \
 1. Binding - Registers a filter to a consumer. EventID equals 21 \
 Monitor for the creation of new WMI EventFilter, EventConsumer, and FilterToConsumerBinding. It may be pertinent to review all 3 to identify the flow of execution. In addition, EventCode 4104 may assist with any other PowerShell script usage that registered the subscription.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+
 - **Last Updated**: 2021-06-16
 - **Author**: Michael Haag, Splunk
 - **ID**: 01d9a0c2-cece-11eb-ab46-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Annotations
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-| [T1546.003](https://attack.mitre.org/techniques/T1546/003/) | Windows Management Instrumentation Event Subscription | Privilege Escalation, Persistence |
+<details>
+  <summary>ATT&CK</summary>
 
-| [T1546](https://attack.mitre.org/techniques/T1546/) | Event Triggered Execution | Privilege Escalation, Persistence |
+<div markdown="1">
 
-#### Search
+
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
+| [T1546.003](https://attack.mitre.org/techniques/T1546/003/) | Windows Management Instrumentation Event Subscription | Persistence, Privilege Escalation |
+
+| [T1546](https://attack.mitre.org/techniques/T1546/) | Event Triggered Execution | Persistence, Privilege Escalation |
+
+</div>
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+<div markdown="1">
+
+* Exploitation
+
+
+</div>
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+<div markdown="1">
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+<div markdown="1">
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+<div markdown="1">
+
+
+</div>
+</details>
+
+#### Search 
 
 ```
 `sysmon` EventID=20 
@@ -57,12 +110,13 @@ Monitor for the creation of new WMI EventFilter, EventConsumer, and FilterToCons
 | `detect_wmi_event_subscription_persistence_filter`
 ```
 
-#### Associated Analytic Story
-* [Suspicious WMI Use](/stories/suspicious_wmi_use)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with that provide WMI Event Subscription from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA and have enabled EventID 19, 20 and 21. Tune and filter known good to limit the volume.
+> :information_source:
+> **detect_wmi_event_subscription_persistence_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -71,12 +125,16 @@ To successfully implement this search, you need to be ingesting logs with that p
 * User
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with that provide WMI Event Subscription from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA and have enabled EventID 19, 20 and 21. Tune and filter known good to limit the volume.
 
 #### Known False Positives
-It is possible some applications will create a consumer and may be required to be filtered. For tuning, add any additional LOLBin&#39;s for further depth of coverage.
+It is possible some applications will create a consumer and may be required to be filtered. For tuning, add any additional LOLBin's for further depth of coverage.
+
+#### Associated Analytic story
+* [Suspicious WMI Use](/stories/suspicious_wmi_use)
+
+
 
 
 #### RBA
@@ -86,20 +144,22 @@ It is possible some applications will create a consumer and may be required to b
 | 63.0 | 70 | 90 | Possible malicious WMI Subscription created on $dest$ |
 
 
-
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 
 * [https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1546.003/T1546.003.md](https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1546.003/T1546.003.md)
 * [https://www.eideon.com/2018-03-02-THL03-WMIBackdoors/](https://www.eideon.com/2018-03-02-THL03-WMIBackdoors/)
-* [https://github.com/trustedsec/SysmonCommunityGuide/blob/master/WMI-events.md](https://github.com/trustedsec/SysmonCommunityGuide/blob/master/WMI-events.md)
-* [https://in.security/an-intro-into-abusing-and-identifying-wmi-event-subscriptions-for-persistence/](https://in.security/an-intro-into-abusing-and-identifying-wmi-event-subscriptions-for-persistence/)
+* [https://github.com/trustedsec/SysmonCommunityGuide/blob/master/chapters/WMI-events.md](https://github.com/trustedsec/SysmonCommunityGuide/blob/master/chapters/WMI-events.md)
+* [https://in.security/2019/04/03/an-intro-into-abusing-and-identifying-wmi-event-subscriptions-for-persistence/](https://in.security/2019/04/03/an-intro-into-abusing-and-identifying-wmi-event-subscriptions-for-persistence/)
 
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.003/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.003/atomic_red_team/windows-sysmon.log)
 

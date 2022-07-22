@@ -30,14 +30,13 @@ references:
 - https://strontic.github.io/xcyclopedia/library/control.exe-1F13E714A0FEA8887707DFF49287996F.html
 - https://app.any.run/tasks/36c14029-9df8-439c-bba0-45f2643b0c70/
 - https://attack.mitre.org/techniques/T1218/011/
-- https://www.echotrail.io/insights/search/control.exe
+- https://www.echotrail.io/insights/search/control.exe/
 - https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-40444
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.002/T1218.002.yaml
 tags:
   analytic_story:
   - Spearphishing Attachments
   - Microsoft MSHTML Remote Code Execution CVE-2021-40444
-  automated_detection_testing: passed
   confidence: 100
   context:
   - Source:Endpoint
@@ -60,6 +59,7 @@ tags:
     - Victim
     type: Hostname
   - name: parent_process_name
+    type: Process
     role:
     - Parent Process
     type: Parent Process
@@ -82,3 +82,6 @@ tags:
   - Endpoint.Processes.user
   risk_score: 80
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon
+  asset_type: Endpoint

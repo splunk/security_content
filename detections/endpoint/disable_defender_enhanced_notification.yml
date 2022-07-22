@@ -1,7 +1,7 @@
 name: Disable Defender Enhanced Notification
 id: dc65678c-301f-11ec-8e30-acde48001122
-version: 1
-date: '2021-10-18'
+version: 2
+date: '2022-01-26'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
@@ -10,12 +10,19 @@ description: This analytic is to detect a suspicious modification of registry to
   windows defender feature. This technique is to bypassed or evade detection from
   Windows Defender AV product specially the Enhanced Notification feature wher user
   or admin set to show or display alerts.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Registry where Registry.registry_path = "*Microsoft\\Windows
-  Defender\\Reporting*" Registry.registry_value_name = DisableEnhancedNotifications
-  Registry.registry_value_data = 0x00000001 by Registry.dest Registry.user Registry.registry_path
-  Registry.registry_value_name Registry.registry_value_data | `drop_dm_object_name(Registry)`
-  | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `disable_defender_enhanced_notification_filter`'
+search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Registry
+  where Registry.registry_path = "*Microsoft\\Windows Defender\\Reporting*" Registry.registry_value_name
+  = DisableEnhancedNotifications Registry.registry_value_data = 0x00000001 by _time
+  span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_value_name
+  Registry.registry_value_data Registry.process_guid | `drop_dm_object_name(Registry)`
+  |rename process_guid as proc_guid |join proc_guid, _time [| tstats `security_content_summariesonly`
+  count FROM datamodel=Endpoint.Processes by _time span=1h Processes.process_id Processes.process_name
+  Processes.process Processes.dest Processes.parent_process_name Processes.parent_process
+  Processes.process_guid | `drop_dm_object_name(Processes)` |rename process_guid as
+  proc_guid | fields _time dest user parent_process_name parent_process process_name
+  process_path process proc_guid registry_path registry_value_name registry_value_data]
+  | table _time dest user parent_process_name parent_process process_name process_path
+  process proc_guid registry_path registry_value_name registry_value_data | `disable_defender_enhanced_notification_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the registry value name, registry path, and registry value data executions
   from your endpoints. If you are using Sysmon, you must have at least version 6.0.4
@@ -26,7 +33,8 @@ references:
 tags:
   analytic_story:
   - IceID
-  automated_detection_testing: passed
+  - Windows Registry Abuse
+  - Azorult
   confidence: 70
   context:
   - Source:Endpoint
@@ -46,6 +54,7 @@ tags:
     - Victim
     type: Hostname
   - name: user
+    type: User
     role:
     - Victim
     type: user
@@ -62,3 +71,6 @@ tags:
   - _time
   risk_score: 49
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon
+  asset_type: Endpoint

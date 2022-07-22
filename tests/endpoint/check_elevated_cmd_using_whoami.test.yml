@@ -3,8 +3,8 @@ tests:
 - name: Check Elevated CMD using whoami
   file: endpoint/check_elevated_cmd_using_whoami.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-24h'
-  latest_time: 'now'
+  earliest_time: -24h
+  latest_time: now
   attack_data:
   - file_name: sysmon.log
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_js_2/sysmon.log

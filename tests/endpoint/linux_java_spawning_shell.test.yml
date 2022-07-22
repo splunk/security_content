@@ -1,0 +1,12 @@
+name: Linux Java Spawning Shell Unit Test
+tests:
+- name: Linux Java Spawning Shell
+  file: endpoint/linux_java_spawning_shell.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: java_spawn_shell_nix.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/java/java_spawn_shell_nix.log
+    source: Syslog:Linux-Sysmon/Operational
+    sourcetype: sysmon_linux

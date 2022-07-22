@@ -32,22 +32,22 @@ how_to_implement: To successfully implement this search you need to be ingesting
 known_false_positives: It is possible for some legitimate administrative utilities
   to use similar cmd_line parameters. Filter as needed.
 references:
-- https://www.fireeye.com/blog/threat-research/2017/03/fin7_spear_phishing.html
-- https://www.varonis.com/blog/dns-tunneling/
+- https://www.mandiant.com/resources/fin7-spear-phishing-campaign-targets-personnel-involved-sec-filings
+- https://www.varonis.com/blog/dns-tunneling
 - https://www.microsoft.com/security/blog/2021/01/20/deep-dive-into-the-solorigate-second-stage-activation-from-sunburst-to-teardrop-and-raindrop/
 tags:
   analytic_story:
   - Suspicious DNS Traffic
   - Dynamic DNS
-  - Command and Control
   - Data Exfiltration
-  automated_detection_testing: passed
+  - Command and Control
+  cis20: []
   confidence: 80
   context:
   - Source:Endpoint
   - Stage:Exfiltration
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/nslookup_exfil/windows-sysmon.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/nslookup_exfil/windows-security.log
   impact: 90
   kill_chain_phases:
   - Exploitation
@@ -56,6 +56,7 @@ tags:
     to DNS exfiltration.
   mitre_attack_id:
   - T1048
+  nist: []
   observable:
   - name: dest_user_id
     type: User
@@ -66,7 +67,7 @@ tags:
     role:
     - Victim
   - name: parent_process_name
-    type: Parent Process
+    type: Process
     role:
     - Parent Process
   - name: process_name
@@ -85,4 +86,6 @@ tags:
   - process
   - cmd_line
   risk_score: 72
+  risk_severity: medium
   security_domain: endpoint
+  asset_type: Endpoint

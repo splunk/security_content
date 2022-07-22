@@ -36,7 +36,7 @@ references:
 tags:
   analytic_story:
   - Log4Shell CVE-2021-44228
-  automated_detection_testing: passed
+  asset_type: Endpoint
   cis20:
   - CIS 3
   - CIS 5

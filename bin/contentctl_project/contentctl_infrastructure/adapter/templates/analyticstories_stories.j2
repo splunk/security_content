@@ -1,0 +1,21 @@
+
+
+### STORIES ###
+
+{% for story in objects %}
+[analytic_story://{{ story.name }}]
+category = {{ story.tags.category[0] }}
+last_updated = {{ story.date }}
+version = {{ story.version }}
+references = {{ story.references | tojson }}
+maintainers = [{"company": "{{ story.author_company }}", "email": "-", "name": "{{ story.author_name }}"}]
+spec_version = 3
+searches = {{ (story.detection_names + story.investigation_names) | tojson }}
+description = {{ story.description }}
+{% if story.narrative is defined %}
+narrative = {{ story.narrative }}
+{% endif %}
+
+{% endfor %}
+### END STORIES ###
+

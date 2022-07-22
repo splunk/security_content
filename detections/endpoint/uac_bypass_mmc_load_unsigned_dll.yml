@@ -24,14 +24,13 @@ references:
 tags:
   analytic_story:
   - Windows Defense Evasion Tactics
-  automated_detection_testing: passed
   confidence: 90
   context:
   - Source:Endpoint
-  - Stage:Persistence,
+  - Stage:Persistence
   - Stage:Privilege Escalation
   - Stage:Defense Evasion
-  - Scope:Incoming
+  - Scope:Inbound
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/uac_bypass/windows-sysmon2.log
   impact: 70
@@ -42,6 +41,7 @@ tags:
   mitre_attack_id:
   - T1548.002
   - T1548
+  - T1218.014
   observable:
   - name: Computer
     role:
@@ -63,3 +63,4 @@ tags:
   - Company
   risk_score: 63
   security_domain: endpoint
+  asset_type: Endpoint

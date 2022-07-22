@@ -23,11 +23,10 @@ how_to_implement: To successfully implement this search you need to be ingesting
 known_false_positives: admin may disable firewall during testing or fixing network
   problem.
 references:
-- https://tccontre.blogspot.com/2020/01/remcos-rat-evading-windows-defender-av.htm
+- https://tccontre.blogspot.com/2020/01/remcos-rat-evading-windows-defender-av.html
 tags:
   analytic_story:
   - Windows Defense Evasion Tactics
-  automated_detection_testing: passed
   confidence: 50
   context:
   - Source:Endpoint
@@ -68,3 +67,6 @@ tags:
   - _time
   risk_score: 25
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon
+  asset_type: Endpoint

@@ -1,6 +1,7 @@
 ---
 title: "Modify ACL permission To Files Or Folder"
-excerpt: "File and Directory Permissions Modification"
+excerpt: "File and Directory Permissions Modification
+"
 categories:
   - Endpoint
 last_modified_at: 2021-05-04
@@ -17,15 +18,16 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This analytic identifies suspicious modification of ACL permission to a files or folder to make it available to everyone. This technique may be used by the adversary to evade ACLs or protected files access. This changes is commonly configured by the file or directory owner with appropriate permission. This behavior is a good indicator if this command seen on a machine utilized by an account with no permission to do so.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/object-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2021-05-04
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: 7e8458cc-acca-11eb-9e3f-acde48001122
@@ -33,8 +35,8 @@ This analytic identifies suspicious modification of ACL permission to a files or
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1222](https://attack.mitre.org/techniques/T1222/) | File and Directory Permissions Modification | Defense Evasion |
 
 #### Search
@@ -48,12 +50,12 @@ This analytic identifies suspicious modification of ACL permission to a files or
 | `modify_acl_permission_to_files_or_folder_filter`
 ```
 
-#### Associated Analytic Story
-* [XMRig](/stories/xmrig)
+#### Macros
+The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed cacls.exe may be used.
+Note that `modify_acl_permission_to_files_or_folder_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -65,12 +67,19 @@ To successfully implement this search, you need to be ingesting logs with the pr
 * Processes.process_id
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed cacls.exe may be used.
 
 #### Known False Positives
 administrators may use this command. Filter as needed.
+
+#### Associated Analytic story
+* [XMRig](/stories/xmrig)
+
+
+#### Kill Chain Phase
+* Exploitation
+
 
 
 #### RBA
@@ -91,6 +100,7 @@ administrators may use this command. Filter as needed.
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log)
 

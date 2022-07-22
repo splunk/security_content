@@ -27,11 +27,10 @@ references:
 tags:
   analytic_story:
   - Active Directory Discovery
-  automated_detection_testing: passed
   confidence: 50
   context:
   - Source:Endpoint
-  - Stage:Reconnaissance
+  - Stage:Discovery
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/AD_discovery/windows-sysmon.log
   impact: 50
@@ -51,6 +50,7 @@ tags:
     - Victim
     type: Hostname
   - name: parent_process_name
+    type: Process
     role:
     - Parent Process
     type: Parent Process
@@ -70,3 +70,4 @@ tags:
   - _time
   risk_score: 25
   security_domain: endpoint
+  asset_type: Endpoint

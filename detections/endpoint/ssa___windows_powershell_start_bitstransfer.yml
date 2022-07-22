@@ -1,0 +1,93 @@
+name: Windows PowerShell Start-BitsTransfer
+id: 0bafd086-8f61-11ec-996e-acde48001122
+version: 1
+date: '2022-02-16'
+author: Michael Haag, Splunk
+type: TTP
+datamodel:
+- Endpoint_Processes
+description: Start-BitsTransfer is the PowerShell "version" of BitsAdmin.exe. Similar
+  functionality is present. This technique variation is not as commonly used by adversaries,
+  but has been abused in the past. Lesser known uses include the ability to set the
+  `-TransferType` to `Upload` for exfiltration of files. In an instance where `Upload`
+  is used, it is highly possible files will be archived. During triage, review parallel
+  processes and process lineage. Capture any files on disk and review. For the remote
+  domain or IP, what is the reputation?
+search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
+  "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"),
+  "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"),
+  "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string",
+  null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string",
+  null), event_id=ucast(map_get(input_event, "event_id"), "string", null) | where
+  cmd_line IS NOT NULL AND process_name IS NOT NULL | where process_name="pwsh.exe"
+  OR process_name="pwsh.exe" OR process_name="sqlps.exe" OR process_name="sqltoolsps.exe"
+  OR process_name="powershell.exe" OR process_name="powershell_ise.exe" | where (like
+  (cmd_line, "%start-bitstransfer%")) | eval start_time=timestamp, end_time=timestamp,
+  entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event,
+  "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line",
+  cmd_line, "process_name", process_name, "parent_process_name", parent_process_name,
+  "process_path", process_path]) | into write_ssa_detected_events();'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint_Processess` datamodel.
+known_false_positives: Limited false positives. It is possible administrators will
+  utilize Start-BitsTransfer for administrative tasks, otherwise filter based parent
+  process or command-line arguments.
+references:
+- https://isc.sans.edu/diary/Investigating+Microsoft+BITS+Activity/23281
+- https://docs.microsoft.com/en-us/windows/win32/bits/using-windows-powershell-to-create-bits-transfer-jobs
+tags:
+  analytic_story:
+  - BITS Jobs
+  - Living Off The Land
+  automated_detection_testing: passed 
+  cis20:
+  - CIS 8
+  nist:
+  - PR.PT
+  - DE.CM
+  confidence: 70
+  context:
+  - Source:Endpoint
+  - Stage:Exfiltration
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1197/atomic_red_team/T1197_windows-security.log
+  impact: 70
+  kill_chain_phases:
+  - Exploitation
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified
+    on endpoint $dest$ by user $dest_user_id$ attempting to download a file.
+  mitre_attack_id:
+  - T1197
+  - T1105
+  observable:
+  - name: dest_user_id
+    type: User
+    role:
+    - Victim
+  - name: dest_device_id
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Process
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
+  product:
+  - Splunk Behavioral Analytics
+  required_fields:
+  - _time
+  - dest_device_id
+  - process_name
+  - parent_process_name
+  - process_path
+  - dest_user_id
+  - process
+  - cmd_line
+  risk_score: 49
+  security_domain: endpoint
+  asset_type: Endpoint

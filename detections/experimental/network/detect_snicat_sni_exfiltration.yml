@@ -18,7 +18,7 @@ how_to_implement: You must be ingesting Zeek SSL data into Splunk. Zeek data sho
   or disprove if any data exfiltration has taken place.
 known_false_positives: Unknown
 references:
-- https://www.mnemonic.no/blog/introducing-snicat/
+- https://www.mnemonic.io/resources/blog/introducing-snicat/
 - https://github.com/mnemonic-no/SNIcat
 - https://attack.mitre.org/techniques/T1041/
 tags:
@@ -45,3 +45,13 @@ tags:
   - src_ip
   - dest_ip
   security_domain: network
+  confidence: 50
+  impact: 50
+  risk_score: 25
+  context: []
+  message: tbd
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim

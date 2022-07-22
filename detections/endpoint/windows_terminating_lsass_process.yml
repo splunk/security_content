@@ -1,0 +1,75 @@
+name: Windows Terminating Lsass Process
+id: 7ab3c319-a4e7-4211-9e8c-40a049d0dba6
+version: 1
+date: '2022-03-28'
+author: Teoderick Contreras, Splunk
+type: Anomaly
+datamodel: []
+description: This analytic is to detect a suspicious process terminating Lsass process. Lsass process is known to be a critical process 
+  that is responsible for enforcing security policy system. This process was commonly targetted by threat actor or red teamer to gain privilege escalation or persistence
+  in the targeted machine because it handles credentials of the logon users. In this analytic we tried to detect a suspicious process having a granted access 
+  PROCESS_TERMINATE to lsass process to modify or delete protected registrys. This technique was seen in doublezero malware that tries to wipe files and registry 
+  in compromised hosts. This anomaly detection can be a good pivot of incident response for possible credential dumping or evading security policy in a host or network environment.
+search: '`sysmon` EventCode=10 TargetImage=*lsass.exe GrantedAccess = 0x1
+  | stats count min(_time) as firstTime max(_time) as lastTime by SourceImage, TargetImage,
+  TargetProcessId, SourceProcessId, GrantedAccess CallTrace, Computer
+  | rename Computer as dest 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `windows_terminating_lsass_process_filter`'
+how_to_implement: This search requires Sysmon Logs and a Sysmon configuration, which
+  includes EventCode 10 for lsass.exe. This search uses an input macro named `sysmon`.
+  We strongly recommend that you specify your environment-specific configurations
+  (index, source, sourcetype, etc.) for Windows Sysmon logs. Replace the macro definition
+  with configurations for your Splunk environment. The search also uses a post-filter
+  macro designed to filter out known false positives.
+known_false_positives: unknown
+references:
+- https://blog.talosintelligence.com/2022/03/threat-advisory-doublezero.html
+tags:
+  analytic_story:
+  - Double Zero Destructor
+  asset_type: Endpoint
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  confidence: 80
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/doublezero_wiper/sysmon.log
+  impact: 80
+  kill_chain_phases: []
+  message: a process $SourceImage$ terminates Lsass process in $dest$
+  mitre_attack_id:
+  - T1562.001
+  - T1562
+  nist:
+  - DE.CM
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: TargetImage
+    type: Process
+    role:
+    - Target
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - TargetImage
+  - CallTrace
+  - Computer
+  - TargetProcessId
+  - SourceImage
+  - SourceProcessId
+  - GrantedAccess
+  risk_score: 64
+  security_domain: endpoint

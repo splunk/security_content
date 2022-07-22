@@ -1,7 +1,7 @@
 name: Detect mshta renamed
 id: 8f45fcf0-5b68-11eb-ae93-0242ac130002
-version: 2
-date: '2021-09-16'
+version: 3
+date: '2022-04-07'
 author: Michael Haag, Splunk
 type: Hunting
 datamodel:
@@ -12,7 +12,7 @@ description: The following analytic identifies renamed instances of mshta.exe ex
   binary. Further analysis should be performed to review the executed content and
   validation it is the real mshta.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where `process_mshta` by Processes.dest
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name!=mshta.exe AND Processes.original_file_name=MSHTA.EXE by Processes.dest
   Processes.user Processes.parent_process_name Processes.process_name Processes.process
   Processes.process_id Processes.parent_process_id Processes.original_file_name |
   `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
@@ -30,8 +30,8 @@ references:
 tags:
   analytic_story:
   - Suspicious MSHTA Activity
+  - Living Off The Land
   asset_type: Endpoint
-  automated_detection_testing: passed
   cis20:
   - CIS 8
   confidence: 100
@@ -61,6 +61,7 @@ tags:
     - Victim
     type: Hostname
   - name: parent_process_name
+    type: Process
     role:
     - Parent Process
     type: Parent Process

@@ -1,13 +1,10 @@
 name: Deny Permission using Cacls Utility Unit Test
 tests:
-  - name: Deny Permission using Cacls Utility
-    file: endpoint/ssa___deny_permission_using_cacls_utility.yml
-    pass_condition: '@count_gt(0)'
-    description: Test for usage of cacls deny permission to a file(s) or folder(s)
-    attack_data:
-      - file_name: all_icalc.log
-        data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/ssa_cacls/all_icalc.log
-        source: WinEventLog:Security
-
-
-    
+- name: Deny Permission using Cacls Utility
+  file: endpoint/ssa___deny_permission_using_cacls_utility.yml
+  pass_condition: '@count_gt(0)'
+  description: Test for usage of cacls deny permission to a file(s) or folder(s)
+  attack_data:
+  - file_name: all_icalc.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/ssa_cacls/all_icalc.log
+    source: WinEventLog:Security

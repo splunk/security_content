@@ -1,21 +1,30 @@
 name: Registry Keys Used For Privilege Escalation
 id: c9f4b923-f8af-4155-b697-1354f5bcbc5e
-version: 4
-date: '2020-11-27'
-author: David Dorsey, Splunk
+version: 5
+date: '2022-01-26'
+author: David Dorsey, Teoderick Contreras, Splunk
 type: TTP
-datamodel:
+datamodel: 
 - Endpoint
 description: This search looks for modifications to registry keys that can be used
   to elevate privileges. The registry keys under "Image File Execution Options" are
   used to intercept calls to an executable and can be used to attach malicious binaries
   to benign system binaries.
-search: '| tstats `security_content_summariesonly` count  min(_time) as firstTime
-  max(_time) as lastTime FROM datamodel=Endpoint.Registry where (Registry.registry_path="*Microsoft\\Windows
-  NT\\CurrentVersion\\Image File Execution Options*") AND (Registry.registry_value_name=GlobalFlag
-  OR Registry.registry_value_name=Debugger) by Registry.dest  Registry.user Registry.registry_path
-  Registry.registry_value_name | `security_content_ctime(lastTime)`  | `security_content_ctime(firstTime)`
-  | `drop_dm_object_name(Registry)` | `registry_keys_used_for_privilege_escalation_filter`'
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
+  where (Registry.registry_path="*Microsoft\\Windows NT\\CurrentVersion\\Image File
+  Execution Options*") AND (Registry.registry_value_name=GlobalFlag OR Registry.registry_value_name=Debugger)
+  by _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_value_name
+  Registry.registry_value_data Registry.process_guid Registry.registry_key_name |
+  `drop_dm_object_name(Registry)` |rename process_guid as proc_guid |join proc_guid,
+  _time [| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
+  by _time span=1h Processes.process_id Processes.process_name Processes.process Processes.dest
+  Processes.parent_process_name Processes.parent_process Processes.process_guid |
+  `drop_dm_object_name(Processes)` |rename process_guid as proc_guid | fields _time
+  dest user parent_process_name parent_process process_name process_path process proc_guid
+  registry_path registry_value_name registry_value_data registry_key_name] | table
+  _time dest user parent_process_name parent_process process_name process_path process
+  proc_guid registry_path registry_value_name registry_value_data registry_key_name
+  | `registry_keys_used_for_privilege_escalation_filter`'
 how_to_implement: To successfully implement this search, you must be ingesting data
   that records registry activity from your hosts to populate the endpoint data model
   in the registry node. This is typically populated via endpoint detection-and-response
@@ -31,14 +40,14 @@ tags:
   - Windows Privilege Escalation
   - Suspicious Windows Registry Activities
   - Cloud Federated Credential Abuse
-  automated_detection_testing: passed
+  - Windows Registry Abuse
+  - Hermetic Wiper 
   cis20:
   - CIS 8
   confidence: 95
   context:
-  - source:endpoint
-  - stage: Persistence
-  - Privilege Escalation
+  - Source:Endpoint
+  - Stage:Persistence
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.012/atomic_red_team/windows-sysmon.log
   impact: 80
@@ -58,6 +67,7 @@ tags:
     - Victim
     type: Hostname
   - name: user
+    type: User
     role:
     - Victim
     type: user
@@ -73,3 +83,4 @@ tags:
   - _time
   risk_score: 76
   security_domain: endpoint
+  asset_type: Endpoint

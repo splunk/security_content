@@ -1,0 +1,22 @@
+name: Data Destruction
+id: 4ae5c0d1-cebd-47d1-bfce-71bf096e38aa
+version: 1
+date: '2022-02-14'
+author: Teoderick Contreras, Splunk
+description: Leverage searches that allow you to detect and investigate unusual activities
+  that might relate to the data destruction, including deleting files, overwriting files, wiping disk and encrypting files.
+narrative: Adversaries may use this technique to maximize the impact on the target organization in operations where network wide availability interruption
+  is the goal. 
+references:
+- https://attack.mitre.org/techniques/T1485/
+- https://researchcenter.paloaltonetworks.com/2018/09/unit42-xbash-combines-botnet-ransomware-coinmining-worm-targets-linux-windows/
+- https://www.picussecurity.com/blog/a-brief-history-and-further-technical-analysis-of-sodinokibi-ransomware
+tags:
+  analytic_story: Data Destruction
+  category:
+  - Malware
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

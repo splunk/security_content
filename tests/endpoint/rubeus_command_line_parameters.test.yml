@@ -1,0 +1,12 @@
+name: Rubeus Command Line Parameters Unit Test
+tests:
+- name: Rubeus Command Line Parameters
+  file: endpoint/rubeus_command_line_parameters.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: windows-sysmon.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1550.003/rubeus/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

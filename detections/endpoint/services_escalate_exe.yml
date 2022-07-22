@@ -31,22 +31,19 @@ known_false_positives: False positives should be limited as `services.exe` shoul
 references:
 - https://thedfirreport.com/2021/03/29/sodinokibi-aka-revil-ransomware/
 - https://attack.mitre.org/techniques/T1548/
-- https://www.cobaltstrike.com/help-beacon
+- https://hstechdocs.helpsystems.com/manuals/cobaltstrike/current/userguide/index.htm#cshid=1085
 tags:
   analytic_story:
   - Cobalt Strike
-  automated_detection_testing: passed
   confidence: 95
   context:
-  - source:endpoint
-  - stage: Privilege Escalation
-  - Defense Evasion
+  - Source:Endpoint
+  - Stage:Privilege Escalation
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon.log
   impact: 80
   kill_chain_phases:
   - Exploitation
-  - Privilege Escalation
   message: A service process $parent_process_name$ with process path $process_path$
     in host $dest$
   mitre_attack_id:
@@ -57,6 +54,7 @@ tags:
     - Victim
     type: Hostname
   - name: Processes.user
+    type: User
     role:
     - Victim
     type: user
@@ -77,3 +75,6 @@ tags:
   - _time
   risk_score: 76
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon
+  asset_type: Endpoint

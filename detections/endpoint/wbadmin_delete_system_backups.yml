@@ -29,7 +29,6 @@ tags:
   - Ryuk Ransomware
   - Ransomware
   asset_type: Endpoint
-  automated_detection_testing: passed
   cis20:
   - CIS 8
   confidence: 50
@@ -64,3 +63,5 @@ tags:
   - _time
   risk_score: 15
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon

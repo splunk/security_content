@@ -1,5 +1,5 @@
 name: Create or delete windows shares using net exe
-id: qw9919ed-fe5f-492c-b139-151bb162140e
+id: 743a322c-9a68-4a0f-9c17-85d9cce2a27c
 version: 6
 date: '2020-09-16'
 author: Bhavin Patel, Splunk
@@ -22,12 +22,11 @@ how_to_implement: To successfully implement this search you need to be ingesting
 known_false_positives: Administrators often leverage net.exe to create or delete network
   shares. You should verify that the activity was intentional and is legitimate.
 references:
-- https://attack.mitre.org/techniques/T1070/005
+- https://attack.mitre.org/techniques/T1070/005/
 tags:
   analytic_story:
   - Hidden Cobra Malware
   asset_type: Endpoint
-  automated_detection_testing: passed
   cis20:
   - CIS 8
   confidence: 50
@@ -57,6 +56,7 @@ tags:
     - Victim
     type: Hostname
   - name: parent_process_name
+    type: Process
     role:
     - Parent Process
     type: Parent Process
@@ -78,3 +78,5 @@ tags:
   - _time
   risk_score: 25
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon

@@ -3,8 +3,8 @@ tests:
 - name: GitHub Dependabot Alert
   file: cloud/github_dependabot_alert.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-365d'
-  latest_time: 'now'
+  earliest_time: -365d
+  latest_time: now
   attack_data:
   - file_name: github_security_advisor_alert.json
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1195.001/github_security_advisor_alert/github_security_advisor_alert.json

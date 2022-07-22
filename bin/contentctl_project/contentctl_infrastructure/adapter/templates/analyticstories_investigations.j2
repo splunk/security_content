@@ -1,0 +1,21 @@
+
+### RESPONSE TASKS ###
+
+{% for detection in objects %}
+{% if (detection.type == 'Investigation') %}
+[savedsearch://ESCU - {{ detection.name }} - Response Task]
+type = investigation
+explanation = none
+{% if detection.how_to_implement is defined %}
+how_to_implement = {{ detection.how_to_implement }}
+{% else %}
+how_to_implement = none
+{% endif %}
+known_false_positives = not defined
+earliest_time_offset = 14400
+latest_time_offset = 0
+
+{% endif %}
+{% endfor %}
+
+### END RESPONSE TASKS ###

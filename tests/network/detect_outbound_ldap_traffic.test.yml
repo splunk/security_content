@@ -3,8 +3,8 @@ tests:
 - name: Detect Outbound LDAP Traffic
   file: network/detect_outbound_ldap_traffic.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-30d'
-  latest_time: 'now'
+  earliest_time: -30d
+  latest_time: now
   attack_data:
   - file_name: stream_http_events.log
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/outbound_ldap/bro_conn.json

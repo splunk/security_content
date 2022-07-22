@@ -1,5 +1,5 @@
 name: Detect S3 access from a new IP
-id: 2a9b80d3-6340-4345-b5ad-291bq3d0daq4
+id: e6f1bb1b-f441-492b-9126-902acda217da
 version: 1
 date: '2018-06-28'
 author: Bhavin Patel, Splunk
@@ -50,5 +50,14 @@ tags:
   - remote_ip
   risk_object: src_ip
   risk_object_type: system
-  risk_score: 10
+  risk_score: 25.0
   security_domain: network
+  confidence: 50
+  impact: 50
+  context: []
+  observable:
+  - name: dest
+    type: Other
+    role:
+    - Other
+  message: tbd

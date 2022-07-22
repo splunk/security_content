@@ -29,14 +29,14 @@ known_false_positives: Although unlikely, some legitimate applications may use s
 references:
 - https://attack.mitre.org/techniques/T1218/011/
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.011/T1218.011.md
-- https://lolbas-project.github.io/lolbas/Binaries/Rundll32
+- https://lolbas-project.github.io/lolbas/Binaries/Rundll32/
 - https://lolbas-project.github.io/lolbas/Libraries/Setupapi/
 - https://bohops.com/2018/02/26/leveraging-inf-sct-fetch-execute-techniques-for-bypass-evasion-persistence/
 tags:
   analytic_story:
   - Suspicious Rundll32 Activity
+  - Living Off The Land
   asset_type: Endpoint
-  automated_detection_testing: passed
   cis20:
   - CIS 8
   confidence: 100
@@ -67,6 +67,7 @@ tags:
     - Victim
     type: Hostname
   - name: parent_process_name
+    type: Process
     role:
     - Parent Process
     type: Parent Process
@@ -90,3 +91,5 @@ tags:
   - _time
   risk_score: 80
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon

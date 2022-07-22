@@ -1,7 +1,7 @@
 name: User Discovery With Env Vars PowerShell Script Block
 id: 77f41d9e-b8be-47e3-ab35-5776f5ec1d20
-version: 1
-date: '2021-09-13'
+version: 2
+date: '2022-03-22'
 author: Mauricio Velazco, Splunk
 type: Hunting
 datamodel: []
@@ -10,9 +10,11 @@ description: The following analytic utilizes PowerShell Script Block Logging (Ev
   logged user. Red Teams and adversaries may leverage this method to identify the
   logged user on a compromised endpoint for situational awareness and Active Directory
   Discovery.
-search: '`powershell` EventCode=4104 (Message = "*$env:UserName*" OR Message = "*[System.Environment]::UserName*")
-  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message
-  ComputerName User | `security_content_ctime(firstTime)` | `user_discovery_with_env_vars_powershell_script_block_filter`'
+search: '`powershell` EventCode=4104 (ScriptBlockText = "*$env:UserName*" OR ScriptBlockText = "*[System.Environment]::UserName*")
+  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer user_id 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` 
+  | `user_discovery_with_env_vars_powershell_script_block_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
@@ -23,14 +25,13 @@ references:
 tags:
   analytic_story:
   - Active Directory Discovery
-  automated_detection_testing: passed
   confidence: 50
   context:
   - Source:Endpoint
   - Stage:Discovery
   - Stage:Recon
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1033/AD_discovery/windows-powershell.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1033/AD_discovery/windows-powershell-xml.log
   impact: 30
   kill_chain_phases:
   - Reconnaissance
@@ -54,3 +55,4 @@ tags:
   - _time
   risk_score: 15
   security_domain: endpoint
+  asset_type: Endpoint

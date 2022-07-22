@@ -1,0 +1,19 @@
+---
+title: "Detections"
+layout: categories
+author_profile: false
+permalink: /detections/
+classes: wide
+sidebar:
+  nav: "detections"
+---
+
+| Name           | Technique       | Type            |
+| -------------- | --------------- | --------------- |
+{%- for detection in objects -%}
+{% if detection.tags.mitre_attack_enrichments %}
+| [{{ detection.name }}](/{{ detection.source }}/{{ detection.name | lower | replace(' ', '_') }}/) | {% for attack in detection.tags.mitre_attack_enrichments -%} [{{ attack.mitre_attack_technique }}](/tags/#{{ attack.mitre_attack_technique | lower | replace(" ", "-") }}){% if not loop.last -%}, {% endif -%}{%- endfor %} | [{{ detection.type }}](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types) |
+{%- else %}
+| [{{ detection.name }}](/{{ detection.source }}/{{ detection.name | lower | replace(' ', '_') }}/) | None | [{{ detection.type }}](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types) |
+{%- endif -%}
+{%- endfor -%}

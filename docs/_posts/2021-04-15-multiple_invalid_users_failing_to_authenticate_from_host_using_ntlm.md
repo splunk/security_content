@@ -1,6 +1,8 @@
 ---
 title: "Multiple Invalid Users Failing To Authenticate From Host Using NTLM"
-excerpt: "Password Spraying, Brute Force"
+excerpt: "Password Spraying
+, Brute Force
+"
 categories:
   - Endpoint
 last_modified_at: 2021-04-15
@@ -8,18 +10,17 @@ toc: true
 toc_label: ""
 tags:
   - Password Spraying
-  - Credential Access
   - Brute Force
+  - Credential Access
   - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Endpoint
 ---
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -28,23 +29,74 @@ The detection calculates the standard deviation for each host and leverages the 
 This detection will only trigger on domain controllers, not on member servers or workstations.\
 The analytics returned fields allow analysts to investigate the event further by providing fields like source workstation name and attempted user accounts.
 
-- **Type**: Anomaly
+- **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+
 - **Last Updated**: 2021-04-15
 - **Author**: Mauricio Velazco, Splunk
 - **ID**: 57ad5a64-9df7-11eb-a290-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### Annotations
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+<details>
+  <summary>ATT&CK</summary>
+
+<div markdown="1">
+
+
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1110.003](https://attack.mitre.org/techniques/T1110/003/) | Password Spraying | Credential Access |
 
 | [T1110](https://attack.mitre.org/techniques/T1110/) | Brute Force | Credential Access |
 
-#### Search
+</div>
+</details>
+
+
+<details>
+  <summary>Kill Chain Phase</summary>
+
+<div markdown="1">
+
+* Exploitation
+
+
+</div>
+</details>
+
+
+<details>
+  <summary>NIST</summary>
+
+<div markdown="1">
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CIS20</summary>
+
+<div markdown="1">
+
+
+
+</div>
+</details>
+
+<details>
+  <summary>CVE</summary>
+
+<div markdown="1">
+
+
+</div>
+</details>
+
+#### Search 
 
 ```
  `wineventlog_security` EventCode=4776 Logon_Account!="*$" 0xC0000064 action=failure 
@@ -57,12 +109,12 @@ The analytics returned fields allow analysts to investigate the event further by
 | `multiple_invalid_users_failing_to_authenticate_from_host_using_ntlm_filter`
 ```
 
-#### Associated Analytic Story
-* [Active Directory Password Spraying](/stories/active_directory_password_spraying)
+#### Macros
+The SPL above uses the following Macros:
+* [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting Domain Controller events. The Advanced Security Audit policy setting `Audit Credential Validation&#39; within `Account Logon` needs to be enabled.
+> :information_source:
+> **multiple_invalid_users_failing_to_authenticate_from_host_using_ntlm_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -72,12 +124,16 @@ To successfully implement this search, you need to be ingesting Domain Controlle
 * Source_Workstation
 
 
-#### Kill Chain Phase
-* Exploitation
-
+#### How To Implement
+To successfully implement this search, you need to be ingesting Domain Controller events. The Advanced Security Audit policy setting `Audit Credential Validation' within `Account Logon` needs to be enabled.
 
 #### Known False Positives
-A host failing to authenticate with multiple invalid domain users is not a common behavior for legitimate systems. Possible false positive scenarios include but are not limited to vulnerability scanners and missconfigured systems. If this detection triggers on a host other than a Domain Controller, the behavior could represent a password spraying attack against the host&#39;s local accounts.
+A host failing to authenticate with multiple invalid domain users is not a common behavior for legitimate systems. Possible false positive scenarios include but are not limited to vulnerability scanners and missconfigured systems. If this detection triggers on a host other than a Domain Controller, the behavior could represent a password spraying attack against the host's local accounts.
+
+#### Associated Analytic story
+* [Active Directory Password Spraying](/stories/active_directory_password_spraying)
+
+
 
 
 #### RBA
@@ -87,7 +143,8 @@ A host failing to authenticate with multiple invalid domain users is not a commo
 | 49.0 | 70 | 70 | Potential NTLM based password spraying attack from $Source_Workstation$ |
 
 
-
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 
@@ -98,8 +155,9 @@ A host failing to authenticate with multiple invalid domain users is not a commo
 
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_invalid_users_ntlm/windows-security.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_invalid_users_ntlm/windows-security.log)
 

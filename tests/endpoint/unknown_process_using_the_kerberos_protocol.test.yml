@@ -1,0 +1,16 @@
+name: Unknown Process Using The Kerberos Protocol Unit Test
+tests:
+- name: Unknown Process Using The Kerberos Protocol
+  file: endpoint/unknown_process_using_the_kerberos_protocol.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-7d'
+  latest_time: 'now'
+  attack_data:
+  - file_name: windows-security.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1550/rubeus/windows-security.log
+    source: WinEventLog:Security
+    sourcetype: WinEventLog
+  - file_name: windows-sysmon.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1550/rubeus/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

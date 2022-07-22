@@ -1,9 +1,9 @@
 name: Rundll32 LockWorkStation
 id: fa90f372-f91d-11eb-816c-acde48001122
-version: 1
+version: 2
 date: '2021-08-09'
 author: Teoderick Contreras, Splunk
-type: Investigation
+type: Anomaly
 datamodel:
 - Endpoint
 description: This search is to detect a suspicious rundll32 commandline to lock the
@@ -46,6 +46,7 @@ tags:
     - Victim
     type: Hostname
   - name: SourceImage
+    type: Process Name
     role:
     - Attacker
     type: process name
@@ -65,3 +66,4 @@ tags:
   - _time
   risk_score: 25
   security_domain: endpoint
+  asset_type: Endpoint

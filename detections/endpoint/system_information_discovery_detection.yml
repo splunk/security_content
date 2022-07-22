@@ -13,7 +13,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   OR Processes.process=*systeminfo* OR Processes.process=*hostname*) by Processes.user
   Processes.process_name Processes.process Processes.dest Processes.parent_process_name
   | `drop_dm_object_name(Processes)` | eventstats dc(process) as dc_processes_by_dest
-  by dest | where dc_processes_by_dest > 2 | stats values(process) as processes min(firstTime)
+  by dest | where dc_processes_by_dest > 2 | stats values(process) as process min(firstTime)
   as firstTime max(lastTime) as lastTime by user, dest parent_process_name | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `system_information_discovery_detection_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
@@ -21,12 +21,11 @@ how_to_implement: To successfully implement this search you need to be ingesting
   your endpoints into the `Endpoint` datamodel in the `Processes` node.
 known_false_positives: Administrators debugging servers
 references:
-- https://oscp.infosecsanyam.in/priv-escalation/windows-priv-escalation
+- https://web.archive.org/web/20210119205146/https://oscp.infosecsanyam.in/priv-escalation/windows-priv-escalation
 tags:
   analytic_story:
   - Discovery Techniques
   asset_type: Windows
-  automated_detection_testing: passed
   cis20:
   - CIS 6
   - CIS 8
@@ -67,3 +66,5 @@ tags:
   - _time
   risk_score: 15
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon

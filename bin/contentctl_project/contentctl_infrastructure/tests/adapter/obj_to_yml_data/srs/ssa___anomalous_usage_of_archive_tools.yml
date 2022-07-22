@@ -1,0 +1,65 @@
+name: Anomalous usage of Archive Tools
+id: 63614a58-10e2-4c6c-ae81-ea1113681439
+version: 1
+description: The following detection identifies the usage of archive tools from the
+  command line.
+search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,"_time"),
+  "string", null)), process=lower(ucast(map_get(input_event, "process"), "string",
+  null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string",
+  null)), process_path=ucast(map_get(input_event, "process_path"), "string", null),
+  parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string",
+  null), parent_process=ucast(map_get(input_event, "parent_process"), "string", null),
+  event_id=ucast(map_get(input_event, "event_id"), "string", null) | where process_name
+  IS NOT NULL AND parent_process_name IS NOT NULL | where like(process_name, "7z%")
+  OR process_name="WinRAR.exe" OR like(process_name, "winzip%") | where like(parent_process_name,
+  "%cmd.exe") OR like(parent_process_name, "%powershell.exe") | eval body=create_map("category_id", 101, "class_id", 101000, "detection_start_time", start_time, 
+  "detection_end_time", end_time, "device_entities", [create_map("uid", ucast(map_get(input_event, "enrichments.device_entities.device.uid"), "string", null), "type_id", 0)], 
+  "disposition_id", 1, "end_time", end_time, "event_id", 10100001, "event_time", timestamp, 
+  "finding", create_map("confidence", 60, "confidence_id", 2, 
+  "context_ids", [10, 49], "impact", 70, "impact_id", 4,
+  "kill_chain_phase", Exploitation, "kill_chain_phase_id", 4, 
+  "risk_level", Medium, "risk_level_id", 2, "type_id", 1, "ref_event_uid", event_id), 
+  "message", An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$. This behavior is indicative of suspicious loading of 7zip., "metadata", create_map("log_name", Endpoint_Processes, "version",
+  "1.0.0"), "observables", , "origin", create_map("product", create_map("name", "Splunk Behavioral Analytics")), 
+  "rule", create_map("name", "Anomalous usage of Archive Tools", "uid", "63614a58-10e2-4c6c-ae81-ea1113681439", "version", "1"), "start_time", start_time, "time", start_time,
+  "user_entities", [create_map("uid", ucast(map_get(input_event, "enrichments.user_entities.user.uid"),"string", null))])
+  | into write_ssa_finding_events();'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+known_false_positives: False positives can be ligitmate usage of archive tools from
+  the command line.
+references:
+- https://attack.mitre.org/techniques/T1560/001/
+tags:
+  analytic_story:
+  - Cobalt Strike
+  - NOBELIUM Group
+  cis20: []
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1560.001
+  - T1560
+  nist: []
+  required_fields:
+  - _time
+  - Processes.process_name
+  - Processes.process
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.parent_process
+  risk_score: 42
+  security_domain: endpoint
+  risk_severity: low
+test:
+  name: Anomalous usage of Archive Tools Unit Test
+  tests:
+  - name: Anomalous usage of Archive Tools
+    file: endpoint/ssa___anomalous_usage_of_archive_tools.yml
+    pass_condition: '@count_gt(0)'
+    attack_data:
+    - file_name: security.log
+      data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1560.001/archive_tools/windows-security.log
+      source: WinEventLog:Security

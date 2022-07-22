@@ -1,0 +1,73 @@
+name: High File Deletion Frequency
+id: b6200efd-13bd-4336-920a-057b25bbcfaf
+version: 1
+date: '2021-12-07'
+author: Patrick Bareiss, Splunk
+type: Anomaly
+datamodel:
+- Endpoint_Filesystem
+description: This detection detects a high amount of file deletions in a short time
+  for specific file types. This can be an indicator for a malicious insider.
+search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
+  "_time"), "string", null)) | eval action=ucast(map_get(input_event, "action"), "string",
+  null), process=ucast(map_get(input_event, "process"), "string", null), file_name=ucast(map_get(input_event,
+  "file_name"), "string", null), file_path=ucast(map_get(input_event, "file_path"),
+  "string", null), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string",
+  null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null)
+  | where "Endpoint_Filesystem" IN(_datamodels) | where action="deleted" | where like(file_name,
+  "%.cmd") OR like(file_name, "%.ini") OR like(file_name, "%.gif") OR like(file_name,
+  "%.jpg") OR like(file_name, "%.jpeg") OR like(file_name, "%.db") OR like(file_name,
+  "%.doc%") OR like(file_name, "%.ps1") OR like(file_name, "%.xls%") OR like(file_name,
+  "%.ppt%") OR like(file_name, "%.bmp") OR like(file_name, "%.zip") OR like(file_name,
+  "%.rar") OR like(file_name, "%.7z") OR like(file_name, "%.chm") OR like(file_name,
+  "%.png") OR like(file_name, "%.log") OR like(file_name, "%.vbs") OR like(file_name,
+  "%.js") | stats count(file_name) AS count BY dest_user_id, dest_device_id, span(timestamp,
+  10m) | where count > 20 | eval start_time=window_start, end_time=window_end, entities=mvappend(dest_user_id,
+  dest_device_id), body=create_map(["count", count]) | into write_ssa_detected_events();'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Filesytem` node.
+known_false_positives: user may delete bunch of pictures or files in a folder.
+references:
+- https://www.mandiant.com/resources/fin11-email-campaigns-precursor-for-ransomware-data-theft
+- https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html
+tags:
+  analytic_story:
+  - Clop Ransomware
+  - Insider Threat
+  confidence: 80
+  context:
+  - Source:Endpoint
+  - Stage:Execution
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/excessive_file_deletions/windows-sysmon.log
+  impact: 90
+  kill_chain_phases:
+  - Exploitation
+  message: High frequency file deletion activity detected on host $Computer$
+  mitre_attack_id:
+  - T1485
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: Computer
+    type: Endpoint
+    role:
+    - Victim
+  - name: deleted_files
+    type: File Name
+    role:
+    - Target
+  product:
+  - Splunk Behavioral Analytics
+  required_fields:
+  - action
+  - process
+  - file_name
+  - file_path
+  risk_score: 72
+  risk_severity: medium
+  security_domain: endpoint
+  asset_type: Endpoint

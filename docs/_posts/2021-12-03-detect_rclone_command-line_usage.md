@@ -21,7 +21,7 @@ tags:
 
 This analytic identifies commonly used command-line arguments used by `rclone.exe` to initiate a file transfer. Some arguments were negated as they are specific to the configuration used by adversaries. In particular, an adversary may list the files or directories of the remote file share using `ls` or `lsd`, which is not indicative of malicious behavior. During triage, at this stage of a ransomware event, exfiltration is about to occur or has already. Isolate the endpoint and continue investigating by review file modifications and parallel processes.
 
-- **Type**: TTP
+- **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2021-12-03
@@ -31,8 +31,8 @@ This analytic identifies commonly used command-line arguments used by `rclone.ex
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID             | Technique        |  Tactic             |
+| -------------- | ---------------- |-------------------- |
 | [T1020](https://attack.mitre.org/techniques/T1020/) | Automated Exfiltration | Exfiltration |
 
 #### Search
@@ -48,13 +48,10 @@ This analytic identifies commonly used command-line arguments used by `rclone.ex
 | into write_ssa_detected_events();
 ```
 
-#### Associated Analytic Story
-* [DarkSide Ransomware](/stories/darkside_ransomware)
-* [Ransomware](/stories/ransomware)
+#### Macros
+The SPL above uses the following Macros:
 
-
-#### How To Implement
-To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint_Processess` datamodel.
+Note that `detect_rclone_command-line_usage_filter` is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -67,12 +64,20 @@ To successfully implement this search you need to be ingesting information on pr
 * cmd_line
 
 
-#### Kill Chain Phase
-* Exfiltration
-
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint_Processess` datamodel.
 
 #### Known False Positives
 False positives should be limited as this is restricted to the Rclone process name. Filter or tune the analytic as needed.
+
+#### Associated Analytic story
+* [DarkSide Ransomware](/stories/darkside_ransomware)
+* [Ransomware](/stories/ransomware)
+
+
+#### Kill Chain Phase
+* Exfiltration
+
 
 
 #### RBA
@@ -82,12 +87,14 @@ False positives should be limited as this is restricted to the Rclone process na
 | 35.0 | 50 | 70 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest_device_id$ by user $dest_user_id$ attempting to connect to a remote cloud service to move files or folders. |
 
 
+Note that risk score is calculated base on the following formula: `(Impact * Confidence)/100`
+
 
 
 #### Reference
 
 * [https://redcanary.com/blog/rclone-mega-extortion/](https://redcanary.com/blog/rclone-mega-extortion/)
-* [https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html](https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html)
+* [https://www.mandiant.com/resources/shining-a-light-on-darkside-ransomware-operations](https://www.mandiant.com/resources/shining-a-light-on-darkside-ransomware-operations)
 * [https://thedfirreport.com/2021/03/29/sodinokibi-aka-revil-ransomware/](https://thedfirreport.com/2021/03/29/sodinokibi-aka-revil-ransomware/)
 * [https://thedfirreport.com/2021/11/29/continuing-the-bazar-ransomware-story/](https://thedfirreport.com/2021/11/29/continuing-the-bazar-ransomware-story/)
 

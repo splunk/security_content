@@ -3,6 +3,8 @@ on:
   push:
   pull_request:
     types: [opened, reopened]
+  schedule:
+    - cron: "44 4 * * *"
 jobs:
 
   validate-tag-if-present:
@@ -37,71 +39,305 @@ jobs:
         run: |
           echo "yes it ran"
 
+  docker-detection-testing-setup:
+    runs-on: ubuntu-latest
+    needs: [validate-tag-if-present, quit-for-dependabot]
+    steps:  
+        - name: Get branch and PR required for detection testing main.py
+          id: vars
+          run: |
+            echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
 
-  detection-testing:
-      runs-on: ubuntu-latest
-      environment: Detection-Testing-Approval
-      needs: [validate-tag-if-present, quit-for-dependabot]
-      steps:  
-
-          - name: Checkout Repo
-            uses: actions/checkout@v2
-          
-
-          #The following branch name only works (and is only used) for a push
-          #to a branch. We used a different method for getting the source branch
-          #from a PR
-          - name: Get branch and PR required for detection testing main.py
-            id: vars
-            run: |
-              echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
-
-          - name: Install System Packages
-            run: | 
-              sudo apt update -qq
-              sudo apt install jq -qq          
+        - name: Checkout Repo
+          uses: actions/checkout@v2
+          with:
+            ref: develop
         
-          - uses: actions/setup-python@v2
-            with:
-              python-version: '3.9' #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
-              architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+      
 
-          - name: Install Python Dependencies
-            run: |
-              #Get the virtualenv set up
-              cd bin/automated_detection_testing/ci/python_ci_code
-              rm -rf venv
-              python3 -m venv --clear venv
-              source venv/bin/activate
-              python3 -m pip install --upgrade pip
-              python3 -m pip install wheel
-              python3 -m pip install -q -r requirements.txt
+        - uses: actions/setup-python@v2
+          with:
+            python-version: '3.9' #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
+            architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified          
+        
+        - name: Install Python Dependencies
+          run: |
+            cd bin/docker_detection_tester
+            python3 -m venv .venv
+            source .venv/bin/activate
+            python3 -m pip install wheel
+            python3 -m pip install -r requirements.txt
+        
+        - name: Run the CI
+          run: |
+            cd bin/docker_detection_tester
+            source .venv/bin/activate
+            echo "github.event.issue.pull_request    : [${{ github.event.issue.pull_request }}]"
+            echo "github.event.pull_request.number   : [${{ github.event.pull_request.number }}]"
+            echo "steps.vars.outputs.branch          : [${{ steps.vars.outputs.branch }}]"
+            echo "github.event.pull_request.head.ref : [${{ github.event.pull_request.head.ref }}]"
+            echo "github.event_name                  : [${{ github.event_name }}]"
+            
+            
+            if [[ ${{ github.event_name }} == schedule ]]; then
+              # Note that scheduled actions ONLY run on the default branch, so it won't run on all other branches!
+              echo "Running a nightly test on all detections OR a commit was made directly to develop"
+              python detection_testing_execution.py run --branch develop --mode all --mock --config_file test_config_github_actions.json  
+            elif [[ ! -z "${{  github.event.pull_request.head.ref }}" &&  ! -z "${{ github.event.pull_request.number }}" ]]; then
+              echo "Pull request from source branch [${{ github.event.pull_request.head.ref }}] for PR number [${{ github.event.issue.number }}]"
+              python detection_testing_execution.py run --branch ${{ github.event.pull_request.head.ref }} --pr_number ${{ github.event.pull_request.number }}  --mode changes --mock --config_file test_config_github_actions.json  
+            else
+              echo "Push from branch [${{ steps.vars.outputs.branch }}]"
+              python detection_testing_execution.py run --branch  ${{ steps.vars.outputs.branch }}  --mode changes --mock --config_file test_config_github_actions.json
+            fi
+
+            mv *-test-run.json replicate_test.json
+        - name: Upload Test Results Files
+          uses: actions/upload-artifact@v2
+          with:
+            name: testing-results-config
+            path: |
+              bin/docker_detection_tester/prior_config/apps/DA-ESS-ContentUpdate-latest.tar.gz
+              bin/docker_detection_tester/prior_config/config_tests_0.json
+              bin/docker_detection_tester/prior_config/config_tests_1.json
+              bin/docker_detection_tester/prior_config/config_tests_2.json
+              bin/docker_detection_tester/prior_config/config_tests_3.json
+              bin/docker_detection_tester/prior_config/config_tests_4.json
+              bin/docker_detection_tester/prior_config/config_tests_5.json
+              bin/docker_detection_tester/prior_config/config_tests_6.json
+              bin/docker_detection_tester/prior_config/config_tests_7.json
+              bin/docker_detection_tester/prior_config/config_tests_8.json
+              bin/docker_detection_tester/prior_config/config_tests_9.json
+
+        - name: Upload File to Enable Replication of the Test at a Different Time or Place
+          uses: actions/upload-artifact@v2
+          with:
+            name: replicate_test
+            path: |
+              bin/docker_detection_tester/replicate_test.json
+
+  docker-detection-testing-execution:
+    runs-on: ubuntu-latest
+    needs: [docker-detection-testing-setup]
+    strategy:
+      matrix:
+        manifest_filename: ["config_tests_0.json", 
+                        "config_tests_1.json",
+                        "config_tests_2.json",
+                        "config_tests_3.json",
+                        "config_tests_4.json",
+                        "config_tests_5.json",
+                        "config_tests_6.json",
+                        "config_tests_7.json",
+                        "config_tests_8.json",
+                        "config_tests_9.json"]
+    steps:  
+        - name: Get branch and PR required for detection testing main.py
+          id: vars
+          run: |
+            echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
+
+        - name: Checkout Repo
+          uses: actions/checkout@v2
+          with:
+            ref: develop
+        
+        - name: Download artifacts
+          uses: actions/download-artifact@v2
+          with:
+            name: testing-results-config
+            path: bin/docker_detection_tester/prior_config
+        
+
+        - uses: actions/setup-python@v2
+          with:
+            python-version: '3.9' #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
+            architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified          
+        
+        - name: Install Python Dependencies
+          run: |
+            cd bin/docker_detection_tester
+            python3 -m venv .venv
+            source .venv/bin/activate
+            python3 -m pip install wheel
+            python3 -m pip install -r requirements.txt
+        
+        - name: Run the CI
+          run: |
+            cd bin/docker_detection_tester
+            source .venv/bin/activate
+            
+            python3 detection_testing_execution.py run -c prior_config/${{ matrix.manifest_filename}} 
+                    
+        
+        - name: Upload Test Results Files
+          uses: actions/upload-artifact@v2
+          with:
+            name: ${{ matrix.manifest_filename}}.results
+            path: |
+              bin/docker_detection_tester/test_results/success.csv
+              bin/docker_detection_tester/test_results/error.csv
+              bin/docker_detection_tester/test_results/failure.csv
+              bin/docker_detection_tester/test_results/combined.csv
+              bin/docker_detection_tester/test_results/success.json
+              bin/docker_detection_tester/test_results/error.json
+              bin/docker_detection_tester/test_results/failure.json
+              bin/docker_detection_tester/test_results/combined.json
+
+              bin/docker_detection_tester/test_results/summary.json
           
-              
-          #Set up credentials in the environment so that boto will be able to find them
-          - uses: aws-actions/configure-aws-credentials@v1
-            with:
-              aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-              aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-              #Right now the script is hard coded to EU because of the dev who originally wrote it...
-              #probably change that arg to None and set here?
-              aws-region: us-west-1 #assume we will always use this, could make this an environment variable...
+  docker-detection-testing-execution-merge-results:
+    runs-on: ubuntu-latest
+    needs: [docker-detection-testing-setup, docker-detection-testing-execution]
+ 
+    steps:  
+        - name: Get branch and PR required for detection testing main.py
+          id: vars
+          run: |
+            echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
 
-          - name: Run Detection testing
-            timeout-minutes: 120
-            run: |
-              cd bin/automated_detection_testing/ci/python_ci_code
-              source venv/bin/activate 
-              
-              echo "github.event.issue.pull_request    : [${{ github.event.issue.pull_request }}]"
-              echo "github.event.pull_request.number   : [${{ github.event.pull_request.number }}]"
-              echo "steps.vars.outputs.branch          : [${{ steps.vars.outputs.branch }}]"
-              echo "github.event.pull_request.head.ref: [${{ github.event.pull_request.head.ref }}]"
+        - name: Checkout Repo
+          uses: actions/checkout@v2
+          with:
+            ref: develop
+        
+        - name: Download artifacts
+          uses: actions/download-artifact@v2
+          with:
+            name: config_tests_0.json.results
+            path: bin/docker_detection_tester/results_0
+        - name: Download artifacts
+          uses: actions/download-artifact@v2
+          with:
+            name: config_tests_1.json.results
+            path: bin/docker_detection_tester/results_1
+        - name: Download artifacts
+          uses: actions/download-artifact@v2
+          with:
+            name: config_tests_2.json.results
+            path: bin/docker_detection_tester/results_2
+        - name: Download artifacts
+          uses: actions/download-artifact@v2
+          with:
+            name: config_tests_3.json.results
+            path: bin/docker_detection_tester/results_3
+        - name: Download artifacts
+          uses: actions/download-artifact@v2
+          with:
+            name: config_tests_4.json.results
+            path: bin/docker_detection_tester/results_4
+        - name: Download artifacts
+          uses: actions/download-artifact@v2
+          with:
+            name: config_tests_5.json.results
+            path: bin/docker_detection_tester/results_5
+        - name: Download artifacts
+          uses: actions/download-artifact@v2
+          with:
+            name: config_tests_6.json.results
+            path: bin/docker_detection_tester/results_6
+        - name: Download artifacts
+          uses: actions/download-artifact@v2
+          with:
+            name: config_tests_7.json.results
+            path: bin/docker_detection_tester/results_7
+        - name: Download artifacts
+          uses: actions/download-artifact@v2
+          with:
+            name: config_tests_8.json.results
+            path: bin/docker_detection_tester/results_8
+        - name: Download artifacts
+          uses: actions/download-artifact@v2
+          with:
+            name: config_tests_9.json.results
+            path: bin/docker_detection_tester/results_9
+        
+        - uses: actions/setup-python@v2
+          with:
+            python-version: '3.9' #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
+            architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified    
+        
+        - name: Install Python Dependencies
+          run: |
+            cd bin/docker_detection_tester
+            python3 -m venv .venv
+            source .venv/bin/activate
+            python3 -m pip install wheel
+            python3 -m pip install -r requirements.txt
 
-              if [[ ! -z "${{  github.event.pull_request.head.ref }}" &&  ! -z "${{ github.event.pull_request.number }}" ]]; then
-                echo "Pull request from source branch [${{ github.event.pull_request.head.ref }}] for PR number [${{ github.event.issue.number }}]"
-                python3 main.py -b ${{ github.event.pull_request.head.ref }} -pr ${{ github.event.pull_request.number }}
-              else
-                echo "Push from branch [${{ steps.vars.outputs.branch }}]"
-                python3 main.py -b ${{ steps.vars.outputs.branch }}
-              fi
+        - name: Merge Detections into single File
+          run: |
+            cd bin/docker_detection_tester
+            source .venv/bin/activate
+            python summarize_json.py --files results_*/summary.json --output_filename summary_test_results.json
+            
+            
+        - name: Upload Summary Test Results JSON
+          uses: actions/upload-artifact@v2
+          if: always()
+          with:
+            name: SummaryTestResults
+            path: |
+              bin/docker_detection_tester/summary_test_results.json
+
+        - name: Upload Failures Manifest on Failure
+          uses: actions/upload-artifact@v2
+          if: failure()
+          with:
+            name: DetectionFailureManifest
+            path: |
+              bin/docker_detection_tester/detection_failure_manifest.json
+        
+          
+        #Always clean these up, they make the output messy
+        - name: Clean up intermediate Files
+          uses: geekyeggo/delete-artifact@v1
+          if: always()
+          with:
+              name: |
+                config_tests_0.json.results
+                config_tests_1.json.results
+                config_tests_2.json.results
+                config_tests_3.json.results
+                config_tests_4.json.results
+                config_tests_5.json.results
+                config_tests_6.json.results
+                config_tests_7.json.results
+                config_tests_8.json.results
+                config_tests_9.json.results
+        
+        - name: Log in to S3 for Artifact Uploads
+          if: ${{ github.event_name == 'schedule' }}
+          uses: aws-actions/configure-aws-credentials@v1
+          with:
+            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            
+            aws-region: us-west-2
+
+        - name: Upload S3 Badge and Summary Artifacts for Nightly Scheduled Run
+          if: ${{ github.event_name == 'schedule' }}
+          run: |
+            cd bin/docker_detection_tester
+            python generate_detection_coverage_badge.py --input_summary_file summary_test_results.json --output_badge_file detection_coverage.svg --badge_string "Pass Rate"
+            
+
+            #Upload artifact (summary test results)
+            aws s3 cp summary_test_results.json s3://security-content/reporting/summary_test_results.json
+
+            #Since these reside in a public bucket, no need to explicitly mark as public
+            # make the file public since it is not by default
+            #aws s3api put-object-acl --bucket security-content --key reporting/summary_test_results.json --acl public-read
+            
+            
+            #Upload artifact (test results coverage badge)
+            aws s3 cp detection_coverage.svg s3://security-content/reporting/detection_coverage.svg
+            
+            #Since these reside in a public bucket, no need to explicitly mark as public
+            # make the file public since it is not by default
+            #aws s3api put-object-acl --bucket security-content --key reporting/detection_coverage.svg --acl public-read
+
+
+
+
+      
