@@ -53,9 +53,9 @@ tags:
   - DE.CM
   observable:
   - name: dest
+    type: Endpoint
     role:
     - Victim
-    type: Endpoint
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

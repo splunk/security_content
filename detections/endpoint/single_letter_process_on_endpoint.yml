@@ -46,24 +46,23 @@ tags:
   - PR.DS
   observable:
   - name: dest
+    type: Hostname
     role:
     - Victim
-    type: Hostname
   - name: user
     type: User
     role:
     - Victim
-    type: user
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.user
   - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.process
+  - Processes.process_name
   risk_score: 63
   security_domain: endpoint
   supported_tas:

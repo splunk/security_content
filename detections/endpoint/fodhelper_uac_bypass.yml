@@ -21,7 +21,7 @@ description: 'Fodhelper.exe has a known UAC bypass as it attempts to look for sp
   on the registry keys. Isolate the endpoint and review parallel processes for additional
   behavior.'
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name="fodhelper.exe"
+  as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=fodhelper.exe
   by Processes.dest Processes.user Processes.parent_process Processes.process_name
   Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `fodhelper_uac_bypass_filter`'
@@ -56,32 +56,32 @@ tags:
   - T1548
   observable:
   - name: user
-    role:
-    - Victim
     type: User
-  - name: dest
     role:
     - Victim
+  - name: dest
     type: Endpoint
+    role:
+    - Victim
   - name: parent_process_name
+    type: Process Name
     role:
     - Parent Process
     - Attacker
-    type: Process Name
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.parent_process
-  - Endpoint.Processes.parent_process_id
-  - Endpoint.Processes.parent_process_name
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_id
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.user
   - _time
+  - Processes.parent_process_name
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_id
   risk_score: 81
   security_domain: endpoint
   supported_tas:

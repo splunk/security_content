@@ -4,7 +4,8 @@ version: 1
 date: '2021-03-16'
 author: Teoderick Contreras
 type: Anomaly
-datamodel: []
+datamodel:
+- Endpoint
 description: This search looks for high frequency of file deletion relative to process
   name and process id. These events usually happen when the ransomware tries to encrypt
   the files with the ransomware file extensions and sysmon treat the original files
@@ -42,17 +43,17 @@ tags:
   - T1485
   observable:
   - name: user
-    role:
-    - Victim
     type: User
-  - name: Computer
     role:
     - Victim
+  - name: Computer
     type: Endpoint
+    role:
+    - Victim
   - name: deleted_files
+    type: File Name
     role:
     - Target
-    type: File Name
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

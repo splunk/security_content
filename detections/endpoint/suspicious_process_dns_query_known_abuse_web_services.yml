@@ -45,14 +45,13 @@ tags:
   - T1059
   observable:
   - name: Computer
+    type: Hostname
     role:
     - Victim
-    type: Hostname
   - name: process_name
     type: Process
     role:
     - Attacker
-    type: process name
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

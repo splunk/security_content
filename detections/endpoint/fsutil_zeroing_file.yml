@@ -11,7 +11,7 @@ description: This search is to detect a suspicious fsutil process to zeroing a t
   malware path as part of its defense evasion after encrypting the compromised host.
 search: '| tstats `security_content_summariesonly` count values(Processes.process)
   as process values(Processes.parent_process) as parent_process min(_time) as firstTime
-  max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name="fsutil.exe"
+  max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=fsutil.exe
   Processes.process="*setzerodata*" by Processes.user Processes.process_name Processes.parent_process_name
   Processes.dest  Processes.process Processes.parent_process | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `fsutil_zeroing_file_filter`'
@@ -39,21 +39,21 @@ tags:
   - T1070
   observable:
   - name: dest
+    type: Endpoint
     role:
     - Victim
-    type: Endpoint
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.parent_process
-  - Endpoint.Processes.parent_process_name
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.user
   - _time
+  - Processes.user
+  - Processes.process_name
+  - Processes.parent_process_name
+  - Processes.dest
+  - Processes.process
+  - Processes.parent_process
   risk_score: 54
   security_domain: endpoint
   supported_tas:

@@ -57,14 +57,14 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.parent_process
-  - Endpoint.Processes.parent_process_id
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_id
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.user
   - _time
+  - Processes.process
+  - Processes.dest
+  - Processes.user
+  - Processes.process_name
+  - Processes.parent_process
+  - Processes.process_id
+  - Processes.parent_process_id
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_microsoft_sysmon

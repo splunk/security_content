@@ -4,7 +4,8 @@ version: 1
 date: '2021-07-29'
 author: Teoderick Contreras, Splunk
 type: TTP
-datamodel: []
+datamodel:
+- Endpoint
 description: This analytic identifies the suspicious Remote Thread execution of rundll32.exe
   process to cmd.exe process. This technique was seen in IcedID malware to execute
   its malicious code in normal process for defense evasion and to steal sensitive
@@ -39,14 +40,13 @@ tags:
   - T1055
   observable:
   - name: Computer
+    type: Hostname
     role:
     - Victim
-    type: Hostname
   - name: SourceImage
     type: Process
     role:
     - Attacker
-    type: process name
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

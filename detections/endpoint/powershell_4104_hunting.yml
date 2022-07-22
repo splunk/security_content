@@ -75,16 +75,14 @@ tags:
     type: Hostname
     role:
     - Victim
-    type: Hostname
   - name: parent_process_name
     type: Process
     role:
     - Parent Process
-    type: Parent Process
   - name: process_name
+    type: Process
     role:
     - Child Process
-    type: Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

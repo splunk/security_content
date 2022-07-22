@@ -4,7 +4,8 @@ version: 2
 date: '2022-06-01'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 type: TTP
-datamodel: []
+datamodel:
+- Endpoint
 description: this search is designed to detect suspicious wermgr.exe process that
   tries to connect to known IP web services. This technique is know for trickbot and
   other trojan spy malware to recon the infected machine and look for its ip address
@@ -46,9 +47,9 @@ tags:
   - T1590.005
   observable:
   - name: ComputerName
+    type: Endpoint
     role:
     - Victim
-    type: Endpoint
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

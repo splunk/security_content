@@ -44,25 +44,25 @@ tags:
   - T1222
   observable:
   - name: dest
-    role:
-    - Victim
     type: Endpoint
-  - name: user
     role:
     - Victim
+  - name: user
     type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.parent_process_name
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_id
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.user
   - _time
+  - Processes.parent_process_name
+  - Processes.process_name
+  - Processes.dest
+  - Processes.user
+  - Processes.process_id
+  - Processes.process
   risk_score: 72
   security_domain: endpoint
   supported_tas:

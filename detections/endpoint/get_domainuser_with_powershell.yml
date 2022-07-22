@@ -43,32 +43,31 @@ tags:
   - T1087
   observable:
   - name: user
-    role:
-    - Victim
     type: User
-  - name: dest
     role:
     - Victim
+  - name: dest
     type: Hostname
+    role:
+    - Victim
   - name: parent_process_name
     type: Process
     role:
     - Parent Process
-    type: Parent Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.parent_process
-  - Endpoint.Processes.parent_process_id
-  - Endpoint.Processes.parent_process_name
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_id
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.user
   - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_id
+  - Processes.parent_process_name
   risk_score: 25
   security_domain: endpoint
   supported_tas:

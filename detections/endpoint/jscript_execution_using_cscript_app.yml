@@ -46,26 +46,26 @@ tags:
   - T1059.007
   observable:
   - name: dest
-    role:
-    - Victim
     type: Endpoint
-  - name: user
     role:
     - Victim
+  - name: user
     type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.parent_process
-  - Endpoint.Processes.parent_process_name
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_id
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.user
   - _time
+  - Processes.parent_process_name
+  - Processes.parent_process
+  - Processes.process_name
+  - Processes.process_id
+  - Processes.process
+  - Processes.dest
+  - Processes.user
   risk_score: 49
   security_domain: endpoint
   supported_tas:

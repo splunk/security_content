@@ -8,7 +8,7 @@ datamodel:
 - Change
 description: This search will detect a spike in the number of API calls made to your
   cloud infrastructure environment by a user.
-search: '| tstats count as api_calls values(All_Changes.command) as command from datamodel=Change.All_Changes
+search: '| tstats count as api_calls values(All_Changes.command) as command from datamodel=Change
   where All_Changes.user!=unknown All_Changes.status=success by All_Changes.user _time
   span=1h | `drop_dm_object_name("All_Changes")` | eval HourOfDay=strftime(_time,
   "%H") | eval HourOfDay=floor(HourOfDay/4)*4 | eval DayOfWeek=strftime(_time, "%w")
@@ -50,18 +50,18 @@ tags:
   - PR.AC
   observable:
   - name: user
+    type: User
     role:
     - Attacker
-    type: User
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Change.All_Changes.command
-  - Change.All_Changes.status
-  - Change.All_Changes.user
   - _time
+  - All_Changes.command
+  - All_Changes.user
+  - All_Changes.status
   risk_score: 15
   security_domain: network
   supported_tas:

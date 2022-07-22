@@ -8,13 +8,12 @@ datamodel:
 - Change
 description: Find EC2 instances being created with previously unseen instance types.
 search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime values(All_Changes.object_id)
-  as dest, count from datamodel=Change.All_Changes where All_Changes.action=created
-  by All_Changes.Instance_Changes.instance_type, All_Changes.user | `drop_dm_object_name("All_Changes")`
-  | `drop_dm_object_name("Instance_Changes")` | where instance_type != "unknown" |
-  lookup previously_seen_cloud_compute_instance_types instance_type as instance_type
-  OUTPUTNEW firstTimeSeen, enough_data | eventstats max(enough_data) as enough_data
-  | where enough_data=1 | eval firstTimeSeenInstanceType=min(firstTimeSeen) | where
-  isnull(firstTimeSeenInstanceType) OR firstTimeSeenInstanceType > relative_time(now(),
+  as dest, count from datamodel=Change where All_Changes.action=created by All_Changes.Instance_Changes.instance_type,
+  All_Changes.user | `drop_dm_object_name("All_Changes")` | `drop_dm_object_name("Instance_Changes")`
+  | where instance_type != "unknown" | lookup previously_seen_cloud_compute_instance_types
+  instance_type as instance_type OUTPUTNEW firstTimeSeen, enough_data | eventstats
+  max(enough_data) as enough_data | where enough_data=1 | eval firstTimeSeenInstanceType=min(firstTimeSeen)
+  | where isnull(firstTimeSeenInstanceType) OR firstTimeSeenInstanceType > relative_time(now(),
   "-24h@h") | table firstTime, user, dest, count, instance_type | `security_content_ctime(firstTime)`
   | `cloud_compute_instance_created_with_previously_unseen_instance_type_filter`'
 how_to_implement: You must be ingesting your cloud infrastructure logs from your cloud
@@ -51,22 +50,23 @@ tags:
   - ID.AM
   observable:
   - name: user
+    type: User
     role:
     - Attacker
-    type: User
   - name: dest
+    type: Endpoint
     role:
     - Victim
-    type: Endpoint
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Change.All_Changes.action
-  - Change.All_Changes.object_id
-  - Change.All_Changes.user
   - _time
+  - All_Changes.object_id
+  - All_Changes.action
+  - All_Changes.Instance_Changes.instance_type
+  - All_Changes.user
   risk_score: 30
   security_domain: threat
   supported_tas:

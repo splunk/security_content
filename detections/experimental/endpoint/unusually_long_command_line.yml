@@ -4,8 +4,7 @@ version: 5
 date: '2020-12-08'
 author: David Dorsey, Splunk
 type: Anomaly
-datamodel:
-- Endpoint
+datamodel: []
 description: Command lines that are extremely long may be indicative of malicious
   activity on your hosts.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -46,22 +45,22 @@ tags:
   - DE.CM
   observable:
   - name: dest
+    type: Endpoint
     role:
     - Victim
-    type: Endpoint
   - name: Processes.process_name
+    type: Process
     role:
     - Attacker
-    type: Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.user
   - _time
+  - Processes.user
+  - Processes.dest
+  - Processes.process_name
+  - Processes.process
   risk_score: 42
   security_domain: endpoint

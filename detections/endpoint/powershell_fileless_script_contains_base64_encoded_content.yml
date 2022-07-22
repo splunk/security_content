@@ -53,13 +53,13 @@ tags:
   - T1059.001
   observable:
   - name: ComputerName
-    role:
-    - Victim
     type: Hostname
-  - name: User
     role:
     - Victim
+  - name: User
     type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

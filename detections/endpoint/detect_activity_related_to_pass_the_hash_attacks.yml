@@ -46,17 +46,17 @@ tags:
   - PR.IP
   observable:
   - name: user
-    role:
-    - Victim
     type: User
-  - name: dest
     role:
     - Victim
+  - name: dest
     type: Hostname
+    role:
+    - Victim
   - name: EventCode
+    type: Other
     role:
     - Other
-    type: Other
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

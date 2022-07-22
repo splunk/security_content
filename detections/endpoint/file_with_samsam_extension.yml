@@ -44,28 +44,28 @@ tags:
   - DE.CM
   observable:
   - name: user
-    role:
-    - Victim
     type: User
-  - name: dest
     role:
     - Victim
+  - name: dest
     type: Endpoint
+    role:
+    - Victim
   - name: file_name
+    type: File Name
     role:
     - Other
     - Attacker
-    type: File Name
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Filesystem.dest
-  - Endpoint.Filesystem.file_name
-  - Endpoint.Filesystem.file_path
-  - Endpoint.Filesystem.user
   - _time
+  - Filesystem.user
+  - Filesystem.dest
+  - Filesystem.file_path
+  - Filesystem.file_name
   risk_score: 90
   security_domain: endpoint
   supported_tas:

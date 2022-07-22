@@ -4,7 +4,8 @@ version: 1
 date: '2021-09-07'
 author: Teoderick Contreras, Splunk
 type: Anomaly
-datamodel: []
+datamodel:
+- Endpoint
 description: This analytic is to detect an application try to connect and create ADSI
   Object to do LDAP query. Every time an application connects to the directory and
   attempts to create an ADSI object, the Active Directory Schema is checked for changes.
@@ -46,9 +47,9 @@ tags:
   - T1087
   observable:
   - name: Computer
+    type: Hostname
     role:
     - Victim
-    type: Hostname
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

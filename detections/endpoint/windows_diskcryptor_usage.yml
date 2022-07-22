@@ -13,7 +13,7 @@ description: The following analytic identifies DiskCryptor  process name of dcry
   arguments used.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.process_name="dcrypt.exe"
-  OR Processes.original_file_name="dcinst.exe") by Processes.dest Processes.user Processes.parent_process_name
+  OR Processes.original_file_name=dcinst.exe) by Processes.dest Processes.user Processes.parent_process_name
   Processes.process_name Processes.original_file_name Processes.process Processes.process_id
   Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `windows_diskcryptor_usage_filter`'
@@ -46,36 +46,38 @@ tags:
   - T1486
   observable:
   - name: user
-    role:
-    - Victim
     type: User
-  - name: dest
     role:
     - Victim
+  - name: dest
     type: Hostname
+    role:
+    - Victim
   - name: parent_process_name
     type: Process
     role:
     - Parent Process
-    type: Parent Process
   - name: process_name
+    type: Process
     role:
     - Child Process
-    type: Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.original_file_name
-  - Endpoint.Processes.parent_process_id
-  - Endpoint.Processes.parent_process_name
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_id
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.user
   - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.parent_process
+  - Processes.original_file_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_path
+  - Processes.process_path
+  - Processes.parent_process_id
   risk_score: 35
   security_domain: endpoint
   asset_type: Endpoint

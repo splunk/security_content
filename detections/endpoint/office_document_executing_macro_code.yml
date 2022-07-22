@@ -4,7 +4,8 @@ version: 1
 date: '2021-04-14'
 author: Teoderick Contreras, Splunk
 type: TTP
-datamodel: []
+datamodel:
+- Endpoint
 description: this detection was designed to identifies suspicious office documents
   that using macro code. Macro code is known to be one of the prevalent weaponization
   or attack vector of threat actor. This malicious macro code is embed to a office
@@ -44,9 +45,9 @@ tags:
   - T1566.001
   observable:
   - name: dest
+    type: Endpoint
     role:
     - Victim
-    type: Endpoint
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -4,7 +4,8 @@ version: 1
 date: '2021-08-03'
 author: Teoderick Contreras, Splunk
 type: TTP
-datamodel: []
+datamodel:
+- Endpoint
 description: This search is to detect a suspicious file creation of sqlite3.dll in
   %temp% folder. This behavior was seen in IcedID malware where it download sqlite
   module to parse browser database like for chrome or firefox to stole browser information
@@ -38,14 +39,13 @@ tags:
   - T1005
   observable:
   - name: Computer
+    type: Hostname
     role:
     - Victim
-    type: Hostname
   - name: SourceImage
     type: Process
     role:
     - Attacker
-    type: process name
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

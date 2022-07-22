@@ -4,7 +4,8 @@ version: 1
 date: '2021-06-02'
 author: Teoderick Contreras, Splunk
 type: TTP
-datamodel: []
+datamodel:
+- Endpoint
 description: this search is designed to detect potential malicious process loading
   COM object to wbemprox.dll,
 search: '`sysmon` EventCode=7  ImageLoaded IN ("*\\fastprox.dll", "*\\wbemprox.dll",
@@ -40,9 +41,9 @@ tags:
   - T1218.003
   observable:
   - name: Computer
+    type: Endpoint
     role:
     - Victim
-    type: Endpoint
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

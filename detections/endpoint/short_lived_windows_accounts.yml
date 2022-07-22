@@ -9,7 +9,7 @@ datamodel:
 description: This search detects accounts that were created and deleted in a short
   time period.
 search: '| tstats `security_content_summariesonly` values(All_Changes.result_id) as
-  result_id count min(_time) as firstTime max(_time) as lastTime from datamodel=Change.All_Changes
+  result_id count min(_time) as firstTime max(_time) as lastTime from datamodel=Change
   where All_Changes.result_id=4720 OR All_Changes.result_id=4726 by _time span=4h
   All_Changes.user All_Changes.dest | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`
   | `drop_dm_object_name("All_Changes")` | search result_id = 4720 result_id=4726
@@ -44,23 +44,22 @@ tags:
   - PR.IP
   observable:
   - name: dest
+    type: Hostname
     role:
     - Victim
-    type: Hostname
   - name: user
     type: User
     role:
     - Victim
-    type: user
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Change.All_Changes.dest
-  - Change.All_Changes.result_id
-  - Change.All_Changes.user
   - _time
+  - All_Changes.result_id
+  - All_Changes.user
+  - All_Changes.dest
   risk_score: 63
   security_domain: access
   kill_chain_phases:

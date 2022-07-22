@@ -41,13 +41,13 @@ tags:
   - T1556
   observable:
   - name: ActorIpAddress
+    type: IP Address
     role:
     - Attacker
-    type: IP Address
   - name: UserId
+    type: User
     role:
     - Victim
-    type: User
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

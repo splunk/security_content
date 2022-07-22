@@ -44,7 +44,6 @@ tags:
     type: Unknown
     role:
     - Victim
-    type: System
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

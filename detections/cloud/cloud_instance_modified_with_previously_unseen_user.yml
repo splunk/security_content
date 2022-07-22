@@ -10,7 +10,7 @@ description: This search looks for cloud instances being modified by users who h
   not previously modified them.
 search: '| tstats `security_content_summariesonly` count earliest(_time) as firstTime,
   latest(_time) as lastTime values(All_Changes.object_id) as object_id values(All_Changes.command)
-  as command from datamodel=Change.All_Changes where All_Changes.action=modified All_Changes.change_type=EC2
+  as command from datamodel=Change where All_Changes.action=modified All_Changes.change_type=EC2
   All_Changes.status=success by All_Changes.user | `drop_dm_object_name("All_Changes")`
   | lookup previously_seen_cloud_instance_modifications_by_user user as user OUTPUTNEW
   firstTimeSeen, enough_data | eventstats max(enough_data) as enough_data | where
@@ -50,25 +50,25 @@ tags:
   - ID.AM
   observable:
   - name: user
+    type: User
     role:
     - Attacker
-    type: User
   - name: dest
+    type: Endpoint
     role:
     - Victim
-    type: Endpoint
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Change.All_Changes.action
-  - Change.All_Changes.change_type
-  - Change.All_Changes.command
-  - Change.All_Changes.object_id
-  - Change.All_Changes.status
-  - Change.All_Changes.user
   - _time
+  - All_Changes.object_id
+  - All_Changes.command
+  - All_Changes.action
+  - All_Changes.change_type
+  - All_Changes.status
+  - All_Changes.user
   risk_score: 42
   security_domain: threat
   supported_tas:

@@ -40,9 +40,9 @@ tags:
   - T1114
   observable:
   - name: Source
+    type: User
     role:
     - Attacker
-    type: User
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

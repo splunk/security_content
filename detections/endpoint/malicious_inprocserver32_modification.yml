@@ -62,34 +62,23 @@ tags:
   - T1112
   observable:
   - name: dest
+    type: Hostname
     role:
     - Victim
-    type: Hostname
   - name: process_name
+    type: Process
     role:
     - Child Process
-    type: Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.process_guid
-  - Endpoint.Processes.process_id
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.user
-  - Endpoint.Registry.dest
-  - Endpoint.Registry.process_guid
-  - Endpoint.Registry.registry_key_name
-  - Endpoint.Registry.registry_path
-  - Endpoint.Registry.registry_value_name
-  - Endpoint.Registry.user
   - _time
   - dest
   - process_name
-  - registry_key_name
   - registry_path
+  - registry_key_name
   - registry_value_name
   - user
   risk_score: 80

@@ -50,25 +50,25 @@ tags:
   - T1562
   observable:
   - name: dest
+    type: Hostname
     role:
     - Victim
-    type: Hostname
   - name: user
     type: User
     role:
     - Victim
-    type: user
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Registry.dest
-  - Endpoint.Registry.registry_path
-  - Endpoint.Registry.registry_value_data
-  - Endpoint.Registry.registry_value_name
-  - Endpoint.Registry.user
   - _time
+  - Registry.dest
+  - Registry.user
+  - Registry.registry_value_name
+  - Registry.registry_key_name
+  - Registry.registry_path
+  - Registry.registry_value_data
   risk_score: 49
   security_domain: endpoint
   supported_tas:

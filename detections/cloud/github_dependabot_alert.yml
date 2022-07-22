@@ -45,13 +45,22 @@ tags:
     type: Unknown
     role:
     - Victim
-    type: System
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
   - _time
+  - alert.id
+  - repository.full_name
+  - repository.html_url
   - action
+  - alert.affected_package_name
+  - alert.affected_range
+  - alert.created_at
+  - alert.external_identifier
+  - alert.external_reference
+  - alert.fixed_in
+  - alert.severity
   risk_score: 27
   security_domain: network

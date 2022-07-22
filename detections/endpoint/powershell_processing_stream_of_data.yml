@@ -54,13 +54,12 @@ tags:
     type: User
     role:
     - Victim
-    type: User
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - ComputerName
+  - _time
   - EventCode
   - ScriptBlockText
   - Computer

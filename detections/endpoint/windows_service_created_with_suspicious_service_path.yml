@@ -45,13 +45,13 @@ tags:
   - T1569.002
   observable:
   - name: Service_File_Name
+    type: Other
     role:
     - Other
-    type: Other
   - name: Service_Name
+    type: Other
     role:
     - Other
-    type: Other
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

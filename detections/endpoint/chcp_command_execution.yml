@@ -10,8 +10,8 @@ description: This search is to detect execution of chcp.exe application. this ut
   is used to change the active code page of the console. This technique was seen in
   icedid malware to know the locale region/language/country of the compromise host.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.process_name="chcp.com"
-  Processes.parent_process_name="cmd.exe" Processes.parent_process="*/c*" by  Processes.process_name
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=chcp.com
+  Processes.parent_process_name = cmd.exe Processes.parent_process=*/c* by  Processes.process_name
   Processes.process Processes.parent_process_name Processes.parent_process Processes.process_id
   Processes.parent_process_id Processes.dest Processes.user | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `chcp_command_execution_filter`'
@@ -43,35 +43,26 @@ tags:
   - T1059
   observable:
   - name: dest
+    type: Hostname
     role:
     - Victim
-    type: Hostname
   - name: user
     type: User
     role:
     - Victim
-    type: user
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.parent_process
-  - Endpoint.Processes.parent_process_id
-  - Endpoint.Processes.parent_process_name
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_id
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.user
   - _time
-  - dest
-  - parent_process
-  - parent_process_id
-  - parent_process_name
-  - process
-  - process_id
   - process_name
+  - process
+  - parent_process_name
+  - parent_process
+  - process_id
+  - parent_process_id
+  - dest
   - user
   risk_score: 9
   security_domain: endpoint

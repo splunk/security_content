@@ -13,7 +13,7 @@ description: This analytic looks for the execution of `powerhsell.exe` with comm
   endpoint for situational awareness and Active Directory Discovery.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.process_name="powershell.exe")
-  (Processes.process="*System.Security.Principal.WindowsIdentity*" OR Processes.process="*GetCurrent()*")
+  (Processes.process=*System.Security.Principal.WindowsIdentity* OR Processes.process=*GetCurrent()*)
   by Processes.dest Processes.user Processes.parent_process Processes.process_name
   Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `getcurrent_user_with_powershell_filter`'
@@ -40,22 +40,26 @@ tags:
   - T1033
   observable:
   - name: dest
+    type: Endpoint
     role:
     - Victim
-    type: Endpoint
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.parent_process
-  - Endpoint.Processes.parent_process_id
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_id
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.user
   - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.parent_process
+  - Processes.original_file_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_path
+  - Processes.process_path
+  - Processes.parent_process_id
   risk_score: 15
   security_domain: endpoint
   asset_type: Endpoint

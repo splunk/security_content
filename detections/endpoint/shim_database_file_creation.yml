@@ -47,9 +47,9 @@ tags:
   - DE.CM
   observable:
   - name: dest
+    type: Hostname
     role:
     - Victim
-    type: Hostname
   - name: file_path
     type: File
     role:
@@ -59,11 +59,10 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Filesystem.action
-  - Endpoint.Filesystem.dest
-  - Endpoint.Filesystem.file_hash
-  - Endpoint.Filesystem.file_name
-  - Endpoint.Filesystem.file_path
   - _time
+  - Filesystem.file_hash
+  - Filesystem.file_path
+  - Filesystem.file_name
+  - Filesystem.dest
   risk_score: 56
   security_domain: endpoint

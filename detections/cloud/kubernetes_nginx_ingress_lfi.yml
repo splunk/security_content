@@ -45,9 +45,9 @@ tags:
   - DE.CM
   observable:
   - name: src_ip
+    type: IP Address
     role:
     - Attacker
-    type: IP Address
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

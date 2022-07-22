@@ -89,13 +89,15 @@ tags:
   - T1190
   observable:
   - name: dest
+    type: Hostname
     role:
     - Victim
-    type: Hostname
   - name: http_method
+    type: Other
     role:
     - Other
   - name: src
+    type: Other
     role:
     - Other
   product:
@@ -103,6 +105,13 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - _time
+  - Web.http_method
+  - Web.url
+  - Web.url_length
+  - Web.src
+  - Web.dest
+  - Web.http_user_agent
   - _raw
   risk_score: 40
   security_domain: network

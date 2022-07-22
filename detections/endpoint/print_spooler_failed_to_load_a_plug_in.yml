@@ -4,7 +4,8 @@ version: 1
 date: '2021-07-01'
 author: Mauricio Velazco, Michael Haag, Splunk
 type: TTP
-datamodel: []
+datamodel:
+- Endpoint
 description: 'The following analytic identifies driver load errors utilizing the Windows
   PrintService Admin logs. This was identified during our testing of CVE-2021-34527
   previously (CVE-2021-1675) or PrintNightmare. \
@@ -53,9 +54,9 @@ tags:
   - T1547
   observable:
   - name: ComputerName
+    type: Hostname
     role:
     - Victim
-    type: Hostname
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

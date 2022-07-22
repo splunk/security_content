@@ -4,7 +4,8 @@ version: 1
 date: '2021-04-19'
 author: Teoderick Contreras, Splunk
 type: TTP
-datamodel: []
+datamodel:
+- Endpoint
 description: this search is designed to detect suspicious powershell process that
   tries to inject code and to known/critical windows process and execute it using
   CreateRemoteThread. This technique is seen in several malware like trickbot and
@@ -41,14 +42,13 @@ tags:
   - T1055
   observable:
   - name: Computer
+    type: Hostname
     role:
     - Victim
-    type: Hostname
   - name: process_name
     type: Process
     role:
     - Attacker
-    type: process name
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -60,7 +60,6 @@ tags:
     type: Hostname
     role:
     - Victim
-    type: Hostname
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

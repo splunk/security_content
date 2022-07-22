@@ -54,23 +54,23 @@ tags:
   - PR.IP
   observable:
   - name: user
-    role:
-    - Victim
     type: User
-  - name: dest
     role:
     - Victim
+  - name: dest
     type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Change.All_Changes.dest
-  - Change.All_Changes.result
-  - Change.All_Changes.user
   - _time
+  - All_Changes.user
   - nodename
+  - All_Changes.result
+  - All_Changes.dest
   risk_score: 36
   security_domain: access
   kill_chain_phases:

@@ -47,22 +47,23 @@ tags:
   - T1059
   observable:
   - name: dest
+    type: Hostname
     role:
     - Victim
-    type: Hostname
   - name: process_name
+    type: Process
     role:
     - Child Process
-    type: Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.process_id
-  - Endpoint.Processes.process_name
   - _time
+  - Processes.process_id
+  - Processes.process_name
+  - Processes.dest
+  - Processes.user
   risk_score: 56
   security_domain: endpoint
   supported_tas:

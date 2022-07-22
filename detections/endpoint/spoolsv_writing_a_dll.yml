@@ -53,29 +53,31 @@ tags:
   - T1547
   observable:
   - name: dest
+    type: Endpoint
     role:
     - Victim
-    type: Endpoint
   - name: process_id
+    type: Process
     role:
     - Child Process
   - name: file_path
+    type: File
     role:
     - Other
-    type: File
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Filesystem.dest
-  - Endpoint.Filesystem.file_create_time
-  - Endpoint.Filesystem.file_name
-  - Endpoint.Filesystem.file_path
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.process_id
-  - Endpoint.Processes.process_name
   - _time
+  - Filesystem.dest
+  - Filesystem.file_create_time
+  - Filesystem.file_name
+  - Filesystem.file_path
+  - Processes.process_name
+  - Processes.process_id
+  - Processes.process_name
+  - Processes.dest
   risk_score: 72
   security_domain: endpoint
   supported_tas:

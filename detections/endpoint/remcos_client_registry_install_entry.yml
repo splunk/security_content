@@ -46,20 +46,20 @@ tags:
   - T1112
   observable:
   - name: dest
+    type: Hostname
     role:
     - Victim
-    type: Hostname
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Registry.dest
-  - Endpoint.Registry.process_id
-  - Endpoint.Registry.registry_key_name
-  - Endpoint.Registry.registry_path
-  - Endpoint.Registry.user
   - _time
+  - Registry.registry_path
+  - Registry.registry_key_name
+  - Registry.process_id
+  - Registry.dest
+  - Registry.user
   risk_score: 90
   security_domain: endpoint
   supported_tas:

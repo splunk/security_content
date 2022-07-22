@@ -9,17 +9,17 @@ datamodel:
 description: This search will detect a spike in the number of API calls made to your
   cloud infrastructure environment about security groups by a user.
 search: '| tstats count as security_group_api_calls values(All_Changes.command) as
-  command from datamodel=Change.All_Changes where All_Changes.object_category=firewall
-  AND All_Changes.status=success by All_Changes.user _time span=1h | `drop_dm_object_name("All_Changes")`
-  | eval HourOfDay=strftime(_time, "%H") | eval HourOfDay=floor(HourOfDay/4)*4 | eval
-  DayOfWeek=strftime(_time, "%w") | eval isWeekend=if(DayOfWeek >= 1 AND DayOfWeek
-  <= 5, 0, 1) | join user HourOfDay isWeekend [ summary cloud_excessive_security_group_api_calls_v1]
-  | where cardinality >=16 | apply cloud_excessive_security_group_api_calls_v1 threshold=0.005
-  | rename "IsOutlier(security_group_api_calls)" as isOutlier | where isOutlier=1
-  | eval expected_upper_threshold = mvindex(split(mvindex(BoundaryRanges, -1), ":"),
-  0) | where security_group_api_calls > expected_upper_threshold | eval distance_from_threshold
-  = security_group_api_calls - expected_upper_threshold | table _time, user, command,
-  security_group_api_calls, expected_upper_threshold, distance_from_threshold | `abnormally_high_number_of_cloud_security_group_api_calls_filter`'
+  command from datamodel=Change where All_Changes.object_category=firewall AND All_Changes.status=success
+  by All_Changes.user _time span=1h | `drop_dm_object_name("All_Changes")` | eval
+  HourOfDay=strftime(_time, "%H") | eval HourOfDay=floor(HourOfDay/4)*4 | eval DayOfWeek=strftime(_time,
+  "%w") | eval isWeekend=if(DayOfWeek >= 1 AND DayOfWeek <= 5, 0, 1) | join user HourOfDay
+  isWeekend [ summary cloud_excessive_security_group_api_calls_v1] | where cardinality
+  >=16 | apply cloud_excessive_security_group_api_calls_v1 threshold=0.005 | rename
+  "IsOutlier(security_group_api_calls)" as isOutlier | where isOutlier=1 | eval expected_upper_threshold
+  = mvindex(split(mvindex(BoundaryRanges, -1), ":"), 0) | where security_group_api_calls
+  > expected_upper_threshold | eval distance_from_threshold = security_group_api_calls
+  - expected_upper_threshold | table _time, user, command, security_group_api_calls,
+  expected_upper_threshold, distance_from_threshold | `abnormally_high_number_of_cloud_security_group_api_calls_filter`'
 how_to_implement: You must be ingesting your cloud infrastructure logs. You also must
   run the baseline search `Baseline Of Cloud Security Group API Calls Per User` to
   create the probability density function model.
@@ -55,19 +55,19 @@ tags:
   - PR.AC
   observable:
   - name: user
+    type: User
     role:
     - Attacker
-    type: User
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Change.All_Changes.command
-  - Change.All_Changes.object_category
-  - Change.All_Changes.status
-  - Change.All_Changes.user
   - _time
+  - All_Changes.command
+  - All_Changes.object_category
+  - All_Changes.status
+  - All_Changes.user
   risk_score: 15
   security_domain: network
   supported_tas:

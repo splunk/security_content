@@ -62,9 +62,9 @@ tags:
   - T1110
   observable:
   - name: Client_Address
+    type: Endpoint
     role:
     - Victim
-    type: Endpoint
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

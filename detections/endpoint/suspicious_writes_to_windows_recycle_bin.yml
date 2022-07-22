@@ -44,28 +44,28 @@ tags:
   - DE.CM
   observable:
   - name: dest
+    type: Endpoint
     role:
     - Victim
-    type: Endpoint
   - name: Processes.process_name
+    type: Process
     role:
     - Attacker
-    type: Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Filesystem.dest
-  - Endpoint.Filesystem.file_name
-  - Endpoint.Filesystem.file_path
-  - Endpoint.Filesystem.process_id
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.parent_process_name
-  - Endpoint.Processes.process_id
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.user
   - _time
+  - Filesystem.file_path
+  - Filesystem.file_name
+  - Filesystem.process_id
+  - Filesystem.dest
+  - Processes.user
+  - Processes.process_name
+  - Processes.parent_process_name
+  - Processes.process_id
+  - Processes.dest
   risk_score: 28
   security_domain: endpoint
   kill_chain_phases:

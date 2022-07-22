@@ -46,25 +46,26 @@ tags:
   - T1136
   observable:
   - name: OrganizationName
-    role:
-    - Victim
     type: Other
-  - name: UserId
     role:
     - Victim
+  - name: UserId
     type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - ObjectId
+  - _time
+  - Workload
   - Operation
+  - Parameters{}.Value
+  - ObjectId
   - OrganizationName
   - OriginatingServer
   - UserId
   - UserKey
-  - Workload
-  - _time
   risk_score: 64
   security_domain: threat

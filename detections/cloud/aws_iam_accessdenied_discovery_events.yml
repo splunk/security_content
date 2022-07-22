@@ -42,23 +42,24 @@ tags:
   - T1580
   observable:
   - name: src_ip
-    role:
-    - Attacker
     type: IP Address
-  - name: userIdentity.arn
     role:
     - Attacker
+  - name: userIdentity.arn
     type: User
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
   - _time
-  - errorCode
   - eventName
   - eventSource
   - userAgent
+  - errorCode
+  - userIdentity.type
   risk_object: src_ip
   risk_object_type: system
   risk_score: 10

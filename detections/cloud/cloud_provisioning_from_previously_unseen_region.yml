@@ -9,7 +9,7 @@ datamodel:
 description: This search looks for cloud provisioning activities from previously unseen
   regions. Provisioning activities are defined broadly as any event that runs or creates
   something.
-search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from datamodel=Change.All_Changes
+search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from datamodel=Change
   where (All_Changes.action=started OR All_Changes.action=created) All_Changes.status=success
   by All_Changes.src, All_Changes.user, All_Changes.object, All_Changes.command |
   `drop_dm_object_name("All_Changes")` | iplocation src | where isnotnull(Region)
@@ -65,29 +65,29 @@ tags:
   - ID.AM
   observable:
   - name: user
-    role:
-    - Attacker
     type: User
-  - name: src
     role:
     - Attacker
+  - name: src
     type: IP Address
+    role:
+    - Attacker
   - name: object
+    type: Endpoint
     role:
     - Victim
-    type: Endpoint
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Change.All_Changes.action
-  - Change.All_Changes.command
-  - Change.All_Changes.object
-  - Change.All_Changes.src
-  - Change.All_Changes.status
-  - Change.All_Changes.user
   - _time
+  - All_Changes.action
+  - All_Changes.status
+  - All_Changes.src
+  - All_Changes.user
+  - All_Changes.object
+  - All_Changes.command
   risk_score: 42
   security_domain: threat
   supported_tas:

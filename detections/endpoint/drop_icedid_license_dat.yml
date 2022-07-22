@@ -4,7 +4,8 @@ version: 1
 date: '2021-07-30'
 author: Teoderick Contreras, Splunk
 type: Hunting
-datamodel: []
+datamodel:
+- Endpoint
 description: This search is to detect dropping a suspicious file named as "license.dat"
   in %appdata%. This behavior seen in latest IcedID malware that contain the actual
   core bot that will be injected in other process to do banking stealing.
@@ -37,14 +38,13 @@ tags:
   - T1204.002
   observable:
   - name: Computer
+    type: Hostname
     role:
     - Victim
-    type: Hostname
   - name: SourceImage
     type: Process
     role:
     - Attacker
-    type: process name
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

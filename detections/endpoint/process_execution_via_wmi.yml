@@ -12,7 +12,7 @@ description: The following analytic identifies `WmiPrvSE.exe` spawning a process
   or commands executed. Review the process and command-line spawning from `wmiprvse.exe`.
   Contain and remediate the endpoint as necessary.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name="WmiPrvSE.exe"
+  as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=WmiPrvSE.exe
   by Processes.dest Processes.user Processes.parent_process Processes.process_name
   Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `process_execution_via_wmi_filter` '
@@ -50,28 +50,24 @@ tags:
   - PR.IP
   observable:
   - name: dest
+    type: Hostname
     role:
     - Victim
-    type: Hostname
   - name: user
     type: User
     role:
     - Victim
-    type: user
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.parent_process
-  - Endpoint.Processes.parent_process_id
-  - Endpoint.Processes.parent_process_name
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_id
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.user
   - _time
+  - Processes.process
+  - Processes.parent_process_name
+  - Processes.user
+  - Processes.dest
+  - Processes.process_name
   risk_score: 49
   security_domain: endpoint
   supported_tas:

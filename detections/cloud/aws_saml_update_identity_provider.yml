@@ -41,14 +41,14 @@ tags:
   - T1078
   observable:
   - name: sourceIPAddress
+    type: IP Address
     role:
     - Attacker
-    type: IP Address
   - name: userIdentity.principalId
+    type: User
     role:
     - Victim
     - Target
-    type: User
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -57,7 +57,11 @@ tags:
   - _time
   - eventName
   - eventType
+  - requestParameters.sAMLProviderArn
+  - userIdentity.sessionContext.sessionIssuer.arn
   - sourceIPAddress
+  - userIdentity.accessKeyId
+  - userIdentity.principalId
   risk_score: 64
   security_domain: threat
   kill_chain_phases:

@@ -53,31 +53,31 @@ tags:
   - DE.CM
   observable:
   - name: user
-    role:
-    - Victim
     type: User
-  - name: Computer
     role:
     - Victim
+  - name: Computer
     type: Hostname
+    role:
+    - Victim
   - name: ImageLoaded
     type: Process
     role:
     - Other
-    type: Parent Process
   - name: Image
+    type: Process
     role:
     - Child Process
-    type: Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Computer
+  - _time
   - EventCode
-  - Image
   - ImageLoaded
   - ProcessId
+  - Computer
+  - Image
   risk_score: 64
   security_domain: endpoint

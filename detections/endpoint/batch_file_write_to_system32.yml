@@ -56,30 +56,30 @@ tags:
   - DE.CM
   observable:
   - name: user
-    role:
-    - Victim
     type: User
+    role:
+    - Victim
   - name: dest
-    role:
-    - Victim
     type: Hostname
-  - name: file_name
     role:
     - Victim
+  - name: file_name
     type: File Name
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Filesystem.dest
-  - Endpoint.Filesystem.file_create_time
-  - Endpoint.Filesystem.file_name
-  - Endpoint.Filesystem.file_path
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.process_id
-  - Endpoint.Processes.process_name
   - _time
+  - Filesystem.dest
+  - Filesystem.file_name
+  - Filesystem.user
+  - Filesystem.file_path
+  - Processes.process_id
+  - Processes.process_name
+  - Processes.dest
   risk_score: 63
   security_domain: endpoint
   supported_tas:

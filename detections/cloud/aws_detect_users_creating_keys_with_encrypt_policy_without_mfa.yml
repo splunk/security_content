@@ -44,19 +44,21 @@ tags:
   - T1486
   observable:
   - name: userIdentity.principalId
+    type: User
     role:
     - Attacker
-    type: User
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
   - _time
-  - awsRegion
-  - eventID
   - eventName
   - eventSource
+  - eventID
+  - awsRegion
+  - requestParameters.policy
+  - userIdentity.principalId
   risk_score: 25
   security_domain: threat
   kill_chain_phases:

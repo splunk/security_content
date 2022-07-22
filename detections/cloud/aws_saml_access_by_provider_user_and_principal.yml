@@ -46,14 +46,14 @@ tags:
   - T1078
   observable:
   - name: sourceIPAddress
+    type: IP Address
     role:
     - Attacker
-    type: IP Address
   - name: recipientAccountId
+    type: Other
     role:
     - Victim
     - Target
-    type: Other
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -61,7 +61,11 @@ tags:
   required_fields:
   - _time
   - eventName
+  - requestParameters.principalArn
+  - requestParameters.roleArn
+  - requestParameters.roleSessionName
   - recipientAccountId
+  - responseElements.issuer
   - sourceIPAddress
   - userAgent
   risk_score: 64

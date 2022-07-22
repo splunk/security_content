@@ -68,13 +68,13 @@ tags:
   - PR.IP
   observable:
   - name: host
-    role:
-    - Victim
     type: Endpoint
-  - name: user
     role:
     - Victim
+  - name: user
     type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -4,7 +4,8 @@ version: 1
 date: '2021-07-01'
 author: Mauricio Velazco, Michael Haag, Teoderick Contreras, Splunk
 type: TTP
-datamodel: []
+datamodel:
+- Endpoint
 description: This analytic identifies a suspicious behavior related to PrintNightmare,
   or CVE-2021-34527 previously (CVE-2021-1675),  to gain privilege escalation on the
   vulnerable machine. This exploit attacks a critical Windows Print Spooler Vulnerability
@@ -47,17 +48,17 @@ tags:
   - T1068
   observable:
   - name: Computer
+    type: Endpoint
     role:
     - Victim
-    type: Endpoint
   - name: ProcessID
+    type: Process
     role:
     - Parent Process
-    type: Process
   - name: TargetImage
+    type: Process Name
     role:
     - Target
-    type: Process Name
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -51,22 +51,23 @@ tags:
   - DE.CM
   observable:
   - name: src
+    type: IP Address
     role:
     - Attacker
-    type: IP Address
   - name: user_arn
+    type: User
     role:
     - Victim
-    type: User
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
   - _time
-  - errorCode
   - eventName
-  - eventSource
   - userAgent
+  - errorCode
+  - requestParameters.userName
+  - eventSource
   risk_score: 30
   security_domain: threat

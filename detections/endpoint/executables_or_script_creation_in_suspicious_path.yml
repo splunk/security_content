@@ -59,29 +59,29 @@ tags:
   - T1036
   observable:
   - name: user
+    type: User
     role:
     - Victim
-    type: User
   - name: process_id
+    type: Process
     role:
     - Attacker
-    type: Process
   - name: file_name
+    type: File Name
     role:
     - Other
     - Attacker
-    type: File Name
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Filesystem.file_create_time
-  - Endpoint.Filesystem.file_name
-  - Endpoint.Filesystem.file_path
-  - Endpoint.Filesystem.process_id
-  - Endpoint.Filesystem.user
   - _time
+  - Filesystem.file_path
+  - Filesystem.file_create_time
+  - Filesystem.process_id
+  - Filesystem.file_name
+  - Filesystem.user
   risk_score: 56
   security_domain: endpoint
   supported_tas:

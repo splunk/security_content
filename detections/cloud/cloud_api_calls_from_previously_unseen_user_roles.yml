@@ -7,7 +7,7 @@ type: Anomaly
 datamodel:
 - Change
 description: This search looks for new commands from each user role.
-search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from datamodel=Change.All_Changes
+search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from datamodel=Change
   where All_Changes.user_type=AssumedRole AND All_Changes.status=success by All_Changes.user,
   All_Changes.command All_Changes.object | `drop_dm_object_name("All_Changes")` |
   lookup previously_seen_cloud_api_calls_per_user_role user as user, command as command
@@ -52,20 +52,20 @@ tags:
   - ID.AM
   observable:
   - name: user
+    type: User
     role:
     - Attacker
-    type: User
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Change.All_Changes.command
-  - Change.All_Changes.object
-  - Change.All_Changes.status
-  - Change.All_Changes.user
-  - Change.All_Changes.user_type
   - _time
+  - All_Changes.user
+  - All_Changes.user_type
+  - All_Changes.status
+  - All_Changes.command
+  - All_Changes.object
   risk_score: 36
   security_domain: threat
   supported_tas:

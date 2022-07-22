@@ -39,13 +39,13 @@ tags:
   - T1486
   observable:
   - name: user
+    type: User
     role:
     - Attacker
-    type: User
   - name: dest_file
+    type: File
     role:
     - Target
-    type: File
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -53,8 +53,12 @@ tags:
   required_fields:
   - _time
   - eventName
-  - region
+  - requestParameters.x-amz-server-side-encryption
+  - requestParameters.bucketName
+  - requestParameters.x-amz-copy-source
+  - requestParameters.key
   - userAgent
+  - region
   risk_score: 15
   security_domain: threat
   kill_chain_phases:

@@ -44,9 +44,9 @@ tags:
   - DE.AE
   observable:
   - name: user
+    type: User
     role:
     - Attacker
-    type: User
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

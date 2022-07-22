@@ -4,7 +4,8 @@ version: 1
 date: '2021-08-04'
 author: Teoderick Contreras, Splunk
 type: TTP
-datamodel: []
+datamodel:
+- Endpoint
 description: This search is to detect suspicious process injection in command shell.
   This technique was seen in IcedID where it execute cmd.exe process to inject its
   shellcode as part of its execution as banking trojan. It is really uncommon to have
@@ -38,14 +39,13 @@ tags:
   - T1055
   observable:
   - name: Computer
+    type: Hostname
     role:
     - Victim
-    type: Hostname
   - name: SourceImage
     type: Process
     role:
     - Attacker
-    type: process name
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

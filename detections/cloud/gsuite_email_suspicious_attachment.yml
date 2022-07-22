@@ -45,22 +45,26 @@ tags:
   - T1566
   observable:
   - name: source.address
+    type: User
     role:
     - Attacker
   - name: destination{}.address
     type: User
-  - name: destination{}.address
     role:
     - Victim
-    type: User
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
   - _time
+  - attachment{}.file_extension_type
+  - attachment{}.sha256
+  - destination{}.service
   - num_message_attachments
   - payload_size
   - subject
+  - destination{}.address
+  - source.address
   risk_score: 49
   security_domain: endpoint

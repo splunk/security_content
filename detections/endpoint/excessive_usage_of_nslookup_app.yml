@@ -4,7 +4,8 @@ version: 2
 date: '2022-06-03'
 author: Teoderick Contreras, Stanislav Miskovic, Splunk
 type: Anomaly
-datamodel: []
+datamodel:
+- Endpoint
 description: This search is to detect potential DNS exfiltration using nslookup application.
   This technique are seen in couple of malware and APT group to exfiltrated collected
   data in a infected machine or infected network. This detection is looking for unique
@@ -53,9 +54,9 @@ tags:
   - T1048
   observable:
   - name: Computer
+    type: Endpoint
     role:
     - Victim
-    type: Endpoint
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

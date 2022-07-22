@@ -52,33 +52,28 @@ tags:
   - T1069
   observable:
   - name: user
-    role:
-    - Victim
     type: User
+    role:
+    - Victim
   - name: dest
-    role:
-    - Victim
     type: Hostname
-  - name: file_name
     role:
     - Victim
+  - name: file_name
     type: File Name
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Filesystem.dest
-  - Endpoint.Filesystem.file_create_time
-  - Endpoint.Filesystem.file_name
-  - Endpoint.Filesystem.file_path
-  - Endpoint.Filesystem.process_id
   - _time
-  - dest
-  - file_create_time
-  - file_name
   - file_path
+  - dest
+  - file_name
   - process_id
+  - file_create_time
   risk_score: 63
   security_domain: endpoint
   asset_type: Endpoint

@@ -4,7 +4,8 @@ version: 1
 date: '2021-07-12'
 author: Teoderick Contreras, Splunk
 type: TTP
-datamodel: []
+datamodel:
+- Endpoint
 description: This search is to detect a suspicious loaded unsigned dll by MMC.exe
   application. This technique is commonly seen in attacker that tries to bypassed
   UAC feature or gain privilege escalation. This is done by modifying some CLSID registry
@@ -44,9 +45,9 @@ tags:
   - T1218.014
   observable:
   - name: Computer
+    type: Hostname
     role:
     - Victim
-    type: Hostname
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

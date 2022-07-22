@@ -57,31 +57,26 @@ tags:
   - PR.DS
   observable:
   - name: dest
+    type: Hostname
     role:
     - Victim
-    type: Hostname
   - name: user
     type: User
     role:
     - Victim
-    type: user
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Filesystem.file_hash
-  - Endpoint.Filesystem.file_name
-  - Endpoint.Filesystem.file_path
-  - Endpoint.Filesystem.process_guid
-  - Endpoint.Filesystem.user
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.parent_process_guid
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_id
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.process_path
   - _time
+  - Filesystem.file_name
+  - Filesystem.file_path
+  - Filesystem.process_id
+  - Filesystem.file_name
+  - Filesystem.file_path
+  - Filesystem.file_hash
+  - Filesystem.user
   risk_score: 63
   security_domain: network
   supported_tas:

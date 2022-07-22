@@ -4,7 +4,8 @@ version: 1
 date: '2021-05-06'
 author: Teoderick Contreras, Splunk
 type: TTP
-datamodel: []
+datamodel:
+- Endpoint
 description: This analytic will detect a suspicious Telegram process enumerating all
   network users in a local group. This technique was seen in a Monero infected honeypot
   to mapped all the users on the compromised system. EventCode 4798 is generated when
@@ -38,13 +39,13 @@ tags:
   - T1087
   observable:
   - name: user
-    role:
-    - Victim
     type: User
-  - name: ComputerName
     role:
     - Victim
+  - name: ComputerName
     type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

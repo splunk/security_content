@@ -13,7 +13,7 @@ description: This search is to detect a suspicious bcdedit commandline to config
   command. This TTP can be a good alert for host that booted from safe mode forcefully
   since it need to modify the boot configuration to bring it back to normal.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.process_name="bcdedit.exe"
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name = bcdedit.exe
   Processes.process="*/deletevalue*" Processes.process="*{current}*"  Processes.process="*safeboot*"
   by Processes.process_name Processes.process Processes.parent_process_name Processes.dest
   Processes.user |`drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
@@ -42,24 +42,25 @@ tags:
   - T1490
   observable:
   - name: user
-    role:
-    - Victim
     type: User
-  - name: dest
     role:
     - Victim
+  - name: dest
     type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.parent_process_name
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.user
   - _time
+  - Processes.process_name
+  - Processes.process
+  - Processes.parent_process_name
+  - Processes.parent_process
+  - Processes.dest
+  - Processes.user
   risk_score: 35
   security_domain: endpoint
   supported_tas:

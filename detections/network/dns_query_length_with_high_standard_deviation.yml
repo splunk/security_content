@@ -9,7 +9,7 @@ datamodel:
 description: This search allows you to identify DNS requests and compute the standard
   deviation on the length of the names being resolved, then filter on two times the
   standard deviation to show you those queries that are unusually large for your environment.
-search: '| tstats `security_content_summariesonly` count from datamodel=Network_Resolution.DNS
+search: '| tstats `security_content_summariesonly` count from datamodel=Network_Resolution
   where NOT DNS.message_type IN("Pointer","PTR") by DNS.query | `drop_dm_object_name("DNS")`
   | eval tlds=split(query,".") | eval tld=mvindex(tlds,-1) | eval tld_len=len(tld)
   | search tld_len<=24 | eval query_length = len(query) | table query query_length
@@ -49,6 +49,7 @@ tags:
   - DE.CM
   observable:
   - name: host
+    type: Hostname
     role:
     - Victim
   product:
@@ -56,8 +57,8 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Network_Resolution.DNS.message_type
-  - Network_Resolution.DNS.query
+  - _time
+  - DNS.query
   risk_score: 56
   security_domain: network
   supported_tas:

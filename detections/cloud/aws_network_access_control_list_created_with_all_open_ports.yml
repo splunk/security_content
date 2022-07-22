@@ -51,17 +51,17 @@ tags:
   - DE.AE
   observable:
   - name: src
+    type: IP Address
     role:
     - Attacker
-    type: IP Address
   - name: userName
-    role:
-    - Victim
     type: User
-  - name: requestParameters.cidrBlock
     role:
     - Victim
+  - name: requestParameters.cidrBlock
     type: IP Address
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -69,7 +69,14 @@ tags:
   required_fields:
   - _time
   - eventName
-  - userAgent
+  - requestParameters.ruleAction
+  - requestParameters.egress
+  - requestParameters.aclProtocol
+  - requestParameters.portRange.to
+  - requestParameters.portRange.from
+  - requestParameters.cidrBlock
   - userName
+  - userIdentity.principalId
+  - userAgent
   risk_score: 48
   security_domain: network

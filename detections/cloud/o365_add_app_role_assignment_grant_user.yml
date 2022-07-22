@@ -43,27 +43,29 @@ tags:
   - T1136
   observable:
   - name: ActorIpAddress
-    role:
-    - Attacker
     type: IP Address
-  - name: Actor.ID
     role:
     - Attacker
+  - name: Actor.ID
     type: User
+    role:
+    - Attacker
   - name: dest
+    type: Endpoint
     role:
     - Victim
-    type: Endpoint
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - ActorIpAddress
-  - Operation
-  - ResultStatus
-  - Workload
   - _time
+  - Workload
+  - Operation
+  - Actor{}.ID
+  - Actor{}.Type
+  - ActorIpAddress
   - dest
+  - ResultStatus
   risk_score: 18
   security_domain: threat

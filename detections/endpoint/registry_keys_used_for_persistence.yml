@@ -80,24 +80,23 @@ tags:
   - DE.AE
   observable:
   - name: dest
+    type: Hostname
     role:
     - Victim
-    type: Hostname
   - name: user
     type: User
     role:
     - Victim
-    type: user
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Registry.dest
-  - Endpoint.Registry.registry_key_name
-  - Endpoint.Registry.registry_path
-  - Endpoint.Registry.user
   - _time
+  - Registry.registry_key_name
+  - Registry.registry_path
+  - Registry.dest
+  - Registry.user
   risk_score: 76
   security_domain: endpoint
   supported_tas:

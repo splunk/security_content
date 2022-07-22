@@ -13,9 +13,8 @@ description: Malicious actors often abuse legitimate Dynamic DNS services to hos
   analytic and investigative processes. This search will look for DNS queries made
   from within your infrastructure to suspicious dynamic domains.
 search: '| tstats `security_content_summariesonly` count values(DNS.answer) as answer
-  min(_time) as firstTime from datamodel=Network_Resolution.DNS by DNS.query host
-  | `drop_dm_object_name("DNS")` | `security_content_ctime(firstTime)` | `dynamic_dns_providers`
-  | `detect_hosts_connecting_to_dynamic_domain_providers_filter`'
+  min(_time) as firstTime from datamodel=Network_Resolution by DNS.query host | `drop_dm_object_name("DNS")`
+  | `security_content_ctime(firstTime)` | `dynamic_dns_providers` | `detect_hosts_connecting_to_dynamic_domain_providers_filter`'
 how_to_implement: 'First, you''ll need to ingest data from your DNS operations. This
   can be done by ingesting logs from your server or data, collected passively by Splunk
   Stream or a similar solution. Specifically, data that contains the domain that is
@@ -79,6 +78,7 @@ tags:
   - DE.CM
   observable:
   - name: host
+    type: Hostname
     role:
     - Victim
   product:
@@ -86,9 +86,9 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Network_Resolution.DNS.answer
-  - Network_Resolution.DNS.query
   - _time
+  - DNS.answer
+  - DNS.query
   - host
   risk_score: 56
   security_domain: network

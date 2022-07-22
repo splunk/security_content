@@ -45,13 +45,13 @@ tags:
   - DE.CM
   observable:
   - name: src
-    role:
-    - Attacker
     type: IP Address
-  - name: user
     role:
     - Attacker
+  - name: user
     type: User
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -60,8 +60,9 @@ tags:
   - _time
   - eventName
   - src
-  - user
   - userAgent
+  - user
+  - userIdentity.arn
   risk_object: src
   risk_object_type: system
   risk_score: 18

@@ -42,9 +42,9 @@ tags:
   - T1021.003
   observable:
   - name: ComputerName
+    type: Endpoint
     role:
     - Victim
-    type: Endpoint
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

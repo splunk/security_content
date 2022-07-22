@@ -39,13 +39,13 @@ tags:
   - T1556
   observable:
   - name: dest
+    type: Endpoint
     role:
     - Victim
-    type: Endpoint
   - name: user
+    type: User
     role:
     - Attacker
-    type: User
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

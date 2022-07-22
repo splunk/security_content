@@ -48,21 +48,25 @@ tags:
   - T1567
   observable:
   - name: parameters.owner
+    type: User
     role:
     - Attacker
-    type: User
   - name: email
+    type: User
     role:
     - Victim
-    type: User
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
   - _time
+  - parameters.doc_title
+  - src_domain
   - dest_domain
   - email
-  - src_domain
+  - parameters.visibility
+  - parameters.owner
+  - parameters.doc_type
   risk_score: 72
   security_domain: endpoint

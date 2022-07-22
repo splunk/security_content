@@ -46,21 +46,22 @@ tags:
   - T1098
   observable:
   - name: src
+    type: IP Address
     role:
     - Attacker
-    type: IP Address
   - name: user_arn
+    type: User
     role:
     - Victim
-    type: User
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
   - _time
-  - errorCode
   - eventName
   - userAgent
+  - errorCode
+  - requestParameters.policyArn
   risk_score: 10
   security_domain: access

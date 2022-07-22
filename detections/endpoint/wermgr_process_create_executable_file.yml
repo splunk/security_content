@@ -4,7 +4,8 @@ version: 1
 date: '2021-04-19'
 author: Teoderick Contreras, Splunk
 type: TTP
-datamodel: []
+datamodel:
+- Endpoint
 description: this search is designed to detect potential malicious wermgr.exe process
   that drops or create executable file. Since wermgr.exe is an application trigger
   when error encountered in a process, it is really un ussual to this process to drop
@@ -40,9 +41,9 @@ tags:
   - T1027
   observable:
   - name: dest
+    type: Endpoint
     role:
     - Victim
-    type: Endpoint
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

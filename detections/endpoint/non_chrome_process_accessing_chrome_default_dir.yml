@@ -4,7 +4,8 @@ version: 1
 date: '2021-09-15'
 author: Teoderick Contreras, Splunk
 type: Anomaly
-datamodel: []
+datamodel:
+- Endpoint
 description: This search is to detect an anomaly event of non-chrome process accessing
   the files in chrome user default folder. This folder contains all the sqlite database
   of the chrome browser related to users login, history, cookies and etc. Most of
@@ -43,13 +44,13 @@ tags:
   - T1555.003
   observable:
   - name: dest
-    role:
-    - Victim
     type: Endpoint
-  - name: user
     role:
     - Victim
+  - name: user
     type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

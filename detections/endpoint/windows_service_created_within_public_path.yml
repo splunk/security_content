@@ -42,13 +42,13 @@ tags:
   - T1543.003
   observable:
   - name: Service_File_Name
+    type: Other
     role:
     - Other
-    type: Other
   - name: ComputerName
+    type: Endpoint
     role:
     - Victim
-    type: Endpoint
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

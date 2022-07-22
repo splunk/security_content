@@ -64,9 +64,9 @@ tags:
   - T1110
   observable:
   - name: Source_Workstation
+    type: Endpoint
     role:
     - Victim
-    type: Endpoint
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -4,7 +4,8 @@ version: 1
 date: '2021-04-29'
 author: Teoderick Contreras, Splunk
 type: TTP
-datamodel: []
+datamodel:
+- Endpoint
 description: This analytic will detect suspicious driver loaded paths. This technique
   is commonly used by malicious software like coin miners (xmrig) to register its
   malicious driver from notable directories where executable or drivers do not commonly
@@ -45,13 +46,13 @@ tags:
   - T1543
   observable:
   - name: Computer
+    type: Endpoint
     role:
     - Victim
-    type: Endpoint
   - name: ImageLoaded
+    type: File Name
     role:
     - Attacker
-    type: File Name
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -4,7 +4,8 @@ version: 1
 date: '2021-09-13'
 author: Teoderick Contreras, Splunk
 type: Anomaly
-datamodel: []
+datamodel:
+- Endpoint
 description: This search is to detect a suspicious MS scripting process such as wscript.exe
   or cscript.exe that loading wmi module to process wmi query. This behavior was seen
   in FIN7 implant where it uses javascript to execute wmi query to parse host information
@@ -45,9 +46,9 @@ tags:
   - T1059.007
   observable:
   - name: dest
+    type: Endpoint
     role:
     - Victim
-    type: Endpoint
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

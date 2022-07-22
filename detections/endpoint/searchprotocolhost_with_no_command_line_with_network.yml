@@ -47,32 +47,23 @@ tags:
   - T1055
   observable:
   - name: dest
+    type: Hostname
     role:
     - Victim
-    type: Hostname
   - name: process_name
     type: Process Name
     role:
     - Attacker
-    type: processname
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Ports.dest
-  - Endpoint.Ports.dest_port
-  - Endpoint.Ports.process_guid
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.parent_process_name
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_guid
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.process_path
   - _time
-  - dest_port
-  - parent_process_name
   - process_name
+  - process_id
+  - parent_process_name
+  - dest_port
   - process_path
   risk_score: 70
   security_domain: endpoint

@@ -4,7 +4,8 @@ version: 1
 date: '2021-04-26'
 author: Teoderick Contreras, Splunk
 type: TTP
-datamodel: []
+datamodel:
+- Endpoint
 description: this search is to detect potential trickbot infection through the create/connected
   named pipe to the system. This technique is used by trickbot to communicate to its
   c2 to post or get command during infection.
@@ -37,13 +38,13 @@ tags:
   - T1055
   observable:
   - name: Computer
+    type: Endpoint
     role:
     - Victim
-    type: Endpoint
   - name: Image
+    type: Process
     role:
     - Attacker
-    type: Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

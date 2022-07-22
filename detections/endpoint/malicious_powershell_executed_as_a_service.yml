@@ -4,7 +4,8 @@ version: 1
 date: '2021-04-07'
 author: Ryan Becwar
 type: TTP
-datamodel: []
+datamodel:
+- Endpoint
 description: This detection is to identify the abuse the Windows SC.exe to execute
   malicious commands or payloads via PowerShell.
 search: ' `wineventlog_system` EventCode=7045 | eval l_Service_File_Name=lower(Service_File_Name)
@@ -41,13 +42,13 @@ tags:
   - T1569.002
   observable:
   - name: dest
-    role:
-    - Victim
     type: Endpoint
-  - name: user
     role:
     - Victim
+  - name: user
     type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

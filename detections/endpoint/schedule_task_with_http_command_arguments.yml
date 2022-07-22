@@ -4,7 +4,8 @@ version: 1
 date: '2021-04-19'
 author: Teoderick Contreras, Splunk
 type: TTP
-datamodel: []
+datamodel:
+- Endpoint
 description: The following query utilizes Windows Security EventCode 4698, `A scheduled
   task was created`, to identify suspicious tasks registered on Windows either via
   schtasks.exe OR TaskService with an arguments "HTTP" string that are unique entry
@@ -48,6 +49,7 @@ tags:
   - T1053
   observable:
   - name: dest
+    type: Hostname
     role:
     - Victim
   product:

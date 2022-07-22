@@ -45,10 +45,12 @@ tags:
   observable:
   - name: Computer
     type: Endpoint
-  - name: User
     role:
     - Victim
+  - name: User
     type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -50,28 +50,25 @@ tags:
   - T1490
   observable:
   - name: dest
+    type: Hostname
     role:
     - Victim
-    type: Hostname
   - name: user
     type: User
     role:
     - Victim
-    type: user
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.parent_process
-  - Endpoint.Processes.parent_process_name
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_guid
-  - Endpoint.Processes.process_id
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.user
+  - Processes.process
+  - Process.parent_process_name
   - _time
+  - Processes.process_name
+  - Processes.parent_process
+  - Processes.dest
+  - Processes.user
   risk_score: 72
   security_domain: endpoint
   supported_tas:

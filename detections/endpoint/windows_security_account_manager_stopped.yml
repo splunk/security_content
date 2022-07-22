@@ -45,22 +45,26 @@ tags:
   - DE.CM
   observable:
   - name: dest
-    role:
-    - Victim
     type: Endpoint
-  - name: user
     role:
     - Victim
+  - name: user
     type: User
+    role:
+    - Victim
   - name: process
+    type: Process
     role:
     - Target
-    type: Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
   - _time
+  - Processes.process_name
+  - Processes.process
+  - Processes.dest
+  - Processes.user
   risk_score: 70
   security_domain: endpoint

@@ -59,33 +59,25 @@ tags:
   - T1566.001
   observable:
   - name: dest
+    type: Hostname
     role:
     - Victim
-    type: Hostname
   - name: process_name
+    type: Process
     role:
     - Child Process
-    type: Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Filesystem.dest
-  - Endpoint.Filesystem.file_create_time
-  - Endpoint.Filesystem.file_name
-  - Endpoint.Filesystem.file_path
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_id
-  - Endpoint.Processes.process_name
   - _time
   - dest
+  - process_name
+  - process
   - file_create_time
   - file_name
   - file_path
-  - process
-  - process_name
   risk_score: 80
   security_domain: endpoint
   asset_type: Endpoint

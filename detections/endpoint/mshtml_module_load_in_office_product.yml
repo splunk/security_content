@@ -4,7 +4,8 @@ version: 2
 date: '2022-06-01'
 author: Michael Haag, Mauricio Velazco, Splunk
 type: TTP
-datamodel: []
+datamodel:
+- Endpoint
 description: The following detection identifies the module load of mshtml.dll into
   an Office product. This behavior has been related to CVE-2021-40444, whereas the
   malicious document will load ActiveX, which activates the MSHTML component. The
@@ -45,18 +46,17 @@ tags:
   - T1566.001
   observable:
   - name: dest
+    type: Hostname
     role:
     - Victim
-    type: Hostname
   - name: parent_process_name
     type: Process
     role:
     - Parent Process
-    type: Parent Process
   - name: process_name
+    type: Process
     role:
     - Child Process
-    type: Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

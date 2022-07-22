@@ -45,25 +45,26 @@ tags:
   - T1069
   observable:
   - name: src
+    type: IP Address
     role:
     - Attacker
-    type: IP Address
   - name: user_arn
+    type: User
     role:
     - Victim
-    type: User
   - name: group_deleted
+    type: User
     role:
     - Victim
-    type: User
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
   - _time
-  - errorCode
   - eventName
   - userAgent
+  - errorCode
+  - requestParameters.groupName
   risk_score: 5
   security_domain: cloud

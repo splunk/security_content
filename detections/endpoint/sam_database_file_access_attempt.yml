@@ -4,7 +4,8 @@ version: 1
 date: '2021-07-23'
 author: Michael Haag, Mauricio Velazco, Splunk
 type: Hunting
-datamodel: []
+datamodel:
+- Endpoint
 description: The following analytic identifies access to SAM, SYSTEM or SECURITY databases'
   within the file path of `windows\system32\config` using Windows Security EventCode
   4663. This particular behavior is related to credential access, an attempt to either
@@ -46,29 +47,30 @@ tags:
   - T1003
   observable:
   - name: user
-    role:
-    - Victim
     type: User
-  - name: dest
     role:
     - Victim
+  - name: dest
     type: Hostname
+    role:
+    - Victim
   - name: process_name
+    type: Process
     role:
     - Child Process
-    type: Process
   - name: Object_Name
+    type: File
     role:
     - Other
-    type: File
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - _time
+  - process_name
   - Object_Name
   - dest
-  - process_name
   - user
   risk_score: 80
   security_domain: endpoint

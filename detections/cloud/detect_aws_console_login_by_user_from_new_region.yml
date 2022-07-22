@@ -11,7 +11,7 @@ description: This search looks for AWS CloudTrail events wherein a console login
   file of previously seen users (by ARN values) who have logged into the console.
   The alert is fired if the user has logged into the console for the first time within
   the last hour
-search: '| tstats earliest(_time) as firstTime latest(_time) as lastTime from datamodel=Authentication.Authentication
+search: '| tstats earliest(_time) as firstTime latest(_time) as lastTime from datamodel=Authentication
   where Authentication.signature=ConsoleLogin by Authentication.user Authentication.src
   | iplocation Authentication.src | `drop_dm_object_name(Authentication)` | table
   firstTime lastTime user Region | join user  type=outer [| inputlookup previously_seen_users_console_logins
@@ -61,17 +61,17 @@ tags:
   - DE.AE
   observable:
   - name: user
+    type: User
     role:
     - Attacker
-    type: User
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Authentication.Authentication.signature
-  - Authentication.Authentication.src
-  - Authentication.Authentication.user
   - _time
+  - Authentication.signature
+  - Authentication.user
+  - Authentication.src
   risk_score: 36
   security_domain: threat

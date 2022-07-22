@@ -4,7 +4,8 @@ version: 1
 date: '2021-11-25'
 author: Teoderick Contreras, Splunk
 type: TTP
-datamodel: []
+datamodel:
+- Endpoint
 description: This analytic will detect a suspicious process commandline related to
   windows defender exclusion feature. This command is abused by adversaries, malware
   author and red teams to bypassed Windows Defender Anti-Virus product by excluding  folder
@@ -44,13 +45,13 @@ tags:
   - T1562
   observable:
   - name: User
-    role:
-    - Victim
     type: User
-  - name: ComputerName
     role:
     - Victim
+  - name: ComputerName
     type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

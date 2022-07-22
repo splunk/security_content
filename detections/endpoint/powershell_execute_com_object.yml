@@ -4,7 +4,8 @@ version: 2
 date: '2022-03-22'
 author: Teoderick Contreras, Splunk
 type: TTP
-datamodel: []
+datamodel:
+- Endpoint
 description: This search is to detect a COM CLSID execution through powershell. This
   technique was seen in several adversaries and malware like ransomware conti where
   it has a feature to execute command using COM Object. This technique may use by
@@ -46,10 +47,12 @@ tags:
   observable:
   - name: Computer
     type: Hostname
-  - name: User
     role:
     - Victim
+  - name: User
     type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

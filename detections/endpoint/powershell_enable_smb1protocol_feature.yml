@@ -4,7 +4,8 @@ version: 2
 date: '2022-02-25'
 author: Teoderick Contreras, Splunk
 type: TTP
-datamodel: []
+datamodel:
+- Endpoint
 description: This search is to detect a suspicious enabling of smb1protocol through
   "powershell.exe". This technique was seen in some ransomware (like reddot) where
   it enable smb share to do the lateral movement and encrypt other files within the

@@ -43,23 +43,26 @@ tags:
   - DE.CM
   observable:
   - name: src_ip
-    role:
-    - Attacker
     type: IP Address
-  - name: user
     role:
     - Attacker
+  - name: user
     type: User
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - awsRegion
-  - eventName
   - eventSource
-  - src_ip
+  - eventName
+  - awsRegion
+  - requestParameters.imageTag
+  - requestParameters.registryId
+  - requestParameters.repositoryName
   - user
   - userName
+  - src_ip
   risk_score: 49
   security_domain: network

@@ -56,8 +56,6 @@ tags:
   - DE.CM
   observable:
   - name: user
-    role:
-    - Victim
     type: User
     role:
     - Victim
@@ -65,11 +63,10 @@ tags:
     type: Hostname
     role:
     - Victim
-    type: Hostname
   - name: process_name
+    type: Process
     role:
     - Child Process
-    type: Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

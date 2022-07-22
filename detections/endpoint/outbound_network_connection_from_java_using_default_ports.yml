@@ -43,23 +43,14 @@ tags:
   - T1190
   observable:
   - name: dest
+    type: Hostname
     role:
     - Victim
-    type: Hostname
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Ports.dest
-  - Endpoint.Ports.dest_port
-  - Endpoint.Ports.process_guid
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.parent_process_name
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_guid
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.process_path
   - _time
   - Processes.process_id
   - Processes.process_name

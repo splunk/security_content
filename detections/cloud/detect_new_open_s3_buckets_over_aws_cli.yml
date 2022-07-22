@@ -53,22 +53,29 @@ tags:
   - DE.CM
   observable:
   - name: userIdentity.userName
+    type: User
     role:
     - Attacker
-    type: User
   - name: bucketName
+    type: Other
     role:
     - Victim
-    type: Other
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
   - _time
-  - bucketName
-  - eventName
   - eventSource
+  - eventName
+  - requestParameters.accessControlList.x-amz-grant-read-acp
+  - requestParameters.accessControlList.x-amz-grant-write
+  - requestParameters.accessControlList.x-amz-grant-write-acp
+  - requestParameters.accessControlList.x-amz-grant-full-control
+  - requestParameters.bucketName
+  - userIdentity.userName
+  - userIdentity.principalId
   - userAgent
+  - bucketName
   risk_score: 48
   security_domain: threat

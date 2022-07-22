@@ -4,7 +4,8 @@ version: 2
 date: '2022-05-02'
 author: Teoderick Contreras, Splunk
 type: TTP
-datamodel: []
+datamodel:
+- Endpoint
 description: This search is to detect known mailsniper.ps1 functions executed in a
   machine. This technique was seen in some attacker to harvest some sensitive e-mail
   in a compromised exchange server.
@@ -41,10 +42,12 @@ tags:
   observable:
   - name: Computer
     type: Endpoint
-  - name: user
     role:
     - Victim
+  - name: user
     type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

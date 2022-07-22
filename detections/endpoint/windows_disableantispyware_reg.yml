@@ -53,20 +53,20 @@ tags:
   - DE.CM
   observable:
   - name: dest
+    type: Endpoint
     role:
     - Victim
-    type: Endpoint
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Registry.dest
-  - Endpoint.Registry.registry_path
-  - Endpoint.Registry.registry_value_data
-  - Endpoint.Registry.registry_value_name
-  - Endpoint.Registry.user
   - _time
+  - Registry.registry_key_name
+  - Registry.registry_value_name
+  - Registry.dest
+  - Registry.user
+  - Registry.registry_path
   risk_score: 24
   security_domain: endpoint
   supported_tas:

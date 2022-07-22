@@ -53,7 +53,6 @@ tags:
     type: User
     role:
     - Victim
-    type: User
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

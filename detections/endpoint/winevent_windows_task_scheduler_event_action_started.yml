@@ -4,7 +4,8 @@ version: 1
 date: '2021-10-19'
 author: Michael Haag, Splunk
 type: Hunting
-datamodel: []
+datamodel:
+- Endpoint
 description: The following hunting analytic assists with identifying suspicious tasks
   that have been registered and ran in Windows using EventID 200 (action run) and
   201 (action completed). It is recommended to filter based on ActionName by specifying
@@ -45,16 +46,20 @@ tags:
   - T1053.005
   observable:
   - name: dest
+    type: Hostname
     role:
     - Victim
-    type: Hostname
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
   - _time
+  - TaskName
+  - ActionName
+  - EventID
   - dest
+  - ProcessID
   risk_score: 80
   security_domain: endpoint
   asset_type: Endpoint

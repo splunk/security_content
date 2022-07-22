@@ -62,18 +62,19 @@ tags:
   - T1110
   observable:
   - name: Client_Address
+    type: Endpoint
     role:
     - Victim
-    type: Endpoint
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - _time
+  - EventCode
+  - Result_Code
   - Account_Name
   - Client_Address
-  - EventCode
-  - _time
   risk_score: 49
   security_domain: endpoint
   asset_type: Endpoint

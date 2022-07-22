@@ -51,24 +51,24 @@ tags:
   - DE.CM
   observable:
   - name: user
-    role:
-    - Victim
     type: User
-  - name: dest
     role:
     - Victim
+  - name: dest
     type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Registry.action
-  - Endpoint.Registry.dest
-  - Endpoint.Registry.registry_key_name
-  - Endpoint.Registry.registry_path
-  - Endpoint.Registry.registry_value_data
-  - Endpoint.Registry.user
   - _time
+  - Registry.registry_path
+  - Registry.registry_value_name
+  - Registry.dest
+  - Registry.registry_key_name
+  - Registry.user
+  - Registry.action
   risk_score: 42
   security_domain: endpoint

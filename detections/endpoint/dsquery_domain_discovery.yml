@@ -28,8 +28,8 @@ description: 'The following analytic identifies "dsquery.exe" execution with arg
   performed. Identify the parent process and capture any files (batch files, for example)
   being used.'
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.process_name="dsquery.exe"
-  Processes.process="*trustedDomain*" by Processes.dest Processes.user Processes.parent_process
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=dsquery.exe
+  Processes.process=*trustedDomain* by Processes.dest Processes.user Processes.parent_process
   Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `dsquery_domain_discovery_filter`'
@@ -62,35 +62,34 @@ tags:
   - T1482
   observable:
   - name: user
-    role:
-    - Victim
     type: User
-  - name: dest
     role:
     - Victim
+  - name: dest
     type: Hostname
+    role:
+    - Victim
   - name: parent_process_name
     type: Process
     role:
     - Parent Process
-    type: Parent Process
   - name: process_name
+    type: Process
     role:
     - Child Process
-    type: Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.parent_process
-  - Endpoint.Processes.parent_process_id
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_id
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.user
   - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_id
   risk_score: 72
   security_domain: endpoint
   supported_tas:

@@ -4,7 +4,8 @@ version: 1
 date: '2021-08-13'
 author: Teoderick Contreras, Splunk
 type: TTP
-datamodel: []
+datamodel:
+- Endpoint
 description: This search is to detect a possible uac bypass using the colorui.dll
   COM Object. this technique was seen in so many malware and ransomware like lockbit
   where it make use of the colorui.dll COM CLSID to bypass UAC.
@@ -39,17 +40,17 @@ tags:
   - T1218.003
   observable:
   - name: user
-    role:
-    - Victim
     type: User
-  - name: Computer
     role:
     - Victim
+  - name: Computer
     type: Hostname
+    role:
+    - Victim
   - name: ImageLoaded
+    type: Other
     role:
     - Other
-    type: Other
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

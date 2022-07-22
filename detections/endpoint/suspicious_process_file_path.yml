@@ -56,26 +56,26 @@ tags:
   - T1543
   observable:
   - name: dest
+    type: Endpoint
     role:
     - Victim
-    type: Endpoint
   - name: Processes.process_path.file_path
+    type: File Name
     role:
     - Attacker
-    type: File Name
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Endpoint.Processes.dest
-  - Endpoint.Processes.parent_process
-  - Endpoint.Processes.parent_process_name
-  - Endpoint.Processes.process
-  - Endpoint.Processes.process_name
-  - Endpoint.Processes.process_path
-  - Endpoint.Processes.user
   - _time
+  - Processes.process_name
+  - Processes.process
+  - Processes.parent_process_name
+  - Processes.parent_process
+  - Processes.process_path
+  - Processes.dest
+  - Processes.user
   risk_score: 35
   security_domain: endpoint
   supported_tas:
