@@ -31,8 +31,8 @@ jobs:
           run: |
             # Validate
             source .venv/bin/activate
-            python contentctl.py -p . --skip_enrichment generate validate -pr ESCU 
-            python contentctl.py -p . --skip_enrichment generate validate -pr SSA 
+            python contentctl.py -p . --skip_enrichment validate -pr ESCU 
+            python contentctl.py -p . --skip_enrichment validate -pr SSA 
             # Generate
             python contentctl.py --path . --skip_enrichment generate --product ESCU --output dist/escu
             python contentctl.py --path . --skip_enrichment generate --product SSA --output dist/ssa
