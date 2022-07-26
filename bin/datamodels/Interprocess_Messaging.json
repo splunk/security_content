@@ -1,0 +1,462 @@
+{
+  "objectNameList": [
+    
+  ],
+  "objectSummary": {
+    
+  },
+  "displayName": "Interprocess Messaging",
+  "description": "",
+  "modelName": "Interprocess_Messaging",
+  "objects": [
+    {
+      "comment": {
+        "tags": [
+          "messaging"
+        ]
+      },
+      "objectName": "All_Messaging",
+      "displayName": "All Interprocess Messaging",
+      "parentName": "BaseEvent",
+      "fields": [
+        {
+          "comment": {
+            "description": "The business unit of the destination.",
+            "ta_relevant": false
+          },
+          "fieldName": "dest_bunit",
+          "displayName": "dest_bunit",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The type of message destination.",
+            "expected_values": [
+              "queue",
+              "topic"
+            ],
+            "ta_relevant": false
+          },
+          "fieldName": "dest_category",
+          "displayName": "dest_category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The priority of the destination.",
+            "ta_relevant": false
+          },
+          "fieldName": "dest_priority",
+          "displayName": "dest_priority",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The number of seconds from message call to message response. Can be derived by getting the difference between the request_sent_time and the message_received_time."
+          },
+          "fieldName": "duration",
+          "displayName": "duration",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The endpoint that the message accessed during the RPC (remote procedure call) transaction."
+          },
+          "fieldName": "endpoint",
+          "displayName": "endpoint",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The version of the endpoint accessed during the RPC (remote procedure call) transaction, such as 1.0 or 1.22."
+          },
+          "fieldName": "endpoint_version",
+          "displayName": "endpoint_version",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The message identification."
+          },
+          "fieldName": "message_id",
+          "displayName": "message_id",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "A command or reference that an RPC (remote procedure call) reads or responds to."
+          },
+          "fieldName": "message",
+          "displayName": "message",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The time that the RPC (remote procedure call) read the message and was prepared to take some sort of action."
+          },
+          "fieldName": "message_consumed_time",
+          "displayName": "message_consumed_time",
+          "type": "timestamp",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The message correlation identification value."
+          },
+          "fieldName": "message_correlation_id",
+          "displayName": "message_correlation_id",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The time that the message producer sent the message."
+          },
+          "fieldName": "message_delivered_time",
+          "displayName": "message_delivered_time",
+          "type": "timestamp",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The message delivery mode. Possible values depend on the type of message-oriented middleware (MOM) solution in use. They can be words like Transient (meaning the message is stored in memory and is lost if the server dies or restarts) or Persistent (meaning the message is stored both in memory and on disk and is preserved if the server dies or restarts). They can also be numbers like 1, 2, and so on."
+          },
+          "fieldName": "message_delivery_mode",
+          "displayName": "message_delivery_mode",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The time that the message expired."
+          },
+          "fieldName": "message_expiration_time",
+          "displayName": "message_expiration_time",
+          "type": "timestamp",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The priority of the message. Important jobs that the message queue should answer no matter what receive a higher message_priority than other jobs, ensuring they are completed before the others."
+          },
+          "fieldName": "message_priority",
+          "displayName": "message_priority",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The time that the message was received by a message-oriented middleware (MOM) solution."
+          },
+          "fieldName": "message_received_time",
+          "displayName": "message_received_time",
+          "type": "timestamp",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "Indicates whether or not the message was redelivered."
+          },
+          "fieldName": "message_redelivered",
+          "displayName": "message_redelivered",
+          "type": "boolean",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The name of the destination for replies to the message."
+          },
+          "fieldName": "message_reply_dest",
+          "displayName": "message_reply_dest",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The type of message, such as call or reply."
+          },
+          "fieldName": "message_type",
+          "displayName": "message_type",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "An arbitrary list of message properties. The set of properties displayed depends on the message-oriented middleware (MOM) solution that you are using."
+          },
+          "fieldName": "message_properties",
+          "displayName": "message_properties",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "Arguments that have been passed to an endpoint by a REST call or something similar. A sample parameter could be something like foo=bar."
+          },
+          "fieldName": "parameters",
+          "displayName": "parameters",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The message payload."
+          },
+          "fieldName": "payload",
+          "displayName": "payload",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The type of payload in the message. The payload type can be text (such as json, xml, and raw) or binary (such as compressed, object, encrypted, and image)."
+          },
+          "fieldName": "payload_type",
+          "displayName": "payload_type",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The content of the message request."
+          },
+          "fieldName": "request_payload",
+          "displayName": "request_payload",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The type of payload in the message request. The payload type can be text (such as json, xml, and raw) or binary (such as compressed, object, encrypted, and image)."
+          },
+          "fieldName": "request_payload_type",
+          "displayName": "request_payload_type",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The time that the message request was sent."
+          },
+          "fieldName": "request_sent_time",
+          "displayName": "request_sent_time",
+          "type": "timestamp",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The response status code sent by the receiving server. Ranges between 200 and 404."
+          },
+          "fieldName": "response_code",
+          "displayName": "response_code",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The time that the message response was received."
+          },
+          "fieldName": "response_received_time",
+          "displayName": "response_received_time",
+          "type": "timestamp",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The amount of time it took to receive a response, in seconds."
+          },
+          "fieldName": "response_time",
+          "displayName": "response_time",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The type of payload in the message response. The payload type can be text (such as json, xml, and raw) or binary (such as compressed, object, encrypted, and image)."
+          },
+          "fieldName": "response_payload_type",
+          "displayName": "response_payload_type",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The response status message sent by the message server."
+          },
+          "fieldName": "return_message",
+          "displayName": "return_message",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The protocol that the message server uses for remote procedure calls (RPC). Possible values include HTTP REST, SOAP, and EJB."
+          },
+          "fieldName": "rpc_protocol",
+          "displayName": "rpc_protocol",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The status of the message response.",
+            "expected_values": [
+              "pass",
+              "fail"
+            ]
+          },
+          "fieldName": "status",
+          "displayName": "status",
+          "type": "boolean",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This automatically generated field is used to access tags from within data models. Add-on builders do not need to populate it.",
+            "ta_relevant": false
+          },
+          "fieldName": "tag",
+          "displayName": "tag",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        {
+          "calculationID": "All_interprocess_messaging_fillnull_dest",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The destination of the message. You can alias this from more specific fields, such as dest_host, dest_ip, or dest_name."
+              },
+              "fieldName": "dest",
+              "displayName": "dest",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(dest) OR dest=\"\",\"unknown\",dest)"
+        }
+      ],
+      "constraints": [
+        {
+          "search": "(`cim_Interprocess_Messaging_indexes`) tag=messaging"
+        }
+      ],
+      "children": [
+        
+      ]
+    }
+  ]
+}

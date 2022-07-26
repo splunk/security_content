@@ -1,0 +1,3648 @@
+{
+  "modelName": "Splunk_CIM_Validation",
+  "displayName": "CIM Validation (S.o.S.)",
+  "description": "This data model is to help check adoption into the CIM.  It provides useful objects for making sure things are tagged appropriately and verify key fields for the different models are not missing.",
+  "editable": false,
+  "objects": [
+    {
+      "objectName": "Alerts",
+      "displayName": "Alerts",
+      "parentName": "BaseSearch",
+      "fields": [
+        {
+          "fieldName": "_time",
+          "displayName": "_time",
+          "type": "timestamp",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "host",
+          "displayName": "host",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "source",
+          "displayName": "source",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "sourcetype",
+          "displayName": "sourcetype",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "baseSearch": "| datamodel Alerts Alerts search",
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Application_State",
+      "displayName": "Application State",
+      "parentName": "BaseSearch",
+      "fields": [
+        {
+          "fieldName": "_time",
+          "displayName": "_time",
+          "type": "timestamp",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "host",
+          "displayName": "host",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "source",
+          "displayName": "source",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "sourcetype",
+          "displayName": "sourcetype",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "baseSearch": "| datamodel Application_State All_Application_State search",
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Missing_Extractions_Ports",
+      "displayName": "Missing Extractions - Ports",
+      "parentName": "Application_State",
+      "fields": [
+        {
+          "fieldName": "dest",
+          "displayName": "dest",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "dest_port",
+          "displayName": "dest_port",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "transport",
+          "displayName": "transport",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "All_Application_State.is_Ports=1 AND (dest=\"unknown\" OR dest_port=0 OR transport=\"unknown\")"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Missing_Extractions_Processes",
+      "displayName": "Missing Extractions - Processes",
+      "parentName": "Application_State",
+      "fields": [
+        {
+          "fieldName": "dest",
+          "displayName": "dest",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "process",
+          "displayName": "process",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "All_Application_State.is_Processes=1 AND (dest=\"unknown\" OR process=\"unknown\")"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Missing_Extractions_Services",
+      "displayName": "Missing Extractions - Services",
+      "parentName": "Application_State",
+      "fields": [
+        {
+          "fieldName": "dest",
+          "displayName": "dest",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "service",
+          "displayName": "service",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "start_mode",
+          "displayName": "start_mode",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "All_Application_State.is_Services=1 AND (dest=\"unknown\" OR service=\"unknown\" OR start_mode=\"unknown\")"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Authentication",
+      "displayName": "Authentication",
+      "parentName": "BaseSearch",
+      "fields": [
+        {
+          "fieldName": "_time",
+          "displayName": "_time",
+          "type": "timestamp",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "host",
+          "displayName": "host",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "source",
+          "displayName": "source",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "sourcetype",
+          "displayName": "sourcetype",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "baseSearch": "| datamodel Authentication Authentication search",
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Missing_Extractions_Authentication",
+      "displayName": "Missing Extractions Authentication",
+      "parentName": "Authentication",
+      "fields": [
+        {
+          "fieldName": "dest",
+          "displayName": "dest",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "src",
+          "displayName": "src",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "user",
+          "displayName": "user",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "action",
+          "displayName": "action",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "app",
+          "displayName": "app",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "(action=\"unknown\" OR app=\"unknown\" OR src=\"unknown\" OR dest=\"unknown\" OR user=\"unknown\")"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Certificates",
+      "displayName": "Certificates",
+      "parentName": "BaseSearch",
+      "fields": [
+        {
+          "fieldName": "_time",
+          "displayName": "_time",
+          "type": "timestamp",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "host",
+          "displayName": "host",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "source",
+          "displayName": "source",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "sourcetype",
+          "displayName": "sourcetype",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "baseSearch": "| datamodel Certificates All_Certificates search",
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Missing_Extractions_Certificates",
+      "displayName": "Missing Extractions Certificates",
+      "parentName": "Certificates",
+      "fields": [
+        {
+          "fieldName": "ssl_hash",
+          "displayName": "ssl_hash",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "ssl_issuer",
+          "displayName": "ssl_issuer",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "ssl_subject",
+          "displayName": "ssl_subject",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "ssl_hash=\"unknown\" OR ssl_issuer=\"unknown\" OR ssl_subject=\"unknown\""
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Change_Analysis",
+      "displayName": "Change Analysis",
+      "parentName": "BaseSearch",
+      "fields": [
+        {
+          "fieldName": "_time",
+          "displayName": "_time",
+          "type": "timestamp",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "host",
+          "displayName": "host",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "source",
+          "displayName": "source",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "sourcetype",
+          "displayName": "sourcetype",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "baseSearch": "| datamodel Change_Analysis All_Changes search",
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Missing_Extractions_Account_Management",
+      "displayName": "Missing Extractions - Account Management",
+      "parentName": "Change_Analysis",
+      "fields": [
+        {
+          "fieldName": "dest",
+          "displayName": "dest",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "command",
+          "displayName": "command",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "object_category",
+          "displayName": "object_category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "action",
+          "displayName": "action",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "src",
+          "displayName": "src",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "user",
+          "displayName": "user",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "All_Changes.is_Account_Management=1 AND (action=\"unknown\" OR command=\"unknown\" OR dest=\"unknown\" OR object_category=\"unknown\" OR src=\"unknown\" OR user=\"unknown\")"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Missing_Extractions_Endpoint_Changes",
+      "displayName": "Missing Extractions - Endpoint Changes",
+      "parentName": "Change_Analysis",
+      "fields": [
+        {
+          "fieldName": "dest",
+          "displayName": "dest",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "action",
+          "displayName": "action",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "object",
+          "displayName": "object",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "object_category",
+          "displayName": "object_category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "object_path",
+          "displayName": "object_path",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "status",
+          "displayName": "status",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "user",
+          "displayName": "user",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "All_Changes.is_Endpoint_Changes=1 AND (action=\"unknown\" OR dest=\"unknown\" OR object=\"unknown\" OR object_category=\"unknown\" OR object_path=\"unknown\" OR status=\"unknown\" OR user=\"unknown\")"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Missing_Extractions_Filesystem_Changes",
+      "displayName": "Missing Extractions - Filesystem Changes",
+      "parentName": "Change_Analysis",
+      "fields": [
+        {
+          "fieldName": "dest",
+          "displayName": "dest",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "action",
+          "displayName": "action",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "object",
+          "displayName": "object",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "object_category",
+          "displayName": "object_category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "object_path",
+          "displayName": "object_path",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "status",
+          "displayName": "status",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "user",
+          "displayName": "user",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "file_access_time",
+          "displayName": "file_access_time",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "file_create_time",
+          "displayName": "file_create_time",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "file_hash",
+          "displayName": "file_hash",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "file_modify_time",
+          "displayName": "file_modify_time",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "file_name",
+          "displayName": "file_name",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "file_path",
+          "displayName": "file_path",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "file_acl",
+          "displayName": "file_acl",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "file_size",
+          "displayName": "file_size",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "All_Changes.is_Endpoint_Changes=1 AND (object_category=file OR object_category=directory) AND (action=\"unknown\" OR dest=\"unknown\" OR object=\"unknown\" OR object_category=\"unknown\" OR object_path=\"unknown\" OR status=\"unknown\" OR user=\"unknown\" OR file_access_time=0 OR file_create_time=0 OR file_hash=\"unknown\" OR file_modify_time=0 OR file_name=\"unknown\" OR file_path=\"unknown\" OR file_acl=\"unknown\" OR file_size=\"unknown\")"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Missing_Extractions_Network_Changes",
+      "displayName": "Missing Extractions - Network Changes",
+      "parentName": "Change_Analysis",
+      "fields": [
+        {
+          "fieldName": "action",
+          "displayName": "action",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "command",
+          "displayName": "command",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "dvc",
+          "displayName": "dvc",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "user",
+          "displayName": "user",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "All_Changes.is_Network_Changes=1 AND (action=\"unknown\" OR command=\"unknown\" OR dvc=\"unknown\" OR user=\"unknown\")"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Missing_Extractions_Restarts",
+      "displayName": "Missing Extractions - Restarts",
+      "parentName": "Change_Analysis",
+      "fields": [
+        {
+          "fieldName": "action",
+          "displayName": "action",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "command",
+          "displayName": "command",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "dvc",
+          "displayName": "dvc",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "user",
+          "displayName": "user",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "All_Changes.is_Network_Changes=1 AND (action=\"unknown\" OR change_type=\"unknown\") AND (reboot* OR restart*) sourcetype!=stash"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Compute_Inventory",
+      "displayName": "Inventory",
+      "parentName": "BaseSearch",
+      "fields": [
+        {
+          "fieldName": "_time",
+          "displayName": "_time",
+          "type": "timestamp",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "host",
+          "displayName": "host",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "source",
+          "displayName": "source",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "sourcetype",
+          "displayName": "sourcetype",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "baseSearch": "| datamodel Compute_Inventory All_Inventory search",
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Missing_Extractions_CPU",
+      "displayName": "Missing Extractions - CPU",
+      "parentName": "Compute_Inventory",
+      "fields": [
+        {
+          "fieldName": "dest",
+          "displayName": "dest",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "cpu_cores",
+          "displayName": "cpu_cores",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "cpu_count",
+          "displayName": "cpu_count",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "cpu_mhz",
+          "displayName": "cpu_mhz",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "All_Inventory.is_CPU=1 AND (dest=\"unknown\" OR NOT (cpu_cores=* OR cpu_count=* OR cpu_mhz=*))"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Missing_Extractions_Memory",
+      "displayName": "Missing Extractions - Memory",
+      "parentName": "Compute_Inventory",
+      "fields": [
+        {
+          "fieldName": "dest",
+          "displayName": "dest",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "mem",
+          "displayName": "mem",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "All_Inventory.is_Memory=1 AND (dest=\"unknown\" OR NOT (mem=*))"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Missing_Extractions_Network",
+      "displayName": "Missing Extractions - Network",
+      "parentName": "Compute_Inventory",
+      "fields": [
+        {
+          "fieldName": "dest",
+          "displayName": "dest",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "interface",
+          "displayName": "interface",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "ip",
+          "displayName": "ip",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "mac",
+          "displayName": "mac",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "name",
+          "displayName": "name",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "dns",
+          "displayName": "dns",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "All_Inventory.is_Network=1 AND (dest=\"unknown\" OR NOT (interface=* OR ip=* OR mac=* OR name=* OR dns=*))"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Missing_Extractions_Storage",
+      "displayName": "Missing Extractions - Storage",
+      "parentName": "Compute_Inventory",
+      "fields": [
+        {
+          "fieldName": "dest",
+          "displayName": "dest",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "mount",
+          "displayName": "mount",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "storage",
+          "displayName": "storage",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "All_Inventory.is_Storage=1 AND (dest=\"unknown\" OR NOT (mount=* OR storage=*))"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Missing_Extractions_OS",
+      "displayName": "Missing Extractions - OS",
+      "parentName": "Compute_Inventory",
+      "fields": [
+        {
+          "fieldName": "dest",
+          "displayName": "dest",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "os",
+          "displayName": "os",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "version",
+          "displayName": "version",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "All_Inventory.is_OS=1 AND (dest=\"unknown\" OR NOT (os=* OR version=*))"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Databases",
+      "displayName": "Databases",
+      "parentName": "BaseSearch",
+      "fields": [
+        {
+          "fieldName": "_time",
+          "displayName": "_time",
+          "type": "timestamp",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "host",
+          "displayName": "host",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "source",
+          "displayName": "source",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "sourcetype",
+          "displayName": "sourcetype",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "baseSearch": "| datamodel Databases All_Databases search",
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Email",
+      "displayName": "Email",
+      "parentName": "BaseSearch",
+      "fields": [
+        {
+          "fieldName": "_time",
+          "displayName": "_time",
+          "type": "timestamp",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "host",
+          "displayName": "host",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "source",
+          "displayName": "source",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "sourcetype",
+          "displayName": "sourcetype",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "baseSearch": "| datamodel Email All_Email search",
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Missing_Extractions_All_Email",
+      "displayName": "Missing Extractions - All Email",
+      "parentName": "Email",
+      "fields": [
+        {
+          "fieldName": "action",
+          "displayName": "action",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "dest",
+          "displayName": "dest",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "src",
+          "displayName": "src",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "src_user",
+          "displayName": "src_user",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "vendor_product",
+          "displayName": "vendor_product",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "(action=\"unknown\" OR dest=\"unknown\" OR src=\"unknown\" OR src_user=\"unknown\" OR vendor_product=\"unknown\")"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Interprocess_Messaging",
+      "displayName": "Interprocess Messaging",
+      "parentName": "BaseSearch",
+      "fields": [
+        {
+          "fieldName": "_time",
+          "displayName": "_time",
+          "type": "timestamp",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "host",
+          "displayName": "host",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "source",
+          "displayName": "source",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "sourcetype",
+          "displayName": "sourcetype",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "baseSearch": "| datamodel Interprocess_Messaging All_Messaging search",
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Intrusion_Detection",
+      "displayName": "Intrusion Detection",
+      "parentName": "BaseSearch",
+      "fields": [
+        {
+          "fieldName": "_time",
+          "displayName": "_time",
+          "type": "timestamp",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "host",
+          "displayName": "host",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "source",
+          "displayName": "source",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "sourcetype",
+          "displayName": "sourcetype",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "baseSearch": "| datamodel Intrusion_Detection IDS_Attacks search",
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Missing_Extractions_IDS",
+      "displayName": "Missing Extractions - IDS",
+      "parentName": "Intrusion_Detection",
+      "fields": [
+        {
+          "fieldName": "dvc",
+          "displayName": "dvc",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "ids_type",
+          "displayName": "ids_type",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "category",
+          "displayName": "category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "signature",
+          "displayName": "signature",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "severity",
+          "displayName": "severity",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "src",
+          "displayName": "src",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "dest",
+          "displayName": "dest",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "user",
+          "displayName": "user",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "vendor_product",
+          "displayName": "vendor_product",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "(dvc=\"unknown\" OR ids_type=\"unknown\" OR category=\"unknown\" OR signature=\"unknown\" OR severity=\"unknown\" OR src=\"unknown\" OR dest=\"unknown\" OR user=\"unknown\" OR vendor_product=\"unknown\")"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "JVM",
+      "displayName": "JVM",
+      "parentName": "BaseSearch",
+      "fields": [
+        {
+          "fieldName": "_time",
+          "displayName": "_time",
+          "type": "timestamp",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "host",
+          "displayName": "host",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "source",
+          "displayName": "source",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "sourcetype",
+          "displayName": "sourcetype",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "baseSearch": "| datamodel JVM JVM search",
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Malware",
+      "displayName": "Malware",
+      "parentName": "BaseSearch",
+      "fields": [
+        {
+          "fieldName": "_time",
+          "displayName": "_time",
+          "type": "timestamp",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "host",
+          "displayName": "host",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "source",
+          "displayName": "source",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "sourcetype",
+          "displayName": "sourcetype",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "baseSearch": "| datamodel Malware Malware_Attacks search",
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Missing_Extractions_Malware_Attacks",
+      "displayName": "Missing Extractions - Malware Attacks",
+      "parentName": "Malware",
+      "fields": [
+        {
+          "fieldName": "action",
+          "displayName": "action",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "category",
+          "displayName": "category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "signature",
+          "displayName": "signature",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "dest",
+          "displayName": "dest",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "dest_nt_domain",
+          "displayName": "dest_nt_domain",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "user",
+          "displayName": "user",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "vendor_product",
+          "displayName": "vendor_product",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "(action=\"unknown\" OR category=\"unknown\" OR signature=\"unknown\" OR dest=\"unknown\" OR dest_nt_domain=\"unknown\" OR user=\"unknown\" OR vendor_product=\"unknown\")"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Missing_Extractions_Malware_Operations",
+      "displayName": "Missing Extractions - Malware Operations",
+      "parentName": "Malware",
+      "fields": [
+        {
+          "fieldName": "dest",
+          "displayName": "dest",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "dest_nt_domain",
+          "displayName": "dest_nt_domain",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "vendor",
+          "displayName": "vendor",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "product",
+          "displayName": "product",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "dest=\"unknown\" OR dest_nt_domain=\"unknown\" OR product=\"unknown\" OR (NOT (product_version=* OR signature_version=*)) OR vendor=\"unknown\""
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Network_Resolution",
+      "displayName": "Network Resolution",
+      "parentName": "BaseSearch",
+      "fields": [
+        {
+          "fieldName": "_time",
+          "displayName": "_time",
+          "type": "timestamp",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "host",
+          "displayName": "host",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "source",
+          "displayName": "source",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "sourcetype",
+          "displayName": "sourcetype",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "baseSearch": "| datamodel Network_Resolution DNS search",
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Missing_Extractions_DNS",
+      "displayName": "Missing Extractions - DNS",
+      "parentName": "Network_Resolution",
+      "fields": [
+        {
+          "fieldName": "dest",
+          "displayName": "dest",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "src",
+          "displayName": "src",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "answer",
+          "displayName": "answer",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "query",
+          "displayName": "query",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "message_type",
+          "displayName": "message_type",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "reply_code",
+          "displayName": "reply_code",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "src=\"unknown\" OR dest=\"unknown\" OR answer=\"unknown\" OR query=\"unknown\" OR message_type=\"unknown\" OR reply_code=\"unknown\""
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Network_Sessions",
+      "displayName": "Network Sessions",
+      "parentName": "BaseSearch",
+      "fields": [
+        {
+          "fieldName": "_time",
+          "displayName": "_time",
+          "type": "timestamp",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "host",
+          "displayName": "host",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "source",
+          "displayName": "source",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "sourcetype",
+          "displayName": "sourcetype",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "baseSearch": "| datamodel Network_Sessions All_Sessions search",
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Missing_Extractions_Network_Sessions",
+      "displayName": "Missing Extractions - Network Sessions",
+      "parentName": "Network_Sessions",
+      "fields": [
+        {
+          "fieldName": "dest_ip",
+          "displayName": "dest_ip",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "(dest_ip=\"unknown\")"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Network_Traffic",
+      "displayName": "Network Traffic",
+      "parentName": "BaseSearch",
+      "fields": [
+        {
+          "fieldName": "_time",
+          "displayName": "_time",
+          "type": "timestamp",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "host",
+          "displayName": "host",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "source",
+          "displayName": "source",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "sourcetype",
+          "displayName": "sourcetype",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "baseSearch": "| datamodel Network_Traffic All_Traffic search",
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Missing_Extractions_Network_Traffic",
+      "displayName": "Missing Extractions - Network Traffic",
+      "parentName": "Network_Traffic",
+      "fields": [
+        {
+          "fieldName": "action",
+          "displayName": "action",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "dvc",
+          "displayName": "dvc",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "rule",
+          "displayName": "rule",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "transport",
+          "displayName": "transport",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "src",
+          "displayName": "src",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "src_port",
+          "displayName": "src_port",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "dest",
+          "displayName": "dest",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "dest_port",
+          "displayName": "dest_port",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "vendor_product",
+          "displayName": "vendor_product",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "(action=\"unknown\" OR dvc=\"unknown\" OR rule=\"unknown\" OR transport=\"unknown\" OR src=\"unknown\" OR src_port=0 OR dest=\"unknown\" OR dest_port=0 OR vendor_product=\"unknown\")"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Performance",
+      "displayName": "Performance",
+      "parentName": "BaseSearch",
+      "fields": [
+        {
+          "fieldName": "_time",
+          "displayName": "_time",
+          "type": "timestamp",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "host",
+          "displayName": "host",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "source",
+          "displayName": "source",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "sourcetype",
+          "displayName": "sourcetype",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "baseSearch": "| datamodel Performance All_Performance search",
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Missing_Extractions_Perf_CPU",
+      "displayName": "Missing Extractions - CPU",
+      "parentName": "Performance",
+      "fields": [
+        {
+          "fieldName": "dest",
+          "displayName": "dest",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "cpu_load_mhz",
+          "displayName": "cpu_load_mhz",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "cpu_load_percent",
+          "displayName": "cpu_load_percent",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "cpu_time",
+          "displayName": "cpu_time",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "cpu_user_percent",
+          "displayName": "cpu_user_percent",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "All_Performance.is_CPU=1 AND ((dest=\"unknown\" OR NOT (cpu_load_mhz=* OR cpu_load_percent=* OR cpu_time=* OR cpu_user_percent=*)))"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Missing_Extractions_Perf_Facilities",
+      "displayName": "Missing Extractions - Facilities",
+      "parentName": "Performance",
+      "fields": [
+        {
+          "fieldName": "dest",
+          "displayName": "dest",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "temperature",
+          "displayName": "temperature",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "power",
+          "displayName": "power",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "fan_speed",
+          "displayName": "fan_speed",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "All_Performance.is_Facilities=1 AND ((dest=\"unknown\" OR NOT (temperature=* OR power=* OR fan_speed=*)))"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Missing_Extractions_Perf_Memory",
+      "displayName": "Missing Extractions - Memory",
+      "parentName": "Performance",
+      "fields": [
+        {
+          "fieldName": "dest",
+          "displayName": "dest",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "mem",
+          "displayName": "mem",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "mem_free",
+          "displayName": "mem_free",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "mem_used",
+          "displayName": "mem_used",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "All_Performance.is_Memory=1 AND ((dest=\"unknown\" OR NOT (mem=* OR mem_committed=* OR mem_free=* OR mem_used=*)))"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Missing_Extractions_Perf_Storage",
+      "displayName": "Missing Extractions - Storage",
+      "parentName": "Performance",
+      "fields": [
+        {
+          "fieldName": "dest",
+          "displayName": "dest",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "mount",
+          "displayName": "mount",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "storage",
+          "displayName": "storage",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "storage_free",
+          "displayName": "storage_free",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "storage_used",
+          "displayName": "storage_used",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "storage_free_percent",
+          "displayName": "storage_free_percent",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "storage_used_percent",
+          "displayName": "storage_used_percent",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "All_Performance.is_Storage=1 AND ((dest=\"unknown\" OR NOT (mount=* OR storage=* OR storage_free=* OR storage_used=* OR storage_free_percent=* OR storage_used_percent=*)))"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Missing_Extractions_Perf_Network",
+      "displayName": "Missing Extractions - Network",
+      "parentName": "Performance",
+      "fields": [
+        {
+          "fieldName": "dest",
+          "displayName": "dest",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "thruput",
+          "displayName": "thruput",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "thruput_max",
+          "displayName": "thruput_max",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "All_Performance.is_Network=1 AND ((dest=\"unknown\" OR NOT (thruput=* OR thruput_max=*)))"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Missing_Extractions_Perf_Timesync",
+      "displayName": "Missing Time Synchronization Extractions",
+      "parentName": "Performance",
+      "fields": [
+        {
+          "fieldName": "dest",
+          "displayName": "dest",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "action",
+          "displayName": "action",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "All_Performance.is_OS=1 AND (tag=time tag=synchronize (dest=\"unknown\" OR action=\"unknown\"))"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Missing_Extractions_Perf_Uptime",
+      "displayName": "Missing Extractions - Uptime",
+      "parentName": "Performance",
+      "fields": [
+        {
+          "fieldName": "dest",
+          "displayName": "dest",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "action",
+          "displayName": "action",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "All_Performance.is_OS=1 AND (tag=uptime (dest=\"unknown\" OR uptime=\"unknown\"))"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Splunk_Audit",
+      "displayName": "Splunk Audit",
+      "parentName": "BaseSearch",
+      "fields": [
+        {
+          "fieldName": "_time",
+          "displayName": "_time",
+          "type": "timestamp",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "host",
+          "displayName": "host",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "source",
+          "displayName": "source",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "sourcetype",
+          "displayName": "sourcetype",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "baseSearch": "| datamodel Splunk_Audit View_Activity search",
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Ticket_Management",
+      "displayName": "Ticket Management",
+      "parentName": "BaseSearch",
+      "fields": [
+        {
+          "fieldName": "_time",
+          "displayName": "_time",
+          "type": "timestamp",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "host",
+          "displayName": "host",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "source",
+          "displayName": "source",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "sourcetype",
+          "displayName": "sourcetype",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "baseSearch": "| datamodel Ticket_Management All_Ticket_Management search",
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Missing_Extractions_All_Ticket_Managment",
+      "displayName": "Missing Extractions - All Ticket Management",
+      "parentName": "Ticket_Management",
+      "fields": [
+        {
+          "fieldName": "dest",
+          "displayName": "dest",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "ticket_id",
+          "displayName": "ticket_id",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "dest=\"unknown\" OR ticket_id=\"unknown\""
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Missing_Extractions_Incident",
+      "displayName": "Missing Extractions - Incident",
+      "parentName": "Ticket_Management",
+      "fields": [
+        {
+          "fieldName": "dest",
+          "displayName": "dest",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "incident",
+          "displayName": "incident",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "All_Ticket_Management.is_Incident=1 AND (dest=\"unknown\" OR incident=\"unknown\")"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Missing_Extractions_Problem",
+      "displayName": "Missing Extractions - Problem",
+      "parentName": "Ticket_Management",
+      "fields": [
+        {
+          "fieldName": "dest",
+          "displayName": "dest",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "problem",
+          "displayName": "problem",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "All_Ticket_Management.is_Problem=1 AND (dest=\"unknown\" OR problem=\"unknown\")"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Missing_Extractions_Change",
+      "displayName": "Missing Extractions - Change(S.o.S)",
+      "parentName": "Ticket_Management",
+      "fields": [
+        {
+          "fieldName": "dest",
+          "displayName": "dest",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "change",
+          "displayName": "change",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "All_Ticket_Management.is_Change=1 AND (dest=\"unknown\" OR NOT change=\"unknown\")"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Updates",
+      "displayName": "Updates",
+      "parentName": "BaseSearch",
+      "fields": [
+        {
+          "fieldName": "_time",
+          "displayName": "_time",
+          "type": "timestamp",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "host",
+          "displayName": "host",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "source",
+          "displayName": "source",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "sourcetype",
+          "displayName": "sourcetype",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "baseSearch": "| datamodel Updates Updates search",
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Missing_Extractions_Updates",
+      "displayName": "Missing Extractions",
+      "parentName": "Updates",
+      "fields": [
+        {
+          "fieldName": "dest",
+          "displayName": "dest",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "signature",
+          "displayName": "signature",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "signature_id",
+          "displayName": "signature_id",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "status",
+          "displayName": "status",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "vendor_product",
+          "displayName": "vendor_product",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "(dest=\"unknown\" OR signature=\"unknown\" OR signature_id=\"unknown\" OR status=\"unknown\" OR vendor_product=\"unknown\")"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Vulnerabilities",
+      "displayName": "Vulnerabilities",
+      "parentName": "BaseSearch",
+      "fields": [
+        {
+          "fieldName": "_time",
+          "displayName": "_time",
+          "type": "timestamp",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "host",
+          "displayName": "host",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "source",
+          "displayName": "source",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "sourcetype",
+          "displayName": "sourcetype",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "baseSearch": "| datamodel Vulnerabilities Vulnerabilities search",
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Missing_Extractions_Vulnerabilities",
+      "displayName": "Missing Extractions - Vulnerabilities",
+      "parentName": "Vulnerabilities",
+      "fields": [
+        {
+          "fieldName": "dvc",
+          "displayName": "dvc",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "category",
+          "displayName": "category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "signature",
+          "displayName": "signature",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "severity",
+          "displayName": "severity",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "dest",
+          "displayName": "dest",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "vendor_product",
+          "displayName": "vendor_product",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "(dvc=\"unknown\" OR category=\"unknown\" OR signature=\"unknown\" OR severity=\"unknown\" OR dest=\"unknown\" OR vendor_product=\"unknown\")"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Web",
+      "displayName": "Web",
+      "parentName": "BaseSearch",
+      "fields": [
+        {
+          "fieldName": "_time",
+          "displayName": "_time",
+          "type": "timestamp",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "host",
+          "displayName": "host",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "source",
+          "displayName": "source",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "sourcetype",
+          "displayName": "sourcetype",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "baseSearch": "| datamodel Web Web search",
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Missing_Extractions_Web",
+      "displayName": "Missing Extractions - Web",
+      "parentName": "Web",
+      "fields": [
+        {
+          "fieldName": "action",
+          "displayName": "action",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "dest",
+          "displayName": "dest",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "http_content_type",
+          "displayName": "http_content_type",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "http_method",
+          "displayName": "http_method",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "http_referrer",
+          "displayName": "http_referrer",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "http_user_agent",
+          "displayName": "http_user_agent",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "src",
+          "displayName": "src",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "status",
+          "displayName": "status",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "url",
+          "displayName": "url",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "user",
+          "displayName": "user",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "vendor_product",
+          "displayName": "vendor_product",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "(action=\"unknown\" OR dest=\"unknown\" OR http_content_type=\"unknown\" OR http_method=\"unknown\" OR http_referrer=\"unknown\" OR http_user_agent=\"unknown\" OR src=\"unknown\" OR status=\"unknown\" OR url=\"unknown\" OR user=\"unknown\" OR vendor_product=\"unknown\")"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Untagged_Events",
+      "displayName": "Untagged Events",
+      "parentName": "BaseSearch",
+      "fields": [
+        {
+          "fieldName": "_time",
+          "displayName": "_time",
+          "type": "timestamp",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "host",
+          "displayName": "host",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "source",
+          "displayName": "source",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "sourcetype",
+          "displayName": "sourcetype",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "baseSearch": "*",
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Untagged_Ports",
+      "displayName": "Untagged Port Data",
+      "parentName": "Untagged_Events",
+      "fields": [
+        
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "(listen OR listening OR open) (port OR ports) sourcetype!=stash NOT (tag=listening tag=port)"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Untagged_Processes",
+      "displayName": "Untagged Process Data",
+      "parentName": "Untagged_Events",
+      "fields": [
+        
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "(process) sourcetype!=stash NOT (tag=process tag=report)"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Untagged_Services",
+      "displayName": "Untagged Service Data",
+      "parentName": "Untagged_Events",
+      "fields": [
+        
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "(running OR stopped OR runlevel* OR service) sourcetype!=stash NOT (tag=service tag=report)"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Untagged_Authentication",
+      "displayName": "Untagged Authentication",
+      "parentName": "Untagged_Events",
+      "fields": [
+        
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "(login OR \"log in\" OR authenticated) sourcetype!=stash NOT tag=authentication"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Untagged_Changes",
+      "displayName": "Untagged Changes",
+      "parentName": "Untagged_Events",
+      "fields": [
+        
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "(change OR changed OR modify OR modified OR restart* OR reboot*) sourcetype!=stash NOT tag=change"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Untagged_Email",
+      "displayName": "Untagged Email",
+      "parentName": "Untagged_Events",
+      "fields": [
+        
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "(postfix OR sendmail OR rcpts OR nrcpts OR recipients OR msgid OR message-id) sourcetype!=stash NOT tag=email"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Untagged_IDS",
+      "displayName": "Untagged Intrusion Detection",
+      "parentName": "Untagged_Events",
+      "fields": [
+        
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "(sourcetype=*idp* OR sourcetype=*ids* OR intrusion OR hip) sourcetype!=stash NOT (tag=ids tag=attack)"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Untagged_Malware_Attacks",
+      "displayName": "Untagged Malware Attacks",
+      "parentName": "Untagged_Events",
+      "fields": [
+        
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "(virus OR malware OR infection OR infected) sourcetype!=stash NOT (tag=malware tag=attack)"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Untagged_Network_Resolution",
+      "displayName": "Untagged Network Resolution",
+      "parentName": "Untagged_Events",
+      "fields": [
+        
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "(BIND) sourcetype!=stash NOT (tag=network tag=resolution)"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Untagged_Network_Sessions",
+      "displayName": "Untagged Network Sessions",
+      "parentName": "Untagged_Events",
+      "fields": [
+        
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "(*dhcp* OR *vpn) sourcetype!=stash NOT (tag=network tag=session)"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Untagged_Network_Traffic",
+      "displayName": "Untagged Network Traffic",
+      "parentName": "Untagged_Events",
+      "fields": [
+        
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "(accept OR drop) sourcetype!=stash NOT (tag=network tag=communicate)"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Untagged_Perf_CPU",
+      "displayName": "Untagged CPU Data",
+      "parentName": "Untagged_Events",
+      "fields": [
+        
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "(cpu OR cputime OR mhz OR ghz) sourcetype!=stash NOT (tag=performance tag=cpu)"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Untagged_Facilities",
+      "displayName": "Untagged Facilities Data",
+      "parentName": "Untagged_Events",
+      "fields": [
+        
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "(power OR temperature) sourcetype!=stash NOT (tag=performance tag=facilities)"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Untagged_Memory",
+      "displayName": "Untagged Process Data",
+      "parentName": "Untagged_Events",
+      "fields": [
+        
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "(mem OR memory) sourcetype!=stash NOT (tag=performance tag=memory)"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Untagged_Storage",
+      "displayName": "Untagged Storage Data",
+      "parentName": "Untagged_Events",
+      "fields": [
+        
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "(mount OR disk OR df) sourcetype!=stash NOT (tag=performance tag=storage)"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Untagged_Network",
+      "displayName": "Untagged Network Data",
+      "parentName": "Untagged_Events",
+      "fields": [
+        
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "(net OR network) sourcetype!=stash NOT (tag=performance tag=network)"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Untagged_OS",
+      "displayName": "Untagged OS Data",
+      "parentName": "Untagged_Events",
+      "fields": [
+        
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "sourcetype!=stash (((uptime OR systemuptime) NOT (tag=performance tag=os tag=uptime)) OR (time sync* NOT (tag=performance tag=os tag=time tag=synchronize)))"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Untagged_Updates",
+      "displayName": "Untagged Updates",
+      "parentName": "Untagged_Events",
+      "fields": [
+        
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "(update OR updates OR installed OR \"restart required\" OR available OR patch) sourcetype!=stash NOT (tag=update tag=status)"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Untagged_Vulnerabilities",
+      "displayName": "Untagged Vulnerabilities",
+      "parentName": "Untagged_Events",
+      "fields": [
+        
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "(sourcetype=*vuln* OR \"vulnerability detected\" OR CVE) sourcetype!=stash NOT (tag=vulnerability tag=report)"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Untagged_Web",
+      "displayName": "Untagged Web Data",
+      "parentName": "Untagged_Events",
+      "fields": [
+        
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "http sourcetype!=stash NOT (tag=web)"
+        }
+      ],
+      "children": [
+        
+      ]
+    }
+  ]
+}

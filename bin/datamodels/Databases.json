@@ -1,0 +1,1139 @@
+{
+  "modelName": "Databases",
+  "displayName": "Databases",
+  "description": "Data Model for all databases",
+  "editable": false,
+  "objects": [
+    {
+      "comment": {
+        "tags": [
+          "database"
+        ]
+      },
+      "objectName": "All_Databases",
+      "displayName": "All Databases",
+      "parentName": "BaseEvent",
+      "fields": [
+        {
+          "comment": {
+            "description": "The destination of the database event. You can alias this from more specific fields, such as dest_host, dest_ip, or dest_name."
+          },
+          "fieldName": "dest",
+          "displayName": "dest",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The business unit of the destination.",
+            "ta_relevant": false
+          },
+          "fieldName": "dest_bunit",
+          "displayName": "dest_bunit",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The category of the destination.",
+            "ta_relevant": false
+          },
+          "fieldName": "dest_category",
+          "displayName": "dest_category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The priority of the destination.",
+            "ta_relevant": false
+          },
+          "fieldName": "dest_priority",
+          "displayName": "dest_priority",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The amount of time for the completion of the database event, in seconds."
+          },
+          "fieldName": "duration",
+          "displayName": "duration",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The name of the database object."
+          },
+          "fieldName": "object",
+          "displayName": "object",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The amount of time it took to receive a response in the database event, in seconds."
+          },
+          "fieldName": "response_time",
+          "displayName": "response_time",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The source of the database event. You can alias this from more specific fields, such as src_host, src_ip, or src_name."
+          },
+          "fieldName": "src",
+          "displayName": "src",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The business unit of the source.",
+            "ta_relevant": false
+          },
+          "fieldName": "src_bunit",
+          "displayName": "src_bunit",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The category of the source.",
+            "ta_relevant": false
+          },
+          "fieldName": "src_category",
+          "displayName": "src_category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The priority of the source.",
+            "ta_relevant": false
+          },
+          "fieldName": "src_priority",
+          "displayName": "src_priority",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This automatically generated field is used to access tags from within data models. Add-on builders do not need to populate it.",
+            "ta_relevant": false
+          },
+          "fieldName": "tag",
+          "displayName": "tag",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "Name of the database process user."
+          },
+          "fieldName": "user",
+          "displayName": "user",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The business unit of the user.",
+            "ta_relevant": false
+          },
+          "fieldName": "user_bunit",
+          "displayName": "user_bunit",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The category associated with the user.",
+            "ta_relevant": false
+          },
+          "fieldName": "user_category",
+          "displayName": "user_category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The priority of the user.",
+            "ta_relevant": false
+          },
+          "fieldName": "user_priority",
+          "displayName": "user_priority",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        {
+          "calculationID": "All_Databases_vendor_product",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The vendor and product name of the database system. This field can be automatically populated by vendor and product fields in your data."
+              },
+              "fieldName": "vendor_product",
+              "displayName": "vendor_product",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "case(isnotnull(vendor_product),vendor_product,isnotnull(vendor) AND vendor!=\"unknown\" AND isnotnull(product) AND product!=\"unknown\",vendor.\" \".product,isnotnull(vendor) AND vendor!=\"unknown\" AND (isnull(product) OR product=\"unknown\"),vendor.\" unknown\",(isnull(vendor) OR vendor=\"unknown\") AND isnotnull(product) AND product!=\"unknown\",\"unknown \".product,isnotnull(sourcetype),sourcetype,1=1,\"unknown\")"
+        }
+      ],
+      "constraints": [
+        {
+          "search": "(`cim_Databases_indexes`) tag=database"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "database",
+          "instance"
+        ]
+      },
+      "objectName": "Database_Instance",
+      "displayName": "Database Instance",
+      "parentName": "All_Databases",
+      "fields": [
+        {
+          "comment": {
+            "description": "The name of the database instance."
+          },
+          "fieldName": "instance_name",
+          "displayName": "instance_name",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The version of the database instance."
+          },
+          "fieldName": "instance_version",
+          "displayName": "instance_version",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The maximum number of sessions that the database instance can handle."
+          },
+          "fieldName": "session_limit",
+          "displayName": "session_limit",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The maximum number of processes that the database instance can handle."
+          },
+          "fieldName": "process_limit",
+          "displayName": "process_limit",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "tag=instance"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "database",
+          "instance",
+          "stats"
+        ]
+      },
+      "objectName": "Instance_Stats",
+      "displayName": "Instance Stats",
+      "parentName": "Database_Instance",
+      "fields": [
+        {
+          "comment": {
+            "description": "The total amount of uptime for the database instance."
+          },
+          "fieldName": "start_time",
+          "displayName": "start_time",
+          "type": "timestamp",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The status of the database server.",
+            "expected_values": [
+              "Available",
+              "Not Available"
+            ]
+          },
+          "fieldName": "availability",
+          "displayName": "availability",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The total number of sessions currently in use for the database instance."
+          },
+          "fieldName": "sessions",
+          "displayName": "sessions",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The number of processes currently running for the database instance."
+          },
+          "fieldName": "processes",
+          "displayName": "processes",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The amount of the database dump area that has been used."
+          },
+          "fieldName": "dump_area_used",
+          "displayName": "dump_area_used",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The total amount of tablespace used for the database instance, in bytes."
+          },
+          "fieldName": "tablespace_used",
+          "displayName": "tablespace_used",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The total number of users for the database instance."
+          },
+          "fieldName": "number_of_users",
+          "displayName": "number_of_users",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The average number of executions for the database instance."
+          },
+          "fieldName": "avg_executions",
+          "displayName": "avg_executions",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The total number of reads for the database instance."
+          },
+          "fieldName": "instance_reads",
+          "displayName": "instance_reads",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The total number of writes for the database instance."
+          },
+          "fieldName": "instance_writes",
+          "displayName": "instance_writes",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The total size of the buffer cache for the database instance, in bytes."
+          },
+          "fieldName": "sga_buffer_cache_size",
+          "displayName": "sga_buffer_cache_size",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The total size of the shared pool for this database instance, in bytes."
+          },
+          "fieldName": "sga_shared_pool_size",
+          "displayName": "sga_shared_pool_size",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The total size of the redo log buffer for the database instance, in bytes."
+          },
+          "fieldName": "sga_redo_log_buffer_size",
+          "displayName": "sga_redo_log_buffer_size",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The total library cache size for the database instance, in bytes."
+          },
+          "fieldName": "sga_library_cache_size",
+          "displayName": "sga_library_cache_size",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The size of the fixed area (also referred to as the fixed SGA) for the database instance, in bytes."
+          },
+          "fieldName": "sga_fixed_area_size",
+          "displayName": "sga_fixed_area_size",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The total size of the SQL area for this database instance, in bytes."
+          },
+          "fieldName": "sga_sql_area_size",
+          "displayName": "sga_sql_area_size",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The maximum number of buffers that can be hit in the database instance without finding a free buffer."
+          },
+          "fieldName": "sga_buffer_hit_limit",
+          "displayName": "sga_buffer_hit_limit",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The hit-to-miss ratio for the database instance's data dictionary."
+          },
+          "fieldName": "sga_data_dict_hit_ratio",
+          "displayName": "sga_data_dict_hit_ratio",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The total amount of free memory in the database instance SGA, in bytes."
+          },
+          "fieldName": "sga_free_memory",
+          "displayName": "sga_free_memory",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "tag=stats"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "database",
+          "instance",
+          "session"
+        ]
+      },
+      "objectName": "Session_Info",
+      "displayName": "Session Info",
+      "parentName": "Database_Instance",
+      "fields": [
+        {
+          "comment": {
+            "description": "The unique id that identifies the session."
+          },
+          "fieldName": "session_id",
+          "displayName": "session_id",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The current status of the session.",
+            "expected_values": [
+              "Online",
+              "Offline"
+            ]
+          },
+          "fieldName": "session_status",
+          "displayName": "session_status",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The name of the logical host associated with the database instance."
+          },
+          "fieldName": "machine",
+          "displayName": "machine",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The total amount of time elapsed since the user started the session by logging into the database server, in seconds."
+          },
+          "fieldName": "elapsed_time",
+          "displayName": "elapsed_time",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The number of CPU centiseconds used by the session. Divide this value by 100 to get the CPU seconds."
+          },
+          "fieldName": "cpu_used",
+          "displayName": "cpu_used",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The total number of memory sorts performed during the session."
+          },
+          "fieldName": "memory_sorts",
+          "displayName": "memory_sorts",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "Number of table scans performed during the session."
+          },
+          "fieldName": "table_scans",
+          "displayName": "table_scans",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The total number of physical reads performed during the session."
+          },
+          "fieldName": "physical_reads",
+          "displayName": "physical_reads",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The total number of consistent gets and database block gets performed during the session."
+          },
+          "fieldName": "logical_reads",
+          "displayName": "logical_reads",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The number of commits per second performed by the user associated with the session."
+          },
+          "fieldName": "commits",
+          "displayName": "commits",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The number of the cursor currently in use by the session."
+          },
+          "fieldName": "cursor",
+          "displayName": "cursor",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The percentage of logical reads from the buffer during the session (1-physical reads\/session logical reads*100)."
+          },
+          "fieldName": "buffer_cache_hit_ratio",
+          "displayName": "buffer_cache_hit_ratio",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "Provides the current wait state for the session. Can indicate that the session is currently waiting or provide information about the session's last wait. WAITING indicates the session is currently waiting, WAITED UNKNOWN TIME indicates the duration of the last session wait is unknown, WAITED SHORT TIME indicates the last session wait was < 1\/100th of a second, WAITED KNOWN TIME indicates the wait_time is the duration of the last session wait.",
+            "expected_values": [
+              "WAITING",
+              "WAITED UNKNOWN",
+              "WAITED SHORT TIME",
+              "WAITED KNOWN TIME"
+            ]
+          },
+          "fieldName": "wait_state",
+          "displayName": "wait_state",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "When wait_time = 0, the session is waiting. When wait_time has a nonzero value, it is displaying the last wait time for the session."
+          },
+          "fieldName": "wait_time",
+          "displayName": "wait_time",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The seconds_in_wait depends on the value of wait_time. If wait_time = 0, seconds_in_wait is the number of seconds spent in the current wait condition. If wait_time has a nonzero value, seconds_in_wait is the number of seconds that have elapsed since the start of the last wait. You can get the active seconds that have elapsed since the last wait ended by calculating seconds_in_wait - wait_time \/ 100."
+          },
+          "fieldName": "seconds_in_wait",
+          "displayName": "seconds_in_wait",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "tag=session"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "database",
+          "instance",
+          "lock"
+        ]
+      },
+      "objectName": "Lock_Info",
+      "displayName": "Lock Info",
+      "parentName": "Database_Instance",
+      "fields": [
+        {
+          "comment": {
+            "description": "The name of the locked object."
+          },
+          "fieldName": "obj_name",
+          "displayName": "obj_name",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The session identifier of the locked object."
+          },
+          "fieldName": "lock_session_id",
+          "displayName": "lock_session_id",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The serial number of the object."
+          },
+          "fieldName": "serial_num",
+          "displayName": "serial_num",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The mode of the lock on the object."
+          },
+          "fieldName": "lock_mode",
+          "displayName": "lock_mode",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The process identifier for the operating system."
+          },
+          "fieldName": "os_pid",
+          "displayName": "os_pid",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "Represents the amount of time elapsed since the session_status changed to its current status. The definition of this field depends on the session_status value. If session_status = ONLINE, the last_call_minute value represents the time elapsed since the session became active. If session_status = OFFLINE, the last_call_minute value represents the time elapsed since the session became inactive."
+          },
+          "fieldName": "last_call_minute",
+          "displayName": "last_call_minute",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The database logon time for the session."
+          },
+          "fieldName": "logon_time",
+          "displayName": "logon_time",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "tag=lock"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "database",
+          "query"
+        ]
+      },
+      "objectName": "Database_Query",
+      "displayName": "Database Query",
+      "parentName": "All_Databases",
+      "fields": [
+        {
+          "comment": {
+            "description": "The full database query."
+          },
+          "fieldName": "query",
+          "displayName": "query",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The identifier for the database query."
+          },
+          "fieldName": "query_id",
+          "displayName": "query_id",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The time the system initiated the database query."
+          },
+          "fieldName": "query_time",
+          "displayName": "query_time",
+          "type": "timestamp",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The number of records affected by the database query."
+          },
+          "fieldName": "records_affected",
+          "displayName": "records_affected",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "tag=query"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "database",
+          "query",
+          "tablespace"
+        ]
+      },
+      "objectName": "Tablespace",
+      "displayName": "Tablespace",
+      "parentName": "Database_Query",
+      "fields": [
+        {
+          "comment": {
+            "description": "The name of the tablespace."
+          },
+          "fieldName": "tablespace_name",
+          "displayName": "tablespace_name",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The status of the tablespace.",
+            "expected_values": [
+              "Offline",
+              "Online",
+              "Read Only"
+            ]
+          },
+          "fieldName": "tablespace_status",
+          "displayName": "tablespace_status",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The total amount of free space in the tablespace, in bytes."
+          },
+          "fieldName": "free_bytes",
+          "displayName": "free_bytes",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The number of tablespace reads carried out by the query."
+          },
+          "fieldName": "tablespace_reads",
+          "displayName": "tablespace_reads",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The number of tablespace writes carried out by the query."
+          },
+          "fieldName": "tablespace_writes",
+          "displayName": "tablespace_writes",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "tag=tablespace"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "database",
+          "query",
+          "stats"
+        ]
+      },
+      "objectName": "Query_Stats",
+      "displayName": "Query Stats",
+      "parentName": "Database_Query",
+      "fields": [
+        {
+          "comment": {
+            "description": "The names of the stored procedures called by the query."
+          },
+          "fieldName": "stored_procedures_called",
+          "displayName": "stored_procedures_called",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The names of the tables hit by the query."
+          },
+          "fieldName": "tables_hit",
+          "displayName": "tables_hit",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The names of the indexes hit by the database query."
+          },
+          "fieldName": "indexes_hit",
+          "displayName": "indexes_hit",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The name of the query plan hit by the query."
+          },
+          "fieldName": "query_plan_hit",
+          "displayName": "query_plan_hit",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "tag=stats"
+        }
+      ],
+      "children": [
+        
+      ]
+    }
+  ]
+}

@@ -1,0 +1,583 @@
+{
+  "modelName": "Intrusion_Detection",
+  "displayName": "Intrusion Detection",
+  "description": "Intrusion Detection Data Model",
+  "editable": false,
+  "objects": [
+    {
+      "comment": {
+        "tags": [
+          "ids",
+          "attack"
+        ]
+      },
+      "objectName": "IDS_Attacks",
+      "displayName": "IDS Attacks",
+      "parentName": "BaseEvent",
+      "fields": [
+        {
+          "comment": {
+            "description": "The action taken by the intrusion detection system (IDS).",
+            "expected_values": [
+              "allowed",
+              "blocked"
+            ]
+          },
+          "fieldName": "action",
+          "displayName": "action",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "dest_bunit",
+          "displayName": "dest_bunit",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "dest_category",
+          "displayName": "dest_category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The destination port of the intrusion."
+          },
+          "fieldName": "dest_port",
+          "displayName": "dest_port",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "dest_priority",
+          "displayName": "dest_priority",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "dvc_bunit",
+          "displayName": "dvc_bunit",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "dvc_category",
+          "displayName": "dvc_category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "dvc_priority",
+          "displayName": "dvc_priority",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "A cryptographic identifier assigned to the file object affected by the event.",
+            "ta_relevant": false
+          },
+          "fieldName": "file_hash",
+          "displayName": "file_hash",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The name of the file, such as notepad.exe.",
+            "ta_relevant": false
+          },
+          "fieldName": "file_name",
+          "displayName": "file_name",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The path of the file, such as C:\\Windows\\System32\\notepad.exe.",
+            "ta_relevant": false
+          },
+          "fieldName": "file_path",
+          "displayName": "file_path",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The numeric or vendor specific severity indicator corresponding to the event severity."
+          },
+          "fieldName": "severity_id",
+          "displayName": "severity_id",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The unique identifier or event code of the event signature."
+          },
+          "fieldName": "signature_id",
+          "displayName": "signature_id",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "src_bunit",
+          "displayName": "src_bunit",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "src_category",
+          "displayName": "src_category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The port number of the source."
+          },
+          "fieldName": "src_port",
+          "displayName": "src_port",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "src_priority",
+          "displayName": "src_priority",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The OSI layer 4 (transport) protocol of the intrusion, in lower case."
+          },
+          "fieldName": "transport",
+          "displayName": "transport",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This automatically generated field is used to access tags from within data models. Add-on builders do not need to populate it.",
+            "ta_relevant": false
+          },
+          "fieldName": "tag",
+          "displayName": "tag",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "user_bunit",
+          "displayName": "user_bunit",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "user_category",
+          "displayName": "user_category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "user_priority",
+          "displayName": "user_priority",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        {
+          "calculationID": "IDS_Attacks_fillnull_dvc",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The device that detected the intrusion event. You can alias this from more specific fields, such as dvc_host, dvc_ip, or dvc_name.",
+                "recommended": true
+              },
+              "fieldName": "dvc",
+              "displayName": "dvc",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(dvc) OR dvc=\"\",\"unknown\",dvc)"
+        },
+        {
+          "calculationID": "IDS_Attacks_fillnull_ids_type",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The type of IDS that generated the event.",
+                "expected_values": [
+                  "network",
+                  "host",
+                  "application",
+                  "wireless"
+                ],
+                "recommended": true
+              },
+              "fieldName": "ids_type",
+              "displayName": "ids_type",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(ids_type) OR ids_type=\"\",\"unknown\",ids_type)"
+        },
+        {
+          "calculationID": "IDS_Attacks_fillnull_category",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The vendor-provided category of the triggered signature, such as spyware. Note: This field is a string. Use a category_id field for category ID fields that are integer data types (category_id fields are optional, so they are not included in this table).",
+                "recommended": true
+              },
+              "fieldName": "category",
+              "displayName": "category",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(category) OR category=\"\",\"unknown\",category)"
+        },
+        {
+          "calculationID": "IDS_Attacks_fillnull_signature",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The name of the intrusion detected on the client (the src), such as PlugAndPlay_BO and JavaScript_Obfuscation_Fre. Note: This is a string value. Use signature_id for numeric indicators. The signature_id field is optional, so it is not included in the model.",
+                "recommended": true
+              },
+              "fieldName": "signature",
+              "displayName": "signature",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(signature) OR signature=\"\",\"unknown\",signature)"
+        },
+        {
+          "calculationID": "IDS_Attacks_fillnull_severity",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The severity of the network protection event. Note: This field is a string. Use severity_id for severity ID fields that are integer data types. The severity_id field is optional, so it is not included in the model. Also, specific values are required for this field. Use vendor_severity for the vendor's own human readable severity strings, such as Good, Bad, and Really Bad.",
+                "expected_values": [
+                  "critical",
+                  "high",
+                  "medium",
+                  "low",
+                  "informational"
+                ],
+                "recommended": true
+              },
+              "fieldName": "severity",
+              "displayName": "severity",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(severity) OR severity=\"\",\"unknown\",severity)"
+        },
+        {
+          "calculationID": "IDS_Attacks_fillnull_src",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The source involved in the attack detected by the IDS. You can alias this from more specific fields, such as src_host, src_ip, or src_name.",
+                "recommended": true
+              },
+              "fieldName": "src",
+              "displayName": "src",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(src) OR src=\"\",\"unknown\",src)"
+        },
+        {
+          "calculationID": "IDS_Attacks_fillnull_dest",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The destination of the attack detected by the intrusion detection system (IDS). You can alias this from more specific fields, such as dest_host, dest_ip, or dest_name.",
+                "recommended": true
+              },
+              "fieldName": "dest",
+              "displayName": "dest",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(dest) OR dest=\"\",\"unknown\",dest)"
+        },
+        {
+          "calculationID": "IDS_Attacks_fillnull_user",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The user involved with the intrusion detection event.",
+                "recommended": true
+              },
+              "fieldName": "user",
+              "displayName": "user",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(user) OR user=\"\",\"unknown\",user)"
+        },
+        {
+          "calculationID": "IDS_Attacks_vendor_product",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The vendor and product name of the IDS or IPS system that detected the vulnerability, such as HP Tipping Point. This field can be automatically populated by vendor and product fields in your data.",
+                "recommended": true
+              },
+              "fieldName": "vendor_product",
+              "displayName": "vendor_product",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "case(isnotnull(vendor_product),vendor_product,isnotnull(vendor) AND vendor!=\"unknown\" AND isnotnull(product) AND product!=\"unknown\",vendor.\" \".product,isnotnull(vendor) AND vendor!=\"unknown\" AND (isnull(product) OR product=\"unknown\"),vendor.\" unknown\",(isnull(vendor) OR vendor=\"unknown\") AND isnotnull(product) AND product!=\"unknown\",\"unknown \".product,isnotnull(sourcetype),sourcetype,1=1,\"unknown\")"
+        }
+      ],
+      "constraints": [
+        {
+          "search": "(`cim_Intrusion_Detection_indexes`) tag=ids tag=attack"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "ids",
+          "attack"
+        ]
+      },
+      "objectName": "Application_IDS_Attacks",
+      "displayName": "Application Intrusion Detection",
+      "parentName": "IDS_Attacks",
+      "fields": [
+        
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "ids_type=\"application\""
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "ids",
+          "attack"
+        ]
+      },
+      "objectName": "Host_IDS_Attacks",
+      "displayName": "Host Intrusion Detection",
+      "parentName": "IDS_Attacks",
+      "fields": [
+        
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "ids_type=\"host\""
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "ids",
+          "attack"
+        ]
+      },
+      "objectName": "Network_IDS_Attacks",
+      "displayName": "Network Intrusion Detection",
+      "parentName": "IDS_Attacks",
+      "fields": [
+        
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "ids_type=\"network\""
+        }
+      ],
+      "children": [
+        
+      ]
+    }
+  ]
+}

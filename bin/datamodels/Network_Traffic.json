@@ -1,0 +1,1026 @@
+{
+  "modelName": "Network_Traffic",
+  "displayName": "Network Traffic",
+  "description": "Network Traffic Data Model",
+  "editable": false,
+  "objects": [
+    {
+      "comment": {
+        "tags": [
+          "network",
+          "communicate"
+        ]
+      },
+      "objectName": "All_Traffic",
+      "displayName": "All Traffic",
+      "parentName": "BaseEvent",
+      "fields": [
+        {
+          "comment": {
+            "description": "The application protocol of the traffic."
+          },
+          "fieldName": "app",
+          "displayName": "app",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The 802.11 channel used by a wireless network."
+          },
+          "fieldName": "channel",
+          "displayName": "channel",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "dest_bunit",
+          "displayName": "dest_bunit",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "dest_category",
+          "displayName": "dest_category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The interface that is listening remotely or receiving packets locally. Can also be referred to as the 'egress interface.'"
+          },
+          "fieldName": "dest_interface",
+          "displayName": "dest_interface",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The IP address of the destination."
+          },
+          "fieldName": "dest_ip",
+          "displayName": "dest_ip",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The destination TCP\/IP layer 2 Media Access Control (MAC) address of a packet's destination, such as 06:10:9f:eb:8f:14. Note: Always force lower case on this field and use colons instead of dashes, spaces, or no separator."
+          },
+          "fieldName": "dest_mac",
+          "displayName": "dest_mac",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The destination priority, if applicable.",
+            "ta_relevant": false
+          },
+          "fieldName": "dest_priority",
+          "displayName": "dest_priority",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The NATed IPv4 or IPv6 address to which a packet has been sent."
+          },
+          "fieldName": "dest_translated_ip",
+          "displayName": "dest_translated_ip",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The NATed port to which a packet has been sent. Note: Do not translate the values of this field to strings (tcp\/80 is 80, not http)."
+          },
+          "fieldName": "dest_translated_port",
+          "displayName": "dest_translated_port",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The network zone of the destination."
+          },
+          "fieldName": "dest_zone",
+          "displayName": "dest_zone",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The direction the packet is traveling.",
+            "expected_values": [
+              "inbound",
+              "outbound"
+            ]
+          },
+          "fieldName": "direction",
+          "displayName": "direction",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The amount of time for the completion of the network event, in seconds."
+          },
+          "fieldName": "duration",
+          "displayName": "duration",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The ip address of the device."
+          },
+          "fieldName": "dvc_ip",
+          "displayName": "dvc_ip",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "dvc_bunit",
+          "displayName": "dvc_bunit",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "dvc_category",
+          "displayName": "dvc_category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The device TCP\/IP layer 2 Media Access Control (MAC) address of a packet's destination, such as 06:10:9f:eb:8f:14. Note: Always force lower case on this field and use colons instead of dashes, spaces, or no separator."
+          },
+          "fieldName": "dvc_mac",
+          "displayName": "dvc_mac",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "dvc_priority",
+          "displayName": "dvc_priority",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The network zone of the device."
+          },
+          "fieldName": "dvc_zone",
+          "displayName": "dvc_zone",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "Unique identifier for this traffic stream, such as a netflow, jflow, or cflow."
+          },
+          "fieldName": "flow_id",
+          "displayName": "flow_id",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The RFC 2780 or RFC 4443 human-readable code value of the traffic, such as Destination Unreachable or Parameter Problem . See the ICMP Type Numbers and the ICMPv6 Type Numbers."
+          },
+          "fieldName": "icmp_code",
+          "displayName": "icmp_code",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The RFC 2780 or RFC 4443 numeric value of the traffic. See the ICMP Type Numbers and the ICMPv6 Type Numbers.",
+            "expected_values": [
+              "0-254"
+            ]
+          },
+          "fieldName": "icmp_type",
+          "displayName": "icmp_type",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The numeric identifier of the process assigned by the operating system."
+          },
+          "fieldName": "process_id",
+          "displayName": "process_id",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The OSI layer 3 (network) protocol of the traffic observed, in lower case. For example, ip, appletalk, ipx."
+          },
+          "fieldName": "protocol",
+          "displayName": "protocol",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "Version of the OSI layer 3 protocol."
+          },
+          "fieldName": "protocol_version",
+          "displayName": "protocol_version",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The amount of time it took to receive a response in the network event, in seconds."
+          },
+          "fieldName": "response_time",
+          "displayName": "response_time",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The session identifier. Multiple transactions build a session."
+          },
+          "fieldName": "session_id",
+          "displayName": "session_id",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The business unit of the network traffic source.",
+            "ta_relevant": false
+          },
+          "fieldName": "src_bunit",
+          "displayName": "src_bunit",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The category of the network traffic source.",
+            "ta_relevant": false
+          },
+          "fieldName": "src_category",
+          "displayName": "src_category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The interface that is listening locally or sending packets remotely. Can also be referred to as the 'ingress interface.'",
+            "ta_relevant": false
+          },
+          "fieldName": "src_interface",
+          "displayName": "src_interface",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The ip address of the source."
+          },
+          "fieldName": "src_ip",
+          "displayName": "src_ip",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The source TCP\/IP layer 2 Media Access Control (MAC) address of a packet's destination, such as 06:10:9f:eb:8f:14. Note: Always force lower case on this field and use colons instead of dashes, spaces, or no separator."
+          },
+          "fieldName": "src_mac",
+          "displayName": "src_mac",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The priority of the source, if applicable.",
+            "ta_relevant": false
+          },
+          "fieldName": "src_priority",
+          "displayName": "src_priority",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The NATed IPv4 or IPv6 address from which a packet has been sent."
+          },
+          "fieldName": "src_translated_ip",
+          "displayName": "src_translated_ip",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The NATed port from which a packet has been sent. Note: Do not translate the values of this field to strings (tcp\/80 is 80, not http)."
+          },
+          "fieldName": "src_translated_port",
+          "displayName": "src_translated_port",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The network zone of the source."
+          },
+          "fieldName": "src_zone",
+          "displayName": "src_zone",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The 802.11 service set identifier (ssid) assigned to a wireless session."
+          },
+          "fieldName": "ssid",
+          "displayName": "ssid",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This automatically generated field is used to access tags from within data models. Add-on builders do not need to populate it.",
+            "ta_relevant": false
+          },
+          "fieldName": "tag",
+          "displayName": "tag",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The TCP flag or multiple flags specified in the event.",
+            "expected_values": [
+              "SYN",
+              "ACK",
+              "FIN",
+              "RST",
+              "URG",
+              "PSH"
+            ]
+          },
+          "fieldName": "tcp_flag",
+          "displayName": "tcp_flag",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The combination of source and destination IP ToS (type of service) values in the event."
+          },
+          "fieldName": "tos",
+          "displayName": "tos",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The 'time to live' of a packet or diagram, in seconds."
+          },
+          "fieldName": "ttl",
+          "displayName": "ttl",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "user_bunit",
+          "displayName": "user_bunit",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "user_category",
+          "displayName": "user_category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "user_priority",
+          "displayName": "user_priority",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The virtual local area network (VLAN) specified in the record."
+          },
+          "fieldName": "vlan",
+          "displayName": "vlan",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The wireless standard(s) in use, such as 802.11a, 802.11b, 802.11g, or 802.11n."
+          },
+          "fieldName": "wifi",
+          "displayName": "wifi",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The account associated with the network traffic."
+          },
+          "fieldName": "vendor_account",
+          "displayName": "vendor_account",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        {
+          "calculationID": "All_Traffic_fillnull_action",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The action taken by the network device.",
+                "expected_values": [
+                  "allowed",
+                  "blocked",
+                  "teardown"
+                ],
+                "recommended": true
+              },
+              "fieldName": "action",
+              "displayName": "action",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(action) OR action=\"\",\"unknown\",action)"
+        },
+        {
+          "calculationID": "All_Traffic_bytes",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "Total count of bytes handled by this device\/interface (bytes_in + bytes_out).",
+                "recommended": true
+              },
+              "fieldName": "bytes",
+              "displayName": "bytes",
+              "type": "number",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "case(isnum(bytes),bytes,isnum(bytes_in) AND isnum(bytes_out),bytes_in+bytes_out,1=1,null())"
+        },
+        {
+          "calculationID": "All_Traffic_bytes_in",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "How many bytes this device\/interface received.",
+                "recommended": true
+              },
+              "fieldName": "bytes_in",
+              "displayName": "bytes_in",
+              "type": "number",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "case(isnum(bytes_in),bytes_in,isnum(bytes) AND isnum(bytes_out),bytes-bytes_out,1=1,null())"
+        },
+        {
+          "calculationID": "All_Traffic_bytes_out",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "How many bytes this device\/interface transmitted.",
+                "recommended": true
+              },
+              "fieldName": "bytes_out",
+              "displayName": "bytes_out",
+              "type": "number",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "case(isnum(bytes_out),bytes_out,isnum(bytes) AND isnum(bytes_in),bytes-bytes_in,1=1,null())"
+        },
+        {
+          "calculationID": "All_Traffic_fillnull_dest",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The destination of the network traffic (the remote host). You can alias this from more specific fields, such as dest_host, dest_ip, or dest_name.",
+                "recommended": true
+              },
+              "fieldName": "dest",
+              "displayName": "dest",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(dest) OR dest=\"\",\"unknown\",dest)"
+        },
+        {
+          "calculationID": "All_Traffic_fillnull_dest_port",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The destination port of the network traffic. Note: Do not translate the value of this field to a string (tcp\/80 is 80, not http). You can set up the corresponding string value in the dest_svc field.",
+                "recommended": true
+              },
+              "fieldName": "dest_port",
+              "displayName": "dest_port",
+              "type": "number",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnum(dest_port),dest_port,0)"
+        },
+        {
+          "calculationID": "All_Traffic_fillnull_dvc",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The device that reported the traffic event. You can alias this from more specific fields, such as dvc_host, dvc_ip, or dvc_name.",
+                "recommended": true
+              },
+              "fieldName": "dvc",
+              "displayName": "dvc",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(dvc) OR dvc=\"\",\"unknown\",dvc)"
+        },
+        {
+          "calculationID": "All_Traffic_packets",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The total count of packets handled by this device\/interface (packets_in + packets_out)."
+              },
+              "fieldName": "packets",
+              "displayName": "packets",
+              "type": "number",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "case(isnum(packets),packets,isnum(packets_in) AND isnum(packets_out),packets_in+packets_out,1=1,null())"
+        },
+        {
+          "calculationID": "All_Traffic_packets_in",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The total count of packets received by this device\/interface."
+              },
+              "fieldName": "packets_in",
+              "displayName": "packets_in",
+              "type": "number",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "case(isnum(packets_in),packets_in,isnum(packets) AND isnum(packets_out),packets-packets_out,1=1,null())"
+        },
+        {
+          "calculationID": "All_Traffic_packets_out",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The total count of packets transmitted by this device\/interface."
+              },
+              "fieldName": "packets_out",
+              "displayName": "packets_out",
+              "type": "number",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "case(isnum(packets_out),packets_out,isnum(packets) AND isnum(packets_in),packets-packets_in,1=1,null())"
+        },
+        {
+          "calculationID": "All_Traffic_fillnull_rule",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The rule which defines the action that was taken in the network event. Note: This is a string value. Use rule_id for rule fields that are integer data types. The rule_id field is optional, so it is not included in the data model.",
+                "recommended": true
+              },
+              "fieldName": "rule",
+              "displayName": "rule",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(rule) OR rule=\"\",\"unknown\",rule)"
+        },
+        {
+          "calculationID": "All_Traffic_fillnull_src",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The source of the network traffic (the client requesting the connection). You can alias this from more specific fields, such as src_host, src_ip, or src_name.",
+                "recommended": true
+              },
+              "fieldName": "src",
+              "displayName": "src",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(src) OR src=\"\",\"unknown\",src)"
+        },
+        {
+          "calculationID": "All_Traffic_fillnull_src_port",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The source port of the network traffic. Note: Do not translate the value of this field to a string (tcp\/80 is 80, not http). You can set up the corresponding string value in the src_svc field.",
+                "recommended": true
+              },
+              "fieldName": "src_port",
+              "displayName": "src_port",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnum(src_port),src_port,0)"
+        },
+        {
+          "calculationID": "All_Traffic_fillnull_transport",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The OSI layer 4 (transport) protocol of the traffic observed, in lower case.",
+                "expected_values": [
+                  "tcp",
+                  "udp",
+                  "icmp"
+                ],
+                "recommended": true
+              },
+              "fieldName": "transport",
+              "displayName": "transport",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(transport) OR transport=\"\",\"unknown\",lower(transport))"
+        },
+        {
+          "calculationID": "All_Traffic_fillnull_user",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The user that requested the traffic flow.",
+                "recommended": true
+              },
+              "fieldName": "user",
+              "displayName": "user",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(user) OR user=\"\",\"unknown\",user)"
+        },
+        {
+          "calculationID": "All_Traffic_vendor_product",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The vendor and product of the device generating the network event. This field can be automatically populated by vendor and product fields in your data.",
+                "recommended": true
+              },
+              "fieldName": "vendor_product",
+              "displayName": "vendor_product",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "case(isnotnull(vendor_product),vendor_product,isnotnull(vendor) AND vendor!=\"unknown\" AND isnotnull(product) AND product!=\"unknown\",vendor.\" \".product,isnotnull(vendor) AND vendor!=\"unknown\" AND (isnull(product) OR product=\"unknown\"),vendor.\" unknown\",(isnull(vendor) OR vendor=\"unknown\") AND isnotnull(product) AND product!=\"unknown\",\"unknown \".product,isnotnull(sourcetype),sourcetype,1=1,\"unknown\")"
+        }
+      ],
+      "constraints": [
+        {
+          "search": "(`cim_Network_Traffic_indexes`) tag=network tag=communicate"
+        }
+      ],
+      "children": [
+
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "network",
+          "communicate"
+        ]
+      },
+      "objectName": "Traffic_By_Action",
+      "displayName": "Traffic By Action",
+      "parentName": "All_Traffic",
+      "fields": [
+
+      ],
+      "calculations": [
+
+      ],
+      "constraints": [
+        {
+          "search": "action=*"
+        }
+      ],
+      "children": [
+
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "network",
+          "communicate"
+        ]
+      },
+      "objectName": "Allowed_Traffic",
+      "displayName": "Allowed Traffic",
+      "parentName": "Traffic_By_Action",
+      "fields": [
+
+      ],
+      "calculations": [
+
+      ],
+      "constraints": [
+        {
+          "search": "action=allowed"
+        }
+      ],
+      "children": [
+
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "network",
+          "communicate"
+        ]
+      },
+      "objectName": "Blocked_Traffic",
+      "displayName": "Blocked Traffic",
+      "parentName": "Traffic_By_Action",
+      "fields": [
+
+      ],
+      "calculations": [
+
+      ],
+      "constraints": [
+        {
+          "search": "action=blocked"
+        }
+      ],
+      "children": [
+
+      ]
+    }
+  ]
+}

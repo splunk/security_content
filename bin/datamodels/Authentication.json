@@ -1,0 +1,752 @@
+{
+  "modelName": "Authentication",
+  "displayName": "Authentication",
+  "description": "Authentication Data Model",
+  "editable": false,
+  "objects": [
+    {
+      "comment": {
+        "tags": [
+          "authentication"
+        ]
+      },
+      "objectName": "Authentication",
+      "displayName": "Authentication",
+      "parentName": "BaseEvent",
+      "fields": [
+        {
+          "comment": {
+            "description": "The method used to authenticate the request such as SAML, FIDO, or MFA."
+          },
+          "fieldName": "authentication_method",
+          "displayName": "authentication_method",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The service used to authenticate the request such as Okta, or ActiveDirectory"
+          },
+          "fieldName": "authentication_service",
+          "displayName": "authentication_service",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The business unit of the authentication target. This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "dest_bunit",
+          "displayName": "dest_bunit",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The category of the authentication target, such as email_server or SOX-compliant. This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "dest_category",
+          "displayName": "dest_category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The name of the Active Directory used by the authentication target, if applicable."
+          },
+          "fieldName": "dest_nt_domain",
+          "displayName": "dest_nt_domain",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The priority of the authentication target. This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "dest_priority",
+          "displayName": "dest_priority",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The amount of time for the completion of the authentication event, in seconds."
+          },
+          "fieldName": "duration",
+          "displayName": "duration",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The human-readable message associated with the authentication action (success or failure)."
+          },
+          "fieldName": "reason",
+          "displayName": "reason",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The amount of time it took to receive a response in the authentication event, in seconds."
+          },
+          "fieldName": "response_time",
+          "displayName": "response_time",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "A human-readable signature name."
+          },
+          "fieldName": "signature",
+          "displayName": "signature",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The unique identifier or event code of the event signature."
+          },
+          "fieldName": "signature_id",
+          "displayName": "signature_id",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The business unit of the authentication source. This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "src_bunit",
+          "displayName": "src_bunit",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The category of the authentication source, such as email_server or SOX-compliant. This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "src_category",
+          "displayName": "src_category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The name of the Active Directory used by the authentication source, if applicable."
+          },
+          "fieldName": "src_nt_domain",
+          "displayName": "src_nt_domain",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The priority of the authentication source. This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "src_priority",
+          "displayName": "src_priority",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The business unit of the user who initiated the privilege escalation. This field is unnecessary when an escalation has not been performed. This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "src_user_bunit",
+          "displayName": "src_user_bunit",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The category of the user who initiated the privilege escalation. This field is unnecessary when an escalation has not been performed. This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "src_user_category",
+          "displayName": "src_user_category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The unique id of the user who initiated the privilege escalation. This field is unnecessary when an escalation has not been performed."
+          },
+          "fieldName": "src_user_id",
+          "displayName": "src_user_id",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The priority of the user who initiated the privilege escalation. This field is unnecessary when an escalation has not been performed. This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "src_user_priority",
+          "displayName": "src_user_priority",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The role of the user who initiated the privilege escalation. This field is unnecessary when an escalation has not been performed."
+          },
+          "fieldName": "src_user_role",
+          "displayName": "src_user_role",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The type of the user who initiated the privilege escalation. This field is unnecessary when an escalation has not been performed."
+          },
+          "fieldName": "src_user_type",
+          "displayName": "src_user_type",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This automatically generated field is used to access tags from within data models. Add-on builders do not need to populate it.",
+            "ta_relevant": false
+          },
+          "fieldName": "tag",
+          "displayName": "tag",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The user agent through which the request was made, such as Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) or aws-cli/2.0.0 Python/3.7.4 Darwin/18.7.0 botocore/2.0.0dev4."
+          },
+          "fieldName": "user_agent",
+          "displayName": "user_agent",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The business unit of the user involved in the event, or who initiated the event. For authentication privilege escalation events this should represent the user targeted by the escalation. This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "user_bunit",
+          "displayName": "user_bunit",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The category of the user involved in the event, or who initiated the event. For authentication privilege escalation events this should represent the user targeted by the escalation. This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "user_category",
+          "displayName": "user_category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The unique id of the user involved in the event. For authentication privilege escalation events, this should represent the user targeted by the escalation."
+          },
+          "fieldName": "user_id",
+          "displayName": "user_id",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The priority of the user involved in the event, or who initiated the event. For authentication privilege escalation events, this should represent the user priority targeted by the escalation. This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "user_priority",
+          "displayName": "user_priority",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The role of the user involved in the event, or who initiated the event. For authentication privilege escalation events, this should represent the user role targeted by the escalation."
+          },
+          "fieldName": "user_role",
+          "displayName": "user_role",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The type of the user involved in the event or who initiated the event, such as IAMUser, Admin, or System. For authentication privilege escalation events, this should represent the user type targeted by the escalation."
+          },
+          "fieldName": "user_type",
+          "displayName": "user_type",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The account that manages the user that initiated the request."
+          },
+          "fieldName": "vendor_account",
+          "displayName": "vendor_account",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        {
+          "calculationID": "Authentication_fillnull_action",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The action performed on the resource.",
+                "expected_values": [
+                  "success",
+                  "failure",
+                  "pending",
+                  "error"
+                ],
+                "recommended": true
+              },
+              "fieldName": "action",
+              "displayName": "action",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(action) OR action=\"\",\"unknown\",action)"
+        },
+        {
+          "calculationID": "Authentication_fillnull_app",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The application involved in the event, such as ssh, splunk, win:local.",
+                "recommended": true
+              },
+              "fieldName": "app",
+              "displayName": "app",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(app) OR app=\"\",sourcetype,app)"
+        },
+        {
+          "calculationID": "Authentication_fillnull_src",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The source involved in the authentication. In the case of endpoint protection authentication the src is the client. You can alias this from more specific fields, such as src_host, src_ip, or src_nt_host.",
+                "recommended": true
+              },
+              "fieldName": "src",
+              "displayName": "src",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(src) OR src=\"\",\"unknown\",src)"
+        },
+        {
+          "calculationID": "Authentication_fillnull_src_user",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "In privilege escalation events, src_user represents the user who initiated the privilege escalation. This field is unnecessary when an escalation has not been performed.",
+                "recommended": true
+              },
+              "fieldName": "src_user",
+              "displayName": "src_user",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(src_user) OR src_user=\"\",\"unknown\",src_user)"
+        },
+        {
+          "calculationID": "Authentication_fillnull_dest",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The target involved in the authentication. You can alias this from more specific fields, such as dest_host, dest_ip, dest_mac, or dest_nt_host.",
+                "recommended": true
+              },
+              "fieldName": "dest",
+              "displayName": "dest",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(dest) OR dest=\"\",\"unknown\",dest)"
+        },
+        {
+          "calculationID": "Authentication_fillnull_user",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The name of the user involved in the event, or who initiated the event. For authentication privilege escalation events this should represent the user targeted by the escalation.",
+                "recommended": true
+              },
+              "fieldName": "user",
+              "displayName": "user",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(user) OR user=\"\",\"unknown\",user)"
+        }
+      ],
+      "constraints": [
+        {
+          "search": "(`cim_Authentication_indexes`) tag=authentication NOT (action=success user=*$)"
+        }
+      ],
+      "children": [
+
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "authentication"
+        ]
+      },
+      "objectName": "Failed_Authentication",
+      "displayName": "Failed Authentication",
+      "parentName": "Authentication",
+      "fields": [
+
+      ],
+      "calculations": [
+
+      ],
+      "constraints": [
+        {
+          "search": "action=\"failure\""
+        }
+      ],
+      "children": [
+
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "authentication"
+        ]
+      },
+      "objectName": "Successful_Authentication",
+      "displayName": "Successful Authentication",
+      "parentName": "Authentication",
+      "fields": [
+
+      ],
+      "calculations": [
+
+      ],
+      "constraints": [
+        {
+          "search": "action=\"success\""
+        }
+      ],
+      "children": [
+
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "authentication",
+          "default"
+        ]
+      },
+      "objectName": "Default_Authentication",
+      "displayName": "Default Authentication",
+      "parentName": "Authentication",
+      "fields": [
+
+      ],
+      "calculations": [
+
+      ],
+      "constraints": [
+        {
+          "search": "tag=\"default\""
+        }
+      ],
+      "children": [
+
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "authentication",
+          "default"
+        ]
+      },
+      "objectName": "Failed_Default_Authentication",
+      "displayName": "Failed Default Authentication",
+      "parentName": "Default_Authentication",
+      "fields": [
+
+      ],
+      "calculations": [
+
+      ],
+      "constraints": [
+        {
+          "search": "action=\"failure\""
+        }
+      ],
+      "children": [
+
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "authentication",
+          "default"
+        ]
+      },
+      "objectName": "Successful_Default_Authentication",
+      "displayName": "Successful Default Authentication",
+      "parentName": "Default_Authentication",
+      "fields": [
+
+      ],
+      "calculations": [
+
+      ],
+      "constraints": [
+        {
+          "search": "action=\"success\""
+        }
+      ],
+      "children": [
+
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "authentication",
+          "insecure"
+        ]
+      },
+      "objectName": "Insecure_Authentication",
+      "displayName": "Insecure Authentication",
+      "parentName": "Authentication",
+      "fields": [
+
+      ],
+      "calculations": [
+
+      ],
+      "constraints": [
+        {
+          "search": "tag=\"insecure\" OR tag=\"cleartext\""
+        }
+      ],
+      "children": [
+
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "authentication",
+          "privileged"
+        ]
+      },
+      "objectName": "Privileged_Authentication",
+      "displayName": "Privileged Authentication",
+      "parentName": "Authentication",
+      "fields": [
+
+      ],
+      "calculations": [
+
+      ],
+      "constraints": [
+        {
+          "search": "tag=\"privileged\""
+        }
+      ],
+      "children": [
+
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "authentication",
+          "privileged"
+        ]
+      },
+      "objectName": "Failed_Privileged_Authentication",
+      "displayName": "Failed Privileged Authentication",
+      "parentName": "Privileged_Authentication",
+      "fields": [
+
+      ],
+      "calculations": [
+
+      ],
+      "constraints": [
+        {
+          "search": "action=\"failure\""
+        }
+      ],
+      "children": [
+
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "authentication",
+          "privileged"
+        ]
+      },
+      "objectName": "Successful_Privileged_Authentication",
+      "displayName": "Successful Privileged Authentication",
+      "parentName": "Privileged_Authentication",
+      "fields": [
+
+      ],
+      "calculations": [
+
+      ],
+      "constraints": [
+        {
+          "search": "action=\"success\""
+        }
+      ],
+      "children": [
+
+      ]
+    }
+  ]
+}

@@ -1,0 +1,463 @@
+{
+  "modelName": "Data_Access",
+  "displayName": "Data Access",
+  "description": "Data Access Data Model",
+  "editable": false,
+  "objects": [
+    {
+      "comment": {
+        "tags": [
+          "data",
+          "access"
+        ]
+      },
+      "objectName": "Data_Access",
+      "displayName": "Data Access",
+      "parentName": "BaseEvent",
+      "fields": [
+        {
+          "comment": {
+            "description": "Application ID of the user"
+          },
+          "fieldName": "application_id",
+          "displayName": "application_id",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "Name of the destination as defined by the Vendor."
+          },
+          "fieldName": "dest_name",
+          "displayName": "dest_name",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "Url of the product, application or object."
+          },
+          "fieldName": "dest_url",
+          "displayName": "dest_url",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The device that reported the data access event."
+          },
+          "fieldName": "dvc",
+          "displayName": "dvc",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The email address of the user involved in the event, or who initiated the event."
+          },
+          "fieldName": "email",
+          "displayName": "email",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The path of the modified resource object, if applicable, such as a file, directory, or volume."
+          },
+          "fieldName": "object_path",
+          "displayName": "object_path",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "Resource owner."
+          },
+          "fieldName": "owner",
+          "displayName": "owner",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "ID of the owner as defined by the vendor."
+          },
+          "fieldName": "owner_id",
+          "displayName": "owner_id",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "Email of the resource owner."
+          },
+          "fieldName": "owner_email",
+          "displayName": "owner_email",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "Parent of the object name on which the action was performed by a user."
+          },
+          "fieldName": "parent_object",
+          "displayName": "parent_object",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "Object category of the parent object on which action was performed by a user."
+          },
+          "fieldName": "parent_object_category",
+          "displayName": "parent_object_category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "Object id of the parent object on which the action was performed by a user."
+          },
+          "fieldName": "parent_object_id",
+          "displayName": "parent_object_id",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The user agent through which the request was made, such as Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) or aws-cli/2.0.0 Python/3.7.4 Darwin/18.7.0 botocore/2.0.0dev4."
+          },
+          "fieldName": "user_agent",
+          "displayName": "user_agent",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The group of the user involved in the event, or who initiated the event."
+          },
+          "fieldName": "user_group",
+          "displayName": "user_group",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The role of the user involved in the event, or who initiated the event."
+          },
+          "fieldName": "user_role",
+          "displayName": "user_role",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The vendor and product name ID as defined by the vendor."
+          },
+          "fieldName": "vendor_product_id",
+          "displayName": "vendor_product_id",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        {
+          "calculationID": "Data_Access_fillnull_action",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The data access action taken by the user.",
+                "expected_values": [
+                  "copied",
+                  "created",
+                  "deleted",
+                  "modified",
+                  "read",
+                  "stopped",
+                  "updated",
+                  "downloaded",
+                  "uploaded",
+                  "shared"
+                ],
+                "recommended": true
+              },
+              "fieldName": "action",
+              "displayName": "action",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(action) OR action=\"\",\"unknown\",action)"
+        },
+        {
+          "calculationID": "Data_Access_fillnull_app",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The system, service, or application that generated the data access event. Examples include Onedrive, Sharepoint, drive, AzureActiveDirectory.",
+                "recommended": true
+              },
+              "fieldName": "app",
+              "displayName": "app",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(app) OR app=\"\",sourcetype,app)"
+        },
+        {
+          "calculationID": "Data_Access_fillnull_dest",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The destination where the data resides or where it is being accessed, such as the product or application. You can alias this from more specific fields not included in this data model, such as dest_host, dest_ip, dest_url or dest_name.",
+                "recommended": true
+              },
+              "fieldName": "dest",
+              "displayName": "dest",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(dest) OR dest=\"\",\"unknown\",dest)"
+        },
+        {
+          "calculationID": "Data_Access_fillnull_object",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "Resource object name on which the action was performed by a user.",
+                "recommended": true
+              },
+              "fieldName": "object",
+              "displayName": "object",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(object) OR object=\"\",\"unknown\",object)"
+        },
+        {
+          "calculationID": "Data_Access_fillnull_object_category",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "Generic name for the class of the updated resource object. Expected values may be specific to an app.",
+                "expected_values": [
+                  "collaboration",
+                  "file",
+                  "folder",
+                  "comment",
+                  "task",
+                  "note"
+                ],
+                "recommended": true
+              },
+              "fieldName": "object_category",
+              "displayName": "object_category",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(object_category) OR object_category=\"\",\"unknown\",object_category)"
+        },
+        {
+          "calculationID": "Data_Access_fillnull_object_id",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The unique updated resource object ID as presented to the system, if applicable. For example, a source_folder_id, doc_id.",
+                "recommended": true
+              },
+              "fieldName": "object_id",
+              "displayName": "object_id",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(object_id) OR object_id=\"\",\"unknown\",object_id)"
+        },
+        {
+          "calculationID": "Data_Access_fillnull_object_size",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The size of the modified resource object.",
+                "recommended": true
+              },
+              "fieldName": "object_size",
+              "displayName": "object_size",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(object_size) OR object_size=\"\",\"unknown\",object_size)"
+        },
+        {
+          "calculationID": "Data_Access_fillnull_src",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The endpoint client host.",
+                "recommended": true
+              },
+              "fieldName": "src",
+              "displayName": "src",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(src) OR src=\"\",\"unknown\",src)"
+        },
+        {
+          "calculationID": "Data_Access_fillnull_vendor_account",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The account that manages the user that initiated the request.",
+                "recommended": true
+              },
+              "fieldName": "vendor_account",
+              "displayName": "vendor_account",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(vendor_account) OR vendor_account=\"\",\"unknown\",vendor_account)"
+        },
+        {
+          "calculationID": "All_Changes_fillnull_user",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The user involved in the event, or who initiated the event.",
+                "recommended": true
+              },
+              "fieldName": "user",
+              "displayName": "user",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(user) OR user=\"\",\"unknown\",user)"
+        },
+        {
+          "calculationID": "Data_Access_vendor_product",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The vendor and product name of the vendor.",
+                "recommended": true
+              },
+              "fieldName": "vendor_product",
+              "displayName": "vendor_product",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "case(isnotnull(vendor_product),vendor_product,isnotnull(vendor) AND vendor!=\"unknown\" AND isnotnull(product) AND product!=\"unknown\",vendor.\" \".product,isnotnull(vendor) AND vendor!=\"unknown\" AND (isnull(product) OR product=\"unknown\"),vendor.\" unknown\",(isnull(vendor) OR vendor=\"unknown\") AND isnotnull(product) AND product!=\"unknown\",\"unknown \".product,isnotnull(sourcetype),sourcetype,1=1,\"unknown\")"
+        }
+      ],
+      "constraints": [
+        {
+          "search": "(`cim_Data_Access_indexes`) tag=data tag=access"
+        }
+      ],
+      "children": [
+
+      ]
+    }
+  ]
+}

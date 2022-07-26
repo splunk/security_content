@@ -1,0 +1,1303 @@
+{
+  "modelName": "Splunk_Audit",
+  "displayName": "Splunk Audit Logs",
+  "description": "Splunk Audit Logs Data Model",
+  "editable": false,
+  "objects": [
+    {
+      "objectName": "Datamodel_Acceleration",
+      "displayName": "Data Model Acceleration",
+      "parentName": "BaseSearch",
+      "fields": [
+        {
+          "comment": {
+            "description": "The number of times the data model summary has been accessed since it was created.",
+            "ta_relevant": false
+          },
+          "fieldName": "access_count",
+          "displayName": "access_count",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The timestamp of the most recent access of the data model summary.",
+            "ta_relevant": false
+          },
+          "fieldName": "access_time",
+          "displayName": "access_time",
+          "type": "timestamp",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The application context in which the data model summary was accessed.",
+            "ta_relevant": false
+          },
+          "fieldName": "app",
+          "displayName": "app",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The number of index buckets spanned by the data model acceleration summary.",
+            "ta_relevant": false
+          },
+          "fieldName": "buckets",
+          "displayName": "buckets",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The total size of the buckets spanned by the data model acceleration summary.",
+            "ta_relevant": false
+          },
+          "fieldName": "buckets_size",
+          "displayName": "buckets_size",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The cron expression used to accelerate the data model.",
+            "ta_relevant": false
+          },
+          "fieldName": "cron",
+          "displayName": "cron",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The percentage of the data model summary that is currently complete.",
+            "ta_relevant": false
+          },
+          "fieldName": "complete",
+          "displayName": "complete",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The name of the data model accelerated.",
+            "ta_relevant": false
+          },
+          "fieldName": "datamodel",
+          "displayName": "datamodel",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "A hash of the current data model contents.",
+            "ta_relevant": false
+          },
+          "fieldName": "digest",
+          "displayName": "digest",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The earliest time that the data model summary was accessed.",
+            "ta_relevant": false
+          },
+          "fieldName": "earliest",
+          "displayName": "earliest",
+          "type": "timestamp",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "Indicates whether the data model acceleration is currently in progress.",
+            "expected_values": [
+              "true",
+              "false",
+              "1",
+              "0"
+            ],
+            "ta_relevant": false
+          },
+          "fieldName": "is_inprogress",
+          "displayName": "is_inprogress",
+          "type": "boolean",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The text of the last error reported during the data model acceleration.",
+            "ta_relevant": false
+          },
+          "fieldName": "last_error",
+          "displayName": "last_error",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The search id of the last acceleration attempt.",
+            "ta_relevant": false
+          },
+          "fieldName": "last_sid",
+          "displayName": "last_sid",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The most recent acceleration timestamp of the data model.",
+            "ta_relevant": false
+          },
+          "fieldName": "latest",
+          "displayName": "latest",
+          "type": "timestamp",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The timestamp of the most recent modification to the data model acceleration.",
+            "ta_relevant": false
+          },
+          "fieldName": "mod_time",
+          "displayName": "mod_time",
+          "type": "timestamp",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The length of time that data model accelerations are retained, in seconds.",
+            "ta_relevant": false
+          },
+          "fieldName": "retention",
+          "displayName": "retention",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The amount of storage space the data model's acceleration summary takes up, in bytes.",
+            "ta_relevant": false
+          },
+          "fieldName": "size",
+          "displayName": "size",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The unique id of the data model acceleration summary.",
+            "ta_relevant": false
+          },
+          "fieldName": "summary_id",
+          "displayName": "summary_id",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        
+      ],
+      "baseSearch": "| `cim_datamodelinfo`",
+      "children": [
+        
+      ]
+    },
+    {
+      "comment": {
+        "ta_relevant": false
+      },
+      "objectName": "Search_Activity",
+      "displayName": "Search Activity",
+      "parentName": "BaseEvent",
+      "fields": [
+        {
+          "comment": {
+            "description": "The action of the search (granted, completed, cancelled, failed)."
+          },
+          "fieldName": "info",
+          "displayName": "info",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The earliest time of the search."
+          },
+          "fieldName": "search_et",
+          "displayName": "search_et",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The latest time of the search."
+          },
+          "fieldName": "search_lt",
+          "displayName": "search_lt",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The total run time of the search."
+          },
+          "fieldName": "total_run_time",
+          "displayName": "total_run_time",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "user_bunit",
+          "displayName": "user_bunit",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "user_category",
+          "displayName": "user_category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "user_priority",
+          "displayName": "user_priority",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        {
+          "calculationID": "0Search_Activity_user",
+          "calculationType": "Rex",
+          "inputField": "_raw",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The name of the user who ran the search."
+              },
+              "fieldName": "user",
+              "displayName": "user",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "user=(?<user>[^,]+), action"
+        },
+        {
+          "calculationID": "1Search_Activity_datamodel",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The name of the datamodel (for datamodel acceleration searches)."
+              },
+              "fieldName": "datamodel",
+              "displayName": "datamodel",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "case(match(savedsearch_name, \"_ACCELERATE_DM_.*\"), replace(savedsearch_name, \"_ACCELERATE_DM_(.*)_ACCELERATE_\", \"\\1\"), match(search, \"'?(\\|\\s+)?summarize.*?id=DM_\"), replace(search, \"'?(?:\\|\\s)?summarize.*?id=DM_([^\\s]+).*\", \"\\1\"), 1=1, null())"
+        },
+        {
+          "calculationID": "2Search_Activity_search_id",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The ID of the search."
+              },
+              "fieldName": "search_id",
+              "displayName": "search_id",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "trim(search_id, \"'\")"
+        },
+        {
+          "calculationID": "3Search_Activity_savedsearch_name",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The name of the saved search."
+              },
+              "fieldName": "savedsearch_name",
+              "displayName": "savedsearch_name",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(savedsearch_name=\"\",null(),savedsearch_name)"
+        },
+        {
+          "calculationID": "4Search_Activity_search",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The SPL search syntax."
+              },
+              "fieldName": "search",
+              "displayName": "search",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(search) OR search=\"\",null(),search)"
+        },
+        {
+          "calculationID": "5Search_Activity_search_type",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The type of search."
+              },
+              "fieldName": "search_type",
+              "displayName": "search_type",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "case(isnotnull(search_type) AND NOT search_type LIKE \"case(%\",search_type,savedsearch_name LIKE \"_ACCELERATE_DM%\", \"dm_acceleration\", search_id LIKE \"scheduler%\", \"scheduled\", search_id LIKE \"rt%\", \"realtime\", search_id LIKE \"subsearch%\", \"subsearch\", (search_id LIKE \"SummaryDirector%\" OR search_id LIKE \"summarize_SummaryDirector%\"), \"summary_director\", 1=1, \"adhoc\")"
+        },
+        {
+          "calculationID": "6Search_Activity_search_alias",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "Short description of the type of search being run, such as the name of the search or the name of the data model being accelerated."
+              },
+              "fieldName": "search_alias",
+              "displayName": "search_alias",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "case(isnotnull(datamodel) AND search_id LIKE \"SummaryDirector%\",datamodel.\" Data Model Summary Director\",isnotnull(datamodel),datamodel.\" Data Model Acceleration\",isnotnull(savedsearch_name),savedsearch_name,1=1,null())"
+        }
+      ],
+      "constraints": [
+        {
+          "search": "index=_audit action=search search_id=*"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Acceleration_Jobs",
+      "displayName": "Acceleration Jobs",
+      "parentName": "Search_Activity",
+      "fields": [
+        
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "search_type=\"dm_acceleration\" OR search_type=\"summary_director\""
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Adhoc_Jobs",
+      "displayName": "Adhoc Jobs",
+      "parentName": "Search_Activity",
+      "fields": [
+        
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "search_type=\"adhoc\""
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Failed_Jobs",
+      "displayName": "Failed Jobs",
+      "parentName": "Search_Activity",
+      "fields": [
+        
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "info=\"failed\""
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Realtime_Jobs",
+      "displayName": "Real-time Jobs",
+      "parentName": "Search_Activity",
+      "fields": [
+        
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "search_type=\"realtime\""
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Scheduled_Jobs",
+      "displayName": "Scheduled Jobs",
+      "parentName": "Search_Activity",
+      "fields": [
+        
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "search_type=\"scheduled\""
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Subsearch_Jobs",
+      "displayName": "Subsearch Jobs",
+      "parentName": "Search_Activity",
+      "fields": [
+        
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "search_type=\"subsearch\""
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Scheduler_Activity",
+      "displayName": "Scheduler Activity",
+      "parentName": "BaseSearch",
+      "fields": [
+        {
+          "comment": {
+            "description": "The event timestamp expressed in Unix time.",
+            "ta_relevant": false
+          },
+          "fieldName": "_time",
+          "displayName": "_time",
+          "type": "timestamp",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The app context in which the scheduled search was run.",
+            "ta_relevant": false
+          },
+          "fieldName": "app",
+          "displayName": "app",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The host on which the scheduled search was run.",
+            "ta_relevant": false
+          },
+          "fieldName": "host",
+          "displayName": "host",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The name of the saved search.",
+            "ta_relevant": false
+          },
+          "fieldName": "savedsearch_name",
+          "displayName": "savedsearch_name",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The search id.",
+            "ta_relevant": false
+          },
+          "fieldName": "sid",
+          "displayName": "sid",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The source associated with the scheduled search.",
+            "ta_relevant": false
+          },
+          "fieldName": "source",
+          "displayName": "source",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The source type associated with the scheduled search.",
+            "ta_relevant": false
+          },
+          "fieldName": "sourcetype",
+          "displayName": "sourcetype",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The Splunk Server on which the scheduled search runs.",
+            "ta_relevant": false
+          },
+          "fieldName": "splunk_server",
+          "displayName": "splunk_server",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The status of the scheduled search.",
+            "ta_relevant": false
+          },
+          "fieldName": "status",
+          "displayName": "status",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The user who scheduled the search.",
+            "ta_relevant": false
+          },
+          "fieldName": "user",
+          "displayName": "user",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "user_bunit",
+          "displayName": "user_bunit",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "user_category",
+          "displayName": "user_category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "user_priority",
+          "displayName": "user_priority",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        
+      ],
+      "baseSearch": "index=_internal sourcetype=scheduler",
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "View_Activity",
+      "displayName": "View Activity",
+      "parentName": "BaseEvent",
+      "fields": [
+        {
+          "comment": {
+            "description": "The app name which contains the view.",
+            "ta_relevant": false
+          },
+          "fieldName": "app",
+          "displayName": "app",
+          "type": "string",
+          "fieldSearch": "",
+          "required": true,
+          "multivalue": false,
+          "hidden": false
+        },        {
+          "comment": {
+            "description": "The amount of time spent loading the view (in milliseconds).",
+            "ta_relevant": false
+          },
+          "fieldName": "spent",
+          "displayName": "spent",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The uniform resource identifier of the view activity.",
+            "ta_relevant": false
+          },
+          "fieldName": "uri",
+          "displayName": "uri",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The username of the user who accessed the view.",
+            "ta_relevant": false
+          },
+          "fieldName": "user",
+          "displayName": "user",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "user_bunit",
+          "displayName": "user_bunit",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "user_category",
+          "displayName": "user_category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "user_priority",
+          "displayName": "user_priority",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The name of the view.",
+            "ta_relevant": false
+          },
+          "fieldName": "view",
+          "displayName": "view",
+          "type": "string",
+          "fieldSearch": "",
+          "required": true,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "index=_internal sourcetype=splunk_web_access method=GET status=200"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "objectName": "Web_Service_Errors",
+      "displayName": "Web Service Errors",
+      "parentName": "BaseSearch",
+      "fields": [
+        {
+          "comment": {
+            "description": "The event timestamp expressed in Unix time.",
+            "ta_relevant": false
+          },
+          "fieldName": "_time",
+          "displayName": "_time",
+          "type": "timestamp",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The host on which the web service error occurred.",
+            "ta_relevant": false
+          },
+          "fieldName": "host",
+          "displayName": "host",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The source where the web service error occurred.",
+            "ta_relevant": false
+          },
+          "fieldName": "source",
+          "displayName": "source",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The source type associated with the web service error.",
+            "ta_relevant": false
+          },
+          "fieldName": "sourcetype",
+          "displayName": "sourcetype",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        
+      ],
+      "baseSearch": "index=_internal sourcetype=splunk_web_service tag=error",
+      "children": [
+        
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "modaction"
+        ]
+      },
+      "objectName": "Modular_Actions",
+      "displayName": "Modular Actions",
+      "parentName": "BaseEvent",
+      "fields": [
+        {
+          "comment": {
+            "description": "The app ID of the app or add-on that owns the action.",
+            "ta_relevant": false
+          },
+          "fieldName": "app",
+          "displayName": "app",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "Specifies whether the action was executed as an ad hoc action or from a saved search, based on whether a search_name exists.",
+            "expected_values": [
+              "saved",
+              "adhoc"
+            ],
+            "ta_relevant": false
+          },
+          "fieldName": "action_mode",
+          "displayName": "action_mode",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The status of the action. For example, 'success' or 'failure'.",
+            "ta_relevant": false
+          },
+          "fieldName": "action_status",
+          "displayName": "action_status",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The component of the modular action script involved in the event.  Often used in conjunction with duration.",
+            "ta_relevant": false
+          },
+          "fieldName": "component",
+          "displayName": "component",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "How long the action took to complete, in milliseconds.",
+            "ta_relevant": false
+          },
+          "fieldName": "duration",
+          "displayName": "duration",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The id associated with the result of a specific sid. By default, this is the row number of the search, starting with 0.",
+            "ta_relevant": false
+          },
+          "fieldName": "rid",
+          "displayName": "rid",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The original sid value of a source action, automatically added to an event if it is the product of a previously executed action.",
+            "ta_relevant": false
+          },
+          "fieldName": "orig_sid",
+          "displayName": "orig_sid",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The rid value of a source action result, automatically added to an event if it is the product of a previously executed action.",
+            "ta_relevant": false
+          },
+          "fieldName": "orig_rid",
+          "displayName": "orig_rid",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The name of the correlation search that triggered the action. Blank for ad hoc actions.",
+            "ta_relevant": false
+          },
+          "fieldName": "search_name",
+          "displayName": "search_name",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "user_bunit",
+          "displayName": "user_bunit",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "user_category",
+          "displayName": "user_category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "user_priority",
+          "displayName": "user_priority",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        {
+          "calculationID": "Modular_Actions_fillnull_action_name",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The name of the action.",
+                "ta_relevant": false
+              },
+              "fieldName": "action_name",
+              "displayName": "action_name",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "case(isnotnull(action_name) AND action_name!=\"\",action_name,sourcetype=\"splunkd\" AND isnotnull(action) AND action!=\"\",action,1=1,\"unknown\")"
+        },
+        {
+          "calculationID": "Modular_Actions_fillnull_signature",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The logging string associated with alert action introspection events.",
+                "ta_relevant": false
+              },
+              "fieldName": "signature",
+              "displayName": "signature",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(signature) OR signature=\"\",\"unknown\",signature)"
+        },
+        {
+          "calculationID": "Modular_Actions_fillnull_sid",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The search id, automatically assigned by splunkd.",
+                "ta_relevant": false
+              },
+              "fieldName": "sid",
+              "displayName": "sid",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(sid) OR sid=\"\",\"unknown\",sid)"
+        },
+        {
+          "calculationID": "Modular_Actions_user_or_owner",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The user who triggered an ad hoc alert. Not relevant for actions triggered by searches.",
+                "ta_relevant": false
+              },
+              "fieldName": "user",
+              "displayName": "user",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnotnull(user) AND user!=\"\",user,owner)"
+        },
+        {
+          "calculationID": "Modular_Actions_worker",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The worker performing the action.",
+                "ta_relevant": false
+              },
+              "fieldName": "worker",
+              "displayName": "worker",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnotnull(worker) AND worker!=\"\",\"unknown\",worker)"
+        }
+      ],
+      "constraints": [
+        {
+          "search": "tag=modaction"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "modaction",
+          "invocation"
+        ]
+      },
+      "objectName": "Modular_Action_Invocations",
+      "displayName": "Modular Action Invocations",
+      "parentName": "Modular_Actions",
+      "fields": [
+        
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "tag=invocation"
+        }
+      ],
+      "children": [
+        
+      ]
+    }
+  ]
+}

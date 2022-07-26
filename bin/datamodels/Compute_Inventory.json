@@ -1,0 +1,1039 @@
+{
+  "modelName": "Compute_Inventory",
+  "displayName": "Inventory",
+  "description": "Inventory Data Model",
+  "editable": false,
+  "objects": [
+    {
+      "comment": {
+        "ta_relevant": false
+      },
+      "objectName": "All_Inventory",
+      "displayName": "All Inventory",
+      "parentName": "BaseEvent",
+      "fields": [
+        {
+          "comment": {
+            "description": "The description of the inventory system."
+          },
+          "fieldName": "description",
+          "displayName": "description",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The business unit of the system where the data originated. This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "dest_bunit",
+          "displayName": "dest_bunit",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The category of the system where the data originated, such as email_server or SOX-compliant. This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "dest_category",
+          "displayName": "dest_category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The priority of the system where the data originated.",
+            "ta_relevant": false
+          },
+          "fieldName": "dest_priority",
+          "displayName": "dest_priority",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "Indicates whether the resource is enabled or disabled."
+          },
+          "fieldName": "enabled",
+          "displayName": "enabled",
+          "type": "boolean",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The product family of the resource, such as 686_64 or RISC."
+          },
+          "fieldName": "family",
+          "displayName": "family",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The hypervisor identifier, if applicable."
+          },
+          "fieldName": "hypervisor_id",
+          "displayName": "hypervisor_id",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The serial number of the resource."
+          },
+          "fieldName": "serial",
+          "displayName": "serial",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The current reported state of the resource."
+          },
+          "fieldName": "status",
+          "displayName": "status",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The version of a computer resource, such as 2008r2 or 3.0.0."
+          },
+          "fieldName": "version",
+          "displayName": "version",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This automatically generated field is used to access tags from within data models. Add-on builders do not need to populate it.",
+            "ta_relevant": false
+          },
+          "fieldName": "tag",
+          "displayName": "tag",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        {
+          "calculationID": "All_Inventory_fillnull_dest",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The system where the data originated, the source of the event. You can alias this from more specific fields, such as dest_host, dest_ip, or dest_name.",
+                "recommended": true
+              },
+              "fieldName": "dest",
+              "displayName": "dest",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(dest) OR dest=\"\",\"unknown\",dest)"
+        },
+        {
+          "calculationID": "All_Inventory_vendor_product",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The vendor and product name of the resource, such as Cisco Catalyst 3850. This field can be automatically populated by vendor and product fields in your data.",
+                "recommended": true
+              },
+              "fieldName": "vendor_product",
+              "displayName": "vendor_product",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "case(isnotnull(vendor_product),vendor_product,isnotnull(vendor) AND vendor!=\"unknown\" AND isnotnull(product) AND product!=\"unknown\",vendor.\" \".product,isnotnull(vendor) AND vendor!=\"unknown\" AND (isnull(product) OR product=\"unknown\"),vendor.\" unknown\",(isnull(vendor) OR vendor=\"unknown\") AND isnotnull(product) AND product!=\"unknown\",\"unknown \".product,isnotnull(sourcetype),sourcetype,1=1,\"unknown\")"
+        }
+      ],
+      "constraints": [
+        {
+          "search": "(`cim_Compute_Inventory_indexes`) tag=inventory (tag=cpu OR tag=memory OR tag=network OR tag=storage OR (tag=system tag=version) OR tag=user OR tag=virtual)"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "inventory",
+          "cpu"
+        ]
+      },
+      "objectName": "CPU",
+      "displayName": "CPU",
+      "parentName": "All_Inventory",
+      "fields": [
+        {
+          "comment": {
+            "description": "The number of CPU cores reported by the resource (total, not per CPU).",
+            "recommended": true
+          },
+          "fieldName": "cpu_cores",
+          "displayName": "cpu_cores",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The number of CPUs reported by the resource.",
+            "recommended": true
+          },
+          "fieldName": "cpu_count",
+          "displayName": "cpu_count",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The maximum speed of the CPU reported by the resource (in megahertz).",
+            "recommended": true
+          },
+          "fieldName": "cpu_mhz",
+          "displayName": "cpu_mhz",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "tag=cpu"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "inventory",
+          "memory"
+        ]
+      },
+      "objectName": "Memory",
+      "displayName": "Memory",
+      "parentName": "All_Inventory",
+      "fields": [
+        {
+          "comment": {
+            "description": "The total amount of memory installed in or allocated to the resource, in megabytes.",
+            "recommended": true
+          },
+          "fieldName": "mem",
+          "displayName": "mem",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "tag=memory"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "inventory",
+          "network"
+        ]
+      },
+      "objectName": "Network",
+      "displayName": "Network",
+      "parentName": "All_Inventory",
+      "fields": [
+        {
+          "comment": {
+            "description": "The domain name server for the resource.",
+            "recommended": true
+          },
+          "fieldName": "dns",
+          "displayName": "dns",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The network interfaces of the computing resource, such as eth0, eth1 or Wired Ethernet Connection, Teredo Tunneling Pseudo-Interface.",
+            "recommended": true
+          },
+          "fieldName": "interface",
+          "displayName": "interface",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The network addresses of the computing resource, such as 192.168.1.1 or E80:0000:0000:0000:0202:B3FF:FE1E:8329.",
+            "recommended": true
+          },
+          "fieldName": "ip",
+          "displayName": "ip",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The IP address for the system that the data is going to."
+          },
+          "fieldName": "dest_ip",
+          "displayName": "dest_ip",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The IP address for the system from which the data originates."
+          },
+          "fieldName": "src_ip",
+          "displayName": "src_ip",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "A MAC (media access control) address associated with the resource, such as 06:10:9f:eb:8f:14. Note: Always force lower case on this field and use colons instead of dashes, spaces, or no separator.",
+            "recommended": true
+          },
+          "fieldName": "mac",
+          "displayName": "mac",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The load balancing method used by the computing resource such as method, round robin, or least weight."
+          },
+          "fieldName": "lb_method",
+          "displayName": "lb_method",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "Represents a node hit."
+          },
+          "fieldName": "node",
+          "displayName": "node",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "Identifies whether the resource is a network address translation pool."
+          },
+          "fieldName": "inline_nat",
+          "displayName": "inline_nat",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The port number for the virtual IP address (VIP). A VIP allows multiple MACs to use one IP address. VIPs are often used by load balancers."
+          },
+          "fieldName": "vip_port",
+          "displayName": "vip_port",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The number of the destination port on the server that you requested from."
+          },
+          "fieldName": "node_port",
+          "displayName": "node_port",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "A name field provided in some data sources.",
+            "recommended": true
+          },
+          "fieldName": "name",
+          "displayName": "name",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "tag=network"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "inventory",
+          "storage"
+        ]
+      },
+      "objectName": "Storage",
+      "displayName": "Storage",
+      "parentName": "All_Inventory",
+      "fields": [
+        {
+          "comment": {
+            "description": "The array that the storage resource is a member of, if applicable."
+          },
+          "fieldName": "array",
+          "displayName": "array",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The block size used by the storage resource, in kilobytes."
+          },
+          "fieldName": "blocksize",
+          "displayName": "blocksize",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The index cluster that the resource is a member of, if applicable."
+          },
+          "fieldName": "cluster",
+          "displayName": "cluster",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The maximum number of file descriptors available."
+          },
+          "fieldName": "fd_max",
+          "displayName": "fd_max",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The latency reported by the resource, in milliseconds."
+          },
+          "fieldName": "latency",
+          "displayName": "latency",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The path at which a storage resource is mounted.",
+            "recommended": true
+          },
+          "fieldName": "mount",
+          "displayName": "mount",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "A higher level object that this resource is owned by, if applicable."
+          },
+          "fieldName": "parent",
+          "displayName": "parent",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The maximum possible number of blocks read per second during a polling period."
+          },
+          "fieldName": "read_blocks",
+          "displayName": "read_blocks",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "For a polling period, the average amount of time elapsed until a read request is filled by the host disks (in ms)."
+          },
+          "fieldName": "read_latency",
+          "displayName": "read_latency",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The total number of read operations in the polling period."
+          },
+          "fieldName": "read_ops",
+          "displayName": "read_ops",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The amount of storage capacity allocated to the resource, in megabytes.",
+            "recommended": true
+          },
+          "fieldName": "storage",
+          "displayName": "storage",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The maximum possible number of blocks written per second during a polling period."
+          },
+          "fieldName": "write_blocks",
+          "displayName": "write_blocks",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "For a polling period, the average amount of time elapsed until a write request is filled by the host disks (in ms)."
+          },
+          "fieldName": "write_latency",
+          "displayName": "write_latency",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The total number of write operations in the polling period."
+          },
+          "fieldName": "write_ops",
+          "displayName": "write_ops",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "tag=storage"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "inventory",
+          "system",
+          "version"
+        ]
+      },
+      "objectName": "OS",
+      "displayName": "OS",
+      "parentName": "All_Inventory",
+      "fields": [
+        
+      ],
+      "calculations": [
+        {
+          "calculationID": "OS_os",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The operating system of the resource, such as Microsoft Windows Server 2008r2. This field is constructed from vendor_product and version fields.",
+                "recommended": true
+              },
+              "fieldName": "os",
+              "displayName": "os",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnotnull(os) AND os!=\"\",replace(replace(os,\"(?:\\(R\\)|\\\\\\\\xA8)\",\"\"),\"^(?:MS)?\\s*Windows\",\"Microsoft Windows\"),\"unknown\")"
+        }
+      ],
+      "constraints": [
+        {
+          "search": "tag=system tag=version"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "inventory",
+          "user"
+        ]
+      },
+      "objectName": "User",
+      "displayName": "User",
+      "parentName": "All_Inventory",
+      "fields": [
+        {
+          "comment": {
+            "description": "Indicates the shell program used by a locally defined account."
+          },
+          "fieldName": "shell",
+          "displayName": "shell",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The business unit of the locally-defined user account. This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "user_bunit",
+          "displayName": "user_bunit",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The category of the system where the data originated, such as email_server or SOX-compliant. This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "user_category",
+          "displayName": "user_category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The user identification for a locally defined account."
+          },
+          "fieldName": "user_id",
+          "displayName": "user_id",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The priority of a locally-defined account.",
+            "ta_relevant": false
+          },
+          "fieldName": "user_priority",
+          "displayName": "user_priority",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        {
+          "calculationID": "User_interactive",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "Indicates whether a locally defined account on a resource can be interactively logged in.",
+                "recommended": true
+              },
+              "fieldName": "interactive",
+              "displayName": "interactive",
+              "type": "boolean",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "case(isnotnull(interactive) AND interactive!=\"\",interactive,tag=\"interactive\",\"true\",1=1,\"false\")"
+        },
+        {
+          "calculationID": "User_password",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "Displays the stored password(s) for a locally defined account, if it has any. For instance, an add-on may report the password column from \/etc\/passwd in this field.",
+                "recommended": true
+              },
+              "fieldName": "password",
+              "displayName": "password",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if((password==\"*\" OR password==\"x\" OR password==\"\"),null(),password)"
+        },
+        {
+          "calculationID": "User_user",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The full name of a locally defined account.",
+                "recommended": true
+              },
+              "fieldName": "user",
+              "displayName": "user",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(user) OR user=\"\",\"unknown\",user)"
+        }
+      ],
+      "constraints": [
+        {
+          "search": "tag=user"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "inventory",
+          "user"
+        ]
+      },
+      "objectName": "Cleartext_Passwords",
+      "displayName": "Cleartext Passwords",
+      "parentName": "User",
+      "fields": [
+        
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "password=*"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "inventory",
+          "user",
+          "default"
+        ]
+      },
+      "objectName": "Default_Accounts",
+      "displayName": "Default Accounts",
+      "parentName": "User",
+      "fields": [
+        
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "tag=default"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "inventory",
+          "virtual"
+        ]
+      },
+      "objectName": "Virtual_OS",
+      "displayName": "Virtual OS",
+      "parentName": "All_Inventory",
+      "fields": [
+        {
+          "comment": {
+            "description": "The hypervisor parent of a virtual guest OS.",
+            "recommended": true
+          },
+          "fieldName": "hypervisor",
+          "displayName": "hypervisor",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "tag=virtual"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "inventory",
+          "virtual",
+          "snapshot"
+        ]
+      },
+      "objectName": "Snapshot",
+      "displayName": "Snapshot",
+      "parentName": "Virtual_OS",
+      "fields": [
+        {
+          "comment": {
+            "description": "The snapshot file size, in megabytes.",
+            "recommended": true
+          },
+          "fieldName": "size",
+          "displayName": "size",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The name of a snapshot file.",
+            "recommended": true
+          },
+          "fieldName": "snapshot",
+          "displayName": "snapshot",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The time at which the snapshot was taken."
+          },
+          "fieldName": "time",
+          "displayName": "time",
+          "type": "timestamp",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "tag=snapshot"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "inventory",
+          "virtual",
+          "tools"
+        ]
+      },
+      "objectName": "Tools",
+      "displayName": "Tools",
+      "parentName": "Virtual_OS",
+      "fields": [
+        
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "tag=tools"
+        }
+      ],
+      "children": [
+        
+      ]
+    }
+  ]
+}

@@ -1,0 +1,563 @@
+{
+  "modelName": "Risk",
+  "displayName": "Risk Analysis",
+  "description": "Risk Analysis Data Model",
+  "editable": false,
+  "comment": {
+    "ta_relevant": false
+  },
+  "objects": [
+    {
+      "objectName": "All_Risk",
+      "displayName": "All Risk Modifiers",
+      "parentName": "BaseSearch",
+      "fields": [
+        {
+          "fieldName": "analyticstories",
+          "displayName": "analyticstories",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "fieldName": "annotations",
+          "displayName": "annotations",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "annotations._all",
+          "displayName": "annotations._all",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "fieldName": "annotations._frameworks",
+          "displayName": "annotations._frameworks",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "fieldName": "annotations.cis20",
+          "displayName": "annotations.cis20",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "fieldName": "annotations.kill_chain_phases",
+          "displayName": "annotations.kill_chain_phases",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "fieldName": "annotations.mitre_attack",
+          "displayName": "annotations.mitre_attack",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "fieldName": "annotations.mitre_attack.mitre_description",
+          "displayName": "annotations.mitre_attack.mitre_description",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "fieldName": "annotations.mitre_attack.mitre_detection",
+          "displayName": "annotations.mitre_attack.mitre_detection",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "fieldName": "annotations.mitre_attack.mitre_tactic",
+          "displayName": "annotations.mitre_attack.mitre_tactic",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "fieldName": "annotations.mitre_attack.mitre_tactic_id",
+          "displayName": "annotations.mitre_attack.mitre_tactic_id",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "fieldName": "annotations.mitre_attack.mitre_technique",
+          "displayName": "annotations.mitre_attack.mitre_technique",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "fieldName": "annotations.mitre_attack.mitre_technique_id",
+          "displayName": "annotations.mitre_attack.mitre_technique_id",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "fieldName": "annotations.mitre_attack.mitre_threat_group_name",
+          "displayName": "annotations.mitre_attack.mitre_threat_group_name",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "fieldName": "annotations.nist",
+          "displayName": "annotations.nist",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+            "fieldName": "control",
+            "displayName": "control",
+            "type": "string",
+            "fieldSearch": "",
+            "required": false,
+            "multivalue": true,
+            "hidden": false
+        },
+        {
+          "fieldName": "creator",
+          "displayName": "creator",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "dest",
+          "displayName": "dest",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons."
+          },
+          "fieldName": "dest_bunit",
+          "displayName": "dest_bunit",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons."
+          },
+          "fieldName": "dest_category",
+          "displayName": "dest_category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons."
+          },
+          "fieldName": "dest_priority",
+          "displayName": "dest_priority",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+            "fieldName": "governance",
+            "displayName": "governance",
+            "type": "string",
+            "fieldSearch": "",
+            "required": false,
+            "multivalue": true,
+            "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The business unit of the risk_object involved in the event, or who initiated the event. For authentication privilege escalation events this should represent the user targeted by the escalation. This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons."
+          },
+          "fieldName": "risk_object_bunit",
+          "displayName": "risk_object_bunit",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The category of the risk_object involved in the event, or who initiated the event. For authentication privilege escalation events this should represent the user targeted by the escalation. This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons."
+          },
+          "fieldName": "risk_object_category",
+          "displayName": "risk_object_category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The priority of the risk_object involved in the event, or who initiated the event. For authentication privilege escalation events, this should represent the user priority targeted by the escalation. This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons."
+          },
+          "fieldName": "risk_object_priority",
+          "displayName": "risk_object_priority",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "savedsearch_description",
+          "displayName": "savedsearch_description",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "src",
+          "displayName": "src",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons."
+          },
+          "fieldName": "src_bunit",
+          "displayName": "src_bunit",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons."
+          },
+          "fieldName": "src_category",
+          "displayName": "src_category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons."
+          },
+          "fieldName": "src_priority",
+          "displayName": "src_priority",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "tag",
+          "displayName": "tag",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "fieldName": "threat_object",
+          "displayName": "threat_object",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "fieldName": "user",
+          "displayName": "user",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons."
+          },
+          "fieldName": "user_bunit",
+          "displayName": "user_bunit",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons."
+          },
+          "fieldName": "user_category",
+          "displayName": "user_category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons."
+          },
+          "fieldName": "user_priority",
+          "displayName": "user_priority",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        {
+          "calculationID": "All_Risk_1description",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "fieldName": "description",
+              "displayName": "description",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "case(isnotnull(description),description,isnotnull(savedsearch_description),savedsearch_description,1=1,\"unknown\")"
+        },
+        {
+          "calculationID": "All_Risk_risk_object",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "fieldName": "risk_object",
+              "displayName": "risk_object",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(risk_object),\"unknown\",risk_object)"
+        },
+        {
+          "calculationID": "All_Risk_risk_object_type",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "fieldName": "risk_object_type",
+              "displayName": "risk_object_type",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(risk_object_type),\"unknown\",risk_object_type)"
+        },
+        {
+          "calculationID": "All_Risk_risk_score",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "fieldName": "risk_score",
+              "displayName": "risk_score",
+              "type": "number",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(risk_score),0,risk_score)"
+        },
+        {
+          "calculationID": "All_Risk_threat_object_type",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "fieldName": "threat_object_type",
+              "displayName": "threat_object_type",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnotnull(threat_object) AND isnull(threat_object_type),\"unknown\",threat_object_type)"
+        },
+        {
+          "calculationID": "0_All_Risk_risk_factor_add",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "fieldName": "risk_factor_add",
+              "displayName": "risk_factor_add",
+              "type": "number",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "0"
+        },
+        {
+          "calculationID": "1_All_Risk_risk_factor_add_matched",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "fieldName": "risk_factor_add_matched",
+              "displayName": "risk_factor_add_matched",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": true,
+              "hidden": false
+            }
+          ],
+          "expression": "null"
+        },
+        {
+          "calculationID": "2_All_Risk_risk_factor_mult",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "fieldName": "risk_factor_mult",
+              "displayName": "risk_factor_mult",
+              "type": "number",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "1"
+        },
+        {
+          "calculationID": "3_All_Risk_risk_factor_mult_matched",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "fieldName": "risk_factor_mult_matched",
+              "displayName": "risk_factor_mult_matched",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": true,
+              "hidden": false
+            }
+          ],
+          "expression": "null"
+        },
+        {
+          "calculationID": "4_All_Risk_calculated_risk_score",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "fieldName": "calculated_risk_score",
+              "displayName": "calculated_risk_score",
+              "type": "number",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "(risk_score + risk_factor_add) * risk_factor_mult"
+        },
+        {
+          "calculationID": "5_All_Risk_risk_message",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "fieldName": "risk_message",
+              "displayName": "risk_message",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": true,
+              "hidden": false
+            }
+          ],
+          "expression": "case(isnotnull(risk_message),risk_message,isnotnull(description),description,isnotnull(savedsearch_description),savedsearch_description,1=1,\"unknown\")"
+        }
+      ],
+      "constraints": [
+
+      ],
+      "baseSearch": "index=risk | eval tag=mvdedup(mvappend(tag,NULL,orig_tag)), governance_lookup_type=\"default\" | lookup governance_lookup savedsearch as source, lookup_type as governance_lookup_type OUTPUT governance, control | eval governance_lookup_type=\"tag\" | lookup governance_lookup savedsearch as source, tag, lookup_type as governance_lookup_type OUTPUT governance as governance_tag, control as control_tag | eval \"governance\"=mvappend('governance',NULL,'governance_tag'),\"control\"=mvappend('control',NULL,'control_tag') | fields - governance_lookup_type,governance_tag,control_tag",
+      "children": [
+
+      ]
+    }
+  ]
+}

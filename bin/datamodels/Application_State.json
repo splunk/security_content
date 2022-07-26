@@ -1,0 +1,502 @@
+{
+  "modelName": "Application_State",
+  "displayName": "Application State (Deprecated)",
+  "description": "This model has been deprecated",
+  "editable": false,
+  "objects": [
+    {
+      "comment": {
+        "ta_relevant": false
+      },
+      "objectName": "All_Application_State",
+      "displayName": "All Application State",
+      "parentName": "BaseEvent",
+      "fields": [
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "dest_bunit",
+          "displayName": "dest_bunit",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "dest_category",
+          "displayName": "dest_category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "dest_priority",
+          "displayName": "dest_priority",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "dest_requires_av",
+          "displayName": "dest_requires_av",
+          "type": "boolean",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "dest_should_timesync",
+          "displayName": "dest_should_timesync",
+          "type": "boolean",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "dest_should_update",
+          "displayName": "dest_should_update",
+          "type": "boolean",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This automatically generated field is used to access tags from within data models. Add-on builders do not need to populate it.",
+            "ta_relevant": false
+          },
+          "fieldName": "tag",
+          "displayName": "tag",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The user account the service is running as, such as System or httpdsvc."
+          },
+          "fieldName": "user",
+          "displayName": "user",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "user_bunit",
+          "displayName": "user_bunit",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "user_category",
+          "displayName": "user_category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "user_priority",
+          "displayName": "user_priority",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        {
+          "calculationID": "All_Application_State_fillnull_dest",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The compute resource where the service is installed. You can alias this from more specific fields, such as dest_host, dest_ip, or dest_name.",
+                "recommended": true
+              },
+              "fieldName": "dest",
+              "displayName": "dest",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(dest) OR dest=\"\",\"unknown\",dest)"
+        },
+        {
+          "calculationID": "All_Application_State_fillnull_process",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The name of a process or service file, such as sqlsrvr.exe or httpd. Note: This field is not appropriate for service or daemon names, such as SQL Server or Apache Web Server. Service or daemon names belong to the service field.",
+                "recommended": true
+              },
+              "fieldName": "process",
+              "displayName": "process",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(process) OR process=\"\",\"unknown\",process)"
+        },
+        {
+          "calculationID": "All_Application_State_fillnull_process_name",
+          "calculationType": "Rex",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The name of a process.",
+                "ta_relevant": false
+              },
+              "fieldName": "process_name",
+              "displayName": "process_name",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "inputField": "process",
+          "expression": "^\\s*(?<process_name>[^\\s]+)"
+        }
+      ],
+      "constraints": [
+        {
+          "search": "(`cim_Application_State_indexes`) (tag=listening tag=port) OR (tag=process tag=report) OR (tag=service tag=report)"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "listening",
+          "port"
+        ]
+      },
+      "objectName": "Ports",
+      "displayName": "Ports",
+      "parentName": "All_Application_State",
+      "fields": [
+        
+      ],
+      "calculations": [
+        {
+          "calculationID": "Ports_fillnull_dest_port",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "Network ports communicated to by the process, such as 53.",
+                "recommended": true
+              },
+              "fieldName": "dest_port",
+              "displayName": "dest_port",
+              "type": "number",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": true,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnum(dest_port),dest_port,0)"
+        },
+        {
+          "calculationID": "Ports_fillnull_transport",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The network ports listened to by the application process, such as tcp, udp, etc.",
+                "recommended": true
+              },
+              "fieldName": "transport",
+              "displayName": "transport",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": true,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(transport) OR transport=\"\",\"unknown\",lower(transport))"
+        },
+        {
+          "calculationID": "Ports_transport_dest_port",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "Calculated as transport\/dest_port, such as tcp\/53.",
+                "ta_relevant": false
+              },
+              "fieldName": "transport_dest_port",
+              "displayName": "transport_dest_port",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": true,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(transport_dest_port) OR transport_dest_port=\"\",split(replace(mvjoin(mvzip(transport,dest_port),\"|\"),\",\",\"\/\"),\"|\"),transport_dest_port)"
+        }
+      ],
+      "constraints": [
+        {
+          "search": "tag=listening tag=port"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "process",
+          "report"
+        ]
+      },
+      "objectName": "Processes",
+      "displayName": "Processes",
+      "parentName": "All_Application_State",
+      "fields": [
+        {
+          "comment": {
+            "description": "CPU Load in megahertz."
+          },
+          "fieldName": "cpu_load_mhz",
+          "displayName": "cpu_load_mhz",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "CPU Load in percent."
+          },
+          "fieldName": "cpu_load_percent",
+          "displayName": "cpu_load_percent",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "CPU Time."
+          },
+          "fieldName": "cpu_time",
+          "displayName": "cpu_time",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "Memory used in bytes."
+          },
+          "fieldName": "mem_used",
+          "displayName": "mem_used",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "tag=process tag=report"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "service",
+          "report"
+        ]
+      },
+      "objectName": "Services",
+      "displayName": "Services",
+      "parentName": "All_Application_State",
+      "fields": [
+        
+      ],
+      "calculations": [
+        {
+          "calculationID": "Services_fillnull_service",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The name of the service, such as SQL Server or Apache Web Server. Note: This field is not appropriate for filenames, such as sqlsrvr.exe or httpd. Filenames should belong to the process field instead. Also, note that field is a string. Use the service_id field for service ID fields that are integer data types.",
+                "recommended": true
+              },
+              "fieldName": "service",
+              "displayName": "service",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(service) OR service=\"\",\"unknown\",service)"
+        },
+        {
+          "calculationID": "Services_fillnull_service_id",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "A numeric indicator for a service.",
+                "recommended": true
+              },
+              "fieldName": "service_id",
+              "displayName": "service_id",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(service_id) OR service_id=\"\",\"unknown\",service_id)"
+        },
+        {
+          "calculationID": "Services_fillnull_start_mode",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The start mode for the service.",
+                "expected_values": [
+                  "disabled",
+                  "manual",
+                  "auto"
+                ],
+                "recommended": true
+              },
+              "fieldName": "start_mode",
+              "displayName": "start_mode",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(start_mode) OR start_mode=\"\",\"unknown\",start_mode)"
+        },
+        {
+          "calculationID": "Services_fillnull_status",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The status of the service.",
+                "expected_values": [
+                  "critical",
+                  "started",
+                  "stopped",
+                  "warning"
+                ],
+                "recommended": true
+              },
+              "fieldName": "status",
+              "displayName": "status",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(status) OR status=\"\",\"unknown\",status)"
+        }
+      ],
+      "constraints": [
+        {
+          "search": "tag=service tag=report"
+        }
+      ],
+      "children": [
+        
+      ]
+    }
+  ]
+}

@@ -1,0 +1,462 @@
+{
+  "modelName": "Ticket_Management",
+  "displayName": "Ticket Management",
+  "description": "Ticket Management Data Model",
+  "editable": false,
+  "objects": [
+    {
+      "comment": {
+        "tags": [
+          "ticketing"
+        ]
+      },
+      "objectName": "All_Ticket_Management",
+      "displayName": "All Ticket Management",
+      "parentName": "BaseEvent",
+      "fields": [
+        {
+          "comment": {
+            "description": "Destinations affected by the service request."
+          },
+          "fieldName": "affect_dest",
+          "displayName": "affect_dest",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "Comments about the service request."
+          },
+          "fieldName": "comments",
+          "displayName": "comments",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The description of the service request."
+          },
+          "fieldName": "description",
+          "displayName": "description",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The business unit of the destination.",
+            "ta_relevant": false
+          },
+          "fieldName": "dest_bunit",
+          "displayName": "dest_bunit",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The category of the destination.",
+            "ta_relevant": false
+          },
+          "fieldName": "dest_category",
+          "displayName": "dest_category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The priority of the destination.",
+            "ta_relevant": false
+          },
+          "fieldName": "dest_priority",
+          "displayName": "dest_priority",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The relative priority of the service request."
+          },
+          "fieldName": "priority",
+          "displayName": "priority",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The relative severity of the service request."
+          },
+          "fieldName": "severity",
+          "displayName": "severity",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The numeric or vendor specific severity indicator corresponding to the event severity."
+          },
+          "fieldName": "severity_id",
+          "displayName": "severity_id",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The unique identifier of the service request as it pertains to Splunk.  For example, 14DA67E8-6084-4FA8-9568-48D05969C522@@_internal@@0533eff241db0d892509be46cd3126e30e0f6046."
+          },
+          "fieldName": "splunk_id",
+          "displayName": "splunk_id",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The Splunk application or use case associated with the unique identifier (splunk_id).  For example, es_notable."
+          },
+          "fieldName": "splunk_realm",
+          "displayName": "splunk_realm",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The user or entity that created or triggered the service request, if applicable."
+          },
+          "fieldName": "src_user",
+          "displayName": "src_user",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The business unit associated with the user or entity that triggered the service request.",
+            "ta_relevant": false
+          },
+          "fieldName": "src_user_bunit",
+          "displayName": "src_user_bunit",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The category associated with the user or entity that triggered the service request.",
+            "ta_relevant": false
+          },
+          "fieldName": "src_user_category",
+          "displayName": "src_user_category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The priority associated with the user or entity that triggered the service request.",
+            "ta_relevant": false
+          },
+          "fieldName": "src_user_priority",
+          "displayName": "src_user_priority",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The relative status of the service request."
+          },
+          "fieldName": "status",
+          "displayName": "status",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This automatically generated field is used to access tags from within data models. Add-on builders do not need to populate it.",
+            "ta_relevant": false
+          },
+          "fieldName": "tag",
+          "displayName": "tag",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The time that the src_user submitted the service request."
+          },
+          "fieldName": "time_submitted",
+          "displayName": "time_submitted",
+          "type": "timestamp",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The name of the user or entity that is assigned to carry out the service request, if applicable."
+          },
+          "fieldName": "user",
+          "displayName": "user",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The business unit associated with the user or entity that is assigned to carry out the service request, if applicable.",
+            "ta_relevant": false
+          },
+          "fieldName": "user_bunit",
+          "displayName": "user_bunit",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The category associated with the user or entity that is assigned to carry out the service request, if applicable.",
+            "ta_relevant": false
+          },
+          "fieldName": "user_category",
+          "displayName": "user_category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The priority of the user or entity that is assigned to carry out the service request, if applicable.",
+            "ta_relevant": false
+          },
+          "fieldName": "user_priority",
+          "displayName": "user_priority",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        {
+          "calculationID": "All_Ticket_Management_fillnull_dest",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The destination of the service request. You can alias this from more specific fields, such as dest_host, dest_ip, or dest_name."
+              },
+              "fieldName": "dest",
+              "displayName": "dest",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(dest) OR dest=\"\",\"unknown\",dest)"
+        },
+        {
+          "calculationID": "All_Ticket_Management_fillnull_ticket_id",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "An identification name, code, or number for the service request."
+              },
+              "fieldName": "ticket_id",
+              "displayName": "ticket_id",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(ticket_id) OR ticket_id=\"\",\"unknown\",ticket_id)"
+        }
+      ],
+      "constraints": [
+        {
+          "search": "(`cim_Ticket_Management_indexes`) tag=ticketing"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "ticketing",
+          "change"
+        ]
+      },
+      "objectName": "Change",
+      "displayName": "Change",
+      "parentName": "All_Ticket_Management",
+      "fields": [
+        
+      ],
+      "calculations": [
+        {
+          "calculationID": "Change_fillnull_change",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "Designation for a request for change (RFC) that is raised to modify an IT service to resolve an incident or problem."
+              },
+              "fieldName": "change",
+              "displayName": "change",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(change) OR change=\"\",\"unknown\",change)"
+        }
+      ],
+      "constraints": [
+        {
+          "search": "tag=change"
+        }
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "ticketing",
+          "incident"
+        ]
+      },
+      "objectName": "Incident",
+      "displayName": "Incident",
+      "parentName": "All_Ticket_Management",
+      "fields": [
+        
+      ],
+      "calculations": [
+        {
+          "calculationID": "Incident_fillnull_incident",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The incident that triggered the service request. Can be a rare occurrence, or something that happens more frequently An incident that occurs on a frequent basis can also be classified as a problem."
+              },
+              "fieldName": "incident",
+              "displayName": "incident",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(incident) OR incident=\"\",\"unknown\",incident)"
+        }
+      ],
+      "constraints": [
+        {
+          "search": "tag=incident"
+        }
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "ticketing",
+          "problem"
+        ]
+      },
+      "objectName": "Problem",
+      "displayName": "Problem",
+      "parentName": "All_Ticket_Management",
+      "fields": [
+        
+      ],
+      "calculations": [
+        {
+          "calculationID": "Problem_fillnull_problem",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "When multiple occurrences of related incidents are observed, they are collectively designated with a single problem value. Problem management differs from the process of managing an isolated incident. Often problems are managed by a specific set of staff and through a problem management process."
+              },
+              "fieldName": "problem",
+              "displayName": "problem",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(problem) OR problem=\"\",\"unknown\",problem)"
+        }
+      ],
+      "constraints": [
+        {
+          "search": "tag=problem"
+        }
+      ]
+    }
+  ]
+}

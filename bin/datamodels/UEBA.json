@@ -1,0 +1,290 @@
+{
+  "modelName": "UEBA",
+  "displayName": "User and Entity Behavior Analytics",
+  "description": "User and Entity Behavior Analytics Data Model",
+  "editable": false,
+  "objects": [
+    {
+      "objectName": "All_UEBA_Events",
+      "displayName": "All UEBA Events",
+      "parentName": "BaseEvent",
+      "fields": [
+        {
+          "fieldName": "action",
+          "displayName": "action",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "app",
+          "displayName": "app",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "fieldName": "uba_event_id",
+          "displayName": "uba_event_id",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "uba_event_type",
+          "displayName": "uba_event_type",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "category",
+          "displayName": "category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "description",
+          "displayName": "description",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "dvc",
+          "displayName": "dvc",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "fieldName": "link",
+          "displayName": "link",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "severity_id",
+          "displayName": "severity_id",
+          "type": "number",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "severity",
+          "displayName": "severity",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "signature",
+          "displayName": "signature",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "threat_category",
+          "displayName": "threat_category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "url",
+          "displayName": "url",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "fieldName": "user",
+          "displayName": "user",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "fieldName": "uba_host",
+          "displayName": "uba_host",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        {
+          "calculationID": "All_UEBA_Events_uba_time",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "fieldName": "uba_time",
+              "displayName": "uba_time",
+              "type": "timestamp",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "strptime(uba_time, \"%Y-%m-%d %H:%M:%S %Z\")"
+        },
+        {
+          "calculationID": "All_UEBA_Events_modify_time",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "fieldName": "modify_time",
+              "displayName": "modify_time",
+              "type": "timestamp",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "strptime(modify_time, \"%Y-%m-%d %H:%M:%S %Z\")"
+        },
+        {
+          "calculationID": "All_UEBA_Events_start_time",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "fieldName": "start_time",
+              "displayName": "start_time",
+              "type": "timestamp",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "strptime(start_time, \"%Y-%m-%d %H:%M:%S %Z\")"
+        }
+      ],
+      "constraints": [
+        {
+          "search": "index=ueba (sourcetype=ueba OR sourcetype=uba_threat_json)"
+        }
+      ],
+      "children": [
+
+      ]
+    },
+    {
+      "objectName": "UEBA_Threats",
+      "displayName": "UEBA Threats",
+      "parentName": "All_UEBA_Events",
+      "fields": [
+        {
+          "fieldName": "uba_threat_status",
+          "displayName": "uba_threat_status",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+
+      ],
+      "constraints": [
+        {
+          "search": "uba_event_type=threat"
+        }
+      ],
+      "children": [
+
+      ]
+    },
+    {
+      "objectName": "New_UEBA_Threats",
+      "displayName": "New UEBA Threats",
+      "parentName": "UEBA_Threats",
+      "fields": [
+
+      ],
+      "calculations": [
+
+      ],
+      "constraints": [
+        {
+          "search": "change_type=new"
+        }
+      ],
+      "children": [
+
+      ]
+    },
+    {
+      "objectName": "UEBA_Anomalies",
+      "displayName": "UEBA Anomalies",
+      "parentName": "All_UEBA_Events",
+      "fields": [
+        {
+          "fieldName": "uba_model",
+          "displayName": "uba_model",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "fieldName": "uba_model_version",
+          "displayName": "uba_model_version",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+
+      ],
+      "constraints": [
+        {
+          "search": "uba_event_type=anomaly"
+        }
+      ],
+      "children": [
+
+      ]
+    }
+  ]
+}

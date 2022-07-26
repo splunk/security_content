@@ -1,0 +1,419 @@
+{
+  "modelName": "Updates",
+  "displayName": "Updates",
+  "description": "Updates Data Model",
+  "editable": false,
+  "objects": [
+    {
+      "comment": {
+        "tags": [
+          "update",
+          "status"
+        ]
+      },
+      "objectName": "Updates",
+      "displayName": "Updates",
+      "parentName": "BaseEvent",
+      "fields": [
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "dest_bunit",
+          "displayName": "dest_bunit",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "dest_category",
+          "displayName": "dest_category",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "dest_priority",
+          "displayName": "dest_priority",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This field is automatically provided by asset and identity correlation features of applications like Splunk Enterprise Security. Do not define extractions for this field when writing add-ons.",
+            "ta_relevant": false
+          },
+          "fieldName": "dest_should_update",
+          "displayName": "dest_should_update",
+          "type": "boolean",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The device that detected the patch event, such as a patching or configuration management server. You can alias this from more specific fields, such as dvc_host, dvc_ip, or dvc_name."
+          },
+          "fieldName": "dvc",
+          "displayName": "dvc",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The name of the patch package that was installed or attempted."
+          },
+          "fieldName": "file_name",
+          "displayName": "file_name",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The checksum of the patch package that was installed or attempted."
+          },
+          "fieldName": "file_hash",
+          "displayName": "file_hash",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The severity associated with the patch event.",
+            "expected_values": [
+              "critical",
+              "high",
+              "medium",
+              "low",
+              "informational"
+            ]
+          },
+          "fieldName": "severity",
+          "displayName": "severity",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The numeric or vendor specific severity indicator corresponding to the event severity."
+          },
+          "fieldName": "severity_id",
+          "displayName": "severity_id",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "This automatically generated field is used to access tags from within data models. Add-on builders do not need to populate it.",
+            "ta_relevant": false
+          },
+          "fieldName": "tag",
+          "displayName": "tag",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": true,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        {
+          "calculationID": "Updates_fillnull_dest",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The system that is affected by the patch change. You can alias this from more specific fields, such as dest_host, dest_ip, or dest_name.",
+                "recommended": true
+              },
+              "fieldName": "dest",
+              "displayName": "dest",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(dest) OR dest=\"\",\"unknown\",dest)"
+        },
+        {
+          "calculationID": "Updates_fillnull_signature",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The name of the patch requirement detected on the client (the dest), such as MS08-067 or RHBA-2013:0739. Note: This is a string value. Use signature_id for numeric or non-human-readable indicators.",
+                "recommended": true
+              },
+              "fieldName": "signature",
+              "displayName": "signature",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": true,
+              "hidden": false
+            }
+          ],
+          "expression": "case(isnotnull(signature) AND signature!=\"\",signature,isnotnull(signature_id) AND signature_id!=\"\" AND signature_id!=\"unknown\",signature_id,1=1,\"unknown\")"
+        },
+        {
+          "calculationID": "Updates_fillnull_signature_id",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The ID of the patch requirement detected on the client (the src). Note: Use signature for human-readable signature names.",
+                "recommended": true
+              },
+              "fieldName": "signature_id",
+              "displayName": "signature_id",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": true,
+              "hidden": false
+            }
+          ],
+          "expression": "case(isnotnull(signature_id) AND signature_id!=\"\",signature_id,isnotnull(signature) AND signature!=\"\" AND signature!=\"unknown\",signature,1=1,\"unknown\")"
+        },
+        {
+          "calculationID": "Updates_fillnull_status",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "Indicates the status of a given patch requirement.",
+                "expected_values": [
+                  "available",
+                  "installed",
+                  "invalid",
+                  "restart required"
+                ],
+                "recommended": true
+              },
+              "fieldName": "status",
+              "displayName": "status",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "if(isnull(status) OR status=\"\",\"unknown\",status)"
+        },
+        {
+          "calculationID": "Updates_vendor_product",
+          "calculationType": "Eval",
+          "outputFields": [
+            {
+              "comment": {
+                "description": "The vendor and product of the patch monitoring product, such as Lumension Patch Manager. This field can be automatically populated by vendor and product fields in your data.",
+                "recommended": true
+              },
+              "fieldName": "vendor_product",
+              "displayName": "vendor_product",
+              "type": "string",
+              "fieldSearch": "",
+              "required": false,
+              "multivalue": false,
+              "hidden": false
+            }
+          ],
+          "expression": "case(isnotnull(vendor_product),vendor_product,isnotnull(vendor) AND vendor!=\"unknown\" AND isnotnull(product) AND product!=\"unknown\",vendor.\" \".product,isnotnull(vendor) AND vendor!=\"unknown\" AND (isnull(product) OR product=\"unknown\"),vendor.\" unknown\",(isnull(vendor) OR vendor=\"unknown\") AND isnotnull(product) AND product!=\"unknown\",\"unknown \".product,isnotnull(sourcetype),sourcetype,1=1,\"unknown\")"
+        }
+      ],
+      "constraints": [
+        {
+          "search": "(`cim_Updates_indexes`) tag=update tag=status"
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "update",
+          "status"
+        ]
+      },
+      "objectName": "Available_Updates",
+      "displayName": "Available Updates",
+      "parentName": "Updates",
+      "fields": [
+        
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "status=\"available\""
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "update",
+          "status"
+        ]
+      },
+      "objectName": "Installed_Updates",
+      "displayName": "Installed Updates",
+      "parentName": "Updates",
+      "fields": [
+        
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "status=\"installed\""
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "update",
+          "status"
+        ]
+      },
+      "objectName": "Restart_Required_Updates",
+      "displayName": "Updates Requiring Restart",
+      "parentName": "Updates",
+      "fields": [
+        
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        {
+          "search": "status=\"restart_required\""
+        }
+      ],
+      "children": [
+        
+      ]
+    },
+    {
+      "comment": {
+        "tags": [
+          "update",
+          "error"
+        ]
+      },
+      "objectName": "Update_Errors",
+      "displayName": "Update Errors",
+      "parentName": "BaseSearch",
+      "fields": [
+        {
+          "comment": {
+            "description": "The event timestamp expressed in Unix time.",
+            "ta_relevant": false
+          },
+          "fieldName": "_time",
+          "displayName": "_time",
+          "type": "timestamp",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The host associated with the search.",
+            "ta_relevant": false
+          },
+          "fieldName": "host",
+          "displayName": "host",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The source associated with the search.",
+            "ta_relevant": false
+          },
+          "fieldName": "source",
+          "displayName": "source",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        },
+        {
+          "comment": {
+            "description": "The source type associated with the search.",
+            "ta_relevant": false
+          },
+          "fieldName": "sourcetype",
+          "displayName": "sourcetype",
+          "type": "string",
+          "fieldSearch": "",
+          "required": false,
+          "multivalue": false,
+          "hidden": false
+        }
+      ],
+      "calculations": [
+        
+      ],
+      "constraints": [
+        
+      ],
+      "baseSearch": "(`cim_Updates_indexes`) tag=update tag=error",
+      "children": [
+        
+      ]
+    }
+  ]
+}
