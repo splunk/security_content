@@ -1,0 +1,13 @@
+name: AWS Defense Evasion Impair Security Services Unit Test
+tests:
+- name: AWS Defense Evasion Impair Security Services
+  file: cloud/aws_defense_evasion_impair_security_services.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: UPDATE
+    data: UPDATE
+    source: UPDATE
+    sourcetype: UPDATE
+    update_timestamp: true
