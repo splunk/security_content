@@ -236,13 +236,29 @@ class SearchFieldValidator:
         for fieldname in self.fields_from_search:
             print(fieldname)
             found_fields = self.datamodelRoot.resolve_fieldname(fieldname)
+            
             if len(found_fields) == 0:
                 print(f"Failed to validate field name [{fieldname}] - field does not exist in any datamodels")
                 validation_success = False
             elif len(found_fields) > 1:
-                print(f"Failed to validate field name [{fieldname}] - field exists in more than one datamodel: {found_fields}")
+                print(f"Field exists in more than one datamodel: {found_fields}")
                 validation_success = False
-            else:
+            
+            
+            if True:
+                #Verify that the found field occurs in one of the datamodels that we declared
+                #Check the YAML declared datamodels
+                found_in_yaml_datamodels = False
+                found_in_extracted_datamodels = False
+                for field in found_fields:
+                    for datamodel in self.yaml_datamodels:
+                        if datamodel.startswith(field.split('.')[0]):
+                            found_in_yaml_datamodels = True
+                #Check the datamodels extracted from the search
+                for field in found_fields:
+                    for datamodel in self.datamodels_declared_in_search:
+                        if datamodel.startswith(field.split('.')[0]):
+                            found_in_extracted_datamodels = True
                 fully_qualified_field = found_fields[0]
                 model = fully_qualified_field.split('.')[0]
                 modelAndSubmodel = ".".join(fully_qualified_field.split('.')[0:2])
@@ -250,8 +266,8 @@ class SearchFieldValidator:
         
         if self.datamodels_used_in_search != self.datamodels_declared_in_search != self.yaml_datamodels:
             print(f"Difference between declared datamodels and used datamodels in {self.path}")
-            print(f"1) Parsed from YAML Field: {self.yaml_datamodels}")
-            print(f"2) Declared in Search    : {self.datamodels_declared_in_search}")
+            print(f"1) Parsed from YAML Field: {self.yaml_datamodels} - {'FOUND' if found_in_yaml_datamodels else 'NOT_FOUND'}")
+            print(f"2) Declared in Search    : {self.datamodels_declared_in_search} - {'FOUND' if found_in_extracted_datamodels else 'NOT_FOUND'}")
             print(f"3) Extracted from Search : {self.datamodels_used_in_search}")
             print('\n')
             if interactive:
