@@ -27,7 +27,6 @@ references:
 - https://www.mandiant.com/resources/analyzing-dark-crystal-rat-backdoor
 tags:
   analytic_story:
-  - Source:Endpoint
   - DarkCrystal RAT
   asset_type: Endpoint
   cis20:
@@ -37,7 +36,7 @@ tags:
   confidence: 70
   context:
   - Source:Endpoint
-  - Stage:Impact
+  - Stage:Execution
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/dcrat/shutdown_commandline/sysmon.log
   impact: 70
