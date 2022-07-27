@@ -44,7 +44,7 @@ tags:
   - T1027
   nist:
   - DE.CM
-   observable:
+  observable:
   - name: user
     type: User
     role:
