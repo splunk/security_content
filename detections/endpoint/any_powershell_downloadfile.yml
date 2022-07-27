@@ -35,6 +35,7 @@ tags:
   - Malicious PowerShell
   - Ingress Tool Transfer
   - Log4Shell CVE-2021-44228
+  - DarkCrystal RAT
   confidence: 70
   context:
   - Source:Endpoint
