@@ -230,22 +230,25 @@ class SearchFieldValidator:
         search_without_quoted_text = re.sub(QUOTATIONS_PATTERN, "", search_without_datamodels)        
         return re.findall(KEY_VALUE_PATTERN, search_without_quoted_text)
         
-    def validate_search(self, interactive:bool = False)->bool:
+    def validate_search(self, interactive:bool = True)->bool:
         validation_success = True
-        
+        duplicate_fields_found = False
         for fieldname in self.fields_from_search:
-            print(fieldname)
             found_fields = self.datamodelRoot.resolve_fieldname(fieldname)
             
             if len(found_fields) == 0:
-                print(f"Failed to validate field name [{fieldname}] - field does not exist in any datamodels")
+                print(f"Failed to validate field name [{fieldname}] in {self.path} - field does not exist in any datamodels")
                 validation_success = False
             elif len(found_fields) > 1:
                 print(f"Field exists in more than one datamodel: {found_fields}")
                 validation_success = False
             
             
-            if True:
+
+            if len(found_fields) > 1:
+                duplicate_fields_found = True
+                
+            if len(found_fields) > 0:
                 #Verify that the found field occurs in one of the datamodels that we declared
                 #Check the YAML declared datamodels
                 found_in_yaml_datamodels = False
@@ -259,29 +262,40 @@ class SearchFieldValidator:
                     for datamodel in self.datamodels_declared_in_search:
                         if datamodel.startswith(field.split('.')[0]):
                             found_in_extracted_datamodels = True
-                fully_qualified_field = found_fields[0]
-                model = fully_qualified_field.split('.')[0]
-                modelAndSubmodel = ".".join(fully_qualified_field.split('.')[0:2])
-                self.datamodels_used_in_search.add(modelAndSubmodel)
+                for f in found_fields:                    
+                    modelAndSubmodel = ".".join(f.split('.')[0:2])
+                    self.datamodels_used_in_search.add(modelAndSubmodel)
         
         if self.datamodels_used_in_search != self.datamodels_declared_in_search != self.yaml_datamodels:
             print(f"Difference between declared datamodels and used datamodels in {self.path}")
-            print(f"1) Parsed from YAML Field: {self.yaml_datamodels} - {'FOUND' if found_in_yaml_datamodels else 'NOT_FOUND'}")
-            print(f"2) Declared in Search    : {self.datamodels_declared_in_search} - {'FOUND' if found_in_extracted_datamodels else 'NOT_FOUND'}")
-            print(f"3) Extracted from Search : {self.datamodels_used_in_search}")
+            print(f"1) Parsed from YAML Field          : {self.yaml_datamodels} - {'FOUND' if found_in_yaml_datamodels else 'NOT_FOUND'}")
+            print(f"2) Declared in Search              : {self.datamodels_declared_in_search} - {'FOUND' if found_in_extracted_datamodels else 'NOT_FOUND'}")
+            if duplicate_fields_found:
+                print(f"FIELD FOUND IN MULTIPLE DATAMODELS : {self.datamodels_used_in_search}")
+                dm_choices = [1,2]
+
+            else:
+                print(f"3) Extracted from Search           : {self.datamodels_used_in_search}")
+                dm_choices = [1,2,3]
+
             print('\n')
             if interactive:
-                dm_choices = [1,2,3]
-                choice = input(f"Which one do you want to keep {dm_choices}: ")
-                if choice == '1':
-                    print("No change")
-                    self.updated = False
-                elif choice == '2':
-                    self.updated = True
-                elif choice == '3':
-                    self.updated = True
-                else:
-                    raise(Exception(f"Bad choice: {choice}, not one of {dm_choices}"))
+
+                while True:
+                    choice = input(f"Which one do you want to keep {dm_choices}: ")
+                    if choice == '1':
+                        self.updated = False
+                        break
+                    elif choice == '2':
+                        self.updated = True
+                        break
+                    elif choice == '3' and duplicate_fields_found:
+                        print("Invalid choice - datamodel(s) could not be identified due to conflict(s).")
+                    elif choice == '3':
+                        self.updated = True
+                        break
+                    else:
+                        print(f"Bad choice: {choice}, not one of {dm_choices}. Try again...")
 
             
 
@@ -337,13 +351,14 @@ if __name__ == "__main__":
     for p in detection_paths:
         for filePath in p.rglob("*.yml"):
             if "short_lived_windows_account" not in str(filePath):
-                continue
+                pass
+                #continue
             total_searches += 1
             with open(filePath, 'rb') as detection_data:
                 try:
                     dat = yaml.safe_load(detection_data)
                     search = dat['search']
-                    decalared_dms = dat['datamodel']
+                    decalared_dms = set(dat['datamodel'])
                     declared_required_fields = dat['tags']['required_fields']
                     #print(filePath)
                     valid = SearchFieldValidator(filePath, search, decalared_dms, declared_required_fields, root)
