@@ -8,7 +8,7 @@ datamodel:
 - Endpoint
 description: The following analytic identifies a local successful authentication event on a Windows endpoint using the Kerberos package. The target user security identified will be set to the built-in local Administrator account, along with the remote address as localhost - 127.0.0.1. This may be indicative of a kerberos relay attack.
   Upon triage, review for recently ran binaries on disk. In addition, look for new computer accounts added to Active Directory and other anomolous AD events.
-search: '`wineventlog_security`  EventCode=4624 Logon_Type=3 Authentication_Package=Kerberos action=success src_ip=127.0.0.1
+search: '`wineventlog_security`  EventCode=4624 Logon_Type=3 Authentication_Package=Kerberos action=success src_ip="127.0.0.1"
 | stats count min(_time) as firstTime max(_time) as lastTime by dest, subject, action, Security_ID, user, Account_Name, src_ip | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
 | `windows_kerberos_local_successful_logon_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting

@@ -10,7 +10,7 @@ description: This search looks for attempts to stop security-related services on
   endpoint.
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
   min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
-  where `process_net` OR  Processes.process_name = sc.exe Processes.process="* stop
+  where `process_net` OR  Processes.process_name = "sc.exe" Processes.process="* stop
   *" by Processes.dest Processes.user Processes.parent_process Processes.process_name
   Processes.original_file_name Processes.process Processes.process_id Processes.parent_process_id
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`

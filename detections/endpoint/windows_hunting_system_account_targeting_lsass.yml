@@ -10,7 +10,7 @@ description: The following hunting analytic identifies all processes requesting 
   requiring access to credentials. Triaging this event will require understanding
   the GrantedAccess from the SourceImage. In addition, whether the account is privileged
   or not. Review the process requesting permissions and review parallel processes.
-search: '`sysmon` EventCode=10 TargetImage=*lsass.exe | stats count min(_time) as
+search: '`sysmon` EventCode=10 TargetImage="*lsass.exe" | stats count min(_time) as
   firstTime max(_time) as lastTime by Computer, TargetImage, GrantedAccess, SourceImage,
   SourceProcessId, SourceUser, TargetUser | rename Computer as dest | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `windows_hunting_system_account_targeting_lsass_filter`'

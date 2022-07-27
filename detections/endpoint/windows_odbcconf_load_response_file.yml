@@ -6,13 +6,13 @@ author: Michael Haag, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: The following analytic identifies the odbcconf.exe, Windows Open Database Connectivity utility, loading up a resource file. The file extension is arbitrary and may be named anything. The resource file itself may have different commands supported by Odbcconf to load up a DLL (REGSVR) on disk or additional commands. 
-  During triage, review file modifications and parallel processes. 
+description: The following analytic identifies the odbcconf.exe, Windows Open Database Connectivity utility, loading up a resource file. The file extension is arbitrary and may be named anything. The resource file itself may have different commands supported by Odbcconf to load up a DLL (REGSVR) on disk or additional commands.
+  During triage, review file modifications and parallel processes.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=odbcconf.exe
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name="odbcconf.exe"
   Processes.process IN ("*-f *","*/f *") Processes.process="*.rsp*"  by Processes.dest Processes.user Processes.parent_process_name Processes.process_name
   Processes.process Processes.process_id Processes.parent_process_id
-  | `drop_dm_object_name(Processes)` 
+  | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
   | `windows_odbcconf_load_response_file_filter`'

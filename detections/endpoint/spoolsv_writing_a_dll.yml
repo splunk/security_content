@@ -13,7 +13,7 @@ description: The following analytic identifies a `.dll` being written by `spools
   of `\spool\drivers\x64\`. During triage, isolate the endpoint and review for source
   of exploitation. Capture any additional file modification events.
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
-  where Processes.process_name=spoolsv.exe by _time Processes.process_id Processes.process_name
+  where Processes.process_name="spoolsv.exe" by _time Processes.process_id Processes.process_name
   Processes.dest | `drop_dm_object_name(Processes)` | join process_guid, _time [|
   tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path="*\\spool\\drivers\\x64\\*"

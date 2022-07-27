@@ -6,14 +6,14 @@ author: Michael Haag, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: The following analytic identifies odbcconf.exe, Windows Open Database Connectivity utility, utilizing the action function of regsvr to load a DLL. 
-  An example will look like - odbcconf.exe /A { REGSVR T1218-2.dll }. 
-  During triage, review parent process, parallel procesess and file modifications.  
+description: The following analytic identifies odbcconf.exe, Windows Open Database Connectivity utility, utilizing the action function of regsvr to load a DLL.
+  An example will look like - odbcconf.exe /A { REGSVR T1218-2.dll }.
+  During triage, review parent process, parallel procesess and file modifications.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=odbcconf.exe
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name="odbcconf.exe"
   Processes.process IN ("*/a *",  "*-a*") Processes.process="*regsvr*"  by Processes.dest Processes.user Processes.parent_process_name Processes.process_name
   Processes.process Processes.process_id Processes.parent_process_id
-  | `drop_dm_object_name(Processes)` 
+  | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
   | `windows_odbcconf_load_dll_filter`'

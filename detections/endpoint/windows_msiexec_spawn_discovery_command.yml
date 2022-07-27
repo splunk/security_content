@@ -6,14 +6,14 @@ author: Michael Haag, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: The following analytic identifies MSIExec spawning multiple discovery commands, including spawning Cmd.exe or PowerShell.exe. Typically, child processes are not common from MSIExec other than MSIExec spawning itself. 
+description: The following analytic identifies MSIExec spawning multiple discovery commands, including spawning Cmd.exe or PowerShell.exe. Typically, child processes are not common from MSIExec other than MSIExec spawning itself.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=msiexec.exe Processes.process_name IN ("powershell.exe","cmd.exe", "nltest.exe","ipconfig.exe","systeminfo.exe")
+  as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name="msiexec.exe" Processes.process_name IN ("powershell.exe","cmd.exe", "nltest.exe","ipconfig.exe","systeminfo.exe")
    by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.original_file_name
   Processes.process Processes.process_id Processes.parent_process_id
-  | `drop_dm_object_name(Processes)` 
+  | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` 
+  | `security_content_ctime(lastTime)`
   | `windows_msiexec_spawn_discovery_command_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 known_false_positives: False positives will be present with MSIExec spawning Cmd or PowerShell. Filtering will be needed. In addition, add other known discovery processes to enhance query.

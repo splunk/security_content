@@ -12,7 +12,7 @@ description: The following analytic identifies access to SAM, SYSTEM or SECURITY
   use a Shadow Copy or recent CVE-2021-36934 to access the SAM database. The Security
   Account Manager (SAM) is a database file in Windows XP, Windows Vista, Windows 7,
   8.1 and 10 that stores users' passwords.
-search: '`wineventlog_security` (EventCode=4663)  process_name!=*\\dllhost.exe Object_Name
+search: '`wineventlog_security` (EventCode=4663)  process_name!="*\\dllhost.exe" Object_Name
   IN ("*\\Windows\\System32\\config\\SAM*","*\\Windows\\System32\\config\\SYSTEM*","*\\Windows\\System32\\config\\SECURITY*")
   | stats values(Accesses) count by process_name Object_Name  dest user | `sam_database_file_access_attempt_filter`'
 how_to_implement: To successfully implement this search, you must ingest Windows Security

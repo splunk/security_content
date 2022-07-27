@@ -10,7 +10,7 @@ description: Detect the hands on keyboard behavior of Windows Task Manager creat
   will occur in the users profile under \AppData\Local\Temp. The dump file, lsass.dmp,
   cannot be renamed, however if the dump occurs more than once, it will be named lsass
   (2).dmp.
-search: '`sysmon` EventID=11 process_name=taskmgr.exe TargetFilename=*lsass*.dmp |
+search: '`sysmon` EventID=11 process_name="taskmgr.exe" TargetFilename=""*lsass*.dmp" |
   stats count min(_time) as firstTime max(_time) as lastTime by Computer, object_category,
   process_name, TargetFilename | rename Computer as dest | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `creation_of_lsass_dump_with_taskmgr_filter`'

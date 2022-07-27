@@ -13,7 +13,7 @@ description: this search is designed to detect suspicious wermgr.exe process tha
   for error handling process of windows it is really suspicious that this process
   is trying to connect to this IP web services cause that maybe cause of some malicious
   code injection.
-search: '`sysmon` EventCode =22 process_name = wermgr.exe QueryName IN ("*wtfismyip.com",
+search: '`sysmon` EventCode =22 process_name = "wermgr.exe" QueryName IN ("*wtfismyip.com",
   "*checkip.amazonaws.com", "*ipecho.net", "*ipinfo.io", "*api.ipify.org", "*icanhazip.com",
   "*ip.anysrc.com","*api.ip.sb", "ident.me", "www.myexternalip.com", "*zen.spamhaus.org",
   "*cbl.abuseat.org", "*b.barracudacentral.org","*dnsbl-1.uceprotect.net", "*spam.dnsbl.sorbs.net")

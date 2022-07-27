@@ -6,7 +6,7 @@ author: Patrick Bareiss, Splunk
 type: TTP
 datamodel: []
 description: Detect remote thread creation into LSASS consistent with credential dumping.
-search: '`sysmon` EventID=8 TargetImage=*lsass.exe | stats count min(_time) as firstTime
+search: '`sysmon` EventID=8 TargetImage="*lsass.exe" | stats count min(_time) as firstTime
   max(_time) as lastTime by Computer, EventCode, TargetImage, TargetProcessId | rename
   Computer as dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   | `create_remote_thread_into_lsass_filter`'

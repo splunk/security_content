@@ -15,10 +15,10 @@ description: The following analytic looks for a process accessing the winlogon.e
   tickets to move laterally within an environment, bypassing normal system access
   controls. Defenders should be aware that adversaries may customize the source code
   of Rubeus to potentially bypass this analytic.
-search: ' `sysmon` EventCode=10 TargetImage=C:\\Windows\\system32\\winlogon.exe (GrantedAccess=0x1f3fff)
-  (SourceImage!=C:\\Windows\\system32\\svchost.exe AND SourceImage!=C:\\Windows\\system32\\lsass.exe
-  AND SourceImage!=C:\\Windows\\system32\\LogonUI.exe AND SourceImage!=C:\\Windows\\system32\\smss.exe
-  AND SourceImage!=C:\\Windows\\system32\\wbem\\wmiprvse.exe) | stats count min(_time)
+search: ' `sysmon` EventCode=10 TargetImage="C:\\Windows\\system32\\winlogon.exe" (GrantedAccess=0x1f3fff)
+  (SourceImage!="C:\\Windows\\system32\\svchost.exe" AND SourceImage!="C:\\Windows\\system32\\lsass.exe"
+  AND SourceImage!="C:\\Windows\\system32\\LogonUI.exe" AND SourceImage!="C:\\Windows\\system32\\smss.exe"
+  AND SourceImage!="C:\\Windows\\system32\\wbem\\wmiprvse.exe") | stats count min(_time)
   as firstTime max(_time) as lastTime by Computer, SourceImage, SourceProcessId, TargetImage,
   TargetProcessId, EventCode, GrantedAccess | rename Computer as dest | `security_content_ctime(firstTime)`|
   `security_content_ctime(lastTime)` | `rubeus_kerberos_ticket_exports_through_winlogon_access_filter`'

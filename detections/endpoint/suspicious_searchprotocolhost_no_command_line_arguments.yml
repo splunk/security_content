@@ -14,7 +14,7 @@ description: The following analytic identifies searchprotocolhost.exe with no co
   dumping or file writes. searchprotocolhost.exe is natively found in C:\Windows\system32
   and C:\Windows\syswow64.
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
-  where Processes.process_name=searchprotocolhost.exe by _time span=1h  Processes.process_id
+  where Processes.process_name="searchprotocolhost.exe" by _time span=1h  Processes.process_id
   Processes.process_name Processes.dest Processes.process_path Processes.process Processes.parent_process_name
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | regex process="(?i)(searchprotocolhost\.exe.{0,4}$)" | `suspicious_searchprotocolhost_no_command_line_arguments_filter`'

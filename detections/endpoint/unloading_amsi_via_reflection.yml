@@ -19,10 +19,10 @@ description: 'The following analytic utilizes PowerShell Script Block Logging (E
   During triage, review parallel processes using an EDR product or 4688 events. It
   will be important to understand the timeline of events around this activity. Review
   the entire logged PowerShell script block.'
-search: '`powershell` EventCode=4104 ScriptBlockText = *system.management.automation.amsi*
-  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer user_id 
+search: '`powershell` EventCode=4104 ScriptBlockText = "*system.management.automation.amsi*"
+  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer user_id
   | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` 
+  | `security_content_ctime(lastTime)`
   | `unloading_amsi_via_reflection_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
@@ -36,7 +36,7 @@ references:
 - https://www.crowdstrike.com/blog/investigating-powershell-command-and-script-logging/
 tags:
   analytic_story:
-  - Hermetic Wiper 
+  - Hermetic Wiper
   - Malicious PowerShell
   confidence: 70
   context:

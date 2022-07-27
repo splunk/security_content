@@ -10,7 +10,7 @@ description: This search looks for flags passed to schtasks.exe on the command-l
   that indicate that a forced reboot of system is scheduled.
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
   min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
-  where Processes.process_name=schtasks.exe Processes.process="*shutdown*" Processes.process="*/create
+  where Processes.process_name="schtasks.exe" Processes.process="*shutdown*" Processes.process="*/create
   *" by Processes.process_name Processes.parent_process_name Processes.dest Processes.user
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `schtasks_used_for_forcing_a_reboot_filter`'

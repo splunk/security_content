@@ -10,7 +10,7 @@ description: Attackers often disable security tools to avoid detection. This sea
   looks for the usage of process `fltMC.exe` to unload a Sysmon Driver that will stop
   sysmon from collecting the data.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime values(Processes.process)
-  as process max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=fltMC.exe
+  as process max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name="fltMC.exe"
   AND Processes.process=*unload* AND Processes.process=*SysmonDrv*  by Processes.process_name
   Processes.process_id Processes.parent_process_name Processes.process Processes.dest
   Processes.user | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`
@@ -23,7 +23,7 @@ how_to_implement: You must be ingesting data that records process activity from 
   model. This search is also shipped with `unload_sysmon_filter_driver_filter` macro,
   update this macro to filter out false positives.
 known_false_positives: 'Unknown at the moment'
-references: 
+references:
   - https://www.ired.team/offensive-security/defense-evasion/unloading-sysmon-driver
 tags:
   analytic_story:

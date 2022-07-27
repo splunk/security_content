@@ -10,8 +10,8 @@ description: The following analytic identifies suspicious PowerShell script exec
   PowerShell script will contain stream flate data and will be decompressed in memory
   to run or drop the actual payload. During triage, review parallel processes within
   the same timeframe. Review the full script block to identify other related artifacts.
-search: '`powershell` EventCode=4104 ScriptBlockText = *New-Object* ScriptBlockText = *IO.MemoryStream*
-  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer user_id 
+search: '`powershell` EventCode=4104 ScriptBlockText = *New-Object* ScriptBlockText = "*IO.MemoryStream*"
+  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer user_id
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
   | `powershell_using_memory_as_backing_store_filter`'
@@ -28,7 +28,7 @@ references:
 - https://www.crowdstrike.com/blog/investigating-powershell-command-and-script-logging/
 tags:
   analytic_story:
-  - Hermetic Wiper 
+  - Hermetic Wiper
   - Malicious PowerShell
   confidence: 80
   context:

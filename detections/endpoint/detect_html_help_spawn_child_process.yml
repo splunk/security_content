@@ -18,7 +18,7 @@ description: The following analytic identifies hh.exe (HTML Help) execution of a
   child process events and investigate further. hh.exe is natively found in C:\Windows\system32
   and C:\Windows\syswow64.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=hh.exe
+  as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name="hh.exe"
   by Processes.dest Processes.user Processes.parent_process Processes.process_name
   Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `detect_html_help_spawn_child_process_filter`'

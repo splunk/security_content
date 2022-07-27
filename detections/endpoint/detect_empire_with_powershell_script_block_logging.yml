@@ -19,7 +19,7 @@ description: 'The following analytic utilizes PowerShell Script Block Logging (E
   During triage, review parallel processes using an EDR product or 4688 events. It
   will be important to understand the timeline of events around this activity. Review
   the entire logged PowerShell script block.'
-search: '`powershell` EventCode=4104  (ScriptBlockText=*system.net.webclient* AND ScriptBlockText=*frombase64string*)
+search: '`powershell` EventCode=4104  (ScriptBlockText="*system.net.webclient*" AND ScriptBlockText="*frombase64string*")
   | stats count min(_time) as firstTime max(_time) as lastTime by Opcode Computer
   UserID EventCode ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `detect_empire_with_powershell_script_block_logging_filter`'
@@ -38,7 +38,7 @@ references:
 - https://www.splunk.com/en_us/blog/security/hunting-for-malicious-powershell-using-script-block-logging.html
 tags:
   analytic_story:
-  - Hermetic Wiper 
+  - Hermetic Wiper
   - Malicious PowerShell
   confidence: 90
   context:

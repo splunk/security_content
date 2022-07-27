@@ -6,16 +6,16 @@ author: Michael Haag, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: The following anaytic identifies MOFComp.exe loading a MOF file. The Managed Object Format (MOF) compiler parses a file containing MOF statements and adds the classes and class instances defined in the file to the WMI repository. 
-  Typically, MOFComp.exe does not reach out to the public internet or load a MOF file from User Profile paths. 
+description: The following anaytic identifies MOFComp.exe loading a MOF file. The Managed Object Format (MOF) compiler parses a file containing MOF statements and adds the classes and class instances defined in the file to the WMI repository.
+  Typically, MOFComp.exe does not reach out to the public internet or load a MOF file from User Profile paths.
   A filter and consumer is typically registered in WMI. Review parallel processes and query WMI subscriptions to gather artifacts.
-  The default path of mofcomp.exe is C:\Windows\System32\wbem. 
+  The default path of mofcomp.exe is C:\Windows\System32\wbem.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where 
-  (Processes.parent_process_name IN ("cmd.exe", "powershell.exe") Processes.process_name=mofcomp.exe) 
-  OR (Processes.process_name=mofcomp.exe Processes.process IN ("*\\AppData\\Local\\*","*\\Users\\Public\\*", "*\\WINDOWS\\Temp\\*")) 
+  as lastTime from datamodel=Endpoint.Processes where
+  (Processes.parent_process_name IN ("cmd.exe", "powershell.exe") Processes.process_name="mofcomp.exe")
+  OR (Processes.process_name="mofcomp.exe" Processes.process IN ("*\\AppData\\Local\\*","*\\Users\\Public\\*", "*\\WINDOWS\\Temp\\*")) 
   by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
-  | `drop_dm_object_name(Processes)` 
+  | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
   | `windows_mof_event_triggered_execution_via_wmi_filter`'

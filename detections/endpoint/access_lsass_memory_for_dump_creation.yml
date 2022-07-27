@@ -6,7 +6,7 @@ author: Patrick Bareiss, Splunk
 type: TTP
 datamodel: []
 description: Detect memory dumping of the LSASS process.
-search: '`sysmon` EventCode=10 TargetImage=*lsass.exe CallTrace=*dbgcore.dll* OR CallTrace=*dbghelp.dll*
+search: '`sysmon` EventCode=10 TargetImage="*lsass.exe" CallTrace="*dbgcore.dll*" OR CallTrace="*dbghelp.dll*"
   | stats count min(_time) as firstTime max(_time) as lastTime by Computer, TargetImage,
   TargetProcessId, SourceImage, SourceProcessId | rename Computer as dest | `security_content_ctime(firstTime)`|
   `security_content_ctime(lastTime)` | `access_lsass_memory_for_dump_creation_filter` '

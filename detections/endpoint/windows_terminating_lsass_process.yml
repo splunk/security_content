@@ -5,15 +5,15 @@ date: '2022-03-28'
 author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel: []
-description: This analytic is to detect a suspicious process terminating Lsass process. Lsass process is known to be a critical process 
+description: This analytic is to detect a suspicious process terminating Lsass process. Lsass process is known to be a critical process
   that is responsible for enforcing security policy system. This process was commonly targetted by threat actor or red teamer to gain privilege escalation or persistence
-  in the targeted machine because it handles credentials of the logon users. In this analytic we tried to detect a suspicious process having a granted access 
-  PROCESS_TERMINATE to lsass process to modify or delete protected registrys. This technique was seen in doublezero malware that tries to wipe files and registry 
+  in the targeted machine because it handles credentials of the logon users. In this analytic we tried to detect a suspicious process having a granted access
+  PROCESS_TERMINATE to lsass process to modify or delete protected registrys. This technique was seen in doublezero malware that tries to wipe files and registry
   in compromised hosts. This anomaly detection can be a good pivot of incident response for possible credential dumping or evading security policy in a host or network environment.
-search: '`sysmon` EventCode=10 TargetImage=*lsass.exe GrantedAccess = 0x1
+search: '`sysmon` EventCode=10 TargetImage="*lsass.exe" GrantedAccess = 0x1
   | stats count min(_time) as firstTime max(_time) as lastTime by SourceImage, TargetImage,
   TargetProcessId, SourceProcessId, GrantedAccess CallTrace, Computer
-  | rename Computer as dest 
+  | rename Computer as dest
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
   | `windows_terminating_lsass_process_filter`'

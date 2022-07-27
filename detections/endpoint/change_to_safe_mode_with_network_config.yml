@@ -13,7 +13,7 @@ description: This search is to detect a suspicious bcdedit commandline to config
   This TTP can be a good alert for host that booted from safe mode forcefully since
   it need to modify the boot configuration to bring it back to normal.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.process_name = bcdedit.exe
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name = "bcdedit.exe"
   Processes.process="*/set*" Processes.process="*{current}*"  Processes.process="*safeboot*"
   Processes.process="*network*" by Processes.process_name Processes.process Processes.parent_process_name
   Processes.dest Processes.user |`drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`

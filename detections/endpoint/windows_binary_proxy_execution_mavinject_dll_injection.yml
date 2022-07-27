@@ -10,15 +10,15 @@ description: Adversaries may abuse mavinject.exe to inject malicious DLLs into r
   In addition to Dynamic-link Library Injection, Mavinject.exe can also be abused to perform import descriptor injection via its /HMODULE command-line parameter (ex. mavinject.exe PID /HMODULE=BASE_ADDRESS PATH_DLL ORDINAL_NUMBER). This command would inject an import table entry consisting of the specified DLL into the module at the given base address.
   During triage, review file modifcations and parallel processes.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=mavinject.exe Processes.process IN ("*injectrunning*", "*hmodule=0x*")
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name="mavinject.exe" Processes.process IN ("*injectrunning*", "*hmodule=0x*")
    by Processes.dest Processes.user Processes.parent_process_name Processes.process_name
   Processes.process Processes.process_id Processes.parent_process_id
-  | `drop_dm_object_name(Processes)` 
+  | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` 
+  | `security_content_ctime(lastTime)`
   | `windows_binary_proxy_execution_mavinject_dll_injection_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
-known_false_positives: False positives may be present, filter on DLL name or parent process. 
+known_false_positives: False positives may be present, filter on DLL name or parent process.
 references:
   - https://attack.mitre.org/techniques/T1218/013/
   - https://posts.specterops.io/mavinject-exe-functionality-deconstructed-c29ab2cf5c0e
