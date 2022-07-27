@@ -77,3 +77,4 @@ tags:
   - Processes.process_path
   - Processes.parent_process_id
   risk_score: 15
+  security_domain: endpoint
