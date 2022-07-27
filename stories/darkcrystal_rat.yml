@@ -1,0 +1,24 @@
+name: DarkCrystal RAT
+id: 639e6006-0885-4847-9394-ddc2902629bf
+version: 1
+date: '2022-07-26'
+author: Teoderick Contreras, Splunk
+description: Leverage searches that allow you to detect and investigate unusual activities
+  that might relate to the DcRat malware including ddos, spawning more process, botnet c2 communication, defense evasion and etc.
+  The DcRat malware is known commercial backdoor that was first released in 2018. This tool was sold in underground forum and known to be one of the cheapest 
+  commercial RATs. 
+  DcRat is modular and bespoke plugin framework make it a very flexible option, helpful for a range of nefearious uses.
+narrative: Adversaries may use this technique to maximize the impact on the target organization in operations where network wide availability interruption
+  is the goal. 
+references:
+- https://www.mandiant.com/resources/analyzing-dark-crystal-rat-backdoor
+- https://malpedia.caad.fkie.fraunhofer.de/details/win.dcrat
+tags:
+  analytic_story: DarkCrystal RAT
+  category:
+  - Malware
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

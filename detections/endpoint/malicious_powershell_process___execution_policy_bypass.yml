@@ -29,6 +29,7 @@ tags:
   analytic_story:
   - DHS Report TA18-074A
   - HAFNIUM Group
+  - DarkCrystal RAT
   asset_type: Endpoint
   cis20:
   - CIS 3
