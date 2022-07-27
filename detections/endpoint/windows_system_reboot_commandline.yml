@@ -37,6 +37,7 @@ tags:
   - CIS 16
   confidence: 50
   context:
+  - Source:Endpoint
   - Stage:Impact
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/reboot_logoff_commandline/sysmon.log
