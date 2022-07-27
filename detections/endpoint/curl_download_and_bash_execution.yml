@@ -31,6 +31,7 @@ tags:
   analytic_story:
   - Ingress Tool Transfer
   - Log4Shell CVE-2021-44228
+  - Linux Living Off The Land
   confidence: 100
   context:
   - Source:Endpoint
