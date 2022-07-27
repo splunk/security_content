@@ -9,7 +9,7 @@ datamodel:
 description: 'The following analytic uses a pretrained machine learning text classifier to detect potentially risky commands. The model is trained independently and then the model file is packaged within ESCU for usage. A command is deemed risky based on the presence of certain trigger keywords, along with the context and the role of the user (please see references). The model uses custom features to predict whether a SPL is risky using text classification. The model takes as input the command text, user and search type and outputs a risk score between [0,1]. A high score indicates higher likelihood of a command being risky. This model is on-prem only.'
 search: "| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Splunk_Audit.Search_Activity where Search_Activity.search_type=adhoc Search_Activity.user!=splunk-system-user by Search_Activity.search Search_Activity.user Search_Activity.search_type | eval spl_text = 'Search_Activity.search'. \" \" .'Search_Activity.user'. \" \" .'Search_Activity.search_type'| dedup spl_text
 | apply risky_spl_pre_trained_model
-| where risk_score > "0.5" 
+| where risk_score > '0.5' 
 | `drop_dm_object_name(Search_Activity)`
 | table search, user, search_type, risk_score
 | `detect_risky_spl_using_pretrained_ml_model_filter`"
