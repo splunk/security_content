@@ -45,7 +45,7 @@ tags:
   - T1059.004
   nist:
   - DE.CM
-   observable:
+  observable:
   - name: user
     type: User
     role:
