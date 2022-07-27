@@ -7,8 +7,7 @@ type: Hunting
 datamodel: []
 description: This analytic looks for several delete specific API calls made to AWS Security Services like CloudWatch, Guardduy, Web Application Firewalls. These API calls  are often leveraged by adversaries to weaken your exiting security defenses to deleting logging configurations in the cloudwatch alarm, delete a set of detectors from your Guardduty environment or simply delete a bunch of cloudwatch alarams to remain stealthy and avoid detection. These API calls  
 search: '`cloudtrail` eventName IN ("DeleteLogStream","DeleteDetector","DeleteIPSet","DeleteWebACL","DeleteRule","DeleteRuleGroup","DeleteLoggingConfiguration","DeleteAlarms") | stats
-  count min(_time) as firstTime max(_time) as lastTime values(eventName)  as eventName values(eventSource) as eventSource values(requestParameters.*) as * by src region user_arn aws_account_id user_type user_agent errorCode| `security_content_ctime(firstTime)` 
-| `security_content_ctime(lastTime)`| `aws_defense_evasion_impair_security_services_filter`'
+  count min(_time) as firstTime max(_time) as lastTime values(eventName)  as eventName values(eventSource) as eventSource values(requestParameters.*) as * by src region user_arn aws_account_id user_type user_agent errorCode| `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`|  `aws_defense_evasion_impair_security_services_filter`'
 how_to_implement: You must install Splunk AWS Add on and enable Cloudtrail logs in
   your AWS Environment.
 known_false_positives: While this search has no known false positives, it is possible
@@ -16,6 +15,7 @@ known_false_positives: While this search has no known false positives, it is pos
 references:
 - https://docs.aws.amazon.com/cli/latest/reference/guardduty/index.html
 - https://docs.aws.amazon.com/cli/latest/reference/waf/index.html
+- https://www.elastic.co/guide/en/security/current/prebuilt-rules.html
 tags:
   analytic_story:
   - AWS Defense Evasion
@@ -32,7 +32,7 @@ tags:
   impact: 70
   kill_chain_phases:
   - Actions on Objectives
-  message: User $user_arn$ has made 
+  message: User $user_arn$ has made potentially risky api calls $eventName$ that could impair AWS security services for account id $aws_account_id$
   mitre_attack_id:
   - T1562.008
   - T1562
