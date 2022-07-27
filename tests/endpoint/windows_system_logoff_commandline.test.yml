@@ -1,0 +1,13 @@
+name: Windows System LogOff Commandline Unit Test
+tests:
+- name: Windows System LogOff Commandline
+  file: endpoint/windows_system_logoff_commandline.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: sysmon.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/dcrat/reboot_logoff_commandline/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true
