@@ -30,6 +30,7 @@ tags:
   - Spearphishing Attachments
   - Trickbot
   - IcedID
+  - DarkCrystal RAT
   confidence: 50
   context:
   - Source:Endpoint
