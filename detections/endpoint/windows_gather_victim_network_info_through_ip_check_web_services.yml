@@ -26,6 +26,7 @@ references:
 tags:
   analytic_story:
   - Azorult
+  - DarkCrystal RAT
   asset_type: Endpoint
   cis20:
   - CIS 3
