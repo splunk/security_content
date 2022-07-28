@@ -11,7 +11,7 @@ search: ' `azuread` body.category=UserRiskEvents body.properties.riskLevel=high
   | rename body.properties.* as *
   |  stats values(userPrincipalName) by _time, ipAddress, activity, riskLevel, riskEventType, additionalInfo
   | `azure_active_directory_high_risk_sign_in_filter`'
-how_to_implement: You must be ingesting Azure Active Directory events in your Splunk environment. Specifically, this analytic leverages the RiskyUsers and UserRiskEvents
+how_to_implement: You must install the latest version of  Splunk Add-on for Microsoft Cloud Services from  Splunkbase(ref: https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment. You must be ingesting Azure Active Directory events in your Splunk environment. Specifically, this analytic leverages the RiskyUsers and UserRiskEvents
   log category.
 known_false_positives: Details for the risk calculation algorithm used by Identity Protection are unknown and may be prone to false positives.
 references:
@@ -43,11 +43,11 @@ tags:
   nist:
   - DE.CM
   observable:
-  - name: body.properties.userPrincipalName
+  - name: userPrincipalName
     type: User
     role:
     - Victim
-  - name: body.properties.ipAddress
+  - name: ipAddress
     type: IP Address
     role:
     - Attacker
