@@ -1,0 +1,13 @@
+name: Linux SSH Remote Services Script Execute Unit Test
+tests:
+- name: Linux SSH Remote Services Script Execute
+  file: endpoint/linux_ssh_remote_services_script_execute.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: linux-sysmon.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.004/atomic_red_team/linux-sysmon.log
+    source: Syslog:Linux-Sysmon/Operational
+    sourcetype: sysmon_linux
+    update_timestamp: true
