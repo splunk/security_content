@@ -1,0 +1,20 @@
+name: Linux Living Off The Land
+id: e405a2d7-dc8e-4227-8e9d-f60267b8c0cd
+version: 1
+date: '2022-07-27'
+author: Michael Haag, Splunk
+description: Linux Living Off The Land consists of binaries that may be used to bypass local security restrictions within misconfigured systems.
+narrative: Similar to Windows LOLBAS project, the GTFOBins project focuses solely on Unix binaries that may be abused in multiple categories including Reverse Shell, File Upload, File Download and much more. 
+  These binaries are native to the operating system and the functionality is typically native. The behaviors are typically not malicious by default or vulnerable, but these are built in functionality of the applications.
+  When reviewing any notables or hunting through mountains of events of interest, it's important to identify the binary, review command-line arguments, path of file, and capture any network and file modifications. Linux analysis may be a bit cumbersome due to volume and how process behavior is seen in EDR products. Piecing it together will require some effort. 
+references:
+  - https://gtfobins.github.io/
+tags:
+  analytic_story: Linux Living Off The Land
+  category:
+    - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
