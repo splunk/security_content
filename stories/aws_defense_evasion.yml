@@ -3,15 +3,15 @@ id: 4e00b690-293f-434d-a9d8-bcfb2ea5fff9
 version: 1
 date: '2022-07-15'
 author: Gowthamaraj Rajendran, Splunk
-description: Looks for activities and techniques associated with the Evasion of
-  Defenses on AWS Environment, such as Disabling cloud trail, Deleting cloud trail and many others.
-narrative: Attackers employ a variety of tactics in order to avoid detection and operate
+description: Identify activity and techniques associated with the Evasion of
+  Defenses within AWS, such as Disabling CloudTrail, Deleting CloudTrail and many others.
+narrative: Adversaries employ a variety of techniques in order to avoid detection and operate
   without barriers. This often involves modifying the configuration of security monitoring tools
   to get around them or explicitly disabling them to prevent them from running. This
-  Analytic Story includes searches that look for activity consistent with attackers
-  attempting to disable various security mechanisms. Such activity may involve deleting the cloudtrail logs
-  , as this is where all the AWS logs get stored or explicitly changing the retention policy of s3 buckets.
-   Other times, attackers attempt deletion of a specified AWS CloudWatch log group.
+  Analytic Story includes analytics that identify activity consistent with adversaries
+  attempting to disable various security mechanisms on AWS. Such activity may involve deleting the CloudTrail logs , 
+  as this is where all the AWS logs get stored or explicitly changing the retention policy of S3 buckets.
+  Other times, adversaries attempt deletion of a specified AWS CloudWatch log group.
 references:
 - https://attack.mitre.org/tactics/TA0005/
 tags:

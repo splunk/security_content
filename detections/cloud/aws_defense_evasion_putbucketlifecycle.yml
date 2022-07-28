@@ -5,14 +5,14 @@ date: '2022-07-25'
 author: Bhavin Patel
 type: Hunting
 datamodel: []
-description: This analytic looks for `PutBucketLifecycle` events in Cloudtrail logs where a user has created a new lifecycle rule for an S3 bucket with a short expiration period. Attackers may use this API call to impair the Cloudtrail logging by removing logs from the S3 bucket by changing the object expiration day to 1 day, in which case the cloudtrail logs will be deleted.
+description: This analytic identifies `PutBucketLifecycle` events in CloudTrail logs where a user has created a new lifecycle rule for an S3 bucket with a short expiration period. Attackers may use this API call to impair the CloudTrail logging by removing logs from the S3 bucket by changing the object expiration day to 1 day, in which case the CloudTrail logs will be deleted.
 search: '`cloudtrail` eventName=PutBucketLifecycle user_type=IAMUser errorCode=success
 |  spath path=requestParameters{}.LifecycleConfiguration{}.Rule{}.Expiration{}.Days output=expiration_days
 |  spath path=requestParameters{}.bucketName output=bucket_name
 | stats
   count min(_time) as firstTime max(_time) as lastTime  by src region eventName userAgent user_arn aws_account_id expiration_days  bucket_name user_type| `security_content_ctime(firstTime)` 
 |  `security_content_ctime(lastTime)` | where expiration_days < 3 | `aws_defense_evasion_putbucketlifecycle_filter`'
-how_to_implement: You must install Splunk AWS Add on and enable Cloudtrail logs in
+how_to_implement: You must install Splunk AWS Add on and enable CloudTrail logs in
   your AWS Environment. We recommend our users to set the expiration days value according to your company's log retention policies. 
 known_false_positives: While this search has no known false positives, it is possible
   that it is a legitimate admin activity. Please consider filtering out these noisy events using userAgent, user_arn field names.

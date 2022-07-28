@@ -5,7 +5,7 @@ date: '2022-07-12'
 author: Bhavin Patel, Splunk
 type: TTP
 datamodel: []
-description: This search looks for `StopLogging` events in Cloudtrail logs. Adversaries often try to impair their target's defenses by stopping their macliious activity from being logged, so that they can operate with stealth and avoid detection. When the adversary has the right type  of permissions in the compromised AWS environment, they can easily stop logging. 
+description: This analytic identifies `StopLogging` events in CloudTrail logs. Adversaries often try to impair their target's defenses by stopping their macliious activity from being logged, so that they may operate with stealth and avoid detection. When the adversary has the right type of permissions in the compromised AWS environment, they may easily stop logging. 
 search: '`cloudtrail` eventName = StopLogging eventSource = cloudtrail.amazonaws.com userAgent !=console.amazonaws.com errorCode = success| stats
   count min(_time) as firstTime max(_time) as lastTime values(requestParameters.name) as stopped_cloudtrail_name by src region eventName userAgent user_arn aws_account_id | `security_content_ctime(firstTime)`|
   `security_content_ctime(lastTime)` | `aws_defense_evasion_stop_logging_cloudtrail_filter`'

@@ -5,13 +5,13 @@ date: '2022-07-17'
 author: Gowthamaraj Rajendran, Splunk
 type: TTP
 datamodel: []
-description: This search looks for `DeleteLogGroup` events in Cloudtrail logs. Attackers can evade the logging capability by deleting the log group in cloudwatch. 
-  This will stop sending the lops and metrics to CloudWatch. When the adversary has the right type of permissions in the compromised AWS environment, 
-  they can delete the CloudWatch log group that is logging activities in your environment.
+description: This analytic identifies AWS `DeleteLogGroup` events in CloudTrail logs. Attackers may evade the logging capability by deleting the log group in CloudWatch. 
+  This will stop sending the logs and metrics to CloudWatch. When the adversary has the right type of permissions within the compromised AWS environment, 
+  they may delete the CloudWatch log group that is logging activities in the environment.
 search: '`cloudtrail` eventName = DeleteLogGroup eventSource = logs.amazonaws.com userAgent !=console.amazonaws.com errorCode = success| stats
   count min(_time) as firstTime max(_time) as lastTime values(requestParameters.logGroupName) as log_group_name by src region eventName userAgent user_arn aws_account_id | `security_content_ctime(firstTime)`|
   `security_content_ctime(lastTime)`| `aws_defense_evasion_delete_cloudwatch_log_group_filter`'
-how_to_implement: You must install Splunk AWS Add on and enable Cloudtrail logs in
+how_to_implement: You must install Splunk AWS Add on and enable CloudTrail logs in
   your AWS Environment.
 known_false_positives: While this search has no known false positives, it is possible
   that an AWS admin has deleted CloudWatch logging. Please investigate this activity. 

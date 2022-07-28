@@ -5,10 +5,10 @@ date: '2022-07-26'
 author: Bhavin Patel, Gowthamaraj Rajendran, Splunk
 type: Hunting
 datamodel: []
-description: This analytic looks for several delete specific API calls made to AWS Security Services like CloudWatch, Guardduy, Web Application Firewalls. These API calls  are often leveraged by adversaries to weaken your exiting security defenses to deleting logging configurations in the cloudwatch alarm, delete a set of detectors from your Guardduty environment or simply delete a bunch of cloudwatch alarams to remain stealthy and avoid detection. These API calls  
+description: This analytic looks for several delete specific API calls made to AWS Security Services like CloudWatch, GuardDuty and Web Application Firewalls. These API calls are often leveraged by adversaries to weaken existing security defenses by deleting logging configurations in the CloudWatch alarm, delete a set of detectors from your Guardduty environment or simply delete a bunch of CloudWatch alarms to remain stealthy and avoid detection.
 search: '`cloudtrail` eventName IN ("DeleteLogStream","DeleteDetector","DeleteIPSet","DeleteWebACL","DeleteRule","DeleteRuleGroup","DeleteLoggingConfiguration","DeleteAlarms") | stats
   count min(_time) as firstTime max(_time) as lastTime values(eventName)  as eventName values(eventSource) as eventSource values(requestParameters.*) as * by src region user_arn aws_account_id user_type user_agent errorCode| `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`|  `aws_defense_evasion_impair_security_services_filter`'
-how_to_implement: You must install Splunk AWS Add on and enable Cloudtrail logs in
+how_to_implement: You must install Splunk AWS Add on and enable CloudTrail logs in
   your AWS Environment.
 known_false_positives: While this search has no known false positives, it is possible
   that it is a legitimate admin activity. Please consider filtering out these noisy events using userAgent, user_arn field names.
