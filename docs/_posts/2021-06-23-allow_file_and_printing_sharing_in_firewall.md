@@ -107,8 +107,8 @@ This search is to detect a suspicious modification of firewall to allow file and
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_netsh](https://github.com/splunk/security_content/blob/develop/macros/process_netsh.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [process_netsh](https://github.com/splunk/security_content/blob/develop/macros/process_netsh.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 > :information_source:

@@ -137,6 +137,7 @@ Filter internet browser application to minimize the false positive of this detec
 
 #### Associated Analytic story
 * [Azorult](/stories/azorult)
+* [DarkCrystal RAT](/stories/darkcrystal_rat)
 
 
 

@@ -114,8 +114,8 @@ This search detects when an admin configured a forwarding rule for multiple mail
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [o365_management_activity](https://github.com/splunk/security_content/blob/develop/macros/o365_management_activity.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **o365_suspicious_admin_email_forwarding_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.

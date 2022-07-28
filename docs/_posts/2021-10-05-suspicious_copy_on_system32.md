@@ -107,8 +107,8 @@ This analytic is to detect a suspicious copy of file from systemroot folder of t
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_copy](https://github.com/splunk/security_content/blob/develop/macros/process_copy.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [process_copy](https://github.com/splunk/security_content/blob/develop/macros/process_copy.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 > :information_source:
