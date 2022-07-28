@@ -12,7 +12,7 @@ search: ' `azuread` body.category=SignInLogs body.properties.authenticationDetai
   | rename body.properties.* as *
   |  stats values(userPrincipalName) by _time, ipAddress, appDisplayName, userAgent
   | `azure_ad_successful_powershell_authentication_filter`'
-how_to_implement: You must be ingesting Azure Active Directory events in your Splunk environment. Specifically, this analytic leverages the SignInLogs
+how_to_implement: You must install the latest version of  Splunk Add-on for Microsoft Cloud Services from  Splunkbase(ref: https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment. You must be ingesting Azure Active Directory events in your Splunk environment. Specifically, this analytic leverages the SignInLogs
   log category.
 known_false_positives: Administrative users will likely use PowerShell commandlets to troubleshoot and maintain the environment. Filter as needed.
 references:
@@ -44,11 +44,11 @@ tags:
   nist:
   - DE.CM
   observable:
-  - name: body.properties.userPrincipalName
+  - name: userPrincipalName
     type: User
     role:
     - Victim
-  - name: body.properties.ipAddress
+  - name: ipAddress
     type: IP Address
     role:
     - Attacker
