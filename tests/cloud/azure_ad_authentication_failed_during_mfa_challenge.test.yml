@@ -1,0 +1,13 @@
+name: Azure AD Authentication Failed During MFA Challenge Unit Test
+tests:
+- name: Azure AD Authentication Failed During MFA Challenge
+  file: cloud/azure_ad_authentication_failed_during_mfa_challenge.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: azure-audit.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/azuread/azure-audit.log
+    source: mscs:azure:eventhub
+    sourcetype: mscs:azure:eventhub
+    update_timestamp: true
