@@ -26,7 +26,7 @@ search: ' `azuread` body.properties.status.errorCode= 50126 body.category= SignI
   | eval  upperBound=(ip_avg+ip_std*3)
   | eval  isOutlier=if(unique_accounts > 10 and unique_accounts >= upperBound, 1, 0)
   | `azure_ad_unusual_number_of_failed_authentications_from_ip_filter`'
-how_to_implement:You must install the latest version of  Splunk Add-on for Microsoft Cloud Services from  Splunkbase(ref: https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment. You must be ingesting Azure Active Directory events in your Splunk environment. Specifically, this analytic leverages the SignInLogs
+how_to_implement: You must install the latest version of  Splunk Add-on for Microsoft Cloud Services from  Splunkbase(https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment. You must be ingesting Azure Active Directory events in your Splunk environment. Specifically, this analytic leverages the SignInLogs
   log category.
 known_false_positives: A source Ip failing to authenticate with multiple users is not a common for legitimate behavior.
 references:
