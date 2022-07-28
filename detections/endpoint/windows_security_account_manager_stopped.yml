@@ -4,13 +4,13 @@ version: 1
 date: '2020-11-06'
 author: Rod Soto, Jose Hernandez, Splunk
 type: TTP
-datamodel: 
+datamodel:
 - Endpoint
 description: The search looks for a Windows Security Account Manager (SAM) was stopped
   via command-line. This is consistent with Ryuk infections across a fleet of endpoints.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Processes WHERE ("Processes.process_name"="net*.exe"
-  "Processes.process"="*stop \"samss\"*") BY "Processes.dest", "Processes.user", "Processes.process"
+  as lastTime FROM datamodel=Endpoint.Processes WHERE (Processes.process_name="net*.exe"
+  Processes.process="*stop \"samss\"*") BY Processes.dest, Processes.user, Processes.process
   | `drop_dm_object_name(Processes)` | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`
   | `windows_security_account_manager_stopped_filter`'
 how_to_implement: You must be ingesting data that records the process-system activity
