@@ -45,7 +45,7 @@ tags:
   impact: 60
   kill_chain_phases:
   - Reconnaissance
-  message: execute w32tm 
+  message: Process name w32tm.exe is using suspcicious command line arguments $process$ on host $dest$. 
   mitre_attack_id:
   - T1124
   nist:
