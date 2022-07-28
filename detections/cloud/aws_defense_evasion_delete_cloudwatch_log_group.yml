@@ -1,0 +1,65 @@
+name: AWS Defense Evasion Delete CloudWatch Log Group
+id: d308b0f1-edb7-4a62-a614-af321160710f
+version: 1
+date: '2022-07-17'
+author: Gowthamaraj Rajendran, Splunk
+type: TTP
+datamodel: []
+description: This analytic identifies AWS `DeleteLogGroup` events in CloudTrail logs. Attackers may evade the logging capability by deleting the log group in CloudWatch. 
+  This will stop sending the logs and metrics to CloudWatch. When the adversary has the right type of permissions within the compromised AWS environment, 
+  they may delete the CloudWatch log group that is logging activities in the environment.
+search: '`cloudtrail` eventName = DeleteLogGroup eventSource = logs.amazonaws.com userAgent !=console.amazonaws.com errorCode = success| stats
+  count min(_time) as firstTime max(_time) as lastTime values(requestParameters.logGroupName) as log_group_name by src region eventName userAgent user_arn aws_account_id | `security_content_ctime(firstTime)`|
+  `security_content_ctime(lastTime)`| `aws_defense_evasion_delete_cloudwatch_log_group_filter`'
+how_to_implement: You must install Splunk AWS Add on and enable CloudTrail logs in
+  your AWS Environment.
+known_false_positives: While this search has no known false positives, it is possible
+  that an AWS admin has deleted CloudWatch logging. Please investigate this activity. 
+references:
+- https://attack.mitre.org/techniques/T1562/008/
+tags:
+  analytic_story:
+  - AWS Defense Evasion
+  asset_type: AWS Account
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  confidence: 90
+  context:
+  - Source:Cloud Data
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.008/delete_cloudwatch_log_group/aws_cloudtrail_events.json
+  impact: 100
+  kill_chain_phases:
+  - Actions on Objectives
+  message: User $user_arn$ has deleted a CloudWatch logging group for account id $aws_account_id$ from IP $src$
+  mitre_attack_id:
+  - T1562
+  - T1562.008
+  nist:
+  - DE.CM
+  observable:
+  - name: src
+    type: IP Address
+    role:
+    - Attacker
+  - name: user_arn
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time 
+  - eventName
+  - eventSource
+  - requestParameters.name
+  - userAgent
+  - aws_account_id
+  - src
+  - region
+  risk_score: 90
+  security_domain: threat
