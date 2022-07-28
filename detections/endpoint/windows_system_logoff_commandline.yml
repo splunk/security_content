@@ -33,7 +33,7 @@ tags:
   - CIS 3
   - CIS 5
   - CIS 16
-  confidence: 70
+  confidence: 80
   context:
   - Source:Endpoint
   - Stage:Execution
@@ -69,5 +69,5 @@ tags:
   - Processes.parent_process_path
   - Processes.process_path
   - Processes.parent_process_id
-  risk_score: 49
+  risk_score: 56
   security_domain: endpoint
