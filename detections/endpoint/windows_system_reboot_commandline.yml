@@ -3,7 +3,7 @@ id: 97fc2b60-c8eb-4711-93f7-d26fade3686f
 version: 1
 date: '2022-07-27'
 author: Teoderick Contreras, Splunk
-type: TTP
+type: Anomaly
 datamodel:
 - Endpoint
 description: The following analytic identifies Windows commandlined to reboot a windows host machine. 
