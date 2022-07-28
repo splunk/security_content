@@ -3,7 +3,7 @@ id: 74a8133f-93e7-4b71-9bd3-13a66124fd57
 version: 1
 date: '2022-07-27'
 author: Teoderick Contreras, Splunk
-type: TTP
+type: Anomaly
 datamodel:
 - Endpoint
 description: The following analytic identifies Windows commandlined to logoff a windows host machine. 
@@ -42,7 +42,7 @@ tags:
   impact: 70
   kill_chain_phases:
   - Exploitation
-  message: process that execute logoff commandline in $dest$
+  message: Process name $process_name$ is seen to execute logoff commandline on $dest$
   mitre_attack_id:
   - T1529
   nist:
