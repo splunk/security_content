@@ -5,6 +5,8 @@ import pathlib
 import sys
 import re
 
+EXCLUDE_PATHS = ["/deprecated/", "/experimental/"]
+
 TAB_CHARACTER='\t'
 
 DATAMODEL_PATTERN = r"datamodel\s*=\s*\S*"
@@ -31,7 +33,7 @@ class DatamodelRoot:
     def add_datamodel_directory(self, directory_path:pathlib.Path)->None:
         for filePath in directory_path.rglob("*.json"):
             self.add_datamodel_file(filePath)
-    
+    '''
     def pretty_print(self, indent_spaces:int = 3):
         for dm_name, dm_obj in self.datamodels.items():
             print(f"{dm_obj.name} - {dm_obj.path}")
@@ -40,46 +42,64 @@ class DatamodelRoot:
                 print(' ' * (indent_spaces*1) + object_item.name)
                 for field_name, field_object in object_item.fields.items():
                     print(' ' * (indent_spaces*2) + field_object.name)
+    '''
     
     def resolve_fieldname(self, full_path:str)->list[str]:
         
+        #First, try to resolve the full path. We must do this because the
+        #fieldname could be something long, like Risk.All_Risk.annotations.mitre_attack.mitre_description or annotations.mitre_attack.mitre_description
+        #Or, it could be something shorter like Risk.All_Risk.dest or All_Risk.dest or dest
+        paths = self.resolve_field(full_path)
+        if len(paths) > 0:
+            return sorted(paths)
+        segments = full_path.split('.')
+
+        if len(segments) > 1:
+            paths = self.resolve_submodel_field(segments[0], '.'.join(segments[1:]))
+        if len(paths) > 0:
+            return sorted(paths)
+
+        if len(segments) > 2:
+            paths=self.resolve_model_submodel_field(segments[0], segments[1], '.'.join(segments[2:]))
+        
+        return sorted(paths)
+
+        '''
         segments = full_path.split('.')
         if len(segments) == 3:
-            paths = self.resolve_three_part_field_name(segments[0], segments[1], segments[2])
+            paths = self.resolve_model_submodel_field(segments[0], segments[1], segments[2])
                 
         elif len(segments) == 2:
-            paths = self.resolve_two_part_field_name(segments[0], segments[1])
+            paths = self.resolve_submodel_field(segments[0], segments[1])
         elif len(segments) == 1:
-            paths = self.resolve_one_part_field_name(segments[0])
+            paths = self.resolve_field(segments[0])
         else:
             raise(Exception(f"Could not resolve the reference to {full_path} in any datamodel"))
 
         #if len(paths) == 0:
         #    print(f"Failed to find [{full_path}]")
         return sorted(paths)
+        '''
     
-    def resolve_three_part_field_name(self, datamodelName:str, submodelName:str, fieldName:str)->list[str]:
+    def resolve_model_submodel_field(self, datamodelName:str, submodelName:str, fieldName:str)->list[str]:
         paths  = []
         if datamodelName in self.datamodels:
             dm = self.datamodels[datamodelName]
-            if submodelName in dm.objects:
-                objs = dm.objects[submodelName]
-                if fieldName in objs.fields:
-                    field = objs.fields[fieldName]
-                    paths.append(f"{dm.name}.{objs.name}.{field.name}")
+            if dm.resolve_submodel_and_field(submodelName, fieldName):
+                paths.append(f"{datamodelName}.{submodelName}.{fieldName}")
         return paths
 
-    def resolve_two_part_field_name(self, submodelName:str, fieldName:str)->list[str]:
+    def resolve_submodel_field(self, submodelName:str, fieldName:str)->list[str]:
         paths = []
         for dm_name in self.datamodels:
-            paths += self.resolve_three_part_field_name(dm_name, submodelName, fieldName)
+            paths += self.resolve_model_submodel_field(dm_name, submodelName, fieldName)
         return paths
         
-    def resolve_one_part_field_name(self, fieldName:str)->list[str]:
+    def resolve_field(self, fieldName:str)->list[str]:
         paths = []
         for dmName, dmObject in self.datamodels.items():
             for objectName, objectObject in dmObject.objects.items():
-                paths += self.resolve_three_part_field_name(dmName, objectName, fieldName)
+                paths += self.resolve_model_submodel_field(dmName, objectName, fieldName)
         return paths
 
     def validate_model_and_submodel(self, modelAndSubmodel:str)->bool:
@@ -105,6 +125,11 @@ class DatamodelRoot:
 
         raise(Exception(f"The datamodel {modelAndSubmodel} was not found in the defined datamodels and submodels"))
 
+    def printDatamodels(self):
+        for dmName, dm in self.datamodels.items():
+            dm.printDatamodel()
+
+
 class Datamodel:
     def __init__(self, path:pathlib.Path):
         self.path = path
@@ -125,6 +150,20 @@ class Datamodel:
         for json_object in json_objects:
             datamodel_object = DatamodelObject(json_object)
             self.objects[datamodel_object.name] = datamodel_object
+    
+    def resolve_submodel_and_field(self, submodelName:str, fieldName:str)->bool:
+        if submodelName in self.objects:
+            obj = self.objects[submodelName]
+            return obj.resolve_field_name(fieldName)
+        else:
+            return False
+
+    def printDatamodel(self):
+        print(self.name)
+        for oName, o in self.objects.items():
+            o.printObject()
+
+        
             
 
 class DatamodelObject:
@@ -148,6 +187,16 @@ class DatamodelObject:
     def parse_calculations(self, calculations_object: list):
         for calculation in calculations_object:
             self.parse_fields(calculation['outputFields'])
+    def resolve_field_name(self, fieldName:str)->bool:
+        if fieldName in self.fields:
+            return True
+        else:
+            return False
+    def printObject(self):
+        print(f"\t{self.name}")
+        for fieldName, field in self.fields.items():
+            field.printField()
+
     
 
         
@@ -159,12 +208,17 @@ class DatamodelField:
 #    def __init__(self, datamodel_calculation: dict):
 #        self.name = datamodel_calculation[]
 #        pass
+    def printField(self):
+        print(f"\t\t{self.name}")
 
 
 class SearchFieldValidator:
     def __init__(self, path:pathlib.Path, yaml_search:str, yaml_datamodels: set[str], yaml_required_fields: set[str], datamodelRoot: DatamodelRoot, errorOnMissingSubmodel:bool=True):
         self.path = path
         self.yaml_search = yaml_search
+        if 'tstats' not in search:
+            self.valid_search = True
+            return
         self.yaml_datamodels = yaml_datamodels
         self.yaml_required_fields = yaml_required_fields
         self.errorOnMissingSubmodel = errorOnMissingSubmodel
@@ -181,7 +235,8 @@ class SearchFieldValidator:
         #print(self.fields_from_search)
         self.updated = False
         self.valid_search = self.validate_search()
-        
+        if self.valid_search is False:
+            print(f"{self.path} - Failed Validation")
         if self.updated:
             print("yes, it was updated")
 
@@ -214,6 +269,7 @@ class SearchFieldValidator:
                 
             except Exception as e:
                 raise(Exception(f"Error trying to extract the Datamodel from datamodel [{datamodel}]: {str(e)}"))
+        
         return cleaned_models
 
         
@@ -228,48 +284,67 @@ class SearchFieldValidator:
         #interpreted as a field. In reality, we need to quote these in the raw files
         #so that they can be removed during this step
         search_without_quoted_text = re.sub(QUOTATIONS_PATTERN, "", search_without_datamodels)        
-        return re.findall(KEY_VALUE_PATTERN, search_without_quoted_text)
+        all_possible_fields = re.findall(KEY_VALUE_PATTERN, search_without_quoted_text)
+        #Sometimes things are recognized as fields, but they are actually just numeric values, like 0.5 for example
+        #We want to filter those out
+        def is_number(test_str:str)->bool:
+            try:
+                float(test_str)
+            except:
+                return False
+            return True
+        return [f for f in all_possible_fields if is_number(f) is False]
+
         
-    def validate_search(self, interactive:bool = True)->bool:
+    def validate_search(self, interactive:bool = False, verbose:bool=True)->bool:
         validation_success = True
         duplicate_fields_found = False
+        
+
+        #We start with no fields, so of course we found them
+        found_all_fields_in_yaml_datamodels = True
+        found_all_fields_in_search_declared_datamodels = True
+
         for fieldname in self.fields_from_search:
             found_fields = self.datamodelRoot.resolve_fieldname(fieldname)
             
             if len(found_fields) == 0:
-                print(f"Failed to validate field name [{fieldname}] in {self.path} - field does not exist in any datamodels")
+                if verbose:
+                    print(f"Failed to validate field name [{fieldname}] in {self.path} - field does not exist in any datamodels")
+                    print(self.yaml_search)
+                    input("Waiting...")
                 validation_success = False
-            elif len(found_fields) > 1:
-                print(f"Field exists in more than one datamodel: {found_fields}")
-                validation_success = False
-            
-            
+                found_all_fields_in_yaml_datamodels = False
+                found_all_fields_in_search_declared_datamodels = False
+            else:
 
-            if len(found_fields) > 1:
-                duplicate_fields_found = True
-                
-            if len(found_fields) > 0:
-                #Verify that the found field occurs in one of the datamodels that we declared
-                #Check the YAML declared datamodels
-                found_in_yaml_datamodels = False
-                found_in_extracted_datamodels = False
                 for field in found_fields:
-                    for datamodel in self.yaml_datamodels:
-                        if datamodel.startswith(field.split('.')[0]):
-                            found_in_yaml_datamodels = True
-                #Check the datamodels extracted from the search
-                for field in found_fields:
+                    #Add the . at the end to ensure it is the end of the datamodel's name
+                    field_datamodel = field.split('.')[0]+'.'
+                    
+                    found = False
+                    for datamodel in self.yaml_datamodels:                        
+                        if datamodel.startswith(field_datamodel):
+                            found|=True
+                    found_all_fields_in_yaml_datamodels &= found
+
+
+                    found=False
                     for datamodel in self.datamodels_declared_in_search:
-                        if datamodel.startswith(field.split('.')[0]):
-                            found_in_extracted_datamodels = True
-                for f in found_fields:                    
-                    modelAndSubmodel = ".".join(f.split('.')[0:2])
-                    self.datamodels_used_in_search.add(modelAndSubmodel)
+                        if datamodel.startswith(field_datamodel):            
+                            found |= True
+                    found_all_fields_in_search_declared_datamodels &= True
+
+                    self.datamodels_used_in_search.add('.'.join(field.split('.')[0:2]))
+
+          
+        
         
         if self.datamodels_used_in_search != self.datamodels_declared_in_search != self.yaml_datamodels:
             print(f"Difference between declared datamodels and used datamodels in {self.path}")
-            print(f"1) Parsed from YAML Field          : {self.yaml_datamodels} - {'FOUND' if found_in_yaml_datamodels else 'NOT_FOUND'}")
-            print(f"2) Declared in Search              : {self.datamodels_declared_in_search} - {'FOUND' if found_in_extracted_datamodels else 'NOT_FOUND'}")
+            print(f"1) Parsed from YAML Field          : {self.yaml_datamodels} - {'FOUND' if found_all_fields_in_yaml_datamodels else 'NOT_FOUND'}")
+            print(f"2) Declared in Search              : {self.datamodels_declared_in_search} - {'FOUND' if found_all_fields_in_search_declared_datamodels else 'NOT_FOUND'}")
+            
             if duplicate_fields_found:
                 print(f"FIELD FOUND IN MULTIPLE DATAMODELS : {self.datamodels_used_in_search}")
                 dm_choices = [1,2]
@@ -278,6 +353,8 @@ class SearchFieldValidator:
                 print(f"3) Extracted from Search           : {self.datamodels_used_in_search}")
                 dm_choices = [1,2,3]
 
+            print(f"4) Fields                          : {self.fields_from_search}")
+            input("waiting...")
             print('\n')
             if interactive:
 
@@ -316,6 +393,9 @@ class SearchFieldValidator:
         
 
             
+        if validation_success is False:
+            pass
+            #input("Hit enter to continue")
 
         return validation_success
 
@@ -337,6 +417,13 @@ if __name__ == "__main__":
     datamodel_paths = [pathlib.Path(input_path_argument) for input_path_argument in datamodel_argument]
     root = DatamodelRoot(datamodel_paths)
     
+    #root.printDatamodels()
+    #print(root.resolve_fieldname("Risk.All_Risk.annotations.mitre_attack.mitre_description"))
+    #print(root.resolve_fieldname("All_Risk.annotations.mitre_attack.mitre_description"))
+    #print(root.resolve_fieldname("annotations.mitre_attack.mitre_description"))
+    #print(root.resolve_fieldname("annotations.mitre_attack.mitre_description"))
+    #print(root.resolve_fieldname("dest"))
+    #sys.exit(0)
 
     import yaml
     detection_paths = [pathlib.Path(detection_path_argument) for detection_path_argument in detection_argument]
@@ -350,9 +437,13 @@ if __name__ == "__main__":
     failed_searches = 0
     for p in detection_paths:
         for filePath in p.rglob("*.yml"):
-            if "short_lived_windows_account" not in str(filePath):
-                pass
-                #continue
+            skip = False
+            for EXCLUDE_PATH in EXCLUDE_PATHS:
+                if EXCLUDE_PATH in str(filePath):
+                    skip = True
+                    break
+            if skip is True:
+                continue
             total_searches += 1
             with open(filePath, 'rb') as detection_data:
                 try:
