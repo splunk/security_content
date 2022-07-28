@@ -1,0 +1,76 @@
+name: Windows System Time Discovery W32tm Delay
+id: b2cc69e7-11ba-42dc-a269-59c069a48870
+version: 1
+date: '2022-07-28'
+author: Teoderick Contreras, Splunk
+type: Anomaly
+datamodel:
+- Endpoint
+description:  The following analytic identifies DCRat delay time tactics using w32tm. 
+  This technique was seen in DCRAT malware where it uses stripchart function of w32tm.exe application to delay the execution of its payload like 
+  c2 communication , beaconing and execution. This anomaly detection may help the analyst to check other possible event like the process who 
+  execute this command that may lead to DCRat attack.
+search: '| tstats `security_content_summariesonly` values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
+  where Processes.process_name = w32tm.exe Processes.process= "* /stripchart *" Processes.process= "* /computer:localhost *" 
+  Processes.process= "* /period:*" Processes.process= "* /dataonly *" Processes.process= "* /samples:*"
+  by  Processes.parent_process Processes.process_name Processes.original_file_name Processes.process 
+  Processes.process_id Processes.parent_process_id Processes.dest Processes.user
+  | `drop_dm_object_name(Processes)` 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `windows_system_time_discovery_w32tm_delay_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA. Tune and filter known instances of wermgr.exe may be used.
+known_false_positives: unknown
+references:
+- https://cert.gov.ua/article/405538
+- https://malpedia.caad.fkie.fraunhofer.de/details/win.dcrat
+- https://www.mandiant.com/resources/analyzing-dark-crystal-rat-backdoor
+tags:
+  analytic_story:
+  - UPDATE_STORY_NAME
+  asset_type: Endpoint
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  confidence: 60
+  context:
+  - Source:Endpoint
+  - Stage:Execution
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/dcrat/dcrat_delay_execution/sysmon.log
+  impact: 60
+  kill_chain_phases:
+  - Reconnaissance
+  message: execute w32tm 
+  mitre_attack_id:
+  - T1124
+  nist:
+  - DE.CM
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.parent_process
+  - Processes.original_file_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_path
+  - Processes.process_path
+  - Processes.parent_process_id
+  risk_score: 36
+  security_domain: endpoint
