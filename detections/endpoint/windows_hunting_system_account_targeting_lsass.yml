@@ -17,9 +17,9 @@ search: '`sysmon` EventCode=10 TargetImage=*lsass.exe | stats count min(_time) a
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA. Enabling EventCode 10 TargetProcess lsass.exe is required.
+  Sysmon TA. Enabling EventCode 10 TargetProcess lsass.exe is required. 
 known_false_positives: False positives will occur based on GrantedAccess and SourceUser,
-  filter based on source image as needed.
+  filter based on source image as needed. Utilize this hunting analytic to tune out false positives in TTP or anomaly analytics.
 references:
 - https://en.wikipedia.org/wiki/Local_Security_Authority_Subsystem_Service
 - https://docs.microsoft.com/en-us/windows/win32/api/minidumpapiset/nf-minidumpapiset-minidumpwritedump
@@ -39,8 +39,7 @@ tags:
   impact: 80
   kill_chain_phases:
   - Actions on Objectives
-  message: A process, $SourceImage$, has loaded $ImageLoaded$ that are typically related
-    to credential dumping on $dest$. Review for further details.
+  message: A process, $SourceImage$, has requested access to LSASS on $dest$. Review for further details.
   mitre_attack_id:
   - T1003.001
   - T1003
@@ -48,18 +47,10 @@ tags:
   - DE.AE
   - DE.CM
   observable:
-  - name: user
-    type: User
-    role:
-    - Victim
   - name: dest
     type: Hostname
     role:
     - Victim
-  - name: ImageLoaded
-    type: Process
-    role:
-    - Other
   - name: SourceImage
     type: Process
     role:
