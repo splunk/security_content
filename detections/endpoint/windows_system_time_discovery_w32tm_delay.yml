@@ -30,7 +30,7 @@ references:
 - https://www.mandiant.com/resources/analyzing-dark-crystal-rat-backdoor
 tags:
   analytic_story:
-  - UPDATE_STORY_NAME
+  - DarkCrystal RAT
   asset_type: Endpoint
   cis20:
   - CIS 3
