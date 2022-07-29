@@ -137,6 +137,7 @@ False positives should be limited, however filtering may be required.
 #### Associated Analytic story
 * [Ingress Tool Transfer](/stories/ingress_tool_transfer)
 * [Log4Shell CVE-2021-44228](/stories/log4shell_cve-2021-44228)
+* [Linux Living Off The Land](/stories/linux_living_off_the_land)
 
 
 

@@ -132,6 +132,7 @@ Administrators may allow creation of script or exe in the paths specified. Filte
 * [Hermetic Wiper](/stories/hermetic_wiper)
 * [Industroyer2](/stories/industroyer2)
 * [Azorult](/stories/azorult)
+* [DarkCrystal RAT](/stories/darkcrystal_rat)
 
 
 

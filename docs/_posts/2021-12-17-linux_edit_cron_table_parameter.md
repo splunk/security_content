@@ -143,6 +143,7 @@ Administrator or network operator can use this application for automation purpos
 #### Associated Analytic story
 * [Linux Privilege Escalation](/stories/linux_privilege_escalation)
 * [Linux Persistence Techniques](/stories/linux_persistence_techniques)
+* [Linux Living Off The Land](/stories/linux_living_off_the_land)
 
 
 
