@@ -1,0 +1,65 @@
+name: Windows Gather Victim Host Information Camera
+id: e4df4676-ea41-4397-b160-3ee0140dc332
+version: 1
+date: '2022-07-28'
+author: Teoderick Contreras, Splunk
+type: Anomaly
+datamodel:
+- Endpoint
+description: UPDATE_DESCRIPTION
+search: '`powershell` EventCode=4104 ScriptBlockText= "* Win32_PnPEntity *" ScriptBlockText= "*SELECT*" ScriptBlockText= "*WHERE*" ScriptBlockText IN ("*PNPClass = 'Image'*", "*PNPClass = 'Camera'*")
+  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | `windows_gather_victim_host_information_camera_filter`'
+how_to_implement: To successfully implement this analytic, you will need to enable
+  PowerShell Script Block Logging on some or all endpoints. Additional setup here
+  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+known_false_positives: admin may execute this powershell command to get hardware information related to camera.
+references:
+- https://cert.gov.ua/article/405538
+- https://malpedia.caad.fkie.fraunhofer.de/details/win.dcrat
+- https://www.mandiant.com/resources/analyzing-dark-crystal-rat-backdoor
+tags:
+  analytic_story:
+  - DarkCrystal RAT
+  asset_type: Endpoint
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  confidence: 70
+  context:
+  - Source:Endpoint
+  - Stage:Execution
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/dcrat/dcrat_enum_camera/windows-powershell-xml.log
+  impact: 60
+  kill_chain_phases:
+  - Reconnaissance
+  message: powershell script $ScriptBlockText$ to enumerate camera in $Computer$
+  mitre_attack_id:
+  - T1592.001
+  - T1592
+  nist:
+  - DE.CM
+  observable:
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
+  - name: User
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - ScriptBlockText
+  - Computer
+  - EventCode
+  risk_score: 42
+  security_domain: endpoint
