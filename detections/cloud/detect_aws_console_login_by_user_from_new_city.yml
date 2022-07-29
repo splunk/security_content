@@ -11,16 +11,22 @@ description: This search looks for AWS CloudTrail events wherein a console login
   file of previously seen users (by ARN values) who have logged into the console.
   The alert is fired if the user has logged into the console for the first time within
   the last hour
-search: '| tstats earliest(_time) as firstTime latest(_time) as lastTime from datamodel=Authentication
-  where Authentication.signature=ConsoleLogin by Authentication.user Authentication.src
-  | iplocation Authentication.src | `drop_dm_object_name(Authentication)` | table
-  firstTime lastTime user City | join user  type=outer [| inputlookup previously_seen_users_console_logins
-  | stats min(firstTime) AS earliestseen by user City | fields earliestseen user City]
-  | eval userCity=if(firstTime >= relative_time(now(), "-24h@h"), "New City","Previously
-  Seen City") | eval userStatus=if(earliestseen >= relative_time(now(), "-24h@h")
-  OR isnull(earliestseen), "New User","Old User") | where userCity = "New City" AND
-  userStatus != "Old User" | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | table firstTime lastTime user City  userStatus userCity  | `detect_aws_console_login_by_user_from_new_city_filter`'
+search: '| tstats earliest(_time) as firstTime latest(_time) as lastTime from datamodel=Authentication where Authentication.signature=ConsoleLogin by Authentication.user Authentication.src 
+  | iplocation Authentication.src 
+  | `drop_dm_object_name(Authentication)` 
+  | rename City as justSeenCity 
+  | table firstTime lastTime user justSeenCity 
+  | join user type=outer 
+  [| inputlookup previously_seen_users_console_logins 
+  | rename City as previouslySeenCity 
+  | stats min(firstTime) AS earliestseen by user previouslySeenCity 
+  | fields earliestseen user previouslySeenCity] 
+  | eval userCity=if(firstTime >= relative_time(now(), "-24h@h"), "New City","Previously Seen City") 
+  | where userCity = "New City" 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | table firstTime lastTime user previouslySeenCity justSeenCity userCity 
+  | `detect_aws_console_login_by_user_from_new_city_filter`'
 how_to_implement: You must install and configure the Splunk Add-on for AWS (version
   5.1.0 or later) and Enterprise Security 6.2, which contains the required updates
   to the Authentication data model for cloud use cases. Run the `Previously Seen Users
