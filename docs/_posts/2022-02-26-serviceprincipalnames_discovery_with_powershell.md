@@ -104,8 +104,8 @@ During triage, review parallel processes for further suspicious activity.
 
 #### Macros
 The SPL above uses the following Macros:
-* [powershell](https://github.com/splunk/security_content/blob/develop/macros/powershell.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [powershell](https://github.com/splunk/security_content/blob/develop/macros/powershell.yml)
 
 > :information_source:
 > **serviceprincipalnames_discovery_with_powershell_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.

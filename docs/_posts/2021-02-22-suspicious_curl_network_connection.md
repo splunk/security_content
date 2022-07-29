@@ -130,6 +130,7 @@ Unknown. Filter as needed.
 #### Associated Analytic story
 * [Silver Sparrow](/stories/silver_sparrow)
 * [Ingress Tool Transfer](/stories/ingress_tool_transfer)
+* [Linux Living Off The Land](/stories/linux_living_off_the_land)
 
 
 

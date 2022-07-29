@@ -116,8 +116,8 @@ This search looks for cloud provisioning activities from previously unseen regio
 
 #### Macros
 The SPL above uses the following Macros:
-* [previously_unseen_cloud_provisioning_activity_window](https://github.com/splunk/security_content/blob/develop/macros/previously_unseen_cloud_provisioning_activity_window.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [previously_unseen_cloud_provisioning_activity_window](https://github.com/splunk/security_content/blob/develop/macros/previously_unseen_cloud_provisioning_activity_window.yml)
 
 > :information_source:
 > **cloud_provisioning_activity_from_previously_unseen_region_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.

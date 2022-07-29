@@ -111,8 +111,8 @@ Module - New-managementroleassignment can assign a management role to a manageme
 
 #### Macros
 The SPL above uses the following Macros:
-* [powershell](https://github.com/splunk/security_content/blob/develop/macros/powershell.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [powershell](https://github.com/splunk/security_content/blob/develop/macros/powershell.yml)
 
 > :information_source:
 > **exchange_powershell_module_usage_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.

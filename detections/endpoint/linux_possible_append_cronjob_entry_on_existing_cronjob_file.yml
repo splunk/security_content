@@ -30,6 +30,7 @@ tags:
   analytic_story:
   - Linux Privilege Escalation
   - Linux Persistence Techniques
+  - Linux Living Off The Land
   cis20:
   - CIS 3
   - CIS 5
