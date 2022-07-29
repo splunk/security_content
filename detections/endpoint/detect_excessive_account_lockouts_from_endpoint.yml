@@ -10,8 +10,8 @@ description: This search identifies endpoints that have caused a relatively high
   of account lockouts in a short period.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime values(All_Changes.user) as user from datamodel=Change.All_Changes where
-  nodename=All_Changes.Account_Management All_Changes.result="lockout" by All_Changes.dest
-  All_Changes.result |`drop_dm_object_name("All_Changes")` |`drop_dm_object_name("Account_Management")`|
+  All_Changes.result="*locked out*" by All_Changes.dest All_Changes.result 
+  |`drop_dm_object_name("All_Changes")` |`drop_dm_object_name("Account_Management")`|
   `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | search
   count > 5 | `detect_excessive_account_lockouts_from_endpoint_filter`'
 how_to_implement: "You must ingest your Windows security event logs in the `Change`\
