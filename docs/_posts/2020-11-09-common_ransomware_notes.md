@@ -108,8 +108,8 @@ The search looks for files created with names matching those typically used in r
 
 #### Macros
 The SPL above uses the following Macros:
-* [ransomware_notes](https://github.com/splunk/security_content/blob/develop/macros/ransomware_notes.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [ransomware_notes](https://github.com/splunk/security_content/blob/develop/macros/ransomware_notes.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 > :information_source:

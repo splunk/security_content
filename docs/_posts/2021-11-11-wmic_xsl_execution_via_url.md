@@ -102,9 +102,9 @@ The following analytic identifies `wmic.exe` loading a remote XSL (eXtensible St
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_wmic](https://github.com/splunk/security_content/blob/develop/macros/process_wmic.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [process_wmic](https://github.com/splunk/security_content/blob/develop/macros/process_wmic.yml)
 
 > :information_source:
 > **wmic_xsl_execution_via_url_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.

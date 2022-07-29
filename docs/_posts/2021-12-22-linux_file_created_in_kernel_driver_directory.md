@@ -139,6 +139,7 @@ Administrator or network operator can create file in this folders for automation
 #### Associated Analytic story
 * [Linux Privilege Escalation](/stories/linux_privilege_escalation)
 * [Linux Persistence Techniques](/stories/linux_persistence_techniques)
+* [Linux Rootkit](/stories/linux_rootkit)
 
 
 

@@ -1,0 +1,24 @@
+name: Hunting
+id: fb3edc76-ff2b-48b0-5f6f-63da6351ad63
+version: 1
+date: '2021-01-21'
+author: Philip Royer, Splunk
+type: Investigation
+description: The hunting Playbook queries a number of internal security technologies in order to determine if any of the artifacts present in your data source have been observed in your environment.
+playbook: hunting
+how_to_implement: "Be sure to update asset naming to reflect the asset names configured in your environment."
+references: []
+app_list:
+- "Splunk"
+- "Reversing Labs"
+- "CarbonBlack Response"
+- "Threat Grid"
+- "Falcon Host API"
+tags:
+  platform_tags: []
+  playbook_type: Automation
+  playbook_fields:
+  - fileHash
+  - vault_id
+  product:
+  - Splunk SOAR
