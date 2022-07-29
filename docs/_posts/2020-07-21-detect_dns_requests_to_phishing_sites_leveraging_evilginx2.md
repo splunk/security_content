@@ -123,14 +123,14 @@ This search looks for DNS requests for phishing domains that are leveraging Evil
 
 #### Macros
 The SPL above uses the following Macros:
-* [evilginx_phishlets_google](https://github.com/splunk/security_content/blob/develop/macros/evilginx_phishlets_google.yml)
-* [evilginx_phishlets_github](https://github.com/splunk/security_content/blob/develop/macros/evilginx_phishlets_github.yml)
 * [evilginx_phishlets_facebook](https://github.com/splunk/security_content/blob/develop/macros/evilginx_phishlets_facebook.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [evilginx_phishlets_0365](https://github.com/splunk/security_content/blob/develop/macros/evilginx_phishlets_0365.yml)
 * [evilginx_phishlets_aws](https://github.com/splunk/security_content/blob/develop/macros/evilginx_phishlets_aws.yml)
-* [evilginx_phishlets_amazon](https://github.com/splunk/security_content/blob/develop/macros/evilginx_phishlets_amazon.yml)
 * [evilginx_phishlets_outlook](https://github.com/splunk/security_content/blob/develop/macros/evilginx_phishlets_outlook.yml)
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [evilginx_phishlets_github](https://github.com/splunk/security_content/blob/develop/macros/evilginx_phishlets_github.yml)
+* [evilginx_phishlets_google](https://github.com/splunk/security_content/blob/develop/macros/evilginx_phishlets_google.yml)
+* [evilginx_phishlets_amazon](https://github.com/splunk/security_content/blob/develop/macros/evilginx_phishlets_amazon.yml)
 
 > :information_source:
 > **detect_dns_requests_to_phishing_sites_leveraging_evilginx2_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.

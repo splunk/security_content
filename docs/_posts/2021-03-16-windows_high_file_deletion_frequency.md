@@ -28,7 +28,7 @@ This search looks for high frequency of file deletion relative to process name a
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-03-16
-- **Author**: Teoderick Contreras
+- **Author**: Teoderick Contreras, Splunk
 - **ID**: 45b125c4-866f-11eb-a95a-acde48001122
 
 
@@ -92,7 +92,7 @@ This search looks for high frequency of file deletion relative to process name a
 #### Search 
 
 ```
-`sysmon` EventCode=23 TargetFilename IN ("*.cmd", "*.ini","*.gif", "*.jpg", "*.jpeg", "*.db", "*.ps1", "*.doc*", "*.xls*", "*.ppt*", "*.bmp","*.zip", "*.rar", "*.7z", "*.chm", "*.png", "*.log", "*.vbs", "*.js", "*.vhd", "*.bak", "*.wbcat", "*.bkf" , "*.backup*", "*.dsk", , "*.win") 
+`sysmon` EventCode=23 TargetFilename IN ("*.cmd", "*.ini","*.gif", "*.jpg", "*.jpeg", "*.db", "*.ps1", "*.doc*", "*.xls*", "*.ppt*", "*.bmp","*.zip", "*.rar", "*.7z", "*.chm", "*.png", "*.log", "*.vbs", "*.js", "*.vhd", "*.bak", "*.wbcat", "*.bkf" , "*.backup*", "*.dsk", "*.win") 
 | stats values(TargetFilename) as deleted_files min(_time) as firstTime max(_time) as lastTime count by Computer user EventCode Image ProcessID 
 |where count >=100 
 | `security_content_ctime(firstTime)` 
@@ -127,6 +127,7 @@ user may delete bunch of pictures or files in a folder.
 #### Associated Analytic story
 * [Clop Ransomware](/stories/clop_ransomware)
 * [WhisperGate](/stories/whispergate)
+* [DarkCrystal RAT](/stories/darkcrystal_rat)
 
 
 

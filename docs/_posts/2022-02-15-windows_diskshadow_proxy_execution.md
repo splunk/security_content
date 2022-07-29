@@ -106,9 +106,9 @@ DiskShadow.exe is a Microsoft Signed binary present on Windows Server. It has a 
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_diskshadow](https://github.com/splunk/security_content/blob/develop/macros/process_diskshadow.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [process_diskshadow](https://github.com/splunk/security_content/blob/develop/macros/process_diskshadow.yml)
 
 > :information_source:
 > **windows_diskshadow_proxy_execution_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.

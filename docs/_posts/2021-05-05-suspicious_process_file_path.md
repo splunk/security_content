@@ -134,6 +134,7 @@ Administrators may allow execution of specific binaries in non-standard paths. F
 * [WhisperGate](/stories/whispergate)
 * [Hermetic Wiper](/stories/hermetic_wiper)
 * [Industroyer2](/stories/industroyer2)
+* [DarkCrystal RAT](/stories/darkcrystal_rat)
 
 
 
