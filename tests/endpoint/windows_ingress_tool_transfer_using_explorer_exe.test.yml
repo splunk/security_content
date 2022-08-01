@@ -1,7 +1,7 @@
-name: Windows Ingress Tool Transfer Using Explorer.exe Unit Test
+name: Windows Ingress Tool Transfer Using Explorer Unit Test
 tests:
-- name: Windows Ingress Tool Transfer Using Explorer.exe
-  file: endpoint/windows_ingress_tool_transfer_using_explorer_exe.yml
+- name: Windows Ingress Tool Transfer Using Explorer
+  file: endpoint/windows_ingress_tool_transfer_using_explorer.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h
   latest_time: now
