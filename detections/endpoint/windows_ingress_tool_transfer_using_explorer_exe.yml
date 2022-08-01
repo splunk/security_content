@@ -1,4 +1,4 @@
-name: Windows Ingress Tool Transfer Using Explorer.exe
+name: Windows Ingress Tool Transfer Using Explorer
 id: 76753bab-f116-4ea3-8fb9-89b638be58a9
 version: 1
 date: '2022-08-01'
@@ -17,7 +17,7 @@ search: '| tstats `security_content_summariesonly` min(_time) as firstTime max(_
   | `drop_dm_object_name(Processes)` 
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)` 
-  | `windows_ingress_tool_transfer_using_explorer_exe_filter`'
+  | `windows_ingress_tool_transfer_using_explorer_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
