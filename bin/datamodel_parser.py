@@ -11,7 +11,7 @@ TAB_CHARACTER='\t'
 
 DATAMODEL_PATTERN = r"datamodel\s*=\s*\S*"
 QUOTATIONS_PATTERN = r'''(["'])(?:(?=(\\?))\2.)*?\1'''
-KEY_VALUE_PATTERN = r"[a-zA-Z0-9_]+\.[a-zA-Z0-9_]+"
+KEY_VALUE_PATTERN = r"[a-zA-Z0-9_]+(?:\.[a-zA-Z0-9_]+)+"
 
 class DatamodelRoot:
     def __init__(self, paths:list[pathlib.Path]):
@@ -293,6 +293,7 @@ class SearchFieldValidator:
             except:
                 return False
             return True
+
         return [f for f in all_possible_fields if is_number(f) is False]
 
         
@@ -331,6 +332,7 @@ class SearchFieldValidator:
 
                     found=False
                     for datamodel in self.datamodels_declared_in_search:
+                        #print(f"Checking for {field} in {datamodel}")
                         if datamodel.startswith(field_datamodel):            
                             found |= True
                     found_all_fields_in_search_declared_datamodels &= True
@@ -417,7 +419,10 @@ if __name__ == "__main__":
     datamodel_paths = [pathlib.Path(input_path_argument) for input_path_argument in datamodel_argument]
     root = DatamodelRoot(datamodel_paths)
     
-    #root.printDatamodels()
+    root.printDatamodels()
+    #print(root.resolve_fieldname("mitre_attack.mitre_tactic"))
+    #print(root.resolve_fieldname("annotations.mitre_attack.mitre_tactic"))
+    
     #print(root.resolve_fieldname("Risk.All_Risk.annotations.mitre_attack.mitre_description"))
     #print(root.resolve_fieldname("All_Risk.annotations.mitre_attack.mitre_description"))
     #print(root.resolve_fieldname("annotations.mitre_attack.mitre_description"))
