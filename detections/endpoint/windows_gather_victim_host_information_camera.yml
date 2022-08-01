@@ -6,7 +6,10 @@ author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
 - Endpoint
-description: UPDATE_DESCRIPTION
+description: The following analytic detects a powershell script that enumerate camera mounted to the targeted host. 
+  This technique was seen in DCRat malware, where it runs a powershell command to look for camera information that will be pass on to its
+  C2 server. This anomaly detection can be a good pivot to check who and why this enumeration is needed and what parent process execute this powershell
+  script command.
 search: '`powershell` EventCode=4104 ScriptBlockText= "* Win32_PnPEntity *" ScriptBlockText= "*SELECT*" ScriptBlockText= "*WHERE*" ScriptBlockText = "*PNPClass*" ScriptBlockText IN ("*Image*", "*Camera*")
   | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID 
   | `security_content_ctime(firstTime)` 
