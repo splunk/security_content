@@ -105,18 +105,19 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 
 #### Macros
 The SPL above uses the following Macros:
-* [powershell](https://github.com/splunk/security_content/blob/develop/macros/powershell.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [powershell](https://github.com/splunk/security_content/blob/develop/macros/powershell.yml)
 
 > :information_source:
 > **remote_process_instantiation_via_winrm_and_powershell_script_block_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
+* ScriptBlockText
+* Opcode
+* Computer
+* UserID
 * EventCode
-* Message
-* ComputerName
-* User
 
 
 #### How To Implement
@@ -135,7 +136,7 @@ Administrators may leverage WinRM and `Invoke-Command` to start a process on rem
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
-| 45.0 | 90 | 50 | A process was started on a remote endpoint from $ComputerName by abusing WinRM using PowerShell.exe |
+| 45.0 | 90 | 50 | A process was started on a remote endpoint from $Computer$ by abusing WinRM using PowerShell.exe |
 
 
 > :information_source:

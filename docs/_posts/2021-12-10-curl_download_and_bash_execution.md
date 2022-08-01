@@ -108,8 +108,8 @@ The following analytic identifies the use of curl on Linux or MacOS attempting t
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 > :information_source:
 > **curl_download_and_bash_execution_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -137,6 +137,7 @@ False positives should be limited, however filtering may be required.
 #### Associated Analytic story
 * [Ingress Tool Transfer](/stories/ingress_tool_transfer)
 * [Log4Shell CVE-2021-44228](/stories/log4shell_cve-2021-44228)
+* [Linux Living Off The Land](/stories/linux_living_off_the_land)
 
 
 

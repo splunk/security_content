@@ -17,6 +17,7 @@ class SecurityContentDirector(Director):
         builder.setObject(os.path.join(os.path.dirname(__file__), path))
         builder.addDeployment(deployments)
         builder.addRBA()
+        builder.addProvidingTechnologies()
         builder.addNesFields()
         builder.addAnnotations()
         builder.addMappings()

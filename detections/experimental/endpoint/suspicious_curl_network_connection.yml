@@ -27,6 +27,7 @@ tags:
   analytic_story:
   - Silver Sparrow
   - Ingress Tool Transfer
+  - Linux Living Off The Land
   asset_type: Endpoint
   dataset: []
   kill_chain_phases:

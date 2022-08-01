@@ -1,7 +1,7 @@
 name: Remote System Discovery with Adsisearcher
 id: 70803451-0047-4e12-9d63-77fa7eb8649c
-version: 1
-date: '2021-09-01'
+version: 2
+date: '2022-06-29'
 author: Mauricio Velazco, Splunk
 type: TTP
 datamodel: []
@@ -9,9 +9,9 @@ description: The following analytic utilizes PowerShell Script Block Logging (Ev
   to identify the `[Adsisearcher]` type accelerator being used to query Active Directory
   for domain computers. Red Teams and adversaries may leverage `[Adsisearcher]` to
   enumerate domain computers for situational awareness and Active Directory Discovery.
-search: '`powershell` EventCode=4104 (Message = "*[adsisearcher]*" AND Message = "*objectclass=computer*"
-  AND Message = "*findAll()*") | stats count min(_time) as firstTime max(_time) as
-  lastTime by EventCode Message ComputerName User | `security_content_ctime(firstTime)`
+search: '`powershell` EventCode=4104 ScriptBlockText = "*adsisearcher*" AND ScriptBlockText = "*objectcategory=computer*"
+  AND ScriptBlockText IN ("*findAll()*","*findOne()*") | stats count min(_time) as firstTime max(_time) as
+  lastTime by EventCode ScriptBlockText Computer UserID | `security_content_ctime(firstTime)`
   | `remote_system_discovery_with_adsisearcher_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
@@ -29,15 +29,15 @@ tags:
   - Stage:Discovery
   - Stage:Recon
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1018/AD_discovery/windows-powershell.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/AD_discovery/adsisearcher-powershell.log
   impact: 30
   kill_chain_phases:
   - Reconnaissance
-  message: Remote system discovery enumeration on $dest$ by $user$
+  message: Remote system discovery enumeration on $Computer$ by $user$
   mitre_attack_id:
   - T1018
   observable:
-  - name: dest
+  - name: Computer
     type: Endpoint
     role:
     - Victim
@@ -48,9 +48,9 @@ tags:
   required_fields:
   - _time
   - EventCode
-  - Message
-  - ComputerName
-  - User
+  - ScriptBlockText
+  - Computer
+  - UserID
   risk_score: 15
   security_domain: endpoint
   asset_type: Endpoint

@@ -108,8 +108,8 @@ The following analytic identifies `pkexec` spawning with no command-line argumen
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 > :information_source:
 > **linux_pkexec_privilege_escalation_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -137,6 +137,7 @@ False positives may be present, filter as needed.
 
 #### Associated Analytic story
 * [Linux Privilege Escalation](/stories/linux_privilege_escalation)
+* [Linux Living Off The Land](/stories/linux_living_off_the_land)
 
 
 

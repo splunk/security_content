@@ -102,8 +102,8 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 #### Search 
 
 ```
-`powershell` EventCode=4104 Message=*Get-DomainSPNTicket* 
-| stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message ComputerName User 
+`powershell` EventCode=4104 ScriptBlockText=*Get-DomainSPNTicket* 
+| stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
 | `windows_powerview_kerberos_service_ticket_request_filter`
@@ -111,8 +111,8 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 
 #### Macros
 The SPL above uses the following Macros:
-* [powershell](https://github.com/splunk/security_content/blob/develop/macros/powershell.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [powershell](https://github.com/splunk/security_content/blob/develop/macros/powershell.yml)
 
 > :information_source:
 > **windows_powerview_kerberos_service_ticket_request_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -120,9 +120,8 @@ The SPL above uses the following Macros:
 #### Required field
 * _time
 * EventCode
-* Result_Code
-* Account_Name
-* Client_Address
+* Computer
+* ScriptBlockText
 
 
 #### How To Implement
@@ -141,7 +140,7 @@ False positive may include Administrators using PowerView for troubleshooting an
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
-| 27.0 | 30 | 90 | PowerView commandlets used for requesting SPN service ticket executed on $Computer_Name$ |
+| 27.0 | 30 | 90 | PowerView commandlets used for requesting SPN service ticket executed on $Computer$ |
 
 
 > :information_source:
@@ -162,7 +161,7 @@ Replay any dataset to Splunk Enterprise by using our [replay.py](https://github.
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 
-* [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.003/powerview/windows-powershell.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.003/powerview/windows-powershell.log)
+* [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.003/powerview/windows-powershell-xml.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.003/powerview/windows-powershell-xml.log)
 
 
 

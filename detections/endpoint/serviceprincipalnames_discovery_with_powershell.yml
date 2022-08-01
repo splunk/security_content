@@ -1,7 +1,7 @@
 name: ServicePrincipalNames Discovery with PowerShell
 id: 13243068-2d38-11ec-8908-acde48001122
-version: 1
-date: '2021-10-14'
+version: 2
+date: '2022-02-26'
 author: Michael Haag, Splunk
 type: TTP
 datamodel: []
@@ -22,9 +22,9 @@ description: 'The following analytic identifies `powershell.exe` usage, using Sc
   class in PowerShell is the equivelant of using setspn.exe. \
 
   During triage, review parallel processes for further suspicious activity.'
-search: '`powershell` EventCode=4104 Message="*KerberosRequestorSecurityToken*" |
-  stats count min(_time) as firstTime max(_time) as lastTime by Message OpCode ComputerName
-  User EventCode | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+search: '`powershell` EventCode=4104 ScriptBlockText="*KerberosRequestorSecurityToken*" |
+  stats count min(_time) as firstTime max(_time) as lastTime by ScriptBlockText Opcode Computer
+  UserID EventCode | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `serviceprincipalnames_discovery_with_powershell_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
@@ -49,6 +49,7 @@ tags:
   analytic_story:
   - Active Directory Discovery
   - Active Directory Kerberos Attacks
+  - Malicious PowerShell
   automated_detection_testing: passed
   confidence: 100
   context:
@@ -60,15 +61,15 @@ tags:
   kill_chain_phases:
   - Exploitation
   message: An instance of $parent_process_name$ spawning $process_name$ was identified
-    on endpoint $dest$ by user $user$ attempting to identify service principle names.
+    on endpoint $Computer$ by user $UserID$ attempting to identify service principle names.
   mitre_attack_id:
   - T1558.003
   observable:
-  - name: user
+  - name: UserID
     type: User
     role:
     - Victim
-  - name: dest
+  - name: Computer
     type: Hostname
     role:
     - Victim
@@ -86,17 +87,11 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Processes.dest
-  - Processes.user
-  - Processes.parent_process_name
-  - Processes.parent_process
-  - Processes.original_file_name
-  - Processes.process_name
-  - Processes.process
-  - Processes.process_id
-  - Processes.parent_process_path
-  - Processes.process_path
-  - Processes.parent_process_id
+  - ScriptBlockText
+  - Opcode
+  - Computer
+  - UserID
+  - EventCode
   risk_score: 80
   security_domain: endpoint
   asset_type: Endpoint

@@ -20,7 +20,8 @@ class Reporting:
         factory = Factory(factory_output_dto)
         factory.execute(input_dto.factory_input_dto)
 
-        input_dto.adapter_svg.writeObjects(factory_output_dto.detections, os.path.join(os.path.dirname(__file__), '../../../../reporting'))
-        input_dto.adapter_attack.writeObjects(factory_output_dto.detections, os.path.join(os.path.dirname(__file__), '../../../../../docs/mitre-map'))
-
+        
+        input_dto.adapter_svg.writeObjects(factory_output_dto.detections, os.path.join(input_dto.factory_input_dto.input_path, 'bin', 'reporting'))
+        input_dto.adapter_attack.writeObjects(factory_output_dto.detections, os.path.join(input_dto.factory_input_dto.input_path, 'docs', 'mitre-map'))
+        
         print('Reporting of security content successful.')

@@ -117,8 +117,8 @@ The following analytic identifies a suspicious cron jobs modification using cron
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 > :information_source:
 > **linux_adding_crontab_using_list_parameter_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -144,6 +144,7 @@ Administrator or network operator can use this application for automation purpos
 * [Industroyer2](/stories/industroyer2)
 * [Linux Privilege Escalation](/stories/linux_privilege_escalation)
 * [Linux Persistence Techniques](/stories/linux_persistence_techniques)
+* [Linux Living Off The Land](/stories/linux_living_off_the_land)
 
 
 

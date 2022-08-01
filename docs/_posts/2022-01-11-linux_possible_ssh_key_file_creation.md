@@ -113,8 +113,8 @@ This analytic is to look for possible ssh key file creation on ~/.ssh/ folder. T
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 > :information_source:
 > **linux_possible_ssh_key_file_creation_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -137,6 +137,7 @@ Administrator or network operator can create file in ~/.ssh folders for automati
 #### Associated Analytic story
 * [Linux Privilege Escalation](/stories/linux_privilege_escalation)
 * [Linux Persistence Techniques](/stories/linux_persistence_techniques)
+* [Linux Living Off The Land](/stories/linux_living_off_the_land)
 
 
 

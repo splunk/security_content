@@ -1,0 +1,25 @@
+name: AWS Defense Evasion
+id: 4e00b690-293f-434d-a9d8-bcfb2ea5fff9
+version: 1
+date: '2022-07-15'
+author: Gowthamaraj Rajendran, Splunk
+description: Identify activity and techniques associated with the Evasion of
+  Defenses within AWS, such as Disabling CloudTrail, Deleting CloudTrail and many others.
+narrative: Adversaries employ a variety of techniques in order to avoid detection and operate
+  without barriers. This often involves modifying the configuration of security monitoring tools
+  to get around them or explicitly disabling them to prevent them from running. This
+  Analytic Story includes analytics that identify activity consistent with adversaries
+  attempting to disable various security mechanisms on AWS. Such activity may involve deleting the CloudTrail logs , 
+  as this is where all the AWS logs get stored or explicitly changing the retention policy of S3 buckets.
+  Other times, adversaries attempt deletion of a specified AWS CloudWatch log group.
+references:
+- https://attack.mitre.org/tactics/TA0005/
+tags:
+  analytic_story: AWS Defense Evasion
+  category:
+  - Cloud Security
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Security Monitoring

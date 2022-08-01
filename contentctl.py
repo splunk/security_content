@@ -76,7 +76,7 @@ def content_changer(args) -> None:
     )
 
     input_dto = ContentChangerInputDto(
-        ObjToYmlAdapter(),
+        ObjToYmlAdapter(args.path),
         factory_input_dto,
         args.change_function
     )
@@ -109,9 +109,9 @@ def generate(args) -> None:
             SecurityContentStoryBuilder(),
             SecurityContentBaselineBuilder(),
             SecurityContentInvestigationBuilder(),
-            SecurityContentPlaybookBuilder(),
+            SecurityContentPlaybookBuilder(input_path=args.path),
             SecurityContentDirector(),
-            AttackEnrichment.get_attack_lookup(force_cached_or_offline=args.cached_and_offline, skip_enrichment=args.skip_enrichment)
+            AttackEnrichment.get_attack_lookup(args.path, force_cached_or_offline=args.cached_and_offline, skip_enrichment=args.skip_enrichment)
         )
     if args.product in ["SSA", "API"]:
         ba_factory_input_dto = BAFactoryInputDto(
@@ -127,7 +127,7 @@ def generate(args) -> None:
             os.path.abspath(args.output),
             factory_input_dto,
             ba_factory_input_dto,
-            ObjToConfAdapter(),
+            ObjToConfAdapter(args.path),
             SecurityContentProduct.ESCU
         )
     elif args.product == "API":
@@ -144,7 +144,7 @@ def generate(args) -> None:
             os.path.abspath(args.output),
             factory_input_dto,
             ba_factory_input_dto,
-            ObjToYmlAdapter(),
+            ObjToYmlAdapter(args.path),
             SecurityContentProduct.SSA
         ) 
     generate = Generate()
@@ -176,9 +176,9 @@ def validate(args) -> None:
             SecurityContentStoryBuilder(check_references=args.check_references),
             SecurityContentBaselineBuilder(check_references=args.check_references),
             SecurityContentInvestigationBuilder(check_references=args.check_references),
-            SecurityContentPlaybookBuilder(check_references=args.check_references),
+            SecurityContentPlaybookBuilder(input_path=args.path, check_references=args.check_references),
             SecurityContentDirector(),
-            AttackEnrichment.get_attack_lookup(force_cached_or_offline=args.cached_and_offline, skip_enrichment=args.skip_enrichment)
+            AttackEnrichment.get_attack_lookup(args.path, force_cached_or_offline=args.cached_and_offline, skip_enrichment=args.skip_enrichment)
         )
     if args.product in ["SSA", "all"]:
         ba_factory_input_dto = BAFactoryInputDto(
@@ -218,9 +218,9 @@ def doc_gen(args) -> None:
         SecurityContentStoryBuilder(),
         SecurityContentBaselineBuilder(),
         SecurityContentInvestigationBuilder(),
-        SecurityContentPlaybookBuilder(),
+        SecurityContentPlaybookBuilder(input_path=args.path),
         SecurityContentDirector(),
-        AttackEnrichment.get_attack_lookup(force_cached_or_offline=args.cached_and_offline, skip_enrichment=args.skip_enrichment)
+        AttackEnrichment.get_attack_lookup(args.path, force_cached_or_offline=args.cached_and_offline, skip_enrichment=args.skip_enrichment)
     )
 
     doc_gen_input_dto = DocGenInputDto(
@@ -249,7 +249,7 @@ def new_content(args) -> None:
         new_content_input_dto = NewContentInputDto(new_content_factory_input_dto, ObjToAttackDataYmlAdapter())
         new_content = NewAttackDataContent()
     else:
-        new_content_input_dto = NewContentInputDto(new_content_factory_input_dto, ObjToYmlAdapter())
+        new_content_input_dto = NewContentInputDto(new_content_factory_input_dto, ObjToYmlAdapter(args.path))
         new_content = NewContent()
     new_content.execute(new_content_input_dto)
 
@@ -262,9 +262,9 @@ def reporting(args) -> None:
         SecurityContentStoryBuilder(),
         SecurityContentBaselineBuilder(),
         SecurityContentInvestigationBuilder(),
-        SecurityContentPlaybookBuilder(),
+        SecurityContentPlaybookBuilder(input_path=args.path),
         SecurityContentDirector(),
-        AttackEnrichment.get_attack_lookup(force_cached_or_offline=args.cached_and_offline, skip_enrichment=args.skip_enrichment)
+        AttackEnrichment.get_attack_lookup(args.path, force_cached_or_offline=args.cached_and_offline, skip_enrichment=args.skip_enrichment)
     )
 
     reporting_input_dto = ReportingInputDto(

@@ -7,6 +7,10 @@ from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import S
 from bin.contentctl_project.contentctl_infrastructure.adapter.finding_report_writer import FindingReportObject
 
 class ObjToYmlAdapter(Adapter):
+    input_path: str
+
+    def __init__(self, input_path:str):
+        self.input_path = input_path
 
     def writeObjectsInPlace(self, objects: list) -> None:
         for object in objects:
@@ -85,7 +89,7 @@ class ObjToYmlAdapter(Adapter):
 
     def writeObjectNewContent(self, object: dict, type: SecurityContentType) -> None:
         if type == SecurityContentType.detections:
-            file_path = os.path.join(os.path.dirname(__file__), '../../../../detections', object['source'], self.convertNameToFileName(object['name'],object['tags']['product']))
+            file_path = os.path.join(self.input_path, 'detections', object['source'], self.convertNameToFileName(object['name'],object['tags']['product']))
             test_obj = {}
             test_obj['name'] = object['name'] + ' Unit Test'
             test_obj['tests'] = [
@@ -106,11 +110,13 @@ class ObjToYmlAdapter(Adapter):
                     ]
                 }
             ]
-            file_path_test = os.path.join(os.path.dirname(__file__), '../../../../tests', object['source'], self.convertNameToTestFileName(object['name'],object['tags']['product']))
+            file_path_test = os.path.join(self.input_path, 'tests', object['source'], self.convertNameToTestFileName(object['name'],object['tags']['product']))
             YmlWriter.writeYmlFile(file_path_test, test_obj)
             object.pop('source')
         elif type == SecurityContentType.stories:
-            file_path = os.path.join(os.path.dirname(__file__), '../../../../stories', self.convertNameToFileName(object['name'],object['tags']['product']))
+            file_path = os.path.join(self.input_path, 'stories', self.convertNameToFileName(object['name'],object['tags']['product']))
+        else:
+            raise(Exception(f"Object Must be Story or Detection, but is not: {object}"))
 
         YmlWriter.writeYmlFile(file_path, object)
 

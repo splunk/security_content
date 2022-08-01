@@ -27,6 +27,7 @@ class BAFactoryOutputDto:
 class BAFactory():
     input_dto: BAFactoryInputDto
     output_dto: BAFactoryOutputDto
+    ids: dict[str,list[str]] = {}
 
     def __init__(self, output_dto: BAFactoryOutputDto) -> None:
         self.output_dto = output_dto
@@ -68,12 +69,14 @@ class BAFactory():
                         type_string = "Detections"    
                         self.input_dto.director.constructDetection(self.input_dto.detection_builder, file, [], [], [], self.output_dto.tests, {}, [], [])
                         detection = self.input_dto.detection_builder.getObject()
+                        Utils.add_id(self.ids, detection, file)
                         if not detection.deprecated and not detection.experimental:
                             self.output_dto.detections.append(detection)
                     elif type == SecurityContentType.unit_tests:
                         type_string = "Unit Tests"
                         self.input_dto.director.constructTest(self.input_dto.basic_builder, file)
                         test = self.input_dto.basic_builder.getObject()
+                        Utils.add_id(self.ids, test, file)
                         self.output_dto.tests.append(test)
                     else:
                         raise(Exception(f"Unsupported content type: [{type}]"))
@@ -86,6 +89,12 @@ class BAFactory():
                     print('\nValidation Error for file ' + file)
                     print(e)
                     validation_error_found = True
+
+        #Check for any duplicate IDs.  The structure is uses
+        # to track them, self.ids, is populated previously in this
+        # function every time content is adde.  
+        # This will also print out the duplicates if they exist.
+        validation_error_found |= Utils.check_ids_for_duplicates(self.ids)
 
         print(f"\r{f'{type_string} Progress'.rjust(23)}: [{progress_percent:3.0f}%]...", end="", flush=True)                    
         print("Done!")

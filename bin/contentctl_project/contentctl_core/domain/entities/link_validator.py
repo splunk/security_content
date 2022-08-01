@@ -1,4 +1,3 @@
-from lib2to3.pytree import Base
 import re
 from tracemalloc import start
 from unittest.mock import DEFAULT
@@ -157,3 +156,19 @@ class LinkValidator(abc.ABC):
             print(f"Link {failure.reference} invalid with HTTP Status Code [{failure.status_code}] and referenced by the following files:")
             for ref in failure.referencing_files:
                 print(f"\t* {ref}")
+
+    @staticmethod
+    def SecurityContentObject_validate_references(v:list, values: dict)->list:
+        if 'check_references' not in values:
+            raise(Exception("Member 'check_references' missing from Baseline!"))
+        elif values['check_references'] is False:
+            #Reference checking is enabled
+            pass
+        elif values['check_references'] is True:
+            for reference in v:
+                LinkValidator.validate_reference(reference, values['name'])
+                #Remove the check_references key from the values dict so that it is not
+        #output by the serialization code
+        del values['check_references']
+
+        return v

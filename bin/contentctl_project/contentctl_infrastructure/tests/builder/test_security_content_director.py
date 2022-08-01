@@ -1,5 +1,6 @@
-import os
+from bin.contentctl_project.contentctl_infrastructure.tests.test_constants import SECURITY_CONTENT_ROOT
 
+import os
 from bin.contentctl_project.contentctl_infrastructure.builder.security_content_director import SecurityContentDirector
 from bin.contentctl_project.contentctl_infrastructure.builder.security_content_basic_builder import SecurityContentBasicBuilder
 from bin.contentctl_project.contentctl_infrastructure.builder.security_content_detection_builder import SecurityContentDetectionBuilder
@@ -10,6 +11,7 @@ from bin.contentctl_project.contentctl_infrastructure.builder.security_content_b
 from bin.contentctl_project.contentctl_infrastructure.builder.security_content_object_builder import SecurityContentObjectBuilder
 from bin.contentctl_project.contentctl_infrastructure.builder.attack_enrichment import AttackEnrichment
 from bin.contentctl_project.contentctl_infrastructure.builder.security_content_playbook_builder import SecurityContentPlaybookBuilder
+
 
 
 def test_construct_deployments():
@@ -48,7 +50,7 @@ def test_construct_macros():
 
 def test_construct_playbooks():
     director = SecurityContentDirector()
-    playbook_builder = SecurityContentPlaybookBuilder()
+    playbook_builder = SecurityContentPlaybookBuilder(input_path = SECURITY_CONTENT_ROOT)
     director.constructPlaybook(playbook_builder, os.path.join(os.path.dirname(__file__), 
         'test_data/playbook/example_playbook.yml'))
     playbook = playbook_builder.getObject()     
@@ -118,7 +120,7 @@ def test_construct_detections():
         'test_data/deployment/ESCU/00_default_baseline.yml'))
     deployment_baseline = deployment_builder.getObject() 
 
-    playbook_builder = SecurityContentPlaybookBuilder()
+    playbook_builder = SecurityContentPlaybookBuilder(input_path = SECURITY_CONTENT_ROOT)
     director.constructPlaybook(playbook_builder, os.path.join(os.path.dirname(__file__), 
         'test_data/playbook/example_playbook.yml'))
     playbook = playbook_builder.getObject()    
@@ -141,7 +143,7 @@ def test_construct_detections():
     detection_builder = SecurityContentDetectionBuilder()
     director.constructDetection(detection_builder, os.path.join(os.path.dirname(__file__), 
         'test_data/detection/valid.yml'), [deployment], [playbook], [baseline], [test],
-        AttackEnrichment.get_attack_lookup(), [macro], [lookup])
+        AttackEnrichment.get_attack_lookup(input_path = SECURITY_CONTENT_ROOT), [macro], [lookup])
     detection = detection_builder.getObject()
 
     valid_annotations = {'mitre_attack': ['T1003.002', 'T1003'], 
@@ -186,7 +188,7 @@ def test_construct_stories():
         'test_data/deployment/ESCU/00_default_baseline.yml'))
     deployment_baseline = deployment_builder.getObject() 
 
-    playbook_builder = SecurityContentPlaybookBuilder()
+    playbook_builder = SecurityContentPlaybookBuilder(input_path = SECURITY_CONTENT_ROOT)
     director.constructPlaybook(playbook_builder, os.path.join(os.path.dirname(__file__), 
         'test_data/playbook/example_playbook.yml'))
     playbook = playbook_builder.getObject()    
@@ -204,7 +206,7 @@ def test_construct_stories():
     detection_builder = SecurityContentDetectionBuilder()
     director.constructDetection(detection_builder, os.path.join(os.path.dirname(__file__), 
         'test_data/detection/valid.yml'), [deployment], [playbook], [baseline], [test],
-        AttackEnrichment.get_attack_lookup(), [], [])
+        AttackEnrichment.get_attack_lookup(input_path = SECURITY_CONTENT_ROOT), [], [])
     detection = detection_builder.getObject()
 
     investigation_builder = SecurityContentInvestigationBuilder()

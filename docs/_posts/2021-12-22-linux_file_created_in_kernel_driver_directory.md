@@ -115,8 +115,8 @@ This analytic looks for suspicious file creation in kernel/driver directory in l
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 > :information_source:
 > **linux_file_created_in_kernel_driver_directory_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -139,6 +139,7 @@ Administrator or network operator can create file in this folders for automation
 #### Associated Analytic story
 * [Linux Privilege Escalation](/stories/linux_privilege_escalation)
 * [Linux Persistence Techniques](/stories/linux_persistence_techniques)
+* [Linux Rootkit](/stories/linux_rootkit)
 
 
 

@@ -25,7 +25,7 @@ tags:
 
 #### Description
 
-his analytic is to detect a suspicious modification of registry to disable windows defender feature. This technique is to bypassed or evade detection from Windows Defender AV product specially the submit samples feature for further analysis..
+This analytic is to detect a suspicious modification of registry to disable windows defender feature. This technique is to bypassed or evade detection from Windows Defender AV product specially the submit samples feature for further analysis..
 
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
@@ -136,6 +136,7 @@ admin or user may choose to disable windows defender product
 #### Associated Analytic story
 * [IceID](/stories/iceid)
 * [Windows Registry Abuse](/stories/windows_registry_abuse)
+* [Azorult](/stories/azorult)
 
 
 

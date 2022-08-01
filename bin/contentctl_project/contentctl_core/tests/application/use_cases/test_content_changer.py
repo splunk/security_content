@@ -1,4 +1,5 @@
 import os
+from bin.contentctl_project.contentctl_infrastructure.tests.test_constants import SECURITY_CONTENT_ROOT
 
 from bin.contentctl_project.contentctl_core.application.use_cases.content_changer import ContentChanger, ContentChangerInputDto
 from bin.contentctl_project.contentctl_core.application.factory.object_factory import ObjectFactoryInputDto
@@ -21,7 +22,7 @@ def test_content_changer_author_uppercase():
     )
 
     input_dto = ContentChangerInputDto(
-        ObjToYmlAdapter(),
+        ObjToYmlAdapter(input_path = SECURITY_CONTENT_ROOT),
         factory_input_dto,
         'example_converter_func'
     )

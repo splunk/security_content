@@ -112,9 +112,9 @@ Malicious actors often abuse legitimate Dynamic DNS services to host malicious p
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
-* [dynamic_dns_providers](https://github.com/splunk/security_content/blob/develop/macros/dynamic_dns_providers.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [dynamic_dns_providers](https://github.com/splunk/security_content/blob/develop/macros/dynamic_dns_providers.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 > :information_source:
 > **detect_hosts_connecting_to_dynamic_domain_providers_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
