@@ -12939,7 +12939,7 @@ The idea of using named pipes with Cobalt Strike is to blend in. Therefore, some
 
 * https://gist.github.com/MHaggis/6c600e524045a6d49c35291a21e10752
 
-* https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html
+* https://www.mandiant.com/resources/shining-a-light-on-darkside-ransomware-operations
 
 
 
@@ -15515,7 +15515,7 @@ unknown
 ====Reference====
 
 
-* https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html
+* https://www.mandiant.com/resources/shining-a-light-on-darkside-ransomware-operations
 
 * https://searchwindowsserver.techtarget.com/tutorial/Set-up-PowerShell-script-block-logging-for-added-security
 
@@ -18537,7 +18537,7 @@ There is potential for false positives as these arguments may be used by other a
 
 * https://redcanary.com/blog/rclone-mega-extortion/
 
-* https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html
+* https://www.mandiant.com/resources/shining-a-light-on-darkside-ransomware-operations
 
 * https://thedfirreport.com/2021/03/29/sodinokibi-aka-revil-ransomware/
 
@@ -19607,7 +19607,7 @@ False positives should be limited as this analytic identifies renamed instances 
 
 * https://redcanary.com/blog/rclone-mega-extortion/
 
-* https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html
+* https://www.mandiant.com/resources/shining-a-light-on-darkside-ransomware-operations
 
 * https://thedfirreport.com/2021/03/29/sodinokibi-aka-revil-ransomware/
 
@@ -26428,7 +26428,7 @@ It is possible some agent based products will generate false positives. Filter a
 ====Reference====
 
 
-* https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html
+* https://www.mandiant.com/resources/shining-a-light-on-darkside-ransomware-operations
 
 * https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.002/T1003.002.md
 
@@ -45080,7 +45080,7 @@ Limited false positives should be present as this is not commonly used by legiti
 
 * https://www.rapid7.com/db/modules/exploit/windows/local/bypassuac_sluihijack/
 
-* https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html
+* https://www.mandiant.com/resources/shining-a-light-on-darkside-ransomware-operations
 
 
 
@@ -45175,7 +45175,7 @@ Certain applications may spawn from `slui.exe` that are legitimate. Filtering wi
 
 * https://www.rapid7.com/db/modules/exploit/windows/local/bypassuac_sluihijack/
 
-* https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html
+* https://www.mandiant.com/resources/shining-a-light-on-darkside-ransomware-operations
 
 
 

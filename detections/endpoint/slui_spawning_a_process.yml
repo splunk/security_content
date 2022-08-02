@@ -26,7 +26,7 @@ known_false_positives: Certain applications may spawn from `slui.exe` that are l
 references:
 - https://www.exploit-db.com/exploits/46998
 - https://www.rapid7.com/db/modules/exploit/windows/local/bypassuac_sluihijack/
-- https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html
+- https://www.mandiant.com/resources/shining-a-light-on-darkside-ransomware-operations
 tags:
   analytic_story:
   - DarkSide Ransomware

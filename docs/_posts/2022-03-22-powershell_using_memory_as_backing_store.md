@@ -114,9 +114,9 @@ The SPL above uses the following Macros:
 #### Required field
 * _time
 * EventCode
-* Message
-* ComputerName
-* User
+* ScriptBlockText
+* Computer
+* UserID
 
 
 #### How To Implement
@@ -136,7 +136,7 @@ powershell may used this function to store out object into memory.
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
-| 40.0 | 50 | 80 | A suspicious powershell script contains memorystream command in $Message$ as new object backstore with EventCode $EventCode$ in host $ComputerName$ |
+| 40.0 | 50 | 80 | A suspicious powershell script contains memorystream command in $ScriptBlockText$ as new object backstore with EventCode $EventCode$ in host $Computer$ |
 
 
 > :information_source:
@@ -144,7 +144,7 @@ powershell may used this function to store out object into memory.
 
 #### Reference
 
-* [https://www.carbonblack.com/blog/decoding-malicious-powershell-streams/](https://www.carbonblack.com/blog/decoding-malicious-powershell-streams/)
+* [https://web.archive.org/web/20201112031711/https://www.carbonblack.com/blog/decoding-malicious-powershell-streams/](https://web.archive.org/web/20201112031711/https://www.carbonblack.com/blog/decoding-malicious-powershell-streams/)
 * [https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.](https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.)
 * [https://blog.palantir.com/tampering-with-windows-event-tracing-background-offense-and-defense-4be7ac62ac63](https://blog.palantir.com/tampering-with-windows-event-tracing-background-offense-and-defense-4be7ac62ac63)
 * [https://static1.squarespace.com/static/552092d5e4b0661088167e5c/t/59c1814829f18782e24f1fe2/1505853768977/Windows+PowerShell+Logging+Cheat+Sheet+ver+Sept+2017+v2.1.pdf](https://static1.squarespace.com/static/552092d5e4b0661088167e5c/t/59c1814829f18782e24f1fe2/1505853768977/Windows+PowerShell+Logging+Cheat+Sheet+ver+Sept+2017+v2.1.pdf)

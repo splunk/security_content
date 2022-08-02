@@ -150,7 +150,7 @@ Limited false positives may be present in small environments. Tuning may be requ
 #### Reference
 
 * [https://raw.githubusercontent.com/xx0hcd/Malleable-C2-Profiles/0ef8cf4556e26f6d4190c56ba697c2159faa5822/crimeware/trick_ryuk.profile](https://raw.githubusercontent.com/xx0hcd/Malleable-C2-Profiles/0ef8cf4556e26f6d4190c56ba697c2159faa5822/crimeware/trick_ryuk.profile)
-* [https://blog.cobaltstrike.com/2021/02/09/learn-pipe-fitting-for-all-of-your-offense-projects/](https://blog.cobaltstrike.com/2021/02/09/learn-pipe-fitting-for-all-of-your-offense-projects/)
+* [https://www.cobaltstrike.com/blog/learn-pipe-fitting-for-all-of-your-offense-projects/](https://www.cobaltstrike.com/blog/learn-pipe-fitting-for-all-of-your-offense-projects/)
 
 
 

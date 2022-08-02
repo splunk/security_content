@@ -153,7 +153,7 @@ normal user or normal transaction may contain the subject and file type attachme
 #### Reference
 
 * [https://www.redhat.com/en/topics/devops/what-is-devsecops](https://www.redhat.com/en/topics/devops/what-is-devsecops)
-* [https://www.fireeye.com/content/dam/fireeye-www/global/en/current-threats/pdfs/rpt-top-spear-phishing-words.pdf](https://www.fireeye.com/content/dam/fireeye-www/global/en/current-threats/pdfs/rpt-top-spear-phishing-words.pdf)
+* [https://www.mandiant.com/resources/top-words-used-in-spear-phishing-attacks](https://www.mandiant.com/resources/top-words-used-in-spear-phishing-attacks)
 
 
 

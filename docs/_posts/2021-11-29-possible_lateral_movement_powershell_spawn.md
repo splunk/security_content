@@ -7,6 +7,7 @@ excerpt: "Remote Services
 , Scheduled Task
 , Windows Service
 , PowerShell
+, MMC
 "
 categories:
   - Endpoint
@@ -21,6 +22,7 @@ tags:
   - Scheduled Task
   - Windows Service
   - PowerShell
+  - MMC
   - Lateral Movement
   - Lateral Movement
   - Lateral Movement
@@ -31,6 +33,7 @@ tags:
   - Persistence
   - Privilege Escalation
   - Execution
+  - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -76,6 +79,8 @@ The following analytic assists with identifying a PowerShell process spawned as 
 | [T1543.003](https://attack.mitre.org/techniques/T1543/003/) | Windows Service | Persistence, Privilege Escalation |
 
 | [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
+
+| [T1218.014](https://attack.mitre.org/techniques/T1218/014/) | MMC | Defense Evasion |
 
 </div>
 </details>
@@ -182,10 +187,10 @@ Legitimate applications may spawn PowerShell as a child process of the the ident
 
 #### Reference
 
-* [https://attack.mitre.org/techniques/T1021/003](https://attack.mitre.org/techniques/T1021/003)
+* [https://attack.mitre.org/techniques/T1021/003/](https://attack.mitre.org/techniques/T1021/003/)
 * [https://attack.mitre.org/techniques/T1021/006/](https://attack.mitre.org/techniques/T1021/006/)
 * [https://attack.mitre.org/techniques/T1047/](https://attack.mitre.org/techniques/T1047/)
-* [https://attack.mitre.org/techniques/T1053.005/](https://attack.mitre.org/techniques/T1053.005/)
+* [https://attack.mitre.org/techniques/T1053/005/](https://attack.mitre.org/techniques/T1053/005/)
 * [https://attack.mitre.org/techniques/T1543/003/](https://attack.mitre.org/techniques/T1543/003/)
 
 

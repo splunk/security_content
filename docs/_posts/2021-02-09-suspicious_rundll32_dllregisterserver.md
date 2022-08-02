@@ -161,11 +161,11 @@ This is likely to produce false positives and will require some filtering. Tune 
 
 * [https://attack.mitre.org/techniques/T1218/011/](https://attack.mitre.org/techniques/T1218/011/)
 * [https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.011/T1218.011.md](https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.011/T1218.011.md)
-* [https://lolbas-project.github.io/lolbas/Binaries/Rundll32](https://lolbas-project.github.io/lolbas/Binaries/Rundll32)
+* [https://lolbas-project.github.io/lolbas/Binaries/Rundll32/](https://lolbas-project.github.io/lolbas/Binaries/Rundll32/)
 * [https://symantec-enterprise-blogs.security.com/blogs/threat-intelligence/seedworm-apt-iran-middle-east](https://symantec-enterprise-blogs.security.com/blogs/threat-intelligence/seedworm-apt-iran-middle-east)
 * [https://github.com/pan-unit42/tweets/blob/master/2020-12-10-IOCs-from-Ursnif-infection-with-Delf-variant.txt](https://github.com/pan-unit42/tweets/blob/master/2020-12-10-IOCs-from-Ursnif-infection-with-Delf-variant.txt)
 * [https://www.crowdstrike.com/blog/duck-hunting-with-falcon-complete-qakbot-zip-based-campaign/](https://www.crowdstrike.com/blog/duck-hunting-with-falcon-complete-qakbot-zip-based-campaign/)
-* [https://msdn.microsoft.com/en-us/library/windows/desktop/ms682162(v=vs.85).aspx](https://msdn.microsoft.com/en-us/library/windows/desktop/ms682162(v=vs.85).aspx)
+* [https://docs.microsoft.com/en-us/windows/win32/api/olectl/nf-olectl-dllregisterserver?redirectedfrom=MSDN](https://docs.microsoft.com/en-us/windows/win32/api/olectl/nf-olectl-dllregisterserver?redirectedfrom=MSDN)
 
 
 

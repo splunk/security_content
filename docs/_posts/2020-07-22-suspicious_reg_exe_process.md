@@ -157,7 +157,7 @@ It's possible for system administrators to write scripts that exhibit this behav
 
 #### Reference
 
-* [https://car.mitre.org/wiki/CAR-2013-03-001](https://car.mitre.org/wiki/CAR-2013-03-001)
+* [https://car.mitre.org/wiki/CAR-2013-03-001/](https://car.mitre.org/wiki/CAR-2013-03-001/)
 
 
 

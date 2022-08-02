@@ -141,7 +141,7 @@ Administrators or power users may use this PowerShell commandlet for troubleshoo
 #### Reference
 
 * [https://attack.mitre.org/techniques/T1033/](https://attack.mitre.org/techniques/T1033/)
-* [https://docs.microsoft.com/en-us/dotnet/api/system.security.principal.windowsidentity.getcurrent?view=net-5.0](https://docs.microsoft.com/en-us/dotnet/api/system.security.principal.windowsidentity.getcurrent?view=net-5.0)
+* [https://docs.microsoft.com/en-us/dotnet/api/system.security.principal.windowsidentity.getcurrent?view=net-6.0&viewFallbackFrom=net-5.0](https://docs.microsoft.com/en-us/dotnet/api/system.security.principal.windowsidentity.getcurrent?view=net-6.0&viewFallbackFrom=net-5.0)
 
 
 

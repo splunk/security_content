@@ -1,7 +1,7 @@
 name: Spring4Shell Payload URL Request
-id: 2850c734-2d44-4431-8139-1a56f6f54c01
+id: 9d44d649-7d67-4559-95c1-8022ff49420b
 version: 1
-date: '2022-04-05'
+date: '2022-07-12'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:

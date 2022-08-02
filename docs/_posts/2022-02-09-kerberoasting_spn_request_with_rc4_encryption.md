@@ -110,8 +110,8 @@ The following analytic leverages Kerberos Event 4769, A Kerberos service ticket 
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **kerberoasting_spn_request_with_rc4_encryption_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -152,8 +152,8 @@ Older systems that support kerberos RC4 by default like NetApp may generate fals
 
 #### Reference
 
-* [https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1208/T1208.md](https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1208/T1208.md)
-* [https://www.trimarcsecurity.com/post/trimarcresearch-detecting-kerberoasting-activity](https://www.trimarcsecurity.com/post/trimarcresearch-detecting-kerberoasting-activity)
+* [https://github.com/redcanaryco/atomic-red-team/blob/4e3e9c8096dde00639a6b98845ec349135554ed5/atomics/T1208/T1208.md](https://github.com/redcanaryco/atomic-red-team/blob/4e3e9c8096dde00639a6b98845ec349135554ed5/atomics/T1208/T1208.md)
+* [https://www.hub.trimarcsecurity.com/post/trimarc-research-detecting-kerberoasting-activity](https://www.hub.trimarcsecurity.com/post/trimarc-research-detecting-kerberoasting-activity)
 
 
 

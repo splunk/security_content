@@ -147,6 +147,7 @@ Using sc.exe to manipulate Windows services is uncommon. However, there may be l
 * [Windows Persistence Techniques](/stories/windows_persistence_techniques)
 * [Disabling Security Tools](/stories/disabling_security_tools)
 * [NOBELIUM Group](/stories/nobelium_group)
+* [Azorult](/stories/azorult)
 
 
 

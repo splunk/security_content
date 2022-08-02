@@ -1,0 +1,13 @@
+name: AWS Defense Evasion Impair Security Services Unit Test
+tests:
+- name: AWS Defense Evasion Impair Security Services
+  file: cloud/aws_defense_evasion_impair_security_services.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: aws_cloudtrail_events.json
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.008/aws_delete_security_services/aws_cloudtrail_events.json
+    sourcetype: aws:cloudtrail
+    source: aws_cloudtrail
+    update_timestamp: true

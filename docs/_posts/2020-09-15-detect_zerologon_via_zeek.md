@@ -148,7 +148,7 @@ unknown
 
 * [https://www.secura.com/blog/zero-logon](https://www.secura.com/blog/zero-logon)
 * [https://github.com/SecuraBV/CVE-2020-1472](https://github.com/SecuraBV/CVE-2020-1472)
-* [https://portal.msrc.microsoft.com/en-US/security-guidance/advisory/CVE-2020-1472](https://portal.msrc.microsoft.com/en-US/security-guidance/advisory/CVE-2020-1472)
+* [https://msrc.microsoft.com/en-US/security-guidance/advisory/CVE-2020-1472](https://msrc.microsoft.com/en-US/security-guidance/advisory/CVE-2020-1472)
 
 
 

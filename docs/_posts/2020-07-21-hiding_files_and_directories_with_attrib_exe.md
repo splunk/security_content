@@ -135,6 +135,7 @@ Some applications and users may legitimately use attrib.exe to interact with the
 #### Associated Analytic story
 * [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
 * [Windows Persistence Techniques](/stories/windows_persistence_techniques)
+* [Azorult](/stories/azorult)
 
 
 

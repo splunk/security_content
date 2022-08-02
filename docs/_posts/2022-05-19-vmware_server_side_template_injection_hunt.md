@@ -151,7 +151,7 @@ False positives may be present if the activity is blocked or was not successful.
 
 #### Reference
 
-* [https://www.cisa.gov/uscert/sites/default/files/publications/CISA_CSA_Threat_Actors_Chaining_VMware_Unpatched_Vulnerabilities_for_Full_System_Control.pdf](https://www.cisa.gov/uscert/sites/default/files/publications/CISA_CSA_Threat_Actors_Chaining_VMware_Unpatched_Vulnerabilities_for_Full_System_Control.pdf)
+* [https://www.cisa.gov/uscert/ncas/alerts/aa22-138b](https://www.cisa.gov/uscert/ncas/alerts/aa22-138b)
 * [https://github.com/wvu/metasploit-framework/blob/master/modules/exploits/linux/http/vmware_workspace_one_access_cve_2022_22954.rb](https://github.com/wvu/metasploit-framework/blob/master/modules/exploits/linux/http/vmware_workspace_one_access_cve_2022_22954.rb)
 * [https://github.com/sherlocksecurity/VMware-CVE-2022-22954](https://github.com/sherlocksecurity/VMware-CVE-2022-22954)
 * [https://www.vmware.com/security/advisories/VMSA-2022-0011.html](https://www.vmware.com/security/advisories/VMSA-2022-0011.html)

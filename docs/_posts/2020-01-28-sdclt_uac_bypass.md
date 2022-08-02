@@ -154,7 +154,7 @@ Limited to no false positives are expected.
 
 * [https://enigma0x3.net/2017/03/17/fileless-uac-bypass-using-sdclt-exe/](https://enigma0x3.net/2017/03/17/fileless-uac-bypass-using-sdclt-exe/)
 * [https://github.com/hfiref0x/UACME](https://github.com/hfiref0x/UACME)
-* [https://www.cyborgsecurity.com/cyborg_labs/threat-hunt-deep-dives-user-account-control-bypass-via-registry-modification/](https://www.cyborgsecurity.com/cyborg_labs/threat-hunt-deep-dives-user-account-control-bypass-via-registry-modification/)
+* [https://www.cyborgsecurity.com/cyborg-labs/threat-hunt-deep-dives-user-account-control-bypass-via-registry-modification/](https://www.cyborgsecurity.com/cyborg-labs/threat-hunt-deep-dives-user-account-control-bypass-via-registry-modification/)
 
 
 

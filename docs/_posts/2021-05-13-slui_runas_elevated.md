@@ -152,10 +152,10 @@ Limited false positives should be present as this is not commonly used by legiti
 #### Reference
 
 * [https://www.exploit-db.com/exploits/46998](https://www.exploit-db.com/exploits/46998)
-* [https://medium.com/@mattharr0ey/privilege-escalation-uac-bypass-in-changepk-c40b92818d1b](https://medium.com/@mattharr0ey/privilege-escalation-uac-bypass-in-changepk-c40b92818d1b)
+* [https://mattharr0ey.medium.com/privilege-escalation-uac-bypass-in-changepk-c40b92818d1b](https://mattharr0ey.medium.com/privilege-escalation-uac-bypass-in-changepk-c40b92818d1b)
 * [https://gist.github.com/r00t-3xp10it/0c92cd554d3156fd74f6c25660ccc466](https://gist.github.com/r00t-3xp10it/0c92cd554d3156fd74f6c25660ccc466)
 * [https://www.rapid7.com/db/modules/exploit/windows/local/bypassuac_sluihijack/](https://www.rapid7.com/db/modules/exploit/windows/local/bypassuac_sluihijack/)
-* [https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html](https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html)
+* [https://www.mandiant.com/resources/shining-a-light-on-darkside-ransomware-operations](https://www.mandiant.com/resources/shining-a-light-on-darkside-ransomware-operations)
 
 
 

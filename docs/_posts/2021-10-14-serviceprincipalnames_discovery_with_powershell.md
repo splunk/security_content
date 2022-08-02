@@ -104,8 +104,8 @@ During triage, review parallel processes for further suspicious activity.
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [powershell](https://github.com/splunk/security_content/blob/develop/macros/powershell.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **serviceprincipalnames_discovery_with_powershell_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -156,7 +156,7 @@ False positives should be limited, however filter as needed.
 * [https://strontic.github.io/xcyclopedia/library/setspn.exe-5C184D581524245DAD7A0A02B51FD2C2.html](https://strontic.github.io/xcyclopedia/library/setspn.exe-5C184D581524245DAD7A0A02B51FD2C2.html)
 * [https://attack.mitre.org/techniques/T1558/003/](https://attack.mitre.org/techniques/T1558/003/)
 * [https://social.technet.microsoft.com/wiki/contents/articles/717.service-principal-names-spn-setspn-syntax.aspx](https://social.technet.microsoft.com/wiki/contents/articles/717.service-principal-names-spn-setspn-syntax.aspx)
-* [https://www.harmj0y.net/blog/powershell/kerberoasting-without-mimikatz/](https://www.harmj0y.net/blog/powershell/kerberoasting-without-mimikatz/)
+* [https://web.archive.org/web/20220212163642/https://www.harmj0y.net/blog/powershell/kerberoasting-without-mimikatz/](https://web.archive.org/web/20220212163642/https://www.harmj0y.net/blog/powershell/kerberoasting-without-mimikatz/)
 * [https://blog.zsec.uk/paving-2-da-wholeset/](https://blog.zsec.uk/paving-2-da-wholeset/)
 * [https://msitpros.com/?p=3113](https://msitpros.com/?p=3113)
 * [https://adsecurity.org/?p=3466](https://adsecurity.org/?p=3466)

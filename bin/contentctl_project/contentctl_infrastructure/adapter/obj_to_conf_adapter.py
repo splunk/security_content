@@ -1,6 +1,8 @@
+from dataclasses import dataclass
 import os
 import glob
 import shutil
+from typing import Union
 
 from bin.contentctl_project.contentctl_core.application.adapter.adapter import Adapter
 from bin.contentctl_project.contentctl_infrastructure.adapter.conf_writer import ConfWriter
@@ -8,6 +10,10 @@ from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import S
 
 
 class ObjToConfAdapter(Adapter):
+    input_path: str
+
+    def __init__(self, input_path: str):
+        self.input_path = input_path
 
     def writeHeaders(self, output_folder: str) -> None:
         ConfWriter.writeConfFileHeader(os.path.join(output_folder, 'default/analyticstories.conf'))
@@ -83,7 +89,11 @@ class ObjToConfAdapter(Adapter):
                 os.path.join(output_path, 'default/transforms.conf'), 
                 objects)
 
-            files = glob.iglob(os.path.join(os.path.dirname(__file__), '../../../..' , 'lookups', '*.csv'))
+
+            if self.input_path is None:
+                raise(Exception(f"input_path is required for lookups, but received [{self.input_path}]"))
+
+            files = glob.iglob(os.path.join(self.input_path, 'lookups', '*.csv'))
             for file in files:
                 if os.path.isfile(file):
                     shutil.copy(file, os.path.join(output_path, 'lookups'))

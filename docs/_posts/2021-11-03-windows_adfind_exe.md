@@ -150,7 +150,7 @@ administrators rarely use adfind, usually not used for legitimate reasons
 #### Reference
 
 * [https://www.volexity.com/blog/2020/12/14/dark-halo-leverages-solarwinds-compromise-to-breach-organizations/](https://www.volexity.com/blog/2020/12/14/dark-halo-leverages-solarwinds-compromise-to-breach-organizations/)
-* [https://www.fireeye.com/blog/threat-research/2019/01/a-nasty-trick-from-credential-theft-malware-to-business-disruption.html](https://www.fireeye.com/blog/threat-research/2019/01/a-nasty-trick-from-credential-theft-malware-to-business-disruption.html)
+* [https://www.mandiant.com/resources/a-nasty-trick-from-credential-theft-malware-to-business-disruption](https://www.mandiant.com/resources/a-nasty-trick-from-credential-theft-malware-to-business-disruption)
 
 
 

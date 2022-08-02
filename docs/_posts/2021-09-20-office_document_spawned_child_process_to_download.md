@@ -152,7 +152,7 @@ Default browser not in the filter list.
 
 #### Reference
 
-* [https://app.any.run/tasks/92d7ef61-bfd7-4c92-bc15-322172b4ebec/#](https://app.any.run/tasks/92d7ef61-bfd7-4c92-bc15-322172b4ebec/#)
+* [https://app.any.run/tasks/92d7ef61-bfd7-4c92-bc15-322172b4ebec/](https://app.any.run/tasks/92d7ef61-bfd7-4c92-bc15-322172b4ebec/)
 
 
 

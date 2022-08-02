@@ -140,7 +140,7 @@ unknown
 
 #### Reference
 
-* [https://success.trendmicro.com/solution/1123281-remcos-malware-information](https://success.trendmicro.com/solution/1123281-remcos-malware-information)
+* [https://success.trendmicro.com/dcx/s/solution/1123281-remcos-malware-information?language=en_US](https://success.trendmicro.com/dcx/s/solution/1123281-remcos-malware-information?language=en_US)
 * [https://blog.malwarebytes.com/threat-intelligence/2021/07/remcos-rat-delivered-via-visual-basic/](https://blog.malwarebytes.com/threat-intelligence/2021/07/remcos-rat-delivered-via-visual-basic/)
 
 

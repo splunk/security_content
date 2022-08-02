@@ -145,6 +145,7 @@ unknown
 #### Associated Analytic story
 * [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
 * [Windows Registry Abuse](/stories/windows_registry_abuse)
+* [Azorult](/stories/azorult)
 
 
 
@@ -161,7 +162,7 @@ unknown
 
 #### Reference
 
-* [https://www.sophos.com/en-us/threat-center/threat-analyses/viruses-and-spyware/W32~Tiotua-P/detailed-analysis.aspx](https://www.sophos.com/en-us/threat-center/threat-analyses/viruses-and-spyware/W32~Tiotua-P/detailed-analysis.aspx)
+* [https://www.sophos.com/en-us/threat-center/threat-analyses/viruses-and-spyware/W32~Tiotua-P/detailed-analysis](https://www.sophos.com/en-us/threat-center/threat-analyses/viruses-and-spyware/W32~Tiotua-P/detailed-analysis)
 
 
 

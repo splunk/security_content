@@ -148,7 +148,7 @@ Administrators debugging servers
 
 #### Reference
 
-* [https://oscp.infosecsanyam.in/priv-escalation/windows-priv-escalation](https://oscp.infosecsanyam.in/priv-escalation/windows-priv-escalation)
+* [https://web.archive.org/web/20210119205146/https://oscp.infosecsanyam.in/priv-escalation/windows-priv-escalation](https://web.archive.org/web/20210119205146/https://oscp.infosecsanyam.in/priv-escalation/windows-priv-escalation)
 
 
 

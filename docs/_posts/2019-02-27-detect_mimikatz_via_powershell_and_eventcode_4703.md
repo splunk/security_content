@@ -112,8 +112,8 @@ This search looks for PowerShell requesting privileges consistent with credentia
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **detect_mimikatz_via_powershell_and_eventcode_4703_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.

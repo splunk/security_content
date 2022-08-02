@@ -142,7 +142,7 @@ network admin can resize the shadowstorage for valid purposes.
 
 #### Reference
 
-* [https://www.fireeye.com/blog/threat-research/2020/10/fin11-email-campaigns-precursor-for-ransomware-data-theft.html](https://www.fireeye.com/blog/threat-research/2020/10/fin11-email-campaigns-precursor-for-ransomware-data-theft.html)
+* [https://www.mandiant.com/resources/fin11-email-campaigns-precursor-for-ransomware-data-theft](https://www.mandiant.com/resources/fin11-email-campaigns-precursor-for-ransomware-data-theft)
 * [https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html](https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html)
 * [https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1490/T1490.md](https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1490/T1490.md)
 * [https://redcanary.com/blog/blackbyte-ransomware/](https://redcanary.com/blog/blackbyte-ransomware/)

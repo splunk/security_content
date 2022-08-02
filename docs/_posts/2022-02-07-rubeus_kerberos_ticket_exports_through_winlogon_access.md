@@ -108,8 +108,8 @@ The following analytic looks for a process accessing the winlogon.exe system pro
 
 #### Macros
 The SPL above uses the following Macros:
-* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 
 > :information_source:
 > **rubeus_kerberos_ticket_exports_through_winlogon_access_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -150,7 +150,7 @@ Legitimate applications may obtain a handle for winlogon.exe. Filter as needed
 #### Reference
 
 * [https://github.com/GhostPack/Rubeus](https://github.com/GhostPack/Rubeus)
-* [http://www.harmj0y.net/blog/redteaming/from-kekeo-to-rubeus/](http://www.harmj0y.net/blog/redteaming/from-kekeo-to-rubeus/)
+* [https://web.archive.org/web/20210725005734/http://www.harmj0y.net/blog/redteaming/from-kekeo-to-rubeus/](https://web.archive.org/web/20210725005734/http://www.harmj0y.net/blog/redteaming/from-kekeo-to-rubeus/)
 * [https://attack.mitre.org/techniques/T1550/003/](https://attack.mitre.org/techniques/T1550/003/)
 
 

@@ -23,7 +23,7 @@ how_to_implement: To successfully implement this search, you must be ingesting d
   to the registry.
 known_false_positives: unknown
 references:
-- https://attack.mitre.org/techniques/T1037/001
+- https://attack.mitre.org/techniques/T1037/001/
 tags:
   analytic_story:
   - Windows Persistence Techniques

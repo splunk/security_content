@@ -11,12 +11,18 @@ from bin.contentctl_project.contentctl_infrastructure.builder.yml_reader import 
 
 class SecurityContentStoryBuilder(StoryBuilder):
     story: Story
+    check_references: bool
+
+    def __init__(self, check_references: bool = False):
+        self.check_references = check_references
 
     def setObject(self, path: str) -> None:
         yml_dict = YmlReader.load_file(path)
         yml_dict["tags"]["name"] = yml_dict["name"]
+        yml_dict["check_references"] = self.check_references
         try:
             self.story = Story.parse_obj(yml_dict)
+            del(yml_dict["check_references"])
         except ValidationError as e:
             print('Validation Error for file ' + path)
             print(e)

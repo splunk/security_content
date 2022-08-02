@@ -164,7 +164,7 @@ Limited to no false positives are expected.
 * [https://blog.malwarebytes.com/malwarebytes-news/2021/02/lazyscripter-from-empire-to-double-rat/](https://blog.malwarebytes.com/malwarebytes-news/2021/02/lazyscripter-from-empire-to-double-rat/)
 * [https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1548.002/T1548.002.md](https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1548.002/T1548.002.md)
 * [https://github.com/gushmazuko/WinBypass/blob/master/FodhelperBypass.ps1](https://github.com/gushmazuko/WinBypass/blob/master/FodhelperBypass.ps1)
-* [https://attack.mitre.org/techniques/T1548/002](https://attack.mitre.org/techniques/T1548/002)
+* [https://attack.mitre.org/techniques/T1548/002/](https://attack.mitre.org/techniques/T1548/002/)
 
 
 

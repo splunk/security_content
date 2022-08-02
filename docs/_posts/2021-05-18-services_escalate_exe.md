@@ -146,7 +146,7 @@ False positives should be limited as `services.exe` should never spawn a process
 
 * [https://thedfirreport.com/2021/03/29/sodinokibi-aka-revil-ransomware/](https://thedfirreport.com/2021/03/29/sodinokibi-aka-revil-ransomware/)
 * [https://attack.mitre.org/techniques/T1548/](https://attack.mitre.org/techniques/T1548/)
-* [https://www.cobaltstrike.com/help-beacon](https://www.cobaltstrike.com/help-beacon)
+* [https://hstechdocs.helpsystems.com/manuals/cobaltstrike/current/userguide/index.htm#cshid=1085](https://hstechdocs.helpsystems.com/manuals/cobaltstrike/current/userguide/index.htm#cshid=1085)
 
 
 

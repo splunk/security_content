@@ -72,95 +72,94 @@ setup_schema = {
                 }
             },
             "default": {
-                ES_APP_NAME: {
-                    "app_number": 3449,
-                    "app_version": None,
-                    "local_path": None
-                },
-
-
+               
                 # The default apps below were taken from the attack_range loadout: https://github.com/splunk/attack_range/blob/develop/attack_range.conf.template
 
                 "ADD_ON_FOR_LINUX_SYSMON": {
                     "app_number": 6176,
                     "app_version": "1.0.4",
                     "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/add-on-for-linux-sysmon_104.tgz"
-                },
-                "PALO_ALTO_NETWORKS_ADD_ON_FOR_SPLUNK": {
+                  },
+                  ES_APP_NAME: {
+                    "app_number": 3449,
+                    "app_version": None,
+                    "local_path": None
+                  },
+                  "PALO_ALTO_NETWORKS_ADD_ON_FOR_SPLUNK": {
                     "app_number": 2757,
                     "app_version": "7.1.0",
                     "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/palo-alto-networks-add-on-for-splunk_710.tgz"
-                },
-                "PYTHON_FOR_SCIENTIFIC_COMPUTING_FOR_LINUX_64_BIT": {
+                  },
+                  "PYTHON_FOR_SCIENTIFIC_COMPUTING_FOR_LINUX_64_BIT": {
                     "app_number": 2882,
                     "app_version": "3.0.2",
                     "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/python-for-scientific-computing-for-linux-64-bit_302.tgz"
-                },
-                "SPLUNK_ADD_ON_FOR_AMAZON_KINESIS_FIREHOSE": {
+                  },
+                  "SPLUNK_ADD_ON_FOR_AMAZON_KINESIS_FIREHOSE": {
                     "app_number": 3719,
                     "app_version": "1.3.2",
                     "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-amazon-kinesis-firehose_132.tgz"
-                },
-                "SPLUNK_ADD_ON_FOR_MICROSOFT_OFFICE_365": {
+                  },
+                  "SPLUNK_ADD_ON_FOR_MICROSOFT_OFFICE_365": {
                     "app_number": 4055,
                     "app_version": "4.0.0",
                     "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-microsoft-office-365_400.tgz"
-                },
-                "SPLUNK_ADD_ON_FOR_MICROSOFT_WINDOWS": {
+                  },
+                  "SPLUNK_ADD_ON_FOR_MICROSOFT_WINDOWS": {
                     "app_number": 742,
                     "app_version": "8.5.0",
                     "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-microsoft-windows_850.tgz"
-                },
-                "SPLUNK_ADD_ON_FOR_NGINX": {
+                  },
+                  "SPLUNK_ADD_ON_FOR_NGINX": {
                     "app_number": 3258,
                     "app_version": "3.1.0",
                     "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-nginx_310.tgz"
-                },
-                "SPLUNK_ADD_ON_FOR_STREAM_FORWARDERS": {
+                  },
+                  "SPLUNK_ADD_ON_FOR_STREAM_FORWARDERS": {
                     "app_number": 5238,
-                    "app_version": "8.0.2",
-                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-stream-forwarders_802.tgz"
-                },
-                "SPLUNK_ADD_ON_FOR_STREAM_WIRE_DATA": {
+                    "app_version": "8.1.0",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-stream-forwarders_810.tgz"
+                  },
+                  "SPLUNK_ADD_ON_FOR_STREAM_WIRE_DATA": {
                     "app_number": 5234,
-                    "app_version": "8.0.2",
-                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-stream-wire-data_802.tgz"
-                },
-                "SPLUNK_ADD_ON_FOR_SYSMON": {
+                    "app_version": "8.1.0",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-stream-wire-data_810.tgz"
+                  },
+                  "SPLUNK_ADD_ON_FOR_SYSMON": {
                     "app_number": 5709,
                     "app_version": "3.0.0",
                     "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-sysmon_300.tgz"
-                },
-                "SPLUNK_ADD_ON_FOR_UNIX_AND_LINUX": {
+                  },
+                  "SPLUNK_ADD_ON_FOR_UNIX_AND_LINUX": {
                     "app_number": 833,
-                    "app_version": "8.5.0",
-                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-unix-and-linux_850.tgz"
-                },
-                "SPLUNK_APP_FOR_STREAM": {
+                    "app_version": "8.6.0",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-unix-and-linux_860.tgz"
+                  },
+                  "SPLUNK_APP_FOR_STREAM": {
                     "app_number": 1809,
-                    "app_version": "8.0.2",
-                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-app-for-stream_802.tgz"
-                },
-                "SPLUNK_COMMON_INFORMATION_MODEL": {
+                    "app_version": "8.1.0",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-app-for-stream_810.tgz"
+                  },
+                  "SPLUNK_COMMON_INFORMATION_MODEL": {
                     "app_number": 1621,
                     "app_version": "5.0.1",
                     "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-common-information-model-cim_501.tgz"
-                },
-                "SPLUNK_MACHINE_LEARNING_TOOLKIT": {
+                  },
+                  "SPLUNK_MACHINE_LEARNING_TOOLKIT": {
                     "app_number": 2890,
                     "app_version": "5.3.1",
                     "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-machine-learning-toolkit_531.tgz"
-                },
-                "SPLUNK_TA_FOR_ZEEK": {
+                  },
+                  "SPLUNK_TA_FOR_ZEEK": {
                     "app_number": 5466,
                     "app_version": "1.0.5",
                     "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/ta-for-zeek_105.tgz"
-                },
-                "URL_TOOLBOX": {
+                  },
+                  "URL_TOOLBOX": {
                     "app_number": 2734,
                     "app_version": "1.9.2",
                     "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/url-toolbox_192.tgz"
-                },
+                  }
 
             }
         },

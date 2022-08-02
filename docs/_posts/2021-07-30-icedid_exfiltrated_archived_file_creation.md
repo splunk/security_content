@@ -106,8 +106,8 @@ This search is to detect a suspicious file creation namely passff.tar and cookie
 
 #### Macros
 The SPL above uses the following Macros:
-* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 
 > :information_source:
 > **icedid_exfiltrated_archived_file_creation_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -145,7 +145,7 @@ unknown
 
 #### Reference
 
-* [https://www.cisecurity.org/white-papers/security-primer-icedid/](https://www.cisecurity.org/white-papers/security-primer-icedid/)
+* [https://www.cisecurity.org/insights/white-papers/security-primer-icedid](https://www.cisecurity.org/insights/white-papers/security-primer-icedid)
 
 
 

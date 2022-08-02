@@ -42,6 +42,8 @@ tags:
   - WhisperGate
   - Hermetic Wiper
   - Industroyer2
+  - Azorult
+  - DarkCrystal RAT
   automated_detection_testing: passed
   confidence: 70
   context:

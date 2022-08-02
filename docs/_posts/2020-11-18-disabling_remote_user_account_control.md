@@ -18,6 +18,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - Endpoint
 ---
 
 
@@ -30,7 +31,7 @@ The search looks for modifications to registry keys that control the enforcement
 
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-11-18
 - **Author**: David Dorsey, Patrick Bareiss, Splunk
 - **ID**: bbc644bc-37df-4e1a-9c88-ec9a53e2038c
@@ -137,6 +138,7 @@ This registry key may be modified via administrators to implement a change in sy
 * [Suspicious Windows Registry Activities](/stories/suspicious_windows_registry_activities)
 * [Remcos](/stories/remcos)
 * [Windows Registry Abuse](/stories/windows_registry_abuse)
+* [Azorult](/stories/azorult)
 
 
 

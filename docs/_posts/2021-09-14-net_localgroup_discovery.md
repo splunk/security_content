@@ -137,6 +137,7 @@ False positives may be present. Tune as needed.
 #### Associated Analytic story
 * [Active Directory Discovery](/stories/active_directory_discovery)
 * [Windows Discovery Techniques](/stories/windows_discovery_techniques)
+* [Azorult](/stories/azorult)
 
 
 

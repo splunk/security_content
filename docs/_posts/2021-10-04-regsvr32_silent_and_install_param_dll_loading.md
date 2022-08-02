@@ -159,7 +159,7 @@ Other third part application may used this parameter but not so common in base w
 
 #### Reference
 
-* [https://app.any.run/tasks/dc93ee63-050c-4ff8-b07e-8277af9ab939/#](https://app.any.run/tasks/dc93ee63-050c-4ff8-b07e-8277af9ab939/#)
+* [https://app.any.run/tasks/dc93ee63-050c-4ff8-b07e-8277af9ab939/](https://app.any.run/tasks/dc93ee63-050c-4ff8-b07e-8277af9ab939/)
 * [https://attack.mitre.org/techniques/T1218/010/](https://attack.mitre.org/techniques/T1218/010/)
 
 

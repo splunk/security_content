@@ -17,6 +17,8 @@ def download_file_from_http(url:str, destination_file:str, overwrite_file:bool=F
         with open(destination_file, "wb") as output:
             for piece in file_to_download.iter_content(chunk_size=chunk_size):
                 output.write(piece)
+        if verbose_print:
+            print("Done")
     except Exception as e:
         if verbose_print:
             print("FAILED")

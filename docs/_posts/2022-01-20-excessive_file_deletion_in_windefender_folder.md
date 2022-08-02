@@ -108,8 +108,8 @@ This analytic will identify excessive file deletion events in the Windows Defend
 
 #### Macros
 The SPL above uses the following Macros:
-* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 
 > :information_source:
 > **excessive_file_deletion_in_windefender_folder_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.

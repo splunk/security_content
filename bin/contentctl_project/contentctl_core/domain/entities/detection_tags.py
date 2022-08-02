@@ -29,7 +29,7 @@ class DetectionTags(BaseModel):
     supported_tas: list = None
 
     # enrichment
-    mitre_attack_enrichments: list[MitreAttackEnrichment] = None
+    mitre_attack_enrichments: list[MitreAttackEnrichment] = []
     confidence_id: int = None
     impact_id: int = None
     context_ids: list = None

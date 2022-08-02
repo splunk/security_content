@@ -108,8 +108,8 @@ The following analytic uses a pretrained machine learning text classifier to det
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [potentially_malicious_code_on_cmdline_tokenize_score](https://github.com/splunk/security_content/blob/develop/macros/potentially_malicious_code_on_cmdline_tokenize_score.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 > :information_source:

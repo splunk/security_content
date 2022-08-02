@@ -150,6 +150,7 @@ There are many legitimate applications that must execute on system startup and w
 * [IcedID](/stories/icedid)
 * [Remcos](/stories/remcos)
 * [Windows Registry Abuse](/stories/windows_registry_abuse)
+* [Azorult](/stories/azorult)
 
 
 

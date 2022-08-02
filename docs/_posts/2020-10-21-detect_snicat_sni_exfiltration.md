@@ -155,7 +155,7 @@ Unknown
 
 #### Reference
 
-* [https://www.mnemonic.no/blog/introducing-snicat/](https://www.mnemonic.no/blog/introducing-snicat/)
+* [https://www.mnemonic.io/resources/blog/introducing-snicat/](https://www.mnemonic.io/resources/blog/introducing-snicat/)
 * [https://github.com/mnemonic-no/SNIcat](https://github.com/mnemonic-no/SNIcat)
 * [https://attack.mitre.org/techniques/T1041/](https://attack.mitre.org/techniques/T1041/)
 

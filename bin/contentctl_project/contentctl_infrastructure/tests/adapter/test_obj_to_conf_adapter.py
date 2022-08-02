@@ -2,6 +2,8 @@ import os
 import datetime
 import pytest
 import filecmp
+from bin.contentctl_project.contentctl_infrastructure.tests.test_constants import SECURITY_CONTENT_ROOT
+
 from bin.contentctl_project.contentctl_infrastructure.adapter.obj_to_conf_adapter import ObjToConfAdapter
 from bin.contentctl_project.contentctl_infrastructure.builder.security_content_director import SecurityContentDirector
 from bin.contentctl_project.contentctl_infrastructure.builder.security_content_basic_builder import SecurityContentBasicBuilder
@@ -40,7 +42,7 @@ def test_write_conf_files(patch_datetime_now):
     director.constructDeployment(deployment_builder, os.path.join(os.path.dirname(__file__), 
         '../builder/test_data/deployment/ESCU/00_default_baseline.yml'))
     deployment_baseline = deployment_builder.getObject()
-    playbook_builder = SecurityContentPlaybookBuilder()
+    playbook_builder = SecurityContentPlaybookBuilder(input_path = SECURITY_CONTENT_ROOT)
     director.constructPlaybook(playbook_builder, os.path.join(os.path.dirname(__file__), 
         '../builder/test_data/playbook/example_playbook.yml'))
     playbook = playbook_builder.getObject()    
@@ -71,7 +73,7 @@ def test_write_conf_files(patch_datetime_now):
         [detection], [baseline], [investigation])
     story = story_builder.getObject()
     output_path = os.path.join(os.path.dirname(__file__), 'data')
-    adapter = ObjToConfAdapter()
+    adapter = ObjToConfAdapter(input_path = SECURITY_CONTENT_ROOT)
     adapter.writeHeaders(output_path)
     adapter.writeObjects([detection, detection_deprecated], output_path, SecurityContentType.detections)
     adapter.writeObjects([story], output_path, SecurityContentType.stories)

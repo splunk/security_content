@@ -140,6 +140,7 @@ Limited false positives may be present. Filter as needed by parent process or co
 * [Ryuk Ransomware](/stories/ryuk_ransomware)
 * [Windows Persistence Techniques](/stories/windows_persistence_techniques)
 * [Living Off The Land](/stories/living_off_the_land)
+* [Azorult](/stories/azorult)
 
 
 

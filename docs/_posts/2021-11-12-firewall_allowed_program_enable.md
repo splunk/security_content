@@ -98,7 +98,7 @@ This analytic detects a potential suspicious modification of firewall rule allow
 
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process = "*firewall*" Processes.process = "*allowedprogram*" Processes.process = "*add*" Processes.process = "*ENABLE*" by Processes.dest Processes.user Processes.parent_process_name Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process = "*firewall*" Processes.process = "*allow*" Processes.process = "*add*" Processes.process = "*ENABLE*" by Processes.dest Processes.user Processes.parent_process_name Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -133,6 +133,7 @@ A network operator or systems administrator may utilize an automated or manual e
 
 #### Associated Analytic story
 * [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
+* [Azorult](/stories/azorult)
 
 
 
@@ -149,7 +150,7 @@ A network operator or systems administrator may utilize an automated or manual e
 
 #### Reference
 
-* [https://app.any.run/tasks/ad4c3cda-41f2-4401-8dba-56cc2d245488/#](https://app.any.run/tasks/ad4c3cda-41f2-4401-8dba-56cc2d245488/#)
+* [https://app.any.run/tasks/ad4c3cda-41f2-4401-8dba-56cc2d245488/](https://app.any.run/tasks/ad4c3cda-41f2-4401-8dba-56cc2d245488/)
 
 
 

@@ -43,7 +43,7 @@ tags:
   kill_chain_phases:
   - Reconnaissance
   - Exploitation
-  message: PowerView commandlets used for SPN discovery executed on $Computer_Name$
+  message: PowerView commandlets used for SPN discovery executed on $Computer$
   mitre_attack_id:
   - T1558
   - T1558.003
@@ -61,8 +61,7 @@ tags:
   required_fields:
   - _time
   - EventCode
-  - Result_Code
-  - Account_Name
-  - Client_Address
+  - Computer
+  - ScriptBlockText
   risk_score: 27
   security_domain: endpoint

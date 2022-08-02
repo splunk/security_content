@@ -130,6 +130,7 @@ Unknown. Filter as needed.
 #### Associated Analytic story
 * [Silver Sparrow](/stories/silver_sparrow)
 * [Ingress Tool Transfer](/stories/ingress_tool_transfer)
+* [Linux Living Off The Land](/stories/linux_living_off_the_land)
 
 
 
@@ -147,7 +148,7 @@ Unknown. Filter as needed.
 #### Reference
 
 * [https://redcanary.com/blog/clipping-silver-sparrows-wings/](https://redcanary.com/blog/clipping-silver-sparrows-wings/)
-* [https://marcosantadev.com/manage-plist-files-plistbuddy/](https://marcosantadev.com/manage-plist-files-plistbuddy/)
+* [https://www.marcosantadev.com/manage-plist-files-plistbuddy/](https://www.marcosantadev.com/manage-plist-files-plistbuddy/)
 
 
 

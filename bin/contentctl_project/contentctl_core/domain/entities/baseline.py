@@ -10,6 +10,7 @@ from bin.contentctl_project.contentctl_core.domain.entities.security_content_obj
 from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import DataModel
 from bin.contentctl_project.contentctl_core.domain.entities.baseline_tags import BaselineTags
 from bin.contentctl_project.contentctl_core.domain.entities.deployment import Deployment
+from bin.contentctl_project.contentctl_core.domain.entities.link_validator import LinkValidator
 
 
 class Baseline(BaseModel, SecurityContentObject):
@@ -25,6 +26,7 @@ class Baseline(BaseModel, SecurityContentObject):
     search: str
     how_to_implement: str
     known_false_positives: str
+    check_references: bool = False #Validation is done in order, this field must be defined first
     references: list
     tags: BaselineTags
 
@@ -84,15 +86,9 @@ class Baseline(BaseModel, SecurityContentObject):
 
     @validator('references')
     def references_check(cls, v, values):
-        for reference in v:
-            try:
-                get = requests.get(reference)
-                if not get.status_code == 200:
-                    raise ValueError('Reference ' + reference + ' is not reachable: ' + values["name"])
-            except requests.exceptions.RequestException as e:
-                raise ValueError('Reference ' + reference + ' is not reachable: ' + values["name"])
 
-        return v
+        return LinkValidator.SecurityContentObject_validate_references(v, values)
+
 
     @validator('search')
     def search_validate(cls, v, values):

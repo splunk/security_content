@@ -107,8 +107,8 @@ The following analytic identifes a Computer Account creating a new Computer Acco
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **windows_computer_account_created_by_computer_account_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.

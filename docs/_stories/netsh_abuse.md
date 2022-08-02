@@ -39,7 +39,7 @@ To get started, run the detection search to identify parent processes of `netsh.
 
 * [https://docs.microsoft.com/en-us/previous-versions/tn-archive/bb490939(v=technet.10)](https://docs.microsoft.com/en-us/previous-versions/tn-archive/bb490939(v=technet.10))
 * [https://htmlpreview.github.io/?https://github.com/MatthewDemaske/blogbackup/blob/master/netshell.html](https://htmlpreview.github.io/?https://github.com/MatthewDemaske/blogbackup/blob/master/netshell.html)
-* [http://blog.jpcert.or.jp/2016/01/windows-commands-abused-by-attackers.html](http://blog.jpcert.or.jp/2016/01/windows-commands-abused-by-attackers.html)
+* [https://blogs.jpcert.or.jp/en/2016/01/windows-commands-abused-by-attackers.html](https://blogs.jpcert.or.jp/en/2016/01/windows-commands-abused-by-attackers.html)
 
 
 

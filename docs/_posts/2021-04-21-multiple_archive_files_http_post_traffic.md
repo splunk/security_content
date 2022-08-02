@@ -154,7 +154,7 @@ Normal archive transfer via HTTP protocol may trip this detection.
 #### Reference
 
 * [https://attack.mitre.org/techniques/T1560/001/](https://attack.mitre.org/techniques/T1560/001/)
-* [https://www.fireeye.com/blog/threat-research/2019/01/apt39-iranian-cyber-espionage-group-focused-on-personal-information.html](https://www.fireeye.com/blog/threat-research/2019/01/apt39-iranian-cyber-espionage-group-focused-on-personal-information.html)
+* [https://www.mandiant.com/resources/apt39-iranian-cyber-espionage-group-focused-on-personal-information](https://www.mandiant.com/resources/apt39-iranian-cyber-espionage-group-focused-on-personal-information)
 * [https://www.microsoft.com/security/blog/2021/01/20/deep-dive-into-the-solorigate-second-stage-activation-from-sunburst-to-teardrop-and-raindrop/](https://www.microsoft.com/security/blog/2021/01/20/deep-dive-into-the-solorigate-second-stage-activation-from-sunburst-to-teardrop-and-raindrop/)
 
 

@@ -150,7 +150,7 @@ A network operator or systems administrator may utilize an automated host discov
 
 #### Reference
 
-* [https://app.any.run/tasks/ad4c3cda-41f2-4401-8dba-56cc2d245488/#](https://app.any.run/tasks/ad4c3cda-41f2-4401-8dba-56cc2d245488/#)
+* [https://app.any.run/tasks/ad4c3cda-41f2-4401-8dba-56cc2d245488/](https://app.any.run/tasks/ad4c3cda-41f2-4401-8dba-56cc2d245488/)
 
 
 

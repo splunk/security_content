@@ -94,7 +94,7 @@ This analytic will identify suspicious series of command-line to disable several
 ```
 
 | tstats `security_content_summariesonly` values(Processes.process) as process values(Processes.process_id) as process_id count min(_time) as firstTime max(_time) as lastTime  from datamodel=Endpoint.Processes where   Processes.process_name = "sc.exe" AND Processes.process="*config*" OR Processes.process="*Disabled*" by Processes.process_name Processes.parent_process_name Processes.dest Processes.user _time span=1m 
-| where count >=5 
+| where count >=4 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -127,6 +127,7 @@ unknown
 
 #### Associated Analytic story
 * [XMRig](/stories/xmrig)
+* [Azorult](/stories/azorult)
 
 
 

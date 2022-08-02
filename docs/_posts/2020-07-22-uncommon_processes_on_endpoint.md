@@ -109,8 +109,8 @@ This search looks for applications on the endpoint that you have marked as uncom
 #### Macros
 The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [uncommon_processes](https://github.com/splunk/security_content/blob/develop/macros/uncommon_processes.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 > :information_source:
 > **uncommon_processes_on_endpoint_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.

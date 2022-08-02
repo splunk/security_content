@@ -126,6 +126,7 @@ Unknown. It is possible some administrative scripts use ICacls. Filter as needed
 
 #### Associated Analytic story
 * [XMRig](/stories/xmrig)
+* [Azorult](/stories/azorult)
 
 
 

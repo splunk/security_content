@@ -42,6 +42,7 @@ tags:
   - Ransomware
   - Revil Ransomware
   - Windows Registry Abuse
+  - Azorult
   confidence: 100
   context:
   - Source:Endpoint

@@ -25,7 +25,7 @@ references:
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1482/T1482.md
 - https://malware.news/t/lets-learn-trickbot-implements-network-collector-module-leveraging-cmd-wmi-ldap/19104
 - https://attack.mitre.org/techniques/T1482/
-- https://www.owasp.org/images/4/4b/Red_Team_Operating_in_a_Modern_Environment.pdf
+- https://owasp.org/www-pdf-archive/Red_Team_Operating_in_a_Modern_Environment.pdf
 - https://ss64.com/nt/nltest.html
 - https://redcanary.com/threat-detection-report/techniques/domain-trust-discovery/
 - https://thedfirreport.com/2020/10/08/ryuks-return/

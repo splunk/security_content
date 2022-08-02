@@ -107,8 +107,8 @@ This search is to identifies suspicious firewall disabling using netsh applicati
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_netsh](https://github.com/splunk/security_content/blob/develop/macros/process_netsh.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [process_netsh](https://github.com/splunk/security_content/blob/develop/macros/process_netsh.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 > :information_source:
@@ -153,7 +153,7 @@ admin may disable firewall during testing or fixing network problem.
 
 #### Reference
 
-* [https://tccontre.blogspot.com/2020/01/remcos-rat-evading-windows-defender-av.htm](https://tccontre.blogspot.com/2020/01/remcos-rat-evading-windows-defender-av.htm)
+* [https://tccontre.blogspot.com/2020/01/remcos-rat-evading-windows-defender-av.html](https://tccontre.blogspot.com/2020/01/remcos-rat-evading-windows-defender-av.html)
 
 
 

@@ -137,6 +137,7 @@ Some legitimate applications may exhibit this behavior.
 #### Associated Analytic story
 * [Emotet Malware  DHS Report TA18-201A ](/stories/emotet_malware__dhs_report_ta18-201a_)
 * [Suspicious Command-Line Executions](/stories/suspicious_command-line_executions)
+* [Azorult](/stories/azorult)
 
 
 

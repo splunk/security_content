@@ -112,8 +112,8 @@ This search looks for processes launching netsh.exe. Netsh is a command-line scr
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_netsh](https://github.com/splunk/security_content/blob/develop/macros/process_netsh.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [process_netsh](https://github.com/splunk/security_content/blob/develop/macros/process_netsh.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 > :information_source:
@@ -139,6 +139,7 @@ Some VPN applications are known to launch netsh.exe. Outside of these instances,
 * [Netsh Abuse](/stories/netsh_abuse)
 * [Disabling Security Tools](/stories/disabling_security_tools)
 * [DHS Report TA18-074A](/stories/dhs_report_ta18-074a)
+* [Azorult](/stories/azorult)
 
 
 

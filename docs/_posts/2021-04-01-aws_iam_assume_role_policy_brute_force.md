@@ -144,7 +144,7 @@ This detection will require tuning to provide high fidelity detection capabiltie
 
 #### Reference
 
-* [https://www.praetorian.com/blog/aws-iam-assume-role-vulnerabilities](https://www.praetorian.com/blog/aws-iam-assume-role-vulnerabilities)
+* [https://www.praetorian.com/blog/aws-iam-assume-role-vulnerabilities/](https://www.praetorian.com/blog/aws-iam-assume-role-vulnerabilities/)
 * [https://rhinosecuritylabs.com/aws/assume-worst-aws-assume-role-enumeration/](https://rhinosecuritylabs.com/aws/assume-worst-aws-assume-role-enumeration/)
 * [https://www.elastic.co/guide/en/security/current/aws-iam-brute-force-of-assume-role-policy.html](https://www.elastic.co/guide/en/security/current/aws-iam-brute-force-of-assume-role-policy.html)
 

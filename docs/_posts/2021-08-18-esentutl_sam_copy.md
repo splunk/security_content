@@ -107,8 +107,8 @@ The following analytic identifies the process - `esentutl.exe` - being used to c
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_esentutl](https://github.com/splunk/security_content/blob/develop/macros/process_esentutl.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [process_esentutl](https://github.com/splunk/security_content/blob/develop/macros/process_esentutl.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 > :information_source:

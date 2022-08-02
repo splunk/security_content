@@ -153,7 +153,7 @@ Certain applications may spawn from `slui.exe` that are legitimate. Filtering wi
 
 * [https://www.exploit-db.com/exploits/46998](https://www.exploit-db.com/exploits/46998)
 * [https://www.rapid7.com/db/modules/exploit/windows/local/bypassuac_sluihijack/](https://www.rapid7.com/db/modules/exploit/windows/local/bypassuac_sluihijack/)
-* [https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html](https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html)
+* [https://www.mandiant.com/resources/shining-a-light-on-darkside-ransomware-operations](https://www.mandiant.com/resources/shining-a-light-on-darkside-ransomware-operations)
 
 
 

@@ -149,9 +149,9 @@ The creation of a new Federated domain is not necessarily malicious, however the
 #### Reference
 
 * [https://www.fireeye.com/content/dam/fireeye-www/blog/pdfs/wp-m-unc2452-2021-000343-01.pdf](https://www.fireeye.com/content/dam/fireeye-www/blog/pdfs/wp-m-unc2452-2021-000343-01.pdf)
-* [https://us-cert.cisa.gov/ncas/alerts/aa21-008a](https://us-cert.cisa.gov/ncas/alerts/aa21-008a)
+* [https://www.cisa.gov/uscert/ncas/alerts/aa21-008a](https://www.cisa.gov/uscert/ncas/alerts/aa21-008a)
 * [https://www.splunk.com/en_us/blog/security/a-golden-saml-journey-solarwinds-continued.html](https://www.splunk.com/en_us/blog/security/a-golden-saml-journey-solarwinds-continued.html)
-* [https://www.sygnia.co/golden-saml-advisory](https://www.sygnia.co/golden-saml-advisory)
+* [https://blog.sygnia.co/detection-and-hunting-of-golden-saml-attack?hsLang=en](https://blog.sygnia.co/detection-and-hunting-of-golden-saml-attack?hsLang=en)
 * [https://o365blog.com/post/aadbackdoor/](https://o365blog.com/post/aadbackdoor/)
 
 

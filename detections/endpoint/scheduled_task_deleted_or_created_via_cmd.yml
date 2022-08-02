@@ -31,6 +31,7 @@ tags:
   - NOBELIUM Group
   - Windows Persistence Techniques
   - Living Off The Land
+  - Azorult
   asset_type: Endpoint
   cis20:
   - CIS 3

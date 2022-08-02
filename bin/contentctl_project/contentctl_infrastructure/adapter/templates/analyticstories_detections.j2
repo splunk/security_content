@@ -15,7 +15,7 @@ how_to_implement = none
 {% endif %}
 annotations = {{ detection.mappings | tojson }}
 known_false_positives = {{ detection.known_false_positives }}
-providing_technologies = []
+providing_technologies = {{ detection.providing_technologies | tojson }}
 
 {% endif %}
 {% endfor %}

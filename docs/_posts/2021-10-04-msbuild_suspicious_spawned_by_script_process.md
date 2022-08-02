@@ -107,8 +107,8 @@ This analytic is to detect a suspicious child process of MSBuild spawned by Wind
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_msbuild](https://github.com/splunk/security_content/blob/develop/macros/process_msbuild.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [process_msbuild](https://github.com/splunk/security_content/blob/develop/macros/process_msbuild.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 > :information_source:
@@ -148,7 +148,7 @@ False positives should be limited as developers do not spawn MSBuild via a WSH.
 
 #### Reference
 
-* [https://app.any.run/tasks/dc93ee63-050c-4ff8-b07e-8277af9ab939/#](https://app.any.run/tasks/dc93ee63-050c-4ff8-b07e-8277af9ab939/#)
+* [https://app.any.run/tasks/dc93ee63-050c-4ff8-b07e-8277af9ab939/](https://app.any.run/tasks/dc93ee63-050c-4ff8-b07e-8277af9ab939/)
 
 
 

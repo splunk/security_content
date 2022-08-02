@@ -150,7 +150,7 @@ unknown
 
 #### Reference
 
-* [https://attack.mitre.org/techniques/T1037/001](https://attack.mitre.org/techniques/T1037/001)
+* [https://attack.mitre.org/techniques/T1037/001/](https://attack.mitre.org/techniques/T1037/001/)
 
 
 

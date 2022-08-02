@@ -148,7 +148,7 @@ Administrators or power users may leverage PowerView for system management or tr
 * [https://adsecurity.org/?p=1667](https://adsecurity.org/?p=1667)
 * [https://docs.microsoft.com/en-us/defender-for-identity/cas-isp-unconstrained-kerberos](https://docs.microsoft.com/en-us/defender-for-identity/cas-isp-unconstrained-kerberos)
 * [https://www.guidepointsecurity.com/blog/delegating-like-a-boss-abusing-kerberos-delegation-in-active-directory/](https://www.guidepointsecurity.com/blog/delegating-like-a-boss-abusing-kerberos-delegation-in-active-directory/)
-* [https://book.hacktricks.xyz/windows/active-directory-methodology/constrained-delegation](https://book.hacktricks.xyz/windows/active-directory-methodology/constrained-delegation)
+* [https://book.hacktricks.xyz/windows-hardening/active-directory-methodology/constrained-delegation](https://book.hacktricks.xyz/windows-hardening/active-directory-methodology/constrained-delegation)
 * [https://www.cyberark.com/resources/threat-research-blog/weakness-within-kerberos-delegation](https://www.cyberark.com/resources/threat-research-blog/weakness-within-kerberos-delegation)
 
 

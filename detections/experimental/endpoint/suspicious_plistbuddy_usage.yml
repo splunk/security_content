@@ -43,7 +43,7 @@ known_false_positives: Some legitimate applications may use PlistBuddy to create
   modify property lists and possibly generate false positives. Review the property
   list being modified or created to confirm.
 references:
-- https://marcosantadev.com/manage-plist-files-plistbuddy/
+- https://www.marcosantadev.com/manage-plist-files-plistbuddy/
 tags:
   analytic_story:
   - Silver Sparrow

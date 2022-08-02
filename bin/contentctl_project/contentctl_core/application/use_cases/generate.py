@@ -2,6 +2,7 @@ import os
 import shutil
 
 from dataclasses import dataclass
+from typing import Union
 
 from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import SecurityContentProduct, SecurityContentType
 from bin.contentctl_project.contentctl_core.application.adapter.adapter import Adapter
@@ -13,8 +14,8 @@ from bin.contentctl_project.contentctl_core.application.factory.ba_factory impor
 @dataclass(frozen=True)
 class GenerateInputDto:
     output_path: str
-    factory_input_dto: FactoryInputDto
-    ba_factory_input_dto: BAFactoryInputDto
+    factory_input_dto: Union[FactoryInputDto,None]
+    ba_factory_input_dto: Union[BAFactoryInputDto,None]
     adapter : Adapter
     product: SecurityContentProduct
 

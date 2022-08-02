@@ -132,6 +132,7 @@ Unknown. Filter as needed.
 
 #### Associated Analytic story
 * [XMRig](/stories/xmrig)
+* [Azorult](/stories/azorult)
 
 
 

@@ -127,6 +127,7 @@ Administrators or administrative scripts may use this application. Filter as nee
 
 #### Associated Analytic story
 * [XMRig](/stories/xmrig)
+* [Azorult](/stories/azorult)
 
 
 

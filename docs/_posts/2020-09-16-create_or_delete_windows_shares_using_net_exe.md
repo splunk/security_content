@@ -114,8 +114,8 @@ This search looks for the creation or deletion of hidden shares using net.exe.
 #### Macros
 The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [process_net](https://github.com/splunk/security_content/blob/develop/macros/process_net.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 > :information_source:
 > **create_or_delete_windows_shares_using_net_exe_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -159,7 +159,7 @@ Administrators often leverage net.exe to create or delete network shares. You sh
 
 #### Reference
 
-* [https://attack.mitre.org/techniques/T1070/005](https://attack.mitre.org/techniques/T1070/005)
+* [https://attack.mitre.org/techniques/T1070/005/](https://attack.mitre.org/techniques/T1070/005/)
 
 
 

@@ -128,6 +128,7 @@ other tools or script may used this to change code page to UTF-* or others
 
 #### Associated Analytic story
 * [IcedID](/stories/icedid)
+* [Azorult](/stories/azorult)
 
 
 
