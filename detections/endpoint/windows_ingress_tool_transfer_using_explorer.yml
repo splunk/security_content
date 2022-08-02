@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
 - Endpoint
-description: The following analytic detects a explorer.exe with possible url link process commandline on it. 
+description: The following analytic detects an explorer.exe with a possible url link process command line on it.
   Explorer.exe is known windows process that handle start menu, taskbar ,desktop and file manager. 
   So many threat actor abuses this process like DCRat malware, where it tries to open the url link with the default process browser application 
   in the target host by putting the url link as a parameter on explorer.exe process. This anomaly detection might be a good pivot to check 
