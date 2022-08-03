@@ -6,21 +6,25 @@ author: Michael Haag, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: The following analytic identifies msiexec.exe with http in the command-line. This procedure will utilize msiexec.exe to download a remote file and load it.
-  During triage, review parallel processes and capture any artifacts on disk for review.
+description: The following analytic identifies msiexec.exe with http in the command-line.
+  This procedure will utilize msiexec.exe to download a remote file and load it. During
+  triage, review parallel processes and capture any artifacts on disk for review.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where `process_msiexec` Processes.process IN ("*http://*", "*https://*")
-   by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.original_file_name
-  Processes.process Processes.process_id Processes.parent_process_id
-  | `drop_dm_object_name(Processes)` 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` 
-  | `windows_msiexec_remote_download_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
-known_false_positives: False positives may be present, filter by destination or parent process as needed.
+  as lastTime from datamodel=Endpoint.Processes where `process_msiexec` Processes.process
+  IN ("*http://*", "*https://*") by Processes.dest Processes.user Processes.parent_process_name
+  Processes.process_name Processes.original_file_name Processes.process Processes.process_id
+  Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_msiexec_remote_download_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: False positives may be present, filter by destination or parent
+  process as needed.
 references:
-  - https://thedfirreport.com/2022/06/06/will-the-real-msiexec-please-stand-up-exploit-leads-to-data-exfiltration/
-  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.007/T1218.007.md
+- https://thedfirreport.com/2022/06/06/will-the-real-msiexec-please-stand-up-exploit-leads-to-data-exfiltration/
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.007/T1218.007.md
 tags:
   analytic_story:
   - Windows System Binary Proxy Execution MSIExec
@@ -38,7 +42,8 @@ tags:
   impact: 70
   kill_chain_phases:
   - Exploitation
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to download a remote file.
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified
+    on endpoint $dest$ by user $user$ attempting to download a remote file.
   mitre_attack_id:
   - T1218.007
   nist:
@@ -68,14 +73,16 @@ tags:
   - _time
   - Processes.dest
   - Processes.user
-  - Processes.parent_process_name #parent process name
-  - Processes.parent_process #parent cmdline
+  - Processes.parent_process_name
+  - Processes.parent_process
   - Processes.original_file_name
-  - Processes.process_name #process name
-  - Processes.process #process cmdline
+  - Processes.process_name
+  - Processes.process
   - Processes.process_id
   - Processes.parent_process_path
   - Processes.process_path
   - Processes.parent_process_id
   risk_score: 35
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon

@@ -4,7 +4,7 @@ version: 1
 date: '2020-11-06'
 author: Rod Soto, Jose Hernandez, Splunk
 type: TTP
-datamodel: 
+datamodel:
 - Endpoint
 description: The search looks for a Windows Security Account Manager (SAM) was stopped
   via command-line. This is consistent with Ryuk infections across a fleet of endpoints.
@@ -68,3 +68,5 @@ tags:
   - Processes.user
   risk_score: 70
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon
