@@ -71,6 +71,4 @@ tags:
   - Registry.registry_key_name
   risk_score: 60
   security_domain: endpoint
-  supported_tas:
-  - Splunk_TA_microsoft_sysmon
   asset_type: Endpoint
