@@ -6,24 +6,25 @@ author: Eric McGinnis, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: The following analytic detects programs that have been started by pcalua.exe.  
-  pcalua.exe is the Microsoft Windows Program Compatability Assistant.  While this tool 
-  can be used to start legitimate programs, it has been observed being used to evade 
-  protections on command line execution.
+description: The following analytic detects programs that have been started by pcalua.exe.
+  pcalua.exe is the Microsoft Windows Program Compatability Assistant.  While this
+  tool can be used to start legitimate programs, it has been observed being used to
+  evade protections on command line execution.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-    as lastTime from datamodel=Endpoint.Processes where Processes.parent_process="*pcalua* -a*"  
-    by Processes.dest Processes.user Processes.parent_process Processes.parent_process_name Processes.process_name Processes.process Processes.process_id Processes.parent_process_id Processes.process_path
-  | `drop_dm_object_name(Processes)` 
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `windows_indirect_command_execution_via_pcalua_filter`'
+  as lastTime from datamodel=Endpoint.Processes where Processes.parent_process="*pcalua*
+  -a*" by Processes.dest Processes.user Processes.parent_process Processes.parent_process_name
+  Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
+  Processes.process_path | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_indirect_command_execution_via_pcalua_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the full process path in the process field of CIM's Process data model.
   If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
   Tune and filter known instances where pcalua.exe may be used.
-known_false_positives: Some legacy applications may be run using pcalua.exe.  Filter these results as needed.  
+known_false_positives: Some legacy applications may be run using pcalua.exe.  Filter
+  these results as needed.
 references:
-  - https://twitter.com/KyleHanslovan/status/912659279806640128
-  - https://lolbas-project.github.io/lolbas/Binaries/Pcalua/
+- https://twitter.com/KyleHanslovan/status/912659279806640128
+- https://lolbas-project.github.io/lolbas/Binaries/Pcalua/
 tags:
   analytic_story:
   - Living Off The Land
@@ -41,21 +42,20 @@ tags:
   - _time
   - Processes.dest
   - Processes.user
-  - Processes.dest 
-  - Processes.user 
-  - Processes.parent_process 
-  - Processes.parent_process_name 
-  - Processes.process_name 
-  - Processes.process 
-  - Processes.process_id 
-  - Processes.parent_process_id 
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process
+  - Processes.parent_process_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_id
   - Processes.process_path
   security_domain: endpoint
   impact: 50
-  confidence: 50 
-  # (impact * confidence)/100
+  confidence: 50
   risk_score: 25
-  context: 
+  context:
   - Source:Endpoint
   - Stage:Defense Evasion
   message: The Program Compatability Assistant (pcalua.exe) launched the process $process_name$
@@ -68,5 +68,7 @@ tags:
   - DE.AE
   cis20:
   - CIS 8
-  - CIS 10 
+  - CIS 10
   asset_type: Endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon

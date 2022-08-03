@@ -4,7 +4,7 @@ version: 4
 date: '2020-07-22'
 author: Rico Valdez, Splunk
 type: TTP
-datamodel: 
+datamodel:
 - Endpoint
 description: This search detects writes to the recycle bin by a process other than
   explorer.exe.
@@ -70,3 +70,5 @@ tags:
   security_domain: endpoint
   kill_chain_phases:
   - Exploitation
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon
