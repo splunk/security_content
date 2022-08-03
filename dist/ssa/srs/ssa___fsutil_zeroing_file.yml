@@ -46,6 +46,7 @@ tags:
   risk_score: 54
   security_domain: endpoint
   risk_severity: medium
+  research_site_url: https://research.splunk.com/endpoint/f792cdc9-43ee-4429-a3c0-ffce4fed1a85/
 test:
   name: Fsutil Zeroing File Unit Test
   tests:

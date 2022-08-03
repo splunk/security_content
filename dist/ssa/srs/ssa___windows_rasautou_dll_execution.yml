@@ -57,6 +57,7 @@ tags:
   risk_score: 80
   security_domain: endpoint
   risk_severity: high
+  research_site_url: https://research.splunk.com/endpoint/6f42b8ce-1e15-11ec-ad5a-acde48001122/
 test:
   name: Windows Rasautou DLL Execution Unit Test
   tests:

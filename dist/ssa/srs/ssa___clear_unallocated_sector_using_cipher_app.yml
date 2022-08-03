@@ -54,6 +54,7 @@ tags:
   risk_score: 90
   security_domain: endpoint
   risk_severity: high
+  research_site_url: https://research.splunk.com/endpoint/8f907d90-6173-11ec-9c23-acde48001122/
 test:
   name: Clear Unallocated Sector Using Cipher - SSA Unit test
   tests:
