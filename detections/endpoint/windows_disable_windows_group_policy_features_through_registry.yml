@@ -6,16 +6,20 @@ author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
 - Endpoint
-description: This analytic is to detect a suspicious registry modification to disable windows features. 
-  These techniques are seen in several ransomware malware to impair the compromised host to make it hard for analyst to mitigate or response 
-  from the attack. Disabling these known features make the analysis and forensic response more hard. Disabling these feature is not so common but 
-  can still be implemented by the administrator for security purposes. In this scenario filters for users that are allowed doing this is needed.
+description: This analytic is to detect a suspicious registry modification to disable
+  windows features. These techniques are seen in several ransomware malware to impair
+  the compromised host to make it hard for analyst to mitigate or response from the
+  attack. Disabling these known features make the analysis and forensic response more
+  hard. Disabling these feature is not so common but can still be implemented by the
+  administrator for security purposes. In this scenario filters for users that are
+  allowed doing this is needed.
 search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Registry
-  where Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\*" OR Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\*"
-  Registry.registry_value_name IN ("NoDesktop", "NoFind", "NoControlPanel", "NoFileMenu", "NoSetTaskbar", "NoTrayContextMenu", 
-  "TaskbarLockAll", "NoThemesTab","NoPropertiesMyDocuments","NoVisualStyleChoice","NoColorChoice","NoPropertiesMyDocuments")
-  Registry.registry_value_data = "0x00000001" 
-  by _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_value_name Registry.registry_value_data
+  where Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\*"
+  OR Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\*"
+  Registry.registry_value_name IN ("NoDesktop", "NoFind", "NoControlPanel", "NoFileMenu",
+  "NoSetTaskbar", "NoTrayContextMenu", "TaskbarLockAll", "NoThemesTab","NoPropertiesMyDocuments","NoVisualStyleChoice","NoColorChoice","NoPropertiesMyDocuments")
+  Registry.registry_value_data = "0x00000001" by _time span=1h Registry.dest Registry.user
+  Registry.registry_path Registry.registry_value_name Registry.registry_value_data
   Registry.process_guid | `drop_dm_object_name(Registry)` |rename process_guid as
   proc_guid |join proc_guid, _time [| tstats `security_content_summariesonly` count
   FROM datamodel=Endpoint.Processes by _time span=1h Processes.process_id Processes.process_name
@@ -24,8 +28,7 @@ search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint
   proc_guid | fields _time dest user parent_process_name parent_process process_name
   process_path process proc_guid registry_path registry_value_name registry_value_data]
   | table _time dest user parent_process_name parent_process process_name process_path
-  process proc_guid registry_path registry_value_name registry_value_data 
-  | `windows_disable_windows_group_policy_features_through_registry_filter`'
+  process proc_guid registry_path registry_value_name registry_value_data | `windows_disable_windows_group_policy_features_through_registry_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the Filesystem responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` and `Registry` node.
@@ -55,17 +58,16 @@ tags:
   - Registry.registry_path
   - Registry.registry_value_name
   - Registry.dest Registry.user
-  - Processes.process_id 
+  - Processes.process_id
   - Processes.process_name
-  - Processes.process 
-  - Processes.dest 
-  - Processes.parent_process_name 
+  - Processes.process
+  - Processes.dest
+  - Processes.parent_process_name
   - Processes.parent_process
-  - Processes.process_guid 
+  - Processes.process_guid
   security_domain: endpoint
   impact: 70
-  confidence: 70 
-  # (impact * confidence)/100
+  confidence: 70
   risk_score: 49
   context:
   - Source:Endpoint
@@ -83,3 +85,5 @@ tags:
   - CIS 5
   - CIS 16
   asset_type: Endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon
