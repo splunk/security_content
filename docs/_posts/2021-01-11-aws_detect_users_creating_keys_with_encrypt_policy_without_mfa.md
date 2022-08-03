@@ -17,7 +17,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -88,7 +88,7 @@ This search provides detection of KMS keys where action kms:Encrypt is accessibl
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `cloudtrail` eventName=CreateKey OR eventName=PutKeyPolicy 
@@ -107,10 +107,11 @@ This search provides detection of KMS keys where action kms:Encrypt is accessibl
 
 #### Macros
 The SPL above uses the following Macros:
-* [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
 
-Note that **aws_detect_users_creating_keys_with_encrypt_policy_without_mfa_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **aws_detect_users_creating_keys_with_encrypt_policy_without_mfa_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -140,6 +141,9 @@ unknown
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | AWS account is potentially compromised and user $userIdentity.principalId$ is trying to compromise other accounts. |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

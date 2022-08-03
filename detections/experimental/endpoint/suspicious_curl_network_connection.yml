@@ -22,11 +22,12 @@ how_to_implement: To successfully implement this search you need to be ingesting
 known_false_positives: Unknown. Filter as needed.
 references:
 - https://redcanary.com/blog/clipping-silver-sparrows-wings/
-- https://marcosantadev.com/manage-plist-files-plistbuddy/
+- https://www.marcosantadev.com/manage-plist-files-plistbuddy/
 tags:
   analytic_story:
   - Silver Sparrow
   - Ingress Tool Transfer
+  - Linux Living Off The Land
   asset_type: Endpoint
   dataset: []
   kill_chain_phases:

@@ -14,7 +14,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -84,7 +84,7 @@ This search looks for a spike in number of of AWS security Hub alerts for an EC2
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `aws_securityhub_finding` "Resources{}.Type"=AWSEC2Instance 
@@ -102,7 +102,8 @@ This search looks for a spike in number of of AWS security Hub alerts for an EC2
 The SPL above uses the following Macros:
 * [aws_securityhub_finding](https://github.com/splunk/security_content/blob/develop/macros/aws_securityhub_finding.yml)
 
-Note that **detect_spike_in_aws_security_hub_alerts_for_ec2_instance_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **detect_spike_in_aws_security_hub_alerts_for_ec2_instance_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -133,6 +134,9 @@ None
 | ----------- | ----------- |--------------|--------------|
 | 15.0 | 30 | 50 | Spike in AWS security Hub alerts with title $Title$ for EC2 instance $dest$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

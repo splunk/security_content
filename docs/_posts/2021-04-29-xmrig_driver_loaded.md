@@ -23,7 +23,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -96,7 +96,7 @@ This analytic identifies XMRIG coinminer driver installation on the system. The 
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `sysmon` EventCode=6 Signature="Noriyuki MIYAZAKI" OR ImageLoaded= "*\\WinRing0x64.sys" 
@@ -108,10 +108,11 @@ This analytic identifies XMRIG coinminer driver installation on the system. The 
 
 #### Macros
 The SPL above uses the following Macros:
-* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 
-Note that **xmrig_driver_loaded_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **xmrig_driver_loaded_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -141,6 +142,9 @@ False positives should be limited.
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | A driver $ImageLoaded$ related to xmrig crytominer loaded in host $Computer$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

@@ -2,6 +2,7 @@
 title: "UAC Bypass MMC Load Unsigned Dll"
 excerpt: "Bypass User Account Control
 , Abuse Elevation Control Mechanism
+, MMC
 "
 categories:
   - Endpoint
@@ -11,10 +12,12 @@ toc_label: ""
 tags:
   - Bypass User Account Control
   - Abuse Elevation Control Mechanism
+  - MMC
   - Defense Evasion
   - Privilege Escalation
   - Defense Evasion
   - Privilege Escalation
+  - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -23,7 +26,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -50,6 +53,8 @@ This search is to detect a suspicious loaded unsigned dll by MMC.exe application
 | [T1548.002](https://attack.mitre.org/techniques/T1548/002/) | Bypass User Account Control | Defense Evasion, Privilege Escalation |
 
 | [T1548](https://attack.mitre.org/techniques/T1548/) | Abuse Elevation Control Mechanism | Defense Evasion, Privilege Escalation |
+
+| [T1218.014](https://attack.mitre.org/techniques/T1218/014/) | MMC | Defense Evasion |
 
 </div>
 </details>
@@ -96,7 +101,7 @@ This search is to detect a suspicious loaded unsigned dll by MMC.exe application
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `sysmon` EventCode=7  ImageLoaded = "*.dll" Image = "*\\mmc.exe" Signed=false Company != "Microsoft Corporation" 
@@ -108,10 +113,11 @@ This search is to detect a suspicious loaded unsigned dll by MMC.exe application
 
 #### Macros
 The SPL above uses the following Macros:
-* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 
-Note that **uac_bypass_mmc_load_unsigned_dll_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **uac_bypass_mmc_load_unsigned_dll_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -143,6 +149,9 @@ unknown. all of the dll loaded by mmc.exe is microsoft signed dll.
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | Suspicious unsigned $ImageLoaded$ loaded by $Image$ on endpoint $Computer$ with EventCode $EventCode$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

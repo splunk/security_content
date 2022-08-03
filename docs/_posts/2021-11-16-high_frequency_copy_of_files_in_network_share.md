@@ -18,7 +18,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -89,7 +89,7 @@ This analytic is to detect a suspicious high frequency copying/moving of files i
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `wineventlog_security` EventCode=5145 Relative_Target_Name IN ("*.doc","*.docx","*.xls","*.xlsx","*.ppt","*.pptx","*.log","*.txt","*.db","*.7z","*.zip","*.rar","*.tar","*.gz","*.jpg","*.gif","*.png","*.bmp","*.pdf","*.rtf","*.key") Object_Type=File Share_Name IN ("\\\\*\\C$","\\\\*\\IPC$","\\\\*\\admin$") Access_Mask= "0x2" 
@@ -106,7 +106,8 @@ This analytic is to detect a suspicious high frequency copying/moving of files i
 The SPL above uses the following Macros:
 * [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 
-Note that **high_frequency_copy_of_files_in_network_share_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **high_frequency_copy_of_files_in_network_share_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -128,6 +129,7 @@ this behavior may seen in normal transfer of file within network if network shar
 
 #### Associated Analytic story
 * [Information Sabotage](/stories/information_sabotage)
+* [Insider Threat](/stories/insider_threat)
 
 
 
@@ -138,6 +140,9 @@ this behavior may seen in normal transfer of file within network if network shar
 | ----------- | ----------- |--------------|--------------|
 | 9.0 | 30 | 30 | high frequency copy of document in network share $Share_Name$ from $Source_Address$ by $user$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

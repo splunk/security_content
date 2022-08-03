@@ -18,7 +18,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -94,7 +94,7 @@ Detect system information discovery techniques used by attackers to understand c
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -113,7 +113,8 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that **system_information_discovery_detection_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **system_information_discovery_detection_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -142,9 +143,12 @@ Administrators debugging servers
 | 15.0 | 30 | 50 | Potential system information discovery behavior on $dest$ by $User$ |
 
 
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
+
 #### Reference
 
-* [https://oscp.infosecsanyam.in/priv-escalation/windows-priv-escalation](https://oscp.infosecsanyam.in/priv-escalation/windows-priv-escalation)
+* [https://web.archive.org/web/20210119205146/https://oscp.infosecsanyam.in/priv-escalation/windows-priv-escalation](https://web.archive.org/web/20210119205146/https://oscp.infosecsanyam.in/priv-escalation/windows-priv-escalation)
 
 
 

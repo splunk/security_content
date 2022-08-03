@@ -25,7 +25,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -102,7 +102,7 @@ The following analytic identifies the creation or deletion of a scheduled task u
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -118,7 +118,8 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that **scheduled_task_deleted_or_created_via_cmd_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **scheduled_task_deleted_or_created_via_cmd_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -141,6 +142,7 @@ It is possible scripts or administrators may trigger this analytic. Filter as ne
 * [NOBELIUM Group](/stories/nobelium_group)
 * [Windows Persistence Techniques](/stories/windows_persistence_techniques)
 * [Living Off The Land](/stories/living_off_the_land)
+* [Azorult](/stories/azorult)
 
 
 
@@ -151,6 +153,9 @@ It is possible scripts or administrators may trigger this analytic. Filter as ne
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | A schedule task process $process_name$ with create or delete commandline $process$ in host $dest$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

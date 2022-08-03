@@ -19,7 +19,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -90,7 +90,7 @@ The following analytic identifies gpupdate.exe with no command line arguments an
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -112,7 +112,8 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that **gpupdate_with_no_command_line_arguments_with_network_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **gpupdate_with_no_command_line_arguments_with_network_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -143,10 +144,13 @@ Limited false positives may be present in small environments. Tuning may be requ
 | 81.0 | 90 | 90 | Process gpupdate.exe  with parent_process $parent_process_name$ is executed on $dest$ by user $user$, followed by an outbound network connection to $connection_to_CNC$ on port $dest_port$. This behaviour is seen with cobaltstrike. |
 
 
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
+
 #### Reference
 
 * [https://raw.githubusercontent.com/xx0hcd/Malleable-C2-Profiles/0ef8cf4556e26f6d4190c56ba697c2159faa5822/crimeware/trick_ryuk.profile](https://raw.githubusercontent.com/xx0hcd/Malleable-C2-Profiles/0ef8cf4556e26f6d4190c56ba697c2159faa5822/crimeware/trick_ryuk.profile)
-* [https://blog.cobaltstrike.com/2021/02/09/learn-pipe-fitting-for-all-of-your-offense-projects/](https://blog.cobaltstrike.com/2021/02/09/learn-pipe-fitting-for-all-of-your-offense-projects/)
+* [https://www.cobaltstrike.com/blog/learn-pipe-fitting-for-all-of-your-offense-projects/](https://www.cobaltstrike.com/blog/learn-pipe-fitting-for-all-of-your-offense-projects/)
 
 
 

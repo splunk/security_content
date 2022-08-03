@@ -21,7 +21,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -94,7 +94,7 @@ this search is designed to detect suspicious wermgr.exe process that tries to co
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `sysmon` EventCode =22 process_name = wermgr.exe QueryName IN ("*wtfismyip.com", "*checkip.amazonaws.com", "*ipecho.net", "*ipinfo.io", "*api.ipify.org", "*icanhazip.com", "*ip.anysrc.com","*api.ip.sb", "ident.me", "www.myexternalip.com", "*zen.spamhaus.org", "*cbl.abuseat.org", "*b.barracudacentral.org","*dnsbl-1.uceprotect.net", "*spam.dnsbl.sorbs.net") 
@@ -106,10 +106,11 @@ this search is designed to detect suspicious wermgr.exe process that tries to co
 
 #### Macros
 The SPL above uses the following Macros:
-* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 
-Note that **wermgr_process_connecting_to_ip_check_web_services_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **wermgr_process_connecting_to_ip_check_web_services_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -141,6 +142,9 @@ unknown
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | Wermgr.exe process connecting IP location web services on $ComputerName$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

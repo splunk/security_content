@@ -1,7 +1,7 @@
 name: GetAdGroup with PowerShell Script Block
 id: e4c73d68-794b-468d-b4d0-dac1772bbae7
-version: 1
-date: '2021-08-25'
+version: 2
+date: '2022-03-22'
 author: Mauricio Velazco, Splunk
 type: Hunting
 datamodel: []
@@ -10,8 +10,10 @@ description: The following analytic utilizes PowerShell Script Block Logging (Ev
   is used to return a list of all domain groups. Red Teams and adversaries may leverage
   this commandlet to enumerate domain groups for situational awareness and Active
   Directory Discovery.
-search: '`powershell` EventCode=4104 (Message = "*Get-ADGroup*") | stats count min(_time)
-  as firstTime max(_time) as lastTime by EventCode Message ComputerName User | `security_content_ctime(firstTime)`
+search: '`powershell` EventCode=4104 ScriptBlockText = "*Get-ADGroup*"
+  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer user_id 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
   | `getadgroup_with_powershell_script_block_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
@@ -29,7 +31,7 @@ tags:
   - Source:Endpoint
   - Stage:Discovery
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.002/AD_discovery/windows-powershell.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.002/AD_discovery/windows-powershell-xml.log
   impact: 30
   kill_chain_phases:
   - Reconnaissance

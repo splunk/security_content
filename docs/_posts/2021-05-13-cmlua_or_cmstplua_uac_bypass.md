@@ -1,6 +1,6 @@
 ---
 title: "CMLUA Or CMSTPLUA UAC Bypass"
-excerpt: "Signed Binary Proxy Execution
+excerpt: "System Binary Proxy Execution
 , CMSTP
 "
 categories:
@@ -9,7 +9,7 @@ last_modified_at: 2021-05-13
 toc: true
 toc_label: ""
 tags:
-  - Signed Binary Proxy Execution
+  - System Binary Proxy Execution
   - CMSTP
   - Defense Evasion
   - Defense Evasion
@@ -21,7 +21,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -45,7 +45,7 @@ This analytic detects a potential process using COM Object like CMLUA or CMSTPLU
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
-| [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
+| [T1218](https://attack.mitre.org/techniques/T1218/) | System Binary Proxy Execution | Defense Evasion |
 
 | [T1218.003](https://attack.mitre.org/techniques/T1218/003/) | CMSTP | Defense Evasion |
 
@@ -94,7 +94,7 @@ This analytic detects a potential process using COM Object like CMLUA or CMSTPLU
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `sysmon` EventCode=7  ImageLoaded IN ("*\\CMLUA.dll", "*\\CMSTPLUA.dll", "*\\CMLUAUTIL.dll") NOT(process_name IN("CMSTP.exe", "CMMGR32.exe")) NOT(Image IN("*\\windows\\*", "*\\program files*")) 
@@ -106,10 +106,11 @@ This analytic detects a potential process using COM Object like CMLUA or CMSTPLU
 
 #### Macros
 The SPL above uses the following Macros:
-* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 
-Note that **cmlua_or_cmstplua_uac_bypass_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **cmlua_or_cmstplua_uac_bypass_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -141,6 +142,9 @@ Legitimate windows application that are not on the list loading this dll. Filter
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | The following module $ImageLoaded$ was loaded by a non-standard application on endpoint $Computer$ by user $user$. |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

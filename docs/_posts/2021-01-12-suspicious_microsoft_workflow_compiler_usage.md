@@ -18,7 +18,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -94,7 +94,7 @@ The following analytic identifies microsoft.workflow.compiler.exe usage. microso
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -111,7 +111,8 @@ The SPL above uses the following Macros:
 * [process_microsoftworkflowcompiler](https://github.com/splunk/security_content/blob/develop/macros/process_microsoftworkflowcompiler.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that **suspicious_microsoft_workflow_compiler_usage_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **suspicious_microsoft_workflow_compiler_usage_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -147,6 +148,9 @@ Although unlikely, limited instances have been identified coming from native Mic
 | ----------- | ----------- |--------------|--------------|
 | 35.0 | 70 | 50 | Suspicious microsoft.workflow.compiler.exe process ran on $dest$ by $user$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

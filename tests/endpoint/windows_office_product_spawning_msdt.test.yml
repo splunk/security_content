@@ -1,0 +1,13 @@
+name: Windows Office Product Spawning MSDT Unit Test
+tests:
+- name: Windows Office Product Spawning MSDT
+  file: endpoint/windows_office_product_spawning_msdt.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: msdt.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/msdt.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true

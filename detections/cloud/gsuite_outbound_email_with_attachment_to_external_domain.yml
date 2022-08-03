@@ -28,6 +28,7 @@ references:
 tags:
   analytic_story:
   - Dev Sec Ops
+  - Insider Threat
   asset_type: GSuite
   confidence: 30
   context:

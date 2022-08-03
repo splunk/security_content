@@ -14,7 +14,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -80,7 +80,7 @@ This search provides information on Kubernetes RBAC authorizations by accounts, 
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `kubernetes_azure` category=kube-audit 
@@ -96,7 +96,8 @@ This search provides information on Kubernetes RBAC authorizations by accounts, 
 The SPL above uses the following Macros:
 * [kubernetes_azure](https://github.com/splunk/security_content/blob/develop/macros/kubernetes_azure.yml)
 
-Note that **kubernetes_azure_detect_rbac_authorization_by_account_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **kubernetes_azure_detect_rbac_authorization_by_account_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -120,6 +121,9 @@ Not all RBAC Authorications are malicious. RBAC authorizations can uncover malic
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

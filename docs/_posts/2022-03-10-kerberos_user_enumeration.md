@@ -20,7 +20,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -93,7 +93,7 @@ The following analytic leverages Event Id 4768, A Kerberos authentication ticket
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
  `wineventlog_security` EventCode=4768 Result_Code=0x6 Account_Name!="*$" 
@@ -110,7 +110,8 @@ The following analytic leverages Event Id 4768, A Kerberos authentication ticket
 The SPL above uses the following Macros:
 * [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 
-Note that **kerberos_user_enumeration_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **kerberos_user_enumeration_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -139,11 +140,14 @@ Possible false positive scenarios include but are not limited to vulnerability s
 | 24.0 | 30 | 80 | Potential Kerberos based user enumeration attack $Client_Address$ |
 
 
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
+
 #### Reference
 
 * [https://github.com/ropnop/kerbrute](https://github.com/ropnop/kerbrute)
 * [https://attack.mitre.org/techniques/T1589/002/](https://attack.mitre.org/techniques/T1589/002/)
-* [https://www.redsiege.com/blog/2020/04/user-enumeration-part-3-windows/](https://www.redsiege.com/blog/2020/04/user-enumeration-part-3-windows/)
+* [https://redsiege.com/tools-techniques/2020/04/user-enumeration-part-3-windows/](https://redsiege.com/tools-techniques/2020/04/user-enumeration-part-3-windows/)
 
 
 

@@ -18,7 +18,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -89,7 +89,7 @@ This analytic will identify suspicious executable or scripts (known file extensi
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -105,7 +105,8 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that **executables_or_script_creation_in_suspicious_path_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **executables_or_script_creation_in_suspicious_path_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -129,6 +130,9 @@ Administrators may allow creation of script or exe in the paths specified. Filte
 * [Remcos](/stories/remcos)
 * [WhisperGate](/stories/whispergate)
 * [Hermetic Wiper](/stories/hermetic_wiper)
+* [Industroyer2](/stories/industroyer2)
+* [Azorult](/stories/azorult)
+* [DarkCrystal RAT](/stories/darkcrystal_rat)
 
 
 
@@ -139,6 +143,9 @@ Administrators may allow creation of script or exe in the paths specified. Filte
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 80 | 70 | Suspicious executable or scripts with file name $file_name$, $file_path$ and process_id $process_id$ executed in suspicious file path in Windows by $user$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

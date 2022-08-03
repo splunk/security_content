@@ -7,6 +7,7 @@ from datetime import datetime
 
 from bin.contentctl_project.contentctl_core.domain.entities.security_content_object import SecurityContentObject
 from bin.contentctl_project.contentctl_core.domain.entities.story_tags import StoryTags
+from bin.contentctl_project.contentctl_core.domain.entities.link_validator import LinkValidator
 
 class Story(BaseModel, SecurityContentObject):
     # story spec
@@ -17,6 +18,7 @@ class Story(BaseModel, SecurityContentObject):
     author: str
     description: str
     narrative: str
+    check_references: bool = False #Validation is done in order, this field must be defined first
     references: list
     tags: StoryTags
 
@@ -61,14 +63,6 @@ class Story(BaseModel, SecurityContentObject):
             raise ValueError('encoding error in ' + field.name + ': ' + values["name"])
         return v
 
-    # @validator('references')
-    # def references_check(cls, v, values):
-    #     for reference in v:
-    #         try:
-    #             get = requests.get(reference)
-    #             if not get.status_code == 200:
-    #                 raise ValueError('Reference ' + reference + ' is not reachable: ' + values["name"])
-    #         except requests.exceptions.RequestException as e:
-    #             raise ValueError('Reference ' + reference + ' is not reachable: ' + values["name"])
-
-    #     return v
+    @validator('references')
+    def references_check(cls, v, values):
+        return LinkValidator.SecurityContentObject_validate_references(v, values)

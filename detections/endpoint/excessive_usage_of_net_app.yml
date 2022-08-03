@@ -28,6 +28,7 @@ tags:
   analytic_story:
   - XMRig
   - Ransomware
+  - Azorult
   confidence: 70
   context:
   - Source:Endpoint

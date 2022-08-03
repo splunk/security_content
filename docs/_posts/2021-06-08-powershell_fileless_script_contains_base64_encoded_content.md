@@ -23,7 +23,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -101,7 +101,7 @@ During triage, review parallel processes using an EDR product or 4688 events. It
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `powershell` EventCode=4104 Message=*frombase64string* 
@@ -116,7 +116,8 @@ The SPL above uses the following Macros:
 * [powershell](https://github.com/splunk/security_content/blob/develop/macros/powershell.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that **powershell_fileless_script_contains_base64_encoded_content_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **powershell_fileless_script_contains_base64_encoded_content_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -146,6 +147,9 @@ False positives should be limited. Filter as needed.
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | A suspicious powershell script contains base64 command in $Message$ with EventCode $EventCode$ in host $ComputerName$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

@@ -20,7 +20,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -91,7 +91,7 @@ This search provides specific SAML access from specific Service Provider, user a
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `cloudtrail` eventName=Assumerolewithsaml 
@@ -103,10 +103,11 @@ This search provides specific SAML access from specific Service Provider, user a
 
 #### Macros
 The SPL above uses the following Macros:
-* [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
 
-Note that **aws_saml_access_by_provider_user_and_principal_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **aws_saml_access_by_provider_user_and_principal_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -139,9 +140,12 @@ Attacks using a Golden SAML or SAML assertion hijacks or forgeries are very diff
 | 64.0 | 80 | 80 | From IP address $sourceIPAddress$, user agent $userAgent$ has trigged an event $eventName$ for account ID $recipientAccountId$ |
 
 
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
+
 #### Reference
 
-* [https://us-cert.cisa.gov/ncas/alerts/aa21-008a](https://us-cert.cisa.gov/ncas/alerts/aa21-008a)
+* [https://www.cisa.gov/uscert/ncas/alerts/aa21-008a](https://www.cisa.gov/uscert/ncas/alerts/aa21-008a)
 * [https://www.splunk.com/en_us/blog/security/a-golden-saml-journey-solarwinds-continued.html](https://www.splunk.com/en_us/blog/security/a-golden-saml-journey-solarwinds-continued.html)
 * [https://www.fireeye.com/content/dam/fireeye-www/blog/pdfs/wp-m-unc2452-2021-000343-01.pdf](https://www.fireeye.com/content/dam/fireeye-www/blog/pdfs/wp-m-unc2452-2021-000343-01.pdf)
 * [https://www.cyberark.com/resources/threat-research-blog/golden-saml-newly-discovered-attack-technique-forges-authentication-to-cloud-apps](https://www.cyberark.com/resources/threat-research-blog/golden-saml-newly-discovered-attack-technique-forges-authentication-to-cloud-apps)

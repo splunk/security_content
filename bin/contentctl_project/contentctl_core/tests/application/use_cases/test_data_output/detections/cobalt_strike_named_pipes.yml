@@ -1,9 +1,9 @@
 name: Cobalt Strike Named Pipes
 id: 5876d429-0240-4709-8b93-ea8330b411b5
-version: 1
-date: '2021-02-22'
-author: MICHAEL HAAG, SPLUNK
-type: TTP
+version: 2
+date: '2022-07-15'
+author: Michael Haag, Splunk
+type: Hunting
 datamodel: []
 description: 'The following analytic identifies the use of default or publicly known
   named pipes used with Cobalt Strike. A named pipe is a named, one-way or duplex
@@ -34,7 +34,7 @@ references:
 - https://attack.mitre.org/techniques/T1218/009/
 - https://docs.microsoft.com/en-us/windows/win32/ipc/named-pipes
 - https://gist.github.com/MHaggis/6c600e524045a6d49c35291a21e10752
-- https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html
+- https://www.mandiant.com/resources/shining-a-light-on-darkside-ransomware-operations
 tags:
   analytic_story:
   - Cobalt Strike

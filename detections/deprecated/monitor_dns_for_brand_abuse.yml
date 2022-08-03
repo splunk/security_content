@@ -17,7 +17,7 @@ how_to_implement: You need to ingest data from your DNS logs. Specifically you m
   This approach allows you to also create your own localized passive DNS capability
   which can aid you in future investigations. You also need to have run the search
   "ESCU - DNSTwist Domain Names", which creates the permutations of the domain that
-  will be checked for.
+  will be checked for. You also need the [`dnstwist`](https://gist.github.com/d1vious/c4c2aae7fa7d5cbb1f24adc5f6303) custom command. 
 known_false_positives: None at this time
 references: []
 tags:

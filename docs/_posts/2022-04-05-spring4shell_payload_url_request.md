@@ -25,7 +25,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -110,7 +110,7 @@ The following analytic is static indicators related to CVE-2022-22963, Spring4Sh
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -125,7 +125,8 @@ The following analytic is static indicators related to CVE-2022-22963, Spring4Sh
 The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that **spring4shell_payload_url_request_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **spring4shell_payload_url_request_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -155,6 +156,9 @@ The jsp file names are static names used in current proof of concept code. =
 | ----------- | ----------- |--------------|--------------|
 | 36.0 | 60 | 60 | A URL was requested related to Spring4Shell POC code on $dest$ by $src$. |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

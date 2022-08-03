@@ -1,7 +1,7 @@
 name: NLTest Domain Trust Discovery
 id: c3e05466-5f22-11eb-ae93-0242ac130002
-version: 1
-date: '2021-01-25'
+version: 2
+date: '2022-04-18'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
@@ -12,8 +12,7 @@ description: This search looks for the execution of `nltest.exe` with command-li
   domains. Red Teams and adversaries alike use NLTest.exe to enumerate the current
   domain to assist with further understanding where to pivot next.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where (Processes.process_name=nltest.exe
-  OR Processes.process_name!=nltest.exe) (Processes.process=*/domain_trusts* OR Processes.process=*/all_trusts*)
+  as lastTime from datamodel=Endpoint.Processes where `process_nltest` (Processes.process=*/domain_trusts* OR Processes.process=*/all_trusts*)
   by Processes.dest Processes.user Processes.parent_process Processes.process_name
   Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `nltest_domain_trust_discovery_filter`'
@@ -26,7 +25,7 @@ references:
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1482/T1482.md
 - https://malware.news/t/lets-learn-trickbot-implements-network-collector-module-leveraging-cmd-wmi-ldap/19104
 - https://attack.mitre.org/techniques/T1482/
-- https://www.owasp.org/images/4/4b/Red_Team_Operating_in_a_Modern_Environment.pdf
+- https://owasp.org/www-pdf-archive/Red_Team_Operating_in_a_Modern_Environment.pdf
 - https://ss64.com/nt/nltest.html
 - https://redcanary.com/threat-detection-report/techniques/domain-trust-discovery/
 - https://thedfirreport.com/2020/10/08/ryuks-return/

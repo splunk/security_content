@@ -19,7 +19,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -104,7 +104,7 @@ Finally, a simple table is created to show the scoring and the _raw field. Sort 
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -231,7 +231,8 @@ Finally, a simple table is created to show the scoring and the _raw field. Sort 
 #### Macros
 The SPL above uses the following Macros:
 
-Note that **hunting_for_log4shell_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **hunting_for_log4shell_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -262,6 +263,9 @@ It is highly possible you will find false positives, however, the base score is 
 | ----------- | ----------- |--------------|--------------|
 | 40.0 | 80 | 50 | Hunting for Log4Shell exploitation has occurred. |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

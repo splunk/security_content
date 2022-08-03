@@ -1,7 +1,7 @@
 name: Detect AWS Console Login by New User
 id: bc91a8cd-35e7-4bb2-6140-e756cc46fd71
-version: 1
-date: '2020-05-28'
+version: 2
+date: '2022-05-10'
 author: Rico Valdez, Splunk
 type: Hunting
 datamodel:
@@ -21,8 +21,8 @@ search: '| tstats earliest(_time) as firstTime latest(_time) as lastTime from da
 how_to_implement: You must install and configure the Splunk Add-on for AWS (version
   5.1.0 or later) and Enterprise Security 6.2, which contains the required updates
   to the Authentication data model for cloud use cases. Run the `Previously Seen Users
-  in AWS CloudTrail - Initial` support search only once to create a baseline of previously
-  seen IAM users within the last 30 days. Run `Previously Seen Users in AWS CloudTrail
+  in CloudTrail - Initial` support search only once to create a baseline of previously
+  seen IAM users within the last 30 days. Run `Previously Seen Users in CloudTrail
   - Update` hourly (or more frequently depending on how often you run the detection
   searches) to refresh the baselines.
 known_false_positives: When a legitimate new user logins for the first time, this

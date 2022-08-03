@@ -39,6 +39,7 @@ tags:
   analytic_story:
   - XMRig
   - Windows Registry Abuse
+  - Azorult
   confidence: 80
   context:
   - Source:Endpoint

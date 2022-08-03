@@ -26,7 +26,7 @@ description: 'The following query utilizes Windows Security EventCode 4698, `A s
   to identify source.'
 search: '`wineventlog_security` EventCode=4698 | xmlkv Message | search Command IN
   ("*\\users\\public\\*", "*\\programdata\\*", "*\\temp\\*", "*\\Windows\\Tasks\\*",
-  "*\\appdata\\*") | stats count min(_time) as firstTime max(_time) as lastTime by
+  "*\\appdata\\*", "*\\perflogs\\*") | stats count min(_time) as firstTime max(_time) as lastTime by
   dest, Task_Name, Command, Author, Enabled, Hidden | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `winevent_scheduled_task_created_within_public_path_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
@@ -48,6 +48,7 @@ tags:
   - Ryuk Ransomware
   - IcedID
   - Active Directory Lateral Movement
+  - Industroyer2
   confidence: 100
   context:
   - Source:Endpoint

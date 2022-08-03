@@ -1,6 +1,6 @@
 ---
 title: "Detect MSHTA Url in Command Line"
-excerpt: "Signed Binary Proxy Execution
+excerpt: "System Binary Proxy Execution
 , Mshta
 "
 categories:
@@ -9,7 +9,7 @@ last_modified_at: 2021-09-16
 toc: true
 toc_label: ""
 tags:
-  - Signed Binary Proxy Execution
+  - System Binary Proxy Execution
   - Mshta
   - Defense Evasion
   - Defense Evasion
@@ -21,7 +21,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -45,7 +45,7 @@ This analytic identifies when Microsoft HTML Application Host (mshta.exe) utilit
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
-| [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
+| [T1218](https://attack.mitre.org/techniques/T1218/) | System Binary Proxy Execution | Defense Evasion |
 
 | [T1218.005](https://attack.mitre.org/techniques/T1218/005/) | Mshta | Defense Evasion |
 
@@ -99,7 +99,7 @@ This analytic identifies when Microsoft HTML Application Host (mshta.exe) utilit
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -116,7 +116,8 @@ The SPL above uses the following Macros:
 * [process_mshta](https://github.com/splunk/security_content/blob/develop/macros/process_mshta.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that **detect_mshta_url_in_command_line_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **detect_mshta_url_in_command_line_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -152,6 +153,9 @@ It is possible legitimate applications may perform this behavior and will need t
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $est$ by user $user$ attempting to access a remote destination to download an additional payload. |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

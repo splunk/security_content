@@ -1,7 +1,7 @@
 ---
 title: "Scheduled Task Creation on Remote Endpoint using At"
 excerpt: "Scheduled Task/Job
-, At (Windows)
+, At
 "
 categories:
   - Endpoint
@@ -10,7 +10,7 @@ toc: true
 toc_label: ""
 tags:
   - Scheduled Task/Job
-  - At (Windows)
+  - At
   - Execution
   - Persistence
   - Privilege Escalation
@@ -25,7 +25,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -51,7 +51,7 @@ This analytic looks for the execution of `at.exe` with command-line arguments ut
 | -------------- | ---------------- |-------------------- |
 | [T1053](https://attack.mitre.org/techniques/T1053/) | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
 
-| [T1053.002](https://attack.mitre.org/techniques/T1053/002/) | At (Windows) | Execution, Persistence, Privilege Escalation |
+| [T1053.002](https://attack.mitre.org/techniques/T1053/002/) | At | Execution, Persistence, Privilege Escalation |
 
 </div>
 </details>
@@ -98,7 +98,7 @@ This analytic looks for the execution of `at.exe` with command-line arguments ut
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -114,7 +114,8 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that **scheduled_task_creation_on_remote_endpoint_using_at_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **scheduled_task_creation_on_remote_endpoint_using_at_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -150,6 +151,9 @@ Administrators may create scheduled tasks on remote systems, but this activity i
 | ----------- | ----------- |--------------|--------------|
 | 54.0 | 90 | 60 | A Windows Scheduled Task was created on a remote endpoint from $dest |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

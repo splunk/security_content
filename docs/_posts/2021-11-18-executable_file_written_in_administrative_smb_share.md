@@ -20,7 +20,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -93,7 +93,7 @@ The following analytic identifies executable files (.exe or .dll) being written 
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `wineventlog_security` EventCode=5145 Relative_Target_Name IN ("*.exe","*.dll") Object_Type=File Share_Name IN ("\\\\*\\C$","\\\\*\\IPC$","\\\\*\\admin$") Access_Mask= "0x2" 
@@ -108,7 +108,8 @@ The SPL above uses the following Macros:
 * [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that **executable_file_written_in_administrative_smb_share_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **executable_file_written_in_administrative_smb_share_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -133,6 +134,7 @@ System Administrators may use looks like PsExec for troubleshooting or administr
 * [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
 * [Trickbot](/stories/trickbot)
 * [Hermetic Wiper](/stories/hermetic_wiper)
+* [Industroyer2](/stories/industroyer2)
 
 
 
@@ -144,12 +146,15 @@ System Administrators may use looks like PsExec for troubleshooting or administr
 | 70.0 | 70 | 100 | $user$ dropped or created an executable file in known sensitive SMB share.  Share name=$Share_Name$, Target name=$Relative_Target_Name$, and Access mask=$Access_Mask$ |
 
 
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
+
 #### Reference
 
 * [https://attack.mitre.org/techniques/T1021/002/](https://attack.mitre.org/techniques/T1021/002/)
 * [https://www.rapid7.com/blog/post/2013/03/09/psexec-demystified/](https://www.rapid7.com/blog/post/2013/03/09/psexec-demystified/)
 * [https://labs.vipre.com/trickbot-and-its-modules/](https://labs.vipre.com/trickbot-and-its-modules/)
-* [https://blog.whitehat.eu/2019/05/incident-trickbot-ryuk-2.html](https://blog.whitehat.eu/2019/05/incident-trickbot-ryuk-2.html)
+* [https://whitehat.eu/incident-response-case-study-featuring-ryuk-and-trickbot-part-2/](https://whitehat.eu/incident-response-case-study-featuring-ryuk-and-trickbot-part-2/)
 
 
 

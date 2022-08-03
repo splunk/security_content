@@ -17,7 +17,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -88,7 +88,7 @@ The following analytic identifies suspicious PowerShell via EventCode 4104, wher
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `powershell` EventCode=4104 (Message= "*SELECT*" OR Message= "*Get-WmiObject*") AND (Message= "*Win32_Bios*" OR Message= "*Win32_OperatingSystem*" OR Message= "*Win32_Processor*" OR Message= "*Win32_ComputerSystem*" OR Message= "*Win32_ComputerSystemProduct*" OR Message= "*Win32_ShadowCopy*") 
@@ -103,7 +103,8 @@ The SPL above uses the following Macros:
 * [powershell](https://github.com/splunk/security_content/blob/develop/macros/powershell.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that **recon_using_wmi_class_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **recon_using_wmi_class_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -122,6 +123,7 @@ network administrator may used this command for checking purposes
 #### Associated Analytic story
 * [Hermetic Wiper](/stories/hermetic_wiper)
 * [Malicious PowerShell](/stories/malicious_powershell)
+* [Industroyer2](/stories/industroyer2)
 
 
 
@@ -133,6 +135,9 @@ network administrator may used this command for checking purposes
 | 60.0 | 75 | 80 | A suspicious powershell script contains host recon command in $Message$ with EventCode $EventCode$ in host $ComputerName$ |
 
 
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
+
 #### Reference
 
 * [https://news.sophos.com/en-us/2020/05/12/maze-ransomware-1-year-counting/](https://news.sophos.com/en-us/2020/05/12/maze-ransomware-1-year-counting/)
@@ -140,6 +145,7 @@ network administrator may used this command for checking purposes
 * [https://blog.palantir.com/tampering-with-windows-event-tracing-background-offense-and-defense-4be7ac62ac63](https://blog.palantir.com/tampering-with-windows-event-tracing-background-offense-and-defense-4be7ac62ac63)
 * [https://static1.squarespace.com/static/552092d5e4b0661088167e5c/t/59c1814829f18782e24f1fe2/1505853768977/Windows+PowerShell+Logging+Cheat+Sheet+ver+Sept+2017+v2.1.pdf](https://static1.squarespace.com/static/552092d5e4b0661088167e5c/t/59c1814829f18782e24f1fe2/1505853768977/Windows+PowerShell+Logging+Cheat+Sheet+ver+Sept+2017+v2.1.pdf)
 * [https://www.crowdstrike.com/blog/investigating-powershell-command-and-script-logging/](https://www.crowdstrike.com/blog/investigating-powershell-command-and-script-logging/)
+* [https://www.welivesecurity.com/2022/04/12/industroyer2-industroyer-reloaded/](https://www.welivesecurity.com/2022/04/12/industroyer2-industroyer-reloaded/)
 
 
 

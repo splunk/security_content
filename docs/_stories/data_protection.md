@@ -35,7 +35,7 @@ Attackers can leverage a variety of resources to compromise or exfiltrate enterp
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
 | [Detect USB device insertion](/deprecated/detect_usb_device_insertion/) | None| TTP |
-| [Detection of DNS Tunnels](/deprecated/detection_of_dns_tunnels/) | [Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol](/tags/#exfiltration-over-unencrypted/obfuscated-non-c2-protocol)| TTP |
+| [Detection of DNS Tunnels](/deprecated/detection_of_dns_tunnels/) | [Exfiltration Over Unencrypted Non-C2 Protocol](/tags/#exfiltration-over-unencrypted-non-c2-protocol)| TTP |
 | [Detect hosts connecting to dynamic domain providers](/network/detect_hosts_connecting_to_dynamic_domain_providers/) | [Drive-by Compromise](/tags/#drive-by-compromise)| TTP |
 
 #### Reference

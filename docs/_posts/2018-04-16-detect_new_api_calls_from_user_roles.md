@@ -20,7 +20,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -95,7 +95,7 @@ This search detects new API calls that have either never been seen before or tha
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `cloudtrail` eventType=AwsApiCall errorCode=success userIdentity.type=AssumedRole [search `cloudtrail` eventType=AwsApiCall errorCode=success  userIdentity.type=AssumedRole 
@@ -117,10 +117,11 @@ This search detects new API calls that have either never been seen before or tha
 
 #### Macros
 The SPL above uses the following Macros:
-* [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
 
-Note that **detect_new_api_calls_from_user_roles_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **detect_new_api_calls_from_user_roles_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Lookups
 The SPL above uses the following Lookups:
@@ -154,6 +155,9 @@ It is possible that there are legitimate user roles making new or infrequently u
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

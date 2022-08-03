@@ -31,11 +31,12 @@ how_to_implement: To successfully implement this search you need to be ingesting
   that this registry was included in your config files ex. sysmon config to be monitored.
 known_false_positives: unknown
 references:
-- https://www.sophos.com/en-us/threat-center/threat-analyses/viruses-and-spyware/W32~Tiotua-P/detailed-analysis.aspx
+- https://www.sophos.com/en-us/threat-center/threat-analyses/viruses-and-spyware/W32~Tiotua-P/detailed-analysis
 tags:
   analytic_story:
   - Windows Defense Evasion Tactics
   - Windows Registry Abuse
+  - Azorult
   confidence: 100
   context:
   - Source:Endpoint

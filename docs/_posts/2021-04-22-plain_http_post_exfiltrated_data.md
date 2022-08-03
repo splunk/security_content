@@ -1,6 +1,6 @@
 ---
 title: "Plain HTTP POST Exfiltrated Data"
-excerpt: "Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol
+excerpt: "Exfiltration Over Unencrypted Non-C2 Protocol
 , Exfiltration Over Alternative Protocol
 "
 categories:
@@ -9,7 +9,7 @@ last_modified_at: 2021-04-22
 toc: true
 toc_label: ""
 tags:
-  - Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol
+  - Exfiltration Over Unencrypted Non-C2 Protocol
   - Exfiltration Over Alternative Protocol
   - Exfiltration
   - Exfiltration
@@ -21,7 +21,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -45,7 +45,7 @@ This search is to detect potential plain HTTP POST method data exfiltration. Thi
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
-| [T1048.003](https://attack.mitre.org/techniques/T1048/003/) | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
+| [T1048.003](https://attack.mitre.org/techniques/T1048/003/) | Exfiltration Over Unencrypted Non-C2 Protocol | Exfiltration |
 
 | [T1048](https://attack.mitre.org/techniques/T1048/) | Exfiltration Over Alternative Protocol | Exfiltration |
 
@@ -94,7 +94,7 @@ This search is to detect potential plain HTTP POST method data exfiltration. Thi
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `stream_http` http_method=POST form_data IN ("*wermgr.exe*","*svchost.exe*", "*name=\"proclist\"*","*ipconfig*", "*name=\"sysinfo\"*", "*net view*") 
@@ -106,10 +106,11 @@ This search is to detect potential plain HTTP POST method data exfiltration. Thi
 
 #### Macros
 The SPL above uses the following Macros:
-* [stream_http](https://github.com/splunk/security_content/blob/develop/macros/stream_http.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [stream_http](https://github.com/splunk/security_content/blob/develop/macros/stream_http.yml)
 
-Note that **plain_http_post_exfiltrated_data_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **plain_http_post_exfiltrated_data_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -140,6 +141,9 @@ unknown
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | A http post $http_method$ sending packet with plain text of information $form_data$ in uri path $uri_path$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

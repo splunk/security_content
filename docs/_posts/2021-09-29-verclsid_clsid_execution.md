@@ -1,7 +1,7 @@
 ---
 title: "Verclsid CLSID Execution"
 excerpt: "Verclsid
-, Signed Binary Proxy Execution
+, System Binary Proxy Execution
 "
 categories:
   - Endpoint
@@ -10,7 +10,7 @@ toc: true
 toc_label: ""
 tags:
   - Verclsid
-  - Signed Binary Proxy Execution
+  - System Binary Proxy Execution
   - Defense Evasion
   - Defense Evasion
   - Splunk Enterprise
@@ -21,7 +21,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -47,7 +47,7 @@ This analytic is to detect a possible abuse of verclsid to execute malicious fil
 | -------------- | ---------------- |-------------------- |
 | [T1218.012](https://attack.mitre.org/techniques/T1218/012/) | Verclsid | Defense Evasion |
 
-| [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
+| [T1218](https://attack.mitre.org/techniques/T1218/) | System Binary Proxy Execution | Defense Evasion |
 
 </div>
 </details>
@@ -94,7 +94,7 @@ This analytic is to detect a possible abuse of verclsid to execute malicious fil
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -107,11 +107,12 @@ This analytic is to detect a possible abuse of verclsid to execute malicious fil
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_verclsid](https://github.com/splunk/security_content/blob/develop/macros/process_verclsid.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [process_verclsid](https://github.com/splunk/security_content/blob/develop/macros/process_verclsid.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that **verclsid_clsid_execution_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **verclsid_clsid_execution_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -146,6 +147,9 @@ windows can used this application for its normal COM object validation.
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | process $process_name$ to execute possible clsid commandline $process$ in $dest$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

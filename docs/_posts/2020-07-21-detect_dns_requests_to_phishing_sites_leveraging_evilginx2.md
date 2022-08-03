@@ -18,7 +18,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -99,7 +99,7 @@ This search looks for DNS requests for phishing domains that are leveraging Evil
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -123,16 +123,17 @@ This search looks for DNS requests for phishing domains that are leveraging Evil
 
 #### Macros
 The SPL above uses the following Macros:
+* [evilginx_phishlets_facebook](https://github.com/splunk/security_content/blob/develop/macros/evilginx_phishlets_facebook.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [evilginx_phishlets_0365](https://github.com/splunk/security_content/blob/develop/macros/evilginx_phishlets_0365.yml)
 * [evilginx_phishlets_aws](https://github.com/splunk/security_content/blob/develop/macros/evilginx_phishlets_aws.yml)
+* [evilginx_phishlets_outlook](https://github.com/splunk/security_content/blob/develop/macros/evilginx_phishlets_outlook.yml)
 * [evilginx_phishlets_github](https://github.com/splunk/security_content/blob/develop/macros/evilginx_phishlets_github.yml)
 * [evilginx_phishlets_google](https://github.com/splunk/security_content/blob/develop/macros/evilginx_phishlets_google.yml)
 * [evilginx_phishlets_amazon](https://github.com/splunk/security_content/blob/develop/macros/evilginx_phishlets_amazon.yml)
-* [evilginx_phishlets_facebook](https://github.com/splunk/security_content/blob/develop/macros/evilginx_phishlets_facebook.yml)
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
-* [evilginx_phishlets_outlook](https://github.com/splunk/security_content/blob/develop/macros/evilginx_phishlets_outlook.yml)
 
-Note that **detect_dns_requests_to_phishing_sites_leveraging_evilginx2_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **detect_dns_requests_to_phishing_sites_leveraging_evilginx2_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -165,6 +166,9 @@ If a known good domain is not listed in the legit_domains.csv file, then the sea
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

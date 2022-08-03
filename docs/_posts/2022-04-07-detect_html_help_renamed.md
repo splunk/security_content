@@ -1,6 +1,6 @@
 ---
 title: "Detect HTML Help Renamed"
-excerpt: "Signed Binary Proxy Execution
+excerpt: "System Binary Proxy Execution
 , Compiled HTML File
 "
 categories:
@@ -9,7 +9,7 @@ last_modified_at: 2022-04-07
 toc: true
 toc_label: ""
 tags:
-  - Signed Binary Proxy Execution
+  - System Binary Proxy Execution
   - Compiled HTML File
   - Defense Evasion
   - Defense Evasion
@@ -21,7 +21,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -45,7 +45,7 @@ The following analytic identifies a renamed instance of hh.exe (HTML Help) execu
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
-| [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
+| [T1218](https://attack.mitre.org/techniques/T1218/) | System Binary Proxy Execution | Defense Evasion |
 
 | [T1218.001](https://attack.mitre.org/techniques/T1218/001/) | Compiled HTML File | Defense Evasion |
 
@@ -99,7 +99,7 @@ The following analytic identifies a renamed instance of hh.exe (HTML Help) execu
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -115,7 +115,8 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that **detect_html_help_renamed_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **detect_html_help_renamed_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -151,6 +152,9 @@ Although unlikely a renamed instance of hh.exe will be used legitimately, filter
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | The following $process_name$ has been identified as renamed, spawning from $parent_process_name$. |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

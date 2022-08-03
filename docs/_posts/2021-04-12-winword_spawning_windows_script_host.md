@@ -21,7 +21,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -94,7 +94,7 @@ The following detection identifies Microsoft Winword.exe spawning Windows Script
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -110,7 +110,8 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that **winword_spawning_windows_script_host_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **winword_spawning_windows_script_host_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -129,7 +130,7 @@ To successfully implement this search you need to be ingesting information on pr
 There will be limited false positives and it will be different for every environment. Tune by child process or command-line as needed.
 
 #### Associated Analytic story
-* [Spearphishing Attachment](/stories/spearphishing_attachment)
+* [Spearphishing Attachments](/stories/spearphishing_attachments)
 
 
 
@@ -140,6 +141,9 @@ There will be limited false positives and it will be different for every environ
 | ----------- | ----------- |--------------|--------------|
 | 70.0 | 70 | 100 | User $user$ on $dest$ spawned Windows Script Host from Winword.exe |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

@@ -1,0 +1,70 @@
+name: Windows Gather Victim Network Info Through Ip Check Web Services
+id: 70f7c952-0758-46d6-9148-d8969c4481d1
+version: 1
+date: '2022-06-21'
+author: Teoderick Contreras, Splunk
+type: Hunting
+datamodel:
+- Endpoint
+description: The following analytic identifies process that
+  attempts to connect to a known IP web services. This technique is commonly used by trickbot and
+  other malware to perform reconnaissance against the infected machine and look for its IP address.
+search: '`sysmon` EventCode=22  QueryName IN ("*wtfismyip.com", "*checkip.amazonaws.com", "*ipecho.net", "*ipinfo.io", "*api.ipify.org", 
+  "*icanhazip.com", "*ip.anysrc.com","*api.ip.sb", "ident.me", "www.myexternalip.com", "*zen.spamhaus.org", "*cbl.abuseat.org", "*b.barracudacentral.org",
+  "*dnsbl-1.uceprotect.net", "*spam.dnsbl.sorbs.net", "*iplogger.org*", "*ip-api.com*") 
+  |  stats  min(_time) as firstTime max(_time) as lastTime count by  Image ProcessId QueryName QueryStatus QueryResults Computer EventCode 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `windows_gather_victim_network_info_through_ip_check_web_services_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, dns query name process path , and query ststus from
+  your endpoints like EventCode 22. If you are using Sysmon, you must have at least
+  version 12 of the Sysmon TA.
+known_false_positives: Filter internet browser application to minimize the false positive of this detection.
+references:
+- https://app.any.run/tasks/a6f2ffe2-e6e2-4396-ae2e-04ea0143f2d8/
+tags:
+  analytic_story:
+  - Azorult
+  - DarkCrystal RAT
+  asset_type: Endpoint
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  confidence: 50
+  context:
+  - Source:Endpoint
+  - Stage:Initial Access
+  - Stage:Execution
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/azorult/sysmon.log
+  impact: 50
+  kill_chain_phases:
+  - Reconnaissance
+  message: process connecting IP location web services on $Computer$
+  mitre_attack_id:
+  - T1590.005
+  - T1590
+  nist:
+  - DE.CM
+  observable:
+  - name: Computer
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Image 
+  - ProcessId 
+  - QueryName 
+  - QueryStatus 
+  - QueryResults 
+  - Computer 
+  - EventCode 
+  risk_score: 25
+  security_domain: endpoint

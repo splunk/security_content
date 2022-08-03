@@ -7,6 +7,6 @@ tests:
   latest_time: now
   attack_data:
   - file_name: sysmon_linux.log
-    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.001/at_execution/sysmon_linux.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.002/at_execution/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
     sourcetype: sysmon_linux

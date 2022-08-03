@@ -24,7 +24,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -105,7 +105,7 @@ This analytic is to detect a high frequency of file deletion relative to process
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -126,7 +126,8 @@ This analytic is to detect a high frequency of file deletion relative to process
 The SPL above uses the following Macros:
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that **linux_high_frequency_of_file_deletion_in_etc_folder_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **linux_high_frequency_of_file_deletion_in_etc_folder_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -165,6 +166,9 @@ linux package installer/uninstaller may cause this event. Please update you filt
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | a $process_name$ deleting multiple files in /etc/ folder in $dest$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

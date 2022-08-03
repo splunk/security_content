@@ -27,7 +27,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -106,7 +106,7 @@ This search will detect a spike in the number of API calls made to your cloud in
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -131,7 +131,8 @@ This search will detect a spike in the number of API calls made to your cloud in
 #### Macros
 The SPL above uses the following Macros:
 
-Note that **abnormally_high_number_of_cloud_infrastructure_api_calls_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **abnormally_high_number_of_cloud_infrastructure_api_calls_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -158,6 +159,9 @@ You must be ingesting your cloud infrastructure logs. You also must run the base
 | ----------- | ----------- |--------------|--------------|
 | 15.0 | 30 | 50 | user $user$ has made $api_calls$ api calls, violating the dynamic threshold of $expected_upper_threshold$ with the following command $command$. |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

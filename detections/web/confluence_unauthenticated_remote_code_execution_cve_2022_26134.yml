@@ -1,0 +1,72 @@
+name: Confluence Unauthenticated Remote Code Execution CVE-2022-26134
+id: fcf4bd3f-a79f-4b7a-83bf-2692d60b859c
+version: 1
+date: '2022-06-03'
+author: Michael Haag, Splunk
+type: TTP
+datamodel:
+- Endpoint
+description: The following analytic assists with identifying CVE-2022-26134 based exploitation utilizing the Web datamodel to cover network and CIM compliant web logs. The parameters were captured from live scanning and the POC provided by Rapid7. This analytic is written against multiple proof of concept codes released and seen in the wild (scanning).
+  During triage, review any endpoint based logs for further activity including writing a jsp file to disk and commands/processes spawning running as root from the Confluence process. 
+search: '| tstats count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Web where Web.url IN ("*${*", "*%2F%7B*") (Web.url="*org.apache.commons.io.IOUtils*" Web.url="*java.lang.Runtime@getRuntime().exec*") OR (Web.url="*java.lang.Runtime%40getRuntime%28%29.exec*") OR (Web.url="*getEngineByName*" AND Web.url="*nashorn*" AND Web.url="*ProcessBuilder*")
+  by Web.http_user_agent Web.http_method, Web.url,Web.url_length Web.src, Web.dest sourcetype
+  | `drop_dm_object_name("Web")`
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `confluence_unauthenticated_remote_code_execution_cve_2022_26134_filter`'
+how_to_implement: This detection requires the Web datamodel to be populated from a
+  supported Technology Add-On like Splunk for Apache or Splunk for Nginx. In addition, network based logs or event data like PAN Threat.
+known_false_positives: Tune based on assets if possible, or restrict to known Confluence servers. Remove the ${ for a more broad query. To identify more exec, remove everything up to the last parameter (Runtime().exec) for a broad query.
+references:
+  - https://confluence.atlassian.com/doc/confluence-security-advisory-2022-06-02-1130377146.html
+  - https://www.splunk.com/en_us/blog/security/atlassian-confluence-vulnerability-cve-2022-26134.html
+  - https://www.rapid7.com/blog/post/2022/06/02/active-exploitation-of-confluence-cve-2022-26134/
+  - https://www.volexity.com/blog/2022/06/02/zero-day-exploitation-of-atlassian-confluence/
+tags:
+  analytic_story:
+  - Atlassian Confluence Server and Data Center CVE-2022-26134
+  asset_type: Web Server
+  cve:
+  - CVE-2022-26134
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  confidence: 100
+  context:
+  - Scope:Network
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/java/confluence.log
+  impact: 100
+  kill_chain_phases:
+  - Exploitation
+  message: A URL was requested related to CVE-2022-26134, a unauthenticated remote code execution vulnerability,  on $dest$ by $src$.
+  mitre_attack_id:
+  - T1505
+  - T1190
+  nist:
+  - DE.CM
+  observable:
+  - name: dest
+    type: IP Address
+    role:
+    - Victim
+  - name: src
+    type: IP Address
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Web.http_method
+  - Web.url
+  - Web.url_length
+  - Web.src
+  - Web.dest
+  - Web.http_user_agent
+  risk_score: 100
+  security_domain: network

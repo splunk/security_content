@@ -34,7 +34,7 @@ how_to_implement: To successfully implement this search, you must be ingesting d
   to the registry.
 known_false_positives: Active setup installer may add or modify this registry.
 references:
-- https://www.microsoft.com/en-us/wdsi/threats/malware-encyclopedia-description?Name=Backdoor%3aWin32%2fPoisonivy.E
+- https://www.microsoft.com/en-us/wdsi/threats/malware-encyclopedia-description?Name=Backdoor%3AWin32%2FPoisonivy.E
 - https://attack.mitre.org/techniques/T1547/014/
 tags:
   analytic_story:

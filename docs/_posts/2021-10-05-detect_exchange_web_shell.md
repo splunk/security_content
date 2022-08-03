@@ -24,7 +24,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -99,7 +99,7 @@ The following query identifies suspicious .aspx created in 3 paths identified by
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -118,7 +118,8 @@ The following query identifies suspicious .aspx created in 3 paths identified by
 The SPL above uses the following Macros:
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that **detect_exchange_web_shell_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **detect_exchange_web_shell_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -148,6 +149,9 @@ The query is structured in a way that `action` (read, create) is not defined. Re
 | ----------- | ----------- |--------------|--------------|
 | 81.0 | 90 | 90 | A file - $file_name$ was written to disk that is related to IIS exploitation previously performed by HAFNIUM. Review further file modifications on endpoint $dest$ by user $user$. |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

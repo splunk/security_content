@@ -18,7 +18,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -89,7 +89,7 @@ The following analytic leverages Event 4768, A Kerberos authentication ticket (T
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
  `wineventlog_security` EventCode=4768 Ticket_Encryption_Type=0x17 Account_Name!=*$ 
@@ -100,7 +100,8 @@ The following analytic leverages Event 4768, A Kerberos authentication ticket (T
 The SPL above uses the following Macros:
 * [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 
-Note that **kerberos_tgt_request_using_rc4_encryption_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **kerberos_tgt_request_using_rc4_encryption_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -128,6 +129,9 @@ Based on Microsoft documentation, legacy systems or applications will use RC4-HM
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | A Kerberos TGT request with RC4 encryption was requested for $Account_Name$ from $Client_Address$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

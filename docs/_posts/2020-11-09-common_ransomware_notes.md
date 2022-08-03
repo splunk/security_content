@@ -18,7 +18,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -94,7 +94,7 @@ The search looks for files created with names matching those typically used in r
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -108,11 +108,12 @@ The search looks for files created with names matching those typically used in r
 
 #### Macros
 The SPL above uses the following Macros:
-* [ransomware_notes](https://github.com/splunk/security_content/blob/develop/macros/ransomware_notes.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [ransomware_notes](https://github.com/splunk/security_content/blob/develop/macros/ransomware_notes.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that **common_ransomware_notes_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **common_ransomware_notes_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -143,6 +144,9 @@ It's possible that a legitimate file could be created with the same name used by
 | ----------- | ----------- |--------------|--------------|
 | 90.0 | 90 | 100 | A file - $file_name$ was written to disk on endpoint $dest$ by user $user$, this is indicative of a known ransomware note file and should be reviewed immediately. |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

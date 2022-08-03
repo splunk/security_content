@@ -1,6 +1,6 @@
 ---
 title: "Suspicious IcedID Rundll32 Cmdline"
-excerpt: "Signed Binary Proxy Execution
+excerpt: "System Binary Proxy Execution
 , Rundll32
 "
 categories:
@@ -9,7 +9,7 @@ last_modified_at: 2021-07-26
 toc: true
 toc_label: ""
 tags:
-  - Signed Binary Proxy Execution
+  - System Binary Proxy Execution
   - Rundll32
   - Defense Evasion
   - Defense Evasion
@@ -21,7 +21,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -45,7 +45,7 @@ This search is to detect a suspicious rundll32.exe commandline to execute dll fi
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
-| [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
+| [T1218](https://attack.mitre.org/techniques/T1218/) | System Binary Proxy Execution | Defense Evasion |
 
 | [T1218.011](https://attack.mitre.org/techniques/T1218/011/) | Rundll32 | Defense Evasion |
 
@@ -94,7 +94,7 @@ This search is to detect a suspicious rundll32.exe commandline to execute dll fi
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -107,11 +107,12 @@ This search is to detect a suspicious rundll32.exe commandline to execute dll fi
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [process_rundll32](https://github.com/splunk/security_content/blob/develop/macros/process_rundll32.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that **suspicious_icedid_rundll32_cmdline_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **suspicious_icedid_rundll32_cmdline_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -147,6 +148,9 @@ limitted. this parameter is not commonly used by windows application but can be 
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | rundll32 process $process_name$ with commandline $process$ in host $dest$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

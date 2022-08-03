@@ -20,7 +20,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -97,7 +97,7 @@ This analytic is to look for suspicious modification or creation of registry to 
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -117,7 +117,8 @@ This analytic is to look for suspicious modification or creation of registry to 
 The SPL above uses the following Macros:
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that **windows_service_creation_using_registry_entry_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **windows_service_creation_using_registry_entry_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -156,6 +157,9 @@ Third party tools may used this technique to create services but not so common.
 | ----------- | ----------- |--------------|--------------|
 | 64.0 | 80 | 80 | A Windows Service was created on a endpoint from $dest$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

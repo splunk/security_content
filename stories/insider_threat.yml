@@ -1,0 +1,26 @@
+name: Insider Threat
+id: c633df29-a950-4c4c-a0f8-02be6730797c
+version: 1
+date: '2022-05-19'
+author: Jose Hernandez, Splunk
+description: Monitor for activities and techniques associated with insider threats and specifically focusing on malicious insiders operating with in a corporate environment. 
+narrative: "Insider Threats are best defined by CISA: \"Insider threat incidents are possible in any sector or organization. An insider threat is typically a current or former employee, third-party contractor, or business partner. In their present or former role, the person has or had access to an organization's network systems, data, or premises, and uses their access (sometimes unwittingly). To combat the insider threat, organizations can implement a proactive, prevention-focused mitigation program to detect and identify threats, assess risk, and manage that risk - before an incident occurs.\" An insider is any person who has or had authorized access to or knowledge of an organization's resources, including personnel, facilities, information, equipment, networks, and systems. These are the common insiders that create insider threats: Departing Employees, Security Evaders, Malicious Insiders, and Negligent Employees. This story aims at detecting the malicious insider."
+references:
+- https://www.imperva.com/learn/application-security/insider-threats/
+- https://www.cisa.gov/defining-insider-threats
+- https://www.code42.com/glossary/types-of-insider-threats/
+- https://github.com/Insider-Threat/Insider-Threat
+- https://ctid.mitre-engenuity.org/our-work/insider-ttp-kb/
+tags:
+  analytic_story: Insider Threat
+  category:
+  - Adversary Tactics
+  - Account Compromise
+  - Lateral Movement
+  - Privilege Escalation
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  - Splunk Behavioral Analytics
+  usecase: Advanced Threat Detection

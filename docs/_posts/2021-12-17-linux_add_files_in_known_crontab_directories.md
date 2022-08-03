@@ -25,7 +25,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -104,7 +104,7 @@ The following analytic identifies a suspicious file creation in known cron table
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -120,7 +120,8 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that **linux_add_files_in_known_crontab_directories_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **linux_add_files_in_known_crontab_directories_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -140,6 +141,7 @@ Administrator or network operator can create file in crontab folders for automat
 #### Associated Analytic story
 * [Linux Privilege Escalation](/stories/linux_privilege_escalation)
 * [Linux Persistence Techniques](/stories/linux_persistence_techniques)
+* [Linux Living Off The Land](/stories/linux_living_off_the_land)
 
 
 
@@ -150,6 +152,9 @@ Administrator or network operator can create file in crontab folders for automat
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | a file $file_name$ is created in $file_path$ on $dest$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

@@ -1,6 +1,6 @@
 ---
 title: "Excessive number of taskhost processes"
-excerpt: "System Owner/User Discovery
+excerpt: "Command and Scripting Interpreter
 "
 categories:
   - Endpoint
@@ -8,8 +8,8 @@ last_modified_at: 2021-06-07
 toc: true
 toc_label: ""
 tags:
-  - System Owner/User Discovery
-  - Discovery
+  - Command and Scripting Interpreter
+  - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -18,7 +18,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -42,7 +42,7 @@ This detection targets behaviors observed in post exploit kits like Meterpreter 
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
-| [T1033](https://attack.mitre.org/techniques/T1033/) | System Owner/User Discovery | Discovery |
+| [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 
 </div>
 </details>
@@ -89,7 +89,7 @@ This detection targets behaviors observed in post exploit kits like Meterpreter 
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -110,7 +110,8 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that **excessive_number_of_taskhost_processes_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **excessive_number_of_taskhost_processes_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -138,6 +139,9 @@ Administrators, administrative actions or certain applications may run many inst
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 80 | 70 | An excessive amount of $process_name$ was executed on $dest$ indicative of suspicious behavior. |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

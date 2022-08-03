@@ -22,7 +22,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -99,7 +99,7 @@ The following detection identifies the module load of mshtml.dll into an Office 
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `sysmon` EventID=7  process_name IN ("winword.exe","excel.exe","powerpnt.exe","mspub.exe","visio.exe","wordpad.exe","wordview.exe") ImageLoaded IN ("*\\mshtml.dll", "*\\Microsoft.mshtml.dll","*\\IE.Interop.MSHTML.dll","*\\MshtmlDac.dll","*\\MshtmlDed.dll","*\\MshtmlDer.dll") 
@@ -112,10 +112,11 @@ The following detection identifies the module load of mshtml.dll into an Office 
 
 #### Macros
 The SPL above uses the following Macros:
-* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 
-Note that **mshtml_module_load_in_office_product_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **mshtml_module_load_in_office_product_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -145,6 +146,9 @@ Limited false positives will be present, however, tune as necessary.
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | An instance of $process_name$ was identified on endpoint $dest$ loading mshtml.dll. |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

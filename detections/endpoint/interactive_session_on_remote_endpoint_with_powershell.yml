@@ -1,7 +1,7 @@
 name: Interactive Session on Remote Endpoint with PowerShell
 id: a4e8f3a4-48b2-11ec-bcfc-3e22fbd008af
-version: 2
-date: '2022-02-18'
+version: 3
+date: '2022-03-22'
 author: Mauricio Velazco, Splunk
 type: TTP
 datamodel: []
@@ -10,9 +10,11 @@ description: The following analytic utilizes PowerShell Script Block Logging (Ev
   an interactive session on a remote endpoint leveraging the WinRM protocol. Red Teams
   and adversaries alike may abuse WinRM and `Enter-PSSession` for lateral movement
   and remote code execution.
-search: '`powershell` EventCode=4104 (Message="*Enter-PSSession*" AND Message="*-ComputerName*")
-  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message
-  ComputerName User | `security_content_ctime(firstTime)` | `interactive_session_on_remote_endpoint_with_powershell_filter`'
+search: '`powershell` EventCode=4104 (ScriptBlockText="*Enter-PSSession*" AND ScriptBlockText="*-ComputerName*")
+  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer user_id 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `interactive_session_on_remote_endpoint_with_powershell_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup instructions
   can be found https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
@@ -30,7 +32,7 @@ tags:
   - Source:Endpoint
   - Stage:Lateral Movement
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.006/lateral_movement_pssession/windows-powershell.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.006/lateral_movement_pssession/windows-powershell-xml.log
   impact: 90
   kill_chain_phases:
   - Exploitation

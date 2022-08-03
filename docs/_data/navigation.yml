@@ -60,6 +60,8 @@ detections:
         url: /detections/network_traffic/
       - title: Risk
         url: /detections/risk/
+      - title: Splunk_Audit
+        url: /detections/splunk_audit/
       - title: UEBA
         url: /detections/ueba/
       - title: Updates

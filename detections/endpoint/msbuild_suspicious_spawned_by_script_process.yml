@@ -27,7 +27,7 @@ how_to_implement: To successfully implement this search you need to be ingesting
 known_false_positives: False positives should be limited as developers do not spawn
   MSBuild via a WSH.
 references:
-- https://app.any.run/tasks/dc93ee63-050c-4ff8-b07e-8277af9ab939/#
+- https://app.any.run/tasks/dc93ee63-050c-4ff8-b07e-8277af9ab939/
 tags:
   analytic_story:
   - Trusted Developer Utilities Proxy Execution MSBuild

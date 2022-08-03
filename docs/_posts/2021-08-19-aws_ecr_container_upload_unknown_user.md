@@ -20,7 +20,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -99,7 +99,7 @@ This search looks for AWS CloudTrail events from AWS Elastic Container Service (
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `cloudtrail` eventSource=ecr.amazonaws.com eventName=PutImage NOT `aws_ecr_users` 
@@ -115,11 +115,12 @@ This search looks for AWS CloudTrail events from AWS Elastic Container Service (
 
 #### Macros
 The SPL above uses the following Macros:
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
 * [aws_ecr_users](https://github.com/splunk/security_content/blob/develop/macros/aws_ecr_users.yml)
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that **aws_ecr_container_upload_unknown_user_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **aws_ecr_container_upload_unknown_user_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * eventSource
@@ -151,6 +152,9 @@ unknown
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | Container uploaded from unknown user $user$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

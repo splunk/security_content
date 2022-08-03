@@ -1,6 +1,6 @@
 ---
 title: "Multiple Archive Files Http Post Traffic"
-excerpt: "Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol
+excerpt: "Exfiltration Over Unencrypted Non-C2 Protocol
 , Exfiltration Over Alternative Protocol
 "
 categories:
@@ -9,7 +9,7 @@ last_modified_at: 2021-04-21
 toc: true
 toc_label: ""
 tags:
-  - Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol
+  - Exfiltration Over Unencrypted Non-C2 Protocol
   - Exfiltration Over Alternative Protocol
   - Exfiltration
   - Exfiltration
@@ -21,7 +21,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -45,7 +45,7 @@ This search is designed to detect high frequency of archive files data exfiltrat
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
-| [T1048.003](https://attack.mitre.org/techniques/T1048/003/) | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
+| [T1048.003](https://attack.mitre.org/techniques/T1048/003/) | Exfiltration Over Unencrypted Non-C2 Protocol | Exfiltration |
 
 | [T1048](https://attack.mitre.org/techniques/T1048/) | Exfiltration Over Alternative Protocol | Exfiltration |
 
@@ -94,7 +94,7 @@ This search is designed to detect high frequency of archive files data exfiltrat
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `stream_http` http_method=POST 
@@ -109,10 +109,11 @@ This search is designed to detect high frequency of archive files data exfiltrat
 
 #### Macros
 The SPL above uses the following Macros:
-* [stream_http](https://github.com/splunk/security_content/blob/develop/macros/stream_http.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [stream_http](https://github.com/splunk/security_content/blob/develop/macros/stream_http.yml)
 
-Note that **multiple_archive_files_http_post_traffic_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **multiple_archive_files_http_post_traffic_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -147,10 +148,13 @@ Normal archive transfer via HTTP protocol may trip this detection.
 | 25.0 | 50 | 50 | A http post $http_method$ sending packet with possible archive bytes header 4form_data$ in uri path $uri_path$ |
 
 
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
+
 #### Reference
 
 * [https://attack.mitre.org/techniques/T1560/001/](https://attack.mitre.org/techniques/T1560/001/)
-* [https://www.fireeye.com/blog/threat-research/2019/01/apt39-iranian-cyber-espionage-group-focused-on-personal-information.html](https://www.fireeye.com/blog/threat-research/2019/01/apt39-iranian-cyber-espionage-group-focused-on-personal-information.html)
+* [https://www.mandiant.com/resources/apt39-iranian-cyber-espionage-group-focused-on-personal-information](https://www.mandiant.com/resources/apt39-iranian-cyber-espionage-group-focused-on-personal-information)
 * [https://www.microsoft.com/security/blog/2021/01/20/deep-dive-into-the-solorigate-second-stage-activation-from-sunburst-to-teardrop-and-raindrop/](https://www.microsoft.com/security/blog/2021/01/20/deep-dive-into-the-solorigate-second-stage-activation-from-sunburst-to-teardrop-and-raindrop/)
 
 

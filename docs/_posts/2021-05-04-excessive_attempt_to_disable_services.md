@@ -18,7 +18,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -89,12 +89,12 @@ This analytic will identify suspicious series of command-line to disable several
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
 | tstats `security_content_summariesonly` values(Processes.process) as process values(Processes.process_id) as process_id count min(_time) as firstTime max(_time) as lastTime  from datamodel=Endpoint.Processes where   Processes.process_name = "sc.exe" AND Processes.process="*config*" OR Processes.process="*Disabled*" by Processes.process_name Processes.parent_process_name Processes.dest Processes.user _time span=1m 
-| where count >=5 
+| where count >=4 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -106,7 +106,8 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that **excessive_attempt_to_disable_services_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **excessive_attempt_to_disable_services_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -126,6 +127,7 @@ unknown
 
 #### Associated Analytic story
 * [XMRig](/stories/xmrig)
+* [Azorult](/stories/azorult)
 
 
 
@@ -136,6 +138,9 @@ unknown
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | An excessive amount of $process_name$ was executed on $dest$ attempting to disable services. |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

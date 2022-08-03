@@ -15,11 +15,11 @@ tags:
   - Splunk Cloud
 ---
 
-###  WARNING THIS IS A EXPERIMENTAL object
+### :warning: WARNING THIS IS A EXPERIMENTAL analytic
 We have not been able to test, simulate, or build datasets for this object. Use at your own risk. This analytic is **NOT** supported.
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -96,7 +96,7 @@ This search looks for GCP PubSub events where a user has created an open/public 
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `google_gcp_pubsub_message` data.resource.type=gcs_bucket data.protoPayload.methodName=storage.setIamPermissions 
@@ -116,7 +116,8 @@ This search looks for GCP PubSub events where a user has created an open/public 
 The SPL above uses the following Macros:
 * [google_gcp_pubsub_message](https://github.com/splunk/security_content/blob/develop/macros/google_gcp_pubsub_message.yml)
 
-Note that **detect_new_open_gcp_storage_buckets_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **detect_new_open_gcp_storage_buckets_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -149,6 +150,9 @@ While this search has no known false positives, it is possible that a GCP admin 
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

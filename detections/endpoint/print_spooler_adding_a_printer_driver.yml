@@ -28,8 +28,8 @@ how_to_implement: You will need to ensure PrintService Admin and Operational log
 known_false_positives: Unknown. This may require filtering.
 references:
 - https://twitter.com/MalwareJake/status/1410421445608476679?s=20
-- https://blog.truesec.com/2021/06/30/fix-for-printnightmare-cve-2021-1675-exploit-to-keep-your-print-servers-running-while-a-patch-is-not-available/
-- https://blog.truesec.com/2021/06/30/exploitable-critical-rce-vulnerability-allows-regular-users-to-fully-compromise-active-directory-printnightmare-cve-2021-1675/
+- https://www.truesec.com/hub/blog/fix-for-printnightmare-cve-2021-1675-exploit-to-keep-your-print-servers-running-while-a-patch-is-not-available
+- https://www.truesec.com/hub/blog/exploitable-critical-rce-vulnerability-allows-regular-users-to-fully-compromise-active-directory-printnightmare-cve-2021-1675
 - https://www.reddit.com/r/msp/comments/ob6y02/critical_vulnerability_printnightmare_exposes
 tags:
   analytic_story:

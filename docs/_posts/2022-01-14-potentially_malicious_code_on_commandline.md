@@ -18,7 +18,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -89,7 +89,7 @@ The following analytic uses a pretrained machine learning text classifier to det
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -112,7 +112,8 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that **potentially_malicious_code_on_commandline_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **potentially_malicious_code_on_commandline_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -142,6 +143,9 @@ This model is an anomaly detector that identifies usage of APIs and scripting co
 | ----------- | ----------- |--------------|--------------|
 | 12.0 | 60 | 20 | Unusual command-line execution with hallmarks of malicious activity run by $user$ found on $dest$ with commandline $process$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

@@ -19,7 +19,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -90,7 +90,7 @@ This analytic identifies the suspicious Remote Thread execution of rundll32.exe 
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `sysmon` EventCode=8 SourceImage = "*\\rundll32.exe" TargetImage IN ("*\\firefox.exe", "*\\chrome.exe", "*\\iexplore.exe","*\\microsoftedgecp.exe") 
@@ -102,10 +102,11 @@ This analytic identifies the suspicious Remote Thread execution of rundll32.exe 
 
 #### Macros
 The SPL above uses the following Macros:
-* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 
-Note that **rundll32_createremotethread_in_browser_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **rundll32_createremotethread_in_browser_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -137,6 +138,9 @@ unknown
 | ----------- | ----------- |--------------|--------------|
 | 70.0 | 70 | 100 | rundl32 process $SourceImage$ create a remote thread to browser process $TargetImage$ in host $Computer$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

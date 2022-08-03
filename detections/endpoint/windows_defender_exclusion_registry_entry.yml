@@ -38,6 +38,7 @@ tags:
   analytic_story:
   - Remcos
   - Windows Defense Evasion Tactics
+  - Azorult
   confidence: 80
   context:
   - Source:Endpoint

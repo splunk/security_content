@@ -21,7 +21,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -100,7 +100,7 @@ This analytic identifies a process making a DNS query to Discord, a well known i
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `sysmon` EventCode=22 QueryName IN ("*discord*") process_path != "*\\AppData\\Local\\Discord\\*" AND process_path != "*\\Program Files*" AND process_name != "discord.exe" 
@@ -112,10 +112,11 @@ This analytic identifies a process making a DNS query to Discord, a well known i
 
 #### Macros
 The SPL above uses the following Macros:
-* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 
-Note that **suspicious_process_with_discord_dns_query_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **suspicious_process_with_discord_dns_query_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -146,6 +147,9 @@ Noise and false positive can be seen if the following instant messaging is allow
 | ----------- | ----------- |--------------|--------------|
 | 64.0 | 80 | 80 | suspicious process $process_name$ has a dns query in $QueryName$ on $Computer$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

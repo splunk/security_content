@@ -21,7 +21,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -103,7 +103,7 @@ This search looks for PowerShell processes started with parameters used to bypas
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -117,10 +117,11 @@ This search looks for PowerShell processes started with parameters used to bypas
 #### Macros
 The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
-* [process_powershell](https://github.com/splunk/security_content/blob/develop/macros/process_powershell.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [process_powershell](https://github.com/splunk/security_content/blob/develop/macros/process_powershell.yml)
 
-Note that **malicious_powershell_process_-_execution_policy_bypass_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **malicious_powershell_process_-_execution_policy_bypass_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -146,6 +147,7 @@ There may be legitimate reasons to bypass the PowerShell execution policy. The P
 #### Associated Analytic story
 * [DHS Report TA18-074A](/stories/dhs_report_ta18-074a)
 * [HAFNIUM Group](/stories/hafnium_group)
+* [DarkCrystal RAT](/stories/darkcrystal_rat)
 
 
 
@@ -156,6 +158,9 @@ There may be legitimate reasons to bypass the PowerShell execution policy. The P
 | ----------- | ----------- |--------------|--------------|
 | 42.0 | 70 | 60 | PowerShell local execution policy bypass attempt on $dest$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

@@ -18,7 +18,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -95,7 +95,7 @@ This analytic is to detect a suspicious registry modification to disable windows
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -115,7 +115,8 @@ This analytic is to detect a suspicious registry modification to disable windows
 The SPL above uses the following Macros:
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that **windows_disable_windows_group_policy_features_through_registry_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **windows_disable_windows_group_policy_features_through_registry_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -153,10 +154,13 @@ unknown
 | 49.0 | 70 | 70 | Registry modification to disable windows features on $dest$ |
 
 
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
+
 #### Reference
 
 * [https://hybrid-analysis.com/sample/ef1c427394c205580576d18ba68d5911089c7da0386f19d1ca126929d3e671ab?environmentId=120&lang=en](https://hybrid-analysis.com/sample/ef1c427394c205580576d18ba68d5911089c7da0386f19d1ca126929d3e671ab?environmentId=120&lang=en)
-* [https://www.sophos.com/de-de/threat-center/threat-analyses/viruses-and-spyware/Troj~Krotten-N/detailed-analysis](https://www.sophos.com/de-de/threat-center/threat-analyses/viruses-and-spyware/Troj~Krotten-N/detailed-analysis)
+* [https://www.sophos.com/en-us/threat-center/threat-analyses/viruses-and-spyware/Troj~Krotten-N/detailed-analysis](https://www.sophos.com/en-us/threat-center/threat-analyses/viruses-and-spyware/Troj~Krotten-N/detailed-analysis)
 * [https://www.virustotal.com/gui/file/2d7855bf6470aa323edf2949b54ce2a04d9e38770f1322c3d0420c2303178d91/details](https://www.virustotal.com/gui/file/2d7855bf6470aa323edf2949b54ce2a04d9e38770f1322c3d0420c2303178d91/details)
 
 

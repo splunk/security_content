@@ -30,7 +30,7 @@ how_to_implement: To successfully implement this search, you need to be ingestin
 known_false_positives: System administrators may resize the shadowstorage for valid
   purposes. Filter as needed.
 references:
-- https://www.fireeye.com/blog/threat-research/2020/10/fin11-email-campaigns-precursor-for-ransomware-data-theft.html
+- https://www.mandiant.com/resources/fin11-email-campaigns-precursor-for-ransomware-data-theft
 - https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html
 tags:
   analytic_story:

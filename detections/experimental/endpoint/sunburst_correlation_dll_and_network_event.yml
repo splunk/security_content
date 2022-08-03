@@ -20,7 +20,7 @@ how_to_implement: This detection relies on sysmon logs with the Event ID 7, Driv
   We suggest to run this detection at least once a day over the last 14 days.
 known_false_positives: unknown
 references:
-- https://www.fireeye.com/blog/threat-research/2020/12/evasive-attacker-leverages-solarwinds-supply-chain-compromises-with-sunburst-backdoor.html
+- https://www.mandiant.com/resources/evasive-attacker-leverages-solarwinds-supply-chain-compromises-with-sunburst-backdoor
 tags:
   analytic_story:
   - NOBELIUM Group

@@ -21,7 +21,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -94,7 +94,7 @@ The following detection identifies Microsoft Word spawning `cmd.exe`. Typically,
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -107,11 +107,12 @@ The following detection identifies Microsoft Word spawning `cmd.exe`. Typically,
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_cmd](https://github.com/splunk/security_content/blob/develop/macros/process_cmd.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [process_cmd](https://github.com/splunk/security_content/blob/develop/macros/process_cmd.yml)
 
-Note that **winword_spawning_cmd_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **winword_spawning_cmd_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -136,6 +137,7 @@ False positives should be limited, but if any are present, filter as needed.
 
 #### Associated Analytic story
 * [Spearphishing Attachments](/stories/spearphishing_attachments)
+* [DarkCrystal RAT](/stories/darkcrystal_rat)
 
 
 
@@ -146,6 +148,9 @@ False positives should be limited, but if any are present, filter as needed.
 | ----------- | ----------- |--------------|--------------|
 | 70.0 | 70 | 100 | $parent_process_name$ on $dest$ by $user$ launched command: $process_name$ which is very common in spearphishing attacks. |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

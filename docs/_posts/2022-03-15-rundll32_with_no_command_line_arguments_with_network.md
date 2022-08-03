@@ -1,6 +1,6 @@
 ---
 title: "Rundll32 with no Command Line Arguments with Network"
-excerpt: "Signed Binary Proxy Execution
+excerpt: "System Binary Proxy Execution
 , Rundll32
 "
 categories:
@@ -9,7 +9,7 @@ last_modified_at: 2022-03-15
 toc: true
 toc_label: ""
 tags:
-  - Signed Binary Proxy Execution
+  - System Binary Proxy Execution
   - Rundll32
   - Defense Evasion
   - Defense Evasion
@@ -22,7 +22,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -46,7 +46,7 @@ The following analytic identifies rundll32.exe with no command line arguments an
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
-| [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
+| [T1218](https://attack.mitre.org/techniques/T1218/) | System Binary Proxy Execution | Defense Evasion |
 
 | [T1218.011](https://attack.mitre.org/techniques/T1218/011/) | Rundll32 | Defense Evasion |
 
@@ -99,7 +99,7 @@ The following analytic identifies rundll32.exe with no command line arguments an
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -118,11 +118,12 @@ The following analytic identifies rundll32.exe with no command line arguments an
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [process_rundll32](https://github.com/splunk/security_content/blob/develop/macros/process_rundll32.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that **rundll32_with_no_command_line_arguments_with_network_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **rundll32_with_no_command_line_arguments_with_network_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -160,11 +161,14 @@ Although unlikely, some legitimate applications may use a moved copy of rundll32
 | 70.0 | 70 | 100 | A rundll32 process $process_name$ with no commandline argument like this process commandline $process$ in host $dest$ |
 
 
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
+
 #### Reference
 
 * [https://attack.mitre.org/techniques/T1218/011/](https://attack.mitre.org/techniques/T1218/011/)
 * [https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.011/T1218.011.md](https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.011/T1218.011.md)
-* [https://lolbas-project.github.io/lolbas/Binaries/Rundll32](https://lolbas-project.github.io/lolbas/Binaries/Rundll32)
+* [https://lolbas-project.github.io/lolbas/Binaries/Rundll32/](https://lolbas-project.github.io/lolbas/Binaries/Rundll32/)
 * [https://bohops.com/2018/02/26/leveraging-inf-sct-fetch-execute-techniques-for-bypass-evasion-persistence/](https://bohops.com/2018/02/26/leveraging-inf-sct-fetch-execute-techniques-for-bypass-evasion-persistence/)
 
 

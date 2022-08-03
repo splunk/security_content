@@ -7,10 +7,12 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - Authentication
   - Endpoint
   - Actions on Objectives
   - Exploitation
   - Installation
+  - Reconnaissance
 ---
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -20,7 +22,7 @@ tags:
 Uncover activity consistent with credential dumping, a technique wherein attackers compromise systems and attempt to obtain and exfiltrate passwords. The threat actors use these pilfered credentials to further escalate privileges and spread throughout a target environment. The included searches in this Analytic Story are designed to identify attempts to credential dumping.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Authentication](https://docs.splunk.com/Documentation/CIM/latest/User/Authentication), [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-02-04
 - **Author**: Rico Valdez, Splunk
 - **ID**: 854d78bf-d0e2-4f4e-b05c-640905f86d7a
@@ -54,6 +56,7 @@ The detection searches in this Analytic Story monitor access to the Local Securi
 | [Esentutl SAM Copy](/endpoint/esentutl_sam_copy/) | [Security Account Manager](/tags/#security-account-manager), [OS Credential Dumping](/tags/#os-credential-dumping)| Hunting |
 | [Extraction of Registry Hives](/endpoint/extraction_of_registry_hives/) | [Security Account Manager](/tags/#security-account-manager), [OS Credential Dumping](/tags/#os-credential-dumping)| TTP |
 | [Ntdsutil Export NTDS](/endpoint/ntdsutil_export_ntds/) | [NTDS](/tags/#ntds), [OS Credential Dumping](/tags/#os-credential-dumping)| TTP |
+| [Potential password in username](/endpoint/potential_password_in_username/) | [Local Accounts](/tags/#local-accounts), [Credentials In Files](/tags/#credentials-in-files)| Hunting |
 | [SAM Database File Access Attempt](/endpoint/sam_database_file_access_attempt/) | [Security Account Manager](/tags/#security-account-manager), [OS Credential Dumping](/tags/#os-credential-dumping)| Hunting |
 | [SecretDumps Offline NTDS Dumping Tool](/endpoint/secretdumps_offline_ntds_dumping_tool/) | [NTDS](/tags/#ntds), [OS Credential Dumping](/tags/#os-credential-dumping)| TTP |
 | [Set Default PowerShell Execution Policy To Unrestricted or Bypass](/endpoint/set_default_powershell_execution_policy_to_unrestricted_or_bypass/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [PowerShell](/tags/#powershell)| TTP |

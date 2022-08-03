@@ -20,7 +20,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -93,7 +93,7 @@ The following analytic leverages Kerberos Event 4769, A Kerberos service ticket 
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
  `wineventlog_security` EventCode=4769 Service_Name="*$" (Ticket_Options=0x40810000 OR Ticket_Options=0x40800000 OR Ticket_Options=0x40810010) Ticket_Encryption_Type=0x17 
@@ -108,7 +108,8 @@ The SPL above uses the following Macros:
 * [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that **kerberos_service_ticket_request_using_rc4_encryption_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **kerberos_service_ticket_request_using_rc4_encryption_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -138,6 +139,9 @@ Based on Microsoft documentation, legacy systems or applications will use RC4-HM
 | ----------- | ----------- |--------------|--------------|
 | 45.0 | 90 | 50 | A Kerberos Service TTicket request with RC4 encryption was requested from $Client_Address$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

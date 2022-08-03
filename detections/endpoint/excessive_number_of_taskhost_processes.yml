@@ -44,7 +44,7 @@ tags:
   message: An excessive amount of $process_name$ was executed on $dest$ indicative
     of suspicious behavior.
   mitre_attack_id:
-  - T1033
+  - T1059
   observable:
   - name: dest
     type: Hostname

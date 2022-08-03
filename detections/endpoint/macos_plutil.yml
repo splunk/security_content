@@ -1,7 +1,7 @@
 name: MacOS plutil
 id: c11f2b57-92c1-4cd2-b46c-064eafb833ac
-version: 1
-date: '2022-03-29'
+version: 2
+date: '2022-05-26'
 author: Patrick Bareiss, Splunk
 type: TTP
 datamodel:
@@ -33,13 +33,13 @@ tags:
   - Source:Endpoint
   - Stage:Execution
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.011/atomic_red_team/osquery.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1647/atomic_red_team/osquery.log
   impact: 50
   kill_chain_phases:
   - Actions on Objectives
   message: plutil are executed on $host$ from $user$
   mitre_attack_id:
-  - T1547.011
+  - T1647
   nist:
   - DE.CM
   observable:

@@ -20,7 +20,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -93,7 +93,7 @@ This analytics is to detect a gmail containing a link that are known to be abuse
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `gsuite_gmail` "link_domain{}" IN ("*pastebin.com*", "*discord*", "*telegram*","t.me") 
@@ -110,10 +110,11 @@ This analytics is to detect a gmail containing a link that are known to be abuse
 
 #### Macros
 The SPL above uses the following Macros:
-* [gsuite_gmail](https://github.com/splunk/security_content/blob/develop/macros/gsuite_gmail.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [gsuite_gmail](https://github.com/splunk/security_content/blob/develop/macros/gsuite_gmail.yml)
 
-Note that **gsuite_email_with_known_abuse_web_service_link_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **gsuite_email_with_known_abuse_web_service_link_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -137,6 +138,9 @@ normal email contains this link that are known application within the organizati
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | suspicious email from $source.address$ to $destination{}.address$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

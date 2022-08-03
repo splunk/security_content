@@ -18,7 +18,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -95,7 +95,7 @@ This analytic is to look for wmi commandlines to execute or create process. This
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -109,10 +109,11 @@ This analytic is to look for wmi commandlines to execute or create process. This
 #### Macros
 The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
-* [process_wmic](https://github.com/splunk/security_content/blob/develop/macros/process_wmic.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [process_wmic](https://github.com/splunk/security_content/blob/develop/macros/process_wmic.yml)
 
-Note that **windows_wmi_process_call_create_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **windows_wmi_process_call_create_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -148,6 +149,9 @@ Administrators may execute this command for testing or auditing.
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | process with $process$ commandline executed in $dest$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

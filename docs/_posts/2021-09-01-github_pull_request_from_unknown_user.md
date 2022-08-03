@@ -20,7 +20,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -99,7 +99,7 @@ This search looks for Pull Request from unknown user.
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `github` check_suite.pull_requests{}.id=* 
@@ -114,11 +114,12 @@ This search looks for Pull Request from unknown user.
 
 #### Macros
 The SPL above uses the following Macros:
-* [github_known_users](https://github.com/splunk/security_content/blob/develop/macros/github_known_users.yml)
 * [github](https://github.com/splunk/security_content/blob/develop/macros/github.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [github_known_users](https://github.com/splunk/security_content/blob/develop/macros/github_known_users.yml)
 
-Note that **github_pull_request_from_unknown_user_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **github_pull_request_from_unknown_user_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -153,6 +154,9 @@ unknown
 | ----------- | ----------- |--------------|--------------|
 | 27.0 | 30 | 90 | Vulnerabilities found in packages used by GitHub repository $repository$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

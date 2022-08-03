@@ -1,8 +1,8 @@
 name: Suspicious Process With Discord DNS Query
 id: 4d4332ae-792c-11ec-89c1-acde48001122
-version: 1
-date: '2022-01-19'
-author: Teoderick Contreras, Splunk
+version: 2
+date: '2022-06-01'
+author: Teoderick Contreras, Mauricio Velazco, Splunk
 type: Anomaly
 datamodel:
 - Endpoint
@@ -11,10 +11,10 @@ description: This analytic identifies a process making a DNS query to Discord, a
   by adversaries, as seen in the WhisperGate campaign, to host and download malicious.
   external files. A process resolving a Discord DNS name could be an indicator of
   malware trying to download files from Discord for further execution.
-search: '`sysmon` EventCode=22 QueryName IN ("*discord*") process_path != "*\\AppData\\Local\\Discord\\*"
-  AND process_path != "*\\Program Files*" AND process_name != "discord.exe" | stats
+search: '`sysmon` EventCode=22 QueryName IN ("*discord*") Image != "*\\AppData\\Local\\Discord\\*"
+  AND Image != "*\\Program Files*" AND Image != "discord.exe" | stats
   count min(_time) as firstTime max(_time) as lastTime by Image QueryName QueryStatus
-  process_name QueryResults Computer process_path | `security_content_ctime(firstTime)`
+  process_name QueryResults Computer | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `suspicious_process_with_discord_dns_query_filter`'
 how_to_implement: his detection relies on sysmon logs with the Event ID 22, DNS Query.
 known_false_positives: Noise and false positive can be seen if the following instant
@@ -68,7 +68,6 @@ tags:
   - process_name
   - QueryResults
   - Computer
-  - process_path
   risk_score: 64
   security_domain: endpoint
   asset_type: Endpoint

@@ -18,11 +18,12 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - Endpoint
 ---
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -30,7 +31,7 @@ This search looks for modifications to registry keys that can be used to elevate
 
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2022-01-26
 - **Author**: David Dorsey, Teoderick Contreras, Splunk
 - **ID**: c9f4b923-f8af-4155-b697-1354f5bcbc5e
@@ -100,7 +101,7 @@ This search looks for modifications to registry keys that can be used to elevate
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -120,7 +121,8 @@ This search looks for modifications to registry keys that can be used to elevate
 The SPL above uses the following Macros:
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that **registry_keys_used_for_privilege_escalation_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **registry_keys_used_for_privilege_escalation_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -152,6 +154,9 @@ There are many legitimate applications that must execute upon system startup and
 | ----------- | ----------- |--------------|--------------|
 | 76.0 | 80 | 95 | A registry activity in $registry_path$ related to privilege escalation in host $dest$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

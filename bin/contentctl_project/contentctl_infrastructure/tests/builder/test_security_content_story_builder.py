@@ -1,5 +1,6 @@
-import os
+from bin.contentctl_project.contentctl_infrastructure.tests.test_constants import SECURITY_CONTENT_ROOT
 
+import os
 from bin.contentctl_project.contentctl_infrastructure.builder.security_content_story_builder import SecurityContentStoryBuilder
 from bin.contentctl_project.contentctl_infrastructure.builder.security_content_detection_builder import SecurityContentDetectionBuilder
 from bin.contentctl_project.contentctl_infrastructure.builder.security_content_basic_builder import SecurityContentBasicBuilder
@@ -7,6 +8,8 @@ from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import S
 from bin.contentctl_project.contentctl_infrastructure.builder.security_content_investigation_builder import SecurityContentInvestigationBuilder
 from bin.contentctl_project.contentctl_infrastructure.builder.security_content_baseline_builder import SecurityContentBaselineBuilder
 from bin.contentctl_project.contentctl_infrastructure.builder.attack_enrichment import AttackEnrichment
+
+
 
 
 def test_read_story():
@@ -23,7 +26,7 @@ def test_add_detections():
     security_content_builder = SecurityContentDetectionBuilder()
     security_content_builder.setObject(os.path.join(os.path.dirname(__file__), 
         'test_data/detection/valid.yml'))
-    security_content_builder.addMitreAttackEnrichment(AttackEnrichment.get_attack_lookup())
+    security_content_builder.addMitreAttackEnrichment(AttackEnrichment.get_attack_lookup(input_path=SECURITY_CONTENT_ROOT))
     detection = security_content_builder.getObject()
 
     story_builder = SecurityContentStoryBuilder()

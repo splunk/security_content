@@ -21,7 +21,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -94,7 +94,7 @@ This analytic will detect a suspicious process that modify a registry related to
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -114,7 +114,8 @@ This analytic will detect a suspicious process that modify a registry related to
 The SPL above uses the following Macros:
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that **windows_defender_exclusion_registry_entry_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **windows_defender_exclusion_registry_entry_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -135,6 +136,7 @@ admin or user may choose to use this windows features.
 #### Associated Analytic story
 * [Remcos](/stories/remcos)
 * [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
+* [Azorult](/stories/azorult)
 
 
 
@@ -145,6 +147,9 @@ admin or user may choose to use this windows features.
 | ----------- | ----------- |--------------|--------------|
 | 64.0 | 80 | 80 | exclusion registry $registry_path$  modified or added on $dest$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

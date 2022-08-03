@@ -22,7 +22,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -95,7 +95,7 @@ The following analytc uses Windows Event Id 7045, `New Service Was Installed`, t
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `wineventlog_system` EventCode=7045  Service_File_Name = "*\.exe" NOT (Service_File_Name IN ("C:\\Windows\\*", "C:\\Program File*", "C:\\Programdata\\*", "%systemroot%\\*")) 
@@ -107,10 +107,11 @@ The following analytc uses Windows Event Id 7045, `New Service Was Installed`, t
 
 #### Macros
 The SPL above uses the following Macros:
-* [wineventlog_system](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_system.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [wineventlog_system](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_system.yml)
 
-Note that **windows_service_created_within_public_path_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **windows_service_created_within_public_path_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * EventCode
@@ -139,6 +140,9 @@ Legitimate applications may install services with uncommon services paths.
 | ----------- | ----------- |--------------|--------------|
 | 54.0 | 90 | 60 | A Windows Service $Service_File_Name$ with a public path was created on $ComputerName |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

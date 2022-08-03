@@ -21,7 +21,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -94,11 +94,11 @@ This analytic detects a potential suspicious modification of firewall rule allow
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process = "*firewall*" Processes.process = "*allowedprogram*" Processes.process = "*add*" Processes.process = "*ENABLE*" by Processes.dest Processes.user Processes.parent_process_name Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process = "*firewall*" Processes.process = "*allow*" Processes.process = "*add*" Processes.process = "*ENABLE*" by Processes.dest Processes.user Processes.parent_process_name Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -110,7 +110,8 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that **firewall_allowed_program_enable_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **firewall_allowed_program_enable_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -132,6 +133,7 @@ A network operator or systems administrator may utilize an automated or manual e
 
 #### Associated Analytic story
 * [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
+* [Azorult](/stories/azorult)
 
 
 
@@ -143,9 +145,12 @@ A network operator or systems administrator may utilize an automated or manual e
 | 25.0 | 50 | 50 | firewall allowed program commandline $process$ of $process_name$ on $dest$ by $user$ |
 
 
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
+
 #### Reference
 
-* [https://app.any.run/tasks/ad4c3cda-41f2-4401-8dba-56cc2d245488/#](https://app.any.run/tasks/ad4c3cda-41f2-4401-8dba-56cc2d245488/#)
+* [https://app.any.run/tasks/ad4c3cda-41f2-4401-8dba-56cc2d245488/](https://app.any.run/tasks/ad4c3cda-41f2-4401-8dba-56cc2d245488/)
 
 
 

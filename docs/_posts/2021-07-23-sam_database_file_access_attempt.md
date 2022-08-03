@@ -22,7 +22,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -99,7 +99,7 @@ The following analytic identifies access to SAM, SYSTEM or SECURITY databases' w
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `wineventlog_security` (EventCode=4663)  process_name!=*\\dllhost.exe Object_Name IN ("*\\Windows\\System32\\config\\SAM*","*\\Windows\\System32\\config\\SYSTEM*","*\\Windows\\System32\\config\\SECURITY*") 
@@ -111,7 +111,8 @@ The following analytic identifies access to SAM, SYSTEM or SECURITY databases' w
 The SPL above uses the following Macros:
 * [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 
-Note that **sam_database_file_access_attempt_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **sam_database_file_access_attempt_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -139,6 +140,9 @@ Natively, `dllhost.exe` will access the files. Every environment will have addit
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | The following process $process_name$ accessed the object $Object_Name$ attempting to gain access to credentials on $dest$ by user $user$. |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

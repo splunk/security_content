@@ -21,7 +21,7 @@ how_to_implement: To successfully implement this search you need to be ingesting
   your endpoints into the `Endpoint` datamodel in the `Processes` node.
 known_false_positives: Administrators debugging servers
 references:
-- https://oscp.infosecsanyam.in/priv-escalation/windows-priv-escalation
+- https://web.archive.org/web/20210119205146/https://oscp.infosecsanyam.in/priv-escalation/windows-priv-escalation
 tags:
   analytic_story:
   - Discovery Techniques

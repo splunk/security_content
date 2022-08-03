@@ -20,11 +20,11 @@ tags:
   - Splunk Cloud
 ---
 
-###  WARNING THIS IS A EXPERIMENTAL object
+### :warning: WARNING THIS IS A EXPERIMENTAL analytic
 We have not been able to test, simulate, or build datasets for this object. Use at your own risk. This analytic is **NOT** supported.
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -104,7 +104,7 @@ Upon triage, capture the property list file being written to disk and review for
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `osquery_process` "columns.cmdline"="*LaunchAgents*" OR "columns.cmdline"="*RunAtLoad*" OR "columns.cmdline"="*true*" 
@@ -115,7 +115,8 @@ Upon triage, capture the property list file being written to disk and review for
 The SPL above uses the following Macros:
 * [osquery_process](https://github.com/splunk/security_content/blob/develop/macros/osquery_process.yml)
 
-Note that **suspicious_plistbuddy_usage_via_osquery_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **suspicious_plistbuddy_usage_via_osquery_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -141,9 +142,12 @@ Some legitimate applications may use PlistBuddy to create or modify property lis
 | 25.0 | 50 | 50 | tbd |
 
 
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
+
 #### Reference
 
-* [https://marcosantadev.com/manage-plist-files-plistbuddy/](https://marcosantadev.com/manage-plist-files-plistbuddy/)
+* [https://www.marcosantadev.com/manage-plist-files-plistbuddy/](https://www.marcosantadev.com/manage-plist-files-plistbuddy/)
 
 
 

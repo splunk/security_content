@@ -23,7 +23,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -96,7 +96,7 @@ This search is to detect a suspicious modification of registry entry to persist 
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -112,7 +112,8 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that **logon_script_event_trigger_execution_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **logon_script_event_trigger_execution_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -144,9 +145,12 @@ unknown
 | 80.0 | 80 | 100 | modified/added/deleted registry entry $Registry.registry_path$ in $dest$ |
 
 
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
+
 #### Reference
 
-* [https://attack.mitre.org/techniques/T1037/001](https://attack.mitre.org/techniques/T1037/001)
+* [https://attack.mitre.org/techniques/T1037/001/](https://attack.mitre.org/techniques/T1037/001/)
 
 
 

@@ -31,7 +31,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -110,7 +110,7 @@ This analytic looks for the presence of suspicious commandline parameters typica
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -126,7 +126,8 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that **impacket_lateral_movement_commandline_parameters_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **impacket_lateral_movement_commandline_parameters_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -152,6 +153,7 @@ Although uncommon, Administrators may leverage Impackets tools to start a proces
 #### Associated Analytic story
 * [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
 * [WhisperGate](/stories/whispergate)
+* [Industroyer2](/stories/industroyer2)
 
 
 
@@ -163,13 +165,16 @@ Although uncommon, Administrators may leverage Impackets tools to start a proces
 | 63.0 | 90 | 70 | Suspicious command line parameters on $dest may represent a lateral movement attack with Impackets tools |
 
 
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
+
 #### Reference
 
 * [https://attack.mitre.org/techniques/T1021/002/](https://attack.mitre.org/techniques/T1021/002/)
 * [https://attack.mitre.org/techniques/T1021/003/](https://attack.mitre.org/techniques/T1021/003/)
 * [https://attack.mitre.org/techniques/T1047/](https://attack.mitre.org/techniques/T1047/)
 * [https://attack.mitre.org/techniques/T1053/](https://attack.mitre.org/techniques/T1053/)
-* [https://attack.mitre.org/techniques/T1053/005](https://attack.mitre.org/techniques/T1053/005)
+* [https://attack.mitre.org/techniques/T1053/005/](https://attack.mitre.org/techniques/T1053/005/)
 * [https://github.com/SecureAuthCorp/impacket](https://github.com/SecureAuthCorp/impacket)
 * [https://vk9-sec.com/impacket-remote-code-execution-rce-on-windows-from-linux/](https://vk9-sec.com/impacket-remote-code-execution-rce-on-windows-from-linux/)
 * [https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/](https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/)

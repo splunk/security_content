@@ -1,6 +1,6 @@
 ---
 title: "Gsuite Outbound Email With Attachment To External Domain"
-excerpt: "Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol
+excerpt: "Exfiltration Over Unencrypted Non-C2 Protocol
 , Exfiltration Over Alternative Protocol
 "
 categories:
@@ -9,7 +9,7 @@ last_modified_at: 2021-08-17
 toc: true
 toc_label: ""
 tags:
-  - Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol
+  - Exfiltration Over Unencrypted Non-C2 Protocol
   - Exfiltration Over Alternative Protocol
   - Exfiltration
   - Exfiltration
@@ -20,7 +20,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -44,7 +44,7 @@ This search is to detect a suspicious outbound e-mail from internal email to ext
 
 | ID             | Technique        |  Tactic             |
 | -------------- | ---------------- |-------------------- |
-| [T1048.003](https://attack.mitre.org/techniques/T1048/003/) | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
+| [T1048.003](https://attack.mitre.org/techniques/T1048/003/) | Exfiltration Over Unencrypted Non-C2 Protocol | Exfiltration |
 
 | [T1048](https://attack.mitre.org/techniques/T1048/) | Exfiltration Over Alternative Protocol | Exfiltration |
 
@@ -93,7 +93,7 @@ This search is to detect a suspicious outbound e-mail from internal email to ext
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `gsuite_gmail` num_message_attachments > 0 
@@ -112,10 +112,11 @@ This search is to detect a suspicious outbound e-mail from internal email to ext
 
 #### Macros
 The SPL above uses the following Macros:
-* [gsuite_gmail](https://github.com/splunk/security_content/blob/develop/macros/gsuite_gmail.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [gsuite_gmail](https://github.com/splunk/security_content/blob/develop/macros/gsuite_gmail.yml)
 
-Note that **gsuite_outbound_email_with_attachment_to_external_domain_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **gsuite_outbound_email_with_attachment_to_external_domain_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -129,6 +130,7 @@ network admin and normal user may send this file attachment as part of their day
 
 #### Associated Analytic story
 * [Dev Sec Ops](/stories/dev_sec_ops)
+* [Insider Threat](/stories/insider_threat)
 
 
 
@@ -139,6 +141,9 @@ network admin and normal user may send this file attachment as part of their day
 | ----------- | ----------- |--------------|--------------|
 | 9.0 | 30 | 30 | suspicious email from $source.address$ to $destination{}.address$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

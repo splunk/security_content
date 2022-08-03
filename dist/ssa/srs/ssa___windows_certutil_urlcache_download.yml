@@ -29,7 +29,7 @@ known_false_positives: Limited false positives in most environments, however tun
 references:
 - https://attack.mitre.org/techniques/T1105/
 - https://www.avira.com/en/blog/certutil-abused-by-attackers-to-spread-threats
-- https://www.fireeye.com/blog/threat-research/2019/10/certutil-qualms-they-came-to-drop-fombs.html
+- https://web.archive.org/web/20210921110637/https://www.fireeye.com/blog/threat-research/2019/10/certutil-qualms-they-came-to-drop-fombs.html
 tags:
   analytic_story:
   - Ingress Tool Transfer

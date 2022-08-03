@@ -20,7 +20,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -93,7 +93,7 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `powershell` EventCode=4104 (Message = "*Get-DomainGroup*") 
@@ -107,7 +107,8 @@ The SPL above uses the following Macros:
 * [powershell](https://github.com/splunk/security_content/blob/develop/macros/powershell.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that **getdomaingroup_with_powershell_script_block_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **getdomaingroup_with_powershell_script_block_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -135,6 +136,9 @@ Administrators or power users may use this PowerView functions for troubleshooti
 | ----------- | ----------- |--------------|--------------|
 | 15.0 | 30 | 50 | Domain group discovery enumeration using PowerView on $dest$ by $user$ |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

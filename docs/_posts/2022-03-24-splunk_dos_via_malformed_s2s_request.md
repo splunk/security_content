@@ -18,7 +18,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -99,10 +99,10 @@ On March 24th, 2022, Splunk published a security advisory for a possible Denial 
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
-`splunkd` log_level=ERROR component=TcpInputProc thread_name=FwdDataReceiverThread 
+`splunkd` log_level="ERROR" component="TcpInputProc" thread_name="FwdDataReceiverThread" "Invalid _meta atom" 
 | table host, src 
 | `splunk_dos_via_malformed_s2s_request_filter`
 ```
@@ -111,7 +111,8 @@ On March 24th, 2022, Splunk published a security advisory for a possible Denial 
 The SPL above uses the following Macros:
 * [splunkd](https://github.com/splunk/security_content/blob/develop/macros/splunkd.yml)
 
-Note that **splunk_dos_via_malformed_s2s_request_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **splunk_dos_via_malformed_s2s_request_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * host
@@ -140,6 +141,9 @@ None.
 | 50.0 | 50 | 100 | An attempt to exploit CVE-2021-3422 was detected from $src$ against $host$ |
 
 
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
+
 #### Reference
 
 * [https://www.splunk.com/en_us/product-security/announcements/svd-2022-0301.html](https://www.splunk.com/en_us/product-security/announcements/svd-2022-0301.html)
@@ -155,4 +159,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/application/splunk_dos_via_malformed_s2s_request.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/application/splunk_dos_via_malformed_s2s_request.yml) \| *version*: **2**

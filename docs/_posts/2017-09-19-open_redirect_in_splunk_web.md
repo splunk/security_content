@@ -15,7 +15,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -96,7 +96,7 @@ This search allows you to look for evidence of exploitation for CVE-2016-4859, t
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 index=_internal sourcetype=splunk_web_access return_to="/%09/*" 
@@ -106,7 +106,8 @@ index=_internal sourcetype=splunk_web_access return_to="/%09/*"
 #### Macros
 The SPL above uses the following Macros:
 
-Note that **open_redirect_in_splunk_web_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **open_redirect_in_splunk_web_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -130,6 +131,9 @@ None identified
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

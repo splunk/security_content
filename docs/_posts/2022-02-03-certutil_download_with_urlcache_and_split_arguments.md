@@ -18,7 +18,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -89,7 +89,7 @@ Certutil.exe may download a file from a remote destination using `-urlcache`. Th
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -106,7 +106,8 @@ The SPL above uses the following Macros:
 * [process_certutil](https://github.com/splunk/security_content/blob/develop/macros/process_certutil.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that **certutil_download_with_urlcache_and_split_arguments_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **certutil_download_with_urlcache_and_split_arguments_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -144,11 +145,14 @@ Limited false positives in most environments, however tune as needed based on pa
 | 90.0 | 90 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to download a file. |
 
 
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
+
 #### Reference
 
 * [https://attack.mitre.org/techniques/T1105/](https://attack.mitre.org/techniques/T1105/)
 * [https://www.avira.com/en/blog/certutil-abused-by-attackers-to-spread-threats](https://www.avira.com/en/blog/certutil-abused-by-attackers-to-spread-threats)
-* [https://www.fireeye.com/blog/threat-research/2019/10/certutil-qualms-they-came-to-drop-fombs.html](https://www.fireeye.com/blog/threat-research/2019/10/certutil-qualms-they-came-to-drop-fombs.html)
+* [https://web.archive.org/web/20210921110637/https://www.fireeye.com/blog/threat-research/2019/10/certutil-qualms-they-came-to-drop-fombs.html](https://web.archive.org/web/20210921110637/https://www.fireeye.com/blog/threat-research/2019/10/certutil-qualms-they-came-to-drop-fombs.html)
 
 
 

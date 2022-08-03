@@ -1,0 +1,4 @@
+definition: index=_internal sourcetype=splunkd_ui_access 
+description: customer specific splunk configurations(eg- index, source, sourcetype).
+  Replace the macro definition with configurations for your Splunk Environmnent.
+name: path_traversal_spl_injection

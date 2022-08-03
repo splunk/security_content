@@ -1,7 +1,7 @@
 name: Remote Process Instantiation via DCOM and PowerShell Script Block
 id: fa1c3040-4680-11ec-a618-3e22fbd008af
-version: 1
-date: '2021-11-15'
+version: 2
+date: '2022-03-22'
 author: Mauricio Velazco, Splunk
 type: TTP
 datamodel: []
@@ -10,9 +10,10 @@ description: The following analytic utilizes PowerShell Script Block Logging (Ev
   on a remote endpoint by abusing the DCOM protocol. Specifically, this search looks
   for the abuse of ShellExecute and ExecuteShellCommand. Red Teams and adversaries
   alike may abuse DCOM for lateral movement and remote code execution.
-search: '`powershell` EventCode=4104 (Message="*Document.Application.ShellExecute*"
-  OR Message="*Document.ActiveView.ExecuteShellCommand*") | stats count min(_time)
-  as firstTime max(_time) as lastTime by EventCode Message ComputerName User | `security_content_ctime(firstTime)`
+search: '`powershell` EventCode=4104 (ScriptBlockText="*Document.Application.ShellExecute*" OR ScriptBlockText="*Document.ActiveView.ExecuteShellCommand*")
+  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer user_id 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
   | `remote_process_instantiation_via_dcom_and_powershell_script_block_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup instructions

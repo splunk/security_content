@@ -20,7 +20,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -99,7 +99,7 @@ This search looks for reading loaded Images unique to credential dumping with Mi
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `sysmon` EventCode=7 
@@ -113,10 +113,11 @@ This search looks for reading loaded Images unique to credential dumping with Mi
 
 #### Macros
 The SPL above uses the following Macros:
-* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
 
-Note that **detect_mimikatz_using_loaded_images_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **detect_mimikatz_using_loaded_images_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -148,6 +149,9 @@ Other tools can import the same DLLs. These tools should be part of a whitelist.
 | ----------- | ----------- |--------------|--------------|
 | 64.0 | 80 | 80 | A process, $Image$, has loaded $ImageLoaded$ that are typically related to credential dumping on $Computer$. Review for further details. |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

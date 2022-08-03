@@ -25,7 +25,8 @@ how_to_implement: To successfully implement this search you need to be ingesting
 known_false_positives: user may copy a lot of office fies from one folder to another
 references: []
 tags:
-  analytic_story: []
+  analytic_story:
+  - Insider Threat
   confidence: 80
   context:
   - Source:Endpoint

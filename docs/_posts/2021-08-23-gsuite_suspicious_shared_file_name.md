@@ -20,7 +20,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -93,7 +93,7 @@ This search is to detect a shared file in google drive with suspicious file name
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 `gsuite_drive` parameters.owner_is_team_drive=false "parameters.doc_title" IN ("*dhl*", "* ups *", "*delivery*", "*parcel*", "*label*", "*invoice*", "*postal*", "*fedex*", "* usps *", "* express *", "*shipment*", "*Banking/Tax*","*shipment*", "*new order*") parameters.doc_type IN ("document","pdf", "msexcel", "msword", "spreadsheet", "presentation") 
@@ -114,7 +114,8 @@ The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [gsuite_drive](https://github.com/splunk/security_content/blob/develop/macros/gsuite_drive.yml)
 
-Note that **gsuite_suspicious_shared_file_name_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **gsuite_suspicious_shared_file_name_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -146,10 +147,13 @@ normal user or normal transaction may contain the subject and file type attachme
 | 21.0 | 30 | 70 | suspicious share gdrive from $parameters.owner$ to $email$ namely as $parameters.doc_title$ |
 
 
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
+
 #### Reference
 
 * [https://www.redhat.com/en/topics/devops/what-is-devsecops](https://www.redhat.com/en/topics/devops/what-is-devsecops)
-* [https://www.fireeye.com/content/dam/fireeye-www/global/en/current-threats/pdfs/rpt-top-spear-phishing-words.pdf](https://www.fireeye.com/content/dam/fireeye-www/global/en/current-threats/pdfs/rpt-top-spear-phishing-words.pdf)
+* [https://www.mandiant.com/resources/top-words-used-in-spear-phishing-attacks](https://www.mandiant.com/resources/top-words-used-in-spear-phishing-attacks)
 
 
 

@@ -15,11 +15,11 @@ tags:
   - Splunk Cloud
 ---
 
-###  WARNING THIS IS A EXPERIMENTAL object
+### :warning: WARNING THIS IS A EXPERIMENTAL analytic
 We have not been able to test, simulate, or build datasets for this object. Use at your own risk. This analytic is **NOT** supported.
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -90,7 +90,7 @@ This searches show information on uploaded containers including source user, ima
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -102,7 +102,8 @@ This searches show information on uploaded containers including source user, ima
 #### Macros
 The SPL above uses the following Macros:
 
-Note that **new_container_uploaded_to_aws_ecr_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **new_container_uploaded_to_aws_ecr_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -126,6 +127,9 @@ Uploading container is a normal behavior from developers or users with access to
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | tbd |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

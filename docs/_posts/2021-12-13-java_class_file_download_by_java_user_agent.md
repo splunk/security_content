@@ -19,7 +19,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -94,7 +94,7 @@ The following analytic identifies a Java user agent performing a GET request for
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -109,7 +109,8 @@ The following analytic identifies a Java user agent performing a GET request for
 The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
-Note that **java_class_file_download_by_java_user_agent_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **java_class_file_download_by_java_user_agent_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -139,6 +140,9 @@ Filtering may be required in some instances, filter as needed.
 | ----------- | ----------- |--------------|--------------|
 | 40.0 | 80 | 50 | A Java user agent $http_user_agent$ was performing a $http_method$ to retrieve a remote class file. |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

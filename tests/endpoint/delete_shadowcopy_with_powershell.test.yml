@@ -7,6 +7,6 @@ tests:
   latest_time: now
   attack_data:
   - file_name: windows-powershell.log
-    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/revil/inf1/windows-powershell.log
-    source: WinEventLog:Microsoft-Windows-PowerShell/Operational
-    sourcetype: WinEventLog
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/sbl_xml.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: xmlwineventlog

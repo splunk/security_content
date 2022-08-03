@@ -18,11 +18,12 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - Endpoint
 ---
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -30,7 +31,7 @@ The search looks for modifications to registry keys that control the enforcement
 
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-11-18
 - **Author**: David Dorsey, Patrick Bareiss, Splunk
 - **ID**: bbc644bc-37df-4e1a-9c88-ec9a53e2038c
@@ -100,7 +101,7 @@ The search looks for modifications to registry keys that control the enforcement
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -113,7 +114,8 @@ The search looks for modifications to registry keys that control the enforcement
 The SPL above uses the following Macros:
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
-Note that **disabling_remote_user_account_control_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **disabling_remote_user_account_control_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -136,6 +138,7 @@ This registry key may be modified via administrators to implement a change in sy
 * [Suspicious Windows Registry Activities](/stories/suspicious_windows_registry_activities)
 * [Remcos](/stories/remcos)
 * [Windows Registry Abuse](/stories/windows_registry_abuse)
+* [Azorult](/stories/azorult)
 
 
 
@@ -146,6 +149,9 @@ This registry key may be modified via administrators to implement a change in sy
 | ----------- | ----------- |--------------|--------------|
 | 42.0 | 70 | 60 | The Windows registry keys that control the enforcement of Windows User Account Control (UAC) were modified on $dest$ by $user$. |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 

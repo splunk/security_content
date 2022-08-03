@@ -21,7 +21,7 @@ tags:
 
 
 
-[Try in Splunk Security Cloud](https://www.splunk.com/en_splunk_app_enrichmentus/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/products/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -94,7 +94,7 @@ This search is to detect a suspicious commandline designed to delete files or di
 </div>
 </details>
 
-#### Search
+#### Search 
 
 ```
 
@@ -107,11 +107,12 @@ This search is to detect a suspicious commandline designed to delete files or di
 
 #### Macros
 The SPL above uses the following Macros:
-* [process_cmd](https://github.com/splunk/security_content/blob/develop/macros/process_cmd.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [process_cmd](https://github.com/splunk/security_content/blob/develop/macros/process_cmd.yml)
 
-Note that **recursive_delete_of_directory_in_batch_cmd_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
+> :information_source:
+> **recursive_delete_of_directory_in_batch_cmd_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
 
 #### Required field
 * _time
@@ -146,6 +147,9 @@ network operator may use this batch command to delete recursively a directory or
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | Recursive Delete of Directory In Batch CMD |
 
+
+> :information_source:
+> The Risk Score is calculated by the following formula: Risk Score = (Impact * Confidence/100). Initial Confidence and Impact is set by the analytic author. 
 
 #### Reference
 
