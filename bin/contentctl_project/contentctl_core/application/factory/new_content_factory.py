@@ -91,3 +91,18 @@ class NewContentFactory():
             self.output_dto.obj['tags']['category'] = answers['category']
             self.output_dto.obj['tags']['product'] = ['Splunk Enterprise','Splunk Enterprise Security','Splunk Cloud']
             self.output_dto.obj['tags']['usecase'] = answers['usecase']
+
+
+        elif input_dto.type == SecurityContentType.attack_data:
+            questions = NewContentQuestions.get_questions_attack_data()
+            answers = questionary.prompt(questions)
+            self.output_dto.obj['author'] = answers['author_name']
+            self.output_dto.obj['id'] = str(uuid.uuid4())
+            self.output_dto.obj['date'] = datetime.today().strftime('%Y-%m-%d')
+            self.output_dto.obj['description'] = "description"
+            self.output_dto.obj['environment'] = "attackrange"
+            self.output_dto.obj['dataset'] = "datasets"
+            self.output_dto.obj['sourcetypes'] = answers['data_src_category']
+            self.output_dto.obj['references'] = [answers['references']]
+            self.output_dto.obj['src_path'] = answers['src_file_path'].strip()
+            self.output_dto.obj['dst_path'] = answers['dest_file_path'].strip()
