@@ -170,3 +170,87 @@ class NewContentQuestions():
             },
         ]
         return questions
+
+
+    @classmethod
+    def get_questions_attack_data(self) -> list:
+        questions = [
+            {
+                'type': 'input',
+                'message': 'enter the source file path of your attack_dataset (ex. ~/attack_range/attack_data/stext_sysmon/sysmon.log): ',
+                'name': 'src_file_path',
+            },
+            {
+                'type': 'input',
+                'message': 'enter the dest folder path for your attack_dataset (ex. ~/attack_data/datasets/malware/remcos/remcos_dynwrapx): ',
+                'name': 'dest_file_path',
+            },
+            {
+                'type': 'input',
+                'message': 'enter author name: ',
+                'name': 'author_name',
+                'default': 'STRT',
+            },
+            {
+            'type': 'checkbox',
+            'message': 'select the data source type',
+            'name': 'data_src_category',
+            'choices': [
+                {
+                    'name': 'windows-sysmon.log',
+                    'checked': True
+                },
+                {
+                    'name': 'windows-security.log'
+                },
+                {
+                    'name': 'windows-system.log'
+                },
+                {
+                    'name': 'windows-powershell-xml.log'
+                },
+                {
+                    'name': 'stream_http_events.log'
+                },
+                {
+                    'name': 'aws_cloudtrail_events.json'
+                },
+                {
+                    'name': 'o365_events.json'
+                },
+                {
+                    'name': 'o365_exchange_events.json'
+                },
+                {
+                    'name': 'kubernetes_events.json'
+                },
+                {
+                    'name': 'security_hub_finding.json'
+                },
+                {
+                    'name': 'gsuite_gmail_bigquery.json'
+                },
+                {
+                    'name': 'gsuite_drive_json.json'
+                },
+                {
+                    'name': 'github.json'
+                },
+                {
+                    'name': 'kubernetes_nginx.json'
+                },
+                {
+                    'name': 'circleci.json'
+                },
+                {
+                    'name': 'sysmon_linux.log'
+                },
+                ],
+            },
+            {
+                'type': 'input',
+                'message': 'enter references: ',
+                'name': 'references',
+            },
+        ]
+        return questions
