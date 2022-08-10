@@ -1,0 +1,48 @@
+name: Azure AD Multi-Factor Authentication Disabled
+id: 482dd42a-acfa-486b-a0bb-d6fcda27318e
+version: 1
+date: '2022-08-10'
+author: Mauricio Velazco, Splunk
+type: TTP
+datamodel: []
+description: UPDATE_DESCRIPTION
+search: '| UPDATE_SPL | `azure_ad_multi_factor_authentication_disabled_filter`'
+how_to_implement: UPDATE_HOW_TO_IMPLEMENT
+known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
+references:
+- REFERENCE
+tags:
+  analytic_story:
+  - UPDATE_STORY_NAME
+  asset_type: UPDATE asset_type
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  confidence: UPDATE value between 1-100
+  context:
+  - Update context
+  dataset:
+  - UPDATE_DATASET_URL
+  impact: UPDATE value between 1-100
+  kill_chain_phases:
+  - Installation
+  - Actions on Objectives
+  message: UPDATE message
+  mitre_attack_id:
+  - T1003.002
+  nist:
+  - DE.CM
+  observable:
+  - name: UPDATE
+    type: UPDATE
+    role:
+    - UPDATE
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - UPDATE
+  risk_score: UPDATE (impact * confidence)/100
+  security_domain: identity
