@@ -249,6 +249,7 @@ tags:
   risk_score: 56
   security_domain: endpoint
   risk_severity: medium
+  research_site_url: https://research.splunk.com/endpoint/28179107-099a-464a-94d3-08301e6c055f/
 test:
   name: System Process Running from Unexpected Location Unit Test
   tests:
