@@ -1,8 +1,10 @@
+from logging import shutdown
 import re
 import glob
 import os
 import copy
 import json
+import shutil
 
 APP_CONFIGURATION_FILE = '''
 ## Splunk app configuration file
@@ -106,19 +108,52 @@ class Initialize:
         self.app_author_company = args.author_company
         self.app_description = args.description
         self.path = os.path.join(args.path, "dist", self.app_name)
+        self.escu_path = os.path.join(args.path, "dist", "escu")
 
 
+        self.copy_dist_escu_to_dist_app()
         self.success = self.remove_all_content()
         self.generate_files_and_directories()
         self.print_results_summary()
         
+    
+    def copy_dist_escu_to_dist_app(self):
+        print("Copying ESCU Template output dir to retain static app files...",end='')
+        shutil.copytree(self.escu_path, self.path, dirs_exist_ok=True)
+        print("done")
+
+    def simple_replace_line(self, filename:str, original:str,updated:str):
+        print(f"Performing update on file {filename}")
+        with open(filename,'r') as data:
+            contents=data.read()
         
+        updated_contents = contents.replace(original, updated)
+        with open(filename,'w') as data:
+            data.write(updated_contents)
+
+
     def generate_files_and_directories(self):
         #Generate files
         self.generate_custom_manifest()
         self.generate_app_configuration_file()
         self.generate_readme()
 
+
+        raw = '''<query>| rest /services/configs/conf-analyticstories splunk_server=local count=0 |search eai:acl.app = "{app_name}"</query>'''
+        original = raw.format(app_name="DA-ESS-ContentUpdate")
+        updated = raw.format(app_name=self.app_name)
+        filename = os.path.join(self.path,"default","data","ui","views","escu_summary")
+        self.simple_replace_line(filename, original, updated)
+
+
+        raw  ='''[{app_name} - '''
+        original = raw.format(app_name="ESCU")
+        updated = raw.format(app_name=self.app_name)
+        filename_root = "bin/contentctl_project/contentctl_infrastructure/adapter/templates/"
+        for fname in ["savedsearches_investigations.j2", "savedsearches_detections.j2", "analyticstores_investigations.j2", "analyticstories_detections.j2", "savedsearches_baselines.j2"]:
+            full_path = os.path.join(filename_root, fname)
+            self.simple_replace_line(full_path, original, updated)
+        self.simple_replace_line(filename, original, updated)
         #Generate directories?
 
     def generate_readme(self):
