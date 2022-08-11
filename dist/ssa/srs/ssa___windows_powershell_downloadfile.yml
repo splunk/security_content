@@ -58,6 +58,7 @@ tags:
   risk_score: 35
   security_domain: endpoint
   risk_severity: low
+  research_site_url: https://research.splunk.com/endpoint/46440222-81d5-44b1-a376-19dcd70d1b08/
 test:
   name: Windows Powershell DownloadFile Unit Test
   tests:

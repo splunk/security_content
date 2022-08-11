@@ -50,6 +50,7 @@ tags:
   risk_score: 49
   security_domain: endpoint
   risk_severity: low
+  research_site_url: https://research.splunk.com/endpoint/aa502688-9037-11ec-842d-acde48001122/
 test:
   name: BA Windows Diskshadow Proxy Execution Unit Test
   tests:
