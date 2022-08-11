@@ -128,8 +128,8 @@ This search identifies users who have entered their passwords in username fields
 
 #### Macros
 The SPL above uses the following Macros:
-* [potential_password_in_username_false_positive_reduction](https://github.com/splunk/security_content/blob/develop/macros/potential_password_in_username_false_positive_reduction.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [potential_password_in_username_false_positive_reduction](https://github.com/splunk/security_content/blob/develop/macros/potential_password_in_username_false_positive_reduction.yml)
 
 > :information_source:
 > **potential_password_in_username_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.

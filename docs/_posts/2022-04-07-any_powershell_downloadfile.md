@@ -118,8 +118,8 @@ The following analytic identifies the use of PowerShell downloading a file using
 #### Macros
 The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
-* [process_powershell](https://github.com/splunk/security_content/blob/develop/macros/process_powershell.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [process_powershell](https://github.com/splunk/security_content/blob/develop/macros/process_powershell.yml)
 
 > :information_source:
 > **any_powershell_downloadfile_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -150,6 +150,7 @@ False positives may be present and filtering will need to occur by parent proces
 * [Malicious PowerShell](/stories/malicious_powershell)
 * [Ingress Tool Transfer](/stories/ingress_tool_transfer)
 * [Log4Shell CVE-2021-44228](/stories/log4shell_cve-2021-44228)
+* [DarkCrystal RAT](/stories/darkcrystal_rat)
 
 
 

@@ -1,15 +1,15 @@
 name: Registry Keys Used For Persistence
 id: f5f6af30-7aa7-4295-bfe9-07fe87c01a4b
-version: 7
-date: '2022-01-26'
+version: 8
+date: '2022-07-20'
 author: Jose Hernandez, David Dorsey, Teoderick Contreras, Rod Soto, Splunk
 type: TTP
 datamodel:
 - Endpoint
 description: The search looks for modifications to registry keys that can be used
   to launch an application or service at system startup.
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
-  where (Registry.registry_path=*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnce
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime FROM datamodel=Endpoint.Registry where (Registry.registry_path=*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnce
   OR Registry.registry_path=*\\currentversion\\run* OR Registry.registry_path=*\\currentVersion\\Windows\\Appinit_Dlls*
   OR Registry.registry_path=*\\CurrentVersion\\Winlogon\\Shell* OR Registry.registry_path=*\\CurrentVersion\\Winlogon\\Notify*
   OR Registry.registry_path=*\\CurrentVersion\\Winlogon\\Userinit* OR Registry.registry_path=*\\CurrentVersion\\Winlogon\\VmApplet*
@@ -23,18 +23,10 @@ search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint
   AND Registry.registry_key_name="Load") OR (Registry.registry_path="*\\CurrentVersion"
   AND Registry.registry_key_name="Svchost") OR (Registry.registry_path="*\\CurrentControlSet\Control\Session
   Manager"AND Registry.registry_key_name="BootExecute") OR (Registry.registry_path="*\\Software\\Run"
-  AND Registry.registry_key_name="auto_update")) by _time span=1h Registry.dest Registry.user
-  Registry.registry_path Registry.registry_value_name Registry.registry_value_data
-  Registry.process_guid Registry.registry_key_name | `drop_dm_object_name(Registry)`
-  |rename process_guid as proc_guid |join proc_guid, _time [| tstats `security_content_summariesonly`
-  count FROM datamodel=Endpoint.Processes by _time span=1h Processes.process_id Processes.process_name
-  Processes.process Processes.dest Processes.parent_process_name Processes.parent_process
-  Processes.process_guid | `drop_dm_object_name(Processes)` |rename process_guid as
-  proc_guid | fields _time dest user parent_process_name parent_process process_name
-  process_path process proc_guid registry_path registry_value_name registry_value_data
-  registry_key_name] | table _time dest user parent_process_name parent_process process_name
-  process_path process proc_guid registry_path registry_value_name registry_value_data
-  registry_key_name | `registry_keys_used_for_persistence_filter`'
+  AND Registry.registry_key_name="auto_update")) by Registry.dest Registry.user Registry.registry_path
+  Registry.registry_value_name Registry.registry_value_data Registry.process_guid
+  Registry.registry_key_name | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `registry_keys_used_for_persistence_filter`'
 how_to_implement: To successfully implement this search, you must be ingesting data
   that records registry activity from your hosts to populate the endpoint data model
   in the registry node. This is typically populated via endpoint detection-and-response
@@ -66,7 +58,7 @@ tags:
   - Stage:Persistence
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.001/atomic_red_team/windows-sysmon.log
-  - https://raw.githubusercontent.com/splunk/attack_data/master/datasets/attack_techniques/T1547.001/atomic_red_team/t1547001-runonce.log
+  - https://media.githubusercontent.com/splunk/attack_data/master/datasets/attack_techniques/T1547.001/atomic_red_team/t1547001-runonce.log
   impact: 80
   kill_chain_phases:
   - Actions on Objectives
@@ -99,5 +91,3 @@ tags:
   - Registry.user
   risk_score: 76
   security_domain: endpoint
-  supported_tas:
-  - Splunk_TA_microsoft_sysmon

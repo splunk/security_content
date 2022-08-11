@@ -46,6 +46,7 @@ tags:
   risk_score: 42
   security_domain: endpoint
   risk_severity: low
+  research_site_url: https://research.splunk.com/endpoint/63614a58-10e2-4c6c-ae81-ea1113681439/
 test:
   name: Anomalous usage of Archive Tools Unit Test
   tests:

@@ -134,6 +134,7 @@ Normal Office Document macro use for automation
 * [Spearphishing Attachments](/stories/spearphishing_attachments)
 * [Trickbot](/stories/trickbot)
 * [IcedID](/stories/icedid)
+* [DarkCrystal RAT](/stories/darkcrystal_rat)
 
 
 

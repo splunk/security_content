@@ -20,3 +20,13 @@ class NewContent:
         factory.execute(input_dto.factory_input_dto)
 
         input_dto.adapter.writeObjectNewContent(factory_output_dto.obj, input_dto.factory_input_dto.type)
+
+
+class NewAttackDataContent:
+
+    def execute(self, input_dto: NewContentInputDto) -> None:
+        factory_output_dto = NewContentFactoryOutputDto(dict())
+        factory = NewContentFactory(factory_output_dto)
+        factory.execute(input_dto.factory_input_dto)
+
+        input_dto.adapter.writeObjects(factory_output_dto.obj, input_dto.factory_input_dto.type)

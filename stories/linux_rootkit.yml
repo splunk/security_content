@@ -1,0 +1,21 @@
+name: Linux Rootkit
+id: e30f4054-ac08-4999-b8bc-5cc46886c18d
+version: 1
+date: '2022-07-27'
+author: Michael Haag, Splunk
+description: Adversaries may use rootkits to hide the presence of programs, files, network connections, services, drivers, and other system components. Rootkits are programs that hide the existence of malware by intercepting/hooking and modifying operating system API calls that supply system information.
+narrative: Rootkits or rootkit enabling functionality may reside at the user or kernel level in the operating system or lower, to include a hypervisor, Master Boot Record, or System Firmware. Rootkits have been seen for Windows, Linux, and Mac OS X systems.
+  Linux rootkits may not standout as much as a Windows rootkit, therefore understanding what kernel modules are installed today and monitoring for new is important. As with any rootkit, it may blend in using a common kernel name or variation of legitimate names. 
+references:
+  - https://attack.mitre.org/techniques/T1014/
+  - https://content.fireeye.com/apt-41/rpt-apt41
+  - https://medium.com/chronicle-blog/winnti-more-than-just-windows-and-gates-e4f03436031a
+tags:
+  analytic_story: Linux Rootkit
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

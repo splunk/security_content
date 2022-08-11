@@ -6,18 +6,27 @@ author: Michael Haag, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: The following analytic identifies a process attempting to delete a scheduled task SD (Security Descriptor) from within the registry path of that task.
-  This may occur from a non-standard process running and may not come from reg.exe. This particular behavior will remove the actual Task Name from the Task Scheduler GUI and from the command-line query - schtasks.exe /query. 
-  In addition, in order to perform this action, the user context will need to be SYSTEM.
+description: The following analytic identifies a process attempting to delete a scheduled
+  task SD (Security Descriptor) from within the registry path of that task. This may
+  occur from a non-standard process running and may not come from reg.exe. This particular
+  behavior will remove the actual Task Name from the Task Scheduler GUI and from the
+  command-line query - schtasks.exe /query. In addition, in order to perform this
+  action, the user context will need to be SYSTEM.
 search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Registry
-  where Registry.registry_path IN ("*\\Schedule\\TaskCache\\Tree\\*") Registry.user="SYSTEM" Registry.registry_value_name="SD" (Registry.action=Deleted OR Registry.action=modified)
-  by _time  Registry.dest Registry.process_guid Registry.user Registry.registry_path Registry.registry_value_name Registry.registry_key_name Registry.registry_value_data Registry.status Registry.action
-  | `drop_dm_object_name(Registry)` 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `windows_registry_delete_task_sd_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Registry` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
-known_false_positives: False positives should be limited as the activity is not common to delete ONLY the SD from the registry. Filter as needed. Update the analytic Modified or Deleted values based on product that is in the datamodel.
+  where Registry.registry_path IN ("*\\Schedule\\TaskCache\\Tree\\*") Registry.user="SYSTEM"
+  Registry.registry_value_name="SD" (Registry.action=Deleted OR Registry.action=modified)
+  by _time  Registry.dest Registry.process_guid Registry.user Registry.registry_path
+  Registry.registry_value_name Registry.registry_key_name Registry.registry_value_data
+  Registry.status Registry.action | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_registry_delete_task_sd_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Registry` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: False positives should be limited as the activity is not common
+  to delete ONLY the SD from the registry. Filter as needed. Update the analytic Modified
+  or Deleted values based on product that is in the datamodel.
 references:
 - https://www.microsoft.com/security/blog/2022/04/12/tarrask-malware-uses-scheduled-tasks-for-defense-evasion/
 - https://gist.github.com/MHaggis/5f7fd6745915166fc6da863d685e2728
@@ -45,7 +54,7 @@ tags:
   - T1562
   nist:
   - DE.CM
-  message: A scheduled task security descriptor was deleted from the registry on $dest$. 
+  message: A scheduled task security descriptor was deleted from the registry on $dest$.
   observable:
   - name: dest
     type: Endpoint
@@ -61,10 +70,12 @@ tags:
   - Registry.registry_key_name
   - Registry.registry_value_name
   - Registry.dest
-  - Processes.process_id 
-  - Processes.process_name 
+  - Processes.process_id
+  - Processes.process_name
   - Processes.process
   - Processes.dest
-  - Processes.process_guid 
+  - Processes.process_guid
   risk_score: 49
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon

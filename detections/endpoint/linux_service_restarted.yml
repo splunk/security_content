@@ -34,6 +34,7 @@ tags:
   analytic_story:
   - Linux Privilege Escalation
   - Linux Persistence Techniques
+  - Linux Living Off The Land
   automated_detection_testing: passed
   cis20:
   - CIS 3

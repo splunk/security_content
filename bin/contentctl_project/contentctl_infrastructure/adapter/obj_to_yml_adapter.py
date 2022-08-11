@@ -14,6 +14,7 @@ class ObjToYmlAdapter(Adapter):
 
     def writeObjectsInPlace(self, objects: list) -> None:
         for object in objects:
+
             file_path = object['file_path']
             object.pop('file_path')
             object.pop('deprecated')
@@ -28,6 +29,11 @@ class ObjToYmlAdapter(Adapter):
                 file_path = os.path.join(output_path, 'complex', file_name)
             else:
                 file_path = os.path.join(output_path, 'srs', file_name)
+            
+            # add research object
+            RESEARCH_SITE_BASE = 'https://research.splunk.com/'
+            research_site_url = RESEARCH_SITE_BASE + obj.source + "/" + obj.id + "/"
+            obj.tags.research_site_url = research_site_url
 
             body = FindingReportObject.writeFindingReport(obj)
 
@@ -53,7 +59,8 @@ class ObjToYmlAdapter(Adapter):
                                 "risk_severity": True,
                                 "risk_score": True,
                                 "security_domain": True,
-                                "required_fields": True
+                                "required_fields": True,
+                                "research_site_url": True
                             },
                         "test": 
                             {
@@ -85,7 +92,6 @@ class ObjToYmlAdapter(Adapter):
             f = open(file_path, "w")
             f.write(data)
             f.close()       
-
 
     def writeObjectNewContent(self, object: dict, type: SecurityContentType) -> None:
         if type == SecurityContentType.detections:

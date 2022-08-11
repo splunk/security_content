@@ -23,7 +23,7 @@ search: '|tstats `security_content_summariesonly` values(Filesystem.file_path) a
   OR Filesystem.file_path = *\\Windows\\Media\\* OR Filesystem.file_path = *\\Windows\\repair\\*
   OR Filesystem.file_path = *\\AppData\\Local\\Temp* OR Filesystem.file_path = *\\PerfLogs\\*)
   by Filesystem.file_create_time Filesystem.process_id  Filesystem.file_name Filesystem.user
-  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `drop_dm_object_name(Filesystem)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `executables_or_script_creation_in_suspicious_path_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the Filesystem responsible for the changes from
@@ -35,7 +35,7 @@ references:
 - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
 tags:
   analytic_story:
-  - Double Zero Destructor 
+  - Double Zero Destructor
   - Data Destruction
   - XMRig
   - Remcos
@@ -43,6 +43,7 @@ tags:
   - Hermetic Wiper
   - Industroyer2
   - Azorult
+  - DarkCrystal RAT
   automated_detection_testing: passed
   confidence: 70
   context:
@@ -84,6 +85,4 @@ tags:
   - Filesystem.user
   risk_score: 56
   security_domain: endpoint
-  supported_tas:
-  - Splunk_TA_microsoft_sysmon
   asset_type: Endpoint

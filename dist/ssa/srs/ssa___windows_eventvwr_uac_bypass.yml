@@ -59,6 +59,7 @@ tags:
   risk_score: 80
   security_domain: endpoint
   risk_severity: high
+  research_site_url: https://research.splunk.com/endpoint/66adff66-90d9-11ec-aba7-acde48001122/
 test:
   name: Windows Eventvwr UAC Bypass Unit Test
   tests:
