@@ -1,0 +1,13 @@
+name: Windows Gather Victim Host Information Camera Unit Test
+tests:
+- name: Windows Gather Victim Host Information Camera
+  file: endpoint/windows_gather_victim_host_information_camera.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: windows-powershell-xml.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/dcrat/dcrat_enum_camera/windows-powershell-xml.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true

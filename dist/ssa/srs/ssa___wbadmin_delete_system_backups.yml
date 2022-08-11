@@ -51,6 +51,7 @@ tags:
   risk_score: 15
   security_domain: endpoint
   risk_severity: low
+  research_site_url: https://research.splunk.com/endpoint/71efbf52-4dbb-4c00-a520-306aa546cbb7/
 test:
   name: WBAdmin Delete System Backups Unit Test
   tests:
