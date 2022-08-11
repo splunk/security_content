@@ -18,7 +18,7 @@ search: '`powershell` EventCode=4104 ScriptBlockText= "* Win32_PnPEntity *" Scri
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
-known_false_positives: admin may execute this powershell command to get hardware information related to camera.
+known_false_positives: Administrators may execute this powershell command to get hardware information related to camera.
 references:
 - https://cert.gov.ua/article/405538
 - https://malpedia.caad.fkie.fraunhofer.de/details/win.dcrat
