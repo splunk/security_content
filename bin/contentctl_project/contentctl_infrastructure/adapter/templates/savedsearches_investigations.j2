@@ -5,7 +5,7 @@
 {% for detection in objects %}
 {% if (detection.type == 'Investigation') %}
 {% if detection.search is defined %}
-[ESCU - {{ detection.name }} - Response Task]
+[MY_NAME - {{ detection.name }} - Response Task]
 action.escu = 0
 action.escu.enabled = 1
 action.escu.search_type = investigative

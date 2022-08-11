@@ -6,6 +6,11 @@ import copy
 import json
 import shutil
 
+CONTENT_VERSION_FILE = '''
+[content-version]
+version = {version}
+'''
+
 APP_CONFIGURATION_FILE = '''
 ## Splunk app configuration file
 
@@ -107,7 +112,8 @@ class Initialize:
         self.app_author_email = args.author_email
         self.app_author_company = args.author_company
         self.app_description = args.description
-        self.path = os.path.join(args.path, "dist", self.app_name)
+        self.path = args.path
+        self.dist_app_path = os.path.join(args.path, "dist", self.app_name)
         self.escu_path = os.path.join(args.path, "dist", "escu")
 
 
@@ -119,7 +125,7 @@ class Initialize:
     
     def copy_dist_escu_to_dist_app(self):
         print("Copying ESCU Template output dir to retain static app files...",end='')
-        shutil.copytree(self.escu_path, self.path, dirs_exist_ok=True)
+        shutil.copytree(self.escu_path, self.dist_app_path, dirs_exist_ok=True)
         print("done")
 
     def simple_replace_line(self, filename:str, original:str,updated:str):
@@ -137,27 +143,48 @@ class Initialize:
         self.generate_custom_manifest()
         self.generate_app_configuration_file()
         self.generate_readme()
+        self.generate_content_version_file()
 
 
-        raw = '''<query>| rest /services/configs/conf-analyticstories splunk_server=local count=0 |search eai:acl.app = "{app_name}"</query>'''
+        raw = '''{app_name}'''
         original = raw.format(app_name="DA-ESS-ContentUpdate")
         updated = raw.format(app_name=self.app_name)
-        filename = os.path.join(self.path,"default","data","ui","views","escu_summary")
+        filename = os.path.join(self.dist_app_path,"default","data","ui","views","escu_summary.xml")
+        self.simple_replace_line(filename, original, updated)
+
+        raw = '''{app_name}'''
+        original = raw.format(app_name="ESCU")
+        updated = raw.format(app_name=self.app_name)
+        filename = os.path.join(self.dist_app_path,"default","data","ui","views","escu_summary.xml")
         self.simple_replace_line(filename, original, updated)
 
 
         raw  ='''[{app_name} - '''
         original = raw.format(app_name="ESCU")
         updated = raw.format(app_name=self.app_name)
-        filename_root = "bin/contentctl_project/contentctl_infrastructure/adapter/templates/"
-        for fname in ["savedsearches_investigations.j2", "savedsearches_detections.j2", "analyticstores_investigations.j2", "analyticstories_detections.j2", "savedsearches_baselines.j2"]:
+        filename_root = os.path.join(self.path,"bin/contentctl_project/contentctl_infrastructure/adapter/templates/")
+        for fname in ["savedsearches_investigations.j2", "savedsearches_detections.j2", "analyticstories_investigations.j2", "analyticstories_detections.j2", "savedsearches_baselines.j2"]:
             full_path = os.path.join(filename_root, fname)
             self.simple_replace_line(full_path, original, updated)
-        self.simple_replace_line(filename, original, updated)
         #Generate directories?
 
+    def generate_content_version_file(self):
+        new_content_version = CONTENT_VERSION_FILE.format(version=self.app_version)
+        content_version_path = os.path.join(self.dist_app_path, "default", "content-version.conf")
+
+        try:
+            if not os.path.exists(os.path.dirname(content_version_path)):
+                os.makedirs(os.path.dirname(content_version_path), exist_ok = True)
+
+            with open(content_version_path, "w") as readme_file:
+                readme_file.write(new_content_version)
+        except Exception as e:
+            raise(Exception(f"Error writing config to {content_version_path}: {str(e)}"))
+        print(f"Created Custom Content Version File at: {content_version_path}")
+        
+
     def generate_readme(self):
-        readme_file_path = os.path.join(self.path, "README.md")
+        readme_file_path = os.path.join(self.dist_app_path, "README.md")
         readme_stub_text = "Empty Readme file"
         try:
             if not os.path.exists(os.path.dirname(readme_file_path)):
@@ -177,7 +204,7 @@ class Initialize:
                                                           description=self.app_description, 
                                                           label=self.app_title, 
                                                           id=self.app_name)
-        app_configuration_file_path = os.path.join(self.path, "default", "app.conf")
+        app_configuration_file_path = os.path.join(self.dist_app_path, "default", "app.conf")
         try:
             if not os.path.exists(os.path.dirname(app_configuration_file_path)):
                 os.makedirs(os.path.dirname(app_configuration_file_path), exist_ok = True)
@@ -204,7 +231,7 @@ class Initialize:
             raise(Exception(f"Failure setting field to generate custom manifest: {str(e)}"))
 
         #Output the new manifest file
-        manifest_path = os.path.join(self.path, "app.manifest") 
+        manifest_path = os.path.join(self.dist_app_path, "app.manifest") 
         
         try:
             if not os.path.exists(os.path.dirname(manifest_path)):
@@ -220,7 +247,7 @@ class Initialize:
 
     def print_results_summary(self):
         if self.success is True:
-            print(f"Repo has been initialized successfully for app [{self.app_name}] at path [{self.path}]!\n"
+            print(f"Repo has been initialized successfully for app [{self.app_name}] at path [{self.dist_app_path}]!\n"
                   "Ready for your custom constent!")
         else:
             print("**Failure(s) initializing repo - check log for details**")
