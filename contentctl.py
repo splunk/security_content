@@ -99,7 +99,7 @@ def generate(args) -> None:
         args.product = 'ESCU'
 
     if args.product not in ['ESCU', 'SSA', 'API']:
-        print("ERROR: invalid product. valid products are ESCU, SSA or API.")
+        print("ERROR: invalid product. valid products are ESCU, SSA or API.  If you are building a custom app, use CUSTOM.")
         sys.exit(1)
 
 
@@ -171,7 +171,7 @@ def validate(args) -> None:
         args.product = 'ESCU'
 
     if args.product not in ['ESCU', 'SSA', 'all']:
-        print("ERROR: invalid product. valid products are all, ESCU or SSA.")
+        print("ERROR: invalid product. valid products are all, ESCU or SSA.  If you are building a custom app, use CUSTOM.")
         sys.exit(1)
 
 
@@ -388,7 +388,7 @@ def main(args):
     init_parser.set_defaults(func=initialize)
 
     build_parser.add_argument("-o", "--output_dir", required=False, default="build", type=str, help="Directory to output the built package to (default is 'build')")
-    build_parser.add_argument("-pr", "--product", required=True, type=str, help="Name of the product to build.")
+    build_parser.add_argument("-pr", "--product", required=True, type=str, help="Name of the product to build. This is the name you created during init.  To find the name of your app, look for the name of the folder created in the ./dist folder.")
     build_parser.set_defaults(func=build)
 
 
