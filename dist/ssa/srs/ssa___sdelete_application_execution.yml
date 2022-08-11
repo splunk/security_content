@@ -63,6 +63,7 @@ tags:
   risk_score: 42
   security_domain: endpoint
   risk_severity: low
+  research_site_url: https://research.splunk.com/endpoint/fcc52b9a-4616-11ec-8454-acde48001122/
 test:
   name: Sdelete Application Execution Unit Test
   tests:

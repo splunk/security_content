@@ -51,6 +51,7 @@ tags:
   risk_score: 63
   security_domain: endpoint
   risk_severity: medium
+  research_site_url: https://research.splunk.com/endpoint/a4bdc944-cdd9-11eb-ac97-acde48001122/
 test:
   name: Wevtutil Usage To Disable Logs Unit Test
   tests:

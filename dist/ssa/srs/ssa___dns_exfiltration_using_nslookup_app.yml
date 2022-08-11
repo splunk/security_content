@@ -54,6 +54,7 @@ tags:
   risk_score: 72
   security_domain: endpoint
   risk_severity: medium
+  research_site_url: https://research.splunk.com/endpoint/2452e632-9e0d-11eb-34ba-acde48001122/
 test:
   name: DNS Exfiltration Using Nslookup App Unit Test
   tests:

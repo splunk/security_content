@@ -1,7 +1,7 @@
 name: Windows Non-System Account Targeting Lsass
 id: b1ce9a72-73cf-11ec-981b-acde48001122
-version: 1
-date: '2022-01-12'
+version: 2
+date: '2022-07-30'
 author: Michael Haag, Splunk
 type: TTP
 datamodel: []
@@ -10,7 +10,7 @@ description: The following analytic identifies non SYSTEM accounts requesting ac
   requiring access to credentials. Triaging this event will require understanding
   the GrantedAccess from the SourceImage. In addition, whether the account is privileged
   or not. Review the process requesting permissions and review parallel processes.
-search: '`sysmon` EventCode=10 TargetImage=*lsass.exe SourceUser!="NT AUTHORITY\\*"
+search: '`sysmon` EventCode=10 TargetImage=*lsass.exe NOT (SourceUser="NT AUTHORITY\\*")
   | stats count min(_time) as firstTime max(_time) as lastTime by Computer, TargetImage,
   GrantedAccess, SourceImage, SourceProcessId, SourceUser, TargetUser | rename Computer
   as dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`

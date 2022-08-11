@@ -56,6 +56,7 @@ tags:
   risk_score: 80
   security_domain: endpoint
   risk_severity: high
+  research_site_url: https://research.splunk.com/endpoint/f63f7e9c-9526-11ec-9fc7-acde48001122/
 test:
   name: Windows MSHTA Child Process Unit Test
   tests:

@@ -47,6 +47,7 @@ tags:
   risk_score: 72
   security_domain: endpoint
   risk_severity: medium
+  research_site_url: https://research.splunk.com/endpoint/028e4406-6176-11ec-aec2-acde48001122/
 test:
   name: Hiding Files And Directories With Attrib exe - SSA Unit test
   tests:
