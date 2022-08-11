@@ -36,6 +36,7 @@ class SecurityContentType(enum.Enum):
     deployments = 7
     investigations = 8
     unit_tests = 9
+    attack_data = 10
 
 class SecurityContentProduct(enum.Enum):
     ESCU = 1

@@ -10,7 +10,7 @@ from bin.contentctl_project.contentctl_core.application.use_cases.content_change
 from bin.contentctl_project.contentctl_core.application.use_cases.generate import GenerateInputDto, Generate
 from bin.contentctl_project.contentctl_core.application.use_cases.validate import ValidateInputDto, Validate
 from bin.contentctl_project.contentctl_core.application.use_cases.doc_gen import DocGenInputDto, DocGen
-from bin.contentctl_project.contentctl_core.application.use_cases.new_content import NewContentInputDto, NewContent
+from bin.contentctl_project.contentctl_core.application.use_cases.new_content import NewContentInputDto, NewContent, NewAttackDataContent
 from bin.contentctl_project.contentctl_core.application.use_cases.reporting import ReportingInputDto, Reporting
 from bin.contentctl_project.contentctl_core.application.use_cases.initialize import Initialize
 from bin.contentctl_project.contentctl_core.application.use_cases.deploy import Deploy
@@ -37,7 +37,7 @@ from bin.contentctl_project.contentctl_infrastructure.adapter.obj_to_svg_adapter
 from bin.contentctl_project.contentctl_infrastructure.adapter.obj_to_attack_nav_adapter import ObjToAttackNavAdapter
 from bin.contentctl_project.contentctl_infrastructure.builder.attack_enrichment import AttackEnrichment
 from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import SecurityContentType
-
+from bin.contentctl_project.contentctl_infrastructure.adapter.obj_to_attackdata_yml_adapter import ObjToAttackDataYmlAdapter
 
 def init():
 
@@ -251,14 +251,20 @@ def new_content(args) -> None:
         contentType = SecurityContentType.detections
     elif args.type == 'story':
         contentType = SecurityContentType.stories
+    elif args.type == 'attack_data':
+        contentType = SecurityContentType.attack_data
     else:
         print("ERROR: type " + args.type + " not supported")
         sys.exit(1)
 
 
     new_content_factory_input_dto = NewContentFactoryInputDto(contentType)
-    new_content_input_dto = NewContentInputDto(new_content_factory_input_dto, ObjToYmlAdapter(args.path))
-    new_content = NewContent()
+    if args.type == 'attack_data':
+        new_content_input_dto = NewContentInputDto(new_content_factory_input_dto, ObjToAttackDataYmlAdapter())
+        new_content = NewAttackDataContent()
+    else:
+        new_content_input_dto = NewContentInputDto(new_content_factory_input_dto, ObjToYmlAdapter(args.path))
+        new_content = NewContent()
     new_content.execute(new_content_input_dto)
 
 
@@ -330,7 +336,6 @@ def main(args):
     inspect_parser = actions_parser.add_parser("inspect", help="Run appinspect to ensure that an app meets minimum requirements for deployment.")
 
     cloud_deploy_parser = actions_parser.add_parser("cloud_deploy", help="Install an application on a target Splunk Cloud Instance.")
-
 
 
     # # new arguments
