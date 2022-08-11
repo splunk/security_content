@@ -1,0 +1,13 @@
+name: Linux Ingress Tool Transfer Hunting Unit Test
+tests:
+- name: Linux Ingress Tool Transfer Hunting
+  file: endpoint/linux_ingress_tool_transfer_hunting.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: curl-linux-sysmon.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1105/atomic_red_team/curl-linux-sysmon.log
+    source: Syslog:Linux-Sysmon/Operational
+    sourcetype: sysmon_linux
+    update_timestamp: true
