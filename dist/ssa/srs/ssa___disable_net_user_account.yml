@@ -54,6 +54,7 @@ tags:
   risk_score: 49
   security_domain: endpoint
   risk_severity: low
+  research_site_url: https://research.splunk.com/endpoint/ba858b08-d26c-11eb-af9b-acde48001122/
 test:
   name: Disable Net User Account Unit Test
   tests:
