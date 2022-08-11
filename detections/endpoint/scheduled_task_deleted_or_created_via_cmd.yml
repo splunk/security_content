@@ -32,6 +32,7 @@ tags:
   - Windows Persistence Techniques
   - Living Off The Land
   - Azorult
+  - DarkCrystal RAT
   asset_type: Endpoint
   cis20:
   - CIS 3
