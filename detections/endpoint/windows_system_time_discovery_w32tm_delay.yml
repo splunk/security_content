@@ -46,7 +46,8 @@ tags:
   impact: 60
   kill_chain_phases:
   - Reconnaissance
-  message: Process name w32tm.exe is using suspcicious command line arguments $process$ on host $dest$. 
+  message: Process name w32tm.exe is using suspcicious command line arguments $process$
+    on host $dest$.
   mitre_attack_id:
   - T1124
   nist:
@@ -75,3 +76,5 @@ tags:
   - Processes.parent_process_id
   risk_score: 36
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon

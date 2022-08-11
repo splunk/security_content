@@ -9,8 +9,7 @@ datamodel:
 description: The search looks for modifications to registry keys that can be used
   to launch an application or service at system startup.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Registry
-  where (Registry.registry_path=*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnce
+  as lastTime FROM datamodel=Endpoint.Registry where (Registry.registry_path=*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnce
   OR Registry.registry_path=*\\currentversion\\run* OR Registry.registry_path=*\\currentVersion\\Windows\\Appinit_Dlls*
   OR Registry.registry_path=*\\CurrentVersion\\Winlogon\\Shell* OR Registry.registry_path=*\\CurrentVersion\\Winlogon\\Notify*
   OR Registry.registry_path=*\\CurrentVersion\\Winlogon\\Userinit* OR Registry.registry_path=*\\CurrentVersion\\Winlogon\\VmApplet*
@@ -24,13 +23,10 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   AND Registry.registry_key_name="Load") OR (Registry.registry_path="*\\CurrentVersion"
   AND Registry.registry_key_name="Svchost") OR (Registry.registry_path="*\\CurrentControlSet\Control\Session
   Manager"AND Registry.registry_key_name="BootExecute") OR (Registry.registry_path="*\\Software\\Run"
-  AND Registry.registry_key_name="auto_update")) by Registry.dest Registry.user
-  Registry.registry_path Registry.registry_value_name Registry.registry_value_data
-  Registry.process_guid Registry.registry_key_name  
-  | `drop_dm_object_name(Registry)` 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` 
-  | `registry_keys_used_for_persistence_filter`'
+  AND Registry.registry_key_name="auto_update")) by Registry.dest Registry.user Registry.registry_path
+  Registry.registry_value_name Registry.registry_value_data Registry.process_guid
+  Registry.registry_key_name | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `registry_keys_used_for_persistence_filter`'
 how_to_implement: To successfully implement this search, you must be ingesting data
   that records registry activity from your hosts to populate the endpoint data model
   in the registry node. This is typically populated via endpoint detection-and-response
@@ -95,5 +91,3 @@ tags:
   - Registry.user
   risk_score: 76
   security_domain: endpoint
-  supported_tas:
-  - Splunk_TA_microsoft_sysmon

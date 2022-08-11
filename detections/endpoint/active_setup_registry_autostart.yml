@@ -40,7 +40,7 @@ tags:
   analytic_story:
   - Windows Persistence Techniques
   - Windows Privilege Escalation
-  - Hermetic Wiper 
+  - Hermetic Wiper
   confidence: 80
   context:
   - Source:Endpoint
@@ -76,6 +76,4 @@ tags:
   - Registry.registry_value_name
   risk_score: 64
   security_domain: endpoint
-  supported_tas:
-  - Splunk_TA_microsoft_sysmon
   asset_type: Endpoint
