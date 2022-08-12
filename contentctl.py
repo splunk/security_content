@@ -322,19 +322,20 @@ def main(args):
 
     actions_parser = parser.add_subparsers(title="Splunk Security Content actions", dest="action")
     #new_parser = actions_parser.add_parser("new", help="Create new content (detection, story, baseline)")
+    init_parser = actions_parser.add_parser("init", help="Initialize a repo with scaffolding in place to build a custom app."
+                                                        "This allows a user to easily add their own content and, eventually, "
+                                                        "build a custom application consisting of their custom content.")
+    new_content_parser = actions_parser.add_parser("new_content", help="Create new security content object")
+    content_changer_parser = actions_parser.add_parser("content_changer", help="Change Security Content based on defined rules")
     validate_parser = actions_parser.add_parser("validate", help="Validates written content")
     generate_parser = actions_parser.add_parser("generate", help="Generates a deployment package for different platforms (splunk_app)")
-    content_changer_parser = actions_parser.add_parser("content_changer", help="Change Security Content based on defined rules")
     docgen_parser = actions_parser.add_parser("docgen", help="Generates documentation")
-    new_content_parser = actions_parser.add_parser("new_content", help="Create new security content object")
+    
     reporting_parser = actions_parser.add_parser("reporting", help="Create security content reporting")
-    init_parser = actions_parser.add_parser("init", help="Initialize a repo with scaffolding in place to build a custom app."
-                                                            "This allows a user to easily add their own content and, eventually, "
-                                                            "build a custom application consisting of their custom content.")
+
 
     build_parser = actions_parser.add_parser("build", help="Build an application suitable for deployment to a search head")
     inspect_parser = actions_parser.add_parser("inspect", help="Run appinspect to ensure that an app meets minimum requirements for deployment.")
-
     cloud_deploy_parser = actions_parser.add_parser("cloud_deploy", help="Install an application on a target Splunk Cloud Instance.")
 
 
