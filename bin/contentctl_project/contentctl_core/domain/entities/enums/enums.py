@@ -42,3 +42,4 @@ class SecurityContentProduct(enum.Enum):
     ESCU = 1
     SSA = 2
     API = 3
+    CUSTOM = 4
