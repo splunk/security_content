@@ -37,6 +37,7 @@ class DetectionTags(BaseModel):
     risk_level: str = None
     observable_str: str = None
     kill_chain_phases_id: list = None
+    research_site_url: str = None
 
 
     @validator('cis20')
