@@ -126,6 +126,11 @@ class Initialize:
     def copy_dist_escu_to_dist_app(self):
         print("Copying ESCU Template output dir to retain static app files...",end='')
         shutil.copytree(self.escu_path, self.dist_app_path, dirs_exist_ok=True)
+        #delete all the contents in the lookups folder
+        lookups_path = os.path.join(self.dist_app_path, "lookups")
+        files = glob.glob(os.path.join(lookups_path, "*"))
+        for filename in files:
+            os.remove(filename)
         print("done")
 
     def simple_replace_line(self, filename:str, original:str,updated:str):
