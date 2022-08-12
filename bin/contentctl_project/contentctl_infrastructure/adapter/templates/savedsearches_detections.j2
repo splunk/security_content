@@ -2,7 +2,7 @@
 
 {% for detection in objects %}
 {% if (detection.type == 'TTP' or detection.type == 'Anomaly' or detection.type == 'Hunting' or detection.type == 'Correlation') %}
-[MY_NAME - {{ detection.name }} - Rule]
+[ESCU - {{ detection.name }} - Rule]
 action.escu = 0
 action.escu.enabled = 1
 {% if detection.deprecated %}
