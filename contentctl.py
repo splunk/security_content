@@ -12,6 +12,10 @@ from bin.contentctl_project.contentctl_core.application.use_cases.validate impor
 from bin.contentctl_project.contentctl_core.application.use_cases.doc_gen import DocGenInputDto, DocGen
 from bin.contentctl_project.contentctl_core.application.use_cases.new_content import NewContentInputDto, NewContent, NewAttackDataContent
 from bin.contentctl_project.contentctl_core.application.use_cases.reporting import ReportingInputDto, Reporting
+from bin.contentctl_project.contentctl_core.application.use_cases.initialize import Initialize
+from bin.contentctl_project.contentctl_core.application.use_cases.deploy import Deploy
+from bin.contentctl_project.contentctl_core.application.use_cases.build import Build
+from bin.contentctl_project.contentctl_core.application.use_cases.inspect import Inspect
 from bin.contentctl_project.contentctl_core.application.factory.factory import FactoryInputDto
 from bin.contentctl_project.contentctl_core.application.factory.ba_factory import BAFactoryInputDto
 from bin.contentctl_project.contentctl_core.application.factory.new_content_factory import NewContentFactoryInputDto
@@ -38,7 +42,7 @@ from bin.contentctl_project.contentctl_infrastructure.adapter.obj_to_attackdata_
 def init():
 
     print("""
-Running Splunk Security Content Control Tool (contentctl) 
+Running Splunk Security Content Control Tool (contentctl)
 starting program loaded for TIE Fighter...
       _                                            _
      T T                                          T T
@@ -88,10 +92,14 @@ def content_changer(args) -> None:
 def generate(args) -> None:
     if not args.product:
         print("ERROR: missing parameter -p/--product .")
-        sys.exit(1)     
+        sys.exit(1)
+
+    #For now, the custom product is treated just like ESCU
+    if args.product == 'CUSTOM':
+        args.product = 'ESCU'
 
     if args.product not in ['ESCU', 'SSA', 'API']:
-        print("ERROR: invalid product. valid products are ESCU, SSA or API.")
+        print("ERROR: invalid product. valid products are ESCU, SSA or API.  If you are building a custom app, use CUSTOM.")
         sys.exit(1)
 
 
@@ -146,7 +154,7 @@ def generate(args) -> None:
             ba_factory_input_dto,
             ObjToYmlAdapter(args.path),
             SecurityContentProduct.SSA
-        ) 
+        )
     generate = Generate()
     generate.execute(generate_input_dto)
 
@@ -156,11 +164,16 @@ def generate(args) -> None:
 def validate(args) -> None:
     if not args.product:
         print("ERROR: missing parameter -p/--product .")
-        sys.exit(1)     
+        sys.exit(1)
+
+    #For now, the custom product is treated just like ESCU
+    if args.product == 'CUSTOM':
+        args.product = 'ESCU'
 
     if args.product not in ['ESCU', 'SSA', 'all']:
-        print("ERROR: invalid product. valid products are all, ESCU or SSA.")
+        print("ERROR: invalid product. valid products are all, ESCU or SSA.  If you are building a custom app, use CUSTOM.")
         sys.exit(1)
+
 
     if args.cached_and_offline:
         LinkValidator.initialize_cache(args.cached_and_offline)
@@ -187,7 +200,7 @@ def validate(args) -> None:
             SecurityContentDetectionBuilder(force_cached_or_offline = args.cached_and_offline, check_references=args.check_references, skip_enrichment=args.skip_enrichment),
             SecurityContentDirector()
         )
-    
+
     if args.product == "ESCU" or args.product == "all":
         validate_input_dto = ValidateInputDto(
             factory_input_dto,
@@ -244,6 +257,7 @@ def new_content(args) -> None:
         print("ERROR: type " + args.type + " not supported")
         sys.exit(1)
 
+
     new_content_factory_input_dto = NewContentFactoryInputDto(contentType)
     if args.type == 'attack_data':
         new_content_input_dto = NewContentInputDto(new_content_factory_input_dto, ObjToAttackDataYmlAdapter())
@@ -277,6 +291,19 @@ def reporting(args) -> None:
     reporting.execute(reporting_input_dto)
 
 
+def initialize(args) -> None:
+    Initialize(args)
+
+
+def build(args) -> None:
+    Build(args)
+
+def inspect(args) -> None:
+    Inspect(args)
+
+def cloud_deploy(args) -> None:
+    Deploy(args)
+
 def main(args):
 
     init()
@@ -284,7 +311,7 @@ def main(args):
     # grab arguments
     parser = argparse.ArgumentParser(
         description="Use `contentctl.py action -h` to get help with any Splunk Security Content action")
-    parser.add_argument("-p", "--path", required=True, 
+    parser.add_argument("-p", "--path", required=True,
                                         help="path to the Splunk Security Content folder",)
     parser.add_argument("--cached_and_offline", action=argparse.BooleanOptionalAction,
         help="Force cached/offline resources.  While this makes execution much faster, it may result in enrichment which is out of date. This is suitable for use only in development or disconnected environments.")
@@ -295,15 +322,22 @@ def main(args):
 
     actions_parser = parser.add_subparsers(title="Splunk Security Content actions", dest="action")
     #new_parser = actions_parser.add_parser("new", help="Create new content (detection, story, baseline)")
+    init_parser = actions_parser.add_parser("init", help="Initialize a repo with scaffolding in place to build a custom app."
+                                                        "This allows a user to easily add their own content and, eventually, "
+                                                        "build a custom application consisting of their custom content.")
+    new_content_parser = actions_parser.add_parser("new_content", help="Create new security content object")
+    content_changer_parser = actions_parser.add_parser("content_changer", help="Change Security Content based on defined rules")
     validate_parser = actions_parser.add_parser("validate", help="Validates written content")
     generate_parser = actions_parser.add_parser("generate", help="Generates a deployment package for different platforms (splunk_app)")
-    content_changer_parser = actions_parser.add_parser("content_changer", help="Change Security Content based on defined rules")
     docgen_parser = actions_parser.add_parser("docgen", help="Generates documentation")
-    new_content_parser = actions_parser.add_parser("new_content", help="Create new security content object")
+    
     reporting_parser = actions_parser.add_parser("reporting", help="Create security content reporting")
 
 
-    
+    build_parser = actions_parser.add_parser("build", help="Build an application suitable for deployment to a search head")
+    inspect_parser = actions_parser.add_parser("inspect", help="Run appinspect to ensure that an app meets minimum requirements for deployment.")
+    cloud_deploy_parser = actions_parser.add_parser("cloud_deploy", help="Install an application on a target Splunk Cloud Instance.")
+
 
     # # new arguments
     # new_parser.add_argument("-t", "--type", required=False, type=str, default="detection",
@@ -312,13 +346,13 @@ def main(args):
     #                              help="Generates an example content UPDATE on the fields that need updating. Use `git status` to see what specific files are added. Skips new content wizard prompts.")
     # new_parser.set_defaults(func=new)
 
-    validate_parser.add_argument("-pr", "--product", required=True, type=str, default='all', 
+    validate_parser.add_argument("-pr", "--product", required=True, type=str, default='all',
         help="Type of package to create, choose between all, `ESCU` or `SSA`.")
     validate_parser.add_argument('--check_references', action=argparse.BooleanOptionalAction, help="The number of threads to use to resolve references.  "
                                    "Larger numbers will result in faster resolution, but will be more likely to hit rate limits or use a large amount of "
                                    "bandwidth.  A larger number of threads is particularly useful on high-bandwidth connections, but does not improve "
                                    "performance on slow connections.")
-    
+
     validate_parser.set_defaults(func=validate, check_references=False, epilog="""
                 Validates security manifest for correctness, adhering to spec and other common items.""")
 
@@ -327,11 +361,11 @@ def main(args):
     generate_parser.add_argument("-pr", "--product", required=True, type=str,
         help="Type of package to create, choose between `ESCU`, `SSA` or `API`.")
     generate_parser.set_defaults(func=generate)
-    
+
     content_changer_choices = ContentChanger.enumerate_content_changer_functions()
-    content_changer_parser.add_argument("-cf", "--change_function", required=True, metavar='{ ' + ', '.join(content_changer_choices) +' }' , type=str, choices=content_changer_choices, 
+    content_changer_parser.add_argument("-cf", "--change_function", required=True, metavar='{ ' + ', '.join(content_changer_choices) +' }' , type=str, choices=content_changer_choices,
                                         help= "Choose from the functions above defined in \nbin/contentctl_core/contentctl/application/use_cases/content_changer.py")
-    
+
     content_changer_parser.set_defaults(func=content_changer)
 
     docgen_parser.add_argument("-o", "--output", required=True, type=str,
@@ -344,14 +378,38 @@ def main(args):
 
     reporting_parser.set_defaults(func=reporting)
 
-    
-    
-    
+
+    init_parser.add_argument("-t", "--title", type=str, required=True, help="The title of the application to be built.")
+    init_parser.add_argument("-n", "--name", type=str, required=True, help="The name of the application to be built.")
+    init_parser.add_argument("-v", "--version", type=str, required=True, help="The version of the application to be built.  It should be in MAJOR.MINOR.PATCH format.")
+    init_parser.add_argument("-a", "--author_name", type=str, required=True, help="The name of the application author.")
+    init_parser.add_argument("-e", "--author_email", type=str, required=True, help="The email of the application author.")
+    init_parser.add_argument("-c", "--author_company", type=str, required=True, help="The company of the application author.")
+    init_parser.add_argument("-d", "--description", type=str, required=True, help="A brief description of the app.")
+    init_parser.set_defaults(func=initialize)
+
+    build_parser.add_argument("-o", "--output_dir", required=False, default="build", type=str, help="Directory to output the built package to (default is 'build')")
+    build_parser.add_argument("-pr", "--product", required=True, type=str, help="Name of the product to build. This is the name you created during init.  To find the name of your app, look for the name of the folder created in the ./dist folder.")
+    build_parser.set_defaults(func=build)
+
+
+    inspect_parser.add_argument("-p", "--package_path", required=True, type=str, help="Path to the package to be inspected")
+    inspect_parser.set_defaults(func=inspect)
+
+
+    cloud_deploy_parser.add_argument("--app-package", required=True, type=str, help="Path to the package you wish to deploy")
+    cloud_deploy_parser.add_argument("--acs-legal-ack", required=True, type=str, help="specify '--acs-legal-ack=Y' to acknowledge your acceptance of any risks (required)")
+    cloud_deploy_parser.add_argument("--username", required=True, type=str, help="splunk.com username")
+    cloud_deploy_parser.add_argument("--password", required=True, type=str, help="splunk.com password")
+    cloud_deploy_parser.add_argument("--server", required=False, default="https://admin.splunk.com", type=str, help="Override server URL (default 'https://admin.splunk.com')")
+    cloud_deploy_parser.set_defaults(func=cloud_deploy)
 
     # # parse them
     args = parser.parse_args()
-    return args.func(args)
-
+    try:
+        return args.func(args)
+    except Exception as e:
+        print(f"Error for function [{args.func.__name__}]: {str(e)}")
 
 if __name__ == "__main__":
     main(sys.argv[1:])
