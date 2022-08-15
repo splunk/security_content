@@ -5,44 +5,57 @@ date: '2022-08-10'
 author: Mauricio Velazco, Splunk
 type: TTP
 datamodel: []
-description: UPDATE_DESCRIPTION
-search: '| UPDATE_SPL | `azure_ad_multi_factor_authentication_disabled_filter`'
-how_to_implement: UPDATE_HOW_TO_IMPLEMENT
-known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
+description: The following analytic identifies an attempt to disable the MFA for a user. The attackers may disbale MFA after they acquire the credentials for the password.
+  This way the attackers can keep persistance in the environment without adding new users. Sometimes, the MFA may be disbaled by administrator for genuine purposes.
+search: '`azuread` | spath "body.operationName" | search "body.operationName"="Disable Strong Authentication" 
+  | rename body.properties.* as * | spath "body.properties.targetResources{}.userPrincipalName" | rename initiatedBy.user.ipAddress as ipAddress  
+  | stats  values(body.properties.targetResources{}.userPrincipalName) as userPrincipalName by _time, userAgent, ipAddress | `azure_ad_multi_factor_authentication_disabled_filter`'
+how_to_implement: You must install the latest version of  Splunk Add-on for Microsoft Cloud Services from  Splunkbase(https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment. You must be ingesting Azure Active Directory events in your Splunk environment. Specifically, this analytic leverages the RiskyUsers and UserRiskEvents
+  log category.
+known_false_positives: Legitimate users may disable MFA for debugging or testing.
 references:
-- REFERENCE
+- https://docs.microsoft.com/en-us/azure/active-directory/authentication/concept-mfa-howitworks
+- https://attack.mitre.org/tactics/TA0005/
 tags:
   analytic_story:
-  - UPDATE_STORY_NAME
-  asset_type: UPDATE asset_type
+  - Azure Active Directory Account Takeover
+  asset_type: Azure Active Directory
   cis20:
   - CIS 3
   - CIS 5
   - CIS 16
-  confidence: UPDATE value between 1-100
+  confidence: 90
   context:
-  - Update context
+  - Source:Cloud Data
+  - Stage:Initial Access
   dataset:
-  - UPDATE_DATASET_URL
-  impact: UPDATE value between 1-100
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.002/azuread/azure-audit.log
+  impact: 60
   kill_chain_phases:
   - Installation
   - Actions on Objectives
-  message: UPDATE message
+  message: MFA disabled for User $body.properties.targetResources{}.userPrincipalName$
   mitre_attack_id:
   - T1003.002
   nist:
   - DE.CM
   observable:
-  - name: UPDATE
-    type: UPDATE
+  - name: userPrincipalName
+    type: User
     role:
-    - UPDATE
+    - Victim
+  - name: ipAddress
+    type: IP Address
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - UPDATE
-  risk_score: UPDATE (impact * confidence)/100
+  - _time
+  - body.properties.targetResources{}.userPrincipalName
+  - body.properties.initiatedBy.user.ipAddress
+  - body.properties.userAgent
+  risk_score: 54
   security_domain: identity
