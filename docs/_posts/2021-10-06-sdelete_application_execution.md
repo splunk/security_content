@@ -112,9 +112,9 @@ This analytic is to detect the execution of sdelete.exe application sysinternal 
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
-* [process_sdelete](https://github.com/splunk/security_content/blob/develop/macros/process_sdelete.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [process_sdelete](https://github.com/splunk/security_content/blob/develop/macros/process_sdelete.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **sdelete_application_execution_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.

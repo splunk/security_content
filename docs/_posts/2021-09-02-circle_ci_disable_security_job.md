@@ -113,8 +113,8 @@ This search looks for disable security job in CircleCI pipeline.
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [circleci](https://github.com/splunk/security_content/blob/develop/macros/circleci.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **circle_ci_disable_security_job_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.

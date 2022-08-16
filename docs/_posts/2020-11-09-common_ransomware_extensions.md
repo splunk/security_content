@@ -109,9 +109,9 @@ The search looks for file modifications with extensions commonly used by Ransomw
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [ransomware_extensions](https://github.com/splunk/security_content/blob/develop/macros/ransomware_extensions.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **common_ransomware_extensions_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.

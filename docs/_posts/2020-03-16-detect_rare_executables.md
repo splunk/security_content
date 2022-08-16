@@ -113,9 +113,9 @@ This search will return a table of rare processes, the names of the systems runn
 
 #### Macros
 The SPL above uses the following Macros:
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [filter_rare_process_allow_list](https://github.com/splunk/security_content/blob/develop/macros/filter_rare_process_allow_list.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 > :information_source:
 > **detect_rare_executables_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
