@@ -26,7 +26,7 @@ The following analytic identifies path traversal command-line execution. This te
 
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2022-06-01
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: 58fcdeb1-728d-415d-b0d7-3ab18a275ec2
@@ -108,8 +108,8 @@ The following analytic identifies path traversal command-line execution. This te
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **windows_command_and_scripting_interpreter_path_traversal_exec_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.

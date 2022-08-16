@@ -29,7 +29,7 @@ This search is to detect a suspicious rundll32 commandline to lock the workstati
 
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2021-08-09
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: fa90f372-f91d-11eb-816c-acde48001122
@@ -107,8 +107,8 @@ This search is to detect a suspicious rundll32 commandline to lock the workstati
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **rundll32_lockworkstation_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
