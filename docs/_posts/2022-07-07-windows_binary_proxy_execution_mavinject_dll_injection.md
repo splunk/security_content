@@ -29,7 +29,7 @@ Adversaries may abuse mavinject.exe to inject malicious DLLs into running proces
 
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2022-07-07
 - **Author**: Michael Haag, Splunk
 - **ID**: ccf4b61b-1b26-4f2e-a089-f2009c569c57
@@ -113,8 +113,8 @@ Adversaries may abuse mavinject.exe to inject malicious DLLs into running proces
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **windows_binary_proxy_execution_mavinject_dll_injection_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.

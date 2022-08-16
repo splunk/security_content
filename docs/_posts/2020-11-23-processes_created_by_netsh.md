@@ -107,8 +107,8 @@ This search looks for processes launching netsh.exe to execute various commands 
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **processes_created_by_netsh_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.

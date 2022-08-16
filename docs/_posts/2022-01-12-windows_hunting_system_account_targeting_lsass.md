@@ -109,8 +109,8 @@ The following hunting analytic identifies all processes requesting access into L
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [sysmon](https://github.com/splunk/security_content/blob/develop/macros/sysmon.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **windows_hunting_system_account_targeting_lsass_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -130,7 +130,7 @@ The SPL above uses the following Macros:
 To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Enabling EventCode 10 TargetProcess lsass.exe is required.
 
 #### Known False Positives
-False positives will occur based on GrantedAccess and SourceUser, filter based on source image as needed.
+False positives will occur based on GrantedAccess and SourceUser, filter based on source image as needed. Utilize this hunting analytic to tune out false positives in TTP or anomaly analytics.
 
 #### Associated Analytic story
 * [Credential Dumping](/stories/credential_dumping)
@@ -142,7 +142,7 @@ False positives will occur based on GrantedAccess and SourceUser, filter based o
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
-| 64.0 | 80 | 80 | A process, $SourceImage$, has loaded $ImageLoaded$ that are typically related to credential dumping on $dest$. Review for further details. |
+| 64.0 | 80 | 80 | A process, $SourceImage$, has requested access to LSASS on $dest$. Review for further details. |
 
 
 > :information_source:

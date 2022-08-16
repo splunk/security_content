@@ -22,11 +22,11 @@ tags:
 
 #### Description
 
-The following analytic identifies Windows commandlined to logoff a windows host machine. This technique was seen in several APT, RAT like dcrat and other commodity malware to shutdown the machine to add more impact, interrupt access, aid destruction of the system like wiping disk or inhibit system recovery. This TTP is a good pivot to check why application trigger this commandline which is not so common way to logoff a machine.
+The following analytic identifies Windows commandline to logoff a windows host machine. This technique was seen in several APT, RAT like dcrat and other commodity malware to shutdown the machine to add more impact, interrupt access, aid destruction of the system like wiping disk or inhibit system recovery. This TTP is a good pivot to check why application trigger this commandline which is not so common way to logoff a machine.
 
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2022-07-27
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: 74a8133f-93e7-4b71-9bd3-13a66124fd57
@@ -108,8 +108,8 @@ The following analytic identifies Windows commandlined to logoff a windows host 
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **windows_system_logoff_commandline_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -130,7 +130,7 @@ The SPL above uses the following Macros:
 
 
 #### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 
 #### Known False Positives
 Administrator may execute this commandline to trigger shutdown, logoff or restart the host machine.
