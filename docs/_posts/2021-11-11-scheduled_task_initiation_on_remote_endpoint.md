@@ -111,8 +111,8 @@ This analytic looks for the execution of `schtasks.exe` with command-line argume
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **scheduled_task_initiation_on_remote_endpoint_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.

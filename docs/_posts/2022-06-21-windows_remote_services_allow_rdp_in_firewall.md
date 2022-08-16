@@ -29,7 +29,7 @@ The following analytic is to identify a modification in the Windows firewall to 
 
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2022-06-21
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: 9170cb54-ea15-41e1-9dfc-9f3363ce9b02
@@ -113,8 +113,8 @@ The following analytic is to identify a modification in the Windows firewall to 
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **windows_remote_services_allow_rdp_in_firewall_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.

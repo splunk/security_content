@@ -95,9 +95,9 @@ This search looks for DNS requests for faux domains similar to the domains that 
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [brand_abuse_dns](https://github.com/splunk/security_content/blob/develop/macros/brand_abuse_dns.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **monitor_dns_for_brand_abuse_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
@@ -107,7 +107,7 @@ The SPL above uses the following Macros:
 
 
 #### How To Implement
-You need to ingest data from your DNS logs. Specifically you must ingest the domain that is being queried and the IP of the host originating the request. Ideally, you should also be ingesting the answer to the query and the query type. This approach allows you to also create your own localized passive DNS capability which can aid you in future investigations. You also need to have run the search "ESCU - DNSTwist Domain Names", which creates the permutations of the domain that will be checked for. You also need the [`dnstwist`](https://gist.github.com/d1vious/c4c2aae7fa7d5cbb1f24adc5f6303) custom command.
+You need to ingest data from your DNS logs. Specifically you must ingest the domain that is being queried and the IP of the host originating the request. Ideally, you should also be ingesting the answer to the query and the query type. This approach allows you to also create your own localized passive DNS capability which can aid you in future investigations. You also need to have run the search "ESCU - DNSTwist Domain Names", which creates the permutations of the domain that will be checked for. You also need the [`dnstwist`](https://gist.github.com/d1vious/c4c2aae7fa7d5cbb1f24adc5f6303ac1) custom command.
 
 #### Known False Positives
 None at this time

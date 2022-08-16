@@ -103,8 +103,8 @@ This analytic will identify suspicious series of process executions.  We have ob
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **excessive_distinct_processes_from_windows_temp_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.

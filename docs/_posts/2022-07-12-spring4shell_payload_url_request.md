@@ -33,7 +33,7 @@ The following analytic is static indicators related to CVE-2022-22963, Spring4Sh
 
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: [Web](https://docs.splunk.com/Documentation/CIM/latest/User/Web)
+- **Datamodel**: [Web](https://docs.splunk.com/Documentation/CIM/latest/User/Web)- **Datasource**: [Splunk Add-on for NGINX](https://splunkbase.splunk.com/app/3258)
 - **Last Updated**: 2022-07-12
 - **Author**: Michael Haag, Splunk
 - **ID**: 9d44d649-7d67-4559-95c1-8022ff49420b
