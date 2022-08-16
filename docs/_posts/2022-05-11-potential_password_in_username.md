@@ -112,24 +112,24 @@ This search identifies users who have entered their passwords in username fields
 | lookup ut_shannon_lookup word AS user 
 | where ut_shannon>3 AND len(user)>=8 AND mvcount(src) == 1 
 | sort count, - ut_shannon 
-| eval incorrect_password=user 
+| eval incorrect_cred=user 
 | eval endtime=endtime+1000 
 | map maxsearches=70 search="
 | tstats `security_content_summariesonly` earliest(_time) AS starttime latest(_time) AS endtime latest(sourcetype) AS sourcetype values(Authentication.src) AS src values(Authentication.dest) AS dest count FROM datamodel=Authentication WHERE nodename=Authentication.Successful_Authentication Authentication.src=\"$src$\" Authentication.dest=\"$dest$\" sourcetype IN (\"$sourcetype$\") earliest=\"$starttime$\" latest=\"$endtime$\" BY \"Authentication.user\" 
 | `drop_dm_object_name(\"Authentication\")` 
 | `potential_password_in_username_false_positive_reduction` 
-| eval incorrect_password=\"$incorrect_password$\" 
+| eval incorrect_cred=\"$incorrect_cred$\" 
 | eval ut_shannon=\"$ut_shannon$\" 
 | sort count" 
-| where user!=incorrect_password 
+| where user!=incorrect_cred 
 | outlier action=RM count 
 | `potential_password_in_username_filter`
 ```
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 * [potential_password_in_username_false_positive_reduction](https://github.com/splunk/security_content/blob/develop/macros/potential_password_in_username_false_positive_reduction.yml)
+* [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
 
 > :information_source:
 > **potential_password_in_username_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.

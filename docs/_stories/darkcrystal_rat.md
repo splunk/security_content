@@ -41,14 +41,19 @@ Adversaries may use this technique to maximize the impact on the target organiza
 | [Malicious PowerShell Process - Execution Policy Bypass](/endpoint/malicious_powershell_process_-_execution_policy_bypass/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [PowerShell](/tags/#powershell)| TTP |
 | [Office Document Executing Macro Code](/endpoint/office_document_executing_macro_code/) | [Phishing](/tags/#phishing), [Spearphishing Attachment](/tags/#spearphishing-attachment)| TTP |
 | [Office Product Spawn CMD Process](/endpoint/office_product_spawn_cmd_process/) | [System Binary Proxy Execution](/tags/#system-binary-proxy-execution), [Mshta](/tags/#mshta)| TTP |
+| [Scheduled Task Deleted Or Created via CMD](/endpoint/scheduled_task_deleted_or_created_via_cmd/) | [Scheduled Task](/tags/#scheduled-task), [Scheduled Task/Job](/tags/#scheduled-task/job)| TTP |
 | [Suspicious Process File Path](/endpoint/suspicious_process_file_path/) | [Create or Modify System Process](/tags/#create-or-modify-system-process)| TTP |
+| [Suspicious Scheduled Task from Public Directory](/endpoint/suspicious_scheduled_task_from_public_directory/) | [Scheduled Task](/tags/#scheduled-task), [Scheduled Task/Job](/tags/#scheduled-task/job)| Anomaly |
 | [Windows Command Shell DCRat ForkBomb Payload](/endpoint/windows_command_shell_dcrat_forkbomb_payload/) | [Windows Command Shell](/tags/#windows-command-shell), [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter)| TTP |
+| [Windows Gather Victim Host Information Camera](/endpoint/windows_gather_victim_host_information_camera/) | [Hardware](/tags/#hardware), [Gather Victim Host Information](/tags/#gather-victim-host-information)| Anomaly |
 | [Windows Gather Victim Network Info Through Ip Check Web Services](/endpoint/windows_gather_victim_network_info_through_ip_check_web_services/) | [IP Addresses](/tags/#ip-addresses), [Gather Victim Network Information](/tags/#gather-victim-network-information)| Hunting |
 | [Windows High File Deletion Frequency](/endpoint/windows_high_file_deletion_frequency/) | [Data Destruction](/tags/#data-destruction)| Anomaly |
+| [Windows Ingress Tool Transfer Using Explorer](/endpoint/windows_ingress_tool_transfer_using_explorer/) | [Ingress Tool Transfer](/tags/#ingress-tool-transfer)| Anomaly |
 | [Windows System LogOff Commandline](/endpoint/windows_system_logoff_commandline/) | [System Shutdown/Reboot](/tags/#system-shutdown/reboot)| Anomaly |
 | [Windows System Reboot CommandLine](/endpoint/windows_system_reboot_commandline/) | [System Shutdown/Reboot](/tags/#system-shutdown/reboot)| Anomaly |
 | [Windows System Shutdown CommandLine](/endpoint/windows_system_shutdown_commandline/) | [System Shutdown/Reboot](/tags/#system-shutdown/reboot)| Anomaly |
 | [Windows System Time Discovery W32tm Delay](/endpoint/windows_system_time_discovery_w32tm_delay/) | [System Time Discovery](/tags/#system-time-discovery)| Anomaly |
+| [WinEvent Windows Task Scheduler Event Action Started](/endpoint/winevent_windows_task_scheduler_event_action_started/) | [Scheduled Task](/tags/#scheduled-task)| Hunting |
 | [Winword Spawning Cmd](/endpoint/winword_spawning_cmd/) | [Phishing](/tags/#phishing), [Spearphishing Attachment](/tags/#spearphishing-attachment)| TTP |
 | [Winword Spawning PowerShell](/endpoint/winword_spawning_powershell/) | [Phishing](/tags/#phishing), [Spearphishing Attachment](/tags/#spearphishing-attachment)| TTP |
 

@@ -9,7 +9,9 @@ tags:
   - Splunk Cloud
   - Endpoint
   - Actions on Objectives
+  - Delivery
   - Exploitation
+  - Installation
 ---
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -38,6 +40,10 @@ Ingress tool transfer is a Technique under tactic Command and Control. Behaviors
 | [CertUtil Download With URLCache and Split Arguments](/endpoint/certutil_download_with_urlcache_and_split_arguments/) | [Ingress Tool Transfer](/tags/#ingress-tool-transfer)| TTP |
 | [CertUtil Download With VerifyCtl and Split Arguments](/endpoint/certutil_download_with_verifyctl_and_split_arguments/) | [Ingress Tool Transfer](/tags/#ingress-tool-transfer)| TTP |
 | [Curl Download and Bash Execution](/endpoint/curl_download_and_bash_execution/) | [Ingress Tool Transfer](/tags/#ingress-tool-transfer)| TTP |
+| [Linux Curl Upload File](/endpoint/linux_curl_upload_file/) | [Ingress Tool Transfer](/tags/#ingress-tool-transfer)| TTP |
+| [Linux Ingress Tool Transfer Hunting](/endpoint/linux_ingress_tool_transfer_hunting/) | [Ingress Tool Transfer](/tags/#ingress-tool-transfer)| Hunting |
+| [Linux Ingress Tool Transfer with Curl](/endpoint/linux_ingress_tool_transfer_with_curl/) | [Ingress Tool Transfer](/tags/#ingress-tool-transfer)| Anomaly |
+| [Linux Proxy Socks Curl](/endpoint/linux_proxy_socks_curl/) | [Proxy](/tags/#proxy), [Non-Application Layer Protocol](/tags/#non-application-layer-protocol)| TTP |
 | [Wget Download and Bash Execution](/endpoint/wget_download_and_bash_execution/) | [Ingress Tool Transfer](/tags/#ingress-tool-transfer)| TTP |
 | [Windows Curl Download to Suspicious Path](/endpoint/windows_curl_download_to_suspicious_path/) | [Ingress Tool Transfer](/tags/#ingress-tool-transfer)| TTP |
 | [Windows Curl Upload to Remote Destination](/endpoint/windows_curl_upload_to_remote_destination/) | [Ingress Tool Transfer](/tags/#ingress-tool-transfer)| TTP |
