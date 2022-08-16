@@ -5,17 +5,24 @@ date: '2022-08-10'
 author: Mauricio Velazco, Splunk
 type: TTP
 datamodel: []
-description: The following analytic identifies an attempt to disable the MFA for a user. The attackers may disbale MFA after they acquire the credentials for the password.
-  This way the attackers can keep persistance in the environment without adding new users. Sometimes, the MFA may be disbaled by administrator for genuine purposes.
-search: '`azuread` | spath "body.operationName" | search "body.operationName"="Disable Strong Authentication" 
-  | rename body.properties.* as * | spath "body.properties.targetResources{}.userPrincipalName" | rename initiatedBy.user.ipAddress as ipAddress  
-  | stats  values(body.properties.targetResources{}.userPrincipalName) as userPrincipalName by _time, userAgent, ipAddress | `azure_ad_multi_factor_authentication_disabled_filter`'
-how_to_implement: You must install the latest version of  Splunk Add-on for Microsoft Cloud Services from  Splunkbase(https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment. You must be ingesting Azure Active Directory events in your Splunk environment. Specifically, this analytic leverages the RiskyUsers and UserRiskEvents
-  log category.
-known_false_positives: Legitimate users may disable MFA for debugging or testing.
+description: The following analytic identifies an attempt to disable multi-factor authentication for an Azure AD user. An adversary who has obtained access to an Azure AD tenant 
+  may disable multi-factor authentication as a way to plant a backdoor and maintain persistence using a valid account.
+  This way the attackers can keep persistance in the environment without adding new users.
+search: '`azuread` "body.operationName"="Disable Strong Authentication" 
+  | rename body.properties.* as *
+  | rename targetResources{}.userPrincipalName as userPrincipalName
+  | rename targetResources{}.type as type
+  | rename initiatedBy.user.userPrincipalName as initiatedBy
+  | stats values(userPrincipalName) by _time, type, body.operationName, initiatedBy, result
+  | `azure_ad_multi_factor_authentication_disabled_filter`'
+how_to_implement: You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase(https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment. 
+Specifically, this analytic leverages the AuditLogs log category.
+known_false_positives: Legitimate use case may require for users to disable MFA. Filter as needed.
 references:
 - https://docs.microsoft.com/en-us/azure/active-directory/authentication/concept-mfa-howitworks
+- https://docs.microsoft.com/en-us/azure/active-directory/authentication/howto-mfa-userstates
 - https://attack.mitre.org/tactics/TA0005/
+- https://attack.mitre.org/techniques/T1556/
 tags:
   analytic_story:
   - Azure Active Directory Account Takeover
@@ -27,16 +34,17 @@ tags:
   confidence: 90
   context:
   - Source:Cloud Data
-  - Stage:Initial Access
+  - Stage:Persistence
+  - Stage:Defense Evasion
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.002/azuread/azure-audit.log
-  impact: 60
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556/azuread/azure-audit.log
+  impact: 50
   kill_chain_phases:
   - Installation
   - Actions on Objectives
-  message: MFA disabled for User $body.properties.targetResources{}.userPrincipalName$
+  message: MFA disabled for User $userPrincipalName$ initiated by $initiatedBy$  
   mitre_attack_id:
-  - T1003.002
+  - T1556
   nist:
   - DE.CM
   observable:
@@ -44,8 +52,8 @@ tags:
     type: User
     role:
     - Victim
-  - name: ipAddress
-    type: IP Address
+  - name: initiatedBy
+    type: User
     role:
     - Attacker
   product:
@@ -55,7 +63,8 @@ tags:
   required_fields:
   - _time
   - body.properties.targetResources{}.userPrincipalName
-  - body.properties.initiatedBy.user.ipAddress
-  - body.properties.userAgent
-  risk_score: 54
+  - body.properties.targetResources{}.type
+  - body.properties.initiatedBy.user.userPrincipalName
+  - body.properties.result
+  risk_score: 45
   security_domain: identity
