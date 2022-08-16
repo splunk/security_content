@@ -45,6 +45,7 @@ tags:
   risk_score: 40
   security_domain: endpoint
   risk_severity: low
+  research_site_url: https://research.splunk.com/endpoint/76bb9e35-f314-4c3d-a385-83c72a13ce4e/
 test:
   name: Windows Rundll32 Comsvcs Memory Dump Unit Test
   tests:

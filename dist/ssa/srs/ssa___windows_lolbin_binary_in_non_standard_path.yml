@@ -88,6 +88,7 @@ tags:
   risk_score: 49
   security_domain: endpoint
   risk_severity: low
+  research_site_url: https://research.splunk.com/endpoint/25689101-012a-324a-94d3-08301e6c065a/
 test:
   name: Windows LOLBin Binary in Non Standard Path Unit Test
   tests:

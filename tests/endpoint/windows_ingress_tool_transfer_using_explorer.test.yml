@@ -1,0 +1,13 @@
+name: Windows Ingress Tool Transfer Using Explorer Unit Test
+tests:
+- name: Windows Ingress Tool Transfer Using Explorer
+  file: endpoint/windows_ingress_tool_transfer_using_explorer.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: sysmon.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/dcrat/dcrat_explorer_url/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true
