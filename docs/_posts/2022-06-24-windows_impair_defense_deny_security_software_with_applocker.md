@@ -29,7 +29,7 @@ The following analytic identifies a modification in the Windows registry by the 
 
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2022-06-24
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: e0b6ca60-9e29-4450-b51a-bba0abae2313
@@ -113,8 +113,8 @@ The following analytic identifies a modification in the Windows registry by the 
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **windows_impair_defense_deny_security_software_with_applocker_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.

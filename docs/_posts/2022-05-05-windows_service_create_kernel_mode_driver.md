@@ -34,7 +34,7 @@ The following analytic identifes a new kernel driver being added to Windows usin
 
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2022-05-05
 - **Author**: Michael Haag, Splunk
 - **ID**: 0b4e3b06-1b2b-4885-b752-cf06d12a90cb
@@ -120,8 +120,8 @@ The following analytic identifes a new kernel driver being added to Windows usin
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **windows_service_create_kernel_mode_driver_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.

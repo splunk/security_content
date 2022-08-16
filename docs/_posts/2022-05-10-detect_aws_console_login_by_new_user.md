@@ -127,6 +127,7 @@ When a legitimate new user logins for the first time, this activity will be dete
 
 #### Associated Analytic story
 * [Suspicious Cloud Authentication Activities](/stories/suspicious_cloud_authentication_activities)
+* [AWS Credential Access](/stories/aws_credential_access)
 
 
 

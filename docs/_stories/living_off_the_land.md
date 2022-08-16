@@ -105,6 +105,7 @@ Living Off The Land refers to an adversary methodology of using native applicati
 | [Svchost LOLBAS Execution Process Spawn](/endpoint/svchost_lolbas_execution_process_spawn/) | [Scheduled Task/Job](/tags/#scheduled-task/job), [Scheduled Task](/tags/#scheduled-task)| TTP |
 | [Windows Binary Proxy Execution Mavinject DLL Injection](/endpoint/windows_binary_proxy_execution_mavinject_dll_injection/) | [Mavinject](/tags/#mavinject), [System Binary Proxy Execution](/tags/#system-binary-proxy-execution)| TTP |
 | [Windows Diskshadow Proxy Execution](/endpoint/windows_diskshadow_proxy_execution/) | [System Binary Proxy Execution](/tags/#system-binary-proxy-execution)| TTP |
+| [Windows DLL Search Order Hijacking with iscsicpl](/endpoint/windows_dll_search_order_hijacking_with_iscsicpl/) | [DLL Search Order Hijacking](/tags/#dll-search-order-hijacking)| TTP |
 | [Windows Identify Protocol Handlers](/endpoint/windows_identify_protocol_handlers/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter)| Hunting |
 | [Windows Indirect Command Execution Via forfiles](/endpoint/windows_indirect_command_execution_via_forfiles/) | [Indirect Command Execution](/tags/#indirect-command-execution)| TTP |
 | [Windows Indirect Command Execution Via pcalua](/endpoint/windows_indirect_command_execution_via_pcalua/) | [Indirect Command Execution](/tags/#indirect-command-execution)| TTP |
