@@ -16,7 +16,7 @@ search: '`azuread` "body.operationName"="Disable Strong Authentication"
   | stats values(userPrincipalName) by _time, type, body.operationName, initiatedBy, result
   | `azure_ad_multi_factor_authentication_disabled_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase(https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment. 
-Specifically, this analytic leverages the AuditLogs log category.
+  Specifically, this analytic leverages the AuditLogs log category.
 known_false_positives: Legitimate use case may require for users to disable MFA. Filter as needed.
 references:
 - https://docs.microsoft.com/en-us/azure/active-directory/authentication/concept-mfa-howitworks
