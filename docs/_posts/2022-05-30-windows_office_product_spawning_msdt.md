@@ -30,7 +30,7 @@ The following analytic identifies a Microsoft Office product spawning the Window
 
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2022-05-30
 - **Author**: Michael Haag, Teoderick Contreras, Splunk
 - **ID**: 127eba64-c981-40bf-8589-1830638864a7
@@ -118,8 +118,8 @@ The following analytic identifies a Microsoft Office product spawning the Window
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **windows_office_product_spawning_msdt_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.

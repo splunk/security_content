@@ -17,6 +17,7 @@ sidebar:
 | [Crowdstrike Malware Triage](/playbooks/crowdstrike_malware_triage/)| None | Response |
 | [Delete Detected Files](/playbooks/delete_detected_files/)|[Executable File Written in Administrative SMB Share]((/detection/executable_file_written_in_administrative_smb_share/)| Response |
 | [Email Notification for Malware](/playbooks/email_notification_for_malware/)| None | Response |
+| [Hunting](/playbooks/hunting/)| None | Investigation |
 | [Internal Host SSH Investigate](/playbooks/internal_host_ssh_investigate/)| None | Investigation |
 | [Internal Host SSH Log4j Investigate](/playbooks/internal_host_ssh_log4j_investigate/)| None | Investigation |
 | [Internal Host SSH Log4j Response](/playbooks/internal_host_ssh_log4j_response/)| None | Response |

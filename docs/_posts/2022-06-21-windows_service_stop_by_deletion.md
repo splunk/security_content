@@ -26,7 +26,7 @@ The following analytic identifies Windows Service Control, `sc.exe`, attempting 
 
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2022-06-21
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: 196ff536-58d9-4d1b-9686-b176b04e430b
@@ -108,8 +108,8 @@ The following analytic identifies Windows Service Control, `sc.exe`, attempting 
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **windows_service_stop_by_deletion_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.

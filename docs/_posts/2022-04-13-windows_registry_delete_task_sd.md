@@ -31,7 +31,7 @@ The following analytic identifies a process attempting to delete a scheduled tas
 
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2022-04-13
 - **Author**: Michael Haag, Splunk
 - **ID**: ffeb7893-ff06-446f-815b-33ca73224e92
@@ -115,8 +115,8 @@ The following analytic identifies a process attempting to delete a scheduled tas
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **windows_registry_delete_task_sd_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
