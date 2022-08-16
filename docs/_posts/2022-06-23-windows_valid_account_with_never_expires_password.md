@@ -26,7 +26,7 @@ The following analytic identifies net.exe updating user account policies for pas
 
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
 - **Last Updated**: 2022-06-23
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: 73a931db-1830-48b3-8296-cd9cfa09c3c8
@@ -109,8 +109,8 @@ The following analytic identifies net.exe updating user account policies for pas
 #### Macros
 The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
-* [process_net](https://github.com/splunk/security_content/blob/develop/macros/process_net.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [process_net](https://github.com/splunk/security_content/blob/develop/macros/process_net.yml)
 
 > :information_source:
 > **windows_valid_account_with_never_expires_password_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.

@@ -108,8 +108,8 @@ This analytic looks for the execution of `net.exe` or `net1.exe` with command-li
 #### Macros
 The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
-* [process_net](https://github.com/splunk/security_content/blob/develop/macros/process_net.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [process_net](https://github.com/splunk/security_content/blob/develop/macros/process_net.yml)
 
 > :information_source:
 > **local_account_discovery_with_net_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.

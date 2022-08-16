@@ -106,8 +106,8 @@ This search is to detect an anomaly event of non-firefox process accessing the f
 
 #### Macros
 The SPL above uses the following Macros:
-* [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
+* [wineventlog_security](https://github.com/splunk/security_content/blob/develop/macros/wineventlog_security.yml)
 
 > :information_source:
 > **non_firefox_process_access_firefox_profile_dir_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
