@@ -45,6 +45,7 @@ tags:
   risk_score: 56
   security_domain: endpoint
   risk_severity: medium
+  research_site_url: https://research.splunk.com/endpoint/c205bd2e-cd5b-4224-8510-578a2a1f83d7/
 test:
   name: Windows Defender Tools in Non Standard Path Unit Test
   tests:

@@ -50,6 +50,7 @@ tags:
   risk_score: 35
   security_domain: endpoint
   risk_severity: low
+  research_site_url: https://research.splunk.com/endpoint/b76eae28-cd25-11eb-9c92-acde48001122/
 test:
   name: Deny Permission using Cacls Utility Unit Test
   tests:

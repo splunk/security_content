@@ -16,7 +16,7 @@
         <img src="https://img.shields.io/github/stars/splunk/security_content?style=social" /></a>
 </p>
 
-	
+
 # Splunk Security Content
 ![security_content](docs/static/logo.png)
 =====
@@ -43,12 +43,16 @@ curl -s https://content.splunkresearch.com | jq
 ```
 
 # Usage 🧰
-### contentctl.py 
-The Content Control tool allows you to manipulate Splunk Security Content via the following actions: 
+### contentctl.py
+The Content Control tool allows you to manipulate Splunk Security Content via the following actions:
 
+0. **init** - Initilialize a new repo from scratch so you can easily add your own content to a custom application.  Note that this requires a large number of command line arguments, so use python _contentctl.py init --help_ for documentation around those arguments.
 1. **new_content** - Creates new content (detection, story, baseline)
 2. **validate** - Validates written content
 3. **generate** - Generates a deployment package for different platforms (splunk_app)
+4. **build** - Builds an application suitable for deployment on a search head using Slim, the Splunk Packaging Toolkit
+5. **inspect** - Uses a local version of appinspect to ensure that the app you built meets basic quality standards.
+6. **cloud_deploy** - Using ACS, deploy your custom app to a running Splunk Cloud Instance.
 
 ### pre-requisites
 Make sure you use python version 3.9.
@@ -64,16 +68,16 @@ pip install -r requirements.txt
 ### Architecture details for the tooling
 - [WIKI](https://github.com/splunk/security_content/wiki/Security-Content-Code)
 
-### create a new detection 
-`python contentctl.py -p . new_content -t detection` 
+### create a new detection
+`python contentctl.py -p . new_content -t detection`
 
 for a more indepth write up on how to write content see our [guide](https://github.com/splunk/security_content/wiki/Developing-Content).
 
-### validate security content 
-`python contentctl.py -p . validate -pr ESCU` 
+### validate security content
+`python contentctl.py -p . validate -pr ESCU`
 
 ### generate a splunk app from current content
-`python contentctl.py -p . generate -o dist/escu -pr ESCU` 
+`python contentctl.py -p . generate -o dist/escu -pr ESCU`
 
 # MITRE ATT&CK ⚔️
 ### Detection Coverage
@@ -129,4 +133,3 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-
