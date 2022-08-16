@@ -33,7 +33,7 @@ The following analytic identifies the common URL requests used by a recent CVE -
 
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: [Web](https://docs.splunk.com/Documentation/CIM/latest/User/Web)
+- **Datamodel**: [Web](https://docs.splunk.com/Documentation/CIM/latest/User/Web)- **Datasource**: [Splunk Add-on for NGINX](https://splunkbase.splunk.com/app/3258)
 - **Last Updated**: 2022-04-05
 - **Author**: Michael Haag, Splunk
 - **ID**: 2850c734-2d44-4431-8139-1a56f6f54c01

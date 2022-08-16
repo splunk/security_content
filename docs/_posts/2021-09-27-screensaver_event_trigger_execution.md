@@ -31,7 +31,7 @@ This analytic is developed to detect possible event trigger execution through sc
 
 - **Type**: [TTP](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-09-27
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: 58cea3ec-1f6d-11ec-8560-acde48001122
@@ -109,8 +109,8 @@ This analytic is developed to detect possible event trigger execution through sc
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **screensaver_event_trigger_execution_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.

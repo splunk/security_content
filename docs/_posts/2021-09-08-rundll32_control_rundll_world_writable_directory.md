@@ -113,8 +113,8 @@ The following detection identifies rundll32.exe with `control_rundll` within the
 #### Macros
 The SPL above uses the following Macros:
 * [process_rundll32](https://github.com/splunk/security_content/blob/develop/macros/process_rundll32.yml)
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **rundll32_control_rundll_world_writable_directory_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.

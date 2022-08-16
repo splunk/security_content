@@ -108,8 +108,8 @@ This search looks for AWS CloudTrail events where a user has created an open/pub
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [cloudtrail](https://github.com/splunk/security_content/blob/develop/macros/cloudtrail.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **detect_new_open_s3_buckets_over_aws_cli_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.
