@@ -1,0 +1,17 @@
+name: Azure Active Directory Persistence
+id: dca983db-6334-4a0d-be32-80611ca1396c
+version: 1
+date: '2022-08-17'
+author: Mauricio Velazco, Splunk
+description: UPDATE_DESCRIPTION
+narrative: UPDATE_NARRATIVE
+references: []
+tags:
+  analytic_story: Azure Active Directory Persistence
+  category:
+  - Cloud Security
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
