@@ -48,7 +48,7 @@ tags:
   - DE.CM
   observable:
   - name: displayName
-    type: Application
+    type: Other
     role:
     - Victim
   - name: initiatedBy
