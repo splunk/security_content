@@ -1,0 +1,69 @@
+name: Azure AD Service Principal Created
+id: f8ba49e7-ffd3-4b53-8f61-e73974583c5d
+version: 1
+date: '2022-08-17'
+author: Gowthamaraj Rajendran, Mauricio Velazco, Splunk
+type: TTP
+datamodel: []
+description: The following analytic identifies when a Service Principal is created.
+  An Azure service principal is an identity designed for use with apps, services, and automated tools to access resources. 
+  This access is restricted by the roles assigned to the service principal, giving you control over which resources can be accessed and at which level.
+  It's advised to employ service principals with automated tools rather than letting them log in using user identities for security concerns.
+  Attackers can use this method to create Persistence in the Azure AD environment and login whenever they want.
+search: '`azuread` "body.operationName"="Add service principal" "body.properties.initiatedBy.user.id"=*   
+  | rename body.properties.* as * 
+  | rename targetResources{}.displayName as displayName 
+  | rename initiatedBy.user.userPrincipalName as initiatedBy 
+  | rename targetResources{}.type as type 
+  | stats values(displayName) by _time, type, initiatedBy, result, body.operationName 
+  | `azure_ad_service_principal_created_filter`'
+how_to_implement: You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase(https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment. 
+  Specifically, this analytic leverages the AuditLogs log category.
+known_false_positives: Administrator may legitimately create Service Principal. Filter as needed.
+references:
+- https://docs.microsoft.com/en-us/azure/active-directory/develop/app-objects-and-service-principals
+- https://docs.microsoft.com/en-us/powershell/azure/create-azure-service-principal-azureps?view=azps-8.2.0
+- https://attack.mitre.org/techniques/T1136/003/
+tags:
+  analytic_story:
+  - Azure Active Directory Persistence
+  asset_type: Azure Active Directory
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  confidence: 90
+  context:
+  - Source:Cloud Data
+  - Stage:Persistence
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.003/azure_ad_add_service_principal/azure-audit.log
+  impact: 50
+  kill_chain_phases:
+  - Exploitation
+  message: Service Principal named $displayName$ created by $initiatedBy$ 
+  mitre_attack_id:
+  - T1136.003
+  nist:
+  - DE.CM
+  observable:
+  - name: displayName
+    type: Application
+    role:
+    - Victim
+  - name: initiatedBy
+    type: User
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - body.properties.targetResources{}.displayName
+  - body.properties.targetResources{}.type
+  - body.properties.initiatedBy.user.userPrincipalName
+  - body.properties.result
+  risk_score: 45
+  security_domain: threat
