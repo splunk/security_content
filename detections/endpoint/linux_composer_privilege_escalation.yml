@@ -20,6 +20,7 @@ how_to_implement: To successfully implement this search, you need to be ingestin
 known_false_positives: False positives may be present, filter as needed.
 references:
 - https://gtfobins.github.io/gtfobins/composer/
+- https://getcomposer.org/doc/00-intro.md
 tags:
   analytic_story:
   - Linux Privilege Escalation
@@ -38,7 +39,7 @@ tags:
   impact: 20
   kill_chain_phases:
   - Exploitation
-  message: A commandline $process$ with process $process_name$ on $dest$
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$
   mitre_attack_id:
   - T1548.003
   - T1548
@@ -49,6 +50,14 @@ tags:
     type: Hostname
     role:
     - Victim
+  - name: parent_process_name
+    type: Process
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
