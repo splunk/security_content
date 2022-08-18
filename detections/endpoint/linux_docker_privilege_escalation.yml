@@ -31,13 +31,13 @@ tags:
   - CIS 3
   - CIS 5
   - CIS 16
-  confidence: 30
+  confidence: 50
   context:
   - Source:Endpoint
   - Stage:Privilege Escalation
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/docker/sysmon_linux.log
-  impact: 80
+  impact: 10
   kill_chain_phases:
   - Exploitation
   message: A commandline $process$ with process $process_name$ on $dest$
@@ -64,5 +64,5 @@ tags:
   - Processes.process
   - Processes.process_id
   - Processes.parent_process_id
-  risk_score: 24
+  risk_score: 5
   security_domain: endpoint

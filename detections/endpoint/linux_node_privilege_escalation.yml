@@ -31,7 +31,7 @@ tags:
   - CIS 3
   - CIS 5
   - CIS 16
-  confidence: 90
+  confidence: 50
   context:
   - Source:Endpoint
   - Stage:Privilege Escalation
@@ -64,5 +64,5 @@ tags:
   - Processes.process
   - Processes.process_id
   - Processes.parent_process_id
-  risk_score: 72
+  risk_score: 40
   security_domain: endpoint
