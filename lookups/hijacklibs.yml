@@ -1,0 +1,7 @@
+description: A list of potentially abused libraries in Windows
+filename: hijacklibs.csv
+name: hijacklibs
+default_match: 'false'
+match_type: WILDCARD(attacker_tool_names)
+min_matches: 1
+case_sensitive_match: 'false'
