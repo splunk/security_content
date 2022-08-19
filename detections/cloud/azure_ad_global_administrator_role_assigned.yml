@@ -7,6 +7,7 @@ type: TTP
 datamodel: []
 description: The following analytic identifies the assignment of the Azure AD Global Administrator role to an Azure AD user. 
   The Global Administrator role is the most powerful administrator role in Azure AD and provides almost unlimited access to data, resources and settings. It is equivalent to the Domain Administrator group in an Active Directory environment.
+  While Azure AD roles do not grant access to Azure services and resources, it is possible for a Global Administrator account to gain control of Azure resources.
   Adversaries and red teams alike may assign this role to a compromised account to establish Persistence in an Azure AD environment.
 search: '`azuread` "body.operationName"="Add member to role"  "body.properties.targetResources{}.modifiedProperties{}.newValue"="\"Global Administrator\"" 
   | rename body.properties.* as * 
@@ -17,12 +18,13 @@ search: '`azuread` "body.operationName"="Add member to role"  "body.properties.t
   | `azure_ad_global_administrator_role_assigned_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase(https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment. 
   Specifically, this analytic leverages the AuditLogs log category.
-known_false_positives: Although rare, Administrators may legitimately assign the Global Administrator role to a user. Filter as needed.
+known_false_positives: Administrators may legitimately assign the Global Administrator role to a user. Filter as needed.
 references:
 - https://o365blog.com/post/admin/
 - https://adsecurity.org/?p=4277
 - https://www.mandiant.com/resources/detecting-microsoft-365-azure-active-directory-backdoors
 - https://docs.microsoft.com/en-us/azure/active-directory/roles/security-planning
+- https://docs.microsoft.com/en-us/azure/role-based-access-control/elevate-access-global-admin
 - https://attack.mitre.org/techniques/T1098/003/
 tags:
   analytic_story:
