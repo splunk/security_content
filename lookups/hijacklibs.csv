@@ -342,6 +342,7 @@ appxdeploymentclient.dll,TRUE
 appxalluserstore.dll,TRUE
 applicationframe.dll,TRUE
 apphelp.dll,TRUE
+amsi.dll,TRUE
 aepic.dll,TRUE
 adsldpc.dll,TRUE
 activeds.dll,TRUE
