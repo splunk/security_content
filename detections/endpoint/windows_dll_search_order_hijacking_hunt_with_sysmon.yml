@@ -38,17 +38,13 @@ tags:
   impact: 10
   kill_chain_phases:
   - Exploitation
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to perform DLL search order hijacking.
+  message: An instance of $parent_process_name$ loading $process_name$ was identified on endpoint $dest$.
   mitre_attack_id:
   - T1574.001
   - T1574
   nist:
   - DE.CM
   observable:
-  - name: user
-    type: User
-    role:
-    - Victim
   - name: dest
     type: Hostname
     role:
@@ -67,10 +63,8 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time 
-  - Processes.dest 
-  - Processes.user 
-  - Processes.parent_process_name
-  - Processes.process_name 
-  - Processes.process_path   
+  - dest 
+  - ImageLoaded
+  - Module_Path  
   risk_score: 1
   security_domain: endpoint
