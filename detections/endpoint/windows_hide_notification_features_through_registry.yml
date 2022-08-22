@@ -6,30 +6,32 @@ author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
 - Endpoint
-description: This analytic is to detect a suspicious registry modification to hide common windows notification feature from compromised host. 
-  This technique was seen in some ransomware family to add more impact to its payload that are visually seen by user aside from the encrypted files and 
-  ransomware notes. Even this a good anomaly detection, administrator may implement this changes for auditing or security reason. In this scenario filter is needed.
+description: This analytic is to detect a suspicious registry modification to hide
+  common windows notification feature from compromised host. This technique was seen
+  in some ransomware family to add more impact to its payload that are visually seen
+  by user aside from the encrypted files and ransomware notes. Even this a good anomaly
+  detection, administrator may implement this changes for auditing or security reason.
+  In this scenario filter is needed.
 search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Registry
-  where Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\*" 
-  Registry.registry_value_name IN ("HideClock", "HideSCAHealth", "HideSCANetwork", "HideSCAPower", "HideSCAVolume")
-  Registry.registry_value_data = "0x00000001" 
-  by _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_value_name Registry.registry_value_data
-  Registry.process_guid | `drop_dm_object_name(Registry)` |rename process_guid as
-  proc_guid |join proc_guid, _time [| tstats `security_content_summariesonly` count
-  FROM datamodel=Endpoint.Processes by _time span=1h Processes.process_id Processes.process_name
+  where Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\*"
+  Registry.registry_value_name IN ("HideClock", "HideSCAHealth", "HideSCANetwork",
+  "HideSCAPower", "HideSCAVolume") Registry.registry_value_data = "0x00000001" by
+  _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_value_name
+  Registry.registry_value_data Registry.process_guid | `drop_dm_object_name(Registry)`
+  |rename process_guid as proc_guid |join proc_guid, _time [| tstats `security_content_summariesonly`
+  count FROM datamodel=Endpoint.Processes by _time span=1h Processes.process_id Processes.process_name
   Processes.process Processes.dest Processes.parent_process_name Processes.parent_process
   Processes.process_guid | `drop_dm_object_name(Processes)` |rename process_guid as
   proc_guid | fields _time dest user parent_process_name parent_process process_name
   process_path process proc_guid registry_path registry_value_name registry_value_data]
   | table _time dest user parent_process_name parent_process process_name process_path
-  process proc_guid registry_path registry_value_name registry_value_data 
-  | `windows_hide_notification_features_through_registry_filter`'
+  process proc_guid registry_path registry_value_name registry_value_data | `windows_hide_notification_features_through_registry_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the Filesystem responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` and `Registry` node.
 known_false_positives: unknown
 references:
--  https://www.trendmicro.com/vinfo/us/threat-encyclopedia/malware/Ransom.Win32.ONALOCKER.A/
+- https://www.trendmicro.com/vinfo/us/threat-encyclopedia/malware/Ransom.Win32.ONALOCKER.A/
 tags:
   analytic_story:
   - Ransomware
@@ -51,17 +53,16 @@ tags:
   - Registry.registry_path
   - Registry.registry_value_name
   - Registry.dest Registry.user
-  - Processes.process_id 
+  - Processes.process_id
   - Processes.process_name
-  - Processes.process 
-  - Processes.dest 
-  - Processes.parent_process_name 
+  - Processes.process
+  - Processes.dest
+  - Processes.parent_process_name
   - Processes.parent_process
-  - Processes.process_guid 
+  - Processes.process_guid
   security_domain: endpoint
   impact: 70
-  confidence: 70 
-  # (impact * confidence)/100
+  confidence: 70
   risk_score: 49
   context:
   - Source:Endpoint
@@ -79,3 +80,5 @@ tags:
   - CIS 5
   - CIS 16
   asset_type: Endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon

@@ -78,10 +78,9 @@ class CveEnrichment():
         except TypeError as TypeErr:
             # there was a error calling the circl api lets just empty the object
             print("WARNING, issue enriching {0}, with error: {1}".format(cve_id, str(TypeErr)))
-            sys.exit(1)
+            cve_enriched = dict()
             
         except Exception as e:
             print("WARNING - {0}".format(str(e)))
-            sys.exit(1)
     
         return cve_enriched

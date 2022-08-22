@@ -19,10 +19,11 @@ search: '| tstats `security_content_summariesonly` values(Processes.process) as 
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)` 
   | `windows_system_time_discovery_w32tm_delay_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA. Tune and filter known instances of wermgr.exe may be used.
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
 known_false_positives: unknown
 references:
 - https://cert.gov.ua/article/405538
@@ -45,7 +46,8 @@ tags:
   impact: 60
   kill_chain_phases:
   - Reconnaissance
-  message: Process name w32tm.exe is using suspcicious command line arguments $process$ on host $dest$. 
+  message: Process name w32tm.exe is using suspcicious command line arguments $process$
+    on host $dest$.
   mitre_attack_id:
   - T1124
   nist:
@@ -74,3 +76,5 @@ tags:
   - Processes.parent_process_id
   risk_score: 36
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon

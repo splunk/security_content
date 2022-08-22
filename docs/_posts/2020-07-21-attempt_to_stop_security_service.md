@@ -119,8 +119,8 @@ This search looks for attempts to stop security-related services on the endpoint
 #### Macros
 The SPL above uses the following Macros:
 * [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
-* [process_net](https://github.com/splunk/security_content/blob/develop/macros/process_net.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [process_net](https://github.com/splunk/security_content/blob/develop/macros/process_net.yml)
 
 > :information_source:
 > **attempt_to_stop_security_service_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.

@@ -29,7 +29,7 @@ The search looks for the Registry Key DefenderApiLogger or DefenderAuditLogger s
 
 - **Type**: [Anomaly](https://github.com/splunk/security_content/wiki/Detection-Analytic-Types)
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)- **Datasource**: [Splunk Add-on for Sysmon](https://splunkbase.splunk.com/app/5709)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2022-06-07
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: 76406a0f-f5e0-4167-8e1f-337fdc0f1b0c
@@ -112,8 +112,8 @@ The search looks for the Registry Key DefenderApiLogger or DefenderAuditLogger s
 
 #### Macros
 The SPL above uses the following Macros:
-* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 * [security_content_summariesonly](https://github.com/splunk/security_content/blob/develop/macros/security_content_summariesonly.yml)
+* [security_content_ctime](https://github.com/splunk/security_content/blob/develop/macros/security_content_ctime.yml)
 
 > :information_source:
 > **windows_impair_defenses_disable_win_defender_auto_logging_filter** is a empty macro by default. It allows the user to filter out any results (false positives) without editing the SPL.

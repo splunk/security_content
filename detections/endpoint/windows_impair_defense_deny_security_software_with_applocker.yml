@@ -7,24 +7,28 @@ type: TTP
 datamodel:
 - Endpoint
 description: The following analytic identifies a modification in the Windows registry
-  by the Applocker utility that contains details or registry data values related to denying the execution of several security products. 
-  This technique was seen in Azorult malware where it drops an xml Applocker policy that will deny several AV products and then loaded by using PowerShell Applocker 
-  commandlet.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry 
-  where (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Group Policy Objects\\*" AND Registry.registry_path= "*}Machine\\Software\\Policies\\Microsoft\\Windows\\SrpV2*")
-  OR Registry.registry_path="*\\Software\\Policies\\Microsoft\\Windows\\SrpV2*"
-  AND Registry.registry_value_data = "*Action\=\"Deny\"*" 
-  AND Registry.registry_value_data IN("*O=SYMANTEC*","*O=MCAFEE*","*O=KASPERSKY*","*O=BLEEPING COMPUTER*", "*O=PANDA SECURITY*","*O=SYSTWEAK SOFTWARE*", "*O=TREND MICRO*", "*O=AVAST*", "*O=GRIDINSOFT*", "*O=MICROSOFT*", "*O=NANO SECURITY*", "*O=SUPERANTISPYWARE.COM*", "*O=DOCTOR WEB*", "*O=MALWAREBYTES*", "*O=ESET*", "*O=AVIRA*", "*O=WEBROOT*")
-  by  Registry.user Registry.registry_path Registry.registry_value_data Registry.action Registry.registry_key_name Registry.dest 
-  | `drop_dm_object_name(Registry)`
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` 
+  by the Applocker utility that contains details or registry data values related to
+  denying the execution of several security products. This technique was seen in Azorult
+  malware where it drops an xml Applocker policy that will deny several AV products
+  and then loaded by using PowerShell Applocker commandlet.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime FROM datamodel=Endpoint.Registry where (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Group
+  Policy Objects\\*" AND Registry.registry_path= "*}Machine\\Software\\Policies\\Microsoft\\Windows\\SrpV2*")
+  OR Registry.registry_path="*\\Software\\Policies\\Microsoft\\Windows\\SrpV2*" AND
+  Registry.registry_value_data = "*Action\=\"Deny\"*" AND Registry.registry_value_data
+  IN("*O=SYMANTEC*","*O=MCAFEE*","*O=KASPERSKY*","*O=BLEEPING COMPUTER*", "*O=PANDA
+  SECURITY*","*O=SYSTWEAK SOFTWARE*", "*O=TREND MICRO*", "*O=AVAST*", "*O=GRIDINSOFT*",
+  "*O=MICROSOFT*", "*O=NANO SECURITY*", "*O=SUPERANTISPYWARE.COM*", "*O=DOCTOR WEB*",
+  "*O=MALWAREBYTES*", "*O=ESET*", "*O=AVIRA*", "*O=WEBROOT*") by  Registry.user Registry.registry_path
+  Registry.registry_value_data Registry.action Registry.registry_key_name Registry.dest
+  | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_impair_defense_deny_security_software_with_applocker_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure
   that this registry was included in your config files ex. sysmon config to be monitored.
-known_false_positives: False positives may be present based on organization use of Applocker. Filter as needed.
+known_false_positives: False positives may be present based on organization use of
+  Applocker. Filter as needed.
 references:
 - https://app.any.run/tasks/a6f2ffe2-e6e2-4396-ae2e-04ea0143f2d8/
 - https://www.microsoftpressstore.com/articles/article.aspx?p=2228450&seqNum=11
@@ -45,9 +49,10 @@ tags:
   impact: 100
   kill_chain_phases:
   - Exploitation
-  message: Applocker registry modification to deny the action of several AV products on $dest$.
+  message: Applocker registry modification to deny the action of several AV products
+    on $dest$.
   mitre_attack_id:
-  - T1562.001 
+  - T1562.001
   - T1562
   nist:
   - DE.CM
@@ -75,3 +80,5 @@ tags:
   - Processes.parent_process_id
   risk_score: 100
   security_domain: endpoint
+  supported_tas:
+  - Splunk_TA_microsoft_sysmon

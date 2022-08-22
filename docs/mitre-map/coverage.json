@@ -25,6 +25,11 @@
             "comment": "https://github.com/splunk/security_content/blob/develop/detections/application/splunk_dos_via_malformed_s2s_request.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/network/detect_arp_poisoning.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/network/detect_ipv6_network_infrastructure_threats.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/network/detect_port_security_violation.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/network/detect_rogue_dhcp_server.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/network/detect_traffic_mirroring.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/network/large_volume_of_dns_any_queries.yml"
         },
         {
+            "techniqueID": "T1499",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/application/splunk_endpoint_denial_of_service_dos_zip_bomb.yml"
+        },
+        {
             "techniqueID": "T1055",
             "score": 20,
             "comment": "https://github.com/splunk/security_content/blob/develop/detections/application/splunk_process_injection_forwarder_bundle_downloads.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/cobalt_strike_named_pipes.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/create_remote_thread_in_shell_application.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/dllhost_with_no_command_line_arguments_with_network.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/gpupdate_with_no_command_line_arguments_with_network.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/loading_of_dynwrapx_module.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/powershell_fileless_process_injection_via_getprocaddress.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/powershell_remote_thread_to_known_windows_process.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/rundll32_create_remote_thread_to_a_process.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/rundll32_createremotethread_in_browser.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/searchprotocolhost_with_no_command_line_with_network.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/suspicious_dllhost_no_command_line_arguments.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/suspicious_gpupdate_no_command_line_arguments.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/suspicious_searchprotocolhost_no_command_line_arguments.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/trickbot_named_pipe.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_process_with_namedpipe_commandline.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_rasautou_dll_execution.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_remote_assistance_spawning_process.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/winhlp32_spawning_a_process.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/wscript_or_cscript_suspicious_child_process.yml"
@@ -63,6 +68,21 @@
             "techniqueID": "T1136",
             "score": 11,
             "comment": "https://github.com/splunk/security_content/blob/develop/detections/cloud/aws_createaccesskey.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/cloud/aws_createloginprofile.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/cloud/aws_updateloginprofile.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/cloud/o365_add_app_role_assignment_grant_user.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/cloud/o365_added_service_principal.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/cloud/o365_new_federated_domain_added.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/deprecated/web_fraud___account_harvesting.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/create_local_admin_accounts_using_net_exe.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/detect_new_local_admin_account.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_add_user_account.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/short_lived_windows_accounts.yml"
+        },
+        {
+            "techniqueID": "T1110.001",
+            "score": 2,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/cloud/aws_credential_access_failed_login.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/cloud/high_number_of_login_failures_from_a_single_source.yml"
+        },
+        {
+            "techniqueID": "T1552",
+            "score": 3,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/cloud/aws_credential_access_getpassworddata.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/add_defaultuser_and_password_in_registry.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/auto_admin_logon_registry_entry.yml"
+        },
+        {
+            "techniqueID": "T1110.002",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/cloud/aws_credential_access_rds_password_reset.yml"
         },
         {
             "techniqueID": "T1562.008",
@@ -336,8 +356,8 @@
         },
         {
             "techniqueID": "T1087",
-            "score": 26,
-            "comment": "https://github.com/splunk/security_content/blob/develop/detections/endpoint/account_discovery_with_net_app.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/adsisearcher_account_discovery.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/detect_azurehound_command_line_arguments.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/detect_azurehound_file_modifications.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/detect_sharphound_command_line_arguments.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/detect_sharphound_file_modifications.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/detect_sharphound_usage.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/domain_account_discovery_with_dsquery.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/domain_account_discovery_with_net_app.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/domain_account_discovery_with_wmic.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/enumerate_users_local_group_using_telegram.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/get_aduser_with_powershell.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/get_aduser_with_powershell_script_block.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/get_domainuser_with_powershell.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/get_domainuser_with_powershell_script_block.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/getlocaluser_with_powershell.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/getlocaluser_with_powershell_script_block.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/getwmiobject_ds_user_with_powershell.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/getwmiobject_ds_user_with_powershell_script_block.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/getwmiobject_user_account_with_powershell.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/getwmiobject_user_account_with_powershell_script_block.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/local_account_discovery_with_net.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/local_account_discovery_with_wmic.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/schcache_change_by_app_connect_and_create_adsi_object.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_linked_policies_in_adsi_discovery.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_root_domain_linked_policies_discovery.yml"
+            "score": 27,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/endpoint/account_discovery_with_net_app.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/adsisearcher_account_discovery.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/detect_azurehound_command_line_arguments.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/detect_azurehound_file_modifications.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/detect_sharphound_command_line_arguments.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/detect_sharphound_file_modifications.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/detect_sharphound_usage.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/domain_account_discovery_with_dsquery.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/domain_account_discovery_with_net_app.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/domain_account_discovery_with_wmic.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/enumerate_users_local_group_using_telegram.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/get_aduser_with_powershell.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/get_aduser_with_powershell_script_block.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/get_domainuser_with_powershell.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/get_domainuser_with_powershell_script_block.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/getlocaluser_with_powershell.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/getlocaluser_with_powershell_script_block.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/getwmiobject_ds_user_with_powershell.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/getwmiobject_ds_user_with_powershell_script_block.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/getwmiobject_user_account_with_powershell.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/getwmiobject_user_account_with_powershell_script_block.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/local_account_discovery_with_net.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/local_account_discovery_with_wmic.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/schcache_change_by_app_connect_and_create_adsi_object.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_linked_policies_in_adsi_discovery.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_root_domain_linked_policies_discovery.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/application/splunk_account_discovery_drilldown_dashboard_disclosure.yml"
         },
         {
             "techniqueID": "T1547.014",
@@ -351,11 +371,6 @@
         },
         {
             "techniqueID": "T1552.002",
-            "score": 2,
-            "comment": "https://github.com/splunk/security_content/blob/develop/detections/endpoint/add_defaultuser_and_password_in_registry.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/auto_admin_logon_registry_entry.yml"
-        },
-        {
-            "techniqueID": "T1552",
             "score": 2,
             "comment": "https://github.com/splunk/security_content/blob/develop/detections/endpoint/add_defaultuser_and_password_in_registry.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/auto_admin_logon_registry_entry.yml"
         },
@@ -376,13 +391,13 @@
         },
         {
             "techniqueID": "T1548",
-            "score": 24,
-            "comment": "https://github.com/splunk/security_content/blob/develop/detections/endpoint/allow_operation_with_consent_admin.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/disable_uac_remote_restriction.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/disabling_remote_user_account_control.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/eventvwr_uac_bypass.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/fodhelper_uac_bypass.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_common_process_for_elevation_control.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_doas_conf_file_creation.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_doas_tool_execution.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_nopasswd_entry_in_sudoers_file.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_persistence_and_privilege_escalation_risk_behavior.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_possible_access_to_sudoers_file.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_setuid_using_chmod_utility.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_setuid_using_setcap_utility.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_sudo_or_su_execution.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_sudoers_tmp_file_creation.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_visudo_utility_execution.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/net_profiler_uac_bypass.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/sdclt_uac_bypass.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/services_escalate_exe.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/silentcleanup_uac_bypass.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/slui_runas_elevated.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/slui_spawning_a_process.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/uac_bypass_mmc_load_unsigned_dll.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/wsreset_uac_bypass.yml"
+            "score": 27,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/endpoint/allow_operation_with_consent_admin.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/disable_uac_remote_restriction.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/disabling_remote_user_account_control.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/eventvwr_uac_bypass.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/fodhelper_uac_bypass.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_awk_privilege_escalation.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_common_process_for_elevation_control.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_doas_conf_file_creation.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_doas_tool_execution.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_docker_privilege_escalation.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_node_privilege_escalation.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_nopasswd_entry_in_sudoers_file.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_persistence_and_privilege_escalation_risk_behavior.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_possible_access_to_sudoers_file.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_setuid_using_chmod_utility.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_setuid_using_setcap_utility.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_sudo_or_su_execution.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_sudoers_tmp_file_creation.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_visudo_utility_execution.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/net_profiler_uac_bypass.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/sdclt_uac_bypass.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/services_escalate_exe.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/silentcleanup_uac_bypass.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/slui_runas_elevated.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/slui_spawning_a_process.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/uac_bypass_mmc_load_unsigned_dll.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/wsreset_uac_bypass.yml"
         },
         {
             "techniqueID": "T1105",
-            "score": 13,
-            "comment": "https://github.com/splunk/security_content/blob/develop/detections/endpoint/any_powershell_downloadfile.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/any_powershell_downloadstring.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/bitsadmin_download_file.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/certutil_download_with_urlcache_and_split_arguments.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/certutil_download_with_verifyctl_and_split_arguments.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/curl_download_and_bash_execution.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/download_files_using_telegram.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/living_off_the_land.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/log4shell_cve_2021_44228_exploitation.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/wget_download_and_bash_execution.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_curl_download_to_suspicious_path.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_curl_upload_to_remote_destination.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/suspicious_curl_network_connection.yml"
+            "score": 17,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/endpoint/any_powershell_downloadfile.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/any_powershell_downloadstring.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/bitsadmin_download_file.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/certutil_download_with_urlcache_and_split_arguments.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/certutil_download_with_verifyctl_and_split_arguments.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/curl_download_and_bash_execution.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/download_files_using_telegram.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_curl_upload_file.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_ingress_tool_transfer_hunting.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_ingress_tool_transfer_with_curl.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/living_off_the_land.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/log4shell_cve_2021_44228_exploitation.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/wget_download_and_bash_execution.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_curl_download_to_suspicious_path.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_curl_upload_to_remote_destination.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_ingress_tool_transfer_using_explorer.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/suspicious_curl_network_connection.yml"
         },
         {
             "techniqueID": "T1036.005",
@@ -735,6 +750,11 @@
             "comment": "https://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_at_application_execution.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_possible_append_command_to_at_allow_config_file.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/scheduled_task_creation_on_remote_endpoint_using_at.yml"
         },
         {
+            "techniqueID": "T1548.003",
+            "score": 10,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_awk_privilege_escalation.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_doas_conf_file_creation.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_doas_tool_execution.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_docker_privilege_escalation.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_node_privilege_escalation.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_nopasswd_entry_in_sudoers_file.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_possible_access_to_sudoers_file.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_sudo_or_su_execution.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_sudoers_tmp_file_creation.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_visudo_utility_execution.yml"
+        },
+        {
             "techniqueID": "T1222.002",
             "score": 1,
             "comment": "https://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_change_file_owner_to_root.yml"
@@ -753,11 +773,6 @@
             "techniqueID": "T1059.004",
             "score": 3,
             "comment": "https://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_decode_base64_to_shell.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/macos_lolbin.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/suspicious_linux_discovery_commands.yml"
-        },
-        {
-            "techniqueID": "T1548.003",
-            "score": 7,
-            "comment": "https://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_doas_conf_file_creation.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_doas_tool_execution.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_nopasswd_entry_in_sudoers_file.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_possible_access_to_sudoers_file.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_sudo_or_su_execution.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_sudoers_tmp_file_creation.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_visudo_utility_execution.yml"
         },
         {
             "techniqueID": "T1547.006",
@@ -813,6 +828,16 @@
             "techniqueID": "T1574.006",
             "score": 1,
             "comment": "https://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_preload_hijack_library_calls.yml"
+        },
+        {
+            "techniqueID": "T1090",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_proxy_socks_curl.yml"
+        },
+        {
+            "techniqueID": "T1095",
+            "score": 2,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_proxy_socks_curl.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/network/detect_large_outbound_icmp_packets.yml"
         },
         {
             "techniqueID": "T1053.006",
@@ -941,8 +966,8 @@
         },
         {
             "techniqueID": "T1592",
-            "score": 4,
-            "comment": "https://github.com/splunk/security_content/blob/develop/detections/endpoint/recon_avproduct_through_pwh_or_wmi.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/recon_using_wmi_class.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/system_info_gathering_using_dxdiag_application.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/wmi_recon_running_process_or_services.yml"
+            "score": 5,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/endpoint/recon_avproduct_through_pwh_or_wmi.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/recon_using_wmi_class.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/system_info_gathering_using_dxdiag_application.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_gather_victim_host_information_camera.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/wmi_recon_running_process_or_services.yml"
         },
         {
             "techniqueID": "T1574.011",
@@ -1025,9 +1050,19 @@
             "comment": "https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_binary_proxy_execution_mavinject_dll_injection.yml"
         },
         {
+            "techniqueID": "T1574.001",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_dll_search_order_hijacking_with_iscsicpl.yml"
+        },
+        {
             "techniqueID": "T1218.004",
             "score": 7,
             "comment": "https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_dotnet_binary_in_non_standard_path.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_installutil_credential_theft.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_installutil_in_non_standard_path.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_installutil_remote_network_connection.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_installutil_uninstall_option.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_installutil_uninstall_option_with_network.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_installutil_url_in_command_line.yml"
+        },
+        {
+            "techniqueID": "T1592.001",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_gather_victim_host_information_camera.yml"
         },
         {
             "techniqueID": "T1202",
@@ -1090,11 +1125,6 @@
             "comment": "https://github.com/splunk/security_content/blob/develop/detections/application/multiple_okta_users_with_invalid_credentials_from_the_same_ip.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/application/okta_account_lockout_events.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/application/okta_failed_sso_attempts.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/application/okta_user_logins_from_multiple_cities.yml"
         },
         {
-            "techniqueID": "T1110.001",
-            "score": 1,
-            "comment": "https://github.com/splunk/security_content/blob/develop/detections/cloud/high_number_of_login_failures_from_a_single_source.yml"
-        },
-        {
             "techniqueID": "T1210",
             "score": 1,
             "comment": "https://github.com/splunk/security_content/blob/develop/detections/endpoint/detect_computer_changed_with_anonymous_account.yml"
@@ -1133,11 +1163,6 @@
             "techniqueID": "T1557.002",
             "score": 3,
             "comment": "https://github.com/splunk/security_content/blob/develop/detections/network/detect_arp_poisoning.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/network/detect_ipv6_network_infrastructure_threats.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/network/detect_port_security_violation.yml"
-        },
-        {
-            "techniqueID": "T1095",
-            "score": 1,
-            "comment": "https://github.com/splunk/security_content/blob/develop/detections/network/detect_large_outbound_icmp_packets.yml"
         },
         {
             "techniqueID": "T1071.002",
