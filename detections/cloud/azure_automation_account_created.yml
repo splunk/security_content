@@ -14,7 +14,7 @@ search: ' `azure_audit` operationName.localizedValue="Create or Update an Azure 
   | stats values(object) by _time, caller, claims.ipaddr, resourceGroupName, object_path
   | `azure_automation_account_created_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Audit events into your Splunk environment. 
-  Specifically, this analytic leverages the AuditLogs log category.
+  Specifically, this analytic leverages the Azure Activity log category.
 known_false_positives: Administrators may legitimately create Azure Automation accounts. Filter as needed.
 references:
 - https://docs.microsoft.com/en-us/azure/automation/overview
