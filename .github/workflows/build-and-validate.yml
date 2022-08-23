@@ -106,16 +106,6 @@ jobs:
         with:
           node-version: '14' #can easily be changed to a different version
       
-      - name: contentctl docgen
-        run: |
-          source .venv/bin/activate
-          python contentctl.py -p . --skip_enrichment docgen -o docs
-          #Now generate the spec docs
-          npm install -g @adobe/jsonschema2md
-          jsonschema2md -d spec -o docs/spec -f yaml -e spec.json -x -
-          #Clean up extra properties on docs
-          rm -rf docs/spec/*-*.md
-      
       - name: contentctl generate
         run: |
           source .venv/bin/activate
@@ -350,11 +340,6 @@ jobs:
         run: |
           echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
       
-      - name: Run doc-gen
-        run: |
-          source venv/bin/activate
-          python3 contentctl.py -p . docgen -o docs
-
       - name: Run reporting
         run: |
           source venv/bin/activate
