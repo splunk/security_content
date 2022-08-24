@@ -5,7 +5,11 @@ date: '2022-08-23'
 author: Mauricio Velazco, Splunk
 type: TTP
 datamodel: []
-description: UPDATE_DESCRIPTION
+description: The following analytic identifies the creation of a new Automation Runbook Webhook within an Azure tenant. Azure Automation is a cloud-based automation platform that allows
+  administrators to automate Azure management tasks and orchestrate actions across external systems within Azure. Azure Automation script files called Runbooks that can be written in PowerShell or Python.
+  One of the ways administrators can configure a Runbook to be executed is through HTTP Webhooks. Webhooks leverage custom unauthenticated URLs that are exposed to the Internet.
+  An adversary who has obtained privileged access to an Azure tenant may create a Webhook to trigger the execution of an Automation Runbook with malicious code that can create users or execute code on a VM.
+  This provides a persistent foothold on the environment.
 search: ' `azure_audit` operationName.localizedValue="Create or Update an Azure Automation webhook" status.value=Succeeded
   | stats values(object) by _time, caller, claims.ipaddr, resourceGroupName, object_path
   | `azure_runbook_webhook_created_filter`'
