@@ -6,42 +6,64 @@ author: Mauricio Velazco, Splunk
 type: TTP
 datamodel: []
 description: UPDATE_DESCRIPTION
-search: '| UPDATE_SPL | `azure_runbook_webhook_created_filter`'
-how_to_implement: UPDATE_HOW_TO_IMPLEMENT
-known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
+search: ' `azure_audit` operationName.localizedValue="Create or Update an Azure Automation webhook" status.value=Succeeded
+  | stats values(object) by _time, caller, claims.ipaddr, resourceGroupName, object_path
+  | `azure_runbook_webhook_created_filter`'
+how_to_implement: You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Audit events into your Splunk environment. 
+  Specifically, this analytic leverages the Azure Activity log category.
+known_false_positives: Administrators may legitimately create Azure Runbook Webhooks. Filter as needed.
 references:
-- REFERENCE
+- https://docs.microsoft.com/en-us/azure/automation/overview
+- https://docs.microsoft.com/en-us/azure/automation/automation-runbook-types
+- https://docs.microsoft.com/en-us/azure/automation/automation-webhooks?tabs=portal
+- https://www.inversecos.com/2021/12/how-to-detect-malicious-azure.html
+- https://www.netspi.com/blog/technical/cloud-penetration-testing/maintaining-azure-persistence-via-automation-accounts/
+- https://microsoft.github.io/Azure-Threat-Research-Matrix/Persistence/AZT503/AZT503-3/
+- https://attack.mitre.org/techniques/T1078/004/
 tags:
   analytic_story:
-  - UPDATE_STORY_NAME
-  asset_type: UPDATE asset_type
+  - Azure Active Directory Persistence
+  asset_type: Azure 
   cis20:
   - CIS 3
   - CIS 5
   - CIS 16
-  confidence: UPDATE value between 1-100
+  confidence: 90
   context:
-  - Update context
+  - Source:Cloud Data
+  - Stage:Persistence
   dataset:
-  - UPDATE_DATASET_URL
-  impact: UPDATE value between 1-100
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.004/azure_runbook_webhook/azure-activity.log
+  impact: 70
   kill_chain_phases:
   - Exploitation
-  message: UPDATE message
+  message: A new Azure Runbook Webhook $object$ was created by $caller$
   mitre_attack_id:
-  - T100
+  - T1078
+  - T1078.004
   nist:
   - DE.CM
   observable:
-  - name: UPDATE
-    type: UPDATE
+  - name: object
+    type: Other
     role:
-    - UPDATE
+    - Victim
+  - name: caller
+    type: User
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - UPDATE
-  risk_score: UPDATE (impact * confidence)/100
+  - _time
+  - operationName.localizedValue
+  - status.value
+  - object
+  - caller
+  - claims.ipaddr
+  - resourceGroupName
+  - object_path
+  risk_score: 63
   security_domain: threat
