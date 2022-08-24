@@ -1,0 +1,47 @@
+name: Azure Runbook Webhook Created
+id: e98944a9-92e4-443c-81b8-a322e33ce75a
+version: 1
+date: '2022-08-23'
+author: Mauricio Velazco, Splunk
+type: TTP
+datamodel: []
+description: UPDATE_DESCRIPTION
+search: '| UPDATE_SPL | `azure_runbook_webhook_created_filter`'
+how_to_implement: UPDATE_HOW_TO_IMPLEMENT
+known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
+references:
+- REFERENCE
+tags:
+  analytic_story:
+  - UPDATE_STORY_NAME
+  asset_type: UPDATE asset_type
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  confidence: UPDATE value between 1-100
+  context:
+  - Update context
+  dataset:
+  - UPDATE_DATASET_URL
+  impact: UPDATE value between 1-100
+  kill_chain_phases:
+  - Exploitation
+  message: UPDATE message
+  mitre_attack_id:
+  - T100
+  nist:
+  - DE.CM
+  observable:
+  - name: UPDATE
+    type: UPDATE
+    role:
+    - UPDATE
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - UPDATE
+  risk_score: UPDATE (impact * confidence)/100
+  security_domain: threat

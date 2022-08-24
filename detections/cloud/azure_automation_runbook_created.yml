@@ -8,7 +8,7 @@ datamodel: []
 description: The following analytic identifies the creation of a new Azure Automation Runbook within an Azure tenant. Azure Automation is a cloud-based automation platform that allows
   administrators to automate Azure management tasks and orchestrate actions across external systems within Azure. Azure Automation script files called Runbooks that can be written in PowerShell or Python.
   Once adversaries have obtained privileged access to an Azure tenant, they may create an Azure Automation Runbook that runs with elevated privileges to maintain persistence in the Azure tenant. A malicious Automation Runbook can be created to create Global Administrators in Azure AD, execute code on VMs, etc.
-search: ' `azure_audit index=main operationName.localizedValue="Create or Update an Azure Automation Runbook" object!=AzureAutomationTutorial* status.value=Succeeded
+search: ' `azure_audit operationName.localizedValue="Create or Update an Azure Automation Runbook" object!=AzureAutomationTutorial* status.value=Succeeded
   | dedup object
   | stats values(object) by _time, caller, claims.ipaddr, resourceGroupName, object_path` 
   | `azure_automation_runbook_created_filter`'
