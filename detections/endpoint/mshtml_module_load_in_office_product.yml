@@ -1,7 +1,7 @@
 name: MSHTML Module Load in Office Product
 id: 5f1c168e-118b-11ec-84ff-acde48001122
-version: 2
-date: '2022-06-01'
+version: 3
+date: '2022-08-25'
 author: Michael Haag, Mauricio Velazco, Splunk
 type: TTP
 datamodel:
