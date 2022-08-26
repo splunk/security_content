@@ -40,6 +40,7 @@ tags:
   - Hermetic Wiper
   - Industroyer2
   - DarkCrystal RAT
+  - Brute Ratel C4
   automated_detection_testing: passed
   confidence: 50
   context:
