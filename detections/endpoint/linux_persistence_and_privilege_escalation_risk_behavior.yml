@@ -1,7 +1,7 @@
 name: Linux Persistence and Privilege Escalation Risk Behavior
 id: ad5ac21b-3b1e-492c-8e19-ea5d5e8e5cf1
-version: 1
-date: '2022-07-20'
+version: 2
+date: '2022-08-26'
 author: Michael Haag, Splunk
 type: Correlation
 datamodel:
