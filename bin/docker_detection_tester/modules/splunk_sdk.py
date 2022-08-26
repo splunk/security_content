@@ -80,15 +80,18 @@ def get_number_of_indexed_events(splunk_host, splunk_port, splunk_password, inde
         search = f'''search index="{index}" host="{event_host}" | stats count'''
     kwargs = {"exec_mode":"blocking"}
     try:
-        search_result = service.jobs.create(search, **kwargs)
+        job = service.jobs.create(search, **kwargs)
   
         #This returns the count in string form, not as an int. For example:
         #OrderedDict([('count', '59630')])
-        search_results = list(results.ResultsReader(search_result.results()))
-        if len(search_results) != 1:
+        results_stream = job.results(output_mode='json')
+        count = None
+        for res in results.JSONResultsReader(results_stream):
+            if 'count' in res:
+                count = int(res['count'],10)
+        if count is None:
             raise Exception(f"Expected the get_number_of_indexed_events search to only return 1 count, but got {len(search_results)} instead.")
         
-        count = int(search_results[0]['count'])
         return count    
 
     except Exception as e:
@@ -121,59 +124,6 @@ def wait_for_indexing_to_complete(splunk_host, splunk_port, splunk_password, sou
         else:
             time.sleep(check_interval_seconds)
         
-
-'''
-def wait_for_indexing_to_complete(splunk_host, splunk_port, splunk_password, sourcetype:str, index:str, check_interval_seconds:int=10):
-    
-    startTime = timeit.default_timer()
-    previous_count = -1
-    time.sleep(check_interval_seconds/2)
-    while True:
-        #print("waiting for search...")
-        try:
-            service = client.connect(
-                host=splunk_host,
-                port=splunk_port,
-                username='admin',
-                password=splunk_password
-            )
-        except Exception as e:
-            raise(Exception("Unable to connect to Splunk instance: " + str(e)))
-
-        search = 'search index="%s" sourcetype="%s" | stats count'%(index,sourcetype)
-        kwargs = {"exec_mode":"blocking"}
-        try:
-            search_result = service.jobs.create(search, **kwargs)
-        except Exception as e:
-            print("Error while waiting for indexing of data to complete: %s"%(str(e)))
-            #return False
-        
-        #This returns the count in string form, not as an int. For example:
-        #OrderedDict([('count', '59630')])
-        try:
-            for result in results.ResultsReader(search_result.results()):
-                count = int(result['count'])
-                print("count is %d, previous count is %d"%(count,previous_count))
-                if previous_count == -1:
-                    if count == 0:
-                        pass
-                    else:
-                        previous_count = count
-                else:
-                    if count == previous_count:
-                        #After waiting for the check interval, we return the same number of results.  The indexing must be complete 
-                        stopTime = timeit.default_timer()
-                        #print("Indexing completed after: %s "%(datetime.timedelta(seconds=stopTime-startTime)))
-                        return True
-                    else:
-                        previous_count = count
-    
-        except Exception as e:
-            print("Error trying to get the count while waiting for indexing to complete: %s"%(str(e)))
-            #return False
-        time.sleep(check_interval_seconds)
-'''
-
 
 def test_baseline_search(splunk_host, splunk_port, splunk_password, search, pass_condition, baseline_name, baseline_file, earliest_time, latest_time)->dict:
     try:
@@ -280,6 +230,8 @@ def test_detection_search(splunk_host:str, splunk_port:int, splunk_password:str,
 
     try:
         job = service.jobs.create(splunk_search, **kwargs)
+        results_stream = job.results(output_mode='json')
+
     except Exception as e:
         
         error_message = "Unable to execute detection: %s"%(str(e))
@@ -301,7 +253,7 @@ def test_detection_search(splunk_host:str, splunk_port:int, splunk_password:str,
     if int(job['resultCount']) != 1:
         #print("Test failed for detection: " + detection_name)
         if attempts_remaining > 0:
-            print(f"Execution of test failed for [{detection_name}]. Sleeping for [{failure_sleep_interval_seconds} seconds] and trying again...")
+            print(f"Execution of test failed for [{detection_name}]. Sleeping for [{failure_sleep_interval_seconds} seconds] and trying up to {attempts_remaining} more times...")
             time.sleep(failure_sleep_interval_seconds)
             return test_detection_search(splunk_host, splunk_port, splunk_password, search, pass_condition, detection_name, detection_file, 
                                          earliest_time, latest_time, attempts_remaining=attempts_remaining, 
@@ -347,7 +299,8 @@ def delete_attack_data(splunk_host:str, splunk_password:str, splunk_port:int, wa
             try:
                 
                 job = service.jobs.create(splunk_search, **kwargs)
-                reader = results.ResultsReader(job)
+                results_stream = job.results(output_mode='json')
+                reader = results.JSONResultsReader(results_stream)
 
 
             except Exception as e:
