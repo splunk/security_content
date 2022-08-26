@@ -1,0 +1,7 @@
+description: A list of Remote Access Software
+filename: remote_access_software.csv
+name: remote_access_software
+default_match: 'false'
+match_type: WILDCARD(remote_software)
+min_matches: 1
+case_sensitive_match: 'false'

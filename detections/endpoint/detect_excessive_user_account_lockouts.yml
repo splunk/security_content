@@ -1,7 +1,7 @@
 name: Detect Excessive User Account Lockouts
 id: 95a7f9a5-6096-437e-a19e-86f42ac609bd
-version: 3
-date: '2020-07-21'
+version: 4
+date: '2022-08-25'
 author: David Dorsey, Splunk
 type: Anomaly
 datamodel:
@@ -9,8 +9,8 @@ datamodel:
 description: This search detects user accounts that have been locked out a relatively
   high number of times in a short period.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Change.All_Changes where nodename=All_Changes.Account_Management
-  All_Changes.result="lockout" by All_Changes.user All_Changes.result |`drop_dm_object_name("All_Changes")`
+  as lastTime from datamodel=Change.All_Changes where  All_Changes.result="*locked out*" 
+  by All_Changes.user All_Changes.result |`drop_dm_object_name("All_Changes")`
   |`drop_dm_object_name("Account_Management")`| `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | search count > 5 | `detect_excessive_user_account_lockouts_filter`'
 how_to_implement: ou must ingest your Windows security event logs in the `Change`
