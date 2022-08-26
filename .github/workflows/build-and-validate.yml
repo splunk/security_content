@@ -273,16 +273,16 @@ jobs:
         run: |
           #Get the virtualenv set up
           rm -rf venv
-          python3 -m venv --clear venv
+          python -m venv --clear venv
           source venv/bin/activate
-          python3 -m pip install --upgrade pip
-          python3 -m pip install wheel
-          python3 -m pip install -q -r requirements.txt
+          python -m pip install --upgrade pip
+          python -m pip install wheel
+          python -m pip install -q -r requirements.txt
       
       - name: run reporting
         run: |
           source venv/bin/activate
-          python3 contentctl.py -p . reporting
+          python contentctl.py -p . reporting
       
       #Official, Verified Amazon-AWS Github Account Provided Action
       - uses: aws-actions/configure-aws-credentials@v1
@@ -329,11 +329,11 @@ jobs:
         run: |
           #Get the virtualenv set up
           rm -rf venv
-          python3 -m venv --clear venv
+          python -m venv --clear venv
           source venv/bin/activate
-          python3 -m pip install --upgrade pip
-          python3 -m pip install wheel
-          python3 -m pip install -q -r requirements.txt
+          python -m pip install --upgrade pip
+          python -m pip install wheel
+          python -m pip install -q -r requirements.txt
 
       - name: Get branch and PR required for detection testing main.py
         id: vars
@@ -343,7 +343,7 @@ jobs:
       - name: Run reporting
         run: |
           source venv/bin/activate
-          python3 contentctl.py -p . reporting
+          python contentctl.py -p . reporting
 
       - name: Update github with new docs and package bits
         run: |
@@ -452,16 +452,16 @@ jobs:
         run: |
           #Get the virtualenv set up
           rm -rf venv
-          python3 -m venv --clear venv
+          python -m venv --clear venv
           source venv/bin/activate
-          python3 -m pip install --upgrade pip
-          python3 -m pip install wheel
-          python3 -m pip install -q -r requirements.txt
+          python -m pip install --upgrade pip
+          python -m pip install wheel
+          python -m pip install -q -r requirements.txt
 
       - name: Create YML to JSON Folder
         run: |
           source venv/bin/activate
-          python3 contentctl.py --path . generate --product API --output dist/api
+          python contentctl.py --path . generate --product API --output dist/api
 
       - name: Generate content version and timestamp JSON
         run : |
