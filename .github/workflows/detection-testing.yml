@@ -58,7 +58,8 @@ jobs:
         - uses: actions/setup-python@v2
           with:
             python-version: '3.9' #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
-            architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified          
+            architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+            cache: 'pip'
         
         - name: Install Python Dependencies
           run: |
@@ -151,7 +152,8 @@ jobs:
         - uses: actions/setup-python@v2
           with:
             python-version: '3.9' #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
-            architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified          
+            architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+            cache: 'pip'
         
         - name: Install Python Dependencies
           run: |
@@ -254,7 +256,8 @@ jobs:
         - uses: actions/setup-python@v2
           with:
             python-version: '3.9' #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
-            architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified    
+            architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+            cache: 'pip
         
         - name: Install Python Dependencies
           run: |
