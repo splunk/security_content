@@ -7,9 +7,9 @@ type: TTP
 datamodel:
 - Endpoint
 description: This analytic identifies the suspicious Remote Thread execution of rundll32.exe
-  process to cmd.exe process. This technique was seen in IcedID malware to execute
+  to any process. This technique was seen in IcedID malware to execute
   its malicious code in normal process for defense evasion and to steal sensitive
-  information the the compromised host. browser process.
+  information in the compromised host.
 search: '`sysmon` EventCode=8 SourceImage = "*\\rundll32.exe" TargetImage = "*.exe"
   | stats count min(_time) as firstTime max(_time) as lastTime by SourceImage TargetImage
   TargetProcessId SourceProcessId StartAddress EventCode Computer | `security_content_ctime(firstTime)`
