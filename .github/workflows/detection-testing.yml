@@ -62,7 +62,6 @@ jobs:
         
         - name: Install Python Dependencies
           run: |
-            cd bin/docker_detection_tester
             python -m venv .venv
             source .venv/bin/activate
             python -m pip install wheel
@@ -70,8 +69,8 @@ jobs:
         
         - name: Run the CI
           run: |
-            cd bin/docker_detection_tester
             source .venv/bin/activate
+            cd bin/docker_detection_tester
             echo "github.event.issue.pull_request    : [${{ github.event.issue.pull_request }}]"
             echo "github.event.pull_request.number   : [${{ github.event.pull_request.number }}]"
             echo "steps.vars.outputs.branch          : [${{ steps.vars.outputs.branch }}]"
@@ -156,7 +155,6 @@ jobs:
         
         - name: Install Python Dependencies
           run: |
-            cd bin/docker_detection_tester
             python -m venv .venv
             source .venv/bin/activate
             python -m pip install wheel
@@ -164,10 +162,11 @@ jobs:
         
         - name: Run the CI
           run: |
-            cd bin/docker_detection_tester
             source .venv/bin/activate
+            cd bin/docker_detection_tester
             
-            python3 detection_testing_execution.py run -c prior_config/${{ matrix.manifest_filename}} 
+            
+            python detection_testing_execution.py run -c prior_config/${{ matrix.manifest_filename}} 
                     
         
         - name: Upload Test Results Files
@@ -259,7 +258,6 @@ jobs:
         
         - name: Install Python Dependencies
           run: |
-            cd bin/docker_detection_tester
             python -m venv .venv
             source .venv/bin/activate
             python -m pip install wheel
@@ -267,8 +265,8 @@ jobs:
 
         - name: Merge Detections into single File
           run: |
-            cd bin/docker_detection_tester
             source .venv/bin/activate
+            cd bin/docker_detection_tester
             python summarize_json.py --files results_*/summary.json --output_filename summary_test_results.json
             
             
