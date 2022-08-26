@@ -6,7 +6,7 @@ author: Gowthamaraj Rajendran, Splunk
 type: Anomaly
 datamodel:
 - Endpoint
-description: apt-get is a command line tool for interacting with the Advanced Package Tool (APT) library (a package management system for Linux distributions). 
+description: The apt-get is a command line tool for interacting with the Advanced Package Tool (APT) library (a package management system for Linux distributions). 
   It allows you to search for, install, manage, update, and remove software. The tool does not build software from the source code.
   If sudo right is given to the tool for user, then the user can run system commands as root and possibly get a root shell.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -16,7 +16,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | `security_content_ctime(lastTime)` | `linux_apt_get_privilege_escalation_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from
+  endpoints into the Endpoint datamodel. If you are using Sysmon, you can use the Add-on for Linux Sysmon from
   Splunkbase.
 known_false_positives: False positives may be present, filter as needed.
 references:

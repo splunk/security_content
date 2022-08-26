@@ -15,7 +15,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | `security_content_ctime(lastTime)` | `linux_c89_privilege_escalation_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from
+  endpoints into the Endpoint datamodel. If you are using Sysmon, you can use the Add-on for Linux Sysmon from
   Splunkbase.
 known_false_positives: False positives may be present, filter as needed.
 references:
