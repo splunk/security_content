@@ -1,0 +1,13 @@
+name: Linux APT Privilege Escalation Unit Test
+tests:
+- name: Linux APT Privilege Escalation
+  file: endpoint/linux_apt_privilege_escalation.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: sysmon_linux.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/apt/sysmon_linux.log
+    source: Syslog:Linux-Sysmon/Operational
+    sourcetype: sysmon_linux
+    update_timestamp: true

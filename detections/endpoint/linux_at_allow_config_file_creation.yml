@@ -20,7 +20,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Filesystem.process_guid Filesystem.file_path | `drop_dm_object_name(Filesystem)`
   | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `linux_at_allow_config_file_creation_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the file name, file path, and process_guid executions from your endpoints.
+  logs with the file name, file path, and process_guid executions from your endpoints into the Endpoint datamodel.
   If you are using Sysmon, you can use the Add-on for Linux Sysmon from Splunkbase.
 known_false_positives: Administrator or network operator can create this file for
   automation purposes. Please update the filter macros to remove false positives.
