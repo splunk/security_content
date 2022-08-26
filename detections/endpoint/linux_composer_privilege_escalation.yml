@@ -1,27 +1,26 @@
-name: Linux AWK Privilege Escalation
-id: 4510cae0-96a2-4840-9919-91d262db210a
+name: Linux Composer Privilege Escalation
+id: a3bddf71-6ba3-42ab-a6b2-396929b16d92
 version: 1
-date: '2022-07-31'
+date: '2022-08-11'
 author: Gowthamaraj Rajendran, Splunk
 type: Anomaly
 datamodel:
 - Endpoint
-description: Awk is mostly used for processing and scanning patterns. 
-  It checks one or more files to determine whether any lines fit the specified patterns, 
-  and if so, it does the appropriate action. If sudo right is given to AWK binary for the user, then the user 
-  can run system commands as root and possibly get a root shell.
+description: Composer is a tool for dependency management in PHP. It allows you to declare the libraries your project depends on and it will manage (install/update) them for you.
+  If sudo right is given to tool for the user, then the user can run system commands as root and possibly get a root shell.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.process="*sudo*" AND Processes.process="*awk*"  AND Processes.process="*BEGIN*system*" by Processes.dest Processes.user Processes.parent_process_name
+  as lastTime from datamodel=Endpoint.Processes where Processes.process="*composer*" AND Processes.process="*run-script*" AND Processes.process="*sudo*" by Processes.dest Processes.user Processes.parent_process_name
   Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
   Processes.process_guid | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`| `linux_awk_privilege_escalation_filter`'
+  | `security_content_ctime(lastTime)` | `linux_composer_privilege_escalation_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints into the Endpoint datamodel. If you are using Sysmon, you can use the Add-on for Linux Sysmon from
   Splunkbase.
-known_false_positives: False positives are present based on automated tooling or system administrative usage. Filter as needed.
+known_false_positives: False positives may be present, filter as needed.
 references:
-- https://www.hacknos.com/awk-privilege-escalation/
+- https://gtfobins.github.io/gtfobins/composer/
+- https://getcomposer.org/doc/00-intro.md
 tags:
   analytic_story:
   - Linux Privilege Escalation
@@ -36,8 +35,8 @@ tags:
   - Source:Endpoint
   - Stage:Privilege Escalation
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/awk/sysmon_linux.log
-  impact: 60
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/composer/sysmon_linux.log
+  impact: 20
   kill_chain_phases:
   - Exploitation
   message: An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$
@@ -72,5 +71,6 @@ tags:
   - Processes.process
   - Processes.process_id
   - Processes.parent_process_id
-  risk_score: 30
+  risk_score: 10
   security_domain: endpoint
+  
