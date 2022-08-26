@@ -1,18 +1,18 @@
 name: Linux Persistence and Privilege Escalation Risk Behavior
 id: ad5ac21b-3b1e-492c-8e19-ea5d5e8e5cf1
-version: 1
-date: '2022-07-20'
+version: 2
+date: '2022-08-26'
 author: Michael Haag, Splunk
 type: Correlation
 datamodel:
 - Risk
 description: The following correlation is specific to Linux persistence and privilege escalation tactics and is tied to two analytic stories and any Linux analytic tied to persistence and privilege escalation.
   These techniques often overlap with Persistence techniques, as OS features that let an adversary persist can execute in an elevated context.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Risk.All_Risk where (All_Risk.analyticstories IN ("Linux Privilege Escalation", "Linux Persistence Techniques") OR source = "*Linux*") All_Risk.annotations.mitre_attack.mitre_tactic IN ("persistence", "privilege-escalation") All_Risk.risk_object_type="system" by All_Risk.risk_object All_Risk.annotations.mitre_attack.mitre_tactic source All_Risk.description
+search: '| tstats `security_content_summariesonly` count as risk_event_count, sum(All_Risk.calculated_risk_score) as risk_score, min(_time) as firstTime max(_time) as lastTime, values(All_Risk.annotations.mitre_attack.mitre_tactic_id) as annotations.mitre_attack.mitre_tactic_id, dc(All_Risk.annotations.mitre_attack.mitre_tactic_id) as mitre_tactic_id_count, values(All_Risk.annotations.mitre_attack.mitre_technique_id) as annotations.mitre_attack.mitre_technique_id, dc(All_Risk.annotations.mitre_attack.mitre_technique_id) as mitre_technique_id_count from datamodel=Risk.All_Risk where (All_Risk.analyticstories IN ("Linux Privilege Escalation", "Linux Persistence Techniques") OR source = "*Linux*") All_Risk.annotations.mitre_attack.mitre_tactic IN ("persistence", "privilege-escalation") All_Risk.risk_object_type="system" by All_Risk.risk_object, All_Risk.risk_object_type, source 
   | `drop_dm_object_name(All_Risk)` 
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)` 
-  | stats values(source) as detection_name values(annotations.mitre_attack.mitre_tactic) as tactics values(firstTime) as firstTime values(lastTime) as lastTime dc(annotations.mitre_attack.mitre_tactic) as distinct_tactics dc(source) as distinct_detection_name by risk_object 
+  | stats  values(source) as source, sum(risk_score) as risk_score, sum(risk_event_count) as risk_event_count, values(annotations.mitre_attack.mitre_tactic) as annotations.mitre_attack.mitre_tactic min(firstTime) as firstTime max(lastTime) as lastTime, values(annotations.mitre_attack.mitre_technique_id) as annotations.mitre_attack.mitre_technique_id, dc(annotations.mitre_attack.mitre_technique_id) as mitre_technique_id_count dc(source) as source_count by risk_object, risk_object_type
   | where distinct_detection_name >= 4
   | `linux_persistence_and_privilege_escalation_risk_behavior_filter`'
 how_to_implement: Ensure Linux anomaly and TTP analytics are enabled. TTP may be set to Notables for point detections, anomaly should not be notables but risk generators. The correlation relies on more than x amount of distict detection names generated before generating a notable. Modify the value as needed. Default value is set to 4. This value may need to be increased based on activity in your environment.
