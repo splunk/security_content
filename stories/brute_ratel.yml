@@ -4,13 +4,13 @@ version: 1
 date: '2022-08-23'
 author: Teoderick Contreras, Splunk
 description: Leverage searches that allow you to detect and investigate unusual activities
-  that might relate to the Brute Ratel Red teaming tool. This includes creation, modification and deletion of services,
-  collection or data, ping ip, dns cache, process injection, debug privileges adjustment, winlogon process duplicate token, 
-  lock workstation, get clipboard or screenshot and so on.
-narrative: Brute RATEL BRC4 is one of the newest red-teaming tool that simulate several TTPS. It uses several Techniques 
-  like syscall, patching etw/amsi and code everything in native C to minimize noise in process command line. This tool was seen 
-  in the wild being abused by some ransomware (blackcat) and adversaries in their campaigs to install the BRC4 agent 
-  that can server as remote admin tool to compromise the target host or network.
+  that may be related to Brute Ratel Red Teaming tool. This includes creation, modification and deletion of services,
+  collection or data, ping IP, DNS cache, process injection, debug privileges adjustment, winlogon process duplicate token, 
+  lock workstation, get clipboard or screenshot and much more.
+narrative: Brute RATEL BRC4 is the latest red-teaming tool that simulate several TTP's. It uses several techniques 
+  like syscall, patching ETW/AMSI and written in native C to minimize noise in process command-line. This tool was seen 
+  in the wild being abused by some ransomware (blackcat) and adversaries in their campaigns to install the BRC4 agent 
+  that can serve as remote admin tool to compromise the target host or network.
 references:
 - https://unit42.paloaltonetworks.com/brute-ratel-c4-tool/
 - https://www.mdsec.co.uk/2022/08/part-3-how-i-met-your-beacon-brute-ratel/
