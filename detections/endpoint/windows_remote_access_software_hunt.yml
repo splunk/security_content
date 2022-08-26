@@ -7,7 +7,7 @@ type: Hunting
 datamodel:
 - Endpoint
 description: The following hunting analytic is meant to help organizations understand what remote access software is being used in the environment. When reviewing this hunt, confirm the software identified is authorized to be utilized. Based on fidelity, create a new analytic for specific utilities banned within the organization.
-  Adversaries use these utilities to retain remote access capabilities to the environment.
+  Adversaries use these utilities to retain remote access capabilities to the environment. Utilities in the lookup include AnyDesk, GoToMyPC, LogMeIn, TeamViewer and much more. Review the lookup for the entire list and add any others.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Processes.process) as process values(Processes.parent_process) as parent_process from datamodel=Endpoint.Processes where Processes.dest!=unknown Processes.user!=unknown by Processes.dest Processes.user Processes.process_name Processes.process 
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)` 
