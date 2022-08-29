@@ -6,8 +6,8 @@ author: Gowthamaraj Rajendran, Mauricio Velazco, Splunk
 type: TTP
 datamodel: []
 description: The following analytic identifies the creation of a Service Principal in an Azure AD environment.
-  An Azure Service Principal is an identity designed for use with apps, services, and automated tools to access resources. Service Principal authentication does not support multi-factor authentication.
-  This access is restricted by the roles assigned to the Service Principal, giving users control over which resources can be accessed and at which level.
+  An Azure Service Principal is an identity designed to be used with applications, services, and automated tools to access resources. It is similar to a service account within an Active Directory environment.
+  Service Principal authentication does not support multi-factor authentication.
   Adversaries and red teams alike who have obtained administrative access may create a Service Principal to establish Persistence and obtain single-factor access to an Azure AD environment.
 search: '`azuread` "body.operationName"="Add service principal" "body.properties.initiatedBy.user.id"=*   
   | rename body.properties.* as * 
