@@ -1,18 +1,18 @@
 name: Living Off The Land
 id: 1be30d80-3a39-4df9-9102-64a467b24abc
-version: 1
-date: '2022-07-08'
+version: 2
+date: '2022-08-19'
 author: Michael Haag, Splunk
 type: Correlation
 datamodel:
   - Risk
 description: The following correlation identifies a distinct amount of analytics associated with the Living Off The Land analytic story that identify potentially suspicious behavior. 
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Risk.All_Risk where All_Risk.analyticstories="Living Off The Land" All_Risk.risk_object_type="system" by All_Risk.risk_object All_Risk.annotations.mitre_attack.mitre_tactic source 
+search: '| tstats `security_content_summariesonly` count as risk_event_count, sum(All_Risk.calculated_risk_score) as risk_score, min(_time) as firstTime max(_time) as lastTime, values(All_Risk.annotations.mitre_attack.mitre_tactic_id) as annotations.mitre_attack.mitre_tactic_id, dc(All_Risk.annotations.mitre_attack.mitre_tactic_id) as mitre_tactic_id_count, values(All_Risk.annotations.mitre_attack.mitre_technique_id) as annotations.mitre_attack.mitre_technique_id, dc(All_Risk.annotations.mitre_attack.mitre_technique_id) as mitre_technique_id_count from datamodel=Risk.All_Risk where All_Risk.analyticstories="Living Off The Land" All_Risk.risk_object_type="system" by All_Risk.risk_object, All_Risk.risk_object_type, source 
   | `drop_dm_object_name(All_Risk)` 
+  | stats  values(source) as source, sum(risk_score) as risk_score, sum(risk_event_count) as risk_event_count, values(annotations.mitre_attack.mitre_tactic) as annotations.mitre_attack.mitre_tactic min(firstTime) as firstTime max(lastTime) as lastTime, values(annotations.mitre_attack.mitre_technique_id) as annotations.mitre_attack.mitre_technique_id, dc(annotations.mitre_attack.mitre_technique_id) as mitre_technique_id_count dc(source) as source_count by risk_object, risk_object_type
+  | where source_count >= 5
   | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | stats  values(source) as detection_name values(annotations.mitre_attack.mitre_tactic) as tactics values(firstTime) as firstTime values(lastTime) as lastTime dc(annotations.mitre_attack.mitre_tactic) as distinct_tactics dc(source) as distinct_detection_name by risk_object
-  | where distinct_detection_name >= 2
+  | `security_content_ctime(lastTime)`
   | `living_off_the_land_filter`'
 how_to_implement: To implement this correlation search a user needs to enable all
   detections in the Living Off The Land Analytic Story and confirm it is generating risk events.
