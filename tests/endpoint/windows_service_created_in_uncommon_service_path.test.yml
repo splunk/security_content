@@ -1,7 +1,7 @@
-name: Windows Service Created In Uncommon Service Path Unit Test
+name: Windows Service Created With Suspicious Service Path Unit Test
 tests:
-- name: Windows Service Created In Uncommon Service Path
-  file: endpoint/windows_service_created_in_uncommon_service_path.yml
+- name: Windows Service Created With Suspicious Service Path
+  file: endpoint/windows_service_created_with_suspicious_service_path.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h
   latest_time: now
