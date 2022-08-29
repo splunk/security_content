@@ -11,7 +11,7 @@ description: The following analytic utilizes PowerShell Script Block Logging (Ev
   Red Teams and adversaries alike may use PowerView to enumerate domain users for
   situational awareness and Active Directory Discovery.
 search: '`powershell` EventCode=4104 ScriptBlockText = "*Get-DomainUser*" 
-  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer user_id 
+  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID 
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` 
   | `get_domainuser_with_powershell_script_block_filter`'
