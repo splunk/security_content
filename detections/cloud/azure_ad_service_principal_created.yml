@@ -7,7 +7,7 @@ type: TTP
 datamodel: []
 description: The following analytic identifies the creation of a Service Principal in an Azure AD environment.
   An Azure Service Principal is an identity designed to be used with applications, services, and automated tools to access resources. It is similar to a service account within an Active Directory environment.
-  Service Principal authentication does not support multi-factor authentication.
+  Service Principal authentication does not support multi-factor authentication nor conditional access policies.
   Adversaries and red teams alike who have obtained administrative access may create a Service Principal to establish Persistence and obtain single-factor access to an Azure AD environment.
 search: '`azuread` "body.operationName"="Add service principal" "body.properties.initiatedBy.user.id"=*   
   | rename body.properties.* as * 

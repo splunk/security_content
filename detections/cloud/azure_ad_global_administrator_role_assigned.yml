@@ -13,8 +13,7 @@ search: '`azuread` "body.operationName"="Add member to role"  "body.properties.t
   | rename body.properties.* as * 
   | rename targetResources{}.userPrincipalName as userPrincipalName 
   | rename initiatedBy.user.userPrincipalName as initiatedBy 
-  | rename targetResources{}.type as type 
-  | stats values(userPrincipalName) by _time, type, initiatedBy, result, body.operationName 
+  | stats values(userPrincipalName) by _time, initiatedBy, result, body.operationName 
   | `azure_ad_global_administrator_role_assigned_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase(https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment. 
   Specifically, this analytic leverages the AuditLogs log category.
