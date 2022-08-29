@@ -5,13 +5,15 @@ date: '2022-08-25'
 author: Mauricio Velazco, Splunk
 type: Anomaly
 datamodel: []
-description: 'The following analytic identifies multiple failed multi-factor authentication requests for a user within an Azure AD tenant. Specifically, the analytic looks for more than 10 failed MFA user prompts.
-  This behavior may represent an adversary who has obtained legitimate credentials for a user and continuously repeat login attempts in order to bombard users with MFA push notifications
-  potentially resulting in the user finally accepting the authentication request. Security teams should test this detection and customize the arbitrary threshold when needed.
-  Threat actors like the Lapsus team and APT29 have leveraged this technique to bypass mult-factor authentication controls as reported by Mandiant and others.'
+description: 'The following analytic identifies multiple failed multi-factor authentication requests for a single user within an Azure AD tenant. Error Code 500121 represents a failed attempt to authenticate using a second factor.
+  Specifically, the analytic triggers when more than 10 MFA user prompts fail within 10 minutes. Azure AD tenants can be very different depending on the organization, Security teams should test this detection and customize these arbitrary thresholds.
+  The detected behavior may represent an adversary who has obtained legitimate credentials for a user and continuously repeats login attempts in order to bombard users with MFA push notifications, SMS messages, and phone calls
+  potentially resulting in the user finally accepting the authentication request.
+  Threat actors like the Lapsus team and APT29 have leveraged this technique to bypass multi-factor authentication controls as reported by Mandiant and others.'
 search: ' `azuread` body.category=SignInLogs body.properties.status.errorCode=500121
   | rename body.properties.* as * 
-  | stats dc(_time) AS mfa_prompts values(userPrincipalName) by userPrincipalName, ipAddress, status.additionalDetails, appDisplayName, userAgent 
+  | bucket span=10m _time
+  | stats dc(_raw) AS mfa_prompts values(userPrincipalName) by userPrincipalName, status.additionalDetails, appDisplayName, userAgent, _time
   | where mfa_prompts > 10
   | `azure_ad_multiple_failed_mfa_requests_for_user_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details). 
