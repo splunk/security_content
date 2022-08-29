@@ -11,8 +11,8 @@ description: This search is to detect a suspicious commandline designed to delet
   (reddot) where it it tries to delete the files in recycle bin to impaire user from
   recovering deleted files.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where `process_cmd` Processes.process=*/c*  Processes.process=*
-  rd * Processes.process="*/s*" Processes.process="*/q*" by Processes.user Processes.process_name
+  as lastTime from datamodel=Endpoint.Processes where `process_cmd` Processes.process=*/c*  Processes.process="*
+  rd *"  Processes.process="*/s*" Processes.process="*/q*" by Processes.user Processes.process_name
   Processes.parent_process_name Processes.parent_process Processes.process Processes.process_id
   Processes.dest |`drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `recursive_delete_of_directory_in_batch_cmd_filter`'
