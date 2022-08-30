@@ -6,10 +6,10 @@ author: Teoderick Contreras, Splunk
 type: Hunting
 datamodel:
 - Endpoint
-description: The following analytic detects the registry artifacts when a user execute .iso file. 
-  This file type is being abused by adversaries, threat actors and even used by red teamers to execute malicious file ussually 
-  as an attachment to have initial access to the targetted host. once the user click or mount the ISO file, it will create registry 
-  foot print related to recent application used by the user that might be good indicator of compromised.
+description: The following analytic detects the registry artifacts when a user opens , clicks or mount the .iso file. 
+  This file type is being abused by adversaries, threat actors and even used by red teamers in their spear phishing attachment 
+  to have initial access to the targeted host. Once the user click or mount the ISO file, it will create a registry 
+  footprint related to this event as a recent application executed or open by the user.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry 
   where Registry.registry_key_name= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\RecentDocs\\.iso" 
   by Registry.registry_key_name Registry.user Registry.registry_path Registry.registry_value_data Registry.action Registry.dest 
