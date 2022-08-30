@@ -6,10 +6,10 @@ author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
 - Endpoint
-description: This analytic is to detect a process loading version.dll that are not in %windir%\\system32 or %windir%\\syswow64 dir path. 
-  This event are seen in ransomware apt that execute malicious version.dll place same place on onedrive application that will look for this module. 
-  This technique is known to be dll side loading. This technique was used to execute an agent from Brute Ratel C4 red teaming tools to serve as remote 
-  admin tool to collect and compromised target host.
+description: This analytic is to detect a process loading version.dll that is not in %windir%\\system32 or %windir%\\syswow64 dir path. 
+  This event is seen in ransomware and APT malware that executes malicious version.dll placed in the same folder of onedrive application 
+  that will execute that module. This technique is known to be DLL side loading. This technique was used to execute an agent of 
+  Brute Ratel C4 red teaming tools to serve as remote admin tool to collect and compromise target host.
 search: '`sysmon` EventCode=7  
   ImageLoaded = "*\\version.dll" AND (Signed = "false" OR NOT(ImageLoaded IN("*\\windows\\system32*",  "*\\windows\\syswow64\\*"))) 
   | stats count min(_time) as firstTime max(_time) as lastTime by Image ImageLoaded process_name Computer EventCode Signed ProcessId 
