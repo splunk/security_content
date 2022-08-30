@@ -1,0 +1,20 @@
+name: Windows Domain Controller Attacks
+id: f676c4c1-c769-4ecb-9611-5fd85b497c56
+version: 1
+date: '2022-08-29'
+author: Dean Luxton, Mauricio Velazco
+description: UPDATE_DESCRIPTION
+narrative: UPDATE_NARRATIVE
+references: []
+tags:
+  analytic_story: Windows Domain Controller Attacks
+  category:
+  - Adversary Tactics
+  - Account Compromise
+  - Lateral Movement
+  - Privilege Escalation
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
