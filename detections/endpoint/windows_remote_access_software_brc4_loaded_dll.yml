@@ -7,8 +7,8 @@ type: Anomaly
 datamodel:
 - Endpoint
 description: The following analytic detects the possible Brute Ratel Agent process loading known module. 
-  Brute Rate C4 is one of the advance red teaming tools that being abused by adversaries and threat actors for their attack.
-  This detection look for known modules that can distinguish potential brute ratel process.
+  Brute Ratel C4 tool is one of the advanced red teaming tools that is being abused by adversaries and threat actors for their attacks.
+  This detection looks for known modules that can distinguish potential BRC4 processes.
 search: '`sysmon` EventCode=7 
   |bin _time span=30s
   | eval BRC4_AnomalyLoadedDll=case(OriginalFileName=="credui.dll", 1, OriginalFileName=="DBGHELP.DLL", 1, OriginalFileName=="SAMCLI.DLL", 1, OriginalFileName=="winhttp.dll", 1, 1=1, 0)
