@@ -9,9 +9,9 @@ description: The following analytic utilizes PowerShell Script Block Logging (Ev
   to identify the `[Adsisearcher]` type accelerator being used to query Active Directory
   for domain groups. Red Teams and adversaries may leverage `[Adsisearcher]` to enumerate
   domain users for situational awareness and Active Directory Discovery.
-search: '`powershell` EventCode=4104 Message = "*[adsisearcher]*" Message = "*objectcategory=user*"
-  Message = "*.findAll()*" | stats count min(_time) as firstTime max(_time) as lastTime
-  by EventCode Message ComputerName User | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+search: '`powershell` EventCode=4104 ScriptBlockText = "*[adsisearcher]*" ScriptBlockText = "*objectcategory=user*"
+  ScriptBlockText = "*.findAll()*" | stats count min(_time) as firstTime max(_time) as lastTime
+  by EventCode ScriptBlockText Computer UserID | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `adsisearcher_account_discovery_filter`'
 how_to_implement: The following Hunting analytic requires PowerShell operational logs
   to be imported. Modify the powershell macro as needed to match the sourcetype or
