@@ -1,7 +1,7 @@
 name: Linux Persistence and Privilege Escalation Risk Behavior
 id: ad5ac21b-3b1e-492c-8e19-ea5d5e8e5cf1
-version: 2
-date: '2022-08-26'
+version: 3
+date: '2022-08-30'
 author: Michael Haag, Splunk
 type: Correlation
 datamodel:
@@ -13,7 +13,7 @@ search: '| tstats `security_content_summariesonly` count as risk_event_count, su
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)` 
   | stats  values(source) as source, sum(risk_score) as risk_score, sum(risk_event_count) as risk_event_count, values(annotations.mitre_attack.mitre_tactic) as annotations.mitre_attack.mitre_tactic min(firstTime) as firstTime max(lastTime) as lastTime, values(annotations.mitre_attack.mitre_technique_id) as annotations.mitre_attack.mitre_technique_id, dc(annotations.mitre_attack.mitre_technique_id) as mitre_technique_id_count dc(source) as source_count by risk_object, risk_object_type
-  | where distinct_detection_name >= 4
+  | where source_count >= 4
   | `linux_persistence_and_privilege_escalation_risk_behavior_filter`'
 how_to_implement: Ensure Linux anomaly and TTP analytics are enabled. TTP may be set to Notables for point detections, anomaly should not be notables but risk generators. The correlation relies on more than x amount of distict detection names generated before generating a notable. Modify the value as needed. Default value is set to 4. This value may need to be increased based on activity in your environment.
 known_false_positives: False positives will be present based on many factors. Tune the correlation as needed to reduce too many triggers. 
