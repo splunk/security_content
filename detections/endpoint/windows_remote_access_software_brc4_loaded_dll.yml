@@ -6,9 +6,7 @@ author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
 - Endpoint
-description: The following analytic detects the possible Brute Ratel Agent process loading known module. 
-  Brute Ratel C4 tool is one of the advanced red teaming tools that is being abused by adversaries and threat actors for their attacks.
-  This detection looks for known modules that can distinguish potential BRC4 processes.
+description: The following anomaly detection identifies the behavior related to 4 native Windows DLLs being loaded by a non-standard process. Identified by MDSec during their research into Brute Ratel, MDSec identified a high signal analytic by calling out these 4 DLLs being loaded into a process. LogonCLI.dll is the Net Logon Client DLL and is related to users and other domain services to get authenticated. Credui.dll is Credential Manager User Interface. Credential managers receive notifications when authentication information changes. For example, credential managers are notified when a user logs on or an account password changes. Samcli.dll is the Security Accounts Manager Client DLL. Adversaries may attempt to extract credential material from the Security Account Manager (SAM) database either through in-memory techniques or through the Windows Registry where the SAM database is stored. Dbghelp.dll is Windows Image Helper. Windows Image Helper is commonly seen in credential dumping due to native functions. All of these modules are important to monitor and track and combined may lead to credentail access or dumping.
 search: '`sysmon` EventCode=7 
   |bin _time span=30s
   | eval BRC4_AnomalyLoadedDll=case(OriginalFileName=="credui.dll", 1, OriginalFileName=="DBGHELP.DLL", 1, OriginalFileName=="SAMCLI.DLL", 1, OriginalFileName=="winhttp.dll", 1, 1=1, 0)
@@ -20,10 +18,15 @@ search: '`sysmon` EventCode=7
   | `windows_remote_access_software_brc4_loaded_dll_filter`'
 how_to_implement: The latest Sysmon TA 3.0 https://splunkbase.splunk.com/app/5709 will 
   add the ImageLoaded name to the process_name field, allowing this query to work. Use as an example and implement for other products.
-known_false_positives: this module can be loaded by a third party application. Filter is needed.
+known_false_positives: This module can be loaded by a third party application. Filter is needed.
 references:
 - https://unit42.paloaltonetworks.com/brute-ratel-c4-tool/
 - https://www.mdsec.co.uk/2022/08/part-3-how-i-met-your-beacon-brute-ratel/
+- https://strontic.github.io/xcyclopedia/library/logoncli.dll-138871DBE68D0696D3D7FA91BC2873B1.html
+- https://strontic.github.io/xcyclopedia/library/credui.dll-A5BD797BBC2DD55231B9DE99837E5461.html
+- https://docs.microsoft.com/en-us/windows/win32/secauthn/credential-manager
+- https://strontic.github.io/xcyclopedia/library/samcli.dll-522D6D616EF142CDE965BD3A450A9E4C.html
+- https://strontic.github.io/xcyclopedia/library/dbghelp.dll-15A55EAB307EF8C190FE6135C0A86F7C.html
 tags:
   analytic_story:
   - Brute Ratel C4
@@ -40,9 +43,10 @@ tags:
   impact: 30
   kill_chain_phases:
   - Exploitation
-  message: a process $Image$ loaded several modules $ImageLoaded$ that might related to BRC4 in $Computer$
+  message: a process $Image$ loaded several modules $ImageLoaded$ that might related to credential access on $Computer$.
   mitre_attack_id:
   - T1219
+  - T1003
   nist:
   - DE.CM
   observable:
