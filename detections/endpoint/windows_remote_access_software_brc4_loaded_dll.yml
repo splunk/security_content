@@ -6,7 +6,15 @@ author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
 - Endpoint
-description: The following anomaly detection identifies the behavior related to 4 native Windows DLLs being loaded by a non-standard process. Identified by MDSec during their research into Brute Ratel, MDSec identified a high signal analytic by calling out these 4 DLLs being loaded into a process. LogonCLI.dll is the Net Logon Client DLL and is related to users and other domain services to get authenticated. Credui.dll is Credential Manager User Interface. Credential managers receive notifications when authentication information changes. For example, credential managers are notified when a user logs on or an account password changes. Samcli.dll is the Security Accounts Manager Client DLL. Adversaries may attempt to extract credential material from the Security Account Manager (SAM) database either through in-memory techniques or through the Windows Registry where the SAM database is stored. Dbghelp.dll is Windows Image Helper. Windows Image Helper is commonly seen in credential dumping due to native functions. All of these modules are important to monitor and track and combined may lead to credentail access or dumping.
+description: The following anomaly detection identifies the behavior related to 4 native Windows DLLs being loaded by a non-standard process. 
+  Identified by MDSec during their research into Brute Ratel, MDSec identified a high signal analytic by calling out these 4 DLLs being loaded 
+  into a process. LogonCLI.dll is the Net Logon Client DLL and is related to users and other domain services to get authenticated. Credui.dll 
+  is Credential Manager User Interface. Credential managers receive notifications when authentication information changes. 
+  For example, credential managers are notified when a user logs on or an account password changes. 
+  Samcli.dll is the Security Accounts Manager Client DLL. Adversaries may attempt to extract credential material from the Security Account Manager (SAM) 
+  database either through in-memory techniques or through the Windows Registry where the SAM database is stored. 
+  Dbghelp.dll is Windows Image Helper. Windows Image Helper is commonly seen in credential dumping due to native functions. 
+  All of these modules are important to monitor and track and combined may lead to credentail access or dumping.
 search: '`sysmon` EventCode=7 
   |bin _time span=30s
   | eval BRC4_AnomalyLoadedDll=case(OriginalFileName=="credui.dll", 1, OriginalFileName=="DBGHELP.DLL", 1, OriginalFileName=="SAMCLI.DLL", 1, OriginalFileName=="winhttp.dll", 1, 1=1, 0)
