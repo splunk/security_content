@@ -11,11 +11,11 @@ description: The following analytic identifies a registry modification due to de
   The BRC4 red teaming tool is capable of deleting a services using native windows API that leave lesser noise 
   and footprint in terms of process command-line detections.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry 
-  where Registry.registry_path= "*\\SYSTEM\\CurrentControlSet\\Services*" Registry.action = deleted
-  by Registry.registry_key_name Registry.user Registry.registry_path Registry.registry_value_data Registry.action Registry.dest 
+  where Registry.registry_path= "*\\SYSTEM\\CurrentControlSet\\Services*" AND (Registry.action = deleted OR (Registry.registry_value_name = DeleteFlag AND Registry.registry_value_data = 0x00000001 AND Registry.action=modified))
+  by Registry.registry_key_name Registry.user Registry.registry_path Registry.registry_value_data Registry.registry_value_name Registry.action Registry.dest 
   | `drop_dm_object_name(Registry)`
   | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` 
+  | `security_content_ctime(lastTime)`
   | `windows_service_deletion_in_registry_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
