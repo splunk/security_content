@@ -1,0 +1,73 @@
+name: Windows Access Token Winlogon Duplicate Handle In Uncommon Path
+id: b8f7ed6b-0556-4c84-bffd-839c262b0278
+version: 1
+date: '2022-08-24'
+author: Teoderick Contreras, Splunk
+type: Anomaly
+datamodel:
+- Endpoint
+description: The following analytic identifies a process access in winlogon.exe to duplicate its handle with a non-common or public process source path. 
+  This technique was seen in several adversaries, threat actors and even red teams to gain privileges to their process. 
+  This duplicate handle access technique, may refer to a malicious process duplicating the process token of winlogon.exe and using it to a new process instance.
+  Winlogon.exe is the common targeted process of this technique because it contains high privileges and security tokens.
+search: '`sysmon` EventCode=10  TargetImage IN("*\\system32\\winlogon.exe*", "*\\SysWOW64\\winlogon.exe*") AND GrantedAccess = 0x1040 
+  AND NOT (SourceImage IN("C:\\Windows\\*", "C:\\Program File*", "%systemroot%\\*"))
+  | stats count min(_time) as firstTime max(_time) as lastTime by SourceImage TargetImage SourceProcessGUID TargetProcessGUID SourceProcessId TargetProcessId GrantedAccess CallTrace
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` 
+  | `windows_access_token_winlogon_duplicate_handle_in_uncommon_path_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: 3rd party software application may do this technique.
+references:
+  - https://docs.microsoft.com/en-us/windows/win32/api/handleapi/nf-handleapi-duplicatehandle
+  - https://attack.mitre.org/techniques/T1134/001/
+tags:
+  analytic_story:
+  - Brute Ratel C4
+  asset_type: Endpoint
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  confidence: 70
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/brute_ratel/brute_duplicate_token/sysmon.log
+  impact: 70
+  kill_chain_phases:
+  - Exploitation
+  message: a process $SourceImage$ is duplicating the handle token of winlogon.exe in $Computer$
+  mitre_attack_id:
+  - T1134.001
+  - T1134
+  nist:
+  - DE.CM
+  observable:
+  - name: Computer
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - SourceImage 
+  - TargetImage 
+  - SourceProcessGUID 
+  - TargetProcessGUID 
+  - SourceProcessId 
+  - TargetProcessId 
+  - GrantedAccess 
+  - CallTrace 
+  - Computer 
+  - user_id
+  risk_score: 49
+  security_domain: endpoint
