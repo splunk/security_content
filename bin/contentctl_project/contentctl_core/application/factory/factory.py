@@ -3,7 +3,8 @@ import sys
 
 from pydantic import ValidationError
 from dataclasses import dataclass
-
+import pathlib
+from typing import Tuple
 from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import SecurityContentProduct
 from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import SecurityContentType
 from bin.contentctl_project.contentctl_core.application.builder.basic_builder import BasicBuilder
@@ -59,20 +60,29 @@ class Factory():
      def execute(self, input_dto: FactoryInputDto) -> None:
           self.input_dto = input_dto
           print("Creating Security Content - ESCU. This may take some time...")
+          #Accumulate any validation errors that may occur while creating security_contnet
+          validation_errors = []
           # order matters to load and enrich security content types
-          self.createSecurityContent(SecurityContentType.unit_tests)
-          self.createSecurityContent(SecurityContentType.lookups)
-          self.createSecurityContent(SecurityContentType.macros)
-          self.createSecurityContent(SecurityContentType.deployments)
-          self.createSecurityContent(SecurityContentType.baselines)
-          self.createSecurityContent(SecurityContentType.investigations)
-          self.createSecurityContent(SecurityContentType.playbooks)
-          self.createSecurityContent(SecurityContentType.detections)
-          self.createSecurityContent(SecurityContentType.stories)
+          validation_errors.extend(self.createSecurityContent(SecurityContentType.unit_tests))
+          validation_errors.extend(self.createSecurityContent(SecurityContentType.lookups))
+          validation_errors.extend(self.createSecurityContent(SecurityContentType.macros))
+          validation_errors.extend(self.createSecurityContent(SecurityContentType.deployments))
+          validation_errors.extend(self.createSecurityContent(SecurityContentType.baselines))
+          validation_errors.extend(self.createSecurityContent(SecurityContentType.investigations))
+          validation_errors.extend(self.createSecurityContent(SecurityContentType.playbooks))
+          validation_errors.extend(self.createSecurityContent(SecurityContentType.detections))
+          validation_errors.extend(self.createSecurityContent(SecurityContentType.stories))
           LinkValidator.print_link_validation_errors()
           
+          if len(validation_errors) != 0:
+               print(f"There were [{len(validation_errors)}] error(s) found while parsing security_content")
+               for ve in validation_errors:
+                    file_path = ve[0]
+                    error = ve[1]
+                    print(f'\nValidation Error for file [{file_path}]:\n{str(error)}')
+               raise(Exception("Error(s) validating Security Content"))
 
-     def createSecurityContent(self, type: SecurityContentType) -> list:
+     def createSecurityContent(self, type: SecurityContentType) -> list[Tuple[pathlib.Path,  ValidationError]]:
           objects = []
           if type == SecurityContentType.deployments:
                files = Utils.get_all_yml_files_from_directory(os.path.join(self.input_dto.input_path, str(type.name), 'ESCU'))
@@ -82,10 +92,10 @@ class Factory():
                files = Utils.get_all_yml_files_from_directory(os.path.join(self.input_dto.input_path, str(type.name)))
           
           # Instead of failing on the first error, just keep track of 
-          # whether or not an error was found.  This way, we can
-          # report all of the errors on a single run so that the
-          # user can see all the errors they need to fix.
-          validation_error_found = False
+          # of all the exceptions that we generate.  These exceptions
+          # will be returned from the function and should be printed
+          # by the caller.
+          validation_errors = []
                     
           already_ran = False
           progress_percent = 0
@@ -175,19 +185,16 @@ class Factory():
                          print(f"\r{f'{type_string} Progress'.rjust(23)}: [{progress_percent:3.0f}%]...", end="", flush=True)
                
                except ValidationError as e:
-                    print('\nValidation Error for file ' + file)
-                    print(e)
-                    validation_error_found = True
+                    validation_errors.append((pathlib.Path(file), e))
+               except Exception as e:
+                    print(f"Unknown exception caught while Creating Security Content: {str(e)}")
+                    sys.exit(1)
+                    
                
          
-          #Check for any duplicate IDs.  The structure is uses
-          # to track them, self.ids, is populated previously in this
-          # function every time content is adde.  
-          # This will also print out the duplicates if they exist.
-          validation_error_found |= Utils.check_ids_for_duplicates(self.ids)
+
 
           print(f"\r{f'{type_string} Progress'.rjust(23)}: [{progress_percent:3.0f}%]...", end="", flush=True)
           print("Done!")
 
-          if validation_error_found:
-               sys.exit(1)
+          return validation_errors
