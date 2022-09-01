@@ -62,5 +62,5 @@ tags:
   - EventCode 
   - Signed 
   - ProcessId 
-  risk_score: 6
+  risk_score: 9
   security_domain: endpoint
