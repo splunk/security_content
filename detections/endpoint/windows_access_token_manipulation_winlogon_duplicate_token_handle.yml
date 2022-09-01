@@ -8,7 +8,7 @@ datamodel:
 - Endpoint
 description: The following analytic identifies a process access in winlogon.exe to duplicate its handle. 
   This technique was seen in several adversaries, threat actors and even red teams to gain privileges to their process. 
-  This duplicate handle access technique, may refer to a malicious process duplicating the process token of winlogon.exe and used it to a new process instance.
+  This duplicate handle access technique, may refer to a malicious process duplicating the process token of winlogon.exe and using it to a new process instance.
   Winlogon.exe is the common targeted process of this technique because it contains high privileges and security tokens.
 search: '`sysmon` EventCode=10 TargetImage IN("*\\system32\\winlogon.exe*", "*\\SysWOW64\\winlogon.exe*") GrantedAccess = 0x1040 
   | stats count min(_time) as firstTime max(_time) as lastTime 
