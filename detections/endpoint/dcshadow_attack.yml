@@ -6,7 +6,7 @@ author: Dean Luxton
 type: TTP
 datamodel: []
 description: DCshadow is a Post Exploitation attack added to Mimikatz in 2018. The DCShadow attack requires domain admin privileges or equivalent. The attack works by temporarily assuming the role of a domain controller and pushing replication changes to the domain. No event logs are written for changes to AD attributes, allowing for stealthy backdoors to be implanted in the domain, or metadata such as timestamps overwritten to cover tracks. 
-search: "```XML-Wineventlog Detection```\n`wineventlog_security` EventCode=5136 AttributeLDAPDisplayName=servicePrincipalName\
+search: "`wineventlog_security` EventCode=5136 AttributeLDAPDisplayName=servicePrincipalName\
   \ (AttributeValue=\"GC/*\" OR AttributeValue=\"E3514235-4B06-11D1-AB04-00C04FC2DCD2/*\"\
   )\n| replace \"%%14674\" with \"Value Added\", \"%%14675\" with \"Value Deleted\"\
   \ in OperationType\n| stats min(_time) as firstEvent max(_time) as latestEvent values(OperationType)\
@@ -28,7 +28,7 @@ search: "```XML-Wineventlog Detection```\n`wineventlog_security` EventCode=5136 
   \ DN, Action, signature, status, src, Logon_ID, Logon_GUID\n| eval firstEvent=strftime(firstEvent,\
   \ \"%Y-%m-%d %H:%M:%S\"), latestEvent=strftime(latestEvent, \"%Y-%m-%d %H:%M:%S\"\
   )``` | `dcshadow_attack_filter`"
-how_to_implement: To successfully implement this search, you need to be ingesting eventcode 5136. The Advanced Security Audit policy setting `Audit Directory Services Changes` within `DS Access` needs to be enabled, alongside a SACL for `everybody` to  `Write All Properties` applied to the domain root and all descendant objects.
+how_to_implement: To successfully implement this search, you need to be ingesting eventcode 5136. The Advanced Security Audit policy setting Audit Directory Services Changes within DS Access needs to be enabled, alongside a SACL for everybody to Write All Properties applied to the domain root and all descendant objects.
 known_false_positives: None.
 references:
 - https://www.dcshadow.com/
@@ -61,7 +61,7 @@ tags:
     role:
     - Victim
   - name: src
-    type: IP
+    type: IP Address
     role:
     - Attacker
   product:
