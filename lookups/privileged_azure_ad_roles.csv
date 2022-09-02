@@ -13,6 +13,7 @@ azureadrole,isprvilegedadrole,description
 """External Identity Provider Administrator""",True,Can configure identity providers for use in direct federation.
 """Groups Administrator""",True,Members of this role can create/manage groups, create/manage groups settings like naming and expiration policies, and view groups activity and audit reports.
 """Helpdesk Administrator""",True,Can reset passwords for non-administrators and Helpdesk Administrators.
+"""Hybrid Identity Administrator""",True,Can manage AD to Azure AD cloud provisioning, Azure AD Connect, Pass-through Authentication (PTA), Password hash synchronization (PHS), Seamless Single sign-on (Seamless SSO), and federation settings.
 """Intune Administrator""",True,Can manage all aspects of the Intune product.
 """License Administrator""",True,Can manage product licenses on users and groups.
 """Network Administrator""",True,Can manage network locations and review enterprise network design insights for Microsoft 365 Software as a Service applications.

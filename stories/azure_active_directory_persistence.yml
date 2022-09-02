@@ -9,7 +9,7 @@ narrative: 'Azure Active Directory (Azure AD) is Microsofts enterprise cloud-bas
   services like Office 365. It can sync with on-premise Active Directory environments and provide authentication to other cloud-based systems via the OAuth protocol. 
   According to Microsoft, Azure AD manages more than 1.2 billion identities and processes over 8 billion authentications per day.\
   Persistence consists of techniques that adversaries use to keep access to systems across restarts, changed credentials, and other interruptions that could cut off their access.
-  This analytic storic groups detections that can help security operations teams identify the potential execution of Persistence techniques targeting Azure Active Directory accounts.
+  This analytic storic groups detections that can help security operations teams identify the potential execution of Persistence techniques targeting Azure Active Directory tenants.
   '
 references:
 - https://docs.microsoft.com/en-us/azure/active-directory/fundamentals/active-directory-whatis
