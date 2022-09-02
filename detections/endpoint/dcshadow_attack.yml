@@ -44,7 +44,7 @@ tags:
   confidence: 100
   context:
     - Source:Endpoint
-    - Stage:Actions on Objectives
+    - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1207/mimikatz/windows-security-xml.log
   impact: 100
