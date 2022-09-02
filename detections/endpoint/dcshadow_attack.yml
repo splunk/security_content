@@ -64,7 +64,7 @@ tags:
     type: IP
     role:
     - Attacker
-product:
+  product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
