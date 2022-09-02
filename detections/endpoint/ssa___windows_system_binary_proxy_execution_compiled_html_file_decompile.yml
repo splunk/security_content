@@ -77,6 +77,6 @@ tags:
   - dest_user_id
   - process
   - cmd_line
-  risk_score: 80
+  risk_score: 90
   security_domain: endpoint
   asset_type: Endpoint
