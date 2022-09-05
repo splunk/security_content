@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 type: Hunting
 datamodel:
 - Endpoint
-description: The following hunting analytic identifies registry artifacts when a ISO container is opened, clicked or mounted on the Windows operating system.
+description: The following hunting analytic identifies registry artifacts when an ISO container is opened, clicked or mounted on the Windows operating system.
   As Microsoft makes changes to macro based document execution, adversaries have begun to utilize container based initial access based phishing campaigns to evade preventative controls. 
   Once the ISO is clicked or mounted it will create a registry artifact related to this event as a recent application executed or opened.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry 
