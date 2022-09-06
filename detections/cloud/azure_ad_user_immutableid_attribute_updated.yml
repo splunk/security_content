@@ -6,8 +6,12 @@ author: Mauricio Velazco, Splunk
 type: TTP
 datamodel: []
 description: The following analytic identifies the modification of the SourceAnchor (also called ImmutableId) attribute for an Azure Active Directory user. Updating this attribute
-  is a step required to set up the Azure Active Directory identity federation backdoor technique discovered by security researcher Nestori Syynimaa. An adversary who has obtained
-  privileged access to an Azure AD tenant may leverage this technique to establish persistence and be able to access Azure AD resources impersonating any user.
+  is a step required to set up the Azure Active Directory identity federation backdoor technique discovered by security researcher Nestori Syynimaa.
+  Similar to Active Directory, Azure AD uses the concept of domains to manage directories of identities. A new Azure AD tenant will initially contain a
+  single domain that is commonly called the `cloud-only` onmicrosoft.com domain. Organizations can also add their registered custom domains to Azure AD for
+  email addresses to match the organizations domain name. If the organization intends to use a third-party identity provider such as ADFS for authentication, 
+  the added custom domains can be configured as federated. An adversary who has obtained privileged access to an Azure AD tenant may leverage this technique
+  to establish persistence and be able to authenticate to Azure AD impersonating any user and bypassing the requirement to have a valid password and/or perform MFA.
 search: ' `azuread` body.operationName="Update user" body.properties.targetResources{}.modifiedProperties{}.displayName=SourceAnchor
   | rename body.properties.* as *
   | rename targetResources{}.userPrincipalName as userPrincipalName 
@@ -21,7 +25,7 @@ how_to_implement: You must install the latest version of Splunk Add-on for Micro
 known_false_positives: The SourceAnchor (also called ImmutableId) Azure AD attribute has legitimate uses for directory synchronization. Investigate and filter as needed.
 references:
 - https://docs.microsoft.com/en-us/azure/active-directory/hybrid/plan-connect-design-concepts
-- https://www.mandiant.com/resources/blog/remediation-and-hardening-strategies-for-microsoft-365-to-defend-against-unc2452
+- https://www.mandiant.com/resources/remediation-and-hardening-strategies-microsoft-365-defend-against-apt29-v13
 - https://o365blog.com/post/federation-vulnerability/
 - https://www.inversecos.com/2021/11/how-to-detect-azure-active-directory.html
 - https://www.mandiant.com/resources/blog/detecting-microsoft-365-azure-active-directory-backdoors
