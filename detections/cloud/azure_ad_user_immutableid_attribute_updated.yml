@@ -5,7 +5,9 @@ date: '2022-09-02'
 author: Mauricio Velazco, Splunk
 type: TTP
 datamodel: []
-description: The following analytic.
+description: The following analytic identifies the modification of the SourceAnchor (also called ImmutableId) attribute for an Azure Active Directory user. Updating this attribute
+  is a step required to set up the Azure Active Directory identity federation backdoor technique discovered by security researcher Nestori Syynimaa. An adversary who has obtained
+  privileged access to an Azure AD tenant may leverage this technique to establish persistence and be able to access Azure AD resources impersonating any user.
 search: ' `azuread` body.operationName="Update user" body.properties.targetResources{}.modifiedProperties{}.displayName=SourceAnchor
   | rename body.properties.* as *
   | rename targetResources{}.userPrincipalName as userPrincipalName 
@@ -16,7 +18,7 @@ search: ' `azuread` body.operationName="Update user" body.properties.targetResou
   | `azure_ad_user_immutableid_attribute_updated_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase(https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment. 
   Specifically, this analytic leverages the AuditLogs log category.
-known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
+known_false_positives: The SourceAnchor (also called ImmutableId) Azure AD attribute has legitimate uses for directory synchronization. Investigate and filter as needed.
 references:
 - https://docs.microsoft.com/en-us/azure/active-directory/hybrid/plan-connect-design-concepts
 - https://www.mandiant.com/resources/blog/remediation-and-hardening-strategies-for-microsoft-365-to-defend-against-unc2452
@@ -42,7 +44,7 @@ tags:
   kill_chain_phases:
   - Installation
   - Actions on Objectives
-  message: UPDATE message
+  message: The SourceAnchor or ImmutableID attribute has been modified for user $userPrincipalName$ by $initiatedBy$
   mitre_attack_id:
   - T1098
   nist:
