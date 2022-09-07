@@ -1,5 +1,6 @@
 
 import re
+import shutil
 
 #import ansible_runner
 import yaml
@@ -36,29 +37,8 @@ def test_detection_wrapper(container_name:str, splunk_ip:str, splunk_password:st
     
     
     
-    result_test, indices_to_delete = test_detection(splunk_ip, splunk_port, splunk_password, test_file, attack_data_root_folder)
+    result_test, indices_to_delete = test_detection(splunk_ip, splunk_port, splunk_password, test_file, attack_data_root_folder, wait_on_failure, wait_on_completion)
     
-    
-    if result_test is None:
-        #We failed so early in the process that we could not produce any meaningful result
-        raise(Exception("Test execution Error"))    
-
-    #enter = input("Run some tests from [%s] on [%s] - we don't delete until you hit enter :)"%(container_name, test_file))
-    # delete test data
-    search_string = result_test['detection_result']['search_string']
-    
-
-    #search failed if there was an error or the detection failed to produce the expected result
-    #print("Elapsed search time: %s"%(elapsed_search_time_string))
-    if (wait_on_failure or wait_on_completion) and (result_test['detection_result']['error'] or not result_test['detection_result']['success']):
-        wait_on_delete = {'message':"\n\n\n****SEARCH FAILURE : Allowing time to debug search/data****"}
-    elif wait_on_completion:
-        wait_on_delete = {'message':"\n\n\n****SEARCH SUCCESS : Allowing time to examine search/data****"}
-    else:
-        wait_on_delete = None
-
-
-    splunk_sdk.delete_attack_data(splunk_ip, splunk_password, splunk_port, wait_on_delete, search_string, test_file, indices = indices_to_delete)
    
 
     return result_test    
@@ -79,11 +59,11 @@ def get_service(splunk_ip:str, splunk_port:int, splunk_password:str):
     return service
 
 
-def execute_tests(splunk_ip:str, splunk_port:int, splunk_password:str, tests:list[dict], attack_data_folder:str)->list[dict]:
+def execute_tests(splunk_ip:str, splunk_port:int, splunk_password:str, tests:list[dict], attack_data_folder:str, wait_on_failure:bool, wait_on_completion:bool)->list[dict]:
         results = []
         for test in tests:
             try:
-                results.append(execute_test(splunk_ip, splunk_port, splunk_password, test, attack_data_folder))
+                results.append(execute_test(splunk_ip, splunk_port, splunk_password, test, attack_data_folder, wait_on_failure, wait_on_completion))
             except Exception as e:
                 raise(Exception(f"Unknown error executing test: {str(e)}"))
         return results
@@ -104,37 +84,59 @@ def execute_baseline(splunk_ip:str, splunk_port:int, splunk_password:str, baseli
                                             baseline['earliest_time'], baseline['latest_time'])
     return result
     
-def execute_test(splunk_ip:str, splunk_port:int, splunk_password:str, test:dict, attack_data_folder:str)->dict:
+def execute_test(splunk_ip:str, splunk_port:int, splunk_password:str, test:dict, attack_data_folder:str, wait_on_failure:bool, wait_on_completion:bool)->dict:
     print(f"\tExecuting test {test['name']}")
     
-    result_test = dict()
+    test_result = {
+        "name": test['name'],
+        "file": test['file'],
+        "status": False,
+        "logic": False,
+        "noise": False,
+    }
+
     #replay all of the attack data
     test_indices = replay_attack_data_files(splunk_ip, splunk_port, splunk_password, test['attack_data'], attack_data_folder)
 
     #Run the baseline(s) if they exist for this test
     if 'baseline' in test:
-        result_test['baselines_result'] = execute_baselines(splunk_ip, splunk_port, splunk_password, test['baselines'])
+        test_result['baselines_result'] = execute_baselines(splunk_ip, splunk_port, splunk_password, test['baselines'])
     
     
+    detection = load_file(os.path.join(os.path.dirname(__file__), '../security_content/detections', test['file']))
     
 
-
-    detection_file_name = test['file']
-    detection = load_file(os.path.join(os.path.dirname(__file__), '../security_content/detections', detection_file_name))
     
+    error, job_result = splunk_sdk.test_detection_search(splunk_ip, splunk_port, splunk_password, detection['search'], test['pass_condition'], detection['name'], test['file'], test['earliest_time'], test['latest_time'])
+    if error:
+        test_result['message'] = job_result['message']
+        return test_result
+    else:
+        #Mark whether or not the test passed
+        if job_result['eventCount'] == 1:
+            test_result["status"] = True
 
-    detection_result = splunk_sdk.test_detection_search(splunk_ip, splunk_port, splunk_password, detection['search'], test['pass_condition'], detection['name'], test['file'], test['earliest_time'], test['latest_time'])
-    if detection_result['error']:
-        print("There was an error running the search: %s"%(detection_result['search_string']))
+        JOB_FIELDS = ["runDuration", "scanCount", "eventCount", "resultCount", "performance", "search"]
+        #Populate with all the fields we want to collect
+        for job_field in JOB_FIELDS:
+            test_result[job_field] = job_result.get(job_field, None)
     
+    if wait_on_completion or (wait_on_failure and (test_result['status'] == False)):
+        # The user wants to debug the test
+        message_template = "\n\n\n****SEARCH {status} : Allowing time to debug search/data****"
+        if test_result['status'] == False:
+            # The test failed
+            message_template.format(status="FAILURE")
+            
+        else:
+            #The test passed 
+            message_template.format(status="SUCCESS")
+    
+        _ = input(message_template)
 
-
-    detection_result['detection_name'] = test['name']
-    detection_result['detection_file'] = test['file']
-    result_test['detection_result'] = detection_result
-
-
-    return result_test
+    splunk_sdk.delete_attack_data(splunk_ip, splunk_password, splunk_port, indices = test_indices)
+    
+    return test_result
 
 def replay_attack_data_file(splunk_ip:str, splunk_port:int, splunk_password:str, attack_data_file:dict, attack_data_folder:str)->str:
     """Function to replay a single attack data file. Any exceptions generated during executing
@@ -186,7 +188,7 @@ def replay_attack_data_file(splunk_ip:str, splunk_port:int, splunk_password:str,
         raise Exception("There was an error waiting for indexing to complete.")
     
     #Return the name of the index that we uploaded to
-    return target_index
+    return upload_index
 
 
 
@@ -212,7 +214,7 @@ def replay_attack_data_files(splunk_ip:str, splunk_port:int, splunk_password:str
             raise(Exception(f"Error replaying attack data file {attack_data_file['file_name']}: {str(e)}"))
     return test_indices
 
-def test_detection(splunk_ip:str, splunk_port:int, splunk_password:str, test_file:str, attack_data_root_folder)->list[dict]:
+def test_detection(splunk_ip:str, splunk_port:int, splunk_password:str, test_file:str, attack_data_root_folder, wait_on_failure:bool, wait_on_completion:bool)->list[dict]:
     
     #Raises exception if it doesn't find the file
     test_file_obj = load_file(os.path.join("security_content/", test_file))
@@ -220,8 +222,11 @@ def test_detection(splunk_ip:str, splunk_port:int, splunk_password:str, test_fil
         
 
     abs_folder_path = mkdtemp(prefix="DATA_", dir=attack_data_root_folder)
-    
-    results = execute_tests(splunk_ip, splunk_port, splunk_password, test_file_obj['tests'], abs_folder_path)
+    results = execute_tests(splunk_ip, splunk_port, splunk_password, test_file_obj['tests'], abs_folder_path, wait_on_failure, wait_on_completion)
+    #Delete the folder and all of the data inside of it
+    shutil.rmtree(abs_folder_path)
+
+
     return results
 
 
