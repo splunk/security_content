@@ -14,20 +14,30 @@ from modules import splunk_sdk
 import timeit
 from typing import Union, Tuple
 from os.path import relpath
-from tempfile import mkdtemp
+from tempfile import mkdtemp, mkstemp
 import datetime
 import http.client
+import splunklib.client as client
 
+def load_file(file_path):
+    try:
 
-
+        with open(file_path, 'r', encoding="utf-8") as stream:
+            try:
+                file = list(yaml.safe_load_all(stream))[0]
+            except yaml.YAMLError as exc:
+                raise(Exception("ERROR: parsing YAML for {0}:[{1}]".format(file_path, str(exc))))
+    except Exception as e:
+        raise(Exception("ERROR: opening {0}:[{1}]".format(file_path, str(e))))
+    return file
 
 def test_detection_wrapper(container_name:str, splunk_ip:str, splunk_password:str, splunk_port:int, 
                            test_file:str, attack_data_root_folder, wait_on_failure:bool=False, wait_on_completion:bool=False)->dict:
     
-    one_test_start = timeit.default_timer()
-    uuid_var = str(uuid.uuid4())
-    result_test, indices_to_delete = test_detection(splunk_ip, splunk_port, container_name, splunk_password, test_file, uuid_var, attack_data_root_folder)
-    one_test_stop = timeit.default_timer()
+    
+    
+    result_test, indices_to_delete = test_detection(splunk_ip, splunk_port, splunk_password, test_file, attack_data_root_folder)
+    
     
     if result_test is None:
         #We failed so early in the process that we could not produce any meaningful result
@@ -37,8 +47,6 @@ def test_detection_wrapper(container_name:str, splunk_ip:str, splunk_password:st
     # delete test data
     search_string = result_test['detection_result']['search_string']
     
-    #get pretty time info
-    elapsed_search_time_string = str(datetime.timedelta(seconds=round(one_test_stop - one_test_start)))
 
     #search failed if there was an error or the detection failed to produce the expected result
     #print("Elapsed search time: %s"%(elapsed_search_time_string))
@@ -56,7 +64,7 @@ def test_detection_wrapper(container_name:str, splunk_ip:str, splunk_password:st
     return result_test    
 
 
-import splunklib.client as client
+
 def get_service(splunk_ip:str, splunk_port:int, splunk_password:str):
 
     try:
@@ -70,130 +78,154 @@ def get_service(splunk_ip:str, splunk_port:int, splunk_password:str):
         raise(Exception("Unable to connect to Splunk instance: " + str(e)))
     return service
 
-def test_detection(splunk_ip:str, splunk_port:int, container_name:str, splunk_password:str, test_file:str, uuid_var, attack_data_root_folder)->Tuple[Union[dict,None], set[str]]:
-    
-    test_file_obj = load_file(os.path.join("security_content/", test_file))
-    
-    
-    if not test_file_obj:
-        print("Not test_file_obj!")
-        raise(Exception("No test file object found for [%s]"%(test_file)))
-    #print(test_file_obj)
 
-    # write entry dynamodb
-    #aws_service.add_detection_results_in_dynamo_db('eu-central-1', uuid_var , uuid_test, test_file_obj['tests'][0]['name'], test_file_obj['tests'][0]['file'], str(int(time.time())))
-
-    #epoch_time = str(int(time.time()))
-    
-
-    abs_folder_path = mkdtemp(prefix="DATA_", dir=attack_data_root_folder)
-    #We want the relative path, so we convert it as required
-    folder_name = relpath(abs_folder_path, os.getcwd())
-
-
-    
-
-    indices_to_delete = set()
-    for attack_data in test_file_obj['tests'][0]['attack_data']:
-        url = attack_data['data']
-        
-        if 'custom_index' in attack_data:
-            print(f"Found a custom index for {test_file}: {attack_data['custom_index']}")
-            data_upload_index = attack_data['custom_index']
-        else:
-            data_upload_index = splunk_sdk.DEFAULT_DATA_INDEX
-
-        indices_to_delete.add(data_upload_index)
-        
-        target_file = os.path.join(folder_name, attack_data['file_name'])
-        utils.download_file_from_http(url, target_file)
-        
-
-
-        # Update timestamps before replay
-        if 'update_timestamp' in attack_data:
-            if attack_data['update_timestamp'] == True:
-                data_manipulation = DataManipulation()
-                data_manipulation.manipulate_timestamp(target_file, attack_data['sourcetype'], attack_data['source'])
-        #replay_attack_dataset(container_name, splunk_password, folder_name, "test0", attack_data['sourcetype'], attack_data['source'], attack_data['file_name'])
-        
-        try:
-            service = get_service(splunk_ip, splunk_port, splunk_password)
-            test_index = service.indexes[data_upload_index]
-            
-            with open(target_file, 'rb') as target:
-                test_index.submit(target.read(), sourcetype=attack_data['sourcetype'], source=attack_data['source'], host=splunk_sdk.DEFAULT_EVENT_HOST)
-        
-        except http.client.HTTPException as e:
-            raise(Exception(f"Failed to submit detection file {target_file} to Splunk Server: {str(e)}"))
-            
-        except Exception as e:
-            raise(Exception(f"Failed to submit detection file {target_file} to Splunk Server: {str(e)}"))
-            
+def execute_tests(splunk_ip:str, splunk_port:int, splunk_password:str, tests:list[dict], attack_data_folder:str)->list[dict]:
+        results = []
+        for test in tests:
+            try:
+                results.append(execute_test(splunk_ip, splunk_port, splunk_password, test, attack_data_folder))
+            except Exception as e:
+                raise(Exception(f"Unknown error executing test: {str(e)}"))
+        return results
             
 
+def execute_baselines(splunk_ip:str, splunk_port:int, splunk_password:str, baselines:list[dict])->list[dict]:
+    baseline_results = []
+    for baseline in baselines:
+        baseline_results.append(execute_baseline(splunk_ip, splunk_port, splunk_password, baseline))
 
-        if not splunk_sdk.wait_for_indexing_to_complete(splunk_ip, splunk_port, splunk_password, attack_data['sourcetype'], data_upload_index):
-            raise Exception("There was an error waiting for indexing to complete.")
-        
-    #Allow some time for the data to be ingested and processed
-    #print("begin sleep 30")
-    #time.sleep(60)
+    return baseline_results
 
+def execute_baseline(splunk_ip:str, splunk_port:int, splunk_password:str, baseline:dict)->dict:
+    baseline_file = load_file(os.path.join(os.path.dirname(__file__), '../security_content', baseline['file']))
+    result = splunk_sdk.test_baseline_search(splunk_ip, splunk_port, splunk_password, 
+                                                baseline['search'], baseline['pass_condition'], 
+                                            baseline_file['name'], baseline['file'], 
+                                            baseline['earliest_time'], baseline['latest_time'])
+    return result
     
-    #print("end sleep 30")
+def execute_test(splunk_ip:str, splunk_port:int, splunk_password:str, test:dict, attack_data_folder:str)->dict:
+    print(f"\tExecuting test {test['name']}")
     
-    result_test = {}
-    test = test_file_obj['tests'][0]
+    result_test = dict()
+    #replay all of the attack data
+    test_indices = replay_attack_data_files(splunk_ip, splunk_port, splunk_password, test['attack_data'], attack_data_folder)
+
+    #Run the baseline(s) if they exist for this test
+    if 'baseline' in test:
+        result_test['baselines_result'] = execute_baselines(splunk_ip, splunk_port, splunk_password, test['baselines'])
+    
+    
     
 
-    if 'baselines' in test:
-        results_baselines = []
-        for baseline_obj in test['baselines']:
-            baseline_file_name = baseline_obj['file']
-            baseline = load_file(os.path.join(os.path.dirname(__file__), '../security_content', baseline_file_name))
-            result_obj = dict()
-            result_obj['baseline'] = baseline_obj['name']
-            result_obj['baseline_file'] = baseline_obj['file']
-            print("Making test_baseline_search request to: [%s:%d]"%(splunk_ip, splunk_port))
-            result = splunk_sdk.test_baseline_search(splunk_ip, splunk_port, splunk_password, baseline['search'], baseline_obj['pass_condition'], baseline['name'], baseline_obj['file'], baseline_obj['earliest_time'], baseline_obj['latest_time'])
-            #we don't seem to be doing anything with this loop... are we supposed to have the following line belwo?
-            results_baselines.append(result)
-
-        result_test['baselines_result'] = results_baselines  
 
     detection_file_name = test['file']
     detection = load_file(os.path.join(os.path.dirname(__file__), '../security_content/detections', detection_file_name))
-    #print("Making test_detection_search request to: [%s:%d]"%(splunk_ip, splunk_port))
     
-    result_detection = splunk_sdk.test_detection_search(splunk_ip, splunk_port, splunk_password, detection['search'], test['pass_condition'], detection['name'], test['file'], test['earliest_time'], test['latest_time'])
-    if result_detection['error']:
-        print("There was an error running the search: %s"%(result_detection['search_string']))
+
+    detection_result = splunk_sdk.test_detection_search(splunk_ip, splunk_port, splunk_password, detection['search'], test['pass_condition'], detection['name'], test['file'], test['earliest_time'], test['latest_time'])
+    if detection_result['error']:
+        print("There was an error running the search: %s"%(detection_result['search_string']))
+    
+
+
+    detection_result['detection_name'] = test['name']
+    detection_result['detection_file'] = test['file']
+    result_test['detection_result'] = detection_result
+
+
+    return result_test
+
+def replay_attack_data_file(splunk_ip:str, splunk_port:int, splunk_password:str, attack_data_file:dict, attack_data_folder:str)->str:
+    """Function to replay a single attack data file. Any exceptions generated during executing
+    are intentionally not caught so that they can be caught by the caller.
+
+    Args:
+        splunk_ip (str): ip address of the splunk server to target
+        splunk_port (int): port of the splunk server API
+        splunk_password (str): password to the splunk server
+        attack_data_file (dict): a dict containing information about the attack data file
+        attack_data_folder (str): The folder for downloaded or copied attack data to reside
+
+    Returns:
+        str: index that the attack data has been replayed into on the splunk server
+    """
+    #Get the index we should replay the data into
+    target_index = attack_data_file.get("custom_index", splunk_sdk.DEFAULT_DATA_INDEX)
+
+    descriptor, data_file = mkstemp(prefix="ATTACK_DATA_FILE_", dir=attack_data_folder)
+    if not attack_data_file['file_name'].startswith("https://"):
+        #raise(Exception(f"Attack Data File {attack_data_file['file_name']} does not start with 'https://'. "  
+        #                 "In the future, we will add support for non https:// hosted files, such as local files or other files. But today this is an error."))
+        
+        #We need to do this because if we are working from a file, we can't overwrite/modify the original during a test. We must keep it intact.
+        import shutil
+        shutil.copyfile(attack_data_file['file_name'], data_file)
+        
+    
+    else:
+        #Download the file
+        utils.download_file_from_http(attack_data_file['data'], data_file)
+    
+    # Update timestamps before replay
+    if attack_data_file.get('update_timestamp', False):
+        data_manipulation = DataManipulation()
+        data_manipulation.manipulate_timestamp(data_file, attack_data_file['sourcetype'], attack_data_file['source'])    
+
+    #Get an session from the API
+    service = get_service(splunk_ip, splunk_port, splunk_password)
+    #Get the index we will be uploading to
+    upload_index = service.indexes[target_index]
+        
+    #Upload the data
+    with open(data_file, 'rb') as target:
+        upload_index.submit(target.read(), sourcetype=attack_data_file['sourcetype'], source=attack_data_file['source'], host=splunk_sdk.DEFAULT_EVENT_HOST)
+
+    #Wait for the indexing to finish
+    if not splunk_sdk.wait_for_indexing_to_complete(splunk_ip, splunk_port, splunk_password, attack_data_file['sourcetype'], upload_index):
+        raise Exception("There was an error waiting for indexing to complete.")
+    
+    #Return the name of the index that we uploaded to
+    return target_index
+
+
+
+
+    
+
+def replay_attack_data_files(splunk_ip:str, splunk_port:int, splunk_password:str, attack_data_files:list[dict], attack_data_folder:str)->set[str]:
+    """Replay all attack data files into a splunk server as part of testing a detection. Note that this does not catch
+    any exceptions, they should be handled by the caller
+
+    Args:
+        splunk_ip (str): ip address of the splunk server to target
+        splunk_port (int): port of the splunk server API
+        splunk_password (str): password to the splunk server
+        attack_data_files (list[dict]): A list of dicts containing information about the attack data file
+        attack_data_folder (str): The folder for downloaded or copied attack data to reside
+    """
+    test_indices = set()
+    for attack_data_file in attack_data_files:
+        try:
+            test_indices.add(replay_attack_data_file(splunk_ip, splunk_port, splunk_password, attack_data_file, attack_data_folder))
+        except Exception as e:
+            raise(Exception(f"Error replaying attack data file {attack_data_file['file_name']}: {str(e)}"))
+    return test_indices
+
+def test_detection(splunk_ip:str, splunk_port:int, splunk_password:str, test_file:str, attack_data_root_folder)->list[dict]:
+    
+    #Raises exception if it doesn't find the file
+    test_file_obj = load_file(os.path.join("security_content/", test_file))
+    
         
 
+    abs_folder_path = mkdtemp(prefix="DATA_", dir=attack_data_root_folder)
+    
+    results = execute_tests(splunk_ip, splunk_port, splunk_password, test_file_obj['tests'], abs_folder_path)
+    return results
 
 
 
-    result_detection['detection_name'] = test['name']
-    result_detection['detection_file'] = test['file']
-    result_test['detection_result'] = result_detection
-    result_test['attack_data_directory'] = abs_folder_path
-
-
-    return result_test, indices_to_delete
-
-
-def load_file(file_path):
-    try:
-
-        with open(file_path, 'r', encoding="utf-8") as stream:
-            try:
-                file = list(yaml.safe_load_all(stream))[0]
-            except yaml.YAMLError as exc:
-                raise(Exception("ERROR: parsing YAML for {0}:[{1}]".format(file_path, str(exc))))
-    except Exception as e:
-        raise(Exception("ERROR: opening {0}:[{1}]".format(file_path, str(e))))
-    return file
 
 
 
