@@ -49,7 +49,7 @@ tags:
     type: IP Address
     role:
     - Victim
-product:
+  product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
