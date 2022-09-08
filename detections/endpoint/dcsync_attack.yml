@@ -40,6 +40,7 @@ references:
 tags:
   analytic_story:
   - Domain Controller Attacks
+  - Credential Dumping
   asset_type: Endpoint
   cis20:
   - CIS 3
@@ -60,7 +61,7 @@ tags:
   nist:
   - DE.CM
   observable:
-   - name: src_user
+  - name: src_user
     type: User
     role:
     - Victim
