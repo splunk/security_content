@@ -124,11 +124,9 @@ def write_csv(lolbas, OUTPUT_PATH):
             if get_lolbas_paths(lolba):
                 full_paths = get_lolbas_paths(lolba)
                 for full_path in full_paths:
-                    lolba_file_paths = get_lolbas_paths(lolba)
                     lolba_file_name = lolba['Name'].lower()
                     lolba_description = lolba['Description']
-                    for lolba_file_path in lolba_file_paths:
-                        writer.writerow({'lolbas_file_name': lolba_file_name, 'lolbas_file_path': lolba_file_path.lower(), 'description': lolba_description})
+                    writer.writerow({'lolbas_file_name': lolba_file_name, 'lolbas_file_path': full_path.lower(), 'description': lolba_description})
    
 
 def write_yaml(detection, VERBOSE, detection_output_path):
