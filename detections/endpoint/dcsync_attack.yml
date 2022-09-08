@@ -11,17 +11,13 @@ description: When a domain controller receives a replication request, the user a
 search: '`wineventlog_security` EventCode=4662 ObjectType IN ("%{19195a5b-6da0-11d0-afd3-00c04fd930c9}",
   "domainDNS") AND Properties IN ("*Replicating Directory Changes All*", "*{1131f6ad-9c07-11d1-f79f-00c04fc2dcd2}*",
   "*{9923a32a-3607-11d2-b9be-0000f87a36b2}*","*{1131f6ac-9c07-11d1-f79f-00c04fc2dcd2}*")
-
   | stats min(_time) as firstEvent, max(_time) as latestEvent, range(_time) as duration
   count by AccessMask, SubjectDomainName, SubjectUserName, Computer, Logon_ID, ObjectName,
   ObjectServer, ObjectType, OperationType, status
-
   | join type=outer Logon_ID [| search `wineventlog_security` EventCode=4624 | rename
   TargetLogonId as Logon_ID, TargetDomainName as domain]
-
   | table firstEvent, latestEvent, duration, AccessMask, domain, user, Computer, Logon_ID,
   ObjectName, ObjectServer, ObjectType, OperationType, status, src_ip, Logon_ID
-
   | eval firstEvent=strftime(firstEvent, "%Y-%m-%d %H:%M:%S"), latestEvent=strftime(latestEvent,
   "%Y-%m-%d %H:%M:%S") | `dcsync_attack_filter`'
 how_to_implement: To successfully implement this search, you ned to be ingesting eventcode `4662`. 
@@ -30,7 +26,6 @@ how_to_implement: To successfully implement this search, you ned to be ingesting
  and all descendant objects. The principals `everybody`,  `Domain Computers`, and  `Domain Controllers`
  auditing the permissions `Replicating Directory Changes`, `Replicating Directory Changes All`, and 
  `Replicating Directory Changes In Filtered Set`
- 
  If genuine DC activity triggers this detection within your environment, look to tune out the 
  domain controller computer accounts using asset and identities.   
 known_false_positives: A genuine domain controller promotion event will trigger this alert. 
