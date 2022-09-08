@@ -341,7 +341,8 @@ class TestDriver:
                 
         
         
-    def addResult(self, result:dict, duration_string:str)->None:
+    def addResult(self, result:list[dict], duration_seconds:float)->None:
+        duration_string = str(datetime.timedelta(seconds=round(duration_seconds)))
         try:
             if result['detection_result']['error'] is True:
                 self.addError(result['detection_result'], duration_string = duration_string)

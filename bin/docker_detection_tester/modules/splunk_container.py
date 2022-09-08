@@ -427,11 +427,10 @@ class SplunkContainer:
             print("Container [%s]--->[%s]" %
                   (self.container_name, detection_to_test))
             try:
-                result = testing_service.test_detection_wrapper(
-                    self.container_name,
+                result = testing_service.test_detection(
                     self.splunk_ip,
-                    self.container_password,
                     self.management_port,
+                    self.container_password,
                     detection_to_test,
                     self.synchronization_object.attack_data_root_folder,
                     wait_on_failure=self.interactive_failure,
@@ -439,11 +438,9 @@ class SplunkContainer:
                 )
                 
                 
-                self.synchronization_object.addResult(result, duration_string =  datetime.timedelta(seconds=round(timeit.default_timer() - current_test_start_time)))
+                self.synchronization_object.addResult(result, timeit.default_timer() - current_test_start_time)
 
-                # Remove the data from the test that we just ran.  We MUST do this when running on CI because otherwise, we will download
-                # a massive amount of data over the course of a long path and will run out of space on the relatively small CI runner drive
-                shutil.rmtree(result["attack_data_directory"],ignore_errors=True)
+                
             except Exception as e:
                 print(
                     "Warning - uncaught error in detection test for [%s] - this should not happen: [%s]"
