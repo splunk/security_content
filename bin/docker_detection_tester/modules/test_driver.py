@@ -56,13 +56,14 @@ class DetectionFile:
         except Exception as e:
             raise(Exception(f"Error loading the detection file: {str(e)}"))
         
-        
-        for field in ["name", "id", "type", "search"]]:
-            try:
-                #Raise an exception if the keyt is not found
-                setattr(self, field, detection_file.get[field])
-            except Exception as e:
-                raise(Exception(f"Failed to find the required key {field} in the detection file {self.path}"))
+        try:
+            self.name = detection_file.get("name")
+            self.id = detection_file.get("id")
+            self.type = detection_file.get("type")
+            self.search = detection_file.get("search")
+                
+        except Exception as e:
+            raise(Exception(f"Failed to find a required key in the detection file {self.path}: {str(e)}"))
 
 
 

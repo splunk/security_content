@@ -149,6 +149,29 @@ class GithubService:
         repo_obj = git.Repo.clone_from(url, project, branch=branch)
         return repo_obj
 
+    def detections_to_test(self, ignore_experimental:bool = True, ignore_deprecated:bool = True, ignore_ssa:bool = True, allowed_types:list[str] = ["Anomaly", "Hunting", "TTP"]):
+        
+        detections = list(pathlib.Path("./security_content/detections/").rglob("*.yml"))
+        print(f"Total detections loaded from the directory: {len(detections)}")
+        if ignore_experimental:
+            detections = [d for d in detections if 'detections/experimental' not in str(d)]
+        if ignore_deprecated:
+            detections = [d for d in detections if 'detections/deprecated' not in str(d)]
+        if ignore_ssa:
+            detections = [d for d in detections if not d.name.startswith("ssa___")]
+        
+        print(f"Total detections loaded after removal of experimental, deprecated, and ssa: {len(detections)}")
+        #We are down to just the detections we care about
+        #Parse and load each of them, which will ensure that they pass their validations
+        import modules.test_driver
+        detection_objects = [modules.test_driver.Detection(d) for d in detections]
+
+        print(f"Detection objects that were parsed: {len(detection_objects)}")
+
+        detection_objects = [d for d in detection_objects if d.detectionFile.type in allowed_types]
+
+        print(f"Detection objects after downselecting to {allowed_types}: {len(detection_objects)}")
+
 
     def prune_detections(self,
                          detection_files: list[str],
