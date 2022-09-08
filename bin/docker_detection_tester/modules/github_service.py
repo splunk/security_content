@@ -164,9 +164,21 @@ class GithubService:
         #We are down to just the detections we care about
         #Parse and load each of them, which will ensure that they pass their validations
         import modules.test_driver
-        detection_objects = [modules.test_driver.Detection(d) for d in detections]
+        detection_objects = []
+        errors = []
+        for detection in detections:
+            try:
+                detection_objects.append(modules.test_driver.Detection(detection))
+            except Exception as e:
+                errors.append(f"Error parsing detection {detection}: {str(e)}")
+
+        if len(errors) != 0:
+            all_errors_string = '\n\t'.join(errors)
+            raise Exception(f"The following errors were encountered while parsing detections:\n\t{all_errors_string}")
+
 
         print(f"Detection objects that were parsed: {len(detection_objects)}")
+
 
         detection_objects = [d for d in detection_objects if d.detectionFile.type in allowed_types]
 
