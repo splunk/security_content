@@ -15,9 +15,9 @@ search: '`wineventlog_security` EventCode=5136 AttributeLDAPDisplayName=serviceP
 | eval firstEvent=strftime(firstEvent, "%Y-%m-%d %H:%M:%S"), latestEvent=strftime(latestEvent, "%Y-%m-%d %H:%M:%S")
 | `dcshadow_attack_filter`' 
 how_to_implement: To successfully implement this search, you need to be ingesting eventcode `5136`. 
-The Advanced Security Audit policy setting `Audit Directory Services Changes` within 
-`DS Access` needs to be enabled, alongside a SACL for 
-`everybody` to `Write All Properties` applied to the domain root and all descendant objects.
+ The Advanced Security Audit policy setting `Audit Directory Services Changes` within 
+ `DS Access` needs to be enabled, alongside a SACL for 
+ `everybody` to `Write All Properties` applied to the domain root and all descendant objects.
 known_false_positives: None.
 references:
 - https://www.dcshadow.com/
