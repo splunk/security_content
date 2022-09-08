@@ -26,7 +26,7 @@ search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map
   null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string",
   null), event_id=ucast(map_get(input_event, "event_id"), "string", null) | where
   cmd_line IS NOT NULL AND process_name IS NOT NULL AND process_name="hh.exe"
-  AND (like (cmd_line, "%its:%") OR like (cmd_line, "%-y %"))| eval start_time=timestamp, end_time=timestamp,
+  AND (like (cmd_line, "%its:%") OR like (cmd_line, "%mk:@MSITStore:%"))| eval start_time=timestamp, end_time=timestamp,
   entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event,
   "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line",
   cmd_line, "process_name", process_name, "parent_process_name", parent_process_name,
@@ -55,7 +55,7 @@ tags:
   - Source:Endpoint
   - Stage:Defense Evasion
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.001/atomic_red_team/4688_windows-security.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.001/atomic_red_team/chm-wineventlog-security.log
   impact: 80
   kill_chain_phases:
   - Exploitation
