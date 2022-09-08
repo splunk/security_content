@@ -44,7 +44,8 @@ tags:
   confidence: 80
   context:
     - Source:Endpoint
-    - Stage:Defense Evasion
+    - Source:AD
+    - Stage:Credential Access
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.006/impacket/windows-security-xml.log
   impact: 100
