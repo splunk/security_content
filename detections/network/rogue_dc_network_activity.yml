@@ -8,11 +8,8 @@ datamodel: []
 description: This detection is looking at zeek wiredata for specific replication RPC calls being performed from a device which is not a domain controller.
  If you would like to capture these RPC calls using Splunk Stream, please vote for my idea here https://ideas.splunk.com/ideas/APPSID-I-619 ;)  
 search: '`zeek_rpc` DrsReplicaAdd OR DRSGetNCChanges
- 
   | where NOT (dest_category="Domain Controller") OR NOT (src_category="Domain Controller")
- 
-  | fillnull value="Unknown" src_category, dest_category
- 
+  | fillnull value="Unknown" src_category, dest_category 
   | table _time endpoint operation src src_category dest dest_category | `rogue_dc_network_activity_filter`'
 how_to_implement: Run zeek on domain controllers to capture the DCE RPC calls, ensure the domain controller categories are defined in Assets and Identities. 
 known_false_positives: None. 
