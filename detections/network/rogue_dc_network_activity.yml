@@ -7,7 +7,7 @@ type: TTP
 datamodel: []
 description: This detection is looking at zeek wiredata for specific replication RPC calls being performed from a device which is not a domain controller.
  If you would like to capture these RPC calls using Splunk Stream, please vote for my idea here https://ideas.splunk.com/ideas/APPSID-I-619 ;)  
-search: 'sourcetype=bro:dce_rpc:json DrsReplicaAdd OR DRSGetNCChanges
+search: '`zeek_rpc` DrsReplicaAdd OR DRSGetNCChanges
  
   | where NOT (dest_category="Domain Controller") OR NOT (src_category="Domain Controller")
  
@@ -28,7 +28,7 @@ tags:
   - CIS 16
   confidence: 100
   context:
-    - Source:Network
+    - Source:IPS
     - Stage:Defense Evasion
   dataset:
   - https://github.com/splunk/attack_data/blob/master/datasets/attack_techniques/T1207/mimikatz/zeek-dce_rpc.log
