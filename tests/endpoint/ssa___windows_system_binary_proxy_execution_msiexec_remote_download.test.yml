@@ -6,4 +6,6 @@ tests:
   attack_data:
   - file_name: 4688_msiexec-windows-security.log
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.007/atomic_red_team/4688_msiexec-windows-security.log
-    source: XmlWinEventLog:Security
+    source: XmlWinEventLog
+    sourcetype: XmlWinEventLog
+    update_timestamp: true
