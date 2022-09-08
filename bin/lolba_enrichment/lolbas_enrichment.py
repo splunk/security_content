@@ -107,9 +107,15 @@ def unique_detections(lolba_with_detections, lolba, VERBOSE):
                 unique_detection_list.append(detection)
         lolba['Detection'] = unique_detection_list    
     return lolba
-    
 
-def enrich_lolbas(detections, lolbas, VERBOSE):
+
+
+
+
+def update_detection(detections, lolbas, VERBOSE):
+
+    # windows_lolbin_binary_in_non_standard_path auto search generation
+    # first process SSA search
     ssa_base_search = """$ssa_input = | from read_ssa_enriched_events() | eval device=ucast(map_get(input_event,
     "dest_device_id"), "string", null), user=ucast(map_get(input_event, "dest_user_id"),
     "string", null), timestamp=parse_long(ucast(map_get(input_event, "_time"), "string",
@@ -117,20 +123,55 @@ def enrich_lolbas(detections, lolbas, VERBOSE):
     null)), process_path=lower(ucast(map_get(input_event, "process_path"), "string",
     null)), event_id=ucast(map_get(input_event, "event_id"), "string", null);"""
 
-    for lolba in lolbas: 
-        print("Name: {0}".format(lolba['Name']))
-    ssa__location_condition = """| from $ssa_input | where"""
+    ssa_end_search ="""| eval start_time=timestamp,
+  end_time=timestamp, entities=mvappend(device, user), body=create_map(["event_id",
+  event_id, "process_path", process_path, "process_name", process_name]) | into write_ssa_detected_events();"""
 
-  
 
-def write_lolbas(enriched_lolbas, LOLBAS_PATH, VERBOSE):
-    for lolba in enriched_lolbas:
-        file_path = lolba['file_path']
-        lolba.pop('file_path')
+    condition_1 = "$cond_1 = | from $ssa_input | where "
+    condition_2 = "| from $cond_1 | where "
+    lolbas_strings = ''
+    lolbas_path_strings = '' 
+
+    for lolba in lolbas:
+        if 'Full_Path' in lolba:
+            for fullpath in lolba['Full_Path']:
+                # check path is not none
+                if fullpath['Path']:
+                    # check path is in c:\ there are some entries with N/A, No fixed path etc. . we should skip those
+                    if re.findall('c:', fullpath['Path'], re.IGNORECASE):
+                        # grab the exe 
+                        lolbas_strings += 'process_name="' + lolba['Name'].lower() + '" OR '
+
+                        # drop the drive letter
+                        full_path = fullpath['Path'][2:]
+
+                        # add path escapes
+                        full_path = full_path.replace("\\", "\\\\").lower()
+                        lolbas_path_strings += 'match_regex(process_path, /(?i)' + full_path + ')=false AND '
+
+
+    # remove trailing OR and merge with condition
+    condition_1 = condition_1 + lolbas_strings[:-3]
+    # remove trailing AND nd merge with condition
+    condition_2 = condition_2 + lolbas_path_strings[:-4]
+    full_ssa_search = ssa_base_search + '\n' + condition_1 + '\n' + condition_2 + '\n' + ssa_end_search
+
+    for detection in detections:
+        # match the detection to change
+        if detection['name'] == 'Windows LOLBin Binary in Non Standard Path':
+            detection['search'] = full_ssa_search
+            # write changes down
+            write_yaml(detection, detection)
+    
+
+def write_yaml(detection, VERBOSE):
+        file_path = detection['file_path']
+        detection.pop('file_path')
         if VERBOSE:
-            print(yaml.dump(lolba, indent=2))
+            print(yaml.dump(detection, indent=2))
         with open(file_path, 'w') as outfile:
-            yaml.dump(lolba, outfile, default_flow_style=False, sort_keys=False)
+            yaml.dump(file_path, outfile, default_flow_style=False, sort_keys=False)
 
 if __name__ == "__main__":
 
@@ -138,6 +179,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Generates Updates Splunk detections with latest LOLBAS")
     parser.add_argument("-splunk_security_content_path", "--spath", required=False, default='../../', help="path to security_content repo")
     parser.add_argument("-lolbas_path", "--lpath", required=False, default='LOLBAS', help="path to the lolbas repo")
+
     parser.add_argument("-v", "--verbose", required=False, default=False, action='store_true', help="prints verbose output")
     
    # parse them
@@ -155,6 +197,6 @@ if __name__ == "__main__":
     print("processing splunk security content detections")
     detections = read_security_content_detections(SECURITY_CONTENT_PATH, VERBOSE)
     print("updating detections")
-    enriched_lolbas = update_detections(detections, lolbas, VERBOSE)
+    enriched_lolbas = update_detection(detections, lolbas, VERBOSE)
     #print("writing enriched lolbas")
     #write_lolbas(enriched_lolbas, LOLBAS_PATH, VERBOSE)
