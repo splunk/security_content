@@ -16,6 +16,104 @@ from typing import Union
 import psutil
 import summarize_json
 
+import pathlib
+import yaml
+
+
+
+
+
+def load_file(file_path):
+    try:
+
+        with open(file_path, 'r', encoding="utf-8") as stream:
+            try:
+                file = list(yaml.safe_load_all(stream))[0]
+            except yaml.YAMLError as exc:
+                raise(Exception("ERROR: parsing YAML for {0}:[{1}]".format(file_path, str(exc))))
+    except Exception as e:
+        raise(Exception("ERROR: opening {0}:[{1}]".format(file_path, str(e))))
+    return file
+
+class Detection:
+    def __init__(self, detection_file:pathlib.Path):
+        self.detectionFile = DetectionFile(detection_file)
+
+        #Infer the test file name from the detection file name
+        self.testFile = TestFile(detection_file = detection_file)
+
+        
+    
+    
+
+class DetectionFile:
+    def __init__(self, detection_file_path:pathlib.Path):
+        if not detection_file_path.exists():
+            raise(Exception(f"The following Detection file does not exist: {detection_file_path}"))
+        self.path = detection_file_path
+        try:
+            detection_file = load_file(detection_file_path)
+        except Exception as e:
+            raise(Exception(f"Error loading the detection file: {str(e)}"))
+        
+        
+        for field in ["name", "id", "type", "search"]]:
+            try:
+                #Raise an exception if the keyt is not found
+                setattr(self, field, detection_file.get[field])
+            except Exception as e:
+                raise(Exception(f"Failed to find the required key {field} in the detection file {self.path}"))
+
+
+
+class TestFile:
+    def __init__(self, detection_file:Union[None, pathlib.Path] = None, test_file:Union[None, pathlib.Path] = None):
+        if test_file is not None:
+            #we already have the test file, so use that path
+            pass
+        elif detection_file is not None:
+            #Infer the test file path
+            detection_file_path_parts = list(detection_file.parts)
+            detections_folder_index = (len(detection_file_path_parts)-1) - detection_file_path_parts[::-1].index("detections")
+            
+            detection_file_path_parts[detections_folder_index] = "tests"
+            detection_file_path_parts[-1] = detection_file_path_parts[-1].replace(".yml", ".test.yml")
+            test_file = pathlib.Path(os.path.join(*detection_file_path_parts))
+
+        else:
+            raise(Exception("Failed to provide Detection File Path or Test File Path for constructing Test."))
+        
+        if not test_file.exists():
+            raise(Exception(f"The following test file does not exist: {test_file}"))
+        
+        self.path = test_file
+
+        test_data = load_file(test_file)
+        #Set the attributes
+        self.name = test_data['name']
+        self.tests = self.get_tests(test_data['tests'])
+    def get_tests(self, test_data:list[dict]):
+        return [Test(t) for t in test_data]
+
+
+class Test:
+    def __init__(self, test:dict):
+        setattr(self, "name", test['name'])
+        setattr(self, "file", test['file'])
+        setattr(self, "pass_condition", test['pass_condition'])
+        setattr(self, "earliest_time", test['earliest_time'])
+        setattr(self, "latest_time", test['latest_time'])
+        self.attack_data = self.get_attack_data(test['attack_data'])
+    def get_attack_data(self, attack_datas: list[dict]):
+        return [AttackData(d) for d in attack_datas]
+
+class AttackData:
+    def __init__(self, attack_data:dict):
+        setattr(self, "file_name", attack_data['file_name'])
+        setattr(self, "data", attack_data['data'])
+        setattr(self, "source", attack_data['source'])
+        setattr(self, "sourcetype", attack_data['sourcetype'])
+        setattr(self, "index", attack_data.get('custom_index', "main"))
 
 class TestDriver:
     def __init__(self, tests:list[str], num_containers:int, summarization_reproduce_failure_config:dict):
