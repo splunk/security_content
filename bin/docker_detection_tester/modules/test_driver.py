@@ -19,7 +19,7 @@ import summarize_json
 import pathlib
 import yaml
 
-
+from modules.testing_service import Result
 
 
 
@@ -42,7 +42,8 @@ class Detection:
         #Infer the test file name from the detection file name
         self.testFile = TestFile(detectionFile = self.detectionFile)
 
-        
+
+        self.result:Union[None, Result] = None    
     
     
 
@@ -61,7 +62,7 @@ class DetectionFile:
             self.id = detection_file.get("id")
             self.type = detection_file.get("type")
             self.search = detection_file.get("search")
-                
+            
         except Exception as e:
             raise(Exception(f"Failed to find a required key in the detection file {self.path}: {str(e)}"))
 
@@ -109,6 +110,8 @@ class Test:
         self.latest_time = test['latest_time']
         self.attack_data = test['attack_data']
         self.baselines = self.getBaselines(test.get("baselines",[]))
+
+        self.result:Union[None, Result] = None
     def get_attack_data(self, attack_datas: list[dict]):
         return [AttackData(d) for d in attack_datas]
     
@@ -124,6 +127,8 @@ class Baseline:
         self.earliest_time = baseline['earliest_time']
         self.latest_time = baseline['latest_time']
         self.baseline = DetectionFile(pathlib.Path(self.file))
+
+        self.result:Union[None,Result] = None
         
 
 class AttackData:

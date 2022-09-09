@@ -51,23 +51,64 @@ def get_service(splunk_ip:str, splunk_port:int, splunk_password:str):
     return service
 
 
-def execute_tests(splunk_ip:str, splunk_port:int, splunk_password:str, tests:list[Test], attack_data_folder:str, wait_on_failure:bool, wait_on_completion:bool)->list[dict]:
-        results = []
+def execute_tests(splunk_ip:str, splunk_port:int, splunk_password:str, tests:list[Test], attack_data_folder:str, wait_on_failure:bool, wait_on_completion:bool)->bool:
+        success = True
         for test in tests:
             try:
                 #Run all the tests, even if the test fails.  We still want to get the results of failed tests
-                results.append(execute_test(splunk_ip, splunk_port, splunk_password, test, attack_data_folder, wait_on_failure, wait_on_completion))
+                result = execute_test(splunk_ip, splunk_port, splunk_password, test, attack_data_folder, wait_on_failure, wait_on_completion)
+                #And together the result of the test so that if any one test fails, it causes this function to return False                
+                success &= result
             except Exception as e:
                 raise(Exception(f"Unknown error executing test: {str(e)}"))
-        return results
+        return success
             
 
 class Result:
-    def __init__(self, jobResult:dict, testName:str, fileName:str, logic:bool=False, noise:bool=False):
-        self.name = testName
-        self.file = fileName
-        self.logic = logic
-        self.noise = noise
+    def __init__(self, generated_exception:Union[dict,None] = None, no_exception:Union[dict,None]=None):
+
+        #always include all of these fields, even if there is an         
+        self.runDuration = None
+        self.scanCount = None
+        self.eventCount = None
+        self.resultCount = None
+        self.performance = None
+        self.search = None
+        self.message = None
+        self.exception = False
+        self.success = False
+
+        if generated_exception is not None:
+            self.message = generated_exception['message']
+            self.logic = False
+            self.noise = False
+            self.exception = True
+        elif no_exception is not None:
+            self.exception = False            
+            self.noise = False
+            if no_exception['eventCount'] == 1:
+                self.logic = True
+                self.message = "Test execution successful"
+
+            else:
+                self.logic = False
+                self.message = "Test execution failed - search did not return any results"
+            
+            #populate all the fields we want to populate for a test that ran to completion
+            self.runDuration = no_exception['runDuration']
+            self.scanCount = no_exception['scanCount']
+            self.eventCount = no_exception['eventCount']
+            self.resultCount = no_exception['resultCount']
+            self.performance = no_exception['performance']
+            self.search = no_exception['search']
+
+            #This may change in the future as we include different types of tests like noise
+            self.success = self.logic
+        
+        else:
+            raise(Exception("Result created with indeterminate success"))
+
+        
         
 
 
@@ -94,7 +135,7 @@ def format_test_result(job_result:dict, testName:str, fileName:str, logic:bool=F
             testResult["status"] = False
 
 
-    JOB_FIELDS = ["runDuration", "scanCount", "eventCount", "resultCount", "performance", "search", "message", "baselines"]
+    JOB_FIELDS = ["runDuration", "scanCount", "eventCount", "resultCount", "performance", "search", "message"]
     #Populate with all the fields we want to collect
     for job_field in JOB_FIELDS:
         if job_field in job_result:
@@ -102,28 +143,25 @@ def format_test_result(job_result:dict, testName:str, fileName:str, logic:bool=F
     
     return testResult
 
-def execute_baselines(splunk_ip:str, splunk_port:int, splunk_password:str, baselines:list[Baseline])->Tuple[bool,list[dict]]:
+def execute_baselines(splunk_ip:str, splunk_port:int, splunk_password:str, baselines:list[Baseline])->bool:
     baseline_results = []
     for baseline in baselines:
-        formatted_result = execute_baseline(splunk_ip, splunk_port, splunk_password, baseline)        
-        baseline_results.append(formatted_result)
-        if formatted_result['status'] == False:
-            # Fast fail - if a single baseline fails, then it is highly likely that
-            # a subsequent baseline will fail, so don't even run it
-            return True, baseline_results
-
-    return False, baseline_results
-
-def execute_baseline(splunk_ip:str, splunk_port:int, splunk_password:str, baseline:Baseline)->dict:
+        if execute_baseline(splunk_ip, splunk_port, splunk_password, baseline) is not True:
+            return False
     
-    result = splunk_sdk.test_detection_search(splunk_ip, splunk_port, splunk_password, 
+    #All the baselines succeeded (or there were no baselines to execute)
+    return True
+
+def execute_baseline(splunk_ip:str, splunk_port:int, splunk_password:str, baseline:Baseline)->bool:
+    
+    baseline.result = splunk_sdk.test_detection_search(splunk_ip, splunk_port, splunk_password, 
                                               baseline.baseline.search, baseline.pass_condition, 
                                               baseline.name, baseline.earliest_time, baseline.latest_time)
     
-    return format_test_result(result, baseline['name'], baseline['file'])
+    return baseline.result.success
     
-def execute_test(splunk_ip:str, splunk_port:int, splunk_password:str, test:Test, attack_data_folder:str, wait_on_failure:bool, wait_on_completion:bool)->dict:
-    print(f"\tExecuting test {test.}")
+def execute_test(splunk_ip:str, splunk_port:int, splunk_password:str, test:Test, attack_data_folder:str, wait_on_failure:bool, wait_on_completion:bool)->bool:
+    print(f"\tExecuting test {test.name}")
     
     
 
@@ -131,42 +169,35 @@ def execute_test(splunk_ip:str, splunk_port:int, splunk_password:str, test:Test,
     test_indices = replay_attack_data_files(splunk_ip, splunk_port, splunk_password, test.attack_data, attack_data_folder)
 
     
-    error = False
+    
     #Run the baseline(s) if they exist for this test
-    if len(test.baselines) > 0:
-        error, baselines = execute_baselines(splunk_ip, splunk_port, splunk_password, test.baselines)
-
-    
-    if error == False:
+    if execute_baselines(splunk_ip, splunk_port, splunk_password, test.baselines) is not True:
+        #One of the baselines failed. No sense in running the real test
+        test.result = Result(generated_exception={'message':"Baseline(s) failed"})
         
-        job_result = splunk_sdk.test_detection_search(splunk_ip, splunk_port, splunk_password, test.detectionFile.search, test.pass_condition, test.name, test.file, test.earliest_time, test.latest_time)
-        result = format_test_result(job_result,test['name'],test['file'])
-
+        
     else:
-        result = format_test_result({"status":False, "message":"Baseline failed"},test['name'],test['file'])
-
-    if baselines is not None:
-        result['baselines'] = baselines
+        test.result = splunk_sdk.test_detection_search(splunk_ip, splunk_port, splunk_password, test.detectionFile.search, test.pass_condition, test.name, test.file, test.earliest_time, test.latest_time)
+        
  
- 
-    
-    if wait_on_completion or (wait_on_failure and (result['status'] == False)):
+    if wait_on_completion or (wait_on_failure and (test.result.success == False)):
         # The user wants to debug the test
         message_template = "\n\n\n****SEARCH {status} : Allowing time to debug search/data****"
-        if result['status'] == False:
+        if test.result.success == False:
             # The test failed
             message_template.format(status="FAILURE")
             
         else:
             #The test passed 
             message_template.format(status="SUCCESS")
-    
+
+        #Just use this to pause on input, we don't do anything with the response
         _ = input(message_template)
 
     splunk_sdk.delete_attack_data(splunk_ip, splunk_password, splunk_port, indices = test_indices)
     
-    
-    return result
+    #Return whether the test passed or failed
+    return test.result.success
 
 def replay_attack_data_file(splunk_ip:str, splunk_port:int, splunk_password:str, attack_data_file:dict, attack_data_folder:str)->str:
     """Function to replay a single attack data file. Any exceptions generated during executing
@@ -244,16 +275,14 @@ def replay_attack_data_files(splunk_ip:str, splunk_port:int, splunk_password:str
             raise(Exception(f"Error replaying attack data file {attack_data_file['file_name']}: {str(e)}"))
     return test_indices
 
-def test_detection(splunk_ip:str, splunk_port:int, splunk_password:str, test_file:Detection, attack_data_root_folder, wait_on_failure:bool, wait_on_completion:bool)->list[dict]:
+def test_detection(splunk_ip:str, splunk_port:int, splunk_password:str, test_file:Detection, attack_data_root_folder, wait_on_failure:bool, wait_on_completion:bool)->bool:
     
 
     abs_folder_path = mkdtemp(prefix="DATA_", dir=attack_data_root_folder)
-    results = execute_tests(splunk_ip, splunk_port, splunk_password, test_file.testFile.tests, abs_folder_path, wait_on_failure, wait_on_completion)
+    success = execute_tests(splunk_ip, splunk_port, splunk_password, test_file.testFile.tests, abs_folder_path, wait_on_failure, wait_on_completion)
     #Delete the folder and all of the data inside of it
     shutil.rmtree(abs_folder_path)
-
-
-    return results
+    return success
 
 
 

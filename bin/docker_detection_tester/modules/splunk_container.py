@@ -437,8 +437,8 @@ class SplunkContainer:
                     wait_on_completion = self.interactive
                 )
                 
-                
-                self.synchronization_object.addResult(result, timeit.default_timer() - current_test_start_time)
+                print("finished with a detection!")
+                #self.synchronization_object.addResult(result, timeit.default_timer() - current_test_start_time)
 
                 
             except Exception as e:
@@ -446,7 +446,7 @@ class SplunkContainer:
                     "Warning - uncaught error in detection test for [%s] - this should not happen: [%s]"
                     % (detection_to_test, str(e))
                 )
-                
+                continue
                 #traceback.print_exc()
                 #import pdb
                 #pdb.set_trace()
