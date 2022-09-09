@@ -13,7 +13,7 @@ from os.path import relpath
 from tempfile import mkdtemp, mkstemp
 
 import splunklib.client as client
-from modules.test_objects import Detection, Test, Baseline, Result
+from modules.test_objects import Detection, Test, Baseline, Result, AttackData
 
 
 
@@ -99,8 +99,6 @@ def execute_baseline(splunk_ip:str, splunk_port:int, splunk_password:str, baseli
 def execute_test(splunk_ip:str, splunk_port:int, splunk_password:str, test:Test, attack_data_folder:str, wait_on_failure:bool, wait_on_completion:bool)->bool:
     print(f"\tExecuting test {test.name}")
     
-    
-
     #replay all of the attack data
     test_indices = replay_attack_data_files(splunk_ip, splunk_port, splunk_password, test.attack_data, attack_data_folder)
 
@@ -135,7 +133,7 @@ def execute_test(splunk_ip:str, splunk_port:int, splunk_password:str, test:Test,
     #Return whether the test passed or failed
     return test.result.success
 
-def replay_attack_data_file(splunk_ip:str, splunk_port:int, splunk_password:str, attack_data_file:dict, attack_data_folder:str)->str:
+def replay_attack_data_file(splunk_ip:str, splunk_port:int, splunk_password:str, attackData:AttackData, attack_data_folder:str)->str:
     """Function to replay a single attack data file. Any exceptions generated during executing
     are intentionally not caught so that they can be caught by the caller.
 
@@ -150,38 +148,40 @@ def replay_attack_data_file(splunk_ip:str, splunk_port:int, splunk_password:str,
         str: index that the attack data has been replayed into on the splunk server
     """
     #Get the index we should replay the data into
-    target_index = attack_data_file.get("custom_index", splunk_sdk.DEFAULT_DATA_INDEX)
+    
 
     descriptor, data_file = mkstemp(prefix="ATTACK_DATA_FILE_", dir=attack_data_folder)
-    if not attack_data_file['file_name'].startswith("https://"):
+    if not attackData.data.startswith("https://"):
         #raise(Exception(f"Attack Data File {attack_data_file['file_name']} does not start with 'https://'. "  
         #                 "In the future, we will add support for non https:// hosted files, such as local files or other files. But today this is an error."))
         
         #We need to do this because if we are working from a file, we can't overwrite/modify the original during a test. We must keep it intact.
-        import shutil
-        shutil.copyfile(attack_data_file['file_name'], data_file)
+        try:
+            shutil.copyfile(attackData.data, data_file)
+        except Exception as e:
+            raise(Exception(f"Unable to copy local attack data file {attackData.data} - {str(e)}"))
         
     
     else:
         #Download the file
-        utils.download_file_from_http(attack_data_file['data'], data_file)
+        utils.download_file_from_http(attackData.data, data_file)
     
     # Update timestamps before replay
-    if attack_data_file.get('update_timestamp', False):
+    if attackData.update_timestamp
         data_manipulation = DataManipulation()
-        data_manipulation.manipulate_timestamp(data_file, attack_data_file['sourcetype'], attack_data_file['source'])    
+        data_manipulation.manipulate_timestamp(data_file, attackData.sourcetype,attackData.source)    
 
     #Get an session from the API
     service = get_service(splunk_ip, splunk_port, splunk_password)
     #Get the index we will be uploading to
-    upload_index = service.indexes[target_index]
+    upload_index = service.indexes[attackData.index]
         
     #Upload the data
     with open(data_file, 'rb') as target:
-        upload_index.submit(target.read(), sourcetype=attack_data_file['sourcetype'], source=attack_data_file['source'], host=splunk_sdk.DEFAULT_EVENT_HOST)
+        upload_index.submit(target.read(), sourcetype=attackData.sourcetype, source=attackData.source, host=splunk_sdk.DEFAULT_EVENT_HOST)
 
     #Wait for the indexing to finish
-    if not splunk_sdk.wait_for_indexing_to_complete(splunk_ip, splunk_port, splunk_password, attack_data_file['sourcetype'], upload_index):
+    if not splunk_sdk.wait_for_indexing_to_complete(splunk_ip, splunk_port, splunk_password, attackData.sourcetype, upload_index):
         raise Exception("There was an error waiting for indexing to complete.")
     
     #Return the name of the index that we uploaded to

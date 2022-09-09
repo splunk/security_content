@@ -446,7 +446,20 @@ class SplunkContainer:
                     "Warning - uncaught error in detection test for [%s] - this should not happen: [%s]"
                     % (detection_to_test, str(e))
                 )
+    
+    
+                ###begin testing block
+                self.num_tests_completed += 1
+
+                # Try to get something from the queue
+                detection_to_test = self.synchronization_object.getTest()
                 continue
+                ###end testing block
+    
+    
+    
+    
+    
                 #traceback.print_exc()
                 #import pdb
                 #pdb.set_trace()

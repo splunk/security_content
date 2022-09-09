@@ -164,3 +164,4 @@ class AttackData:
         self.source = attack_data['source']
         self.sourcetype = attack_data['sourcetype']
         self.index = attack_data.get('custom_index', 'main')
+        self.update_timestamp = attack_data.get("update_timestamp", False)
