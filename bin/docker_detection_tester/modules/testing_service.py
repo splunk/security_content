@@ -19,6 +19,7 @@ from tempfile import mkdtemp, mkstemp
 import datetime
 import http.client
 import splunklib.client as client
+from modules.test_driver import Detection, Test, Baseline
 
 def load_file(file_path):
     try:
@@ -50,7 +51,7 @@ def get_service(splunk_ip:str, splunk_port:int, splunk_password:str):
     return service
 
 
-def execute_tests(splunk_ip:str, splunk_port:int, splunk_password:str, tests:list[dict], attack_data_folder:str, wait_on_failure:bool, wait_on_completion:bool)->list[dict]:
+def execute_tests(splunk_ip:str, splunk_port:int, splunk_password:str, tests:list[Test], attack_data_folder:str, wait_on_failure:bool, wait_on_completion:bool)->list[dict]:
         results = []
         for test in tests:
             try:
@@ -60,6 +61,15 @@ def execute_tests(splunk_ip:str, splunk_port:int, splunk_password:str, tests:lis
                 raise(Exception(f"Unknown error executing test: {str(e)}"))
         return results
             
+
+class Result:
+    def __init__(self, jobResult:dict, testName:str, fileName:str, logic:bool=False, noise:bool=False):
+        self.name = testName
+        self.file = fileName
+        self.logic = logic
+        self.noise = noise
+        
+
 
 def format_test_result(job_result:dict, testName:str, fileName:str, logic:bool=False, noise:bool=False)->dict:
     testResult = {
@@ -92,7 +102,7 @@ def format_test_result(job_result:dict, testName:str, fileName:str, logic:bool=F
     
     return testResult
 
-def execute_baselines(splunk_ip:str, splunk_port:int, splunk_password:str, baselines:list[dict])->Tuple[bool,list[dict]]:
+def execute_baselines(splunk_ip:str, splunk_port:int, splunk_password:str, baselines:list[Baseline])->Tuple[bool,list[dict]]:
     baseline_results = []
     for baseline in baselines:
         formatted_result = execute_baseline(splunk_ip, splunk_port, splunk_password, baseline)        
@@ -104,34 +114,32 @@ def execute_baselines(splunk_ip:str, splunk_port:int, splunk_password:str, basel
 
     return False, baseline_results
 
-def execute_baseline(splunk_ip:str, splunk_port:int, splunk_password:str, baseline:dict)->dict:
-    baseline_file = load_file(os.path.join(os.path.dirname(__file__), '../security_content', baseline['file']))
+def execute_baseline(splunk_ip:str, splunk_port:int, splunk_password:str, baseline:Baseline)->dict:
+    
     result = splunk_sdk.test_detection_search(splunk_ip, splunk_port, splunk_password, 
-                                                baseline['search'], baseline['pass_condition'], 
-                                            baseline_file['name'], baseline['file'], 
-                                            baseline['earliest_time'], baseline['latest_time'])
+                                              baseline.baseline.search, baseline.pass_condition, 
+                                              baseline.name, baseline.earliest_time, baseline.latest_time)
     
     return format_test_result(result, baseline['name'], baseline['file'])
     
-def execute_test(splunk_ip:str, splunk_port:int, splunk_password:str, test:dict, attack_data_folder:str, wait_on_failure:bool, wait_on_completion:bool)->dict:
-    print(f"\tExecuting test {test['name']}")
+def execute_test(splunk_ip:str, splunk_port:int, splunk_password:str, test:Test, attack_data_folder:str, wait_on_failure:bool, wait_on_completion:bool)->dict:
+    print(f"\tExecuting test {test.}")
     
     
 
     #replay all of the attack data
-    test_indices = replay_attack_data_files(splunk_ip, splunk_port, splunk_password, test['attack_data'], attack_data_folder)
+    test_indices = replay_attack_data_files(splunk_ip, splunk_port, splunk_password, test.attack_data, attack_data_folder)
 
     
     error = False
     #Run the baseline(s) if they exist for this test
-    baselines = None
-    if 'baseline' in test:
-        error, baselines = execute_baselines(splunk_ip, splunk_port, splunk_password, test['baselines'])
+    if len(test.baselines) > 0:
+        error, baselines = execute_baselines(splunk_ip, splunk_port, splunk_password, test.baselines)
 
     
     if error == False:
-        detection = load_file(os.path.join(os.path.dirname(__file__), '../security_content/detections', test['file']))
-        job_result = splunk_sdk.test_detection_search(splunk_ip, splunk_port, splunk_password, detection['search'], test['pass_condition'], detection['name'], test['file'], test['earliest_time'], test['latest_time'])
+        
+        job_result = splunk_sdk.test_detection_search(splunk_ip, splunk_port, splunk_password, test.detectionFile.search, test.pass_condition, test.name, test.file, test.earliest_time, test.latest_time)
         result = format_test_result(job_result,test['name'],test['file'])
 
     else:
@@ -236,15 +244,11 @@ def replay_attack_data_files(splunk_ip:str, splunk_port:int, splunk_password:str
             raise(Exception(f"Error replaying attack data file {attack_data_file['file_name']}: {str(e)}"))
     return test_indices
 
-def test_detection(splunk_ip:str, splunk_port:int, splunk_password:str, test_file:str, attack_data_root_folder, wait_on_failure:bool, wait_on_completion:bool)->list[dict]:
+def test_detection(splunk_ip:str, splunk_port:int, splunk_password:str, test_file:Detection, attack_data_root_folder, wait_on_failure:bool, wait_on_completion:bool)->list[dict]:
     
-    #Raises exception if it doesn't find the file
-    test_file_obj = load_file(os.path.join("security_content/", test_file))
-    
-        
 
     abs_folder_path = mkdtemp(prefix="DATA_", dir=attack_data_root_folder)
-    results = execute_tests(splunk_ip, splunk_port, splunk_password, test_file_obj['tests'], abs_folder_path, wait_on_failure, wait_on_completion)
+    results = execute_tests(splunk_ip, splunk_port, splunk_password, test_file.testFile.tests, abs_folder_path, wait_on_failure, wait_on_completion)
     #Delete the folder and all of the data inside of it
     shutil.rmtree(abs_folder_path)
 

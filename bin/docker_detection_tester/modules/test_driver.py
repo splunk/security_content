@@ -40,7 +40,7 @@ class Detection:
         self.detectionFile = DetectionFile(detection_file)
 
         #Infer the test file name from the detection file name
-        self.testFile = TestFile(detection_file = detection_file)
+        self.testFile = TestFile(detectionFile = self.detectionFile)
 
         
     
@@ -68,21 +68,23 @@ class DetectionFile:
 
 
 class TestFile:
-    def __init__(self, detection_file:Union[None, pathlib.Path] = None, test_file:Union[None, pathlib.Path] = None):
+    def __init__(self, detectionFile:DetectionFile, test_file:Union[None, pathlib.Path] = None):
+        self.detectionFile = detectionFile
         if test_file is not None:
+            #Override deriving the test file path from the detection file
             #we already have the test file, so use that path
             pass
-        elif detection_file is not None:
+        else:
             #Infer the test file path
-            detection_file_path_parts = list(detection_file.parts)
+            
+            detection_file_path_parts = list(detectionFile.path.parts)
             detections_folder_index = (len(detection_file_path_parts)-1) - detection_file_path_parts[::-1].index("detections")
             
             detection_file_path_parts[detections_folder_index] = "tests"
             detection_file_path_parts[-1] = detection_file_path_parts[-1].replace(".yml", ".test.yml")
             test_file = pathlib.Path(os.path.join(*detection_file_path_parts))
 
-        else:
-            raise(Exception("Failed to provide Detection File Path or Test File Path for constructing Test."))
+
         
         if not test_file.exists():
             raise(Exception(f"The following test file does not exist: {test_file}"))
@@ -94,27 +96,43 @@ class TestFile:
         self.name = test_data['name']
         self.tests = self.get_tests(test_data['tests'])
     def get_tests(self, test_data:list[dict]):
-        return [Test(t) for t in test_data]
+        return [Test(t,self.detectionFile) for t in test_data]
 
 
 class Test:
-    def __init__(self, test:dict):
-        setattr(self, "name", test['name'])
-        setattr(self, "file", test['file'])
-        setattr(self, "pass_condition", test['pass_condition'])
-        setattr(self, "earliest_time", test['earliest_time'])
-        setattr(self, "latest_time", test['latest_time'])
-        self.attack_data = self.get_attack_data(test['attack_data'])
+    def __init__(self, test:dict, detectionFile:DetectionFile):
+        self.detectionFile = detectionFile
+        self.name = test['name']
+        self.file = test['file']
+        self.pass_condition = test['pass_condition']
+        self.earliest_time = test['earliest_time']
+        self.latest_time = test['latest_time']
+        self.attack_data = test['attack_data']
+        self.baselines = self.getBaselines(test.get("baselines",[]))
     def get_attack_data(self, attack_datas: list[dict]):
         return [AttackData(d) for d in attack_datas]
+    
+    def getBaselines(self, baselines: list[dict]):
+        return [Baseline(b) for b in baselines]
+    
+
+class Baseline:
+    def __init__(self, baseline:dict):
+        self.name = baseline['name']
+        self.file = baseline['file']
+        self.pass_condition = baseline['pass_condition']
+        self.earliest_time = baseline['earliest_time']
+        self.latest_time = baseline['latest_time']
+        self.baseline = DetectionFile(pathlib.Path(self.file))
+        
 
 class AttackData:
     def __init__(self, attack_data:dict):
-        setattr(self, "file_name", attack_data['file_name'])
-        setattr(self, "data", attack_data['data'])
-        setattr(self, "source", attack_data['source'])
-        setattr(self, "sourcetype", attack_data['sourcetype'])
-        setattr(self, "index", attack_data.get('custom_index', "main"))
+        self.file_name = attack_data['file_name']
+        self.data = attack_data['data']
+        self.source = attack_data['source']
+        self.sourcetype = attack_data['sourcetype']
+        self.index = attack_data.get('custom_index', 'main')
 
 class TestDriver:
     def __init__(self, tests:list[Detection], num_containers:int, summarization_reproduce_failure_config:dict):
@@ -189,7 +207,7 @@ class TestDriver:
             return True
         
 
-    def getTest(self)-> Union[str,None]:
+    def getTest(self)-> Union[Detection,None]:
         
         failure = self.checkContainerFailure()
         
