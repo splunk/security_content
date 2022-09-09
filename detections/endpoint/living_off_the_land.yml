@@ -1,7 +1,7 @@
 name: Living Off The Land
 id: 1be30d80-3a39-4df9-9102-64a467b24abc
-version: 1
-date: '2022-07-08'
+version: 2
+date: '2022-09-09'
 author: Michael Haag, Splunk
 type: Correlation
 datamodel:
