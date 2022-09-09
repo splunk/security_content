@@ -90,9 +90,6 @@ class GithubService:
 
         self.commit_hash = commit_hash
 
-        
-
-
     def update_and_commit_passed_tests(self, results:list[dict])->bool:
         
         changed_file_paths = []
