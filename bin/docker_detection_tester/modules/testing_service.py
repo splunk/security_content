@@ -3,36 +3,17 @@ import re
 import shutil
 
 #import ansible_runner
-import yaml
-import uuid
-import sys
-import os
-import time
-import requests
+
 from modules.DataManipulation import DataManipulation
 from modules import utils
 from modules import splunk_sdk
-import timeit
-from typing import Union, Tuple
+
+
 from os.path import relpath
 from tempfile import mkdtemp, mkstemp
-import datetime
-import http.client
+
 import splunklib.client as client
-from modules.test_driver import Detection, Test, Baseline
-
-def load_file(file_path):
-    try:
-
-        with open(file_path, 'r', encoding="utf-8") as stream:
-            try:
-                file = list(yaml.safe_load_all(stream))[0]
-            except yaml.YAMLError as exc:
-                raise(Exception("ERROR: parsing YAML for {0}:[{1}]".format(file_path, str(exc))))
-    except Exception as e:
-        raise(Exception("ERROR: opening {0}:[{1}]".format(file_path, str(e))))
-    return file
-
+from modules.test_objects import Detection, Test, Baseline, Result
 
 
 
@@ -64,52 +45,7 @@ def execute_tests(splunk_ip:str, splunk_port:int, splunk_password:str, tests:lis
         return success
             
 
-class Result:
-    def __init__(self, generated_exception:Union[dict,None] = None, no_exception:Union[dict,None]=None):
 
-        #always include all of these fields, even if there is an         
-        self.runDuration = None
-        self.scanCount = None
-        self.eventCount = None
-        self.resultCount = None
-        self.performance = None
-        self.search = None
-        self.message = None
-        self.exception = False
-        self.success = False
-
-        if generated_exception is not None:
-            self.message = generated_exception['message']
-            self.logic = False
-            self.noise = False
-            self.exception = True
-        elif no_exception is not None:
-            self.exception = False            
-            self.noise = False
-            if no_exception['eventCount'] == 1:
-                self.logic = True
-                self.message = "Test execution successful"
-
-            else:
-                self.logic = False
-                self.message = "Test execution failed - search did not return any results"
-            
-            #populate all the fields we want to populate for a test that ran to completion
-            self.runDuration = no_exception['runDuration']
-            self.scanCount = no_exception['scanCount']
-            self.eventCount = no_exception['eventCount']
-            self.resultCount = no_exception['resultCount']
-            self.performance = no_exception['performance']
-            self.search = no_exception['search']
-
-            #This may change in the future as we include different types of tests like noise
-            self.success = self.logic
-        
-        else:
-            raise(Exception("Result created with indeterminate success"))
-
-        
-        
 
 
 def format_test_result(job_result:dict, testName:str, fileName:str, logic:bool=False, noise:bool=False)->dict:
