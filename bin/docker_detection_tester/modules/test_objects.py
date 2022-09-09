@@ -152,8 +152,8 @@ class Baseline:
         self.pass_condition = baseline['pass_condition']
         self.earliest_time = baseline['earliest_time']
         self.latest_time = baseline['latest_time']
-        self.baseline = DetectionFile(pathlib.Path(self.file))
-
+        print("Warning loading baseline - we are resolving to a static path and must fix this")
+        self.baseline = DetectionFile(pathlib.Path(os.path.join("security_content",self.file)))
         self.result:Union[None,Result] = None
         
 
