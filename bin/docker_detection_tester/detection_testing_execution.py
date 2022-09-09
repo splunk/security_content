@@ -28,6 +28,7 @@ import requests
 import requests.packages.urllib3
 from docker.client import DockerClient
 from requests import get
+from modules.test_driver import Detection
 
 
 
@@ -237,14 +238,17 @@ def generate_escu_app(persist_security_content: bool = False) -> str:
 
 
 
-def finish_mock(settings: dict, detections: list[str], output_file_template: str = "prior_config/config_tests_%d.json")->bool:
+def finish_mock(settings: dict, detections: list[Detection], output_file_template: str = "prior_config/config_tests_%d.json")->bool:
     num_containers = settings['num_containers']
 
+    #convert the list of Detection objects into a list of filename strings
+    detection_filesnames = [str(d.detectionFile.path) for d in detections]
+    print(detection_filesnames)
     for output_file_index in range(0, num_containers):
         fname = output_file_template % (output_file_index)
 
         # Get the n'th detection for this file
-        detection_tests = detections[output_file_index::num_containers]
+        detection_tests = detection_filesnames[output_file_index::num_containers]
         normalized_detection_names = []
         # Normalize the test filename to the name of the detection instead.
         # These are what we should write to the file
@@ -379,6 +383,9 @@ def main(args: list[str]):
               "\n\tPR         : [%s]\n\tQuitting..."%
               (str(e),settings['commit_hash'],settings['branch'],settings['pr_number']),file=sys.stderr)
         sys.exit(1)
+    
+    
+    
 
     #passes = [{'search_string': '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.process_name ="7z.exe" OR Processes.process_name = "7za.exe" OR Processes.original_file_name = "7z.exe" OR Processes.original_file_name =  "7za.exe") AND (Processes.process="*\\\\C$\\\\*" OR Processes.process="*\\\\Admin$\\\\*" OR Processes.process="*\\\\IPC$\\\\*") by Processes.original_file_name Processes.parent_process_name Processes.parent_process Processes.process_name Processes.process Processes.parent_process_id Processes.process_id  Processes.dest Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `7zip_commandline_to_smb_share_path_filter` | stats count | where count > 0', 'detection_name': '7zip CommandLine To SMB Share Path', 'detection_file': 'endpoint/7zip_commandline_to_smb_share_path.yml', 'success': True, 'error': False, 'diskUsage': '286720', 'runDuration': '0.922', 'scanCount': '4897'}]
     #github_service.update_and_commit_passed_tests(passes)
@@ -392,10 +399,11 @@ def main(args: list[str]):
         sys.exit(1)
 
     try:
-        all_test_files = github_service.get_test_files(settings['mode'],
-                                                    settings['folders'],
-                                                    settings['types'],
-                                                    settings['detections_list'])
+        all_detections = github_service.detections_to_test(settings['mode'])
+        #all_test_files = github_service.get_test_files(settings['mode'],
+        #                                            settings['folders'],
+        #                                            settings['types'],
+        #                                            settings['detections_list'])
         
         #We randomly shuffle this because there are likely patterns in searches.  For example,
         #cloud/endpoint/network likely have different impacts on the system.  By shuffling,
@@ -403,14 +411,17 @@ def main(args: list[str]):
         #we are running on GitHub Actions against multiple machines.  Hopefully, this
         #will reduce that chnaces the some machines run and complete quickly while
         #others take a long time.
-        random.shuffle(all_test_files)        
+        random.shuffle(all_detections)        
+    
+    
+    
 
     except Exception as e:
         print("Error getting test files:\n%s"%(str(e)), file=sys.stderr)
         print("\tQuitting...", file=sys.stderr)
         sys.exit(1)
 
-    print("***This run will test [%d] detections!***"%(len(all_test_files)))
+    print("***This run will test [%d] detections!***"%(len(all_detections)))
     
 
     
@@ -448,7 +459,7 @@ def main(args: list[str]):
     # If this is a mock run, finish it now
     if settings['mock']:
         #The function below 
-        if finish_mock(settings, all_test_files):
+        if finish_mock(settings, all_detections):
             # mock was successful!
             print("Mock successful!  Manifests generated!")
             sys.exit(0)
@@ -503,7 +514,7 @@ def main(args: list[str]):
     signal.signal(signal.SIGINT, shutdown_signal_handler_setup)
 
     try:
-        cm = container_manager.ContainerManager(all_test_files,
+        cm = container_manager.ContainerManager(all_detections,
                                                 FULL_DOCKER_HUB_CONTAINER_NAME,
                                                 settings['local_base_container_name'],
                                                 settings['num_containers'],

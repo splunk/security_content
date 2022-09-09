@@ -11,7 +11,9 @@ import datetime
 import git
 import yaml
 from git.objects import base
+from modules.test_driver import Detection
 from modules import testing_service
+
 import pathlib
 
 # Logger
@@ -146,7 +148,7 @@ class GithubService:
         repo_obj = git.Repo.clone_from(url, project, branch=branch)
         return repo_obj
 
-    def detections_to_test(self, mode:str, ignore_experimental:bool = True, ignore_deprecated:bool = True, ignore_ssa:bool = True, allowed_types:list[str] = ["Anomaly", "Hunting", "TTP"]):
+    def detections_to_test(self, mode:str, ignore_experimental:bool = True, ignore_deprecated:bool = True, ignore_ssa:bool = True, allowed_types:list[str] = ["Anomaly", "Hunting", "TTP"])->list[Detection]:
         
         detections = list(pathlib.Path("./security_content/detections/").rglob("*.yml"))
         print(f"Total detections loaded from the directory: {len(detections)}")
@@ -160,12 +162,12 @@ class GithubService:
         print(f"Total detections loaded after removal of experimental, deprecated, and ssa: {len(detections)}")
         #We are down to just the detections we care about
         #Parse and load each of them, which will ensure that they pass their validations
-        import modules.test_driver
-        detection_objects:list[modules.test_driver.Detection] = []
+        
+        detection_objects:list[Detection] = []
         errors = []
         for detection in detections:
             try:
-                detection_objects.append(modules.test_driver.Detection(detection))
+                detection_objects.append(Detection(detection))
             except Exception as e:
                 errors.append(f"Error parsing detection {detection}: {str(e)}")
 
@@ -197,8 +199,8 @@ class GithubService:
         else:
             raise(Exception(f"Unsupported mode {mode}.  Supported modes are {['changes', 'all', 'selected']}"))
         print(f"Finally the number is: {len(detection_objects)}")
-        for d in detection_objects:
-            print(d.detectionFile.name)
+        
+        return detection_objects
         
 
     def get_all_modified_content(self, paths:list[pathlib.Path]=[pathlib.Path('detections/'),pathlib.Path('tests/') ])->Tuple[list[pathlib.Path], list[pathlib.Path]]:

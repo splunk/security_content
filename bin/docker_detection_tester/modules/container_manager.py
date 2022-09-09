@@ -14,6 +14,7 @@ import time
 import timeit
 
 from typing import Union
+from modules.test_driver import Detection
 
 WEB_PORT_STRING = "8000/tcp"
 MANAGEMENT_PORT_STRING = "8089/tcp"
@@ -22,7 +23,7 @@ MANAGEMENT_PORT_STRING = "8089/tcp"
 class ContainerManager:
     def __init__(
         self,
-        test_list: list[str],
+        test_list: list[Detection],
         full_docker_hub_name: str,
         container_name_template: str,
         num_containers: int,

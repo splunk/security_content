@@ -117,7 +117,7 @@ class AttackData:
         setattr(self, "index", attack_data.get('custom_index', "main"))
 
 class TestDriver:
-    def __init__(self, tests:list[str], num_containers:int, summarization_reproduce_failure_config:dict):
+    def __init__(self, tests:list[Detection], num_containers:int, summarization_reproduce_failure_config:dict):
         #Create the queue and enque all of the tests
         self.testing_queue = queue.Queue()
         for test in tests:
