@@ -5,7 +5,7 @@ import os
 import pathlib
 import subprocess
 import sys
-from typing import Union
+from typing import Union, Tuple
 from docker import types
 import datetime
 import git
@@ -20,7 +20,7 @@ LOGGER = logging.getLogger(__name__)
 
 SECURITY_CONTENT_URL = "https://github.com/splunk/security_content"
 
-
+MAIN_BRANCH = "develop"
 DETECTION_ROOT_PATH      = "security_content/detections"
 TEST_ROOT_PATH           = "security_content/tests"
 DETECTION_FILE_EXTENSION = ".yml"
@@ -30,7 +30,7 @@ class GithubService:
 
 
     def __init__(self, security_content_branch: str, commit_hash: Union[str,None], PR_number: Union[int,None] = None, persist_security_content: bool = False):
-
+        self.main_branch = MAIN_BRANCH
         self.security_content_branch = security_content_branch
         if persist_security_content:
             print("Getting handle on existing security_content repo!")
@@ -149,7 +149,7 @@ class GithubService:
         repo_obj = git.Repo.clone_from(url, project, branch=branch)
         return repo_obj
 
-    def detections_to_test(self, ignore_experimental:bool = True, ignore_deprecated:bool = True, ignore_ssa:bool = True, allowed_types:list[str] = ["Anomaly", "Hunting", "TTP"]):
+    def detections_to_test(self, mode:str, ignore_experimental:bool = True, ignore_deprecated:bool = True, ignore_ssa:bool = True, allowed_types:list[str] = ["Anomaly", "Hunting", "TTP"]):
         
         detections = list(pathlib.Path("./security_content/detections/").rglob("*.yml"))
         print(f"Total detections loaded from the directory: {len(detections)}")
@@ -164,7 +164,7 @@ class GithubService:
         #We are down to just the detections we care about
         #Parse and load each of them, which will ensure that they pass their validations
         import modules.test_driver
-        detection_objects = []
+        detection_objects:list[modules.test_driver.Detection] = []
         errors = []
         for detection in detections:
             try:
@@ -174,7 +174,8 @@ class GithubService:
 
         if len(errors) != 0:
             all_errors_string = '\n\t'.join(errors)
-            raise Exception(f"The following errors were encountered while parsing detections:\n\t{all_errors_string}")
+            #raise Exception(f"The following errors were encountered while parsing detections:\n\t{all_errors_string}")
+            print(f"The following errors were encountered while parsing detections:\n\t{all_errors_string}")
 
 
         print(f"Detection objects that were parsed: {len(detection_objects)}")
@@ -183,6 +184,34 @@ class GithubService:
         detection_objects = [d for d in detection_objects if d.detectionFile.type in allowed_types]
 
         print(f"Detection objects after downselecting to {allowed_types}: {len(detection_objects)}")
+
+        
+        if mode=="changes":
+            print("begin diff")
+            untracked_files, changed_files = self.get_all_modified_content()
+            modified_content = untracked_files + changed_files
+            
+            detection_objects = [o for o in detection_objects if pathlib.Path(os.path.join(*o.detectionFile.path.parts[1:])) in modified_content or pathlib.Path(os.path.join(*o.testFile.path.parts[1:])) in modified_content]
+            print("end diff")
+        elif mode=="all":
+            pass
+        elif mode=="selected":
+            raise(Exception("mode 'selected' not supported yet"))
+        else:
+            raise(Exception(f"Unsupported mode {mode}.  Supported modes are {['changes', 'all', 'selected']}"))
+        print(f"Finally the number is: {len(detection_objects)}")
+        for d in detection_objects:
+            print(d.detectionFile.name)
+        
+
+    def get_all_modified_content(self, paths:list[pathlib.Path]=[pathlib.Path('detections/'),pathlib.Path('tests/') ])->Tuple[list[pathlib.Path], list[pathlib.Path]]:
+        
+        all_changes = self.security_content_repo_obj.head.commit.diff(self.main_branch, paths=[str(path) for path in paths])
+        
+        untracked_files = [pathlib.Path(p) for p in self.security_content_repo_obj.untracked_files]
+        changed_files = [pathlib.Path(p.a_path) for p in all_changes]
+        return untracked_files, changed_files
+
 
 
     def prune_detections(self,
