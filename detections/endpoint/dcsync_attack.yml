@@ -38,9 +38,8 @@ tags:
   - Credential Dumping
   asset_type: Endpoint
   cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
+  - CIS 4
+  - CIS 6
   confidence: 80
   context:
     - Source:Endpoint

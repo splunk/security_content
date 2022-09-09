@@ -37,9 +37,7 @@ tags:
   - Windows Persistence Techniques
   asset_type: Endpoint
   cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
+  - CIS 6
   confidence: 100
   context:
   - Source:Endpoint

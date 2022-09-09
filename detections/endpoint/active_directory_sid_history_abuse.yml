@@ -15,8 +15,9 @@ search: '`wineventlog_security` (EventCode=4742 OR EventCode=4738) NOT SidHistor
   | rex field=SidHistory "(^%{|^)(?P<SidHistoryMatch>.*)(\-|\\\)"
   | rex field=TargetSid "^(?P<TargetSidmatch>.*)(\-|\\\)"
   | where SidHistoryMatch=TargetSidmatch OR SidHistoryMatch=TargetDomainName
-  | rename TargetSid as userSid
-  | table _time action status host user userSid SidHistory Logon_ID src_user | `active_directory_sid_history_abuse_filter`'
+  | rename TargetSid as userSid, TargetDomainName as userDomainName
+  | table _time action status host user userSid userDomainName SidHistory Logon_ID src_user 
+  | `active_directory_sid_history_abuse_filter`'
 how_to_implement: To successfully implement this search, you ned to be ingesting eventcodes
  `4738` and `4742`. The Advanced Security Audit policy settings 
  `Audit User Account Management` and  `Audit Computer Account Management`
@@ -30,8 +31,8 @@ tags:
   - Windows Persistence Techniques
   asset_type: Endpoint
   cis20:
-  - CIS 3
-  - CIS 5
+  - CIS 4
+  - CIS 6
   - CIS 16
   confidence: 90
   context:
