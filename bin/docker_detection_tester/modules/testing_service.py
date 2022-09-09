@@ -167,7 +167,7 @@ def replay_attack_data_file(splunk_ip:str, splunk_port:int, splunk_password:str,
         utils.download_file_from_http(attackData.data, data_file)
     
     # Update timestamps before replay
-    if attackData.update_timestamp
+    if attackData.update_timestamp:
         data_manipulation = DataManipulation()
         data_manipulation.manipulate_timestamp(data_file, attackData.sourcetype,attackData.source)    
 
@@ -192,7 +192,7 @@ def replay_attack_data_file(splunk_ip:str, splunk_port:int, splunk_password:str,
 
     
 
-def replay_attack_data_files(splunk_ip:str, splunk_port:int, splunk_password:str, attack_data_files:list[dict], attack_data_folder:str)->set[str]:
+def replay_attack_data_files(splunk_ip:str, splunk_port:int, splunk_password:str, attackDataObjects:list[AttackData], attack_data_folder:str)->set[str]:
     """Replay all attack data files into a splunk server as part of testing a detection. Note that this does not catch
     any exceptions, they should be handled by the caller
 
@@ -204,11 +204,11 @@ def replay_attack_data_files(splunk_ip:str, splunk_port:int, splunk_password:str
         attack_data_folder (str): The folder for downloaded or copied attack data to reside
     """
     test_indices = set()
-    for attack_data_file in attack_data_files:
+    for attack_data_file in attackDataObjects:
         try:
             test_indices.add(replay_attack_data_file(splunk_ip, splunk_port, splunk_password, attack_data_file, attack_data_folder))
         except Exception as e:
-            raise(Exception(f"Error replaying attack data file {attack_data_file['file_name']}: {str(e)}"))
+            raise(Exception(f"Error replaying attack data file {attack_data_file.data}: {str(e)}"))
     return test_indices
 
 def test_detection(splunk_ip:str, splunk_port:int, splunk_password:str, test_file:Detection, attack_data_root_folder, wait_on_failure:bool, wait_on_completion:bool)->bool:
