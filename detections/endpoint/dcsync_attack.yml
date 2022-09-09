@@ -54,6 +54,7 @@ tags:
   message: DCSync Attack Detected from $src$
   mitre_attack_id:
   - T1003.006
+  - T1003
   nist:
   - DE.CM
   observable:

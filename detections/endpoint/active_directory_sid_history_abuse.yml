@@ -46,6 +46,7 @@ tags:
   message: Active Directory SID History Attribute was added to $user$ by $src_user$
   mitre_attack_id:
   - T1134.005
+  - T1134
   nist:
   - DE.CM
   observable:
@@ -66,6 +67,7 @@ tags:
   - EventCode
   - SidHistory
   - TargetSid
+  - TargetDomainName
   - user
   - src_user
   - Logon_ID
