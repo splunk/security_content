@@ -86,11 +86,13 @@ def get_number_of_indexed_events(splunk_host, splunk_port, splunk_password, inde
         #OrderedDict([('count', '59630')])
         results_stream = job.results(output_mode='json')
         count = None
+        num_results = 0
         for res in results.JSONResultsReader(results_stream):
-            if isinstance(res, dict) and 'count' is res:
+            num_results += 1
+            if isinstance(res, dict) and 'count' in res:
                 count = int(res['count'],10)
         if count is None:
-            raise Exception(f"Expected the get_number_of_indexed_events search to only return 1 count, but got {len(search_results)} instead.")
+            raise Exception(f"Expected the get_number_of_indexed_events search to only return 1 count, but got {num_results} instead.")
         
         return count    
 

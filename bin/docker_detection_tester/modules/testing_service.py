@@ -33,6 +33,7 @@ def get_service(splunk_ip:str, splunk_port:int, splunk_password:str):
 
 
 def execute_tests(splunk_ip:str, splunk_port:int, splunk_password:str, tests:list[Test], attack_data_folder:str, wait_on_failure:bool, wait_on_completion:bool)->bool:
+        
         success = True
         for test in tests:
             try:
@@ -111,22 +112,25 @@ def execute_test(splunk_ip:str, splunk_port:int, splunk_password:str, test:Test,
         
         
     else:
-        test.result = splunk_sdk.test_detection_search(splunk_ip, splunk_port, splunk_password, test.detectionFile.search, test.pass_condition, test.name, test.file, test.earliest_time, test.latest_time)
+        test.result = splunk_sdk.test_detection_search(splunk_ip, splunk_port, splunk_password, test.detectionFile.search, test.pass_condition, test.name, test.earliest_time, test.latest_time)
         
  
     if wait_on_completion or (wait_on_failure and (test.result.success == False)):
         # The user wants to debug the test
-        message_template = "\n\n\n****SEARCH {status} : Allowing time to debug search/data****"
+        message_template = "\n\n\n****SEARCH {status} : Allowing time to debug search/data****\nPress ENTER to continue..."
         if test.result.success == False:
             # The test failed
-            message_template.format(status="FAILURE")
+            formatted_message = message_template.format(status="FAILURE")
             
         else:
             #The test passed 
-            message_template.format(status="SUCCESS")
+            formatted_message = message_template.format(status="SUCCESS")
 
         #Just use this to pause on input, we don't do anything with the response
-        _ = input(message_template)
+        print(f"DETECTION FILE: {test.detectionFile.path}")
+        print(f"DETECTION SEARCH: {test.result.search}")
+        print(test.detectionFile.search)
+        _ = input(formatted_message)
 
     splunk_sdk.delete_attack_data(splunk_ip, splunk_password, splunk_port, indices = test_indices)
     
@@ -148,8 +152,8 @@ def replay_attack_data_file(splunk_ip:str, splunk_port:int, splunk_password:str,
         str: index that the attack data has been replayed into on the splunk server
     """
     #Get the index we should replay the data into
+    print("replaying single attack data file")
     
-
     descriptor, data_file = mkstemp(prefix="ATTACK_DATA_FILE_", dir=attack_data_folder)
     if not attackData.data.startswith("https://"):
         #raise(Exception(f"Attack Data File {attack_data_file['file_name']} does not start with 'https://'. "  
@@ -157,6 +161,7 @@ def replay_attack_data_file(splunk_ip:str, splunk_port:int, splunk_password:str,
         
         #We need to do this because if we are working from a file, we can't overwrite/modify the original during a test. We must keep it intact.
         try:
+            print(f"copy from {attackData.data}-->{data_file}")
             shutil.copyfile(attackData.data, data_file)
         except Exception as e:
             raise(Exception(f"Unable to copy local attack data file {attackData.data} - {str(e)}"))
@@ -164,12 +169,17 @@ def replay_attack_data_file(splunk_ip:str, splunk_port:int, splunk_password:str,
     
     else:
         #Download the file
+        print(f"download from {attackData.data}-->{data_file}")
         utils.download_file_from_http(attackData.data, data_file)
     
     # Update timestamps before replay
     if attackData.update_timestamp:
         data_manipulation = DataManipulation()
-        data_manipulation.manipulate_timestamp(data_file, attackData.sourcetype,attackData.source)    
+        print(f"ABSOLUTE FILE PATH: {data_file}")
+        import os
+        relpath = os.path.relpath(data_file)
+        print(f"RELATIVE FILE PATH: {relpath}")
+        data_manipulation.manipulate_timestamp(relpath, attackData.sourcetype,attackData.source)    
 
     #Get an session from the API
     service = get_service(splunk_ip, splunk_port, splunk_password)
@@ -177,6 +187,7 @@ def replay_attack_data_file(splunk_ip:str, splunk_port:int, splunk_password:str,
     upload_index = service.indexes[attackData.index]
         
     #Upload the data
+    print(f"the data file is: {data_file}")
     with open(data_file, 'rb') as target:
         upload_index.submit(target.read(), sourcetype=attackData.sourcetype, source=attackData.source, host=splunk_sdk.DEFAULT_EVENT_HOST)
 
@@ -184,8 +195,9 @@ def replay_attack_data_file(splunk_ip:str, splunk_port:int, splunk_password:str,
     if not splunk_sdk.wait_for_indexing_to_complete(splunk_ip, splunk_port, splunk_password, attackData.sourcetype, upload_index):
         raise Exception("There was an error waiting for indexing to complete.")
     
+    print('done waiting')
     #Return the name of the index that we uploaded to
-    return upload_index
+    return attackData.index
 
 
 
@@ -203,6 +215,7 @@ def replay_attack_data_files(splunk_ip:str, splunk_port:int, splunk_password:str
         attack_data_files (list[dict]): A list of dicts containing information about the attack data file
         attack_data_folder (str): The folder for downloaded or copied attack data to reside
     """
+    print('replaying all attack data')
     test_indices = set()
     for attack_data_file in attackDataObjects:
         try:
@@ -217,7 +230,7 @@ def test_detection(splunk_ip:str, splunk_port:int, splunk_password:str, test_fil
     abs_folder_path = mkdtemp(prefix="DATA_", dir=attack_data_root_folder)
     success = execute_tests(splunk_ip, splunk_port, splunk_password, test_file.testFile.tests, abs_folder_path, wait_on_failure, wait_on_completion)
     #Delete the folder and all of the data inside of it
-    shutil.rmtree(abs_folder_path)
+    #shutil.rmtree(abs_folder_path)
     return success
 
 

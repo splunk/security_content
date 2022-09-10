@@ -420,9 +420,12 @@ def main(args: list[str]):
         print("Error getting test files:\n%s"%(str(e)), file=sys.stderr)
         print("\tQuitting...", file=sys.stderr)
         sys.exit(1)
-
+    
+    print("only do a few detections")
+    all_detections = all_detections[:5]
     print("***This run will test [%d] detections!***"%(len(all_detections)))
     
+
 
     
 

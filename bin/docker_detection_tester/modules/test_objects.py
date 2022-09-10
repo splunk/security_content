@@ -134,9 +134,8 @@ class Test:
         self.pass_condition = test['pass_condition']
         self.earliest_time = test['earliest_time']
         self.latest_time = test['latest_time']
-        self.attack_data = test['attack_data']
+        self.attack_data = self.get_attack_data(test['attack_data'])
         self.baselines = self.getBaselines(test.get("baselines",[]))
-
         self.result:Union[None, Result] = None
     def get_attack_data(self, attack_datas: list[dict]):
         return [AttackData(d) for d in attack_datas]
