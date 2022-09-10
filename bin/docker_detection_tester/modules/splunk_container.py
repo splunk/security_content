@@ -438,14 +438,16 @@ class SplunkContainer:
                 )
                 
                 print("finished with a detection!")
+                self.synchronization_object.addResult(detection_to_test)
                 #self.synchronization_object.addResult(result, timeit.default_timer() - current_test_start_time)
 
                 
             except Exception as e:
                 print(
                     "Warning - uncaught error in detection test for [%s] - this should not happen: [%s]"
-                    % (detection_to_test, str(e))
+                    % (detection_to_test.testFile.path, str(e))
                 )
+                self.synchronization_object.addResult(detection_to_test)
     
     
                 ###begin testing block

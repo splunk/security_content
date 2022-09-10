@@ -14,7 +14,7 @@ import time
 import timeit
 
 from typing import Union
-from modules.test_driver import Detection
+from modules.test_objects import ResultsManager, Detection
 
 WEB_PORT_STRING = "8000/tcp"
 MANAGEMENT_PORT_STRING = "8089/tcp"
@@ -52,6 +52,7 @@ class ContainerManager:
 
         self.mounts = self.create_mounts(mounts)
         self.apps = apps
+        
         
 
         if container_password is None:

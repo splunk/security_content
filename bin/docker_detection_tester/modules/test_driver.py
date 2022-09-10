@@ -19,7 +19,10 @@ import summarize_json
 import pathlib
 import yaml
 
-from modules.test_objects import Detection
+from modules.test_objects import Detection, ResultsManager
+
+
+
 
 
 
@@ -36,9 +39,7 @@ class TestDriver:
         #Creates a lock that will be used to synchronize access to this object
         self.lock = threading.Lock()
         self.start_time = timeit.default_timer()
-        self.failures = []
-        self.successes = []
-        self.errors = []
+        self.results = queue.Queue()
         self.container_ready_time = None
         
         #No containers have failed
@@ -59,7 +60,8 @@ class TestDriver:
         # Warning the first time this function is called with interval = 0.0 or None it will return a meaningless 0.0 value which you are supposed to ignore.
         # We call this exactly once here to prime for future calls and throw away the result
         cpu_info = psutil.cpu_times_percent(percpu=False)
-            
+        
+        self.resultsManager = ResultsManager()
 
     def checkContainerFailure(self)->bool:
         
@@ -113,40 +115,6 @@ class TestDriver:
         except Exception as e:
             return None
         
-    def addSuccess(self, result:dict, duration_string:str)->None:
-        print("Test PASSED: [%s --> %s] in %s"%(result['detection_name'], result['detection_file'], duration_string))
-        self.lock.acquire()
-        try:
-            self.successes.append(result)
-        finally:
-            self.lock.release()
-        
-
-    def addFailure(self, result:dict, duration_string:str)->None:
-        print("Test FAILED: [%s --> %s] in %s"%(result['detection_name'], result['detection_file'], duration_string))
-        self.lock.acquire()
-        try:
-            self.failures.append(result)
-        finally:
-            self.lock.release()
-
-    def addError(self, result:dict, duration_string:str)->None:
-        #Make sure that even errors have all of the required fields.
-        for required_field in ['search_string', 'diskUsage','runDuration', 'detection_name', 'scanCount', 'detection_error', 'detection_file']:
-            if required_field not in result:
-                result[required_field] = ""
-        if  'error' not in result:
-            result['error'] = True
-        if  'success' not in result:
-            result['success'] = False
-        print("Test ERROR: [%s --> %s] in %s"%(result['detection_name'], result['detection_file'], duration_string))
-        self.lock.acquire()
-        try:
-            self.errors.append(result)
-        finally:
-            self.lock.release()
-    
-
     def outputResultsCSV(self, field_names:list[str], output_filename:str, data:list[dict], baseline:OrderedDict)->bool:
         success = True
 
@@ -186,60 +154,11 @@ class TestDriver:
 
         return success
 
-    def outputResultsJSON(self, field_names:list[str], output_filename:str, data:list[dict], baseline:OrderedDict)->bool:
-        success = True
-        try:
-            with open(output_filename, "w") as jsonFile:
-                json.dump({'baseline': baseline, 'results':data}, jsonFile, indent="   ")
-        except Exception as e:
-            print("There was an error generating [%s]: [%s]"%(output_filename, str(e)))
-            success = False
-        return success
-        
-    def outputResultsFile(self, field_names:list[str], output_filename:str, data:list[dict], baseline:OrderedDict, output_json:bool=True, output_csv:bool=True)->bool:
-        success = True
-        if output_csv:
-            success |= self.outputResultsCSV(field_names, output_filename + ".csv", data, baseline)
-        if output_json:
-            success |= self.outputResultsJSON(field_names, output_filename + ".json", data, baseline)
-        return success
-        
-
-    def outputResultsFiles(self, baseline:OrderedDict, fields:list[str]=['detection_name', 'detection_file','runDuration','diskUsage', 'search_string', 'error', 'success', 'scanCount', 'detection_error'])->bool:
-        results_directory = "test_results"
-        try:
-            shutil.rmtree(results_directory,ignore_errors=True)
-            os.mkdir(results_directory)
-        except Exception as e:
-            print("There was an error removing the results directory [%s]: [%s].\n\t We will try to continue output anyway."%(results_directory, str(e)))
-
-
-        res = self.outputResultsFile(fields,os.path.join(results_directory, "success"), self.successes, baseline)
-        res |= self.outputResultsFile(fields, os.path.join(results_directory, "failure"), self.failures, baseline)
-        res |= self.outputResultsFile(fields, os.path.join(results_directory, "error"), self.errors, baseline)
-        combined_data = self.successes + self.failures + self.errors
-        res |= self.outputResultsFile(fields, os.path.join(results_directory, "combined"), combined_data, baseline)
-        
-        try:
-            success, test_count,pass_count,fail_count,error_count = \
-                summarize_json.outputResultsJSON("summary.json", combined_data, 
-                                                 baseline, output_folder=results_directory, 
-                                                 summarization_reproduce_failure_config=self.summarization_reproduce_failure_config)
-            summarize_json.print_summary(test_count, pass_count, fail_count, error_count)
-            res |= success
-        except Exception as e:
-            print("Failure writing the summary file: [%s]"%str(e),file=sys.stderr)
-            res = False
-
-        return res
+    
 
     def finish(self, baseline:OrderedDict):
         self.cleanup()
         success = True
-        if self.outputResultsFiles(baseline) == False:
-            print("There was an error generating one or more of the output files. "\
-                  "Check the logs for details.",file=sys.stderr)
-            success = False
         
 
         if self.checkContainerFailure():
@@ -301,7 +220,7 @@ class TestDriver:
                     
                     self.container_ready_time = current_time
 
-                numberOfCompletedTests = len(self.successes) + len(self.failures) + len(self.errors)
+                numberOfCompletedTests = self.resultsManager.result_count
                 remaining_tests = self.testing_queue.qsize()         
                 testsCurrentlyRunning = self.total_number_of_tests - remaining_tests - numberOfCompletedTests
                 total_execution_time_seconds = round(current_time - self.start_time)
@@ -331,9 +250,8 @@ class TestDriver:
                 f"\tAverage Time Per Test      : {average_time_per_test_string}\n",
                 f"\tTests currently running    : {testsCurrentlyRunning}\n"\
                 f"\tTests completed            : {numberOfCompletedTests}\n"\
-                f"\t\tSuccess : {len(self.successes)}\n"\
-                f"\t\tFailure : {len(self.failures)}\n"\
-                f"\t\tError   : {len(self.errors)}\n"\
+                f"\t\tSuccess : {self.resultsManager.pass_count}\n"\
+                f"\t\tFailure : {self.resultsManager.fail_count}\n"\
                 f"\t{system_stats}\n")
 
         except Exception as e:
@@ -343,24 +261,11 @@ class TestDriver:
             
         
         #Return true while there are tests remaining
-        completed_tests = len(self.successes) + len(self.failures) + len(self.errors)
+        completed_tests = self.resultsManager.result_count
         remaining_tests = self.total_number_of_tests - completed_tests
         return remaining_tests > 0
                 
         
+    def addResult(self, detection:Detection):
+        self.resultsManager.addCompletedDetection(detection)
         
-    def addResult(self, result:list[dict], duration_seconds:float)->None:
-        duration_string = str(datetime.timedelta(seconds=round(duration_seconds)))
-        try:
-            if result['detection_result']['error'] is True:
-                self.addError(result['detection_result'], duration_string = duration_string)
-            elif result['detection_result']['success'] is False:
-                #This is actually a failure of the detection, not an error. Naming is confusiong
-                self.addFailure(result['detection_result'], duration_string = duration_string)
-            elif result['detection_result']['success'] is True:
-                self.addSuccess(result['detection_result'], duration_string = duration_string)
-        except Exception as e:
-            #Neither a success or a failure, so add the object to the failures queue
-            print('"There was an error adding the result: [%s]'%(str(e)))
-            self.addError({'detection_file':"Unknown File", "detection_error":str(result)})
-

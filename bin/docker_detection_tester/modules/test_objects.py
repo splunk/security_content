@@ -2,7 +2,9 @@ from typing import Union
 import pathlib
 import yaml
 import os
-
+import json
+import timeit
+from datetime import timedelta
 
 def load_file(file_path):
     try:
@@ -15,6 +17,9 @@ def load_file(file_path):
     except Exception as e:
         raise(Exception("ERROR: opening {0}:[{1}]".format(file_path, str(e))))
     return file
+
+
+
 
 class Result:
     def __init__(self, generated_exception:Union[dict,None] = None, no_exception:Union[dict,None]=None):
@@ -61,6 +66,7 @@ class Result:
             raise(Exception("Result created with indeterminate success"))
 
         
+
 class Detection:
     def __init__(self, detection_file:pathlib.Path):
         self.detectionFile = DetectionFile(detection_file)
@@ -164,3 +170,78 @@ class AttackData:
         self.sourcetype = attack_data['sourcetype']
         self.index = attack_data.get('custom_index', 'main')
         self.update_timestamp = attack_data.get("update_timestamp", False)
+
+
+class ResultsManager:
+    def __init__(self):
+        self.detections:list[Detection] = []
+        
+
+        self.startTime = timeit.default_timer()
+        self.endTime:Union[None, float] = None
+
+
+        # These are important for a running tally. Final summarization and 
+        # output will independently calcualte these, though
+        self.result_count = 0
+        self.pass_count = 0
+        self.fail_count = 0
+
+
+    def addCompletedDetection(self, detection:Detection):
+        #Record the overall result of the detection
+        
+        if detection.result is None:
+            raise(Exception(f"Found a detection result to be 'None' for detection: {detection.detectionFile.path}"))
+        self.result_count += 1
+        if detection.result is not None and detection.result.success == True:
+            self.pass_count += 1
+        else:
+            self.fail_count += 1 
+        
+        
+        #We keep the whole thing because it removes the need to duplicate
+        #certain fields when generating the summary
+        self.detections.append(detection)
+    
+
+
+    def generate_results_file(self, path:pathlib.Path)->bool:
+        background = self.generate_background_section()
+        summary = self.generate_summary_section()
+        detections = self.generate_detections_section()
+        obj = {"background": background, "summary": summary, "detections": detections}
+        path = pathlib.Path("summary_file.json")
+        with open(path, "w") as output:
+            json.dump(obj, output)
+        return True
+    
+    def generate_background_section(self)->dict:
+        if self.endTime is None:
+            self.endTime = timeit.default_timer()
+        
+        background = {}
+        background['detections'] = len(self.detections)
+        background['detections_pass'] = len([d for d in self.detections if d.result is not None and d.result.success == True])
+        background['detections_fail'] = len([d for d in self.detections if d.result is not None and d.result.success == False])
+        
+        background['tests'] = sum([len(d.testFile.tests) for d in self.detections])
+        all_tests:list[Test] = []
+        for detection in self.detections:
+            for test in detection.testFile.tests:
+                all_tests.append(test)
+        background['tests_pass'] = [t for t in all_tests if t.result is not None and t.result.success == True]
+        background['tests_fail'] = [t for t in all_tests if t.result is not None and t.result.success == False]
+        background['total_time'] = str(timedelta(seconds = round(self.endTime - self.startTime)))
+
+        
+
+
+        return background
+
+    def generate_summary_section(self)->dict:
+        return {}
+    
+    def generate_detections_section(self)->dict:
+        return {}
+
