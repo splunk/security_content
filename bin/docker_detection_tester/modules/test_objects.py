@@ -240,6 +240,32 @@ class ResultsManager:
         return background
 
     def generate_summary_section(self)->dict:
+        results = []
+        for detection in self.detections:
+            success = True
+            tests = []
+            thisDetection = {"name"  : detection.detectionFile.name,
+                             "id"    : detection.detectionFile.id,
+                             "search": detection.detectionFile.search,
+                             "path"  : detection.detectionFile.path,
+                             "tests" : tests}
+            for test in detection.testFile.tests:
+                if test.result is None:
+                    raise(Exception(f"Detection {detection.detectionFile.name}, Test {test.name} in file {detection.testFile.path} was None, but should not be!"))
+                testResult = {
+                    "name": test.name,
+                    "attack_data": [d.data for d in test.attack_data],
+                    "success": test.result.success,
+                    "logic": test.result.logic,
+                    "noise": test.result.noise,
+                    "performance": test.result.performance,
+                    "resultCount": test.result.resultCount,
+                    "runDuration": test.result.runDuration,
+                }
+                tests.append(testResult)
+                success = success and test.result.success
+            thisDetection['success'] = success
+
         return {}
     
     def generate_detections_section(self)->dict:
