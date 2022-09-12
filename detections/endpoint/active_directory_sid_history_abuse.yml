@@ -18,7 +18,7 @@ search: '`wineventlog_security` (EventCode=4742 OR EventCode=4738) NOT SidHistor
   | rename TargetSid as userSid, TargetDomainName as userDomainName
   | table _time action status host user userSid userDomainName SidHistory Logon_ID src_user 
   | `active_directory_sid_history_abuse_filter`'
-how_to_implement: To successfully implement this search, you ned to be ingesting eventcodes
+how_to_implement: To successfully implement this search, you need to be ingesting eventcodes
  `4738` and `4742`. The Advanced Security Audit policy settings 
  `Audit User Account Management` and  `Audit Computer Account Management`
  within `Account Management` need to be enabled.
