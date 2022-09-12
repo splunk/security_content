@@ -421,8 +421,7 @@ def main(args: list[str]):
         print("\tQuitting...", file=sys.stderr)
         sys.exit(1)
     
-    print("only do a few detections")
-    all_detections = all_detections[:5]
+    
     print("***This run will test [%d] detections!***"%(len(all_detections)))
     
 
@@ -554,6 +553,9 @@ def main(args: list[str]):
     except Exception as e:
         print("Error - there was an error running the tests: [%s]\n\tQuitting..."%(str(e)),file=sys.stderr)
         sys.exit(1)
+
+    import pathlib
+    cm.synchronization_object.resultsManager.generate_results_file(pathlib.Path("scratch_results.json"))
 
     #github_service.update_and_commit_passed_tests(cm.synchronization_object.successes)
     
