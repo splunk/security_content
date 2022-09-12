@@ -15,7 +15,8 @@ search: '`wineventlog_security` (EventCode=4742 OR EventCode=4738) NOT SidHistor
  | lookup identity_lookup_expanded category, identity as SidHistory OUTPUT identity_tag as match 
  | where isnotnull(match)
  | rename TargetSid as userSid 
- | table _time action status host user userSid SidHistory Logon_ID src_user'
+ | table _time action status host user userSid SidHistory Logon_ID src_user
+  | `active_directory_sid_history_privileged_account_addition_filter`'
 how_to_implement: Ensure you have objectSid and the Down Level Logon Name `DOMAIN\sAMACountName`
  added to the identity field of your Asset and Identities lookup, along with the 
  category of privileged for the applicable users. If unsure, users with the AdminCount 
