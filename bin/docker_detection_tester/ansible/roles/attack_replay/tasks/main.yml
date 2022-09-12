@@ -1,5 +1,6 @@
 
 ---
+
 - name: Upload replay
   copy:
     src: ../../../{{ folder_name }}/{{ out }}

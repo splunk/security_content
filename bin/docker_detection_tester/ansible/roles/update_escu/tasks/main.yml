@@ -14,8 +14,14 @@
     group: splunk
   become: yes
 
+
 - name: restart containerized splunk
-  ansible.builtin.shell: echo "[XmlWinEventLog]" >  /opt/splunk/etc/system/local/props.conf && echo "BREAK_ONLY_BEFORE=<Event\sxmlns" >> /opt/splunk/etc/system/local/props.conf && /opt/splunk/bin/splunk restart
+  ansible.builtin.shell: /opt/splunk/bin/splunk restart
+  become: yes
+- name: restart splunk
+  service:
+    name: splunkd
+    state: restarted
   become: yes
 
 - name: restart splunk

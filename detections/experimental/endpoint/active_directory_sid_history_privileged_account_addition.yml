@@ -8,20 +8,20 @@ datamodel: []
 description: This detection identifies when the SID of a privileged user is added to
  the SID History attribute of another user. Useful for tracking SID history abuse 
  accross multiple domains. This detection leverages the Asset and Identities 
- framework. See the how to implement section for further details on configuration.  
-search: "`wineventlog_security` (EventCode=4742 OR EventCode=4738) NOT SidHistory\
-  \ IN (\"%%1793\", -) \n| rex field=SidHistory \"(^%{|^)(?P<SidHistory>.*?)(}$|$)\"\
-  \ \n| eval category=\"privileged\" \n| lookup identity_lookup_expanded category,\
-  \ identity as SidHistory OUTPUT identity_tag as match \n| where isnotnull(match)\n\
-  | rename TargetSid as userSid \n| table _time action status host user userSid SidHistory\
-  \ Logon_ID src_user | `active_directory_sid_history_privileged_account_addition_filter`"
-how_to_implement: Ensure you have objectSid & the Down-Level Logon Name (`DOMAIN\sAMACountName`)
- added to the identity field of your Asset & Identities lookup, along with the 
- category of privileged for the applicable users. If unsure, a great starting point 
- is all users with the AdminCount attribute set with the value of 1. 
- Also ensure you are ingesting eventcodes 4742 and 4738.
- Two advanced audit policies `Audit User Account Management` 
- and  `Audit Computer Account Management` under 
+ framework. See the implemention section for further details on configuration.  
+search: '`wineventlog_security` (EventCode=4742 OR EventCode=4738) NOT SidHistory IN ("%%1793", -) 
+ | rex field=SidHistory "(^%{|^)(?P<SidHistory>.*?)(}$|$)" 
+ | eval category="privileged" 
+ | lookup identity_lookup_expanded category, identity as SidHistory OUTPUT identity_tag as match 
+ | where isnotnull(match)
+ | rename TargetSid as userSid 
+ | table _time action status host user userSid SidHistory Logon_ID src_user'
+how_to_implement: Ensure you have objectSid and the Down Level Logon Name `DOMAIN\sAMACountName`
+ added to the identity field of your Asset and Identities lookup, along with the 
+ category of privileged for the applicable users. If unsure, users with the AdminCount 
+ attribute set with the value of 1 are great candidates. Also ensure you are 
+ ingesting eventcodes 4742 and 4738. Two advanced audit policies 
+ `Audit User Account Management` and `Audit Computer Account Management` under 
  `Account Management` are required to generate these event codes. 
 known_false_positives: Migration of privileged accounts. 
 references:
