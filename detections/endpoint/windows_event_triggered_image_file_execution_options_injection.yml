@@ -4,8 +4,7 @@ version: 1
 date: '2022-09-08'
 author: Michael Haag, Splunk
 type: Hunting
-datamodel:
-- Endpoint
+datamodel: []
 description: The following hunting analytic identifies EventCode 3000 in Application channel indicating a process exit. This behavior is based on process names being added to the Image File Execution Options under HKLM \SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\ and \SOFTWARE\Microsoft\Windows NT\CurrentVersion\SilentProcessExit. Once these are set for a process, an eventcode 3000 will generate. 
   The example used is from Thinkst Canary where a CanaryToken is setup to monitor for a commonly abused living off the land binary (ex. Klist.exe) and generate an event when it occurs. This can be seen as settings traps to monitor for suspicious behavior.
   Monitor and tune this hunting analytic and setup traps across your organization and begin monitoring.
