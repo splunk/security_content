@@ -8,7 +8,7 @@ import time
 import timeit
 import datetime
 from typing import Union, Tuple
-from modules.testing_service import Result
+from modules.testing_service import TestResult
 DEFAULT_EVENT_HOST = "ATTACK_DATA_HOST"
 DEFAULT_DATA_INDEX = set(["main"])
 FAILURE_SLEEP_INTERVAL_SECONDS = 60
@@ -131,7 +131,7 @@ def wait_for_indexing_to_complete(splunk_host, splunk_port, splunk_password, sou
 
 def test_detection_search(splunk_host:str, splunk_port:int, splunk_password:str, search:str, pass_condition:str, 
                           detection_name:str, earliest_time:str, latest_time:str, attempts_remaining:int=4, 
-                          failure_sleep_interval_seconds:int=FAILURE_SLEEP_INTERVAL_SECONDS, FORCE_ALL_TIME=True)->Result:
+                          failure_sleep_interval_seconds:int=FAILURE_SLEEP_INTERVAL_SECONDS, FORCE_ALL_TIME=True)->TestResult:
     #Since this is an attempt, decrement the number of remaining attempts
     attempts_remaining -= 1
     
@@ -169,19 +169,19 @@ def test_detection_search(splunk_host:str, splunk_port:int, splunk_password:str,
     except Exception as e:
         error_message = "Unable to connect to Splunk instance: %s"%(str(e))
         print(error_message,file=sys.stderr)
-        return Result(generated_exception={"message":error_message})
+        return TestResult(generated_exception={"message":error_message})
 
 
     try:
         job = service.jobs.create(splunk_search, **kwargs)
         results_stream = job.results(output_mode='json')
         #Return all the content returned by the search
-        return Result(no_exception=job.content)
+        return TestResult(no_exception=job.content)
 
     except Exception as e:
         error_message = "Unable to execute detection: %s"%(str(e))
         print(error_message,file=sys.stderr)
-        return Result(generated_exception={"message":error_message})
+        return TestResult(generated_exception={"message":error_message})
 
     
 

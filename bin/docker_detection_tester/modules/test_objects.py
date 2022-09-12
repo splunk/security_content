@@ -21,9 +21,12 @@ def load_file(file_path):
 
 
 
-class Result:
+
+
+class TestResult:
     def __init__(self, generated_exception:Union[dict,None] = None, no_exception:Union[dict,None]=None):
 
+        
         #always include all of these fields, even if there is an         
         self.runDuration = None
         self.scanCount = None
@@ -43,7 +46,9 @@ class Result:
         elif no_exception is not None:
             self.exception = False            
             self.noise = False
-            if no_exception['eventCount'] == 1:
+
+            
+            if int(no_exception['resultCount']) == 1:
                 self.logic = True
                 self.message = "Test execution successful"
 
@@ -52,30 +57,52 @@ class Result:
                 self.message = "Test execution failed - search did not return any results"
             
             #populate all the fields we want to populate for a test that ran to completion
-            self.runDuration = no_exception['runDuration']
-            self.scanCount = no_exception['scanCount']
-            self.eventCount = no_exception['eventCount']
-            self.resultCount = no_exception['resultCount']
+            self.runDuration = float(no_exception['runDuration'])
+            self.scanCount = int(no_exception['scanCount'])
+            self.eventCount = int(no_exception['eventCount'])
+            self.resultCount = int(no_exception['resultCount'])
             self.performance = no_exception['performance']
             self.search = no_exception['search']
 
             #This may change in the future as we include different types of tests like noise
             self.success = self.logic
-        
+
+            #print("Raw Job Dict Content")
+            #for k,v in no_exception.items():
+            #    print(f"{str(k)}: {str(v)}")
+
         else:
             raise(Exception("Result created with indeterminate success"))
 
-        
+class DetectionResult:
+    def __init__(self, testResults:list[TestResult]) -> None:
+        #summarize all the results
+        self.runDuration = sum([t.runDuration for t in testResults if t.runDuration is not None])
+        #Get the result for the detection by combining the results of all the individual tests
+        self.success = not(False in [t.success for t in testResults if t.success is not None])
+        self.logic = not(False in [t.logic for t in testResults if t.logic is not None])
+        self.noise = not(False in [t.noise for t in testResults if t.noise is not None])
 
 class Detection:
     def __init__(self, detection_file:pathlib.Path):
+        if detection_file == None:
+            print("Detection file path was None!")
+            import sys
+            sys.exit(1)
         self.detectionFile = DetectionFile(detection_file)
 
         #Infer the test file name from the detection file name
         self.testFile = TestFile(detectionFile = self.detectionFile)
 
 
-        self.result:Union[None, Result] = None    
+        self.result:Union[None, DetectionResult] = None    
+
+    def get_detection_result(self):
+        if len(self.testFile.tests) == 0:
+            raise(Exception(f"Detection {self.detectionFile.path} had no tests associated with it"))
+        else:
+            testResults = [test.result for test in self.testFile.tests if test.result is not None]
+            self.result = DetectionResult(testResults)
     
     
 
@@ -142,7 +169,7 @@ class Test:
         self.latest_time = test['latest_time']
         self.attack_data = self.get_attack_data(test['attack_data'])
         self.baselines = self.getBaselines(test.get("baselines",[]))
-        self.result:Union[None, Result] = None
+        self.result:Union[None, TestResult] = None
     def get_attack_data(self, attack_datas: list[dict]):
         return [AttackData(d) for d in attack_datas]
     
@@ -159,7 +186,7 @@ class Baseline:
         self.latest_time = baseline['latest_time']
         print("Warning loading baseline - we are resolving to a static path and must fix this")
         self.baseline = DetectionFile(pathlib.Path(os.path.join("security_content",self.file)))
-        self.result:Union[None,Result] = None
+        self.result:Union[None,TestResult] = None
         
 
 class AttackData:
@@ -207,16 +234,20 @@ class ResultsManager:
 
 
     def generate_results_file(self, path:pathlib.Path)->bool:
-        background = self.generate_background_section()
-        summary = self.generate_summary_section()
-        detections = self.generate_detections_section()
-        obj = {"background": background, "summary": summary, "detections": detections}
-        path = pathlib.Path("summary_file.json")
-        with open(path, "w") as output:
-            json.dump(obj, output)
-        return True
+        try:
+            background = self.generate_background_section()
+            summary = self.generate_summary_section()
+            detections = self.generate_detections_section()
+            obj = {"background": background, "summary": summary, "detections": detections}
+            path = pathlib.Path("summary_file.json")
+            with open(path, "w") as output:
+                json.dump(obj, output, indent=3)
+            return True
+        except Exception as e:
+            print(f"Error generating result file: {str(e)}")
+            return False
     
-    def generate_background_section(self)->dict:
+    def generate_summary_section(self)->dict:
         if self.endTime is None:
             self.endTime = timeit.default_timer()
         
@@ -230,8 +261,8 @@ class ResultsManager:
         for detection in self.detections:
             for test in detection.testFile.tests:
                 all_tests.append(test)
-        background['tests_pass'] = [t for t in all_tests if t.result is not None and t.result.success == True]
-        background['tests_fail'] = [t for t in all_tests if t.result is not None and t.result.success == False]
+        background['tests_pass'] = len([t for t in all_tests if t.result is not None and t.result.success == True])
+        background['tests_fail'] = len([t for t in all_tests if t.result is not None and t.result.success == False])
         background['total_time'] = str(timedelta(seconds = round(self.endTime - self.startTime)))
 
         
@@ -239,16 +270,15 @@ class ResultsManager:
 
         return background
 
-    def generate_summary_section(self)->dict:
+    def generate_detections_section(self)->list[dict]:
         results = []
         for detection in self.detections:
             success = True
-            tests = []
             thisDetection = {"name"  : detection.detectionFile.name,
                              "id"    : detection.detectionFile.id,
                              "search": detection.detectionFile.search,
-                             "path"  : detection.detectionFile.path,
-                             "tests" : tests}
+                             "path"  : str(detection.detectionFile.path),
+                             "tests" : []}
             for test in detection.testFile.tests:
                 if test.result is None:
                     raise(Exception(f"Detection {detection.detectionFile.name}, Test {test.name} in file {detection.testFile.path} was None, but should not be!"))
@@ -258,16 +288,17 @@ class ResultsManager:
                     "success": test.result.success,
                     "logic": test.result.logic,
                     "noise": test.result.noise,
-                    "performance": test.result.performance,
+                    #"performance": test.result.performance,
                     "resultCount": test.result.resultCount,
                     "runDuration": test.result.runDuration,
                 }
-                tests.append(testResult)
+                thisDetection['tests'].append(testResult)
                 success = success and test.result.success
             thisDetection['success'] = success
+            results.append(thisDetection)
 
-        return {}
+        return results
     
-    def generate_detections_section(self)->dict:
+    def generate_background_section(self)->dict:
         return {}
 

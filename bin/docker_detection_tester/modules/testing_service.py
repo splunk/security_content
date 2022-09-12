@@ -13,7 +13,7 @@ from os.path import relpath
 from tempfile import mkdtemp, mkstemp
 
 import splunklib.client as client
-from modules.test_objects import Detection, Test, Baseline, Result, AttackData
+from modules.test_objects import Detection, Test, Baseline, TestResult, AttackData
 
 
 
@@ -108,7 +108,7 @@ def execute_test(splunk_ip:str, splunk_port:int, splunk_password:str, test:Test,
     #Run the baseline(s) if they exist for this test
     if execute_baselines(splunk_ip, splunk_port, splunk_password, test.baselines) is not True:
         #One of the baselines failed. No sense in running the real test
-        test.result = Result(generated_exception={'message':"Baseline(s) failed"})
+        test.result = TestResult(generated_exception={'message':"Baseline(s) failed"})
         
         
     else:
@@ -129,7 +129,6 @@ def execute_test(splunk_ip:str, splunk_port:int, splunk_password:str, test:Test,
         #Just use this to pause on input, we don't do anything with the response
         print(f"DETECTION FILE: {test.detectionFile.path}")
         print(f"DETECTION SEARCH: {test.result.search}")
-        print(test.detectionFile.search)
         _ = input(formatted_message)
 
     splunk_sdk.delete_attack_data(splunk_ip, splunk_password, splunk_port, indices = test_indices)
@@ -224,11 +223,12 @@ def replay_attack_data_files(splunk_ip:str, splunk_port:int, splunk_password:str
             raise(Exception(f"Error replaying attack data file {attack_data_file.data}: {str(e)}"))
     return test_indices
 
-def test_detection(splunk_ip:str, splunk_port:int, splunk_password:str, test_file:Detection, attack_data_root_folder, wait_on_failure:bool, wait_on_completion:bool)->bool:
+def test_detection(splunk_ip:str, splunk_port:int, splunk_password:str, detection:Detection, attack_data_root_folder, wait_on_failure:bool, wait_on_completion:bool)->bool:
     
 
     abs_folder_path = mkdtemp(prefix="DATA_", dir=attack_data_root_folder)
-    success = execute_tests(splunk_ip, splunk_port, splunk_password, test_file.testFile.tests, abs_folder_path, wait_on_failure, wait_on_completion)
+    success = execute_tests(splunk_ip, splunk_port, splunk_password, detection.testFile.tests, abs_folder_path, wait_on_failure, wait_on_completion)
+    detection.get_detection_result()
     #Delete the folder and all of the data inside of it
     #shutil.rmtree(abs_folder_path)
     return success
