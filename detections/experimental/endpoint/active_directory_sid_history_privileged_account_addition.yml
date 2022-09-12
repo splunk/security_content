@@ -35,7 +35,7 @@ tags:
   - CIS 4
   - CIS 6
   - CIS 16
-  confidence: 900
+  confidence: 90
   context:
   - Source:Endpoint
   - Source:AD

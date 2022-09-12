@@ -16,16 +16,15 @@
 
 - name: make /opt writetable by splunk
   become: true
-  file: path=/opt/splunk/etc/system/local/ mode=777
+  file: path=/opt/splunk/etc/system/local mode=777
 
 - name: copy props.conf to fix XMLWinEventlog parsing issue
-  copy:
-    src: props.conf
-    dest: /opt/splunk/etc/system/local/props.conf
-    owner: splunk
-    group: splunk
-    force: yes
-  become: yes
+  become: true
+  command: "echo '[XmlWinEventLog]' >  /opt/splunk/etc/system/local/props.conf"
+
+- name: copy props.conf to fix XMLWinEventlog parsing issue
+  become: true
+  command: "echo 'BREAK_ONLY_BEFORE=<Event\sxmlns' >>  /opt/splunk/etc/system/local/props.conf"
 
 - name: restart containerized splunk
   ansible.builtin.shell: echo "[XmlWinEventLog]" >  /opt/splunk/etc/system/local/props.conf && echo "BREAK_ONLY_BEFORE=<Event\sxmlns" >> /opt/splunk/etc/system/local/props.conf && /opt/splunk/bin/splunk restart
