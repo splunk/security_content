@@ -17,7 +17,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | `security_content_ctime(lastTime)`| `linux_awk_privilege_escalation_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from
+  endpoints into the Endpoint datamodel. If you are using Sysmon, you can use the Add-on for Linux Sysmon from
   Splunkbase.
 known_false_positives: False positives are present based on automated tooling or system administrative usage. Filter as needed.
 references:
@@ -31,16 +31,16 @@ tags:
   - CIS 3
   - CIS 5
   - CIS 16
-  confidence: 90
+  confidence: 50
   context:
   - Source:Endpoint
   - Stage:Privilege Escalation
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/awk/sysmon_linux.log
-  impact: 80
+  impact: 60
   kill_chain_phases:
   - Exploitation
-  message: A commandline $process$ with process $process_name$ on $dest$
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$
   mitre_attack_id:
   - T1548.003
   - T1548
@@ -51,6 +51,14 @@ tags:
     type: Hostname
     role:
     - Victim
+  - name: parent_process_name
+    type: Process
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -64,5 +72,5 @@ tags:
   - Processes.process
   - Processes.process_id
   - Processes.parent_process_id
-  risk_score: 72
+  risk_score: 30
   security_domain: endpoint
