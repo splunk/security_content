@@ -68,7 +68,7 @@ action.notable = 1
 action.notable.param.nes_fields = {{ detection.nes_fields }}
 {% endif %}
 action.notable.param.rule_description = {{ detection.deployment.notable.rule_description | custom_jinja2_enrichment_filter(detection) }}
-action.notable.param.rule_title = {% if detection.type | lower == "correlation" %}RBA: {{ detection.deployment.notable.rule_title | custom_jinja2_enrichment_filter(detection) }}{% else %} {{ detection.deployment.notable.rule_title | custom_jinja2_enrichment_filter(detection) }} {% endif +%}
+action.notable.param.rule_title = {% if detection.type | lower == "correlation" %}RBA: {{ detection.deployment.notable.rule_title | custom_jinja2_enrichment_filter(detection) }}{% else %}{{ detection.deployment.notable.rule_title | custom_jinja2_enrichment_filter(detection) }}{% endif +%}
 action.notable.param.security_domain = {{ detection.tags.security_domain }}
 action.notable.param.severity = high
 {% endif %}
