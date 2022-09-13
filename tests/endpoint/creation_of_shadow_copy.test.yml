@@ -17,6 +17,6 @@ tests:
   latest_time: now
   attack_data:
   - file_name: crowdstrike.log
-    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1197/atomic_red_team/crowdstrike_falcon.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.003/atomic_red_team/crowdstrike_falcon.log
     source: crowdstrike
     sourcetype: crowdstrike:events:sensor
