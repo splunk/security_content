@@ -11,7 +11,7 @@ search: '| tstats `security_content_summariesonly` min(_time) as firstTime max(_
 | `drop_dm_object_name(All_Risk)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
-| where source_count >= 2 
+| where source_count >= 5
 | `living_off_the_land_filter`'
 how_to_implement: To implement this correlation search a user needs to enable all
   detections in the Living Off The Land Analytic Story and confirm it is generating risk events.

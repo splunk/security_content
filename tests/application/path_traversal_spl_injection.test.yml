@@ -8,6 +8,6 @@ tests:
   attack_data:
   - file_name: path_traversal_spl_injection.txt
     data: https://raw.githubusercontent.com/splunk/attack_data/master/datasets/attack_techniques/T1083/splunk/path_traversal_spl_injection.txt
-    source: c:\opt\splunk\var\log\splunk\splunkd_ui_access.log
+    source: splunkd_ui_access.log
     sourcetype: splunkd_ui_access
     custom_index: _internal

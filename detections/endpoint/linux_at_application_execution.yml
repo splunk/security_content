@@ -20,7 +20,7 @@ search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint
   | `security_content_ctime(lastTime)` | `linux_at_application_execution_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from
+  endpoints into the Endpoint datamodel. If you are using Sysmon, you can use the Add-on for Linux Sysmon from
   Splunkbase.
 known_false_positives: Administrator or network operator can use this application
   for automation purposes. Please update the filter macros to remove false positives.
