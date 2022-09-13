@@ -169,7 +169,9 @@ def replay_attack_data_file(splunk_ip:str, splunk_port:int, splunk_password:str,
     else:
         #Download the file
         print(f"download from {attackData.data}-->{data_file}")
-        utils.download_file_from_http(attackData.data, data_file)
+        #We need to overwrite the file - mkstemp will create an empty file with the 
+        #given name
+        utils.download_file_from_http(attackData.data, data_file, overwrite_file=True) 
     
     # Update timestamps before replay
     if attackData.update_timestamp:
