@@ -4,10 +4,9 @@ version: 1
 date: '2022-08-24'
 author: Teoderick Contreras, Splunk
 type: Anomaly
-datamodel:
-- Endpoint
-description: The following analytic identifies a process access in winlogon.exe to duplicate its handle with a non-common or public process source path. 
-  This technique was seen in several adversaries, threat actors and even red teams to gain privileges to their process. 
+datamodel: []
+description: The following analytic identifies a process requesting access in winlogon.exe to duplicate its handle with a non-common or public process source path. 
+  This technique was seen where adversaries attempt to gain privileges to their process. 
   This duplicate handle access technique, may refer to a malicious process duplicating the process token of winlogon.exe and using it to a new process instance.
   Winlogon.exe is the common targeted process of this technique because it contains high privileges and security tokens.
 search: '`sysmon` EventCode=10  TargetImage IN("*\\system32\\winlogon.exe*", "*\\SysWOW64\\winlogon.exe*") AND GrantedAccess = 0x1040 
@@ -16,12 +15,11 @@ search: '`sysmon` EventCode=10  TargetImage IN("*\\system32\\winlogon.exe*", "*\
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` 
   | `windows_access_token_winlogon_duplicate_handle_in_uncommon_path_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
-  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
-  endpoint product.
-known_false_positives: 3rd party software application may do this technique.
+how_to_implement: To successfully implement this search, you must be ingesting data
+  that records process activity from your hosts to populate the endpoint data model
+  in the processes node. If you are using Sysmon, you must have at least version 6.0.4
+  of the Sysmon TA.
+known_false_positives: It is possible legitimate applications will request access to winlogon, filter as needed.
 references:
   - https://docs.microsoft.com/en-us/windows/win32/api/handleapi/nf-handleapi-duplicatehandle
   - https://attack.mitre.org/techniques/T1134/001/
@@ -53,6 +51,10 @@ tags:
     type: Endpoint
     role:
     - Victim
+  - name: SourceImage
+    type: Process Name
+    role:
+    - Parent Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

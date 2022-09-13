@@ -7,10 +7,9 @@ type: Anomaly
 datamodel:
 - Endpoint
 description: The following analytic identifies a modification to the Transcodedwallpaper file in the wallpaper theme directory 
-  to change the wallpaper of the host machine. This technique was seen in adversaries, threat actors and red-teaming tools to deface 
+  to change the wallpaper of the host machine. This technique was seen in adversaries attempting to deface 
   or change the desktop wallpaper of the targeted host. During our testing, the common process that affects or changes the wallpaper 
-  if a user changes it via desktop personalized setting is explorer.exe. This Anomaly analytic can be a good pivot on a process that 
-  is not commonly used to change the wallpaper like ransomware.
+  if a user changes it via desktop personalized setting is explorer.exe.
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes where Processes.process_path !="*\\Windows\\Explorer.EXE" 
   by _time span=1h Processes.process_id Processes.process_name Processes.process Processes.dest Processes.process_guid  Processes.original_file_name
   | `drop_dm_object_name(Processes)` 
@@ -53,7 +52,7 @@ tags:
   nist:
   - DE.CM
   observable:
-  - name: Computer
+  - name: dest
     type: Hostname
     role:
     - Victim

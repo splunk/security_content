@@ -3,13 +3,11 @@ id: daed6823-b51c-4843-a6ad-169708f1323e
 version: 1
 date: '2022-08-24'
 author: Teoderick Contreras, Splunk
-type: TTP
+type: Anomaly
 datamodel:
 - Endpoint
-description: The following analytic identifies a registry modification due to deleted services.
-  Red Teams, malicious actors and adversaries may delete a security service as part of its defense evasion.
-  The BRC4 red teaming tool is capable of deleting a services using native windows API that leave lesser noise 
-  and footprint in terms of process command-line detections.
+description: The following analytic identifies a service being deleted from the Windows Registry under CurrentControlSet\Services. 
+  Adversaries may delete a service as part of defense evasion.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry 
   where Registry.registry_path= "*\\SYSTEM\\CurrentControlSet\\Services*" AND (Registry.action = deleted OR (Registry.registry_value_name = DeleteFlag AND Registry.registry_value_data = 0x00000001 AND Registry.action=modified))
   by Registry.registry_key_name Registry.user Registry.registry_path Registry.registry_value_data Registry.registry_value_name Registry.action Registry.dest 
@@ -21,8 +19,8 @@ how_to_implement: To successfully implement this search you need to be ingesting
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure
   that this registry was included in your config files ex. sysmon config to be monitored.
-known_false_positives: this event can be seen when administrator delete a service or uninstall/reinstall a software that create service entry,
-  But it is still recommended to check this alert with high priority.
+known_false_positives: This event can be seen when administrator delete a service or uninstall/reinstall a software that creates service entry,
+  but it is still recommended to check this alert with high priority.
 references:
 - https://unit42.paloaltonetworks.com/brute-ratel-c4-tool/
 tags:
@@ -33,16 +31,16 @@ tags:
   - CIS 3
   - CIS 5
   - CIS 16
-  confidence: 80
+  confidence: 30
   context:
   - Source:Endpoint
   - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/brute_ratel/service_deletion/sysmon.log
-  impact: 80
+  impact: 60
   kill_chain_phases:
   - Exploitation
-  message: a service registry $Registry.registry_path$ was deleted in $Registry.dest$
+  message: A service was deleted on $dest$ within the Windows registry.
   mitre_attack_id:
   - T1489
   nist:
@@ -70,5 +68,5 @@ tags:
   - Processes.parent_process_name
   - Processes.parent_process
   - Processes.process_guid
-  risk_score: 64
+  risk_score: 18
   security_domain: endpoint

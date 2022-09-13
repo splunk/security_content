@@ -3,23 +3,20 @@ id: 492f09cf-5d60-4d87-99dd-0bc325532dda
 version: 1
 date: '2022-08-24'
 author: Teoderick Contreras, Splunk
-type: TTP
-datamodel:
-- Endpoint
-description: The following analytic identifies a process creating a remote thread in another process 
-  with a public or uncommon installation process file path. This Windows API is commonly used by threat actors, red-teamers and adversaries 
-  for process code injection to evade detections or gain privilege escalation.  
+type: Hunting
+datamodel: []
+description: The following analytic identifies a process in a non-standard file path on Windows attempting to create a remote thread into a process. This Windows API,CreateRemoteThread, is commonly used by adversaries
+  for process injection to evade detections or gain privilege escalation.  
 search: '`sysmon` EventCode=8 TargetImage = "*.exe" AND NOT(SourceImage IN("C:\\Windows\\*", "C:\\Program File*", "%systemroot%\\*"))
   | stats count min(_time) as firstTime max(_time) as lastTime by SourceImage TargetImage signature TargetProcessGuid SourceProcessGuid TargetProcessId SourceProcessId StartAddress EventCode Computer 
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)` 
   | `windows_process_injection_with_public_source_path_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
-  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
-  endpoint product.
-known_false_positives: some security tool or 3rd party application may do this technique. Filter is needed.
+how_to_implement: To successfully implement this search, you must be ingesting data
+  that records process activity from your hosts to populate the endpoint data model
+  in the processes node. If you are using Sysmon, you must have at least version 6.0.4
+  of the Sysmon TA.
+known_false_positives: Some security products or third party applications may utilize CreateRemoteThread, filter as needed before enabling as a notable.
 references:
 - https://unit42.paloaltonetworks.com/brute-ratel-c4-tool/
 tags:
@@ -39,7 +36,7 @@ tags:
   impact: 80
   kill_chain_phases:
   - Exploitation
-  message: process $SourceImage$ create a remote thread to process $TargetImage$ in host $Computer$
+  message: process $SourceImage$ create a remote thread to process $TargetImage$ on host $Computer$
   mitre_attack_id:
   - T1055
   - T1055.002
@@ -54,6 +51,10 @@ tags:
     type: Process
     role:
     - Attacker
+  - name: TargetImage
+    type: Process
+    role:
+    - Process Name
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
