@@ -3,9 +3,9 @@ import requests
 
 
 def download_file_from_http(url:str, destination_file:str, overwrite_file:bool=False, chunk_size:int=1024*1024, verbose_print:bool=False)->None:
-    #if os.path.exists(destination_file) and overwrite_file is False:
-    #    print(f"[{destination_file}] already exists...using cached version")
-    #    return
+    if os.path.exists(destination_file) and overwrite_file is False:
+        print(f"[{destination_file}] already exists...using cached version")
+        return
     if verbose_print:
         print(f"downloading to [{destination_file}]...",end="")
     try:

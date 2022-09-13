@@ -425,7 +425,7 @@ class SplunkContainer:
             # There is a detection to test
             
             print("Container [%s]--->[%s]" %
-                  (self.container_name, detection_to_test))
+                  (self.container_name, str(detection_to_test.detectionFile.path)))
             try:
                 result = testing_service.test_detection(
                     self.splunk_ip,
