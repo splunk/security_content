@@ -28,6 +28,7 @@ tags:
   analytic_story:
   - Cobalt Strike
   - NOBELIUM Group
+  - Insider Threat
   cis20: []
   kill_chain_phases:
   - Exploitation
