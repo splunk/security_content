@@ -54,7 +54,7 @@ tags:
   - name: TargetImage
     type: Process
     role:
-    - Process Name
+    - Target
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
