@@ -1,7 +1,7 @@
 name: High Process Termination Frequency
 id: 17cd75b2-8666-11eb-9ab4-acde48001122
 version: 2
-date: '2021-03-16'
+date: '2022-09-14'
 author: Teoderick Contreras
 type: Anomaly
 datamodel:
