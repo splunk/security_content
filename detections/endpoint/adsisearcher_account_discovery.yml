@@ -1,7 +1,7 @@
 name: AdsiSearcher Account Discovery
 id: de7fcadc-04f3-11ec-a241-acde48001122
-version: 1
-date: '2021-08-24'
+version: 2
+date: '2022-11-13'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 type: TTP
 datamodel: []
@@ -9,10 +9,8 @@ description: The following analytic utilizes PowerShell Script Block Logging (Ev
   to identify the `[Adsisearcher]` type accelerator being used to query Active Directory
   for domain groups. Red Teams and adversaries may leverage `[Adsisearcher]` to enumerate
   domain users for situational awareness and Active Directory Discovery.
-search: '`powershell` EventCode=4104 Message = "*[adsisearcher]*" Message = "*objectcategory=user*"
-  Message = "*.findAll()*" | stats count min(_time) as firstTime max(_time) as lastTime
-  by EventCode Message ComputerName User | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `adsisearcher_account_discovery_filter`'
+search: '`powershell` EventCode=4104 ScriptBlockText = "*[adsisearcher]*" ScriptBlockText = "*objectcategory=user*" ScriptBlockText = "*.findAll()*" | stats count min(_time) as firstTime max(_time) as lastTime
+  by EventCode Computer ScriptBlockText UserID | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `adsisearcher_account_discovery_filter`'
 how_to_implement: The following Hunting analytic requires PowerShell operational logs
   to be imported. Modify the powershell macro as needed to match the sourcetype or
   add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
@@ -30,7 +28,7 @@ tags:
   - Source:Endpoint
   - Stage:Discovery
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/AD_discovery/windows-powershell.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/AD_discovery/adsisearcher_powershell.log
   impact: 50
   kill_chain_phases:
   - Reconnaissance
@@ -39,11 +37,11 @@ tags:
   - T1087.002
   - T1087
   observable:
-  - name: ComputerName
+  - name: Computer
     type: Hostname
     role:
     - Victim
-  - name: User
+  - name: UserID
     type: User
     role:
     - Victim
