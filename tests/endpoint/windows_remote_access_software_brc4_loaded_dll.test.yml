@@ -1,0 +1,13 @@
+name: Windows Remote Access Software BRC4 Loaded Dll Unit Test
+tests:
+- name: Windows Remote Access Software BRC4 Loaded Dll
+  file: endpoint/windows_remote_access_software_brc4_loaded_dll.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: sysmon.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/brute_ratel/iso_version_dll_campaign/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true
