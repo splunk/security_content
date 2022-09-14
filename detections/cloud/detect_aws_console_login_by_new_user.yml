@@ -1,6 +1,6 @@
 name: Detect AWS Console Login by New User
 id: bc91a8cd-35e7-4bb2-6140-e756cc46fd71
-version: 2
+version: 3
 date: '2022-05-10'
 author: Rico Valdez, Splunk
 type: Hunting
@@ -13,7 +13,7 @@ description: This search looks for AWS CloudTrail events wherein a console login
   the last hour
 search: '| tstats earliest(_time) as firstTime latest(_time) as lastTime from datamodel=Authentication
   where Authentication.signature=ConsoleLogin by Authentication.user | `drop_dm_object_name(Authentication)`
-  | join user type=outer [ inputlookup previously_seen_users_console_logins | stats
+  | join user type=outer [ | inputlookup previously_seen_users_console_logins | stats
   min(firstTime) as earliestseen by user] | eval userStatus=if(earliestseen >= relative_time(now(),
   "-24h@h") OR isnull(earliestseen), "First Time Logging into AWS Console", "Previously
   Seen User") | where userStatus="First Time Logging into AWS Console" | `security_content_ctime(firstTime)`
@@ -32,7 +32,7 @@ references: []
 tags:
   analytic_story:
   - Suspicious Cloud Authentication Activities
-  - AWS Account Takeover
+  - AWS Account Takeover 
   asset_type: AWS Instance
   cis20:
   - CIS 16
