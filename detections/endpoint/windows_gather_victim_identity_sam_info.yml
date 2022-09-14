@@ -9,7 +9,8 @@ datamodel:
 description: The following analytic identifies a process that loads the samlib.dll module. 
   This module is being abused by adversaries, threat actors and red teamers to access information of SAM objects or access credentials information in DC. 
   This hunting query can be a good indicator that a process is capable of accessing the SAM object.
-search: '`sysmon` EventCode=7  ImageLoaded = "*\\samlib.dll" AND OriginalFileName = "samlib.dll" AND NOT (Image IN("C:\\Windows\\*", "C:\\Program File*", "%systemroot%\\*"))
+search: '`sysmon` EventCode=7  (ImageLoaded = "*\\samlib.dll" AND OriginalFileName = "samlib.dll") OR (ImageLoaded = "*\\samcli.dll" AND OriginalFileName = "SAMCLI.DLL")
+AND NOT (Image IN("C:\\Windows\\*", "C:\\Program File*", "%systemroot%\\*"))
   | stats count min(_time) as firstTime max(_time) as lastTime by Image ImageLoaded process_name Computer EventCode Signed ProcessId 
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)` 
