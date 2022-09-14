@@ -6,7 +6,7 @@ tests:
   earliest_time: -24h
   latest_time: now
   attack_data:
-  - file_name: windows-powershell.log
-    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1047/lateral_movement/windows-powershell.log
-    source: WinEventLog:Microsoft-Windows-PowerShell/Operational
-    sourcetype: wineventlog
+  - file_name: wmi_remote_process_powershell.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1047/lateral_movement/wmi_remote_process_powershell.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: XmlWinEventLog
