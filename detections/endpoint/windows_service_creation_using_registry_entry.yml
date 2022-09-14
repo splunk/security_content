@@ -39,6 +39,7 @@ tags:
   - Suspicious Windows Registry Activities
   - Windows Persistence Techniques
   - Windows Registry Abuse
+  - Brute Ratel C4
   cis20:
   - CIS 3
   - CIS 5
