@@ -54,6 +54,8 @@ dispatch.latest_time = {{ detection.deployment.scheduling.latest_time }}
 action.correlationsearch.enabled = 1
 {% if detection.deprecated %}
 action.correlationsearch.label = ESCU - Deprecated - {{ detection.name }} - Rule
+{% elif detection.type | lower == "correlation" %}
+action.correlationsearch.label = ESCU - RIR - {{ detection.name }} - Rule
 {% else %}
 action.correlationsearch.label = ESCU - {{ detection.name }} - Rule
 {% endif %}
