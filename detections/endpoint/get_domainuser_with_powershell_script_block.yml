@@ -1,7 +1,7 @@
 name: Get DomainUser with PowerShell Script Block
 id: 61994268-04f4-11ec-865c-acde48001122
-version: 2
-date: '2022-03-22'
+version: 3
+date: '2022-11-13'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 type: TTP
 datamodel: []
@@ -11,7 +11,7 @@ description: The following analytic utilizes PowerShell Script Block Logging (Ev
   Red Teams and adversaries alike may use PowerView to enumerate domain users for
   situational awareness and Active Directory Discovery.
 search: '`powershell` EventCode=4104 ScriptBlockText = "*Get-DomainUser*" 
-  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer user_id 
+  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` 
   | `get_domainuser_with_powershell_script_block_filter`'
@@ -38,11 +38,11 @@ tags:
   - T1087.002
   - T1087
   observable:
-  - name: ComputerName
+  - name: Computer
     type: Hostname
     role:
     - Victim
-  - name: User
+  - name: UserID
     type: User
     role:
     - Victim
