@@ -28,6 +28,8 @@ references:
 tags:
   analytic_story:
   - Ransomware
+  - Insider Threat
+  - Information Sabotage
   cis20: []
   kill_chain_phases:
   - Exploitation
