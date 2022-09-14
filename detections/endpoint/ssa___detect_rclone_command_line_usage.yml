@@ -44,6 +44,7 @@ tags:
   analytic_story:
   - DarkSide Ransomware
   - Ransomware
+  - Insider Threat
   cis20: []
   confidence: 70
   context:
