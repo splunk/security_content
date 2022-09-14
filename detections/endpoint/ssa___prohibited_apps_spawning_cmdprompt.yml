@@ -38,6 +38,7 @@ references:
 tags:
   analytic_story:
   - Suspicious Command-Line Executions
+  - Insider Threat
   cis20:
   - CIS 8
   confidence: 50
