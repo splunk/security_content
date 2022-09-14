@@ -33,6 +33,8 @@ references:
 tags:
   analytic_story:
   - Ransomware
+  - Insider Threat
+  - Information Sabotage
   cis20: []
   confidence: 90
   context:
