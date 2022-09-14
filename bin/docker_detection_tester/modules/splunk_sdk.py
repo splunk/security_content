@@ -207,9 +207,7 @@ def delete_attack_data(splunk_host:str, splunk_password:str, splunk_port:int, in
         while (get_number_of_indexed_events(splunk_host, splunk_port, splunk_password, index=index, event_host=host) != 0) :
             splunk_search = f'search index="{index}" host="{host}" | delete'
             kwargs = {
-                    "exec_mode": "blocking",
-                    "dispatch.earliest_time": "-1d",
-                    "dispatch.latest_time": "now"}
+                    "exec_mode": "blocking"}
             try:
                 
                 job = service.jobs.create(splunk_search, **kwargs)
