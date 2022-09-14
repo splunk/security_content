@@ -32,10 +32,12 @@ references: []
 tags:
   analytic_story:
   - Suspicious Cloud Authentication Activities
-  - AWS Credential Access
+  - AWS Account Takeover
   asset_type: AWS Instance
   cis20:
   - CIS 16
+  mitre_attack_id:
+  - T1552
   confidence: 60
   context:
   - Source:Cloud Data
