@@ -1,0 +1,13 @@
+name: Windows Access Token Winlogon Duplicate Handle In Uncommon Path Unit Test
+tests:
+- name: Windows Access Token Winlogon Duplicate Handle In Uncommon Path
+  file: endpoint/windows_access_token_winlogon_duplicate_handle_in_uncommon_path.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: sysmon.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/brute_ratel/brute_duplicate_token/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true
