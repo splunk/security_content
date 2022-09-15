@@ -164,7 +164,7 @@ class Initialize:
         self.simple_replace_line(filename, original, updated)
 
 
-        raw  ='''[{app_name} - '''
+        raw  ='''{app_name} - '''
         original = raw.format(app_name="ESCU")
         updated = raw.format(app_name=self.app_name)
         filename_root = os.path.join(self.path,"bin/contentctl_project/contentctl_infrastructure/adapter/templates/")
