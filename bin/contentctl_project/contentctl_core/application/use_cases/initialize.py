@@ -188,7 +188,7 @@ class Initialize:
         raw  ='''.{app_name}.'''
         original = raw.format(app_name="ESCU".lower()) #
         updated = raw.format(app_name=self.app_name.lower())
-        filename_root = os.path.join(self.path,f"dist/{self.app_name.lower()}/default/default/data/ui/views/")
+        filename_root = os.path.join(self.path,f"dist/{self.app_name}/default/default/data/ui/views/")
         for fname in ["escu_summary.xml"]:
             full_path = os.path.join(filename_root, fname)
             self.simple_replace_line(full_path, original, updated)
