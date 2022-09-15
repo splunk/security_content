@@ -126,8 +126,12 @@ def write_csv(lolbas, OUTPUT_PATH):
             if get_lolbas_paths(lolba):
                 full_paths = get_lolbas_paths(lolba)
                 for full_path in full_paths:
+                    # drop the exe at the end
                     parent_path_split = full_path.split("\\")[:-1]
+                    # rejoin to a path
                     parent_path = "\\".join(parent_path_split)
+                    # adds a asterisk at the end
+                    parent_path = parent_path + '\\*'
                     if parent_path not in parent_paths:
                         parent_paths.append(parent_path)
                         lolba_file_name = lolba['Name'].lower()
