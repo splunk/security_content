@@ -22,6 +22,7 @@ references:
 tags:
   analytic_story:
   - Spearphishing Attachments
+  - Brute Ratel C4
   asset_type: Endpoint
   cis20:
   - CIS 3

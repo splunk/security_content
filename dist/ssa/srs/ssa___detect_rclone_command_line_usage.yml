@@ -39,6 +39,7 @@ tags:
   analytic_story:
   - DarkSide Ransomware
   - Ransomware
+  - Insider Threat
   cis20: []
   kill_chain_phases:
   - Exploitation

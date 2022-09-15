@@ -1,0 +1,13 @@
+name: Windows Gather Victim Identity SAM Info Unit Test
+tests:
+- name: Windows Gather Victim Identity SAM Info
+  file: endpoint/windows_gather_victim_identity_sam_info.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: sysmon.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/brute_ratel/loading_samlib/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true

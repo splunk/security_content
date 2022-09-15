@@ -33,6 +33,7 @@ tags:
   analytic_story:
   - Cobalt Strike
   - NOBELIUM Group
+  - Insider Threat
   cis20: []
   confidence: 60
   context:

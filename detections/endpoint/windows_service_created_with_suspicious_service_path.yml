@@ -1,11 +1,11 @@
-name: Windows Service Created With Suspicious Service Path
+name: Windows Service Created with Suspicious Service Path
 id: 429141be-8311-11eb-adb6-acde48001122
-version: 2
-date: '2021-11-22'
+version: 3
+date: '2022-08-26'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 type: TTP
 datamodel: []
-description: The following analytc uses Windows Event Id 7045, `New Service Was Installed`,
+description: The following analytics uses Windows Event Id 7045, `New Service Was Installed`,
   to identify the creation of a Windows Service where the service binary path path
   is located in a non-common Service folder in Windows. Red Teams and adversaries
   alike may create malicious Services for lateral movement or remote code execution
@@ -28,6 +28,7 @@ tags:
   analytic_story:
   - Clop Ransomware
   - Active Directory Lateral Movement
+  - Brute Ratel C4
   confidence: 80
   context:
   - Source:Endpoint
