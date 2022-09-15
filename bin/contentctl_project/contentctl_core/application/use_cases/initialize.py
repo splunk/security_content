@@ -176,7 +176,7 @@ class Initialize:
             full_path = os.path.join(filename_root, fname)
             self.simple_replace_line(full_path, original, updated)
         
-        raw  ='''.{app_name}.'''
+        raw  ='''.{app_name}'''
         original = raw.format(app_name="ESCU".lower()) #
         updated = raw.format(app_name=self.app_name.lower())
         filename_root = os.path.join(self.path,"bin/contentctl_project/contentctl_infrastructure/adapter/templates/")
