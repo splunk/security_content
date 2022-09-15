@@ -26,7 +26,11 @@ class ObjToAttackDataYmlAdapter(Adapter):
         'github.json' : 'aws:firehose:json',
         'kubernetes_nginx.json' :'kube:container:controller',
         'circleci.json' :'circleci',
-        'sysmon_linux.log' :'Syslog:Linux-Sysmon/Operational'                               
+        'sysmon_linux.log' :'Syslog:Linux-Sysmon/Operational',
+        'xml-windows-security.log': 'XmlWinEventLog:Security',
+        'xml-windows-system.log': 'XmlWinEventLog:System', 
+        'xml-windows-application.log': 'XmlWinEventLog:Application',                              
+        'xml-windows-directory-service.log': 'XmlWinEventLog:Directory Service'
         }
         return
 
