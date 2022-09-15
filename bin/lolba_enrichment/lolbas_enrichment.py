@@ -84,19 +84,36 @@ def update_detection(detection, lolbas, VERBOSE, OPUTPUT_PATH):
     lolbas_strings = ''
     lolbas_path_strings = '' 
 
+    processed_lolbas = []
+    processed_paths = [] 
     for lolba in lolbas:
+        if lolba['Name'].lower() not in processed_lolbas:
+            processed_lolbas.append(lolba['Name'].lower())
+            # grab the exe name
+            lolbas_strings += 'process_name="' + lolba['Name'].lower() + '" OR '
+
         if get_lolbas_paths(lolba):
+
             full_paths = get_lolbas_paths(lolba)
             for full_path in full_paths:
-                # grab the exe name
-                lolbas_strings += 'process_name="' + lolba['Name'].lower() + '" OR '
 
                 # drop the drive letter
                 full_path = full_path[2:]
 
-                # add path escapes
-                full_path = full_path.replace("\\", "\\\\").lower()
-                lolbas_path_strings += 'match_regex(process_path, /(?i)' + full_path + ')=false AND '
+                # drop the exe at the end
+                full_path = full_path.split("\\")[:-1]
+
+                # rejoin to a path
+                full_path = "\\".join(full_path)
+
+                # adds a slash for regex at the end
+                full_path = full_path.lower() + '/'
+                if full_path not in processed_paths:
+                    processed_paths.append(full_path)
+                    print(full_path)
+                    # add path escapes
+                    full_path = full_path.replace("\\", "\\\\").lower()
+                    lolbas_path_strings += 'match_regex(process_path, /(?i)' + full_path + ')=false AND '
 
 
     # remove trailing OR and merge with condition

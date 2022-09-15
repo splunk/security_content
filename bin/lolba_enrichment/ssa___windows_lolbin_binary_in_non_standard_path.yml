@@ -17,640 +17,299 @@ search: ssa_input = | from read_ssa_enriched_events() | eval device=ucast(map_ge
   null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string",
   null)), process_path=lower(ucast(map_get(input_event, "process_path"), "string",
   null)), event_id=ucast(map_get(input_event, "event_id"), "string", null);$cond_1
-  = | from $ssa_input | where process_name="eventvwr.exe" OR process_name="eventvwr.exe"
-  OR process_name="rasautou.exe" OR process_name="regedit.exe" OR process_name="regedit.exe"
-  OR process_name="regsvr32.exe" OR process_name="regsvr32.exe" OR process_name="control.exe"
-  OR process_name="control.exe" OR process_name="configsecuritypolicy.exe" OR process_name="scriptrunner.exe"
-  OR process_name="scriptrunner.exe" OR process_name="offlinescannershell.exe" OR
-  process_name="atbroker.exe" OR process_name="atbroker.exe" OR process_name="mmc.exe"
-  OR process_name="mmc.exe" OR process_name="mavinject.exe" OR process_name="mavinject.exe"
-  OR process_name="ftp.exe" OR process_name="ftp.exe" OR process_name="ttdinject.exe"
-  OR process_name="ttdinject.exe" OR process_name="certoc.exe" OR process_name="certoc.exe"
-  OR process_name="at.exe" OR process_name="at.exe" OR process_name="netsh.exe" OR
-  process_name="netsh.exe" OR process_name="pnputil.exe" OR process_name="ie4uinit.exe"
-  OR process_name="ie4uinit.exe" OR process_name="ie4uinit.exe" OR process_name="ie4uinit.exe"
-  OR process_name="infdefaultinstall.exe" OR process_name="infdefaultinstall.exe"
-  OR process_name="forfiles.exe" OR process_name="forfiles.exe" OR process_name="register-cimprovider.exe"
-  OR process_name="register-cimprovider.exe" OR process_name="tttracer.exe" OR process_name="tttracer.exe"
-  OR process_name="xwizard.exe" OR process_name="xwizard.exe" OR process_name="pcalua.exe"
-  OR process_name="print.exe" OR process_name="print.exe" OR process_name="runscripthelper.exe"
-  OR process_name="runscripthelper.exe" OR process_name="regasm.exe" OR process_name="regasm.exe"
-  OR process_name="regasm.exe" OR process_name="regasm.exe" OR process_name="cmd.exe"
-  OR process_name="cmd.exe" OR process_name="msbuild.exe" OR process_name="msbuild.exe"
-  OR process_name="msbuild.exe" OR process_name="msbuild.exe" OR process_name="msbuild.exe"
-  OR process_name="msbuild.exe" OR process_name="msbuild.exe" OR process_name="certutil.exe"
-  OR process_name="certutil.exe" OR process_name="vbc.exe" OR process_name="vbc.exe"
-  OR process_name="psr.exe" OR process_name="psr.exe" OR process_name="extexport.exe"
-  OR process_name="extexport.exe" OR process_name="rpcping.exe" OR process_name="rpcping.exe"
-  OR process_name="msdt.exe" OR process_name="msdt.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gfxdownloadwrapper.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="dnscmd.exe" OR process_name="dnscmd.exe"
-  OR process_name="wab.exe" OR process_name="wab.exe" OR process_name="msconfig.exe"
-  OR process_name="wscript.exe" OR process_name="wscript.exe" OR process_name="makecab.exe"
-  OR process_name="makecab.exe" OR process_name="datasvcutil.exe" OR process_name="cmdl32.exe"
-  OR process_name="cmdl32.exe" OR process_name="mshta.exe" OR process_name="mshta.exe"
-  OR process_name="cmdkey.exe" OR process_name="cmdkey.exe" OR process_name="ilasm.exe"
-  OR process_name="ilasm.exe" OR process_name="rdrleakdiag.exe" OR process_name="rdrleakdiag.exe"
-  OR process_name="mpcmdrun.exe" OR process_name="mpcmdrun.exe" OR process_name="mpcmdrun.exe"
-  OR process_name="jsc.exe" OR process_name="jsc.exe" OR process_name="jsc.exe" OR
-  process_name="jsc.exe" OR process_name="cmstp.exe" OR process_name="cmstp.exe" OR
-  process_name="stordiag.exe" OR process_name="stordiag.exe" OR process_name="odbcconf.exe"
+  = | from $ssa_input | where process_name="eventvwr.exe" OR process_name="rasautou.exe"
+  OR process_name="regedit.exe" OR process_name="regsvr32.exe" OR process_name="control.exe"
+  OR process_name="configsecuritypolicy.exe" OR process_name="scriptrunner.exe" OR
+  process_name="offlinescannershell.exe" OR process_name="atbroker.exe" OR process_name="mmc.exe"
+  OR process_name="mavinject.exe" OR process_name="ftp.exe" OR process_name="ttdinject.exe"
+  OR process_name="certoc.exe" OR process_name="at.exe" OR process_name="netsh.exe"
+  OR process_name="pnputil.exe" OR process_name="ie4uinit.exe" OR process_name="infdefaultinstall.exe"
+  OR process_name="forfiles.exe" OR process_name="register-cimprovider.exe" OR process_name="tttracer.exe"
+  OR process_name="xwizard.exe" OR process_name="pcalua.exe" OR process_name="print.exe"
+  OR process_name="runscripthelper.exe" OR process_name="regasm.exe" OR process_name="cmd.exe"
+  OR process_name="msbuild.exe" OR process_name="certutil.exe" OR process_name="vbc.exe"
+  OR process_name="psr.exe" OR process_name="extexport.exe" OR process_name="rpcping.exe"
+  OR process_name="msdt.exe" OR process_name="gfxdownloadwrapper.exe" OR process_name="onedrivestandaloneupdater.exe"
+  OR process_name="dnscmd.exe" OR process_name="wab.exe" OR process_name="msconfig.exe"
+  OR process_name="wscript.exe" OR process_name="makecab.exe" OR process_name="datasvcutil.exe"
+  OR process_name="cmdl32.exe" OR process_name="mshta.exe" OR process_name="cmdkey.exe"
+  OR process_name="ilasm.exe" OR process_name="rdrleakdiag.exe" OR process_name="mpcmdrun.exe"
+  OR process_name="jsc.exe" OR process_name="cmstp.exe" OR process_name="stordiag.exe"
   OR process_name="odbcconf.exe" OR process_name="wlrmdr.exe" OR process_name="printbrm.exe"
-  OR process_name="dfsvc.exe" OR process_name="dfsvc.exe" OR process_name="dfsvc.exe"
-  OR process_name="dfsvc.exe" OR process_name="extrac32.exe" OR process_name="extrac32.exe"
-  OR process_name="rundll32.exe" OR process_name="rundll32.exe" OR process_name="runonce.exe"
-  OR process_name="runonce.exe" OR process_name="explorer.exe" OR process_name="explorer.exe"
-  OR process_name="wuauclt.exe" OR process_name="wsreset.exe" OR process_name="finger.exe"
-  OR process_name="finger.exe" OR process_name="regini.exe" OR process_name="regini.exe"
-  OR process_name="reg.exe" OR process_name="reg.exe" OR process_name="syncappvpublishingserver.exe"
-  OR process_name="syncappvpublishingserver.exe" OR process_name="bitsadmin.exe" OR
-  process_name="bitsadmin.exe" OR process_name="msiexec.exe" OR process_name="msiexec.exe"
-  OR process_name="regsvcs.exe" OR process_name="regsvcs.exe" OR process_name="gpscript.exe"
-  OR process_name="gpscript.exe" OR process_name="diskshadow.exe" OR process_name="diskshadow.exe"
-  OR process_name="ieexec.exe" OR process_name="ieexec.exe" OR process_name="diantz.exe"
-  OR process_name="diantz.exe" OR process_name="desktopimgdownldr.exe" OR process_name="appinstaller.exe"
-  OR process_name="sc.exe" OR process_name="sc.exe" OR process_name="replace.exe"
-  OR process_name="replace.exe" OR process_name="schtasks.exe" OR process_name="schtasks.exe"
-  OR process_name="microsoft.workflow.compiler.exe" OR process_name="expand.exe" OR
-  process_name="expand.exe" OR process_name="conhost.exe" OR process_name="bash.exe"
-  OR process_name="bash.exe" OR process_name="pcwrun.exe" OR process_name="fltmc.exe"
-  OR process_name="wmic.exe" OR process_name="wmic.exe" OR process_name="workfolders.exe"
-  OR process_name="settingsynchost.exe" OR process_name="settingsynchost.exe" OR process_name="pktmon.exe"
-  OR process_name="pktmon.exe" OR process_name="aspnet_compiler.exe" OR process_name="aspnet_compiler.exe"
-  OR process_name="cscript.exe" OR process_name="cscript.exe" OR process_name="installutil.exe"
-  OR process_name="installutil.exe" OR process_name="installutil.exe" OR process_name="installutil.exe"
-  OR process_name="esentutl.exe" OR process_name="esentutl.exe" OR process_name="hh.exe"
-  OR process_name="hh.exe" OR process_name="findstr.exe" OR process_name="findstr.exe"
-  OR process_name="verclsid.exe" OR process_name="verclsid.exe" OR process_name="certreq.exe"
-  OR process_name="certreq.exe" OR process_name="csc.exe" OR process_name="csc.exe"
-  OR process_name="imewdbld.exe" OR process_name="presentationhost.exe" OR process_name="presentationhost.exe"
-  OR process_name="shell32.dll" OR process_name="shell32.dll" OR process_name="zipfldr.dll"
-  OR process_name="zipfldr.dll" OR process_name="desk.cpl" OR process_name="desk.cpl"
-  OR process_name="comsvcs.dll" OR process_name="setupapi.dll" OR process_name="setupapi.dll"
-  OR process_name="mshtml.dll" OR process_name="mshtml.dll" OR process_name="advpack.dll"
-  OR process_name="advpack.dll" OR process_name="pcwutl.dll" OR process_name="pcwutl.dll"
-  OR process_name="shdocvw.dll" OR process_name="shdocvw.dll" OR process_name="ieframe.dll"
-  OR process_name="ieframe.dll" OR process_name="dfshim.dll" OR process_name="dfshim.dll"
-  OR process_name="dfshim.dll" OR process_name="dfshim.dll" OR process_name="url.dll"
-  OR process_name="url.dll" OR process_name="ieadvpack.dll" OR process_name="ieadvpack.dll"
-  OR process_name="syssetup.dll" OR process_name="syssetup.dll" OR process_name="winrm.vbs"
-  OR process_name="winrm.vbs" OR process_name="manage-bde.wsf" OR process_name="cl_mutexverifiers.ps1"
-  OR process_name="cl_mutexverifiers.ps1" OR process_name="cl_mutexverifiers.ps1"
-  OR process_name="cl_mutexverifiers.ps1" OR process_name="cl_mutexverifiers.ps1"
-  OR process_name="pubprn.vbs" OR process_name="pubprn.vbs" OR process_name="pester.bat"
-  OR process_name="pester.bat" OR process_name="cl_loadassembly.ps1" OR process_name="syncappvpublishingserver.vbs"
-  OR process_name="cl_invocation.ps1" OR process_name="cl_invocation.ps1" OR process_name="cl_invocation.ps1"
-  OR process_name="utilityfunctions.ps1" OR process_name="coregen.exe" OR process_name="coregen.exe"
-  OR process_name="fsi.exe" OR process_name="fsi.exe" OR process_name="visualuiaverifynative.exe"
-  OR process_name="visualuiaverifynative.exe" OR process_name="visualuiaverifynative.exe"
-  OR process_name="ntdsutil.exe" OR process_name="sqltoolsps.exe" OR process_name="dump64.exe"
-  OR process_name="wsl.exe" OR process_name="csi.exe" OR process_name="csi.exe" OR
-  process_name="mftrace.exe" OR process_name="mftrace.exe" OR process_name="mftrace.exe"
-  OR process_name="mftrace.exe" OR process_name="adplus.exe" OR process_name="adplus.exe"
-  OR process_name="excel.exe" OR process_name="excel.exe" OR process_name="excel.exe"
-  OR process_name="excel.exe" OR process_name="excel.exe" OR process_name="excel.exe"
-  OR process_name="excel.exe" OR process_name="excel.exe" OR process_name="excel.exe"
-  OR process_name="excel.exe" OR process_name="excel.exe" OR process_name="excel.exe"
-  OR process_name="excel.exe" OR process_name="excel.exe" OR process_name="excel.exe"
-  OR process_name="dotnet.exe" OR process_name="sqlps.exe" OR process_name="sqlps.exe"
-  OR process_name="sqlps.exe" OR process_name="sqlps.exe" OR process_name="sqlps.exe"
-  OR process_name="acccheckconsole.exe" OR process_name="acccheckconsole.exe" OR process_name="acccheckconsole.exe"
-  OR process_name="acccheckconsole.exe" OR process_name="powerpnt.exe" OR process_name="powerpnt.exe"
-  OR process_name="powerpnt.exe" OR process_name="powerpnt.exe" OR process_name="powerpnt.exe"
-  OR process_name="powerpnt.exe" OR process_name="powerpnt.exe" OR process_name="powerpnt.exe"
-  OR process_name="powerpnt.exe" OR process_name="powerpnt.exe" OR process_name="powerpnt.exe"
-  OR process_name="powerpnt.exe" OR process_name="powerpnt.exe" OR process_name="powerpnt.exe"
-  OR process_name="powerpnt.exe" OR process_name="sqldumper.exe" OR process_name="sqldumper.exe"
-  OR process_name="remote.exe" OR process_name="remote.exe" OR process_name="appvlp.exe"
+  OR process_name="dfsvc.exe" OR process_name="extrac32.exe" OR process_name="rundll32.exe"
+  OR process_name="runonce.exe" OR process_name="explorer.exe" OR process_name="wuauclt.exe"
+  OR process_name="wsreset.exe" OR process_name="finger.exe" OR process_name="regini.exe"
+  OR process_name="reg.exe" OR process_name="syncappvpublishingserver.exe" OR process_name="bitsadmin.exe"
+  OR process_name="msiexec.exe" OR process_name="regsvcs.exe" OR process_name="gpscript.exe"
+  OR process_name="diskshadow.exe" OR process_name="ieexec.exe" OR process_name="diantz.exe"
+  OR process_name="desktopimgdownldr.exe" OR process_name="appinstaller.exe" OR process_name="sc.exe"
+  OR process_name="replace.exe" OR process_name="schtasks.exe" OR process_name="microsoft.workflow.compiler.exe"
+  OR process_name="expand.exe" OR process_name="conhost.exe" OR process_name="bash.exe"
+  OR process_name="pcwrun.exe" OR process_name="fltmc.exe" OR process_name="wmic.exe"
+  OR process_name="workfolders.exe" OR process_name="settingsynchost.exe" OR process_name="pktmon.exe"
+  OR process_name="aspnet_compiler.exe" OR process_name="cscript.exe" OR process_name="installutil.exe"
+  OR process_name="esentutl.exe" OR process_name="hh.exe" OR process_name="findstr.exe"
+  OR process_name="verclsid.exe" OR process_name="certreq.exe" OR process_name="csc.exe"
+  OR process_name="imewdbld.exe" OR process_name="presentationhost.exe" OR process_name="shell32.dll"
+  OR process_name="zipfldr.dll" OR process_name="desk.cpl" OR process_name="comsvcs.dll"
+  OR process_name="setupapi.dll" OR process_name="mshtml.dll" OR process_name="advpack.dll"
+  OR process_name="pcwutl.dll" OR process_name="shdocvw.dll" OR process_name="ieframe.dll"
+  OR process_name="dfshim.dll" OR process_name="url.dll" OR process_name="ieadvpack.dll"
+  OR process_name="syssetup.dll" OR process_name="winrm.vbs" OR process_name="manage-bde.wsf"
+  OR process_name="cl_mutexverifiers.ps1" OR process_name="pubprn.vbs" OR process_name="pester.bat"
+  OR process_name="cl_loadassembly.ps1" OR process_name="syncappvpublishingserver.vbs"
+  OR process_name="cl_invocation.ps1" OR process_name="utilityfunctions.ps1" OR process_name="te.exe"
+  OR process_name="coregen.exe" OR process_name="rcsi.exe" OR process_name="fsi.exe"
+  OR process_name="visualuiaverifynative.exe" OR process_name="ntdsutil.exe" OR process_name="sqltoolsps.exe"
+  OR process_name="dump64.exe" OR process_name="wsl.exe" OR process_name="csi.exe"
+  OR process_name="bginfo.exe" OR process_name="mftrace.exe" OR process_name="adplus.exe"
+  OR process_name="excel.exe" OR process_name="dotnet.exe" OR process_name="sqlps.exe"
+  OR process_name="tracker.exe" OR process_name="acccheckconsole.exe" OR process_name="powerpnt.exe"
+  OR process_name="squirrel.exe" OR process_name="sqldumper.exe" OR process_name="remote.exe"
   OR process_name="appvlp.exe" OR process_name="agentexecutor.exe" OR process_name="dxcap.exe"
-  OR process_name="dxcap.exe" OR process_name="cdb.exe" OR process_name="cdb.exe"
-  OR process_name="defaultpack.exe" OR process_name="devtoolslauncher.exe" OR process_name="vsiisexelauncher.exe"
-  OR process_name="winword.exe" OR process_name="winword.exe" OR process_name="winword.exe"
-  OR process_name="winword.exe" OR process_name="winword.exe" OR process_name="winword.exe"
-  OR process_name="winword.exe" OR process_name="winword.exe" OR process_name="winword.exe"
-  OR process_name="winword.exe" OR process_name="winword.exe" OR process_name="winword.exe"
-  OR process_name="winword.exe" OR process_name="winword.exe" OR process_name="winword.exe"
+  OR process_name="cdb.exe" OR process_name="defaultpack.exe" OR process_name="devtoolslauncher.exe"
+  OR process_name="vsiisexelauncher.exe" OR process_name="msxsl.exe" OR process_name="dnx.exe"
   OR process_name="winword.exe" OR process_name="fsianycpu.exe" OR process_name="vsjitdebugger.exe"
-  OR process_name="wfc.exe" OR process_name="msdeploy.exe" | from $cond_1 | where
-  match_regex(process_path, /(?i)\\windows\\system32\\eventvwr.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\syswow64\\eventvwr.exe)=false AND match_regex(process_path, /(?i)\\windows\\system32\\rasautou.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\regedit.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\syswow64\\regedit.exe)=false AND match_regex(process_path, /(?i)\\windows\\system32\\regsvr32.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\syswow64\\regsvr32.exe)=false AND
-  match_regex(process_path, /(?i)\\windows\\system32\\control.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\syswow64\\control.exe)=false AND match_regex(process_path, /(?i)\\programdata\\microsoft\\windows
-  defender\\platform\\4.18.2008.9-0\\configsecuritypolicy.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\system32\\scriptrunner.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\syswow64\\scriptrunner.exe)=false AND match_regex(process_path,
-  /(?i)\\program files\\windows defender\\offline\\offlinescannershell.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\atbroker.exe)=false AND
-  match_regex(process_path, /(?i)\\windows\\syswow64\\atbroker.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\system32\\mmc.exe)=false AND match_regex(process_path, /(?i)\\windows\\syswow64\\mmc.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\mavinject.exe)=false AND
-  match_regex(process_path, /(?i)\\windows\\syswow64\\mavinject.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\system32\\ftp.exe)=false AND match_regex(process_path, /(?i)\\windows\\syswow64\\ftp.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\ttdinject.exe)=false AND
-  match_regex(process_path, /(?i)\\windows\\syswow64\\ttdinject.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\system32\\certoc.exe)=false AND match_regex(process_path, /(?i)\\windows\\syswow64\\certoc.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\at.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\syswow64\\at.exe)=false AND match_regex(process_path, /(?i)\\windows\\system32\\netsh.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\syswow64\\netsh.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\system32\\pnputil.exe)=false AND match_regex(process_path, /(?i)\\windows\\system32\\ie4uinit.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\syswow64\\ie4uinit.exe)=false AND
-  match_regex(process_path, /(?i)\\windows\\system32\\ieuinit.inf)=false AND match_regex(process_path,
-  /(?i)\\windows\\syswow64\\ieuinit.inf)=false AND match_regex(process_path, /(?i)\\windows\\system32\\infdefaultinstall.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\syswow64\\infdefaultinstall.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\forfiles.exe)=false AND
-  match_regex(process_path, /(?i)\\windows\\syswow64\\forfiles.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\system32\\register-cimprovider.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\syswow64\\register-cimprovider.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\system32\\tttracer.exe)=false AND match_regex(process_path, /(?i)\\windows\\syswow64\\tttracer.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\xwizard.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\syswow64\\xwizard.exe)=false AND match_regex(process_path, /(?i)\\windows\\system32\\pcalua.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\print.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\syswow64\\print.exe)=false AND match_regex(process_path, /(?i)\\windows\\winsxs\\amd64_microsoft-windows-u..ed-telemetry-client_31bf3856ad364e35_10.0.16299.15_none_c2df1bba78111118\\runscripthelper.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\winsxs\\amd64_microsoft-windows-u..ed-telemetry-client_31bf3856ad364e35_10.0.16299.192_none_ad4699b571e00c4a\\runscripthelper.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\microsoft.net\\framework\\v2.0.50727\\regasm.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\microsoft.net\\framework64\\v2.0.50727\\regasm.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\microsoft.net\\framework\\v4.0.30319\\regasm.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\microsoft.net\\framework64\\v4.0.30319\\regasm.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\cmd.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\syswow64\\cmd.exe)=false AND match_regex(process_path, /(?i)\\windows\\microsoft.net\\framework\\v2.0.50727\\msbuild.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\microsoft.net\\framework64\\v2.0.50727\\msbuild.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\microsoft.net\\framework\\v3.5\\msbuild.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\microsoft.net\\framework64\\v3.5\\msbuild.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\microsoft.net\\framework\\v4.0.30319\\msbuild.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\microsoft.net\\framework64\\v4.0.30319\\msbuild.exe)=false
-  AND match_regex(process_path, /(?i)\\program files (x86)\\msbuild\\14.0\\bin\\msbuild.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\certutil.exe)=false AND
-  match_regex(process_path, /(?i)\\windows\\syswow64\\certutil.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\microsoft.net\\framework64\\v4.0.30319\\vbc.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\microsoft.net\\framework64\\v3.5\\vbc.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\system32\\psr.exe)=false AND match_regex(process_path, /(?i)\\windows\\syswow64\\psr.exe)=false
-  AND match_regex(process_path, /(?i)\\program files\\internet explorer\\extexport.exe)=false
-  AND match_regex(process_path, /(?i)\\program files (x86)\\internet explorer\\extexport.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\rpcping.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\syswow64\\rpcping.exe)=false AND match_regex(process_path, /(?i)\\windows\\system32\\msdt.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\syswow64\\msdt.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\system32\\driverstore\\filerepository\\64kb6472.inf_amd64_3daef03bbe98572b\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_comp.inf_amd64_0e9c57ae3396e055\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_comp.inf_amd64_209bd95d56b1ac2d\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_comp.inf_amd64_3fa2a843f8b7f16d\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_comp.inf_amd64_85c860f05274baa0\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_comp.inf_amd64_f7412e3e3404de80\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_comp.inf_amd64_feb9f1cf05b0de58\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_component.inf_amd64_0219cc1c7085a93f\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_component.inf_amd64_df4f60b1cae9b14a\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dc_comp.inf_amd64_16eb18b0e2526e57\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dc_comp.inf_amd64_1c77f1231c19bc72\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dc_comp.inf_amd64_31c60cc38cfcca28\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dc_comp.inf_amd64_82f69cea8b2d928f\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dc_comp.inf_amd64_b4d94f3e41ceb839\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_0606619cc97463de\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_0e95edab338ad669\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_22aac1442d387216\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_2461d914696db722\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_29d727269a34edf5\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_2caf76dbce56546d\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_353320edb98da643\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_4ea0ed0af1507894\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_56a48f4f1c2da7a7\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_64f23fdadb76a511\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_668dd0c6d3f9fa0e\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_6be8e5b7f731a6e5\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_6dad7e4e9a8fa889\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_6df442103a1937a4\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_767e7683f9ad126c\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_8644298f665a12c4\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_868acf86149aef5d\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_92cf9d9d84f1d3db\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_93239c65f222d453\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_9de8154b682af864\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_a7428663aca90897\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_ad7cb5e55a410add\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_afbf41cf8ab202d7\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_d193c96475eaa96e\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_db953c52208ada71\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_e7523682cc7528cc\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_e9f341319ca84274\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_f3a64c75ee4defb7\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_f51939e52b944f4b\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch_comp.inf_amd64_4938423c9b9639d7\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch_comp.inf_amd64_c8e108d4a62c59d5\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch_comp.inf_amd64_deecec7d232ced2b\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_01ee1299f4982efe\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_02edfc87000937e4\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_0541b698fc6e40b0\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_0707757077710fff\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_0b3e3ed3ace9602a\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_0cff362f9dff4228\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_16ed7d82b93e4f68\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_1a33d2f73651d989\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_1aca2a92a37fce23\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_1af2dd3e4df5fd61\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_1d571527c7083952\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_23f7302c2b9ee813\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_24de78387e6208e4\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_250db833a1cd577e\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_25e7c5a58c052bc5\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_28d80681d3523b1c\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_2dda3b1147a3a572\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_31ba00ea6900d67d\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_329877a66f240808\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_42af9f4718aa1395\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_4645af5c659ae51a\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_48c2e68e54c92258\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_48e7e903a369eae2\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_491d20003583dabe\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_4b34c18659561116\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_51ce968bf19942c2\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_555cfc07a674ecdd\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_561bd21d54545ed3\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_579a75f602cc2dce\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_57f66a4f0a97f1a3\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_587befb80671fb38\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_62f096fe77e085c0\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_6ae0ddbb4a38e23c\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_6bb02522ea3fdb0d\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_6d34ac0763025a06\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_712b6a0adbaabc0a\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_78b09d9681a2400f\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_842874489af34daa\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_88084eb1fe7cebc3\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_89033455cb08186f\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_8a9535cd18c90bc3\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_8c1fc948b5a01c52\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_9088b61921a6ff9f\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_90f68cd0dc48b625\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_95cb371d046d4b4c\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_a58de0cf5f3e9dca\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_abe9d37302f8b1ae\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_acb3edda7b82982f\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_aebc5a8535dd3184\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_b5d4c82c67b39358\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_b846bbf1e81ea3cf\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_babb2e8b8072ff3b\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_bc75cebf5edbbc50\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_be91293cf20d4372\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_c11f4d5f0bc4c592\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_c4e5173126d31cf0\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_c4f600ffe34acc7b\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_c8634ed19e331cda\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_c9081e50bcffa972\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_ceddadac8a2b489e\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_d4406f0ad6ec2581\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_d5877a2e0e6374b6\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_d8ca5f86add535ef\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_e8abe176c7b553b5\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_eabb3ac2c517211f\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_f8d8be8fea71e1a0\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_fe5e116bb07c0629\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_fe73d2ebaa05fb95\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64_kbl_kit127397.inf_amd64_e1da8ee9e92ccadb\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\k127153.inf_amd64_364f43f2a27f7bd7\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\k127153.inf_amd64_3f3936d8dec668b8\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\k127793.inf_amd64_3ab7883eddccbf0f\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki129523.inf_amd64_32947eecf8f3e231\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki126950.inf_amd64_fa7f56314967630d\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki126951.inf_amd64_94804e3918169543\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki126973.inf_amd64_06dde156632145e3\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki126974.inf_amd64_9168fc04b8275db9\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki127005.inf_amd64_753576c4406c1193\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki127018.inf_amd64_0f67ff47e9e30716\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki127021.inf_amd64_0d68af55c12c7c17\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki127171.inf_amd64_368f8c7337214025\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki127176.inf_amd64_86c658cabfb17c9c\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki127390.inf_amd64_e1ccb879ece8f084\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki127678.inf_amd64_8427d3a09f47dfc1\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki127727.inf_amd64_cf8e31692f82192e\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki127807.inf_amd64_fc915899816dbc5d\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki127850.inf_amd64_6ad8d99023b59fd5\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki128602.inf_amd64_6ff790822fd674ab\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki128916.inf_amd64_3509e1eb83b83cfb\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki129407.inf_amd64_f26f36ac54ce3076\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki129633.inf_amd64_d9b8af875f664a8c\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki129866.inf_amd64_e7cdca9882c16f55\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki130274.inf_amd64_bafd2440fa1ffdd6\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki130350.inf_amd64_696b7c6764071b63\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki130409.inf_amd64_0d8d61270dfb4560\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki130471.inf_amd64_26ad6921447aa568\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki130624.inf_amd64_d85487143eec5e1a\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki130825.inf_amd64_ee3ba427c553f15f\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki130871.inf_amd64_382f7c369d4bf777\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki131064.inf_amd64_5d13f27a9a9843fa\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki131176.inf_amd64_fb4fe914575fdd15\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki131191.inf_amd64_d668106cb6f2eae0\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki131622.inf_amd64_0058d71ace34db73\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki132032.inf_amd64_f29660d80998e019\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki132337.inf_amd64_223d6831ffa64ab1\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki132535.inf_amd64_7875dff189ab2fa2\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki132544.inf_amd64_b8c1f31373153db4\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki132574.inf_amd64_54c9b905b975ee55\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki132869.inf_amd64_052eb72d070df60f\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\kit126731.inf_amd64_1905c9d5f38631d9\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\dnscmd.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\syswow64\\dnscmd.exe)=false AND match_regex(process_path, /(?i)\\program
-  files\\windows mail\\wab.exe)=false AND match_regex(process_path, /(?i)\\program
-  files (x86)\\windows mail\\wab.exe)=false AND match_regex(process_path, /(?i)\\windows\\system32\\msconfig.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\wscript.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\syswow64\\wscript.exe)=false AND match_regex(process_path, /(?i)\\windows\\system32\\makecab.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\syswow64\\makecab.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\microsoft.net\\framework64\\v3.5\\datasvcutil.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\system32\\cmdl32.exe)=false AND match_regex(process_path, /(?i)\\windows\\syswow64\\cmdl32.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\mshta.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\syswow64\\mshta.exe)=false AND match_regex(process_path, /(?i)\\windows\\system32\\cmdkey.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\syswow64\\cmdkey.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\microsoft.net\\framework\\v4.0.30319\\ilasm.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\microsoft.net\\framework64\\v4.0.30319\\ilasm.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\system32\\rdrleakdiag.exe)=false AND match_regex(process_path, /(?i)\\windows\\syswow64\\rdrleakdiag.exe)=false
-  AND match_regex(process_path, /(?i)\\programdata\\microsoft\\windows defender\\platform\\4.18.2008.4-0\\mpcmdrun.exe)=false
-  AND match_regex(process_path, /(?i)\\programdata\\microsoft\\windows defender\\platform\\4.18.2008.7-0\\mpcmdrun.exe)=false
-  AND match_regex(process_path, /(?i)\\programdata\\microsoft\\windows defender\\platform\\4.18.2008.9-0\\mpcmdrun.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\microsoft.net\\framework\\v4.0.30319\\jsc.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\microsoft.net\\framework64\\v4.0.30319\\jsc.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\microsoft.net\\framework\\v2.0.50727\\jsc.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\microsoft.net\\framework64\\v2.0.50727\\jsc.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\cmstp.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\syswow64\\cmstp.exe)=false AND match_regex(process_path, /(?i)\\windows\\system32\\stordiag.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\syswow64\\stordiag.exe)=false AND
-  match_regex(process_path, /(?i)\\windows\\system32\\odbcconf.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\syswow64\\odbcconf.exe)=false AND match_regex(process_path, /(?i)\\windows\\system32\\wlrmdr.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\spool\\tools\\printbrm.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\microsoft.net\\framework\\v2.0.50727\\dfsvc.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\microsoft.net\\framework64\\v2.0.50727\\dfsvc.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\microsoft.net\\framework\\v4.0.30319\\dfsvc.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\microsoft.net\\framework64\\v4.0.30319\\dfsvc.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\extrac32.exe)=false AND
-  match_regex(process_path, /(?i)\\windows\\syswow64\\extrac32.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\system32\\rundll32.exe)=false AND match_regex(process_path, /(?i)\\windows\\syswow64\\rundll32.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\runonce.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\syswow64\\runonce.exe)=false AND match_regex(process_path, /(?i)\\windows\\explorer.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\syswow64\\explorer.exe)=false AND
-  match_regex(process_path, /(?i)\\windows\\system32\\wuauclt.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\system32\\wsreset.exe)=false AND match_regex(process_path, /(?i)\\windows\\system32\\finger.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\syswow64\\finger.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\system32\\regini.exe)=false AND match_regex(process_path, /(?i)\\windows\\syswow64\\regini.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\reg.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\syswow64\\reg.exe)=false AND match_regex(process_path, /(?i)\\windows\\system32\\syncappvpublishingserver.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\syswow64\\syncappvpublishingserver.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\bitsadmin.exe)=false AND
-  match_regex(process_path, /(?i)\\windows\\syswow64\\bitsadmin.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\system32\\msiexec.exe)=false AND match_regex(process_path, /(?i)\\windows\\syswow64\\msiexec.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\regsvcs.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\syswow64\\regsvcs.exe)=false AND match_regex(process_path, /(?i)\\windows\\system32\\gpscript.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\syswow64\\gpscript.exe)=false AND
-  match_regex(process_path, /(?i)\\windows\\system32\\diskshadow.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\syswow64\\diskshadow.exe)=false AND match_regex(process_path, /(?i)\\windows\\microsoft.net\\framework\\v2.0.50727\\ieexec.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\microsoft.net\\framework64\\v2.0.50727\\ieexec.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\diantz.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\syswow64\\diantz.exe)=false AND match_regex(process_path, /(?i)\\windows\\system32\\desktopimgdownldr.exe)=false
-  AND match_regex(process_path, /(?i)\\program files\\windowsapps\\microsoft.desktopappinstaller_1.11.2521.0_x64__8wekyb3d8bbwe\\appinstaller.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\sc.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\syswow64\\sc.exe)=false AND match_regex(process_path, /(?i)\\windows\\system32\\replace.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\syswow64\\replace.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\system32\\schtasks.exe)=false AND match_regex(process_path, /(?i)\\windows\\syswow64\\schtasks.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\microsoft.net\\framework64\\v4.0.30319\\microsoft.workflow.compiler.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\expand.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\syswow64\\expand.exe)=false AND match_regex(process_path, /(?i)\\windows\\system32\\conhost.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\bash.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\syswow64\\bash.exe)=false AND match_regex(process_path, /(?i)\\windows\\system32\\pcwrun.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\fltmc.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\system32\\wbem\\wmic.exe)=false AND match_regex(process_path, /(?i)\\windows\\syswow64\\wbem\\wmic.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\workfolders.exe)=false AND
-  match_regex(process_path, /(?i)\\windows\\system32\\settingsynchost.exe)=false AND
-  match_regex(process_path, /(?i)\\windows\\syswow64\\settingsynchost.exe)=false AND
-  match_regex(process_path, /(?i)\\windows\\system32\\pktmon.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\syswow64\\pktmon.exe)=false AND match_regex(process_path, /(?i)\\windows\\microsoft.net\\framework\\v4.0.30319\\aspnet_compiler.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\microsoft.net\\framework64\\v4.0.30319\\aspnet_compiler.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\cscript.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\syswow64\\cscript.exe)=false AND match_regex(process_path, /(?i)\\windows\\microsoft.net\\framework\\v2.0.50727\\installutil.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\microsoft.net\\framework64\\v2.0.50727\\installutil.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\microsoft.net\\framework\\v4.0.30319\\installutil.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\microsoft.net\\framework64\\v4.0.30319\\installutil.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\esentutl.exe)=false AND
-  match_regex(process_path, /(?i)\\windows\\syswow64\\esentutl.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\hh.exe)=false AND match_regex(process_path, /(?i)\\windows\\syswow64\\hh.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\findstr.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\syswow64\\findstr.exe)=false AND match_regex(process_path, /(?i)\\windows\\system32\\verclsid.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\syswow64\\verclsid.exe)=false AND
-  match_regex(process_path, /(?i)\\windows\\system32\\certreq.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\syswow64\\certreq.exe)=false AND match_regex(process_path, /(?i)\\windows\\microsoft.net\\framework\\v4.0.30319\\csc.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\microsoft.net\\framework64\\v4.0.30319\\csc.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\ime\\shared\\imewdbld.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\presentationhost.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\syswow64\\presentationhost.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\shell32.dll)=false AND match_regex(process_path,
-  /(?i)\\windows\\syswow64\\shell32.dll)=false AND match_regex(process_path, /(?i)\\windows\\system32\\zipfldr.dll)=false
-  AND match_regex(process_path, /(?i)\\windows\\syswow64\\zipfldr.dll)=false AND match_regex(process_path,
-  /(?i)\\windows\\system32\\desk.cpl)=false AND match_regex(process_path, /(?i)\\windows\\syswow64\\desk.cpl)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\comsvcs.dll)=false AND match_regex(process_path,
-  /(?i)\\windows\\system32\\setupapi.dll)=false AND match_regex(process_path, /(?i)\\windows\\syswow64\\setupapi.dll)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\mshtml.dll)=false AND match_regex(process_path,
-  /(?i)\\windows\\syswow64\\mshtml.dll)=false AND match_regex(process_path, /(?i)\\windows\\system32\\advpack.dll)=false
-  AND match_regex(process_path, /(?i)\\windows\\syswow64\\advpack.dll)=false AND match_regex(process_path,
-  /(?i)\\windows\\system32\\pcwutl.dll)=false AND match_regex(process_path, /(?i)\\windows\\syswow64\\pcwutl.dll)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\shdocvw.dll)=false AND match_regex(process_path,
-  /(?i)\\windows\\syswow64\\shdocvw.dll)=false AND match_regex(process_path, /(?i)\\windows\\system32\\ieframe.dll)=false
-  AND match_regex(process_path, /(?i)\\windows\\syswow64\\ieframe.dll)=false AND match_regex(process_path,
-  /(?i)\\windows\\microsoft.net\\framework\\v2.0.50727\\dfsvc.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\microsoft.net\\framework64\\v2.0.50727\\dfsvc.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\microsoft.net\\framework\\v4.0.30319\\dfsvc.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\microsoft.net\\framework64\\v4.0.30319\\dfsvc.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\system32\\url.dll)=false AND match_regex(process_path, /(?i)\\windows\\syswow64\\url.dll)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\ieadvpack.dll)=false AND
-  match_regex(process_path, /(?i)\\windows\\syswow64\\ieadvpack.dll)=false AND match_regex(process_path,
-  /(?i)\\windows\\system32\\syssetup.dll)=false AND match_regex(process_path, /(?i)\\windows\\syswow64\\syssetup.dll)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\winrm.vbs)=false AND match_regex(process_path,
-  /(?i)\\windows\\syswow64\\winrm.vbs)=false AND match_regex(process_path, /(?i)\\windows\\system32\\manage-bde.wsf)=false
-  AND match_regex(process_path, /(?i)\\windows\\diagnostics\\system\\windowsupdate\\cl_mutexverifiers.ps1)=false
-  AND match_regex(process_path, /(?i)\\windows\\diagnostics\\system\\audio\\cl_mutexverifiers.ps1)=false
-  AND match_regex(process_path, /(?i)\\windows\\diagnostics\\system\\windowsupdate\\cl_mutexverifiers.ps1)=false
-  AND match_regex(process_path, /(?i)\\windows\\diagnostics\\system\\video\\cl_mutexverifiers.ps1)=false
-  AND match_regex(process_path, /(?i)\\windows\\diagnostics\\system\\speech\\cl_mutexverifiers.ps1)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\printing_admin_scripts\\en-us\\pubprn.vbs)=false
-  AND match_regex(process_path, /(?i)\\windows\\syswow64\\printing_admin_scripts\\en-us\\pubprn.vbs)=false
-  AND match_regex(process_path, /(?i)\\program files\\windowspowershell\\modules\\pester\\3.4.0\\bin\\pester.bat)=false
-  AND match_regex(process_path, /(?i)\\program files\\windowspowershell\\modules\\pester\\*\\bin\\pester.bat)=false
-  AND match_regex(process_path, /(?i)\\windows\\diagnostics\\system\\audio\\cl_loadassembly.ps1)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\syncappvpublishingserver.vbs)=false
-  AND match_regex(process_path, /(?i)\\windows\\diagnostics\\system\\aero\\cl_invocation.ps1)=false
-  AND match_regex(process_path, /(?i)\\windows\\diagnostics\\system\\audio\\cl_invocation.ps1)=false
-  AND match_regex(process_path, /(?i)\\windows\\diagnostics\\system\\windowsupdate\\cl_invocation.ps1)=false
-  AND match_regex(process_path, /(?i)\\windows\\diagnostics\\system\\networking\\utilityfunctions.ps1)=false
-  AND match_regex(process_path, /(?i)\\program files\\microsoft silverlight\\5.1.50918.0\\coregen.exe)=false
-  AND match_regex(process_path, /(?i)\\program files (x86)\\microsoft silverlight\\5.1.50918.0\\coregen.exe)=false
-  AND match_regex(process_path, /(?i)\\program files\\dotnet\\sdk\\[sdk version]\\fsharp\\fsi.exe)=false
-  AND match_regex(process_path, /(?i)\\program files (x86)\\microsoft visual studio\\2019\\professional\\common7\\ide\\commonextensions\\microsoft\\fsharp\\fsi.exe)=false
+  OR process_name="wfc.exe" OR process_name="msdeploy.exe" OR process_name="update.exe"
+  OR process_name="procdump(64).exe" | from $cond_1 | where match_regex(process_path,
+  /(?i)\\windows\\system32/)=false AND match_regex(process_path, /(?i)\\windows\\syswow64/)=false
+  AND match_regex(process_path, /(?i)\\programdata\\microsoft\\windows defender\\platform\\4.18.2008.9-0/)=false
+  AND match_regex(process_path, /(?i)\\program files\\windows defender\\offline/)=false
+  AND match_regex(process_path, /(?i)\\windows\\winsxs\\amd64_microsoft-windows-u..ed-telemetry-client_31bf3856ad364e35_10.0.16299.15_none_c2df1bba78111118/)=false
+  AND match_regex(process_path, /(?i)\\windows\\winsxs\\amd64_microsoft-windows-u..ed-telemetry-client_31bf3856ad364e35_10.0.16299.192_none_ad4699b571e00c4a/)=false
+  AND match_regex(process_path, /(?i)\\windows\\microsoft.net\\framework\\v2.0.50727/)=false
+  AND match_regex(process_path, /(?i)\\windows\\microsoft.net\\framework64\\v2.0.50727/)=false
+  AND match_regex(process_path, /(?i)\\windows\\microsoft.net\\framework\\v4.0.30319/)=false
+  AND match_regex(process_path, /(?i)\\windows\\microsoft.net\\framework64\\v4.0.30319/)=false
+  AND match_regex(process_path, /(?i)\\windows\\microsoft.net\\framework\\v3.5/)=false
+  AND match_regex(process_path, /(?i)\\windows\\microsoft.net\\framework64\\v3.5/)=false
+  AND match_regex(process_path, /(?i)\\program files (x86)\\msbuild\\14.0\\bin/)=false
+  AND match_regex(process_path, /(?i)\\program files\\internet explorer/)=false AND
+  match_regex(process_path, /(?i)\\program files (x86)\\internet explorer/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\64kb6472.inf_amd64_3daef03bbe98572b/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_comp.inf_amd64_0e9c57ae3396e055/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_comp.inf_amd64_209bd95d56b1ac2d/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_comp.inf_amd64_3fa2a843f8b7f16d/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_comp.inf_amd64_85c860f05274baa0/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_comp.inf_amd64_f7412e3e3404de80/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_comp.inf_amd64_feb9f1cf05b0de58/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_component.inf_amd64_0219cc1c7085a93f/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_component.inf_amd64_df4f60b1cae9b14a/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dc_comp.inf_amd64_16eb18b0e2526e57/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dc_comp.inf_amd64_1c77f1231c19bc72/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dc_comp.inf_amd64_31c60cc38cfcca28/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dc_comp.inf_amd64_82f69cea8b2d928f/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dc_comp.inf_amd64_b4d94f3e41ceb839/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_0606619cc97463de/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_0e95edab338ad669/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_22aac1442d387216/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_2461d914696db722/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_29d727269a34edf5/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_2caf76dbce56546d/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_353320edb98da643/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_4ea0ed0af1507894/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_56a48f4f1c2da7a7/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_64f23fdadb76a511/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_668dd0c6d3f9fa0e/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_6be8e5b7f731a6e5/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_6dad7e4e9a8fa889/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_6df442103a1937a4/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_767e7683f9ad126c/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_8644298f665a12c4/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_868acf86149aef5d/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_92cf9d9d84f1d3db/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_93239c65f222d453/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_9de8154b682af864/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_a7428663aca90897/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_ad7cb5e55a410add/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_afbf41cf8ab202d7/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_d193c96475eaa96e/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_db953c52208ada71/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_e7523682cc7528cc/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_e9f341319ca84274/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_f3a64c75ee4defb7/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch.inf_amd64_f51939e52b944f4b/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch_comp.inf_amd64_4938423c9b9639d7/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch_comp.inf_amd64_c8e108d4a62c59d5/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\cui_dch_comp.inf_amd64_deecec7d232ced2b/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_01ee1299f4982efe/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_02edfc87000937e4/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_0541b698fc6e40b0/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_0707757077710fff/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_0b3e3ed3ace9602a/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_0cff362f9dff4228/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_16ed7d82b93e4f68/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_1a33d2f73651d989/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_1aca2a92a37fce23/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_1af2dd3e4df5fd61/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_1d571527c7083952/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_23f7302c2b9ee813/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_24de78387e6208e4/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_250db833a1cd577e/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_25e7c5a58c052bc5/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_28d80681d3523b1c/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_2dda3b1147a3a572/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_31ba00ea6900d67d/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_329877a66f240808/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_42af9f4718aa1395/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_4645af5c659ae51a/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_48c2e68e54c92258/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_48e7e903a369eae2/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_491d20003583dabe/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_4b34c18659561116/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_51ce968bf19942c2/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_555cfc07a674ecdd/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_561bd21d54545ed3/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_579a75f602cc2dce/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_57f66a4f0a97f1a3/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_587befb80671fb38/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_62f096fe77e085c0/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_6ae0ddbb4a38e23c/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_6bb02522ea3fdb0d/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_6d34ac0763025a06/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_712b6a0adbaabc0a/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_78b09d9681a2400f/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_842874489af34daa/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_88084eb1fe7cebc3/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_89033455cb08186f/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_8a9535cd18c90bc3/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_8c1fc948b5a01c52/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_9088b61921a6ff9f/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_90f68cd0dc48b625/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_95cb371d046d4b4c/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_a58de0cf5f3e9dca/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_abe9d37302f8b1ae/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_acb3edda7b82982f/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_aebc5a8535dd3184/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_b5d4c82c67b39358/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_b846bbf1e81ea3cf/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_babb2e8b8072ff3b/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_bc75cebf5edbbc50/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_be91293cf20d4372/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_c11f4d5f0bc4c592/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_c4e5173126d31cf0/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_c4f600ffe34acc7b/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_c8634ed19e331cda/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_c9081e50bcffa972/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_ceddadac8a2b489e/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_d4406f0ad6ec2581/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_d5877a2e0e6374b6/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_d8ca5f86add535ef/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_e8abe176c7b553b5/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_eabb3ac2c517211f/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_f8d8be8fea71e1a0/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_fe5e116bb07c0629/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64.inf_amd64_fe73d2ebaa05fb95/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\igdlh64_kbl_kit127397.inf_amd64_e1da8ee9e92ccadb/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\k127153.inf_amd64_364f43f2a27f7bd7/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\k127153.inf_amd64_3f3936d8dec668b8/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\k127793.inf_amd64_3ab7883eddccbf0f/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki129523.inf_amd64_32947eecf8f3e231/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki126950.inf_amd64_fa7f56314967630d/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki126951.inf_amd64_94804e3918169543/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki126973.inf_amd64_06dde156632145e3/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki126974.inf_amd64_9168fc04b8275db9/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki127005.inf_amd64_753576c4406c1193/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki127018.inf_amd64_0f67ff47e9e30716/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki127021.inf_amd64_0d68af55c12c7c17/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki127171.inf_amd64_368f8c7337214025/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki127176.inf_amd64_86c658cabfb17c9c/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki127390.inf_amd64_e1ccb879ece8f084/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki127678.inf_amd64_8427d3a09f47dfc1/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki127727.inf_amd64_cf8e31692f82192e/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki127807.inf_amd64_fc915899816dbc5d/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki127850.inf_amd64_6ad8d99023b59fd5/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki128602.inf_amd64_6ff790822fd674ab/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki128916.inf_amd64_3509e1eb83b83cfb/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki129407.inf_amd64_f26f36ac54ce3076/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki129633.inf_amd64_d9b8af875f664a8c/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki129866.inf_amd64_e7cdca9882c16f55/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki130274.inf_amd64_bafd2440fa1ffdd6/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki130350.inf_amd64_696b7c6764071b63/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki130409.inf_amd64_0d8d61270dfb4560/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki130471.inf_amd64_26ad6921447aa568/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki130624.inf_amd64_d85487143eec5e1a/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki130825.inf_amd64_ee3ba427c553f15f/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki130871.inf_amd64_382f7c369d4bf777/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki131064.inf_amd64_5d13f27a9a9843fa/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki131176.inf_amd64_fb4fe914575fdd15/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki131191.inf_amd64_d668106cb6f2eae0/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki131622.inf_amd64_0058d71ace34db73/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki132032.inf_amd64_f29660d80998e019/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki132337.inf_amd64_223d6831ffa64ab1/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki132535.inf_amd64_7875dff189ab2fa2/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki132544.inf_amd64_b8c1f31373153db4/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki132574.inf_amd64_54c9b905b975ee55/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\ki132869.inf_amd64_052eb72d070df60f/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\kit126731.inf_amd64_1905c9d5f38631d9/)=false
+  AND match_regex(process_path, /(?i)\\program files\\windows mail/)=false AND match_regex(process_path,
+  /(?i)\\program files (x86)\\windows mail/)=false AND match_regex(process_path, /(?i)\\programdata\\microsoft\\windows
+  defender\\platform\\4.18.2008.4-0/)=false AND match_regex(process_path, /(?i)\\programdata\\microsoft\\windows
+  defender\\platform\\4.18.2008.7-0/)=false AND match_regex(process_path, /(?i)\\windows\\system32\\spool\\tools/)=false
+  AND match_regex(process_path, /(?i)\\windows/)=false AND match_regex(process_path,
+  /(?i)\\program files\\windowsapps\\microsoft.desktopappinstaller_1.11.2521.0_x64__8wekyb3d8bbwe/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\wbem/)=false AND match_regex(process_path,
+  /(?i)\\windows\\syswow64\\wbem/)=false AND match_regex(process_path, /(?i)\\windows\\system32\\ime\\shared/)=false
+  AND match_regex(process_path, /(?i)\\windows\\diagnostics\\system\\windowsupdate/)=false
+  AND match_regex(process_path, /(?i)\\windows\\diagnostics\\system\\audio/)=false
+  AND match_regex(process_path, /(?i)\\windows\\diagnostics\\system\\video/)=false
+  AND match_regex(process_path, /(?i)\\windows\\diagnostics\\system\\speech/)=false
+  AND match_regex(process_path, /(?i)\\windows\\system32\\printing_admin_scripts\\en-us/)=false
+  AND match_regex(process_path, /(?i)\\windows\\syswow64\\printing_admin_scripts\\en-us/)=false
+  AND match_regex(process_path, /(?i)\\program files\\windowspowershell\\modules\\pester\\3.4.0\\bin/)=false
+  AND match_regex(process_path, /(?i)\\program files\\windowspowershell\\modules\\pester\\*\\bin/)=false
+  AND match_regex(process_path, /(?i)\\windows\\diagnostics\\system\\aero/)=false
+  AND match_regex(process_path, /(?i)\\windows\\diagnostics\\system\\networking/)=false
+  AND match_regex(process_path, /(?i)\\program files\\microsoft silverlight\\5.1.50918.0/)=false
+  AND match_regex(process_path, /(?i)\\program files (x86)\\microsoft silverlight\\5.1.50918.0/)=false
+  AND match_regex(process_path, /(?i)\\program files\\dotnet\\sdk\\[sdk version]\\fsharp/)=false
+  AND match_regex(process_path, /(?i)\\program files (x86)\\microsoft visual studio\\2019\\professional\\common7\\ide\\commonextensions\\microsoft\\fsharp/)=false
   AND match_regex(process_path, /(?i)\\program files (x86)\\windows kits\\10\\bin\\[sdk
-  version]\\arm64\\uiaverify\\visualuiaverifynative.exe)=false AND match_regex(process_path,
-  /(?i)\\program files (x86)\\windows kits\\10\\bin\\[sdk version]\\x64\\uiaverify\\visualuiaverifynative.exe)=false
-  AND match_regex(process_path, /(?i)\\program files (x86)\\windows kits\\10\\bin\\[sdk
-  version]\\uiaverify\\visualuiaverifynative.exe)=false AND match_regex(process_path,
-  /(?i)\\windows\\system32\\ntdsutil.exe)=false AND match_regex(process_path, /(?i)\\program
-  files (x86)\\microsoft sql server\\130\\tools\\binn\\sqlps.exe)=false AND match_regex(process_path,
-  /(?i)\\program files (x86)\\microsoft visual studio\\installer\\feedback\\dump64.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\wsl.exe)=false AND match_regex(process_path,
-  /(?i)\\program files (x86)\\microsoft visual studio\\2017\\community\\msbuild\\15.0\\bin\\roslyn\\csi.exe)=false
-  AND match_regex(process_path, /(?i)\\program files (x86)\\microsoft web tools\\packages\\microsoft.net.compilers.x.y.z\\tools\\csi.exe)=false
-  AND match_regex(process_path, /(?i)\\program files (x86)\\windows kits\\10\\bin\\10.0.16299.0\\x86)=false
-  AND match_regex(process_path, /(?i)\\program files (x86)\\windows kits\\10\\bin\\10.0.16299.0\\x64)=false
-  AND match_regex(process_path, /(?i)\\program files (x86)\\windows kits\\10\\bin\\x86)=false
-  AND match_regex(process_path, /(?i)\\program files (x86)\\windows kits\\10\\bin\\x64)=false
-  AND match_regex(process_path, /(?i)\\program files (x86)\\windows kits\\10\\debuggers\\x64\\adplus.exe)=false
-  AND match_regex(process_path, /(?i)\\program files (x86)\\windows kits\\10\\debuggers\\x86\\adplus.exe)=false
-  AND match_regex(process_path, /(?i)\\program files (x86)\\microsoft office 16\\clientx86\\root\\office16\\excel.exe)=false
-  AND match_regex(process_path, /(?i)\\program files\\microsoft office 16\\clientx64\\root\\office16\\excel.exe)=false
-  AND match_regex(process_path, /(?i)\\program files (x86)\\microsoft office\\office16\\excel.exe)=false
-  AND match_regex(process_path, /(?i)\\program files\\microsoft office\\office16\\excel.exe)=false
-  AND match_regex(process_path, /(?i)\\program files (x86)\\microsoft office 15\\clientx86\\root\\office15\\excel.exe)=false
-  AND match_regex(process_path, /(?i)\\program files\\microsoft office 15\\clientx64\\root\\office15\\excel.exe)=false
-  AND match_regex(process_path, /(?i)\\program files (x86)\\microsoft office\\office15\\excel.exe)=false
-  AND match_regex(process_path, /(?i)\\program files\\microsoft office\\office15\\excel.exe)=false
-  AND match_regex(process_path, /(?i)\\program files (x86)\\microsoft office 14\\clientx86\\root\\office14\\excel.exe)=false
-  AND match_regex(process_path, /(?i)\\program files\\microsoft office 14\\clientx64\\root\\office14\\excel.exe)=false
-  AND match_regex(process_path, /(?i)\\program files (x86)\\microsoft office\\office14\\excel.exe)=false
-  AND match_regex(process_path, /(?i)\\program files\\microsoft office\\office14\\excel.exe)=false
-  AND match_regex(process_path, /(?i)\\program files (x86)\\microsoft office\\office12\\excel.exe)=false
-  AND match_regex(process_path, /(?i)\\program files\\microsoft office\\office12\\excel.exe)=false
-  AND match_regex(process_path, /(?i)\\program files\\microsoft office\\office12\\excel.exe)=false
-  AND match_regex(process_path, /(?i)\\program files\\dotnet\\dotnet.exe)=false AND
-  match_regex(process_path, /(?i)\\program files (x86)\\microsoft sql server\\100\\tools\\binn\\sqlps.exe)=false
-  AND match_regex(process_path, /(?i)\\program files (x86)\\microsoft sql server\\110\\tools\\binn\\sqlps.exe)=false
-  AND match_regex(process_path, /(?i)\\program files (x86)\\microsoft sql server\\120\\tools\\binn\\sqlps.exe)=false
-  AND match_regex(process_path, /(?i)\\program files (x86)\\microsoft sql server\\130\\tools\\binn\\sqlps.exe)=false
-  AND match_regex(process_path, /(?i)\\program files (x86)\\microsoft sql server\\150\\tools\\binn\\sqlps.exe)=false
-  AND match_regex(process_path, /(?i)\\program files (x86)\\windows kits\\10\\bin\\10.0.22000.0\\x86\\accchecker\\acccheckconsole.exe)=false
-  AND match_regex(process_path, /(?i)\\program files (x86)\\windows kits\\10\\bin\\10.0.22000.0\\x64\\accchecker\\acccheckconsole.exe)=false
-  AND match_regex(process_path, /(?i)\\program files (x86)\\windows kits\\10\\bin\\10.0.22000.0\\arm\\accchecker\\acccheckconsole.exe)=false
-  AND match_regex(process_path, /(?i)\\program files (x86)\\windows kits\\10\\bin\\10.0.22000.0\\arm64\\accchecker\\acccheckconsole.exe)=false
-  AND match_regex(process_path, /(?i)\\program files (x86)\\microsoft office 16\\clientx86\\root\\office16\\powerpnt.exe)=false
-  AND match_regex(process_path, /(?i)\\program files\\microsoft office 16\\clientx64\\root\\office16\\powerpnt.exe)=false
-  AND match_regex(process_path, /(?i)\\program files (x86)\\microsoft office\\office16\\powerpnt.exe)=false
-  AND match_regex(process_path, /(?i)\\program files\\microsoft office\\office16\\powerpnt.exe)=false
-  AND match_regex(process_path, /(?i)\\program files (x86)\\microsoft office 15\\clientx86\\root\\office15\\powerpnt.exe)=false
-  AND match_regex(process_path, /(?i)\\program files\\microsoft office 15\\clientx64\\root\\office15\\powerpnt.exe)=false
-  AND match_regex(process_path, /(?i)\\program files (x86)\\microsoft office\\office15\\powerpnt.exe)=false
-  AND match_regex(process_path, /(?i)\\program files\\microsoft office\\office15\\powerpnt.exe)=false
-  AND match_regex(process_path, /(?i)\\program files (x86)\\microsoft office 14\\clientx86\\root\\office14\\powerpnt.exe)=false
-  AND match_regex(process_path, /(?i)\\program files\\microsoft office 14\\clientx64\\root\\office14\\powerpnt.exe)=false
-  AND match_regex(process_path, /(?i)\\program files (x86)\\microsoft office\\office14\\powerpnt.exe)=false
-  AND match_regex(process_path, /(?i)\\program files\\microsoft office\\office14\\powerpnt.exe)=false
-  AND match_regex(process_path, /(?i)\\program files (x86)\\microsoft office\\office12\\powerpnt.exe)=false
-  AND match_regex(process_path, /(?i)\\program files\\microsoft office\\office12\\powerpnt.exe)=false
-  AND match_regex(process_path, /(?i)\\program files\\microsoft office\\office12\\powerpnt.exe)=false
-  AND match_regex(process_path, /(?i)\\program files\\microsoft sql server\\90\\shared\\sqldumper.exe)=false
+  version]\\arm64\\uiaverify/)=false AND match_regex(process_path, /(?i)\\program
+  files (x86)\\windows kits\\10\\bin\\[sdk version]\\x64\\uiaverify/)=false AND match_regex(process_path,
+  /(?i)\\program files (x86)\\windows kits\\10\\bin\\[sdk version]\\uiaverify/)=false
+  AND match_regex(process_path, /(?i)\\program files (x86)\\microsoft sql server\\130\\tools\\binn/)=false
+  AND match_regex(process_path, /(?i)\\program files (x86)\\microsoft visual studio\\installer\\feedback/)=false
+  AND match_regex(process_path, /(?i)\\program files (x86)\\microsoft visual studio\\2017\\community\\msbuild\\15.0\\bin\\roslyn/)=false
+  AND match_regex(process_path, /(?i)\\program files (x86)\\microsoft web tools\\packages\\microsoft.net.compilers.x.y.z\\tools/)=false
+  AND match_regex(process_path, /(?i)\\program files (x86)\\windows kits\\10\\bin\\10.0.16299.0/)=false
+  AND match_regex(process_path, /(?i)\\program files (x86)\\windows kits\\10\\bin/)=false
+  AND match_regex(process_path, /(?i)\\program files (x86)\\windows kits\\10\\debuggers\\x64/)=false
+  AND match_regex(process_path, /(?i)\\program files (x86)\\windows kits\\10\\debuggers\\x86/)=false
+  AND match_regex(process_path, /(?i)\\program files (x86)\\microsoft office 16\\clientx86\\root\\office16/)=false
+  AND match_regex(process_path, /(?i)\\program files\\microsoft office 16\\clientx64\\root\\office16/)=false
+  AND match_regex(process_path, /(?i)\\program files (x86)\\microsoft office\\office16/)=false
+  AND match_regex(process_path, /(?i)\\program files\\microsoft office\\office16/)=false
+  AND match_regex(process_path, /(?i)\\program files (x86)\\microsoft office 15\\clientx86\\root\\office15/)=false
+  AND match_regex(process_path, /(?i)\\program files\\microsoft office 15\\clientx64\\root\\office15/)=false
+  AND match_regex(process_path, /(?i)\\program files (x86)\\microsoft office\\office15/)=false
+  AND match_regex(process_path, /(?i)\\program files\\microsoft office\\office15/)=false
+  AND match_regex(process_path, /(?i)\\program files (x86)\\microsoft office 14\\clientx86\\root\\office14/)=false
+  AND match_regex(process_path, /(?i)\\program files\\microsoft office 14\\clientx64\\root\\office14/)=false
+  AND match_regex(process_path, /(?i)\\program files (x86)\\microsoft office\\office14/)=false
+  AND match_regex(process_path, /(?i)\\program files\\microsoft office\\office14/)=false
+  AND match_regex(process_path, /(?i)\\program files (x86)\\microsoft office\\office12/)=false
+  AND match_regex(process_path, /(?i)\\program files\\microsoft office\\office12/)=false
+  AND match_regex(process_path, /(?i)\\program files\\dotnet/)=false AND match_regex(process_path,
+  /(?i)\\program files (x86)\\microsoft sql server\\100\\tools\\binn/)=false AND match_regex(process_path,
+  /(?i)\\program files (x86)\\microsoft sql server\\110\\tools\\binn/)=false AND match_regex(process_path,
+  /(?i)\\program files (x86)\\microsoft sql server\\120\\tools\\binn/)=false AND match_regex(process_path,
+  /(?i)\\program files (x86)\\microsoft sql server\\150\\tools\\binn/)=false AND match_regex(process_path,
+  /(?i)\\program files (x86)\\windows kits\\10\\bin\\10.0.22000.0\\x86\\accchecker/)=false
+  AND match_regex(process_path, /(?i)\\program files (x86)\\windows kits\\10\\bin\\10.0.22000.0\\x64\\accchecker/)=false
+  AND match_regex(process_path, /(?i)\\program files (x86)\\windows kits\\10\\bin\\10.0.22000.0\\arm\\accchecker/)=false
+  AND match_regex(process_path, /(?i)\\program files (x86)\\windows kits\\10\\bin\\10.0.22000.0\\arm64\\accchecker/)=false
+  AND match_regex(process_path, /(?i)\\program files\\microsoft sql server\\90\\shared/)=false
   AND match_regex(process_path, /(?i)\\program files (x86)\\microsoft office\\root\\vfs\\programfilesx86\\microsoft
-  analysis\\as oledb\\140\\sqldumper.exe)=false AND match_regex(process_path, /(?i)\\program
-  files (x86)\\windows kits\\10\\debuggers\\x64\\remote.exe)=false AND match_regex(process_path,
-  /(?i)\\program files (x86)\\windows kits\\10\\debuggers\\x86\\remote.exe)=false
-  AND match_regex(process_path, /(?i)\\program files\\microsoft office\\root\\client\\appvlp.exe)=false
-  AND match_regex(process_path, /(?i)\\program files (x86)\\microsoft office\\root\\client\\appvlp.exe)=false
-  AND match_regex(process_path, /(?i)\\program files (x86)\\microsoft intune management
-  extension)=false AND match_regex(process_path, /(?i)\\windows\\system32\\dxcap.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\syswow64\\dxcap.exe)=false AND match_regex(process_path,
-  /(?i)\\program files (x86)\\windows kits\\10\\debuggers\\x64\\cdb.exe)=false AND
-  match_regex(process_path, /(?i)\\program files (x86)\\windows kits\\10\\debuggers\\x86\\cdb.exe)=false
-  AND match_regex(process_path, /(?i)\\program files (x86)\\microsoft\\defaultpack\\)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\devtoolslauncher.exe)=false
+  analysis\\as oledb\\140/)=false AND match_regex(process_path, /(?i)\\program files\\microsoft
+  office\\root\\client/)=false AND match_regex(process_path, /(?i)\\program files
+  (x86)\\microsoft office\\root\\client/)=false AND match_regex(process_path, /(?i)\\program
+  files (x86)/)=false AND match_regex(process_path, /(?i)\\program files (x86)\\microsoft\\defaultpack/)=false
   AND match_regex(process_path, /(?i)\\program files (x86)\\microsoft visual studio\\2019\\community\\common7\\ide\\extensions\\microsoft\\web
-  tools\\projectsystem\\vsiisexelauncher.exe)=false AND match_regex(process_path,
-  /(?i)\\program files\\microsoft office\\root\\office16\\winword.exe)=false AND match_regex(process_path,
-  /(?i)\\program files (x86)\\microsoft office 16\\clientx86\\root\\office16\\winword.exe)=false
-  AND match_regex(process_path, /(?i)\\program files\\microsoft office 16\\clientx64\\root\\office16\\winword.exe)=false
-  AND match_regex(process_path, /(?i)\\program files (x86)\\microsoft office\\office16\\winword.exe)=false
-  AND match_regex(process_path, /(?i)\\program files\\microsoft office\\office16\\winword.exe)=false
-  AND match_regex(process_path, /(?i)\\program files (x86)\\microsoft office 15\\clientx86\\root\\office15\\winword.exe)=false
-  AND match_regex(process_path, /(?i)\\program files\\microsoft office 15\\clientx64\\root\\office15\\winword.exe)=false
-  AND match_regex(process_path, /(?i)\\program files (x86)\\microsoft office\\office15\\winword.exe)=false
-  AND match_regex(process_path, /(?i)\\program files\\microsoft office\\office15\\winword.exe)=false
-  AND match_regex(process_path, /(?i)\\program files (x86)\\microsoft office 14\\clientx86\\root\\office14\\winword.exe)=false
-  AND match_regex(process_path, /(?i)\\program files\\microsoft office 14\\clientx64\\root\\office14\\winword.exe)=false
-  AND match_regex(process_path, /(?i)\\program files (x86)\\microsoft office\\office14\\winword.exe)=false
-  AND match_regex(process_path, /(?i)\\program files\\microsoft office\\office14\\winword.exe)=false
-  AND match_regex(process_path, /(?i)\\program files (x86)\\microsoft office\\office12\\winword.exe)=false
-  AND match_regex(process_path, /(?i)\\program files\\microsoft office\\office12\\winword.exe)=false
-  AND match_regex(process_path, /(?i)\\program files\\microsoft office\\office12\\winword.exe)=false
-  AND match_regex(process_path, /(?i)\\program files (x86)\\microsoft visual studio\\2019\\professional\\common7\\ide\\commonextensions\\microsoft\\fsharp\\fsianycpu.exe)=false
-  AND match_regex(process_path, /(?i)\\windows\\system32\\vsjitdebugger.exe)=false
-  AND match_regex(process_path, /(?i)\\program files (x86)\\microsoft sdks\\windows\\v10.0a\\bin\\netfx
-  4.8 tools\\wfc.exe)=false AND match_regex(process_path, /(?i)\\program files (x86)\\iis\\microsoft
-  web deploy v3\\msdeploy.exe)=false | eval start_time=timestamp,end_time=timestamp,
+  tools\\projectsystem/)=false AND match_regex(process_path, /(?i)\\program files\\microsoft
+  office\\root\\office16/)=false AND match_regex(process_path, /(?i)\\program files
+  (x86)\\microsoft sdks\\windows\\v10.0a\\bin\\netfx 4.8 tools/)=false AND match_regex(process_path,
+  /(?i)\\program files (x86)\\iis\\microsoft web deploy v3/)=false | eval start_time=timestamp,end_time=timestamp,
   entities=mvappend(device, user), body=create_map(["event_id", event_id, "process_path",
   process_path, "process_name", process_name]) | into write_ssa_detected_events();
 how_to_implement: Collect endpoint data such as sysmon or 4688 events.
