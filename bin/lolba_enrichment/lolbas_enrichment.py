@@ -116,17 +116,23 @@ def update_detection(detection, lolbas, VERBOSE, OPUTPUT_PATH):
         write_yaml(detection, VERBOSE, detection_output_path)
 
 def write_csv(lolbas, OUTPUT_PATH):
+
     with open(OUTPUT_PATH + '/' + 'lolbas_file_path.csv', 'w', newline='') as csvfile:
         fieldnames = ['lolbas_file_name', 'lolbas_file_path', 'description']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
         for lolba in lolbas:
+            parent_paths = []
             if get_lolbas_paths(lolba):
                 full_paths = get_lolbas_paths(lolba)
                 for full_path in full_paths:
-                    lolba_file_name = lolba['Name'].lower()
-                    lolba_description = lolba['Description']
-                    writer.writerow({'lolbas_file_name': lolba_file_name, 'lolbas_file_path': full_path.lower(), 'description': lolba_description})
+                    parent_path_split = full_path.split("\\")[:-1]
+                    parent_path = "\\".join(parent_path_split)
+                    if parent_path not in parent_paths:
+                        parent_paths.append(parent_path)
+                        lolba_file_name = lolba['Name'].lower()
+                        lolba_description = lolba['Description']
+                        writer.writerow({'lolbas_file_name': lolba_file_name, 'lolbas_file_path': parent_path.lower(), 'description': lolba_description})
    
 
 def write_yaml(detection, VERBOSE, detection_output_path):
@@ -144,7 +150,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Generates Updates Splunk detections with latest LOLBAS")
     parser.add_argument("-splunk_security_content_path", "--spath", required=False, default='../../', help="path to security_content repo")
     parser.add_argument("-lolbas_path", "--lpath", required=False, default='LOLBAS', help="path to the lolbas repo")
-    parser.add_argument("-o", "--output_path", required=False, default='.', help="Were to write results to")
+    parser.add_argument("-o", "--output_path", required=False, default='.', help="path to results")
 
     parser.add_argument("-v", "--verbose", required=False, default=False, action='store_true', help="prints verbose output")
     
