@@ -4,13 +4,12 @@ version: 1
 date: '2022-08-24'
 author: Teoderick Contreras, Splunk
 type: Anomaly
-datamodel:
-- Endpoint
+datamodel: []
 description: The following analytic identifies a suspicious process enabling the "SeDebugPrivilege" privilege token. 
   SeDebugPrivilege allows a process to inspect and adjust the memory of other processes, and has long been a security concern. SeDebugPrivilege allows the token bearer to access any process or thread, regardless of security descriptors, per Palantir.
   This technique is abused by adversaries to gain debug privileges with their malicious software to be able to access or debug a process to dump credentials or to inject malicious code.
 search: '`wineventlog_security` EventCode=4703 EnabledPrivilegeList = "*SeDebugPrivilege*" AND NOT(ProcessName IN ("*\\Program File*", "*\\System32\\lsass.exe*", "*\\SysWOW64\\lsass.exe*", "*\\SysWOW64\\svchost.exe*", "*\\System32\\svchost.exe*"))
-  | stats count min(_time) as firstTime max(_time) as lastTime by ProcessName ProcessId SubjectDomainName SubjectUserName SubjectUserSid TargetUserName TargetLogonId TargetDomainName EnabledPrivilegeList action
+  | stats count min(_time) as firstTime max(_time) as lastTime by Computer ProcessName ProcessId SubjectDomainName SubjectUserName SubjectUserSid TargetUserName TargetLogonId TargetDomainName EnabledPrivilegeList action
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
   | `windows_access_token_manipulation_sedebugprivilege_filter`'
@@ -40,14 +39,14 @@ tags:
   impact: 60
   kill_chain_phases:
   - Exploitation
-  message: A process $ProcessName$ adjust its privileges with SeDebugPrivilege on $ComputerName$.
+  message: A process $ProcessName$ adjust its privileges with SeDebugPrivilege on $Computer$.
   mitre_attack_id:
   - T1134.002
   - T1134
   nist:
   - DE.CM
   observable:
-  - name: ComputerName
+  - name: Computer
     type: Endpoint
     role:
     - Victim
