@@ -171,7 +171,14 @@ class Initialize:
         for fname in ["savedsearches_investigations.j2", "savedsearches_detections.j2", "analyticstories_investigations.j2", "analyticstories_detections.j2", "savedsearches_baselines.j2"]:
             full_path = os.path.join(filename_root, fname)
             self.simple_replace_line(full_path, original, updated)
-        #Generate directories?
+        
+        raw  ='''{app_name} - '''
+        original = raw.format(app_name=".escu.") #
+        updated = raw.format(app_name=f".{self.app_name}.")
+        filename_root = os.path.join(self.path,"bin/contentctl_project/contentctl_infrastructure/adapter/templates/")
+        for fname in ["savedsearches_investigations.j2", "savedsearches_detections.j2", "savedsearches_baselines.j2"]:
+            full_path = os.path.join(filename_root, fname)
+            self.simple_replace_line(full_path, original, updated)
 
     def generate_content_version_file(self):
         new_content_version = CONTENT_VERSION_FILE.format(version=self.app_version)
