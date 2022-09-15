@@ -1,0 +1,10 @@
+name: Windows Odbcconf Load Response File Unit Test
+tests:
+- name: Windows Odbcconf Load Response File
+  file: endpoint/ssa___windows_odbcconf_load_response_file.yml
+  pass_condition: '@count_gt(0)'
+  attack_data:
+  - file_name: odbcconf-windows-security.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.008/atomic_red_team/odbcconf-windows-security.log
+    source: WinEventLog:Security
+    update_timestamp: true
