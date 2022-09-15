@@ -1,8 +1,11 @@
 import re
 import sys
+import json
+import pathlib
+import os
 
 from pydantic import ValidationError
-
+from typing import Union
 from bin.contentctl_project.contentctl_core.application.builder.story_builder import StoryBuilder
 from bin.contentctl_project.contentctl_core.domain.entities.story import Story
 from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import SecurityContentType
@@ -13,9 +16,33 @@ class SecurityContentStoryBuilder(StoryBuilder):
     story: Story
     check_references: bool
 
-    def __init__(self, check_references: bool = False):
+    def __init__(self, output_path:Union[str,None]=None, check_references: bool = False):
         self.check_references = check_references
+        self.app_name = self.get_app_name_from_manifest(output_path)
 
+    def get_app_name_from_manifest(self, output_path:Union[str,None])->str:
+        if output_path is None:
+            return "ESCU"
+        
+        try:
+            manifest_path = pathlib.Path(os.path.join(output_path, "app.manifest"))
+        except Exception as e:
+            raise(Exception(f"Failed to convert string {output_path} to path: {str(e)}"))
+        try:
+            with open(manifest_path, "r") as manifestFile:
+                manifest_obj = json.load(manifestFile)
+        except Exception as e:
+            raise(Exception(f"Failed to open manifest at path {manifest_path}: {str(e)}"))
+        
+        try:
+            app_name_from_manifest = manifest_obj['info']['id']['name']
+            #Minor fix to shorten the name of ESCU detections and match with everything else
+            if app_name_from_manifest == "DA-ESS-ContentUpdate":
+                app_name_from_manifest = "ESCU"
+            return app_name_from_manifest
+        except Exception as e:
+            raise(Exception(f"Manifest file {manifest_path} missing nested object ['info']['id']['name']: {str(e)}"))
+        
     def setObject(self, path: str) -> None:
         yml_dict = YmlReader.load_file(path)
         yml_dict["tags"]["name"] = yml_dict["name"]
@@ -46,7 +73,7 @@ class SecurityContentStoryBuilder(StoryBuilder):
             if detection:
                 for detection_analytic_story in detection.tags.analytic_story:
                     if detection_analytic_story == self.story.name:
-                        matched_detection_names.append(str('ESCU - ' + detection.name + ' - Rule'))
+                        matched_detection_names.append(str(f'{self.app_name} - ' + detection.name + ' - Rule'))
                         # SSE-638: detections object should at least contain the name attribute.
                         # We also need a minimal set of the following attributes to satisfy docgen (doc_stories.j2):
                         # name, source, type, tags.mitre_attack_enrichments.mitre_attack_technique
