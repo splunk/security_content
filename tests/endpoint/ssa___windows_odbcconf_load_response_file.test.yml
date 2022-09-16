@@ -6,5 +6,6 @@ tests:
   attack_data:
   - file_name: odbcconf-windows-security.log
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.008/atomic_red_team/odbcconf-windows-security.log
-    source: WinEventLog:Security
+    source: XmlWinEventLog
+    sourcetype: XmlWinEventLog
     update_timestamp: true

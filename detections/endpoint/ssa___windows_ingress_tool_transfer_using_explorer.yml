@@ -18,9 +18,8 @@ search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map
   null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string",
   null), event_id=ucast(map_get(input_event, "event_id"), "string", null) | where
   cmd_line IS NOT NULL AND process_name IS NOT NULL | where process_name="explorer.exe" 
-  AND (like (cmd_line, "%http://%") OR like (cmd_line, "%https://%"))
-| NOT (like(parent_process_name, "userinit.exe") OR like(parent_process_name, "svchost.exe"))
-| eval start_time=timestamp,
+  AND (like (cmd_line, "%http://%") OR like (cmd_line, "%https://%")) AND NOT (like(parent_process_name, "userinit.exe") OR like(parent_process_name, "svchost.exe"))
+  | eval start_time=timestamp,
   end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"),
   "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)),
   body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name,
@@ -48,9 +47,7 @@ tags:
   impact: 50
   kill_chain_phases:
   - Exploitation
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified
-    on endpoint $dest_device_id$ by user $dest_user_id$ attempting to access a remote
-    destination to download an additional payload.
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest_device_id$ by user $dest_user_id$ attempting to access a remote destination to download an additional payload.
   mitre_attack_id:
   - T1105
   nist:
