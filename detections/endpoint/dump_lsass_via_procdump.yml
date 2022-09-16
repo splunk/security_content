@@ -1,7 +1,7 @@
 name: Dump LSASS via procdump
 id: 3742ebfe-64c2-11eb-ae93-0242ac130002
-version: 2
-date: '2021-09-16'
+version: 3
+date: '2022-08-31'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
@@ -31,10 +31,12 @@ references:
 - https://attack.mitre.org/techniques/T1003/001/
 - https://docs.microsoft.com/en-us/sysinternals/downloads/procdump
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.001/T1003.001.md#atomic-test-2---dump-lsassexe-memory-using-procdump
+- https://thedfirreport.com/2022/08/08/bumblebee-roasts-its-way-to-domain-admin/
 tags:
   analytic_story:
   - Credential Dumping
   - HAFNIUM Group
+  - CISA AA22-257A
   asset_type: Endpoint
   cis20:
   - CIS 3

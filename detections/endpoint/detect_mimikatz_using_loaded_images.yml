@@ -30,6 +30,7 @@ tags:
   - Detect Zerologon Attack
   - Cloud Federated Credential Abuse
   - DarkSide Ransomware
+  - CISA AA22-257A
   asset_type: Windows
   cis20:
   - CIS 6
