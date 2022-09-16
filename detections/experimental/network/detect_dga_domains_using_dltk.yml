@@ -6,9 +6,9 @@ author: Abhinav Mishra, Namratha Sreekanta and Kumar Sharad, Splunk
 type: Anomaly
 datamodel:
 - Splunk_Audit
-description: 'The following analytic uses a pretrained machine learning text classifier to detect potentially risky commands. The model is trained independently and then the model file is packaged within ESCU for usage. A command is deemed risky based on the presence of certain trigger keywords, along with the context and the role of the user (please see references). The model uses custom features to predict whether a SPL is risky using text classification. The model takes as input the command text, user and search type and outputs a risk score between [0,1]. A high score indicates higher likelihood of a command being risky. This model is on-prem only.'
+description: 'The following analytic uses a pretrained deep learning classifier to detect DGA domains. The model is trained independently and the model file is available in AWS S3. A domain is classified as DGA generated when the domain name consists of unusual character sequences or concatenated english words. The model uses the domain name to anlayze patterns of character sequences along with custom features to classify a domain as DGA or not. The model takes a domain name consisting of second-level and top-level domain names as input and outputs a pred_is_dga, either a 0 or 1. If pred_is_dga is 1 then the domain name is DGA generated else it is non DGA.'
 search: "| tstats `security_content_summariesonly` values(DNS.answer) as IPs min(_time) as firstTime from datamodel=Network_Resolution by DNS.src, DNS.query 
-| `drop_dm_object_name("DNS")` | rename query AS domain | fields domain | apply dga_model_dltk as pred | where pred_dga_proba >0.5 | table domain, pred" 
+| `drop_dm_object_name("DNS")` | rename query AS domain | fields domain | apply dga_model_dltk | where predicted_is_dga=1 | table domain, pred" 
 how_to_implement: This detection depends on the MLTK app which can be found here - https://splunkbase.splunk.com/app/2890/ and the Splunk Audit datamodel which can be found here - https://splunkbase.splunk.com/app/1621/. Additionally, you need to be ingesting logs which include Search_Activity.search, Search_Activity.user, Search_Activity.search_type from your endpoints. The risk score threshold should be adjusted based on the environment. The detection uses a custom MLTK model hence we need a few more steps for deployment, as outlined here - https://gist.github.com/ksharad-splunk/be2a62227966049047f5e5c4f2adcabb.
 known_false_positives: False positives may be present if suspicious behavior is observed, as determined by frequent usage of risky keywords.
 references:
@@ -24,13 +24,13 @@ tags:
   cve:
   - CVE-2022-32154
   context:
-  - Source:Endpoint
+  - Source:Network_Resolution
   dataset:
   - https://github.com/splunk/attack_data/raw/master/datasets/attack_techniques/T1203/search_activity.txt
   impact: 50
   kill_chain_phases:
   - Actions on Objectives
-  message: A potentially risky Splunk command has been run by $user$, kindly review.
+  message: A potentially a DGA domain $domain$ was detected, kindly review.
   mitre_attack_id:
   - T1059
   nist:
