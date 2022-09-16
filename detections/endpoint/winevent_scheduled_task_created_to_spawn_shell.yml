@@ -46,6 +46,7 @@ tags:
   - Windows Persistence Techniques
   - Ransomware
   - Ryuk Ransomware
+  - CISA AA22-257A
   confidence: 100
   context:
   - Source:Endpoint
