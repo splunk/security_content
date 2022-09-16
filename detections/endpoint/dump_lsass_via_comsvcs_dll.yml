@@ -28,6 +28,7 @@ tags:
   - HAFNIUM Group
   - Living Off The Land
   - Industroyer2
+  - CISA AA22-257A
   asset_type: Endpoint
   cis20:
   - CIS 3

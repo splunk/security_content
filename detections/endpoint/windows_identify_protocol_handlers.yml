@@ -1,13 +1,13 @@
 name: Windows Identify Protocol Handlers
 id: bd5c311e-a6ea-48ae-a289-19a3398e3648
-version: 1
-date: '2022-07-11'
+version: 2
+date: '2022-09-13'
 author: Michael Haag, Splunk
 type: Hunting
 datamodel:
 - Endpoint
 description: 'The following hunting analytic will identify any protocol handlers utilized on the command-line. A protocol handler is an application that knows how to handle particular types of links: for example, a mail client is a protocol handler for "mailto:" links. When the user clicks a "mailto:" link, the browser opens the application selected as the handler for the "mailto:" protocol (or offers them a choice of handlers, depending on their settings).
-  To identify protocol handlers we can use NirSoft https://www.nirsoft.net/utils/url_protocol_view.html URLProtocolView or query the registry using PowerShell: get-Item Registry::HKEY_CLASSES_ROOT\* | Select-Object "Property","PSChildName" | Where-Object -Property Property -Match "^URL*" #|Export-Csv -path c:\temp\url_all.csv. Note my query is limited to URL in the property to limit the scope of this query to similar handlers as ms-msdt.'
+  To identify protocol handlers we can use NirSoft https://www.nirsoft.net/utils/url_protocol_view.html URLProtocolView or query the registry using PowerShell.'
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Processes.process) as process values(Processes.parent_process) as parent_process from datamodel=Endpoint.Processes  by Processes.dest Processes.user Processes.process_name Processes.process 
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)` 
@@ -17,6 +17,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
 how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 known_false_positives: False positives will be found. https and http is a URL Protocol handler that will trigger this analytic. Tune based on process or command-line.
 references:
+  - https://gist.github.com/MHaggis/a0d3edb57d36e0916c94c0a464b2722e
   - https://www.oreilly.com/library/view/learning-java/1565927184/apas02.html
   - https://blogs.windows.com/msedgedev/2022/01/20/getting-started-url-protocol-handlers-microsoft-edge/
   - https://github.com/Mr-Un1k0d3r/PoisonHandler

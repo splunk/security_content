@@ -29,6 +29,7 @@ tags:
   analytic_story:
   - DarkSide Ransomware
   - Credential Dumping
+  - CISA AA22-257A
   confidence: 70
   context:
   - Source:Endpoint
