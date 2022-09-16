@@ -1,0 +1,4 @@
+description: Detect DGA domains using Pretrained Model in DLTK
+filename: __mlspl_dga_model_dltk.mlmodel
+name: __mlspl_dga_model_dltk
+case_sensitive_match: 'false'
