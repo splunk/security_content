@@ -29,6 +29,7 @@ tags:
   analytic_story:
   - Industroyer2
   - Active Directory Discovery
+  - CISA AA22-257A
   asset_type: Endpoint
   cis20:
   - CIS 3

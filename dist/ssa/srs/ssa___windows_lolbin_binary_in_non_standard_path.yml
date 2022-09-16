@@ -1,6 +1,6 @@
 name: Windows LOLBin Binary in Non Standard Path
 id: 25689101-012a-324a-94d3-08301e6c065a
-version: 3
+version: 4
 description: The following analytic identifies native living off the land binaries
   within the Windows operating system that may be abused by adversaries by moving
   it to a new directory. The list of binaries was derived from the https://lolbas-project.github.io
@@ -14,24 +14,23 @@ search: ' $ssa_input = | from read_ssa_enriched_events() | eval device=ucast(map
   null)), event_id=ucast(map_get(input_event, "event_id"), "string", null);
 
   $cond_1 = | from $ssa_input | where process_name="appinstaller.exe" OR process_name="aspnet_compiler.exe"
-  OR process_name="at.exe" OR process_name="atbroker.exe" OR process_name="bash.exe"
-  OR process_name="bitsadmin.exe" OR process_name="certoc.exe" OR process_name="certreq.exe"
-  OR process_name="certutil.exe" OR process_name="cmdkey.exe" OR process_name="cmdl32.exe"
-  OR process_name="cmstp.exe" OR process_name="configsecuritypolicy.exe" OR process_name="control.exe"
-  OR process_name="cscript.exe" OR process_name="datasvcutil.exe" OR process_name="desktopimgdownldr.exe"
-  OR process_name="dfsvc.exe" OR process_name="diantz.exe" OR process_name="diskshadow.exe"
-  OR process_name="dllhost.exe" OR process_name="dnscmd.exe" OR process_name="esentutl.exe"
-  OR process_name="eventvwr.exe" OR process_name="expand.exe" OR process_name="extexport.exe"
-  OR process_name="extrac32.exe" OR process_name="findstr.exe" OR process_name="finger.exe"
-  OR process_name="fltmc.exe" OR process_name="forfiles.exe" OR process_name="ftp.exe"
-  OR process_name="gfxdownloadwrapper.exe" OR process_name="gpscript.exe" OR process_name="imewdbld.exe"
-  OR process_name="ie4uinit.exe" OR process_name="ieexec.exe" OR process_name="ilasm.exe"
-  OR process_name="infdefaultinstall.exe" OR process_name="makecab.exe" OR process_name="mavinject.exe"
-  OR process_name="microsoft.workflow.compiler.exe" OR process_name="mmc.exe" OR process_name="msconfig.exe"
-  OR process_name="msdt.exe" OR process_name="mshta.exe" OR process_name="msiexec.exe"
-  OR process_name="netsh.exe" OR process_name="odbcconf.exe" OR process_name="offlinescannershell.exe"
-  OR process_name="onedrivestandaloneupdater.exe" OR process_name="pcalua.exe" OR
-  process_name="pcwrun.exe" OR process_name="pktmon.exe" OR process_name="pnputil.exe"
+  OR process_name="at.exe" OR process_name="atbroker.exe" OR process_name="bitsadmin.exe"
+  OR process_name="certoc.exe" OR process_name="certreq.exe" OR process_name="certutil.exe"
+  OR process_name="cmdkey.exe" OR process_name="cmdl32.exe" OR process_name="cmstp.exe"
+  OR process_name="configsecuritypolicy.exe" OR process_name="control.exe" OR process_name="cscript.exe"
+  OR process_name="datasvcutil.exe" OR process_name="desktopimgdownldr.exe" OR process_name="dfsvc.exe"
+  OR process_name="diantz.exe" OR process_name="diskshadow.exe" OR process_name="dllhost.exe"
+  OR process_name="dnscmd.exe" OR process_name="esentutl.exe" OR process_name="eventvwr.exe"
+  OR process_name="expand.exe" OR process_name="extexport.exe" OR process_name="extrac32.exe"
+  OR process_name="findstr.exe" OR process_name="finger.exe" OR process_name="fltmc.exe"
+  OR process_name="forfiles.exe" OR process_name="ftp.exe" OR process_name="gfxdownloadwrapper.exe"
+  OR process_name="gpscript.exe" OR process_name="imewdbld.exe" OR process_name="ie4uinit.exe"
+  OR process_name="ieexec.exe" OR process_name="ilasm.exe" OR process_name="infdefaultinstall.exe"
+  OR process_name="makecab.exe" OR process_name="mavinject.exe" OR process_name="microsoft.workflow.compiler.exe"
+  OR process_name="mmc.exe" OR process_name="msconfig.exe" OR process_name="msdt.exe"
+  OR process_name="mshta.exe" OR process_name="msiexec.exe" OR process_name="netsh.exe"
+  OR process_name="odbcconf.exe" OR process_name="offlinescannershell.exe" OR process_name="pcalua.exe"
+  OR process_name="pcwrun.exe" OR process_name="pktmon.exe" OR process_name="pnputil.exe"
   OR process_name="presentationhost.exe" OR process_name="print.exe" OR process_name="printbrm.exe"
   OR process_name="psr.exe" OR process_name="rasautou.exe" OR process_name="reg.exe"
   OR process_name="regini.exe" OR process_name="register-cimprovider.exe" OR process_name="regsvr32.exe"
