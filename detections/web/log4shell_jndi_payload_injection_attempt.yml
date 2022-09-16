@@ -36,6 +36,7 @@ references:
 tags:
   analytic_story:
   - Log4Shell CVE-2021-44228
+  - CISA AA22-257A
   asset_type: Endpoint
   cis20:
   - CIS 3
