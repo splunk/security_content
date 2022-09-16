@@ -22,6 +22,7 @@ tags:
   analytic_story:
   - DHS Report TA18-074A
   - HAFNIUM Group
+  - CISA AA22-257A
   asset_type: Windows
   cis20:
   - CIS 16

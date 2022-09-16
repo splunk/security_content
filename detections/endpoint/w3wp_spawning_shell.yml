@@ -38,6 +38,7 @@ tags:
   - Hermetic Wiper
   - HAFNIUM Group
   - ProxyShell
+  - CISA AA22-257A
   confidence: 80
   context:
   - Source:Endpoint
