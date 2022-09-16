@@ -111,7 +111,7 @@ class SecurityContentStoryBuilder(StoryBuilder):
         for baseline in baselines:
             for baseline_analytic_story in  baseline.tags.analytic_story:
                 if baseline_analytic_story == self.story.name:
-                    matched_baseline_names.append(str('ESCU - ' + baseline.name))
+                    matched_baseline_names.append(str(f'{self.app_name} - ' + baseline.name))
 
         self.story.baseline_names = matched_baseline_names
 
@@ -121,7 +121,7 @@ class SecurityContentStoryBuilder(StoryBuilder):
         for investigation in investigations:
             for investigation_analytic_story in  investigation.tags.analytic_story:
                 if investigation_analytic_story == self.story.name:
-                    matched_investigation_names.append(str('ESCU - ' + investigation.name + ' - Response Task'))
+                    matched_investigation_names.append(str(f'{self.app_name} - ' + investigation.name + ' - Response Task'))
                     matched_investigations.append(investigation)
 
         self.story.investigation_names = matched_investigation_names
