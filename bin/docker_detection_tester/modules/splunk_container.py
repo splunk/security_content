@@ -19,6 +19,7 @@ import threading
 import wrapt_timeout_decorator
 import sys
 import traceback
+import uuid
 SPLUNKBASE_URL = "https://splunkbase.splunk.com/app/%d/release/%s/download"
 SPLUNK_START_ARGS = "--accept-license"
 
@@ -33,6 +34,7 @@ class SplunkContainer:
         apps: OrderedDict,
         web_port_tuple: tuple[str, int],
         management_port_tuple: tuple[str, int],
+        hec_port_tuple: tuple[str,int],
         container_password: str,
         files_to_copy_to_container: OrderedDict = OrderedDict(),
         mounts: list[docker.types.Mount] = [],
@@ -58,9 +60,10 @@ class SplunkContainer:
         self.environment = self.make_environment(
             apps, container_password, splunkbase_username, splunkbase_password
         )
-        self.ports = self.make_ports(web_port_tuple, management_port_tuple)
+        self.ports = self.make_ports(web_port_tuple, management_port_tuple, hec_port_tuple)
         self.web_port = web_port_tuple[1]
         self.management_port = management_port_tuple[1]
+        self.hec_port = hec_port_tuple[1]
         self.container = self.make_container()
 
         self.thread = threading.Thread(target=self.run_container, )
@@ -69,6 +72,8 @@ class SplunkContainer:
         self.container_start_time = -1
         self.test_start_time = -1
         self.num_tests_completed = 0
+
+        
 
 
 
@@ -357,6 +362,37 @@ class SplunkContainer:
 
         print("Finished copying files to [%s]" % (self.container_name))
         self.wait_for_splunk_ready()
+        self.configure_hec()
+    
+    def configure_hec(self):
+        try:
+            import requests
+            auth = ('admin', self.container_password)
+            address = f"https://{self.splunk_ip}:{self.management_port}/services/data/inputs/http"
+            data = {
+                "name": "DOCKER_TEST_TESTING_HEC",
+                "index": "main",
+                "indexes": "main,_internal,_audit", #this needs to support all the indexes in test files
+                "useACK": True
+            }
+            import urllib3
+            urllib3.disable_warnings()
+            r = requests.post(address, data=data, auth=auth, verify=False)
+            if r.status_code == 201:
+                import xmltodict
+                asDict = xmltodict.parse(r.text)
+                print(asDict)
+                self.tokenString = [m['#text'] for m in asDict['feed']['entry']['content']['s:dict']['s:key'] if '@name' in m and m['@name']=='token'][0]
+                self.channel = str(uuid.uuid4())
+                print(f"WE GOT THE TOKEN STRING AND IT IS: {self.tokenString}")
+                
+            else:
+                raise(Exception(f"Error setting up hec.  Response code from {address} was [{r.status_code}]: {r.text} "))
+            
+        except Exception as e:
+            print(f"There was an issue setting up HEC.... of course.  {str(e)}")
+            _ = input("waiting here....")
+        
         
     def successfully_finish_tests(self)->None:
         try:
@@ -427,6 +463,7 @@ class SplunkContainer:
             print("Container [%s]--->[%s]" %
                   (self.container_name, str(detection_to_test.detectionFile.path)))
             try:
+                print("ONE")
                 result = testing_service.test_detection(
                     self.splunk_ip,
                     self.management_port,
@@ -434,7 +471,8 @@ class SplunkContainer:
                     detection_to_test,
                     self.synchronization_object.attack_data_root_folder,
                     wait_on_failure=self.interactive_failure,
-                    wait_on_completion = self.interactive
+                    wait_on_completion = self.interactive,
+                    container=self
                 )
                 
                 print("finished with a detection!")

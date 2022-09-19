@@ -527,6 +527,7 @@ def main(args: list[str]):
                                                 files_to_copy_to_container=files_to_copy_to_container,
                                                 web_port_start=8000,
                                                 management_port_start=8089,
+                                                hec_port_start=8088,
                                                 mounts=mounts,
                                                 show_container_password=settings['show_splunk_app_password'],
                                                 container_password=settings['splunk_app_password'],

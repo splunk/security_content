@@ -102,7 +102,7 @@ def get_number_of_indexed_events(splunk_host, splunk_port, splunk_password, inde
     
 
 
-def wait_for_indexing_to_complete(splunk_host, splunk_port, splunk_password, sourcetype:str, index:str, check_interval_seconds:int=10)->bool:
+def wait_for_indexing_to_complete(splunk_host, splunk_port, splunk_password, sourcetype:str, index:str, check_interval_seconds:int=5)->bool:
     startTime = timeit.default_timer()
     previous_count = -1
     time.sleep(check_interval_seconds)
