@@ -354,6 +354,7 @@ def test_detection(splunk_ip:str, splunk_port:int, splunk_password:str, detectio
 
     abs_folder_path = mkdtemp(prefix="DATA_", dir=attack_data_root_folder)
     success = execute_tests(splunk_ip, splunk_port, splunk_password, detection.testFile.tests, abs_folder_path, wait_on_failure, wait_on_completion, container)
+    os.removedirs(abs_folder_path)
     detection.get_detection_result()
     #Delete the folder and all of the data inside of it
     #shutil.rmtree(abs_folder_path)
