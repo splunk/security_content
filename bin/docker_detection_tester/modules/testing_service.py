@@ -133,6 +133,9 @@ def execute_test(splunk_ip:str, splunk_port:int, splunk_password:str, test:Test,
         if test.result.success:
             #We were successful, no need to run again.
             break
+        elif test.result.exception:
+            #There was an exception, not just a failure to find what we're looking for. break 
+            break
         elif timeit.default_timer() - start > MAX_TIME:
             break
         
@@ -309,7 +312,7 @@ def replay_attack_data_file(splunk_ip:str, splunk_port:int, splunk_password:str,
     upload_index = service.indexes[attackData.index]
         
     #Upload the data
-    hec_raw_replay(container.splunk_ip, container.tokenString, pathlib.Path(data_file), attackData.source, attackData.sourcetype, splunk_sdk.DEFAULT_EVENT_HOST, channel=container.channel)
+    hec_raw_replay(container.splunk_ip, container.tokenString, pathlib.Path(data_file), attackData.source, attackData.sourcetype, splunk_sdk.DEFAULT_EVENT_HOST, channel=container.channel, port=container.hec_port)
     
 
     #Wait for the indexing to finish
