@@ -250,7 +250,7 @@ def hec_raw_replay(base_url:str, token:str, filePath:pathlib.Path,
                     else:
                         print("Waiting for ackId")
 
-                        time.sleep(1)
+                        time.sleep(2)
 
                 else:
                     print(url_with_path)
