@@ -33,9 +33,11 @@ known_false_positives: office macro for automation may do this behavior
 references:
 - https://www.mandiant.com/resources/fin7-pursuing-an-enigmatic-and-evasive-global-criminal-operation
 - https://attack.mitre.org/groups/G0046/
+- https://www.joesandbox.com/analysis/702680/0/html
 tags:
   analytic_story:
   - FIN7
+  - AgentTesla
   confidence: 80
   context:
   - Source:Endpoint

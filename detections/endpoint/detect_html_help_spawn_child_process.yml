@@ -37,6 +37,7 @@ tags:
   analytic_story:
   - Suspicious Compiled HTML Activity
   - Living Off The Land
+  - AgentTesla
   asset_type: Endpoint
   cis20:
   - CIS 8

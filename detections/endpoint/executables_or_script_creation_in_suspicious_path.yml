@@ -45,6 +45,7 @@ tags:
   - Azorult
   - DarkCrystal RAT
   - Brute Ratel C4
+  - AgentTesla
   automated_detection_testing: passed
   confidence: 70
   context:

@@ -30,6 +30,7 @@ tags:
   - FIN7
   - Remcos
   - Azorult
+  - AgentTesla
   confidence: 70
   context:
   - Source:Endpoint

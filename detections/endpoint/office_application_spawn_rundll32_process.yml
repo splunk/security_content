@@ -26,11 +26,13 @@ known_false_positives: unknown
 references:
 - https://any.run/malware-trends/trickbot
 - https://any.run/report/47561b4e949041eff0a0f4693c59c81726591779fe21183ae9185b5eb6a69847/aba3722a-b373-4dae-8273-8730fb40cdbe
+- https://www.joesandbox.com/analysis/702680/0/html
 tags:
   analytic_story:
   - Spearphishing Attachments
   - Trickbot
   - IcedID
+  - AgentTesla
   confidence: 90
   context:
   - Source:Endpoint
