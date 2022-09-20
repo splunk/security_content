@@ -148,7 +148,7 @@ class GithubService:
         repo_obj = git.Repo.clone_from(url, project, branch=branch)
         return repo_obj
 
-    def detections_to_test(self, mode:str, ignore_experimental:bool = True, ignore_deprecated:bool = True, ignore_ssa:bool = True, allowed_types:list[str] = ["Anomaly", "Hunting", "TTP"])->list[Detection]:
+    def detections_to_test(self, mode:str, ignore_experimental:bool = True, ignore_deprecated:bool = True, ignore_ssa:bool = True, allowed_types:list[str] = ["Anomaly", "Hunting", "TTP"], detections_list:list[str]=[])->list[Detection]:
         
         detections = list(pathlib.Path("./security_content/detections/").rglob("*.yml"))
         print(f"Total detections loaded from the directory: {len(detections)}")
@@ -195,7 +195,7 @@ class GithubService:
         elif mode=="all":
             pass
         elif mode=="selected":
-            raise(Exception("mode 'selected' not supported yet"))
+            detection_objects = [o for o in detection_objects if os.path.join(*o.detectionFile.path.parts) in detections_list]
         else:
             raise(Exception(f"Unsupported mode {mode}.  Supported modes are {['changes', 'all', 'selected']}"))
         print(f"Finally the number is: {len(detection_objects)}")

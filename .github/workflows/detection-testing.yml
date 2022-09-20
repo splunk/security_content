@@ -88,7 +88,7 @@ jobs:
               python detection_testing_execution.py run --branch ${{ github.event.pull_request.head.ref }} --pr_number ${{ github.event.pull_request.number }}  --mode changes --mock --config_file test_config_github_actions.json  
             else
               echo "Push from branch [${{ steps.vars.outputs.branch }}]"
-              python detection_testing_execution.py run --branch  ${{ steps.vars.outputs.branch }}  --mode changes --mock --config_file test_config_github_actions.json
+              python detection_testing_execution.py run --branch  ${{ steps.vars.outputs.branch }}  --mode all --mock --config_file test_config_github_actions.json
             fi
 
             mv *-test-run.json replicate_test.json

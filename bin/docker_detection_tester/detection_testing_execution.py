@@ -243,7 +243,7 @@ def finish_mock(settings: dict, detections: list[Detection], output_file_templat
 
     #convert the list of Detection objects into a list of filename strings
     detection_filesnames = [str(d.detectionFile.path) for d in detections]
-    print(detection_filesnames)
+    
     for output_file_index in range(0, num_containers):
         fname = output_file_template % (output_file_index)
 
@@ -399,7 +399,7 @@ def main(args: list[str]):
         sys.exit(1)
 
     try:
-        all_detections = github_service.detections_to_test(settings['mode'])
+        all_detections = github_service.detections_to_test(settings['mode'], detections_list=settings['detections_list'])
         #all_test_files = github_service.get_test_files(settings['mode'],
         #                                            settings['folders'],
         #                                            settings['types'],
