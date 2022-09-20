@@ -1,0 +1,373 @@
+{
+    "attributes": [
+        {
+            "category": {
+                "_source": "base_event",
+                "description": "The original category of an event or object, as defined by the event source. See specific usage.",
+                "group": "classification",
+                "name": "Category",
+                "type": "string_t",
+                "type_name": "String"
+            }
+        },
+        {
+            "category_uid": {
+                "_source": "splunk/finding_report",
+                "default": 0,
+                "description": "The category identifier of the event.",
+                "enum": {
+                    "101": {
+                        "description": "Finding events report the results of detections or analytics. The Finding classes inherit from an abstract Conclusion class.",
+                        "extension": "splunk",
+                        "extension_id": 1,
+                        "name": "Finding",
+                        "uid": 101
+                    }
+                },
+                "group": "classification",
+                "name": "Category ID",
+                "requirement": "required",
+                "sibling": "category",
+                "type": "integer_t",
+                "type_name": "Integer"
+            }
+        },
+        {
+            "class_name": {
+                "_source": "base_event",
+                "description": "The class name of the event.",
+                "group": "classification",
+                "name": "Class",
+                "type": "string_t",
+                "type_name": "String"
+            }
+        },
+        {
+            "class_uid": {
+                "_source": "splunk/finding_report",
+                "default": 0,
+                "description": "The class identifier describes the attributes available in an event. See specific usage.",
+                "enum": {
+                    "101000": {
+                        "description": "Finding events report the results of detections or analytics.",
+                        "name": "Finding Report"
+                    }
+                },
+                "group": "classification",
+                "name": "Class ID",
+                "requirement": "required",
+                "sibling": "class_name",
+                "type": "integer_t",
+                "type_name": "Integer"
+            }
+        },
+        {
+            "count": {
+                "_source": "base_event",
+                "default": 1,
+                "description": "The number of times that events in the same logical group occurred during the event <strong>Start Time</strong> to <strong>End Time</strong> period.",
+                "group": "occurrence",
+                "name": "Count",
+                "type": "integer_t",
+                "type_name": "Integer"
+            }
+        },
+        {
+            "detection_end_time": {
+                "_source": "splunk/finding_report",
+                "description": "The end time of a detection time period.",
+                "group": "primary",
+                "name": "Detection Start Time",
+                "requirement": "recommended",
+                "type": "timestamp_t",
+                "type_name": "Timestamp"
+            }
+        },
+        {
+            "detection_start_time": {
+                "_source": "splunk/finding_report",
+                "description": "The start time of a detection time period.",
+                "group": "primary",
+                "name": "Detection Start Time",
+                "requirement": "recommended",
+                "type": "timestamp_t",
+                "type_name": "Timestamp"
+            }
+        },
+        {
+            "device_entities": {
+                "_source": "splunk/finding_report",
+                "description": "The devices that are identified in reported the events.",
+                "extension": "splunk",
+                "extension_id": 1,
+                "group": "primary",
+                "is_array": true,
+                "name": "Device Entities",
+                "object_name": "Device Entity",
+                "object_type": "splunk/device_entity",
+                "type": "object_t"
+            }
+        },
+        {
+            "disposition": {
+                "_source": "splunk/conclusion",
+                "description": "The disposition of the event, as defined by the event source.",
+                "group": "classification",
+                "name": "Disposition",
+                "type": "string_t",
+                "type_name": "String"
+            }
+        },
+        {
+            "disposition_id": {
+                "_source": "splunk/finding_report",
+                "description": "The disposition ID of the event.",
+                "enum": {
+                    "-1": {
+                        "name": "Other"
+                    },
+                    "0": {
+                        "name": "Unknown"
+                    },
+                    "1": {
+                        "name": "Logged"
+                    }
+                },
+                "group": "classification",
+                "name": "Disposition ID",
+                "requirement": "required",
+                "type": "integer_t",
+                "type_name": "Integer"
+            }
+        },
+        {
+            "duration": {
+                "_source": "base_event",
+                "description": "The event duration or aggregate time, the amount of time the event covers from <code>start_time</code> to <code>end_time</code> in milliseconds.",
+                "group": "occurrence",
+                "name": "Duration",
+                "type": "integer_t",
+                "type_name": "Integer"
+            }
+        },
+        {
+            "end_time": {
+                "_source": "splunk/finding_report",
+                "description": "The time of the most recent event included in the findings report.",
+                "group": "occurrence",
+                "name": "End Time",
+                "requirement": "recommended",
+                "type": "timestamp_t",
+                "type_name": "Timestamp"
+            }
+        },
+        {
+            "enrichments": {
+                "_source": "base_event",
+                "description": "The additional information from an external data source, which is associated with the event. For example add location information for the IP address in the DNS answers:</p><code>[{\"name\": \"answers.ip\", \"value\": \"92.24.47.250\", \"type\": \"location\", \"data\": {\"city\": \"Socotra\", \"continent\": \"Asia\", \"coordinates\": [-25.4153, 17.0743], \"country\": \"YE\", \"desc\": \"Yemen\"}}]</code>",
+                "group": "context",
+                "is_array": true,
+                "name": "Enrichments",
+                "object_name": "Enrichment",
+                "object_type": "enrichment",
+                "type": "object_t"
+            }
+        },
+        {
+            "event_name": {
+                "_source": "splunk/conclusion",
+                "description": "The event name, as defined by the event_uid.",
+                "group": "classification",
+                "name": "Event Name",
+                "requirement": "reserved",
+                "type": "string_t",
+                "type_name": "String"
+            }
+        },
+        {
+            "event_time": {
+                "_source": "base_event",
+                "description": "The event occurrence time, representing the time when the event was created by the event producer.<p><b>Note:</b> The format is ISO 8601: <code>yyyy-MM-dd'T'HH:mm:ss.SSSXXX</code>. For example: <code>2021-07-22T14:41:17.128-07:00</code></p>",
+                "group": "occurrence",
+                "name": "Event Time",
+                "requirement": "recommended",
+                "type": "string_t",
+                "type_name": "String"
+            }
+        },
+        {
+            "event_uid": {
+                "_source": "splunk/finding_report",
+                "description": "The event ID identifies the event's semantics and structure. The value is calculated by the logging system as: <code>class_id * 100 + disposition_id</code>.",
+                "enum": {
+                    "-1": {
+                        "name": "Finding Report: Other"
+                    },
+                    "10100000": {
+                        "name": "Finding Report: Unknown"
+                    },
+                    "10100001": {
+                        "name": "Finding Report: Logged"
+                    }
+                },
+                "group": "classification",
+                "name": "Event ID",
+                "requirement": "reserved",
+                "sibling": "event_name",
+                "type": "integer_t",
+                "type_name": "Integer"
+            }
+        },
+        {
+            "finding": {
+                "_source": "splunk/finding_report",
+                "description": "The finding reported by detection or analytics",
+                "extension": "splunk",
+                "extension_id": 1,
+                "group": "primary",
+                "name": "Finding",
+                "object_name": "Finding",
+                "object_type": "splunk/finding",
+                "requirement": "required",
+                "type": "object_t"
+            }
+        },
+        {
+            "labels": {
+                "_source": "splunk/conclusion",
+                "description": "The list of category labels attached to the event or specific attributes. Labels are user defined tags or aliases added at normalization time.</p>For example: <code>[\"network\", \"connection.ip:destination\", \"device.ip:source\"]</code>",
+                "group": "context",
+                "is_array": true,
+                "name": "Labels",
+                "type": "string_t",
+                "type_name": "String"
+            }
+        },
+        {
+            "message": {
+                "_source": "splunk/finding_report",
+                "description": "The description of the finding report.",
+                "group": "primary",
+                "name": "Message",
+                "requirement": "recommended",
+                "type": "string_t",
+                "type_name": "String"
+            }
+        },
+        {
+            "metadata": {
+                "_source": "base_event",
+                "description": "The metadata associated with the event.",
+                "group": "context",
+                "name": "Metadata",
+                "object_name": "Metadata",
+                "object_type": "metadata",
+                "requirement": "required",
+                "type": "object_t"
+            }
+        },
+        {
+            "observables": {
+                "_source": "splunk/finding_report",
+                "description": "The observables associated with the finding report.",
+                "group": "primary",
+                "is_array": true,
+                "name": "Observables",
+                "object_name": "Observable",
+                "object_type": "observable",
+                "requirement": "recommended",
+                "type": "object_t"
+            }
+        },
+        {
+            "origin": {
+                "_source": "base_event",
+                "description": "The origin of the event, where the event was created.",
+                "group": "context",
+                "name": "Origin",
+                "object_name": "Event Origin",
+                "object_type": "event_origin",
+                "requirement": "required",
+                "type": "object_t"
+            }
+        },
+        {
+            "raw_data": {
+                "_source": "base_event",
+                "description": "The event data as received from the event source.",
+                "group": "context",
+                "name": "Raw Data",
+                "requirement": "reserved",
+                "type": "string_t",
+                "type_name": "String"
+            }
+        },
+        {
+            "rule": {
+                "_source": "splunk/conclusion",
+                "description": "The rules that reported the events.",
+                "group": "primary",
+                "name": "Rule",
+                "object_name": "Rule",
+                "object_type": "rule",
+                "requirement": "required",
+                "type": "object_t"
+            }
+        },
+        {
+            "start_time": {
+                "_source": "splunk/finding_report",
+                "description": "The time of the least recent event included in the finding report.",
+                "group": "occurrence",
+                "name": "Start Time",
+                "requirement": "recommended",
+                "type": "timestamp_t",
+                "type_name": "Timestamp"
+            }
+        },
+        {
+            "time": {
+                "_source": "splunk/finding_report",
+                "description": "The time when the finding was created.",
+                "group": "occurrence",
+                "name": "Time",
+                "requirement": "required",
+                "type": "timestamp_t",
+                "type_name": "Timestamp"
+            }
+        },
+        {
+            "unmapped": {
+                "_source": "base_event",
+                "description": "The attributes that are not mapped to the event schema. The names and values of those attributes are specific to the event source.",
+                "group": "primary",
+                "name": "Unmapped Data",
+                "object_name": "Object",
+                "object_type": "object",
+                "type": "object_t"
+            }
+        },
+        {
+            "user_entities": {
+                "_source": "splunk/finding_report",
+                "description": "The users that are identified in reported the events.",
+                "extension": "splunk",
+                "extension_id": 1,
+                "group": "primary",
+                "is_array": true,
+                "name": "User Entities",
+                "object_name": "User Entity",
+                "object_type": "splunk/user_entity",
+                "type": "object_t"
+            }
+        }
+    ],
+    "category": "splunk/finding",
+    "category_name": "Finding",
+    "description": "Finding events report the results of detections or analytics.",
+    "extension": "splunk",
+    "extension_id": 1,
+    "name": "Finding Report",
+    "type": "finding_report",
+    "uid": 101000
+}

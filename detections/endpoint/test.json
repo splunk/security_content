@@ -1,0 +1,155 @@
+[
+    {
+       "actor_process" : {
+          "file" : {
+             "name" : "cmd.exe",
+             "parent_folder" : "C:\\Windows\\System32",
+             "path" : "C:\\Windows\\System32\\cmd.exe",
+             "type" : "Regular File",
+             "type_id" : 1
+          },
+          "pid" : 3700
+       },
+       "category" : "Activity",
+       "category_uid" : 1,
+       "class_name" : "Endpoint Process Activity",
+       "class_uid" : 1014,
+       "disposition" : "Launch",
+       "disposition_id" : 1,
+       "event_name" : "Endpoint Process Activity: Launch",
+       "event_time" : "11/23/2021 08:35:31 AM",
+       "event_uid" : 101401,
+       "message" : "A new process has been created.",
+       "metadata" : {
+          "processed_time" : 1662495680505,
+          "version" : "0.9.0"
+       },
+       "observables" : {
+          "actor_process" : {
+             "name" : "actor_process",
+             "type" : "Process",
+             "type_id" : 16
+          },
+          "actor_process.file" : {
+             "name" : "actor_process.file",
+             "type" : "File",
+             "type_id" : 13
+          },
+          "actor_process.file.name" : {
+             "name" : "actor_process.file.name",
+             "type" : "File Name",
+             "type_id" : 14,
+             "value" : "cmd.exe"
+          },
+          "origin.device" : {
+             "name" : "origin.device",
+             "type" : "Device",
+             "type_id" : 1
+          },
+          "process" : {
+             "name" : "process",
+             "type" : "Process",
+             "type_id" : 16
+          },
+          "process.file" : {
+             "name" : "process.file",
+             "type" : "File",
+             "type_id" : 13
+          },
+          "process.file.name" : {
+             "name" : "process.file.name",
+             "type" : "File Name",
+             "type_id" : 14,
+             "value" : "7z.exe"
+          },
+          "process.run_as" : {
+             "name" : "process.run_as",
+             "type" : "User",
+             "type_id" : 7
+          },
+          "process.run_as.name" : {
+             "name" : "process.run_as.name",
+             "type" : "Username",
+             "type_id" : 8,
+             "value" : "-"
+          },
+          "user" : {
+             "name" : "user",
+             "type" : "User",
+             "type_id" : 7
+          },
+          "user.name" : {
+             "name" : "user.name",
+             "type" : "Username",
+             "type_id" : 8,
+             "value" : "Administrator"
+          }
+       },
+       "origin" : {
+          "customer_uid" : "testtenant",
+          "device" : {
+             "name" : "win-dc-559.attackrange.local",
+             "os" : {
+                "name" : "Windows",
+                "type" : "Windows",
+                "type_id" : 100
+             },
+             "type" : "Unknown",
+             "type_id" : 0
+          },
+          "feature" : {
+             "name" : "Security"
+          },
+          "product" : {
+             "name" : "Microsoft Windows"
+          },
+          "source" : {
+             "type" : "WinEventLog"
+          }
+       },
+       "process" : {
+          "cmd_line" : "7z.exe",
+          "file" : {
+             "name" : "7z.exe",
+             "parent_folder" : "C:\\Program Files\\7-Zip",
+             "path" : "C:\\Program Files\\7-Zip\\7z.exe",
+             "type" : "Regular File",
+             "type_id" : 1
+          },
+          "pid" : 5372,
+          "run_as" : {
+             "domain" : "-",
+             "name" : "-",
+             "ref_uid" : "923ea36a-f124-3f96-8394-b3c6ddb9269a",
+             "session_uid" : "0x0",
+             "uid" : "NULL SID"
+          }
+       },
+       "raw_data" : "11/23/2021 08:35:31 AM\nLogName=Security\nSourceName=Microsoft Windows security auditing.\nEventCode=4688\nEventType=0\nType=Information\nComputerName=win-dc-559.attackrange.local\nTaskCategory=Process Creation\nOpCode=Info\nRecordNumber=289221\nKeywords=Audit Success\nMessage=A new process has been created.\n\nCreator Subject:\n    Security ID:            ATTACKRANGE\\Administrator\n     Account Name:           Administrator\n Account Domain:         ATTACKRANGE\n   Logon ID:               0x1D4CF5\n\nTarget Subject:\n   Security ID:            NULL SID\n      Account Name:           -\n     Account Domain:         -\n     Logon ID:               0x0\n\nProcess Information:\n   New Process ID:         0x14fc\n        New Process Name:       C:\\Program Files\\7-Zip\\7z.exe\n      Token Elevation Type:   %%1936\n        Mandatory Label:                Mandatory Label\\High Mandatory Level\n  Creator Process ID:     0xe74\n Creator Process Name:   C:\\Windows\\System32\\cmd.exe\n        Process Command Line:   7z.exe\n\nToken Elevation Type indicates the type of token that was assigned to the new process in accordance with User Account Control policy.\n\nType 1 is a full token with no privileges removed or groups disabled.  A full token is only used if User Account Control is disabled or if the user is the built-in Administrator account or a service account.\n\nType 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.\n\nType 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.\n\n",
+       "ref_event_code" : "4688",
+       "ref_event_uid" : "289221",
+       "severity" : "Informational",
+       "severity_id" : 1,
+       "status" : "Success",
+       "status_id" : 1,
+       "time" : 1637656531000,
+       "unmapped" : {
+          "ComputerName" : "win-dc-559.attackrange.local",
+          "EventType" : "0",
+          "OpCode" : "Info",
+          "Process Information" : {
+             "Mandatory Label" : "Mandatory Label\\High Mandatory Level",
+             "Token Elevation Type" : "%%1936"
+          },
+          "SourceName" : "Microsoft Windows security auditing.",
+          "TaskCategory" : "Process Creation"
+       },
+       "user" : {
+          "domain" : "ATTACKRANGE",
+          "name" : "Administrator",
+          "ref_uid" : "95607f8f-7920-3656-a862-9f1951b24b50",
+          "session_uid" : "0x1D4CF5",
+          "uid" : "ATTACKRANGE\\Administrator"
+       }
+    }
+ ]
