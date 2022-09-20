@@ -21,7 +21,7 @@ from timeit import default_timer as timer
 from typing import Union
 from urllib.parse import urlparse
 import signal
-
+import pathlib
 
 import docker
 import requests
@@ -556,8 +556,8 @@ def main(args: list[str]):
         print("Error - there was an error running the tests: [%s]\n\tQuitting..."%(str(e)),file=sys.stderr)
         sys.exit(1)
 
-    import pathlib
-    cm.synchronization_object.resultsManager.generate_results_file(pathlib.Path("scratch_results.json"))
+
+    cm.synchronization_object.resultsManager.generate_results_file(pathlib.Path("summary.json"))
 
     #github_service.update_and_commit_passed_tests(cm.synchronization_object.successes)
     

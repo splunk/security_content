@@ -219,6 +219,7 @@ class ResultsManager:
         #Record the overall result of the detection
         
         if detection.result is None:
+            self.fail_count += 1 
             raise(Exception(f"Found a detection result to be 'None' for detection: {detection.detectionFile.path}"))
         self.result_count += 1
         if detection.result is not None and detection.result.success == True:
@@ -233,14 +234,16 @@ class ResultsManager:
     
 
 
-    def generate_results_file(self, path:pathlib.Path)->bool:
+    def generate_results_file(self, filePath:pathlib.Path, root_folder:pathlib.Path = pathlib.Path("test_results"))->bool:
+        #Make the folder if it doesn't already exist.  If it does, that's ok
+        root_folder.mkdir(parents=True, exist_ok=True)
+        full_path = root_folder / filePath
         try:
             background = self.generate_background_section()
             summary = self.generate_summary_section()
             detections = self.generate_detections_section()
             obj = {"background": background, "summary": summary, "detections": detections}
-            path = pathlib.Path("summary_file.json")
-            with open(path, "w") as output:
+            with open(full_path, "w") as output:
                 json.dump(obj, output, indent=3)
             return True
         except Exception as e:

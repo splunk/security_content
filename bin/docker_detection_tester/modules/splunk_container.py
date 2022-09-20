@@ -243,7 +243,8 @@ class SplunkContainer:
             # v also removes volumes linked to the container
             container.remove(
                 v=removeVolumes, force=forceRemove
-            )  # remove it even if it is running. remove volumes as well
+            )
+            # remove it even if it is running. remove volumes as well
             # No need to print that the container has been removed, it is expected behavior
             return True
         except Exception as e:
