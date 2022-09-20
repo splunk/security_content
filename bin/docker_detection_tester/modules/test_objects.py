@@ -218,10 +218,12 @@ class ResultsManager:
     def addCompletedDetection(self, detection:Detection):
         #Record the overall result of the detection
         
+        self.result_count += 1
+        
         if detection.result is None:
             self.fail_count += 1 
             raise(Exception(f"Found a detection result to be 'None' for detection: {detection.detectionFile.path}"))
-        self.result_count += 1
+        
         if detection.result is not None and detection.result.success == True:
             self.pass_count += 1
         else:
