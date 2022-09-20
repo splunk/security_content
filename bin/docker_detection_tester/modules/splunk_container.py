@@ -485,14 +485,18 @@ class SplunkContainer:
                     "Warning - uncaught error in detection test for [%s] - this should not happen: [%s]"
                     % (detection_to_test.testFile.path, str(e))
                 )
-                self.synchronization_object.addResult(detection_to_test)
-    
+                try:
+                    self.synchronization_object.addResult(detection_to_test)
+                except Exception as e:
+                    print(f"Adding a failed result to the queue failed with error: {str(e)}")
     
                 ###begin testing block
                 self.num_tests_completed += 1
 
                 # Try to get something from the queue
-                detection_to_test = self.synchronization_object.getTest()
+            
+                #detection_to_test = self.synchronization_object.getTest()
+                
                 continue
                 ###end testing block
     

@@ -255,11 +255,12 @@ def finish_mock(settings: dict, detections: list[Detection], output_file_templat
         for d in detection_tests:
             filename = os.path.basename(d)
             filename = filename.replace(".test.yml", ".yml")
-            leading = os.path.split(d)[0]
-            leading = leading.replace("tests/", "detections/")
-            new_name = os.path.join(
-                "security_content", leading, filename)
-            normalized_detection_names.append(new_name)
+            #leading = os.path.split(d)[0]
+            #leading = leading.replace()
+            #new_name = os.path.join(
+            #    "security_content", leading, filename)
+            #normalized_detection_names.append(new_name)
+            normalized_detection_names.append(d.replace(".test.yml", ".yml").replace("tests/", "detections/"))
 
         # Generate an appropriate config file for this test
         mock_settings = copy.deepcopy(settings)
