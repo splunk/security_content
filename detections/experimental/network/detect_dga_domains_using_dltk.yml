@@ -2,14 +2,14 @@ name: Detect DGA domains using Pretrained Deep Learning Model in DLTK
 id: b4aefb5f-1037-410d-a149-1e091288ba33
 version: 1
 date: '2022-09-15'
-author: Abhinav Mishra, Namratha Sreekanta and Kumar Sharad, Splunk
+author: Abhinav Mishra, Kumar Sharad and Namratha Sreekanta, Splunk
 type: Anomaly
 datamodel:
-- Splunk_Audit
+- Network_Resolution
 description: 'The following analytic uses a pretrained deep learning classifier to detect DGA domains. The model is trained independently and the model file is available in AWS S3. A domain is classified as DGA generated when the domain name consists of unusual character sequences or concatenated english words. The model uses the domain name to anlayze patterns of character sequences along with custom features to classify a domain as DGA or not. The model takes a domain name consisting of second-level and top-level domain names as input and outputs a pred_is_dga, either a 0 or 1. If pred_is_dga is 1 then the domain name is DGA generated else it is non DGA.'
 search: "| tstats `security_content_summariesonly` values(DNS.answer) as IPs min(_time) as firstTime from datamodel=Network_Resolution by DNS.src, DNS.query 
-| `drop_dm_object_name("DNS")` | rename query AS domain | fields domain | apply dga_model_dltk | where predicted_is_dga=1 | table domain, pred" 
-how_to_implement: This detection depends on the MLTK app which can be found here - https://splunkbase.splunk.com/app/2890/ and the Splunk Audit datamodel which can be found here - https://splunkbase.splunk.com/app/1621/. Additionally, you need to be ingesting logs which include Search_Activity.search, Search_Activity.user, Search_Activity.search_type from your endpoints. The risk score threshold should be adjusted based on the environment. The detection uses a custom MLTK model hence we need a few more steps for deployment, as outlined here - https://gist.github.com/ksharad-splunk/be2a62227966049047f5e5c4f2adcabb.
+| `drop_dm_object_name("DNS")` | rename query AS domain | fields domain | apply dga_model_dltk | rename pred_dga_proba AS dga_score | where dga_score>0.5 | table domain, dga_score" 
+how_to_implement: This detection depends on the DSDL app which can be found here - https://splunkbase.splunk.com/app/4607/ and the Network Resolution datamodel which can be found here - https://splunkbase.splunk.com/app/1621/. The dga_score threshold is set at 0.5 and this should be adjusted based on the environment. The detection uses a pre-trained deep learning model that needs to be deployed in DLTK. Steps for deployment are outlined here - ** update gist here **.
 known_false_positives: False positives may be present if suspicious behavior is observed, as determined by frequent usage of risky keywords.
 references:
 - https://docs.splunk.com/Documentation/Splunk/latest/Security/SPLsafeguards#Commands_that_trigger_the_warning
@@ -36,8 +36,8 @@ tags:
   nist:
   - DE.AE
   observable:
-  - name: user
-    type: User
+  - name: src
+    type: src
     role:
     - Victim
   product:
@@ -46,9 +46,7 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Search_Activity.search 
-  - Search_Activity.user 
-  - Search_Activity.search_type
+  - DNS.query 
   risk_score: 20
-  security_domain: audit
+  security_domain: Network_Resolution
   
