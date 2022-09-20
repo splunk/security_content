@@ -8,52 +8,73 @@ import os.path
 from operator import itemgetter
 import copy
 
-def outputResultsJSON(output_filename:str, data:list[dict], baseline:OrderedDict, 
+def outputResultsJSON(output_filename:str, data:list[dict], background:OrderedDict, 
                       failure_manifest_filename = "detection_failure_manifest.json", 
-                      output_folder:str="", summarization_reproduce_failure_config:dict={})->tuple[bool,int,int,int,int]:
+                      output_folder:str="", summarization_reproduce_failure_config:dict={})->dict:
     success = True
     
     try:
-        test_count = len(data)
-        #Passed
-        pass_count = len([x for x in data if x['success'] == True])
+        #Summarize all of the detections
+        detection_pass_count = 0
+        detection_fail_count = 0
+        test_pass_count = 0
+        test_fail_count = 0
+        test_logic_pass_count = 0
+        test_logic_fail_count = 0
+        test_noise_pass_count = 0
+        test_noise_fail_count = 0
         
         
-        #A failure or an error
-        fail_count = len([x for x in data if x['success'] == False])
-        
-        #An error (every error is also a failure)
-        fail_and_error_count = len([x for x in data if x['error'] == True])
-        
-        #A failure without an error
-        fail_without_error_count = len([x for x in data if x['success'] == False and x['error'] == False])
-        
-        #This number should always be zero...
-        error_and_success_count = len([x for x in data if x['success'] == True and x['error'] == True])
-        if error_and_success_count > 0:
-            print("Error - a test was successful, but also included an error. This should be impossible.",file=sys.stderr)
-            success = False
+        #Summarize all of the tests
+        for detection in data:
+            if detection['success'] is True:
+                detection_pass_count += 1
+            else:
+                detection_fail_count += 1
             
-        if test_count != (pass_count + fail_count):
-            print("Error - the total tests [%d] does not equal the pass[%d]/fails[%d]"%(test_count, pass_count,fail_count))
-            success=False
-
-        if fail_count > 0:
-            result = "FAIL for %d detections"%(fail_count)
-            success = False
-        else:
-            result = "PASS for all %d detections"%(pass_count)
-
-
-        summary={"TOTAL_TESTS": test_count, "TESTS_PASSED": pass_count, 
-                 "TOTAL_FAILURES": fail_count, "FAIL_ONLY": fail_without_error_count, 
-                 "PASS_RATE": calculate_pass_rate(pass_count, test_count),
-                 "FAIL_AND_ERROR":fail_and_error_count }
-
-        data_sorted = sorted(data, key = lambda k: (-k['error'], k['success'], k['detection_file']))
-        with open(os.path.join(output_folder,output_filename), "w") as jsonFile:
-            json.dump({'summary':summary, 'baseline': baseline, 'results':data_sorted}, jsonFile, indent="    ")
+            if len(detection.get("tests",[])) == 0:
+                print(f"Did not find a tests field in detection {detection['name']} or the length of the tests was 0.")
+                continue
+            for test in detection.get("tests",[]):
+                if test['success'] is True:
+                    test_pass_count += 1
+                else:
+                    test_fail_count += 1
+                if test['logic'] is True:
+                    test_logic_pass_count += 1
+                else:
+                    test_logic_fail_count += 1
+                if test['noise'] is True:
+                    test_noise_pass_count += 1
+                else:
+                    test_noise_fail_count += 1
         
+
+        
+        summary = {
+        "detections": detection_pass_count + detection_fail_count,
+        "detections_pass_count": detection_pass_count,
+        "detections_fail_count": detection_fail_count,
+        "detections_pass_rate": round(detection_pass_count / (detection_pass_count + detection_fail_count),3),
+        "tests": test_pass_count + test_fail_count,
+        "tests_pass_count": test_pass_count,
+        "tests_fail_count": test_fail_count,
+        "tests_pass_rate": round(test_pass_count / (test_pass_count + test_fail_count),3),
+        "tests_logic": test_logic_pass_count + test_logic_fail_count,
+        "tests_logic_pass_count": test_logic_pass_count,
+        "tests_logic_fail_count": test_logic_fail_count,
+        "tests_logic_pass_rate": round(test_logic_pass_count / (test_logic_pass_count + test_logic_fail_count),3),
+        "tests_noise": test_noise_pass_count + test_noise_fail_count,
+        "tests_noise_pass_count": test_noise_pass_count,
+        "tests_noise_fail_count": test_noise_fail_count,
+        "tests_noise_pass_rate": round(test_noise_pass_count / (test_noise_pass_count + test_noise_fail_count),3)
+        }
+
+        data_sorted = sorted(data, key = lambda k: (k['success'], k['path']))
+        with open(os.path.join(output_folder,output_filename), "w") as jsonFile:
+            json.dump({'summary':summary, 'background': background, 'detections':data_sorted}, jsonFile, indent="    ")
+        
+        return summary
         
         #Generate a failure that the user can download to reproduce and test ONLY the failures locally.
         #This makes it easy to test and debug ONLY those that failed.  No need to test the ones
@@ -91,16 +112,20 @@ def calculate_pass_rate(pass_count:int, test_count:int)->float:
         pass_rate = pass_count / test_count
     return pass_rate
 
-def print_summary(test_count: int, pass_count:int, fail_count:int, error_count:int)->None:
+def print_summary(summary:dict)->None:
     
     print("Summary:"\
-            f"\n\tTotal Tests: {test_count}"\
-            f"\n\tTotal Pass : {pass_count}"\
-            f"\n\tTotal Fail : {fail_count} ({error_count} of these were ERRORS))"\
-            f"\n\tPass  Rate : {calculate_pass_rate(pass_count, test_count):.3f}")
+            f"\n\tDetections      : {summary['detections']}"\
+            f"\n\tDetections Pass : {summary['detections_pass_count']}"\
+            f"\n\tDetections Fail : {summary['detections_fail_count']}"\
+            f"\n\tDetections Rate : {summary['detections_pass_rate']}"\
+            f"\n\tTests           : {summary['tests']}"\
+            f"\n\tTests Pass      : {summary['tests_pass_count']}"\
+            f"\n\tTests Fail      : {summary['tests_fail_count']}"\
+            f"\n\tTests Rate      : {summary['tests_pass_rate']}")
 
-def exit_with_status(test_pass:bool, test_count: int, pass_count:int, fail_count:int, error_count:int)->None:
-    if not test_pass:
+def exit_with_status(summary:dict)->None:
+    if summary['tests_failures'] > 0:
         print("Result: FAIL")
         #print("DURING TESTING, THIS WILL STILL EXIT WITH AN EXIT CODE OF 0 (SUCCESS) TO ALLOW THE WORKFLOW "
         #      "TO PASS AND CI/CD TO CONTINUE.  THIS WILL BE CHANGED IN A FUTURE VERSION.")
@@ -111,9 +136,9 @@ def exit_with_status(test_pass:bool, test_count: int, pass_count:int, fail_count
         sys.exit(0)
 
 
-def finish(test_pass:bool, test_count: int, pass_count:int, fail_count:int, error_count:int)->None:
-    print_summary(test_count, pass_count, fail_count,error_count)
-    exit_with_status(test_pass, test_count, pass_count, fail_count,error_count)
+def finish(summary)->None:
+    print_summary(summary)
+    exit_with_status(summary)
 
 def main():
     parser = argparse.ArgumentParser(description="Results Merger")
@@ -129,19 +154,19 @@ def main():
                 print("Error: passed in file must end in .json - you passed in [%s].\n\tQuitting..."%(f.name))
                 sys.exit(1)
             data = json.loads(f.read())
-            if 'baseline' in all_data:
+            if 'background' in all_data:
                 #everything has the same baseline, only need to do it once
                 pass
             else:
-                all_data['baseline'] = data['baseline']
-            if 'results' in all_data:
+                all_data['background'] = data['background']
+            if 'detections' in all_data:
                 #this is a list of dictionaries, so add to it
-                all_data['results'].extend(data['results'])
+                all_data['detections'].extend(data['detections'])
             else:
-                all_data['results'] = data['results']
+                all_data['detections'] = data['detections']
 
-        test_pass, test_count, pass_count, fail_count, error_count = outputResultsJSON(args.output_filename, all_data['results'], all_data['baseline'])
-        finish(test_pass, test_count, pass_count, fail_count, error_count)
+        summary = outputResultsJSON(args.output_filename, all_data['detections'], all_data['background'])
+        finish(summary)
         
     except Exception as e:
         print("Error generating the summary file: [%s].\n\tQuitting..."%(str(e)))
