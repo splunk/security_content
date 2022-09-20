@@ -40,7 +40,7 @@ def get_service(splunk_ip:str, splunk_port:int, splunk_password:str):
 
 
 def execute_tests(splunk_ip:str, splunk_port:int, splunk_password:str, tests:list[Test], attack_data_folder:str, wait_on_failure:bool, wait_on_completion:bool, container)->bool:
-    print("THREE")    
+    
     success = True
     for test in tests:
         try:
@@ -208,7 +208,7 @@ def hec_raw_replay(base_url:str, token:str, filePath:pathlib.Path,
             prepend = "http://"
         old_url = base_url
         base_url = f"{prepend}{old_url}"
-        print(f"Warning, the URL you provided {old_url} does not start with http:// or https://.  We have added {prepend} to convert it into {base_url}")
+        #print(f"Warning, the URL you provided {old_url} does not start with http:// or https://.  We have added {prepend} to convert it into {base_url}")
     
 
     #Generate the full URL, including the host, the path, and the params.
@@ -220,7 +220,7 @@ def hec_raw_replay(base_url:str, token:str, filePath:pathlib.Path,
 
     try:
         res = requests.post(url_with_path,params=url_params_dict, data=rawData, allow_redirects = True, headers=headers, verify=verify)
-        print(f"POST Sent with return code: {res.status_code}")
+        #print(f"POST Sent with return code: {res.status_code}")
         jsonResponse = json.loads(res.text)
     except Exception as e:
         raise(Exception(f"There was an exception in the post: {str(e)}"))
@@ -241,9 +241,9 @@ def hec_raw_replay(base_url:str, token:str, filePath:pathlib.Path,
             try:
                 
                 res = requests.post(url_with_path, json=j, allow_redirects = True, headers=headers, verify=verify)
-                print(f"ACKID POST Sent with return code: {res.status_code}")
+                #print(f"ACKID POST Sent with return code: {res.status_code}")
                 jsonResponse = json.loads(res.text)
-                print(f"the type of ackid is {type(ackId)}")
+                #print(f"the type of ackid is {type(ackId)}")
                 if 'acks' in jsonResponse and str(ackId) in jsonResponse['acks']:
                     if jsonResponse['acks'][str(ackId)] is True:
                         break
@@ -350,7 +350,7 @@ def replay_attack_data_files(splunk_ip:str, splunk_port:int, splunk_password:str
 
 
 def test_detection(splunk_ip:str, splunk_port:int, splunk_password:str, detection:Detection, attack_data_root_folder, wait_on_failure:bool, wait_on_completion:bool,container)->bool:
-    print("TWO")
+    
 
     abs_folder_path = mkdtemp(prefix="DATA_", dir=attack_data_root_folder)
     success = execute_tests(splunk_ip, splunk_port, splunk_password, detection.testFile.tests, abs_folder_path, wait_on_failure, wait_on_completion, container)

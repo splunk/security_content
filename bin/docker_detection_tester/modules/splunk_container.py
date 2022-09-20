@@ -20,6 +20,7 @@ import wrapt_timeout_decorator
 import sys
 import traceback
 import uuid
+import requests
 SPLUNKBASE_URL = "https://splunkbase.splunk.com/app/%d/release/%s/download"
 SPLUNK_START_ARGS = "--accept-license"
 
@@ -366,7 +367,7 @@ class SplunkContainer:
     
     def configure_hec(self):
         try:
-            import requests
+
             auth = ('admin', self.container_password)
             address = f"https://{self.splunk_ip}:{self.management_port}/services/data/inputs/http"
             data = {
@@ -381,10 +382,9 @@ class SplunkContainer:
             if r.status_code == 201:
                 import xmltodict
                 asDict = xmltodict.parse(r.text)
-                print(asDict)
+                #Long, messy way to get the token we need. This could use more error checking for sure.
                 self.tokenString = [m['#text'] for m in asDict['feed']['entry']['content']['s:dict']['s:key'] if '@name' in m and m['@name']=='token'][0]
                 self.channel = str(uuid.uuid4())
-                print(f"WE GOT THE TOKEN STRING AND IT IS: {self.tokenString}")
                 
             else:
                 raise(Exception(f"Error setting up hec.  Response code from {address} was [{r.status_code}]: {r.text} "))
@@ -463,7 +463,7 @@ class SplunkContainer:
             print("Container [%s]--->[%s]" %
                   (self.container_name, str(detection_to_test.detectionFile.path)))
             try:
-                print("ONE")
+                
                 result = testing_service.test_detection(
                     self.splunk_ip,
                     self.management_port,
@@ -491,13 +491,13 @@ class SplunkContainer:
                     print(f"Adding a failed result to the queue failed with error: {str(e)}")
     
                 ###begin testing block
-                self.num_tests_completed += 1
+                #self.num_tests_completed += 1
 
                 # Try to get something from the queue
             
                 #detection_to_test = self.synchronization_object.getTest()
                 
-                continue
+                #continue
                 ###end testing block
     
     
@@ -509,6 +509,7 @@ class SplunkContainer:
                 #pdb.set_trace()
                 # Fill in all the "Empty" fields with default values. Otherwise, we will not be able to 
                 # process the result correctly.  
+                '''
                 detection_to_test.replace("security_content/tests", "security_content/detections")
                 try:
                     test_file_obj = testing_service.load_file(os.path.join("security_content/", detection_to_test))
@@ -525,6 +526,7 @@ class SplunkContainer:
 
 
                 )
+                '''
             self.num_tests_completed += 1
 
             # Try to get something from the queue
