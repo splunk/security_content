@@ -3,7 +3,7 @@ id: ac3311f5-661d-4e99-bd1f-3ec665b05441
 version: 1
 date: '2022-09-16'
 author: Teoderick Contreras, Splunk
-type: Hunting
+type: Anomaly
 datamodel:
 - Endpoint
 description: The following analytic identifies a possible windows application having a SMTP connection 
