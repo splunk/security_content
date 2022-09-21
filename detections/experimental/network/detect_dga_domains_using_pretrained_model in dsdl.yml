@@ -1,5 +1,5 @@
-name: Detect DGA domains using Pretrained Deep Learning Model in DLTK
-id: b4aefb5f-1037-410d-a149-1e091288ba33
+name: Detect DGA domains using pretrained model in DSDL
+id: 92e24f32-9b9a-4060-bba2-2a0eb3bf3493
 version: 1
 date: '2022-09-15'
 author: Abhinav Mishra, Kumar Sharad and Namratha Sreekanta, Splunk
@@ -7,12 +7,14 @@ type: Anomaly
 datamodel:
 - Network_Resolution
 description: 'The following analytic uses a pretrained deep learning model to detect Domain Generation Algorithm (DGA) generated domains. The model is trained independently and then made available in AWS S3. One of the prominent indicators of a domain being DGA generated is if the domain name consists of unusual character sequences or concatenated dictionary words. Adversaries often use clever techniques to obfuscate machine generated domain names as human generated. Predicting DGA generated domain names requires analysis and building a model based on carefully chosen features. The deep learning model we have developed uses the domain name to anlayze patterns of character sequences along with carefully chosen custom features to predict if a domain is DGA generated. The model takes a domain name consisting of second-level and top-level domain names as input and outputs a dga_score. Higher the dga_score, the more likely the input domain is a DGA domain. The threshold for flagging a domain as DGA is set at 0.5.'
-search: "| tstats `security_content_summariesonly` values(DNS.answer) as IPs min(_time) as firstTime from datamodel=Network_Resolution by DNS.src, DNS.query 
-| `drop_dm_object_name("DNS")` | rename query AS domain | fields domain | apply dga_model_dltk | rename pred_dga_proba AS dga_score | where dga_score>0.5 | table domain, dga_score" 
-how_to_implement: This detection depends on the DSDL app which can be found here - https://splunkbase.splunk.com/app/4607/ and the Network Resolution datamodel which can be found here - https://splunkbase.splunk.com/app/1621/. The dga_score threshold is set at 0.5 and this should be adjusted based on the environment. The detection uses a pre-trained deep learning model that needs to be deployed in DLTK. Steps for deployment are outlined here - ** update gist here **.
-known_false_positives: False positives may be present if suspicious behavior is observed, as determined by frequent usage of risky keywords.
+search: '| tstats `security_content_summariesonly` values(DNS.answer) as IPs min(_time) as firstTime  max(_time) as lastTime from datamodel=Network_Resolution by DNS.src, DNS.query 
+| `drop_dm_object_name("DNS")` | rename query AS domain | fields IPs, src, domain, firstTime, lastTime, src | apply dga_model_dltk | rename pred_dga_proba AS dga_score | where dga_score<0.5 | table src, domain, IPs, firstTime, lastTime,dga_score'
+how_to_implement: This detection depends on the DSDL app which can be found here - https://splunkbase.splunk.com/app/4607/ and the Network Resolution datamodel which can be found here - https://splunkbase.splunk.com/app/1621/. The dga_score threshold is set at 0.5 and this should be adjusted based on the environment. The detection uses a pre-trained deep learning model that needs to be deployed in DSDL. Steps for deployment are outlined here - https://github.com/splunk/security_content/notebooks/dga_dsdl/README.md.
+known_false_positives: False positives may be present if domain name is similar to dga generated domains.
 references:
-- https://docs.splunk.com/Documentation/Splunk/latest/Security/SPLsafeguards#Commands_that_trigger_the_warning
+- https://attack.mitre.org/techniques/T1568/002/
+- https://unit42.paloaltonetworks.com/threat-brief-understanding-domain-generation-algorithms-dga/
+- https://en.wikipedia.org/wiki/Domain_generation_algorithm
 tags:
   analytic_story:
   - Data Protection
@@ -26,34 +28,39 @@ tags:
   - CIS 8
   - CIS 12
   - CIS 13
-  confidence: 40
-  cve:
-  - CVE-2022-32154
+  confidence: 90
   context:
   - Source:Endpoint
-  - Stage:Initial Access
-  dataset:
-  - https://github.com/splunk/attack_data/raw/master/datasets/attack_techniques/T1203/search_activity.txt
-  impact: 50
+  - Stage:Command and Control
+  impact: 70
   kill_chain_phases:
-  - Actions on Objectives
   - Command & Control
   message: A potentially a DGA domain $domain$ was detected, kindly review.
   mitre_attack_id:
-  - T1189
+  - T1568.002
   nist:
   - PR.DS
   - PR.PT
   - DE.AE
   - DE.CM
   observable:
+  - name: domain
+    type: Other
+    role:
+    - Attacker
+  - name: src
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - _time
-  - DNS.query 
-  risk_score: 20
+  - IPs
+  - src
+  - domain
+  - firstTime
+  - lastTime
+  risk_score: 63
   security_domain: Network
-  
