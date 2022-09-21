@@ -4,9 +4,9 @@ version: 1
 date: '2022-08-29'
 author: Dean Luxton, Mauricio Velazco
 description: Monitor for activities and techniques associated with replication based attacks which target domain controllers and post-exploitation active directory persistence techniques. 
-narrative: This analytic story provides detections for some of the highest impact attacks which can be performed against an active directory network.
- Featuring attacks which leverage flaws within replication [MS probably won’t fix these any time soon], enabling backdoor accounts and other stealthy persistence techniques. 
- It is imperative to enable the necessary GPOs and SACLs required - otherwise the eventcodes will not trigger. Each detection includes a list of requirements for enabling logging.
+narrative: This analytic story provides detections for some of the highest impact attacks which can be performed against an active directory network. 
+  Featuring attacks which leverage flaws within replication (MS probably wont fix these any time soon), enabling backdoor accounts and other stealthy persistence techniques. 
+  It is imperative to enable the necessary GPOs and SACLs required, otherwise the eventcodes will not trigger. Each detection includes a list of requirements for enabling logging.  
 references: 
   - https://adsecurity.org/?p=1929
   - https://www.dcshadow.com
