@@ -7,7 +7,7 @@ type: TTP
 datamodel:
 - Endpoint
 description: This analytic will identify suspicious executable or scripts (known file
-  extensions) in a list of suspicious file path in Windows. This technique is used by
+  extensions) in a list of suspicious file paths in Windows. This technique is used by
   adversaries to evade detection. The suspicious file path are known paths used in
   the wild and are not common to have executable or scripts.
 search: '|tstats `security_content_summariesonly` values(Filesystem.file_path) as
