@@ -3,7 +3,7 @@ id: 0f43758f-1fe9-470a-a9e4-780acc4d5407
 version: 1
 date: '2022-09-16'
 author: Teoderick Contreras, Splunk
-type: Hunting
+type: Anomaly
 datamodel:
 - Endpoint
 description: The following analytic identifies a possible windows application having a FTP connection 
