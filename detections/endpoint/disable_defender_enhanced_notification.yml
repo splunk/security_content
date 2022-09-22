@@ -6,10 +6,10 @@ author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: This analytic is to detect a suspicious modification of registry to disable
-  windows defender feature. This technique is to bypassed or evade detection from
-  Windows Defender AV product specially the Enhanced Notification feature wher user
-  or admin set to show or display alerts.
+description: This analytic is intended to detect a suspicious modification of registry to disable
+  windows defender features. This technique attempts to bypass or evade detection from
+  Windows Defender AV, specifically the Enhanced Notification feature where a user
+  or admin would receive alerts.
 search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Registry
   where Registry.registry_path = "*Microsoft\\Windows Defender\\Reporting*" Registry.registry_value_name
   = DisableEnhancedNotifications Registry.registry_value_data = 0x00000001 by _time
@@ -32,7 +32,7 @@ references:
 - https://thedfirreport.com/2021/10/18/icedid-to-xinglocker-ransomware-in-24-hours/
 tags:
   analytic_story:
-  - IceID
+  - IcedID
   - Windows Registry Abuse
   - Azorult
   confidence: 70
