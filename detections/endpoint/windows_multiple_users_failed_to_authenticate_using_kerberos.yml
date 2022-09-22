@@ -1,4 +1,4 @@
-name: Multiple Users Failing To Authenticate From Host Using Kerberos
+name: Windows Multiple Users Failed To Authenticate Using Kerberos
 id: 3a91a212-98a9-11eb-b86a-acde48001122
 version: 1
 date: '2021-04-08'
