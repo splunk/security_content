@@ -6,9 +6,9 @@ author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: This analytic is to detect a suspicious modification of registry to disable
-  windows defender feature. This technique is to bypassed or evade detection from
-  Windows Defender AV product specially the spynet reporting for its telemetry.
+description: This analytic is intended to detect a suspicious modification of registry to disable
+  Windows Defender feature. This technique is intended to bypass or evade detection from
+  Windows Defender AV product, specifically the spynet reporting for Defender telemetry.
 search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Registry
   where Registry.registry_path = "*\\Microsoft\\Windows Defender\\SpyNet*" Registry.registry_value_name
   = SpynetReporting Registry.registry_value_data = 0x00000000 by _time span=1h Registry.dest
@@ -31,7 +31,7 @@ references:
 - https://thedfirreport.com/2021/10/18/icedid-to-xinglocker-ransomware-in-24-hours/
 tags:
   analytic_story:
-  - IceID
+  - IcedID
   - Windows Registry Abuse
   - Azorult
   confidence: 70
