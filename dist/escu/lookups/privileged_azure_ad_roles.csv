@@ -1,0 +1,29 @@
+azureadrole,isprvilegedadrole,description
+"""Application Administrator""",True,Can create and manage all aspects of app registrations and enterprise apps.
+"""Authentication Administrator""",True,Can access to view, set and reset authentication method information for any non-admin user.
+"""Authentication Policy Administrator""",True,Can create and manage the authentication methods policy, tenant-wide MFA settings, password protection policy, and verifiable credentials.
+"""Azure AD Joined Device Local Administrator""",True,Users assigned to this role are added to the local administrators group on Azure AD-joined devices.
+"""Azure DevOps Administrator""",True,Can manage Azure DevOps policies and settings.
+"""Azure Information Protection Administrator""",True,Can manage all aspects of the Azure Information Protection product.
+"""Cloud Application Administrator""",True,Can create and manage all aspects of app registrations and enterprise apps except App Proxy.
+"""Cloud Device Administrator""",True,Limited access to manage devices in Azure AD.
+"""Compliance Administrator""",True,Can read and manage compliance configuration and reports in Azure AD and Microsoft 365.
+"""Conditional Access Administrator""",True,Can manage Conditional Access capabilities.
+"""Exchange Administrator""",True,Can manage all aspects of the Exchange product.
+"""External Identity Provider Administrator""",True,Can configure identity providers for use in direct federation.
+"""Groups Administrator""",True,Members of this role can create/manage groups, create/manage groups settings like naming and expiration policies, and view groups activity and audit reports.
+"""Helpdesk Administrator""",True,Can reset passwords for non-administrators and Helpdesk Administrators.
+"""Hybrid Identity Administrator""",True,Can manage AD to Azure AD cloud provisioning, Azure AD Connect, Pass-through Authentication (PTA), Password hash synchronization (PHS), Seamless Single sign-on (Seamless SSO), and federation settings.
+"""Intune Administrator""",True,Can manage all aspects of the Intune product.
+"""License Administrator""",True,Can manage product licenses on users and groups.
+"""Network Administrator""",True,Can manage network locations and review enterprise network design insights for Microsoft 365 Software as a Service applications.
+"""Password Administrator""",True,Can reset passwords for non-administrators and Password Administrators.
+"""Privileged Authentication Administrator""",True,Can access to view, set and reset authentication method information for any user (admin or non-admin).
+"""Privileged Role Administrator""",True,Can manage role assignments in Azure AD, and all aspects of Privileged Identity Management.
+"""Security Administrator""",True,Can read security information and reports, and manage configuration in Azure AD and Office 365.
+"""SharePoint Administrator""",True,Can manage all aspects of the SharePoint service.
+"""Teams Administrator""",True,Can manage the Microsoft Teams service.
+"""User Administrator""",True,Can manage all aspects of users and groups, including resetting passwords for limited admins.
+"""Windows 365 Administrator""",True,Can provision and manage all aspects of Cloud PCs.
+
+
