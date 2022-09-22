@@ -1,0 +1,13 @@
+name: Windows Defacement Modify Transcodedwallpaper File Unit Test
+tests:
+- name: Windows Defacement Modify Transcodedwallpaper File
+  file: endpoint/windows_defacement_modify_transcodedwallpaper_file.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: sysmon.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/brute_ratel/wallpaper_via_transcodedwallpaper/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true

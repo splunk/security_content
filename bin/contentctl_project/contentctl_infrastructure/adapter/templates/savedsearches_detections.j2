@@ -38,7 +38,7 @@ action.escu.providing_technologies = []
 {% endif %}
 {% if detection.tags.analytic_story is defined %}
 action.escu.analytic_story = {{ detection.tags.analytic_story | tojson }}
-{% if detection.tags.risk_score is defined %}
+{% if detection.tags.risk_score is defined and detection.type | lower != "correlation" %}
 action.risk = 1
 action.risk.param._risk_message = {{ detection.tags.message }}
 action.risk.param._risk = {{ detection.risk | tojson }}
@@ -54,6 +54,8 @@ dispatch.latest_time = {{ detection.deployment.scheduling.latest_time }}
 action.correlationsearch.enabled = 1
 {% if detection.deprecated %}
 action.correlationsearch.label = ESCU - Deprecated - {{ detection.name }} - Rule
+{% elif detection.type | lower == "correlation" %}
+action.correlationsearch.label = ESCU - RIR - {{ detection.name }} - Rule
 {% else %}
 action.correlationsearch.label = ESCU - {{ detection.name }} - Rule
 {% endif %}
@@ -68,7 +70,7 @@ action.notable = 1
 action.notable.param.nes_fields = {{ detection.nes_fields }}
 {% endif %}
 action.notable.param.rule_description = {{ detection.deployment.notable.rule_description | custom_jinja2_enrichment_filter(detection) }}
-action.notable.param.rule_title = {{ detection.deployment.notable.rule_title | custom_jinja2_enrichment_filter(detection) }}
+action.notable.param.rule_title = {% if detection.type | lower == "correlation" %}RBA: {{ detection.deployment.notable.rule_title | custom_jinja2_enrichment_filter(detection) }}{% else %}{{ detection.deployment.notable.rule_title | custom_jinja2_enrichment_filter(detection) }}{% endif +%}
 action.notable.param.security_domain = {{ detection.tags.security_domain }}
 action.notable.param.severity = high
 {% endif %}

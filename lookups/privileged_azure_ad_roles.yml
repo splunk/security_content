@@ -1,0 +1,7 @@
+description: A list of privileged Azure Active Directory roles.
+filename: privileged_azure_ad_roles.csv
+name: privileged_azure_ad_roles
+default_match: 'false'
+match_type: WILDCARD(azureadrole)
+min_matches: 1
+case_sensitive_match: 'false'
