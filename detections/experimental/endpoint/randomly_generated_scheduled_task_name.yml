@@ -30,6 +30,7 @@ references:
 tags:
   analytic_story:
   - Active Directory Lateral Movement
+  - CISA AA22-257A
   asset_type: Endpoint
   confidence: 50
   context:
