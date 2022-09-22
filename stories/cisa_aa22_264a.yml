@@ -1,0 +1,28 @@
+name: CISA AA22-264A
+id: bc7056a5-c3b0-4b83-93ce-5f31739305c8
+version: 1
+date: '2022-09-22'
+author: Michael Haag, Splunk
+description: Iranian State Actors Conduct Cyber Operations Against the Government of Albania.
+narrative: In July 2022, Iranian state cyber actors—identifying as “HomeLand Justice”—launched a destructive cyber attack against the Government of Albania which rendered websites and services unavailable. A FBI investigation indicates Iranian state cyber actors acquired initial access to the victim’s network approximately 14 months before launching the destructive cyber attack, which included a ransomware-style file encryptor and disk wiping malware. The actors maintained continuous network access for approximately a year, periodically accessing and exfiltrating e-mail content.
+
+Between May and June 2022, Iranian state cyber actors conducted lateral movements, network reconnaissance, and credential harvesting from Albanian government networks. In July 2022, the actors launched ransomware on the networks, leaving an anti-Mujahideen E-Khalq (MEK) message on desktops. When network defenders identified and began to respond to the ransomware activity, the cyber actors deployed a version of ZeroCleare destructive malware.
+
+In June 2022, HomeLand Justice created a website and multiple social media profiles posting anti-MEK messages. On July 18, 2022, HomeLand Justice claimed credit for the cyber attack on Albanian government infrastructure. On July 23, 2022, Homeland Justice posted videos of the cyber attack on their website. From late July to mid-August 2022, social media accounts associated with HomeLand Justice demonstrated a repeated pattern of advertising Albanian Government information for release, posting a poll asking respondents to select the government information to be released by HomeLand Justice, and then releasing that information—either in a .zip file or a video of a screen recording with the documents shown.
+
+In September 2022, Iranian cyber actors launched another wave of cyber attacks against the Government of Albania, using similar TTPs and malware as the cyber attacks in July. These were likely done in retaliation for public attribution of the cyber attacks in July and severed diplomatic ties between Albania and Iran.
+(ref. CISA Alert)
+references:
+  - https://www.cisa.gov/uscert/ncas/alerts/aa22-264a
+  - https://www.cisa.gov/uscert/sites/default/files/publications/aa22-264a-iranian-cyber-actors-conduct-cyber-operations-against-the-government-of-albania.pdf
+  - https://www.mandiant.com/resources/blog/likely-iranian-threat-actor-conducts-politically-motivated-disruptive-activity-against 
+  - https://www.microsoft.com/security/blog/2022/09/08/microsoft-investigates-iranian-attacks-against-the-albanian-government/ 
+tags:
+  analytic_story: CISA AA22-264A
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

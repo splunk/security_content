@@ -26,6 +26,7 @@ tags:
   analytic_story:
   - XMRig
   - Azorult
+  - CISA AA22-264A
   confidence: 70
   context:
   - Source:Endpoint
