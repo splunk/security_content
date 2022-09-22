@@ -34,7 +34,7 @@ references:
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1105/T1105.md
 tags:
   analytic_story:
-  - IceID
+  - IcedID
   - Ingress Tool Transfer
   confidence: 100
   context:
