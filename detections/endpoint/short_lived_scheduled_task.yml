@@ -26,6 +26,7 @@ references:
 tags:
   analytic_story:
   - Active Directory Lateral Movement
+  - CISA AA22-257A
   confidence: 90
   context:
   - Source:Endpoint

@@ -1,0 +1,25 @@
+name: CISA AA22-257A
+id: e1aec96e-bc7d-4edf-8ff7-3da9b7b29147
+version: 1
+date: '2022-09-15'
+author: Michael Haag, Splunk
+description: The Iranian government-sponsored APT actors are actively targeting a broad range of victims across multiple U.S. critical infrastructure sectors, including the Transportation Sector and the Healthcare and Public Health Sector, as well as Australian organizations.
+narrative: This advisory updates joint CSA Iranian Government-Sponsored APT Cyber Actors Exploiting Microsoft Exchange and Fortinet Vulnerabilities in Furtherance of Malicious Activities, which provides information on these Iranian government-sponsored APT actors exploiting known Fortinet and Microsoft Exchange vulnerabilities to gain initial access to a broad range of targeted entities in furtherance of malicious activities, including ransom operations. The authoring agencies now judge these actors are an APT group affiliated with the IRGC.
+  Since the initial reporting of this activity in the FBI Liaison Alert System (FLASH) report APT Actors Exploiting Fortinet Vulnerabilities to Gain Access for Malicious Activity from May 2021, the authoring agencies have continued to observe these IRGC-affiliated actors exploiting known vulnerabilities for initial access. In addition to exploiting Fortinet and Microsoft Exchange vulnerabilities, the authoring agencies have observed these APT actors exploiting VMware Horizon Log4j vulnerabilities for initial access. The IRGC-affiliated actors have used this access for follow-on activity, including disk encryption and data extortion, to support ransom operations.
+  The IRGC-affiliated actors are actively targeting a broad range of entities, including entities across multiple U.S. critical infrastructure sectors as well as Australian, Canadian, and United Kingdom organizations. These actors often operate under the auspices of Najee Technology Hooshmand Fater LLC, based in Karaj, Iran, and Afkar System Yazd Company, based in Yazd, Iran. The authoring agencies assess the actors are exploiting known vulnerabilities on unprotected networks rather than targeting specific targeted entities or sectors.
+  This advisory provides observed tactics, techniques, and indicators of compromise (IOCs) that the authoring agencies assess are likely associated with this IRGC-affiliated APT. The authoring agencies urge organizations, especially critical infrastructure organizations, to apply the recommendations listed in the Mitigations section of this advisory to mitigate risk of compromise from these IRGC-affiliated cyber actors.
+references:
+  - https://www.cisa.gov/uscert/ncas/alerts/aa21-321a
+  - https://www.cisa.gov/uscert/ncas/alerts/aa22-257a
+  - https://www.ic3.gov/Media/News/2021/210527.pdf
+  - https://www.us-cert.gov/sites/default/files/AA22-257A.stix.xml
+  - https://www.us-cert.cisa.gov/iran
+tags:
+  analytic_story: CISA AA22-257A
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

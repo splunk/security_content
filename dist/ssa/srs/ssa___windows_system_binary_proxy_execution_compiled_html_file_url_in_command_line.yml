@@ -1,0 +1,79 @@
+name: Windows System Binary Proxy Execution Compiled HTML File URL In Command Line
+id: 0fec631a-7c9b-4e4c-b28b-93260953e25f
+version: 1
+description: The following analytic identifies hh.exe (HTML Help) execution of a Compiled
+  HTML Help (CHM) file from a remote url. This particular technique will load Windows
+  script code from a compiled help file. CHM files may  contain nearly any file type
+  embedded, but only execute html/htm. Upon a successful execution, the following
+  script engines may be used for execution - JScript, VBScript, VBScript.Encode, JScript.Encode,
+  JScript.Compact. Analyst may identify vbscript.dll or jscript.dll loading into hh.exe
+  upon execution. The "htm" and "html" file extensions were the only extensions observed
+  to be supported for the execution of Shortcut commands or WSH script code. During
+  investigation, identify script content origination. Review reputation of remote
+  IP and domain. Some instances, it is worth decompiling the .chm file to review its
+  original contents. hh.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64.
+search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
+  "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"),
+  "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"),
+  "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string",
+  null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string",
+  null), event_id=ucast(map_get(input_event, "event_id"), "string", null) | where
+  cmd_line IS NOT NULL AND process_name IS NOT NULL AND process_name="hh.exe" AND
+  (like (cmd_line, "%http://%") OR like (cmd_line, "%https://%"))| eval start_time=timestamp,
+  end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"),
+  "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)),
+  body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name,
+  "parent_process_name", parent_process_name, "process_path", process_path]) | into
+  write_ssa_detected_events();'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
+known_false_positives: Although unlikely, some legitimate applications may retrieve
+  a CHM remotely, filter as needed.
+references:
+- https://attack.mitre.org/techniques/T1218/001/
+- https://www.kb.cert.org/vuls/id/851869
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.001/T1218.001.md
+- https://lolbas-project.github.io/lolbas/Binaries/Hh/
+- https://gist.github.com/mgeeky/cce31c8602a144d8f2172a73d510e0e7
+- https://web.archive.org/web/20220119133748/https://cyberforensicator.com/2019/01/20/silence-dissecting-malicious-chm-files-and-performing-forensic-analysis/
+tags:
+  analytic_story:
+  - Suspicious Compiled HTML Activity
+  - Living Off The Land
+  cis20:
+  - CIS 8
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1218.001
+  - T1218
+  nist:
+  - PR.PT
+  - DE.CM
+  required_fields:
+  - _time
+  - dest_device_id
+  - process_name
+  - parent_process_name
+  - process_path
+  - dest_user_id
+  - process
+  - cmd_line
+  risk_score: 90
+  security_domain: endpoint
+  risk_severity: high
+  research_site_url: https://research.splunk.com/endpoint/0fec631a-7c9b-4e4c-b28b-93260953e25f/
+test:
+  name: Windows System Binary Proxy Execution Compiled HTML File URL In Command Line
+    Unit Test
+  tests:
+  - name: Windows System Binary Proxy Execution Compiled HTML File URL In Command
+      Line
+    file: endpoint/ssa___windows_system_binary_proxy_execution_compiled_html_url_in_command_line.yml
+    pass_condition: '@count_gt(0)'
+    attack_data:
+    - file_name: chm-wineventlog-security.log
+      data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.001/atomic_red_team/chm-wineventlog-security.log
+      source: WinEventLog:Security

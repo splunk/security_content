@@ -6,9 +6,9 @@ author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: This particular behavior is typically executed when an adversaries or
-  malware gains access to an endpoint and beings to perform execution and to evade
-  detections. Usually, a batch (.bat) will be executed and multiple registry and scheduled
+description: This particular behavior is typically executed when an adversary or
+  malware gains access to an endpoint and begins to perform execution and to evade
+  detections. Usually, a batch (.bat) file will be executed and multiple registry and scheduled
   task modifications will occur. During triage, review parallel processes and identify
   any further file modifications. Endpoint should be isolated.
 search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Registry
@@ -33,7 +33,7 @@ references:
 - https://thedfirreport.com/2021/10/18/icedid-to-xinglocker-ransomware-in-24-hours/
 tags:
   analytic_story:
-  - IceID
+  - IcedID
   - Windows Registry Abuse
   confidence: 70
   context:

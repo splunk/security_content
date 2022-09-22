@@ -31,6 +31,7 @@ tags:
   analytic_story:
   - Credential Dumping
   - HAFNIUM Group
+  - CISA AA22-257A
   asset_type: Endpoint
   cis20:
   - CIS 3
