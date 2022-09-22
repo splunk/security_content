@@ -32,6 +32,7 @@ tags:
   analytic_story:
   - Ryuk Ransomware
   - Ransomware
+  - Information Sabotage
   cis20:
   - CIS 8
   confidence: 80

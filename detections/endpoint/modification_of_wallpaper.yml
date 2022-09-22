@@ -29,6 +29,7 @@ tags:
   - Revil Ransomware
   - BlackMatter Ransomware
   - Windows Registry Abuse
+  - Brute Ratel C4
   confidence: 90
   context:
   - Source:Endpoint
