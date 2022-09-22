@@ -1,16 +1,14 @@
-name: Windows Multiple Invalid Users Failed To Authenticate Using NTLM
-id: 57ad5a64-9df7-11eb-a290-acde48001122
-version: 2
-date: '2021-04-15'
+name: Windows Unusual Count Of Invalid Users Failed To Auth Using NTLM
+id: 15603165-147d-4a6e-9778-bd0ff39e668f
+version: 1
+date: '2022-09-22'
 author: Mauricio Velazco, Splunk
-type: TTP
+type: Anomaly
 datamodel: []
 description: 'The following analytic identifies one source endpoint failing to authenticate
-  with 30 unique invalid users using the NTLM protocol. This behavior could represent
+  with multiple invalid users using the NTLM protocol. This behavior could represent
   an adversary performing a Password Spraying attack against an Active Directory environment
-  using NTLM to obtain initial access or elevate privileges. 
-  Active Directory environments can be very different depending on the organization. Users should test this detection and customize the arbitrary threshold when needed.
-  As attackers progress
+  using NTLM to obtain initial access or elevate privileges. As attackers progress
   in a breach, mistakes will be made. In certain scenarios, adversaries may execute
   a password spraying attack using an invalid list of users. Event 4776 is generated
   on the computer that is authoritative for the provided credentials. For domain accounts,
@@ -18,7 +16,12 @@ description: 'The following analytic identifies one source endpoint failing to a
   authoritative. Error code 0xC0000064 stands for `The username you typed does not
   exist` (the attempted user is a legitimate domain user).\
 
-  This logic can be used for real time security monitoring as well as threat hunting exercises.
+  The detection calculates the standard deviation for each host and leverages the
+  3-sigma statistical rule to identify an unusual number of users. To customize this
+  analytic, users can try different combinations of the `bucket` span time and the
+  calculation of the `upperBound` field. This logic can be used for real time security
+  monitoring as well as threat hunting exercises.\
+
   This detection will only trigger on domain controllers, not on member servers or
   workstations.\
 

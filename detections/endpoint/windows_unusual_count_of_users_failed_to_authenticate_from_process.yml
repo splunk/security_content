@@ -1,20 +1,23 @@
-name: Windows Multiple Users Failed To Authenticate From Process
-id: 9015385a-9c84-11eb-bef2-acde48001122
-version: 2
-date: '2021-04-13'
+name: Windows Unusual Count Of Users Failed To Authenticate From Process
+id: 25bdb6cb-2e49-4d34-a93c-d6c567c122fe
+version: 1
+date: '2022-09-22'
 author: Mauricio Velazco, Splunk
-type: TTP
+type: Anomaly
 datamodel: []
 description: 'The following analytic identifies a source process name failing to authenticate
-  with 30 uniquer users. This behavior could represent an adversary performing a Password
+  with multiple users. This behavior could represent an adversary performing a Password
   Spraying attack against an Active Directory environment to obtain initial access
-  or elevate privileges. 
-  Active Directory environments can be very different depending on the organization. Users should test this detection and customize the arbitrary threshold when needed.
-  Event 4625 generates on domain controllers, member servers,
+  or elevate privileges. Event 4625 generates on domain controllers, member servers,
   and workstations when an account fails to logon. Logon Type 2 describes an iteractive
   logon attempt.\
 
-  This logic can be used for real time security monitoring as well as threat hunting exercises.
+  The detection calculates the standard deviation for each host and leverages the
+  3-sigma statistical rule to identify an unusual number of users. To customize this
+  analytic, users can try different combinations of the `bucket` span time and the
+  calculation of the `upperBound` field. This logic can be used for real time security
+  monitoring as well as threat hunting exercises.\
+
   This detection will trigger on the potenfially malicious host, perhaps controlled
   via a trojan or operated by an insider threat, from where a password spraying attack
   is being executed. This could be a domain controller as well as a member server
