@@ -34,7 +34,7 @@ references:
 - https://thedfirreport.com/2021/10/18/icedid-to-xinglocker-ransomware-in-24-hours/
 tags:
   analytic_story:
-  - IceID
+  - IcedID
   - Windows Registry Abuse
   confidence: 70
   context:
