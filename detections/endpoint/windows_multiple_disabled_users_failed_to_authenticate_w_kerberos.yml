@@ -1,4 +1,4 @@
-name: Windows Disabled Users Failing To Authenticate Kerberos
+name: Windows Multiple Disabled Users Failed To Authenticate Wth Kerberos
 id: 98f22d82-9d62-11eb-9fcf-acde48001122
 version: 1
 date: '2021-04-14'

@@ -1,7 +1,7 @@
-name: Windows Invalid Users Failed Authentication via Kerberos Unit Test
+name: Windows Multiple Invalid Users Fail To Authenticate Using Kerberos Unit Test
 tests:
-- name: Windows Invalid Users Failed Authentication via Kerberos
-  file: endpoint/windows_invalid_users_failed_authentication_via_kerberos.yml
+- name: Windows Multiple Invalid Users Fail To Authenticate Using Kerberos
+  file: endpoint/windows_multiple_invalid_users_fail_to_authenticate_using_kerberos.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h
   latest_time: now

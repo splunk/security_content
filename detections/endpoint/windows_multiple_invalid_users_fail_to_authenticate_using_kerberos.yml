@@ -1,4 +1,4 @@
-name: Windows Invalid Users Failed Authentication via Kerberos
+name: Windows Multiple Invalid Users Fail To Authenticate Using Kerberos
 id: 001266a6-9d5b-11eb-829b-acde48001122
 version: 1
 date: '2021-04-14'
