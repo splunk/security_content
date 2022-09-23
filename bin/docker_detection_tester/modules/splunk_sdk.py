@@ -13,54 +13,6 @@ DEFAULT_EVENT_HOST = "ATTACK_DATA_HOST"
 DEFAULT_DATA_INDEX = set(["main"])
 FAILURE_SLEEP_INTERVAL_SECONDS = 60
 
-def enable_delete_for_admin(splunk_host:str, splunk_port:int, splunk_password:str)->bool:
-    try:
-        service = client.connect(
-            host=splunk_host,
-            port=splunk_port,
-            username='admin',
-            password=splunk_password
-        )
-    except Exception as e:
-        raise(Exception("Unable to connect to Splunk instance: " + str(e)))
-        
-
-    #write the following contents to /opt/splunk/etc/system/local/authorize.conf
-    "[role_admin]"\
-    "delete_by_keyword = enabled"\
-    "grantableRoles = admin"\
-    "importRoles = can_delete;user;power_user"\
-    "srchIndexesAllowed = *;_*;main"\
-    "srchIndexesDefault = main"\
-    "srchMaxTime = 8640000"
-
-    #Run the following search, equivalent to running ./splunk reload auth, to get the settings to take effect
-    
-    update_changed_auth_search = "| rest splunk_server=* /services/authentication/providers/services/_reload"
-
-
-    try:
-        job = service.jobs.create(update_changed_auth_search)
-    except Exception as e:
-        error_message = "Unable to enable delete: %s"%(str(e))
-        return False
-    
-    input("Waiting for you to check that delete has been enabled with: %s"%(update_changed_auth_search))
-    return True
-    '''
-    # search and replace \\ with \\\
-    # search = search.replace('\\','\\\\')
-    role = service.roles['admin']
-    try:
-        role.grant('delete_by_keyword')
-    except Exception as e:
-        print("Error - failed trying to grant 'can_delete' privs to admin: [%s]"%(str(e)))
-        return False
-    '''
-    return True
-
-
-
 
 def get_number_of_indexed_events(splunk_host, splunk_port, splunk_password, index:str, event_host:str=DEFAULT_EVENT_HOST, sourcetype:Union[str,None]=None )->int:
 
