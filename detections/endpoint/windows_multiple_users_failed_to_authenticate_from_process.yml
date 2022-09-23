@@ -22,14 +22,11 @@ description: 'The following analytic identifies a source process name failing to
 
   The analytics returned fields allow analysts to investigate the event further by
   providing fields like source process name, source account and attempted user accounts.'
-search: ' `wineventlog_security` EventCode=4625 Logon_Type=2 Caller_Process_Name!="-"
-  | bucket span=2m _time | eval Source_Account = mvindex(Account_Name, 0) | eval Destination_Account
-  = mvindex(Account_Name, 1) | stats dc(Destination_Account) AS unique_accounts values(Account_Name)
-  as tried_accounts by _time, Caller_Process_Name, Source_Account, ComputerName |
-  eventstats avg(unique_accounts) as comp_avg , stdev(unique_accounts) as comp_std
-  by Caller_Process_Name, Source_Account, ComputerName | eval upperBound=(comp_avg+comp_std*3)
-  | eval isOutlier=if(unique_accounts > 10 and unique_accounts >= upperBound, 1, 0)
-  | search isOutlier=1 | `multiple_users_failing_to_authenticate_from_process_filter` '
+search: ' `wineventlog_security` EventCode=4625 Logon_Type=2 ProcessName!="-"
+ | bucket span=5m _time
+ | stats dc(TargetUserName) AS unique_accounts values(TargetUserName) as tried_accounts by _time, ProcessName, SubjectUserName, Computer
+ | where unique_accounts > 30
+ | `windows_multiple_users_failed_to_authenticate_from_process_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   Windows Event Logs from domain controllers aas well as member servers and workstations.
   The Advanced Security Audit policy setting `Audit Logon` within `Logon/Logoff` needs
@@ -56,7 +53,7 @@ tags:
   impact: 70
   kill_chain_phases:
   - Exploitation
-  message: Potential password spraying attack from $ComputerName$
+  message: Potential password spraying attack from $Computer$
   mitre_attack_id:
   - T1110.003
   - T1110
@@ -73,10 +70,10 @@ tags:
   - _time
   - EventCode
   - Logon_Type
-  - Caller_Process_Name
-  - Security_ID
-  - Account_Name
-  - ComputerName
+  - ProcessName
+  - SubjectUserName
+  - TargetUserName
+  - Computer
   risk_score: 49
   security_domain: endpoint
   asset_type: Endpoint

@@ -22,12 +22,11 @@ description: 'The following analytic identifies one source endpoint failing to a
 
   The analytics returned fields allow analysts to investigate the event further by
   providing fields like source workstation name and attempted user accounts.'
-search: ' `wineventlog_security` EventCode=4776 Logon_Account!="*$" 0xC000006A action=failure
-  | bucket span=2m _time | stats dc(Logon_Account) AS unique_accounts values(Logon_Account)
-  as tried_accounts by _time, Source_Workstation | eventstats avg(unique_accounts)
-  as comp_avg , stdev(unique_accounts) as comp_std by Source_Workstation | eval upperBound=(comp_avg+comp_std*3)
-  | eval isOutlier=if(unique_accounts > 10 and unique_accounts >= upperBound, 1, 0)
-  | search isOutlier=1 | `multiple_users_failing_to_authenticate_from_host_using_ntlm_filter`'
+search: ' `wineventlog_security` EventCode=4776 TargetUserName!=*$ Status=0xC000006A
+  | bucket span=5m _time 
+  | stats dc(TargetUserName) AS unique_accounts values(TargetUserName) as tried_accounts by _time, Workstation
+  | where unique_accounts > 30
+  | `windows_multiple_users_failed_to_authenticate_from_host_using_ntlm_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   Domain Controller events. The Advanced Security Audit policy setting `Audit Credential
   Validation` within `Account Logon` needs to be enabled.
@@ -53,15 +52,15 @@ tags:
   impact: 70
   kill_chain_phases:
   - Exploitation
-  message: Potential NTLM based password spraying attack from $Source_Workstation$
+  message: Potential NTLM based password spraying attack from $Workstation$
   mitre_attack_id:
   - T1110.003
   - T1110
   observable:
-  - name: Source_Workstation
+  - name: Workstation
     type: Endpoint
     role:
-    - Victim
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -69,9 +68,9 @@ tags:
   required_fields:
   - _time
   - EventCode
-  - action
-  - Logon_Account
-  - Source_Workstation
+  - Status
+  - TargetUserName
+  - Workstation
   risk_score: 49
   security_domain: endpoint
   asset_type: Endpoint
