@@ -190,7 +190,7 @@ class Baseline:
         
 
 class AttackData:
-    def __init__(self, attack_data:dict):
+    def __init__(self, attack_data:dict, rewrite_path:Union[None,pathlib.Path]=None):
         self.file_name = attack_data['file_name']
         self.data = attack_data['data']
         self.source = attack_data['source']
@@ -198,6 +198,30 @@ class AttackData:
         self.index = attack_data.get('custom_index', 'main')
         self.update_timestamp = attack_data.get("update_timestamp", False)
 
+        if rewrite_path is not None:
+            #check that the data file exists
+            URL_BASE_MEDIA = "https://media.githubusercontent.com/media/splunk/attack_data/master/"
+            URL_BASE_RAW = "https://raw.githubusercontent.com/splunk/attack_data/master/"
+            if URL_BASE_RAW in attack_data['data']:
+                new_path = pathlib.Path(os.path.join(rewrite_path, attack_data['data'].replace(URL_BASE_RAW, '')))
+            elif URL_BASE_MEDIA in attack_data['data']:
+                new_path = pathlib.Path(os.path.join(rewrite_path, attack_data['data'].replace(URL_BASE_MEDIA, '')))
+            
+            else:
+                #print(URL_BASE_MEDIA)
+                #print(URL_BASE_RAW)
+                print(f"Bad URL for: {attack_data['data']}")
+                return
+                
+            
+            if new_path.exists():
+                self.data = str(new_path)
+            else:
+                raise(Exception(f"Error rewriting data path to local:\n\t{attack_data['data']}--->{new_path}"))
+            
+        
+            
+       
 
 class ResultsManager:
     def __init__(self):
