@@ -108,7 +108,7 @@ setup_schema = {
                   "SPLUNK_ADD_ON_FOR_MICROSOFT_WINDOWS": {
                     "app_number": 742,
                     "app_version": "8.5.0",
-                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-microsoft-windows_850.tgz"
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-microsoft-windows_850_PATCHED.tgz"
                   },
                   "SPLUNK_ADD_ON_FOR_NGINX": {
                     "app_number": 3258,
