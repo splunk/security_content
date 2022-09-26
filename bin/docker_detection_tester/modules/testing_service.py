@@ -87,22 +87,18 @@ def format_test_result(job_result:dict, testName:str, fileName:str, logic:bool=F
     
     return testResult
 
-def execute_baselines(splunk_ip:str, splunk_port:int, splunk_password:str, baselines:list[Baseline])->bool:
-    baseline_results = []
+def execute_baselines(splunk_ip:str, splunk_port:int, splunk_password:str, baselines:list[Baseline]):
     for baseline in baselines:
-        if execute_baseline(splunk_ip, splunk_port, splunk_password, baseline) is not True:
-            return False
+        execute_baseline(splunk_ip, splunk_port, splunk_password, baseline)
     
-    #All the baselines succeeded (or there were no baselines to execute)
-    return True
+    
 
-def execute_baseline(splunk_ip:str, splunk_port:int, splunk_password:str, baseline:Baseline)->bool:
+def execute_baseline(splunk_ip:str, splunk_port:int, splunk_password:str, baseline:Baseline):
     
     baseline.result = splunk_sdk.test_detection_search(splunk_ip, splunk_port, splunk_password, 
                                               baseline.baseline.search, baseline.pass_condition, 
                                               baseline.name, baseline.earliest_time, baseline.latest_time)
     
-    return baseline.result.success
     
 
 def execute_test(splunk_ip:str, splunk_port:int, splunk_password:str, test:Test, attack_data_folder:str, wait_on_failure:bool, wait_on_completion:bool,container)->bool:
@@ -122,12 +118,22 @@ def execute_test(splunk_ip:str, splunk_port:int, splunk_password:str, test:Test,
         print(f"Sleep for {sleeptime} for ingest") 
         time.sleep(sleeptime)
         #Run the baseline(s) if they exist for this test
-        if execute_baselines(splunk_ip, splunk_port, splunk_password, test.baselines) is not True:
+        execute_baselines(splunk_ip, splunk_port, splunk_password, test.baselines)
+        if test.error_in_baselines() is True:
             #One of the baselines failed. No sense in running the real test
+            #Note that a baselines which fail is different than a baselines which didn't return some results!
             test.result = TestResult(generated_exception={'message':"Baseline(s) failed"})
-            
+        elif test.all_baselines_successful() is False:
+            #go back and run the loop again - no sense in running the detection search if the baseline didn't work successfully
+            test.result = TestResult(generated_exception={'message':"Detection search did not run - baselines(s) failed"})
+            #we set this as exception false because we don't know for sure there is an issue - we could just
+            #be waiting for data to be ingested for the baseline to fully run. However, we don't have the info
+            #to fill in the rest of the fields, so we populate it like we populate the fields when there is a real exception
+            test.result.exception = False 
+            continue
             
         else:
+            #baselines all worked (if they exist) so run the search
             test.result = splunk_sdk.test_detection_search(splunk_ip, splunk_port, splunk_password, test.detectionFile.search, test.pass_condition, test.name, test.earliest_time, test.latest_time)
         
         if test.result.success:
@@ -162,7 +168,7 @@ def execute_test(splunk_ip:str, splunk_port:int, splunk_password:str, test:Test,
     return test.result.success
 
 
-def hec_raw_replay(base_url:str, token:str, filePath:pathlib.Path, 
+def hec_raw_replay(base_url:str, token:str, filePath:pathlib.Path, index:str, 
                    source:Union[str,None]=None, sourcetype:Union[str,None]=None, 
                    host:Union[str,None]=None, channel:Union[str,None]=None, 
                    use_https:bool=True, port:int=8088, verify=False, 
@@ -185,7 +191,7 @@ def hec_raw_replay(base_url:str, token:str, filePath:pathlib.Path,
     
     
     #Now build the URL parameters
-    url_params_dict = {}
+    url_params_dict = {"index": index}
     if source is not None:
         url_params_dict['source'] = source 
     if sourcetype is not None:
@@ -222,6 +228,9 @@ def hec_raw_replay(base_url:str, token:str, filePath:pathlib.Path,
         res = requests.post(url_with_path,params=url_params_dict, data=rawData, allow_redirects = True, headers=headers, verify=verify)
         #print(f"POST Sent with return code: {res.status_code}")
         jsonResponse = json.loads(res.text)
+        print(res.status_code)
+        print(res.text)
+        
     except Exception as e:
         raise(Exception(f"There was an exception in the post: {str(e)}"))
     
@@ -312,7 +321,7 @@ def replay_attack_data_file(splunk_ip:str, splunk_port:int, splunk_password:str,
     upload_index = service.indexes[attackData.index]
         
     #Upload the data
-    hec_raw_replay(container.splunk_ip, container.tokenString, pathlib.Path(data_file), attackData.source, attackData.sourcetype, splunk_sdk.DEFAULT_EVENT_HOST, channel=container.channel, port=container.hec_port)
+    hec_raw_replay(container.splunk_ip, container.tokenString, pathlib.Path(data_file), attackData.index, attackData.source, attackData.sourcetype, splunk_sdk.DEFAULT_EVENT_HOST, channel=container.channel, port=container.hec_port)
     
 
     #Wait for the indexing to finish

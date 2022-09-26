@@ -177,6 +177,19 @@ class Test:
         app_root = self.detectionFile.path.resolve().parent.parent.parent
         return [Baseline(b,app_root) for b in baselines]
     
+    def error_in_baselines(self)->bool:
+        for b in self.baselines:
+            if b.result is not None and b.result.exception is True:
+                print(f"Error executing baseline: {b.result.message}")
+                return True
+        return False
+    def all_baselines_successful(self)->bool:
+        for b in self.baselines:
+            if b.result is None or b.result.success is False:
+                print(f"Baseline {b.name} was not successful")
+                return False
+        return True
+    
 
 class Baseline:
     def __init__(self, baseline:dict, app_root:pathlib.Path):
