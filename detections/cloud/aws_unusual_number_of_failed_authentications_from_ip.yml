@@ -5,9 +5,9 @@ date: '2022-09-26'
 author: Bhavin Patel, Splunk
 type: Anomaly
 datamodel: []
-description: The following analytic identifies one source IP failing to authenticate into the AWS Console with multiple valid users. This behavior could represent an adversary performing a Password Spraying attack against an AWS environment to obtain initial access or elevate privileges.
-The detection calculates the standard deviation for source IP and leverages the 3-sigma statistical rule to identify an unusual number of failed authentication attempts. To customize this analytic, users can try different combinations of the bucket span time and the calculation of the upperBound field. This logic can be used for real time security monitoring as well as threat hunting exercises. 
-While looking for anomalies using statistical methods like the standard deviation can have benefits, we also recommend using threshold-based detections to complement coverage. A similar analytic following the threshold model is `AWS Multiple Users Failing To Authenticate From Ip`.
+description: The following analytic identifies one source IP failing to authenticate into the AWS Console with multiple valid users. This behavior could represent an adversary performing a Password Spraying attack against an AWS environment to obtain initial access or elevate privileges. 
+  The detection calculates the standard deviation for source IP and leverages the 3-sigma statistical rule to identify an unusual number of failed authentication attempts. To customize this analytic, users can try different combinations of the bucket span time and the calculation of the upperBound field. This logic can be used for real time security monitoring as well as threat hunting exercises. 
+  While looking for anomalies using statistical methods like the standard deviation can have benefits, we also recommend using threshold-based detections to complement coverage. A similar analytic following the threshold model is `AWS Multiple Users Failing To Authenticate From Ip`.
 search: '`cloudtrail` eventName=ConsoleLogin action=failure | bucket span=5m _time | stats  dc(user_name) AS unique_accounts values(user_name) as tried_accounts by _time, src_ip
 | eventstats  avg(unique_accounts) as ip_avg , stdev(unique_accounts) as ip_std by src_ip 
 | eval  upperBound=(ip_avg+ip_std*3) 
