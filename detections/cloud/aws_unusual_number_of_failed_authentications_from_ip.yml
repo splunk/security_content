@@ -37,7 +37,7 @@ tags:
   impact: 60
   kill_chain_phases:
   - Exploitation
-  message: UPDATE message
+  message: Unusual number of failed console login attempts against users $tried_accounts$ seen from $src_ip$
   mitre_attack_id:
   - T1003.002
   nist:

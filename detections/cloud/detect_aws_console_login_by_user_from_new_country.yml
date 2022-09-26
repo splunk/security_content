@@ -45,7 +45,7 @@ tags:
   analytic_story:
   - Suspicious AWS Login Activities
   - Suspicious Cloud Authentication Activities
-  - AWS Account Takeover
+  - AWS Identity and Access Management Account Takeover
   asset_type: AWS Instance
   cis20:
   - CIS 16

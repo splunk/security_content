@@ -1,0 +1,19 @@
+name: AWS Identity and Access Management Account Takeover
+id: 4210b690-293f-411d-a9d8-bcfb2ea5fff9
+version: 2
+date: '2022-08-19'
+author: Gowthamaraj Rajendran, Bhavin Patel,  Splunk
+description: Identify activity and techniques associated with accessing credential files from AWS resources, monitor unusual authentication related activities to the AWS Console and other services such as RDS.
+narrative: Amazon Web Services provides a web service known as Identity and Access Management(IAM) for controlling and securly managing various AWS resources. This is basically the foundation of how users in AWS interact with various resources/services in cloud and vice versa. Account Takeover (ATO) is an attack whereby cybercriminals gain unauthorized access to online accounts by using different techniques like brute force, social engineering, phishing & spear phishing, credential stuffing, etc. 
+Adversaries employ a variety of techniques to steal AWS Cloud credentials like account names, passwords and keys and takeover legitmate user accounts. Usage of legitimate keys will assist the attackers to gain access to other sensitive system and they can also mimic legitimate behaviour making them harder to be detected. Such activity may involve multiple failed login to the console, new console logins and password reset activities.
+references:
+- https://attack.mitre.org/tactics/TA0006/
+tags:
+  analytic_story: AWS Identity and Access Management Account Takeover
+  category:
+  - Cloud Security
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Security Monitoring
