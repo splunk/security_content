@@ -39,7 +39,7 @@ tags:
   - T1003.002
   nist:
   - DE.CM
-   observable:
+  observable:
   - name: src_ip
     type: IP Address
     role:
