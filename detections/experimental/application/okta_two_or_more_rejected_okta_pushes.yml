@@ -9,7 +9,7 @@ description: The following analytic identifies an account that has rejected more
   Modify this query for your environment by upping the count or time window.
 search: '`okta` outcome.reason="User rejected Okta push verify" OR (debugContext.debugData.factor="OKTA_VERIFY_PUSH" outcome.result=FAILURE legacyEventType="core.user.factor.attempt_fail" "target{}.detailEntry.methodTypeUsed"="Get a push notification") 
   | bin _time as bin_time span=10m 
-  | eval user=coalesce("actor.alternateId",user), user=mvindex(split(user, "@"), 0), event_time = _time 
+  | eval user=coalesce(actor.alternateId,user), user=mvindex(split(user, "@"), 0), event_time = _time 
   | stats earliest(event_time) as event_time, min(_time) as firsttime max(_time) as lasttime values(client.ipAddress) as client.ipAddress, values(outcome.reason) as outcome, values(src_ip) AS src_ip, values(client.userAgent.rawUserAgent) as user_agent, values(eventType) as eventType, values(outcome.result) as action, values(legacyEventType) as legacyEventType values(index) as idx, values(sourcetype) as st count by bin_time user host 
   | rename bin_time as timeWindow 
   | convert ctime(*timeWindow) ctime(firsttime) ctime(lasttime) 
