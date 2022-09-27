@@ -73,29 +73,23 @@ def get_lolbas_paths(lolba):
     return lolbas_paths
     
                         
-def update_detection(detection, lolbas, VERBOSE, OPUTPUT_PATH):
+def generate_detections(lolbas, VERBOSE, OPUTPUT_PATH):
 
     # windows_lolbin_binary_in_non_standard_path auto search generation
     # first process SSA search
     ssa_base_search = 'ssa_input = | from read_ssa_enriched_events() | eval device=ucast(map_get(input_event, "dest_device_id"), "string", null), user=ucast(map_get(input_event, "dest_user_id"), "string", null), timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), process_path=lower(ucast(map_get(input_event, "process_path"), "string", null)), event_id=ucast(map_get(input_event, "event_id"), "string", null);'
     ssa_end_search ='| eval start_time=timestamp,end_time=timestamp, entities=mvappend(device, user), body=create_map(["event_id", event_id, "process_path", process_path, "process_name", process_name]) | into write_ssa_detected_events();'
-    condition_1 = '$cond_1 = | from $ssa_input | where '
-    condition_2 = '| from $cond_1 | where '
-    lolbas_strings = ''
-    lolbas_path_strings = '' 
+    condition_1 = '| where process_name IS NOT NULL AND '
+    condition_2 = '| where process_path IS NOT NULL AND '
 
-    processed_lolbas = []
-    processed_paths = [] 
     for lolba in lolbas:
-        if lolba['Name'].lower() not in processed_lolbas:
-            processed_lolbas.append(lolba['Name'].lower())
-            # grab the exe name
-            lolbas_strings += 'process_name="' + lolba['Name'].lower() + '" OR '
-
+        lolbas_path_strings = '' 
+        full_ssa_search = ''
         if get_lolbas_paths(lolba):
-
             full_paths = get_lolbas_paths(lolba)
             for full_path in full_paths:
+                # grab the exe name
+                lolbas_exe = 'process_name="' + lolba['Name'].lower()
 
                 # drop the drive letter
                 full_path = full_path[2:]
@@ -108,29 +102,29 @@ def update_detection(detection, lolbas, VERBOSE, OPUTPUT_PATH):
 
                 # adds a slash for regex at the end
                 full_path = full_path.lower() + '/'
-                if full_path not in processed_paths:
-                    processed_paths.append(full_path)
-                    print(full_path)
-                    # add path escapes
-                    full_path = full_path.replace("\\", "\\\\").lower()
-                    lolbas_path_strings += 'match_regex(process_path, /(?i)' + full_path + ')=false AND '
+                # add path escapes
+                full_path = full_path.replace("\\", "\\\\").lower()
+                lolbas_path_strings = 'match_regex(process_path, /(?i)' + full_path + ')=false AND '
+                #print("lolbas: " + lolba['Name'].lower() + " - full_path: " + lolbas_path_strings)
+
+                    # remove trailing OR and merge with condition
+            condition_1 = condition_1 + lolbas_exe
+                # remove trailing AND nd merge with condition
+            condition_2 = condition_2 + lolbas_path_strings[:-4]
+            full_ssa_search = ssa_base_search + condition_1 + condition_2 + ssa_end_search 
+            print(full_ssa_search)
+        else:
+            continue
 
 
-    # remove trailing OR and merge with condition
-    condition_1 = condition_1 + lolbas_strings[:-3]
-    # remove trailing AND nd merge with condition
-    condition_2 = condition_2 + lolbas_path_strings[:-4]
-    full_ssa_search = ssa_base_search + condition_1 + condition_2 + ssa_end_search 
-
-    detection_file_name = detection['file_path'].split('/')[-1]
-    detection_output_path = OUTPUT_PATH + '/' + detection_file_name
-
-    if detection['name'] == 'Windows LOLBin Binary in Non Standard Path':
-        if VERBOSE:
-            print("writing detection: {0}".format(detection_output_path))
-        detection['search'] = full_ssa_search
-        # write changes down
-        write_yaml(detection, VERBOSE, detection_output_path)
+   
+#    detection_file_name = detection['file_path'].split('/')[-1]
+#    detection_output_path = OUTPUT_PATH + '/' + detection_file_name
+#    if VERBOSE:
+#        print("writing detection: {0}".format(detection_output_path))
+#    detection['search'] = full_ssa_search
+    # write changes down
+#    write_yaml(detection, VERBOSE, detection_output_path)
 
 def write_csv(lolbas, OUTPUT_PATH):
 
@@ -188,12 +182,8 @@ if __name__ == "__main__":
 
     print("processing lolbas")
     lolbas = read_lolbas(LOLBAS_PATH, VERBOSE)
-    print("processing splunk security content detections")
-    detections = read_security_content_detections(SECURITY_CONTENT_PATH, VERBOSE)
-    for detection in detections:
-        detection_file_name = detection['file_path'].split('/')[-1]
-        print("updating detection: {0}".format(OUTPUT_PATH + '/' + detection_file_name))
-        update_detection(detection, lolbas, VERBOSE, OUTPUT_PATH)
+    print("generating ssa lolbas detections")
+    generate_detections(lolbas, VERBOSE, OUTPUT_PATH)
     print("writing lolbas_file_path lookup to: {0}".format(OUTPUT_PATH + '/' + 'lolbas_file_path.csv'))
     write_csv(lolbas, OUTPUT_PATH)
     #print("writing enriched lolbas")

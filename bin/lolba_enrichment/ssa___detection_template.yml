@@ -1,0 +1,71 @@
+name: Windows LOLBin Binary in Non Standard Path
+id: 25689101-012a-324a-94d3-08301e6c065a
+version: 1
+date: '2022-07-19'
+author: Michael Haag, Splunk
+type: Anomaly
+datamodel:
+- Endpoint_Processes
+description: The following analytic identifies native living off the land binaries within the Windows
+  operating system that may be abused by adversaries by moving it to a new directory.
+  The list of binaries was derived from the https://lolbas-project.github.io site, and excluded common process names (cmd.exe, explorer.exe, csc.exe, hh.exe, regedit.exe) and DotNet binaries. It also does not include the category of OtherMSBinaries.
+search: 'xxx'
+how_to_implement: Collect endpoint data such as sysmon or 4688 events.
+known_false_positives: False positives may be present and filtering may be required.
+  Certain utilities will run from non-standard paths based on the third-party application
+  in use.
+references:
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1036.003/T1036.003.yaml
+  - https://attack.mitre.org/techniques/T1036/003/
+  - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.004/T1218.004.md
+tags:
+  analytic_story:
+  - Unusual Processes
+  - Ransomware
+  - WhisperGate
+  - Living Off The Land
+  - Linux Living Off The Land
+  cis20:
+  - CIS 8
+  confidence: 70
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/system_process_running_unexpected_location/dotnet_lolbin-windows-security.log
+  impact: 70
+  kill_chain_phases:
+  - Actions on Objectives
+  message: A system process $process_name$ with commandline $cmd_line$ spawn in non-default
+    folder path on host $dest_device_id$
+  mitre_attack_id:
+  - T1036
+  - T1036.003
+  - T1218
+  - T1218.004
+  nist:
+  - PR.PT
+  - DE.CM
+  observable:
+  - name: dest_device_id
+    type: Hostname
+    role:
+    - Victim
+  - name: dest_user_id
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Behavioral Analytics
+  required_fields:
+  - dest_device_id
+  - process_name
+  - _time
+  - dest_user_id
+  - process_path
+  - cmd_line
+  risk_score: 49
+  risk_severity: medium
+  security_domain: endpoint
+  asset_type: Endpoint
