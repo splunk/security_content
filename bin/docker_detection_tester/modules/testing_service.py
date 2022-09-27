@@ -130,7 +130,7 @@ def execute_test(splunk_ip:str, splunk_port:int, splunk_password:str, test:Test,
             #be waiting for data to be ingested for the baseline to fully run. However, we don't have the info
             #to fill in the rest of the fields, so we populate it like we populate the fields when there is a real exception
             test.result.exception = False 
-            continue
+            
             
         else:
             #baselines all worked (if they exist) so run the search
