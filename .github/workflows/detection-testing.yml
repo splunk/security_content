@@ -41,7 +41,7 @@ jobs:
 
   docker-detection-testing-setup:
     runs-on: ubuntu-latest
-    if: contains('refs/tags/', github.ref) != true #don't run on tags - future steps won't run either since they depend on this job
+    if: contains('/refs/tags/', github.ref) == false #don't run on tags - future steps won't run either since they depend on this job
     needs: [validate-tag-if-present, quit-for-dependabot]
     steps:  
         - name: Get branch and PR required for detection testing main.py
@@ -119,6 +119,7 @@ jobs:
 
   docker-detection-testing-execution:
     runs-on: ubuntu-latest
+    if: contains('/refs/tags/', github.ref) == false #don't run on tags - future steps won't run either since they depend on this job
     needs: [docker-detection-testing-setup]
     strategy:
       matrix:
@@ -190,6 +191,7 @@ jobs:
           
   docker-detection-testing-execution-merge-results:
     runs-on: ubuntu-latest
+    if: contains('/refs/tags/', github.ref) == false #don't run on tags - future steps won't run either since they depend on this job
     needs: [docker-detection-testing-setup, docker-detection-testing-execution]
  
     steps:  
