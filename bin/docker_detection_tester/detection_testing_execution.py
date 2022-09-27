@@ -173,10 +173,8 @@ def generate_escu_app(persist_security_content: bool = False) -> str:
     # Go into the security content directory
     print("****GENERATING ESCU APP****")
     os.chdir("security_content")
-    if persist_security_content is False:
-        commands = ["python ../../../contentctl.py --path . --skip_enrichment generate --product ESCU --output dist/escu"]
-    else:
-        commands = ["python ../../../contentctl.py --path . --skip_enrichment generate --product ESCU --output dist/escu"]
+    
+    commands = ["python ../../../contentctl.py --path . --skip_enrichment generate --product ESCU --output dist/escu"]
     ret = subprocess.run("; ".join(commands),
                          shell=True, capture_output=True)
     if ret.returncode != 0:
@@ -184,57 +182,17 @@ def generate_escu_app(persist_security_content: bool = False) -> str:
             ret.stderr))
         sys.exit(1)
 
-    ret = subprocess.run("tar -czf DA-ESS-ContentUpdate.spl -C dist/escu .",
+    PACKAGE_NAME  = "DA-ESS-ContentUpdate.spl"
+    ret = subprocess.run(f"tar -czf {PACKAGE_NAME} -C dist/escu .",
                          shell=True, capture_output=True)
     if ret.returncode != 0:
         print("Error generating new content.\n\tQuitting and dumping error...\n[%s]" % (
             ret.stderr))
         sys.exit(1)
 
-    output_file_name = "DA-ESS-ContentUpdate-latest.tar.gz"
-    output_file_path_from_slim_latest = os.path.join(
-        "upload", output_file_name)
-    output_file_path_from_security_content = os.path.join(
-        "slim_packaging", output_file_path_from_slim_latest)
-    output_file_path_from_root = os.path.join(
-        "security_content", output_file_path_from_security_content)
-
-    if persist_security_content is True:
-        try:
-            os.remove(output_file_path_from_security_content)
-        except FileNotFoundError:
-            # No problem if we fail to remove it, that just means it wasn't there and we didn't need to
-            pass
-        except Exception as e:
-            print("Error deleting the (possibly) existing old ESCU File: [%s]" % (
-                str(e)), file=sys.stderr)
-            sys.exit(1)
-
-        # There remove the latest file if it exists
-        commands = ["cd slim_packaging",
-                    "cp -R ../dist/escu DA-ESS-ContentUpdate",
-                    "slim package -o upload DA-ESS-ContentUpdate",
-                    "cp upload/DA-ESS-ContentUpdate*.tar.gz %s" % (output_file_path_from_slim_latest)]
-
-    else:
-        os.mkdir("slim_packaging")
-        commands = ["rm -rf slim_packaging/slim_latest",
-                    "mkdir slim_packaging",
-                    "cd slim_packaging",
-                    "cp -R ../dist/escu DA-ESS-ContentUpdate",
-                    "slim package -o upload DA-ESS-ContentUpdate",
-                    "cp upload/DA-ESS-ContentUpdate*.tar.gz %s" % (output_file_path_from_slim_latest)]
-
-    ret = subprocess.run("; ".join(commands),
-                         shell=True, capture_output=True)
-    if ret.returncode != 0: 
-        print("Command List:\n%s" % (commands))
-        print("Error generating new ESCU Package.\n\tQuitting and dumping error...\n[%s]" % (
-            ret.stderr.decode('utf-8')), file=sys.stderr)
-        sys.exit(1)
     os.chdir("../")
 
-    return output_file_path_from_root
+    return os.path.join("security_content", PACKAGE_NAME)
 
 
 
