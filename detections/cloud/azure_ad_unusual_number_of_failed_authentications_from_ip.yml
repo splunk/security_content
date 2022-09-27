@@ -18,7 +18,7 @@ description: 'The following analytic identifies one source Ip failing to authent
   While looking for anomalies using statistical methods like the standard deviation can have benefits, we also recommend using threshold-based detections to complement coverage.
   A similar analytic following the threshold model is `Azure AD Multiple Users Failing To Authenticate From Ip`.'
 
-search: ' `azuread` body.properties.status.errorCode= 50126 body.category= SignInLogs body.properties.authenticationDetails{}.succeeded= false 
+search: ' `azuread` body.category=SignInLogs body.properties.status.errorCode=50126 body.properties.authenticationDetails{}.succeeded= false 
   | rename body.properties.* as *
   | bucket span=5m _time
   | stats  dc(userPrincipalName) AS unique_accounts values(userPrincipalName) as tried_accounts by _time, ipAddress
