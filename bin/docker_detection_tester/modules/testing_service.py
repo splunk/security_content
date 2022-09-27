@@ -115,7 +115,7 @@ def execute_test(splunk_ip:str, splunk_port:int, splunk_password:str, test:Test,
     while True:
         sleeptime = sleep_base**sleep_exp
         sleep_exp += 1
-        print(f"Sleep for {sleeptime} for ingest") 
+        #print(f"Sleep for {sleeptime} for ingest") 
         time.sleep(sleeptime)
         #Run the baseline(s) if they exist for this test
         execute_baselines(splunk_ip, splunk_port, splunk_password, test.baselines)
@@ -228,8 +228,8 @@ def hec_raw_replay(base_url:str, token:str, filePath:pathlib.Path, index:str,
         res = requests.post(url_with_path,params=url_params_dict, data=rawData, allow_redirects = True, headers=headers, verify=verify)
         #print(f"POST Sent with return code: {res.status_code}")
         jsonResponse = json.loads(res.text)
-        print(res.status_code)
-        print(res.text)
+        #print(res.status_code)
+        #print(res.text)
         
     except Exception as e:
         raise(Exception(f"There was an exception in the post: {str(e)}"))
@@ -257,7 +257,7 @@ def hec_raw_replay(base_url:str, token:str, filePath:pathlib.Path, index:str,
                     if jsonResponse['acks'][str(ackId)] is True:
                         break
                     else:
-                        print("Waiting for ackId")
+                        #print("Waiting for ackId")
 
                         time.sleep(2)
 
@@ -325,11 +325,11 @@ def replay_attack_data_file(splunk_ip:str, splunk_port:int, splunk_password:str,
     
 
     #Wait for the indexing to finish
-    print("skip waiting for ingest since we have checked the ackid")
+    #print("skip waiting for ingest since we have checked the ackid")
     #if not splunk_sdk.wait_for_indexing_to_complete(splunk_ip, splunk_port, splunk_password, attackData.sourcetype, upload_index):
     #    raise Exception("There was an error waiting for indexing to complete.")
     
-    print('done waiting')
+    #print('done waiting')
     #Return the name of the index that we uploaded to
     return attackData.index
 

@@ -262,8 +262,10 @@ class ResultsManager:
             raise(Exception(f"Found a detection result to be 'None' for detection: {detection.detectionFile.path}"))
         
         if detection.result is not None and detection.result.success == True:
+            print(f"SUCCESS: [{detection.detectionFile.name}]")
             self.pass_count += 1
         else:
+            print(f"FAIL: [{detection.detectionFile.name}]")
             self.fail_count += 1 
         
         

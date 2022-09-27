@@ -461,8 +461,7 @@ class SplunkContainer:
              
             # There is a detection to test
             
-            print("Container [%s]--->[%s]" %
-                  (self.container_name, str(detection_to_test.detectionFile.path)))
+            print(f"Container [{self.container_name}]--->[{str(detection_to_test.detectionFile.path)}]")
             try:
                 
                 result = testing_service.test_detection(
@@ -476,7 +475,7 @@ class SplunkContainer:
                     container=self
                 )
                 
-                print("finished with a detection!")
+
                 self.synchronization_object.addResult(detection_to_test)
                 #self.synchronization_object.addResult(result, timeit.default_timer() - current_test_start_time)
 
