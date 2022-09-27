@@ -41,7 +41,7 @@ jobs:
 
   docker-detection-testing-setup:
     runs-on: ubuntu-latest
-    if: not contains('refs/tags/', github.ref) #don't run on tags - future steps won't run either since they depend on this job
+    if: contains('refs/tags/', github.ref) != true #don't run on tags - future steps won't run either since they depend on this job
     needs: [validate-tag-if-present, quit-for-dependabot]
     steps:  
         - name: Get branch and PR required for detection testing main.py
