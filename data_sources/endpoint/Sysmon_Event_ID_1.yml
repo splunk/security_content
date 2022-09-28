@@ -12,17 +12,18 @@ supported_TA:
 references:
 - https://docs.microsoft.com/en-us/sysinternals/downloads/sysmon
 field_mappings:
-  cim:
-    ProcessGuid: process_guid
-    ProcessId: process_id
-    Image: process_path
-    CommandLine: process
-    CurrentDirectory: process_current_directory
-    User: user
-    IntegrityLevel: process_integrity_level
-    Hashes: process_hash
-    ParentProcessGuid: parent_process_guid
-    ParentProcessId: parent_process_id
-    ParentImage: parent_process_path
-    ParentCommandLine: parent_process
-    Computer: dest
+  - data_model: Endpoint.Processes
+    cim:
+      ProcessGuid: Processes.process_guid
+      ProcessId: Processes.process_id
+      Image: Processes.process_path
+      CommandLine: Processes.process
+      CurrentDirectory: Processes.process_current_directory
+      User: Processes.user
+      IntegrityLevel: Processes.process_integrity_level
+      Hashes: Processes.process_hash
+      ParentProcessGuid: Processes.parent_process_guid
+      ParentProcessId: Processes.parent_process_id
+      ParentImage: Processes.parent_process_path
+      ParentCommandLine: Processes.parent_process
+      Computer: Processes.dest
