@@ -42,10 +42,10 @@ class DetectionTags(BaseModel):
 
     @validator('cis20')
     def tags_cis20(cls, v, values):
-        pattern = 'CIS [0-9]{1,2}'
+        pattern = '^CIS ([0-9]|1[0-9]|20)$' #DO NOT match leading zeroes and ensure no extra characters before or after the string
         for value in v:
             if not re.match(pattern, value):
-                raise ValueError('CIS controls are not following the pattern CIS xx: ' + values["name"])
+                raise ValueError(f"CIS control '{value}' is not a valid Control ('CIS 1' -> 'CIS 20'):  {values['name']}")
         return v
     
     @validator('nist')
@@ -61,7 +61,7 @@ class DetectionTags(BaseModel):
         
         for value in v:
             if not value in ALL_NIST_CATEGORIES:
-                raise ValueError(f"NIST Category {value} is not valid")
+                raise ValueError(f"NIST Category '{value}' is not a valid category")
         return v
 
     @validator('confidence')
