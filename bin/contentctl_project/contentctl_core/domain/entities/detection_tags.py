@@ -47,6 +47,22 @@ class DetectionTags(BaseModel):
             if not re.match(pattern, value):
                 raise ValueError('CIS controls are not following the pattern CIS xx: ' + values["name"])
         return v
+    
+    @validator('nist')
+    def tags_nist(cls, v, values):
+        # Sourced Courtest of NIST: https://www.nist.gov/system/files/documents/cyberframework/cybersecurity-framework-021214.pdf (Page 19)
+        IDENTIFY = [f'ID.{category}' for category in ["AM", "BE", "GV", "RA", "RM"]      ]
+        PROTECT  = [f'PR.{category}' for category in ["AC", "AT", "DS", "IP", "MA", "PT"]]
+        DETECT   = [f'DE.{category}' for category in ["AE", "CM", "DP"]                  ]
+        RESPOND  = [f'RS.{category}' for category in ["RP", "CO", "AN", "MI", "IM"]      ]
+        RECOVER  = [f'RC.{category}' for category in ["RP", "IM", "CO"]                  ]
+        ALL_NIST_CATEGORIES = IDENTIFY + PROTECT + DETECT + RESPOND + RECOVER
+
+        
+        for value in v:
+            if not value in ALL_NIST_CATEGORIES:
+                raise ValueError(f"NIST Category {value} is not valid")
+        return v
 
     @validator('confidence')
     def tags_confidence(cls, v, values):
