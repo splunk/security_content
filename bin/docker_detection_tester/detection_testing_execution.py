@@ -174,7 +174,14 @@ def generate_escu_app(persist_security_content: bool = False) -> str:
     print("****GENERATING ESCU APP****")
     os.chdir("security_content")
     
-    commands = ["python ../../../contentctl.py --path . --skip_enrichment generate --product ESCU --output dist/escu"]
+    GENERATE_FOLDER = "dist/escu"
+    commands = [f"python ../../../contentctl.py --path . --skip_enrichment generate --product ESCU --output {GENERATE_FOLDER}"]
+    #copy all of the mlmodel files
+    
+    for model in pathlib.Path("lookups").rglob("*.mlmodel"):
+        #Copy any of the required mlmodels
+        target = os.path.join(GENERATE_FOLDER, "lookups", model.name)
+        shutil.copyfile(model, target)
     ret = subprocess.run("; ".join(commands),
                          shell=True, capture_output=True)
     if ret.returncode != 0:
@@ -182,8 +189,18 @@ def generate_escu_app(persist_security_content: bool = False) -> str:
             ret.stderr))
         sys.exit(1)
 
-    PACKAGE_NAME  = "DA-ESS-ContentUpdate.spl"
-    ret = subprocess.run(f"tar -czf {PACKAGE_NAME} -C dist/escu .",
+    BUILD_FOLDER = "build"
+    BUILD_SOURCE_FOLDER  = "DA-ESS-ContentUpdate"
+    
+    PACKAGE_FILE = f"{BUILD_SOURCE_FOLDER}.tgz"
+    PACKAGE_PATH = os.path.join(BUILD_FOLDER, PACKAGE_FILE)
+    
+    shutil.rmtree(BUILD_FOLDER,ignore_errors=True)
+    os.mkdir(BUILD_FOLDER)
+
+    shutil.copytree(GENERATE_FOLDER, os.path.join(BUILD_FOLDER, BUILD_SOURCE_FOLDER))
+    
+    ret = subprocess.run(f"tar -czf {PACKAGE_PATH} -C {BUILD_FOLDER} {BUILD_SOURCE_FOLDER}",
                          shell=True, capture_output=True)
     if ret.returncode != 0:
         print("Error generating new content.\n\tQuitting and dumping error...\n[%s]" % (
@@ -192,7 +209,7 @@ def generate_escu_app(persist_security_content: bool = False) -> str:
 
     os.chdir("../")
 
-    return os.path.join("security_content", PACKAGE_NAME)
+    return os.path.join("security_content", PACKAGE_PATH)
 
 
 
