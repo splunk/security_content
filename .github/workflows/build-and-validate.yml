@@ -306,7 +306,7 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v2
         with:
-          token: ${{ secrets.PROTECTED_BRANCH_PUSH_TOKEN }}
+          token: ${{ secrets.SECURITY_CONTENT_ADMIN_TASKS }}
           ref: 'develop'
 
       - uses: actions/setup-python@v2
