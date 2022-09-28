@@ -20,27 +20,33 @@ import pathlib
 logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
 LOGGER = logging.getLogger(__name__)
 
-SECURITY_CONTENT_URL = "https://github.com/splunk/security_content"
 
-MAIN_BRANCH = "develop"
-DETECTION_ROOT_PATH      = "security_content/detections"
-TEST_ROOT_PATH           = "security_content/tests"
+DETECTION_ROOT_PATH      = "{repo_folder}/detections"
+TEST_ROOT_PATH           = "{repo_folder}/tests"
 DETECTION_FILE_EXTENSION = ".yml"
 TEST_FILE_EXTENSION      = ".test.yml"
 SSA_PREFIX = "ssa___"
 class GithubService:
-
-
-    def __init__(self, security_content_branch: str, commit_hash: Union[str,None], PR_number: Union[int,None] = None, persist_security_content: bool = False):
-        self.main_branch = MAIN_BRANCH
-        self.security_content_branch = security_content_branch
+    @staticmethod
+    def get_folder_name_from_repo_url(repo_url:str)->str:
+        # The name of the last fragment of the url.  
+        # For example, https://github.com/splunk/security_content would be security_content
+        try:
+            return repo_url.split('/')[-1] 
+        except Exception as e:
+            raise(Exception(f"Error deriving the folder name from the repo_url in settings '{repo_url}' : {str(e)}"))
+    def __init__(self, repo_url:str, main_branch:str, security_content_branch: str, commit_hash: Union[str,None], PR_number: Union[int,None] = None, persist_security_content: bool = False):
+        self.repo_url = repo_url
+        self.repo_folder = GithubService.get_folder_name_from_repo_url(repo_url)
+        self.main_branch = main_branch
+        self.feature_branch = security_content_branch
         if persist_security_content:
-            print("Getting handle on existing security_content repo!")
-            self.security_content_repo_obj = git.Repo("security_content")
+            print(f"Getting handle on existing {self.repo_folder} repo!")
+            self.security_content_repo_obj = git.Repo(self.repo_folder)
         else:
             print("Checking out security_content repo!")            
             self.security_content_repo_obj = self.clone_project(
-                SECURITY_CONTENT_URL, f"security_content", f"develop")
+                self.repo_url, self.repo_folder, self.main_branch)
 
         #Ensure that the branch name is valid   
         #Get all the branch names, prefixed with "origin/"
@@ -60,7 +66,7 @@ class GithubService:
             
 
         if PR_number:
-            ret = subprocess.run(["git", "-C", "security_content/", "fetch", "origin",
+            ret = subprocess.run(["git", "-C", self.repo_folder, "fetch", "origin",
                             "refs/pull/%d/head:%s" % (PR_number, security_content_branch)], capture_output=True)
             #ret = subprocess.call(["git", "-C", "security_content/", "fetch", "origin",
             #                "refs/pull/%d/head:%s" % (PR_number, security_content_branch)])
@@ -96,7 +102,7 @@ class GithubService:
         
         changed_file_paths = []
         for result in results:
-            detection_obj_path = os.path.join("security_content","detections",result['detection_file'])
+            detection_obj_path = os.path.join(self.repo_folder,"detections",result['detection_file'])
             
             test_obj_path = detection_obj_path.replace("detections", "tests", 1)
             test_obj_path = test_obj_path.replace(".yml",".test.yml")
@@ -120,7 +126,7 @@ class GithubService:
         relpaths = [pathlib.Path(*pathlib.Path(p).parts[1:]).as_posix() for p in changed_file_paths]
         newpath = relpaths[0]+'.wow'
         relpaths.append(newpath)
-        with open('security_content/' + newpath,'w') as d:
+        with open(os.path.join(self.repo_folder, newpath),'w') as d:
                 d.write("fake file")
         print("status results:")
         print(self.security_content_repo_obj.index.diff(self.security_content_repo_obj.head.commit))
@@ -150,7 +156,7 @@ class GithubService:
 
     def detections_to_test(self, mode:str, ignore_experimental:bool = True, ignore_deprecated:bool = True, ignore_ssa:bool = True, allowed_types:list[str] = ["Anomaly", "Hunting", "TTP"], detections_list:list[str]=[])->list[Detection]:
         
-        detections = list(pathlib.Path("./security_content/detections/").rglob("*.yml"))
+        detections = list(pathlib.Path(os.path.join(self.repo_folder, "detections")).rglob("*.yml"))
         print(f"Total detections loaded from the directory: {len(detections)}")
         if ignore_experimental:
             detections = [d for d in detections if 'detections/experimental' not in str(d)]
@@ -248,7 +254,7 @@ class GithubService:
                     # Don't do anything with these files
                     pass
         
-        if not self.ensure_paired_detection_and_test_files([], [os.path.join("security_content", p) for p in pruned_tests], exclude_ssa):
+        if not self.ensure_paired_detection_and_test_files([], [os.path.join(self.repo_folder, p) for p in pruned_tests], exclude_ssa):
             raise(Exception("Missing one or more test/detection files. Please see the output above."))
         
         return pruned_tests
@@ -296,10 +302,10 @@ class GithubService:
     def convert_detection_filename_into_test_filename(self, detection_filename:str) ->str:
         head, tail = os.path.split(detection_filename)
         
-        assert head.startswith(DETECTION_ROOT_PATH), \
-               f"Error - Expected detection filename to start with [{DETECTION_ROOT_PATH}] but instead got {detection_filename}"
+        assert head.startswith(DETECTION_ROOT_PATH.format(repo_folder=self.repo_folder)), \
+               f"Error - Expected detection filename to start with [{DETECTION_ROOT_PATH.format(repo_folder=self.repo_folder)}] but instead got {detection_filename}"
                 
-        updated_head = head.replace(DETECTION_ROOT_PATH, TEST_ROOT_PATH, 1)
+        updated_head = head.replace(DETECTION_ROOT_PATH.format(repo_folder=self.repo_folder), TEST_ROOT_PATH.format(repo_folder=self.repo_folder), 1)
 
         
         assert tail.endswith(DETECTION_FILE_EXTENSION),\
@@ -312,10 +318,10 @@ class GithubService:
         head, tail = os.path.split(test_filename)
         
 
-        assert head.startswith(TEST_ROOT_PATH), \
-               f"Error - Expected test filename to start with [{TEST_ROOT_PATH}] but instead got {test_filename}"
+        assert head.startswith(TEST_ROOT_PATH.format(repo_folder=self.repo_folder)), \
+               f"Error - Expected test filename to start with [{TEST_ROOT_PATH.format(repo_folder=self.repo_folder)}] but instead got {test_filename}"
 
-        updated_head = head.replace(TEST_ROOT_PATH, DETECTION_ROOT_PATH, 1)
+        updated_head = head.replace(TEST_ROOT_PATH.format(repo_folder=self.repo_folder), DETECTION_ROOT_PATH.format(repo_folder=self.repo_folder), 1)
 
         
         assert tail.endswith(TEST_FILE_EXTENSION), \
@@ -376,7 +382,7 @@ class GithubService:
         all_tests = []
         for folder in folders:
             #Get all the tests in a folder 
-            tests = self.get_all_files_in_folder(os.path.join(TEST_ROOT_PATH, folder), "*")
+            tests = self.get_all_files_in_folder(os.path.join(TEST_ROOT_PATH.format(repo_folder=self.repo_folder), folder), "*")
             #Convert all of those tests to detection paths
             for test in tests:
                 all_tests.append(test)
@@ -395,7 +401,7 @@ class GithubService:
                                          "Anomaly", "Hunting", "TTP"]) -> list[str]:
         detections = []
         for folder in folders:
-            detections.extend(self.get_all_files_in_folder(os.path.join(DETECTION_ROOT_PATH, folder), "*"))
+            detections.extend(self.get_all_files_in_folder(os.path.join(DETECTION_ROOT_PATH.format(repo_folder=self.repo_folder), folder), "*"))
 
         # Prune this down to only the subset of detections we can test
         return self.prune_detections(detections, types_to_test)
@@ -406,13 +412,13 @@ class GithubService:
 
     def get_changed_test_files(self, folders=['endpoint', 'cloud', 'network'],   types_to_test=["Anomaly", "Hunting", "TTP"]) -> list[str]:
 
-        branch1 = self.security_content_branch
-        branch2 = 'develop'
-        g = git.Git('security_content')
+        branch1 = self.feature_branch
+        branch2 = self.main_branch
+        g = git.Git(self.repo_folder)
         all_changed_test_files = []
 
         all_changed_detection_files = []
-        if branch1 != 'develop':
+        if branch1 != self.main_branch:
             if self.commit_hash is None:
                 differ = g.diff('--name-status', branch2 + '...' + branch1)
             else:
@@ -437,10 +443,10 @@ class GithubService:
 
         
         # all files have the format A\tFILENAME or M\tFILENAME.  Get rid of those leading characters
-        all_changed_test_files = [os.path.join("security_content", name.split(
+        all_changed_test_files = [os.path.join(self.repo_folder, name.split(
             '\t')[1]) for name in all_changed_test_files if len(name.split('\t')) == 2]
 
-        all_changed_detection_files = [os.path.join("security_content", name.split(
+        all_changed_detection_files = [os.path.join(self.repo_folder, name.split(
             '\t')[1]) for name in all_changed_detection_files if len(name.split('\t')) == 2]
          
 
@@ -473,7 +479,7 @@ class GithubService:
             folder_and_filename =  str(pathlib.Path(*pathlib.Path(test_filepath).parts[-2:]))
             folder_and_filename_fixed_suffix = folder_and_filename.replace(".test.yml",".yml")
             result = None
-            for f in glob.glob("security_content/detections/**/" + folder_and_filename_fixed_suffix,recursive=True):
+            for f in glob.glob(os.path.join(self.repo_folder, "detections/**/") + folder_and_filename_fixed_suffix,recursive=True):
                 if result != None:
                     #found a duplicate filename that matches
                     raise(Exception("Error - Found at least two detection files to match for test file [%s]: [%s] and [%s]"%(test_filepath, result, f)))
@@ -513,7 +519,7 @@ class GithubService:
         error_files = []
         for filename in test_files:
             try:
-                with open(os.path.join("security_content", filename), "r") as fileData:
+                with open(os.path.join(self.repo_folder, filename), "r") as fileData:
                     yaml_dict = list(yaml.safe_load_all(fileData))[0]
                     if 'type' not in yaml_dict.keys():
                         print(

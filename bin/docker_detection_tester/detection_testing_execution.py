@@ -134,45 +134,46 @@ def copy_local_apps_to_directory(apps: dict[str, dict], splunkbase_username:tupl
     return target_directory
 
 
-def ensure_security_content(branch: str, commit_hash: Union[str,None], pr_number: Union[int, None], persist_security_content: bool) -> tuple[GithubService, bool]:
-    if persist_security_content is True and os.path.exists("security_content"):
+def ensure_security_content(settings:dict) -> GithubService:
+    repo_folder = GithubService.get_folder_name_from_repo_url(settings['repo_url'])
+    if settings['persist_security_content'] is True and os.path.exists(repo_folder):
         print("****** You chose --persist_security_content and the security_content directory exists. "
               "We will not check out the repo again. Please be aware, this could cause issues if your "
               "repo is out of date or if a previous build failed to download all required tools and "\
               "libraries.  If this occurs, it is suggested to change the "\
               "persist_security_content setting to false. ******")
               
-        github_service = GithubService(
-            branch, commit_hash, persist_security_content=persist_security_content)
+        github_service = GithubService(settings['repo_url'], settings['main_branch'], settings['branch'], settings['commit_hash'], persist_security_content=True)
+        
 
     else:
-        if persist_security_content is True and not os.path.exists("security_content"):
+        if settings['persist_security_content'] is True and not os.path.exists(repo_folder):
             print("Error - you chose --persist_security_content but the security_content directory does not exist!"
                   "  We will check it out for you.")
-            persist_security_content = False
+            settings['persist_security_content'] = False
 
-        elif os.path.exists("security_content/"):
+        elif os.path.exists(repo_folder):
             print("Deleting the security_content directory")
             try:
-                shutil.rmtree("security_content/", ignore_errors=True)
+                shutil.rmtree(repo_folder, ignore_errors=True)
                 print("Successfully removed security_content directory")
             except Exception as e:
                 print(
-                    "Error - could not remove the security_content directory: [%s].\n\tQuitting..." % (str(e)))
+                    f"Error - could not remove the {repo_folder} directory: {str(e)}.\n\tQuitting...")
                 sys.exit(1)
 
-        if pr_number:
-            github_service = GithubService(branch, commit_hash, pr_number)
+        if settings['pr_number']:
+            github_service = GithubService(settings['repo_url'], settings['main_branch'], settings['branch'], settings['commit_hash'], PR_number=settings['pr_number'])
         else:
-            github_service = GithubService(branch, commit_hash)
+            github_service = GithubService(settings['repo_url'], settings['main_branch'], settings['branch'], settings['commit_hash'])
 
-    return github_service, persist_security_content
+    return github_service
 
 
-def generate_escu_app(persist_security_content: bool = False) -> str:
+def generate_escu_app(root_dir:str, persist_security_content: bool = False) -> str:
     # Go into the security content directory
     print("****GENERATING ESCU APP****")
-    os.chdir("security_content")
+    os.chdir(root_dir)
     
     GENERATE_FOLDER = "dist/escu"
     commands = [f"python ../../../contentctl.py --path . --skip_enrichment generate --product ESCU --output {GENERATE_FOLDER}"]
@@ -209,7 +210,7 @@ def generate_escu_app(persist_security_content: bool = False) -> str:
 
     os.chdir("../")
 
-    return os.path.join("security_content", PACKAGE_PATH)
+    return os.path.join(root_dir, PACKAGE_PATH)
 
 
 
@@ -349,8 +350,7 @@ def main(args: list[str]):
     # Check out security content if required
     try:
         #Make sure we fix up the persist_securiy_content argument if it is passed in error (we say it exists but it doesn't)
-        github_service, settings['persist_security_content'] = ensure_security_content(
-            settings['branch'], settings['commit_hash'], settings['pr_number'], settings['persist_security_content'])
+        github_service = ensure_security_content(settings)
         settings['commit_hash'] = github_service.commit_hash
     except Exception as e:
         print("\nFailure checking out git repository: [%s]"\
@@ -416,7 +416,7 @@ def main(args: list[str]):
         sys.exit(1)
     else:
         # Generate the ESCU package from this branch.
-        source_path = generate_escu_app(settings['persist_security_content'])
+        source_path = generate_escu_app(settings['root_dir'], settings['persist_security_content'])
         settings['apps']['SPLUNK_ES_CONTENT_UPDATE']['local_path'] = source_path
         
 

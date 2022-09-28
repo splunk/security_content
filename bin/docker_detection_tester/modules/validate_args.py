@@ -12,6 +12,14 @@ ES_APP_NAME = "SPLUNK_ES_CONTENT_UPDATE"
 setup_schema = {
     "type": "object",
     "properties": {
+        "main_branch": {
+            "type": "string",
+            "default": "develop"
+        },
+        "repo_url": {
+            "type": "string",
+            "default": "https://github.com/splunk/security_content"
+        },
         "branch": {
             "type": "string",
             "default": "develop"
