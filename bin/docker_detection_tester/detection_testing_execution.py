@@ -416,7 +416,7 @@ def main(args: list[str]):
         sys.exit(1)
     else:
         # Generate the ESCU package from this branch.
-        source_path = generate_escu_app(settings['root_dir'], settings['persist_security_content'])
+        source_path = generate_escu_app(github_service.repo_folder, settings['persist_security_content'])
         settings['apps']['SPLUNK_ES_CONTENT_UPDATE']['local_path'] = source_path
         
 
