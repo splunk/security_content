@@ -26,8 +26,7 @@ references:
 - https://en.wikipedia.org/wiki/Domain_generation_algorithm
 tags:
   analytic_story:
-  - Data Protection
-  - Prohibited Traffic Allowed or Protocol Mismatch
+  - Data Exfiltration
   - DNS Hijacking
   - Suspicious DNS Traffic
   - Dynamic DNS
