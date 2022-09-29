@@ -1,15 +1,15 @@
 name: Windows ISO LNK File Creation
 id: d7c2c09b-9569-4a9e-a8b6-6a39a99c1d32
-version: 1
-date: '2022-03-29'
-author: Michael Haag, Splunk
+version: 2
+date: '2022-09-19'
+author: Michael Haag, Teoderick Contreras, Splunk
 type: Hunting
 datamodel:
 - Endpoint
 description: The following analytic identifies the use of a delivered ISO file that has been mounted and the afformention lnk or file opened within it. When the ISO file is opened, the files are saved in the %USER%\AppData\Local\Temp\<random folder name>\ path. 
   The analytic identifies .iso.lnk written to the path. The name of the ISO file is prepended. 
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path IN ("*\\Microsoft\\Windows\\Recent\\*") Filesystem.file_name IN ("*.iso.lnk") by Filesystem.file_create_time Filesystem.process_id Filesystem.file_name Filesystem.file_path Filesystem.dest 
+  as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path IN ("*\\Microsoft\\Windows\\Recent\\*") Filesystem.file_name IN ("*.iso.lnk", "*.img.lnk", "*.vhd.lnk", "*vhdx.lnk") by Filesystem.file_create_time Filesystem.process_id Filesystem.file_name Filesystem.file_path Filesystem.dest 
   | `drop_dm_object_name(Filesystem)` 
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)`
@@ -23,6 +23,7 @@ tags:
   analytic_story:
   - Spearphishing Attachments
   - Brute Ratel C4
+  - AgentTesla
   asset_type: Endpoint
   cis20:
   - CIS 3
