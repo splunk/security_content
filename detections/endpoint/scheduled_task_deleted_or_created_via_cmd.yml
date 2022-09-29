@@ -25,6 +25,7 @@ known_false_positives: It is possible scripts or administrators may trigger this
   Filter as needed based on parent process, application.
 references:
 - https://thedfirreport.com/2022/02/21/qbot-and-zerologon-lead-to-full-domain-compromise/
+- https://www.joesandbox.com/analysis/691823/0/html
 tags:
   analytic_story:
   - DHS Report TA18-074A
@@ -34,6 +35,7 @@ tags:
   - Azorult
   - DarkCrystal RAT
   - CISA AA22-257A
+  - AgentTesla
   asset_type: Endpoint
   cis20:
   - CIS 3
