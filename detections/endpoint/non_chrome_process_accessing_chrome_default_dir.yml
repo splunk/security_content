@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
 - Endpoint
-description: This search is to detect an anomaly event of non-chrome process accessing
+description: This search is to detect an anomaly event of a non-chrome process accessing
   the files in chrome user default folder. This folder contains all the sqlite database
   of the chrome browser related to users login, history, cookies and etc. Most of
   the RAT, trojan spy as well as FIN7 jssloader try to parse the those sqlite database
@@ -29,6 +29,7 @@ tags:
   analytic_story:
   - FIN7
   - Remcos
+  - AgentTesla
   confidence: 70
   context:
   - Source:Endpoint
