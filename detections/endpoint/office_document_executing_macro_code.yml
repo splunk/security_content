@@ -25,12 +25,14 @@ how_to_implement: To successfully implement this search, you need to be ingestin
 known_false_positives: Normal Office Document macro use for automation
 references:
 - https://www.joesandbox.com/analysis/386500/0/html
+- https://www.joesandbox.com/analysis/702680/0/html
 tags:
   analytic_story:
   - Spearphishing Attachments
   - Trickbot
   - IcedID
   - DarkCrystal RAT
+  - AgentTesla
   confidence: 50
   context:
   - Source:Endpoint
