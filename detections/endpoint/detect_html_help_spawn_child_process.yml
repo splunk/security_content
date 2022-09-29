@@ -37,6 +37,7 @@ tags:
   analytic_story:
   - Suspicious Compiled HTML Activity
   - Living Off The Land
+  - AgentTesla
   asset_type: Endpoint
   cis20:
   - CIS 8
@@ -96,3 +97,4 @@ tags:
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_microsoft_sysmon
+  
