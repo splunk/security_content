@@ -37,6 +37,7 @@ tags:
   analytic_story:
   - Hermetic Wiper 
   - Malicious PowerShell
+  - AgentTesla
   confidence: 80
   context:
   - Source:Endpoint
