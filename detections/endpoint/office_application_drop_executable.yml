@@ -6,8 +6,8 @@ author: Teoderick Contreras, Michael Haag Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: This search is to detect a suspicious MS office application that drop
-  or create executables or script in the host. This behavior is commonly seen in spear
+description: This search is to detect a suspicious MS office application that drops
+  or creates executables or scripts in a Windows Operating System. This behavior is commonly seen in spear
   phishing office attachment where it drop malicious files or script to compromised
   the host. It might be some normal macro may drop script or tools as part of automation
   but still this behavior is reallly suspicious and not commonly seen in normal office
@@ -33,9 +33,11 @@ known_false_positives: office macro for automation may do this behavior
 references:
 - https://www.mandiant.com/resources/fin7-pursuing-an-enigmatic-and-evasive-global-criminal-operation
 - https://attack.mitre.org/groups/G0046/
+- https://www.joesandbox.com/analysis/702680/0/html
 tags:
   analytic_story:
   - FIN7
+  - AgentTesla
   confidence: 80
   context:
   - Source:Endpoint

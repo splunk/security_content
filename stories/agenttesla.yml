@@ -1,0 +1,26 @@
+name: AgentTesla
+id: 9bb6077a-843e-418b-b134-c57ef997103c
+version: 1
+date: '2022-04-12'
+author: Teoderick Contreras, Splunk
+description: Leverage searches that allow you to detect and investigate unusual activities
+  that might relate to the AgentTesla malware including .chm application child process, ftp/smtp connection, persistence and many more.
+  AgentTesla is one of the advanced remote access trojans (RAT) that are capable of stealing sensitive information from the infected or targeted host machine. 
+  It can collect various types of data, including browser profile information, keystrokes, capture screenshots and vpn credentials. 
+  AgentTesla has been active malware since 2014 and often delivered as a malicious attachment in phishing emails.It is also the top malware in 2021 based on the CISA report.
+narrative: Adversaries or threat actor may use this malware to maximize the impact of infection on the target organization in operations where network wide availability interruption
+  is the goal. 
+references:
+- https://malpedia.caad.fkie.fraunhofer.de/details/win.agent_tesla
+- https://cert.gov.ua/article/861292
+- https://www.cisa.gov/uscert/ncas/alerts/aa22-216a
+- https://www.joesandbox.com/analysis/702680/0/html
+tags:
+  analytic_story: AgentTesla
+  category:
+  - Malware
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

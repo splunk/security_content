@@ -41,6 +41,7 @@ tags:
   - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
   - HAFNIUM Group
   - Log4Shell CVE-2021-44228
+  - AgentTesla
   asset_type: Endpoint
   cis20:
   - CIS 3
