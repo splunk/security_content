@@ -72,6 +72,7 @@ class Factory():
           validation_errors.extend(self.createSecurityContent(SecurityContentType.playbooks))
           validation_errors.extend(self.createSecurityContent(SecurityContentType.detections))
           validation_errors.extend(self.createSecurityContent(SecurityContentType.stories))
+          validation_errors.extend(Utils.check_ids_for_duplicates(self.ids))
           LinkValidator.print_link_validation_errors()
           
           if len(validation_errors) != 0:
@@ -191,7 +192,7 @@ class Factory():
                     sys.exit(1)
                     
                
-          validation_errors.extend(Utils.check_ids_for_duplicates(self.ids))         
+                   
 
 
           print(f"\r{f'{type_string} Progress'.rjust(23)}: [{progress_percent:3.0f}%]...", end="", flush=True)

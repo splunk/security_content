@@ -34,9 +34,9 @@ class Utils:
 
         for key, values in id_dict.items():
             if len(values) > 1:
-                for value in values:
-                    error_file_path = pathlib.Path(value)
-                    exception = ValueError(f"Error validating id [{key}] - duplicate ID was used")
-                    validation_errors.append((error_file_path, exception))
+                error_file_path = pathlib.Path("MULTIPLE")
+                all_files = '\n\t'.join(str(pathlib.Path(p)) for p in values)
+                exception = ValueError(f"Error validating id [{key}] - duplicate ID was used in the following files: \n\t{all_files}")
+                validation_errors.append((error_file_path, exception))
                 
         return validation_errors

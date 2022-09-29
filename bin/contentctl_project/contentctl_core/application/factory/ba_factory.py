@@ -39,6 +39,8 @@ class BAFactory():
         print("Creating Security Content - SSA. This may take some time...")
         validation_errors = self.createSecurityContent(SecurityContentType.unit_tests)
         validation_errors.extend(self.createSecurityContent(SecurityContentType.detections))
+        validation_errors.extend(Utils.check_ids_for_duplicates(self.ids))
+
         
         if len(validation_errors) != 0:
                print(f"There were [{len(validation_errors)}] error(s) found while parsing security_content")
@@ -101,11 +103,8 @@ class BAFactory():
                 print(f"Unknown exception caught while Creating BA Security Content: {str(e)}")
                 sys.exit(1)
 
-        #Check for any duplicate IDs.  The structure is uses
-        # to track them, self.ids, is populated previously in this
-        # function every time content is adde.  
-        # This will also print out the duplicates if they exist.
-        validation_errors.extend(Utils.check_ids_for_duplicates(self.ids))
+        
+        
 
         print(f"\r{f'{type_string} Progress'.rjust(23)}: [{progress_percent:3.0f}%]...", end="", flush=True)                    
         print("Done!")
