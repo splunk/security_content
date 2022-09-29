@@ -106,6 +106,10 @@ class Initialize:
         #Information that will be used for generation of a custom manifest
         self.app_title = args.title
         self.app_name = args.name
+        if not self.app_name.replace('-','').isalnum() and len(self.app_name.replace('-','')) > 0:
+            # Basic check to see if the app_name is alphanumeric (no spaces or symbols) and, after any
+            # - character(s) are removed it is still non-zero length
+            raise(Exception(f"Error - app_name {self.app_name} is not valid.  Name must be alphanumeric (no symbols or spaces).  The only allowed special character is -."))
         self.app_version = args.version
         self.app_description = args.description
         self.app_author_name = args.author_name
@@ -171,7 +175,25 @@ class Initialize:
         for fname in ["savedsearches_investigations.j2", "savedsearches_detections.j2", "analyticstories_investigations.j2", "analyticstories_detections.j2", "savedsearches_baselines.j2"]:
             full_path = os.path.join(filename_root, fname)
             self.simple_replace_line(full_path, original, updated)
-        #Generate directories?
+        
+        raw  ='''.{app_name}'''
+        original = raw.format(app_name="ESCU".lower()) #
+        updated = raw.format(app_name=self.app_name.lower())
+        filename_root = os.path.join(self.path,"bin/contentctl_project/contentctl_infrastructure/adapter/templates/")
+        for fname in ["savedsearches_investigations.j2", "savedsearches_detections.j2", "savedsearches_baselines.j2"]:
+            full_path = os.path.join(filename_root, fname)
+            self.simple_replace_line(full_path, original, updated)
+        
+
+        raw  ='''.{app_name}.'''
+        original = raw.format(app_name="ESCU".lower()) #
+        updated = raw.format(app_name=self.app_name.lower())
+        filename_root = os.path.join(self.path,f"dist/{self.app_name}/default/data/ui/views/")
+        for fname in ["escu_summary.xml"]:
+            full_path = os.path.join(filename_root, fname)
+            self.simple_replace_line(full_path, original, updated)
+        
+        
 
     def generate_content_version_file(self):
         new_content_version = CONTENT_VERSION_FILE.format(version=self.app_version)
