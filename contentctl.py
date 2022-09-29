@@ -110,11 +110,12 @@ def generate(args) -> None:
     factory_input_dto = None
     ba_factory_input_dto = None
     if args.product in ["ESCU", "API"]:
+
         factory_input_dto = FactoryInputDto(
             os.path.abspath(args.path),
             SecurityContentBasicBuilder(),
             SecurityContentDetectionBuilder(force_cached_or_offline=args.cached_and_offline, skip_enrichment=args.skip_enrichment),
-            SecurityContentStoryBuilder(),
+            SecurityContentStoryBuilder(output_path=args.output),
             SecurityContentBaselineBuilder(),
             SecurityContentInvestigationBuilder(),
             SecurityContentPlaybookBuilder(input_path=args.path),
