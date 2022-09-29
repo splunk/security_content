@@ -6,8 +6,8 @@ author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
 - Endpoint
-description: This search is to detect an anomaly event of non-firefox process accessing
-  the files in  profile folder. This folder contains all the sqlite database of the
+description: This search is to detect an anomaly event of a non-firefox process accessing
+  the files in the profile folder. This folder contains all the sqlite database of the
   firefox browser related to users login, history, cookies and etc. Most of the RAT,
   trojan spy as well as FIN7 jssloader try to parse the those sqlite database to collect
   information on the compromised host. This SACL Event (4663) need to be enabled to
@@ -30,6 +30,7 @@ tags:
   - FIN7
   - Remcos
   - Azorult
+  - AgentTesla
   confidence: 70
   context:
   - Source:Endpoint
