@@ -35,6 +35,7 @@ references:
 tags:
   analytic_story:
   - ProxyShell
+  - ProxyNotShell
   asset_type: Endpoint
   confidence: 100
   context:
