@@ -29,7 +29,7 @@ references:
 - https://adsecurity.org/?p=1772
 tags:
   analytic_story:
-  - Domain Controller Attacks
+  - Windows Domain Controller Attacks
   asset_type: Endpoint
   cis20:
   - CIS 4

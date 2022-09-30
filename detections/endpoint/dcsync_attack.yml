@@ -34,7 +34,7 @@ references:
 - https://www.linkedin.com/pulse/mimikatz-dcsync-event-log-detections-john-dwyer
 tags:
   analytic_story:
-  - Domain Controller Attacks
+  - Windows Domain Controller Attacks
   - Credential Dumping
   asset_type: Endpoint
   cis20:

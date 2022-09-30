@@ -32,7 +32,7 @@ references:
 - https://adsecurity.org/?p=1714
 tags:
   analytic_story:
-  - Domain Controller Attacks
+  - Windows Domain Controller Attacks
   - Windows Registry Abuse
   - Windows Persistence Techniques
   asset_type: Endpoint

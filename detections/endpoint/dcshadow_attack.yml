@@ -24,7 +24,7 @@ references:
 - https://gist.github.com/gentilkiwi/dcc132457408cf11ad2061340dcb53c2
 tags:
   analytic_story:
-  - Domain Controller Attacks
+  - Windows Domain Controller Attacks
   asset_type: Endpoint
   cis20:
   - CIS 4
