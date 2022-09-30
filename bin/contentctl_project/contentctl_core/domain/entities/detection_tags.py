@@ -115,8 +115,9 @@ class DetectionTags(BaseModel):
 
     @validator('risk_score')
     def tags_calculate_risk_score(cls, v, values):
-        calculated_risk_score = (int(values['impact']))*(int(values['confidence']))/100
+        calculated_risk_score = round(values['impact'] * values['confidence'] / 100)
         if calculated_risk_score != int(v):
-            raise ValueError('risk_score is calculated wrong: ' + values["name"])
+            raise ValueError(f"Risk Score must be calculated as round(confidence * impact / 100)"
+                             f"\n  Expected risk_score={calculated_risk_score}, found risk_score={int(v)}: {values['name']}")
         return v
 
