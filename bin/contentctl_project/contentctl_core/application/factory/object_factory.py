@@ -25,5 +25,5 @@ class ObjectFactory():
 
         files = Utils.get_all_yml_files_from_directory(input_dto.input_path)
         for file in files:
-            input_dto.director.constructObjects(input_dto.builder, file)
+            input_dto.director.constructObjects(input_dto.builder, str(file))
             self.objects.append(input_dto.builder.getObject())
