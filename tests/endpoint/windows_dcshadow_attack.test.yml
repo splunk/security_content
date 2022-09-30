@@ -1,7 +1,7 @@
-name: DCShadow Attack Unit Test
+name: Windows DCShadow Attack Unit Test
 tests:
-- name: DCShadow Attack
-  file: endpoint/dcshadow_attack.yml
+- name: Windows DCShadow Attack
+  file: endpoint/windows_dcshadow_attack.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h
   latest_time: now
