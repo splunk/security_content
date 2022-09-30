@@ -212,7 +212,8 @@ def generate_escu_app(persist_security_content: bool = False) -> str:
         # There remove the latest file if it exists
         commands = ["cd slim_packaging",
                     "cp -R ../dist/escu DA-ESS-ContentUpdate",
-                    "slim package -o upload DA-ESS-ContentUpdate",
+                    "mkdir upload",
+                    "tar -czf upload/DA-ESS-ContentUpdate*.tar.gz DA-ESS-ContentUpdate",
                     "cp upload/DA-ESS-ContentUpdate*.tar.gz %s" % (output_file_path_from_slim_latest)]
 
     else:
@@ -221,7 +222,8 @@ def generate_escu_app(persist_security_content: bool = False) -> str:
                     "mkdir slim_packaging",
                     "cd slim_packaging",
                     "cp -R ../dist/escu DA-ESS-ContentUpdate",
-                    "slim package -o upload DA-ESS-ContentUpdate",
+                    "mkdir upload",
+                    "tar -czf upload/DA-ESS-ContentUpdate*.tar.gz DA-ESS-ContentUpdate",
                     "cp upload/DA-ESS-ContentUpdate*.tar.gz %s" % (output_file_path_from_slim_latest)]
 
     ret = subprocess.run("; ".join(commands),
