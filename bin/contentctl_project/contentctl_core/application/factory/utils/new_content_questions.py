@@ -245,6 +245,18 @@ class NewContentQuestions():
                 {
                     'name': 'sysmon_linux.log'
                 },
+                {
+                    'name': 'xml-windows-security.log'
+                },
+                {
+                    'name': 'xml-windows-system.log'
+                },
+                {
+                    'name': 'xml-windows-application.log'
+                },
+                {
+                    'name': 'xml-windows-directory-service.log'
+                },
                 ],
             },
             {
