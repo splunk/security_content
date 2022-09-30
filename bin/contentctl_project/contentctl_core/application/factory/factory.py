@@ -3,7 +3,8 @@ import sys
 
 from pydantic import ValidationError
 from dataclasses import dataclass
-
+import pathlib
+from typing import Tuple
 from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import SecurityContentProduct
 from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import SecurityContentType
 from bin.contentctl_project.contentctl_core.application.builder.basic_builder import BasicBuilder
@@ -48,7 +49,7 @@ class FactoryOutputDto:
 class Factory():
      input_dto: FactoryInputDto
      output_dto: FactoryOutputDto
-     ids: dict[str,list[str]] = {}
+     ids: dict[str,list[pathlib.Path]] = {}
 
      def __init__(self, output_dto: FactoryOutputDto) -> None:
         self.output_dto = output_dto
@@ -59,20 +60,30 @@ class Factory():
      def execute(self, input_dto: FactoryInputDto) -> None:
           self.input_dto = input_dto
           print("Creating Security Content - ESCU. This may take some time...")
+          #Accumulate any validation errors that may occur while creating security_contnet
+          validation_errors = []
           # order matters to load and enrich security content types
-          self.createSecurityContent(SecurityContentType.unit_tests)
-          self.createSecurityContent(SecurityContentType.lookups)
-          self.createSecurityContent(SecurityContentType.macros)
-          self.createSecurityContent(SecurityContentType.deployments)
-          self.createSecurityContent(SecurityContentType.baselines)
-          self.createSecurityContent(SecurityContentType.investigations)
-          self.createSecurityContent(SecurityContentType.playbooks)
-          self.createSecurityContent(SecurityContentType.detections)
-          self.createSecurityContent(SecurityContentType.stories)
+          validation_errors.extend(self.createSecurityContent(SecurityContentType.unit_tests))
+          validation_errors.extend(self.createSecurityContent(SecurityContentType.lookups))
+          validation_errors.extend(self.createSecurityContent(SecurityContentType.macros))
+          validation_errors.extend(self.createSecurityContent(SecurityContentType.deployments))
+          validation_errors.extend(self.createSecurityContent(SecurityContentType.baselines))
+          validation_errors.extend(self.createSecurityContent(SecurityContentType.investigations))
+          validation_errors.extend(self.createSecurityContent(SecurityContentType.playbooks))
+          validation_errors.extend(self.createSecurityContent(SecurityContentType.detections))
+          validation_errors.extend(self.createSecurityContent(SecurityContentType.stories))
+          validation_errors.extend(Utils.check_ids_for_duplicates(self.ids))
           LinkValidator.print_link_validation_errors()
           
+          if len(validation_errors) != 0:
+               print(f"There were [{len(validation_errors)}] error(s) found while parsing security_content")
+               for ve in validation_errors:
+                    file_path = ve[0]
+                    error = ve[1]
+                    print(f'\nValidation Error for file [{file_path}]:\n{str(error)}')
+               raise(Exception("Error(s) validating Security Content"))
 
-     def createSecurityContent(self, type: SecurityContentType) -> list:
+     def createSecurityContent(self, type: SecurityContentType) -> list[Tuple[pathlib.Path,  ValidationError]]:
           objects = []
           if type == SecurityContentType.deployments:
                files = Utils.get_all_yml_files_from_directory(os.path.join(self.input_dto.input_path, str(type.name), 'ESCU'))
@@ -82,17 +93,17 @@ class Factory():
                files = Utils.get_all_yml_files_from_directory(os.path.join(self.input_dto.input_path, str(type.name)))
           
           # Instead of failing on the first error, just keep track of 
-          # whether or not an error was found.  This way, we can
-          # report all of the errors on a single run so that the
-          # user can see all the errors they need to fix.
-          validation_error_found = False
+          # of all the exceptions that we generate.  These exceptions
+          # will be returned from the function and should be printed
+          # by the caller.
+          validation_errors:list[Tuple[pathlib.Path,  ValidationError]] = []
                     
           already_ran = False
           progress_percent = 0
           type_string = "UNKNOWN TYPE"
 
           #Non threaded, production version of the construction code
-          files_without_ssa = [f for f in files if 'ssa___' not in f]
+          files_without_ssa = [f for f in files if not f.name.startswith('ssa___')]
           for index,file in enumerate(files_without_ssa):
           
                #Index + 1 because we are zero indexed, not 1 indexed.  This ensures
@@ -102,35 +113,35 @@ class Factory():
                     type_string = "UNKNOWN TYPE"
                     if type == SecurityContentType.lookups:
                          type_string = "Lookups"
-                         self.input_dto.director.constructLookup(self.input_dto.basic_builder, file)
+                         self.input_dto.director.constructLookup(self.input_dto.basic_builder, str(file))
                          lookup = self.input_dto.basic_builder.getObject()
                          Utils.add_id(self.ids, lookup, file)
                          self.output_dto.lookups.append(lookup)
                     
                     elif type == SecurityContentType.macros:
                          type_string = "Macros"
-                         self.input_dto.director.constructMacro(self.input_dto.basic_builder, file)
+                         self.input_dto.director.constructMacro(self.input_dto.basic_builder, str(file))
                          macro = self.input_dto.basic_builder.getObject()
                          Utils.add_id(self.ids, macro, file)
                          self.output_dto.macros.append(macro)
                     
                     elif type == SecurityContentType.deployments:
                          type_string = "Deployments"
-                         self.input_dto.director.constructDeployment(self.input_dto.basic_builder, file)
+                         self.input_dto.director.constructDeployment(self.input_dto.basic_builder, str(file))
                          deployment = self.input_dto.basic_builder.getObject()
                          Utils.add_id(self.ids, deployment, file)
                          self.output_dto.deployments.append(deployment)
                     
                     elif type == SecurityContentType.playbooks:
                          type_string = "Playbooks"
-                         self.input_dto.director.constructPlaybook(self.input_dto.playbook_builder, file)
+                         self.input_dto.director.constructPlaybook(self.input_dto.playbook_builder, str(file))
                          playbook = self.input_dto.playbook_builder.getObject()
                          Utils.add_id(self.ids, playbook, file)
                          self.output_dto.playbooks.append(playbook)                    
                     
                     elif type == SecurityContentType.baselines:
                          type_string = "Baselines"
-                         self.input_dto.director.constructBaseline(self.input_dto.baseline_builder, file, self.output_dto.deployments)
+                         self.input_dto.director.constructBaseline(self.input_dto.baseline_builder, str(file), self.output_dto.deployments)
                          baseline = self.input_dto.baseline_builder.getObject()
                          Utils.add_id(self.ids, baseline, file)
                          self.output_dto.baselines.append(baseline)
@@ -144,7 +155,7 @@ class Factory():
 
                     elif type == SecurityContentType.stories:
                          type_string = "Stories"
-                         self.input_dto.director.constructStory(self.input_dto.story_builder, file, 
+                         self.input_dto.director.constructStory(self.input_dto.story_builder, str(file), 
                               self.output_dto.detections, self.output_dto.baselines, self.output_dto.investigations)
                          story = self.input_dto.story_builder.getObject()
                          Utils.add_id(self.ids, story, file)
@@ -162,7 +173,7 @@ class Factory():
                
                     elif type == SecurityContentType.unit_tests:
                          type_string = "Unit Tests"
-                         self.input_dto.director.constructTest(self.input_dto.basic_builder, file)
+                         self.input_dto.director.constructTest(self.input_dto.basic_builder, str(file))
                          test = self.input_dto.basic_builder.getObject()
                          Utils.add_id(self.ids, test, file)
                          self.output_dto.tests.append(test)
@@ -175,19 +186,16 @@ class Factory():
                          print(f"\r{f'{type_string} Progress'.rjust(23)}: [{progress_percent:3.0f}%]...", end="", flush=True)
                
                except ValidationError as e:
-                    print('\nValidation Error for file ' + file)
-                    print(e)
-                    validation_error_found = True
+                    validation_errors.append((pathlib.Path(file), e))
+               except Exception as e:
+                    print(f"Unknown exception caught while Creating Security Content: {str(e)}")
+                    sys.exit(1)
+                    
                
-         
-          #Check for any duplicate IDs.  The structure is uses
-          # to track them, self.ids, is populated previously in this
-          # function every time content is adde.  
-          # This will also print out the duplicates if they exist.
-          validation_error_found |= Utils.check_ids_for_duplicates(self.ids)
+                   
+
 
           print(f"\r{f'{type_string} Progress'.rjust(23)}: [{progress_percent:3.0f}%]...", end="", flush=True)
           print("Done!")
 
-          if validation_error_found:
-               sys.exit(1)
+          return validation_errors
