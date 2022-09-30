@@ -1,15 +1,15 @@
-name: Active Directory SID History Abuse
+name: Windows Active Directory SID History Abuse
 id: 5fde0b7c-df7a-40b1-9b3a-294c00f0289d
-version: 1
+version: 2
 date: '2022-09-09'
 author: Dean Luxton
 type: TTP
 datamodel: []
-description: The SID history AD attribute allows users to inherit permissions from a separate AD account. Initially developed for access 
- continuity when migrating domains, the attribute can also be applied for two objects within the same domain. Enabling a stealthy way 
- for a user or computer object to be a member of a privileged group without any noisy group membership changes. This detection looks for 
- changes to user or computer objects with the addition of the SID History attribute - yes computer accounts too. 
- Working with SID Resolution enabled or disabled, written for XML-Wineventlog. 
+description: The following analytic looks for changes to user or computer objects where the SID History attribute has been modified.
+ The SID history AD attribute allows users to inherit permissions from a separate AD account by updating its AD attribute and setting it too the privileged users SID. Initially developed for access 
+ continuity when migrating domains, this attribute can also be applied for two objects within the same domain. 
+ Red teamers and adersaries alike who have obtained privileged access within an Active Directory domain may abuse this feature to escalate their privileges or establish a backdoor account
+ in a stealthy way and without noisy group memberhip changes.
 search: '`wineventlog_security` (EventCode=4742 OR EventCode=4738) NOT SidHistory
   IN ("%%1793", -)
   | rex field=SidHistory "(^%{|^)(?P<SidHistoryMatch>.*)(\-|\\\)"
@@ -17,14 +17,16 @@ search: '`wineventlog_security` (EventCode=4742 OR EventCode=4738) NOT SidHistor
   | where SidHistoryMatch=TargetSidmatch OR SidHistoryMatch=TargetDomainName
   | rename TargetSid as userSid, TargetDomainName as userDomainName
   | table _time action status host user userSid userDomainName SidHistory Logon_ID src_user 
-  | `active_directory_sid_history_abuse_filter`'
+  | `windows_active_directory_sid_history_abuse_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting eventcodes
  `4738` and `4742`. The Advanced Security Audit policy settings 
  `Audit User Account Management` and  `Audit Computer Account Management`
- within `Account Management` need to be enabled.
+ within `Account Management` need to be enabled. SID resolution is not required.
 known_false_positives: Unknown
 references:
 - https://adsecurity.org/?p=1772
+- https://learn.microsoft.com/en-us/windows/win32/adschema/a-sidhistory?redirectedfrom=MSDN
+- https://learn.microsoft.com/en-us/defender-for-identity/security-assessment-unsecure-sid-history-attribute
 tags:
   analytic_story:
   - Windows Domain Controller Attacks

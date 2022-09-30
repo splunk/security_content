@@ -1,7 +1,7 @@
-name: Active Directory SID History Abuse Unit Test
+name: Windows Active Directory SID History Abuse Unit Test
 tests:
-- name: Active Directory SID History Abuse
-  file: endpoint/active_directory_sid_history_abuse.yml
+- name: Windows Active Directory SID History Abuse
+  file: endpoint/windows_active_directory_sid_history_abuse.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h
   latest_time: now
