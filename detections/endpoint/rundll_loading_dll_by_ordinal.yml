@@ -28,7 +28,8 @@ known_false_positives: False positives are possible with native utilities and th
   party applications. Filtering may be needed based on command-line, or add world
   writeable paths to restrict query.
 references:
-- https://thedfirreport.com/2022/02/07/qbot-likes-to-move-it-move-it/
+  - https://thedfirreport.com/2022/02/07/qbot-likes-to-move-it-move-it/
+  - https://twitter.com/M_haggis/status/1491109262428635136
 tags:
   analytic_story:
   - Unusual Processes
