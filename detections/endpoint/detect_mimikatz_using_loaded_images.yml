@@ -31,6 +31,7 @@ tags:
   - Cloud Federated Credential Abuse
   - DarkSide Ransomware
   - CISA AA22-257A
+  - CISA AA22-264A
   asset_type: Windows
   cis20:
   - CIS 6

@@ -28,6 +28,7 @@ tags:
   - Windows Log Manipulation
   - Ransomware
   - Clop Ransomware
+  - CISA AA22-264A
   asset_type: Endpoint
   cis20:
   - CIS 3
