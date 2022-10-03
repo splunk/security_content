@@ -6,7 +6,7 @@ author: Michael Haag, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: The following analytic identifies the use of reg.exe performing an add to the InProcServer32, which is related to COM hijacking.
+description: The following analytic identifies the use of reg.exe performing an add to the InProcServer32, which may be related to COM hijacking.
   Adversaries can use the COM system to insert malicious code that can be executed in place of legitimate software through hijacking the COM references and relationships as a means for persistence. Hijacking a COM object requires a change in the Registry to replace a reference to a legitimate system component which may cause that component to not work when executed. When that system component is executed through normal system operation the adversary's code will be executed instead.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_reg`
