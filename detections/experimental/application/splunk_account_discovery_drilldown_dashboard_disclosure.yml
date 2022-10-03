@@ -5,7 +5,7 @@ date: '2022-08-02'
 author: Marissa Bower, Rod Soto, Splunk
 type: TTP
 datamodel: []
-search: '| rest splunk_server=local /servicesNS/-/-/data/ui/views | search eai:data="*$env:*" eai:data="*url*" eai:data="*options*" | rename author AS Author eai:acl.sharing AS Permissions eai:appName AS App eai:data AS "Dashboard XML" | fields Author Permissions App "Dashboard XML" | `splunk_drilldown_dashboard_disclosure_filter`'
+search: '| rest splunk_server=local /servicesNS/-/-/data/ui/views | search eai:data="*$env:*" eai:data="*url*" eai:data="*options*" | rename author AS Author eai:acl.sharing AS Permissions eai:appName AS App eai:data AS "Dashboard XML" | fields Author Permissions App "Dashboard XML" | `splunk_account_discovery_drilldown_dashboard_disclosure_filter`'
 description: Splunk drilldown vulnerability disclosure in Dashboard application that can potentially allow exposure of tokens from privilege users. An attacker can create dashboard and share it to privileged user (admin) and detokenize variables using external urls within dashboards drilldown function.
 how_to_implement: This search uses REST function to query for dashboards with environment variables present in URL options.
 known_false_positives: This search may reveal non malicious URLs with environment variables used in organizations.
