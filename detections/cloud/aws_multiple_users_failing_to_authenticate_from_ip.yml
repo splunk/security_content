@@ -1,7 +1,7 @@
 name: AWS Multiple Users Failing To Authenticate From Ip
 id: 71e1fb89-dd5f-4691-8523-575420de4630
 version: 1
-date: '2022-09-26'
+date: '2022-09-27'
 author: Bhavin Patel
 type: Anomaly
 datamodel:
