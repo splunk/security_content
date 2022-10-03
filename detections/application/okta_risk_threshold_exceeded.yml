@@ -6,7 +6,7 @@ author: Michael Haag, Splunk
 type: Correlation
 datamodel:
 - Risk
-description: The following correlation will take risk associated with the content from  "Suspicious Okta Activity" and "Okta MFA Exhaustion" analytic stories and tally it up. Once it hits a   threshold of 100 (may be changed), it will trigger an anomaly. As needed, reduce or raise the risk scores assocaited with the anomaly and TTP analytics tagged to these two stories. 
+description: The following correlation will take risk associated with the content from  "Suspicious Okta Activity" and "Okta MFA Exhaustion" analytic stories and tally it up. Once it hits the threshold of 100 (may be changed), it will trigger an anomaly. As needed, reduce or raise the risk scores assocaited with the anomaly and TTP analytics tagged to these two stories. 
 search: '| tstats `summariesonly` sum(All_Risk.calculated_risk_score) as risk_score, count(All_Risk.calculated_risk_score) as risk_event_count,values(All_Risk.annotations.mitre_attack.mitre_tactic_id) as annotations.mitre_attack.mitre_tactic_id, dc(All_Risk.annotations.mitre_attack.mitre_tactic_id) as mitre_tactic_id_count, values(All_Risk.annotations.mitre_attack.mitre_technique_id) as annotations.mitre_attack.mitre_technique_id, dc(All_Risk.annotations.mitre_attack.mitre_technique_id) as mitre_technique_id_count, values(All_Risk.tag) as tag, values(source) as source, dc(source) as source_count from datamodel=Risk.All_Risk by All_Risk.risk_object,All_Risk.risk_object_type All_Risk.analyticstories
   | `drop_dm_object_name("All_Risk")` 
   | eval "annotations.mitre_attack"="annotations.mitre_attack.mitre_technique_id", risk_threshold=100 

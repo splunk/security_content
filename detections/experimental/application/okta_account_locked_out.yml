@@ -5,7 +5,7 @@ date: '2022-09-21'
 author: Michael Haag, Splunk
 type: Anomaly
 datamodel: []
-description: The following analytic utilizes the user.acount.lock event to identify associates who are locked out of Okta. An adversary, attempting to brute force or password spray account names, may lock accounts out depending on the threshold. 
+description: The following analytic utilizes the user.acount.lock event to identify associates who are locked out of Okta. An adversary attempting to brute force or password spray account names may lock accounts out depending on the threshold. 
 search: '`okta` eventType=user.account.lock
   | stats count min(_time) as firstTime max(_time) as lastTime values(displayMessage) by src_user src_ip eventType status
   | where count >=3

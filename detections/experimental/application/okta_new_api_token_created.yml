@@ -45,9 +45,9 @@ tags:
   - outcome.result 
   - severity 
   security_domain: access
-  confidence: 50
+  confidence: 80
   impact: 80
-  risk_score: 40
+  risk_score: 64
   context: []
   message: $src_user$ has created a new API token within Okta.
   observable:
