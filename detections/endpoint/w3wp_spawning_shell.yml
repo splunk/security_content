@@ -39,6 +39,7 @@ tags:
   - HAFNIUM Group
   - ProxyShell
   - CISA AA22-257A
+  - CISA AA22-264A
   confidence: 80
   context:
   - Source:Endpoint

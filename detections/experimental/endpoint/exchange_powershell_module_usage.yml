@@ -1,8 +1,8 @@
 name: Exchange PowerShell Module Usage
 id: 2d10095e-05ae-11ec-8fdf-acde48001122
-version: 2
-date: '2022-05-02'
-author: Michael Haag
+version: 3
+date: '2022-09-22'
+author: Michael Haag, Splunk
 type: TTP
 datamodel: []
 description: 'The following analytic identifies the usage of Exchange PowerShell modules
@@ -18,9 +18,12 @@ description: 'The following analytic identifies the usage of Exchange PowerShell
 
   Module - New-managementroleassignment can assign a management role to a management
   role group, management role assignment policy, user, or universal security group
-  (USG).'
-search: '`powershell` EventCode=4104 ScriptBlockText IN ("*New-MailboxExportRequest*", "*New-ManagementRoleAssignment*")
-  | stats count min(_time) as firstTime max(_time) as lastTime by lastTime by Opcode Computer
+  (USG). \
+  
+  Module - New-MailboxSearch cmdlet to create a mailbox search and either get an estimate of search results, place search results on In-Place Hold or copy them to a Discovery mailbox. You can also place all contents in a mailbox on hold by not specifying a search query, which accomplishes similar results as Litigation Hold. \
+  Module - Get-Recipient cmdlet to view existing recipient objects in your organization. This cmdlet returns all mail-enabled objects (for example, mailboxes, mail users, mail contacts, and distribution groups).'
+search: '`powershell` EventCode=4104 ScriptBlockText IN ("*New-MailboxExportRequest*", "*New-ManagementRoleAssignment*", "*New-MailboxSearch*", "*Get-Recipient*")
+  | stats count min(_time) as firstTime max(_time) as lastTime by Opcode Computer
   UserID EventCode ScriptBlockText| `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `exchange_powershell_module_usage_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
@@ -29,14 +32,18 @@ how_to_implement: To successfully implement this analytic, you will need to enab
 known_false_positives: Administrators or power users may use this PowerShell commandlet
   for troubleshooting.
 references:
-- https://docs.microsoft.com/en-us/powershell/module/exchange/new-mailboxexportrequest?view=exchange-ps
-- https://docs.microsoft.com/en-us/powershell/module/exchange/new-managementroleassignment?view=exchange-ps
-- https://blog.orange.tw/2021/08/proxyshell-a-new-attack-surface-on-ms-exchange-part-3.html
-- https://www.zerodayinitiative.com/blog/2021/8/17/from-pwn2own-2021-a-new-attack-surface-on-microsoft-exchange-proxyshell
-- https://thedfirreport.com/2021/11/15/exchange-exploit-leads-to-domain-wide-ransomware/
+  - https://docs.microsoft.com/en-us/powershell/module/exchange/new-mailboxexportrequest?view=exchange-ps
+  - https://docs.microsoft.com/en-us/powershell/module/exchange/new-managementroleassignment?view=exchange-ps
+  - https://blog.orange.tw/2021/08/proxyshell-a-new-attack-surface-on-ms-exchange-part-3.html
+  - https://www.zerodayinitiative.com/blog/2021/8/17/from-pwn2own-2021-a-new-attack-surface-on-microsoft-exchange-proxyshell
+  - https://thedfirreport.com/2021/11/15/exchange-exploit-leads-to-domain-wide-ransomware/
+  - https://www.cisa.gov/uscert/ncas/alerts/aa22-264a
+  - https://learn.microsoft.com/en-us/powershell/module/exchange/new-mailboxsearch?view=exchange-ps
+  - https://learn.microsoft.com/en-us/powershell/module/exchange/get-recipient?view=exchange-ps
 tags:
   analytic_story:
   - ProxyShell
+  - CISA AA22-264A
   asset_type: Endpoint
   confidence: 50
   context:
