@@ -37,6 +37,7 @@ tags:
   analytic_story:
   - Hermetic Wiper 
   - Malicious PowerShell
+  - CISA AA22-264A
   confidence: 100
   context:
   - Source:Endpoint
