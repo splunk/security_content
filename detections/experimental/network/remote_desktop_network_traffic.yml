@@ -13,7 +13,7 @@ description: This search looks for network traffic on TCP/3389, the default port
   on your network.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Network_Traffic where All_Traffic.dest_port=3389 AND
-  All_Traffic.dest_category!=common_rdp_destination AND All_Traffic.src_category!=common_rdp_source
+  All_Traffic.dest_category!=common_rdp_destination AND All_Traffic.src_category!=common_rdp_source AND all_Traffic.action="allowed"
   by All_Traffic.src All_Traffic.dest All_Traffic.dest_port | `drop_dm_object_name("All_Traffic")`
   | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `remote_desktop_network_traffic_filter` '
 how_to_implement: To successfully implement this search you need to identify systems
