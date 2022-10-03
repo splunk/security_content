@@ -1,0 +1,13 @@
+name: AWS Multiple Failed MFA Requests For User Unit Test
+tests:
+- name: AWS Multiple Failed MFA Requests For User
+  file: cloud/aws_multiple_failed_mfa_requests_for_user.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: cloudtrail.json
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/aws_failed_mfa/cloudtrail.json
+    sourcetype: aws:cloudtrail
+    source: aws_cloudtrail
+    update_timestamp: true
