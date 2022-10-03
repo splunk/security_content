@@ -1,7 +1,7 @@
 name: Windows Phishing Recent ISO Exec Registry
 id: cb38ee66-8ae5-47de-bd66-231c7bbc0b2c
-version: 1
-date: '2022-08-24'
+version: 2
+date: '2022-09-19'
 author: Teoderick Contreras, Splunk
 type: Hunting
 datamodel:
@@ -10,7 +10,8 @@ description: The following hunting analytic identifies registry artifacts when a
   As Microsoft makes changes to macro based document execution, adversaries have begun to utilize container based initial access based phishing campaigns to evade preventative controls. 
   Once the ISO is clicked or mounted it will create a registry artifact related to this event as a recent application executed or opened.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry 
-  where Registry.registry_key_name= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\RecentDocs\\.iso" 
+  where Registry.registry_key_name= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\RecentDocs\\.iso" OR 
+  Registry.registry_key_name= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\RecentDocs\\.img"
   by Registry.registry_key_name Registry.user Registry.registry_path Registry.registry_value_data Registry.action Registry.dest 
   | `drop_dm_object_name(Registry)`
   | `security_content_ctime(firstTime)`
@@ -28,6 +29,7 @@ references:
 tags:
   analytic_story:
   - Brute Ratel C4
+  - AgentTesla
   asset_type: Endpoint
   cis20:
   - CIS 3
