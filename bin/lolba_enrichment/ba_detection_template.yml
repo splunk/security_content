@@ -6,11 +6,11 @@ author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:
 - Endpoint_Processes
-description: The following analytic identifies native living off the land binaries within the Windows
-  operating system that may be abused by adversaries by moving it to a new directory.
-  The list of binaries was derived from the https://lolbas-project.github.io site, and excluded common process names (cmd.exe, explorer.exe, csc.exe, hh.exe, regedit.exe) and DotNet binaries. It also does not include the category of OtherMSBinaries.
+description: The following analytic identifies xxx which is a native living off the land binary or script (LOLBAS) within the Windows
+  operating system that may be abused by adversaries by moving it to a new directory. The list of binaries was derived from the https://lolbas-project.github.io site.
 search: 'xxx'
-how_to_implement: Collect endpoint data such as sysmon or 4688 events.
+how_to_implement: To successfully implement this search, you must be ingesting logs
+  with the process name, command-line arguments, and parent processes from your endpoints. Collect endpoint data such as Sysmon or Windows Events 4688.
 known_false_positives: False positives may be present and filtering may be required.
   Certain utilities will run from non-standard paths based on the third-party application
   in use.

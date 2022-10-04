@@ -1,3 +1,4 @@
+from pydoc import describe
 import yaml
 import argparse
 import sys
@@ -119,6 +120,8 @@ def write_yaml(lolba, OUTPUT_PATH, TEMPLATE_PATH, VERBOSE):
     detection_yaml['id'] = str(uuid.uuid4())
     # generate a timestamp
     detection_yaml['date'] = datetime.today().strftime('%Y-%m-%d')
+    # update description
+    detection_yaml['description'] = detection_yaml_template['description'].replace("xxx", lolba['Name'])
 
     with open(ba_detection_path, 'w', newline='') as yamlfile:
         if VERBOSE:
