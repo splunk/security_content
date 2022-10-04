@@ -2,7 +2,7 @@ name: Windows LOLBin Binary in Non Standard Path
 id: 25689101-012a-324a-94d3-08301e6c065a
 version: 1
 date: '2022-07-19'
-author: Michael Haag, Splunk
+author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:
 - Endpoint_Processes
@@ -17,15 +17,11 @@ known_false_positives: False positives may be present and filtering may be requi
 references:
   - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1036.003/T1036.003.yaml
   - https://attack.mitre.org/techniques/T1036/003/
-  - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
-  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.004/T1218.004.md
+  - https://lolbas-project.github.io/
 tags:
   analytic_story:
   - Unusual Processes
-  - Ransomware
-  - WhisperGate
   - Living Off The Land
-  - Linux Living Off The Land
   cis20:
   - CIS 8
   confidence: 70
@@ -34,7 +30,7 @@ tags:
   - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/system_process_running_unexpected_location/dotnet_lolbin-windows-security.log
-  impact: 70
+  impact: 20
   kill_chain_phases:
   - Actions on Objectives
   message: A system process $process_name$ with commandline $cmd_line$ spawn in non-default
@@ -42,8 +38,6 @@ tags:
   mitre_attack_id:
   - T1036
   - T1036.003
-  - T1218
-  - T1218.004
   nist:
   - PR.PT
   - DE.CM
@@ -64,8 +58,7 @@ tags:
   - _time
   - dest_user_id
   - process_path
-  - cmd_line
-  risk_score: 49
-  risk_severity: medium
+  risk_score: 14
+  risk_severity: low
   security_domain: endpoint
   asset_type: Endpoint
