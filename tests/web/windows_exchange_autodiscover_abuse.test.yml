@@ -1,0 +1,13 @@
+name: Windows Exchange Autodiscover Abuse Unit Test
+tests:
+- name: Windows Exchange Autodiscover Abuse
+  file: web/windows_exchange_autodiscover_abuse.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: proxyshell.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/proxyshell/proxyshell.log
+    source: ms:iis:splunk
+    sourcetype: ms:iis:splunk
+    update_timestamp: true
