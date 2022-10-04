@@ -144,15 +144,6 @@ jobs:
             # update build number and version for ssa
             tar -czf build/content-pack-build-ssa.tar.gz dist/ssa/*
       
-      - name: Download and Install Splunk Packaging Toolkit
-        run : |
-          source .venv/bin/activate
-          curl -Ls https://download.splunk.com/misc/packaging-toolkit/splunk-packaging-toolkit-1.0.1.tar.gz -o splunk-packaging-toolkit-latest.tar.gz
-          mkdir slim-latest
-          tar -zxf splunk-packaging-toolkit-latest.tar.gz -C slim-latest --strip-components=1
-          cd slim-latest
-          python -m pip install .
-          cd ..
       
       - name: Build ESCU
         run: |
@@ -162,25 +153,19 @@ jobs:
           tar -zxf content-pack-build-ssa.tar.gz
           mv dist/escu      DA-ESS-ContentUpdate
           mv dist/ssa       SSA_Content
-          slim package -o upload DA-ESS-ContentUpdate
-          cp upload/DA-ESS-ContentUpdate-*.tar.gz DA-ESS-ContentUpdate-latest.tar.gz
+          
+          #Build ESCU Content
+          #Do not use slim for speed, simplicity, and compatability
+          tar -zcf DA-ESS-ContentUpdate-latest.tar.gz DA-ESS-ContentUpdate
           sha256sum DA-ESS-ContentUpdate-latest.tar.gz > checksum.txt
-          #Do this copy so that we conform as much as possible, and have to make 
-          #as few changes as possible, once we start generating this as a real,
-          #properly packaged app
-          tar -zcf upload/SSA_Content-NO_SLIM.tar.gz SSA_Content  
-          cp upload/SSA_Content-*.tar.gz SSA_Content-latest.tar.gz
+          
+          #Build the SSA Content
+          #Do not use slim for speed, simplicity, and compatability
+          tar -zcf SSA_Content-latest.tar.gz SSA_Content  
           sha256sum SSA_Content-latest.tar.gz >> checksum.txt
 
-
-      - name: store_artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: package
-          path: |
-            build/upload
       
-      - name: store_artifacts_two
+      - name: store_artifacts
         uses: actions/upload-artifact@v2
         with:
           name: content-latest
@@ -306,7 +291,7 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v2
         with:
-          token: ${{ secrets.PROTECTED_BRANCH_PUSH_TOKEN }}
+          token: ${{ secrets.SECURITY_CONTENT_ADMIN_TASKS }}
           ref: 'develop'
 
       - uses: actions/setup-python@v2

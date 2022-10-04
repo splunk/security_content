@@ -41,6 +41,7 @@ tags:
   - Industroyer2
   - DarkCrystal RAT
   - Brute Ratel C4
+  - AgentTesla
   automated_detection_testing: passed
   confidence: 50
   context:

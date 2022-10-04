@@ -22,10 +22,13 @@ how_to_implement: To successfully implement this search, you need to be ingestin
 known_false_positives: Unknown. Filter as needed.
 references:
 - https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+- https://www.joesandbox.com/analysis/702680/0/html
 tags:
   analytic_story:
   - XMRig
   - Azorult
+  - CISA AA22-264A
+  - AgentTesla
   confidence: 70
   context:
   - Source:Endpoint

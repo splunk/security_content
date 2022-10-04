@@ -29,6 +29,7 @@ tags:
   - Caddy Wiper
   - Data Destruction
   - Hermetic Wiper
+  - CISA AA22-264A
   cis20:
   - CIS 3
   - CIS 5

@@ -6,10 +6,9 @@ author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: this detection was designed to identifies suspicious spawned process
-  of known MS office application due to macro or malicious code. this technique can
-  be seen in so many malware like trickbot that used MS office as its weapon or attack
-  vector to initially infect the machines.
+description: This detection was designed to identify suspicious spawned processes of known MS office 
+  applications due to macro or malicious code. this technique can be seen in so many malware 
+  like trickbot that used MS office as its weapon or attack vector to initially infect the machines.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.parent_process_name
   = "winword.exe" OR Processes.parent_process_name = "excel.exe" OR Processes.parent_process_name
@@ -26,11 +25,13 @@ known_false_positives: unknown
 references:
 - https://any.run/malware-trends/trickbot
 - https://any.run/report/47561b4e949041eff0a0f4693c59c81726591779fe21183ae9185b5eb6a69847/aba3722a-b373-4dae-8273-8730fb40cdbe
+- https://www.joesandbox.com/analysis/702680/0/html
 tags:
   analytic_story:
   - Spearphishing Attachments
   - Trickbot
   - IcedID
+  - AgentTesla
   confidence: 90
   context:
   - Source:Endpoint
