@@ -11,14 +11,14 @@ description: 'The following analytic identifies one source Ip failing to authent
 
   Azure AD tenants can be very different depending on the organization. Users should test this detection and customize the arbitrary threshold if needed.'
 
-search: ' `azuread` body.properties.status.errorCode= 50126 body.category= SignInLogs body.properties.authenticationDetails{}.succeeded= false 
+search: ' `azuread` body.category= SignInLogs body.properties.status.errorCode=50126 body.properties.authenticationDetails{}.succeeded= false 
   | rename body.properties.* as *
   | bucket span=5m _time
   | stats  dc(userPrincipalName) AS unique_accounts values(userPrincipalName) as tried_accounts by _time, ipAddress
   | where unique_accounts > 30
   | `azure_ad_multiple_users_failing_to_authenticate_from_ip_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details). 
-  You must be ingesting Azure Active Directory events into your Splunk environment. Specifically, this analytic leverages the AuditLogs.
+  You must be ingesting Azure Active Directory events into your Splunk environment. Specifically, this analytic leverages the SignInLogs
   log category.
 known_false_positives: A source Ip failing to authenticate with multiple users is not a common for legitimate behavior.
 references:
