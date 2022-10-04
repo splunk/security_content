@@ -1,7 +1,7 @@
 name: Unified Messaging Service Spawning a Process
 id: f1126df0-7bd5-11eb-988f-acde48001122
-version: 1
-date: '2021-03-02'
+version: 2
+date: '2022-10-03'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
@@ -18,7 +18,7 @@ description: This detection identifies Microsoft Exchange Server's Unified Messa
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name="umworkerprocess.exe"
   OR Processes.parent_process_name="UMService.exe" (Processes.process_name!="wermgr.exe"
-  OR Processes.process_name!="werfault.exe") by Processes.dest Processes.user Processes.parent_process
+  OR Processes.process_name!="werfault.exe") by Processes.dest Processes.user Processes.parent_process_name
   Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `unified_messaging_service_spawning_a_process_filter`'
@@ -35,6 +35,8 @@ references:
 tags:
   analytic_story:
   - HAFNIUM Group
+  - ProxyShell
+  - ProxyNotShell
   confidence: 80
   context:
   - Source:Endpoint
