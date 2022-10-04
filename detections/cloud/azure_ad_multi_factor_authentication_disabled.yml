@@ -8,7 +8,7 @@ datamodel: []
 description: The following analytic identifies an attempt to disable multi-factor authentication for an Azure AD user. An adversary who has obtained access to an Azure AD tenant 
   may disable multi-factor authentication as a way to plant a backdoor and maintain persistence using a valid account.
   This way the attackers can keep persistance in the environment without adding new users.
-search: '`azuread` "body.operationName"="Disable Strong Authentication" 
+search: '`azuread` body.category=AuditLogs body.operationName="Disable Strong Authentication" 
   | rename body.properties.* as *
   | rename targetResources{}.userPrincipalName as userPrincipalName
   | rename targetResources{}.type as type
