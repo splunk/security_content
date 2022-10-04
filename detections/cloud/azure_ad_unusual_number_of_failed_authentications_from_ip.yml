@@ -18,13 +18,13 @@ description: 'The following analytic identifies one source Ip failing to authent
   While looking for anomalies using statistical methods like the standard deviation can have benefits, we also recommend using threshold-based detections to complement coverage.
   A similar analytic following the threshold model is `Azure AD Multiple Users Failing To Authenticate From Ip`.'
 
-search: ' `azuread` body.properties.status.errorCode= 50126 body.category= SignInLogs body.properties.authenticationDetails{}.succeeded= false 
+search: ' `azuread` body.category=SignInLogs body.properties.status.errorCode=50126 body.properties.authenticationDetails{}.succeeded= false 
   | rename body.properties.* as *
   | bucket span=5m _time
   | stats  dc(userPrincipalName) AS unique_accounts values(userPrincipalName) as tried_accounts by _time, ipAddress
   | eventstats  avg(unique_accounts) as ip_avg , stdev(unique_accounts) as ip_std by ipAddress
   | eval  upperBound=(ip_avg+ip_std*3)
-  | eval  isOutlier=if(unique_accounts > 10 and unique_accounts >= upperBound, 1, 0)
+  | eval  isOutlier=if(unique_accounts > 10 and unique_accounts >= upperBound, 1, 0) | where isOutlier = 1
   | `azure_ad_unusual_number_of_failed_authentications_from_ip_filter`'
 how_to_implement: You must install the latest version of  Splunk Add-on for Microsoft Cloud Services from  Splunkbase(https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events in your Splunk environment. Specifically, this analytic leverages the SignInLogs
   log category.
