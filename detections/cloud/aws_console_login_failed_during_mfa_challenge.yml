@@ -5,7 +5,6 @@ date: '2022-10-03'
 author: Bhavin Patel, Splunk
 type: TTP
 datamodel: []
-- Endpoint
 description: The following analytic identifies an authentication attempt event against an AWS Console that fails during the Multi Factor Authentication challenge. AWS Cloudtrail logs provide a a very useful field called `additionalEventData` that logs information regarding usage of MFA. This behavior may represent an adversary trying to authenticate with compromised credentials for an account that has multi-factor authentication enabled. 
 search: '`cloudtrail` eventName= ConsoleLogin errorMessage="Failed authentication" additionalEventData.MFAUsed = "Yes" 
 | stats count min(_time) as firstTime max(_time) as lastTime by src eventName eventSource aws_account_id errorCode errorMessage
