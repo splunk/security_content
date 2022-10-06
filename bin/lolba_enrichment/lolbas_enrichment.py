@@ -50,7 +50,7 @@ def get_lolbas_paths(lolba):
     return lolbas_paths
     
                         
-def generate_detections(lolbas, TEMPLATE_PATH, VERBOSE, OUTPUT_PATH):
+def write_ba_detections(lolbas, TEMPLATE_PATH, VERBOSE, OUTPUT_PATH):
 
     for lolba in lolbas:
         lolbas_path_strings = '' 
@@ -92,6 +92,39 @@ def generate_detections(lolbas, TEMPLATE_PATH, VERBOSE, OUTPUT_PATH):
             write_yaml(lolba, OUTPUT_PATH, TEMPLATE_PATH, VERBOSE)
         else:
             continue
+
+def write_ba_tests(lolbas, TEMPLATE_PATH, VERBOSE, OUTPUT_PATH):
+     for lolba in lolbas:
+    # READ test template
+
+        with open(TEMPLATE_PATH, 'r') as stream:
+            try:
+                object = list(yaml.safe_load_all(stream))[0]
+                object['file_path'] = TEMPLATE_PATH
+            except yaml.YAMLError as exc:
+                print(exc)
+                print("Error reading {0}".format(TEMPLATE_PATH))
+                sys.exit(1)
+        test_yaml_template = object
+
+
+        # BA filename
+        ba_test_path = OUTPUT_PATH + "/" + "ssa___" + lolba['Name'].lower().replace(".", "_") + ".test.yml"
+
+        # Build the BA test objects
+        test_yaml = test_yaml_template
+        # change file path
+        test_yaml['file'] = "endpoint/" + "ssa___" + lolba['Name'].lower().replace(".", "_") + ".yml"
+        # change name
+        test_yaml['name'] = "Windows Rename System Utilities " + lolba['Name'].replace(".", " ").capitalize() + " LOLBAS in Non Standard Path Unit Test"
+        # change test name
+        test_yaml['tests'][0]['name'] = "Windows Rename System Utilities " + lolba['Name'].replace(".", " ").capitalize() + " LOLBAS in Non Standard Path"
+
+        with open(ba_test_path, 'w', newline='') as yamlfile:
+            if VERBOSE:
+                print("writing BA test: {0}".format(ba_test_path))
+            yaml.safe_dump(test_yaml, yamlfile, default_flow_style=False, sort_keys=False)
+
 
 def write_yaml(lolba, OUTPUT_PATH, TEMPLATE_PATH, VERBOSE):
     # READ detection template
@@ -158,8 +191,9 @@ if __name__ == "__main__":
     # grab arguments
     parser = argparse.ArgumentParser(description="Generates Updates Splunk detections with latest LOLBAS")
     parser.add_argument("--lolbas_path", required=False, default='LOLBAS', help="path to the lolbas repo")
-    parser.add_argument("-o", "--output_path", required=False, default='.', help="path to results")
-    parser.add_argument("--template_path", required=False, default='ba_detection_template.yml', help="path to BA detection template")
+    parser.add_argument("-o", "--output_path", required=False, default='output', help="path to results")
+    parser.add_argument("--ba_template_path", required=False, default='ba_detection_template.yml', help="path to BA detection template")
+    parser.add_argument("--ba_test_template_path", required=False, default='ba_test_template.yml', help="path to BA test template")
     parser.add_argument("-v", "--verbose", required=False, default=False, action='store_true', help="prints verbose output")
     
    # parse them
@@ -167,7 +201,8 @@ if __name__ == "__main__":
     LOLBAS_PATH = args.lolbas_path
     VERBOSE = args.verbose
     OUTPUT_PATH = args.output_path
-    TEMPLATE_PATH = args.template_path
+    BA_TEMPLATE_PATH = args.ba_template_path
+    BA_TEST_PATH = args.ba_test_template_path
 
     if not (path.isdir(OUTPUT_PATH) or path.isdir(OUTPUT_PATH)):
         print("error: {0} is not a directory".format(OUTPUT_PATH))
@@ -176,6 +211,7 @@ if __name__ == "__main__":
     print("processing lolbas")
     lolbas = read_lolbas(LOLBAS_PATH, VERBOSE)
     print("generating ssa lolbas detections")
-    generate_detections(lolbas, TEMPLATE_PATH, VERBOSE, OUTPUT_PATH)
+    write_ba_detections(lolbas, BA_TEMPLATE_PATH, VERBOSE, OUTPUT_PATH)
+    write_ba_tests(lolbas, BA_TEST_PATH, VERBOSE, OUTPUT_PATH)
     print("writing lolbas_file_path lookup to: {0}".format(OUTPUT_PATH + '/' + 'lolbas_file_path.csv'))
     write_csv(lolbas, OUTPUT_PATH)
