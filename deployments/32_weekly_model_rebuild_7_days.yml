@@ -1,0 +1,14 @@
+name: Weekly Model Rebuild 7 Day Lookback
+id: d3261448-20b0-4fe1-85dc-10414843e8b9
+date: '2022-10-05'
+author: David Dorsey
+description: This configuration file applies to all baselines with tag deployments
+  Weekly Model Rebuild 7 Day Lookback
+scheduling:
+  cron_schedule: 0 2 * * 0
+  earliest_time: -8d@d
+  latest_time: -1d@d
+  schedule_window: auto
+tags:
+  deployments:
+  - Weekly Model Rebuild 7 Day Lookback

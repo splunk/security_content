@@ -1,0 +1,53 @@
+name: Baseline Of OKTA MFA Attempts
+id: 5f5c1aa4-3548-4533-be7a-3f1a60eef43f
+version: 1
+date: '2022-10-05'
+author: David Dorsey, Splunk
+type: Baseline
+datamodel: []
+description: This search is used to build a Machine Learning Toolkit (MLTK) model
+  to determine a normal amount of MFA attempts an account has in a 10 minutes bucket.
+  It will allow the MLTK to determine the algorithm to use.
+search: '`okta` eventType=user.authentication.auth_via_mfa | bin span=10m _time
+  | stats count as mfa_attempts by src_user, _time
+  | fit DensityFunction mfa_attempts into escu_okta_mfa_attempts_v1'
+how_to_implement: 'You must have Enterprise Security 6.0 or later, if not you will
+  need to verify that the Machine Learning Toolkit (MLTK) version 4.2 or later is
+  installed, along with any required dependencies. Depending on the number of users
+  in your environment, you may also need to adjust the value for max_inputs in the
+  MLTK settings for the DensityFunction algorithm, then ensure that the search completes
+  in a reasonable timeframe. By default, the search builds the model using the past
+  7 days of data. You can modify the search window to build the model over a longer
+  period of time, which may give you better results. You may also want to periodically
+  re-run this search to rebuild the model with the latest data.'
+known_false_positives: none
+references:
+  - https://developer.okta.com/docs/reference/api/event-types/?q=app.generic.unauth_app_access_attempt
+tags:
+  analytic_story:
+  - Suspicious Okta Activity
+  asset_type: Infrastructure
+  - Suspicious Cloud Instance Activities
+  deployments:
+  - Weekly Model Rebuild 7 Day Lookback
+  cis20:
+  - CIS 16
+  mitre_attack_id:
+  - T1078
+  - T1078.001
+  nist:
+  - DE.CM
+  kill_chain_phases:
+  - Exploitation
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  detections:
+  - Abnormally High Number Of Okta MFA Attempts
+  required_fields:
+  - _time
+  - src_user
+  - event_type
+  security_domain: access
+
