@@ -6,7 +6,7 @@ author: Michael Haag, Rico Valdez, Splunk
 type: Anomaly
 datamodel: []
 description: The following anomaly identifies failed Okta SSO events utilizing the legacy Okta event "unauth app access attempt". 
-search: '`okta` eventType=app.generic.unauth_app_access_attempt | stats min(_time)
+search: '`okta` (eventType=app.generic.unauth_app_access_attempt OR legacyEventType=app.generic.unauth_app_access_attempt) | stats min(_time)
   as firstTime max(_time) as lastTime values(app) as Apps count by src_user, result ,displayMessage,
   src_ip | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `okta_failed_sso_attempts_filter` '
