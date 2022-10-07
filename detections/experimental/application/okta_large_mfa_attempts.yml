@@ -12,9 +12,9 @@ search: '`okta` eventType=user.authentication.auth_via_mfa | bin span=10m _time
 | apply escu_okta_mfa_attempts_v1 threshold=0.001 | rename IsOutlier(mfa_attempts) as outlier | where outlier=1
 | eval upper_threshold = mvindex(split(mvindex(BoundaryRanges, -1), ":"), 0) | where mfa_attempts > upper_threshold
 | table _time, src_user, mfa_attempts, average_attempts, upper_threshold'
-how_to_implement: This analytic is specific to Okta and requires Okta logs to be
-  ingested.
-known_false_positives: False positives may be present. Tune Okta and tune the analytic to ensure proper fidelity. Modify risk score as needed. Drop to anomaly until tuning is complete.
+how_to_implement: This analytic is specific to Okta and requires Okta logs to be ingested. You must run the search Baseline Of OKTA MFA Attempts first to generate the MLTK model that this search uses. You can adjust the threshold value specified to increase or decrease the amount of anomalies you see.
+known_false_positives: A large amount of OKTA MFA Attempts is not necessarily indicative of malicious behavoir. If the amount of anomalies is too
+high, the threshold should be adjusted. If any one account consistently creates anomalies, it can be removed using the output filter.
 references:
   - https://developer.okta.com/docs/reference/api/event-types/?q=user.authentication.auth_via_mfa
 tags:
@@ -39,15 +39,15 @@ tags:
   - eventType 
   - status
   security_domain: access
-  confidence: 80
+  confidence: 20
   impact: 80
-  risk_score: 64
+  risk_score: 16
   context: []
-  message: $src_user$ account has rejected multiple Okta pushes.
+  message: $src_user$ has a large amount, $mfa_attempts$, of MFA attempts. The average is $average_attempts$ and the threshold is $upper_threshold$.
   observable:
   - name: src_user
     type: User
     role:
-    - Attacker
+    - Victim
   kill_chain_phases:
   - Exploitation
