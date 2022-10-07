@@ -1,35 +1,74 @@
 {
-  "Keywords": "Audit Success",
-  "TaskCategory": "Process Creation",
-  "Message": "A new process has been created.",
-  "EventType": "0",
-  "SourceName": "Microsoft Windows security auditing.",
-  "EventCode": "4688",
-  "Type": "Information",
-  "Target Subject": {
-    "Account Name": "-",
-    "Security ID": "NULL SID",
-    "Logon ID": "0x0",
-    "Account Domain": "-"
+  "metadata": {
+    "version": "0.9.0"
   },
-  "Process Information": {
-    "New Process Name": "C:\\Windows\\System32\\reg.exe",
-    "Token Elevation Type": "%%1936",
-    "Process Command Line": "reg  save HKLM\\system C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\system ",
-    "New Process ID": "0x1258",
-    "Creator Process Name": "C:\\Windows\\System32\\cmd.exe",
-    "Mandatory Label": "Mandatory Label\\High Mandatory Level",
-    "Creator Process ID": "0xf6c"
+  "category_uid": 1,
+  "actor_process": {
+    "file": {
+      "path": "C:\\Windows\\System32\\cmd.exe",
+      "parent_folder": "C:\\Windows\\System32",
+      "type_id": 1,
+      "name": "cmd.exe"
+    },
+    "pid": 3948
   },
-  "Creator Subject": {
-    "Account Name": "Administrator",
-    "Security ID": "ATTACKRANGE\\Administrator",
-    "Logon ID": "0x55E621",
-    "Account Domain": "ATTACKRANGE"
+  "process": {
+    "file": {
+      "path": "C:\\Windows\\System32\\reg.exe",
+      "parent_folder": "C:\\Windows\\System32",
+      "type_id": 1,
+      "name": "reg.exe"
+    },
+    "cmd_line": "reg  save HKLM\\system C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\system ",
+    "pid": 4696,
+    "run_as": {
+      "uid": "NULL SID",
+      "domain": "-",
+      "name": "-",
+      "session_uid": "0x0"
+    }
   },
-  "OpCode": "Info",
-  "ComputerName": "win-dc-725.attackrange.local",
-  "LogName": "Security",
-  "RecordNumber": "257874",
-  "event_time": "03/12/2021 10:48:14 AM"
+  "origin": {
+    "product": {
+      "name": "Microsoft Windows"
+    },
+    "feature": {
+      "name": "Security"
+    },
+    "device": {
+      "os": {
+        "type_id": 100,
+        "name": "Windows"
+      },
+      "type_id": 0,
+      "name": "win-dc-725.attackrange.local"
+    }
+  },
+  "message": "A new process has been created.",
+  "ref_event_uid": "257874",
+  "unmapped": {
+    "TaskCategory": "Process Creation",
+    "EventType": "0",
+    "SourceName": "Microsoft Windows security auditing.",
+    "Process Information": {
+      "Token Elevation Type": "%%1936",
+      "Mandatory Label": "Mandatory Label\\High Mandatory Level"
+    },
+    "OpCode": "Info"
+  },
+  "status_id": 1,
+  "class_uid": 1014,
+  "severity_id": 1,
+  "time": 1615564094000,
+  "user": {
+    "uid": "ATTACKRANGE\\Administrator",
+    "account_type": "Windows Account",
+    "domain": "ATTACKRANGE",
+    "name": "Administrator",
+    "account_type_id": 2,
+    "session_uid": "0x55E621"
+  },
+  "ref_event_code": "4688",
+  "event_time": "03/12/2021 10:48:14 AM",
+  "disposition_id": 1
 }
