@@ -1,0 +1,53 @@
+name: Large Amount Of Okta MFA Attempts - MLTK
+id: d93f785e-4c2c-4262-b8c7-12b77a13fd39
+version: 1
+date: '2022-10-06'
+author: David Dorsey, Splunk
+type: Anomaly
+datamodel: []
+description: The following analytic identifies an account that has rejected more than 2 Push notifications in a 10 minute window. 
+  Modify this query for your environment by upping the count or time window.
+search: '`okta` eventType=user.authentication.auth_via_mfa | bin span=10m _time
+| stats count as mfa_attempts by src_user, _time | eventstats avg(mfa_attempts) as average_attempts
+| apply escu_okta_mfa_attempts_v1 threshold=0.001 | rename IsOutlier(mfa_attempts) as outlier | where outlier=1
+| eval upper_threshold = mvindex(split(mvindex(BoundaryRanges, -1), ":"), 0) | where mfa_attempts > upper_threshold
+| table _time, src_user, mfa_attempts, average_attempts, upper_threshold'
+how_to_implement: This analytic is specific to Okta and requires Okta logs to be
+  ingested.
+known_false_positives: False positives may be present. Tune Okta and tune the analytic to ensure proper fidelity. Modify risk score as needed. Drop to anomaly until tuning is complete.
+references:
+  - https://developer.okta.com/docs/reference/api/event-types/?q=user.authentication.auth_via_mfa
+tags:
+  analytic_story:
+  - Suspicious Okta Activity
+  - Okta MFA Exhaustion
+  asset_type: Infrastructure
+  cis20:
+  - CIS 16
+  mitre_attack_id:
+  - T1110
+  nist:
+  - DE.CM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - src_user 
+  - src_ip 
+  - eventType 
+  - status
+  security_domain: access
+  confidence: 80
+  impact: 80
+  risk_score: 64
+  context: []
+  message: $src_user$ account has rejected multiple Okta pushes.
+  observable:
+  - name: src_user
+    type: User
+    role:
+    - Attacker
+  kill_chain_phases:
+  - Exploitation
