@@ -6,7 +6,7 @@ author: Michael Haag, Splunk
 type: TTP
 datamodel: []
 description: 'This analytic identifies suspicious behavior related to ProxyShell against
-  on-premise Microsoft Exchange servers. \
+  on-premise Microsoft Exchange servers. This analytic has been replaced by GUID d436f9e7-0ee7-4a47-864b-6dea2c4e2752 which utilizes the Web Datamodel. \
 
   Modification of this analytic is requried to ensure fields are mapped accordingly.
   \
@@ -20,7 +20,7 @@ description: 'This analytic identifies suspicious behavior related to ProxyShell
 
   Review the source attempting to perform this activity against your environment.
   In addition, review PowerShell logs and access recently granted to Exchange roles.'
-search: '`exchange` c_uri="*//autodiscover.json*" cs_uri_query="*PowerShell*" cs_method="POST"
+search: '`exchange` c_uri="*//autodiscover*" cs_uri_query="*PowerShell*" cs_method="POST"
   | stats count min(_time) as firstTime max(_time) as lastTime by dest, cs_uri_query,
   cs_method, c_uri | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `exchange_powershell_abuse_via_ssrf_filter`'

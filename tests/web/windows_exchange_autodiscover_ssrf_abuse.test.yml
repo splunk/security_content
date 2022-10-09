@@ -1,7 +1,7 @@
-name: Windows Exchange Autodiscover Abuse Unit Test
+name: Windows Exchange Autodiscover SSRF Abuse Unit Test
 tests:
-- name: Windows Exchange Autodiscover Abuse
-  file: web/windows_exchange_autodiscover_abuse.yml
+- name: Windows Exchange Autodiscover SSRF Abuse
+  file: web/windows_exchange_autodiscover_ssrf_abuse.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h
   latest_time: now
