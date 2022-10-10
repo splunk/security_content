@@ -31,7 +31,6 @@ tags:
   confidence: 90
   context:
   - Scope:Network
-  - Scope:Endpoint
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/proxyshell/proxyshell-risk.log
   impact: 90
