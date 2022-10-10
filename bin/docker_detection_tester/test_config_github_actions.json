@@ -93,7 +93,7 @@
     "SPLUNK_TA_FOR_IIS": {
       "app_number": 3185,
       "app_version": "1.2.0",
-      "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-microsoft-iis_120.tgz"
+      "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-microsoft-iis_120.tgz"
   }
  },
   "branch": "BRANCH_DOES_NOT_EXIST_USE_CLI_ARGUMENT",
