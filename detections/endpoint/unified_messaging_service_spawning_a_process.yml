@@ -3,7 +3,7 @@ id: f1126df0-7bd5-11eb-988f-acde48001122
 version: 2
 date: '2022-10-03'
 author: Michael Haag, Splunk
-type: TTP
+type: Anomaly
 datamodel:
 - Endpoint
 description: This detection identifies Microsoft Exchange Server's Unified Messaging
