@@ -1,4 +1,4 @@
-name: Windows Exchange Autodiscover Abuse
+name: Windows Exchange Autodiscover SSRF Abuse
 id: d436f9e7-0ee7-4a47-864b-6dea2c4e2752
 version: 1
 date: '2022-10-03'
@@ -19,7 +19,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | where Score >= 2
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
-  | `windows_exchange_autodiscover_abuse_filter`'
+  | `windows_exchange_autodiscover_ssrf_abuse_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information on Web traffic, Exchange OR IIS logs, mapped to `Web` datamodel in the `Web` node. In addition, confirm the latest CIM App 4.20 or higher is installed.
 known_false_positives: False positives are limited.
 references:
