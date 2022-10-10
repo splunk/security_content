@@ -89,8 +89,13 @@
         "app_number": 3110,
         "app_version": "4.5.0",
         "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-microsoft-cloud-services_450.tgz"
-    }
-  },
+    },
+    "SPLUNK_TA_FOR_IIS": {
+      "app_number": 3185,
+      "app_version": "1.2.0",
+      "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-microsoft-iis_120.tgz"
+  }
+ },
   "branch": "BRANCH_DOES_NOT_EXIST_USE_CLI_ARGUMENT",
   "commit_hash": null,
   "container_tag": "latest",
