@@ -55,6 +55,7 @@ tags:
   security_domain: endpoint
   risk_severity: low
   research_site_url: https://research.splunk.com/endpoint/9ae9a48a-cdbe-11eb-875a-acde48001122/
+  data_schema: ocsf-1
 test:
   name: Modify ACLs Permission Of Files Or Folders Unit Test
   tests:

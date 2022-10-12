@@ -49,6 +49,7 @@ tags:
   security_domain: endpoint
   risk_severity: high
   research_site_url: https://research.splunk.com/endpoint/76d79d6e-25bb-40f6-b3b2-e0a6b7e5ea13/
+  data_schema: ocsf-1
 test:
   name: BCDEdit Failure Recovery Modification Unit Test
   tests:

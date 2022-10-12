@@ -59,6 +59,7 @@ tags:
   security_domain: endpoint
   risk_severity: medium
   research_site_url: https://research.splunk.com/endpoint/1e25e97a-8ea4-11ec-9767-acde48001122/
+  data_schema: ocsf-1
 test:
   name: Windows Bits Job Persistence Unit Test
   tests:

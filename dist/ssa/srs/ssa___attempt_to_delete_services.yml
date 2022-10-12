@@ -56,6 +56,7 @@ tags:
   security_domain: endpoint
   risk_severity: low
   research_site_url: https://research.splunk.com/endpoint/a0c8c292-d01a-11eb-aa18-acde48001122/
+  data_schema: ocsf-1
 test:
   name: Attempt To Delete Services Unit Test
   tests:

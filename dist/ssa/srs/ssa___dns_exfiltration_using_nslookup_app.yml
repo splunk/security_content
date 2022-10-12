@@ -55,6 +55,7 @@ tags:
   security_domain: endpoint
   risk_severity: medium
   research_site_url: https://research.splunk.com/endpoint/2452e632-9e0d-11eb-34ba-acde48001122/
+  data_schema: ocsf-1
 test:
   name: DNS Exfiltration Using Nslookup App Unit Test
   tests:

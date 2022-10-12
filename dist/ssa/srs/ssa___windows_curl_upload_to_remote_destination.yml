@@ -67,6 +67,7 @@ tags:
   security_domain: endpoint
   risk_severity: high
   research_site_url: https://research.splunk.com/endpoint/cc8d046a-543b-11ec-b864-acde48001122/
+  data_schema: ocsf-1
 test:
   name: Windows Curl Upload to Remote Destination Unit Test
   tests:

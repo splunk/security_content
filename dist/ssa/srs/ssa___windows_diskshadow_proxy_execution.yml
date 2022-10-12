@@ -51,6 +51,7 @@ tags:
   security_domain: endpoint
   risk_severity: low
   research_site_url: https://research.splunk.com/endpoint/aa502688-9037-11ec-842d-acde48001122/
+  data_schema: ocsf-1
 test:
   name: BA Windows Diskshadow Proxy Execution Unit Test
   tests:

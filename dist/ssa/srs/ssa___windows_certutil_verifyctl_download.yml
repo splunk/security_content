@@ -58,6 +58,7 @@ tags:
   security_domain: endpoint
   risk_severity: high
   research_site_url: https://research.splunk.com/endpoint/9ac29c40-8f6b-11ec-b19a-acde48001122/
+  data_schema: ocsf-1
 test:
   name: Windows CertUtil VerifyCtl Download  Unit Test
   tests:

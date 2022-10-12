@@ -58,6 +58,7 @@ tags:
   security_domain: endpoint
   risk_severity: high
   research_site_url: https://research.splunk.com/endpoint/76b3b290-9b31-11ec-a934-acde48001122/
+  data_schema: ocsf-1
 test:
   name: Windows WMIPrvse Spawn MSBuild Unit Test
   tests:

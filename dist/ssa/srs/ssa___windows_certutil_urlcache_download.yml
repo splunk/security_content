@@ -57,6 +57,7 @@ tags:
   security_domain: endpoint
   risk_severity: high
   research_site_url: https://research.splunk.com/endpoint/8cb1ad38-8f6d-11ec-87a3-acde48001122/
+  data_schema: ocsf-1
 test:
   name: Windows CertUtil URLCache Download Unit Test
   tests:

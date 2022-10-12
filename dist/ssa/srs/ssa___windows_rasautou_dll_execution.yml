@@ -58,6 +58,7 @@ tags:
   security_domain: endpoint
   risk_severity: high
   research_site_url: https://research.splunk.com/endpoint/6f42b8ce-1e15-11ec-ad5a-acde48001122/
+  data_schema: ocsf-1
 test:
   name: Windows Rasautou DLL Execution Unit Test
   tests:

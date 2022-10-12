@@ -56,6 +56,7 @@ tags:
   security_domain: endpoint
   risk_severity: low
   research_site_url: https://research.splunk.com/endpoint/7b6c3fac-0c37-4efc-a85e-de88f42b6763/
+  data_schema: ocsf-1
 test:
   name: Windows Odbcconf Load Response File Unit Test
   tests:

@@ -66,6 +66,7 @@ tags:
   security_domain: endpoint
   risk_severity: low
   research_site_url: https://research.splunk.com/endpoint/d76e8188-8f5a-11ec-ace4-acde48001122/
+  data_schema: ocsf-1
 test:
   name: Windows Bitsadmin Download File Unit Test
   tests:

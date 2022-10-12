@@ -34,6 +34,7 @@ tags:
   - Ransomware
   - Clop Ransomware
   - Insider Threat
+  - CISA AA22-264A
   cis20:
   - CIS 8
   - CIS 13
@@ -57,6 +58,7 @@ tags:
   security_domain: endpoint
   risk_severity: medium
   research_site_url: https://research.splunk.com/endpoint/5438113c-cdd9-11eb-93b8-acde48001122/
+  data_schema: ocsf-1
 test:
   name: WevtUtil Usage To Clear Logs Unit Test
   tests:

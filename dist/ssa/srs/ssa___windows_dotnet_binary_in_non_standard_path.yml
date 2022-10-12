@@ -78,6 +78,7 @@ tags:
   security_domain: endpoint
   risk_severity: low
   research_site_url: https://research.splunk.com/endpoint/21179107-099a-324a-94d3-08301e6c065f/
+  data_schema: ocsf-1
 test:
   name: Windows DotNet Binary in Non Standard Path Unit Test
   tests:

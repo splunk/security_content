@@ -56,6 +56,7 @@ tags:
   security_domain: endpoint
   risk_severity: low
   research_site_url: https://research.splunk.com/endpoint/695bfad6-9662-4f9e-a576-bf02a951aa60/
+  data_schema: ocsf-1
 test:
   name: Windows Ingress Tool Transfer Using Explorer Unit Test
   tests:
