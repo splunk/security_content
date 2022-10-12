@@ -2,9 +2,10 @@ name: Windows Rename System Utilities Powerpnt exe LOLBAS in Non Standard Path U
   Test
 tests:
 - name: Windows Rename System Utilities Powerpnt exe LOLBAS in Non Standard Path
-  file: endpoint/ssa___windows_lolbin_binary_in_non_standard_path.yml
+  file: endpoint/ssa___powerpnt_exe.yml
   pass_condition: '@count_eq(1)'
-  description: Test Windows LOLBin Binary in Non Standard Path
+  description: ' Test Windows Rename System Utilities Powerpnt exe LOLBAS in Non Standard
+    Path'
   attack_data:
   - file_name: dotnet_lolbin-windows-security.log
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/system_process_running_unexpected_location/dotnet_lolbin-windows-security.log

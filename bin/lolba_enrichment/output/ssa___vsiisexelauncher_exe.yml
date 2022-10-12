@@ -1,8 +1,8 @@
 name: Windows Rename System Utilities Vsiisexelauncher exe LOLBAS in Non Standard
   Path
-id: 9b7a2885-b52d-47ce-a5d3-12c3da2e3781
+id: 3e634284-4706-43f4-9da9-fca4a69016d3
 version: 1
-date: '2022-10-05'
+date: '2022-10-12'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:
@@ -16,8 +16,8 @@ search: ssa_input = | from read_ssa_enriched_events() | eval device=ucast(map_ge
   "string", null), timestamp=parse_long(ucast(map_get(input_event, "_time"), "string",
   null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string",
   null)), process_path=lower(ucast(map_get(input_event, "process_path"), "string",
-  null)), event_id=ucast(map_get(input_event, "event_id"), "string", null);| where
-  process_name IS NOT NULL AND process_name="vsiisexelauncher.exe| where process_path
+  null)), event_id=ucast(map_get(input_event, "event_id"), "string", null)| where
+  process_name IS NOT NULL AND process_name="vsiisexelauncher.exe"| where process_path
   IS NOT NULL AND match_regex(process_path, /(?i)\\program files (x86)\\microsoft
   visual studio\\2019\\community\\common7\\ide\\extensions\\microsoft\\web tools\\projectsystem/)=false
   | eval start_time=timestamp,end_time=timestamp, entities=mvappend(device, user),

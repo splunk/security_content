@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Certutil exe LOLBAS in Non Standard Path
-id: d49e2f2b-cac5-4892-9abc-8791d90933e1
+id: 65b377b3-4f76-4018-a97b-5e69be53d0ce
 version: 1
-date: '2022-10-05'
+date: '2022-10-12'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:
@@ -15,9 +15,9 @@ search: ssa_input = | from read_ssa_enriched_events() | eval device=ucast(map_ge
   "string", null), timestamp=parse_long(ucast(map_get(input_event, "_time"), "string",
   null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string",
   null)), process_path=lower(ucast(map_get(input_event, "process_path"), "string",
-  null)), event_id=ucast(map_get(input_event, "event_id"), "string", null);| where
-  process_name IS NOT NULL AND process_name="certutil.exe| where process_path IS NOT
-  NULL AND match_regex(process_path, /(?i)\\windows\\syswow64/)=false | eval start_time=timestamp,end_time=timestamp,
+  null)), event_id=ucast(map_get(input_event, "event_id"), "string", null)| where
+  process_name IS NOT NULL AND process_name="certutil.exe"| where process_path IS
+  NOT NULL AND match_regex(process_path, /(?i)\\windows\\syswow64/)=false | eval start_time=timestamp,end_time=timestamp,
   entities=mvappend(device, user), body=create_map(["event_id", event_id, "process_path",
   process_path, "process_name", process_name]) | into write_ssa_detected_events();
 how_to_implement: To successfully implement this search, you must be ingesting logs

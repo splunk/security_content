@@ -1,8 +1,8 @@
 name: Windows Rename System Utilities Visualuiaverifynative exe LOLBAS in Non Standard
   Path
-id: 570359d8-a009-4e61-9bc4-64f72030d212
+id: e9611ad8-e258-4a92-8a3c-ae345857c82f
 version: 1
-date: '2022-10-05'
+date: '2022-10-12'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:
@@ -16,8 +16,8 @@ search: ssa_input = | from read_ssa_enriched_events() | eval device=ucast(map_ge
   "string", null), timestamp=parse_long(ucast(map_get(input_event, "_time"), "string",
   null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string",
   null)), process_path=lower(ucast(map_get(input_event, "process_path"), "string",
-  null)), event_id=ucast(map_get(input_event, "event_id"), "string", null);| where
-  process_name IS NOT NULL AND process_name="visualuiaverifynative.exe| where process_path
+  null)), event_id=ucast(map_get(input_event, "event_id"), "string", null)| where
+  process_name IS NOT NULL AND process_name="visualuiaverifynative.exe"| where process_path
   IS NOT NULL AND match_regex(process_path, /(?i)\\program files (x86)\\windows kits\\10\\bin\\[sdk
   version]\\uiaverify/)=false | eval start_time=timestamp,end_time=timestamp, entities=mvappend(device,
   user), body=create_map(["event_id", event_id, "process_path", process_path, "process_name",

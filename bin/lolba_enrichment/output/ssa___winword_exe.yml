@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Winword exe LOLBAS in Non Standard Path
-id: 214ceda1-1a9b-4e1b-90d2-6d4a5844bc71
+id: a48ed544-ed56-4367-b0d1-b93b5d5f7523
 version: 1
-date: '2022-10-05'
+date: '2022-10-12'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:
@@ -15,8 +15,8 @@ search: ssa_input = | from read_ssa_enriched_events() | eval device=ucast(map_ge
   "string", null), timestamp=parse_long(ucast(map_get(input_event, "_time"), "string",
   null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string",
   null)), process_path=lower(ucast(map_get(input_event, "process_path"), "string",
-  null)), event_id=ucast(map_get(input_event, "event_id"), "string", null);| where
-  process_name IS NOT NULL AND process_name="winword.exe| where process_path IS NOT
+  null)), event_id=ucast(map_get(input_event, "event_id"), "string", null)| where
+  process_name IS NOT NULL AND process_name="winword.exe"| where process_path IS NOT
   NULL AND match_regex(process_path, /(?i)\\program files\\microsoft office\\office12/)=false
   | eval start_time=timestamp,end_time=timestamp, entities=mvappend(device, user),
   body=create_map(["event_id", event_id, "process_path", process_path, "process_name",

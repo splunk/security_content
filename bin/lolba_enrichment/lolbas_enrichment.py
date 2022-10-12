@@ -57,7 +57,7 @@ def write_ba_detections(lolbas, TEMPLATE_PATH, VERBOSE, OUTPUT_PATH):
         full_ssa_search = ''
         # windows_lolbin_binary_in_non_standard_path auto search generation
         # first process SSA search
-        ssa_base_search = 'ssa_input = | from read_ssa_enriched_events() | eval device=ucast(map_get(input_event, "dest_device_id"), "string", null), user=ucast(map_get(input_event, "dest_user_id"), "string", null), timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), process_path=lower(ucast(map_get(input_event, "process_path"), "string", null)), event_id=ucast(map_get(input_event, "event_id"), "string", null);'
+        ssa_base_search = 'ssa_input = | from read_ssa_enriched_events() | eval device=ucast(map_get(input_event, "dest_device_id"), "string", null), user=ucast(map_get(input_event, "dest_user_id"), "string", null), timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), process_path=lower(ucast(map_get(input_event, "process_path"), "string", null)), event_id=ucast(map_get(input_event, "event_id"), "string", null)'
         ssa_end_search ='| eval start_time=timestamp,end_time=timestamp, entities=mvappend(device, user), body=create_map(["event_id", event_id, "process_path", process_path, "process_name", process_name]) | into write_ssa_detected_events();'
         condition_1 = '| where process_name IS NOT NULL AND '
         condition_2 = '| where process_path IS NOT NULL AND '
@@ -65,7 +65,7 @@ def write_ba_detections(lolbas, TEMPLATE_PATH, VERBOSE, OUTPUT_PATH):
             full_paths = get_lolbas_paths(lolba)
             for full_path in full_paths:
                 # grab the exe name
-                lolbas_exe = 'process_name="' + lolba['Name'].lower()
+                lolbas_exe = 'process_name="' + lolba['Name'].lower() + '"'
 
                 # drop the drive letter
                 full_path = full_path[2:]
@@ -95,8 +95,7 @@ def write_ba_detections(lolbas, TEMPLATE_PATH, VERBOSE, OUTPUT_PATH):
 
 def write_ba_tests(lolbas, TEMPLATE_PATH, VERBOSE, OUTPUT_PATH):
      for lolba in lolbas:
-    # READ test template
-
+        # READ test template
         with open(TEMPLATE_PATH, 'r') as stream:
             try:
                 object = list(yaml.safe_load_all(stream))[0]
@@ -119,12 +118,33 @@ def write_ba_tests(lolbas, TEMPLATE_PATH, VERBOSE, OUTPUT_PATH):
         test_yaml['name'] = "Windows Rename System Utilities " + lolba['Name'].replace(".", " ").capitalize() + " LOLBAS in Non Standard Path Unit Test"
         # change test name
         test_yaml['tests'][0]['name'] = "Windows Rename System Utilities " + lolba['Name'].replace(".", " ").capitalize() + " LOLBAS in Non Standard Path"
+        # change test file path
+        test_yaml['tests'][0]['file'] = "endpoint/" + "ssa___" + lolba['Name'].lower().replace(".", "_") + ".yml"
+        # change test description
+        test_yaml['tests'][0]['description'] = " Test Windows Rename System Utilities " + lolba['Name'].replace(".", " ").capitalize() + " LOLBAS in Non Standard Path"
 
         with open(ba_test_path, 'w', newline='') as yamlfile:
             if VERBOSE:
                 print("writing BA test: {0}".format(ba_test_path))
             yaml.safe_dump(test_yaml, yamlfile, default_flow_style=False, sort_keys=False)
 
+def write_dataset_file(lolbas, VERBOSE, OUTPUT_PATH):
+
+    test_datasets = [] 
+    for lolba in lolbas:
+        # READ test template
+        with open('test_dataset_template.log', 'r') as file:
+            test_dataset_template = file.read()
+        
+        lolba_exe = lolba['Name'].lower().replace('(', '').replace(')', '')
+        replaced = test_dataset_template.replace("xxx", lolba_exe)
+        test_datasets.append(replaced)
+
+    with open(OUTPUT_PATH + '/lolbas_dataset.log', 'wt', encoding='utf-8') as file:
+        if VERBOSE:
+            print("writing Attack Dataset: {0}".format( OUTPUT_PATH + '/lolbas_dataset.log'))
+        file.write('\n'.join(test_datasets))
+        
 
 def write_yaml(lolba, OUTPUT_PATH, TEMPLATE_PATH, VERBOSE):
     # READ detection template
@@ -210,8 +230,15 @@ if __name__ == "__main__":
 
     print("processing lolbas")
     lolbas = read_lolbas(LOLBAS_PATH, VERBOSE)
-    print("generating ssa lolbas detections")
+
+    print("writing BA lolbas detections to: {0}/".format(OUTPUT_PATH))
     write_ba_detections(lolbas, BA_TEMPLATE_PATH, VERBOSE, OUTPUT_PATH)
+
+    print("writing BA lolbas test files to: {0}/".format(OUTPUT_PATH))
     write_ba_tests(lolbas, BA_TEST_PATH, VERBOSE, OUTPUT_PATH)
-    print("writing lolbas_file_path lookup to: {0}".format(OUTPUT_PATH + '/' + 'lolbas_file_path.csv'))
+
+    print("writing attack dataset log to: {0}".format(OUTPUT_PATH + '/' + 'lolbas_dataset.log'))
+    write_dataset_file(lolbas, VERBOSE, OUTPUT_PATH)
+
+    print("writing ESCU lolbas_file_path lookup to: {0}".format(OUTPUT_PATH + '/' + 'lolbas_file_path.csv'))
     write_csv(lolbas, OUTPUT_PATH)

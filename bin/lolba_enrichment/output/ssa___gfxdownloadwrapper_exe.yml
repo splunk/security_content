@@ -1,8 +1,8 @@
 name: Windows Rename System Utilities Gfxdownloadwrapper exe LOLBAS in Non Standard
   Path
-id: c2572cce-57c9-4ebe-8dcc-eee10363413d
+id: bc05ce40-1875-4db5-8c61-96837ae26ab0
 version: 1
-date: '2022-10-05'
+date: '2022-10-12'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:
@@ -16,8 +16,8 @@ search: ssa_input = | from read_ssa_enriched_events() | eval device=ucast(map_ge
   "string", null), timestamp=parse_long(ucast(map_get(input_event, "_time"), "string",
   null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string",
   null)), process_path=lower(ucast(map_get(input_event, "process_path"), "string",
-  null)), event_id=ucast(map_get(input_event, "event_id"), "string", null);| where
-  process_name IS NOT NULL AND process_name="gfxdownloadwrapper.exe| where process_path
+  null)), event_id=ucast(map_get(input_event, "event_id"), "string", null)| where
+  process_name IS NOT NULL AND process_name="gfxdownloadwrapper.exe"| where process_path
   IS NOT NULL AND match_regex(process_path, /(?i)\\windows\\system32\\driverstore\\filerepository\\kit126731.inf_amd64_1905c9d5f38631d9/)=false
   | eval start_time=timestamp,end_time=timestamp, entities=mvappend(device, user),
   body=create_map(["event_id", event_id, "process_path", process_path, "process_name",

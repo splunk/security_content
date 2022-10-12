@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Dfshim dll LOLBAS in Non Standard Path
-id: ad535a2f-969d-44b0-bb9b-6a6d6fdfa035
+id: cdcaf646-c7a9-452f-9723-1cdf72e50cce
 version: 1
-date: '2022-10-05'
+date: '2022-10-12'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:
@@ -15,8 +15,8 @@ search: ssa_input = | from read_ssa_enriched_events() | eval device=ucast(map_ge
   "string", null), timestamp=parse_long(ucast(map_get(input_event, "_time"), "string",
   null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string",
   null)), process_path=lower(ucast(map_get(input_event, "process_path"), "string",
-  null)), event_id=ucast(map_get(input_event, "event_id"), "string", null);| where
-  process_name IS NOT NULL AND process_name="dfshim.dll| where process_path IS NOT
+  null)), event_id=ucast(map_get(input_event, "event_id"), "string", null)| where
+  process_name IS NOT NULL AND process_name="dfshim.dll"| where process_path IS NOT
   NULL AND match_regex(process_path, /(?i)\\windows\\microsoft.net\\framework64\\v4.0.30319/)=false
   | eval start_time=timestamp,end_time=timestamp, entities=mvappend(device, user),
   body=create_map(["event_id", event_id, "process_path", process_path, "process_name",

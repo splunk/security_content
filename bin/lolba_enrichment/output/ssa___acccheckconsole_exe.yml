@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Acccheckconsole exe LOLBAS in Non Standard Path
-id: 3c1383d1-f553-442c-a85d-57a2c1254886
+id: 74a5cd21-b039-4a63-ad36-324bad81e1f2
 version: 1
-date: '2022-10-05'
+date: '2022-10-12'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:
@@ -15,8 +15,8 @@ search: ssa_input = | from read_ssa_enriched_events() | eval device=ucast(map_ge
   "string", null), timestamp=parse_long(ucast(map_get(input_event, "_time"), "string",
   null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string",
   null)), process_path=lower(ucast(map_get(input_event, "process_path"), "string",
-  null)), event_id=ucast(map_get(input_event, "event_id"), "string", null);| where
-  process_name IS NOT NULL AND process_name="acccheckconsole.exe| where process_path
+  null)), event_id=ucast(map_get(input_event, "event_id"), "string", null)| where
+  process_name IS NOT NULL AND process_name="acccheckconsole.exe"| where process_path
   IS NOT NULL AND match_regex(process_path, /(?i)\\program files (x86)\\windows kits\\10\\bin\\10.0.22000.0\\arm64\\accchecker/)=false
   | eval start_time=timestamp,end_time=timestamp, entities=mvappend(device, user),
   body=create_map(["event_id", event_id, "process_path", process_path, "process_name",

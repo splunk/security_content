@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Sc exe LOLBAS in Non Standard Path
-id: 97d65722-39f0-48b9-899f-638116dd387f
+id: e62b675f-0fc0-438c-8d75-4100d5af3069
 version: 1
-date: '2022-10-05'
+date: '2022-10-12'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:
@@ -15,8 +15,8 @@ search: ssa_input = | from read_ssa_enriched_events() | eval device=ucast(map_ge
   "string", null), timestamp=parse_long(ucast(map_get(input_event, "_time"), "string",
   null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string",
   null)), process_path=lower(ucast(map_get(input_event, "process_path"), "string",
-  null)), event_id=ucast(map_get(input_event, "event_id"), "string", null);| where
-  process_name IS NOT NULL AND process_name="sc.exe| where process_path IS NOT NULL
+  null)), event_id=ucast(map_get(input_event, "event_id"), "string", null)| where
+  process_name IS NOT NULL AND process_name="sc.exe"| where process_path IS NOT NULL
   AND match_regex(process_path, /(?i)\\windows\\syswow64/)=false | eval start_time=timestamp,end_time=timestamp,
   entities=mvappend(device, user), body=create_map(["event_id", event_id, "process_path",
   process_path, "process_name", process_name]) | into write_ssa_detected_events();

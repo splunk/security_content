@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Cdb exe LOLBAS in Non Standard Path
-id: d3e60f83-cae0-4df3-a666-c9aa216e7c2e
+id: 4f6935c1-e826-4a44-a852-0b8d91fd9e73
 version: 1
-date: '2022-10-05'
+date: '2022-10-12'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:
@@ -15,8 +15,8 @@ search: ssa_input = | from read_ssa_enriched_events() | eval device=ucast(map_ge
   "string", null), timestamp=parse_long(ucast(map_get(input_event, "_time"), "string",
   null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string",
   null)), process_path=lower(ucast(map_get(input_event, "process_path"), "string",
-  null)), event_id=ucast(map_get(input_event, "event_id"), "string", null);| where
-  process_name IS NOT NULL AND process_name="cdb.exe| where process_path IS NOT NULL
+  null)), event_id=ucast(map_get(input_event, "event_id"), "string", null)| where
+  process_name IS NOT NULL AND process_name="cdb.exe"| where process_path IS NOT NULL
   AND match_regex(process_path, /(?i)\\program files (x86)\\windows kits\\10\\debuggers\\x86/)=false
   | eval start_time=timestamp,end_time=timestamp, entities=mvappend(device, user),
   body=create_map(["event_id", event_id, "process_path", process_path, "process_name",
