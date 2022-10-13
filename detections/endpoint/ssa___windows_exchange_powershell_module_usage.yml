@@ -38,7 +38,7 @@ search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map
   | into write_ssa_detected_events();'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
-  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell. This will only work with Multiline event logs, not XML.
 known_false_positives: Administrators or power users may use this PowerShell commandlet
 references:
   - https://docs.microsoft.com/en-us/powershell/module/exchange/new-mailboxexportrequest?view=exchange-ps
