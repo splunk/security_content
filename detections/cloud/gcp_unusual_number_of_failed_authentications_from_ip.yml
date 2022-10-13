@@ -1,0 +1,64 @@
+name: GCP Unusual Number of Failed Authentications From Ip
+id: bd8097ed-958a-4873-87d9-44f2b4d85705
+version: 1
+date: '2022-10-13'
+author: Bhavin Patel, Splunk
+type: Anomaly
+datamodel: []
+description: The following analytic identifies one source IP failing to authenticate into the Google Workspace with multiple valid users. This behavior could represent an adversary performing a Password Spraying attack against a Google Workspace enviroment to obtain initial access or elevate privileges. 
+  The detection calculates the standard deviation for source IP and leverages the 3-sigma statistical rule to identify an unusual number of failed authentication attempts. To customize this analytic, users can try different combinations of the bucket span time and the calculation of the upperBound field. This logic can be used for real time security monitoring as well as threat hunting exercises. 
+  While looking for anomalies using statistical methods like the standard deviation can have benefits, we also recommend using threshold-based detections to complement coverage. A similar analytic following the threshold model is `AWS Multiple Users Failing To Authenticate From Ip`
+search: '`gws_reports_login` authentication_method IN ( google_password, password, password, password ) event.type = login event.name = login_failure| bucket span=5m _time | stats  dc(user_name) AS unique_accounts values(user_name) as tried_accounts by _time, src_ip
+| eventstats  avg(unique_accounts) as ip_avg , stdev(unique_accounts) as ip_std by src_ip 
+| eval  upperBound=(ip_avg+ip_std*3) 
+| eval  isOutlier=if(unique_accounts > 10 and unique_accounts >= upperBound, 1, 0) | where isOutlier =1| `gcp_unusual_number_of_failed_authentications_from_ip_filter`'
+how_to_implement: You must install Splunk Add-on for AWS in order to ingest Cloudtrail. We recommend the users to try different combinations of the bucket span time and the calculation of the upperBound field to tune this search according to their environment
+known_false_positives: No known false postives for this detection. Please review this alert
+references:
+- https://attack.mitre.org/techniques/T1110/003/
+- https://www.whiteoaksecurity.com/blog/goawsconsolespray-password-spraying-tool/
+tags:
+  analytic_story:
+  -  -----
+  asset_type: AWS Account
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  confidence: 90
+  context:
+  - Source:Cloud Data
+  - Outcome:Blocked
+  - Stage:Recon
+  - Other:Brute Force
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/gcp_gws_multiple_login_failure/gws_login.json
+  impact: 60
+  kill_chain_phases:
+  - Exploitation
+  message: Unusual number of failed console login attempts against users $tried_accounts$ seen from $src_ip$
+  mitre_attack_id:
+  - T1110.003
+  nist:
+  - DE.CM
+  observable:
+  - name: src_ip
+    type: IP Address
+    role:
+    - Attacker
+  - name: tried_accounts
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - authentication_method
+  - event.type
+  - event.name
+  - user_name
+  risk_score: 54
+  security_domain: threat

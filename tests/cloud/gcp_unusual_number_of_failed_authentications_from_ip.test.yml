@@ -1,0 +1,13 @@
+name: GCP Unusual Number of Failed Authentications From Ip Unit Test
+tests:
+- name: GCP Unusual Number of Failed Authentications From Ip
+  file: cloud/gcp_unusual_number_of_failed_authentications_from_ip.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: UPDATE
+    data: UPDATE
+    source: UPDATE
+    sourcetype: UPDATE
+    update_timestamp: true
