@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Coregen exe LOLBAS in Non Standard Path
-id: b30fbb87-e803-42fd-9c4e-f2d2698fca60
+id: 87e068d7-d9f4-463b-87a2-8ae2167a5e3f
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

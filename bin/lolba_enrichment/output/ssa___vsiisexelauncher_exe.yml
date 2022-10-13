@@ -1,8 +1,8 @@
 name: Windows Rename System Utilities Vsiisexelauncher exe LOLBAS in Non Standard
   Path
-id: 3e634284-4706-43f4-9da9-fca4a69016d3
+id: a522e3d3-0bde-46dc-8e58-ab6f85179694
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

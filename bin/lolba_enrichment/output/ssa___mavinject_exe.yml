@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Mavinject exe LOLBAS in Non Standard Path
-id: 81638ef9-54f7-4cfc-b355-2c3b08d480aa
+id: 7ad18f4b-4c5c-4d9c-883b-38fc2bd89b86
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

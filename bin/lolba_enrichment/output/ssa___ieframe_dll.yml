@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Ieframe dll LOLBAS in Non Standard Path
-id: 6d56efb3-1026-47a7-aa2c-4decb54d3694
+id: f588d442-3020-407e-a93f-19ee3aeddb8b
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

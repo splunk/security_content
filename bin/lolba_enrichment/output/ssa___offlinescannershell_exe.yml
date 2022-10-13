@@ -1,8 +1,8 @@
 name: Windows Rename System Utilities Offlinescannershell exe LOLBAS in Non Standard
   Path
-id: b0cb1cd9-1124-4775-a89a-4e9574b51450
+id: 91667b95-483b-4d30-8a00-5d8ca9fb4a35
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

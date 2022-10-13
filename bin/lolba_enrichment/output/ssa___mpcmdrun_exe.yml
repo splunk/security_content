@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Mpcmdrun exe LOLBAS in Non Standard Path
-id: 34c46db6-febc-4c8b-adfb-aada59fcf3d7
+id: 7f1a43de-872b-466d-9d1f-e45e9394cb3e
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

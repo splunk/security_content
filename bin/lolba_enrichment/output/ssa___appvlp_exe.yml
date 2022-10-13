@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Appvlp exe LOLBAS in Non Standard Path
-id: 10f58b20-0909-4b90-b3a0-47680d35dd61
+id: 24ed3cdc-5002-4c0e-86ac-3b0600014d97
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

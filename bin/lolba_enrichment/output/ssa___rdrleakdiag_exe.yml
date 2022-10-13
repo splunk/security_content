@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Rdrleakdiag exe LOLBAS in Non Standard Path
-id: 6590e77c-13d2-4723-9418-9c9310b67772
+id: e0486532-675b-42c1-b7d5-99f4401f4d50
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

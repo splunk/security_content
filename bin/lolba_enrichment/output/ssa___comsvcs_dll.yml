@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Comsvcs dll LOLBAS in Non Standard Path
-id: 40ad243f-d21d-4338-bfb7-b8c40e176825
+id: 1ef695f3-3d29-41c9-82fd-3d59cafc21a1
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

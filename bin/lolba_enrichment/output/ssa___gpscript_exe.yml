@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Gpscript exe LOLBAS in Non Standard Path
-id: 09f77576-b8e7-4ebe-bb2f-aba79cc4a88d
+id: 23ca7640-2790-49bd-80fe-b21854b56dbe
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

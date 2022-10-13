@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Ftp exe LOLBAS in Non Standard Path
-id: b44d9a3b-d552-49a9-aaa8-f1e74e2a8d78
+id: e5bad533-bc60-4a9a-a87f-548fb19f6d60
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

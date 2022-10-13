@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Bash exe LOLBAS in Non Standard Path
-id: 9617697a-d93b-45a6-8045-32a7dc859bd8
+id: d0915513-b925-4e94-a748-18b66d8147ae
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

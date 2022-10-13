@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Sqltoolsps exe LOLBAS in Non Standard Path
-id: 3392d307-8fc3-4b2b-b336-f9ca7ea624c1
+id: 211a5718-3b5d-4f97-bdaf-d5f78c3bf996
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

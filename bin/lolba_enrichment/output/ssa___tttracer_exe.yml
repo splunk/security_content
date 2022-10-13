@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Tttracer exe LOLBAS in Non Standard Path
-id: b4603bad-275e-4225-9295-9df87438e1d0
+id: 47bb55b8-5a4c-4680-be45-27fb81f49515
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

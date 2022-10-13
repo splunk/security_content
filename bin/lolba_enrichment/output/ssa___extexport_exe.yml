@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Extexport exe LOLBAS in Non Standard Path
-id: 3c898cec-9c40-43eb-b6bf-aaae4a6b56cc
+id: 39e94405-7824-4769-8842-68570aa7b5ca
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

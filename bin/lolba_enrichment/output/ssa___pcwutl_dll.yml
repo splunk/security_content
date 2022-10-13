@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Pcwutl dll LOLBAS in Non Standard Path
-id: b07e1d42-aac0-4b74-9fd9-6e4cf164dc27
+id: ca9e5f9b-d7a2-4196-a05e-da62cabbb76d
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Wab exe LOLBAS in Non Standard Path
-id: d5c72a6d-197a-4097-b7dc-e5769c96a21a
+id: 18aa9c33-bb83-4a4d-afde-450eb0882577
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Cl_loadassembly ps1 LOLBAS in Non Standard Path
-id: 09a956c0-279e-439d-988d-329abfbeacb8
+id: fd376299-d870-414c-adc6-f511ad47a333
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

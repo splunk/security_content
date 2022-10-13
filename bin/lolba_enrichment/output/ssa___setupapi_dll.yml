@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Setupapi dll LOLBAS in Non Standard Path
-id: cd1dfde9-b9f9-4b8a-afe1-6e49a550963c
+id: 95ea8a24-889e-4e24-a641-2be4129c7ebf
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

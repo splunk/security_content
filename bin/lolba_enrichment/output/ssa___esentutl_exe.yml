@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Esentutl exe LOLBAS in Non Standard Path
-id: 04c65c99-fb6f-4ef0-a081-f439f28ffe59
+id: 3345fd43-a2a6-4b04-be9e-f2329a98a538
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

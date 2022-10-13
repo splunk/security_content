@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Syssetup dll LOLBAS in Non Standard Path
-id: 3f0e3c4e-5d59-4599-bcd8-36ee6f1121e5
+id: fab9dd96-b99c-4d61-9b3e-3e64e8c4f193
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

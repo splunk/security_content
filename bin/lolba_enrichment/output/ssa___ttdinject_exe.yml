@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Ttdinject exe LOLBAS in Non Standard Path
-id: 4fa37e19-4771-4a7b-8179-b388b475b508
+id: 216eb74d-cd41-4cd1-b03e-bdb9887887e0
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

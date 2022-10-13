@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Ntdsutil exe LOLBAS in Non Standard Path
-id: d72a906a-63f8-4872-bc0a-29970d42c53f
+id: b3f8dfe9-1589-4279-89a5-9c9df1607ac9
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

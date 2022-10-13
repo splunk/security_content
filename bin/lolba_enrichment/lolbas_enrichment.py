@@ -237,7 +237,7 @@ if __name__ == "__main__":
     print("writing BA lolbas test files to: {0}/".format(OUTPUT_PATH))
     write_ba_tests(lolbas, BA_TEST_PATH, VERBOSE, OUTPUT_PATH)
 
-    print("writing attack dataset log to: {0}".format(OUTPUT_PATH + '/' + 'lolbas_dataset.log'))
+    print("writing Attack Data logs to: {0}".format(OUTPUT_PATH + '/' + 'lolbas_dataset.log'))
     write_dataset_file(lolbas, VERBOSE, OUTPUT_PATH)
 
     print("writing ESCU lolbas_file_path lookup to: {0}".format(OUTPUT_PATH + '/' + 'lolbas_file_path.csv'))

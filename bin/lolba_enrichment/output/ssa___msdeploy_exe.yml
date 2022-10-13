@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Msdeploy exe LOLBAS in Non Standard Path
-id: 8daada55-3ea7-4750-8727-ab040da7d5bd
+id: 73a520a5-573c-484c-825a-9694b27e34b8
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Msbuild exe LOLBAS in Non Standard Path
-id: 38d60da5-7251-4cde-a047-843a4078d586
+id: 6cfd9301-6b4b-4764-a463-c1cca626442e
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

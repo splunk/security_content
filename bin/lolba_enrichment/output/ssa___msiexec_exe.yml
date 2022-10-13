@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Msiexec exe LOLBAS in Non Standard Path
-id: 0e09b0eb-878d-4b3b-a33e-44c5dba84ebb
+id: 0147dd58-ce80-44a0-9624-757a596f9d65
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

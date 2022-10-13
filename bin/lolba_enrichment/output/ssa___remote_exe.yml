@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Remote exe LOLBAS in Non Standard Path
-id: 7a168507-c619-4526-b3d0-8afb5fb24f5c
+id: fb74f88b-efc2-4296-9957-ffded42c2d0c
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Diskshadow exe LOLBAS in Non Standard Path
-id: ea6571c0-1e0b-41c4-97be-e189ee926a2e
+id: f42d5b08-0085-4677-a5fe-595e64e01715
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

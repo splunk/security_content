@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Wfc exe LOLBAS in Non Standard Path
-id: 87884bf6-fcba-494d-ae1b-ee210df15a1a
+id: 98841e6a-56da-458c-85a8-2bac17d20bbb
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

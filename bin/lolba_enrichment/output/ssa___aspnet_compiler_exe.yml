@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Aspnet_compiler exe LOLBAS in Non Standard Path
-id: e0099922-87ab-450c-a8f5-08652964a817
+id: 7efc53aa-5089-4c66-b2b7-7ffa9bc78212
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

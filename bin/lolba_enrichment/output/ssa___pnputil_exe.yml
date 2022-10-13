@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Pnputil exe LOLBAS in Non Standard Path
-id: 4d786984-fcf2-49e4-8a13-4bae55b1c305
+id: 322065b5-c808-445b-8f52-56d404c10801
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

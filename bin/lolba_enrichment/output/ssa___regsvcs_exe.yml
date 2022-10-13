@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Regsvcs exe LOLBAS in Non Standard Path
-id: 5ad21aea-8952-4349-940a-cc6e315b4764
+id: f1651f23-ea91-4c3b-a4fe-503a3c521538
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

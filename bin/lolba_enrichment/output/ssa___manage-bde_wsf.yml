@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Manage-bde wsf LOLBAS in Non Standard Path
-id: 0fde0055-7429-4d97-be71-1dcc286134a9
+id: 8b67dff3-8ffb-440e-876c-fbfcf908b7c8
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

@@ -1,8 +1,8 @@
 name: Windows Rename System Utilities Visualuiaverifynative exe LOLBAS in Non Standard
   Path
-id: e9611ad8-e258-4a92-8a3c-ae345857c82f
+id: 7393aa14-e2d4-4263-bbd8-1fb6c2c2e282
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

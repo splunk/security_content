@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Desk cpl LOLBAS in Non Standard Path
-id: ec3c96da-7e48-467c-94a4-3909f6d995e7
+id: 8532050c-c418-4048-9bb1-9fa86ff999bb
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

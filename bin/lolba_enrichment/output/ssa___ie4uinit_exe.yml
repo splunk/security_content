@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Ie4uinit exe LOLBAS in Non Standard Path
-id: 107b5646-2c7e-47db-978e-b0a86563b15d
+id: a672637a-66f7-4b87-accd-955f4c070898
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

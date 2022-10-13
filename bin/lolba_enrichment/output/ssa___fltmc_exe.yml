@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Fltmc exe LOLBAS in Non Standard Path
-id: 42351353-ba2c-4436-8e2f-f3bffc963330
+id: 332b23e7-907d-42b3-9fe3-5c72cb606601
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

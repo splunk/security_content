@@ -1,8 +1,8 @@
 name: Windows Rename System Utilities Microsoft workflow compiler exe LOLBAS in Non
   Standard Path
-id: 0ffaf119-c472-4d30-bff9-2d44c081b9d7
+id: 2840ab03-2536-4b39-8ef8-954148220b72
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

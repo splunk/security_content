@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Scriptrunner exe LOLBAS in Non Standard Path
-id: 24e1c639-318b-45ef-8277-654d6da96711
+id: 7672982b-9c79-416c-82d3-e0018d97267f
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

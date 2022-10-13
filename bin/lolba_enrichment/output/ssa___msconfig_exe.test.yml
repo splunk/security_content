@@ -8,7 +8,7 @@ tests:
     Path'
   attack_data:
   - file_name: dotnet_lolbin-windows-security.log
-    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/system_process_running_unexpected_location/dotnet_lolbin-windows-security.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/system_process_running_unexpected_location/lolbas_dataset.log
     source: WinEventLog:Security
 file_path: ba_test_template.yml
 file: endpoint/ssa___msconfig_exe.yml

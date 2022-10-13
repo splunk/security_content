@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Wuauclt exe LOLBAS in Non Standard Path
-id: 2338e662-5005-44f9-b46b-a9e9996dbbfc
+id: b058b0a1-faba-42bc-bac1-a1adaee65184
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

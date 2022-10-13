@@ -1,8 +1,8 @@
 name: Windows Rename System Utilities Syncappvpublishingserver vbs LOLBAS in Non Standard
   Path
-id: d47b2135-9d4f-47d9-81d7-407ea1de5fb1
+id: f36e59d1-89a0-451a-bae5-a7feb725613b
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

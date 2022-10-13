@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Wsl exe LOLBAS in Non Standard Path
-id: f8f1bacc-7b03-4ca1-b58b-491aea88c916
+id: a394f02f-73e4-4e9d-8dd8-4fa83cc1c7c5
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

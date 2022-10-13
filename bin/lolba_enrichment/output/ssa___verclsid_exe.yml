@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Verclsid exe LOLBAS in Non Standard Path
-id: 03b545fa-4cac-4d7b-9ad9-223e1ee8394b
+id: 8b2c7096-afdc-4516-ac21-ef1c278c0c14
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

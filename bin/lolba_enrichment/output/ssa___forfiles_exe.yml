@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Forfiles exe LOLBAS in Non Standard Path
-id: 6ea472b2-f91e-4191-a082-31d511acc20f
+id: 7ddc2a4e-3f4f-4928-814b-f425f9e38a40
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

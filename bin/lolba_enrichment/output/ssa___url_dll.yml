@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Url dll LOLBAS in Non Standard Path
-id: 5aacb016-0f12-4a23-9287-7e70d1a35bb4
+id: c30d16eb-ab6e-49cb-acc5-6b75150d9e1b
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

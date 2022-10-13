@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Adplus exe LOLBAS in Non Standard Path
-id: 906f0d89-fd83-4c7b-a9ea-7814a89c4d76
+id: 116a99ca-e86d-4ac6-a17d-afd4f23fd2f1
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

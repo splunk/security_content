@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Makecab exe LOLBAS in Non Standard Path
-id: 2e977687-19a8-43d6-92ba-eff04f64bde4
+id: 2512d88b-633a-4d47-a72a-a1c54f8155d3
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

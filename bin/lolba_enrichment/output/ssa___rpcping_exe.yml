@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Rpcping exe LOLBAS in Non Standard Path
-id: 39d70a6a-babf-40dc-a3d3-d6251f265aad
+id: 87c299df-3954-4733-974c-0cb1d21c0655
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

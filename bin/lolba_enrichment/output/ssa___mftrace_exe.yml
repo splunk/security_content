@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Mftrace exe LOLBAS in Non Standard Path
-id: bfcec37e-23ce-409c-9990-4cdbcb414870
+id: 9e57f1c0-be65-4e8b-880f-08c4e1c14763
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

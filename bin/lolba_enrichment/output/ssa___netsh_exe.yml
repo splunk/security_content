@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Netsh exe LOLBAS in Non Standard Path
-id: 6db98a81-8163-4a15-b65d-be42b40039f2
+id: faada4d7-722e-46e6-ad43-8a33a8e85c55
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

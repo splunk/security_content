@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Certreq exe LOLBAS in Non Standard Path
-id: 0d1a2903-56e2-4861-af3f-8fc22a1bb2a9
+id: e5845941-21d3-4056-b996-4900be686872
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

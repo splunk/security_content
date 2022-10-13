@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Datasvcutil exe LOLBAS in Non Standard Path
-id: c5040375-df64-42c1-862a-e3bf6ab8b9da
+id: 90a64180-30a4-4643-9de8-7b0890f7b73b
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

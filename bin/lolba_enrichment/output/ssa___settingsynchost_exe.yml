@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Settingsynchost exe LOLBAS in Non Standard Path
-id: b3c4a08a-3864-43bb-bdf6-fa9d9ae7156a
+id: 8332e4f9-c6b2-423b-8833-611fb6dfebac
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

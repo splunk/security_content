@@ -1,8 +1,8 @@
 name: Windows Rename System Utilities Utilityfunctions ps1 LOLBAS in Non Standard
   Path
-id: c3b8e86f-6728-4638-b386-c48460ef52cc
+id: 86cfd2fe-31e2-4a59-8915-d04af11a30c1
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

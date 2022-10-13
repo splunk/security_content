@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Rasautou exe LOLBAS in Non Standard Path
-id: eb6c148b-8d6e-4a3a-aed7-9764e24906d6
+id: 84414a6f-661f-48df-89d1-2b4fa1c36680
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Schtasks exe LOLBAS in Non Standard Path
-id: 7ff8c44b-9b78-460f-8a6b-2f43e106941f
+id: 58874935-e3fa-45e4-b148-40e8d66d582c
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

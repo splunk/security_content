@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Mshtml dll LOLBAS in Non Standard Path
-id: 0fd989c1-fcc6-4798-98ce-2a69315e8924
+id: 4d7c4952-e83c-4a95-b154-3b2b01a8566c
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Zipfldr dll LOLBAS in Non Standard Path
-id: e89d7e7d-e43b-499f-8d43-ac743630a29f
+id: d5de0498-046d-4673-b0a9-aa563f5252b7
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

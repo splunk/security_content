@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Wmic exe LOLBAS in Non Standard Path
-id: 140ab68b-f307-4f1a-ab28-303fb197eaaf
+id: 42c9b37c-6928-4e54-8043-2d5265d972dd
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

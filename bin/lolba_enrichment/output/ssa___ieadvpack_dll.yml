@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Ieadvpack dll LOLBAS in Non Standard Path
-id: 439433eb-2487-48a1-8173-ac1951e3bcfa
+id: 78390741-bc4d-44c6-b65d-4fd7be5e3deb
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

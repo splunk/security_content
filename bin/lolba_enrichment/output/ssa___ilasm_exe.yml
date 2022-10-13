@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Ilasm exe LOLBAS in Non Standard Path
-id: ec8fa87a-24b0-4ccc-95fa-ca37fd80a4f1
+id: 0955bbf6-8d50-4411-a0a1-32c3f1802128
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

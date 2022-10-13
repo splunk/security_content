@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Finger exe LOLBAS in Non Standard Path
-id: e267fa99-6ca6-415d-8086-c473434a6454
+id: bfdf608b-ed89-4722-b42c-1712a79bdc58
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

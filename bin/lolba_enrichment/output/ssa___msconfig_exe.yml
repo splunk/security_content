@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Msconfig exe LOLBAS in Non Standard Path
-id: 6f1b081f-b650-4b92-b430-6c28999e6d3e
+id: 6888acd8-f816-48ad-9e36-61003a2f9862
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

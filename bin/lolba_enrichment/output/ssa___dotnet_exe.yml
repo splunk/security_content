@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Dotnet exe LOLBAS in Non Standard Path
-id: 5909277d-29e2-4655-9b5e-38ea1a0affe3
+id: e7754ad8-01c5-4e36-8398-588222d8c3c8
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

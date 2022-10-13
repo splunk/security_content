@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Dfsvc exe LOLBAS in Non Standard Path
-id: d42f79ea-dcbe-4338-88ad-95b569e57b75
+id: cf4ed771-761d-4be3-b209-5ede58e848e4
 version: 1
-date: '2022-10-12'
+date: '2022-10-13'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:
