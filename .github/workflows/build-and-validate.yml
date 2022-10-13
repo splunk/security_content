@@ -112,6 +112,7 @@ jobs:
           rm -rf dist/escu/default/data/ui/panels/*.xml
           python contentctl.py --path . ${{ steps.vars.outputs.skip_enrichment_var }} generate --product ESCU --output dist/escu
           python contentctl.py --path . ${{ steps.vars.outputs.skip_enrichment_var }} generate --product SSA --output dist/ssa
+          python contentctl.py --path . ${{ steps.vars.outputs.skip_enrichment_var }} generate --product API --output dist/api
       
       - name: Copy lookups .mlmodel files
         run: |
@@ -153,6 +154,7 @@ jobs:
           tar -zxf content-pack-build-ssa.tar.gz
           mv dist/escu      DA-ESS-ContentUpdate
           mv dist/ssa       SSA_Content
+          mv dist/api       API_Content
           
           #Build ESCU Content
           #Do not use slim for speed, simplicity, and compatability
@@ -164,6 +166,10 @@ jobs:
           tar -zcf SSA_Content-latest.tar.gz SSA_Content  
           sha256sum SSA_Content-latest.tar.gz >> checksum.txt
 
+          #Package the API Content
+          tar -zcf API_Content-latest.tar.gz API_Content  
+          sha256sum API_Content-latest.tar.gz >> checksum.txt
+
       
       - name: store_artifacts
         uses: actions/upload-artifact@v2
@@ -172,6 +178,7 @@ jobs:
           path: |
             build/DA-ESS-ContentUpdate-latest.tar.gz
             build/SSA_Content-latest.tar.gz
+            build/API_Content-latest.tar.gz
             build/checksum.txt
 
           
@@ -307,8 +314,12 @@ jobs:
         run: |
           mkdir latest-escu
           tar -zxf DA-ESS-ContentUpdate-latest.tar.gz -C latest-escu --strip-components=1
+          
           mkdir latest-ssa
           tar -zxf SSA_Content-latest.tar.gz -C latest-ssa --strip-components=1
+
+          mkdir latest-api
+          tar -zxf API_Content-latest.tar.gz -C latest-api --strip-components=1
       
       - name: Install Python Dependencies
         run: |
@@ -336,6 +347,7 @@ jobs:
           mkdir dist
           mv latest-escu dist/escu
           mv latest-ssa dist/ssa
+          mv latest-api dist/api
           # configure git to prep for commit
           git config user.email "research@splunk.com"
           git config user.name "research bot"
@@ -343,7 +355,7 @@ jobs:
           git add dist/*
           git add docs/*
           git add detections/*
-          git commit --allow-empty -m "updating docs and package bits [ci skip]"
+          git commit --allow-empty -m "Update dist/escu, dist/ssa, and dist/api folders with the latest content associated with this tag "
           # Push quietly to prevent showing the token in log
           #No need to provide any credentials
           git push
@@ -375,6 +387,8 @@ jobs:
         run: |
           cp DA-ESS-ContentUpdate-latest.tar.gz DA-ESS-ContentUpdate-${{ steps.vars.outputs.tag }}.tar.gz
           cp SSA_Content-latest.tar.gz SSA_Content-${{ steps.vars.outputs.tag }}.tar.gz
+          cp API_Content-latest.tar.gz API_Content-${{ steps.vars.outputs.tag }}.tar.gz
+
           #No checksum on the reports
           cp report.tar.gz report-${{ steps.vars.outputs.tag }}.tar.gz
           cp checksum.txt checksum-${{ steps.vars.outputs.tag }}.txt
@@ -387,6 +401,7 @@ jobs:
           files: |
             DA-ESS-ContentUpdate-${{ steps.vars.outputs.tag }}.tar.gz
             SSA_Content-${{ steps.vars.outputs.tag }}.tar.gz
+            API_Content-${{ steps.vars.outputs.tag }}.tar.gz
             report-${{ steps.vars.outputs.tag }}.tar.gz
             checksum-${{ steps.vars.outputs.tag }}.txt
   
