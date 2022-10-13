@@ -144,6 +144,7 @@ jobs:
             tar -czf build/content-pack-build-escu.tar.gz dist/escu/*
             # update build number and version for ssa
             tar -czf build/content-pack-build-ssa.tar.gz dist/ssa/*
+            tar -czf build/content-pack-build-api.tar.gz dist/api/*
       
       
       - name: Build ESCU
@@ -152,6 +153,7 @@ jobs:
           cd build
           tar -zxf content-pack-build-escu.tar.gz
           tar -zxf content-pack-build-ssa.tar.gz
+          tar -zxf content-pack-build-api.tar.gz
           mv dist/escu      DA-ESS-ContentUpdate
           mv dist/ssa       SSA_Content
           mv dist/api       API_Content
