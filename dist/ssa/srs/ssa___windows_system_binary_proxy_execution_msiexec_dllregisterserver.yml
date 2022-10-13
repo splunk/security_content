@@ -48,7 +48,7 @@ tags:
   security_domain: endpoint
   risk_severity: low
   research_site_url: https://research.splunk.com/endpoint/8d1d5570-722c-49a3-996c-2e2cceef5163/
-  data_schema: ocsf-1
+  event_schema: cim
 test:
   name: Windows System Binary Proxy Execution MSIExec DLLRegisterServer Unit Test
   tests:

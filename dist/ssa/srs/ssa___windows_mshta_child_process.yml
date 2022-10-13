@@ -57,7 +57,7 @@ tags:
   security_domain: endpoint
   risk_severity: high
   research_site_url: https://research.splunk.com/endpoint/f63f7e9c-9526-11ec-9fc7-acde48001122/
-  data_schema: ocsf-1
+  event_schema: cim
 test:
   name: Windows MSHTA Child Process Unit Test
   tests:

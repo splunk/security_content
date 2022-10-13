@@ -52,7 +52,7 @@ tags:
   security_domain: endpoint
   risk_severity: low
   research_site_url: https://research.splunk.com/endpoint/b76eae28-cd25-11eb-9c92-acde48001122/
-  data_schema: ocsf-1
+  event_schema: cim
 test:
   name: Deny Permission using Cacls Utility Unit Test
   tests:

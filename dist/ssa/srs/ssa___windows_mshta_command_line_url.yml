@@ -59,7 +59,7 @@ tags:
   security_domain: endpoint
   risk_severity: high
   research_site_url: https://research.splunk.com/endpoint/9b35c538-94ef-11ec-9439-acde48001122/
-  data_schema: ocsf-1
+  event_schema: cim
 test:
   name: Windows MSHTA Command-Line URL Unit Test
   tests:

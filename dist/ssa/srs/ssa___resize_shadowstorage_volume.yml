@@ -54,7 +54,7 @@ tags:
   security_domain: endpoint
   risk_severity: medium
   research_site_url: https://research.splunk.com/endpoint/dbc30554-d27e-11eb-9e5e-acde48001122/
-  data_schema: ocsf-1
+  event_schema: cim
 test:
   name: Resize Shadowstorage Volume Unit Test
   tests:

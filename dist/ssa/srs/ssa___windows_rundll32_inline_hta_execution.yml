@@ -60,7 +60,7 @@ tags:
   security_domain: endpoint
   risk_severity: medium
   research_site_url: https://research.splunk.com/endpoint/0caa1dd6-94f5-11ec-9786-acde48001122/
-  data_schema: ocsf-1
+  event_schema: cim
 test:
   name: Windows Rundll32 Inline HTA Execution Unit Test
   tests:

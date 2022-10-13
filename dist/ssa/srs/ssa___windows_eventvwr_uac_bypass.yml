@@ -60,7 +60,7 @@ tags:
   security_domain: endpoint
   risk_severity: high
   research_site_url: https://research.splunk.com/endpoint/66adff66-90d9-11ec-aba7-acde48001122/
-  data_schema: ocsf-1
+  event_schema: cim
 test:
   name: Windows Eventvwr UAC Bypass Unit Test
   tests:

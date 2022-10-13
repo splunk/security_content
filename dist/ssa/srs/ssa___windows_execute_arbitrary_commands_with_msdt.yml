@@ -62,7 +62,7 @@ tags:
   security_domain: endpoint
   risk_severity: high
   research_site_url: https://research.splunk.com/endpoint/f253f9c2-10f0-4cc8-b469-f505ba8c2038/
-  data_schema: ocsf-1
+  event_schema: cim
 test:
   name: Windows Execute Arbitrary Commands with MSDT Unit Test
   tests:

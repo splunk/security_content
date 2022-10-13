@@ -68,7 +68,7 @@ tags:
   security_domain: endpoint
   risk_severity: medium
   research_site_url: https://research.splunk.com/endpoint/ba0c2450-caea-4086-ac3a-a71e2659754b/
-  data_schema: ocsf-1
+  event_schema: cim
 test:
   name: Windows System Binary Proxy Execution Compiled HTML File Using InfoTech Storage
     Handlers Unit Test

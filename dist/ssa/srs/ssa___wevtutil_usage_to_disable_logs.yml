@@ -54,7 +54,7 @@ tags:
   security_domain: endpoint
   risk_severity: medium
   research_site_url: https://research.splunk.com/endpoint/a4bdc944-cdd9-11eb-ac97-acde48001122/
-  data_schema: ocsf-1
+  event_schema: cim
 test:
   name: Wevtutil Usage To Disable Logs Unit Test
   tests:
