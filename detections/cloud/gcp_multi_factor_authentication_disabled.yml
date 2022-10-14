@@ -1,0 +1,66 @@
+name: GCP Multi-Factor Authentication Disabled
+id: b9bc5513-6fc1-4821-85a3-e1d81e451c83
+version: 1
+date: '2022-10-12'
+author: Mauricio Velazco, Splunk
+type: TTP
+datamodel: []
+description: The following analytic identifies an attempt to disable multi-factor authentication for a GCP user. An adversary who has obtained access to an GCP tenant 
+  may disable multi-factor authentication as a way to plant a backdoor and maintain persistence using a valid account.
+  This way the attackers can keep persistance in the environment without adding new users.
+search: ' `gws_reports_admin` command=UNENROLL_USER_FROM_STRONG_AUTH 
+  | stats values(user) by _time, command, actor.email, status
+  | `gcp_multi_factor_authentication_disabled_filter`'
+how_to_implement: You must install the latest version of Splunk Add-on for Google Workspace from Splunkbase (https://splunkbase.splunk.com/app/5556). You must be ingesting Google Workspace events into your Splunk environment. 
+  Specifically, this analytic leverages the Admin log events.
+known_false_positives: Legitimate use case may require for users to disable MFA. Filter as needed.
+references:
+- https://support.google.com/cloudidentity/answer/2537800?hl=en
+- https://attack.mitre.org/tactics/TA0005/
+- https://attack.mitre.org/techniques/T1556/
+tags:
+  analytic_story:
+  - GCP Account Takeover
+  asset_type: GCP
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  confidence: 90
+  context:
+  - Source:Cloud Data
+  - Stage:Persistence
+  - Stage:Defense Evasion
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556/gcp_disable_mfa/gws_admin.log
+  impact: 50
+  kill_chain_phases:
+  - Installation
+  - Actions on Objectives
+  message: MFA disabled for User $user$ initiated by $actor.email$  
+  mitre_attack_id:
+  - T1556
+  nist:
+  - DE.CM
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: actor.email
+    type: User
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - actor.email
+  - user
+  - command
+  - status
+  risk_score: 45
+  security_domain: identity
+

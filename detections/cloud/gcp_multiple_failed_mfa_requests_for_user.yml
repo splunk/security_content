@@ -1,24 +1,19 @@
-name: Azure AD Multiple Failed MFA Requests For User
-id: 264ea131-ab1f-41b8-90e0-33ad1a1888ea
+name: GCP Multiple Failed MFA Requests For User
+id: cbb3cb84-c06f-4393-adcc-5cb6195621f1
 version: 1
-date: '2022-08-25'
+date: '2022-10-14'
 author: Mauricio Velazco, Splunk
 type: TTP
 datamodel: []
-description: 'The following analytic identifies multiple failed multi-factor authentication requests for a single user within an Azure AD tenant. Error Code 500121 represents a failed attempt to authenticate using a second factor.
+description: 'The following analytic identifies multiple failed multi-factor authentication requests for a single user within a Google Cloud Platform tenant.
   Specifically, the analytic triggers when more than 10 MFA user prompts fail within 10 minutes. Azure AD tenants can be very different depending on the organization, Security teams should test this detection and customize these arbitrary thresholds.
   The detected behavior may represent an adversary who has obtained legitimate credentials for a user and continuously repeats login attempts in order to bombard users with MFA push notifications, SMS messages, and phone calls
   potentially resulting in the user finally accepting the authentication request.
   Threat actors like the Lapsus team and APT29 have leveraged this technique to bypass multi-factor authentication controls as reported by Mandiant and others.'
-search: ' `azuread` body.category=SignInLogs body.properties.status.errorCode=500121
-  | rename body.properties.* as * 
-  | bucket span=10m _time
-  | stats dc(_raw) AS mfa_prompts values(userPrincipalName) by userPrincipalName, status.additionalDetails, appDisplayName, userAgent, _time
-  | where mfa_prompts > 10
-  | `azure_ad_multiple_failed_mfa_requests_for_user_filter`'
-how_to_implement: You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details). 
-  You must be ingesting Azure Active Directory events into your Splunk environment. Specifically, this analytic leverages the SignInLogs
-  log category.
+search: '
+  | `gcp_multiple_failed_mfa_requests_for_user_filter`'
+how_to_implement: You must install the latest version of Splunk Add-on for Google Workspace from Splunkbase (https://splunkbase.splunk.com/app/5556). You must be ingesting Google Workspace events into your Splunk environment. 
+  Specifically, this analytic leverages the User log events.
 known_false_positives: Multiple Failed MFA requests may also be a sign of authentication or application issues. Filter as needed.
 references:
 - https://www.mandiant.com/resources/blog/russian-targeting-gov-business
@@ -28,8 +23,8 @@ references:
 - https://attack.mitre.org/techniques/T1078/004/
 tags:
   analytic_story:
-  -  Azure Active Directory Account Takeover
-  asset_type: Azure Active Directory
+  - GCP Account Takeover
+  asset_type: Google Cloud Platform tenant
   cis20:
   - CIS 3
   - CIS 5
@@ -39,11 +34,11 @@ tags:
   - Source:Cloud Data
   - Stage:Initial Access
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/multiple_failed_mfa_requests/azure-audit.log
+  - UPDATE_DATASET_URL
   impact: 60
   kill_chain_phases:
   - Exploitation
-  message: Multiple Failed MFA requests for user $body.properties.userPrincipalName$
+  message: Multiple Failed MFA requests for user $user$
   mitre_attack_id:
   - T1621
   - T1078
@@ -51,24 +46,20 @@ tags:
   nist:
   - DE.CM
   observable:
-  - name: userPrincipalName
+  - name: user
     type: User
     role:
     - Victim
-  - name: ipAddress
+  - name: 
     type: IP Address
     role:
     - Attacker
+  product:
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
   - _time
-  - body.properties.status.errorCode
-  - body.category
-  - body.properties.authenticationDetails
-  - body.properties.userPrincipalName
-  - body.properties.ipAddress
-  risk_score: 63
+  risk_score: 54
   security_domain: identity
