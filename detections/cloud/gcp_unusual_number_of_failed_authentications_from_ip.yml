@@ -18,7 +18,7 @@ references:
 - https://www.whiteoaksecurity.com/blog/goawsconsolespray-password-spraying-tool/
 tags:
   analytic_story:
-  -  -----
+  - GCP Account Takeover
   asset_type: AWS Account
   cis20:
   - CIS 3
