@@ -66,13 +66,13 @@ jobs:
       #Previous config chose which branch/tag to operate on.
       #I think Github is smart enough to choose based on whether it's a pull request or push + other info?
       - name: Check out the repository code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         #with:
         #  repository: splunk/security-content #check out https://github.com/mitre/cti.git, defaults to HEAD
         #  path: "security-content"
 
 
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v4
         with:
           python-version: '3.9' #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
           architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
@@ -101,10 +101,6 @@ jobs:
           python contentctl.py -p . ${{ steps.vars.outputs.skip_enrichment_var }} validate -pr SSA 
 
 
-      #Now generate the documentation (uses Node)
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '14' #can easily be changed to a different version
       
       - name: contentctl generate
         run: |
@@ -112,6 +108,7 @@ jobs:
           rm -rf dist/escu/default/data/ui/panels/*.xml
           python contentctl.py --path . ${{ steps.vars.outputs.skip_enrichment_var }} generate --product ESCU --output dist/escu
           python contentctl.py --path . ${{ steps.vars.outputs.skip_enrichment_var }} generate --product SSA --output dist/ssa
+          python contentctl.py --path . ${{ steps.vars.outputs.skip_enrichment_var }} generate --product API --output dist/api
       
       - name: Copy lookups .mlmodel files
         run: |
@@ -143,6 +140,7 @@ jobs:
             tar -czf build/content-pack-build-escu.tar.gz dist/escu/*
             # update build number and version for ssa
             tar -czf build/content-pack-build-ssa.tar.gz dist/ssa/*
+            tar -czf build/content-pack-build-api.tar.gz dist/api/*
       
       
       - name: Build ESCU
@@ -151,8 +149,10 @@ jobs:
           cd build
           tar -zxf content-pack-build-escu.tar.gz
           tar -zxf content-pack-build-ssa.tar.gz
+          tar -zxf content-pack-build-api.tar.gz
           mv dist/escu      DA-ESS-ContentUpdate
           mv dist/ssa       SSA_Content
+          mv dist/api       API_Content
           
           #Build ESCU Content
           #Do not use slim for speed, simplicity, and compatability
@@ -164,14 +164,19 @@ jobs:
           tar -zcf SSA_Content-latest.tar.gz SSA_Content  
           sha256sum SSA_Content-latest.tar.gz >> checksum.txt
 
+          #Package the API Content
+          tar -zcf API_Content-latest.tar.gz API_Content  
+          sha256sum API_Content-latest.tar.gz >> checksum.txt
+
       
       - name: store_artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: content-latest
           path: |
             build/DA-ESS-ContentUpdate-latest.tar.gz
             build/SSA_Content-latest.tar.gz
+            build/API_Content-latest.tar.gz
             build/checksum.txt
 
           
@@ -185,12 +190,12 @@ jobs:
     steps:
 
       - name: Checkout Repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           ref: 'develop'
 
       #Download the artifacts we want to check
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v3
         with:
           name: content-latest
           path: build/
@@ -217,7 +222,7 @@ jobs:
           tar -cvzf report.tar.gz report/
       
       - name: store_artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: appinspect_reports
           path: |
@@ -225,7 +230,7 @@ jobs:
      
       #Still store the report, even if we have failed (otherwise we don't know why/how we failed)
       - name: store_artifacts_on_failure
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         if: failure()
         with:
           name: appinspect_reports_failure
@@ -240,7 +245,7 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/')
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           ref: 'develop'
 
@@ -249,7 +254,7 @@ jobs:
           sudo apt update -qq
           sudo apt install jq -qq
      
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v4
         with:
           python-version: '3.9' #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
           architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
@@ -289,17 +294,17 @@ jobs:
     steps:
 
       - name: Checkout Repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           token: ${{ secrets.SECURITY_CONTENT_ADMIN_TASKS }}
           ref: 'develop'
 
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v4
         with:
           python-version: '3.9' #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
           architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
 
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v3
         with:
           name: content-latest
 
@@ -307,8 +312,12 @@ jobs:
         run: |
           mkdir latest-escu
           tar -zxf DA-ESS-ContentUpdate-latest.tar.gz -C latest-escu --strip-components=1
+          
           mkdir latest-ssa
           tar -zxf SSA_Content-latest.tar.gz -C latest-ssa --strip-components=1
+
+          mkdir latest-api
+          tar -zxf API_Content-latest.tar.gz -C latest-api --strip-components=1
       
       - name: Install Python Dependencies
         run: |
@@ -336,6 +345,7 @@ jobs:
           mkdir dist
           mv latest-escu dist/escu
           mv latest-ssa dist/ssa
+          mv latest-api dist/api
           # configure git to prep for commit
           git config user.email "research@splunk.com"
           git config user.name "research bot"
@@ -343,7 +353,7 @@ jobs:
           git add dist/*
           git add docs/*
           git add detections/*
-          git commit --allow-empty -m "updating docs and package bits [ci skip]"
+          git commit --allow-empty -m "Update dist/escu, dist/ssa, and dist/api folders with the latest content associated with this tag "
           # Push quietly to prevent showing the token in log
           #No need to provide any credentials
           git push
@@ -358,11 +368,11 @@ jobs:
     steps:
 
       #Get the artifacts that we need
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v3
         with:
           name: content-latest
 
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v3
         with:
           name: appinspect_reports
 
@@ -375,6 +385,8 @@ jobs:
         run: |
           cp DA-ESS-ContentUpdate-latest.tar.gz DA-ESS-ContentUpdate-${{ steps.vars.outputs.tag }}.tar.gz
           cp SSA_Content-latest.tar.gz SSA_Content-${{ steps.vars.outputs.tag }}.tar.gz
+          cp API_Content-latest.tar.gz API_Content-${{ steps.vars.outputs.tag }}.tar.gz
+
           #No checksum on the reports
           cp report.tar.gz report-${{ steps.vars.outputs.tag }}.tar.gz
           cp checksum.txt checksum-${{ steps.vars.outputs.tag }}.txt
@@ -387,6 +399,7 @@ jobs:
           files: |
             DA-ESS-ContentUpdate-${{ steps.vars.outputs.tag }}.tar.gz
             SSA_Content-${{ steps.vars.outputs.tag }}.tar.gz
+            API_Content-${{ steps.vars.outputs.tag }}.tar.gz
             report-${{ steps.vars.outputs.tag }}.tar.gz
             checksum-${{ steps.vars.outputs.tag }}.txt
   
@@ -398,7 +411,7 @@ jobs:
     steps:
 
       #Get the artifacts that we need
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v3
         with:
           name: content-latest
 
@@ -423,12 +436,12 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/')
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           ref: 'develop'
 
 
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v4
         with:
           python-version: '3.9' #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
           architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
