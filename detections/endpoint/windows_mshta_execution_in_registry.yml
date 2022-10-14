@@ -41,7 +41,7 @@ tags:
   - Source:Endpoint
   - Stage:Persistence
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/t1218.005/mshta_in_registry/sysmon3.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.005/mshta_in_registry/sysmon3.log
   impact: 80
   kill_chain_phases:
   - Exploitation
