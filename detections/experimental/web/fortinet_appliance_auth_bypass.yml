@@ -11,7 +11,7 @@ description: 'CVE-2022-40684 is a Fortinet appliance auth bypass that is activel
   Modify the admin SSH key to enable the attacker to login to the compromised system. \
 
   Add new local users. \
-  
+
   Update networking configurations to reroute traffic. \
 
   Download the system configuration. \ 
@@ -32,6 +32,7 @@ references:
   - https://www.horizon3.ai/fortios-fortiproxy-and-fortiswitchmanager-authentication-bypass-technical-deep-dive-cve-2022-40684/
   - https://github.com/horizon3ai/CVE-2022-40684
   - https://www.horizon3.ai/fortinet-iocs-cve-2022-40684/
+  - https://attackerkb.com/topics/QWOxGIKkGx/cve-2022-40684/rapid7-analysis
 tags:
   analytic_story:
   - CVE-2022-40684 Fortinet Appliance Auth bypass
