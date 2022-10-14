@@ -11,6 +11,7 @@ description: 'CVE-2022-40684 is a Fortinet appliance auth bypass that is activel
   Modify the admin SSH key to enable the attacker to login to the compromised system. \
 
   Add new local users. \
+  
   Update networking configurations to reroute traffic. \
 
   Download the system configuration. \ 
