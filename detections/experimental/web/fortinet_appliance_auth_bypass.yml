@@ -8,7 +8,7 @@ datamodel:
 - Web
 description: 'CVE-2022-40684 is a Fortinet appliance auth bypass that is actively being exploited and a POC is released publicy. The POC adds a SSH key to the appliance. Note that the exploit can be used with any HTTP method (GET, POST, PUT, DELETE, etc). The REST API request failing is not an indication that an attacker was unsuccessful. Horizon3 was able to modify the admin SSH keys though a REST API request that reportedly failed.
   The collection /api/v2/ endpoints can be used to configure the system and modify the administrator user. Any logs found that meet the above conditions and also have a URL containing /api/v2/ should be cause for concern. Further investigation of any matching log entries can reveal any damage an attack has done. Additionally, an attacker may perform the following actions to further compromise a system
-  Modify the admin users’ SSH keys to enable the attacker to login to the compromised system. \
+  Modify the admin SSH key to enable the attacker to login to the compromised system. \
 
   Add new local users. \
   Update networking configurations to reroute traffic. \
