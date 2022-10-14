@@ -95,7 +95,7 @@
         "app_version": "2.3.0",
         "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-google-workspace_230.tgz"
     }
-  }
+  
 
   },
   "branch": "BRANCH_DOES_NOT_EXIST_USE_CLI_ARGUMENT",
