@@ -17,7 +17,7 @@ references:
 - https://softwaresecuritydotblog.wordpress.com/2019/09/28/how-to-protect-against-credential-stuffing-on-aws/
 tags:
   analytic_story:
-  -  -----
+  - GCP Account Takeover
   asset_type: AWS Account
   cis20:
   - CIS 3
