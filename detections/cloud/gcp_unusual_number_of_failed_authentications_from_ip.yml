@@ -10,8 +10,7 @@ search: "`gws_reports_login` authentication_method IN (   google_password, passw
 | eventstats  avg(unique_accounts) as ip_avg , stdev(unique_accounts) as ip_std by src_ip 
 | eval  upperBound=(ip_avg+ip_std*3) 
 | eval  isOutlier=if(unique_accounts > 10 and unique_accounts >= upperBound, 1, 0) | where isOutlier =1| `gcp_unusual_number_of_failed_authentications_from_ip_filter`"
-
-how_to_implement: You must install Splunk Add-on for AWS in order to ingest Cloudtrail. We recommend the users to try different combinations of the bucket span time and the calculation of the upperBound field to tune this search according to their environment
+how_to_implement: Please install the Splunk Add-on for Google Workspace from Splunkbase(https://splunkbase.splunk.com/app/5556),  which allows a Splunk administrator to collect Google Workspace event data using Google Workspace APIs in Splunk. These detections are based on user log events like authentication, password change, 2FA enrollment from the Google audit reports which are ingested into Splunk in `sourcetype=gws:reports:login`. Find more details about this dataset- https://support.google.com/a/answer/4580120?hl=en&ref_topic=9027054. We would also recommend tuning the detection by adjusting the window `span` and `unique_accounts` threshold values according to your environment.
 known_false_positives: No known false positives for this detection. Please review this alert
 references:
 - https://attack.mitre.org/techniques/T1110/003/
@@ -19,7 +18,7 @@ references:
 tags:
   analytic_story:
   - GCP Account Takeover
-  asset_type: AWS Account
+  asset_type: GCP tenant
   cis20:
   - CIS 3
   - CIS 5
