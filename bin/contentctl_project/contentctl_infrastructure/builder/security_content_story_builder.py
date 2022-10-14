@@ -15,13 +15,19 @@ from bin.contentctl_project.contentctl_infrastructure.builder.yml_reader import 
 class SecurityContentStoryBuilder(StoryBuilder):
     story: Story
     check_references: bool
+    app_name: str
 
     def __init__(self, output_path:Union[str,None]=None, check_references: bool = False):
         self.check_references = check_references
         self.app_name = self.get_app_name_from_manifest(output_path)
 
     def get_app_name_from_manifest(self, output_path:Union[str,None])->str:
-        if output_path is None:
+        
+        if output_path is None: 
+            return "ESCU"
+        
+        elif "dist/api" in output_path:
+            print("API does not have an 'app.manifest' file - assuming app is ESCU")
             return "ESCU"
         
         try:
