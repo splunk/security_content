@@ -18,7 +18,7 @@ description: 'CVE-2022-40684 is a Fortinet appliance auth bypass that is activel
 
   Initiate packet captures to capture other sensitive system information. Reference Horizon3.ai'
 search: '| tstats count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Web where Web.url IN ("*//api//v2//cmdb//system//admin//admin*")  Web.http_method IN ("GET", "PUT")
+  as lastTime from datamodel=Web where Web.url IN ("*/api/v2/cmdb/system/admin/admin*")  Web.http_method IN ("GET", "PUT")
   by Web.http_user_agent, Web.http_method, Web.url, Web.url_length, Web.src, Web.dest, sourcetype
   | `drop_dm_object_name("Web")`
   | `security_content_ctime(firstTime)` 
@@ -26,7 +26,7 @@ search: '| tstats count min(_time) as firstTime max(_time)
   | `fortinet_appliance_auth_bypass_filter`'
 how_to_implement: This detection requires the Web datamodel to be populated from a
   supported Technology Add-On like Splunk for Apache. Splunk for Nginx, or Splunk for Palo Alto.
-known_false_positives: GET requests will be noisy and need to be filtered out or removed from the query based on volume. Filter as needed. 
+known_false_positives: GET requests will be noisy and need to be filtered out or removed from the query based on volume. Restrict analytic to known publically facing Fortigates, or run analytic as a Hunt until properly tuned. It is also possible the user agent may be filtered on Report Runner only for the exploit, however, it is unknown at this if other user agents may be used.
 references:
   - https://www.wordfence.com/blog/2022/10/threat-advisory-cve-2022-40684-fortinet-appliance-auth-bypass/
   - https://www.horizon3.ai/fortios-fortiproxy-and-fortiswitchmanager-authentication-bypass-technical-deep-dive-cve-2022-40684/
@@ -45,7 +45,8 @@ tags:
   context:
   - Source:Application Log
   - Stage:Execution
-  dataset: []
+  dataset: 
+    - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/fortigate/fortinetcve202240684.log
   impact: 90
   kill_chain_phases:
   - Exploitation
