@@ -70,5 +70,5 @@ tags:
   - body.properties.authenticationDetails
   - body.properties.userPrincipalName
   - body.properties.ipAddress
-  risk_score: 63
+  risk_score: 54
   security_domain: identity
