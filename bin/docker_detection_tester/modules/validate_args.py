@@ -168,12 +168,12 @@ setup_schema = {
                   "SPLUNK_ADD_ON_FOR_GOOGLE_CLOUD_PLATFORM": {
                     "app_number": 3088,
                     "app_version": "4.0.0",
-                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-google-cloud-platform_400.tgz"
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-google-cloud-platform_400.tgz"
                   },
                   "SPLUNK_ADD_ON_FOR_GOOGLE_WORKSPACE": {
                     "app_number": 3110,
                     "app_version": "2.3.0",
-                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-google-workspace_230.tgz"
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-google-workspace_230.tgz"
                 }
                   
             }
