@@ -10,6 +10,7 @@ references:
   - https://www.horizon3.ai/fortios-fortiproxy-and-fortiswitchmanager-authentication-bypass-technical-deep-dive-cve-2022-40684/
   - https://github.com/horizon3ai/CVE-2022-40684
   - https://attackerkb.com/topics/QWOxGIKkGx/cve-2022-40684/rapid7-analysis
+  - https://www.greynoise.io/blog/fortios-authentication-bypass
 tags:
   analytic_story: CVE-2022-40684 Fortinet Appliance Auth bypass
   category:
