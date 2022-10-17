@@ -33,6 +33,7 @@ references:
   - https://github.com/horizon3ai/CVE-2022-40684
   - https://www.horizon3.ai/fortinet-iocs-cve-2022-40684/
   - https://attackerkb.com/topics/QWOxGIKkGx/cve-2022-40684/rapid7-analysis
+  - https://github.com/rapid7/metasploit-framework/pull/17143
 tags:
   analytic_story:
   - CVE-2022-40684 Fortinet Appliance Auth bypass
