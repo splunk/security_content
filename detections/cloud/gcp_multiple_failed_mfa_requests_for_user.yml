@@ -6,11 +6,14 @@ author: Mauricio Velazco, Splunk
 type: TTP
 datamodel: []
 description: 'The following analytic identifies multiple failed multi-factor authentication requests for a single user within a Google Cloud Platform tenant.
-  Specifically, the analytic triggers when more than 10 MFA user prompts fail within 10 minutes. Azure AD tenants can be very different depending on the organization, Security teams should test this detection and customize these arbitrary thresholds.
+  Specifically, the analytic triggers when 10 or more MFA user prompts fail within 5 minutes. Google CLoud tenants can be very different depending on the organization, Security teams should test this detection and customize these arbitrary thresholds.
   The detected behavior may represent an adversary who has obtained legitimate credentials for a user and continuously repeats login attempts in order to bombard users with MFA push notifications, SMS messages, and phone calls
   potentially resulting in the user finally accepting the authentication request.
   Threat actors like the Lapsus team and APT29 have leveraged this technique to bypass multi-factor authentication controls as reported by Mandiant and others.'
-search: '
+search: ' `gws_reports_login` event.name=login_failure `gws_login_mfa_methods`
+  | bucket span=5m _time 
+  | stats dc(_raw) AS mfa_prompts values(user) by src_ip, login_challenge_method,  _time
+  | where mfa_prompts >= 10
   | `gcp_multiple_failed_mfa_requests_for_user_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Google Workspace from Splunkbase (https://splunkbase.splunk.com/app/5556). You must be ingesting Google Workspace events into your Splunk environment. 
   Specifically, this analytic leverages the User log events.
@@ -34,7 +37,7 @@ tags:
   - Source:Cloud Data
   - Stage:Initial Access
   dataset:
-  - UPDATE_DATASET_URL
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/multiple_failed_mfa_gws/gws_login.log
   impact: 60
   kill_chain_phases:
   - Exploitation

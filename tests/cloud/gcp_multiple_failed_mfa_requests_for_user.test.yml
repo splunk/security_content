@@ -7,7 +7,7 @@ tests:
   latest_time: now
   attack_data:
   - file_name: gws_login.log
-    data: UPDATE
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/multiple_failed_mfa_gws/gws_login.log
     source: gws:reports:login
     sourcetype: gws:reports:login
     update_timestamp: true
