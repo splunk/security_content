@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Diantz exe LOLBAS in Non Standard Path
-id: 118c96e6-f3bf-4217-a2ee-9eba800eb91d
+id: 09bcd983-9735-45e7-9bdd-a78f4557954d
 version: 1
-date: '2022-10-17'
+date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

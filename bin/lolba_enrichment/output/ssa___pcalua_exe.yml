@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Pcalua exe LOLBAS in Non Standard Path
-id: fa7fd32d-406f-4055-9f46-e10b3b4b64b7
+id: 1d50072e-23b7-4ba3-b3d7-8344cf167dcd
 version: 1
-date: '2022-10-17'
+date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Wsreset exe LOLBAS in Non Standard Path
-id: aef2f59f-fad8-4d1d-99bc-854bd0d2ef2e
+id: 4835efef-4d92-44a5-bede-76eabd53a1e7
 version: 1
-date: '2022-10-17'
+date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

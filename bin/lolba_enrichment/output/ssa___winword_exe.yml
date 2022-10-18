@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Winword exe LOLBAS in Non Standard Path
-id: 745bb75f-485e-4ef5-a76d-26d38ec960c2
+id: 420e9385-1e99-4585-b663-cdc9e539ca6d
 version: 1
-date: '2022-10-17'
+date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

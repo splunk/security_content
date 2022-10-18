@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Workfolders exe LOLBAS in Non Standard Path
-id: db250a82-0d56-4da0-90f6-c26e6f02711a
+id: ebe86f07-d7a0-4ddc-8f9c-ea326bf46bbb
 version: 1
-date: '2022-10-17'
+date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

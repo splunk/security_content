@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Pubprn vbs LOLBAS in Non Standard Path
-id: 40f0aa11-521b-4185-a462-c6482f5f8756
+id: 7d90df95-b47a-4072-88d8-73eb0c484492
 version: 1
-date: '2022-10-17'
+date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

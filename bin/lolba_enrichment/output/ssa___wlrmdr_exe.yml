@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Wlrmdr exe LOLBAS in Non Standard Path
-id: cf4ea566-98d7-4f7e-b02d-875b6b092fa0
+id: 343f7052-5896-4374-9dab-5a63d21ed594
 version: 1
-date: '2022-10-17'
+date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Bitsadmin exe LOLBAS in Non Standard Path
-id: 69e7e9bb-e08e-4972-9140-9adb08ebe199
+id: 919cfed5-71e3-4b56-8468-bfa0f8e48763
 version: 1
-date: '2022-10-17'
+date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

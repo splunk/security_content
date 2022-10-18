@@ -1,8 +1,8 @@
 name: Windows Rename System Utilities Cl_mutexverifiers ps1 LOLBAS in Non Standard
   Path
-id: 4a98b0d1-88c0-4234-8d2a-44cbfe7f70b6
+id: 53c3b8a2-9e6c-4b34-8bf3-c76fd4fcacf3
 version: 1
-date: '2022-10-17'
+date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

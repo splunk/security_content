@@ -1,8 +1,8 @@
 name: Windows Rename System Utilities Gfxdownloadwrapper exe LOLBAS in Non Standard
   Path
-id: 7ef96cdf-d856-4ebc-8937-702d41158d79
+id: 3ed5ff81-7f18-4bf5-b6a9-38cf256d6217
 version: 1
-date: '2022-10-17'
+date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:
