@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Pester bat LOLBAS in Non Standard Path
-id: 4a3f92cf-2e0b-4919-a9a6-21eff8f7f8a2
+id: aa6db9ce-d51c-4814-b3bd-a48338355387
 version: 1
-date: '2022-10-17'
+date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

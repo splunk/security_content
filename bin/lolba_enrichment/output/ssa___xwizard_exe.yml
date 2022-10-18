@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Xwizard exe LOLBAS in Non Standard Path
-id: 933c9ba4-284c-4847-b982-b17c4adafce2
+id: 6ae23268-a909-4d71-8181-d136b1e6a409
 version: 1
-date: '2022-10-17'
+date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

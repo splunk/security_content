@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Conhost exe LOLBAS in Non Standard Path
-id: 18c2d6d3-8712-49d2-b3ff-3950131ce8da
+id: d1c99845-9762-4da4-b30e-7fbf05304baf
 version: 1
-date: '2022-10-17'
+date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

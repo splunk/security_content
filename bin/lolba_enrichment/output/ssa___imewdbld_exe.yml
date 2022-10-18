@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Imewdbld exe LOLBAS in Non Standard Path
-id: 65bc00f8-acd2-4c3a-8bc9-6b70067fe179
+id: d0a64b6d-7d06-4c04-99e9-04c497a94264
 version: 1
-date: '2022-10-17'
+date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

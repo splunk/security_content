@@ -1,8 +1,8 @@
 name: Windows Rename System Utilities Devtoolslauncher exe LOLBAS in Non Standard
   Path
-id: c502882c-44ab-4556-ba3c-c9bec806ff3f
+id: 989eef3d-36d4-4b83-a004-94f7f171e529
 version: 1
-date: '2022-10-17'
+date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

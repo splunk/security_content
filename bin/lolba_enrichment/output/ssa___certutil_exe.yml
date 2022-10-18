@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Certutil exe LOLBAS in Non Standard Path
-id: 8402b60f-0a97-4d58-a927-bc4b1b04112c
+id: 9de4a1d7-65bf-4a6f-b25f-c926570c6543
 version: 1
-date: '2022-10-17'
+date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:
