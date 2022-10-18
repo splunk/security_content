@@ -1,7 +1,7 @@
 name: Qakbot
 id: 0c6169b1-f126-4d86-8e4f-f7891007ebc6
 version: 1
-date: '2022-10-1210'
+date: '2022-10-12'
 author: Teoderick Contreras, Splunk
 description: Leverage searches that allow you to detect and investigate unusual activities
   that might relate to the Qakbot/QBot malware including parent-child process anomalies, persistence, initial access, recon and many more.
