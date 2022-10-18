@@ -1,0 +1,82 @@
+name: Windows Exchange Autodiscover SSRF Abuse
+id: d436f9e7-0ee7-4a47-864b-6dea2c4e2752
+version: 1
+date: '2022-10-03'
+author: Michael Haag, Splunk
+type: TTP
+datamodel:
+- Web
+description: The following analytic utilizes the Web datamodel and identifies the ProxyShell or ProxyNotShell abuse. This vulnerability is a Server Side Request Forgery (SSRF) vulnerability, which is a web vulnerability that allows an adversary to exploit vulnerable functionality to access server side or local network services by affectively traversing the external firewall using vulnerable web functionality. This analytic looks for the URI path and query of autodiscover, powershell and mapi along with a POST occurring. It will tally a simple score and show the output of the events that match.
+  This analytic may be added to by simply creating a new eval statement and modifying the hardcode digit for Score.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Web where (Web.status=200 OR Web.status=302 OR Web.status=401) AND Web.http_method=POST by Web.src Web.status Web.uri_path Web.dest Web.http_method Web.uri_query
+  | `drop_dm_object_name("Web")`
+  | eval is_autodiscover=if(like(lower(uri_path),"%autodiscover%"),1,0)
+  | eval powershell = if(match(lower(uri_query),"powershell"), "1",0)
+  | eval mapi=if(like(uri_query,"%/mapi/%"),1,0)
+  | addtotals fieldname=Score is_autodiscover, powershell, mapi
+  | fields Score, src,dest, status, uri_query,uri_path,http_method
+  | where Score >= 2
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `windows_exchange_autodiscover_ssrf_abuse_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information on Web traffic, Exchange OR IIS logs, mapped to `Web` datamodel in the `Web` node. In addition, confirm the latest CIM App 4.20 or higher is installed.
+known_false_positives: False positives are limited.
+references:
+  - https://www.gteltsc.vn/blog/warning-new-attack-campaign-utilized-a-new-0day-rce-vulnerability-on-microsoft-exchange-server-12715.html
+  - https://msrc-blog.microsoft.com/2022/09/29/customer-guidance-for-reported-zero-day-vulnerabilities-in-microsoft-exchange-server/
+  - https://twitter.com/GossiTheDog/status/1575762721353916417?s=20&t=67gq9xCWuyPm1VEm8ydfyA
+  - https://twitter.com/cglyer/status/1575793769814728705?s=20&t=67gq9xCWuyPm1VEm8ydfyA
+  - https://www.gteltsc.vn/blog/warning-new-attack-campaign-utilized-a-new-0day-rce-vulnerability-on-microsoft-exchange-server-12715.html
+  - https://research.splunk.com/stories/proxyshell/
+  - https://docs.splunk.com/Documentation/AddOns/released/MSIIS
+  - https://highon.coffee/blog/ssrf-cheat-sheet/
+  - https://owasp.org/Top10/A10_2021-Server-Side_Request_Forgery_%28SSRF%29/
+tags:
+  cve:
+  - CVE-2021-34523
+  - CVE-2021-34473
+  - CVE-2021-31207
+  - CVE-2022-41040
+  - CVE-2022-41082
+  analytic_story:
+  - ProxyShell
+  - ProxyNotShell
+  asset_type: Web server
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  confidence: 80
+  context:
+  - Scope:Network
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/proxyshell/proxyshell.log
+  impact: 90
+  kill_chain_phases:
+  - Exploitation
+  message:  Activity related to ProxyShell or ProxyNotShell has been identified on $dest$. Review events
+    and take action accordingly.
+  mitre_attack_id:
+  - T1190
+  nist:
+  - DE.CM
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Web.src 
+  - Web.status 
+  - Web.uri_path 
+  - Web.dest 
+  - Web.http_method 
+  - Web.uri_query
+  risk_score: 72
+  security_domain: network
