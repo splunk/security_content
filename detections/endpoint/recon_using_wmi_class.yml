@@ -1,9 +1,9 @@
 name: Recon Using WMI Class
 id: 018c1972-ca07-11eb-9473-acde48001122
 version: 2
-date: '2022-02-25'
+date: '2022-10-10'
 author: Teoderick Contreras, Splunk
-type: TTP
+type: Anomaly
 datamodel: []
 description: The following analytic identifies suspicious PowerShell via EventCode
   4104, where WMI is performing an event query looking for running processes or running
@@ -13,7 +13,7 @@ description: The following analytic identifies suspicious PowerShell via EventCo
   related artifacts.
 search: '`powershell` EventCode=4104 (ScriptBlockText= "*SELECT*" OR ScriptBlockText= "*Get-WmiObject*")
   AND (ScriptBlockText= "*Win32_Bios*" OR ScriptBlockText= "*Win32_OperatingSystem*" OR ScriptBlockText= "*Win32_Processor*"
-  OR ScriptBlockText= "*Win32_ComputerSystem*" OR ScriptBlockText= "*Win32_ComputerSystemProduct*"
+  OR ScriptBlockText= "*Win32_ComputerSystem*" OR ScriptBlockText= "*Win32_ComputerSystemProduct*" OR ScriptBlockText= "*Win32_PnPEntity*" 
   OR ScriptBlockText= "*Win32_ShadowCopy*") | stats count min(_time) as firstTime max(_time)
   as lastTime by EventCode ScriptBlockText Computer UserID | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `recon_using_wmi_class_filter`'
@@ -34,6 +34,7 @@ tags:
   - Hermetic Wiper
   - Malicious PowerShell
   - Industroyer2
+  - Qakbot
   confidence: 80
   context:
   - Source:Endpoint

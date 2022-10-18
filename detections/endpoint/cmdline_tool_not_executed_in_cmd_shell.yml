@@ -36,6 +36,7 @@ references:
 tags:
   analytic_story:
   - FIN7
+  - Qakbot
   confidence: 80
   context:
   - Source:Endpoint

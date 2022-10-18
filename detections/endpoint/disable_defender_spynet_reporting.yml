@@ -34,6 +34,7 @@ tags:
   - IcedID
   - Windows Registry Abuse
   - Azorult
+  - Qakbot
   confidence: 70
   context:
   - Source:Endpoint
