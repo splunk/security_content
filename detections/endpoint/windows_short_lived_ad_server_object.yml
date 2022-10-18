@@ -1,0 +1,53 @@
+name: Windows Short Lived AD Server Object
+id: 193769d3-1e33-43a9-970e-ad4a88256cdb
+version: 1
+date: '2022-10-17'
+author: Mauricio Velazco, Splunk
+type: TTP
+datamodel: []
+description: UPDATE_DESCRIPTION
+search: ' index=win EventCode=5137 OR EventCode=5141 ObjectDN="*CN=Servers*" ObjectDN="*CN=Configuration*"
+  | transaction ObjectDN  startswith=(EventCode=5137) endswith=(EventCode=5141) 
+  | eval short_lived=case((duration<30),"TRUE") 
+  | search short_lived = TRUE
+  | stats values(ObjectDN) by _time, Computer, SubjectUserName
+   | `windows_short_lived_ad_server_object_filter`'
+how_to_implement: UPDATE_HOW_TO_IMPLEMENT
+known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
+references:
+- REFERENCE
+tags:
+  analytic_story:
+  - Windows Domain Controller Attacks
+  asset_type: UPDATE asset_type
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  confidence: UPDATE value between 1-100
+  context:
+  - Update context
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1207/short_lived_server_object/windows-security.log
+  impact: UPDATE value between 1-100
+  kill_chain_phases:
+  - Installation
+  - Actions on Objectives
+  message: UPDATE message
+  mitre_attack_id:
+  - T1207
+  nist:
+  - DE.CM
+  observable:
+  - name: UPDATE
+    type: UPDATE
+    role:
+    - UPDATE
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - UPDATE
+  risk_score: UPDATE (impact * confidence)/100
+  security_domain: endpoint
