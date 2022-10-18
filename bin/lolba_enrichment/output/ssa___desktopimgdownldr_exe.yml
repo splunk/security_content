@@ -1,8 +1,8 @@
 name: Windows Rename System Utilities Desktopimgdownldr exe LOLBAS in Non Standard
   Path
-id: 3a77606b-d07b-4aff-8901-8337b72b1597
+id: c9f3d074-f077-4d98-9eec-f9e3629e5e58
 version: 1
-date: '2022-10-17'
+date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

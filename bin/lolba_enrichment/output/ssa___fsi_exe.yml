@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Fsi exe LOLBAS in Non Standard Path
-id: 40596539-81b1-43aa-85f1-6bb7bee45930
+id: 10219cc2-89a3-4566-b682-d7e01b6bdfb6
 version: 1
-date: '2022-10-17'
+date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

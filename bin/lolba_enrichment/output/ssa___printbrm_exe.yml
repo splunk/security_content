@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Printbrm exe LOLBAS in Non Standard Path
-id: d5db0481-91d7-412f-ac48-956c9569de05
+id: b3bad5a2-5ad9-49d2-8a42-cee1bd372db8
 version: 1
-date: '2022-10-17'
+date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

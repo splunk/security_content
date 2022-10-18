@@ -1,8 +1,8 @@
 name: Windows Rename System Utilities Presentationhost exe LOLBAS in Non Standard
   Path
-id: 9062fd96-c0c4-4c26-bb5e-62f5e9665f6f
+id: 8e8b72de-1db9-4d55-b681-55f3ae32183e
 version: 1
-date: '2022-10-17'
+date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

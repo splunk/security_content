@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Excel exe LOLBAS in Non Standard Path
-id: c4a66592-3896-47e6-8727-7a769c171a2e
+id: 3cb8bfea-8c07-4f69-8761-98700d3150e9
 version: 1
-date: '2022-10-17'
+date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:
