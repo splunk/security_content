@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Vbc exe LOLBAS in Non Standard Path
-id: f695c320-853c-423d-b151-720ca8b7a38a
+id: 34adcf98-962b-483b-83fd-3b5bf26affd8
 version: 1
-date: '2022-10-17'
+date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

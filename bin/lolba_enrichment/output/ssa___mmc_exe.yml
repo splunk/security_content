@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Mmc exe LOLBAS in Non Standard Path
-id: ea408a87-9613-4856-96ae-c87e77c2777d
+id: 17e6ced3-8c95-4068-abb6-da08449c25d5
 version: 1
-date: '2022-10-17'
+date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:
