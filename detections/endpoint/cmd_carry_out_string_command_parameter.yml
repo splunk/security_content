@@ -38,6 +38,7 @@ tags:
   - Living Off The Land
   - Azorult
   - DarkCrystal RAT
+  - ProxyNotShell
   automated_detection_testing: passed
   confidence: 50
   context:
