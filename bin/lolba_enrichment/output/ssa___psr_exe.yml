@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Psr exe LOLBAS in Non Standard Path
-id: b3e328d2-1f6c-4303-9c21-62bdd110dc1f
+id: 537f9e80-01d8-4eca-8f43-8fbf0e29a8a9
 version: 1
-date: '2022-10-17'
+date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

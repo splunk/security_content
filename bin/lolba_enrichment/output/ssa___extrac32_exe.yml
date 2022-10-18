@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Extrac32 exe LOLBAS in Non Standard Path
-id: 3e302ff2-d2c6-4a70-b9e0-3f4b4dead4e6
+id: 88e5cd66-11c0-49ca-ad84-e8207f2995fc
 version: 1
-date: '2022-10-17'
+date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

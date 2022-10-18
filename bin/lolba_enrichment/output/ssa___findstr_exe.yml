@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Findstr exe LOLBAS in Non Standard Path
-id: f516a212-56ea-463e-bdf0-292699098d86
+id: a46647a3-97e4-40fb-84b0-09d5e3b00ad0
 version: 1
-date: '2022-10-17'
+date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

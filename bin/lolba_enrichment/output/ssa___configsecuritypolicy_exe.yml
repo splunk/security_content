@@ -1,8 +1,8 @@
 name: Windows Rename System Utilities Configsecuritypolicy exe LOLBAS in Non Standard
   Path
-id: 28427e48-405d-4d0d-8bb5-851dbe3a14f2
+id: 2212344c-5a19-4907-b561-b91832c54fa8
 version: 1
-date: '2022-10-17'
+date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Eventvwr exe LOLBAS in Non Standard Path
-id: 3510501d-efb0-4757-8f89-d36e803d32ba
+id: a59816c5-c95a-4695-b9f9-654d7b36ebfb
 version: 1
-date: '2022-10-17'
+date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:
