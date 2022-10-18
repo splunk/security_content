@@ -1,0 +1,13 @@
+name: Windows Create Local Account Unit Test
+tests:
+- name: Windows Create Local Account
+  file: endpoint/windows_create_local_account.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: 4720.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.001/atomic_red_team/4720.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog
+    update_timestamp: true
