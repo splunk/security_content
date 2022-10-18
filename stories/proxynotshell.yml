@@ -1,0 +1,22 @@
+name: ProxyNotShell
+id: 4e3f17e7-9ed7-425d-a05e-b65464945836
+version: 1
+date: '2022-09-30'
+author: Michael Haag, Splunk
+description: Two new zero day Microsoft Exchange vulnerabilities have been identified actively exploited in the wild - CVE-2022-41040 and CVE-2022-41082.
+narrative: Microsoft is investigating two reported zero-day vulnerabilities affecting Microsoft Exchange Server 2013, 2016, and 2019. The first vulnerability, identified as CVE-2022-41040, is a Server-Side Request Forgery (SSRF) vulnerability, while the second, identified as CVE-2022-41082, allows remote code execution (RCE) when PowerShell is accessible to the attacker. Originally identified by GTSC monitoring Exchange, some adversary post-exploitation activity was identified and is tagged to this story.
+references:
+  - https://msrc-blog.microsoft.com/2022/09/29/customer-guidance-for-reported-zero-day-vulnerabilities-in-microsoft-exchange-server/
+  - https://twitter.com/GossiTheDog/status/1575762721353916417?s=20&t=67gq9xCWuyPm1VEm8ydfyA
+  - https://twitter.com/cglyer/status/1575793769814728705?s=20&t=67gq9xCWuyPm1VEm8ydfyA
+  - https://www.gteltsc.vn/blog/warning-new-attack-campaign-utilized-a-new-0day-rce-vulnerability-on-microsoft-exchange-server-12715.html
+  - https://research.splunk.com/stories/proxyshell/
+tags:
+  analytic_story: ProxyNotShell
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

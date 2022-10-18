@@ -40,6 +40,7 @@ tags:
   - Active Directory Lateral Movement
   - WhisperGate
   - Industroyer2
+  - CISA AA22-277A
   confidence: 70
   context:
   - Source:Endpoint
