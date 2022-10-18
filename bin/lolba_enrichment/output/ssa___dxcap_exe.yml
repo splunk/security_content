@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Dxcap exe LOLBAS in Non Standard Path
-id: 200434f5-1166-4a81-ae29-b9896a2d0ad7
+id: 5078946b-8127-4250-8eab-8d57e3d7f098
 version: 1
-date: '2022-10-17'
+date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

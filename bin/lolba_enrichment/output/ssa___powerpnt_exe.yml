@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Powerpnt exe LOLBAS in Non Standard Path
-id: 184e41c3-e35c-48b0-bedd-a9a0940bb624
+id: 459cc44e-61a4-457a-91c2-f3c27295e2a9
 version: 1
-date: '2022-10-17'
+date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:
