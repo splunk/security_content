@@ -1,0 +1,63 @@
+name: Windows LOLBin Binary in Non Standard Path
+id: 25689101-012a-324a-94d3-08301e6c065a
+version: 1
+date: '2022-07-19'
+author: Splunk Threat Research Bot, Splunk
+type: Anomaly
+datamodel:
+- Endpoint_Processes
+description: The following analytic identifies xxx which is a native living off the land binary or script (LOLBAS) within the Windows
+  operating system that may be abused by adversaries by moving it to a new directory. The list of binaries was derived from the https://lolbas-project.github.io site.
+search: 'xxx'
+how_to_implement: To successfully implement this search, you must be ingesting logs
+  with the process name, command-line arguments, and parent processes from your endpoints. Collect endpoint data such as Sysmon or Windows Events 4688.
+known_false_positives: False positives may be present and filtering may be required.
+  Certain utilities will run from non-standard paths based on the third-party application
+  in use.
+references:
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1036.003/T1036.003.yaml
+  - https://attack.mitre.org/techniques/T1036/003/
+  - https://lolbas-project.github.io/
+tags:
+  analytic_story:
+  - Unusual Processes
+  - Living Off The Land
+  cis20:
+  - CIS 8
+  confidence: 70
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/system_process_running_unexpected_location/dotnet_lolbin-windows-security.log
+  impact: 20
+  kill_chain_phases:
+  - Actions on Objectives
+  message: A system process $process_name$ with path $process_path$ spawn in non-default folder path on host $dest_device_id$
+  mitre_attack_id:
+  - T1036
+  - T1036.003
+  nist:
+  - PR.PT
+  - DE.CM
+  observable:
+  - name: dest_device_id
+    type: Hostname
+    role:
+    - Victim
+  - name: dest_user_id
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Behavioral Analytics
+  required_fields:
+  - dest_device_id
+  - process_name
+  - _time
+  - dest_user_id
+  - process_path
+  risk_score: 14
+  risk_severity: low
+  security_domain: endpoint
+  asset_type: Endpoint
