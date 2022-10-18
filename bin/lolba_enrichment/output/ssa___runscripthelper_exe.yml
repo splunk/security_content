@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Runscripthelper exe LOLBAS in Non Standard Path
-id: f22d7c30-c706-4e69-8c71-63ede81abdba
+id: c4d404f5-742b-4c9e-b090-338f06b5d418
 version: 1
-date: '2022-10-13'
+date: '2022-10-17'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:
@@ -10,7 +10,7 @@ description: The following analytic identifies Runscripthelper.exe which is a na
   living off the land binary or script (LOLBAS) within the Windows operating system
   that may be abused by adversaries by moving it to a new directory. The list of binaries
   was derived from the https://lolbas-project.github.io site.
-search: ssa_input = | from read_ssa_enriched_events() | eval device=ucast(map_get(input_event,
+search: '| from read_ssa_enriched_events() | eval device=ucast(map_get(input_event,
   "dest_device_id"), "string", null), user=ucast(map_get(input_event, "dest_user_id"),
   "string", null), timestamp=parse_long(ucast(map_get(input_event, "_time"), "string",
   null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string",
@@ -20,7 +20,7 @@ search: ssa_input = | from read_ssa_enriched_events() | eval device=ucast(map_ge
   IS NOT NULL AND match_regex(process_path, /(?i)\\windows\\winsxs\\amd64_microsoft-windows-u..ed-telemetry-client_31bf3856ad364e35_10.0.16299.192_none_ad4699b571e00c4a/)=false
   | eval start_time=timestamp,end_time=timestamp, entities=mvappend(device, user),
   body=create_map(["event_id", event_id, "process_path", process_path, "process_name",
-  process_name]) | into write_ssa_detected_events();
+  process_name]) | into write_ssa_detected_events();'
 how_to_implement: To successfully implement this search, you must be ingesting logs
   with the process name, command-line arguments, and parent processes from your endpoints.
   Collect endpoint data such as Sysmon or Windows Events 4688.

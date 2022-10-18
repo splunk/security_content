@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Cmdl32 exe LOLBAS in Non Standard Path
-id: 5484da59-7522-4c3a-972c-8da33ea358b1
+id: f9ea7424-1805-4b7c-828e-97564b96a08d
 version: 1
-date: '2022-10-13'
+date: '2022-10-17'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:
@@ -10,7 +10,7 @@ description: The following analytic identifies cmdl32.exe which is a native livi
   off the land binary or script (LOLBAS) within the Windows operating system that
   may be abused by adversaries by moving it to a new directory. The list of binaries
   was derived from the https://lolbas-project.github.io site.
-search: ssa_input = | from read_ssa_enriched_events() | eval device=ucast(map_get(input_event,
+search: '| from read_ssa_enriched_events() | eval device=ucast(map_get(input_event,
   "dest_device_id"), "string", null), user=ucast(map_get(input_event, "dest_user_id"),
   "string", null), timestamp=parse_long(ucast(map_get(input_event, "_time"), "string",
   null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string",
@@ -19,7 +19,7 @@ search: ssa_input = | from read_ssa_enriched_events() | eval device=ucast(map_ge
   process_name IS NOT NULL AND process_name="cmdl32.exe"| where process_path IS NOT
   NULL AND match_regex(process_path, /(?i)\\windows\\syswow64/)=false | eval start_time=timestamp,end_time=timestamp,
   entities=mvappend(device, user), body=create_map(["event_id", event_id, "process_path",
-  process_path, "process_name", process_name]) | into write_ssa_detected_events();
+  process_path, "process_name", process_name]) | into write_ssa_detected_events();'
 how_to_implement: To successfully implement this search, you must be ingesting logs
   with the process name, command-line arguments, and parent processes from your endpoints.
   Collect endpoint data such as Sysmon or Windows Events 4688.

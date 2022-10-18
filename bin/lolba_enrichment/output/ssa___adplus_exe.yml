@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Adplus exe LOLBAS in Non Standard Path
-id: 14d8650d-efae-43df-b7eb-d71e19ad975e
+id: 32134938-37d4-4ec5-8714-46ca49769d20
 version: 1
-date: '2022-10-13'
+date: '2022-10-17'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:
@@ -10,7 +10,7 @@ description: The following analytic identifies adplus.exe which is a native livi
   off the land binary or script (LOLBAS) within the Windows operating system that
   may be abused by adversaries by moving it to a new directory. The list of binaries
   was derived from the https://lolbas-project.github.io site.
-search: ssa_input = | from read_ssa_enriched_events() | eval device=ucast(map_get(input_event,
+search: '| from read_ssa_enriched_events() | eval device=ucast(map_get(input_event,
   "dest_device_id"), "string", null), user=ucast(map_get(input_event, "dest_user_id"),
   "string", null), timestamp=parse_long(ucast(map_get(input_event, "_time"), "string",
   null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string",
@@ -20,7 +20,7 @@ search: ssa_input = | from read_ssa_enriched_events() | eval device=ucast(map_ge
   NULL AND match_regex(process_path, /(?i)\\program files (x86)\\windows kits\\10\\debuggers\\x86/)=false
   | eval start_time=timestamp,end_time=timestamp, entities=mvappend(device, user),
   body=create_map(["event_id", event_id, "process_path", process_path, "process_name",
-  process_name]) | into write_ssa_detected_events();
+  process_name]) | into write_ssa_detected_events();'
 how_to_implement: To successfully implement this search, you must be ingesting logs
   with the process name, command-line arguments, and parent processes from your endpoints.
   Collect endpoint data such as Sysmon or Windows Events 4688.
