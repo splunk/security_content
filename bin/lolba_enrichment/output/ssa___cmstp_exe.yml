@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Cmstp exe LOLBAS in Non Standard Path
-id: f473e060-a390-4567-9a4d-99cbde81da79
+id: c7cb13df-b234-4654-86c6-9a35c930de42
 version: 1
-date: '2022-10-17'
+date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

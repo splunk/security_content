@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Vsjitdebugger exe LOLBAS in Non Standard Path
-id: 3a814104-fdef-43e3-b905-eef6f5d12e67
+id: db6f6243-9a61-4d2c-990a-111031b68aba
 version: 1
-date: '2022-10-17'
+date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

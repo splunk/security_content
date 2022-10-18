@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Stordiag exe LOLBAS in Non Standard Path
-id: f0267f5e-c13d-4983-a428-9129aca774ca
+id: c3f93bb8-c788-4840-9bfa-0ec995467b8d
 version: 1
-date: '2022-10-17'
+date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

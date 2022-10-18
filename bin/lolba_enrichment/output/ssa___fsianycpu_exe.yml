@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Fsianycpu exe LOLBAS in Non Standard Path
-id: 3ea3b7e3-ac4b-4c9e-b605-d7b3ef6091cb
+id: c1c3eeaa-90a6-4ae7-b48d-1ae233a515fe
 version: 1
-date: '2022-10-17'
+date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:
