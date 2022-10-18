@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Dfshim dll LOLBAS in Non Standard Path
-id: 31d997d3-d28b-4bd5-b368-066fe410c699
+id: 2615f2e9-0f34-4106-b649-7a5ff5644f9f
 version: 1
-date: '2022-10-17'
+date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

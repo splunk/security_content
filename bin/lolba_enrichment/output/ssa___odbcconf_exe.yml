@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Odbcconf exe LOLBAS in Non Standard Path
-id: f9071baf-f478-4b27-83ec-e12fc7b314af
+id: d8420544-9e5c-4b93-b4de-8b941ff83e3d
 version: 1
-date: '2022-10-17'
+date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

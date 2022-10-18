@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Runscripthelper exe LOLBAS in Non Standard Path
-id: c4d404f5-742b-4c9e-b090-338f06b5d418
+id: 6b98c190-a10b-42da-8d2d-de5d31472f28
 version: 1
-date: '2022-10-17'
+date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

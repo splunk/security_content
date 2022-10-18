@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Regini exe LOLBAS in Non Standard Path
-id: 1f047a87-9848-4870-91ea-70c7c0928cd3
+id: 07c8dc15-bd1c-4a4e-b031-708465342007
 version: 1
-date: '2022-10-17'
+date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

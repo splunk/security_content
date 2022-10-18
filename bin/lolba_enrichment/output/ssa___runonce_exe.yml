@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Runonce exe LOLBAS in Non Standard Path
-id: 2d13fc2b-2c15-4f81-b6f6-eb362744502f
+id: a0f9a335-8338-4e41-a805-43c97ac887f7
 version: 1
-date: '2022-10-17'
+date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:
