@@ -30,6 +30,7 @@ references:
 tags:
   analytic_story:
   - Collection and Staging
+  - CISA AA22-277A
   confidence: 90
   context:
   - Source:Endpoint

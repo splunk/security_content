@@ -36,6 +36,7 @@ references:
 tags:
   analytic_story:
   - FIN7
+  - CISA AA22-277A
   confidence: 80
   context:
   - Source:Endpoint

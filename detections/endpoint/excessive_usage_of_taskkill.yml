@@ -29,6 +29,7 @@ tags:
   - Azorult
   - CISA AA22-264A
   - AgentTesla
+  - CISA AA22-277A
   confidence: 70
   context:
   - Source:Endpoint
