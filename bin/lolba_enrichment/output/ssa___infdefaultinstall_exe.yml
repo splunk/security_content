@@ -1,8 +1,8 @@
 name: Windows Rename System Utilities Infdefaultinstall exe LOLBAS in Non Standard
   Path
-id: ed336a3b-3940-4fa5-b2d3-1a70255b6b7e
+id: d53987d7-ae11-4032-b958-fcc434d72ff9
 version: 1
-date: '2022-10-17'
+date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

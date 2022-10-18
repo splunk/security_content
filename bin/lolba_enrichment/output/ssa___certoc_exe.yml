@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Certoc exe LOLBAS in Non Standard Path
-id: 6e8f20ff-265a-46b8-9681-e8442178b09c
+id: 46e1d51f-2979-42e4-8397-63abb398fe71
 version: 1
-date: '2022-10-17'
+date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

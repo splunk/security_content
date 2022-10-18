@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Dnscmd exe LOLBAS in Non Standard Path
-id: ccdf5719-a825-4a66-8276-b6ef5c74cc3d
+id: 9972c51f-0b1e-4dff-8341-678520c4ddf8
 version: 1
-date: '2022-10-17'
+date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

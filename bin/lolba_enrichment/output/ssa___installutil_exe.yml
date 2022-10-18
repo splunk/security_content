@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Installutil exe LOLBAS in Non Standard Path
-id: 3940d2f5-34b5-4568-af6d-adae72fca9dc
+id: 204af1e5-1473-4686-a2d4-5d5fd2a9b232
 version: 1
-date: '2022-10-17'
+date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

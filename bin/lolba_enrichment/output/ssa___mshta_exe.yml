@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Mshta exe LOLBAS in Non Standard Path
-id: d1c46649-8b38-4b8a-9149-320c9ab7dd3f
+id: 8a6ed35c-b70f-4f8f-8220-6dc93dc837a1
 version: 1
-date: '2022-10-17'
+date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:
