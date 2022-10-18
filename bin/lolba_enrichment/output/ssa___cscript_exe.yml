@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Cscript exe LOLBAS in Non Standard Path
-id: afe8315c-ada9-4156-b26c-f64e7bcc6644
+id: dfcc58d1-4f59-42a6-85f9-7ea2085ae8fe
 version: 1
-date: '2022-10-17'
+date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Shdocvw dll LOLBAS in Non Standard Path
-id: 95285b76-c806-4851-a706-63187ab3daa7
+id: 4c0ac49b-2a4b-4f20-bf6e-47aff8ba9d0c
 version: 1
-date: '2022-10-17'
+date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

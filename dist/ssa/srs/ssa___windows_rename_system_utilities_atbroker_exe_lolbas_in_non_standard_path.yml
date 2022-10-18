@@ -1,0 +1,62 @@
+name: Windows Rename System Utilities Atbroker exe LOLBAS in Non Standard Path
+id: b8da7ea5-8c16-4eff-9787-54ec271159e0
+version: 1
+description: The following analytic identifies Atbroker.exe which is a native living
+  off the land binary or script (LOLBAS) within the Windows operating system that
+  may be abused by adversaries by moving it to a new directory. The list of binaries
+  was derived from the https://lolbas-project.github.io site.
+search: '| from read_ssa_enriched_events() | eval device=ucast(map_get(input_event,
+  "dest_device_id"), "string", null), user=ucast(map_get(input_event, "dest_user_id"),
+  "string", null), timestamp=parse_long(ucast(map_get(input_event, "_time"), "string",
+  null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string",
+  null)), process_path=lower(ucast(map_get(input_event, "process_path"), "string",
+  null)), event_id=ucast(map_get(input_event, "event_id"), "string", null)| where
+  process_name IS NOT NULL AND process_name="atbroker.exe"| where process_path IS
+  NOT NULL AND match_regex(process_path, /(?i)\\windows\\syswow64/)=false | eval start_time=timestamp,end_time=timestamp,
+  entities=mvappend(device, user), body=create_map(["event_id", event_id, "process_path",
+  process_path, "process_name", process_name]) | into write_ssa_detected_events();'
+how_to_implement: To successfully implement this search, you must be ingesting logs
+  with the process name, command-line arguments, and parent processes from your endpoints.
+  Collect endpoint data such as Sysmon or Windows Events 4688.
+known_false_positives: False positives may be present and filtering may be required.
+  Certain utilities will run from non-standard paths based on the third-party application
+  in use.
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1036.003/T1036.003.yaml
+- https://attack.mitre.org/techniques/T1036/003/
+- https://lolbas-project.github.io/
+tags:
+  analytic_story:
+  - Unusual Processes
+  - Living Off The Land
+  cis20:
+  - CIS 8
+  kill_chain_phases:
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1036
+  - T1036.003
+  nist:
+  - PR.PT
+  - DE.CM
+  required_fields:
+  - dest_device_id
+  - process_name
+  - _time
+  - dest_user_id
+  - process_path
+  risk_score: 14
+  security_domain: endpoint
+  risk_severity: low
+  research_site_url: https://research.splunk.com/endpoint/b8da7ea5-8c16-4eff-9787-54ec271159e0/
+test:
+  name: Windows Rename System Utilities Atbroker exe LOLBAS in Non Standard Path Unit
+    Test
+  tests:
+  - name: Windows Rename System Utilities Atbroker exe LOLBAS in Non Standard Path
+    file: endpoint/ssa___atbroker_exe.yml
+    pass_condition: '@count_eq(1)'
+    attack_data:
+    - file_name: dotnet_lolbin-windows-security.log
+      data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/system_process_running_unexpected_location/lolbas_dataset.log
+      source: WinEventLog:Security

@@ -1,8 +1,8 @@
 name: Windows Rename System Utilities Register-cimprovider exe LOLBAS in Non Standard
   Path
-id: f68142cd-5264-408f-89a4-dc509fcade9b
+id: db893b2f-d317-4547-abb9-e9beed33bdb9
 version: 1
-date: '2022-10-17'
+date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

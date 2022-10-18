@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Msdt exe LOLBAS in Non Standard Path
-id: c5056ba2-6b1f-4272-a92b-2dca08a8f98a
+id: 363d3d99-a83f-4108-992c-c059e93573ad
 version: 1
-date: '2022-10-17'
+date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:
