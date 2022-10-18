@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "lolbas_enrichment"
+version = "0.1.0"
+description = "regens splunk detection with latest lolbas list"
+authors = ["d1vious <josehelps@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+PyYAML = "^6.0"
+tdqm = "^0.0.1"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
