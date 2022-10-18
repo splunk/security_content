@@ -1,7 +1,7 @@
-name: Windows Rename System Utilities Aspnet_compiler exe LOLBAS in Non Standard Path
+name: Windows Rename System Utilities Aspnet compiler exe LOLBAS in Non Standard Path
   Unit Test
 tests:
-- name: Windows Rename System Utilities Aspnet_compiler exe LOLBAS in Non Standard
+- name: Windows Rename System Utilities Aspnet compiler exe LOLBAS in Non Standard
     Path
   file: endpoint/ssa___aspnet_compiler_exe.yml
   pass_condition: '@count_eq(1)'
