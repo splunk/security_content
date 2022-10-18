@@ -1,0 +1,7 @@
+description: A list of LOLBAS and their file path used in determining if a script or binary is valid on windows
+filename: lolbas_file_path.csv
+name: lolbas_file_path
+default_match: 'false'
+match_type: WILDCARD(lolbas_file_name)
+min_matches: 1
+case_sensitive_match: 'false'
