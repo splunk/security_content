@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Pktmon exe LOLBAS in Non Standard Path
-id: d5c1e0d6-bd7e-4409-a6b6-e40f6229aa4e
+id: e02cf071-cc34-4755-b39a-4f2baaa767d7
 version: 1
-date: '2022-10-17'
+date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

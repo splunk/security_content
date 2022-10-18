@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Winrm vbs LOLBAS in Non Standard Path
-id: b0895252-7f3b-47c2-8f0d-2ea2cc1bf7a3
+id: 6f8df404-85a6-4534-9e22-241c68fee490
 version: 1
-date: '2022-10-17'
+date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

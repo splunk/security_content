@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Rundll32 exe LOLBAS in Non Standard Path
-id: e664f2eb-4a3e-4e20-aa7a-8fea36e56a1c
+id: fe917b8d-2313-4c4c-8e7c-c0f5a13561fb
 version: 1
-date: '2022-10-17'
+date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:

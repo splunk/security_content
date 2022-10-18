@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Pcwrun exe LOLBAS in Non Standard Path
-id: e3d1aaee-abf8-4d6e-97ac-7b170792d2bb
+id: ccf2ac56-7cff-4c9e-87af-d25d66f9dd61
 version: 1
-date: '2022-10-17'
+date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:
