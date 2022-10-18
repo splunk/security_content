@@ -1,7 +1,7 @@
 name: Windows Rename System Utilities Cmdl32 exe LOLBAS in Non Standard Path
-id: f9ea7424-1805-4b7c-828e-97564b96a08d
+id: 10de5e76-a676-4149-a949-1132b117a11a
 version: 1
-date: '2022-10-17'
+date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly
 datamodel:
