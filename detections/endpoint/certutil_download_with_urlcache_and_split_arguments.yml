@@ -35,6 +35,8 @@ tags:
   - Ingress Tool Transfer
   - DarkSide Ransomware
   - Living Off The Land
+  - ProxyNotShell
+  - CISA AA22-277A
   confidence: 100
   context:
   - Source:Endpoint

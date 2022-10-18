@@ -25,4 +25,5 @@ NLAChecker.exe,A scanner tool that checks for Windows hosts for Network Level Au
 ns.exe,A commonly used tool used by attackers to scan and map file shares
 SilverBullet.exe,Malware was discovered in our monitoring of honey pots that abuses this open source software for scanning and connecting to hosts.
 kportscan3.exe, KPortScan 3.0 is a widely used port scanning tool on Hacking Forums to perform network scanning on the internal networks.
-advanced_port_scanner.exe, Advanced Port Scanner is a free network scanner allowing you to quickly find open ports on network computers and retrieve versions of programs running on the detected ports.
+advanced_port_scanner.exe,Advanced Port Scanner is a free network scanner allowing you to quickly find open ports on network computers and retrieve versions of programs running on the detected ports.
+mimikatz.exe,utility Mimikatz is an open-source application that allows users to view and save authentication credentials such as Kerberos tickets.
