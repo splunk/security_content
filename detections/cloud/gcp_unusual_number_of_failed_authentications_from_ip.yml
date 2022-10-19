@@ -5,20 +5,22 @@ date: '2022-10-13'
 author: Bhavin Patel, Splunk
 type: Anomaly
 datamodel: []
-description: The following analytic identifies one source IP failing to authenticate into the Google Workspace with multiple valid users. This behavior could represent an adversary performing a Password Spraying attack against a Google Workspace enviroment to obtain initial access or elevate privileges. The detection calculates the standard deviation for source IP and leverages the 3-sigma statistical rule to identify an unusual number of failed authentication attempts. To customize this analytic, users can try different combinations of the bucket span time and the calculation of the upperBound field. This logic can be used for real time security monitoring as well as threat hunting exercises.  While looking for anomalies using statistical methods like the standard deviation can have benefits, we also recommend using threshold-based detections to complement coverage. A similar analytic following the threshold model is `AWS Multiple Users Failing To Authenticate From Ip`
-search: "`gws_reports_login` authentication_method IN (   google_password, password, password, password ) event.type = login event.name = login_failure| bucket span=5m _time | stats  dc(user_name) AS unique_accounts values(user_name) as tried_accounts by _time, src_ip
-| eventstats  avg(unique_accounts) as ip_avg , stdev(unique_accounts) as ip_std by src_ip 
+description: The following analytic identifies one source IP failing to authenticate into the Google Workspace with multiple valid users. This behavior could represent an adversary performing a Password Spraying attack against a Google Workspace enviroment to obtain initial access or elevate privileges. The detection calculates the standard deviation for source IP and leverages the 3-sigma statistical rule to identify an unusual number of failed authentication attempts. To customize this analytic, users can try different combinations of the bucket span time and the calculation of the upperBound field. This logic can be used for real time security monitoring as well as threat hunting exercises.  While looking for anomalies using statistical methods like the standard deviation can have benefits, we also recommend using threshold-based detections to complement coverage. A similar analytic following the threshold model is `GCP Multiple Users Failing To Authenticate From Ip`
+search: "`gws_reports_login` event.type = login event.name = login_failure| bucket span=5m _time | stats  dc(user_name) AS unique_accounts values(user_name) as tried_accounts values(authentication_method) AS authentication_method by _time, src
+| eventstats  avg(unique_accounts) as ip_avg , stdev(unique_accounts) as ip_std by src 
 | eval  upperBound=(ip_avg+ip_std*3) 
 | eval  isOutlier=if(unique_accounts > 10 and unique_accounts >= upperBound, 1, 0) | where isOutlier =1| `gcp_unusual_number_of_failed_authentications_from_ip_filter`"
 how_to_implement: Please install the Splunk Add-on for Google Workspace from Splunkbase(https://splunkbase.splunk.com/app/5556),  which allows a Splunk administrator to collect Google Workspace event data using Google Workspace APIs in Splunk. These detections are based on user log events like authentication, password change, 2FA enrollment from the Google audit reports which are ingested into Splunk in `sourcetype=gws:reports:login`. Find more details about this dataset- https://support.google.com/a/answer/4580120?hl=en&ref_topic=9027054. We would also recommend tuning the detection by adjusting the window `span` and `unique_accounts` threshold values according to your environment.
 known_false_positives: No known false positives for this detection. Please review this alert
 references:
+- https://cloud.google.com/blog/products/identity-security/how-google-cloud-can-help-stop-credential-stuffing-attacks
+- https://www.slideshare.net/dafthack/ok-google-how-do-i-red-team-gsuite
 - https://attack.mitre.org/techniques/T1110/003/
-- https://www.whiteoaksecurity.com/blog/goawsconsolespray-password-spraying-tool/
+- https://www.blackhillsinfosec.com/wp-content/uploads/2020/05/Breaching-the-Cloud-Perimeter-Slides.pdf
 tags:
   analytic_story:
   - GCP Account Takeover
-  asset_type: GCP tenant
+  asset_type: Google Cloud Platform tenant
   cis20:
   - CIS 3
   - CIS 5
@@ -40,7 +42,7 @@ tags:
   nist:
   - DE.CM
   observable:
-  - name: src_ip
+  - name: src
     type: IP Address
     role:
     - Attacker
@@ -54,9 +56,9 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - authentication_method
-  - event.type
   - event.name
+  - src
+  - event.type
   - user_name
   risk_score: 54
   security_domain: threat
