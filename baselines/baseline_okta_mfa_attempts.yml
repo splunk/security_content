@@ -29,8 +29,8 @@ references:
 tags:
   analytic_story:
   - Suspicious Okta Activity
-  asset_type: Infrastructure
   - Suspicious Cloud Instance Activities
+  asset_type: Infrastructure
   deployments:
   - Weekly Model Rebuild 7 Day Lookback
   cis20:
