@@ -1,0 +1,28 @@
+name: Sysmon Event ID 1
+id: 398e5e07-226e-474e-91c8-a22a995e2bb8
+date: '2022-09-13'
+author: Patrick Bareiss, Splunk
+platform: windows
+source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+sourcetype: xmlwineventlog
+supported_TA:
+- name: Splunk Add-on for Sysmon
+  version: 3.0.0
+  url: https://splunkbase.splunk.com/app/5709/
+references:
+- https://docs.microsoft.com/en-us/sysinternals/downloads/sysmon
+field_mappings:
+  cim:
+    ProcessGuid: process_guid
+    ProcessId: process_id
+    Image: process_path
+    CommandLine: process
+    CurrentDirectory: process_current_directory
+    User: user
+    IntegrityLevel: process_integrity_level
+    Hashes: process_hash
+    ParentProcessGuid: parent_process_guid
+    ParentProcessId: parent_process_id
+    ParentImage: parent_process_path
+    ParentCommandLine: parent_process
+    Computer: dest
