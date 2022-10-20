@@ -10,7 +10,7 @@ description: 'The following analytic identifies a successful authentication even
 search: ' `gws_reports_login` event.name=login_success NOT `gws_login_mfa_methods`
   | stats values(user) by _time, src_ip, login_challenge_method
   | `gcp_successful_single_factor_authentication_filter`'
-how_to_implement: You must install the latest version of Splunk Add-on for Google Workspace from Splunkbase (https://splunkbase.splunk.com/app/5556). You must be ingesting Google Workspace events into your Splunk environment. 
+how_to_implement: You must install the latest version of Splunk Add-on for Google Workspace from Splunkbase (https://splunkbase.splunk.com/app/5556) which allows Splunk administrators to collect Google Workspace event data in Splunk using Google Workspace APIs. 
   Specifically, this analytic leverages the User log events.
 known_false_positives: Although not recommended, certain users may be required without multi-factor authentication. Filter as needed
 references:
