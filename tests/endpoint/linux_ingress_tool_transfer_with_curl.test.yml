@@ -1,6 +1,6 @@
 name: Linux Ingress Tool Transfer With Curl Unit Test
 tests:
-- name: Linux Ingress Tool Transfer With Curl
+- name: Linux Ingress Tool Transfer with Curl
   file: endpoint/linux_ingress_tool_transfer_with_curl.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h

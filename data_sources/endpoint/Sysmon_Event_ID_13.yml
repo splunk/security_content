@@ -2,20 +2,33 @@ name: Sysmon Event ID 13
 id: f9dd22a6-1dbe-4ce4-b001-ecc84f7f444f
 date: '2022-09-13'
 author: Patrick Bareiss, Splunk
-platform: windows
+type: sysmon
 source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
 sourcetype: xmlwineventlog
+category: registry_event
+product: windows
 supported_TA:
 - name: Splunk Add-on for Sysmon
   version: 3.0.0
   url: https://splunkbase.splunk.com/app/5709/
 references:
 - https://docs.microsoft.com/en-us/sysinternals/downloads/sysmon
+raw_fields: 
+  - EventID
+  - Computer
+  - UserID
+  - EventType
+  - ProcessGuid
+  - ProcessId
+  - Image
+  - TargetObject
+  - Details
 field_mappings:
-  Computer: dest
-  User: user
-  ProcessGuid: process_guid
-  ProcessId: process_id
-  Image: no
-  TargetObject: registry_path
-  Details: registry_value_data #special_case
+  - data_model: cim
+    data_set: Endpoint.Registry
+    mapping:
+      Computer: Registry.dest
+      ProcessGuid: Registry.process_guid
+      ProcessId: Registry.process_id
+      TargetObject: Registry.registry_path
+      Details: Registry.registry_value_data #special_case

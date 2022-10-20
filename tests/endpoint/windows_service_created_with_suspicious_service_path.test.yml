@@ -1,6 +1,6 @@
 name: Windows Service Created With Suspicious Service Path Unit Test
 tests:
-- name: Windows Service Created With Suspicious Service Path
+- name: Windows Service Created with Suspicious Service Path
   file: endpoint/windows_service_created_with_suspicious_service_path.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h

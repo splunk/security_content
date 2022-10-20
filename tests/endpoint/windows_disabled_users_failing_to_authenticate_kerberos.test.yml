@@ -1,6 +1,6 @@
 name: Windows Disabled Users Failing To Authenticate Using Kerberos Unit Test
 tests:
-- name: Windows Disabled Users Failing To Authenticate Using Kerberos
+- name: Windows Disabled Users Failing To Authenticate Kerberos
   file: endpoint/windows_disabled_users_failing_to_authenticate_kerberos.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h

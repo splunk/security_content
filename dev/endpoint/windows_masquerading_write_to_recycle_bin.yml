@@ -7,7 +7,7 @@ type: TTP
 status: production
 description: This search detects writes to the recycle bin by a process other than
   explorer.exe.
-data_source: Sysmon_Event_ID_11
+data_source: Sysmon Event ID 11
 search:
   selection:
     TargetFilename|contains: '$Recycle.Bin'
@@ -19,17 +19,11 @@ known_false_positives: Because the Recycle Bin is a hidden folder in modern vers
   of Windows, it would be unusual for a process other than explorer.exe to write to
   it. Incidents should be investigated as appropriate.
 references: []
-targets:
-- product: ESCU
-  data_model: Endpoint.Filesystem
-  data_source: Sysmon_Event_ID_11
-- product: ESCU
-  data_model: raw 
-  data_source: Sysmon_Event_ID_11
 tags:
   analytic_story:
   - Collection and Staging
   asset_type: Windows
+  atomic_guid: []
   confidence: 70
   impact: 40
   message: Suspicious writes to windows Recycle Bin process $Processes.process_name$
@@ -43,20 +37,7 @@ tags:
   security_domain: endpoint
 tests:
 - name: True Positive Test
-  product: ESCU
-  data_model: Endpoint.Filesystem
-  data_source: Sysmon_Event_ID_11
   attack_data:
-  - file_name: windows-sysmon.log
-    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/write_to_recycle_bin/windows-sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: xmlwineventlog
-- name: True Positive Test
-  product: ESCU
-  data_model: raw
-  data_source: Sysmon_Event_ID_11
-  attack_data:
-  - file_name: windows-sysmon.log
-    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/write_to_recycle_bin/windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/write_to_recycle_bin/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

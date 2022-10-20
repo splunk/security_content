@@ -1,0 +1,38 @@
+name: Crowdstrike Process
+id: 82e05359-6158-4e2a-abb7-4c9e99771379
+date: '2022-10-10'
+author: Patrick Bareiss, Splunk
+type: crowdstrike
+source: crowdstrike
+sourcetype: crowdstrike:events:sensor
+category: process_creation
+product: windows
+supported_TA:
+- name: Splunk Add-on for CrowdStrike FDR
+  version: 1.2.0
+  url: https://splunkbase.splunk.com/app/5579
+references: []
+raw_fields:
+  - CommandLine
+  - GrandParentBaseFileName
+  - ImageFileName
+  - MD5HashData
+  - ParentBaseFileName
+  - ParentProcessId
+  - RawProcessId
+  - SHA1HashData
+  - SHA256HashData
+  - SourceProcessId
+  - TargetProcessId
+  - UserSid
+field_mappings:
+  - data_model: cim
+    data_set: Endpoint.Processes
+    mapping:
+      CommandLine: Processes.process
+      ImageFileName: Processes.process_path 
+      ParentBaseFileName: Processes.parent_process_name
+      ParentProcessId: Processes.parent_process_id
+      RawProcessId: Processes.process_id
+      SHA256HashData: Processes.process_hash
+      UserSid: Processes.user
