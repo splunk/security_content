@@ -1,0 +1,54 @@
+name: Sysmon Event Code 1
+id: 035d5583-8d20-4b85-b4fc-a0a8ced1f2f4
+version: 1
+date: '2022-07-05'
+author: Patrick Bareiss, Splunk
+description: The process creation event provides extended information about a newly
+  created process. The full command line provides context on the process execution.
+  The ProcessGUID field is a unique value for this process across a domain to make
+  event correlation easier. The hash is a full hash of the file with the algorithms
+  in the HashType field.
+platform: windows
+log_source: sysmon
+supported_TA:
+  - Splunk_TA_microsoft_sysmon
+references:
+  - https://docs.microsoft.com/en-us/sysinternals/downloads/sysmon#event-id-1-process-creation
+event_fields:
+  - name: ProcessGuid
+    description: Process Guid of the process that got spawned/created
+    sample_value: '{A98268C1-9C2E-5ACD-0000-0010396CAB00}'
+    cim_mapping: process_guid
+    ossem_mapping: 
+  - name: ProcessId
+    description: Process Id of the process that got spawned/created
+    sample_value: '2134'
+    cim_mapping: process_id
+    ossem_mapping: 
+...
+sample_event: |-
+<EventData>
+<Data Name="RuleName">-</Data> 
+<Data Name="UtcTime">2021-11-03 04:38:27.500</Data> 
+<Data Name="ProcessGuid">{3710b5c6-1243-6182-8303-000000000a00}</Data> 
+<Data Name="ProcessId">4044</Data> 
+<Data Name="Image">C:\Windows\System32\notepad.exe</Data> 
+<Data Name="FileVersion">10.0.19041.1081 (WinBuild.160101.0800)</Data> 
+<Data Name="Description">Notepad</Data> 
+<Data Name="Product">Microsoft® Windows® Operating System</Data> 
+<Data Name="Company">Microsoft Corporation</Data> 
+<Data Name="OriginalFileName">NOTEPAD.EXE</Data> 
+<Data Name="CommandLine">"C:\Windows\system32\notepad.exe"</Data> 
+<Data Name="CurrentDirectory">C:\Users\pedro\</Data> 
+<Data Name="User">DESKTOP-4FPBTEN\pedro</Data> 
+<Data Name="LogonGuid">{3710b5c6-f53c-6181-cabe-120000000000}</Data> 
+<Data Name="LogonId">0x12beca</Data> 
+<Data Name="TerminalSessionId">1</Data> 
+<Data Name="IntegrityLevel">Medium</Data> 
+<Data Name="Hashes">SHA1=66B6158B28CC2B970E454B6A8CF1824DD99E4029,MD5=1C1760ED4D19CDBECB2398216922628B,SHA256=D66458A3EB1B68715B552B3AF32A9D2E889BBF8AC0C23C1AFA8D0982023D1CE2,IMPHASH=670212BD5FAE78855C331EDDEFFDD4EB</Data> 
+<Data Name="ParentProcessGuid">{3710b5c6-f548-6181-8c01-000000000a00}</Data> 
+<Data Name="ParentProcessId">4292</Data> 
+<Data Name="ParentImage">C:\Windows\explorer.exe</Data> 
+<Data Name="ParentCommandLine">C:\Windows\Explorer.EXE</Data> 
+<Data Name="ParentUser">DESKTOP-4FPBTEN\pedro</Data> 
+</EventData>
