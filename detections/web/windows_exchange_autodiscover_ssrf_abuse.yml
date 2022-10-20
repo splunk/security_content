@@ -2,7 +2,7 @@ name: Windows Exchange Autodiscover SSRF Abuse
 id: d436f9e7-0ee7-4a47-864b-6dea2c4e2752
 version: 1
 date: '2022-10-03'
-author: Michael Haag, Splunk
+author: Michael Haag, Nathaniel Stearns, Splunk
 type: TTP
 datamodel:
 - Web
