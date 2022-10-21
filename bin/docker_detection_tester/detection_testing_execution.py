@@ -449,6 +449,7 @@ def main(args: list[str]):
 
     #Add some files that always need to be copied to to container to set up indexes and datamodels.
     files_to_copy_to_container = OrderedDict()
+
     files_to_copy_to_container["INDEXES"] = {
         "local_file_path": index_file_local_path, "container_file_path": index_file_container_path}
     files_to_copy_to_container["DATAMODELS"] = {

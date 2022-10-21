@@ -170,6 +170,7 @@ class SplunkContainer:
         return container_string
 
     def make_container(self) -> docker.models.resource.Model:
+        return None
         # First, make sure that the container has been removed if it already existed
         self.removeContainer()
 
@@ -187,11 +188,21 @@ class SplunkContainer:
     def extract_tar_file_to_container(
         self, local_file_path: str, container_file_path: str, sleepTimeSeconds: int = 5
     ) -> bool:
+        container_file_path = container_file_path.replace(".tar", "")
+        while True:
+            import shutil
+            try:
+                print(f"trying to copy [{}] to [{}]")
+                shutil.copy(local_file_path, container_file_path)
+                return True
+            except Exception as e:
+                print(f"failure, sleeping 5 and trying copy again")
+                time.sleep(5)
         # Check to make sure that the file ends in .tar.  If it doesn't raise an exception
         if os.path.splitext(local_file_path)[1] != ".tar":
             raise Exception(
                 "Error - Failed copy of file [%s] to container [%s].  Only "
-                "files ending in .tar can be copied to the container using this function."
+                "files ending in .tar can be copied to the container using this function."a
                 % (local_file_path, self.container_name)
             )
         successful_copy = False
@@ -216,6 +227,7 @@ class SplunkContainer:
         return successful_copy
 
     def stopContainer(self,timeout=10) -> bool:
+        return True
         try:        
             container = self.client.containers.get(self.container_name)
             #Note that stopping does not remove any of the volumes or logs,
@@ -233,6 +245,7 @@ class SplunkContainer:
     def removeContainer(
         self, removeVolumes: bool = True, forceRemove: bool = True
     ) -> bool:
+        return True
         try:
             container = self.client.containers.get(self.container_name)
         except Exception as e:
@@ -329,7 +342,7 @@ class SplunkContainer:
     #@wrapt_timeout_decorator.timeout(MAX_CONTAINER_START_TIME_SECONDS, timeout_exception=RuntimeError)
     def setup_container(self):
         
-        self.container.start()
+        #self.container.start()
 
 
         # def shutdown_signal_handler(sig, frame):
