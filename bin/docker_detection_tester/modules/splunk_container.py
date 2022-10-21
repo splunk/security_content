@@ -194,7 +194,7 @@ class SplunkContainer:
             import shutil
             try:
                 print(f"sudo cp [{local_file_path}] to [{container_file_path}]")
-                shutil.copy(local_file_path, container_file_path)
+                #shutil.copy(local_file_path, container_file_path)
                 input(f"please run [sudo cp {local_file_path} to {container_file_path}]")
                 return True
             except Exception as e:
