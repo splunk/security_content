@@ -343,7 +343,7 @@ class SplunkContainer:
     
     #@wrapt_timeout_decorator.timeout(MAX_CONTAINER_START_TIME_SECONDS, timeout_exception=RuntimeError)
     def setup_container(self):
-        
+        self.configure_hec()
         #self.container.start()
 
 
@@ -380,7 +380,7 @@ class SplunkContainer:
 
         print("Finished copying files to [%s]" % (self.container_name))
         self.wait_for_splunk_ready()
-        self.configure_hec()
+        
     
     def configure_hec(self):
         try:
