@@ -203,7 +203,7 @@ class SplunkContainer:
         if os.path.splitext(local_file_path)[1] != ".tar":
             raise Exception(
                 "Error - Failed copy of file [%s] to container [%s].  Only "
-                "files ending in .tar can be copied to the container using this function."a
+                "files ending in .tar can be copied to the container using this function."
                 % (local_file_path, self.container_name)
             )
         successful_copy = False
