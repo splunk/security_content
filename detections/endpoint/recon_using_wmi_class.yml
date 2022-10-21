@@ -14,7 +14,7 @@ description: The following analytic identifies suspicious PowerShell via EventCo
 search: '`powershell` EventCode=4104 (ScriptBlockText= "*SELECT*" OR ScriptBlockText= "*Get-WmiObject*")
   AND (ScriptBlockText= "*Win32_Bios*" OR ScriptBlockText= "*Win32_OperatingSystem*" OR ScriptBlockText= "*Win32_Processor*"
   OR ScriptBlockText= "*Win32_ComputerSystem*" OR ScriptBlockText= "*Win32_ComputerSystemProduct*" OR ScriptBlockText= "*Win32_PnPEntity*" 
-  OR ScriptBlockText= "*Win32_ShadowCopy*") | stats count min(_time) as firstTime max(_time)
+  OR ScriptBlockText= "*Win32_ShadowCopy*" OR ScriptBlockText= "*Win32_DiskDrive*" OR ScriptBlockText= "*Win32_PhysicalMemory*") | stats count min(_time) as firstTime max(_time)
   as lastTime by EventCode ScriptBlockText Computer UserID | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `recon_using_wmi_class_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
