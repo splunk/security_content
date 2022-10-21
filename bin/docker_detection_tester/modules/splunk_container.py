@@ -189,12 +189,13 @@ class SplunkContainer:
         self, local_file_path: str, container_file_path: str, sleepTimeSeconds: int = 5
     ) -> bool:
         container_file_path = container_file_path.replace(".tar", "")
+        
         while True:
             import shutil
             try:
-                print(f"trying to copy [{local_file_path}] to [{container_file_path}]")
+                print(f"sudo cp [{local_file_path}] to [{container_file_path}]")
                 shutil.copy(local_file_path, container_file_path)
-                print(f"success")
+                input(f"please run [sudo cp {local_file_path} to {container_file_path}]")
                 return True
             except Exception as e:
                 print(f"failure, sleeping 5 and trying copy again")
@@ -371,6 +372,7 @@ class SplunkContainer:
         # signal.signal(signal.SIGINT, shutdown_signal_handler)
 
         # By default, first copy the index file then the datamodel file
+        print("you must install all the apps before you do this...")
         for file_description, file_dict in self.files_to_copy_to_container.items():
             self.extract_tar_file_to_container(
                 file_dict["local_file_path"], file_dict["container_file_path"]
