@@ -192,8 +192,9 @@ class SplunkContainer:
         while True:
             import shutil
             try:
-                print(f"trying to copy [{}] to [{}]")
+                print(f"trying to copy [{local_file_path}] to [{container_file_path}]")
                 shutil.copy(local_file_path, container_file_path)
+                print(f"success")
                 return True
             except Exception as e:
                 print(f"failure, sleeping 5 and trying copy again")
