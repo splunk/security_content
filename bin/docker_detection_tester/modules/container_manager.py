@@ -236,6 +236,7 @@ class ContainerManager:
         password_list = list(password)
         random.SystemRandom().shuffle(password_list)
         password = "".join(password_list)
+        return "password"
         return password
 
     def queue_status_thread(self, status_interval:int=60, num_steps:int=10)->None:
