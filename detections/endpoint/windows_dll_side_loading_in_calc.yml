@@ -6,10 +6,9 @@ author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: The following analytic identifies a suspicious dll modules loaded by calc.exe that are not in windows %systemroot%\system32 or %systemroot%\sysWoW64 folder. 
+description: The following analytic identifies suspicious DLL modules loaded by calc.exe that are not in windows %systemroot%\system32 or %systemroot%\sysWoW64 folder. 
   This technique is well used by Qakbot malware to execute its malicious DLL file via dll side loading technique in calc process execution. 
-  This TTP detection is a good indicator that a suspicious dll was loaded in public or non-common installation folder of Windows Operating System that needs further investigation. 
-  This TTP can detect a possible qakbot malicious dll components or loader that load its malicious code in a Windows Operating System.
+  This TTP detection is a good indicator that a suspicious dll was loaded in a public or non-common installation folder of Windows Operating System that needs further investigation. 
 search: '`sysmon` EventCode=7 Image = "*\calc.exe" AND NOT (Image IN ("*:\\windows\\system32\\*", "*:\\windows\\sysWow64\\*")) AND NOT(ImageLoaded IN("*:\\windows\\system32\\*", "*:\\windows\\sysWow64\\*", "*:\\windows\\WinSXS\\*"))
   | stats count min(_time) as firstTime max(_time) as lastTime by Image ImageLoaded OriginalFileName Product process_name Computer EventCode Signed ProcessId 
   | `security_content_ctime(firstTime)` 
