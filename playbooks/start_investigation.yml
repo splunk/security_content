@@ -13,5 +13,6 @@ tags:
   platform_tags: []
   playbook_fields: []
   playbook_type: Automation
+  vpe_type: Modern
   product:
   - Splunk SOAR
