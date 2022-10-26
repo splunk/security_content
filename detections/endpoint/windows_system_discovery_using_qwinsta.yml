@@ -8,8 +8,8 @@ datamodel:
 - Endpoint
 description: The following analytic identifies the execution of qwinsta.exe executable in Windows Operating System. 
   This Windows executable file can display information about sessions on a remote desktop session host server. The information 
-  include also other information such as servername, sessionname, username and many more. This tool is being abused of Qakbot malware 
-  to gather information to the targeted or compromised host.
+  includes servername, sessionname, username and many more. This tool is being abused of Qakbot malware 
+  to gather information to the targeted or compromised host that will be send back to its Command and control server.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes 
   where Processes.process_name = "qwinsta.exe" OR Processes.original_file_name = "qwinsta.exe"
   by Processes.parent_process Processes.parent_process_name Processes.process_name Processes.process_id Processes.process_guid Processes.process Processes.user Processes.dest Processes.parent_process_id Processes.original_file_name
