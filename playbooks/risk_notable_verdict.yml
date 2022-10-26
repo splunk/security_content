@@ -17,5 +17,6 @@ tags:
   platform_tags:
   - Risk Notable
   playbook_type: Automation
+  vpe_type: Modern
   product:
   - Splunk SOAR
