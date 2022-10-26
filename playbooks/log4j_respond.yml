@@ -30,5 +30,6 @@ tags:
   - Detect Outbound LDAP Traffic
   playbook_fields: []
   playbook_type: Automation
+  vpe_type: Modern
   product:
   - Splunk SOAR
