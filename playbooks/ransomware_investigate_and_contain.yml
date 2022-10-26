@@ -23,6 +23,7 @@ tags:
   platform_tags:
   - Ransomware
   playbook_type: Automation
+  vpe_type: Classic
   playbook_fields:
   - ComputerName
   - Username

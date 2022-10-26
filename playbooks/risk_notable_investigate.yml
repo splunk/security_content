@@ -15,6 +15,7 @@ tags:
   labels:
   - risk_notable
   playbook_type: Automation
+  vpe_type: Modern
   platform_tags:
   - Risk Notable
   product:
