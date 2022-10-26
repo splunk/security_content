@@ -13,6 +13,7 @@ app_list:
 tags:
   platform_tags: []
   playbook_type: Input
+  vpe_type: Modern
   playbook_fields: []
   product:
   - Splunk SOAR
