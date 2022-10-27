@@ -6,10 +6,10 @@ author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
 - Endpoint
-description: The following analytic identifies a suspicious wermgr.exe parent process having child process not related to error, fault or windows werfault event. 
+description: The following analytic identifies a suspicious wermgr.exe parent process having a child process not related to error, fault or windows werfault event. 
   This technique was seen in Qakbot malware where it inject its malicious code in wermgr to evade detections and hide from the analyst to execute its 
-  recon and it malicious behavior. This Anomaly detection can be a good pivot to start investigating a possible qakbot infection in the network. 
-  Wermgr.exe process is not known to have other child process aside from itself or werfault.exe. 
+  recon and its malicious behavior. This Anomaly detection can be a good pivot to start investigating a possible qakbot infection in the network. 
+  The Wermgr.exe process is not known to have other child processes aside from itself or werfault.exe
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes 
   where Processes.parent_process_name = "wermgr.exe" AND NOT (Processes.process_name IN ("WerFaultSecure.exe", "wermgr.exe", "WerFault.exe"))
   by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.process Processes.process_id 
