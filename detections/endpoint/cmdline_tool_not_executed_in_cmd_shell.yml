@@ -1,7 +1,7 @@
 name: Cmdline Tool Not Executed In CMD Shell
 id: 6c3f7dd8-153c-11ec-ac2d-acde48001122
-version: 1
-date: '2021-09-14'
+version: 2
+date: '2022-10-27'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
@@ -15,8 +15,10 @@ description: The following analytic identifies a non-standard parent process (no
   This TTP is a good indicator for an adversary gathering host information, but one
   possible false positive might be an automated tool used by a system administator.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where  (Processes.process_name = "ipconfig.exe"
-  OR Processes.process_name = "systeminfo.exe") AND NOT (Processes.parent_process_name
+  as lastTime from datamodel=Endpoint.Processes where (Processes.process_name = "ipconfig.exe"
+  OR Processes.process_name = "systeminfo.exe" OR Processes.process_name = "net.exe" OR Processes.process_name = "net1.exe" 
+  OR Processes.process_name = "arp.exe" OR Processes.process_name = "nslookup.exe" OR Processes.process_name = "route.exe"
+  OR Processes.process_name = "netstat.exe" OR Processes.process_name = "whoami.exe") AND NOT (Processes.parent_process_name
   = "cmd.exe" OR Processes.parent_process_name = "powershell*" OR Processes.parent_process_name="pwsh.exe"
   OR Processes.parent_process_name = "explorer.exe") by Processes.parent_process_name
   Processes.parent_process Processes.process_name Processes.original_file_name Processes.process_id
@@ -37,6 +39,7 @@ tags:
   analytic_story:
   - FIN7
   - CISA AA22-277A
+  - Qakbot
   confidence: 80
   context:
   - Source:Endpoint
