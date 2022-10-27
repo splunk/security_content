@@ -6,7 +6,7 @@ author: Teoderick Contreras, Bhavin Patel, Splunk
 type: Anomaly
 datamodel:
 - Endpoint
-description: The following analytic identifies a suspicious registry entry created by Qakbot malware as part of malicious execution. 
+description: The following analytic identifies a suspicious registry entry created by Qakbot malware as part of its malicious execution. 
   This "Binary Data" Registry  was created by newly spawn explorer.exe where its malicious code is injected to it. The registry consist of 8 random registry value name 
   with encrypted binary data on its registry value data. This anomaly detections can be a good pivot for possible Qakbot malware infection or other malware that uses registry 
   to save or store there config or malicious code on the registry data stream. 
