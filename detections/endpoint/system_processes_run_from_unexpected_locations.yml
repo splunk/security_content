@@ -37,6 +37,7 @@ tags:
   - Unusual Processes
   - Ransomware
   - Masquerading - Rename System Utilities
+  - Qakbot
   asset_type: Endpoint
   cis20:
   - CIS 8
