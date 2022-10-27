@@ -12,16 +12,14 @@ description: This analytic is to detect a suspicious high frequency copying/movi
   or internal files within network share to exfitrate it after or to lure evidence
   of insider attack to other user. This behavior may catch several noise if network
   share is a common place for classified or internal document processing.
-search: '`wineventlog_security` EventCode=5145 Relative_Target_Name IN ("*.doc","*.docx","*.xls","*.xlsx","*.ppt","*.pptx","*.log","*.txt","*.db","*.7z","*.zip","*.rar","*.tar","*.gz","*.jpg","*.gif","*.png","*.bmp","*.pdf","*.rtf","*.key")
-  Object_Type=File Share_Name IN ("\\\\*\\C$","\\\\*\\IPC$","\\\\*\\admin$") Access_Mask=
-  "0x2" |  bucket _time span=5m | stats values(Relative_Target_Name) as valRelativeTargetName,
-  values(Share_Name) as valShareName, values(Object_Type) as valObjectType, values(Access_Mask)
-  as valAccessmask, values(src_port) as valSrcPort, values(Source_Address) as valSrcAddress
-  count as numShareName by dest, _time, EventCode, user | eventstats avg(numShareName)
-  as avgShareName, stdev(numShareName) as stdShareName, count as numSlots by dest,
-  _time, EventCode, user |  eval upperThreshold=(avgShareName + stdShareName *3) |  eval
-  isOutlier=if(avgShareName > 20 and avgShareName >= upperThreshold, 1, 0) |  search
-  isOutlier=1 | `high_frequency_copy_of_files_in_network_share_filter`'
+search: '`wineventlog_security` EventCode=5145 RelativeTargetName IN ("*.doc","*.docx","*.xls","*.xlsx","*.ppt","*.pptx","*.log","*.txt","*.db","*.7z","*.zip","*.rar","*.tar","*.gz","*.jpg","*.gif","*.png","*.bmp","*.pdf","*.rtf","*.key") ObjectType=File ShareName IN ("\\\\*\\C$","\\\\*\\IPC$","\\\\*\\admin$") AccessMask= "0x2" 
+| bucket _time span=5m 
+| stats values(RelativeTargetName) as valRelativeTargetName, values(ShareName) as valShareName, values(ShareLocalPath) as valShareLocalPath, values(ObjectType) as valObjectType, values(AccessMask) as valAccessMask, values(src_port) as valSrcPort, values(IpAddress) as valIpAddress count as numShareName by dest, _time, EventCode, src_user
+| eventstats avg(numShareName) as avgShareName, stdev(numShareName) as stdShareName, count as numSlots by dest, _time, EventCode, src_user 
+| eval upperThreshold=(avgShareName + stdShareName *3) 
+| eval isOutlier=if(avgShareName > 20 and avgShareName >= upperThreshold, 1, 0) 
+| search isOutlier=1 
+| `high_frequency_copy_of_files_in_network_share_filter`'
 how_to_implement: o successfully implement this search, you need to be ingesting Windows
   Security Event Logs with 5145 EventCode enabled. The Windows TA is also required.
   Also enable the object Audit access success/failure in your group policy.
@@ -42,7 +40,7 @@ tags:
   impact: 30
   kill_chain_phases:
   - Exploitation
-  message: high frequency copy of document in network share $Share_Name$ from $Source_Address$
+  message: high frequency copy of document in network share $ShareName$ from $IpAddress$
     by $user$
   mitre_attack_id:
   - T1537
@@ -58,13 +56,14 @@ tags:
   required_fields:
   - _time
   - EventCode
-  - Share_Name
-  - Relative_Target_Name
-  - Object_Type
-  - Access_Mask
-  - user
+  - ShareName
+  - RelativeTargetName
+  - ObjectType
+  - AccessMask
+  - src_user
   - src_port
-  - Source_Address
+  - IpAddress
+  - ShareLocalPath
   risk_score: 9
   security_domain: endpoint
   asset_type: Endpoint
