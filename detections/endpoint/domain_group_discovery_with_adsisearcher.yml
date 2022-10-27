@@ -9,10 +9,10 @@ description: The following analytic utilizes PowerShell Script Block Logging (Ev
   to identify the `[Adsisearcher]` type accelerator being used to query Active Directory
   for domain groups. Red Teams and adversaries may leverage `[Adsisearcher]` to enumerate
   domain groups for situational awareness and Active Directory Discovery.
-search: '`powershell` EventCode=4104 (Message = "*[adsisearcher]*" AND Message = "*(objectcategory=group)*"
-  AND Message = "*findAll()*") | stats count min(_time) as firstTime max(_time) as
-  lastTime by EventCode Message ComputerName User | `security_content_ctime(firstTime)`
-  | `domain_group_discovery_with_adsisearcher_filter`'
+search: '`powershell` EventCode=4104 (ScriptBlockText = "*[adsisearcher]*" AND ScriptBlockText = "*(objectcategory=group)*" AND ScriptBlockText = "*findAll()*")
+| stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID 
+| `security_content_ctime(firstTime)` 
+| `domain_group_discovery_with_adsisearcher_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
@@ -49,9 +49,9 @@ tags:
   required_fields:
   - _time
   - EventCode
-  - Message
-  - ComputerName
-  - User
+  - ScriptBlockText
+  - Computer
+  - UserID
   risk_score: 18
   security_domain: endpoint
   asset_type: Endpoint
