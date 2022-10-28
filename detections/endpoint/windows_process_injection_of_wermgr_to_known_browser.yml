@@ -1,0 +1,71 @@
+name: Windows Process Injection Of Wermgr to Known Browser
+id: aec755a5-3a2c-4be0-ab34-6540e68644e9
+version: 1
+date: '2022-10-28'
+author: Teoderick Contreras, Splunk
+type: TTP
+datamodel:
+- Endpoint
+description: This analytic identifies the suspicious Remote Thread execution of wermgr.exe process to "firefox.exe", "chrome.exe" and other known browsers. 
+  This technique was seen in Qakbot malware that executes its malicious code by injecting its code in legitimate Windows Operating System processes such as wermgr.exe 
+  to steal information in the compromised host. This TTP detection can be a good pivot to detect wermgr.exe process injected with qakbot code that tries to 
+  remote thread code execution in known browsers like firefox and edge which is not a common behavior of this wermgr.exe application.
+search: '`sysmon` EventCode=8 SourceImage = "*\\wermgr.exe" TargetImage IN ("*\\firefox.exe", "*\\chrome.exe", "*\\iexplore.exe","*\\microsoftedgecp.exe") 
+  | stats count min(_time) as firstTime max(_time) as lastTime by SourceImage TargetImage SourceProcessGuid SourceProcessId StartAddress StartFunction TargetProcessGuid TargetProcessId  EventCode Computer 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `windows_process_injection_of_wermgr_to_known_browser_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the SourceImage, TargetImage, and EventCode executions from your endpoints
+  related to create remote thread or injecting codes. If you are using Sysmon, you
+  must have at least version 6.0.4 of the Sysmon TA.
+known_false_positives: unknown
+references:
+- https://news.sophos.com/en-us/2022/03/10/qakbot-decoded/
+- https://www.trellix.com/en-us/about/newsroom/stories/research/demystifying-qbot-malware.html
+tags:
+  analytic_story:
+  - Qakbot
+  asset_type: UPDATE asset_type
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  confidence: 70
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/qakbot/remote_thread/sysmon_wermgr_remote.log
+  impact: 70
+  kill_chain_phases:
+  - Exploitation
+  message: wermgr.exe process $SourceImage$ create a remote thread to a browser process $TargetImage$ in host $Computer$
+  mitre_attack_id:
+  - T1055.001
+  - T1055
+  nist:
+  - DE.CM
+  observable:
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - SourceImage 
+  - TargetImage
+  - SourceProcessGuid
+  - SourceProcessId
+  - StartAddress
+  - StartFunction
+  - TargetProcessGuid
+  - TargetProcessId
+  - EventCode
+  - Computer 
+  risk_score: 49
+  security_domain: endpoint
