@@ -2,7 +2,7 @@ name: Okta MFA Exhaustion Hunt
 id: 97e2fe57-3740-402c-988a-76b64ce04b8d
 version: 1
 date: '2022-09-27'
-author: Michael Haag, Splunk
+author: Michael Haag, Marissa Bower Splunk
 type: Hunting
 datamodel: []
 description: The following analytic identifies patterns within Okta data to determine the amount of successful and failed pushes. Based on that, eval statements determine a finding of whether this is suspicious or not. The events are within a window of time and may be tuned as needed.
