@@ -29,6 +29,7 @@ references:
 tags:
   analytic_story:
   - Trickbot
+  - Qakbot
   confidence: 80
   context:
   - Source:Endpoint
