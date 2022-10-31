@@ -1,0 +1,24 @@
+name: Text4Shell CVE-2022-42889
+id: 95ae800d-485e-47f7-866e-8be281aa497b
+version: 1
+date: '2022-10-26'
+author: Michael Haag, Splunk
+description: A new critical vulnerability CVE-2022-42889 a.k.a. Text4shell, similar to the old Spring4Shell and Log4Shell, was originally reported by Alvaro Munoz on the very popular Apache Commons Text library.
+narrative: Apache Commons Text is a Java library described as "a library focused on algorithms working on strings." We can see it as a general-purpose text manipulation toolkit.
+  This vulnerability affects the StringSubstitutor interpolator class, which is included in the Commons Text library. A default interpolator allows for string lookups that can lead to Remote Code Execution. This is due to a logic flaw that makes the "script," "dns," and "url" lookup keys interpolated by default, as opposed to what it should be, according to the documentation of the StringLookupFactory class. Those keys allow an attacker to execute arbitrary code via lookups.
+  In order to exploit the vulnerabilities, the following requirements must be met - Run a version of Apache Commons Text from version 1.5 to 1.9 and use the StringSubstitutor interpolator.
+  It is important to specify that the StringSubstitutor interpolator is not as widely used as the string substitution in Log4j, which led to Log4Shell.
+  According to the CVSSv3 system, it scores 9.8 as CRITICAL severity.
+  The severity is Critical due to the easy exploitability and huge potential impact in terms of confidentiality, integrity, and availability. As we showed in the previous section, you can take full control over the vulnerable system with a crafted request.
+  However, it is not likely the vulnerabilities will have the same impacts as the previous Log4Shell and Spring4Shell.
+references:
+  - https://sysdig.com/blog/cve-2022-42889-text4shell/
+tags:
+  analytic_story: Text4Shell CVE-2022-42889
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Application Security
