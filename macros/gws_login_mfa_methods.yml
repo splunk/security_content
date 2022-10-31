@@ -1,0 +1,4 @@
+definition: event.parameters{}.multiValue{} IN ("backup_code", "google_authenticator", "google_prompt", "idv_any_phone", "idv_preregistered_phone", "internal_two_factor", "knowledge_employee_id", "knowledge_preregistered_email", "login_location", "knowledge_preregistered_phone", "offline_otp", "security_key", "security_key_otp")
+description: customer specific splunk configurations(eg- index, source, sourcetype).
+  Replace the macro definition with configurations for your Splunk Environmnent.
+name: gws_login_mfa_methods
