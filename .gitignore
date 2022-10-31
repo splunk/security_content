@@ -122,3 +122,8 @@ bin/docker_detection_tester/apps/
 bin/docker_detection_tester/security_content/
 bin/docker_detection_tester/test_config.json
 bin/docker_detection_tester/test_results/
+
+#generated files
+lookups/APP_ENRICHMENT_CACHE.db.db
+lookups/CVE_CACHE.db.db
+lookups/REFERENCE_CACHE.db.db	
