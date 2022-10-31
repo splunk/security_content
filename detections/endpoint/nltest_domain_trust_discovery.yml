@@ -35,6 +35,7 @@ tags:
   - Domain Trust Discovery
   - IcedID
   - Active Directory Discovery
+  - Qakbot
   asset_type: Endpoint
   cis20:
   - CIS 8
