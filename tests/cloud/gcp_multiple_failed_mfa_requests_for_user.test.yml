@@ -1,0 +1,13 @@
+name: GCP Multiple Failed MFA Requests For User Unit Test
+tests:
+- name: GCP Multiple Failed MFA Requests For User
+  file: cloud/gcp_multiple_failed_mfa_requests_for_user.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: gws_login.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/multiple_failed_mfa_gws/gws_login.log
+    source: gws:reports:login
+    sourcetype: gws:reports:login
+    update_timestamp: true
