@@ -34,6 +34,7 @@ tags:
   - Hermetic Wiper 
   - Ransomware
   - Malicious PowerShell
+  - Qakbot
   confidence: 80
   context:
   - Source:Endpoint

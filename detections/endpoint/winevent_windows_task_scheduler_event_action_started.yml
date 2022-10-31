@@ -34,6 +34,7 @@ tags:
   - Industroyer2
   - DarkCrystal RAT
   - CISA AA22-257A
+  - Qakbot
   confidence: 100
   context:
   - Source:Endpoint
