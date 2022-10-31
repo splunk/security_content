@@ -1,0 +1,25 @@
+name: Qakbot
+id: 0c6169b1-f126-4d86-8e4f-f7891007ebc6
+version: 1
+date: '2022-10-12'
+author: Teoderick Contreras, Splunk
+description: Leverage searches that allow you to detect and investigate unusual activities
+  that might relate to the Qakbot/QBot malware including parent-child process anomalies, persistence, initial access, recon and many more.
+  Qakbot is a modular information stealer that has been active since 2007. It is also has historical background to be banking Trojan that steals 
+  financial data from infected or compromised system. 
+narrative: Qakbot is also known to leverage tools like powershell, process injection, and mimikatz 
+  for its malicious activities. This malware was on the CISA top malware list for 2021. 
+references:
+- https://www.cisa.gov/sites/default/files/publications/202010221030_QakBot%20TLPWHITE.pdf
+- https://malpedia.caad.fkie.fraunhofer.de/details/win.qakbot
+- https://securelist.com/qakbot-technical-analysis/103931/
+- https://www.fortinet.com/blog/threat-research/new-variant-of-qakbot-spread-by-phishing-emails
+tags:
+  analytic_story: Qakbot
+  category:
+  - Malware
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
