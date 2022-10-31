@@ -24,6 +24,7 @@ references:
 tags:
   analytic_story:
   - Active Directory Discovery
+  - Qakbot
   confidence: 50
   context:
   - Source:Endpoint

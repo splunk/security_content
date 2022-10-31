@@ -39,6 +39,7 @@ tags:
   - Remcos
   - Windows Defense Evasion Tactics
   - Azorult
+  - Qakbot
   confidence: 80
   context:
   - Source:Endpoint
