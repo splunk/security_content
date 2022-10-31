@@ -26,7 +26,7 @@ references:
 tags:
   analytic_story:
   - Qakbot
-  asset_type: UPDATE asset_type
+  asset_type: Endpoint
   cis20:
   - CIS 3
   - CIS 5
