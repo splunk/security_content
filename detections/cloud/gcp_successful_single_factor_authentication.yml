@@ -20,7 +20,7 @@ references:
 tags:
   analytic_story:
   - GCP Account Takeover
-  asset_type: UPDATE asset_type
+  asset_type: Google Cloud Platform tenant
   cis20:
   - CIS 3
   - CIS 5
