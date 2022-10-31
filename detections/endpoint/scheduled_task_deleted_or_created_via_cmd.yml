@@ -36,6 +36,7 @@ tags:
   - DarkCrystal RAT
   - CISA AA22-257A
   - AgentTesla
+  - Qakbot
   asset_type: Endpoint
   cis20:
   - CIS 3

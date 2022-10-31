@@ -33,6 +33,7 @@ tags:
   - IcedID
   - DarkCrystal RAT
   - AgentTesla
+  - Qakbot
   confidence: 50
   context:
   - Source:Endpoint
