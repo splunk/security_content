@@ -45,6 +45,7 @@ tags:
   - NOBELIUM Group
   - WhisperGate
   - DarkCrystal RAT
+  - Qakbot
   asset_type: Endpoint
   cis20:
   - CIS 3
