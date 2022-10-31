@@ -26,6 +26,7 @@ references:
 tags:
   analytic_story:
   - Hidden Cobra Malware
+  - CISA AA22-277A
   asset_type: Endpoint
   cis20:
   - CIS 8
