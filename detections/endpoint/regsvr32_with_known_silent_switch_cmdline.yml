@@ -36,6 +36,7 @@ tags:
   - Suspicious Regsvr32 Activity
   - Remcos
   - Living Off The Land
+  - Qakbot
   confidence: 80
   context:
   - Source:Endpoint
