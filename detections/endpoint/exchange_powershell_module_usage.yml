@@ -1,14 +1,12 @@
 name: Exchange PowerShell Module Usage
 id: 2d10095e-05ae-11ec-8fdf-acde48001122
-version: 3
-date: '2022-09-22'
+version: 4
+date: '2022-10-05'
 author: Michael Haag, Splunk
 type: TTP
 datamodel: []
 description: 'The following analytic identifies the usage of Exchange PowerShell modules
-  that were recently used for a proof of concept related to ProxyShell. Currently,
-  there is no active data shared or data we could re-produce relate to this part of
-  the ProxyShell chain of exploits.  \
+  that were recently used for a proof of concept related to ProxyShell. Adversaries may abuse a limited set of PwSh Modules related to Exchange once gained access via ProxyShell or ProxyNotShell.\
 
   Inherently, the usage of the modules is not malicious, but reviewing parallel processes,
   and user, of the session will assist with determining the intent. \
@@ -40,22 +38,26 @@ references:
   - https://www.cisa.gov/uscert/ncas/alerts/aa22-264a
   - https://learn.microsoft.com/en-us/powershell/module/exchange/new-mailboxsearch?view=exchange-ps
   - https://learn.microsoft.com/en-us/powershell/module/exchange/get-recipient?view=exchange-ps
+  - https://thedfirreport.com/2022/03/21/apt35-automates-initial-access-using-proxyshell/
 tags:
   analytic_story:
   - ProxyShell
   - CISA AA22-264A
+  - ProxyNotShell
+  - CISA AA22-277A
   asset_type: Endpoint
-  confidence: 50
+  confidence: 80
   context:
   - Source:Endpoint
   - Stage:Discovery
   - Stage:Recon
-  dataset: []
-  impact: 30
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/exchange/windows-powershell.log
+  impact: 40
   kill_chain_phases:
   - Reconnaissance
   - Exploitation
-  message: Local user discovery enumeration using PowerShell on $dest$ by $user$
+  message: Suspicious Exchange PowerShell module usaged was identified on $dest$.
   mitre_attack_id:
   - T1059
   - T1059.001
@@ -75,5 +77,5 @@ tags:
   - Computer
   - UserID
   - EventCode
-  risk_score: 15
+  risk_score: 32
   security_domain: endpoint

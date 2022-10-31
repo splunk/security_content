@@ -37,6 +37,7 @@ tags:
   analytic_story:
   - FIN7
   - Qakbot
+  - CISA AA22-277A
   confidence: 80
   context:
   - Source:Endpoint
