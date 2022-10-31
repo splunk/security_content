@@ -3,7 +3,7 @@ id: b89919ed-fe5f-492c-b139-95dbb162040e
 version: 4
 date: '2021-09-16'
 author: Michael Haag, Josef Kuepker, Splunk
-type: TTP
+type: Anomaly
 datamodel:
 - Endpoint
 description: This search looks for processes launching netsh.exe. Netsh is a command-line
@@ -42,11 +42,10 @@ tags:
   - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.004/atomic_red_team/windows-sysmon.log
-  impact: 60
+  impact: 20
   kill_chain_phases:
   - Actions on Objectives
-  message: A process $process_name$ that tries to execute netsh commandline $process$
-    in host $dest$
+  message: A process $process_name$ has launched netsh with command-line $process$ on $dest$.
   mitre_attack_id:
   - T1562.004
   - T1562
@@ -74,7 +73,7 @@ tags:
   - Processes.process_name
   - Processes.user
   - Processes.dest
-  risk_score: 42
+  risk_score: 14
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_microsoft_sysmon
