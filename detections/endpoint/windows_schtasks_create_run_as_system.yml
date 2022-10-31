@@ -30,6 +30,7 @@ references:
 tags:
   analytic_story:
   - Windows Persistence Techniques
+  - Qakbot
   confidence: 60
   context:
   - Source:Endpoint
