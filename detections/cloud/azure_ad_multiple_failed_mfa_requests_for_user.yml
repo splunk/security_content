@@ -3,7 +3,7 @@ id: 264ea131-ab1f-41b8-90e0-33ad1a1888ea
 version: 1
 date: '2022-08-25'
 author: Mauricio Velazco, Splunk
-type: Anomaly
+type: TTP
 datamodel: []
 description: 'The following analytic identifies multiple failed multi-factor authentication requests for a single user within an Azure AD tenant. Error Code 500121 represents a failed attempt to authenticate using a second factor.
   Specifically, the analytic triggers when more than 10 MFA user prompts fail within 10 minutes. Azure AD tenants can be very different depending on the organization, Security teams should test this detection and customize these arbitrary thresholds.
@@ -40,7 +40,7 @@ tags:
   - Stage:Initial Access
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/multiple_failed_mfa_requests/azure-audit.log
-  impact: 70
+  impact: 60
   kill_chain_phases:
   - Exploitation
   message: Multiple Failed MFA requests for user $body.properties.userPrincipalName$
@@ -70,5 +70,5 @@ tags:
   - body.properties.authenticationDetails
   - body.properties.userPrincipalName
   - body.properties.ipAddress
-  risk_score: 63
+  risk_score: 54
   security_domain: identity

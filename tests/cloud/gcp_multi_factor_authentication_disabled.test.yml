@@ -1,0 +1,13 @@
+name: GCP Multi-Factor Authentication Disabled Unit Test
+tests:
+- name: GCP Multi-Factor Authentication Disabled
+  file: cloud/gcp_multi_factor_authentication_disabled.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: gws_admin.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556/gcp_disable_mfa/gws_admin.log
+    source: gws:reports:admin
+    sourcetype: gws:reports:admin
+    update_timestamp: true
