@@ -39,6 +39,7 @@ tags:
   - Suspicious Regsvr32 Activity
   - Icedid
   - Living Off The Land
+  - Qakbot
   asset_type: Endpoint
   cis20:
   - CIS 8
