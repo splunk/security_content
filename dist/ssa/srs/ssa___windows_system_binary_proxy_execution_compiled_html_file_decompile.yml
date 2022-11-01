@@ -58,6 +58,7 @@ tags:
   security_domain: endpoint
   risk_severity: high
   research_site_url: https://research.splunk.com/endpoint/11c32b19-05a6-48a8-ab28-18dbd9ec5d50/
+  event_schema: cim
 test:
   name: Windows System Binary Proxy Execution Compiled HTML File Decompile Unit Test
   tests:
