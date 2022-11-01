@@ -55,6 +55,7 @@ tags:
   security_domain: endpoint
   risk_severity: low
   research_site_url: https://research.splunk.com/endpoint/afb31de4-d023-11eb-98d5-acde48001122/
+  event_schema: cim
 test:
   name: Attempt To Disable Services Unit Test
   tests:
