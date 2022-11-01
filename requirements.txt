@@ -4,7 +4,7 @@ GitPython==3.1.27
 Jinja2==3.1.2
 jsonschema==4.16.0
 mock==4.0.3
-psutil==5.9.2
+psutil==5.9.3
 pycvesearch==1.2
 pydantic==1.10.2
 pytest==7.1.3
