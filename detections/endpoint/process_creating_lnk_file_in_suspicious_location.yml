@@ -33,6 +33,7 @@ references:
 tags:
   analytic_story:
   - Spearphishing Attachments
+  - Qakbot
   asset_type: Endpoint
   cis20:
   - CIS 7

@@ -1,0 +1,13 @@
+name: Windows Command Shell Fetch Env Variables Unit Test
+tests:
+- name: Windows Command Shell Fetch Env Variables
+  file: endpoint/windows_command_shell_fetch_env_variables.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: sysmon_wermgr.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/qakbot/qbot_wermgr/sysmon_wermgr.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true
