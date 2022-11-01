@@ -1,0 +1,13 @@
+name: Windows Process Injection Of Wermgr to Known Browser Unit Test
+tests:
+- name: Windows Process Injection Of Wermgr to Known Browser
+  file: endpoint/windows_process_injection_of_wermgr_to_known_browser.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: sysmon_wermgr_remote.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/qakbot/remote_thread/sysmon_wermgr_remote.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true
