@@ -15,7 +15,8 @@ tags:
   analytic_story:
   - Splunk Vulnerabilities 
   asset_type: Endpoint 
-  cve: CVE-2022-43568
+  cve: 
+  - CVE-2022-43568
   cis20:
   - CIS 3
   - CIS 5
