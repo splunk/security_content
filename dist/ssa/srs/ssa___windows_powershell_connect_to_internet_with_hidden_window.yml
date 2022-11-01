@@ -65,6 +65,7 @@ tags:
   security_domain: endpoint
   risk_severity: low
   research_site_url: https://research.splunk.com/endpoint/477e068e-8b6d-11ec-b6c1-81af21670352/
+  event_schema: cim
 test:
   name: Windows Powershell Connect to Internet With Hidden Window Unit Test
   tests:
