@@ -35,6 +35,9 @@ class ObjToYmlAdapter(Adapter):
             research_site_url = RESEARCH_SITE_BASE + obj.source + "/" + obj.id + "/"
             obj.tags.research_site_url = research_site_url
 
+            # add ocsf schema tag
+            obj.tags.event_schema = 'cim'
+
             body = FindingReportObject.writeFindingReport(obj)
 
             # remove unncessary fields
@@ -60,7 +63,8 @@ class ObjToYmlAdapter(Adapter):
                                 "risk_score": True,
                                 "security_domain": True,
                                 "required_fields": True,
-                                "research_site_url": True
+                                "research_site_url": True,
+                                "event_schema": True
                             },
                         "test": 
                             {
