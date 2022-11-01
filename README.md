@@ -110,13 +110,15 @@ A complete use case, specifically built to detect, investigate, and respond to a
 We welcome feedback and contributions from the community! Please see our [contributing to the project](https://github.com/splunk/security_content/wiki/Contributing-to-the-Project) for more information on how to get involved.
 
 ## Support 💪
-Please use the [GitHub Issue Tracker](https://github.com/splunk/security_content/issues) to submit bugs or request features.
+If you are a Splunk Enterprise customer with a valid support entitlement contract and have a Splunk-related question, you can open a support case on the https://www.splunk.com/ support portal.
+
+Please use the [GitHub Issue Tracker](https://github.com/splunk/security_content/issues) to submit bugs or feature requests using the templates to the Threat Research team directly.
 
 If you have questions or need support, you can:
 
 * Post a question to [Splunk Answers](http://answers.splunk.com)
 * Join the [#security-research](https://splunk-usergroups.slack.com/archives/C1S5BEF38) room in the [Splunk Slack channel](http://splunk-usergroups.slack.com)
-* If you are a Splunk Enterprise customer with a valid support entitlement contract and have a Splunk-related question, you can also open a support case on the https://www.splunk.com/ support portal
+
 
 
 ## License
