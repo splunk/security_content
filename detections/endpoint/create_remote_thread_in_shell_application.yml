@@ -24,6 +24,7 @@ references:
 tags:
   analytic_story:
   - IcedID
+  - Qakbot
   confidence: 100
   context:
   - Source:Endpoint
