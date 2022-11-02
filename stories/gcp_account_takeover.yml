@@ -5,16 +5,11 @@ date: '2022-10-12'
 author: Mauricio Velazco, Bhavin Patel, Splunk
 description: Monitor for activities and techniques associated with Account Takover
   attacks against Google Cloud Platform tenants.
-narrative: '
-
-  Account Takeover (ATO) is an attack whereby cybercriminals gain unauthorized access to online accounts by using different techniques like brute force, social engineering, 
-  phishing & spear phishing, credential stuffing, etc. By posing as the real user, cyber-criminals can change account details, send out phishing emails, steal financial information or sensitive data, 
-  or use any stolen information to access further accounts within the organization.\
-  This analytic storic groups detections that can help security operations teams identify the potential compromise of Azure Active Directory accounts.'
+narrative: 'Account Takeover (ATO) is an attack whereby cybercriminals gain unauthorized access to online accounts by using different techniques like brute force, social engineering, 
+  phishing & spear phishing, credential stuffing, etc. By posing as the real user, cyber-criminals can change account details, send out phishing emails, steal financial information or sensitive data, or use any stolen information to access further accounts within the organization. This analytic storic groups detections that can help security operations teams identify the potential compromise of Azure Active Directory accounts.'
 references: 
 - https://cloud.google.com/gcp
 - https://cloud.google.com/architecture/identity/overview-google-authentication
-- 
 - https://attack.mitre.org/techniques/T1586/
 - https://www.imperva.com/learn/application-security/account-takeover-ato/
 - https://www.barracuda.com/glossary/account-takeover
