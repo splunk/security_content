@@ -1,0 +1,3 @@
+definition: index=_audit sourcetype=audittrail action=search
+description: Macro to enable easy searching of audittrail logs for searches
+name: audit_searches
