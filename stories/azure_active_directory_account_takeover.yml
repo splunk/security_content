@@ -5,13 +5,7 @@ date: '2022-07-14'
 author: Mauricio Velazco, Splunk
 description: Monitor for activities and techniques associated with Account Takover
   attacks against Azure Active Directory tenants.
-narrative: 'Azure Active Directory (Azure AD) is Microsofts enterprise cloud-based identity and access management (IAM) service. Azure AD is the backbone of most of Azure
-  services like Office 365. It can sync with on-premise Active Directory environments and provide authentication to other cloud-based systems via the OAuth protocol. 
-  According to Microsoft, Azure AD manages more than 1.2 billion identities and processes over 8 billion authentications per day.\
-  Account Takeover (ATO) is an attack whereby cybercriminals gain unauthorized access to online accounts by using different techniques like brute force, social engineering, 
-  phishing & spear phishing, credential stuffing, etc. By posing as the real user, cyber-criminals can change account details, send out phishing emails, steal financial information or sensitive data, 
-  or use any stolen information to access further accounts within the organization.\
-  This analytic storic groups detections that can help security operations teams identify the potential compromise of Azure Active Directory accounts.'
+narrative: 'Azure Active Directory (Azure AD) is Microsofts enterprise cloud-based identity and access management (IAM) service. Azure AD is the backbone of most of Azure services like Office 365. It can sync with on-premise Active Directory environments and provide authentication to other cloud-based systems via the OAuth protocol. According to Microsoft, Azure AD manages more than 1.2 billion identities and processes over 8 billion authentications per day. Account Takeover (ATO) is an attack whereby cybercriminals gain unauthorized access to online accounts by using different techniques like brute force, social engineering, phishing & spear phishing, credential stuffing, etc. By posing as the real user, cyber-criminals can change account details, send out phishing emails, steal financial information or sensitive data, or use any stolen information to access further accounts within the organization. This analytic storic groups detections that can help security operations teams identify the potential compromise of Azure Active Directory accounts.'
 references:
 - https://docs.microsoft.com/en-us/azure/active-directory/fundamentals/active-directory-whatis
 - https://azure.microsoft.com/en-us/services/active-directory/#overview
