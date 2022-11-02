@@ -1,0 +1,92 @@
+name: Windows Exchange PowerShell Module Usage
+id: 1118bc65-b0c7-4589-bc2f-ad6802fd0909
+version: 1
+description: 'The following analytic identifies the usage of Exchange PowerShell modules
+  that were recently used for a proof of concept related to ProxyShell. Currently,
+  there is no active data shared or data we could re-produce relate to this part of
+  the ProxyShell chain of exploits.  \
+
+  Inherently, the usage of the modules is not malicious, but reviewing parallel processes,
+  and user, of the session will assist with determining the intent. \
+
+  Module - New-MailboxExportRequest will begin the process of exporting contents of
+  a primary mailbox or archive to a .pst file. \
+
+  Module - New-managementroleassignment can assign a management role to a management
+  role group, management role assignment policy, user, or universal security group
+  (USG). \
+
+  Module - New-MailboxSearch cmdlet to create a mailbox search and either get an estimate
+  of search results, place search results on In-Place Hold or copy them to a Discovery
+  mailbox. You can also place all contents in a mailbox on hold by not specifying
+  a search query, which accomplishes similar results as Litigation Hold. \ Module
+  - Get-Recipient cmdlet to view existing recipient objects in your organization.
+  This cmdlet returns all mail-enabled objects (for example, mailboxes, mail users,
+  mail contacts, and distribution groups).'
+search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
+  "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"),
+  "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"),
+  "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string",
+  null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string",
+  null), event_id=ucast(map_get(input_event, "event_id"), "string", null) | where
+  cmd_line IS NOT NULL AND process_name IS NOT NULL | where (like (cmd_line, "%new-mailboxexportrequest%")
+  OR like (cmd_line, "%new-managementroleassignment%") OR like (cmd_line, "%new-mailboxsearch%")
+  OR like (cmd_line,"%get-recipient%")) | eval start_time=timestamp, end_time=timestamp,
+  entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event,
+  "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line",
+  cmd_line, "process_name", process_name, "parent_process_name", parent_process_name,
+  "process_path", process_path]) | into write_ssa_detected_events();'
+how_to_implement: To successfully implement this analytic, you will need to enable
+  PowerShell Script Block Logging on some or all endpoints. Additional setup here
+  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+  This will only work with Multiline event logs, not XML.
+known_false_positives: Administrators or power users may use this PowerShell commandlet
+references:
+- https://docs.microsoft.com/en-us/powershell/module/exchange/new-mailboxexportrequest?view=exchange-ps
+- https://docs.microsoft.com/en-us/powershell/module/exchange/new-managementroleassignment?view=exchange-ps
+- https://blog.orange.tw/2021/08/proxyshell-a-new-attack-surface-on-ms-exchange-part-3.html
+- https://www.zerodayinitiative.com/blog/2021/8/17/from-pwn2own-2021-a-new-attack-surface-on-microsoft-exchange-proxyshell
+- https://thedfirreport.com/2021/11/15/exchange-exploit-leads-to-domain-wide-ransomware/
+- https://www.cisa.gov/uscert/ncas/alerts/aa22-264a
+- https://learn.microsoft.com/en-us/powershell/module/exchange/new-mailboxsearch?view=exchange-ps
+- https://learn.microsoft.com/en-us/powershell/module/exchange/get-recipient?view=exchange-ps
+- https://thedfirreport.com/2022/03/21/apt35-automates-initial-access-using-proxyshell/
+tags:
+  analytic_story:
+  - ProxyShell
+  - CISA AA22-264A
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  kill_chain_phases:
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1059
+  - T1059.001
+  nist:
+  - DE.CM
+  required_fields:
+  - _time
+  - dest_device_id
+  - process_name
+  - parent_process_name
+  - process_path
+  - dest_user_id
+  - process
+  - cmd_line
+  risk_score: 32
+  security_domain: endpoint
+  risk_severity: low
+  research_site_url: https://research.splunk.com/endpoint/1118bc65-b0c7-4589-bc2f-ad6802fd0909/
+  event_schema: cim
+test:
+  name: Windows Exchange PowerShell Module Usage Unit Test
+  tests:
+  - name: Windows Exchange PowerShell Module Usage
+    file: endpoint/ssa___windows_exchange_powershell_module_usage.yml
+    pass_condition: '| stats count | where count > 0'
+    attack_data:
+    - file_name: pwsh_multipass.log
+      data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/pwsh_multipass.log
+      source: WinEventLog

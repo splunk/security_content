@@ -49,6 +49,7 @@ tags:
   security_domain: endpoint
   risk_severity: low
   research_site_url: https://research.splunk.com/endpoint/e124f71f-11bc-47e4-9931-6046d256005d/
+  event_schema: cim
 test:
   name: Windows Rename System Utilities Agentexecutor exe LOLBAS in Non Standard Path
     Unit Test
