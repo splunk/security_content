@@ -25,7 +25,7 @@ tags:
   context:
   - Source:Endpoint 
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1210/splunk/splunk_code_injection_via_custom_dashboard_leading_to_rce.txt
+  - https://raw.githubusercontent.com/splunk/attack_data/master/datasets/attack_techniques/T1210/splunk/splunk_code_injection_via_custom_dashboard_leading_to_rce.txt
   impact: 50
   kill_chain_phases:
   - Exploitation

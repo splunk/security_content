@@ -7,7 +7,7 @@ tests:
   latest_time: now
   attack_data:
   - file_name: splunk_code_injection_via_custom_dashboard_leading_to_rce.txt
-    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1210/splunk/splunk_code_injection_via_custom_dashboard_leading_to_rce.txt
+    data: https://raw.githubusercontent.com/splunk/attack_data/master/datasets/attack_techniques/T1210/splunk/splunk_code_injection_via_custom_dashboard_leading_to_rce.txt
     source: /opt/splunk/var/log/splunk/splunkd_ui_access.log
     sourcetype: splunkd_ui_access
     custom_index: _internal 

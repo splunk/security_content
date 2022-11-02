@@ -25,7 +25,7 @@ tags:
   context:
   - Source:Endpoint 
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1210/splunk/splunk_rce_via_secure_gateway_splunk_mobile_alerts_feature.txt
+  - https://raw.githubusercontent.com/splunk/attack_data/master/datasets/attack_techniques/T1210/splunk/splunk_rce_via_secure_gateway_splunk_mobile_alerts_feature.txt
   impact: 90
   kill_chain_phases:
   - Exploitation

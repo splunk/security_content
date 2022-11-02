@@ -7,7 +7,7 @@ tests:
   latest_time: now
   attack_data:
   - file_name: splunk_reflected_xss_in_templates_lists_radio.txt
-    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1189/splunk/splunk_reflected_xss_in_templates_lists_radio.txt
+    data: https://raw.githubusercontent.com/splunk/attack_data/master/datasets/attack_techniques/T1189/splunk/splunk_reflected_xss_in_templates_lists_radio.txt
     source: /opt/splunk/var/log/splunk/web_access.log
     sourcetype: access_combined_wcookie
     custom_index: _internal

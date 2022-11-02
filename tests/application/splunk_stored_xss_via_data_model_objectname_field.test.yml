@@ -7,7 +7,7 @@ tests:
   latest_time: now
   attack_data:
   - file_name: splunk_stored_xss_via_data_model_objectname_field.txt
-    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1189/splunk/splunk_stored_xss_via_data_model_objectname_field.txt
+    data: https://raw.githubusercontent.com/splunk/attack_data/master/datasets/attack_techniques/T1189/splunk/splunk_stored_xss_via_data_model_objectname_field.txt
     source: /opt/splunk/var/log/splunk/web_access.log
     sourcetype: access_combined_wcookie
     custom_index: _internal

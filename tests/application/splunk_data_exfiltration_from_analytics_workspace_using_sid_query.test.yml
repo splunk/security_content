@@ -7,7 +7,7 @@ tests:
   latest_time: now
   attack_data:
   - file_name: splunk_data_exfiltration_from_analytics_workspace_using_sid_query.txt
-    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1567/splunk/splunk_data_exfiltration_from_analytics_workspace_using_sid_query.txt
+    data: https://raw.githubusercontent.com/splunk/attack_data/master/datasets/attack_techniques/T1567/splunk/splunk_data_exfiltration_from_analytics_workspace_using_sid_query.txt
     source: audittrail 
     sourcetype: audittrail 
     custom_index: _audit
