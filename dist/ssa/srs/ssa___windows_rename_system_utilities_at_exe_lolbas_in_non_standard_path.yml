@@ -49,6 +49,7 @@ tags:
   security_domain: endpoint
   risk_severity: low
   research_site_url: https://research.splunk.com/endpoint/6401d583-0052-4dc5-a713-68b510826d2b/
+  event_schema: cim
 test:
   name: Windows Rename System Utilities At exe LOLBAS in Non Standard Path Unit Test
   tests:

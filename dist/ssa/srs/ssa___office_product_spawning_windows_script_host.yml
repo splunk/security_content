@@ -1,0 +1,65 @@
+name: Office Product Spawning Windows Script Host
+id: 3ea3851a-8736-41a0-bc09-7e4485b48fa6
+version: 1
+description: The following analytic will identify a Windows Office Product spawning
+  WScript.exe or CScript.exe. Tuning may be required based on legitimate application
+  usage that may spawn scripts from an Office product.
+search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
+  "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"),
+  "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"),
+  "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string",
+  null), parent_process_name=lower(ucast(map_get(input_event, "parent_process_name"),
+  "string", null)), event_id=ucast(map_get(input_event, "event_id"), "string", null)
+  | where cmd_line IS NOT NULL AND process_name IS NOT NULL AND parent_process_name
+  IS NOT NULL | where (like(parent_process_name, "%\\\\winword.exe") OR like(parent_process_name,
+  "%\\\\excel.exe") OR like(parent_process_name, "%\\\\powerpnt.exe") OR like(parent_process_name,
+  "%\\\\mspub.exe") OR like(parent_process_name, "%\\\\visio.exe")) AND (process_name="wscript.exe"
+  OR process_name="cscript.exe") | eval start_time=timestamp, end_time=timestamp,
+  entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event,
+  "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line",
+  cmd_line, "process_name", process_name, "parent_process_name", parent_process_name,
+  "process_path", process_path]) | into write_ssa_detected_events();'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
+known_false_positives: False positives may be present based on macro based approved
+  documents in the organization. Filtering may be needed.
+references:
+- https://blog.cluster25.duskrise.com/2022/09/23/in-the-footsteps-of-the-fancy-bear-powerpoint-graphite/
+tags:
+  analytic_story:
+  - Spearphishing Attachments
+  cis20:
+  - CIS 8
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1566
+  - T1566.001
+  nist:
+  - PR.PT
+  - DE.CM
+  required_fields:
+  - _time
+  - dest_device_id
+  - process_name
+  - parent_process_name
+  - process_path
+  - dest_user_id
+  - process
+  risk_score: 63
+  security_domain: endpoint
+  risk_severity: medium
+  research_site_url: https://research.splunk.com/endpoint/3ea3851a-8736-41a0-bc09-7e4485b48fa6/
+  event_schema: cim
+test:
+  name: Office Product Spawning Windows Script Host Unit Test
+  tests:
+  - name: Office Product Spawning Windows Script Host
+    file: endpoint/ssa___office_product_spawning_windows_script_host.yml
+    pass_condition: '@count_gt(0)'
+    attack_data:
+    - file_name: windows-security.log
+      data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.002/atomic_red_team/windows-security.log
+      source: XmlWinEventLog
