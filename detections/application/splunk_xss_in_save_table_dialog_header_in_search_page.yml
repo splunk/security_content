@@ -14,7 +14,7 @@ references:
 - https://portswigger.net/web-security/cross-site-scripting
 tags:
   analytic_story:
-  - Splunk Vulnerablities
+  - Splunk Vulnerabilities
   asset_type: Endpoint 
   cve: 
   - CVE-2022-43561
