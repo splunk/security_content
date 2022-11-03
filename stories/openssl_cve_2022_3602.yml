@@ -1,0 +1,31 @@
+name: OpenSSL CVE-2022-3602
+id: 491e00c9-998b-4c64-91bb-d8f9c79c1f4c
+version: 1
+date: '2022-11-02'
+author: Michael Haag, splunk
+description: OpenSSL recently disclosed two vulnerabilities CVE-2022-3602 and CVE-2022-3786. CVE-2022-3602 is a X.509 Email Address 4-byte Buffer Overflow where puny code is utilized. This only affects OpenSSL 3.0.0 - 3.0.6. 
+narrative: A buffer overrun can be triggered in X.509 certificate verification,
+  specifically in name constraint checking. Note that this occurs after
+  certificate chain signature verification and requires either a CA to
+  have signed a malicious certificate or for an application to continue
+  certificate verification despite failure to construct a path to a trusted
+  issuer. An attacker can craft a malicious email address in a certificate
+  to overflow an arbitrary number of bytes containing the . character
+  (decimal 46) on the stack. This buffer overflow could result in a crash
+  (causing a denial of service).
+  In a TLS client, this can be triggered by connecting to a malicious
+  server. In a TLS server, this can be triggered if the server requests
+  client authentication and a malicious client connects.
+  Users of OpenSSL 3.0.0 - 3.0.6 are encouraged to upgrade to 3.0.7 as soon as possible. If you obtain your copy of OpenSSL from your Operating System vendor or other third party then you should seek to obtain an updated version from them as soon as possible.
+references:
+  - https://www.openssl.org/blog/blog/2022/11/01/email-address-overflows/
+  - https://github.com/advisories/GHSA-h8jm-2x53-xhp5
+tags:
+  analytic_story: OpenSSL CVE-2022-3602
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
