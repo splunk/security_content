@@ -37,6 +37,8 @@ tags:
   cis20:
   - CIS 16
   mitre_attack_id:
+  - T1586
+  - T1586.003
   - T1552
   confidence: 60
   context:
