@@ -36,6 +36,8 @@ tags:
   - Exploitation
   message: Successful authentication for user $user$ without MFA
   mitre_attack_id:
+  - T1586
+  - T1586.003
   - T1078
   - T1078.004
   nist:

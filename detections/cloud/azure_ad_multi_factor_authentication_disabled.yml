@@ -44,7 +44,10 @@ tags:
   - Actions on Objectives
   message: MFA disabled for User $userPrincipalName$ initiated by $initiatedBy$  
   mitre_attack_id:
+  - T1586
+  - T1586.003
   - T1556
+  - T1556.006
   nist:
   - DE.CM
   observable:
