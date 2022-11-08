@@ -34,6 +34,8 @@ tags:
   - Exploitation
   message: User $user_name$ is seen to have high number of MFA prompt failures within a short period of time.
   mitre_attack_id:
+  - T1586
+  - T1586.003
   - T1621
   nist:
   - DE.CM

@@ -33,6 +33,9 @@ tags:
   - Exploitation
   message: User $user_name$ has successfully logged into an AWS Console without Multi-Factor Authentication from $src$
   mitre_attack_id:
+  - T1586
+  - T1586.003
+  - T1078
   - T1078.004
   nist:
   - DE.CM
