@@ -37,7 +37,11 @@ tags:
   - Exploitation
   message: User $user_name$ has disabled Multi-Factor authentication for AWS account $aws_account_id$
   mitre_attack_id:
+  - T1586
+  - T1586.003
   - T1621
+  - T1556
+  - T1556.006
   nist:
   - DE.CM
   observable:
