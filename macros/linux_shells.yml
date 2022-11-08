@@ -1,4 +1,4 @@
-definition: (Processes.process_name IN ("sh", "ksh", "zsh", "bash", "dash", "rbash", "fish", "csh', "tcsh', "ion", "eshell"))
+definition: (Processes.process_name IN ("sh", "ksh", "zsh", "bash", "dash", "rbash", "fish", "csh", "tcsh", "ion", "eshell"))
 description: customer specific splunk configurations(eg- index, source, sourcetype).
   Replace the macro definition with configurations for your Splunk Environmnent.
 name: linux_shells
