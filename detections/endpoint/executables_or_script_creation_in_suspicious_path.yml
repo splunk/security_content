@@ -1,7 +1,7 @@
 name: Executables Or Script Creation In Suspicious Path
 id: a7e3f0f0-ae42-11eb-b245-acde48001122
 version: 1
-date: '2021-05-06'
+date: '2021-10-06'
 author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
@@ -33,6 +33,7 @@ known_false_positives: Administrators may allow creation of script or exe in the
 references:
 - https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
 - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
+- https://twitter.com/pr0xylife/status/1590394227758104576
 tags:
   analytic_story:
   - Double Zero Destructor
@@ -47,6 +48,7 @@ tags:
   - Brute Ratel C4
   - AgentTesla
   - Qakbot
+  - IcedID
   automated_detection_testing: passed
   confidence: 50
   context:

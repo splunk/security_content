@@ -30,6 +30,8 @@ tags:
   analytic_story:
   - Brute Ratel C4
   - AgentTesla
+  - Qakbot
+  - IcedID
   asset_type: Endpoint
   cis20:
   - CIS 3
