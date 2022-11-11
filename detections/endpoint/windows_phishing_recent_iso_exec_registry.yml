@@ -27,6 +27,7 @@ references:
 - https://www.microsoft.com/security/blog/2021/05/27/new-sophisticated-email-based-attack-from-nobelium/
 - https://unit42.paloaltonetworks.com/brute-ratel-c4-tool/
 - https://isc.sans.edu/diary/Recent+AZORult+activity/25120
+- https://tccontre.blogspot.com/2020/01/remcos-rat-evading-windows-defender-av.html
 tags:
   analytic_story:
   - Brute Ratel C4
@@ -34,6 +35,7 @@ tags:
   - Qakbot
   - IcedID
   - Azorult
+  - Remcos
   asset_type: Endpoint
   cis20:
   - CIS 3
