@@ -19,10 +19,7 @@ search: '| tstats `security_content_summariesonly` min(_time) as firstTime max(_
   | where path_count > 1 OR file_count > 20
   | `common_ransomware_extensions_filter`'
 how_to_implement: 'You must be ingesting data that records the filesystem activity
-  from your hosts to populate the Endpoint file-system data model node. 
-  This search produces fields (`query`,`query_length`,`count`) that are not yet supported
-  by ES Incident Review and therefore cannot be viewed when a notable event is raised.
-  These fields contribute additional context to the notable. To see the additional
+  from your hosts to populate the Endpoint Filesystem data model node. To see the additional
   metadata, add the following fields, if not already present, please review the detailed documentation on how to create a new field within Incident Review may be
   found here: `https://docs.splunk.com/Documentation/ES/5.3.0/Admin/Customizenotables#Add_a_field_to_the_notable_event_details`'
 known_false_positives: It is possible for a legitimate file with these extensions
