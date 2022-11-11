@@ -39,6 +39,8 @@ tags:
   - Exploitation
   message: Successful authentication for user $body.properties.userPrincipalName$ using PowerShell.
   mitre_attack_id:
+  - T1586
+  - T1586.003
   - T1078
   - T1078.004
   nist:

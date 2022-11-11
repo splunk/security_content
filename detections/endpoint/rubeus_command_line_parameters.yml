@@ -17,7 +17,7 @@ description: Rubeus is a C# toolset for raw Kerberos interaction and abuses. It 
   this analytic.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.process = "*ptt /ticket*"
-  OR Processes.process = "* monitor *" OR Processes.process ="* asktgt* /user:*" OR
+  OR Processes.process = "* monitor /interval*" OR Processes.process ="* asktgt* /user:*" OR
   Processes.process ="* asktgs* /service:*" OR Processes.process ="* golden* /user:*"
   OR Processes.process ="* silver* /service:*" OR Processes.process ="* kerberoast*"
   OR Processes.process ="* asreproast*" OR Processes.process = "* renew* /ticket:*"

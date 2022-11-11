@@ -36,7 +36,10 @@ tags:
   - Exploitation
   message: User $user_name$ failed to pass MFA challenge while logging into console from $src$
   mitre_attack_id:
+  - T1586
+  - T1586.003
   - T1621
+
   nist:
   - DE.CM
   observable:
