@@ -18,9 +18,11 @@ how_to_implement: To successfully implement this search you need to be ingesting
 known_false_positives: False positives may be present based on macro based approved documents in the organization. Filtering may be needed.
 references:
   - https://blog.cluster25.duskrise.com/2022/09/23/in-the-footsteps-of-the-fancy-bear-powerpoint-graphite/
+  - https://www.fortinet.com/blog/threat-research/latest-remcos-rat-phishing
 tags:
   analytic_story:
   - Spearphishing Attachments
+  - Remcos
   confidence: 90
   context:
   - Source:Endpoint
