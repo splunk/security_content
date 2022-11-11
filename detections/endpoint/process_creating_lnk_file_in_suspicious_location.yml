@@ -30,10 +30,12 @@ known_false_positives: This detection should yield little or no false positive r
 references:
 - https://attack.mitre.org/techniques/T1566/001/
 - https://www.trendmicro.com/en_us/research/17/e/rising-trend-attackers-using-lnk-files-download-malware.html
+- https://twitter.com/pr0xylife/status/1590394227758104576
 tags:
   analytic_story:
   - Spearphishing Attachments
   - Qakbot
+  - IcedID
   asset_type: Endpoint
   cis20:
   - CIS 7

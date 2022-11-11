@@ -1,7 +1,7 @@
 name: Windows Process Injection Remote Thread
 id: 8a618ade-ca8f-4d04-b972-2d526ba59924
 version: 1
-date: '2022-10-27'
+date: '2022-11-10'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
@@ -10,7 +10,7 @@ description: The following analytic identifies a suspicious remote thread execut
   qakbot. Qakbot is one of the malware using this technique to load its malicious dll module or malicious code in the targeted host. 
   This TTP can be a good pivot to verify what is the behavior of the targeted Image process after this detection trigger. 
   look for network connection, child process execution, file access and many more that helps to verify the indication of malware infection.
-search: '`sysmon` EventCode=8 TargetImage IN ("*\\Taskmgr.exe", "*\\calc.exe", "*\\notepad.exe", "*\\rdpclip.exe", "*\\explorer.exe", "*\\wermgr.exe", "*\\ping.exe") 
+search: '`sysmon` EventCode=8 TargetImage IN ("*\\Taskmgr.exe", "*\\calc.exe", "*\\notepad.exe", "*\\rdpclip.exe", "*\\explorer.exe", "*\\wermgr.exe", "*\\ping.exe", "*\\OneDriveSetup.exe", "*\\dxdiag.exe", "*\\mobsync.exe", "*\\msra.exe", "*\\xwizard.exe") 
   | stats count min(_time) as firstTime max(_time) as lastTime by  TargetImage TargetProcessId SourceProcessId  EventCode StartAddress SourceImage Computer 
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)` 
