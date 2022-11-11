@@ -1,4 +1,4 @@
-name: Creation of lsass dump with taskmgr Unit Test
+name: Creation of lsass Dump with Taskmgr Unit Test
 tests:
 - name: Creation of lsass Dump with Taskmgr
   file: endpoint/creation_of_lsass_dump_with_taskmgr.yml

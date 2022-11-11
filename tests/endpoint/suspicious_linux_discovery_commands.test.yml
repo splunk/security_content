@@ -1,4 +1,4 @@
-name: Suspicious Linux Discovery Commands
+name: Suspicious Linux Discovery Commands Unit Test
 tests:
 - name: Suspicious Linux Discovery Commands
   file: endpoint/suspicious_linux_discovery_commands.yml
