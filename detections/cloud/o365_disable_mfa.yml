@@ -7,11 +7,13 @@ type: TTP
 datamodel: []
 description: This search detects when multi factor authentication has been disabled,
   what entitiy performed the action and against what user
-search: '`o365_management_activity` Operation="Disable Strong Authentication." | stats
-  count earliest(_time) as firstTime latest(_time) as lastTime by UserType Operation
-  UserId ResultStatus |`security_content_ctime(firstTime)` |`security_content_ctime(lastTime)`
-  | `o365_disable_mfa_filter`'
-how_to_implement: You must install splunk Microsoft Office 365 add-on. This search
+search: '`o365_management_activity` Operation="Disable Strong Authentication." 
+| stats count earliest(_time) as firstTime latest(_time) as lastTime by UserType Operation UserId ResultStatus object
+| rename UserType AS user_type, Operation AS action, UserId AS src_user, object AS user, ResultStatus AS result
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `o365_disable_mfa_filter`'
+how_to_implement: You must install the Splunk Microsoft Office 365 add-on. This search
   works with o365:management:activity
 known_false_positives: Unless it is a special case, it is uncommon to disable MFA
   or Strong Authentication
