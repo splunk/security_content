@@ -30,11 +30,13 @@ known_false_positives: False positives are possible with native utilities and th
 references:
   - https://thedfirreport.com/2022/02/07/qbot-likes-to-move-it-move-it/
   - https://twitter.com/M_haggis/status/1491109262428635136
+  - https://twitter.com/pr0xylife/status/1590394227758104576
 tags:
   analytic_story:
   - Unusual Processes
   - Suspicious Rundll32 Activity
   - Living Off The Land
+  - IcedID
   asset_type: Endpoint
   cis20:
   - CIS 8
