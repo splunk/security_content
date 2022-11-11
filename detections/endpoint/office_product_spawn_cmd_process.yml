@@ -27,10 +27,12 @@ known_false_positives: IT or network admin may create an document automation tha
   will run shell script.
 references:
 - https://twitter.com/cyb3rops/status/1416050325870587910?s=21
+- https://bazaar.abuse.ch/sample/02cbc1ab80695fc12ff8822b926957c3a600247b9ca412a137f69cb5716c8781/
 tags:
   analytic_story:
   - Trickbot
   - DarkCrystal RAT
+  - Azorult
   confidence: 80
   context:
   - Source:Endpoint
