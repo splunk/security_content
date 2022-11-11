@@ -1,6 +1,6 @@
-name: Windows Diskshadow proxy execution Unit Test
+name: Windows Diskshadow Proxy Execution Unit Test
 tests:
-- name: Windows Diskshadow proxy execution
+- name: Windows Diskshadow Proxy Execution
   file: endpoint/windows_diskshadow_proxy_execution.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'

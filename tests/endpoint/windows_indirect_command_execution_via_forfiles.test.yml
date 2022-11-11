@@ -1,6 +1,6 @@
-name: Windows Indirect Command Execution via forfiles Unit Test
+name:Windows Indirect Command Execution Via forfiles Unit Test
 tests:
-- name: Windows Indirect Command Excecution via forfiles
+- name: Windows Indirect Command Execution Via forfiles
   file: endpoint/windows_indirect_command_execution_via_forfiles.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
