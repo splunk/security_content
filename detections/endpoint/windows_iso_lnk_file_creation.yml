@@ -19,6 +19,7 @@ known_false_positives: False positives may be high depending on the environment 
 references:
 - https://www.microsoft.com/security/blog/2021/05/27/new-sophisticated-email-based-attack-from-nobelium/
 - https://github.com/MHaggis/notes/blob/master/utilities/ISOBuilder.ps1
+- https://isc.sans.edu/diary/Recent+AZORult+activity/25120
 tags:
   analytic_story:
   - Spearphishing Attachments
@@ -26,6 +27,7 @@ tags:
   - AgentTesla
   - Qakbot
   - IcedID
+  - Azorult
   asset_type: Endpoint
   cis20:
   - CIS 3
