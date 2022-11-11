@@ -37,6 +37,8 @@ tags:
   - Exploitation
   message: User $body.properties.userPrincipalName$ failed to pass MFA challenge
   mitre_attack_id:
+  - T1586
+  - T1586.003
   - T1078
   - T1078.004
   - T1621

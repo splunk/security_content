@@ -53,8 +53,11 @@ tags:
   - Exploitation
   message: Possible Password Spraying attack against Azure AD from source ip $body.properties.ipAddress$
   mitre_attack_id:
+  - T1586
+  - T1586.003
   - T1110
   - T1110.003
+  - T1110.004
   nist:
   - DE.CM
   observable:
