@@ -14,7 +14,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | `drop_dm_object_name("All_Certificates.SSL")`
   | eval punycode=if(like(ssl_issuer_email_domain,"%xn--%"),1,0)
   | where punycode=1
-  | cyberchef infield='ssl_issuer_email_domain' outfield='convertedPuny' jsonrecipe="[{"op":"From Punycode","args":[true]}]"
+  | cyberchef infield="ssl_issuer_email_domain" outfield="convertedPuny" jsonrecipe="[{"op":"From Punycode","args":[true]}]"
   | table ssl_issuer_email_domain convertedPuny ssl_issuer ssl_subject_email dest src sourcetype ssl_subject_email_domain
   | `ssl_certificates_with_punycode_filter`'
 how_to_implement: Ensure data is properly being ingested into the Certificates datamodel. If decoding the of interest, the CyberChef app is needed https://splunkbase.splunk.com/app/5348. If decoding is not needed, remove the cyberchef lines.
