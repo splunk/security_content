@@ -17,9 +17,14 @@ narrative: A buffer overrun can be triggered in X.509 certificate verification,
   server. In a TLS server, this can be triggered if the server requests
   client authentication and a malicious client connects.
   Users of OpenSSL 3.0.0 - 3.0.6 are encouraged to upgrade to 3.0.7 as soon as possible. If you obtain your copy of OpenSSL from your Operating System vendor or other third party then you should seek to obtain an updated version from them as soon as possible.
+  SSL Certificates with Punycode will identify SSL certificates with Punycode. Note that it does not mean it will capture malicious payloads.
+  If using Zeek, modify the Zeek x509 certificate with punycode to match your environment.
+  We found during this exercise that the FULL x509 with SAN must be captured and stored, decoded, in order to query against it. 
 references:
   - https://www.openssl.org/blog/blog/2022/11/01/email-address-overflows/
   - https://github.com/advisories/GHSA-h8jm-2x53-xhp5
+  - https://community.emergingthreats.net/t/out-of-band-ruleset-update-summary-2022-11-01/117
+  - https://github.com/corelight/CVE-2022-3602/tree/master/scripts
 tags:
   analytic_story: OpenSSL CVE-2022-3602
   category:

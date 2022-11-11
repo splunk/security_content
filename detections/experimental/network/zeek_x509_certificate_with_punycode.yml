@@ -17,6 +17,7 @@ how_to_implement: The following analytic requires x509 certificate data to be lo
 known_false_positives: False positives may be present if the organization works with international businesses. Filter as needed.
 references:
   - https://community.emergingthreats.net/t/out-of-band-ruleset-update-summary-2022-11-01/117
+  - https://github.com/corelight/CVE-2022-3602/tree/master/scripts
   - https://docs.zeek.org/en/master/logs/x509.html
   - https://www.splunk.com/en_us/blog/security/nothing-puny-about-cve-2022-3602.html
   - https://www.openssl.org/blog/blog/2022/11/01/email-address-overflows/
