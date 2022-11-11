@@ -1,4 +1,4 @@
-name:Windows Indirect Command Execution Via forfiles Unit Test
+name: Windows Indirect Command Execution Via forfiles Unit Test
 tests:
 - name: Windows Indirect Command Execution Via forfiles
   file: endpoint/windows_indirect_command_execution_via_forfiles.yml
