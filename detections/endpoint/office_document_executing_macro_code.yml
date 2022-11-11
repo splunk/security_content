@@ -26,6 +26,8 @@ known_false_positives: Normal Office Document macro use for automation
 references:
 - https://www.joesandbox.com/analysis/386500/0/html
 - https://www.joesandbox.com/analysis/702680/0/html
+- https://bazaar.abuse.ch/sample/02cbc1ab80695fc12ff8822b926957c3a600247b9ca412a137f69cb5716c8781/
+- https://www.fortinet.com/blog/threat-research/latest-remcos-rat-phishing
 tags:
   analytic_story:
   - Spearphishing Attachments
@@ -34,6 +36,8 @@ tags:
   - DarkCrystal RAT
   - AgentTesla
   - Qakbot
+  - Azorult
+  - Remcos
   confidence: 50
   context:
   - Source:Endpoint
