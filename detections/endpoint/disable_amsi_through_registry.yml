@@ -1,32 +1,29 @@
 name: Disable AMSI Through Registry
 id: 9c27ec42-d338-11eb-9044-acde48001122
-version: 2
-date: '2022-01-26'
-author: Teoderick Contreras, Splunk
+version: 3
+date: '2022-11-14'
+author: Steven Dick, Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint
 description: this search is to identify modification in registry to disable AMSI windows
   feature to evade detections. This technique was seen in several ransomware, RAT
   and even APT to impaire defenses of the compromise machine and to be able to execute
-  payload with minimal alert as much as possible.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows
-  Script\\Settings\\AmsiEnable" Registry.registry_value_data = "0x00000000" by _time
-  span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_value_name
-  Registry.registry_value_data Registry.process_guid | `drop_dm_object_name(Registry)`
-  |rename process_guid as proc_guid |join proc_guid, _time [| tstats `security_content_summariesonly`
-  count FROM datamodel=Endpoint.Processes by _time span=1h Processes.process_id Processes.process_name
-  Processes.process Processes.dest Processes.parent_process_name Processes.parent_process
-  Processes.process_guid | `drop_dm_object_name(Processes)` |rename process_guid as
-  proc_guid | fields _time dest user parent_process_name parent_process process_name
-  process_path process proc_guid registry_path registry_value_name registry_value_data]
-  | table _time dest user parent_process_name parent_process process_name process_path
-  process proc_guid registry_path registry_value_name registry_value_data | `disable_amsi_through_registry_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure
-  that this registry was included in your config files ex. sysmon config to be monitored.
+  payload with minimal alert as much as possible.  
+search: '| tstats `security_content_summariesonly` count min(_time) AS firstTime max(_time) AS lastTime FROM datamodel=Endpoint.Processes BY _time span=1h Processes.user Processes.process_id Processes.process_name Processes.process Processes.process_path Processes.dest Processes.parent_process_name Processes.parent_process Processes.process_guid
+ | `drop_dm_object_name(Processes)` 
+ | join process_guid [
+ | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry WHERE (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows Script\\Settings\\AmsiEnable" Registry.registry_value_data = "0x00000000") BY _time span=1h Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.process_guid 
+ | `drop_dm_object_name(Registry)`] 
+ | fields firstTime lastTime dest user parent_process_name parent_process process_name process_path process registry_key_name registry_path registry_value_name registry_value_data process_guid
+ | where isnotnull(registry_value_data)
+ | `security_content_ctime(firstTime)` 
+ | `security_content_ctime(lastTime)`
+ | `disable_amsi_through_registry_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the registry value name, registry path, and registry value data from your
+  endpoints. If you are using Sysmon, you must have at least version 2.0 of the offical
+  Sysmon TA. https://splunkbase.splunk.com/app/570
 known_false_positives: network operator may disable this feature of windows but not
   so common.
 references:
@@ -58,11 +55,21 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Registry.registry_key_name
-  - Registry.registry_path
-  - Registry.user
+  - Processes.user
+  - Processes.dest
+  - Processes.process_id 
+  - Processes.process_name 
+  - Processes.process 
+  - Processes.process_path  
+  - Processes.parent_process_name 
+  - Processes.parent_process 
+  - Processes.process_guid
   - Registry.dest
   - Registry.registry_value_name
+  - Registry.registry_key_name
+  - Registry.registry_path
+  - Registry.registry_value_data
+  - Registry.process_guid
   security_domain: endpoint
   asset_type: Endpoint
   confidence: 50
