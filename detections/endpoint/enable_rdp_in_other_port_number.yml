@@ -1,8 +1,8 @@
 name: Enable RDP In Other Port Number
 id: 99495452-b899-11eb-96dc-acde48001122
-version: 2
-date: '2022-01-28'
-author: Teoderick Contreras, Splunk
+version: 3
+date: '2022-11-14'
+author: Steven Dick, Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint
@@ -10,24 +10,20 @@ description: This search is to detect a modification to registry to enable rdp t
   a machine with different port number. This technique was seen in some atttacker
   tries to do lateral movement and remote access to a compromised machine to gain
   control of it.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path="*HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal
-  Server\\WinStations\\RDP-Tcp*" Registry.registry_value_name = "PortNumber" by _time
-  span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_value_name
-  Registry.process_guid Registry.registry_key_name | `drop_dm_object_name(Registry)`
-  |rename process_guid as proc_guid |join proc_guid, _time [| tstats `security_content_summariesonly`
-  count FROM datamodel=Endpoint.Processes by _time span=1h Processes.process_id Processes.process_name
-  Processes.process Processes.dest Processes.parent_process_name Processes.parent_process
-  Processes.process_guid | `drop_dm_object_name(Processes)` |rename process_guid as
-  proc_guid | fields _time dest user parent_process_name parent_process process_name
-  process_path process proc_guid registry_path registry_value_name registry_value_data
-  registry_key_name] | table _time dest user parent_process_name parent_process process_name
-  process_path process proc_guid registry_path registry_value_name registry_value_data
-  registry_key_name | `enable_rdp_in_other_port_number_filter`'
+search: '| tstats `security_content_summariesonly` count min(_time) AS firstTime max(_time) AS lastTime FROM datamodel=Endpoint.Processes BY _time span=1h Processes.user Processes.process_id Processes.process_name Processes.process Processes.process_path Processes.dest Processes.parent_process_name Processes.parent_process Processes.process_guid
+  | `drop_dm_object_name(Processes)` 
+  | join process_guid [
+  | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry WHERE (Registry.registry_path="*HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp*" Registry.registry_value_name = "PortNumber") BY _time span=1h Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.process_guid 
+  | `drop_dm_object_name(Registry)`] 
+  | fields firstTime lastTime dest user parent_process_name parent_process process_name process_path process registry_key_name registry_path registry_value_name registry_value_data process_guid
+  | where isnotnull(registry_value_data)
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | `enable_rdp_in_other_port_number_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA.
+  logs with the registry value name, registry path, and registry value data from your
+  endpoints. If you are using Sysmon, you must have at least version 2.0 of the offical
+  Sysmon TA. https://splunkbase.splunk.com/app/570
 known_false_positives: unknown
 references:
 - https://www.mvps.net/docs/how-to-secure-remote-desktop-rdp/
@@ -62,10 +58,21 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Registry.registry_path
+  - Processes.user
+  - Processes.dest
+  - Processes.process_id 
+  - Processes.process_name 
+  - Processes.process 
+  - Processes.process_path  
+  - Processes.parent_process_name 
+  - Processes.parent_process 
+  - Processes.process_guid
   - Registry.dest
-  - Registry.user
   - Registry.registry_value_name
+  - Registry.registry_key_name
+  - Registry.registry_path
+  - Registry.registry_value_data
+  - Registry.process_guid
   risk_score: 80
   security_domain: endpoint
   asset_type: Endpoint
