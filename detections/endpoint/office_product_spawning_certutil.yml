@@ -36,6 +36,7 @@ tags:
   analytic_story:
   - Spearphishing Attachments
   - AgentTesla
+  - Trickbot
   confidence: 90
   context:
   - Source:Endpoint
