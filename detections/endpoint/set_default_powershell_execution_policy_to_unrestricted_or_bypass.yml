@@ -1,23 +1,27 @@
 name: Set Default PowerShell Execution Policy To Unrestricted or Bypass
 id: c2590137-0b08-4985-9ec5-6ae23d92f63d
-version: 7
-date: '2022-02-18'
-author: Patrick Bareiss, Splunk
+version: 8
+date: '2022-11-14'
+author: Steven Dick, Patrick Bareiss, Splunk
 type: TTP
 datamodel:
 - Endpoint
 description: Monitor for changes of the ExecutionPolicy in the registry to the values
   "unrestricted" or "bypass," which allows the execution of malicious scripts.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Registry where Registry.registry_path=*Software\\Microsoft\\Powershell\\1\\ShellIds\\Microsoft.PowerShell*
-  Registry.registry_value_name=ExecutionPolicy (Registry.registry_value_data=Unrestricted
-  OR Registry.registry_value_data=Bypass) by Registry.registry_path Registry.registry_value_name
-  Registry.registry_value_data Registry.dest | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `set_default_powershell_execution_policy_to_unrestricted_or_bypass_filter`'
-how_to_implement: You must be ingesting data that records process activity from your
-  hosts to populate the Endpoint data model in the Registry node. You must also be
-  ingesting logs with the fields registry_path, registry_key_name, and registry_value_name
-  from your endpoints.
+search: '| tstats `security_content_summariesonly` count min(_time) AS firstTime max(_time) AS lastTime FROM datamodel=Endpoint.Processes BY _time span=1h Processes.user Processes.process_id Processes.process_name Processes.process Processes.process_path Processes.dest Processes.parent_process_name Processes.parent_process Processes.process_guid
+| `drop_dm_object_name(Processes)` 
+| join process_guid [
+| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry WHERE (Registry.registry_path=*Software\\Microsoft\\Powershell\\1\\ShellIds\\Microsoft.PowerShell* Registry.registry_value_name=ExecutionPolicy (Registry.registry_value_data=Unrestricted OR Registry.registry_value_data=Bypass)) BY _time span=1h Registry.registry_path Registry.registry_value_name Registry.registry_value_data Registry.process_guid 
+| `drop_dm_object_name(Registry)`] 
+| fields firstTime lastTime dest user parent_process_name parent_process process_name process_path process registry_path registry_value_name registry_value_data process_guid
+| where isnotnull(registry_value_data)
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)`
+| `set_default_powershell_execution_policy_to_unrestricted_or_bypass_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the registry value name, registry path, and registry value data from your
+  endpoints. If you are using Sysmon, you must have at least version 2.0 of the offical
+  Sysmon TA. https://splunkbase.splunk.com/app/570
 known_false_positives: Administrators may attempt to change the default execution
   policy on a system for a variety of reasons. However, setting the policy to "unrestricted"
   or "bypass" as this search is designed to identify, would be unusual. Hits should
@@ -64,11 +68,22 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - _time
-  - Registry.registry_path
-  - Registry.registry_key_name
-  - Registry.registry_value_name
+   - _time
+  - Processes.user
+  - Processes.dest
+  - Processes.process_id 
+  - Processes.process_name 
+  - Processes.process 
+  - Processes.process_path  
+  - Processes.parent_process_name 
+  - Processes.parent_process 
+  - Processes.process_guid
   - Registry.dest
+  - Registry.registry_value_name
+  - Registry.registry_key_name
+  - Registry.registry_path
+  - Registry.registry_value_data
+  - Registry.process_guid
   risk_score: 48
   security_domain: endpoint
   supported_tas:
