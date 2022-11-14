@@ -12,9 +12,9 @@ description: This analytic is intended to detect a suspicious modification of re
 search: '| tstats `security_content_summariesonly` count min(_time) AS firstTime max(_time) AS lastTime FROM datamodel=Endpoint.Processes BY _time span=1h Processes.user Processes.process_id Processes.process_name Processes.process Processes.process_path Processes.dest Processes.parent_process_name Processes.parent_process Processes.process_guid
 | `drop_dm_object_name(Processes)` 
 | join process_guid [
-| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry WHERE (Registry.registry_path = "*\\Microsoft\\Windows Defender\\SpyNet*" Registry.registry_value_name = SpynetReporting Registry.registry_value_data = 0x00000000) BY _time span=1h Registry.registry_path Registry.registry_value_name Registry.registry_value_data Registry.process_guid 
+| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry WHERE (Registry.registry_path = "*\\Microsoft\\Windows Defender\\SpyNet*" Registry.registry_value_name = SpynetReporting Registry.registry_value_data = 0x00000000) BY _time span=1h Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.process_guid 
 | `drop_dm_object_name(Registry)`] 
-| fields firstTime lastTime dest user parent_process_name parent_process process_name process_path process registry_path registry_value_name registry_value_data process_guid
+| fields firstTime lastTime dest user parent_process_name parent_process process_name process_path process registry_key_name registry_path registry_value_name registry_value_data process_guid
 | where isnotnull(registry_value_data)
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)`
