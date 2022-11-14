@@ -23,7 +23,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) AS firstTime
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the registry value name, registry path, and registry value data from your
   endpoints. If you are using Sysmon, you must have at least version 2.0 of the offical
-  Sysmon TA. https://splunkbase.splunk.com/app/570
+  Sysmon TA. https://splunkbase.splunk.com/app/5709
 known_false_positives: Limited to no false positives are expected.
 references:
 - https://enigma0x3.net/2017/03/17/fileless-uac-bypass-using-sdclt-exe/
