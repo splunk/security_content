@@ -30,6 +30,7 @@ references:
 tags:
   analytic_story:
   - Unusual Processes
+  - Qakbot
   confidence: 90
   context:
   - Stage:Execution
