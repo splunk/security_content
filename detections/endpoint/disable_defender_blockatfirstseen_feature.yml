@@ -23,7 +23,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) AS firstTime
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the registry value name, registry path, and registry value data from your
   endpoints. If you are using Sysmon, you must have at least version 2.0 of the offical
-  Sysmon TA. https://splunkbase.splunk.com/app/570
+  Sysmon TA. https://splunkbase.splunk.com/app/5709
 known_false_positives: admin or user may choose to disable windows defender product
 references:
 - https://thedfirreport.com/2021/10/18/icedid-to-xinglocker-ransomware-in-24-hours/
