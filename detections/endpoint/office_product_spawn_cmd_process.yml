@@ -35,6 +35,8 @@ tags:
   - DarkCrystal RAT
   - Azorult
   - Remcos
+  - Qakbot
+  - AgentTesla
   confidence: 80
   context:
   - Source:Endpoint
