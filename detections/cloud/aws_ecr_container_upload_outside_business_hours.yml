@@ -9,7 +9,7 @@ description: This search looks for AWS CloudTrail events from AWS Elastic Contai
   Service (ECR). A upload of a new container is normally done during business hours.
   When done outside business hours, we want to take a look into it.
 search: '`cloudtrail` eventSource=ecr.amazonaws.com eventName=PutImage date_hour>=20
-  OR date_hour<8 NOT (date_wday=saturday OR date_wday=sunday) | rename requestParameters.*
+  OR date_hour<8 OR date_wday=saturday OR date_wday=sunday | rename requestParameters.*
   as * | rename repositoryName AS image | eval phase="release" | eval severity="medium"
   | stats min(_time) as firstTime max(_time) as lastTime by awsRegion, eventName,
   eventSource, user, userName, src_ip, imageTag, registryId, image, phase, severity
