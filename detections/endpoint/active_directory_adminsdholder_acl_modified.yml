@@ -1,0 +1,65 @@
+name: Active Directory AdminSDHolder ACL Modified
+id: 00d877c3-7b7b-443d-9562-6b231e2abab9
+version: 1
+date: '2022-11-15'
+author: Mauricio Velazco, Splunk
+type: TTP
+datamodel: []
+description: More to come
+search: ' `wineventlog_security` EventCode=5136 AttributeLDAPDisplayName=nTSecurityDescriptor OperationType="%%14674" ObjectDN="CN=AdminSDHolder,CN=System*"
+  | stats values(ObjectDN) by _time, Computer, SubjectUserName, AttributeValue
+  | `active_directory_adminsdholder_acl_modified_filter`'
+how_to_implement: tbd
+known_false_positives: tbd
+references:
+- https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/plan/security-best-practices/appendix-c--protected-accounts-and-groups-in-active-directory
+- https://social.technet.microsoft.com/wiki/contents/articles/22331.adminsdholder-protected-groups-and-security-descriptor-propagator.aspx
+- https://adsecurity.org/?p=1906
+- https://pentestlab.blog/2022/01/04/domain-persistence-adminsdholder/
+tags:
+  analytic_story:
+  - Windows Domain Controller Attacks
+  asset_type: Endpoint
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  confidence: 70
+  context:
+  - Source:Endpoint
+  - Stage:Persistence
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546/adminsdholder_modified/windows-security.log
+  impact: 80
+  kill_chain_phases:
+  - Installation
+  - Actions on Objectives
+  message: UPDATE message
+  mitre_attack_id:
+  - T1000
+  nist:
+  - DE.CM
+  observable:
+  - name: SubjectUserName
+    type: User
+    role:
+    - Attacker
+  - name: Computer
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - AttributeLDAPDisplayName
+  - OperationType
+  - ObjectDN
+  - Computer
+  - SubjectUserName
+  - AttributeValue
+  risk_score: 56
+  security_domain: endpoint

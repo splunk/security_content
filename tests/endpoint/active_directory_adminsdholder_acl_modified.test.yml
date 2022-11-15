@@ -1,0 +1,13 @@
+name: Active Directory AdminSDHolder ACL Modified Unit Test
+tests:
+- name: Active Directory AdminSDHolder ACL Modified
+  file: endpoint/active_directory_adminsdholder_acl_modified.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: windows-security.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/***/windows-security.log
+    source: XmlWinEventLog
+    sourcetype: XmlWinEventLog
+    update_timestamp: true
