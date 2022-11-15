@@ -77,7 +77,7 @@ setup_schema = {
                 "Splunk Add-on for CrowdStrike FDR": {
                     "app_number": 5579,
                     "app_version": "1.2.0",
-                    "http_path": "https://attack-range-appbinaries/Latest/splunk-add-on-for-crowdstrike-fdr_120.tgz"
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-crowdstrike-fdr_120.tgz"
                   },
                 "ADD_ON_FOR_LINUX_SYSMON": {
                     "app_number": 6176,
