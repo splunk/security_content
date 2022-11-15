@@ -62,6 +62,8 @@ tags:
   message: User $user$ is logging into the AWS console from City $City$ for the first
     time
   mitre_attack_id:
+  - T1586
+  - T1586.003
   - T1535
   nist:
   - DE.DP
