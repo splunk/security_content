@@ -27,6 +27,7 @@ references: []
 tags:
   analytic_story:
   - Insider Threat
+  cis20: []
   confidence: 80
   context:
   - Source:Endpoint
@@ -39,6 +40,7 @@ tags:
   message: High number of files copied
   mitre_attack_id:
   - T1048.003
+  nist: []
   observable:
   - name: dest_user_id
     type: User
