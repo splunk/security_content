@@ -1,12 +1,17 @@
 import os
 import sys
+from webbrowser import get
+
+
 
 from pydantic import ValidationError
+from pydantic.error_wrappers import ErrorWrapper
 from dataclasses import dataclass
-from typing import Tuple
+from typing import Sequence, Tuple
 import pathlib
 
 from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import SecurityContentType
+from bin.contentctl_project.contentctl_core.domain.entities.detection_tags import DetectionTags
 from bin.contentctl_project.contentctl_core.application.builder.basic_builder import BasicBuilder
 from bin.contentctl_project.contentctl_core.application.builder.detection_builder import DetectionBuilder
 from bin.contentctl_project.contentctl_core.application.builder.story_builder import StoryBuilder
@@ -43,13 +48,13 @@ class BAFactory():
 
         
         if len(validation_errors) != 0:
-               print(f"There were [{len(validation_errors)}] error(s) found while parsing security_content")
-               for ve in validation_errors:
-                    file_path = ve[0]
-                    error = ve[1]
-                    print(f'\nValidation Error for file [{file_path}]:\n{str(error)}')
-               raise(Exception("Error(s) validating Security Content"))
-
+            print(f"There were [{len(validation_errors)}] error(s) found while parsing security_content")
+            for ve in validation_errors:
+                file_path = ve[0]
+                error = ve[1]
+                print(f'\nValidation Error for file [{file_path}]:\n{str(error)}')
+            #raise(Exception("Error(s) validating Security Content"))
+        
 
         
 
@@ -82,6 +87,22 @@ class BAFactory():
                     self.input_dto.director.constructDetection(self.input_dto.detection_builder, file, [], [], [], self.output_dto.tests, {}, [], [])
                     detection = self.input_dto.detection_builder.getObject()
                     Utils.add_id(self.ids, detection, file)
+                    
+                    tag_and_nist_errors = []
+                    
+                    if detection.tags.cis20 == None:
+                        error = TypeError(f"Detection Tags missing cis20 field")
+                        tag_and_nist_errors.append(ErrorWrapper(error, loc="cis20"))
+                        
+                    if detection.tags.nist == None:
+                        error = TypeError(f"Detection Tags missing nist field")
+                        tag_and_nist_errors.append(ErrorWrapper(error, loc="nist"))
+                        
+                    if len(tag_and_nist_errors) > 0:
+                        raise ValidationError( tag_and_nist_errors , DetectionTags)
+
+
+
                     if not detection.deprecated and not detection.experimental:
                         self.output_dto.detections.append(detection)
                 elif type == SecurityContentType.unit_tests:
