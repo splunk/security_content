@@ -68,7 +68,7 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-   - _time
+  - _time
   - Processes.user
   - Processes.dest
   - Processes.process_id 
