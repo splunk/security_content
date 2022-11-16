@@ -30,6 +30,7 @@ tags:
   - Remcos
   - Windows Defense Evasion Tactics
   - WhisperGate
+  - CISA AA22-320A
   confidence: 80
   context:
   - Source:Endpoint

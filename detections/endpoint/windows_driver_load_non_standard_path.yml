@@ -22,6 +22,7 @@ references:
 tags:
   analytic_story:
   - Windows Drivers
+  - CISA AA22-320A
   asset_type: Endpoint
   cis20:
   - CIS 3

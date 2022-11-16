@@ -65,7 +65,7 @@ tags:
     type: Hostname
     role:
     - Victim
-  risk_severity: medium
+  risk_severity: 'medium'
   product:
   - Splunk Behavioral Analytics
   required_fields:
