@@ -12,7 +12,8 @@ description: The following analytic identifies the modification of the Access Co
   Access Control List (ACL) with the security permissions set on the AdminSDHolder. An adversary who has obtained privileged access to a Windows Domain may modify the AdminSDHolder
   ACL to establish persistence and allow an unprivileged user to take control of a domain.
 search: ' `wineventlog_security` EventCode=5136 AttributeLDAPDisplayName=nTSecurityDescriptor OperationType="%%14674" ObjectDN="CN=AdminSDHolder,CN=System*"
-  | stats values(ObjectDN) by _time, Computer, SubjectUserName, AttributeValue
+  | rex field=AttributeValue max_match=10000 "A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;(?P<added_user_sid>S-1-[0-59]-\d{2}-\d{8,10}-\d{8,10}-\d{8,10}-[1-9]\d{3})\)"
+  | stats values(added_user_sid) by _time, Computer, SubjectUserName, ObjectDN
   | `windows_ad_adminsdholder_acl_modified_filter`'
 how_to_implement: To successfully implement this search, you ned to be ingesting eventcode 
  `5136`. The Advanced Security Audit policy setting `Audit Directory Services Changes` 
