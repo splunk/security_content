@@ -1,4 +1,4 @@
-name: Active Directory SID History Privileged Account Addition
+name: Windows Active Directory Privileged Account SID History Addition
 id: 6b521149-b91c-43aa-ba97-c2cac59ec830
 version: 1
 date: '2022-09-12'
@@ -7,8 +7,8 @@ type: TTP
 datamodel: []
 description: This detection identifies when the SID of a privileged user is added to
  the SID History attribute of another user. Useful for tracking SID history abuse 
- accross multiple domains. This detection leverages the Asset and Identities 
- framework. See the implemention section for further details on configuration.  
+ across multiple domains. This detection leverages the Asset and Identities 
+ framework. See the implementation section for further details on configuration.  
 search: '`wineventlog_security` (EventCode=4742 OR EventCode=4738) NOT SidHistory IN ("%%1793", -) 
  | rex field=SidHistory "(^%{|^)(?P<SidHistory>.*?)(}$|$)" 
  | eval category="privileged" 
@@ -16,11 +16,10 @@ search: '`wineventlog_security` (EventCode=4742 OR EventCode=4738) NOT SidHistor
  | where isnotnull(match)
  | rename TargetSid as userSid 
  | table _time action status host user userSid SidHistory Logon_ID src_user
-  | `active_directory_sid_history_privileged_account_addition_filter`'
+  | `windows_active_directory_privileged_account_sid_history_addition_filter`'
 how_to_implement: Ensure you have objectSid and the Down Level Logon Name `DOMAIN\sAMACountName`
  added to the identity field of your Asset and Identities lookup, along with the 
- category of privileged for the applicable users. If unsure, users with the AdminCount 
- attribute set with the value of 1 are great candidates. Also ensure you are 
+ category of privileged for the applicable users. Ensure you are 
  ingesting eventcodes 4742 and 4738. Two advanced audit policies 
  `Audit User Account Management` and `Audit Computer Account Management` under 
  `Account Management` are required to generate these event codes. 

@@ -1,23 +1,24 @@
-name: Windows DCShadow Attack
+name: Windows Short Lived Domain Controller SPN AD Attribute
 id: 57e27f27-369c-4df8-af08-e8c7ee8373d4 
 version: 2
 date: '2022-09-02'
 author: Dean Luxton
 type: TTP
 datamodel: []
-description: The following analytic identifies a change in an Active Directory environment that could represent evidence of the DCShadow attack.  
+description: The following analytic identifies when either a global catalog SPN or a DRS RPC SPN are temporarily added to an Active Directory computer object, both of which can be evidence of a DCShadow attack.  
   DCShadow allows an attacker who has obtained privileged access to register a rogue Domain Controller (DC). Once registered, the rogue DC may be able to inject
-  and replicate changes int the AD infrastructure for any domain object, including credentials and keys. This technique was initially released in 2018 by security researchers Benjamin Delpy and Vincent Le Toux.
+  and replicate changes into the AD infrastructure for any domain object, including credentials and keys. This technique was initially released in 2018 by security researchers Benjamin Delpy and Vincent Le Toux.
   No event logs are written for changes to AD attributes, allowing for stealthy backdoors to be implanted in the domain, or metadata such as timestamps overwritten to cover tracks. 
 search: '`wineventlog_security` EventCode=5136 AttributeLDAPDisplayName=servicePrincipalName (AttributeValue="GC/*" OR AttributeValue="E3514235-4B06-11D1-AB04-00C04FC2DCD2/*")
-| replace "%%14674" with "Value Added", "%%14675" with "Value Deleted" in OperationType
-| stats min(_time) as firstEvent max(_time) as latestEvent values(OperationType) as Action range(_time) as duration by src_nt_domain, src_user, Computer, ObjectDN, Logon_ID, signature
-| where mvcount(Action) >1
-| join type=outer Logon_ID [| search `wineventlog_security` EventCode=4624  | rename TargetLogonId as Logon_ID src_ip as src]
-| table firstEvent, latestEvent, duration, src_nt_domain, src_user, Computer, ObjectDN, Action, signature, src, Logon_ID
-| eval firstEvent=strftime(firstEvent, "%Y-%m-%d %H:%M:%S"), latestEvent=strftime(latestEvent, "%Y-%m-%d %H:%M:%S")
-| `windows_dcshadow_attack_filter`' 
-how_to_implement: To successfully implement this search, you ned to be ingesting eventcode 
+ | stats min(_time) as _time range(_time) as duration values(OperationType) as OperationType values(src_nt_domain) as src_nt_domain values(src_user) as src_user values(Computer) as Computer, values(ObjectDN) as ObjectDN by Logon_ID
+ | eval short_lived=case((duration<30),"TRUE")
+ | where short_lived="TRUE" AND mvcount(OperationType)>1
+ | replace "%%14674" with "Value Added", "%%14675" with "Value Deleted" in OperationType
+ | rename Logon_ID as TargetLogonId
+ | appendpipe [| map search="search `wineventlog_security` EventCode=4624 TargetLogonId=$TargetLogonId$"]
+ | stats min(_time) as _time, values(TargetUserSid) as TargetUserSid, values(Target_Domain) as Target_Domain, values(user) as user, values(Computer) as Computer, values(status) as status, values(src_category) as src_category, values(src_ip) as src_ip values(ObjectDN) as ObjectDN values(OperationType) as OperationType by TargetLogonId
+ | `windows_short_lived_domain_controller_spn_ad_attribute_filter`' 
+how_to_implement: To successfully implement this search, you need to be ingesting eventcode 
  `5136`. The Advanced Security Audit policy setting `Audit Directory Services Changes` 
  within `DS Access` needs to be enabled, alongside a SACL for `everybody` to 
  `Write All Properties` applied to the domain root and all descendant objects. 
@@ -44,17 +45,17 @@ tags:
   impact: 100
   kill_chain_phases:
   - Actions on Objectives
-  message: Potential DCShadow Attack Detected from $src$
+  message: Short Lived Domain Controller SPN AD Attribute Triggered by $user$ from $src_ip$
   mitre_attack_id:
   - T1207
   nist:
   - DE.CM
   observable:
-  - name: src_user
+  - name: user
     type: User
     role:
     - Victim
-  - name: src
+  - name: src_ip
     type: IP Address
     role:
     - Attacker

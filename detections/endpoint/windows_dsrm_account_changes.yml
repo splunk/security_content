@@ -1,4 +1,4 @@
-name: DSRM Account Changes
+name: Windows DSRM Account Changes
 id: 08cb291e-ea77-48e8-a95a-0799319bf056
 version: 1
 date: '2022-09-08'
@@ -20,7 +20,7 @@ search: '| tstats `security_content_summariesonly` min(_time) as _time from data
   Processes.dest Processes.parent_process_name Processes.parent_process Processes.process_guid
   | `drop_dm_object_name(Processes)`]
   | table _time action dest user parent_process_name parent_process process_name process
-  process_guid registry_path registry_value_data registry_value_type | `dsrm_account_changes_filter`'
+  process_guid registry_path registry_value_data registry_value_type | `windows_dsrm_account_changes_filter`'
 how_to_implement: To successfully implement this search, you must be ingesting data
   that records registry activity from your hosts to populate the endpoint data model
   in the registry node. This is typically populated via endpoint detection-and-response
