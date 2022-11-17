@@ -1,4 +1,4 @@
-name: Windows Active Directory Replication Request Initiated by User Account
+name: Windows AD Replication Request Initiated by User Account
 id: 51307514-1236-49f6-8686-d46d93cc2821
 version: 1
 date: '2022-09-08'
@@ -15,7 +15,7 @@ search: '`wineventlog_security` EventCode=4662 ObjectType IN ("%{19195a5b-6da0-1
  | appendpipe [| map search="search `wineventlog_security` EventCode=4624 TargetLogonId=$TargetLogonId$"]
  | table attack_time, AuthenticationPackageName, LogonProcessName, LogonType, TargetUserSid, Target_Domain, user, Computer, TargetLogonId, status, src_ip, src_category, ObjectName, ObjectServer, ObjectType, OperationType
  | stats min(attack_time) as _time values(TargetUserSid) as TargetUserSid, values(Target_Domain) as Target_Domain, values(user) as user, values(Computer) as Computer, values(status) as status, values(src_category) as src_category, values(src_ip) as src_ip by TargetLogonId
- | `windows_active_directory_replication_request_initiated_by_user_account_filter`'
+ | `windows_ad_replication_request_initiated_by_user_account_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting eventcode `4662`. 
  The Advanced Security Audit policy settings `Audit Directory Services Access`
  within `DS Access` needs to be enabled, as well as the following SACLs applied to the domain root 
