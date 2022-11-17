@@ -27,7 +27,7 @@ references:
 tags:
   analytic_story:
   - Windows Domain Controller Attacks
- asset_type: Endpoint
+  asset_type: Endpoint
   cis20:
   - CIS 4
   - CIS 6
