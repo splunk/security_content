@@ -1,7 +1,7 @@
-name: Active Directory AdminSDHolder ACL Modified Unit Test
+name: Windows AD AdminSDHolder ACL Modified Unit Test
 tests:
-- name: Active Directory AdminSDHolder ACL Modified
-  file: endpoint/active_directory_adminsdholder_acl_modified.yml
+- name: Windows AD AdminSDHolder ACL Modified
+  file: endpoint/windows_ad_adminsdholder_acl_modified.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h
   latest_time: now

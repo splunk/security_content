@@ -1,4 +1,4 @@
-name: Active Directory SID History Attribute Modified
+name: Windows AD SID History Attribute Modified
 id: 1155e47d-307f-4247-beab-71071e3a458c
 version: 1
 date: '2022-11-16'
@@ -10,7 +10,7 @@ description: The following analytic leverages event code `5136` to identify a mo
   continuity when migrating user accounts to different domains, this attribute can also be abused by adversaries to stealthily grant access to a backdoor account within the same domain. 
 search: ' `wineventlog_security` EventCode=5136 AttributeLDAPDisplayName=sIDHistory OperationType="%%14674"
   | stats values(ObjectDN) by _time, Computer, SubjectUserName, AttributeValue
-  | `active_directory_sid_history_attribute_modified_filter`'
+  | `windows_ad_sid_history_attribute_modified_filter`'
 how_to_implement: To successfully implement this search, you ned to be ingesting eventcode 
  `5136`. The Advanced Security Audit policy setting `Audit Directory Services Changes` 
  within `DS Access` needs to be enabled. Additionally, a SACL needs to be created for AD objects in order to ingest attribute modifications.

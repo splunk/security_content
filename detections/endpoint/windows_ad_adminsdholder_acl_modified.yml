@@ -1,4 +1,4 @@
-name: Active Directory AdminSDHolder ACL Modified
+name: Windows AD AdminSDHolder ACL Modified
 id: 00d877c3-7b7b-443d-9562-6b231e2abab9
 version: 1
 date: '2022-11-15'
@@ -13,7 +13,7 @@ description: The following analytic identifies the modification of the Access Co
   ACL to establish persistence and allow an unprivileged user to take control of a domain.
 search: ' `wineventlog_security` EventCode=5136 AttributeLDAPDisplayName=nTSecurityDescriptor OperationType="%%14674" ObjectDN="CN=AdminSDHolder,CN=System*"
   | stats values(ObjectDN) by _time, Computer, SubjectUserName, AttributeValue
-  | `active_directory_adminsdholder_acl_modified_filter`'
+  | `windows_ad_adminsdholder_acl_modified_filter`'
 how_to_implement: To successfully implement this search, you ned to be ingesting eventcode 
  `5136`. The Advanced Security Audit policy setting `Audit Directory Services Changes` 
  within `DS Access` needs to be enabled. Additionally, a SACL needs to be created for the AdminSDHolder object in order to log modifications.

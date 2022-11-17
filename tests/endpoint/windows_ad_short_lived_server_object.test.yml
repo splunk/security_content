@@ -1,7 +1,7 @@
-name: Windows Short Lived AD Server Object Unit Test
+name: Windows AD Short Lived Server Object Unit Test
 tests:
 - name: Windows Short Lived AD Server Object
-  file: endpoint/windows_short_lived_ad_server_object.yml
+  file: endpoint/windows_ad_short_lived_server_object.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h
   latest_time: now

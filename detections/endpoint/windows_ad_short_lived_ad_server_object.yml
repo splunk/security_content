@@ -1,4 +1,4 @@
-name: Windows Short Lived AD Server Object
+name: Windows AD Short Lived Server Object
 id: 193769d3-1e33-43a9-970e-ad4a88256cdb
 version: 1
 date: '2022-10-17'
@@ -16,7 +16,7 @@ search: ' `wineventlog_security` EventCode=5137 OR EventCode=5141 ObjectDN="*CN=
   | eval short_lived=case((duration<30),"TRUE") 
   | search short_lived = TRUE
   | stats values(ObjectDN) values(signature) values(EventCode) by _time, Computer, SubjectUserName
-  | `windows_short_lived_ad_server_object_filter`'
+  | `windows_ad_short_lived_server_object_filter`'
 how_to_implement: To successfully implement this search, you ned to be ingesting Event codes 
  `5137` and `5141`. The Advanced Security Audit policy setting `Audit Directory Services Changes` 
  within `DS Access` needs to be enabled. For these event codes to be generated, specific SACLs are required.

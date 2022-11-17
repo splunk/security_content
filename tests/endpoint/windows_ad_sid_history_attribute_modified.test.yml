@@ -1,7 +1,7 @@
-name: Active Directory SID History Attribute Modified Unit Test
+name: Windows AD SID History Attribute Modified
 tests:
-- name: Active Directory SID History Attribute Modified
-  file: endpoint/active_directory_sid_history_attribute_modified.yml
+- name: Windows AD SID History Attribute Modified
+  file: endpoint/windows_ad_sid_history_attribute_modified.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h
   latest_time: now
