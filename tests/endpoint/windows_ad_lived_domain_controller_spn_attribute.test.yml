@@ -1,7 +1,7 @@
-name: Windows DCShadow Attack Unit Test
+name: Windows AD Short Lived Domain Controller SPN Attribute Unit Test
 tests:
-- name: Windows DCShadow Attack
-  file: endpoint/windows_dcshadow_attack.yml
+- name: Windows AD Short Lived Domain Controller SPN Attribute
+  file: endpoint/windows_ad_short_lived_domain_controller_spn_attribute.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h
   latest_time: now

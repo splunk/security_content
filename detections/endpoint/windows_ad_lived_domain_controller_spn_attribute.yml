@@ -1,4 +1,4 @@
-name: Windows Short Lived Domain Controller SPN AD Attribute
+name: Windows AD Short Lived Domain Controller SPN Attribute
 id: 57e27f27-369c-4df8-af08-e8c7ee8373d4 
 version: 2
 date: '2022-09-02'
@@ -17,7 +17,7 @@ search: '`wineventlog_security` EventCode=5136 AttributeLDAPDisplayName=serviceP
  | rename Logon_ID as TargetLogonId
  | appendpipe [| map search="search `wineventlog_security` EventCode=4624 TargetLogonId=$TargetLogonId$"]
  | stats min(_time) as _time, values(TargetUserSid) as TargetUserSid, values(Target_Domain) as Target_Domain, values(user) as user, values(Computer) as Computer, values(status) as status, values(src_category) as src_category, values(src_ip) as src_ip values(ObjectDN) as ObjectDN values(OperationType) as OperationType by TargetLogonId
- | `windows_short_lived_domain_controller_spn_ad_attribute_filter`' 
+ | `windows_ad_short_lived_domain_controller_spn_attribute_filter`' 
 how_to_implement: To successfully implement this search, you need to be ingesting eventcode 
  `5136`. The Advanced Security Audit policy setting `Audit Directory Services Changes` 
  within `DS Access` needs to be enabled, alongside a SACL for `everybody` to 

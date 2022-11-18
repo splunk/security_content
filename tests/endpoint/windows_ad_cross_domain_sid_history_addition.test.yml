@@ -1,7 +1,7 @@
-name: Windows Active Directory SID History Addition Unit Test
+name: Windows AD Cross Domain SID History Addition Unit Test
 tests:
-- name: Windows Active Directory SID History Addition
-  file: endpoint/windows_active_directory_sid_history_addition.yml
+- name: Windows AD Cross Domain SID History Addition
+  file: endpoint/windows_ad_cross_domain_sid_history_addition.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h
   latest_time: now
