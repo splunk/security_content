@@ -5,9 +5,14 @@ date: '2022-11-18'
 author: Mauricio Velazco, Splunk
 type: TTP
 datamodel: []
-description: UPDATE_DESCRIPTION
+description: The following analytic identifies the addition of a Service Principal Name to a domain account that is quickly deleted within 5 minutes or less. While this event may be part of a legitimate action part of certain administrative operations,
+  it may also be evidence of a persistence attack. Domain accounts with Servce Principal Names are vulnerable to a technique called Kerberoasting that enables attackers to potentially obtain the cleartext password 
+  of the account by performing offline cracking. An adversary who has obtained privileged access to a domain environment may add an SPN to a privileged account to then leverage the Kerberoasting technique and attempt
+  to obtain its clertext password. To clean things up, the adversary may delete the SPN which will trigger this detection.
 search: ' `wineventlog_security` EventCode=5136 AttributeLDAPDisplayName=servicePrincipalName
   | transaction ObjectDN AttributeValue startswith=(EventCode=5136 OperationType="%%14674") endswith=(EventCode=5136 OperationType="%%14675")
+  | eval short_lived=case((duration<300),"TRUE") 
+  | search short_lived = TRUE
   | `windows_ad_short_lived_domain_account_serviceprincipalname_filter`'
 how_to_implement: To successfully implement this search, you ned to be ingesting eventcode 
  `5136`. The Advanced Security Audit policy setting `Audit Directory Services Changes` 
@@ -18,6 +23,7 @@ references:
 - https://adsecurity.org/?p=3466
 - https://www.thehacker.recipes/ad/movement/dacl/targeted-kerberoasting
 - https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5136
+- https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/t1208-kerberoasting
 tags:
   analytic_story:
   - Windows Domain Controller Attacks
