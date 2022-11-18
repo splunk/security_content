@@ -7,7 +7,7 @@ type: TTP
 datamodel: []
 description: The following analytic looks for changes to the sIDHistory AD attribute of user or computer objects which exist within the same domain. 
  The SID history AD attribute allows users to inherit permissions from a separate AD account without group changes. Initially developed for access
- continuity when migrating user accounts to different domains, this attribute can also be abused to stealthily grant access to a backdoor account within the same domain. 
+ continuity when migrating user accounts to different domains, this attribute can also be abused by adversaries to stealthily grant access to a backdoor account within the same domain. 
  This analytic was written to pick up on activity via Mimikatz sid::patch. Please note there are additional avenues to abuse SID history such as DCShadow & Golden / Diamond tickets which won't be detected using these event codes.
 search: '`wineventlog_security` (EventCode=4742 OR EventCode=4738) NOT SidHistory
   IN ("%%1793", -)
@@ -26,6 +26,7 @@ references:
 - https://adsecurity.org/?p=1772
 - https://learn.microsoft.com/en-us/windows/win32/adschema/a-sidhistory?redirectedfrom=MSDN
 - https://learn.microsoft.com/en-us/defender-for-identity/security-assessment-unsecure-sid-history-attribute
+- https://book.hacktricks.xyz/windows-hardening/active-directory-methodology/sid-history-injection
 tags:
   analytic_story:
   - Windows Domain Controller Attacks
